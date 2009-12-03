@@ -31,7 +31,7 @@ $installer = $this;
 $this->startSetup();
 
 $installer->run("
-    CREATE TABLE `{$installer->getTable('sales/refunded_aggregated')}`
+    CREATE TABLE IF NOT EXISTS `{$installer->getTable('sales/refunded_aggregated')}`
     (
         `id`                        int(11) unsigned NOT NULL auto_increment,
         `period`                    date NOT NULL DEFAULT '0000-00-00',
@@ -48,7 +48,7 @@ $installer->run("
             ON DELETE SET NULL ON UPDATE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-    CREATE TABLE `{$installer->getTable('sales/refunded_aggregated_order')}`
+    CREATE TABLE IF NOT EXISTS `{$installer->getTable('sales/refunded_aggregated_order')}`
     (
         `id`                        int(11) unsigned NOT NULL auto_increment,
         `period`                    date NOT NULL DEFAULT '0000-00-00',

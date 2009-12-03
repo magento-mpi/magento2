@@ -62,7 +62,7 @@ try {
     }
 
     foreach ($attributes as $attribute) {
-        $installer->updateAttribute('order', $attribute['attribute_code'], array('type' => 'static'));
+        $installer->updateAttribute($orderEntityTypeId, $attribute['attribute_code'], array('backend_type' => 'static'));
     }
 
     $installer->getConnection()->commit();
@@ -76,7 +76,7 @@ try {
 }
 
 $installer->run("
-    CREATE TABLE `{$installer->getTable('sales/shipping_aggregated')}`
+    CREATE TABLE IF NOT EXISTS `{$installer->getTable('sales/shipping_aggregated')}`
     (
         `id`                        int(11) unsigned NOT NULL auto_increment,
         `period`                    date NOT NULL DEFAULT '0000-00-00',
@@ -92,7 +92,7 @@ $installer->run("
             ON DELETE SET NULL ON UPDATE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-    CREATE TABLE `{$installer->getTable('sales/shipping_aggregated_order')}`
+    CREATE TABLE IF NOT EXISTS `{$installer->getTable('sales/shipping_aggregated_order')}`
     (
         `id`                        int(11) unsigned NOT NULL auto_increment,
         `period`                    date NOT NULL DEFAULT '0000-00-00',

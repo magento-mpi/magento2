@@ -62,7 +62,7 @@ try {
     }
 
     foreach ($attributes as $attribute) {
-        $installer->updateAttribute('order', $attribute['attribute_code'], array('type' => 'static'));
+        $installer->updateAttribute($orderEntityTypeId, $attribute['attribute_code'], array('backend_type' => 'static'));
     }
 
     $installer->getConnection()->commit();

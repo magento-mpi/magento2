@@ -72,11 +72,11 @@ foreach ($attributesToMove as $attribute) {
 }
 
 foreach ($attributesToMove as $attribute) {
-    $installer->updateAttribute('order', $attribute['attribute_code'], array('type' => 'static'));
+    $installer->updateAttribute($orderEntityTypeId, $attribute['attribute_code'], array('backend_type' => 'static'));
 }
 
 $installer->run("
-    CREATE TABLE `{$installer->getTable('sales/order_aggregated_created')}`
+    CREATE TABLE IF NOT EXISTS `{$installer->getTable('sales/order_aggregated_created')}`
     (
         `id`                        int(11) unsigned NOT NULL auto_increment,
         `period`                    date NOT NULL DEFAULT '0000-00-00',
@@ -96,28 +96,6 @@ $installer->run("
         UNIQUE KEY `UNQ_ORDER_AGGREGATED_CREATED_PSS` (`period`,`store_id`, `order_status`),
         KEY `FK_ORDER_AGGREGATED_CREATED_STORE` (`store_id`),
         CONSTRAINT `FK_ORDER_AGGREGATED_CREATED_STORE` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-    CREATE TABLE `{$installer->getTable('sales/order_aggregated_updated')}`
-    (
-        `id`                        int(11) unsigned NOT NULL auto_increment,
-        `period`                    date NOT NULL DEFAULT '0000-00-00',
-        `store_id`                  smallint(5) unsigned NULL DEFAULT NULL,
-        `order_status`              varchar(50) NOT NULL default '',
-        `orders_count`              int(11) NOT NULL DEFAULT '0',
-        `total_qty_ordered`         decimal(12,4) NOT NULL DEFAULT '0',
-        `base_profit_amount`        decimal(12,4) NOT NULL DEFAULT '0',
-        `base_subtotal_amount`      decimal(12,4) NOT NULL DEFAULT '0',
-        `base_tax_amount`           decimal(12,4) NOT NULL DEFAULT '0',
-        `base_shipping_amount`      decimal(12,4) NOT NULL DEFAULT '0',
-        `base_discount_amount`      decimal(12,4) NOT NULL DEFAULT '0',
-        `base_grand_total_amount`   decimal(12,4) NOT NULL DEFAULT '0',
-        `base_invoiced_amount`      decimal(12,4) NOT NULL DEFAULT '0',
-        `base_refunded_amount`      decimal(12,4) NOT NULL DEFAULT '0',
-        PRIMARY KEY (`id`),
-        UNIQUE KEY `UNQ_ORDER_AGGREGATED_UPDATED_PSS` (`period`,`store_id`, `order_status`),
-        KEY `FK_ORDER_AGGREGATED_UPDATED_STORE` (`store_id`),
-        CONSTRAINT `FK_ORDER_AGGREGATED_UPDATED_STORE` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 

@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_SalesRule>
-            <version>0.7.10</version>
+            <version>0.7.11</version>
         </Mage_SalesRule>
     </modules>
     <global>
@@ -48,12 +48,12 @@
                     <rule><table>salesrule</table></rule>
                     <rule_customer><table>salesrule_customer</table></rule_customer>
                     <label><table>salesrule_label</table></label>
-                    <coupon_aggregated_created>
-                        <table>coupon_aggregated_created</table>
-                    </coupon_aggregated_created>
-                    <coupon_aggregated_updated>
-                        <table>coupon_aggregated_updated</table>
-                    </coupon_aggregated_updated>
+                    <coupon_aggregated>
+                        <table>coupon_aggregated</table>
+                    </coupon_aggregated>
+                    <coupon_aggregated_order>
+                        <table>coupon_aggregated_order</table>
+                    </coupon_aggregated_order>
                 </entities>
             </salesrule_mysql4>
         </models>

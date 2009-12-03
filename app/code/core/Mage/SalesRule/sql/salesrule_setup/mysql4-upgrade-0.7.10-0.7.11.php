@@ -24,14 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- *
- * REMEMBER!
- * WHEN YOU WILL MERGE SQL-UPGRADES DON'T INCLUDE THIS ONE
- * USE NEXT SQL UPGRADE (0.7.10-0.7.11)
- *
- */
-
 $installer = $this;
 /* @var $installer Mage_Sales_Model_Mysql4_Setup */
 $installer->startSetup();
@@ -60,7 +52,7 @@ try {
             AND entity_type_id = {$orderEntityTypeId}
     ");
 
-    $installer->updateAttribute('order', $attribute['attribute_code'], array('type' => 'static'));
+    $installer->updateAttribute($orderEntityTypeId, $attribute['attribute_code'], array('backend_type' => 'static'));
 
     $installer->getConnection()->commit();
 
@@ -72,7 +64,7 @@ try {
 
 
 $installer->run("
-    CREATE TABLE `{$installer->getTable('salesrule/coupon_aggregated_created')}`
+    CREATE TABLE IF NOT EXISTS `{$installer->getTable('salesrule/coupon_aggregated')}`
     (
         `id`                        int(11) unsigned NOT NULL auto_increment,
         `period`                    date NOT NULL DEFAULT '0000-00-00',
@@ -90,7 +82,7 @@ $installer->run("
             ON DELETE SET NULL ON UPDATE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-    CREATE TABLE `{$installer->getTable('salesrule/coupon_aggregated_updated')}`
+    CREATE TABLE IF NOT EXISTS `{$installer->getTable('salesrule/coupon_aggregated_order')}`
     (
         `id`                        int(11) unsigned NOT NULL auto_increment,
         `period`                    date NOT NULL DEFAULT '0000-00-00',

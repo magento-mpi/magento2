@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("
-    CREATE TABLE `{$installer->getTable('tax_order_aggregated_created')}`
+    CREATE TABLE IF NOT EXISTS `{$installer->getTable('tax_order_aggregated_created')}`
     (
         `id`                    int(11) unsigned NOT NULL auto_increment,
         `period`                date NOT NULL DEFAULT '0000-00-00',
@@ -44,22 +44,6 @@ $installer->run("
         UNIQUE KEY `UNQ_TAX_ORDER_AGGREGATED_CREATED_PERIOD_STORE_CODE` (`period`,`store_id`, `code`, `order_status`),
         KEY `FK_TAX_ORDER_AGGREGATED_CREATED_STORE` (`store_id`),
         CONSTRAINT `FK_TAX_ORDER_AGGREGATED_CREATED_STORE` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-    CREATE TABLE `{$installer->getTable('tax_order_aggregated_updated')}`
-    (
-        `id`                    int(11) unsigned NOT NULL auto_increment,
-        `period`                date NOT NULL DEFAULT '0000-00-00',
-        `store_id`              smallint(5) unsigned NULL DEFAULT NULL,
-        `code`                  varchar(255) NOT NULL default '',
-        `order_status`          varchar(50) NOT NULL default '',
-        `percent`               float(12,4) NOT NULL default '0.0000',
-        `orders_count`          int(11) unsigned NOT NULL default '0',
-        `tax_base_amount_sum`   float(12,4) NOT NULL default '0.0000',
-        PRIMARY KEY  (`id`),
-        UNIQUE KEY `UNQ_TAX_ORDER_AGGREGATED_UPDATED_PERIOD_STORE_CODE` (`period`,`store_id`, `code`, `order_status`),
-        KEY `FK_TAX_ORDER_AGGREGATED_UPDATED_STORE` (`store_id`),
-        CONSTRAINT `FK_TAX_ORDER_AGGREGATED_UPDATED_STORE` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 
