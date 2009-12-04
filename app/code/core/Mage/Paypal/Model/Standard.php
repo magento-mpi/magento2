@@ -191,7 +191,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             'business'          => Mage::getStoreConfig('paypal/wps/business_account'),
             'return'            => Mage::getUrl('paypal/standard/success',array('_secure' => true)),
             'cancel_return'     => Mage::getUrl('paypal/standard/cancel',array('_secure' => false)),
-            'notify_url'        => Mage::getUrl('paypal/standard/ipn'),
+            'notify_url'        => Mage::getUrl('paypal/ipn/standard'),
             'invoice'           => $this->getCheckout()->getLastRealOrderId(),
             'currency_code'     => $currency_code,
             'address_override'  => 1,
@@ -348,10 +348,11 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
     /**
      * Process IPN request, store data in comments
+     * @deprecated after 1.4.0.0-alpha3
      */
     public function ipnPostSubmit()
     {
-        $ipn = Mage::getModel('paypal/api_ipn');
+        $ipn = Mage::getModel('paypal/ipn');
         $ipn->setIpnFormData($this->getIpnFormData())->processIpnRequest();
     }
 

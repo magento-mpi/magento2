@@ -552,10 +552,10 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      *
      * @return Mage_Paypal_Model_Api_Abstract
      */
-    public function setAmount($data)
+    public function setAmount($amount)
     {
-        $data = sprintf('%.2f', $data);
-        return $this->setSessionData('amount', $data);
+        $amount = sprintf('%.2F', $amount);
+        return $this->setSessionData('amount', $amount);
     }
 
     /**
@@ -720,29 +720,5 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
                 return '';
             }
         }
-    }
-
-    /**
-     * Get merchant email from configuration
-     * @param Mage_Sales_Model_Order $order
-     * @return string
-     * @throws Mage_Core_Exception
-     */
-    public function getMerchantEmail(Mage_Sales_Model_Order $order)
-    {
-        $paymentMethodCode = $order->getPayment()->getMethod();
-        $storeId = $order->getStoreId();
-        switch ($paymentMethodCode) {
-            case 'paypal_standard':
-                $path = 'paypal/wps/business_account';
-                break;
-            case 'paypal_direct':
-            case 'paypal_express':
-                $path = 'paypal/wpp/business_account';
-                break;
-            default:
-                Mage::throwException(Mage::helper('paypal')->__('Unknown Payment Method "%s"', $paymentMethodCode));
-        }
-        return Mage::getStoreConfig($path, $storeId);
     }
 }

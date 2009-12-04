@@ -25,9 +25,9 @@
  */
 
 /**
- * IPN wrapper model
+ * PayPal Instant Payment Notification processor model
  */
-class Mage_Paypal_Model_Api_Ipn extends Mage_Paypal_Model_Api_Abstract
+class Mage_Paypal_Model_Ipn
 {
     const STATUS_CREATED      = 'Created';
     const STATUS_COMPLETED    = 'Completed';
@@ -50,19 +50,50 @@ class Mage_Paypal_Model_Api_Ipn extends Mage_Paypal_Model_Api_Abstract
     protected $_order = null;
 
     /**
-     * return paypal sandbox url, depending of sandbox flag.
-     * used for redirect to paypal, express method
      *
-     * @return string
+     * @var Mage_Paypal_Model_Config
      */
-    public function getPaypalUrl()
+    protected $_config = null;
+
+    /**
+     * IPN request data
+     * @var array
+     */
+    protected $_ipnFormData = array();
+
+    /**
+     * Config model setter
+     * @param Mage_Paypal_Model_Config $config
+     * @return Mage_Paypal_Model_Ipn
+     */
+    public function setConfig(Mage_Paypal_Model_Config $config)
     {
-         if ($this->getSandboxFlag()) {
-             $url='https://www.sandbox.paypal.com/cgi-bin/webscr';
-         } else {
-             $url='https://www.paypal.com/cgi-bin/webscr';
-         }
-         return $url;
+        $this->_config = $config;
+        return $this;
+    }
+
+    /**
+     * IPN request data setter
+     * @param array $data
+     * @return Mage_Paypal_Model_Ipn
+     */
+    public function setIpnFormData(array $data)
+    {
+        $this->_ipnFormData = $data;
+        return $this;
+    }
+
+    /**
+     * IPN request data getter
+     * @param string $key
+     * @return array|string
+     */
+    public function getIpnFormData($key = null)
+    {
+        if (null === $key) {
+            return $this->_ipnFormData;
+        }
+        return isset($this->_ipnFormData[$key]) ? $this->_ipnFormData[$key] : null;
     }
 
     /**
@@ -70,13 +101,21 @@ class Mage_Paypal_Model_Api_Ipn extends Mage_Paypal_Model_Api_Abstract
      */
     public function processIpnRequest()
     {
-        if (!$this->getIpnFormData()) {
+        if (!$this->_ipnFormData) {
             return;
+        }
+
+        // debug requested
+        if ($this->_config->debugFlag) {
+            Mage::getModel('paypal/api_debug')
+                ->setApiEndpoint($this->_config->getPaypalUrl())
+                ->setRequestBody(print_r($this->_ipnFormData, 1))
+                ->save();
         }
 
         $sReq = '';
         $sReqDebug = '';
-        foreach($this->getIpnFormData() as $k=>$v) {
+        foreach ($this->_ipnFormData as $k => $v) {
             $sReq .= '&'.$k.'='.urlencode(stripslashes($v));
             $sReqDebug .= '&'.$k.'=';
         }
@@ -85,13 +124,13 @@ class Mage_Paypal_Model_Api_Ipn extends Mage_Paypal_Model_Api_Abstract
         $sReq = substr($sReq, 1);
 
         $http = new Varien_Http_Adapter_Curl();
-        $http->write(Zend_Http_Client::POST, $this->getPaypalUrl(), '1.1', array(), $sReq);
+        $http->write(Zend_Http_Client::POST, $this->_config->getPaypalUrl(), '1.1', array(), $sReq);
         $response = $http->read();
 
-        // debug requests
-        if ($this->getDebug()) {
-            $debug = Mage::getModel('paypal/api_debug')
-                ->setApiEndpoint($this->getPaypalUrl())
+        // debug postback request & response
+        if ($this->_config->debugFlag) {
+            Mage::getModel('paypal/api_debug')
+                ->setApiEndpoint($this->_config->getPaypalUrl())
                 ->setRequestBody($sReq)
                 ->setResponseBody($response)
                 ->save();
@@ -130,6 +169,7 @@ class Mage_Paypal_Model_Api_Ipn extends Mage_Paypal_Model_Api_Abstract
                 throw new Exception(Mage::helper('paypal')->__('Wrong Order ID (%s) specified.', $id));
             }
             $this->_order = $order;
+            $this->_config = Mage::getModel('paypal/config', array($order->getPayment()->getMethod()));
             $this->_verifyOrder($order);
         }
         return $this->_order;
@@ -144,23 +184,10 @@ class Mage_Paypal_Model_Api_Ipn extends Mage_Paypal_Model_Api_Abstract
     protected function _verifyOrder(Mage_Sales_Model_Order $order)
     {
         // verify merchant email intended to receive notification
-        $merchantEmail = $this->getMerchantEmail($order);
+        $merchantEmail = $this->_config->businessAccount;
         if ($merchantEmail && $merchantEmail != $this->getIpnFormData('receiver_email')) {
             Mage::throwException(Mage::helper('paypal')->__('Requested %s and configured %s merchant emails do not match.', $this->getIpnFormData('receiver_email'), $merchantEmail));
         }
-
-        /**
-         * verify grand total (PP Standard form can be fiddled)
-         * for now PayPal in Magento supports only invoicing/refunding the entire order
-         * the check is performed only for paying and refunding the whole order
-         */
-//        if (in_array($this->getIpnFormData('payment_status'), array(
-//            self::STATUS_CREATED, self::STATUS_COMPLETED,
-//            self::STATUS_REVERSED, self::STATUS_REFUNDED))) {
-//            if (abs((float)$this->getIpnFormData('mc_gross')) != $order->getBaseGrandTotal()) {
-//                Mage::throwException(Mage::helper('paypal')->__('Order total amount does not match PayPal gross total amount'));
-//            }
-//        }
     }
 
     /**
