@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Reward
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+-->
+<config>
+    <modules>
+        <Enterprise_Reward>
+            <version>1.7.0.0.0</version>
+        </Enterprise_Reward>
+    </modules>
+    <global>
+        <models>
+            <enterprise_reward>
+                <class>Enterprise_Reward_Model</class>
+                <resourceModel>enterprise_reward_mysql4</resourceModel>
+            </enterprise_reward>
+            <enterprise_reward_mysql4>
+                <class>Enterprise_Reward_Model_Mysql4</class>
+                <entities>
+                    <reward>
+                        <table>enterprise_reward</table>
+                    </reward>
+                    <reward_history>
+                        <table>enterprise_reward_history</table>
+                    </reward_history>
+                    <reward_rate>
+                        <table>enterprise_reward_rate</table>
+                    </reward_rate>
+                </entities>
+            </enterprise_reward_mysql4>
+        </models>
+        <resources>
+            <enterprise_reward_setup>
+                <setup>
+                    <module>Enterprise_Reward</module>
+                    <class>Mage_Customer_Model_Entity_Setup</class>
+                </setup>
+            </enterprise_reward_setup>
+        </resources>
+        <blocks>
+            <enterprise_reward>
+                <class>Enterprise_Reward_Block</class>
+            </enterprise_reward>
+        </blocks>
+        <helpers>
+            <enterprise_reward>
+                <class>Enterprise_Reward_Helper</class>
+            </enterprise_reward>
+        </helpers>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <reward before="Mage_Adminhtml">Enterprise_Reward_Adminhtml</reward>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <enterprise_reward>
+                    <file>enterprise/reward.xml</file>
+                </enterprise_reward>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Enterprise_Reward>
+                    <files>
+                        <default>Enterprise_Reward.csv</default>
+                    </files>
+                </Enterprise_Reward>
+            </modules>
+        </translate>
+        <events>
+            <adminhtml_customer_prepare_save>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>prepareRewardPointsToSave</method>
+                    </enterprise_reward>
+                </observers>
+            </adminhtml_customer_prepare_save>
+            <adminhtml_customer_save_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>saveRewardPoints</method>
+                    </enterprise_reward>
+                </observers>
+            </adminhtml_customer_save_after>
+        </events>
+    </adminhtml>
+    <frontend>
+        <layout>
+            <updates>
+                <enterprise_reward>
+                    <file>reward.xml</file>
+                </enterprise_reward>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Enterprise_Reward>
+                    <files>
+                        <default>Enterprise_Reward.csv</default>
+                    </files>
+                </Enterprise_Reward>
+            </modules>
+        </translate>
+        <routers>
+            <enterprise_reward>
+                <use>standard</use>
+                <args>
+                    <module>Enterprise_Reward</module>
+                    <frontName>reward</frontName>
+                </args>
+            </enterprise_reward>
+        </routers>
+    </frontend>
+    <default>
+        <enterprise_reward>
+            <general>
+                <is_enabled>0</is_enabled>
+            </general>
+        </enterprise_reward>
+    </default>
+</config>
