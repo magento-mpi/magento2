@@ -784,8 +784,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             $select->where('e.entity_id IN(?)', $productIds);
         }
 
-        Mage::log($select->assemble());
-
         $query = $this->_getWriteAdapter()->query($select);
         while ($row = $query->fetch()) {
             $product = new Varien_Object($row);
