@@ -772,7 +772,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         }
         $select = $this->_getWriteAdapter()->select()
             ->from(array('e' => $this->getTable('catalog/product')), array('entity_id'))
-            ->join(
+            ->joinStraight(
                 array('w' => $this->getTable('catalog/product_website')),
                 $this->_getWriteAdapter()->quoteInto('e.entity_id=w.product_id AND w.website_id=?', $websiteId),
                 array()
@@ -783,6 +783,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         if (!is_null($productIds)) {
             $select->where('e.entity_id IN(?)', $productIds);
         }
+
+        Mage::log($select->assemble());
 
         $query = $this->_getWriteAdapter()->query($select);
         while ($row = $query->fetch()) {
