@@ -57,15 +57,6 @@
                 <div class="clear"></div>
 
     </li>
-    <li class="hideit">
-                <div class="input-box">
-                    <label for="hideit"><?php echo Mage::helper('contacts')->__('Hideit') ?></label><br />
-                    <input name="hideit" id="hideit" title="<?php echo Mage::helper('contacts')->__('Hideit') ?>" value="" class="input-text" type="text"/>
-                </div>
-
-                <div class="clear"></div>
-
-    </li>
     <li>
                 <div class="input-box">
                     <label for="comment"><?php echo Mage::helper('contacts')->__('Comment') ?> <span class="required">*</span></label><br />
@@ -76,6 +67,7 @@
     </fieldset>
     <div class="button-set">
         <p class="required"><?php echo Mage::helper('contacts')->__('* Required Fields') ?></p>
+        <input name="hideit" id="hideit" value="" style="display:none !important;" type="text"/>
         <input type="image" src="<?php echo $this->getSkinUrl('images/btn_submit.gif');?>" alt="<?php echo Mage::helper('contacts')->__('Submit') ?>"/>
     </div>
 </form>

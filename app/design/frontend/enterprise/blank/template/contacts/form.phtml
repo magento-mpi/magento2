@@ -49,12 +49,6 @@
                     <input name="telephone" id="telephone" title="<?php echo Mage::helper('contacts')->__('Telephone') ?>" value="" class="input-text" type="text" />
                 </div>
             </li>
-            <li class="hideit">
-                <div class="input-box">
-                    <label for="hideit"><?php echo Mage::helper('contacts')->__('Hideit') ?></label><br />
-                    <input name="hideit" id="hideit" title="<?php echo Mage::helper('contacts')->__('Hideit') ?>" value="" class="input-text" type="text" />
-                </div>
-            </li>
             <li>
                 <label for="comment"><?php echo Mage::helper('contacts')->__('Comment') ?> <span class="required">*</span></label><br />
                 <textarea name="comment" id="comment" title="<?php echo Mage::helper('contacts')->__('Comment') ?>" class="required-entry input-text" style="height:150px;" cols="5" rows="3"></textarea>
@@ -63,6 +57,7 @@
     </fieldset>
     <p class="required"><?php echo Mage::helper('contacts')->__('* Required Fields') ?></p>
     <div class="buttons-set">
+        <input name="hideit" id="hideit" value="" style="display:none !important;" type="text"/>
         <button type="submit" class="button"><span><span><?php echo Mage::helper('contacts')->__('Submit') ?></span></span></button>
     </div>
 </form>

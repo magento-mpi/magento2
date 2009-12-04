@@ -169,7 +169,6 @@ button.disabled span {}
 .form-list li.additional-row { border-top:1px solid #ddd; margin-top:10px; }
 .form-list li.additional-row .btn-remove { float:right; margin:5px 5px 0 0; }
 .form-list .input-range input.input-text { width:96px; }
-.form-list .hideit { display:none; }
 /* Customer */
 .form-list .name-prefix { width:65px; }
 .form-list .name-prefix select { width:55px; }
