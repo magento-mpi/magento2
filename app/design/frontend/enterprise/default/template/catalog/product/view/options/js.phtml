@@ -34,9 +34,13 @@ var DateOption = Class.create({
         if (!month) {
             month = curDate.getMonth();
         }
+        if (1 == month && !year) { // leap year assumption for unknown year
+            return 29;
+        }
         if (!year) {
             year = curDate.getFullYear();
         }
+
         return 32 - new Date(year, month, 32).getDate();
     },
 
