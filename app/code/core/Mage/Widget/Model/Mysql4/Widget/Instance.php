@@ -202,6 +202,7 @@ class Mage_Widget_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4_Ab
                 $this->_getWriteAdapter()->insert(
                     $this->getTable('core/layout_link'), array(
                         'store_id'         => $storeId,
+                        'area'             => $widgetInstance->getArea(),
                         'package'          => $widgetInstance->getPackage(),
                         'theme'            => $widgetInstance->getTheme(),
                         'layout_update_id' => $layoutUpdateId
