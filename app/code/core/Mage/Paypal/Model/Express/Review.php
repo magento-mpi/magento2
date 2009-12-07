@@ -25,8 +25,10 @@
  */
 
 /**
- *
  * Express Review Session class
+ *
+ * @deprecated after 1.4.0.0-alpha3
+ * @see Mage_Paypal_Model_Express_Checkout
  */
 class Mage_Paypal_Model_Express_Review
 {

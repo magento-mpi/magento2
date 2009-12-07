@@ -70,24 +70,34 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * When there's an API error
+     * Return Express payPal method Api object
+     *
+     * @return Mage_Paypal_Model_Express_Checkout
      */
-    public function errorAction()
+    protected function _getExpressCheckout()
     {
-        $this->_redirect('checkout/cart');
+        return Mage::getSingleton('paypal/express_checkout');
     }
 
     /**
-     * When user camcels transaction on paypal site and return back in store
-     *
+     * @deprecated after 1.4.0.0-alpha3
      */
-    public function cancelAction()
+    public function getReview()
     {
-        $this->_redirect('checkout/cart');
+        return $this->_getReview();
+    }
+
+    /**
+     * @deprecated after 1.4.0.0-alpha3
+     */
+    protected function _getReview()
+    {
+        return Mage::getSingleton('paypal/express_review');
     }
 
     /**
      * PayPal session instance getter
+     *
      * @return Mage_PayPal_Model_Session
      */
     protected function _getSession()
@@ -97,6 +107,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
 
     /**
      * Return checkout session object
+     *
      * @return Mage_Checkout_Model_Session
      */
     protected function _getCheckout()
@@ -115,13 +126,28 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * IPN Notify url. process IPN acion.
+     * When there's an API error
+     */
+    public function errorAction()
+    {
+        $this->_redirect('checkout/cart');
+    }
+
+    /**
+     * When user cancels transaction on paypal site and return back in store
+     */
+    public function cancelAction()
+    {
+        $this->_redirect('checkout/cart');
+    }
+
+    /**
+     * @deprecated after 1.4.0.0-alpha3
+     * @see Mage_Paypal_IpnController
      */
     public function notifyAction()
     {
-        $ipn = Mage::getModel('paypal/api_ipn');
-        $ipn->setIpnFormData($this->getRequest()->getParams());
-        $ipn->processIpnRequest();
+        $this->_forward('express', 'ipn');
     }
 
     /**
@@ -129,13 +155,12 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function shortcutAction()
     {
-        $this->_getExpress()->shortcutSetExpressCheckout();
+        $this->_getExpressCheckout()->shortcutSetExpressCheckout($this->_getExpress());
         $this->getResponse()->setRedirect($this->_getExpress()->getRedirectUrl());
     }
 
     /**
-     * redirect customer back to paypal, to edit his payment account data
-     *
+     * Redirect customer back to paypal, to edit his payment account data
      */
     public function editAction()
     {
@@ -144,11 +169,10 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
 
     /**
      * Return here from Paypal before final payment (continue)
-     *
      */
     public function returnAction()
     {
-        $this->_getExpress()->returnFromPaypal();
+        $this->_getExpressCheckout()->returnFromPaypal($this->_getExpress());
         $this->getResponse()->setRedirect($this->_getExpress()->getRedirectUrl());
     }
 
@@ -166,7 +190,6 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
 
     /**
      * Return here from Paypal after final payment (commit) or after on-site order review
-     *
      */
     public function reviewAction()
     {
@@ -181,26 +204,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * @deprecated after 1.4.0.0-alpha3
-     */
-    public function getReview()
-    {
-        return $this->_getReview();
-    }
-
-    /**
-     * Get PayPal Onepage checkout model
-     *
-     * @return Mage_Paypal_Model_Express_Onepage
-     */
-    protected function _getReview()
-    {
-        return Mage::getSingleton('paypal/express_review');
-    }
-
-    /**
      * Action for ajax request to save selected shipping and return html block
-     *
      */
     public function saveShippingMethodAction()
     {
@@ -213,7 +217,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
         }
 
         $data = $this->getRequest()->getParam('shipping_method', '');
-        $result = $this->_getReview()->saveShippingMethod($data);
+        $this->_getExpressCheckout()->saveShippingMethod($data, $this->_getExpress());
 
         if ($this->getRequest()->getParam('ajax')) {
             $this->loadLayout('paypal_express_review_details');
@@ -225,59 +229,35 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
 
     /**
      * Action executed when 'Place Order' button pressed on review page
-     *
      */
     public function saveOrderAction()
     {
-        $error_message = '';
-        $payPalSession = $this->_getSession();
-
         try {
             $address = $this->_getQuote()->getShippingAddress();
             if (!$address->getShippingMethod()) {
                 if ($shippingMethod = $this->getRequest()->getParam('shipping_method')) {
-                    $this->_getReview()->saveShippingMethod($shippingMethod);
-                } else if (!$this->_getReview()->getQuote()->getIsVirtual()) {
-                    $payPalSession->addError(Mage::helper('paypal')->__('Please select a valid shipping method'));
-                    $this->_redirect('paypal/express/review');
-                    return;
+                    $this->_getExpressCheckout()->saveShippingMethod($shippingMethod, $this->_getExpress());
+                } else if (!$this->_getQuote()->getIsVirtual()) {
+                    Mage::throwException(Mage::helper('paypal')->__('Please select a valid shipping method'));
                 }
             }
-            $service = Mage::getModel('sales/service_quote', $this->_getQuote());
-            $order = $service->submit();
+
+            $this->_getExpressCheckout()->saveOrder($this->_getExpress());
+
         } catch (Mage_Core_Exception $e){
-            $payPalSession->addError($e->getMessage());
+            $this->_getSession()->addError($e->getMessage());
             $this->_redirect('paypal/express/review');
             return;
         } catch (Exception $e) {
             Mage::logException($e);
-            $payPalSession->addError($this->__('There was an error processing your order. Please contact us.'));
+            $this->_getSession()->addError($this->__('There was an error processing your order. Please contact us.'));
             $this->_redirect('paypal/express/review');
             return;
         }
 
-        //@todo, bug: email send flag not set.
-        if ($order->hasInvoices() && $this->_getExpress()->canSendEmailCopy()) {
-            foreach ($order->getInvoiceCollection() as $invoice) {
-                $invoice->sendEmail()->setEmailSent(true);
-            }
-        }
+        $this->_getSession()->unsExpressCheckoutMethod();
 
-        $order->sendNewOrderEmail();
-
-        $this->_getReview()->getQuote()->setIsActive(false);
-        $this->_getReview()->getQuote()->save();
-
-        $orderId = $order->getIncrementId();
-        $this->_getReview()->getCheckout()->setLastQuoteId($this->_getReview()->getQuote()->getId());
-        $this->_getReview()->getCheckout()->setLastSuccessQuoteId($this->_getReview()->getQuote()->getId());
-        $this->_getReview()->getCheckout()->setLastOrderId($order->getId());
-        $this->_getReview()->getCheckout()->setLastRealOrderId($order->getIncrementId());
-
-        $redirect = $this->_getExpress()->getGiropayRedirectUrl();
-        $payPalSession->unsExpressCheckoutMethod();
-
-        if ($redirect) {
+        if ($redirect = $this->_getExpress()->getGiropayRedirectUrl()) {
             $this->getResponse()->setRedirect($redirect);
         } else {
             $this->_redirect('checkout/onepage/success');
@@ -287,16 +267,12 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     /**
      * Method to update order if customer used PayPal Express
      * as payment method not a separate checkout from shopping cart
-     *
      */
     public function updateOrderAction()
     {
-        $error_message = '';
-        $payPalSession = $this->_getSession();
-
         if ($orderId = $this->_getCheckout()->getLastOrderId()) {
             try{
-                $this->_getExpress()->updateOrder($orderId);
+                $this->_getExpressCheckout()->updateOrder($orderId, $this->_getExpress());
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('paypal/express/review');
@@ -313,7 +289,8 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             $this->_getQuote()->save();
         }
 
-        $payPalSession->unsExpressCheckoutMethod();
+        $this->_getSession()->unsExpressCheckoutMethod();
+
         //process Giropay or ordinary payment
         if ($redirect = $this->_getExpress()->getGiropayRedirectUrl()) {
             $this->getResponse()->setRedirect($redirect);
