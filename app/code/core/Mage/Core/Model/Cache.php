@@ -69,7 +69,7 @@ class Mage_Core_Model_Cache
      * @var array
      */
     protected $_defaultBackendOptions = array(
-        'hashed_directory_level'    => 1,
+        'hashed_directory_level'    => 0,
         'hashed_directory_umask'    => 0777,
         'file_name_prefix'          => 'mage',
     );
@@ -126,54 +126,57 @@ class Mage_Core_Model_Cache
         }
 
         $type = strtolower($type);
+        $backendType = false;
         switch ($type) {
             case 'sqlite':
                 if (extension_loaded('sqlite') && isset($options['cache_db_complete_path'])) {
-                    $type = 'Sqlite';
-                    break;
+                    $backendType = 'Sqlite';
                 }
+                break;
             case 'memcached':
                 if (extension_loaded('memcache')) {
                     if (isset($cacheOptions['memcached'])) {
                         $options = $cacheOptions['memcached'];
                     }
                     $enable2levels = true;
-                    $type = 'Memcached';
-                    break;
+                    $backendType = 'Memcached';
                 }
+                break;
             case 'apc':
                 if (extension_loaded('apc') && ini_get('apc.enabled')) {
                     $enable2levels = true;
-                    $type = 'Apc';
-                    break;
+                    $backendType = 'Apc';
                 }
+                break;
             case 'xcache':
                 if (extension_loaded('xcache')) {
                     $enable2levels = true;
-                    $type = 'Xcache';
-                    break;
+                    $backendType = 'Xcache';
                 }
+                break;
             case 'eaccelerator':
             case 'varien_cache_backend_eaccelerator':
-                if (extension_loaded('eaccelerator') && ini_get('eaccelerator.enabled')) {
+                if (extension_loaded('eaccelerator') && ini_get('eaccelerator.enable')) {
                     $enable2levels = true;
-                    $type = 'Varien_Cache_Backend_Eaccelerator';
-                    break;
+                    $backendType = 'Varien_Cache_Backend_Eaccelerator';
                 }
+                break;
             case 'database':
-                $type = 'Varien_Cache_Backend_Database';
+                $backendType = 'Varien_Cache_Backend_Database';
                 $options = $this->getDbAdapterOptions();
                 break;
-            default:
-                $type = $this->_defaultBackend;
-                foreach ($this->_defaultBackendOptions as $option => $value) {
-                    if (!array_key_exists($option, $options)) {
-                        $options[$option] = $value;
-                    }
-                }
         }
 
-        $backendOptions = array('type' => $type, 'options' => $options);
+        if (!$backendType) {
+            $backendType = $this->_defaultBackend;
+            foreach ($this->_defaultBackendOptions as $option => $value) {
+                if (!array_key_exists($option, $options)) {
+                    $options[$option] = $value;
+                }
+            }
+        }
+
+        $backendOptions = array('type' => $backendType, 'options' => $options);
         if ($enable2levels) {
             $backendOptions = $this->_getTwoLevelsBackendOptions($backendOptions, $cacheOptions);
         }
