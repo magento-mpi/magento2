@@ -1,7 +1,41 @@
 <?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Varien
+ * @package     Varien_Db
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * Class for SQL SELECT generation and results.
+ *
+ * @category    Varien
+ * @package     Varien_Db
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Varien_Db_Select extends Zend_Db_Select
 {
-    const STRAIGHT_JOIN     = 'straight_join';
+    const STRAIGHT_JOIN_ON  = 'straight_join';
+    const STRAIGHT_JOIN     = 'straightjoin';
+    const SQL_STRAIGHT_JOIN = 'STRAIGHT_JOIN';
 
     /**
      * Class constructor
@@ -11,7 +45,8 @@ class Varien_Db_Select extends Zend_Db_Select
     public function __construct(Zend_Db_Adapter_Abstract $adapter)
     {
         parent::__construct($adapter);
-        self::$_joinTypes[] = self::STRAIGHT_JOIN;
+        self::$_joinTypes[] = self::STRAIGHT_JOIN_ON;
+        self::$_partsInit = array(self::STRAIGHT_JOIN => false) + self::$_partsInit;
     }
 
     /**
@@ -358,6 +393,33 @@ class Varien_Db_Select extends Zend_Db_Select
      */
     public function joinStraight($name, $cond, $cols = self::SQL_WILDCARD, $schema = null)
     {
-        return $this->_join(self::STRAIGHT_JOIN, $name, $cond, $cols, $schema);
+        return $this->_join(self::STRAIGHT_JOIN_ON, $name, $cond, $cols, $schema);
+    }
+
+    /**
+     * Use a STRAIGHT_JOIN for the SQL Select
+     *
+     * @param bool $flag Whether or not the SELECT use STRAIGHT_JOIN (default true).
+     * @return Zend_Db_Select This Zend_Db_Select object.
+     */
+    public function useStraightJoin($flag = true)
+    {
+        $this->_parts[self::STRAIGHT_JOIN] = (bool) $flag;
+        return $this;
+    }
+
+    /**
+     * Render STRAIGHT_JOIN clause
+     *
+     * @param string   $sql SQL query
+     * @return string
+     */
+    protected function _renderStraightjoin($sql)
+    {
+        if (!empty($this->_parts[self::STRAIGHT_JOIN])) {
+            $sql .= ' ' . self::SQL_STRAIGHT_JOIN;
+        }
+
+        return $sql;
     }
 }
