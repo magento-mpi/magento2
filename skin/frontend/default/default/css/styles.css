@@ -327,7 +327,7 @@ p.required { font-size:11px; text-align:right; color:#EB340A; }
 .title-buttons h5,
 .title-buttons h6 { float:left; }
 
-.subtitle { font-size:15px; font-weight:bold; margin:0 0 6px; color:#e25203; }
+.subtitle { clear:both; padding:15px 0 0; font-size:15px; font-weight:bold; margin:0 0 6px; color:#e25203; }
 
 /* Pager */
 .pager { font-size:11px; background:#fff url(../images/bkg_toolbar.gif) 0 100% repeat-x; padding:4px 8px; border-top:1px solid #e2e2e2; text-align:center; }
@@ -1051,7 +1051,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* CMS Home Page */
 .cms-home .subtitle,
-.cms-index-index .subtitle { clear:both; padding:15px 0 0; }
+.cms-index-index .subtitle {}
 
 /* Sitemap */
 .page-sitemap .links { text-align:right; margin:0 8px -22px 0; position:relative; }
