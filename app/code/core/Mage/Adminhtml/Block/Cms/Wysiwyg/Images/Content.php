@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
             'headerText'      => $this->getHeaderText()
         ));
 
-        return Zend_Json::encode($setupObject);
+        return Mage::helper('core')->jsonEncode($setupObject);
     }
 
     /**

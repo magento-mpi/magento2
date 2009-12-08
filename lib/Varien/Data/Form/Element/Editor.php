@@ -90,7 +90,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
 
                 <script type="text/javascript">
                 //<![CDATA[
-                    '.$jsSetupObject.' = new tinyMceWysiwygSetup("'.$this->getHtmlId().'", '.Zend_Json::encode($this->getConfig()).');
+                    '.$jsSetupObject.' = new tinyMceWysiwygSetup("'.$this->getHtmlId().'", '. Mage::helper('core')->jsonEncode($this->getConfig()) .');
 
                     '.($this->isHidden() ? '' : ($this->getForceLoad()?$jsSetupObject.'.setup("exact");':'Event.observe(window, "load", '.$jsSetupObject.'.setup.bind('.$jsSetupObject.', "exact"));')).'
                     editorFormValidationHandler = '.$jsSetupObject.'.onFormValidation.bind('.$jsSetupObject.');
