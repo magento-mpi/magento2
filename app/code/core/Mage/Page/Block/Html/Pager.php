@@ -513,7 +513,6 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
                     $start  = $end - $this->getFrameLength() + 1;
                 }
             }
-            Mage::log($collection->getLastPageNumber() . ' ' . $this->getFrameLength() . ' : ' . $start . ' ' . $end);
             $this->_frameStart = $start;
             $this->_frameEnd = $end;
 
