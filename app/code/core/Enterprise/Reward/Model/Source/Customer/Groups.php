@@ -26,37 +26,27 @@
 
 
 /**
- * Reward rate edit container
+ * Reward Customer Groups source model
  *
  * @category    Enterprise
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Reward_Model_Source_Customer_Groups
 {
     /**
-     * Internal constructor
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->_objectId = 'rate_id';
-        $this->_blockGroup = 'enterprise_reward';
-        $this->_controller = 'adminhtml_reward_rate';
-    }
-
-    /**
-     * Getter.
-     * Return header text in order to create or edit rate
+     * Retrieve option array of customer groups
      *
-     * @return string
+     * @return array
      */
-    public function getHeaderText()
+    public function toOptionArray()
     {
-        if (Mage::registry('current_reward_rate')->getId()) {
-            return Mage::helper('enterprise_reward')->__('Edit Reward Exchange Rate');
-        } else {
-            return Mage::helper('enterprise_reward')->__('New Reward Exchange Rate');
-        }
+        $groups = Mage::getResourceModel('customer/group_collection')
+            ->load()
+            ->toOptionHash();
+        $groups = array_merge(array(
+            'all' => Mage::helper('enterprise_reward')->__('All Customer Groups')
+            ), $groups);
+        return $groups;
     }
 }

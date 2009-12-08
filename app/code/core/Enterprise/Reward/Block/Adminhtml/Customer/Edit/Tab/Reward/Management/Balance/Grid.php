@@ -67,7 +67,6 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
     {
         $collection = Mage::getModel('enterprise_reward/reward')
             ->getCollection()
-            ->setLoadWebsiteBaseCurrencyCode(true)
             ->addFieldToFilter('customer_id', $this->getCustomer()->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -90,9 +89,10 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
                 'website', (int)$item->getWebsiteId());
 
             $item->addData(array(
-                'min_points_balance' => (!((int)$minBalance)?Mage::helper('enterprise_reward')->__('No Limits'):$minBalance),
-                'max_points_balance' => (!((int)$maxBalance)?Mage::helper('enterprise_reward')->__('No Limits'):$maxBalance)
+                'min_points_balance' => (int)$minBalance,
+                'max_points_balance' => (!((int)$maxBalance)?Mage::helper('enterprise_reward')->__('Unlimited'):$maxBalance)
             ));
+            $item->setCustomer($this->getCustomer());
         }
         return $this;
     }
@@ -121,10 +121,8 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
 
         $this->addColumn('currency_amount', array(
             'header'   => Mage::helper('enterprise_reward')->__('Currency Amount'),
-            'type'     => 'currency',
-            'currency' => 'base_currency_code',
-            'rate'     => 1,
-            'index'    => 'currency_amount',
+            'getter'   => 'getFormatedCurrencyAmount',
+            'align'    => 'right',
             'sortable' => false
         ));
 

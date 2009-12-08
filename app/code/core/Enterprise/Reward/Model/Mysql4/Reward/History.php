@@ -43,6 +43,20 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
     }
 
     /**
+     * Perform actions after object load
+     *
+     * @param Varien_Object $object
+     */
+    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    {
+        parent::_afterLoad($object);
+        if (is_string($object->getData('additional_data'))) {
+            $object->setData('additional_data', unserialize($object->getData('additional_data')));
+        }
+        return $this;
+    }
+
+    /**
      * Perform actions before object save
      *
      * @param Mage_Core_Model_Abstract $object
@@ -51,7 +65,10 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
     public function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         parent::_beforeSave($object);
-        $object->setCreatedAt($this->formatDate(time()));
+        if (is_array($object->getData('additional_data'))) {
+            $object->setData('additional_data', serialize($object->getData('additional_data')));
+        }
+        $object->setData('created_at', $this->formatDate(time()));
         return $this;
     }
 }

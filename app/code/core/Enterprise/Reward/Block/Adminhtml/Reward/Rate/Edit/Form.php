@@ -58,7 +58,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
         ));
         $form->setFieldNameSuffix('rate');
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('enterprise_reward')->__('Base Fieldset')
+            'legend' => Mage::helper('enterprise_reward')->__('Reward Exchange Rate Information')
         ));
 
         $websites = Mage::getSingleton('adminhtml/system_store')
@@ -75,25 +75,26 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
             'name'   => 'customer_group_id',
             'title'  => Mage::helper('enterprise_reward')->__('Customer Group'),
             'label'  => Mage::helper('enterprise_reward')->__('Customer Group'),
-            'values' => $this->getCustomerGroups()
+            'values' => Mage::getModel('enterprise_reward/source_customer_groups')->toOptionArray()
+        ));
+
+        $fieldset->addField('direction', 'select', array(
+            'name'   => 'direction',
+            'title'  => Mage::helper('enterprise_reward')->__('Direction'),
+            'label'  => Mage::helper('enterprise_reward')->__('Direction'),
+            'values' => $this->getRate()->getDirectionsOptionArray()
         ));
 
         $rateRenderer = $this->getLayout()
             ->createBlock('enterprise_reward/adminhtml_reward_rate_edit_form_renderer_rate')
             ->setRate($this->getRate());
-
-        $fieldset->addField('points_to_currency', 'note', array(
-            'title'         => Mage::helper('enterprise_reward')->__('Points to Currency Rate'),
-            'label'         => Mage::helper('enterprise_reward')->__('Points to Currency Rate'),
-            'balance_index' => 'points_count',
-            'value_index'   => 'points_currency_value'
-        ))->setRenderer($rateRenderer);
-
-        $fieldset->addField('currency_to_points', 'note', array(
-            'title' => Mage::helper('enterprise_reward')->__('Currency to Points Rate'),
-            'label' => Mage::helper('enterprise_reward')->__('Currency to Points Rate'),
-            'balance_index' => 'currency_amount',
-            'value_index'   => 'currency_points_value'
+        $fromIndex = $this->getRate()->getDirection()==Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY?'points':'currency_amount';
+        $toIndex = $this->getRate()->getDirection()==Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY?'currency_amount':'points';
+        $fieldset->addField('rate_to_currency', 'note', array(
+            'title'             => Mage::helper('enterprise_reward')->__('Rate'),
+            'label'             => Mage::helper('enterprise_reward')->__('Rate'),
+            'value_index'       => $fromIndex,
+            'equal_value_index' => $toIndex
         ))->setRenderer($rateRenderer);
 
         $form->setUseContainer(true);
@@ -101,16 +102,5 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
         $this->setForm($form);
 
         return parent::_prepareForm();
-    }
-
-    public function getCustomerGroups()
-    {
-        $groups = Mage::getResourceModel('customer/group_collection')
-            ->load()
-            ->toOptionHash();
-        $groups = array_merge(array(
-            'all' => Mage::helper('enterprise_reward')->__('All Customer Groups'
-        )),  $groups);
-        return $groups;
     }
 }

@@ -34,9 +34,9 @@
  */
 class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
 {
-    const REWARD_RATE_GROUP_ID_ALL         = 'all';
-    const REWARD_EXCHANGE_RATE_TO_CURRENCY = 1;
-    const REWARD_EXCHANGE_RATE_TO_POINTS   = 2;
+    const RATE_CUSTOMER_GROUP_ID_ALL          = 'all';
+    const RATE_EXCHANGE_DIRECTION_TO_CURRENCY = 1;
+    const RATE_EXCHANGE_DIRECTION_TO_POINTS   = 2;
 
     /**
      * Internal constructor
@@ -55,10 +55,21 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         parent::_beforeSave();
-        if ($this->getData('customer_group_id') == self::REWARD_RATE_GROUP_ID_ALL) {
+        if ($this->getData('customer_group_id') == self::RATE_CUSTOMER_GROUP_ID_ALL) {
             $this->setData('customer_group_id', null);
         }
+        $this->_prepareRateValues();
         return $this;
+    }
+
+    /**
+     * Validate rate data
+     *
+     * @return boolean | string
+     */
+    public function validate()
+    {
+        return true;
     }
 
     /**
@@ -71,6 +82,24 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     {
         parent::_afterLoad();
         $this->prepareCustomerGroupValue();
+//            ->_prepareRateValues();
+        return $this;
+    }
+
+    /**
+     * Prepare values in order to defined direction
+     *
+     * @return Enterprise_Reward_Model_Reward_Rate
+     */
+    protected function _prepareRateValues()
+    {
+        if ($this->getData('direction') == self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY) {
+            $this->setData('points', (int)$this->getData('value'));
+            $this->setData('currency_amount', (float)$this->getData('equal_value'));
+        } elseif ($this->getData('direction') == self::RATE_EXCHANGE_DIRECTION_TO_POINTS) {
+            $this->setData('currency_amount', (float)$this->getData('value'));
+            $this->setData('points', (int)$this->getData('equal_value'));
+        }
         return $this;
     }
 
@@ -82,6 +111,8 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
      * @return Enterprise_Reward_Model_Reward_Rate
      */
     public function fetch($customerGroupId, $websiteId) {
+        $this->setData('original_website_id', $websiteId)
+            ->setData('original_Customer_group_id', $customerGroupId);
         if ($customerGroupId && $websiteId) {
             $this->_getResource()->fetch($this, $customerGroupId, $websiteId);
         }
@@ -97,9 +128,11 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     public function calculateToCurrency($points)
     {
         $amount = 0;
-        $roundedPoints = (int)($points/$this->getPointsCount());
-        if ($roundedPoints) {
-            $amount = $this->getPointsCurrencyValue()*$roundedPoints;
+        if ($this->getId()) {
+            $roundedPoints = (int)($points/$this->getPoints());
+            if ($roundedPoints) {
+                $amount = $this->getCurrencyAmount()*$roundedPoints;
+            }
         }
         return (float)$amount;
     }
@@ -125,7 +158,7 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     public function prepareCustomerGroupValue()
     {
         if (null === $this->getData('customer_group_id')) {
-            $this->setData('customer_group_id', self::REWARD_RATE_GROUP_ID_ALL);
+            $this->setData('customer_group_id', self::RATE_CUSTOMER_GROUP_ID_ALL);
         }
         return $this;
     }
@@ -136,17 +169,50 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
      * @param integer $type
      * @return string
      */
-    public function getExchangeRateAsText($type = 1)
+    public function getExchangeRateAsText()
     {
         $label = '';
-        switch($type) {
-            case self::REWARD_EXCHANGE_RATE_TO_CURRENCY:
-                $label = $this->getPointsCount().' is ' . $this->getPointsCurrencyValue() . 'in website currency';
+        $websiteId = $this->getOriginalWebsiteId();
+        if ($websiteId === null) {
+            $websiteId = $this->getWebsiteId();
+        }
+        if ($websiteId) {
+            $currencyCode = Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
+        }
+        switch($this->getDirection()) {
+            case self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY:
+                if ($websiteId) {
+                    $currencyAmount = Mage::app()->getLocale()->currency($currencyCode)
+                        ->toCurrency($this->getCurrencyAmount());
+                    $label = Mage::helper('enterprise_reward')->__('%d PTS is equal to %s', (int)$this->getPoints(), $currencyAmount);
+                } else {
+                    $label = Mage::helper('enterprise_reward')->__('%d PTS is equal to %s in Website Currency', (int)$this->getPoints(), number_format($this->getCurrencyAmount(), 4));
+                }
                 break;
-            case self::REWARD_EXCHANGE_RATE_TO_POINTS:
-                $label = $this->getCurrencyAmount().' is ' . $this->getCurrencyPointsValue();
+            case self::RATE_EXCHANGE_DIRECTION_TO_POINTS:
+                if ($websiteId) {
+                    $currencyAmount = Mage::app()->getLocale()->currency($currencyCode)
+                        ->toCurrency($this->getCurrencyAmount());
+                    $label = Mage::helper('enterprise_reward')->__('%s is equal to %d PTS', $currencyAmount, (int)$this->getPoints());
+                } else {
+                    $label = Mage::helper('enterprise_reward')->__('%s in Website Currency is equal to %d PTS', number_format($this->getCurrencyAmount(), 4), (int)$this->getPoints());
+                }
                 break;
         }
         return $label;
+    }
+
+    /**
+     * Retrieve option array of rate directions with labels
+     *
+     * @return array
+     */
+    public function getDirectionsOptionArray()
+    {
+        $optArray = array(
+            self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY => Mage::helper('enterprise_reward')->__('Points To Currency'),
+            self::RATE_EXCHANGE_DIRECTION_TO_POINTS => Mage::helper('enterprise_reward')->__('Currency To Points')
+        );
+        return $optArray;
     }
 }

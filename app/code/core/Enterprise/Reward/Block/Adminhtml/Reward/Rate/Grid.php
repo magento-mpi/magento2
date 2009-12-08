@@ -80,28 +80,30 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_
             'options' => $websites
         ));
 
-        $groups = Mage::getResourceModel('customer/group_collection')
-            ->load()
-            ->toOptionHash();
-        $groups = array_merge(array('all' => Mage::helper('enterprise_reward')->__('All Customer Groups')), $groups);
-
         $this->addColumn('customer_group_id', array(
             'header'  => Mage::helper('enterprise_reward')->__('Customer Group'),
             'index'   => 'customer_group_id',
             'type'    => 'options',
-            'options' => $groups
+            'options' => Mage::getModel('enterprise_reward/source_customer_groups')->toOptionArray()
         ));
 
-        $this->addColumn('points_to_currency', array(
-            'header'  => Mage::helper('enterprise_reward')->__('Convert Points to Currency Rate'),
+        $this->addColumn('direction', array(
+            'header'  => Mage::helper('enterprise_reward')->__('Direction'),
+            'index'   => 'direction',
+            'type'    => 'options',
+            'options' => Mage::getModel('enterprise_reward/reward_rate')->getDirectionsOptionArray()
+        ));
+
+        $this->addColumn('rate_description', array(
+            'header'  => Mage::helper('enterprise_reward')->__('Rate Description'),
             'getter' => 'getExchangeRateAsText',
 //            'renderer' => 'enterprise_reward/adminhtml_widget_grid_column_renderer_rate',
         ));
 
-        $this->addColumn('currency_to_points', array(
-            'header'  => Mage::helper('enterprise_reward')->__('Convert Currency to Points Rate'),
-            'renderer' => 'enterprise_reward/adminhtml_widget_grid_column_renderer_rate',
-        ));
+//        $this->addColumn('currency_to_points', array(
+//            'header'  => Mage::helper('enterprise_reward')->__('Convert Currency to Points Rate'),
+//            'renderer' => 'enterprise_reward/adminhtml_widget_grid_column_renderer_rate',
+//        ));
 
         return parent::_prepareColumns();
     }

@@ -58,27 +58,6 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form_Renderer_Rate
 
     /**
      * Getter
-     * Return balance index in element object
-     *
-     * @return string
-     */
-    public function getBalanceIndex()
-    {
-        return $this->getElement()->getBalanceIndex();
-    }
-
-    /**
-     * Getter
-     * Return balance by given balance index in element object
-     *
-     * @return float | integer
-     */
-    public function getBalance()
-    {
-        return $this->getRate()->getData($this->getBalanceIndex());
-    }
-    /**
-     * Getter
      * Return value index in element object
      *
      * @return string
@@ -89,6 +68,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form_Renderer_Rate
     }
 
     /**
+     * Getter
      * Return value by given value index in element object
      *
      * @return float | integer
@@ -96,5 +76,25 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form_Renderer_Rate
     public function getValue()
     {
         return $this->getRate()->getData($this->getValueIndex());
+    }
+    /**
+     * Getter
+     * Return equal value index in element object
+     *
+     * @return string
+     */
+    public function getEqualValueIndex()
+    {
+        return $this->getElement()->getEqualValueIndex();
+    }
+
+    /**
+     * Return value by given equal value index in element object
+     *
+     * @return float | integer
+     */
+    public function getEqualValue()
+    {
+        return $this->getRate()->getData($this->getEqualValueIndex());
     }
 }

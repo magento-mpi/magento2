@@ -110,17 +110,23 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             'sortable' => false,
         ));
 
-        /*$this->addColumn('rate', array(
-            'header'   => Mage::helper('enterprise_reward')->__('Rate'),
-            'index'    => 'rate',
-            'sortable' => false,
-            'align'    => 'center',
-        ));*/
+        $this->addColumn('rate_description', array(
+            'header'   => Mage::helper('enterprise_reward')->__('Rate Description'),
+            'index'    => 'rate_description',
+            'sortable' => false
+        ));
 
-        $this->addColumn('additional_info', array(
-            'header' => Mage::helper('enterprise_reward')->__('Additional Information'),
+        $this->addColumn('message', array(
+            'header' => Mage::helper('enterprise_reward')->__('Message'),
+            'align'  => 'left',
+            'index'  => 'message',
+            'getter' => 'getMessage'
+        ));
+
+        $this->addColumn('comment', array(
+            'header' => Mage::helper('enterprise_reward')->__('Comments'),
             'align' => 'left',
-            'index' => 'additional_info'
+            'index' => 'comment'
         ));
 
         return parent::_prepareColumns();

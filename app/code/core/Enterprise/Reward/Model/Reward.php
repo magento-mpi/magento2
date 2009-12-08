@@ -65,7 +65,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         $this->loadByCustomer($this->getCustomerId());
-        $this->_preparePointsBalance()->_prepareCurrencyAmount();
+        $this->_preparePointsBalance();
         return parent::_beforeSave();
     }
 
@@ -77,6 +77,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     protected function _afterSave()
     {
+        $this->_prepareCurrencyAmount();
         Mage::getModel('enterprise_reward/reward_history')
             ->prepareFromObject($this)
             ->save();
@@ -119,6 +120,47 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
             $this->setData('website_id', $this->getCustomer()->getWebsiteId());
         }
         return $this->getData('website_id');
+    }
+
+    /**
+     * Getter.
+     * Recalculate currency amount if need.
+     *
+     * @return float
+     */
+    public function getCurrencyAmount()
+    {
+        if ($this->getData('currency_amount') === null && $this->getId()) {
+            $this->_prepareCurrencyAmount();
+        }
+        return $this->getData('currency_amount');
+    }
+
+    /**
+     * Getter.
+     * Return formated currency amount in currency of website
+     *
+     * @return string
+     */
+    public function getFormatedCurrencyAmount()
+    {
+        $currencyAmount = Mage::app()->getLocale()->currency($this->getWebsiteCurrencyCode())
+                ->toCurrency($this->getCurrencyAmount());
+        return $currencyAmount;
+    }
+
+    /**
+     * Getter
+     *
+     * @return string
+     */
+    public function getWebsiteCurrencyCode()
+    {
+        if (!$this->getData('website_currency_code')) {
+            $this->setData('website_currency_code', Mage::app()->getWebsite($this->getWebsiteId())
+                ->getBaseCurrencyCode());
+        }
+        return $this->getData('website_currency_code');
     }
 
     /**
@@ -180,8 +222,8 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         $amountDelta = 0;
         if ($this->hasPointsDelta()) {
             $amountDelta = $this->_convertPointsToCurrency($this->getPointsDelta());
-            $amount = $this->_convertPointsToCurrency($this->getPointsBalance());
         }
+        $amount = $this->_convertPointsToCurrency($this->getPointsBalance());
         $this->setCurrencyDelta((float)$amountDelta);
         $this->setCurrencyAmount((float)($amount));
         return $this;

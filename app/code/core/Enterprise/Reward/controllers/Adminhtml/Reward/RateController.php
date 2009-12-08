@@ -110,11 +110,11 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
                 return;
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                $this->_redirect('*/*/*', array('_current' => true));
+                $this->_redirect('*/*/');
                 return;
             }
         }
-        $this->_redirect('*/*/*');
+        $this->_redirect('*/*/');
         return;
     }
 
