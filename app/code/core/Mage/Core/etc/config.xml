@@ -162,6 +162,10 @@
                 <theme>default</theme>
                 <translate>default</translate>
             </package>
+            <pagination>
+                <list_allow_all>1</list_allow_all>
+                <pagination_frame>5</pagination_frame>
+            </pagination>
         </design>
 
         <dev>

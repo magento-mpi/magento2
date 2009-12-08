@@ -41,7 +41,8 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
     protected $_availableLimit  = array(10=>10,20=>20,50=>50);
     protected $_dispersion      = 3;
     protected $_displayPages    = 5;
-    protected $_showPerPage		= true;
+    protected $_showPerPage     = true;
+    protected $_limit           = null;
 
     /**
      * Pages quantity per frame
@@ -91,6 +92,9 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
 
     public function getLimit()
     {
+        if ($this->_limit !== null) {
+            return $this->_limit;
+        }
         $limits = $this->getAvailableLimit();
         if ($limit = $this->getRequest()->getParam($this->getLimitVarName())) {
             if (isset($limits[$limit])) {
@@ -99,6 +103,18 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
         }
         $limits = array_keys($limits);
         return $limits[0];
+    }
+
+    /**
+     * Setter for limit items per page
+     *
+     * @param int $limit
+     * @return Mage_Page_Block_Html_Pager
+     */
+    public function setLimit($limit)
+    {
+        $this->_limit = $limit;
+        return $this;
     }
 
     public function setCollection($collection)
@@ -398,6 +414,9 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
     public function setFrameLength($frame)
     {
         $frame = abs(intval($frame));
+        if ($frame == 0) {
+            $frame = $this->_frameLength;
+        }
         if ($this->getFrameLength() != $frame) {
             $this->_setFrameInitialized(false);
             $this->_frameLength = $frame;
@@ -494,7 +513,7 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
                     $start  = $end - $this->getFrameLength() + 1;
                 }
             }
-
+            Mage::log($collection->getLastPageNumber() . ' ' . $this->getFrameLength() . ' : ' . $start . ' ' . $end);
             $this->_frameStart = $start;
             $this->_frameEnd = $end;
 
@@ -524,6 +543,26 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
     public function isFrameInitialized()
     {
         return $this->_frameInitialized;
+    }
+
+    /**
+     * Getter for alternative text for Previous link in pagination frame
+     *
+     * @return string
+     */
+    public function getAnchorTextForPrevious()
+    {
+        return Mage::getStoreConfig('design/pagination/anchor_text_for_previous');
+    }
+
+    /**
+     * Getter for alternative text for Next link in pagination frame
+     *
+     * @return string
+     */
+    public function getAnchorTextForNext()
+    {
+        return Mage::getStoreConfig('design/pagination/anchor_text_for_next');
     }
 }
 

@@ -202,7 +202,6 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
         if ($this->getCurrentOrder()) {
             $this->_collection->setOrder($this->getCurrentOrder(), $this->getCurrentDirection());
         }
-
         return $this;
     }
 
@@ -654,7 +653,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
         $perPageValues = (string)Mage::getStoreConfig($perPageConfigKey);
         $perPageValues = explode(',', $perPageValues);
         $perPageValues = array_combine($perPageValues, $perPageValues);
-        if (Mage::getStoreConfigFlag('catalog/frontend/list_allow_all')) {
+        if (Mage::getStoreConfigFlag('design/pagination/list_allow_all')) {
             return ($perPageValues + array('all'=>$this->__('All')));
         } else {
             return $perPageValues;
@@ -755,8 +754,8 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
                 ->setLimitVarName($this->getLimitVarName())
                 ->setPageVarName($this->getPageVarName())
                 ->setLimit($this->getLimit())
-                ->setFrameLength(Mage::getStoreConfig('catalog/frontend/pagination_frame'))
-                ->setJump(Mage::getStoreConfig('catalog/frontend/pagination_frame_skip'))
+                ->setFrameLength(Mage::getStoreConfig('design/pagination/pagination_frame'))
+                ->setJump(Mage::getStoreConfig('design/pagination/pagination_frame_skip'))
                 ->setCollection($this->getCollection());
 
             return $pagerBlock->toHtml();
