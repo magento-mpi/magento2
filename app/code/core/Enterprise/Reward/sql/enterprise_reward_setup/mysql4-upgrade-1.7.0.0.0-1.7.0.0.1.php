@@ -36,8 +36,7 @@ $installer->getConnection()->dropColumn($installer->getTable('enterprise_reward_
 $installer->getConnection()->changeColumn($installer->getTable('enterprise_reward_history'), 'action', 'action', "TINYINT(3) NOT NULL DEFAULT '0'");
 $installer->getConnection()->addColumn($installer->getTable('enterprise_reward_rate'), 'direction', "TINYINT(3) NOT NULL DEFAULT '1' AFTER `customer_group_id`");
 $installer->getConnection()->changeColumn($installer->getTable('enterprise_reward_rate'), 'points_count', 'points', "INT(11) NOT NULL DEFAULT '0'");
-$installer->getConnection()->changeColumn($installer->getTable('enterprise_reward_rate'), 'points_currency_value', 'currency_amount', "DECIMAL(12,4) NOT NULL DEFAULT '0.0000'");
-$installer->getConnection()->dropColumn($installer->getTable('enterprise_reward_rate'), 'currency_amount');
+$installer->getConnection()->dropColumn($installer->getTable('enterprise_reward_rate'), 'points_currency_value');
 $installer->getConnection()->dropColumn($installer->getTable('enterprise_reward_rate'), 'currency_points_value');
 $installer->getConnection()->dropKey($installer->getTable('enterprise_reward_rate'), 'IDX_WEBSITE_GROUP');
 $installer->getConnection()->addKey($installer->getTable('enterprise_reward_rate'), 'IDX_WEBSITE_GROUP_DIRECTION', array('website_id', 'customer_group_id', 'direction'), 'unique');
