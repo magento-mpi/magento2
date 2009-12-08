@@ -346,7 +346,7 @@ class Mage_Core_Model_Translate_Inline
                             $start = $tagMatch[0][1]+$m[0][1];
                             $len = strlen($m[0][0]);
                         } else {
-                            $start = $tagMatch[3][1];
+                            $start = $tagMatch[2][1];
                             $len = 0;
                         }
 
