@@ -67,7 +67,6 @@
 "Identifier","Identifier"
 "If empty, the Page Title will be used","If empty, the Page Title will be used"
 "Images (%s)","Images (%s)"
-"Images Upload Folder","Images Upload Folder"
 "Insert File","Insert File"
 "Invalid folder name. Please, use alphanumeric characters, underscores and dashes.","Invalid folder name. Please, use alphanumeric characters, underscores and dashes."
 "Keywords","Keywords"
@@ -117,5 +116,4 @@
 "Unable to find a block to delete","Unable to find a block to delete"
 "Unable to find a page to delete","Unable to find a page to delete"
 "WYSIWYG Options","WYSIWYG Options"
-"path within the media directory","path within the media directory"
 "px.","px."
