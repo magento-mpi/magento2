@@ -38,11 +38,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Apply extends Varien_Data
         $elementAttributeHtml = '';
 
         if ($this->getReadonly()) {
-            $elementAttributeHtml = $elementAttributeHtml . ' readonly="readonly"';	
+            $elementAttributeHtml = $elementAttributeHtml . ' readonly="readonly"';
         }
 
         if ($this->getDisabled()) {
-            $elementAttributeHtml = $elementAttributeHtml . ' disabled="disabled"';  
+            $elementAttributeHtml = $elementAttributeHtml . ' disabled="disabled"';
         }
 
         $html = '<select onchange="toggleApplyVisibility(this)"' . $elementAttributeHtml . '>'

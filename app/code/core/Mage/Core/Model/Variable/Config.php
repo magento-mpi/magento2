@@ -79,4 +79,3 @@ class Mage_Core_Model_Variable_Config
         return Mage::getSingleton('adminhtml/url')->getUrl('*/system_variable/wysiwygPlugin');
     }
 }
-?>

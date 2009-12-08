@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Magento
@@ -513,4 +512,3 @@ class Mage_PaypalUk_Model_Direct_Validate extends Mage_Core_Model_Abstract
         return $thinClient;
     }
 }
-?>
