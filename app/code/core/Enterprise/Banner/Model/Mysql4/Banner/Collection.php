@@ -33,6 +33,7 @@ class Enterprise_Banner_Model_Mysql4_Banner_Collection extends Mage_Core_Model_M
     protected function _construct()
     {
         $this->_init('enterprise_banner/banner');
+        $this->_map['fields']['banner_id'] = 'main_table.banner_id';
     }
 
     /**
@@ -72,7 +73,6 @@ class Enterprise_Banner_Model_Mysql4_Banner_Collection extends Mage_Core_Model_M
     protected function _addStoresVisibility()
     {
         $bannerIds = $this->getColumnValues('banner_id');
-
         $bannersStores = array();
         if (sizeof($bannerIds)>0) {
             $select = $this->getConnection()->select()
@@ -113,6 +113,7 @@ class Enterprise_Banner_Model_Mysql4_Banner_Collection extends Mage_Core_Model_M
             if ($withAdmin) {
                 $storeIds = array(0, $storeIds);
             }
+
             $this->getSelect()->join(
                 array('store_table' => $this->getTable('enterprise_banner/content')),
                 'main_table.banner_id = store_table.banner_id',
