@@ -780,6 +780,9 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .product-view .product-shop .availability { font-size:11px; }
 .product-view .product-shop .availability span { font-weight:normal; }
 
+/* Email to a Friend */
+.email-friend { margin:0; }
+
 /* Alerts */
 .alert-price { margin:0; font-size:11px; }
 .alert-stock { margin:0; font-size:11px; }
