@@ -52,13 +52,11 @@ class Mage_Page_Block_Html_Wrapper extends Mage_Core_Block_Abstract
         if ($this->_dependsOnChildren && empty($this->_children)) {
             return '';
         }
-
         $id          = $this->hasElementId() ? sprintf(' id="%s"', $this->getElementId()) : '';
         $class       = $this->hasElementClass() ? sprintf(' class="%s"', $this->getElementClass()) : '';
         $otherParams = $this->hasOtherParams() ? ' ' . $this->getOtherParams() : '';
-
         return sprintf('<%1$s%2$s%3$s%4$s>%5$s</%1$s>',
-            $this->getElementTagName(), $id, $class, $otherParams, $html
+            $this->getElementTagName(), $id, $class, $otherParams, $this->getChildHtml()
         );
     }
 
