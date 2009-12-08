@@ -492,6 +492,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .header .links li { float:left; font-size:11px; background:url(../images/bkg_pipe1.gif) 100% 60% no-repeat; padding:0 8px 0 7px; }
 .header .links a { color:#ebbc58; }
 .header-container .top-container { clear:both; padding:5px 10px 0 12px; }
+.header-container .top-container a { font-size:11px; color:#ebbc58; }
 
 /********** < Navigation */
 .nav-container { width:950px; padding:0 10px; background:url(../images/bkg_shadow.png) 50% 0 repeat-y; }
@@ -827,6 +828,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .price-including-tax .label { white-space:nowrap; color:#999; }
 .price-including-tax .price { font-size:13px; font-weight:bold; }
 
+/* FTP */
 .weee { display:block; font-size:11px; color:#444; }
 .weee .price { font-size:11px; font-weight:normal; }
 
@@ -851,15 +853,13 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .price-notice { padding-left:10px; color:#999; }
 .price-notice .price { font-weight:bold; color:#2f2f2f; }
 
+/* Price as configured */
 .price-as-configured { margin:0; }
 .price-as-configured .price-label { font-weight:bold; white-space:nowrap; }
 
 .price-box-bundle { padding:0 0 10px 0; }
 .price-box-bundle .price-box { margin:0 !important; padding:0 !important; }
 .price-box-bundle .price { color:#555; }
-
-.tier-prices-grouped li { padding:2px 0; color:#e26703; }
-.tier-prices-grouped li .price { font-weight:bold; }
 /********** Product Prices > */
 
 /* Tier Prices */
@@ -867,6 +867,9 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .tier-prices li { line-height:1.4; background:url(../images/i_tier.gif) no-repeat 0 3px; padding:2px 0 2px 10px; color:#424242; }
 .tier-prices .benefit { font-style:italic; font-weight:bold; color:#2f2f2f; }
 .tier-prices .price { font-weight:bold; color:#2f2f2f; }
+
+.tier-prices-grouped li { padding:2px 0; color:#e26703; }
+.tier-prices-grouped li .price { font-weight:bold; }
 
 /* Add to Links */
 .add-to-links { font-size:11px; margin:5px 0 0; }
@@ -884,6 +887,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .add-to-box .add-to-links { float:left; margin:0; font-size:12px !important; line-height:1.25 !important; text-align:left !important; }
 .add-to-box .add-to-links li { display:block !important; }
 .add-to-box .add-to-links li .separator { display:none !important; }
+
 
 .product-view { border:1px solid #c4c6c8; }
 
@@ -986,7 +990,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .product-view .box-additional .data-table th,
 .product-view .box-additional .data-table td { line-height:1.25; }
 
-/* block: upsell */
+/* Block: Upsell */
 .product-view .box-up-sell h2 { border-bottom:0; padding:0; margin:0 0 8px; }
 .product-view .box-up-sell .products-grid { width:100%; border:1px solid #e5dcc3; }
 .product-view .box-up-sell .products-grid td { width:25%; background:#fafaec; border-right:1px solid #e5dcc3; border-bottom:1px solid #e5dcc3; padding:15px 10px 12px; line-height:1.6em; }
