@@ -49,7 +49,6 @@
 "Payment transaction has been declined.","Payment transaction has been declined."
 "Payment uncertain: A technical problem arose during payment process, giving unpredictable result","Payment uncertain: A technical problem arose during payment process, giving unpredictable result"
 "Pending Ogone","Pending Ogone"
-"Please, wait a moment. This page will transfer your data to Ogone payment gateway in a few seconds.","Please, wait a moment. This page will transfer your data to Ogone payment gateway in a few seconds."
 "Processed Ogone Payment","Processed Ogone Payment"
 "Processed by Ogone","Processed by Ogone"
 "Processing Ogone Payment","Processing Ogone Payment"
@@ -66,10 +65,10 @@
                             ","URL/filename of the logo.
                             <br />The URL must be absolute and stored on a secure server.
                             "
+"Unknown exception","Unknown exception"
 "Verical list","Verical list"
 "Waiting Authorization","Waiting Authorization"
 "You can arrange the layout/list of the payment methods on Ogone payment page","You can arrange the layout/list of the payment methods on Ogone payment page"
-"You will be redirected to Ogone website when you place an order.","You will be redirected to Ogone website when you place an order."
 "e.g: Verdana","e.g: Verdana"
 "e.g: black","e.g: black"
 "e.g: white","e.g: white"
