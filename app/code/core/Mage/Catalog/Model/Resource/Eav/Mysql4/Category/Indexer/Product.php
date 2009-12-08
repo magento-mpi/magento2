@@ -218,7 +218,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
      */
     protected function _refreshDirectRelations($categoryIds=null, $productIds=null)
     {
-        if (!$categoryIds || !$productIds) {
+        if (!$categoryIds && !$productIds) {
             return $this;
         }
 
@@ -283,7 +283,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
      */
     protected function _refreshAnchorRelations($categoryIds=null, $productIds=null)
     {
-        if (!$categoryIds || !$productIds) {
+        if (!$categoryIds && !$productIds) {
             return $this;
         }
 
