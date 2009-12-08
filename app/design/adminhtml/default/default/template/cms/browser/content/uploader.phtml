@@ -64,7 +64,7 @@ maxUploadFileSize = '<?php echo $this->getDataMaxSize() ?>';
     completedFiles.each(function(file){
         <?php echo $this->getJsObjectName() ?>.removeFile(file.id);
     });
-    Images.handleUploadComplete();
+    MediabrowserInstance.handleUploadComplete();
 }
 // hide flash buttons
 if ($('<?php echo $this->getHtmlId() ?>-flash') != undefined) {

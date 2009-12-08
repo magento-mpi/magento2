@@ -35,6 +35,21 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
 {
     const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';
     const THUMBS_DIRECTORY_NAME = '.thumbs';
+    const THUMB_PLACEHOLDER_PATH_SUFFIX = 'images/placeholder/thumbnail.jpg';
+
+    /**
+     * Config object
+     *
+     * @var Mage_Core_Model_Config_Element
+     */
+    protected $_config;
+
+    /**
+     * Config object as array
+     *
+     * @var array
+     */
+    protected $_configAsArray;
 
     /**
      * Return one-level child directories for specified path
@@ -44,13 +59,17 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      */
     public function getDirsCollection($path)
     {
-        $excludeRegExp = str_replace(',', '|', preg_replace('/[^a-z0-9\-\_,]/i', '', $this->getConfigData('exclude_dirs')));
+        $conditions = array('reg_exp' => array(), 'plain' => array());
 
-        if ($excludeRegExp) {
-            $excludeRegExp = "|^({$excludeRegExp})$";
+        foreach ($this->getConfig()->dirs->exclude->children() as $dir) {
+            $conditions[$dir->getAttribute('regexp') ? 'reg_exp' : 'plain'][(string) $dir] = true;
+        }
+        // "include" section takes precedence and can revoke directory exclusion
+        foreach ($this->getConfig()->dirs->include->children() as $dir) {
+            unset($conditions['regexp'][(string) $dir], $conditions['plain'][(string) $dir]);
         }
 
-        $regExp = "/([^a-z0-9\-\_]+){$excludeRegExp}/i";
+        $regExp = $conditions['reg_exp'] ? ('~' . implode('|', array_keys($conditions['reg_exp'])) . '~i') : null;
 
         $collection = $this->getCollection($path)
             ->setCollectDirs(true)
@@ -58,7 +77,8 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
             ->setCollectRecursively(false);
 
         foreach ($collection as $key => $value) {
-            if (preg_match($regExp, $value->getBasename())) {
+            if (array_key_exists($value->getBasename(), $conditions['plain'])
+                || ($regExp && preg_match($regExp, $value->getFilename()))) {
                 $collection->removeItemByKey($key);
             }
         }
@@ -109,7 +129,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
                     $item->setHeight($size[1]);
                 }
             } else {
-                $thumbUrl = Mage::getDesign()->getSkinBaseUrl() . 'images/placeholder/thumbnail.jpg';
+                $thumbUrl = Mage::getDesign()->getSkinBaseUrl() . self::THUMB_PLACEHOLDER_PATH_SUFFIX;
             }
 
             $item->setThumbUrl($thumbUrl);
@@ -317,8 +337,8 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
         }
         $image = Varien_Image_Adapter::factory('GD2');
         $image->open($source);
-        $width = $this->getConfigData('browser_resize_width');
-        $height = $this->getConfigData('browser_resize_height');
+        $width = $this->getConfigData('resize_width');
+        $height = $this->getConfigData('resize_height');
         $image->keepAspectRatio($keepRation);
         $image->resize($width, $height);
         $dest = $targetDir . DS . pathinfo($source, PATHINFO_BASENAME);
@@ -382,6 +402,34 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     }
 
     /**
+     * Config object getter
+     *
+     * @return Mage_Core_Model_Config_Element
+     */
+    public function getConfig()
+    {
+        if (! $this->_config) {
+            $this->_config = Mage::getConfig()->getNode('cms/browser', 'adminhtml');
+        }
+
+        return $this->_config;
+    }
+
+    /**
+     * Config object as array getter
+     *
+     * @return array
+     */
+    public function getConfigAsArray()
+    {
+        if (! $this->_configAsArray) {
+            $this->_configAsArray = $this->getConfig()->asCanonicalArray();
+        }
+
+        return $this->_configAsArray;
+    }
+
+    /**
      * Wysiwyg Config reader
      *
      * @param string $key
@@ -390,14 +438,10 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      */
     public function getConfigData($key, $default=false)
     {
-        if (!$this->hasData($key)) {
-            $value = Mage::getStoreConfig('cms/wysiwyg/'.$key);
-            if (is_null($value) || false===$value) {
-                $value = $default;
-            }
-            $this->setData($key, $value);
-        }
-        return $this->_getData($key);
+        $configArray = $this->getConfigAsArray();
+        $key = (string) $key;
+
+        return array_key_exists($key, $configArray) ? $configArray[$key] : $default;
     }
 
     /**
@@ -408,11 +452,15 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      */
     public function getAllowedExtensions($type = null)
     {
-        $configKey = is_null($type) ? 'browser_allowed_extensions' : 'browser_'.$type.'_allowed_extensions';
-        if (preg_match_all('/[a-z0-9]+/si', strtolower($this->getConfigData($configKey)), $matches)) {
-            return $matches[0];
+        $extensions = $this->getConfigData('extensions');
+
+        if (is_string($type) && array_key_exists("{$type}_allowed", $extensions)) {
+            $allowed = $extensions["{$type}_allowed"];
+        } else {
+            $allowed = $extensions['allowed'];
         }
-        return array();
+
+        return array_keys(array_filter($allowed));
     }
 
     /**

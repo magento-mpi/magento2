@@ -45,14 +45,14 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
             'class'   => 'save',
             'label'   => $this->helper('cms')->__('Create Folder...'),
             'type'    => 'button',
-            'onclick' => 'Images.newFolder();'
+            'onclick' => 'MediabrowserInstance.newFolder();'
         ));
 
         $this->_addButton('delete_folder', array(
             'class'   => 'delete no-display',
             'label'   => $this->helper('cms')->__('Delete Folder'),
             'type'    => 'button',
-            'onclick' => 'Images.deleteFolder();',
+            'onclick' => 'MediabrowserInstance.deleteFolder();',
             'id'      => 'button_delete_folder'
         ));
 
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
             'class'   => 'delete no-display',
             'label'   => $this->helper('cms')->__('Delete File'),
             'type'    => 'button',
-            'onclick' => 'Images.deleteFiles();',
+            'onclick' => 'MediabrowserInstance.deleteFiles();',
             'id'      => 'button_delete_files'
         ));
 
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
             'class'   => 'save no-display',
             'label'   => $this->helper('cms')->__('Insert File'),
             'type'    => 'button',
-            'onclick' => 'Images.insert();',
+            'onclick' => 'MediabrowserInstance.insert();',
             'id'      => 'button_insert_files'
         ));
     }
@@ -81,6 +81,31 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
     public function getContentsUrl()
     {
         return $this->getUrl('*/*/contents', array('type' => $this->getRequest()->getParam('type')));
+    }
+
+    /**
+     * Javascript setup object for filebrowser instance
+     *
+     * @return string
+     */
+    public function getFilebrowserSetupObject()
+    {
+        $setupObject = new Varien_Object();
+
+        $setupObject->setData(array(
+            'newFolderPrompt'                 => $this->helper('cms')->__('New Folder Name:'),
+            'deleteFolderConfirmationMessage' => $this->helper('cms')->__('Are you sure you want to delete current folder?'),
+            'deleteFileConfirmationMessage'   => $this->helper('cms')->__('Are you sure you want to delete the selected file?'),
+            'targetElementId' => $this->getTargetElementId(),
+            'contentsUrl'     => $this->getContentsUrl(),
+            'onInsertUrl'     => $this->getOnInsertUrl(),
+            'newFolderUrl'    => $this->getNewfolderUrl(),
+            'deleteFolderUrl' => $this->getDeletefolderUrl(),
+            'deleteFilesUrl'  => $this->getDeleteFilesUrl(),
+            'headerText'      => $this->getHeaderText()
+        ));
+
+        return Zend_Json::encode($setupObject);
     }
 
     /**

@@ -66,10 +66,10 @@ Ext.onReady(function(){
     tree.render();
     root.expand();
 
-    Images.setTree(tree);
-    tree.addListener('click', Images.selectFolder.bind(Images));
+    MediabrowserInstance.setTree(tree);
+    tree.addListener('click', MediabrowserInstance.selectFolder.bind(MediabrowserInstance));
     tree.expandPath('<?php echo $this->getTreeCurrentPath() ?>','', function(success, node) {
-        Images.selectFolder(node);
+        MediabrowserInstance.selectFolder(node);
     });
 });
 </script>

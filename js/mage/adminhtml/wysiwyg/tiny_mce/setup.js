@@ -171,7 +171,7 @@ tinyMceWysiwygSetup.prototype =
             typeTitle = 'File';
         }
 
-        Browser.openDialog(wUrl, this.config.files_browser_window_width, this.config.files_browser_window_height, 'Insert ' + typeTitle + '...');
+        MediabrowserUtility.openDialog(wUrl, this.config.files_browser_window_width, this.config.files_browser_window_height, 'Insert ' + typeTitle + '...');
     },
 
     getMediaBrowserOpener: function() {

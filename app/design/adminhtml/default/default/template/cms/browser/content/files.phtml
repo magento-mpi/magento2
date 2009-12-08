@@ -34,20 +34,19 @@
 <?php
 $_width  = $this->getImagesWidth();
 $_height = $this->getImagesHeight();
-$files   = $this->getFiles();
 ?>
-<?php if ($files->count() > 0): ?>
-    <?php foreach ($files as $item): ?>
-    <div class="filecnt" id="<?php echo $item->getId() ?>">
+<?php if ($this->getFilesCount() > 0): ?>
+    <?php foreach ($this->getFiles() as $file): ?>
+    <div class="filecnt" id="<?php echo $this->getFileId($file) ?>">
         <p class="nm" style="height:<?php echo $_height ?>px;width:<?php echo $_width ?>px;">
-        <?php if($item->getThumbUrl()):?>
-            <img src="<?php echo $item->getThumbUrl() ?>" alt="<?php echo $item->getName() ?>"/>
+        <?php if($this->getFileThumbUrl($file)):?>
+            <img src="<?php echo $this->getFileThumbUrl($file) ?>" alt="<?php echo $this->getFileName($file) ?>"/>
         <?php endif; ?>
         </p>
-        <?php if($item->getWidth()): ?>
-            <small><?php echo $item->getWidth() ?>x<?php echo $item->getHeight() ?> <?php echo $this->helper('cms')->__('px.') ?></small><br/>
+        <?php if($this->getFileWidth($file)): ?>
+            <small><?php echo $this->getFileWidth($file) ?>x<?php echo $this->getFileHeight($file) ?> <?php echo $this->helper('cms')->__('px.') ?></small><br/>
         <?php endif; ?>
-        <small><?php echo $item->getShortName(); ?></small>
+        <small><?php echo $this->getFileShortName($file); ?></small>
     </div>
     <?php endforeach; ?>
 <?php else: ?>
