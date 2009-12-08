@@ -205,6 +205,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
             $this->_getWriteAdapter()->quoteInto('category_id IN(?)', $deleteCategoryIds)
         );
 
+        $anchorIds = array_diff($anchorIds, $categoryIds);
         $this->_refreshAnchorRelations($anchorIds);
         $this->_refreshDirectRelations($categoryIds);
     }
