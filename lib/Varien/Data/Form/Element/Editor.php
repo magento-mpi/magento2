@@ -81,6 +81,12 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                 'firebug_warning_anchor' => $this->translate('Hide'),
             ));
 
+            $translatedString = array(
+                'Insert Image...' => $this->translate('Insert Image...'),
+                'Insert Media...' => $this->translate('Insert Media...'),
+                'Insert File...' => $this->translate('Insert File...')
+            );
+
             $jsSetupObject = 'wysiwyg' . $this->getHtmlId();
 
             $html = $this->_getButtonsHtml()
@@ -90,6 +96,9 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
 
                 <script type="text/javascript">
                 //<![CDATA[
+                    if ("undefined" != typeof(Translator)) {
+                        Translator.add(' . Zend_Json::encode($translatedString) . ');
+                    }
                     '.$jsSetupObject.' = new tinyMceWysiwygSetup("'.$this->getHtmlId().'", '.Zend_Json::encode($this->getConfig()).');
 
                     '.($this->isHidden() ? '' : ($this->getForceLoad()?$jsSetupObject.'.setup("exact");':'Event.observe(window, "load", '.$jsSetupObject.'.setup.bind('.$jsSetupObject.', "exact"));')).'

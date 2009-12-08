@@ -99,10 +99,9 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
      * Return Widgets Insertion Plugin Window URL
      *
      * @param Varien_Object Editor element config
-     * @param boolean $wysiwygMode OPTIONAL
      * @return string
      */
-    public function getWidgetWindowUrl($config, $wysiwygMode = true)
+    public function getWidgetWindowUrl($config)
     {
         $params = array();
 

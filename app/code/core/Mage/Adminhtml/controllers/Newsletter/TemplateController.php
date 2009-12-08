@@ -102,7 +102,9 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
             $model->addData($values);
         }
 
-        $this->getLayout()->getBlock('template_edit')->setEditMode($model->getId() > 0);
+        if ($editBlock = $this->getLayout()->getBlock('template_edit')) {
+            $editBlock->setEditMode($model->getId() > 0);
+        }
 
         $this->renderLayout();
     }

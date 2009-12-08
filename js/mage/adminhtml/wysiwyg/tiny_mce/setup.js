@@ -17,9 +17,12 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+
 var tinyMceWysiwygSetup = Class.create();
 tinyMceWysiwygSetup.prototype =
 {
@@ -165,13 +168,17 @@ tinyMceWysiwygSetup.prototype =
         this.mediaBrowserOpener.blur();
 
         if (typeof(o.type) != 'undefined' && o.type != "") {
-            typeTitle = 'image' == o.type ? 'Image' : 'Media';
+            typeTitle = 'image' == o.type ? this.translate('Insert Image...') : this.translate('Insert Media...');
             wUrl = wUrl + "type/" + o.type + "/";
         } else {
-            typeTitle = 'File';
+            typeTitle = this.translate('Insert File...');
         }
 
-        MediabrowserUtility.openDialog(wUrl, this.config.files_browser_window_width, this.config.files_browser_window_height, 'Insert ' + typeTitle + '...');
+        MediabrowserUtility.openDialog(wUrl, this.config.files_browser_window_width, this.config.files_browser_window_height, typeTitle);
+    },
+
+    translate: function(string) {
+        return 'undefined' != typeof(Translator) ? Translator.translate(string) : string;
     },
 
     getMediaBrowserOpener: function() {
