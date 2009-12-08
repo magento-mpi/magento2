@@ -72,11 +72,13 @@ table { face-color:expression(runtimeStyle.scrollbarFaceColor = '#fff', cellSpac
 
 /* Clears and hasLayout fixes */
 .header-container,
+.header-container .top-container,
 .header,
 .header .quick-access,
 #nav,
 .main,
 .footer,
+.footer-container .bottom-container,
 .col-main,
 .col2-set,
 .col3-set,
