@@ -27,13 +27,12 @@
 $installer = $this;
 /* @var $installer Mage_Sales_Model_Mysql4_Setup */
 $installer->startSetup();
-
 $orderEntityType = $installer->getEntityType('order');
 $orderEntityTypeId = $orderEntityType['entity_type_id'];
 
 $attribute = $installer->getAttribute($orderEntityTypeId, 'coupon_code');
 
-$installer->getConnection()->addColumn($this->getTable('sales/order'), $attribute['attribute_code'], "varchar(255) NOT NULL DEFAULT ''");
+$installer->getConnection()->addColumn($this->getTable('sales/order'), $attribute['attribute_code'], "varchar(255) NULL DEFAULT NULL");
 
 try {
     $installer->getConnection()->beginTransaction();
@@ -61,7 +60,6 @@ try {
     $installer->getConnection()->dropColumn($this->getTable('sales/order'), $attribute['attribute_code']);
     throw $e;
 }
-
 
 $installer->run("
     CREATE TABLE IF NOT EXISTS `{$installer->getTable('salesrule/coupon_aggregated')}`
