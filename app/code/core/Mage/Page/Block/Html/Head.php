@@ -161,8 +161,21 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function getCssJsHtml()
     {
         $lines  = array();
-        $baseJs = Mage::getBaseUrl('js');
         $html   = '';
+
+        $params['_relative'] = 1;
+        $currentSkin = Mage::getDesign()->getSkinBaseDir($params);
+
+        $skinBaseDir = 'skin'.DS.$currentSkin.DS;
+        $jsBaseDir = 'js'.DS;
+
+        $baseUrl = Mage::getBaseUrl('web');
+
+        $baseJsUrl = Mage::getBaseUrl('media').'js/';
+        $baseCssUrl = Mage::getBaseUrl('media').'css/';
+
+        $mergeJs = Mage::getStoreConfigFlag('dev/js/merge_files');
+        $mergeCss = Mage::getStoreConfigFlag('dev/css/merge_css_files');
 
         $script     = '<script type="text/javascript" src="%s" %s></script>';
         $stylesheet = '<link rel="stylesheet" type="text/css" href="%s" %s />';
@@ -173,25 +186,38 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             if (!is_null($item['cond']) && !$this->getData($item['cond'])) {
                 continue;
             }
+
             $if = !empty($item['if']) ? $item['if'] : '';
             switch ($item['type']) {
                 case 'js':
-                    #$lines[$if]['other'][] = sprintf($script, $baseJs.$item['name'], $item['params']);
-                    $lines[$if]['script'][] = $item['name'];
+                   if ($mergeJs) {
+                       $lines[$if]['js'][] = $item['name'];
+                   }
+                   else {
+                       $lines[$if]['other'][] = sprintf($script, $baseUrl.'js/'.$item['name'], $item['params']);
+                   }
                     break;
 
                 case 'js_css':
-                    //proxying css will require real-time prepending path to all image urls, should we do it?
-                    $lines[$if]['other'][] = sprintf($stylesheet, $baseJs.$item['name'], $item['params']);
-                    #$lines[$if]['stylesheet'][] = $item['name'];
+                    $lines[$if]['other'][] = sprintf($stylesheet, $baseUrl.'js/'.$item['name'], $item['params']);
                     break;
 
                 case 'skin_js':
-                    $lines[$if]['other'][] = sprintf($script, $this->getSkinUrl($item['name']), $item['params']);
+                    if ($mergeJs) {
+                        $lines[$if]['skin_js'][] = $item['name'];
+                    }
+                    else {
+                        $lines[$if]['other'][] = sprintf($script, $this->getSkinUrl($item['name']), $item['params']);
+                    }
                     break;
 
                 case 'skin_css':
-                    $lines[$if]['other'][] = sprintf($stylesheet, $this->getSkinUrl($item['name']), $item['params']);
+                   if ($mergeCss && $item['params'] == 'media="all"' && empty($item['if'])) {
+                       $lines[$if]['skin_css'][] = $item['name'];
+                   }
+                   else {
+                       $lines[$if]['other'][] = sprintf($stylesheet, $this->getSkinUrl($item['name']), $item['params']);
+                   }
                     break;
 
                 case 'rss':
@@ -208,36 +234,30 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             if (!empty($if)) {
                 $html .= '<!--[if '.$if.']>'."\n";
             }
-            if (!empty($items['script'])) {
-                $scriptItems = array();
-                if (Mage::getStoreConfigFlag('dev/js/merge_files')) {
-                    $scriptItems = $this->getChunkedItems($items['script'], 'index.php?c=auto&amp;f=');
-                } else {
-                    $scriptItems = $items['script'];
-                }
-                foreach ($scriptItems as $item) {
-                    $html .= sprintf($script, $baseJs.$item, '') . "\n";
-                }
-//                foreach (array_chunk($items['script'], 15) as $chunk) {
-//                    $html .= sprintf($script, $baseJs.'index.php/x.js?f='.join(',',$chunk), '')."\n";
-//                }
+
+            if (!empty($items['js'])) {
+                $compiledFile = Mage::getModel('core/design')->compileCacheFiles($items['js'], $jsBaseDir);
+                $html .= sprintf($script, $baseJsUrl.$compiledFile, '')."\n";
             }
-            if (!empty($items['stylesheet'])) {
-                foreach ($this->getChunkedItems($items['stylesheet'], $baseJs.'index.php?c=auto&amp;f=') as $item) {
-                    $html .= sprintf($stylesheet, $item, '')."\n";
-                }
-//                foreach (array_chunk($items['stylesheet'], 15) as $chunk) {
-//                    $html .= sprintf($stylesheet, $baseJs.'index.php/x.css?f='.join(',',$chunk), '')."\n";
-//                }
+
+            if (!empty($items['skin_js'])) {
+                $compiledFile = Mage::getModel('core/design')->compileCacheFiles($items['skin_js'], $skinBaseDir);
+                $html .= sprintf($script, $baseJsUrl.$compiledFile, '')."\n";
             }
+
+            if (!empty($items['skin_css'])) {
+                $compiledFile = Mage::getModel('core/design')->compileCacheFiles($items['skin_css'], $skinBaseDir, 'css');
+                $html .= sprintf($stylesheet, $baseCssUrl.$compiledFile, '')."\n";
+            }
+
             if (!empty($items['other'])) {
                 $html .= join("\n", $items['other'])."\n";
             }
+
             if (!empty($if)) {
                 $html .= '<![endif]-->'."\n";
             }
         }
-
         return $html;
     }
 

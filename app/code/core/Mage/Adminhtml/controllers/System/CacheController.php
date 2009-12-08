@@ -104,10 +104,15 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
         }
         Mage::app()->saveUseCache($enable);
 
+        if ($this->getRequest()->getPost('jscss_action')) {
+            Mage::getModel('core/design')->cleanCache();
+        }
+
         /**
          * Run catalog actions
          */
         if ($catalogAction = $this->getRequest()->getPost('catalog_action')) {
+
             switch ($catalogAction) {
                 case 'refresh_catalog_rewrites':
                     try {
