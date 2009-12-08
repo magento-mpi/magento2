@@ -44,4 +44,3 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfigFlag('enterprise_reward/general/is_enabled');
     }
 }
-?>
