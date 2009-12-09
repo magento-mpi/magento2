@@ -141,6 +141,7 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
             try {
                 // fill truecolor png with alpha transparency
                 if ($isAlpha) {
+
                     if (!imagealphablending($imageResourceTo, false)) {
                         throw new Exception('Failed to set alpha blending for PNG image.');
                     }
@@ -154,6 +155,7 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
                     if (!imagesavealpha($imageResourceTo, true)) {
                         throw new Exception('Failed to save alpha transparency into PNG image.');
                     }
+
                     return $transparentAlphaColor;
                 }
                 // fill image with indexed non-alpha transparency
@@ -179,7 +181,19 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
         if (!imagefill($imageResourceTo, 0, 0, $color)) {
             throw new Exception("Failed to fill image background with color {$r} {$g} {$b}.");
         }
+
         return $color;
+    }
+
+    /**
+     * Gives true for a PNG with alpha, false otherwise
+     *
+     * @return boolean
+     */
+
+    private function _checkAlpha()
+    {
+        return ((ord(file_get_contents($this->_fileName, false, null, 25, 1)) & 6) & 4) == 4;
     }
 
     private function _getTransparency($imageResource, $fileType, &$isAlpha = false, &$isTrueColor = false)
@@ -195,7 +209,7 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
             }
             // assume that truecolor PNG has transparency
             elseif (IMAGETYPE_PNG === $fileType) {
-                $isAlpha     = true;
+                $isAlpha     = $this->_checkAlpha();
                 $isTrueColor = true;
                 return $transparentIndex; // -1
             }
