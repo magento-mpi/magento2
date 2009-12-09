@@ -60,19 +60,13 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
-            $fieldset->addField('website', 'select', array(
-                'name'  => 'website_id',
-                'title' => Mage::helper('enterprise_reward')->__('Website'),
-                'label' => Mage::helper('enterprise_reward')->__('Website'),
-                'values' => Mage::getModel('adminhtml/system_store')->getWebsiteValuesForForm()
+            $fieldset->addField('store', 'select', array(
+                'name'  => 'store_id',
+                'title' => Mage::helper('enterprise_reward')->__('Store'),
+                'label' => Mage::helper('enterprise_reward')->__('Store'),
+                'values' => Mage::getModel('adminhtml/system_store')->getStoreValuesForForm()
             ));
         }
-
-        $fieldset->addField('store', 'select', array(
-            'name'  => 'store_id',
-            'title' => Mage::helper('enterprise_reward')->__('Store View'),
-            'label' => Mage::helper('enterprise_reward')->__('Store View')
-        ));
 
         $fieldset->addField('points_delta', 'text', array(
             'name'  => 'points_delta',

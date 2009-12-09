@@ -109,17 +109,38 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Getter.
-     * If website id not set, get it from customer
+     * Getter for website_id
+     * If website id not set, get it from assigned store
      *
-     * @return integer
+     * @return int
      */
     public function getWebsiteId()
     {
-        if (!$this->getData('website_id') && $this->getCustomer()) {
-            $this->setData('website_id', $this->getCustomer()->getWebsiteId());
+        if (!$this->getData('website_id') && ($store = $this->getStore())) {
+            $this->setData('website_id', $store->getWebsiteId());
         }
         return $this->getData('website_id');
+    }
+
+    /**
+     * Getter for store (for emails etc)
+     * Trying get store from customer if its not assigned
+     *
+     * @return Mage_Core_Model_Store|null
+     */
+    public function getStore()
+    {
+        $store = null;
+        if ($this->hasData('store') || $this->hasData('store_id')) {
+            $store = $this->getDataSetDefault('store', $this->_getData('store_id'));
+        } elseif ($this->getCustomer()) {
+            $store = $this->getCustomer()->getStore();
+            $this->setData('store', $store);
+        }
+        if ($store !== null) {
+            return is_object($store) ? $store : Mage::app()->getStore($store);
+        }
+        return $store;
     }
 
     /**
