@@ -41,4 +41,32 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Mage_Core
     {
         $this->_init('enterprise_reward/reward_history');
     }
+
+    /**
+     * Join reward table to filter history by customer id
+     *
+     * @param string $customerId
+     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
+     */
+    public function addCustomerFilter($customerId)
+    {
+        if ($customerId) {
+            $this->getSelect()->joinInner(array('reward_table' => $this->getTable('enterprise_reward/reward')),
+                'reward_table.reward_id = main_table.reward_id', array())
+            ->where('reward_table.customer_id = ?', $customerId);
+        }
+        return $this;
+    }
+
+    /**
+     * Add filter by website id
+     *
+     * @param integer $websiteId
+     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
+     */
+    public function addWebsiteFilter($websiteId)
+    {
+        $this->getSelect()->where('main_table.website_id = ?', $websiteId);
+        return $this;
+    }
 }

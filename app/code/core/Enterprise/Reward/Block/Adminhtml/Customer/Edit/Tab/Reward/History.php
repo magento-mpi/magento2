@@ -53,7 +53,8 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History
     protected function _prepareLayout()
     {
         $grid = $this->getLayout()
-            ->createBlock('enterprise_reward/adminhtml_customer_edit_tab_reward_history_grid');
+            ->createBlock('enterprise_reward/adminhtml_customer_edit_tab_reward_history_grid')
+            ->setCustomerId($this->getCustomerId());
         $this->setChild('grid', $grid);
         return parent::_prepareLayout();
     }

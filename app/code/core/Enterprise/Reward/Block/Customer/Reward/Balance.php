@@ -53,9 +53,11 @@ class Enterprise_Reward_Block_Customer_Reward_Balance extends Mage_Core_Block_Te
     {
         /* @var $reward Enterprise_Reward_Model_Reward */
 
-        if (!$this->getData('reward') && ($this->getCustomer() && $this->getCustomer()->getId())) {
+        if (!$this->getData('reward') && $this->getCustomer()) {
             $reward = Mage::getModel('enterprise_reward/reward')
-                ->loadByCustomer($this->getCustomer()->getId());
+                ->setCustomer($this->getCustomer())
+                ->setWebsiteId(Mage::app()->getWebsite()->getId())
+                ->loadByCustomer();
             $this->setData('reward', $reward);
         }
         return $this->getData('reward');
@@ -66,8 +68,18 @@ class Enterprise_Reward_Block_Customer_Reward_Balance extends Mage_Core_Block_Te
      *
      * @return integer
      */
-    public function getPoints()
+    public function getPointsBalance()
     {
-        return $this->getReward()->getPoints();
+        return $this->getReward()->getPointsBalance();
+    }
+
+    /**
+     * Getter
+     *
+     * @return string
+     */
+    public function getCurrencyAmountEquivalent()
+    {
+        return $this->getReward()->getCurrencyAmount();
     }
 }

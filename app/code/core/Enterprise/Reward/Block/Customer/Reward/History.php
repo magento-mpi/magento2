@@ -34,5 +34,28 @@
  */
 class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Template
 {
+    /**
+     * Getter
+     *
+     * @return integer
+     */
+    public function getCustomerId()
+    {
+        return Mage::getSingleton('customer/session')->getCustomerId();
+    }
 
+    /**
+     * Return reword points update history collection by customer and website
+     *
+     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
+     */
+    public function getRewardHistory()
+    {
+        $collection = Mage::getModel('enterprise_reward/reward_history')
+            ->getCollection()
+            ->addCustomerFilter($this->getCustomerId())
+            ->addWebsiteFilter(Mage::app()->getWebsite()->getId())
+            ->setOrder('created_at', 'DESC');
+        return $collection;
+    }
 }

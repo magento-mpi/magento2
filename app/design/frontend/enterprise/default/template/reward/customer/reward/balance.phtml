@@ -27,5 +27,5 @@
 <div class="account-balance">
     <h3 class="sub-title"><?php echo Mage::helper('enterprise_reward')->__('Balance'); ?></h3>
     <?php echo Mage::helper('enterprise_reward')->__('Your current balance is:'); ?>
-    <b><?php echo $this->getPoints() ?> PTS</b>
+    <b><?php echo $this->getPointsBalance(); ?>( <?php echo Mage::helper('core')->currency($this->getCurrencyAmountEquivalent()); ?> )</b>
 </div>

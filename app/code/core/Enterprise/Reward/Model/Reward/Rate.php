@@ -82,7 +82,6 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     {
         parent::_afterLoad();
         $this->prepareCustomerGroupValue();
-//            ->_prepareRateValues();
         return $this;
     }
 

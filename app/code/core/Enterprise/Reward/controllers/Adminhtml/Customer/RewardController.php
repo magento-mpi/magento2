@@ -39,8 +39,10 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
      */
     public function historyAction()
     {
+        $customerId = $this->getRequest()->getParam('id', 0);
         $history = $this->getLayout()
-            ->createBlock('enterprise_reward/adminhtml_customer_edit_tab_reward_history');
+            ->createBlock('enterprise_reward/adminhtml_customer_edit_tab_reward_history', '',
+                array('customer_id' => $customerId));
         $this->getResponse()->setBody($history->toHtml());
     }
 }
