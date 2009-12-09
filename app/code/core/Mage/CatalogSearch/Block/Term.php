@@ -62,7 +62,10 @@ class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
                 $term->setRatio(($term->getPopularity()-$this->_minPopularity)/$range);
                 $this->_terms[$term->getName()] = $term;
             }
-            ksort($this->_terms);
+
+            $termKeys = array_keys($this->_terms);
+            natcasesort($termKeys);
+            $this->_terms = array_merge(array_flip($termKeys), $this->_terms);
         }
         return $this;
     }
