@@ -36,6 +36,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
 {
     const EXCEPTION_CODE_NOT_SALABLE            = 901;
     const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS   = 902;
+    const EXCEPTION_CODE_IS_GROUPED_PRODUCT     = 903;
 
    /**
      * Prefix of model events names
@@ -186,6 +187,11 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     public function addToCart(Mage_Checkout_Model_Cart $cart, $delete = false)
     {
         $product = $this->getProduct();
+
+        if (Mage_Catalog_Model_Product_Type::TYPE_GROUPED == $product->getTypeId()) {
+            throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_IS_GROUPED_PRODUCT);
+        }
+
         $product->setQty(1);
         $storeId = $this->getStoreId();
 
@@ -239,9 +245,12 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     public function getProductUrl()
     {
         $product = $this->getProduct();
+        $query   = array();
+
         if ($product->getTypeInstance(true)->hasRequiredOptions($product)) {
             $query['options'] = 'cart';
         }
+
         return $product->getUrlModel()->getUrl($product, array('_query' => $query));
     }
 }
