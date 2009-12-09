@@ -48,12 +48,20 @@
                             <label>Enable Reward Points Functionality</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <backend_model>adminhtml/system_config_backend_cache</backend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </is_enabled>
+                        <publish_history translate="label">
+                            <label>Customers may see Reward Points History</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </publish_history>
                         <min_points_balance translate="label comment">
                             <label>Min Reward Points Balance to be able to Redeem</label>
                             <frontend_type>text</frontend_type>
@@ -72,6 +80,26 @@
                             <show_in_store>0</show_in_store>
                             <comment>Empty Value disables this Limitation</comment>
                         </max_points_balance>
+                        <expiration_days translate="label comment">
+                            <label>Reward Points Expire in (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Empty Value disables this Limitation</comment>
+                        </expiration_days>
+                        <expiry_calculation translate="label comment">
+                            <label>Reward Points Expiry Calculation</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>enterprise_reward/source_points_expiryCalculation</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </expiry_calculation>
+                        <landing_page translate="label comment">
+                        </landing_page>
                     </fields>
                 </general>
                 <points translate="label" module="enterprise_reward">
@@ -82,25 +110,121 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
                     <fields>
+                        <register translate="label comment">
+                            <label>Registration</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </register>
+                        <newsletter translate="label comment">
+                            <label>Newsletter Signup</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Only if Customer and only First Subscription</comment>
+                        </newsletter>
+                        <invitation_customer translate="label comment">
+                            <label>Converting Invitation to Customer</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </invitation_customer>
+                        <invitation_order translate="label comment">
+                            <label>Converting Invitation to Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Each or First Order - depending on Configuration</comment>
+                        </invitation_order>
+                        <invitation_order_frequency translate="label comment">
+                            <label>Invitation Conversion to Order Reward</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>enterprise_reward/source_points_invitationOrder</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </invitation_order_frequency>
+                        <review translate="label comment">
+                            <label>Review Submission</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>After Approval by Administrator</comment>
+                        </review>
+                        <tag translate="label comment">
+                            <label>New Tag Submission</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>After Approval by Administrator</comment>
+                        </tag>
                     </fields>
                 </points>
                 <notification translate="label" module="enterprise_reward">
                     <label>Email Notification Settings</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>20</sort_order>
+                    <sort_order>30</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <email_sender>
+                        <email_sender translate="label">
+                            <label>Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </email_sender>
-                        <subscribe_by_default>
+                        <subscribe_by_default translate="label">
+                            <label>Subscribe Customers by default</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
                         </subscribe_by_default>
-                        <balance_update_email>
-                        </balance_update_email>
-                        <expiry_warning_email>
-                        </expiry_warning_email>
-                        <expiry_day_before>
+                        <balance_update_template translate="label">
+                            <label>Balance Update Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </balance_update_template>
+                        <expiry_warning_template translate="label">
+                            <label>Reward Points Expiry Warning Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </expiry_warning_template>
+                        <expiry_day_before translate="label comment">
+                            <label>Expiry Warning before (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Empty Value or Less than Expiry Lifetime disables Warning Notification</comment>
                         </expiry_day_before>
                     </fields>
                 </notification>

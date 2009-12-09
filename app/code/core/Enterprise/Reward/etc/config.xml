@@ -70,6 +70,20 @@
                 <class>Enterprise_Reward_Helper</class>
             </enterprise_reward>
         </helpers>
+        <template>
+            <email>
+                <enterprise_reward_notification_balance_update_template translate="label" module="enterprise_reward">
+                    <label>Reward Points Balance Update</label>
+                    <file>enterprise/reward_balance_update.html</file>
+                    <type>html</type>
+                </enterprise_reward_notification_balance_update_template>
+                <enterprise_reward_notification_expiry_warning_template translate="label" module="enterprise_reward">
+                    <label>Reward Points Expiry Warning</label>
+                    <file>enterprise/reward_expiry_warning.html</file>
+                    <type>html</type>
+                </enterprise_reward_notification_expiry_warning_template>
+            </email>
+        </template>
     </global>
     <admin>
         <routers>
@@ -148,8 +162,19 @@
     <default>
         <enterprise_reward>
             <general>
-                <is_enabled>0</is_enabled>
+                <is_enabled>1</is_enabled>
+                <publish_history>1</publish_history>
+                <expiry_calculation>static</expiry_calculation>
             </general>
+            <points>
+                <invitation_order_frequency>*</invitation_order_frequency>
+            </points>
+            <notification>
+                <email_sender>general</email_sender>
+                <subscribe_by_default>1</subscribe_by_default>
+                <balance_update_template>enterprise_reward_notification_balance_update_template</balance_update_template>
+                <expiry_warning_template>enterprise_reward_notification_expiry_warning_template</expiry_warning_template>
+            </notification>
         </enterprise_reward>
     </default>
 </config>
