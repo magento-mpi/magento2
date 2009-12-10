@@ -57,7 +57,7 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Clean cached js/css data
+     * Clean cached javascript/css data
      *
      * @return  bool
      */
@@ -65,13 +65,13 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
     {
         $mediaDir = Mage::getBaseDir('media');
 
-        try {
-            $directory['js'] = $mediaDir.DS.'js';
-            $directory['css'] = $mediaDir.DS.'css';
+        $directory['js'] = $mediaDir.DS.'js';
+        $directory['css'] = $mediaDir.DS.'css';
 
-            $io = new Varien_Io_File();
+        $io = new Varien_Io_File();
 
-            foreach ($directory as $dir) {
+        foreach ($directory as $dir) {
+            if($io->fileExists($dir, false)){
                 $io->cd($dir);
 
                 foreach ($io->ls('files_only') as $cachedFile) {
@@ -79,12 +79,9 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
                 }
             }
         }
-        catch (Exception $e) {
-            Mage::printException($e);
-        }
-
         return true;
     }
+
     /**
      * Returns the time the files were last modified
      *

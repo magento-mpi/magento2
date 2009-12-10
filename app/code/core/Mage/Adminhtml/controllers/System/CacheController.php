@@ -88,6 +88,7 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
             }
         }
 
+        //?
         $beta = $this->getRequest()->getPost('beta');
         $betaCache = array_keys(Mage::helper('core')->getCacheBetaTypes());
 
@@ -104,8 +105,23 @@ class Mage_Adminhtml_System_CacheController extends Mage_Adminhtml_Controller_Ac
         }
         Mage::app()->saveUseCache($enable);
 
+       /**
+        * Clean javascript/css cache
+        */
         if ($this->getRequest()->getPost('jscss_action')) {
-            Mage::getModel('core/design')->cleanCache();
+            try {
+                Mage::getModel('core/design')->cleanCache();
+                $this->_getSession()->addSuccess(
+                    Mage::helper('adminhtml')->__('JavaScript/CSS cache was cleared successfully')
+                );
+            }
+            catch (Exception $e) {
+                $this->_getSession()->addError(Mage::helper('adminhtml')->__('Unknown error'));
+                Mage::logException($e);
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
         }
 
         /**
