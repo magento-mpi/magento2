@@ -286,4 +286,23 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     {
         return parent::getActions();
     }
+
+    /**
+     * Validates data for rule
+     * @param Varien_Object $object
+     * @returns boolean|array - returns true if validation passed successfully. Array with error
+     * description otherwise
+     */
+    public function validate(Varien_Object $object)
+    {
+        if($object->getData('from_date') && $object->getData('to_date')){
+            $dateStartUnixTime = strtotime($object->getData('from_date'));
+            $dateEndUnixTime   = strtotime($object->getData('to_date'));
+
+            if ($dateEndUnixTime < $dateStartUnixTime) {
+                return array(Mage::helper('enterprise_targetrule')->__("End Date should be greater than Start Date"));
+            }
+        }
+        return true;
+    }
 }

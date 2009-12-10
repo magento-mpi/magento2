@@ -128,11 +128,13 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
         $redirectParams = array();
 
         $data = $this->getRequest()->getPost();
+
         if ($this->getRequest()->isPost() && $data) {
             /* @var $model Enterprise_TargetRule_Model_Rule */
             $model          = Mage::getModel('enterprise_targetrule/rule');
             $redirectBack   = $this->getRequest()->getParam('back', false);
             $hasError       = false;
+
             try {
                 $ruleId = $this->getRequest()->getParam('rule_id');
                 if ($ruleId) {
@@ -140,6 +142,18 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                     if ($ruleId != $model->getId()) {
                         Mage::throwException(Mage::helper('enterprise_targetrule')->__('Wrong rule specified.'));
                     }
+                }
+
+                $validateResult = $model->validate(new Varien_Object($data));
+                if ($validateResult !== true) {
+                    foreach ($validateResult as $errorMessage) {
+                        $this->_getSession()->addError($errorMessage);
+                    }
+                    unset($data['from_date'],$data['to_date']);
+                    $this->_getSession()->setFormData($data);
+
+                    $this->_redirect('*/*/edit', array('id'=>$model->getId()));
+                    return;
                 }
 
                 $data['conditions'] = $data['rule']['conditions'];
