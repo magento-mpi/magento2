@@ -1202,7 +1202,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         if ($this->_cacheAdapter instanceof Zend_Cache_Backend_Interface) {
             $cacheId = self::DDL_CACHE_PREFIX . $ddlType . '_' . $tableCacheKey;
             $data = serialize($data);
-            Mage::app()->saveCache();
             $this->_cacheAdapter->save($data, $cacheId, array(self::DDL_CACHE_TAG));
         }
 
