@@ -35,6 +35,20 @@
 class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Check if module functionality enabled
+     *
+     * @return Enterprise_Reward_Adminhtml_Reward_RateController
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        if (!Mage::helper('enterprise_reward')->isEnabled() && $this->getRequest()->getActionName() != 'noroute') {
+            $this->_forward('noroute');
+        }
+        return $this;
+    }
+
+    /**
      * History Ajax Action
      */
     public function historyAction()
@@ -44,5 +58,15 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
             ->createBlock('enterprise_reward/adminhtml_customer_edit_tab_reward_history', '',
                 array('customer_id' => $customerId));
         $this->getResponse()->setBody($history->toHtml());
+    }
+
+    /**
+     * Acl check for admin
+     *
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('enterprise_reward/balance');
     }
 }

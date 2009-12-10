@@ -35,6 +35,20 @@
 class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Check if module functionality enabled
+     *
+     * @return Enterprise_Reward_Adminhtml_Reward_RateController
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        if (!Mage::helper('enterprise_reward')->isEnabled() && $this->getRequest()->getActionName() != 'noroute') {
+            $this->_forward('noroute');
+        }
+        return $this;
+    }
+
+    /**
      * Initialize layout, breadcrumbs
      *
      * @return Enterprise_Reward_Adminhtml_Reward_RateController
@@ -136,5 +150,15 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
             $this->_redirect('*/*/');
             return;
         }
+    }
+
+    /**
+     * Acl check for admin
+     *
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('enterprise_reward/rates');
     }
 }
