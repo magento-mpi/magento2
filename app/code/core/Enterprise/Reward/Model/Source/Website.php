@@ -24,28 +24,28 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
- * Reward Customer Groups source model
+ * Source model for websites, including "All" option
  *
  * @category    Enterprise
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Source_Customer_Groups
+class Enterprise_Reward_Model_Source_Website
 {
     /**
-     * Retrieve option array of customer groups
+     * Prepare and return array of website ids and their names
      *
+     * @param bool $withAll Whether to prepend "All websites" option on not
      * @return array
      */
-    public function toOptionArray()
+    public function toOptionArray($withAll = true)
     {
-        $groups = Mage::getResourceModel('customer/group_collection')
-            ->load()
-            ->toOptionHash();
-        $groups = array('all' => Mage::helper('enterprise_reward')->__('All Customer Groups'))
-                + $groups;
-        return $groups;
+        $websites = Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash();
+        if ($withAll) {
+            $websites = array(0 => Mage::helper('enterprise_reward')->__('All Websites'))
+                      + $websites;
+        }
+        return $websites;
     }
 }

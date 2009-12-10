@@ -61,14 +61,11 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
             'legend' => Mage::helper('enterprise_reward')->__('Reward Exchange Rate Information')
         ));
 
-        $websites = Mage::getSingleton('adminhtml/system_store')
-            ->getWebsiteOptionHash();
-        $websites = array_merge(array(Mage::helper('enterprise_reward')->__('All Websites')), $websites);
         $fieldset->addField('website_id', 'select', array(
             'name'   => 'website_id',
             'title'  => Mage::helper('enterprise_reward')->__('Website'),
             'label'  => Mage::helper('enterprise_reward')->__('Website'),
-            'values' => $websites
+            'values' => Mage::getModel('enterprise_reward/source_website')->toOptionArray()
         ));
 
         $fieldset->addField('customer_group_id', 'select', array(
@@ -88,8 +85,10 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
         $rateRenderer = $this->getLayout()
             ->createBlock('enterprise_reward/adminhtml_reward_rate_edit_form_renderer_rate')
             ->setRate($this->getRate());
-        $fromIndex = $this->getRate()->getDirection()==Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY?'points':'currency_amount';
-        $toIndex = $this->getRate()->getDirection()==Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY?'currency_amount':'points';
+        $fromIndex = $this->getRate()->getDirection() == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
+                   ? 'points' : 'currency_amount';
+        $toIndex = $this->getRate()->getDirection() == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
+                 ? 'currency_amount' : 'points';
         $fieldset->addField('rate_to_currency', 'note', array(
             'title'             => Mage::helper('enterprise_reward')->__('Rate'),
             'label'             => Mage::helper('enterprise_reward')->__('Rate'),

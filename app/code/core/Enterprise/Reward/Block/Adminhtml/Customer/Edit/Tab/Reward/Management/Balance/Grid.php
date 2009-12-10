@@ -109,7 +109,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
             'index'    => 'website_id',
             'sortable' => false,
             'type'     => 'options',
-            'options'  => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash()
+            'options'  => Mage::getModel('enterprise_reward/source_website')->toOptionArray(false)
         ));
 
         $this->addColumn('points_balance', array(

@@ -71,13 +71,11 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_
             'index'     => 'rate_id',
         ));
 
-        $websites = Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash();
-        $websites = array_merge(array(Mage::helper('enterprise_reward')->__('All Websites')), $websites);
         $this->addColumn('website_id', array(
             'header'  => Mage::helper('enterprise_reward')->__('Website'),
             'index'   => 'website_id',
             'type'    => 'options',
-            'options' => $websites
+            'options' => Mage::getModel('enterprise_reward/source_website')->toOptionArray()
         ));
 
         $this->addColumn('customer_group_id', array(
