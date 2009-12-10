@@ -231,7 +231,7 @@ class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Ab
         }
 
         foreach ($actionBind as $bindData) {
-            if (empty($bindData['bind']) || empty($bindData['field'])) {
+            if (! is_array($bindData) || ! array_key_exists('bind', $bindData) || ! array_key_exists('field', $bindData)) {
                 continue;
             }
             $k = $bindData['bind'];
