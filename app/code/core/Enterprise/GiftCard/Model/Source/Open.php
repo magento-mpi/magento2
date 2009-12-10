@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCard_Model_Source_Open extends Mage_Core_Model_Abstract
+class Enterprise_GiftCard_Model_Source_Open extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
     public function getAllOptions()
     {
