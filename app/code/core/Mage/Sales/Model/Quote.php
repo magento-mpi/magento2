@@ -220,7 +220,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         if ($customer instanceof Mage_Customer_Model_Customer) {
             $customerId = $customer->getId();
-            $this->setStoreId($customer->getStoreId());
+            if (!$this->hasData('store_id')) {
+                $this->setStoreId($customer->getStoreId());
+            }
         }
         else {
             $customerId = (int) $customer;
