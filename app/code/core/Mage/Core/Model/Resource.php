@@ -92,6 +92,9 @@ class Mage_Core_Model_Resource
 
         $typeInstance = $this->getConnectionTypeInstance((string)$connConfig->type);
         $conn = $typeInstance->getConnection($connConfig);
+        if (method_exists($conn, 'setCacheBackend')) {
+            $conn->setCacheBackend(Mage::app()->getCache()->getBackend());
+        }
 
         $this->_connections[$name] = $conn;
         if ($origName!==$name) {

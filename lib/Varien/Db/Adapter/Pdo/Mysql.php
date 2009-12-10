@@ -130,7 +130,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     /**
      * Cache backend adapter instance
      *
-     * @var Zend_Cache_Backend_ExtendedInterface
+     * @var Zend_Cache_Backend_Interface
      */
     protected $_cacheAdapter;
 
@@ -1175,8 +1175,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             return $this->_ddlCache[$ddlType][$tableCacheKey];
         }
 
-        if ($this->_cacheAdapter instanceof Zend_Cache_Backend_ExtendedInterface) {
-            $cacheId = self::DDL_CACHE_PREFIX . $ddlType . $tableCacheKey;
+        if ($this->_cacheAdapter instanceof Zend_Cache_Backend_Interface) {
+            $cacheId = self::DDL_CACHE_PREFIX . $ddlType . '_' . $tableCacheKey;
             $data = $this->_cacheAdapter->load($cacheId);
             if ($data !== false) {
                 $data = unserialize($data);
@@ -1199,9 +1199,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     {
         $this->_ddlCache[$ddlType][$tableCacheKey] = $data;
 
-        if ($this->_cacheAdapter instanceof Zend_Cache_Backend_ExtendedInterface) {
-            $cacheId = self::DDL_CACHE_PREFIX . $ddlType . $tableCacheKey;
+        if ($this->_cacheAdapter instanceof Zend_Cache_Backend_Interface) {
+            $cacheId = self::DDL_CACHE_PREFIX . $ddlType . '_' . $tableCacheKey;
             $data = serialize($data);
+            Mage::app()->saveCache();
             $this->_cacheAdapter->save($data, $cacheId, array(self::DDL_CACHE_TAG));
         }
 
@@ -1220,7 +1221,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     {
         if (is_null($tableName)) {
             $this->_ddlCache = array();
-            if ($this->_cacheAdapter instanceof Zend_Cache_Backend_ExtendedInterface) {
+            if ($this->_cacheAdapter instanceof Zend_Cache_Backend_Interface) {
                 $this->_cacheAdapter->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(self::DDL_CACHE_TAG));
             }
         } else {
@@ -1231,7 +1232,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
                 unset($this->_ddlCache[$ddlType][$cacheKey]);
             }
 
-            if ($this->_cacheAdapter instanceof Zend_Cache_Backend_ExtendedInterface) {
+            if ($this->_cacheAdapter instanceof Zend_Cache_Backend_Interface) {
                 foreach ($ddlTypes as $ddlType) {
                     $cacheId = self::DDL_CACHE_PREFIX . $ddlType . $cacheKey;
                     $this->_cacheAdapter->remove($cacheId);
@@ -1490,5 +1491,17 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         $stmt = $this->query($sql, $bind);
         $result = $stmt->rowCount();
         return $result;
+    }
+
+    /**
+     * Set cache backend adapter
+     *
+     * @param Zend_Cache_Backend_Interface $adapter
+     * @return Varien_Db_Adapter_Pdo_Mysql
+     */
+    public function setCacheBackend($adapter)
+    {
+        $this->_cacheAdapter = $adapter;
+        return $this;
     }
 }
