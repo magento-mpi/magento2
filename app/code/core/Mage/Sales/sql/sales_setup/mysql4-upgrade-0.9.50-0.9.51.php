@@ -24,37 +24,10 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+$installer = $this;
+/* @var $installer Mage_Sales_Model_Mysql4_Setup */
 
-/**
- * Quote payments collection
- *
- * @category    Mage
- * @package     Mage_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
-class Mage_Sales_Model_Mysql4_Quote_Payment_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
-{
-    protected function _construct()
-    {
-        $this->_init('sales/quote_payment');
-    }
-
-    public function setQuoteFilter($quoteId)
-    {
-        $this->addFieldToFilter('quote_id', $quoteId);
-        return $this;
-    }
-
-    /**
-     * Unserialize additional_information in each item
-     * @return Mage_Core_Model_Mysql4_Collection_Abstract
-     */
-    protected function _afterLoad()
-    {
-        foreach ($this->_items as $item) {
-            $this->getResource()->unserializeFields($item);
-        }
-        return parent::_afterLoad();
-    }
-}
+$installer->startSetup();
+$installer->addAttribute('order_payment', 'additional_information', array('type' => 'text'));
+$installer->addAttribute('quote_payment', 'additional_information', array('type' => 'text'));
+$installer->endSetup();
