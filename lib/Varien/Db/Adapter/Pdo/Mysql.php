@@ -40,7 +40,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     const DDL_CREATE            = 2;
     const DDL_INDEX             = 3;
     const DDL_FOREIGN_KEY       = 4;
-    const DDL_CACHE_PREFIX      = 'DB_PDO_MYSQL_DDL_';
+    const DDL_CACHE_PREFIX      = 'DB_PDO_MYSQL_DDL';
     const DDL_CACHE_TAG         = 'DB_PDO_MYSQL_DDL';
 
     /**
@@ -1162,6 +1162,18 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     }
 
     /**
+     * Retrieve Id for cache
+     *
+     * @param string $tableKey
+     * @param int $ddlType
+     * @return string
+     */
+    protected function _getCacheId($tableKey, $ddlType)
+    {
+        return sprintf('%s_%s_%s', self::DDL_CACHE_PREFIX, $tableKey, $ddlType);
+    }
+
+    /**
      * Load DDL data from cache
      * Return false if cache does not exists
      *
@@ -1176,7 +1188,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         }
 
         if ($this->_cacheAdapter instanceof Zend_Cache_Backend_Interface) {
-            $cacheId = self::DDL_CACHE_PREFIX . $ddlType . '_' . $tableCacheKey;
+            $cacheId = $this->_getCacheId($tableCacheKey, $ddlType);
             $data = $this->_cacheAdapter->load($cacheId);
             if ($data !== false) {
                 $data = unserialize($data);
@@ -1200,7 +1212,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         $this->_ddlCache[$ddlType][$tableCacheKey] = $data;
 
         if ($this->_cacheAdapter instanceof Zend_Cache_Backend_Interface) {
-            $cacheId = self::DDL_CACHE_PREFIX . $ddlType . '_' . $tableCacheKey;
+            $cacheId = $this->_getCacheId($tableCacheKey, $ddlType);
             $data = serialize($data);
             $this->_cacheAdapter->save($data, $cacheId, array(self::DDL_CACHE_TAG));
         }
@@ -1233,7 +1245,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
             if ($this->_cacheAdapter instanceof Zend_Cache_Backend_Interface) {
                 foreach ($ddlTypes as $ddlType) {
-                    $cacheId = self::DDL_CACHE_PREFIX . $ddlType . $cacheKey;
+                    $cacheId = $this->_getCacheId($cacheKey, $ddlType);
                     $this->_cacheAdapter->remove($cacheId);
                 }
             }
