@@ -47,6 +47,8 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     const REWARD_ACTION_TAG                 = 7;
     const REWARD_ACTION_ORDER_EXTRA         = 8;
 
+    protected $_rates = array();
+
     /**
      * Internal constructor
      */
@@ -64,8 +66,9 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->loadByCustomer($this->getCustomerId());
-        $this->_preparePointsBalance();
+        $this->loadByCustomer()
+            ->_preparePointsDelta()
+            ->_preparePointsBalance();
         return parent::_beforeSave();
     }
 
@@ -79,7 +82,8 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     {
         $this->_prepareCurrencyAmount();
         Mage::getModel('enterprise_reward/reward_history')
-            ->prepareFromObject($this)
+            ->setReward($this)
+            ->prepareFromReward()
             ->save();
         return parent::_afterSave();
     }
@@ -94,6 +98,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     public function setCustomer($customer)
     {
         $this->setData('customer_id', $customer->getId());
+        $this->setData('customer_group_id', $customer->getGroupId());
         $this->setData('customer', $customer);
         return $this;
     }
@@ -105,7 +110,24 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function getCustomer()
     {
+        if (!$this->getData('customer') && $this->getCustomerId()) {
+            $customer = Mage::getModel('customer/customer')->load($this->getCustomerId());
+            $this->setCustomer($customer);
+        }
         return $this->getData('customer');
+    }
+
+    /**
+     * Getter
+     *
+     * @return integer
+     */
+    public function getCustomerGroupId()
+    {
+        if (!$this->getData('customer_group_id') && $this->getCustomer()) {
+            $this->setData('customer_group_id', $this->getCustomer()->getGroupId());
+        }
+        return $this->getData('customer_group_id');
     }
 
     /**
@@ -144,6 +166,19 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Getter
+     *
+     * @return integer
+     */
+    public function getPointsDelta()
+    {
+        if ($this->getData('points_delta') === null) {
+            $this->_preparePointsDelta();
+        }
+        return $this->getData('points_delta');
+    }
+
+    /**
      * Getter.
      * Recalculate currency amount if need.
      *
@@ -151,7 +186,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function getCurrencyAmount()
     {
-        if ($this->getData('currency_amount') === null && $this->getId()) {
+        if ($this->getData('currency_amount') === null) {
             $this->_prepareCurrencyAmount();
         }
         return $this->getData('currency_amount');
@@ -185,18 +220,80 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Initialize and fetch reward rate for customer group and website
+     * Getter
+     *
+     * @return Enterprise_Reward_Model_Reward_Config
+     */
+    public function getConfig()
+    {
+        if (!$this->getData('config')) {
+            $config = Mage::getModel('enterprise_reward/reward_config');
+            $this->setData('config', $config);
+        }
+        return $this->getData('config');
+    }
+
+    /**
+     * Initialize and fetch if need rate by given direction
+     *
+     * @param integer $direction
+     * @return Enterprise_Reward_Model_Reward_Rate
+     */
+    protected function _getRateByDirection($direction)
+    {
+        if (!isset($this->_rates[$direction])) {
+            $this->_rates[$direction] = Mage::getModel('enterprise_reward/reward_rate')
+                ->fetch($this->getCustomerGroupId(), $this->getWebsiteId(), $direction);
+        }
+        return $this->_rates[$direction];
+    }
+
+    /**
+     * Return rate depend on action
      *
      * @return Enterprise_Reward_Model_Reward_Rate
      */
     public function getRate()
     {
-        if (!$this->getData('rate') && $this->getCustomer()) {
-            $rate = Mage::getModel('enterprise_reward/reward_rate')
-                ->fetch($this->getCustomer()->getGroupId(), $this->getWebsiteId());
-            $this->setData('rate', $rate);
+        return $this->_getRateByDirection($this->getRateDirectionByAction());
+    }
+
+    /**
+     * Return rate to convert points to currency amount
+     *
+     * @return Enterprise_Reward_Model_Reward_Rate
+     */
+    public function getRateToCurrency()
+    {
+        return $this->_getRateByDirection(Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY);
+    }
+
+    /**
+     * Return rate to convert currency amount to points
+     *
+     * @return Enterprise_Reward_Model_Reward_Rate
+     */
+    public function getRateToPoints()
+    {
+        return $this->_getRateByDirection(Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS);
+    }
+
+    /**
+     * Return rate direction by action
+     *
+     * @return integer
+     */
+    public function getRateDirectionByAction()
+    {
+        switch($this->getAction()) {
+            case self::REWARD_ACTION_ORDER:
+                $direction = Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS;
+                break;
+            default:
+                $direction = Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY;
+                break;
         }
-        return $this->getData('rate');
+        return $direction;
     }
 
     /**
@@ -209,6 +306,24 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         if ($this->getCustomerId() && $this->getWebsiteId()) {
             $this->getResource()->loadByCustomerId($this,
                 $this->getCustomerId(), $this->getWebsiteId());
+        }
+        return $this;
+    }
+
+    /**
+     * Prepare points delta, get points delta from config by action
+     *
+     * @return Enterprise_Reward_Model_Reward
+     */
+    protected function _preparePointsDelta()
+    {
+        $delta = 0;
+        $delta = $this->getConfig()->getPointsDeltaByAction($this->getAction(), $this->getWebsiteId());
+        if ($delta) {
+            if ($this->hasPointsDelta()) {
+                $delta = $delta + $this->getPointsDelta();
+            }
+            $this->setPointsDelta((int)$delta);
         }
         return $this;
     }
@@ -259,8 +374,8 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     protected function _convertPointsToCurrency($points)
     {
         $ammount = 0;
-        if ($points && $this->getRate()) {
-            $ammount = $this->getRate()->calculateToCurrency($points);
+        if ($points && $this->getRateToCurrency()) {
+            $ammount = $this->getRateToCurrency()->calculateToCurrency($points);
         }
         return (float)$ammount;
     }

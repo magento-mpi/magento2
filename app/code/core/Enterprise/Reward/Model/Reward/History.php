@@ -34,6 +34,7 @@
  */
 class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
 {
+    protected $_reward = null;
     /**
      * Internal constructor
      */
@@ -60,22 +61,43 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Create history data from given object
+     * Setter
      *
-     * @param Varien_Object $reward
+     * @param Enterprise_Reward_Model_Reward $reward
      * @return Enterprise_Reward_Model_Reward_History
      */
-    public function prepareFromObject(Varien_Object $object)
+    public function setReward($reward)
     {
-        $this->setRewardId($object->getRewardId())
-            ->setWebsiteId($object->getWebsiteId())
-            ->setPointsBalance($object->getPointsBalance())
-            ->setPointsDelta($object->getPointsDelta())
-            ->setCurrencyAmount($object->getCurrencyAmount())
-            ->setCurrencyDelta($object->getCurrencyDelta())
-            ->setRateDescription($object->getRate()->getExchangeRateAsText())
-            ->setAction($object->getAction())
-            ->setComment($object->getComment());
+        $this->_reward = $reward;
+        return $this;
+    }
+
+    /**
+     * Getter
+     *
+     * @return Enterprise_Reward_Model_Reward
+     */
+    public function getReward()
+    {
+        return $this->_reward;
+    }
+
+    /**
+     * Create history data from reward object
+     *
+     * @return Enterprise_Reward_Model_Reward_History
+     */
+    public function prepareFromReward()
+    {
+        $this->setRewardId($this->getReward()->getId())
+            ->setWebsiteId($this->getReward()->getWebsiteId())
+            ->setPointsBalance($this->getReward()->getPointsBalance())
+            ->setPointsDelta($this->getReward()->getPointsDelta())
+            ->setCurrencyAmount($this->getReward()->getCurrencyAmount())
+            ->setCurrencyDelta($this->getReward()->getCurrencyDelta())
+            ->setRateDescription($this->getReward()->getRateToCurrency()->getExchangeRateAsText())
+            ->setAction($this->getReward()->getAction())
+            ->setComment($this->getReward()->getComment());
         return $this;
     }
 
@@ -115,10 +137,6 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
     {
         $addData = array();
         switch ($action) {
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN:
-                $addData['admin_user'] = Mage::getSingleton('admin/session')
-                                ->getUser()->getName();
-                break;
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER:
                 $addData['order_increment_id'] = $this->getOrderIncementId();
                 break;
@@ -127,7 +145,7 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
                 $addData['invitation_number'] = $this->getInvitationNumber();
                 break;
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_TAG:
-                $addData['tag'] = $this->getTag();
+                $addData['tag'] = $this->getReward()->getTag()->getName();
                 break;
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA:
                 $addData['order_increment_id'] = $this->getOrderIncementId();
@@ -161,8 +179,7 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
         $message = '';
         switch ($action) {
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN:
-                $messageVar = $this->getMessageVar('admin_user');
-                $message = Mage::helper('enterprise_reward')->__('Updated points balance by Admin : %s', $messageVar);
+                $message = Mage::helper('enterprise_reward')->__('Updated by Moderator');
                 break;
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER:
                 $messageVar = $this->getMessageVar('order_increment_id');

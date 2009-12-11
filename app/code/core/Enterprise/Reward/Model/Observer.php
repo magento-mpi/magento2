@@ -39,6 +39,7 @@ class Enterprise_Reward_Model_Observer
      * Prepare reward points data to update
      *
      * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
      */
     public function prepareRewardPointsToSave($observer)
     {
@@ -47,31 +48,86 @@ class Enterprise_Reward_Model_Observer
         }
         $request = $observer->getRequest();
         if ($data = $request->getPost('reward')) {
-            $customer = $observer->getCustomer();
+            $customer = $observer->getEvent()->getCustomer();
             $customer->setRewardPointsData($data)
                 ->setRewardUpdateNotification((isset($data['reward_update_notification'])?true:false))
                 ->setRewardWarningNotification((isset($data['reward_warning_notification'])?true:false));
         }
+        return $this;
     }
 
     /**
      * Update reward points
      *
      * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
      */
     public function saveRewardPoints($observer)
     {
         if (!Mage::helper('enterprise_reward')->isEnabled()) {
             return;
         }
-        if ($data = $observer->getCustomer()->getRewardPointsData()) {
+        if ($data = $observer->getEvent()->getCustomer()->getRewardPointsData()) {
             if (!empty($data['points_delta'])) {
                 $reward = Mage::getModel('enterprise_reward/reward')
                     ->setData($data)
                     ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
-                    ->setCustomer($observer->getCustomer());
+                    ->setCustomer($observer->getEvent()->getCustomer());
                 $reward->save();
             }
         }
+        return $this;
+    }
+
+    /**
+     * Update points balance after review submit
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function reviewSubmit($observer)
+    {
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+        /* @var $review Mage_Review_Model_Review */
+        $review = $observer->getEvent()->getObject();
+        if ($review->isApproved() && $review->getCustomerId()) {
+            $reward = Mage::getModel('enterprise_reward/reward')
+                ->setCustomerId($review->getCustomerId())
+                ->setStore($review->getStoreId())
+                ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_REVIEW)
+                ->save();
+        }
+        return $this;
+    }
+
+    /**
+     * Update points balance after tag submit
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function tagSubmit($observer)
+    {
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+        /* @var $tag Mage_Tag_Model_Tag */
+        $tag = $observer->getEvent()->getObject();
+        /**
+         * to remove
+         */
+        $tag->setCustomerId(1);
+        if (($tag->getApprovedStatus() == $tag->getStatus()) && $tag->getCustomerId()) {
+            $reward = Mage::getModel('enterprise_reward/reward')
+                ->setCustomerId($tag->getCustomerId())
+                ->setStore($tag->getStoreId())
+                ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_TAG)
+                ->setTag($tag)
+                ->save();
+        }
+        return $this;
     }
 }
+

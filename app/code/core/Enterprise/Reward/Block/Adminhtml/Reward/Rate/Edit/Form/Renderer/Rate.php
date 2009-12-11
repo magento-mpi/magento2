@@ -77,6 +77,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form_Renderer_Rate
     {
         return $this->getRate()->getData($this->getValueIndex());
     }
+
     /**
      * Getter
      * Return equal value index in element object

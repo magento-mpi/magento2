@@ -26,46 +26,52 @@
 
 
 /**
- * Reward rate resource model
+ * Reward config model
  *
  * @category    Enterprise
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Mysql4_Reward_Rate extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_Reward_Model_Reward_Config extends Varien_Object
 {
+    protected $_xmlPathPointsConfig = 'enterprise_reward/points/';
+
     /**
-     * Internal constructor
+     * Retrieve points delta by given action and website from config
+     *
+     * @param integer $action
+     * @param integer $websiteId
+     * @return integer
      */
-    protected function _construct()
+    public function getPointsDeltaByAction($action, $websiteId)
     {
-        $this->_init('enterprise_reward/reward_rate', 'rate_id');
+        $points = 0;
+        $field = '';
+        switch ($action) {
+            case Enterprise_Reward_Model_Reward::REWARD_ACTION_REVIEW:
+                $field = 'review';
+                break;
+            case Enterprise_Reward_Model_Reward::REWARD_ACTION_TAG:
+                $field = 'tag';
+                break;
+        }
+        if ($field) {
+            $points = $this->getConfigValue($field, $websiteId);
+        }
+        return $points;
     }
 
     /**
-     * Fetch rate customer group and website
+     * Retrieve value of given field and website from config
      *
-     * @param Enterprise_Reward_Model_Reward_Rate $rate
-     * @param integer $customerId
+     * @param string $field
      * @param integer $websiteId
-     * @return Enterprise_Reward_Model_Mysql4_Reward_Rate
+     * @return integer
      */
-    public function fetch(Enterprise_Reward_Model_Reward_Rate $rate, $customerGroupId, $websiteId, $direction)
+    public function getConfigValue($field, $websiteId)
     {
-        if ($customerGroupId && $websiteId) {
-            $select = $this->_getReadAdapter()->select()
-                ->from($this->getMainTable())
-                ->where('website_id IN (?, 0)', (int)$websiteId)
-                ->where('customer_group_id = ? OR customer_group_id IS NULL', $customerGroupId)
-                ->where('direction = ?', $direction)
-                ->order('website_id DESC')
-                ->order('customer_group_id DESC')
-                ->limit(1);
-            if ($row = $this->_getReadAdapter()->fetchRow($select)) {
-                $rate->addData($row);
-            }
-        }
-        $this->_afterLoad($rate);
-        return $this;
+        $points = Mage::app()->getConfig()
+            ->getNode($this->_xmlPathPointsConfig . $field, 'website', (int)$websiteId);
+        return (int)$points;
     }
 }

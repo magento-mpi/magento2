@@ -130,6 +130,22 @@
                     </enterprise_reward>
                 </observers>
             </adminhtml_customer_save_after>
+            <review_save_commit_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>reviewSubmit</method>
+                    </enterprise_reward>
+                </observers>
+            </review_save_commit_after>
+            <tag_save_commit_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>tagSubmit</method>
+                    </enterprise_reward>
+                </observers>
+            </tag_save_commit_after>
         </events>
     </adminhtml>
     <frontend>
