@@ -24,9 +24,14 @@
  */
 MediabrowserUtility = {
     openDialog: function(url, width, height, title) {
+        if ($('browser_window') && typeof(Windows) != 'undefined') {
+            Windows.focus('browser_window');
+            return;
+        }
         Dialog.info(null, {
             closable:     true,
             resizable:    false,
+            draggable:    true,
             className:    'magento',
             title:        title || 'Insert File...',
             width:        width || 1000,

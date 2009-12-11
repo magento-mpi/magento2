@@ -39,6 +39,10 @@ var widgetTools = {
     },
 
     openDialog: function(widgetUrl) {
+        if ($('widget_window') && typeof(Windows) != 'undefined') {
+            Windows.focus('widget_window');
+            return;
+        }
         Dialog.info(null, {
             draggable:true,
             resizable:false,
