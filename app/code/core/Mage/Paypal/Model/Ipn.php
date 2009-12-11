@@ -200,7 +200,7 @@ class Mage_Paypal_Model_Ipn
         try {
             try {
                 $order = $this->_getOrder();
-                $this->_registerPaymentAdditionalInformation();
+                $this->_updatePaymentAdditionalInformation();
                 $shouldNotifyAdmin = false;
                 $paymentStatus = $this->getIpnFormData('payment_status');
                 switch ($paymentStatus) {
@@ -274,7 +274,7 @@ class Mage_Paypal_Model_Ipn
      * Add additional information from ipn request to payment
      *
      */
-    protected function _registerPaymentAdditionalInformation()
+    protected function _updatePaymentAdditionalInformation()
     {
         $payment = $this->_getOrder()->getPayment();
         $additionalInformation = Mage::getModel('paypal/info');

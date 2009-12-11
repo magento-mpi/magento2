@@ -50,7 +50,7 @@ class Mage_Paypal_Block_Info extends Mage_Payment_Block_Info
     {
         $p = $this->getInfo();
         if ($this->getAdditionalInformation('payer_email')) {
-            $email = $p->getAdditionalData();
+            $email = $this->getAdditionalInformation('payer_email');
         } elseif ($p instanceof Mage_Sales_Model_Quote_Payment) {
             $email = $p->getQuote()->getBillingAddress()->getEmail();
         } elseif ($p instanceof Mage_Sales_Model_Order_Payment) {
