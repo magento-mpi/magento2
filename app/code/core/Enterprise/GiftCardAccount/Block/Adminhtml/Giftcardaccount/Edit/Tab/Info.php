@@ -98,14 +98,15 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(true),
         ));
 
+        $fieldset->addType('price', 'Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Form_Price');
 
-        $fieldset->addField('balance', 'text', array(
+        $fieldset->addField('balance', 'price', array(
             'label'     => Mage::helper('enterprise_giftcardaccount')->__('Balance'),
             'title'     => Mage::helper('enterprise_giftcardaccount')->__('Balance'),
             'name'      => 'balance',
             'class'     => 'validate-number',
             'required'  => true,
-            'note'      => '<div id="balance_currency"></div>',
+            'note'      => '<div id="balance_currency"></div>'
         ));
 
         $fieldset->addField('date_expires', 'date', array(
@@ -117,6 +118,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
         ));
 
         $form->setValues($model->getData());
+
         $this->setForm($form);
         return $this;
     }
