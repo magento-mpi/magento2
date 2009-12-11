@@ -40,6 +40,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
     protected $_code  = 'paypal_standard';
     protected $_formBlockType = 'paypal/standard_form';
+    protected $_infoBlockType = 'paypal/info';
     protected $_allowCurrencyCode = array('AUD', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MXN', 'NOK', 'NZD', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'USD');
 
     /**

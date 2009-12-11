@@ -23,20 +23,40 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-$installer = $this;
-/* @var $installer Mage_Paypal_Model_Mysql4_Setup */
-$installer->startSetup();
 
-$installer->addAttribute('order_payment', 'cc_secure_verify', array());
+/**
+ * PayPal Instant Payment Notification processor model
+ */
+class Mage_Paypal_Model_Info
+{
+    /**
+     * Return keys for accumulate in payment`s additional_information
+     *
+     * @return array
+     */
+    public function getAccumulateKays()
+    {
+        return array(
+            'protection_eligibility',
+            'account_status',
+            'address_status',
+            'payer_email'
+        );
+    }
 
-// move paypal style settings to new paths
-foreach (array(
-        'paypal/wpp/page_style' => 'paypal/style/page_style',
-        'paypal/wps/logo_url' => 'paypal/style/logo_url',
-    ) as $from => $to) {
-    $installer->run("
-    UPDATE {$installer->getTable('core/config_data')} SET `path` = '{$to}'
-    WHERE `path` = '{$from}'
-    ");
+    /**
+     * Set additional informationdata from $data to $payment 
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param Mage_Paypal_Model_Info
+     */
+    public function accumulateData(Mage_Sales_Model_Order_Payment $payment, $data){
+        foreach ($this->getAccumulateKays() as $key) {
+            if (isset($data[$key])) {
+                $payment->setAdditionalInformation($key, $data[$key]); 
+            }
+        }
+        return $this;
+    }
+
 }
-$installer->endSetup();
