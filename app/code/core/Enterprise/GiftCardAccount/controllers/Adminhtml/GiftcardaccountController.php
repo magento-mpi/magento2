@@ -124,10 +124,17 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
                 // save the data
                 $model->save();
                 $sending = null;
+                $status = null;
+
                 if ($model->getSendAction()) {
                     try {
-                        $model->sendEmail();
-                        $sending = $model->getEmailSent();
+                        if($model->getStatus()){
+                            $model->sendEmail();
+                            $sending = $model->getEmailSent();
+                        }
+                        else {
+                            $status = true;
+                        }
                     } catch (Exception $e) {
                         $sending = false;
                     }
@@ -141,6 +148,10 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
                     }
                 } else {
                     Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account was successfully saved'));
+
+                    if ($status) {
+                        Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('enterprise_giftcardaccount')->__('Email was not sent because giftcard account is not active'));
+                    }
                 }
 
                 // clear previously saved data from session
