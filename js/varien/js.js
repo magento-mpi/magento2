@@ -324,6 +324,7 @@ Varien.searchForm.prototype = {
             url,
             {
                 paramName: this.field.name,
+                method: 'get',
                 minChars: 2,
                 updateElement: this._selectAutocompleteItem.bind(this),
                 onShow : function(element, update) {
