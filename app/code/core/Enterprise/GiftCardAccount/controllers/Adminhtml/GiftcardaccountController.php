@@ -124,7 +124,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
                 // save the data
                 $model->save();
                 $sending = null;
-                if ($model->getAction()) {
+                if ($model->getSendAction()) {
                     try {
                         $model->sendEmail();
                         $sending = $model->getEmailSent();

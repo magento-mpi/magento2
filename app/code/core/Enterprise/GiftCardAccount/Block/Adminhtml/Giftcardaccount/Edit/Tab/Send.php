@@ -72,7 +72,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
         ));
 
         $fieldset->addField('action', 'hidden', array(
-            'name'      => 'action',
+            'name'      => 'send_action',
         ));
 
         $form->setValues($model->getData());
