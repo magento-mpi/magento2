@@ -74,6 +74,11 @@ class Enterprise_Reward_Model_Observer
                     ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
                     ->setCustomer($observer->getEvent()->getCustomer());
                 $reward->save();
+
+                // send notifications
+                $reward->sendBalanceUpdateNotification()
+                    ->sendBalanceWarningNotification();
+
             }
         }
         return $this;

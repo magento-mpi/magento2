@@ -1,2 +1,10 @@
 <!--@subject Reward Points Balance Update @-->
-Reward Points Balance Update
+Hello, {{var customer.getName()|escape}}.
+
+You have {{var points_balance}} pts that can be used in our store <a href="{{store url=""}}">{{var store.getFrontendName()|escape}}</a>.
+
+If you have any questions about your account or any other matter, please feel free to contact us
+at <a href="mailto:{{config path='trans_email/ident_sales/email'}}">{{config path='trans_email/ident_sales/email'}}</a>
+or by phone at {{config path='general/store_information/phone'}}.
+
+You can <a href="{{var unsubscription_url}}">unsubscribe</a> from such notifications.

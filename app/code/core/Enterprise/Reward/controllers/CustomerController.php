@@ -52,6 +52,40 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
     public function infoAction()
     {
         $this->loadLayout();
+        $this->_initLayoutMessages('customer/session');
         $this->renderLayout();
+    }
+
+    /**
+     * Unsubscribe customer from update/warning balance notifications
+     */
+    public function unsubscribeAction()
+    {
+        $notification = $this->getRequest()->getParam('notification');
+        Mage::helper('enterprise_reward/customer')->unsibscribeCustomer($this->_getCustomer(), $notification);
+        $this->_getSession()->addSuccess(
+            $this->__('You have been successfully unsubscribed.')
+        );
+        $this->_redirect('*/*/info');
+    }
+
+    /**
+     * Retrieve customer session model object
+     *
+     * @return Mage_Customer_Model_Session
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('customer/session');
+    }
+
+    /**
+     * Retrieve customer session model object
+     *
+     * @return Mage_Customer_Model_Session
+     */
+    protected function _getCustomer()
+    {
+        return $this->_getSession()->getCustomer();
     }
 }
