@@ -190,10 +190,11 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     {
         $store  = Mage::app()->getStore($storeId);
         $select = $this->_getWriteAdapter()->select()
+            ->useStraightJoin(true)
             ->from(
                 array('e' => $this->getTable('catalog/product')),
                 array_merge(array('entity_id', 'type_id'), $staticFields))
-            ->joinStraight(
+            ->join(
                 array('website' => $this->getTable('catalog/product_website')),
                 $this->_getWriteAdapter()->quoteInto('website.product_id=e.entity_id AND website.website_id=?', $store->getWebsiteId()),
                 array()
