@@ -571,4 +571,95 @@ class Mage_Core_Model_Design_Package
         }
         return false;
     }
+
+    /**
+     * Merge specified javascript files and return URL to the merged file on success
+     *
+     * @param $files
+     * @return string
+     */
+    public function getMergedJsUrl($files)
+    {
+        $targetFilename = md5(implode(',', $files)) . '.js';
+        $targetDir = $this->_initMergerDir('js');
+        if (!$targetDir) {
+            return '';
+        }
+        if (Mage::helper('core')->mergeFiles($files, $targetDir . DS . $targetFilename, false, null, '.js')) {
+            return Mage::getBaseUrl('media') . 'js/' . $targetFilename;
+        }
+        return '';
+    }
+
+    /**
+     * Merge specified css files and return URL to the merged file on success
+     *
+     * @param $files
+     * @return string
+     */
+//    public function getMergedCssUrl($files)
+//    {
+//        // not implemented
+////    {
+////        $cssImport = '/@import\\s+([\'"])(.*?)[\'"]/';
+////        $out = preg_replace_callback($cssImport, array($this, 'processCss'), $out);
+////
+////        $cssUrl = '/url\\(\\s*([^\\)\\s]+)\\s*\\)/';
+////        $out = preg_replace_callback($cssUrl, array($this, 'processCss'), $out);
+////
+////        $import = ($match[0][0] == '@');
+////
+////        if ($import) {
+////            $quote = $match[1];
+////            $uri = $match[2];
+////        } else {
+////            $quote = ($match[1][0] == "'" || $match[1][0] == '"') ? $match[1][0] : '';
+////            $uri = ($quote == '') ? $match[1] : substr($match[1], 1, strlen($match[1]) - 2);
+////        }
+////
+////        if(substr($uri,0,3) == '../') {
+////            $uri = substr($uri,3);
+////        }
+////
+////        $uri = $this->getBasePath().$uri;
+////        return $import ? "@import {$quote}{$uri}{$quote}" : "url({$quote}{$uri}{$quote})";
+////    }
+//        return '';
+//    }
+
+    /**
+     * Remove all merged js/css files
+     *
+     * @return  bool
+     */
+    public function cleanMergedJsCss()
+    {
+        $result = (bool)$this->_initMergerDir('js', true);
+        return (bool)$this->_initMergerDir('css', true) && $result;
+    }
+
+    /**
+     * Make sure merger dir exists and writeable
+     * Also can clean it up
+     *
+     * @param string $dirRelativeName
+     * @param bool $cleanup
+     */
+    protected function _initMergerDir($dirRelativeName, $cleanup = false)
+    {
+        $mediaDir = Mage::getBaseDir('media');
+        try {
+            $dir = Mage::getBaseDir('media') . DS . $dirRelativeName;
+            if ($cleanup) {
+                Varien_Io_File::rmdirRecursive($dir);
+            }
+            if (!is_dir($dir)) {
+                mkdir($dir);
+            }
+            return is_writeable($dir) ? $dir : false;
+        } catch (Exception $e) {
+            Mage::logException($e);
+        }
+        return false;
+    }
 }
