@@ -228,4 +228,19 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
         }
         return null;
     }
+
+    /**
+     * Check if history update with given action, customer and entity exist
+     *
+     * @param integer $customerId
+     * @param integer $action
+     * @param integer $websiteId
+     * @param mixed $entity
+     * @return boolean
+     */
+    public function isExistHistoryUpdate($customerId, $action, $websiteId, $entity)
+    {
+        $result = $this->_getResource()->isExistHistoryUpdate($customerId, $action, $websiteId, $entity);
+        return $result;
+    }
 }

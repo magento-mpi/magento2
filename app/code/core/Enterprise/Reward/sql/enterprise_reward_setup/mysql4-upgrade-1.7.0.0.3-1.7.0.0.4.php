@@ -27,26 +27,5 @@
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 $installer->startSetup();
-
-$customerEntity = $installer->getEntityType('customer');
-$customerEntityTypeId = $customerEntity['entity_type_id'];
-$customerEntityTable = $this->getTable($customerEntity['entity_table']);
-$updateAttributeId = $installer->getAttributeId($customerEntityTypeId, 'reward_update_notification');
-$warningAttributeId = $installer->getAttributeId($customerEntityTypeId, 'reward_warning_notification');
-$attributeTable = $installer->getAttributeTable($customerEntityTypeId, 'reward_update_notification');
-
-$stmt = $installer->getConnection()->query("SELECT `entity_id` FROM `{$customerEntityTable}`");
-$data = array();
-while($row = $stmt->fetch()) {
-    $sample = array(
-        'entity_type_id' => $customerEntityTypeId,
-        'attribute_id' => $updateAttributeId,
-        'entity_id' => $row['entity_id'],
-        'value' => 1
-    );
-    $data[] = $sample;
-    $sample['attribute_id'] = $warningAttributeId;
-    $data[] = $sample;
-}
-$installer->getConnection()->insertOnDuplicate($attributeTable, $data, array('value'));
+$installer->getConnection()->addColumn($installer->getTable('enterprise_reward_history'), 'entity', 'INT(11) DEFAULT NULL AFTER `action`');
 $installer->endSetup();

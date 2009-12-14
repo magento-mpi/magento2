@@ -85,11 +85,50 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     protected function _afterSave()
     {
         $this->_prepareCurrencyAmount();
-        Mage::getModel('enterprise_reward/reward_history')
-            ->setReward($this)
+        $this->getHistory()->setReward($this)
             ->prepareFromReward()
             ->save();
         return parent::_afterSave();
+    }
+
+    /**
+     * Check if can update reward
+     *
+     * @return boolean
+     */
+    public function canUpdateRewardPoints()
+    {
+        $result = true;
+        switch ($this->getAction()) {
+            case self::REWARD_ACTION_REVIEW:
+                $this->getHistory()->setEntity($this->getReview()->getId());
+                $result = !($this->getHistory()->isExistHistoryUpdate($this->getCustomerId(), $this->getAction(),
+                    $this->getWebsiteId(), $this->getReview()->getId()));
+                break;
+            case self::REWARD_ACTION_TAG:
+                $this->getHistory()->setEntity($this->getTag()->getId());
+                $result = !($this->getHistory()->isExist($this->getCustomerId(), $this->getAction(),
+                    $this->getWebsiteId(), $this->getTag()->getId()));
+                break;
+            case self::REWARD_ACTION_REGISTER:
+                $this->getHistory()->setEntity($this->getCustomer()->getId());
+                $result = !((bool)$this->loadByCustomer()->getId());
+                break;
+        }
+        return $result;
+    }
+
+    /**
+     * Save reward points
+     *
+     * @return Enterprise_Reward_Model_Reward
+     */
+    public function updateRewardPoints()
+    {
+        if ($this->canUpdateRewardPoints()) {
+            $this->save();
+        }
+        return $this;
     }
 
     /**
@@ -235,6 +274,19 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
             $this->setData('config', $config);
         }
         return $this->getData('config');
+    }
+
+    /**
+     * Getter
+     *
+     * @return Enterprise_Reward_Model_Reward_History
+     */
+    public function getHistory()
+    {
+        if (!$this->getData('history')) {
+            $this->setData('history', Mage::getModel('enterprise_reward/reward_history'));
+        }
+        return $this->getData('history');
     }
 
     /**

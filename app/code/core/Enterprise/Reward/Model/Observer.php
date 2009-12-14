@@ -57,7 +57,7 @@ class Enterprise_Reward_Model_Observer
     }
 
     /**
-     * Update reward points
+     * Update reward points after customer register
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Reward_Model_Observer
@@ -72,14 +72,37 @@ class Enterprise_Reward_Model_Observer
                 $reward = Mage::getModel('enterprise_reward/reward')
                     ->setData($data)
                     ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
-                    ->setCustomer($observer->getEvent()->getCustomer());
-                $reward->save();
+                    ->setCustomer($observer->getEvent()->getCustomer())
+                    ->updateRewardPoints();
 
                 // send notifications
                 $reward->sendBalanceUpdateNotification()
                     ->sendBalanceWarningNotification();
 
             }
+        }
+        return $this;
+    }
+
+    /**
+     * Update reward points after customer register
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function customerRegister($observer)
+    {
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = $observer->getEvent()->getCustomer();
+        if ($customer->isObjectNew()) {
+            $reward = Mage::getModel('enterprise_reward/reward')
+                ->setCustomer($customer)
+                ->setStore(Mage::app()->getStore()->getId())
+                ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_REGISTER)
+                ->updateRewardPoints();
         }
         return $this;
     }
@@ -98,11 +121,13 @@ class Enterprise_Reward_Model_Observer
         /* @var $review Mage_Review_Model_Review */
         $review = $observer->getEvent()->getObject();
         if ($review->isApproved() && $review->getCustomerId()) {
+            /* @var $reward Enterprise_Reward_Model_Reward */
             $reward = Mage::getModel('enterprise_reward/reward')
                 ->setCustomerId($review->getCustomerId())
                 ->setStore($review->getStoreId())
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_REVIEW)
-                ->save();
+                ->setReview($review)
+                ->updateRewardPoints();
         }
         return $this;
     }
@@ -130,7 +155,7 @@ class Enterprise_Reward_Model_Observer
                 ->setStore($tag->getStoreId())
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_TAG)
                 ->setTag($tag)
-                ->save();
+                ->updateRewardPoints();
         }
         return $this;
     }
