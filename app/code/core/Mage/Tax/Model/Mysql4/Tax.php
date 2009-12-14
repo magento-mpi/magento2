@@ -38,32 +38,16 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
      * @param mixed $to
      * @return Mage_Tax_Model_Mysql4_Tax
      */
-    public function aggregateTaxes($from = null, $to = null)
-    {
-        if (!is_null($from)) {
-            $from = $this->formatDate($from);
-        }
-        if (!is_null($to)) {
-            $from = $this->formatDate($to);
-        }
-        $this->_aggregateTaxesDataByColumn($from, $to, 'tax/tax_order_aggregated_created', 'created_at');
-//        $this->_aggregateTaxesDataByColumn($from, $to, 'tax/tax_order_aggregated_updated', 'updated_at');
-        return $this;
-    }
-
-    /**
-     * Aggregate Tax data by column
-     *
-     * @param mixed $from
-     * @param mixed $to
-     * @param string $tableName
-     * @param string $column
-     * @return Mage_Tax_Model_Mysql4_Tax
-     */
-    protected function _aggregateTaxesDataByColumn($from, $to, $tableName, $column)
+    public function aggregate($from = null, $to = null)
     {
         try {
-            $tableName = $this->getTable($tableName);
+            if (!is_null($from)) {
+                $from = $this->formatDate($from);
+            }
+            if (!is_null($to)) {
+                $from = $this->formatDate($to);
+            }
+            $tableName = $this->getTable('tax/tax_order_aggregated_created');
             $writeAdapter = $this->_getWriteAdapter();
 
             $writeAdapter->beginTransaction();
@@ -85,7 +69,7 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
             }
 
             $columns = array(
-                'period'                => "DATE({$column})",
+                'period'                => 'DATE(created_at)',
                 'store_id'              => 'store_id',
                 'code'                  => 'tax.code',
                 'order_status'          => 'e.status',
@@ -99,7 +83,7 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
                 ->joinInner(array('tax' => $this->getTable('sales/order_tax')), 'e.entity_id = tax.order_id', array());
 
                 if (!is_null($from) || !is_null($to)) {
-                    $select->where("DATE(e.{$column}) IN(?)", $subQuery);
+                    $select->where("DATE(e.created_at) IN(?)", $subQuery);
                 }
 
                 $select->group(new Zend_Db_Expr('1,2,3'));

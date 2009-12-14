@@ -135,7 +135,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
      * @param mixed $to
      * @return Mage_SalesRule_Model_Mysql4_Rule
      */
-    public function aggregateCoupons($from = null, $to = null)
+    public function aggregate($from = null, $to = null)
     {
         if (!is_null($from)) {
             $from = $this->formatDate($from);
@@ -143,24 +143,16 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         if (!is_null($to)) {
             $from = $this->formatDate($to);
         }
-        $this->_aggregateCouponsDataByColumn($from, $to, 'salesrule/coupon_aggregated_created', 'created_at');
-//        $this->_aggregateCouponsDataByColumn($from, $to, 'salesrule/coupon_aggregated_updated', 'updated_at');
+
+        $this->_aggregateByOrderCreatedAt($from, $to);
+        $this->_aggregateByOrderUpdatedAt($from, $to);
         return $this;
     }
 
-    /**
-     * Aggregate Coupons data by column
-     *
-     * @param mixed $from
-     * @param mixed $to
-     * @param string $tableName
-     * @param string $column
-     * @return Mage_SalesRule_Model_Mysql4_Rule
-     */
-    protected function _aggregateCouponsDataByColumn($from, $to, $tableName, $column)
+    protected function _aggregateByOrderCreatedAt($from, $to)
     {
         try {
-            $tableName = $this->getTable($tableName);
+            $tableName = $this->getTable('salesrule/coupon_aggregated');
             $writeAdapter = $this->_getWriteAdapter();
 
             $writeAdapter->beginTransaction();
@@ -182,7 +174,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             }
 
             $columns = array(
-                'period'            => "DATE({$column})",
+                'period'            => "DATE(created_at)",
                 'store_id'          => 'store_id',
                 'order_status'      => 'status',
                 'coupon_code'       => 'coupon_code',
@@ -195,13 +187,13 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             $select = $writeAdapter->select()->from($this->getTable('sales/order'), $columns);
 
             if (!is_null($from) || !is_null($to)) {
-                $select->where("DATE(e.{$column}) IN(?)", $subQuery);
+                $select->where("DATE(created_at) IN(?)", $subQuery);
             }
 
             $select->where("coupon_code <> ''");
 
             $select->group(array(
-                "DATE({$column})",
+                "DATE(created_at)",
                 'store_id',
                 'status',
                 'coupon_code'
@@ -253,5 +245,99 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
         return $this;
     }
 
+    protected function _aggregateByOrderUpdatedAt($from, $to)
+    {
+        try {
+            $tableName = $this->getTable('salesrule/coupon_aggregated_order');
+            $writeAdapter = $this->_getWriteAdapter();
 
+            $writeAdapter->beginTransaction();
+
+            if (is_null($from) && is_null($to)) {
+                $writeAdapter->query("TRUNCATE TABLE {$tableName}");
+            } else {
+                $where = (!is_null($from)) ? "so.updated_at >= '{$from}'" : '';
+                if (!is_null($to)) {
+                    $where .= (!empty($where)) ? " AND so.updated_at <= '{$to}'" : "so.updated_at <= '{$to}'";
+                }
+
+                $subQuery = $writeAdapter->select();
+                $subQuery->from(array('so'=>'sales_order'), array('DISTINCT DATE(so.created_at)'))
+                    ->where($where);
+
+                $deleteCondition = 'DATE(period) IN ('.$subQuery.')';
+                $writeAdapter->delete($tableName, $deleteCondition);
+            }
+
+            $columns = array(
+                'period'            => "DATE(updated_at)",
+                'store_id'          => 'store_id',
+                'order_status'      => 'status',
+                'coupon_code'       => 'coupon_code',
+                'coupon_uses'       => 'COUNT(`entity_id`)',
+                'subtotal_amount'   => 'SUM(`base_subtotal` * `base_to_global_rate`)',
+                'discount_amount'   => 'SUM(`base_discount_amount` * `base_to_global_rate`)',
+                'total_amount'      => 'SUM((`base_subtotal` - `base_discount_amount`) * `base_to_global_rate`)'
+            );
+
+            $select = $writeAdapter->select()->from($this->getTable('sales/order'), $columns);
+
+            if (!is_null($from) || !is_null($to)) {
+                $select->where("DATE(updated_at) IN(?)", $subQuery);
+            }
+
+            $select->where("coupon_code <> ''");
+
+            $select->group(array(
+                "DATE(updated_at)",
+                'store_id',
+                'status',
+                'coupon_code'
+            ));
+
+            $select->having('coupon_uses > 0');
+
+            $writeAdapter->query("
+                INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}
+            ");
+
+            $select = $writeAdapter->select();
+
+            $columns = array(
+                'period'            => 'period',
+                'store_id'          => new Zend_Db_Expr('0'),
+                'order_status'      => 'order_status',
+                'coupon_code'       => 'coupon_code',
+                'coupon_uses'       => 'SUM(`coupon_uses`)',
+                'subtotal_amount'   => 'SUM(`subtotal_amount`)',
+                'discount_amount'   => 'SUM(`discount_amount`)',
+                'total_amount'      => 'SUM(`total_amount`)'
+            );
+
+            $select
+                ->from($tableName, $columns)
+                ->where("store_id <> 0");
+
+                if (!is_null($from) || !is_null($to)) {
+                    $select->where("DATE(period) IN(?)", $subQuery);
+                }
+
+                $select->group(array(
+                    'period',
+                    'store_id',
+                    'order_status',
+                    'coupon_code'
+                ));
+
+            $writeAdapter->query("
+                INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}
+            ");
+        } catch (Exception $e) {
+            $writeAdapter->rollBack();
+            throw $e;
+        }
+
+        $writeAdapter->commit();
+        return $this;
+    }
 }

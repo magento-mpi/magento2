@@ -25,31 +25,20 @@
  */
 
 /**
- * Adminhtml shipping report page content block
+ * Adminhtml report filter form
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Report_Sales_Shipping extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Adminhtml_Block_Report_Refresh_Statistics extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     public function __construct()
     {
-        $this->_controller = 'report_sales_shipping';
-        $this->_headerText = Mage::helper('reports')->__('Shipping');
+        $this->_controller = 'report_refresh_statistics';
+        $this->_headerText = Mage::helper('reports')->__('Refresh Statistics');
         parent::__construct();
-        $this->setTemplate('report/grid/container.phtml');
         $this->_removeButton('add');
-        $this->addButton('filter_form_submit', array(
-            'label'     => Mage::helper('reports')->__('Search'),
-            'onclick'   => 'filterFormSubmit()'
-        ));
-    }
-
-    public function getFilterUrl()
-    {
-        $this->getRequest()->setParam('filter', null);
-        return $this->getUrl('*/*/shipping', array('_current' => true));
     }
 }

@@ -38,7 +38,7 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Core_Model_Mysql4_Abs
      * @param mixed $to
      * @return Mage_Sales_Model_Mysql4_Report_Refunded
      */
-    public function aggregateRefunded($from = null, $to = null)
+    public function aggregate($from = null, $to = null)
     {
         if (!is_null($from)) {
             $from = $this->formatDate($from);
@@ -46,24 +46,17 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Core_Model_Mysql4_Abs
         if (!is_null($to)) {
             $from = $this->formatDate($to);
         }
-        //$this->_aggregateRefundedDataByColumn($from, $to, 'sales/refunded_aggregated', 'created_at');
-        $this->_aggregateRefundedDataByColumn($from, $to, 'sales/refunded_aggregated_order', 'created_at');
+
+        $this->_aggregateByOrderCreatedAt($from, $to);
+        $this->_aggregateByRefundCreatedAt($from, $to);
+
         return $this;
     }
 
-    /**
-     * Aggregate Refunded data by column
-     *
-     * @param mixed $from
-     * @param mixed $to
-     * @param string $tableName
-     * @param string $column
-     * @return Mage_Sales_Model_Mysql4_Report_Refunded
-     */
-    protected function _aggregateRefundedDataByColumn($from, $to, $tableName, $column)
+    protected function _aggregateByOrderCreatedAt($from, $to)
     {
         try {
-            $tableName = $this->getTable($tableName);
+            $tableName = $this->getTable('sales/refunded_aggregated_order');
             $writeAdapter = $this->_getWriteAdapter();
 
             $writeAdapter->beginTransaction();
@@ -85,7 +78,7 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Core_Model_Mysql4_Abs
             }
 
             $columns = array(
-                'period'            => "DATE({$column})",
+                'period'            => "DATE(created_at)",
                 'store_id'          => 'store_id',
                 'order_status'      => 'status',
                 'orders_count'      => 'COUNT(`total_refunded`)',
@@ -100,11 +93,11 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Core_Model_Mysql4_Abs
                 ->where('base_total_refunded > 0');
 
                 if (!is_null($from) || !is_null($to)) {
-                    $select->where("DATE({$column}) IN(?)", $subQuery);
+                    $select->where("DATE(created_at) IN(?)", $subQuery);
                 }
 
                 $select->group(array(
-                    "DATE({$column})",
+                    "DATE(created_at)",
                     'store_id',
                     'order_status'
                 ));
@@ -149,6 +142,114 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Core_Model_Mysql4_Abs
             throw $e;
         }
 
+        $writeAdapter->commit();
+        return $this;
+    }
+
+    protected function _aggregateByRefundCreatedAt($from, $to)
+    {
+        try {
+            $tableName = $this->getTable('sales/refunded_aggregated');
+            $writeAdapter = $this->_getWriteAdapter();
+
+            $writeAdapter->beginTransaction();
+
+            if (is_null($from) && is_null($to)) {
+                $writeAdapter->query("TRUNCATE TABLE {$tableName}");
+            } else {
+                $where = (!is_null($from)) ? "so.updated_at >= '{$from}'" : '';
+                if (!is_null($to)) {
+                    $where .= (!empty($where)) ? " AND so.updated_at <= '{$to}'" : "so.updated_at <= '{$to}'";
+                }
+
+                $subQuery = $writeAdapter->select();
+                $subQuery->from(array('so'=>'sales_order'), array('DISTINCT DATE(so.created_at)'))
+                    ->where($where);
+
+                $deleteCondition = 'DATE(period) IN ('.$subQuery.')';
+                $writeAdapter->delete($tableName, $deleteCondition);
+            }
+
+            $creditmemo = Mage::getResourceSingleton('sales/order_creditmemo');
+            $creditmemoAttr = $creditmemo->getAttribute('order_id');
+
+            $columns = array(
+                'period'            => "DATE(soe.created_at)",
+                'store_id'          => 'so.store_id',
+                'order_status'      => 'so.status',
+                'orders_count'      => 'COUNT(so.`total_refunded`)',
+                'refunded'          => 'SUM(so.`base_total_refunded` * so.`base_to_global_rate`)',
+                'online_refunded'   => 'SUM(so.`base_total_online_refunded` * so.`base_to_global_rate`)',
+                'offline_refunded'  => 'SUM(so.`base_total_offline_refunded` * so.`base_to_global_rate`)'
+            );
+
+            $select = $writeAdapter->select()
+                ->from(array('soe' => 'sales_order_entity'), $columns)
+                ->where('state <> ?', 'canceled')
+                ->where('base_total_refunded > 0');
+
+            $select->joinInner(array('soei' => $creditmemoAttr->getBackend()->getTable()), "`soei`.`entity_id` = `soe`.`entity_id`
+                AND `soei`.`attribute_id` = {$creditmemoAttr->getAttributeId()}
+                AND `soei`.`entity_type_id` = `soe`.`entity_type_id`",
+                array()
+            );
+
+            $select->joinInner(array(
+                'so' => 'sales_order'),
+                '`soei`.`value` = `so`.`entity_id`',
+                array()
+            );
+
+            if (!is_null($from) || !is_null($to)) {
+                $select->where("DATE(soe.created_at) IN(?)", $subQuery);
+            }
+
+            $select->group(array(
+                "DATE(soe.created_at)",
+                'store_id',
+                'order_status'
+            ));
+
+            $select->having('orders_count > 0');
+
+            $writeAdapter->query("
+                INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}
+            ");
+
+            $select = $writeAdapter->select();
+
+            $columns = array(
+                'period'            => 'period',
+                'store_id'          => new Zend_Db_Expr('0'),
+                'order_status'      => 'order_status',
+                'orders_count'      => 'SUM(orders_count)',
+                'refunded'          => 'SUM(refunded)',
+                'online_refunded'   => 'SUM(online_refunded)',
+                'offline_refunded'  => 'SUM(offline_refunded)'
+            );
+
+            $select
+                ->from($tableName, $columns)
+                ->where("store_id <> 0");
+
+                if (!is_null($from) || !is_null($to)) {
+                    $select->where("DATE(period) IN(?)", $subQuery);
+                }
+
+                $select->group(array(
+                    'period',
+                    'store_id',
+                    'order_status'
+                ));
+
+            $writeAdapter->query("
+                INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}
+            ");
+
+        } catch (Exception $e) {
+            $writeAdapter->rollBack();
+            throw $e;
+        }
         $writeAdapter->commit();
         return $this;
     }

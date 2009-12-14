@@ -175,6 +175,20 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected $_columnsOrder = array();
 
+    /**
+     * Columns to group by
+     *
+     * @var array
+     */
+    protected $_groupedColumn = array();
+
+    /**
+     * Label for empty cell
+     *
+     * @var string
+     */
+    protected $_emptyCellLabel = '';
+
     public function __construct($attributes=array())
     {
         parent::__construct($attributes);
@@ -1207,12 +1221,12 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     /**
      * Set empty text CSS class
      *
-     * @param string $text
+     * @param string $cssClass
      * @return Mage_Adminhtml_Block_Widget_Grid
      */
     public function setEmptyTextClass($cssClass)
     {
-        $this->_emptyTextCss = $text;
+        $this->_emptyTextCss = $cssClass;
         return $this;
     }
 
@@ -1266,4 +1280,126 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return $this->_varTotals;
     }
 
+    /**
+     * Retrieve rowspan number
+     *
+     * @param Varien_Object $item
+     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @return integer
+     */
+    public function getRowspan($item, $column)
+    {
+        if ($this->isColumnGrouped($column)) {
+            return count($this->getMultipleRows($item)) + count($this->_groupedColumn);
+        }
+        return false;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param string|object $column
+     * @param string $value
+     * @return unknown
+     */
+    public function isColumnGrouped($column, $value = null)
+    {
+        if (null === $value) {
+            if (is_object($column)) {
+                return in_array($column->getIndex(), $this->_groupedColumn);
+            }
+            return in_array($column, $this->_groupedColumn);
+        }
+        $this->_groupedColumn[] = $column;
+        return $this;
+    }
+
+    /**
+     *
+     *
+     * @param Varien_Object $item
+     * @return array
+     */
+    public function getMultipleRows($item)
+    {
+        return $item->getChildren();
+    }
+
+    /**
+     *
+     *
+     * @param Varien_Object $item
+     * @return array
+     */
+    public function getMultipleRowColumns()
+    {
+        $columns = $this->getColumns();
+        foreach ($this->_groupedColumn as $column) {
+            unset($columns[$column]);
+        }
+        return $columns;
+    }
+
+    /**
+     * Check whether should render cell
+     *
+     * @param Varien_Object $item
+     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @return boolean
+     */
+    public function shouldRenderCell($item, $column)
+    {
+        if ($this->isColumnGrouped($column) && $item->getIsEmpty()) {
+            return true;
+        }
+        if (!$item->getIsEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check whether should render empty cell
+     *
+     * @param Varien_Object $item
+     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @return boolean
+     */
+    public function shouldRenderEmptyCell($item, $column)
+    {
+        return ($item->getIsEmpty() && in_array($column['index'], $this->_groupedColumn));
+    }
+
+    /**
+     * Retrieve colspan for empty cell
+     *
+     * @param Varien_Object $item
+     * @return integer
+     */
+    public function getEmptyCellColspan()
+    {
+        return $this->getColumnCount() - count($this->_groupedColumn);
+    }
+
+    /**
+     * Retrieve label for empty cell
+     *
+     * @return string
+     */
+    public function getEmptyCellLabel()
+    {
+        return $this->_emptyCellLabel;
+    }
+
+    /**
+     * Set label for empty cell
+     *
+     * @param string $label
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
+    public function setEmptyCellLabel($label)
+    {
+        $this->_emptyCellLabel = $label;
+        return $this;
+    }
 }

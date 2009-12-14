@@ -434,4 +434,36 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         }
         return true;
     }
+
+    /**
+     * Filter dates in array
+     *
+     * @return array
+     */
+    protected function _filterDates()
+    {
+        $keys = func_get_args();
+        $postData = array_shift($keys);
+
+        if (count($keys) == 0) {
+            return $postData;
+        }
+
+        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
+            'date_format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+        ));
+
+        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
+            'date_format' => Varien_Date::DATE_INTERNAL_FORMAT
+        ));
+
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $postData) && !empty($key)) {
+                $postData[$key] = $filterInput->filter($postData[$key]);
+                $postData[$key] = $filterInternal->filter($postData[$key]);
+            }
+        }
+
+        return $postData;
+    }
 }

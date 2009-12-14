@@ -76,31 +76,17 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
      * @param mixed $to
      * @return Mage_Sales_Model_Mysql4_Order
      */
-    public function aggregateOrders($from = null, $to = null)
-    {
-        if (!is_null($from)) {
-            $from = $this->formatDate($from);
-        }
-        if (!is_null($to)) {
-            $from = $this->formatDate($to);
-        }
-        $this->_aggregateOrderDataByColumn($from, $to, 'sales/order_aggregated_created', 'created_at');
-        //$this->_aggregateOrderDataByColumn($from, $to, 'sales/order_aggregated_updated', 'updated_at');
-    }
-
-    /**
-     * Aggregate Orders data by column
-     *
-     * @param mixed $from
-     * @param mixed $to
-     * @param string $tableName
-     * @param string $column
-     * @return Mage_Sales_Model_Mysql4_Order
-     */
-    protected function _aggregateOrderDataByColumn($from, $to, $tableName, $column)
+    public function aggregate($from = null, $to = null)
     {
         try {
-            $tableName = $this->getTable($tableName);
+            if (!is_null($from)) {
+                $from = $this->formatDate($from);
+            }
+            if (!is_null($to)) {
+                $from = $this->formatDate($to);
+            }
+
+            $tableName = $this->getTable('sales/order_aggregated_created');
             $writeAdapter = $this->getWriteConnection();
 
             $writeAdapter->beginTransaction();
@@ -135,13 +121,13 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
                 ->where('o.state <> ?', 'pending');
 
                 if (!is_null($from) || !is_null($to)) {
-                    $qtySelect->where("DATE(o.{$column}) IN(?)", $subQuery);
+                    $qtySelect->where("DATE(o.created_at) IN(?)", $subQuery);
                 }
 
                 $qtySelect->group('p.order_id');
 
             $columns = array(
-                'period'                    => "DATE(e.{$column})",
+                'period'                    => 'DATE(e.created_at)',
                 'store_id'                  => 'e.store_id',
                 'order_status'              => 'e.status',
                 'orders_count'              => 'COUNT(e.entity_id)',
@@ -157,13 +143,12 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
             );
 
             $select = $writeAdapter->select()
-                ->from(array('e' => $this->getTable('sales/order')), array())
-                ->columns($columns)
+                ->from(array('e' => $this->getTable('sales/order')), $columns)
                 ->joinLeft(array('oa'=> $qtySelect), 'e.entity_id = oa.order_id', array())
                 ->where('e.state <> ?', 'pending');
 
                 if (!is_null($from) || !is_null($to)) {
-                    $select->where("DATE(e.{$column}) IN(?)", $subQuery);
+                    $select->where("DATE(e.created_at) IN(?)", $subQuery);
                 }
 
                 $select->group(new Zend_Db_Expr('1,2,3'));
@@ -196,6 +181,7 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
                 }
 
                 $select->group(new Zend_Db_Expr('1,2,3'));
+
             $writeAdapter->query("
                 INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}
             ");

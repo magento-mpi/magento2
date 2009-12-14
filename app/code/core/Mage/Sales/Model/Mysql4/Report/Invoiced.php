@@ -38,7 +38,7 @@ class Mage_Sales_Model_Mysql4_Report_Invoiced extends Mage_Core_Model_Mysql4_Abs
      * @param mixed $to
      * @return Mage_Sales_Model_Mysql4_Report_Invoiced
      */
-    public function aggregateInvoiced($from = null, $to = null)
+    public function aggregate($from = null, $to = null)
     {
         if (!is_null($from)) {
             $from = $this->formatDate($from);
@@ -46,24 +46,22 @@ class Mage_Sales_Model_Mysql4_Report_Invoiced extends Mage_Core_Model_Mysql4_Abs
         if (!is_null($to)) {
             $from = $this->formatDate($to);
         }
-        //$this->_aggregateInvoicedDataByColumn($from, $to, 'sales/invoiced_aggregated', 'created_at');
-        $this->_aggregateInvoicedDataByColumn($from, $to, 'sales/invoiced_aggregated_order', 'created_at');
+        $this->_aggregateByOrderCreatedAt($from, $to);
+        $this->_aggregateByInvoiceCreatedAt($from, $to);
         return $this;
     }
 
     /**
-     * Aggregate Invoiced data by column
+     * Aggregate Invoiced data by invoice created_at
      *
      * @param mixed $from
      * @param mixed $to
-     * @param string $tableName
-     * @param string $column
      * @return Mage_Sales_Model_Mysql4_Report_Invoiced
      */
-    protected function _aggregateInvoicedDataByColumn($from, $to, $tableName, $column)
+    protected function _aggregateByInvoiceCreatedAt($from, $to)
     {
         try {
-            $tableName = $this->getTable($tableName);
+            $tableName = $this->getTable('sales/invoiced_aggregated');
             $writeAdapter = $this->_getWriteAdapter();
 
             $writeAdapter->beginTransaction();
@@ -84,32 +82,45 @@ class Mage_Sales_Model_Mysql4_Report_Invoiced extends Mage_Core_Model_Mysql4_Abs
                 $writeAdapter->delete($tableName, $deleteCondition);
             }
 
+            $invoice = Mage::getResourceSingleton('sales/order_invoice');
+            $invoiceAttr = $invoice->getAttribute('order_id');
+
             $columns = array(
-                'period'                => "DATE({$column})",
-                'store_id'              => 'store_id',
-                'order_status'          => 'status',
-                'orders_count'          => 'COUNT(`base_total_invoiced`)',
-                'orders_invoiced'       => 'SUM(IF(`base_total_invoiced` > 0, 1, 0))',
-                'invoiced'              => 'SUM(`base_total_invoiced` * `base_to_global_rate`)',
-                'invoiced_captured'     => 'SUM(`base_total_paid` * `base_to_global_rate`)',
-                'invoiced_not_captured' => 'SUM((`base_total_invoiced` - `base_total_paid`) * `base_to_global_rate`)'
+                'period'                => "DATE(soe.created_at)",
+                'store_id'              => 'so.store_id',
+                'order_status'          => 'so.status',
+                'orders_count'          => 'COUNT(so.entity_id)',
+                'orders_invoiced'       => 'COUNT(so.entity_id)',
+                'invoiced'              => 'SUM(so.base_total_invoiced * so.base_to_global_rate)',
+                'invoiced_captured'     => 'SUM(so.base_total_paid * so.base_to_global_rate)',
+                'invoiced_not_captured' => 'SUM((so.base_total_invoiced - so.base_total_paid) * so.base_to_global_rate)'
             );
 
             $select = $writeAdapter->select()
-                ->from($this->getTable('sales/order'), $columns)
+                ->from(array('soe' => 'sales_order_entity'), $columns)
                 ->where('state <> ?', 'canceled');
 
-                if (!is_null($from) || !is_null($to)) {
-                    $select->where("DATE({$column}) IN(?)", $subQuery);
-                }
+            $select->joinInner(array('soei' => $invoiceAttr->getBackend()->getTable()), "`soei`.`entity_id` = `soe`.`entity_id`
+                AND `soei`.`attribute_id` = {$invoiceAttr->getAttributeId()}
+                AND `soei`.`entity_type_id` = `soe`.`entity_type_id`",
+                array()
+            );
 
-                $select->group(array(
-                    "DATE({$column})",
-                    'store_id',
-                    'order_status'
-                ));
+            $select->joinInner(array(
+                'so' => 'sales_order'),
+                '`soei`.`value` = `so`.`entity_id`  AND `so`.base_total_invoiced > 0',
+                array()
+            );
 
-                $select->having('orders_count > 0');
+            if (!is_null($from) || !is_null($to)) {
+                $select->where("DATE(soe.created_at) IN(?)", $subQuery);
+            }
+
+            $select->group(array(
+                "DATE(`soe`.created_at)",
+                'store_id',
+                'order_status'
+            ));
 
             $writeAdapter->query("
                 INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}
@@ -153,4 +164,107 @@ class Mage_Sales_Model_Mysql4_Report_Invoiced extends Mage_Core_Model_Mysql4_Abs
         $writeAdapter->commit();
         return $this;
     }
+
+    /**
+     * Aggregate Invoiced data by order created_at
+     *
+     * @param mixed $from
+     * @param mixed $to
+     * @return Mage_Sales_Model_Mysql4_Report_Invoiced
+     */
+    protected function _aggregateByOrderCreatedAt($from, $to)
+    {
+        try {
+            $tableName = $this->getTable('sales/invoiced_aggregated_order');
+            $writeAdapter = $this->_getWriteAdapter();
+
+            $writeAdapter->beginTransaction();
+
+            if (is_null($from) && is_null($to)) {
+                $writeAdapter->query("TRUNCATE TABLE {$tableName}");
+            } else {
+                $where = (!is_null($from)) ? "so.updated_at >= '{$from}'" : '';
+                if (!is_null($to)) {
+                    $where .= (!empty($where)) ? " AND so.updated_at <= '{$to}'" : "so.updated_at <= '{$to}'";
+                }
+
+                $subQuery = $writeAdapter->select();
+                $subQuery->from(array('so'=>'sales_order'), array('DISTINCT DATE(so.created_at)'))
+                    ->where($where);
+
+                $deleteCondition = 'DATE(period) IN ('.$subQuery.')';
+                $writeAdapter->delete($tableName, $deleteCondition);
+            }
+
+            $columns = array(
+                'period'                => "DATE(created_at)",
+                'store_id'              => 'store_id',
+                'order_status'          => 'status',
+                'orders_count'          => 'COUNT(`base_total_invoiced`)',
+                'orders_invoiced'       => 'SUM(IF(`base_total_invoiced` > 0, 1, 0))',
+                'invoiced'              => 'SUM(`base_total_invoiced` * `base_to_global_rate`)',
+                'invoiced_captured'     => 'SUM(`base_total_paid` * `base_to_global_rate`)',
+                'invoiced_not_captured' => 'SUM((`base_total_invoiced` - `base_total_paid`) * `base_to_global_rate`)'
+            );
+
+            $select = $writeAdapter->select()
+                ->from($this->getTable('sales/order'), $columns)
+                ->where('state <> ?', 'canceled');
+
+            if (!is_null($from) || !is_null($to)) {
+                $select->where("DATE(created_at) IN(?)", $subQuery);
+            }
+
+            $select->group(array(
+                "DATE(created_at)",
+                'store_id',
+                'order_status'
+            ));
+
+            $select->having('orders_count > 0');
+
+            $writeAdapter->query("
+                INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}
+            ");
+
+            $select = $writeAdapter->select();
+
+            $columns = array(
+                'period'                => 'period',
+                'store_id'              => new Zend_Db_Expr('0'),
+                'order_status'          => 'order_status',
+                'orders_count'          => 'SUM(orders_count)',
+                'orders_invoiced'       => 'SUM(orders_invoiced)',
+                'invoiced'              => 'SUM(invoiced)',
+                'invoiced_captured'     => 'SUM(invoiced_captured)',
+                'invoiced_not_captured' => 'SUM(invoiced_not_captured)'
+            );
+
+            $select
+                ->from($tableName, $columns)
+                ->where("store_id <> 0");
+
+                if (!is_null($from) || !is_null($to)) {
+                    $select->where("DATE(period) IN(?)", $subQuery);
+                }
+
+                $select->group(array(
+                    'period',
+                    'store_id',
+                    'order_status'
+                ));
+
+            $writeAdapter->query("
+                INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}
+            ");
+        } catch (Exception $e) {
+            $writeAdapter->rollBack();
+            throw $e;
+        }
+
+        $writeAdapter->commit();
+        return $this;
+    }
+
+
 }
