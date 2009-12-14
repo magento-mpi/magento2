@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
 
         $fieldset->addField('template_code', 'text', array(
             'name'=>'template_code',
-            'label' => Mage::helper('adminhtml')->__('Template Name'),
+            'label' => Mage::helper('adminhtml')->__('Template Code'),
             'required' => true
 
         ));

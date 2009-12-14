@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid extends Mage_Adminhtml_Blo
 
         $this->addColumn('code',
             array(
-                'header'=>Mage::helper('adminhtml')->__('Template Name'),
+                'header'=>Mage::helper('adminhtml')->__('Template Code'),
                 'index'=>'template_code'
         ));
 
