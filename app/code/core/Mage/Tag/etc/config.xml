@@ -96,6 +96,9 @@
                   </tag>
               </updates>
           </layout>
+        <secure_url>
+            <tag_customer>/tag/customer/</tag_customer>
+        </secure_url>
     </frontend>
     <adminhtml>
         <events>

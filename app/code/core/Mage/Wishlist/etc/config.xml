@@ -133,6 +133,9 @@
                 </observers>
             </customer_logout>
         </events>
+        <secure_url>
+            <wishlist>/wishlist/</wishlist>
+        </secure_url>
     </frontend>
     <adminhtml>
         <translate>
