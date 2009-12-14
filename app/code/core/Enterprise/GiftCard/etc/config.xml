@@ -162,7 +162,11 @@
                     </files>
                 </Enterprise_GiftCard>
             </modules>
-        </translate>        
+        </translate>
+        <secure_url>
+            <giftcard_customer>/giftcard/customer/</giftcard_customer>
+            <giftcard_cart_quickcheck>/giftcard/cart/quickCheck/</giftcard_cart_quickcheck>
+        </secure_url>
     </frontend>
     <adminhtml>
         <layout>
