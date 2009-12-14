@@ -49,6 +49,10 @@ class Mage_Reports_Helper_Data extends Mage_Core_Helper_Abstract
 
         $start = Mage::app()->getLocale()->date($from, Varien_Date::DATE_INTERNAL_FORMAT);
 
+        if ($period == self::REPORT_PERIOD_TYPE_DAY) {
+            $dateStart = $start;
+        }
+
         if ($period == self::REPORT_PERIOD_TYPE_MONTH) {
             $dateStart = new Zend_Date(date("Y-m", $start->getTimestamp()), Varien_Date::DATE_INTERNAL_FORMAT);
         }
