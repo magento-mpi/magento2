@@ -189,7 +189,7 @@ abstract class Mage_Moneybookers_Model_Abstract extends Mage_Payment_Model_Metho
     {
         $state = Mage_Sales_Model_Order::STATE_PENDING_PAYMENT;
         $stateObject->setState($state);
-        $stateObject->setStatus('pending_moneybookers');
+        $stateObject->setStatus(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
         $stateObject->setIsNotified(false);
     }
 

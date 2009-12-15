@@ -51,9 +51,12 @@ class Mage_Moneybookers_MoneybookersController extends Mage_Adminhtml_Controller
             if (empty($response)) {
                 Mage::throwException('Error: Connection to moneybookers.com failed');
             }
-        }
-        catch (Exception $e) {
+            $this->getResponse()->setBody($response);
+            return;
+        } catch (Mage_Core_Exception $e) {
             $response = $e->getMessage();
+        } catch (Exception $e) {
+            $response = 'Error: System error during request';
         }
         $this->getResponse()->setBody($response);
     }
@@ -72,9 +75,12 @@ class Mage_Moneybookers_MoneybookersController extends Mage_Adminhtml_Controller
             if (empty($response)) {
                 Mage::throwException('Error: Connection to moneybookers.com failed');
             }
-        }
-        catch (Exception $e) {
+            $this->getResponse()->setBody($response);
+            return;
+        } catch (Mage_Core_Exception $e) {
             $response = $e->getMessage();
+        } catch (Exception $e) {
+            $response = 'Error: System error during request';
         }
         $this->getResponse()->setBody($response);
     }
