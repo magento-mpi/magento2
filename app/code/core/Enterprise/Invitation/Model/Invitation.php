@@ -46,6 +46,9 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
 
     private static $_customerExistsLookup = array();
 
+    protected $_eventPrefix = 'enterprise_invitation';
+    protected $_eventObject = 'invitation';
+
     /**
      * Intialize resource
      */
