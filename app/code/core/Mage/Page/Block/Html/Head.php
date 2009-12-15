@@ -388,8 +388,8 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function setTitle($title)
     {
-        $this->_data['title'] = Mage::getStoreConfig('design/head/title_prefix').' '.$title
-            .' '.Mage::getStoreConfig('design/head/title_suffix');
+        $this->_data['title'] = Mage::getStoreConfig('design/head/title_prefix') . ' ' . $title
+            . ' ' . Mage::getStoreConfig('design/head/title_suffix');
         return $this;
     }
 
@@ -403,7 +403,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         if (empty($this->_data['title'])) {
             $this->_data['title'] = $this->getDefaultTitle();
         }
-        return htmlspecialchars(html_entity_decode($this->_data['title'], ENT_QUOTES, 'UTF-8'));
+        return htmlspecialchars(html_entity_decode(trim($this->_data['title']), ENT_QUOTES, 'UTF-8'));
     }
 
     /**
