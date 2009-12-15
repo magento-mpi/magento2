@@ -45,11 +45,11 @@ class Mage_Moneybookers_MoneybookersController extends Mage_Adminhtml_Controller
         try {
             $params = $this->getRequest()->getParams();
             if (empty($params['email'])) {
-                Mage::throwException($this->_getHelper()->__('Error: No parameters specified'));
+                Mage::throwException('Error: No parameters specified');
             }
             $response =  $this->_getHelper()->checkEmailRequest($params);
             if (empty($response)) {
-                Mage::throwException($this->_getHelper()->__('Error: Connection to moneybookers.com failed'));
+                Mage::throwException('Error: Connection to moneybookers.com failed');
             }
         }
         catch (Exception $e) {
@@ -66,11 +66,11 @@ class Mage_Moneybookers_MoneybookersController extends Mage_Adminhtml_Controller
         try {
             $params = $this->getRequest()->getParams();
             if (empty($params['email']) || empty($params['secret'])) {
-                throw new Exception($this->_getHelper()->__('Error: No parameters specified'));
+                 Mage::throwException('Error: No parameters specified');
             }
             $response =  $this->_getHelper()->checkSecretRequest($params);
             if (empty($response)) {
-                Mage::throwException($this->_getHelper()->__('Error: Connection to moneybookers.com failed'));
+                Mage::throwException('Error: Connection to moneybookers.com failed');
             }
         }
         catch (Exception $e) {

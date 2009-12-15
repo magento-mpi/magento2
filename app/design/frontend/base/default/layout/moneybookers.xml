@@ -29,7 +29,7 @@
             <block type="moneybookers/payment" name="moneybookers_payment" template="moneybookers/payment.phtml" />
         </reference>
     </moneybookers_processing_payment>
-    
+
     <moneybookers_processing_placeform>
         <reference name="root">
             <action method="setTemplate"><template>moneybookers/blank.phtml</template></action>

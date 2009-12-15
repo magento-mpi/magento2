@@ -30,20 +30,20 @@ abstract class Mage_Moneybookers_Model_Abstract extends Mage_Payment_Model_Metho
     /**
      * Availability options
      */
-    protected $_isGateway				= true;
-    protected $_canAuthorize			= true;
-    protected $_canCapture				= true;
-    protected $_canCapturePartial		= false;
-    protected $_canRefund				= false;
-    protected $_canVoid					= false;
-    protected $_canUseInternal			= false;
-    protected $_canUseCheckout			= true;
-    protected $_canUseForMultishipping	= false;
+    protected $_isGateway              = true;
+    protected $_canAuthorize           = true;
+    protected $_canCapture             = true;
+    protected $_canCapturePartial      = false;
+    protected $_canRefund              = false;
+    protected $_canVoid                = false;
+    protected $_canUseInternal         = false;
+    protected $_canUseCheckout         = true;
+    protected $_canUseForMultishipping = false;
 
-    protected $_paymentMethod			= 'abstract';
-    protected $_defaultLocale			= 'en';
-    protected $_supportedLocales		= array('cn', 'cz', 'en', 'es', 'de', 'fr', 'gr', 'it', 'nl', 'ro', 'ru', 'pl', 'tr');
-    protected $_hidelogin				= '1';
+    protected $_paymentMethod    = 'abstract';
+    protected $_defaultLocale    = 'en';
+    protected $_supportedLocales = array('cn', 'cz', 'en', 'es', 'de', 'fr', 'gr', 'it', 'nl', 'ro', 'ru', 'pl', 'tr');
+    protected $_hidelogin        = '1';
 
     protected $_order;
 
@@ -129,40 +129,40 @@ abstract class Mage_Moneybookers_Model_Abstract extends Mage_Payment_Model_Metho
      */
     public function getFormFields()
     {
-        $order_id	= $this->getOrder()->getRealOrderId();
-        $billing	= $this->getOrder()->getBillingAddress();
+        $order_id = $this->getOrder()->getRealOrderId();
+        $billing  = $this->getOrder()->getBillingAddress();
         if ($this->getOrder()->getBillingAddress()->getEmail()) {
             $email = $this->getOrder()->getBillingAddress()->getEmail();
         } else {
             $email = $this->getOrder()->getCustomerEmail();
         }
 
-        $params = 	array(
-                        'merchant_fields'		=> 'partner',
-                        'partner'				=> 'magento',
-                        'pay_to_email'			=> Mage::getStoreConfig(Mage_Moneybookers_Helper_Data::XML_PATH_EMAIL),
-                        'transaction_id'		=> $order_id,
-                        'return_url'			=> Mage::getUrl('moneybookers/processing/success', array('transaction_id' => $order_id)),
-                        'cancel_url'			=> Mage::getUrl('moneybookers/processing/cancel', array('transaction_id' => $order_id)),
-                        'status_url'			=> Mage::getUrl('moneybookers/processing/status'),
-                        'language'				=> $this->getLocale(),
-                        'amount'				=> round($this->getOrder()->getGrandTotal(), 2),
-                        'currency'				=> $this->getOrder()->getOrderCurrencyCode(),
-                        'recipient_description'	=> $this->getOrder()->getStore()->getWebsite()->getName(),
-                        'firstname'				=> $billing->getFirstname(),
-                        'lastname'				=> $billing->getLastname(),
-                        'address'				=> $billing->getStreet(-1),
-                        'postal_code'			=> $billing->getPostcode(),
-                        'city'					=> $billing->getCity(),
-                        'country'				=> $billing->getCountryModel()->getIso3Code(),
-                        'pay_from_email'		=> $email,
-                        'phone_number'			=> $billing->getTelephone(),
-                        'detail1_description'	=> Mage::helper('moneybookers')->__('Order ID'),
-                        'detail1_text'			=> $order_id,
-                        'payment_methods'		=> $this->_paymentMethod,
-                        'hide_login'			=> $this->_hidelogin,
-                        'new_window_redirect'	=> '1'
-                    );
+        $params = array(
+            'merchant_fields'       => 'partner',
+            'partner'               => 'magento',
+            'pay_to_email'          => Mage::getStoreConfig(Mage_Moneybookers_Helper_Data::XML_PATH_EMAIL),
+            'transaction_id'        => $order_id,
+            'return_url'            => Mage::getUrl('moneybookers/processing/success', array('transaction_id' => $order_id)),
+            'cancel_url'            => Mage::getUrl('moneybookers/processing/cancel', array('transaction_id' => $order_id)),
+            'status_url'            => Mage::getUrl('moneybookers/processing/status'),
+            'language'              => $this->getLocale(),
+            'amount'                => round($this->getOrder()->getGrandTotal(), 2),
+            'currency'              => $this->getOrder()->getOrderCurrencyCode(),
+            'recipient_description' => $this->getOrder()->getStore()->getWebsite()->getName(),
+            'firstname'             => $billing->getFirstname(),
+            'lastname'              => $billing->getLastname(),
+            'address'               => $billing->getStreet(-1),
+            'postal_code'           => $billing->getPostcode(),
+            'city'                  => $billing->getCity(),
+            'country'               => $billing->getCountryModel()->getIso3Code(),
+            'pay_from_email'        => $email,
+            'phone_number'          => $billing->getTelephone(),
+            'detail1_description'   => Mage::helper('moneybookers')->__('Order ID'),
+            'detail1_text'          => $order_id,
+            'payment_methods'       => $this->_paymentMethod,
+            'hide_login'            => $this->_hidelogin,
+            'new_window_redirect'   => '1'
+        );
 
             // add optional day of birth
         if ($billing->getDob()) {
@@ -170,5 +170,37 @@ abstract class Mage_Moneybookers_Model_Abstract extends Mage_Payment_Model_Metho
         }
 
         return $params;
+    }
+    /**
+     * Get initialized flag status
+     * @return true
+     */
+    public function isInitializeNeeded()
+    {
+        return true;
+    }
+
+    /**
+     * Instantiate state and set it to state onject
+     * //@param
+     * //@param
+     */
+    public function initialize($paymentAction, $stateObject)
+    {
+        $state = Mage_Sales_Model_Order::STATE_PENDING_PAYMENT;
+        $stateObject->setState($state);
+        $stateObject->setStatus('pending_moneybookers');
+        $stateObject->setIsNotified(false);
+    }
+
+    /**
+     * Get config action to process initialization
+     *
+     * @return string
+     */
+    public function getConfigPaymentAction()
+    {
+        $paymentAction = $this->getConfigData('payment_action');
+        return empty($paymentAction) ? true : $paymentAction;
     }
 }

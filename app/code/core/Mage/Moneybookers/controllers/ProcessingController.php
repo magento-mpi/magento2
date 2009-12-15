@@ -51,7 +51,7 @@ class Mage_Moneybookers_ProcessingController extends Mage_Core_Controller_Front_
             if (!$order->getId()) {
                 Mage::throwException('No order for processing found');
             }
-            $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, true,
+            $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, 'pending_moneybookers',
                 Mage::helper('moneybookers')->__('Customer was redirected to Moneybookers.')
             );
             $order->save();
@@ -74,11 +74,11 @@ class Mage_Moneybookers_ProcessingController extends Mage_Core_Controller_Front_
      */
     public function successAction()
     {
+        $event = Mage::getModel('moneybookers/event')
+                 ->setEventData($this->getRequest()->getParams());
         try {
-            $this->_checkReturnedData(false);
-
-            $this->_getCheckout()->setLastSuccessQuoteId($this->_order->getQuoteId());
-
+            $quoteId = $event->successEvent();
+            $this->_getCheckout()->setLastSuccessQuoteId($quoteId);
             $this->_redirect('checkout/onepage/success');
             return;
         } catch (Mage_Core_Exception $e) {
@@ -96,21 +96,11 @@ class Mage_Moneybookers_ProcessingController extends Mage_Core_Controller_Front_
      */
     public function cancelAction()
     {
-        try {
-            $this->_checkReturnedData(false);
-
-            // load quote
-            $this->_getCheckout()->setQuoteId($this->_getCheckout()->getMoneybookersQuoteId());
-
-            $this->_processCancel('Payment was canceled');
-
-            $this->_getCheckout()->addError(Mage::helper('moneybookers')->__('The order has been canceled.'));
-            $this->_redirect('checkout/cart');
-        } catch (Mage_Core_Exception $e) {
-            $this->_getCheckout()->addError($e->getMessage());
-        } catch(Exception $e) {
-            Mage::logException($e);
-        }
+        $event = Mage::getModel('moneybookers/event')
+                 ->setEventData($this->getRequest()->getParams());
+        $message = $event->cancelEvent();
+        $this->_getCheckout()->setQuoteId($this->_getCheckout()->getMoneybookersQuoteId());
+        $this->_getCheckout()->addError($message);
         $this->_redirect('checkout/cart');
     }
 
@@ -120,149 +110,10 @@ class Mage_Moneybookers_ProcessingController extends Mage_Core_Controller_Front_
      */
     public function statusAction()
     {
-        try {
-            $params = $this->_checkReturnedData();
-
-            $msg = '';
-            switch($params['status']) {
-                case '-2': //fail
-                    $msg = Mage::helper('moneybookers')->__('Payment failed');
-                    $this->_processCancel($msg);
-                    break;
-                case '-1': //cancel
-                    $msg = Mage::helper('moneybookers')->__('Payment was canceled');
-                    $this->_processCancel($msg);
-                    break;
-                case '0': //pending
-                    $msg = Mage::helper('moneybookers')->__('Pending bank transfer created.');
-                    $this->_processSale($msg);
-                    break;
-                case '2': //ok
-                    $msg = Mage::helper('moneybookers')->__('The amount has been authorized and captured by Moneybookers.');
-                    $this->_processSale($msg);
-                    break;
-            }
-            $this->getResponse()->setBody($msg);
-        } catch (Mage_Core_Exception $e) {
-            $this->getResponse()->setBody(Mage::helper('moneybookers')->__('Error: %s', $e->getMessage()));
-        } catch(Exception $e) {
-            Mage::logException($e);
-        }
-    }
-
-    /**
-     * Cancel order
-     *
-     * @param string $msg Order history message
-     */
-    protected function _processCancel($msg)
-    {
-        $this->_order->cancel();
-        $this->_order->addStatusToHistory(Mage_Sales_Model_Order::STATE_CANCELED, $msg);
-        $this->_order->save();
-    }
-
-    /**
-     * Invoice order
-     *
-     * @param string $msg Order history message
-     */
-    protected function _processSale($msg)
-    {
-        // invoice order
-        if ($this->_order->canInvoice()) {
-            $invoice = $this->_order->prepareInvoice();
-
-            $invoice->register()->capture();
-            Mage::getModel('core/resource_transaction')
-                ->addObject($invoice)
-                ->addObject($invoice->getOrder())
-                ->save();
-        }
-
-        // set new order state
-        $newPaymentStatus = $this->_order->getPayment()->getMethodInstance()->getConfigData('order_status');
-        if (empty($newPaymentStatus)) {
-            $newPaymentStatus = Mage_Sales_Model_Order::STATE_PROCESSING;
-        }
-        $this->_order->setState($newPaymentStatus, $newPaymentStatus, $msg);
-
-        // save transaction ID
-        $this->_order->getPayment()->setLastTransId($this->getRequest()->getParam('mb_transaction_id'));
-
-        // send new order email
-        $this->_order->sendNewOrderEmail();
-        $this->_order->setEmailSent(true);
-
-        $this->_order->save();
-    }
-
-    /**
-     * Checking returned parameters
-     *
-     * @param bool $fullCheck Whether to make additional validations such as payment status, transaction signature etc.
-     */
-    protected function _checkReturnedData($fullCheck = true)
-    {
-        // get request variables
-        $params = $this->getRequest()->getParams();
-        if (empty($params)) {
-            Mage::throwException('Request doesn\'t contain any elements.');
-        }
-
-        // check order ID
-        if (empty($params['transaction_id'])
-            || ($fullCheck == false && $this->_getCheckout()->getMoneybookersRealOrderId() != $params['transaction_id']))
-        {
-            Mage::throwException('Missing or invalid order ID.');
-        }
-
-        // load order for further validation
-        $this->_order = Mage::getModel('sales/order')->loadByIncrementId($params['transaction_id']);
-        if (!$this->_order->getId())
-            Mage::throwException('Order not found.');
-
-        // make additional validation
-        if ($fullCheck) {
-            // check payment status
-            if (empty($params['status'])) {
-                Mage::throwException('Unknown payment status');
-            }
-
-            // check transaction signature
-            if (empty($params['md5sig'])) {
-                Mage::throwException('Invalid transaction signature');
-            }
-
-            $checkParams = array('merchant_id', 'transaction_id', 'secret', 'mb_amount', 'mb_currency', 'status');
-            $md5String = '';
-            foreach ($checkParams as $key) {
-                if ($key == 'merchant_id') {
-                    $md5String .= Mage::getStoreConfig(Mage_Moneybookers_Helper_Data::XML_PATH_CUSTOMER_ID, $this->_order->getStoreId());
-                } elseif ($key == 'secret') {
-                    $md5String .= strtoupper(md5(Mage::getStoreConfig(Mage_Moneybookers_Helper_Data::XML_PATH_SECRET_KEY, $this->_order->getStoreId())));
-                } elseif (isset($params[$key])) {
-                    $md5String .= $params[$key];
-                }
-            }
-            $md5String = strtoupper(md5($md5String));
-
-            if ($md5String != $params['md5sig']) {
-                Mage::throwException('Hash is not valid.');
-            }
-
-            // check transaction amount
-            if (round($this->_order->getGrandTotal(), 2) != $params['mb_amount']) {
-                Mage::throwException('Transaction amount doesn\'t match.');
-            }
-
-            // check transaction currency
-            if ($this->_order->getOrderCurrencyCode() != $params['mb_currency']) {
-                Mage::throwException('Transaction currency doesn\'t match.');
-            }
-        }
-
-        return $params;
+        $event = Mage::getModel('moneybookers/event')
+            ->setEventData($this->getRequest()->getParams());
+        $message = $event->processStatusEvent();
+        $this->getResponse()->setBody($message);
     }
 
     /**
