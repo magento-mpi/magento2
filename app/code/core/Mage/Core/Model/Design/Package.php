@@ -75,6 +75,13 @@ class Mage_Core_Model_Design_Package
      */
     protected $_rootDir;
 
+    /**
+     * Directory of the css file
+     * Using only to transmit additional parametr in callback functions
+     * @var string
+     */
+    protected $_callbackFileDir;
+
     protected $_config = null;
 
     /**
@@ -585,7 +592,7 @@ class Mage_Core_Model_Design_Package
         if (!$targetDir) {
             return '';
         }
-        if (Mage::helper('core')->mergeFiles($files, $targetDir . DS . $targetFilename, false, null, '.js')) {
+        if (Mage::helper('core')->mergeFiles($files, $targetDir . DS . $targetFilename, false, null, 'js')) {
             return Mage::getBaseUrl('media') . 'js/' . $targetFilename;
         }
         return '';
@@ -597,35 +604,18 @@ class Mage_Core_Model_Design_Package
      * @param $files
      * @return string
      */
-//    public function getMergedCssUrl($files)
-//    {
-//        // not implemented
-////    {
-////        $cssImport = '/@import\\s+([\'"])(.*?)[\'"]/';
-////        $out = preg_replace_callback($cssImport, array($this, 'processCss'), $out);
-////
-////        $cssUrl = '/url\\(\\s*([^\\)\\s]+)\\s*\\)/';
-////        $out = preg_replace_callback($cssUrl, array($this, 'processCss'), $out);
-////
-////        $import = ($match[0][0] == '@');
-////
-////        if ($import) {
-////            $quote = $match[1];
-////            $uri = $match[2];
-////        } else {
-////            $quote = ($match[1][0] == "'" || $match[1][0] == '"') ? $match[1][0] : '';
-////            $uri = ($quote == '') ? $match[1] : substr($match[1], 1, strlen($match[1]) - 2);
-////        }
-////
-////        if(substr($uri,0,3) == '../') {
-////            $uri = substr($uri,3);
-////        }
-////
-////        $uri = $this->getBasePath().$uri;
-////        return $import ? "@import {$quote}{$uri}{$quote}" : "url({$quote}{$uri}{$quote})";
-////    }
-//        return '';
-//    }
+     public function getMergedCssUrl($files)
+     {
+        $targetFilename = md5(implode(',', $files)) . '.css';
+        $targetDir = $this->_initMergerDir('css');
+        if (!$targetDir) {
+            return '';
+        }
+        if (Mage::helper('core')->mergeFiles($files, $targetDir . DS . $targetFilename, false, array($this, 'beforeMergeCss'), 'css')) {
+            return Mage::getBaseUrl('media') . 'css/' . $targetFilename;
+        }
+        return '';
+     }
 
     /**
      * Remove all merged js/css files
@@ -661,5 +651,100 @@ class Mage_Core_Model_Design_Package
             Mage::logException($e);
         }
         return false;
+    }
+
+    /**
+     * Before merge css callback function
+     *
+     * @param string $file
+     * @param string $contents
+     * @return string
+     */
+    public function beforeMergeCss($file, $contents)
+    {
+       $this->_setCallbackFileDir($file);
+
+       $cssImport = '/@import\\s+([\'"])(.*?)[\'"]/';
+       $contents = preg_replace_callback($cssImport, array($this, '_cssMergerImportCallback'), $contents);
+
+       $cssUrl = '/url\\(\\s*([^\\)\\s]+)\\s*\\)?/';
+       $contents = preg_replace_callback($cssUrl, array($this, '_cssMergerUrlCallback'), $contents);
+
+       return $contents;
+    }
+
+    /**
+     * Set file dir for css file
+     *
+     * @param string $file
+     */
+    protected function _setCallbackFileDir($file)
+    {
+       $file = str_replace(Mage::getBaseDir().DS, '', $file);
+       $this->_callbackFileDir = dirname($file);
+    }
+
+    /**
+     * Callback function replaces relative links for @import matches in css file
+     *
+     * @param array $match
+     * @return string
+     */
+    protected function _cssMergerImportCallback($match)
+    {
+        $quote = $match[1];
+        $uri = $this->_prepareUrl($match[2]);
+
+        return "@import {$quote}{$uri}{$quote}";
+    }
+
+    /**
+     * Callback function replaces relative links for url() matches in css file
+     *
+     * @param array $match
+     * @return string
+     */
+    protected function _cssMergerUrlCallback($match)
+    {
+        $quote = ($match[1][0] == "'" || $match[1][0] == '"') ? $match[1][0] : '';
+        $uri = ($quote == '') ? $match[1] : substr($match[1], 1, strlen($match[1]) - 2);
+        $uri = $this->_prepareUrl($uri);
+
+        return "url({$quote}{$uri}{$quote})";
+    }
+
+    /**
+     * Prepare url for css replacement
+     *
+     * @param string $uri
+     * @return string
+     */
+    protected function _prepareUrl($uri)
+    {
+        // check absolute or relative url
+        if (!preg_match('/^[http|https]/i', $uri) && !preg_match('/^\//i', $uri)) {
+
+            $fileDir = '';
+            $pathParts = explode(DS, $uri);
+            $fileDirParts = explode(DS, $this->_callbackFileDir);
+            $baseUrl = Mage::getBaseUrl('web');
+
+            foreach ($pathParts as $key=>$part) {
+                if ($part == '.' || $part == '..') {
+                    unset($pathParts[$key]);
+                }
+
+                if ($part == '..' && count($fileDirParts)) {
+                    $fileDirParts = array_slice($fileDirParts, 0, count($fileDirParts) - 1);
+                }
+            }
+
+            if (count($fileDirParts)) {
+                $fileDir = implode(DS, $fileDirParts).DS;
+            }
+
+            $uri = $baseUrl.$fileDir.implode(DS, $pathParts);
+        }
+        return $uri;
     }
 }
