@@ -131,11 +131,12 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
         // attempt to send email
         $this->setIsCustomerNotified(false);
         if ($this->getBalanceModel()->getNotifyByEmail()) {
-            $email = Mage::getModel('core/email_template')->setDesignConfig(array('store' => $this->getBalanceModel()->getStoreId()));
+            $storeId = $this->getBalanceModel()->getStoreId();
+            $email = Mage::getModel('core/email_template')->setDesignConfig(array('store' => $storeId));
             $customer = $this->getBalanceModel()->getCustomer();
             $email->sendTransactional(
-                Mage::getStoreConfig('customer/enterprise_customerbalance/email_template'),
-                Mage::getStoreConfig('customer/enterprise_customerbalance/email_identity'),
+                Mage::getStoreConfig('customer/enterprise_customerbalance/email_template', $storeId),
+                Mage::getStoreConfig('customer/enterprise_customerbalance/email_identity', $storeId),
                 $customer->getEmail(), $customer->getName(),
                 array(
                     'balance' => Mage::app()->getWebsite($this->getBalanceModel()->getWebsiteId())->getBaseCurrency()->format($this->getBalanceModel()->getAmount(), array(), false),
