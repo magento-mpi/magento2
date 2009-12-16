@@ -31,6 +31,7 @@
             <h2><?php echo $this->__('Recently Compared') ?></h2>
         </div>
         <div class="block-content">
+            <?php $suffix = $this->getNameInLayout(); ?>
             <ol class="mini-products-list">
             <?php $i=0; foreach ($_products as $_product): ?>
                 <li class="item<?php echo (++$i == count($_products))?' last':''; ?>">
@@ -38,7 +39,7 @@
                     <div class="product-details">
                         <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>)"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
                         <?php //echo $this->getReviewsSummaryHtml($_product, 'short') ?>
-                        <?php echo $this->getPriceHtml($_product, true, '-widget-compared-sidebar') ?>
+                        <?php echo $this->getPriceHtml($_product, true, '-widget-compared-'.$suffix) ?>
                         <?php if($_product->isSaleable()): ?>
                             <p><a href="<?php echo $this->getAddToCartUrl($_product) ?>" class="link-cart"><?php echo $this->__('Add to Cart') ?></a></p>
                         <?php else: ?>
