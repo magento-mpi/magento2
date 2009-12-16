@@ -31,7 +31,7 @@
             <h2><?php echo $this->__('Recently Compared') ?></h2>
         </div>
         <div class="block-content">
-            <ol class="mini-product-images-list">
+            <ol class="mini-products-images-list">
             <?php $i=0; foreach ($_products as $_product): ?>
                 <li class="item">
                     <a class="product-image" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><img class="product-image" src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(75) ?>" width="75" height="75" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a>

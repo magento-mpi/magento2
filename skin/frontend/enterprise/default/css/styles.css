@@ -838,7 +838,7 @@ dd.even { background:#f6f6f6; }*/
 .mini-products-list .product-details h4 {}
 .mini-products-list .product-details .btn-remove { font-size:11px; }
 
-.sidebar .mini-product-images-list li.item { padding:5px 10px; text-align:center; }
+.sidebar .mini-products-images-list li.item { float:left; padding:5px 5px; text-align:center; }
 
 .block-products .product-image { width:50px; margin-right:-50px; }
 .block-products .mini-products-list .product-details { margin-left:65px; }
