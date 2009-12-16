@@ -740,10 +740,10 @@ class Mage_Core_Model_Design_Package
             }
 
             if (count($fileDirParts)) {
-                $fileDir = implode(DS, $fileDirParts).DS;
+                $fileDir = implode('/', $fileDirParts).'/';
             }
 
-            $uri = $baseUrl.$fileDir.implode(DS, $pathParts);
+            $uri = $baseUrl.$fileDir.implode('/', $pathParts);
         }
         return $uri;
     }
