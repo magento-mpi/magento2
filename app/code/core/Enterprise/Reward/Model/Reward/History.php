@@ -138,17 +138,20 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
         $addData = array();
         switch ($action) {
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER:
-                $addData['order_increment_id'] = $this->getOrderIncementId();
+                $addData['order_increment_id'] = $this->getReward()->getOrderIncrementId();
                 break;
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_CUSTOMER:
+                $addData['invitation_email'] = $this->getReward()->getInvitation()->getEmail();
+                break;
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_ORDER:
-                $addData['invitation_number'] = $this->getInvitationNumber();
+                $addData['order_increment_id'] = $this->getReward()->getOrderIncrementId();
+                $addData['invitation_email'] = $this->getReward()->getInvitation()->getEmail();
                 break;
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_TAG:
                 $addData['tag'] = $this->getReward()->getTag()->getName();
                 break;
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA:
-                $addData['order_increment_id'] = $this->getOrderIncementId();
+                $addData['order_increment_id'] = $this->getReward()->getOrderIncrementId();
                 break;
         }
         return $addData;
@@ -192,12 +195,12 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
                 $message = 'Signed up for Newsletter';
                 break;
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_CUSTOMER:
-                $messageVar = $this->getMessageVar('invitation_number');
-                $message = Mage::helper('enterprise_reward')->__('Invitation %s converted into a Customer', $messageVar);
+                $messageVar = $this->getMessageVar('invitation_email');
+                $message = Mage::helper('enterprise_reward')->__('Invitation to %s converted into a Customer', $messageVar);
                 break;
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_ORDER:
-                $messageVar = $this->getMessageVar('invitation_number');
-                $message = Mage::helper('enterprise_reward')->__('Invitation %s converted into an Order', $messageVar);
+                $messageVar = $this->getMessageVar('invitation_email');
+                $message = Mage::helper('enterprise_reward')->__('Invitation to %s converted into an Order', $messageVar);
                 break;
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_REVIEW:
                 $message = 'Submitted Review passed Moderation';

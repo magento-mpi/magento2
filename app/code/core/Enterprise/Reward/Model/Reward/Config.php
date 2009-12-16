@@ -57,6 +57,15 @@ class Enterprise_Reward_Model_Reward_Config extends Varien_Object
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_REGISTER:
                 $field = 'register';
                 break;
+            case Enterprise_Reward_Model_Reward::REWARD_ACTION_NEWSLETTER:
+                $field = 'newsletter';
+                break;
+            case Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_CUSTOMER:
+                $field = 'invitation_customer';
+                break;
+            case Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_ORDER:
+                $field = 'invitation_order';
+                break;
         }
         if ($field) {
             $points = $this->getConfigValue($field, $websiteId);

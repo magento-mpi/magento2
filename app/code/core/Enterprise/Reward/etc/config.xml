@@ -84,6 +84,24 @@
                 </enterprise_reward_notification_expiry_warning_template>
             </email>
         </template>
+        <events>
+            <newsletter_subscriber_save_commit_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>customerSubscribed</method>
+                    </enterprise_reward>
+                </observers>
+            </newsletter_subscriber_save_commit_after>
+            <sales_order_save_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>orderCompleted</method>
+                    </enterprise_reward>
+                </observers>
+            </sales_order_save_after>
+        </events>
     </global>
     <admin>
         <routers>
@@ -183,6 +201,14 @@
                     </enterprise_reward>
                 </observers>
             </customer_save_commit_after>
+            <enterprise_invitation_save_commit_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>invitationToCustomer</method>
+                    </enterprise_reward>
+                </observers>
+            </enterprise_invitation_save_commit_after>
         </events>
     </frontend>
     <default>

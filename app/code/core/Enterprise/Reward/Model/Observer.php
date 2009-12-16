@@ -159,5 +159,147 @@ class Enterprise_Reward_Model_Observer
         }
         return $this;
     }
-}
 
+    /**
+     * Update points balance after first successful subscribtion
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function customerSubscribed($observer)
+    {
+        /* @var $subscriber Mage_Newsletter_Model_Subscriber */
+        $subscriber = $observer->getEvent()->getSubscriber();
+        // reward only new subscribtions
+        if (!$subscriber->isObjectNew() || !$subscriber->getCustomerId()) {
+            return $this;
+        }
+
+        if ($subscriber->getData('subscriber_status') != Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED) {
+            return $this;
+        }
+
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+
+        /* @var $subscribers Mage_Newsletter_Model_Mysql4_Subscriber_Collection */
+        $subscribers = Mage::getResourceModel('newsletter/subscriber_collection')
+            ->addFieldToFilter('customer_id', $subscriber->getCustomerId())
+            ->load();
+        // check for existing customer subscribtions
+        $found = false;
+        foreach ($subscribers as $item) {
+            if ($subscriber->getSubscriberId() != $item->getSubscriberId()) {
+                $found = true;
+                break;
+            }
+        }
+
+        if (!$found) {
+            $reward = Mage::getModel('enterprise_reward/reward')
+                ->setCustomerId($subscriber->getCustomerId())
+                ->setStore($subscriber->getStoreId())
+                ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_NEWSLETTER)
+                ->setSubscriber($subscriber)
+                ->updateRewardPoints();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Update points balance after customer registered by invitation
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function invitationToCustomer($observer)
+    {
+        $invitation = $observer->getEvent()->getInvitation();
+        /* @var $invitation Enterprise_Invitation_Model_Invitation */
+        if ($invitation->getData('status') != Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED) {
+            return $this;
+        }
+
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+
+        if ($invitation->getCustomerId() && $invitation->getReferralId()) {
+            $reward = Mage::getModel('enterprise_reward/reward')
+                ->setCustomerId($invitation->getCustomerId())
+                ->setStore($invitation->getStoreId())
+                ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_CUSTOMER)
+                ->setInvitation($invitation)
+                ->updateRewardPoints();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Update points balance after order becomes completed
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function orderCompleted($observer)
+    {
+        $order = $observer->getEvent()->getOrder();
+        /* @var $invitation Mage_Sales_Model_Order */
+        if ($order->getCustomerIsGuest() || !Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+        if ($order->getState() != Mage_Sales_Model_Order::STATE_COMPLETE) {
+            return $this;
+        }
+
+        $reward = Mage::getModel('enterprise_reward/reward')
+            ->setCustomerId($order->getCustomerId())
+            ->loadByCustomer();
+        $rate = $reward->getRateToCurrency();
+        if ($rate->getId() && $rate->getCurrencyAmount() > 0) {
+            $points = intval($order->getBaseSubtotal() * $rate->getPoints() / $rate->getCurrencyAmount());
+            if ($points > 0) {
+                $reward->setStore($order->getStoreId())
+                    ->setOrderIncrementId($order->getIncrementId())
+                    ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA)
+                    ->setPointsDelta($points)
+                    ->save();
+            }
+        }
+
+        // Also update inviter balance if possible
+        $this->_invitationToOrder($observer);
+
+        return $this;
+    }
+
+    /**
+     * Update inviter points balance after referral's order completed
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    protected function _invitationToOrder($observer)
+    {
+        $order = $observer->getEvent()->getOrder();
+        /* @var $invitation Mage_Sales_Model_Order */
+
+        $invitation = Mage::getModel('enterprise_invitation/invitation')
+            ->load($order->getCustomerId(), 'referral_id');
+        if (!$invitation->getId() || !$invitation->getCustomerId()) {
+            return $this;
+        }
+        $reward = Mage::getModel('enterprise_reward/reward')
+            ->setOrderIncrementId($order->getIncrementId())
+            ->setInvitation($invitation)
+            ->setCustomerId($invitation->getCustomerId())
+            ->setStore($invitation->getStoreId())
+            ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_ORDER)
+            ->updateRewardPoints();
+
+        return $this;
+    }
+}

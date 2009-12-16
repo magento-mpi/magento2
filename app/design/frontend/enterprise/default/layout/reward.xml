@@ -35,7 +35,7 @@
             </action>
         </reference>
     </customer_account>
-    
+
     <enterprise_reward_customer_info>
         <update handle="customer_account"/>
         <reference name="content">
@@ -45,7 +45,7 @@
             </block>
         </reference>
     </enterprise_reward_customer_info>
-    
+
     <checkout_onepage_index>
         <reference name="checkout.onepage.payment.methods_additional">
             <block type="enterprise_reward/checkout_onepage_payment_additional" template="reward/checkout/onepage/payment/additional.phtml" name="reward.points" />
@@ -57,4 +57,36 @@
             <block type="enterprise_reward/checkout_onepage_payment_additional" template="reward/checkout/onepage/payment/additional.phtml" name="reward.points_scripts" />
         </reference>
     </checkout_onepage_paymentmethod-->
+
+    <catalog_product_view>
+         <!-- Mage_Tag -->
+        <reference name="product.tag.list">
+            <block type="enterprise_reward/tooltip" name="reward.tooltip.tag" template="reward/tooltip/tag.phtml" before="-"></block>
+        </reference>
+    </catalog_product_view>
+
+    <review_product_list>
+        <reference name="content">
+            <block type="enterprise_reward/tooltip" name="reward.hint.review" template="reward/tooltip/review.phtml" after="product.info"></block>
+        </reference>
+    </review_product_list>
+
+    <customer_account_create>
+        <reference name="content">
+            <block type="enterprise_reward/tooltip" name="reward.tooltip.register" template="reward/tooltip/register.phtml" before="-"></block>
+            <block type="enterprise_reward/tooltip" name="reward.tooltip.newsletter" template="reward/tooltip/newsletter.phtml" after="reward.tooltip.register"></block>
+        </reference>
+    </customer_account_create>
+
+    <newsletter_manage_index translate="label">
+        <reference name="content">
+            <block type="enterprise_reward/tooltip" name="reward.tooltip.newsletter" template="reward/tooltip/newsletter.phtml" before="-"></block>
+        </reference>
+    </newsletter_manage_index>
+
+    <enterprise_invitation_index_index>
+        <reference name="content">
+            <block type="enterprise_reward/tooltip" name="reward.tooltip.invitation" template="reward/tooltip/invitation.phtml" after="reward.tooltip.invitation"></block>
+        </reference>
+    </enterprise_invitation_index_index>
 </layout>
