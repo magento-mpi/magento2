@@ -50,4 +50,18 @@
             <block type="enterprise_reward/adminhtml_reward_rate_edit" name="reward.rate.edit.container"/>
         </reference>
     </adminhtml_reward_rate_edit>
+    
+    <adminhtml_sales_order_view>
+        <reference name="order_totals">
+            <block type="adminhtml/sales_order_totals_item" name="reward_points" template="enterprise/reward/sales/order/total.phtml">
+                <action method="setSourceField"><value>reward_points_balance</value></action>
+                <action method="setLabel"><value>Reword Points</value></action>
+            </block>
+            <!--block type="adminhtml/sales_order_totals_item" name="reward_points_refunded" template="sales/order/totals/item.phtml" after="-">
+                <action method="setSourceField"><value>customer_balance_total_refunded</value></action>
+                <action method="setLabel"><value>Refunded to Store Credit</value></action>
+                <action method="setDisplayArea"><value>footer</value></action>
+            </block-->
+        </reference>
+    </adminhtml_sales_order_view>
 </layout>

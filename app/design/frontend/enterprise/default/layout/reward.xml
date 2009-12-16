@@ -48,7 +48,7 @@
 
     <checkout_onepage_index>
         <reference name="checkout.onepage.payment.methods_additional">
-            <block type="enterprise_reward/checkout_onepage_payment_additional" template="reward/checkout/onepage/payment/additional.phtml" name="reward.points" />
+            <block type="enterprise_reward/checkout_onepage_payment_additional" template="reward/checkout/onepage/payment/additional.phtml" name="reward.points" before="-"/>
         </reference>
     </checkout_onepage_index>
 

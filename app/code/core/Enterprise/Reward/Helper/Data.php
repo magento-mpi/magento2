@@ -43,4 +43,21 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfigFlag('enterprise_reward/general/is_enabled');
     }
+
+    /**
+     * Format (add + or - sign) before given points count
+     *
+     * @param integer $points
+     * @return string
+     */
+    public function formatPointsDelta($points)
+    {
+        $formatedPoints = $points;
+        if ($points > 0) {
+            $formatedPoints = '+'.$points;
+        } elseif ($points < 0) {
+            $formatedPoints = '-'.(-1*$points);
+        }
+        return $formatedPoints;
+    }
 }

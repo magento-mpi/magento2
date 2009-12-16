@@ -302,4 +302,118 @@ class Enterprise_Reward_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Set use reward points flag to new quote
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function quoteMergeAfter($observer)
+    {
+        $quote = $observer->getEvent()->getQuote();
+        $source = $observer->getEvent()->getSource();
+
+        if ($source->getUseRewardPoints()) {
+            $quote->setUseRewardPoints($source->getUseRewardPoints());
+        }
+        return $this;
+    }
+
+    /**
+     * Set reward points balance to quote if customer want to use it.
+     * Set Zero Subtotal Checkout to use if customer points cover grand total
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function paymentDataImport(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+        $input = $observer->getEvent()->getInput();
+        /* @var $quote Mage_Sales_Model_Quote */
+        $quote = $observer->getEvent()->getPayment()->getQuote();
+        if (!$quote || !$quote->getCustomerId()) {
+            return $this;
+        }
+        $quote->setUseRewardPoints($input->getUseRewardPoints());
+        if ($quote->getUseRewardPoints()) {
+            /* @var $reward Enterprise_Reward_Model_Reward */
+            $reward = Mage::getModel('enterprise_reward/reward')
+                ->setCustomer($quote->getCustomer())
+                ->setWebsiteId(Mage::app()->getStore($quote->getStoreId())->getWebsiteId())
+                ->loadByCustomer();
+            if ($reward->getId()) {
+                $quote->setRewardInstance($reward);
+                $baseGrandTotal = $quote->getBaseGrandTotal()+$quote->getBaseRewardPointsCurrencyAmount();
+                if ($reward->isEnoughPointsToCoverAmount($baseGrandTotal)) {
+                    $input->setMethod('free');
+                }
+            }
+            else {
+                $quote->setUseRewardPoints(false);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Enable Zero Subtotal Checkout payment method
+     * if customer has enough points to cover grand total
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function preparePaymentMethod($observer)
+    {
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+        $quote = $observer->getEvent()->getQuote();
+        if (!$quote->getId()) {
+            return $this;
+        }
+        /* @var $reward Enterprise_Reward_Model_Reward */
+        $reward = $quote->getRewardInstance();
+        if (!$reward || !$reward->getId()) {
+            return $this;
+        }
+        $baseQuoteGrandTotal = $quote->getBaseGrandTotal()+$quote->getBaseRewardPointsCurrencyAmount();
+        if ($reward->isEnoughPointsToCoverAmount($baseQuoteGrandTotal)) {
+            $paymentCode = $observer->getEvent()->getMethodInstance()->getCode();
+            $result = $observer->getEvent()->getResult();
+            if ('free' === $paymentCode) {
+                $result->isAvailable = true;
+            } else {
+                $result->isAvailable = false;
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Reduce reward points if points was used during checkout
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function processOrderPlace(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+        /* @var $order Mage_Sales_Model_Order */
+        $order = $observer->getEvent()->getOrder();
+        if ($order->getBaseRewardPointsCurrencyAmount() > 0) {
+            $reward = Mage::getModel('enterprise_reward/reward')
+                ->setCustomerId($order->getCustomerId())
+                ->setWebsiteId(Mage::app()->getStore($order->getStoreId())->getWebsiteId())
+                ->setPointsDelta(-$order->getRewardPointsBalance())
+                ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER)
+                ->setOrder($order)
+                ->updateRewardPoints();
+        }
+        return $this;
+    }
 }

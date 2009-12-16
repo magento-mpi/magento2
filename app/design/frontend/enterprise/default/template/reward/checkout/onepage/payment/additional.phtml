@@ -25,12 +25,82 @@
  */
 ?>
 <div class="checkout-onepage-payment-additional-reward">
-    <input type="checkbox" class="checkbox" name="payment[use_reward_points]" value="1" id="use_reward_points"/>
+    <input type="checkbox"" class="checkbox" name="payment[use_reward_points]" value="1" id="use_reward_points" <?php echo $this->useRewardPoints()?'checked="checked"':'' ?>/>
     <label for="use_reward_points">
     <strong>
-        <?php echo Mage::helper('enterprise_reward')->__('Use Reward Points'); ?>
-        (<span id="points_available_amount">100</span>
-        <?php echo Mage::helper('enterprise_reward')->__('available'); ?>)
+        <?php echo Mage::helper('enterprise_reward')->__('Use my Reward Points'); ?>,
+        <?php echo Mage::helper('enterprise_reward')->__('%d Points (%s) available', $this->getPointsBalance(), Mage::helper('core')->currency($this->getCurrencyAmount())); ?>
     </strong>
     </label>
 </div>
+<script type="text/javascript">
+    //<![CDATA[
+    
+    var isFullyPaidAfterCustomerBalanceApplication = <?php if ($this->isEnoughPoints()): ?>true<?php else: ?>false<?php endif; ?>;
+    Payment.prototype.init = function () {
+        var elements = Form.getElements(this.form);
+        var method = null;
+        for (var i=0; i<elements.length; i++) {
+            if (elements[i].name=='payment[method]') {
+                if (elements[i].checked) {
+                    method = elements[i].value;
+                }
+            } else if (elements[i].name != 'payment[use_reward_points]') {
+                elements[i].disabled = true;
+            }
+        }
+        if (method) this.switchMethod(method);
+
+        this.switchCustomerBalanceCheckbox();
+    };
+
+    Payment.prototype.validate = function() {
+        if ($('use_reward_points') && $('use_reward_points').checked && isFullyPaidAfterCustomerBalanceApplication) {
+            return true;
+        }
+        var methods = document.getElementsByName('payment[method]');
+        if (methods.length==0) {
+            alert(Translator.translate('Your order can not be completed at this time as there is no payment methods available for it.'));
+            return false;
+        }
+        for (var i=0; i<methods.length; i++) {
+            if (methods[i].checked) {
+                return true;
+            }
+        }
+        alert(Translator.translate('Please specify payment method.'));
+        return false;
+    };
+
+    Payment.prototype.switchCustomerBalanceCheckbox = function() {
+        if (isFullyPaidAfterCustomerBalanceApplication) {
+            var elements = Form.getElements(this.form);
+            for (var i=0; i<elements.length; i++) {
+                if ($('use_reward_points').checked) {
+                    if (elements[i].name != 'payment[use_reward_points]') {
+                        //elements[i].prevDisabled = elements[i].disabled;
+                        //elements[i].disabled = true;
+                    }
+                } else {
+                    if (elements[i].name != 'payment[use_reward_points]') {
+                        //elements[i].disabled = elements[i].prevDisabled;
+                    }
+
+                    if (elements[i].name == 'payment[method]' && elements[i].value == 'free') {
+                        (elements[i].parentNode).hide();
+                    }
+                }
+            }
+            if ($('use_reward_points').checked) {
+                $('checkout-payment-method-load').hide();
+            } else {
+                $('checkout-payment-method-load').show();
+            }
+        } else {
+            $('checkout-payment-method-load').show();
+        }
+    }
+
+    Event.observe($('use_reward_points'), 'change', payment.switchCustomerBalanceCheckbox);
+    //]]>
+    </script>

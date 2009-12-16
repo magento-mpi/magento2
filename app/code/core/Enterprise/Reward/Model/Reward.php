@@ -114,6 +114,9 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
                 $this->getHistory()->setEntity($this->getCustomer()->getId());
                 $result = !((bool)$this->loadByCustomer()->getId());
                 break;
+            case self::REWARD_ACTION_ORDER:
+                $this->getHistory()->setEntity($this->getOrder()->getId());
+                break;
         }
         return $result;
     }
@@ -445,6 +448,44 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     protected function _convertCurrencyToPoints($amount)
     {
         $points = 0;
+        return $points;
+    }
+
+    /**
+     * Check is enough points (currency amount) to cover given amount
+     *
+     * @param float $amount
+     * @return boolean
+     */
+    public function isEnoughPointsToCoverAmount($amount)
+    {
+        $result = false;
+        if ($this->getId()) {
+            if ($this->getCurrencyAmount() >= $amount) {
+                $result = true;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Return points equivalent of given amount.
+     * Converting by 'to currency' rate and points round up
+     *
+     * @param float $amount
+     * @return integer
+     */
+    public function getPointsEquivalent($amount)
+    {
+        $points = 0;
+        if ($amount) {
+            $ratePointsCount = $this->getRateToCurrency()->getPoints();
+            $rateCurrencyAmount = $this->getRateToCurrency()->getCurrencyAmount();
+            $delta = $amount / $rateCurrencyAmount;
+            if ($delta > 0) {
+                $points = $ratePointsCount * ceil($delta);
+            }
+        }
         return $points;
     }
 

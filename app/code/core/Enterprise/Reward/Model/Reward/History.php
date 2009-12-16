@@ -138,7 +138,7 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
         $addData = array();
         switch ($action) {
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER:
-                $addData['order_increment_id'] = $this->getReward()->getOrderIncrementId();
+                $addData['order_increment_id'] = $this->getReward()->getOrder()->getIncrementId();
                 break;
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_CUSTOMER:
                 $addData['invitation_email'] = $this->getReward()->getInvitation()->getEmail();

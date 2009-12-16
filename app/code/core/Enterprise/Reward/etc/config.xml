@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Reward>
-            <version>1.7.0.0.4</version>
+            <version>1.7.0.0.5</version>
         </Enterprise_Reward>
     </modules>
     <global>
@@ -56,7 +56,8 @@
             <enterprise_reward_setup>
                 <setup>
                     <module>Enterprise_Reward</module>
-                    <class>Mage_Customer_Model_Entity_Setup</class>
+                    <!--class>Mage_Customer_Model_Entity_Setup</class-->
+                    <class>Mage_Sales_Model_Mysql4_Setup</class>
                 </setup>
             </enterprise_reward_setup>
         </resources>
@@ -84,6 +85,25 @@
                 </enterprise_reward_notification_expiry_warning_template>
             </email>
         </template>
+        <sales>
+            <quote>
+                <totals>
+                    <reward>
+                        <class>enterprise_reward/total_quote_reward</class>
+                        <before>customerbalance</before>
+                        <after>grand_total</after>
+                        <!--renderer>enterprise_reward/checkout_total</renderer-->
+                    </reward>
+                </totals>
+            </quote>
+        </sales>
+        <fieldsets>
+            <sales_convert_quote_address>
+                <reward_points_balance><to_order>*</to_order></reward_points_balance>
+                <base_reward_points_currency_amount><to_order>*</to_order></base_reward_points_currency_amount>
+                <reward_points_currency_amount><to_order>*</to_order></reward_points_currency_amount>
+            </sales_convert_quote_address>
+        </fieldsets>
         <events>
             <newsletter_subscriber_save_commit_after>
                 <observers>
@@ -101,6 +121,14 @@
                     </enterprise_reward>
                 </observers>
             </sales_order_save_after>
+            <sales_quote_merge_after>
+                <observers>
+                    <enterprise_customerbalance>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>quoteMergeAfter</method>
+                    </enterprise_customerbalance>
+                </observers>
+            </sales_quote_merge_after>
         </events>
     </global>
     <admin>
@@ -201,6 +229,30 @@
                     </enterprise_reward>
                 </observers>
             </customer_save_commit_after>
+            <payment_method_is_active>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>preparePaymentMethod</method>
+                    </enterprise_reward>
+                </observers>
+            </payment_method_is_active>
+            <sales_quote_payment_import_data_before>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>paymentDataImport</method>
+                    </enterprise_reward>
+                </observers>
+            </sales_quote_payment_import_data_before>
+            <sales_order_place_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>processOrderPlace</method>
+                    </enterprise_reward>
+                </observers>
+            </sales_order_place_after>
             <enterprise_invitation_save_commit_after>
                 <observers>
                     <enterprise_reward>
