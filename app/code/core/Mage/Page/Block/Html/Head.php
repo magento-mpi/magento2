@@ -194,18 +194,18 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
                 $html .= '<!--[if '.$if.']>'."\n";
             }
 
-            // static and skin javascripts
-            $html .= $this->_prepareStaticAndSkinElements('<script type="text/javascript" src="%s"%s></script>' . "\n",
-                empty($items['js']) ? array() : $items['js'],
-                empty($items['skin_js']) ? array() : $items['skin_js'],
-                $shouldMergeJs ? array(Mage::getDesign(), 'getMergedJsUrl') : null
-            );
-
             // static and skin css
             $html .= $this->_prepareStaticAndSkinElements('<link rel="stylesheet" type="text/css" href="%s"%s />' . "\n",
                 empty($items['js_css']) ? array() : $items['js_css'],
                 empty($items['skin_css']) ? array() : $items['skin_css'],
                 $shouldMergeCss ? array(Mage::getDesign(), 'getMergedCssUrl') : null
+            );
+
+            // static and skin javascripts
+            $html .= $this->_prepareStaticAndSkinElements('<script type="text/javascript" src="%s"%s></script>' . "\n",
+                empty($items['js']) ? array() : $items['js'],
+                empty($items['skin_js']) ? array() : $items['skin_js'],
+                $shouldMergeJs ? array(Mage::getDesign(), 'getMergedJsUrl') : null
             );
 
             // other stuff
