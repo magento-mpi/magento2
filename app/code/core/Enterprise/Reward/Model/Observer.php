@@ -347,7 +347,7 @@ class Enterprise_Reward_Model_Observer
                 ->loadByCustomer();
             if ($reward->getId()) {
                 $quote->setRewardInstance($reward);
-                $baseGrandTotal = $quote->getBaseGrandTotal()+$quote->getBaseRewardPointsCurrencyAmount();
+                $baseGrandTotal = $quote->getBaseGrandTotal()+$quote->getBaseRewardCurrencyAmount();
                 if ($reward->isEnoughPointsToCoverAmount($baseGrandTotal)) {
                     $input->setMethod('free');
                 }
@@ -379,7 +379,7 @@ class Enterprise_Reward_Model_Observer
         if (!$reward || !$reward->getId()) {
             return $this;
         }
-        $baseQuoteGrandTotal = $quote->getBaseGrandTotal()+$quote->getBaseRewardPointsCurrencyAmount();
+        $baseQuoteGrandTotal = $quote->getBaseGrandTotal()+$quote->getBaseRewardCurrencyAmount();
         if ($reward->isEnoughPointsToCoverAmount($baseQuoteGrandTotal)) {
             $paymentCode = $observer->getEvent()->getMethodInstance()->getCode();
             $result = $observer->getEvent()->getResult();
@@ -405,7 +405,7 @@ class Enterprise_Reward_Model_Observer
         }
         /* @var $order Mage_Sales_Model_Order */
         $order = $observer->getEvent()->getOrder();
-        if ($order->getBaseRewardPointsCurrencyAmount() > 0) {
+        if ($order->getBaseRewardCurrencyAmount() > 0) {
             $reward = Mage::getModel('enterprise_reward/reward')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId(Mage::app()->getStore($order->getStoreId())->getWebsiteId())
@@ -413,6 +413,83 @@ class Enterprise_Reward_Model_Observer
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER)
                 ->setOrder($order)
                 ->updateRewardPoints();
+        }
+        return $this;
+    }
+
+    /**
+     * Set forced can creditmemo flag if refunded amount less then invoiced amount of reward points
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function orderLoadAfter(Varien_Event_Observer $observer)
+    {
+        /* @var $order Mage_Sales_Model_Order */
+        $order = $observer->getEvent()->getOrder();
+        if ($order->canUnhold()) {
+            return $this;
+        }
+        if ($order->isCanceled() ||
+            $order->getState() === Mage_Sales_Model_Order::STATE_CLOSED ) {
+            return $this;
+        }
+        if (($order->getBaseRewardCurrencyAmountInvoiced() - $order->getBaseRewardCurrencyAmountRefunded()) > 0) {
+            $order->setForcedCanCreditmemo(true);
+        }
+        return $this;
+    }
+
+    /**
+     * Set invoiced reward amount to order
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function invoiceSaveAfter(Varien_Event_Observer $observer)
+    {
+        /* @var $invoice Mage_Sales_Model_Order_Invoice */
+        $invoice = $observer->getEvent()->getInvoice();
+        if ($invoice->getBaseRewardCurrencyAmount()) {
+            $order = $invoice->getOrder();
+            $order->setRewardCurrencyAmountInvoiced($order->getRewardCurrencyAmountInvoiced() + $invoice->getRewardCurrencyAmount());
+            $order->setBaseRewardCurrencyAmountInvoiced($order->getBaseRewardCurrencyAmountInvoiced() + $invoice->getBaseRewardCurrencyAmount());
+        }
+        return $this;
+    }
+
+    /**
+     * Clear forced can creditmemo if whole reward amount was refunded
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function creditmemoRefund(Varien_Event_Observer $observer)
+    {
+        $creditmemo = $observer->getEvent()->getCreditmemo();
+        /* @var $order Mage_Sales_Model_Order */
+        $order = $observer->getEvent()->getCreditmemo()->getOrder();
+        $refundedAmount = $order->getBaseRewardCurrencyAmountRefunded() + $creditmemo->getBaseRewardCurrencyAmount();
+        if ($order->getBaseRewardCurrencyAmountInvoiced()) {
+            $order->setForcedCanCreditmemo(false);
+        }
+        return $this;
+    }
+
+    /**
+     * Set refunded reward amount order
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function creditmemoSaveAfter(Varien_Event_Observer $observer)
+    {
+        /* @var $creditmemo Mage_Sales_Model_Order_Creditmemo */
+        $creditmemo = $observer->getEvent()->getCreditmemo();
+        if ($creditmemo->getBaseRewardCurrencyAmount()) {
+            $order = $creditmemo->getOrder();
+            $order->setRewardCurrencyAmountRefunded($order->getRewardCurrencyAmountRefunded() + $creditmemo->getRewardCurrencyAmount());
+            $order->setBaseRewardCurrencyAmountRefunded($order->getBaseRewardCurrencyAmountRefunded() + $creditmemo->getBaseRewardCurrencyAmount());
         }
         return $this;
     }

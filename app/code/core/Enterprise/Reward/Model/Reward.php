@@ -481,9 +481,11 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         if ($amount) {
             $ratePointsCount = $this->getRateToCurrency()->getPoints();
             $rateCurrencyAmount = $this->getRateToCurrency()->getCurrencyAmount();
-            $delta = $amount / $rateCurrencyAmount;
-            if ($delta > 0) {
-                $points = $ratePointsCount * ceil($delta);
+            if ($rateCurrencyAmount > 0) {
+                $delta = $amount / $rateCurrencyAmount;
+                if ($delta > 0) {
+                    $points = $ratePointsCount * ceil($delta);
+                }
             }
         }
         return $points;

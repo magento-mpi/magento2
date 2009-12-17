@@ -58,12 +58,12 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
         $basePointsCurrencyAmount = 0;
 
         $quote->setRewardPointsBalance($pointsBalance);
-        $quote->setRewardPointsCurrencyAmount($pointsCurrencyAmount);
-        $quote->setBaseRewardPointsCurrencyAmount($basePointsCurrencyAmount);
+        $quote->setRewardCurrencyAmount($pointsCurrencyAmount);
+        $quote->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
 
         $address->setRewardPointsBalance($pointsBalance);
-        $address->setRewardPointsCurrencyAmount($pointsCurrencyAmount);
-        $address->setBaseRewardPointsCurrencyAmount($basePointsCurrencyAmount);
+        $address->setRewardCurrencyAmount($pointsCurrencyAmount);
+        $address->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
 
         if ($address->getBaseGrandTotal() && $quote->getCustomer()->getId() && $quote->getUseRewardPoints()) {
 
@@ -99,12 +99,12 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
         }
 
         $quote->setRewardPointsBalance($pointsBalance);
-        $quote->setRewardPointsCurrencyAmount($pointsCurrencyAmount);
-        $quote->setBaseRewardPointsCurrencyAmount($basePointsCurrencyAmount);
+        $quote->setRewardCurrencyAmount($pointsCurrencyAmount);
+        $quote->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
 
         $address->setRewardPointsBalance($pointsBalance);
-        $address->setRewardPointsCurrencyAmount($pointsCurrencyAmount);
-        $address->setBaseRewardPointsCurrencyAmount($basePointsCurrencyAmount);
+        $address->setRewardCurrencyAmount($pointsCurrencyAmount);
+        $address->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
 
         return $this;
     }
@@ -120,11 +120,11 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
         if (!Mage::helper('enterprise_reward')->isEnabled()) {
             return $this;
         }
-        if ($address->getRewardPointsCurrencyAmount()) {
+        if ($address->getRewardCurrencyAmount()) {
             $address->addTotal(array(
                 'code'  => $this->getCode(),
                 'title' => Mage::helper('enterprise_reward')->__('Reward Points'),
-                'value' => -$address->getRewardPointsCurrencyAmount()
+                'value' => -$address->getRewardCurrencyAmount()
             ));
         }
         return $this;

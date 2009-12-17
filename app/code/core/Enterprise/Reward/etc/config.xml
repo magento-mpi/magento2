@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Reward>
-            <version>1.7.0.0.5</version>
+            <version>1.7.0.0.6</version>
         </Enterprise_Reward>
     </modules>
     <global>
@@ -96,12 +96,26 @@
                     </reward>
                 </totals>
             </quote>
+            <order_invoice>
+                <totals>
+                    <reward>
+                        <class>enterprise_reward/total_invoice_reward</class>
+                    </reward>
+                </totals>
+            </order_invoice>
+            <order_creditmemo>
+                <totals>
+                    <reward>
+                        <class>enterprise_reward/total_creditmemo_reward</class>
+                    </reward>
+                </totals>
+            </order_creditmemo>
         </sales>
         <fieldsets>
             <sales_convert_quote_address>
                 <reward_points_balance><to_order>*</to_order></reward_points_balance>
-                <base_reward_points_currency_amount><to_order>*</to_order></base_reward_points_currency_amount>
-                <reward_points_currency_amount><to_order>*</to_order></reward_points_currency_amount>
+                <reward_currency_amount><to_order>*</to_order></reward_currency_amount>
+                <base_reward_currency_amount><to_order>*</to_order></base_reward_currency_amount>
             </sales_convert_quote_address>
         </fieldsets>
         <events>
@@ -129,6 +143,38 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_quote_merge_after>
+            <sales_order_load_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>orderLoadAfter</method>
+                    </enterprise_reward>
+                </observers>
+            </sales_order_load_after>
+            <sales_order_invoice_save_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>invoiceSaveAfter</method>
+                    </enterprise_reward>
+                </observers>
+            </sales_order_invoice_save_after>
+            <sales_order_creditmemo_refund>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>creditmemoRefund</method>
+                    </enterprise_reward>
+                </observers>
+            </sales_order_creditmemo_refund>
+            <sales_order_creditmemo_save_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>creditmemoSaveAfter</method>
+                    </enterprise_reward>
+                </observers>
+            </sales_order_creditmemo_save_after>
         </events>
     </global>
     <admin>
