@@ -288,17 +288,21 @@ class Mage_Core_Model_App
 
         $this->_initBaseConfig();
         $this->_initCache();
-        $this->_initModules();
 
-        $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
+        if ($this->_cache->processRequest()) {
+            $this->getResponse()->sendResponse();
+        } else {
+            $this->_initModules();
+            $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
 
-        if ($this->_config->isLocalConfigLoaded()) {
-            $this->_initCurrentStore($scopeCode, $scopeType);
-            $this->_initRequest();
-            Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
+            if ($this->_config->isLocalConfigLoaded()) {
+                $this->_initCurrentStore($scopeCode, $scopeType);
+                $this->_initRequest();
+                Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
+            }
+
+            $this->getFrontController()->dispatch();
         }
-
-        $this->getFrontController()->dispatch();
         return $this;
     }
 
@@ -1006,14 +1010,16 @@ class Mage_Core_Model_App
     }
 
     /**
-     * Retrieve application installation flag
-     *
-     * @deprecated since 1.2
-     * @return bool
+     * Get core cache model
+     * 
+     * @return Mage_Core_Model_Cache
      */
-    public function isInstalled()
+    public function getCacheInstance()
     {
-        return Mage::isInstalled();
+        if (!$this->_cache) {
+            $this->_initCache();
+        }
+        return $this->_cache;
     }
 
     /**
@@ -1320,6 +1326,17 @@ class Mage_Core_Model_App
 
 
 
+
+    /**
+     * Retrieve application installation flag
+     *
+     * @deprecated since 1.2
+     * @return bool
+     */
+    public function isInstalled()
+    {
+        return Mage::isInstalled();
+    }
 
     /**
      * Generate cache tags from cache id

@@ -304,7 +304,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCacheTypes()
     {
         $types = array();
-        $config = Mage::getConfig()->getNode('global/cache/types');
+        $config = Mage::getConfig()->getNode(Mage_Core_Model_Cache::XML_PATH_TYPES);
         foreach ($config->children() as $type=>$node) {
             $types[$type] = (string)$node->label;
         }
@@ -320,8 +320,10 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $types = array();
         $config = Mage::getConfig()->getNode('global/cache/betatypes');
-        foreach ($config->children() as $type=>$node) {
-            $types[$type] = (string)$node->label;
+        if ($config) {
+            foreach ($config->children() as $type=>$node) {
+                $types[$type] = (string)$node->label;
+            }
         }
         return $types;
     }

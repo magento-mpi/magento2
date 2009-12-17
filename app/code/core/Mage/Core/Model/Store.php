@@ -606,6 +606,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         $code = strtoupper($code);
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
             $this->_getSession()->setCurrencyCode($code);
+            Mage::app()->getCookie()->set('currency', $code);
         }
         return $this;
     }

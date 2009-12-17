@@ -33,6 +33,7 @@ class Mage_Core_Model_Cache
 {
     const DEFAULT_LIFETIME  = 7200;
     const OPTIONS_CACHE_ID  = 'core_cache_options';
+    const XML_PATH_TYPES    = 'global/cache/types';
 
     /**
      * @var string
@@ -75,6 +76,13 @@ class Mage_Core_Model_Cache
     );
 
     /**
+     * List of available request processors
+     *
+     * @var array
+     */
+    protected $_requestProcessors = array();
+
+    /**
      * List of allowed cache options
      *
      * @var array
@@ -96,17 +104,20 @@ class Mage_Core_Model_Cache
         if (!$this->_idPrefix && isset($options['prefix'])) {
             $this->_idPrefix = $options['prefix'];
         }
+        if (empty($this->_idPrefix)) {
+            $this->_idPrefix = substr(md5(Mage::getConfig()->getOptions()->getEtcDir()), 0, 3).'_';
+        }
 
         $backend    = $this->_getBackendOptions($options);
         $frontend   = $this->_getFrontendOptions($options);
 
-        if (empty($this->_idPrefix)) {
-            $this->_idPrefix = substr(md5(Mage::getConfig()->getOptions()->getEtcDir()), 0, 5).'-';
-        }
-
-        $this->_frontend = Zend_Cache::factory('Core', $backend['type'], $frontend, $backend['options'],
-            false, true, true
+        $this->_frontend = Zend_Cache::factory('Varien_Cache_Core', $backend['type'], $frontend, $backend['options'],
+            true, true, true
         );
+
+        if (isset($options['request_processors'])) {
+            $this->_requestProcessors = $options['request_processors'];
+        }
     }
 
     /**
@@ -253,6 +264,7 @@ class Mage_Core_Model_Cache
         if (!array_key_exists('automatic_cleaning_factor', $options)) {
             $options['automatic_cleaning_factor'] = 0;
         }
+        $options['cache_id_prefix'] = $this->_idPrefix;
         return $options;
     }
 
@@ -265,8 +277,7 @@ class Mage_Core_Model_Cache
     protected function _id($id)
     {
         if ($id) {
-            $id = strtoupper($this->_idPrefix.$id);
-            $id = preg_replace('/([^a-zA-Z0-9_]{1,1})/', '_', $id);
+            $id = strtoupper($id);
         }
         return $id;
     }
@@ -345,7 +356,7 @@ class Mage_Core_Model_Cache
      */
     public function clean($tags=array())
     {
-        $mode = Zend_Cache::CLEANING_MODE_MATCHING_TAG;
+        $mode = Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG;
         if (!empty($tags)) {
             if (!is_array($tags)) {
                 $tags = array($tags);
@@ -355,6 +366,17 @@ class Mage_Core_Model_Cache
             $res = $this->_frontend->clean($mode, array(Mage_Core_Model_App::CACHE_TAG));
             $res = $res && $this->_frontend->clean($mode, array(Mage_Core_Model_Config::CACHE_TAG));
         }
+        return $res;
+    }
+
+    /**
+     * Clean cached data by specific tag
+     *
+     * @return  bool
+     */
+    public function flush()
+    {
+        $res = $this->_frontend->clean();
         return $res;
     }
 
@@ -424,6 +446,25 @@ class Mage_Core_Model_Cache
     }
 
     /**
+     * Get cache tags by cache type from configuration
+     *
+     * @param string $type
+     * @return array
+     */
+    public function getTagsByType($type)
+    {
+        $path = self::XML_PATH_TYPES.'/'.$type.'/tags';
+        $tagsConfig = Mage::getConfig()->getNode($path);
+        if ($tagsConfig) {
+            $tags = (string) $tagsConfig;
+            $tags = explode(',', $tags);
+        } else {
+            $tags = false;
+        }
+        return $tags;
+    }
+
+    /**
      * Save cache usage options
      *
      * @param array $options
@@ -434,5 +475,40 @@ class Mage_Core_Model_Cache
         $this->remove(self::OPTIONS_CACHE_ID);
         $options = $this->_getResource()->saveAllOptions($options);
         return $this;
+    }
+
+    /**
+     * Try to get response body from cache storage with predefined processors
+     *
+     * @return bool
+     */
+    public function processRequest()
+    {
+        if (empty($this->_requestProcessors)) {
+            return false;
+        }
+
+        $content = false;
+        foreach ($this->_requestProcessors as $processor) {
+            $processor = $this->_getProcessor($processor);
+            if ($processor) {
+                $content = $processor->extractContent($content);
+            }
+        }
+
+        if ($content) {
+            Mage::app()->getResponse()->appendBody($content);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get request processor object
+     */
+    protected function _getProcessor($processor)
+    {
+        $processor = new $processor;
+        return $processor;
     }
 }

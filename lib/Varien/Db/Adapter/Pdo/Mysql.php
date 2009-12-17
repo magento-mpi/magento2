@@ -128,11 +128,17 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     protected $_debugTimer          = 0;
 
     /**
-     * Cache backend adapter instance
+     * Cache frontend adapter instance
      *
-     * @var Zend_Cache_Backend_Interface
+     * @var Zend_Cache_Core
      */
     protected $_cacheAdapter;
+
+    /**
+     * DDL cache allowing flag
+     * @var bool
+     */
+    protected $_isDdlCacheAllowed = true;
 
     /**
      * Begin new DB transaction for connection
@@ -1183,11 +1189,14 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
      */
     public function loadDdlCache($tableCacheKey, $ddlType)
     {
+        if (!$this->_isDdlCacheAllowed) {
+            return false;
+        }
         if (isset($this->_ddlCache[$ddlType][$tableCacheKey])) {
             return $this->_ddlCache[$ddlType][$tableCacheKey];
         }
 
-        if ($this->_cacheAdapter instanceof Zend_Cache_Backend_Interface) {
+        if ($this->_cacheAdapter instanceof Zend_Cache_Core) {
             $cacheId = $this->_getCacheId($tableCacheKey, $ddlType);
             $data = $this->_cacheAdapter->load($cacheId);
             if ($data !== false) {
@@ -1209,9 +1218,12 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
      */
     public function saveDdlCache($tableCacheKey, $ddlType, $data)
     {
+        if (!$this->_isDdlCacheAllowed) {
+            return $this;
+        }
         $this->_ddlCache[$ddlType][$tableCacheKey] = $data;
 
-        if ($this->_cacheAdapter instanceof Zend_Cache_Backend_Interface) {
+        if ($this->_cacheAdapter instanceof Zend_Cache_Core) {
             $cacheId = $this->_getCacheId($tableCacheKey, $ddlType);
             $data = serialize($data);
             $this->_cacheAdapter->save($data, $cacheId, array(self::DDL_CACHE_TAG));
@@ -1230,9 +1242,12 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
      */
     public function resetDdlCache($tableName = null, $schemaName = null)
     {
+        if (!$this->_isDdlCacheAllowed) {
+            return $this;
+        }
         if (is_null($tableName)) {
             $this->_ddlCache = array();
-            if ($this->_cacheAdapter instanceof Zend_Cache_Backend_Interface) {
+            if ($this->_cacheAdapter instanceof Zend_Cache_Core) {
                 $this->_cacheAdapter->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(self::DDL_CACHE_TAG));
             }
         } else {
@@ -1243,7 +1258,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
                 unset($this->_ddlCache[$ddlType][$cacheKey]);
             }
 
-            if ($this->_cacheAdapter instanceof Zend_Cache_Backend_Interface) {
+            if ($this->_cacheAdapter instanceof Zend_Cache_Core) {
                 foreach ($ddlTypes as $ddlType) {
                     $cacheId = $this->_getCacheId($cacheKey, $ddlType);
                     $this->_cacheAdapter->remove($cacheId);
@@ -1251,6 +1266,26 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             }
         }
 
+        return $this;
+    }
+    
+    /**
+     * Disallow DDL caching
+     * @return Varien_Db_Adapter_Pdo_Mysql
+     */
+    public function disallowDdlCache()
+    {
+        $this->_isDdlCacheAllowed = false;
+        return $this;
+    }
+
+    /**
+     * Allow DDL caching
+     * @return Varien_Db_Adapter_Pdo_Mysql
+     */
+    public function allowDdlCache()
+    {
+        $this->_isDdlCacheAllowed = true;
         return $this;
     }
 
@@ -1505,12 +1540,12 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     }
 
     /**
-     * Set cache backend adapter
+     * Set cache adapter
      *
      * @param Zend_Cache_Backend_Interface $adapter
      * @return Varien_Db_Adapter_Pdo_Mysql
      */
-    public function setCacheBackend($adapter)
+    public function setCacheAdapter($adapter)
     {
         $this->_cacheAdapter = $adapter;
         return $this;

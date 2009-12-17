@@ -122,6 +122,18 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     protected $_parentBlock;
 
+    /**
+     * Block html frame open tag
+     * @var string
+     */
+    protected $_frameOpenTag;
+
+    /**
+     * Block html frame close tag
+     * @var string
+     */
+    protected $_frameCloseTag;
+
     protected static $_urlModel;
 
 
@@ -619,6 +631,24 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
+     * Specify block output frame tags
+     *
+     * @param $openTag
+     * @param $closeTag
+     * @return Mage_Core_Block_Abstract
+     */
+    public function setFrameTags($openTag, $closeTag=null)
+    {
+        $this->_frameOpenTag = $openTag;
+        if ($closeTag) {
+            $this->_frameCloseTag = $closeTag;
+        } else {
+            $this->_frameCloseTag = '/'.$openTag;
+        }
+        return $this;
+    }
+
+    /**
      * Produce and return block's html output
      *
      * It is a final method, but you can override _toHmtl() method in descendants if needed
@@ -648,10 +678,15 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
                 $translate->setTranslateInline(true);
             }
         }
-
         $html = $this->_afterToHtml($html);
         Mage::dispatchEvent('core_block_abstract_to_html_after', array('block' => $this));
 
+        /**
+         * Check framing options
+         */
+        if ($this->_frameOpenTag) {
+            $html = '<'.$this->_frameOpenTag.'>'.$html.'<'.$this->_frameCloseTag.'>';
+        }
         return $html;
     }
 
