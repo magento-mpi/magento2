@@ -965,14 +965,15 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
                 $cycle  = false;
             }
             catch (PDOException $e) {
-                if (in_array(strtolower($indexType), array('primary', 'unique'))) {
+        if (in_array(strtolower($indexType), array('primary', 'unique'))) {
                     $match = array();
-                    if (preg_match('#SQLSTATE\[23000\]: [^:]+: 1062[^\']+\'([\d-]+)\'#', $e->getMessage(), $match)) {
+                    if (preg_match('#SQLSTATE\[23000\]: [^:]+: 1062[^\']+\'([\d-\.]+)\'#', $e->getMessage(), $match)) {
                         $ids = explode('-', $match[1]);
                         $this->_removeDuplicateEntry($tableName, $fields, $ids);
                         continue;
                     }
                 }
+
                 throw $e;
             }
             catch (Exception $e) {
@@ -1268,7 +1269,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
         return $this;
     }
-    
+
     /**
      * Disallow DDL caching
      * @return Varien_Db_Adapter_Pdo_Mysql
