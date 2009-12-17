@@ -79,11 +79,11 @@
         </table>
         <script type="text/javascript">decorateTable('wishlist-table')</script>
         <div class="buttons-set2">
-            <button type="submit" name="save_and_share" class="button"><span><span><?php echo $this->__('Share Wishlist') ?></span></span></button>&nbsp;
+            <button type="submit" onclick="this.name='save_and_share'" class="button"><span><span><?php echo $this->__('Share Wishlist') ?></span></span></button>&nbsp;
             <?php if($this->isSaleable()):?>
             <button type="button" onclick="setLocation('<?php echo $this->getUrl('*/*/allcart') ?>')" class="button"><span><span><?php echo $this->__('Add All to Cart') ?></span></span></button>&nbsp;
             <?php endif;?>
-            <button type="submit" class="button" name="do"><span><span><?php echo $this->__('Update Wishlist') ?></span></span></button>
+            <button type="submit" onclick="this.name='do'" class="button"><span><span><?php echo $this->__('Update Wishlist') ?></span></span></button>
         </div>
     </fieldset>
 </form>
