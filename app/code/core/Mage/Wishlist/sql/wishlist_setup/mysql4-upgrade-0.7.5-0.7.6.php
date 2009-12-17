@@ -23,20 +23,3 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/**
- * Add foreign key to customers table into wishlists
- *
- * @category   Mage
- * @package    Mage_Wishlist
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
-$installer = $this;
-/* @var $installer Mage_Core_Model_Resource_Setup */
-
-$installer->startSetup();
-
-$installer->startSetup();
-$installer->getConnection()->addColumn($installer->getTable('wishlist'), 'is_dirty', "INT(1) NOT NULL DEFAULT 0");
-$installer->endSetup();

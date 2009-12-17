@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Wishlist>
-            <version>0.7.6</version>
+            <version>0.7.7</version>
         </Mage_Wishlist>
     </modules>
     <global>
@@ -147,32 +147,6 @@
                 </Mage_Wishlist>
             </modules>
         </translate>
-        <events>
-            <catalog_product_delete_before>
-                <observers>
-                    <wishlist_observer>
-                        <class>wishlist/observer</class>
-                        <method>markWishlistsAsDirtyByProduct</method>
-                    </wishlist_observer>
-                </observers>
-            </catalog_product_delete_before>
-            <catalog_product_save_after>
-                <observers>
-                    <wishlist_observer>
-                        <class>wishlist/observer</class>
-                        <method>markWishlistsAsDirtyOnProductSaveAfter</method>
-                    </wishlist_observer>
-                </observers>
-            </catalog_product_save_after>
-            <wishlist_item_delete_before>
-                <observers>
-                    <wishlist_observer>
-                        <class>wishlist/observer</class>
-                        <method>markWishlistsAsDirtyByItem</method>
-                    </wishlist_observer>
-                </observers>
-            </wishlist_item_delete_before>
-        </events>
     </adminhtml>
 
     <default>

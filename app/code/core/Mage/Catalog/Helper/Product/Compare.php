@@ -247,12 +247,6 @@ class Mage_Catalog_Helper_Product_Compare extends Mage_Core_Helper_Url
         if (!$this->_getSession()->hasCatalogCompareItemsCount()) {
             $this->calculate();
         }
-        $itemResource = Mage::getResourceModel('catalog/product_compare_item');
-        $visitorId = Mage::getSingleton('log/visitor')->getId();
-        if ($itemResource->getCompareItemsIsDirtyByVisitor($visitorId, !$this->_getSession()->hasCatalogCompareItemsCount())) {
-            $this->calculate();
-            $itemResource->resetCompareItemsIsDirtyByVisitor($visitorId);
-        }
 
         return $this->_getSession()->getCatalogCompareItemsCount();
     }

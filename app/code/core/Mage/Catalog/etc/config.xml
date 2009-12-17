@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.4.0.0.16</version>
+            <version>1.4.0.0.17</version>
         </Mage_Catalog>
     </modules>
 
@@ -520,32 +520,6 @@
                 </Mage_Catalog>
             </modules>
         </translate>
-        <events>
-            <catalog_product_delete_before>
-                <observers>
-                    <catalog_observer>
-                        <class>catalog/observer</class>
-                        <method>markCompareProductsItemsAsDirtyByProduct</method>
-                    </catalog_observer>
-                </observers>
-            </catalog_product_delete_before>
-            <catalog_product_save_after>
-                <observers>
-                    <catalog_observer>
-                        <class>catalog/observer</class>
-                        <method>markCompareProductsItemsAsDirtyOnProductSaveAfter</method>
-                    </catalog_observer>
-                </observers>
-            </catalog_product_save_after>
-            <catalog_compare_item_delete_before>
-                <observers>
-                    <catalog_observer>
-                        <class>catalog/observer</class>
-                        <method>markCompareProductsItemsAsDirtyByItem</method>
-                    </catalog_observer>
-                </observers>
-            </catalog_compare_item_delete_before>
-        </events>
     </adminhtml>
 
     <frontend>
