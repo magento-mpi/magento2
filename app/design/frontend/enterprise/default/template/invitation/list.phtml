@@ -35,11 +35,6 @@
 
 <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 
-<div class="buttons-set">
-    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a></p>
-    <a href="<?php echo $this->helper('enterprise_invitation')->getCustomerInvitationFormUrl(); ?>" class="button"><span><?php echo $this->__('Send Invitations') ?></span></a>
-</div>
-
 <?php if (count($this->getInvitationCollection())): ?>
 
 <table class="data-table" id="invitations-list-table" cellpadding="0">
@@ -80,3 +75,8 @@
 </div>
 
 <?php endif; ?>
+
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a></p>
+    <a href="<?php echo $this->helper('enterprise_invitation')->getCustomerInvitationFormUrl(); ?>" class="button"><span><?php echo $this->__('Send Invitations') ?></span></a>
+</div>
