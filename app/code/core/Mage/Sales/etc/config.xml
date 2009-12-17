@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.9.51</version>
+            <version>0.9.52</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -103,6 +103,8 @@
                 <is_virtual><to_order>*</to_order></is_virtual>
                 <is_multi_payment><to_order>*</to_order></is_multi_payment>
                 <applied_rule_ids><to_order>*</to_order></applied_rule_ids>
+
+                <items_qty><to_order>total_qty_ordered</to_order></items_qty>
             </sales_convert_quote>
 
             <sales_convert_quote_address>
