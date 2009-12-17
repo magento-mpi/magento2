@@ -279,7 +279,7 @@ tinyMceWysiwygSetup.prototype =
     },
 
     decodeDirectives: function(content) {
-        return content.gsub(/([a-z0-9\-\_]+)=["].*?___directive\/([a-zA-Z0-9\-\_\,]+)\/(.*?)["]/i, function(match) {
+        return content.gsub(/([a-z0-9\-\_]+)=["]\S*?___directive\/([a-zA-Z0-9\-\_\,]+)\/(.*?)["]/i, function(match) {
             return match[1] + '="' + Base64.mageDecode(match[2]) + match[3] + '"';
         }.bind(this));
     },
