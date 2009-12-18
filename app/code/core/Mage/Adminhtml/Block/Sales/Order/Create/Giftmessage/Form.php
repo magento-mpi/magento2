@@ -149,14 +149,16 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Mage_Admi
             array(
                 'name'  =>  $this->_getFieldName('sender'),
                 'label' =>  Mage::helper('sales')->__('From'),
-                'class' =>  $this->getMessage()->getMessage() ? 'required-entry' : ''
+                'class' =>  $this->getMessage()->getMessage() ? 'required-entry' : '',
+                'required' => true
             )
         );
         $fieldset->addField('recipient','text',
             array(
                 'name'  =>  $this->_getFieldName('recipient'),
                 'label' =>  Mage::helper('sales')->__('To'),
-                'class' =>  $this->getMessage()->getMessage() ? 'required-entry' : ''
+                'class' =>  $this->getMessage()->getMessage() ? 'required-entry' : '',
+                'required' => true
             )
         );
 
