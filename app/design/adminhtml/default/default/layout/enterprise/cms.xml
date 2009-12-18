@@ -39,16 +39,6 @@
             <block type="enterprise_cms/adminhtml_cms_page_edit_tab_hierarchy" name="cms_page_edit_tab_hierarchy" template="enterprise/cms/page/tab/hierarchy.phtml"></block>
             <action method="addTab"><name>hierarchy</name><block>cms_page_edit_tab_hierarchy</block></action>
         </reference>
-        <reference name="cms_page_edit">
-            <action method="addButton">
-                <id>preview</id>
-                <data translate="label" module="enterprise_cms">
-                    <label>Preview</label>
-                    <class>preview</class>
-                    <onclick>pagePreviewAction()</onclick>
-                </data>
-            </action>
-        </reference>
     </adminhtml_cms_page_edit>
 <!--
     Custom layout changes to native adminhtml_cms_page_edit handle

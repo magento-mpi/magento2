@@ -52,6 +52,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
             if ($editBlock) {
                 $page = Mage::registry('cms_page');
                 if ($page) {
+                    if ($page->getId()) {
+                        $editBlock->addButton('preview', array(
+                            'label'     => Mage::helper('enterprise_cms')->__('Preview'),
+                            'onclick'   => 'pagePreviewAction()',
+                            'class'     => 'preview',
+                        ));
+                    }
+
                     $formBlock = $editBlock->getChild('form');
                     if ($formBlock) {
                         $formBlock->setTemplate('enterprise/cms/page/edit/form.phtml');
