@@ -113,11 +113,6 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
                     }
                     $searchInstance = new $className();
                     $results = $searchInstance->setStart($start)->setLimit($limit)->setQuery($query)->load()->getResults();
-
-                    foreach ($results as $key => $item) {
-                        $results[$key]['description'] = strip_tags($item['description']);
-                    }
-
                     $items = array_merge_recursive($items, $results);
                 }
                 $totalCount = sizeof($items);
