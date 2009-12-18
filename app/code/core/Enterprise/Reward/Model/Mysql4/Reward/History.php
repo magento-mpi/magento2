@@ -68,7 +68,19 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
         if (is_array($object->getData('additional_data'))) {
             $object->setData('additional_data', serialize($object->getData('additional_data')));
         }
-        $object->setData('created_at', $this->formatDate(time()));
+
+        $now = $this->formatDate(time());
+        $object->addData(array(
+            'created_at' => $now,
+            'expired_at' => $now,
+            'notification_sent' => 0
+        ));
+
+        $expirationDays = (int)Mage::getStoreConfig('enterprise_reward/general/expiration_days', $object->getStoreId());
+        if ($expirationDays > 0) {
+            $object->setData('expired_at', $this->formatDate(time() + $expirationDays * 24 * 60 * 60));
+        }
+
         return $this;
     }
 

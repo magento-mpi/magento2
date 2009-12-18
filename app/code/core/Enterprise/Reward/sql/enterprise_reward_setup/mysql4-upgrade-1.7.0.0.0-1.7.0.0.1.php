@@ -24,21 +24,31 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/* @var $installer Mage_Customer_Model_Entity_Setup */
+/* @var $installer Mage_Sales_Model_Mysql4_Setup */
 $installer = $this;
 $installer->startSetup();
 
-$installer->getConnection()->dropColumn($installer->getTable('enterprise_reward'), 'currency_amount');
-$installer->getConnection()->addColumn($installer->getTable('enterprise_reward_history'), 'rate_description', "VARCHAR(255) NOT NULL DEFAULT '' AFTER `currency_delta`");
-$installer->getConnection()->addColumn($installer->getTable('enterprise_reward_history'), 'comment', "TEXT NOT NULL DEFAULT '' AFTER `additional_info`");
-$installer->getConnection()->addColumn($installer->getTable('enterprise_reward_history'), 'additional_data', "TEXT NOT NULL DEFAULT '' AFTER `additional_info`");
-$installer->getConnection()->dropColumn($installer->getTable('enterprise_reward_history'), 'additional_info');
-$installer->getConnection()->changeColumn($installer->getTable('enterprise_reward_history'), 'action', 'action', "TINYINT(3) NOT NULL DEFAULT '0'");
-$installer->getConnection()->addColumn($installer->getTable('enterprise_reward_rate'), 'direction', "TINYINT(3) NOT NULL DEFAULT '1' AFTER `customer_group_id`");
-$installer->getConnection()->changeColumn($installer->getTable('enterprise_reward_rate'), 'points_count', 'points', "INT(11) NOT NULL DEFAULT '0'");
-$installer->getConnection()->dropColumn($installer->getTable('enterprise_reward_rate'), 'points_currency_value');
-$installer->getConnection()->dropColumn($installer->getTable('enterprise_reward_rate'), 'currency_points_value');
-$installer->getConnection()->dropKey($installer->getTable('enterprise_reward_rate'), 'IDX_WEBSITE_GROUP');
-$installer->getConnection()->addKey($installer->getTable('enterprise_reward_rate'), 'IDX_WEBSITE_GROUP_DIRECTION', array('website_id', 'customer_group_id', 'direction'), 'unique');
+$installer->addAttribute('quote', 'use_reward_points', array('type' => 'int'));
+$installer->addAttribute('quote', 'reward_points_balance', array('type' => 'int'));
+$installer->addAttribute('quote', 'base_reward_currency_amount', array('type' => 'decimal'));
+$installer->addAttribute('quote', 'reward_currency_amount', array('type' => 'decimal'));
+
+$installer->addAttribute('quote_address', 'reward_points_balance', array('type' => 'int'));
+$installer->addAttribute('quote_address', 'base_reward_currency_amount', array('type' => 'decimal'));
+$installer->addAttribute('quote_address', 'reward_currency_amount', array('type' => 'decimal'));
+
+$installer->addAttribute('order', 'reward_points_balance', array('type' => 'int'));
+$installer->addAttribute('order', 'base_reward_currency_amount', array('type' => 'decimal'));
+$installer->addAttribute('order', 'reward_currency_amount', array('type' => 'decimal'));
+$installer->addAttribute('order', 'base_reward_currency_amount_invoiced', array('type' => 'decimal'));
+$installer->addAttribute('order', 'reward_currency_amount_invoiced', array('type' => 'decimal'));
+$installer->addAttribute('order', 'base_reward_currency_amount_refunded', array('type' => 'decimal'));
+$installer->addAttribute('order', 'reward_currency_amount_refunded', array('type' => 'decimal'));
+
+$installer->addAttribute('invoice', 'base_reward_currency_amount', array('type' => 'decimal'));
+$installer->addAttribute('invoice', 'reward_currency_amount', array('type' => 'decimal'));
+
+$installer->addAttribute('creditmemo', 'base_reward_currency_amount', array('type' => 'decimal'));
+$installer->addAttribute('creditmemo', 'reward_currency_amount', array('type' => 'decimal'));
 
 $installer->endSetup();

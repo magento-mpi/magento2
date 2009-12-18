@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Reward>
-            <version>1.7.0.0.6</version>
+            <version>1.7.0.0.1</version>
         </Enterprise_Reward>
     </modules>
     <global>
@@ -206,14 +206,6 @@
             </modules>
         </translate>
         <events>
-            <adminhtml_customer_prepare_save>
-                <observers>
-                    <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
-                        <method>prepareRewardPointsToSave</method>
-                    </enterprise_reward>
-                </observers>
-            </adminhtml_customer_prepare_save>
             <adminhtml_customer_save_after>
                 <observers>
                     <enterprise_reward>

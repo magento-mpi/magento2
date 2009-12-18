@@ -89,8 +89,13 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
      */
     public function prepareFromReward()
     {
+        $store = $this->getReward()->getStore();
+        if ($store === null) {
+            $store = Mage::app()->getStore();
+        }
         $this->setRewardId($this->getReward()->getId())
             ->setWebsiteId($this->getReward()->getWebsiteId())
+            ->setStoreId($store->getId())
             ->setPointsBalance($this->getReward()->getPointsBalance())
             ->setPointsDelta($this->getReward()->getPointsDelta())
             ->setCurrencyAmount($this->getReward()->getCurrencyAmount())

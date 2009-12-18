@@ -107,7 +107,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
                 break;
             case self::REWARD_ACTION_TAG:
                 $this->getHistory()->setEntity($this->getTag()->getId());
-                $result = !($this->getHistory()->isExist($this->getCustomerId(), $this->getAction(),
+                $result = !($this->getHistory()->isExistHistoryUpdate($this->getCustomerId(), $this->getAction(),
                     $this->getWebsiteId(), $this->getTag()->getId()));
                 break;
             case self::REWARD_ACTION_REGISTER:

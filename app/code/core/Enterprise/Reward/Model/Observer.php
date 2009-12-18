@@ -34,30 +34,8 @@
  */
 class Enterprise_Reward_Model_Observer
 {
-
     /**
-     * Prepare reward points data to update
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_Reward_Model_Observer
-     */
-    public function prepareRewardPointsToSave($observer)
-    {
-        if (!Mage::helper('enterprise_reward')->isEnabled()) {
-            return;
-        }
-        $request = $observer->getRequest();
-        if ($data = $request->getPost('reward')) {
-            $customer = $observer->getEvent()->getCustomer();
-            $customer->setRewardPointsData($data)
-                ->setRewardUpdateNotification((isset($data['reward_update_notification'])?true:false))
-                ->setRewardWarningNotification((isset($data['reward_warning_notification'])?true:false));
-        }
-        return $this;
-    }
-
-    /**
-     * Update reward points after customer register
+     * Update reward points for customer, send notification
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Reward_Model_Observer
@@ -67,20 +45,24 @@ class Enterprise_Reward_Model_Observer
         if (!Mage::helper('enterprise_reward')->isEnabled()) {
             return;
         }
-        if ($data = $observer->getEvent()->getCustomer()->getRewardPointsData()) {
+
+        $request = $observer->getEvent()->getRequest();
+        $customer = $observer->getEvent()->getCustomer();
+        if ($data = $request->getPost('reward')) {
             if (!empty($data['points_delta'])) {
                 $reward = Mage::getModel('enterprise_reward/reward')
                     ->setData($data)
                     ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
-                    ->setCustomer($observer->getEvent()->getCustomer())
+                    ->setCustomer($customer)
+                    ->setRewardUpdateNotification((isset($data['reward_update_notification']) ? true : false))
+                    ->setRewardWarningNotification((isset($data['reward_warning_notification']) ? true : false))
                     ->updateRewardPoints();
 
-                // send notifications
-                $reward->sendBalanceUpdateNotification()
-                    ->sendBalanceWarningNotification();
-
+                // send notification
+                $reward->sendBalanceUpdateNotification();
             }
         }
+
         return $this;
     }
 
@@ -491,6 +473,28 @@ class Enterprise_Reward_Model_Observer
             $order->setRewardCurrencyAmountRefunded($order->getRewardCurrencyAmountRefunded() + $creditmemo->getRewardCurrencyAmount());
             $order->setBaseRewardCurrencyAmountRefunded($order->getBaseRewardCurrencyAmountRefunded() + $creditmemo->getBaseRewardCurrencyAmount());
         }
+        return $this;
+    }
+
+    /**
+     * Send scheduled low balance warning notifications
+     *
+     * @param Mage_Cron_Model_Schedule $schedule
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function scheduledBalanceWarningSend($schedule)
+    {
+        $collection = Mage::getResourceModel('enterprise_reward/reward_history_collection')
+            ->loadExpiredSoonRecords()
+            ->setPageSize(20)
+            ->setCurPage(1)
+            ->setOrder('history_id')
+            ->load();
+
+//        foreach ($collection as $item) {
+//            print_R($item->getData());
+//        }
+
         return $this;
     }
 }
