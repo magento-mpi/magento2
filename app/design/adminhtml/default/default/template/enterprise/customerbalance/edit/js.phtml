@@ -36,26 +36,28 @@ function updateEmailWebsites()
     emailWebsites.innerHTML = '';
     for(websiteKey in allowedWebsites) {
         website = allowedWebsites[websiteKey];
-        if( website.website_id && website.website_id == selectedWebsite ) {            
+        if( website.website_id && website.website_id == selectedWebsite ) {
             groups = website["groups"];
             for (groupKey in groups) {
                 group = groups[groupKey];
                 optionGroup = document.createElement("OPTGROUP");
-                optionGroup.label = group["name"]; 
+                optionGroup.label = group["name"];
                 emailWebsites.appendChild(optionGroup);
                 stores = group["stores"];
                 for (i=0; i < stores.length; i++) {
                     option = new Option();
                     option.value = stores[i]["store_id"];
                     option.text = stores[i]["name"];
-                    optionGroup.appendChild(option);  
+                    optionGroup.appendChild(option);
                 }
             }
         }
     }
 
     container = $$('#note_amount_delta small');
-    container[0].innerHTML = '<strong>[' + allowedWebsites[selectedWebsite].currency_code + ']</strong>';
+    if (container[0]) {
+        container[0].innerHTML = '<strong>[' + allowedWebsites[selectedWebsite].currency_code + ']</strong>';
+    }
 }
 //]]>
 </script>
