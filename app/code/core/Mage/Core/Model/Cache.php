@@ -365,6 +365,7 @@ class Mage_Core_Model_Cache
         } else {
             $res = $this->_frontend->clean($mode, array(Mage_Core_Model_App::CACHE_TAG));
             $res = $res && $this->_frontend->clean($mode, array(Mage_Core_Model_Config::CACHE_TAG));
+            $res = $res && $this->_frontend->clean($mode, array(Mage_Core_Model_Store::CACHE_TAG));
         }
         return $res;
     }
