@@ -329,7 +329,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                     $creditmemo->setRefundRequested(true);
                 }
                 if (isset($data['do_offline'])) {
-                    $creditmemo->setOfflineRequested($data['do_offline']);
+                    $creditmemo->setOfflineRequested((bool)(int)$data['do_offline']);
                 }
 
                 $creditmemo->register();
