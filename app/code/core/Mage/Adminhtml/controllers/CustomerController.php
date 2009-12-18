@@ -230,7 +230,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Customer was successfully saved'));
-                Mage::dispatchEvent('adminhtml_customer_save_after', array('customer' => $customer));
+                Mage::dispatchEvent('adminhtml_customer_save_after',
+                    array('customer' => $customer, 'request' => $this->getRequest())
+                );
 
                 if ($redirectBack) {
                     $this->_redirect('*/*/edit', array(
