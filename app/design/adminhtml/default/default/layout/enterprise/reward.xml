@@ -31,9 +31,7 @@
         <reference name="customer_edit_tabs">
             <block type="enterprise_reward/adminhtml_customer_edit_tab_reward" name="customer_edit_tab_reward"/>
             <action method="addTab"><name>customer_edit_tab_reward</name><block>customer_edit_tab_reward</block></action>
-            <!--<block type="enterprise_reward/adminhtml_customer_edit_tab_reward_management" name="reward_points_management">
-            </block>
-        --></reference>
+        </reference>
         <reference name="customer_edit_tab_view">
             <block type="enterprise_reward/adminhtml_customer_edit_tab_reward_management_balance" name="reward.points.balance" before="-"/>
         </reference>
@@ -54,11 +52,6 @@
     <adminhtml_sales_order_view>
         <reference name="order_totals">
             <block type="adminhtml/sales_order_totals_item" name="reward_points" template="enterprise/reward/sales/order/total.phtml"/>
-            <!--block type="adminhtml/sales_order_totals_item" name="reward_points_refunded" template="sales/order/totals/item.phtml" after="-">
-                <action method="setSourceField"><value>customer_balance_total_refunded</value></action>
-                <action method="setLabel"><value>Refunded to Store Credit</value></action>
-                <action method="setDisplayArea"><value>footer</value></action>
-            </block-->
         </reference>
     </adminhtml_sales_order_view>
 
@@ -84,11 +77,17 @@
         <reference name="creditmemo_totals">
             <block type="adminhtml/sales_order_totals_item" name="reward_points" template="enterprise/reward/sales/order/total.phtml" after="-" />
         </reference>
+        <reference name="submit_before">
+            <block type="enterprise_reward/adminhtml_sales_order_creditmemo_reward" name="reward_points" template="enterprise/reward/sales/order/creditmemo/reward.phtml" />
+        </reference>
     </adminhtml_sales_order_creditmemo_new>
 
     <adminhtml_sales_order_creditmemo_updateqty>
         <reference name="creditmemo_totals">
             <block type="adminhtml/sales_order_totals_item" name="reward_points" template="enterprise/reward/sales/order/total.phtml" after="-" />
+        </reference>
+        <reference name="submit_before">
+            <block type="enterprise_reward/adminhtml_sales_order_creditmemo_reward" name="reward_points" template="enterprise/reward/sales/order/creditmemo/reward.phtml" />
         </reference>
     </adminhtml_sales_order_creditmemo_updateqty>
 
@@ -96,26 +95,6 @@
         <reference name="creditmemo_totals">
             <block type="adminhtml/sales_order_totals_item" name="reward_points" template="enterprise/reward/sales/order/total.phtml" after="-" />
         </reference>
-        <!--reference name="footer">
-            <<block type="adminhtml/sales_order_totals_item" name="customerbalance_refunded" template="sales/order/totals/item.phtml" after="-">
-                <action method="setSourceField"><value>customer_balance_total_refunded</value></action>
-                <action method="setLabel"><value>Refunded to Store Credit</value></action>
-            </block>
-        </reference-->
     </adminhtml_sales_order_creditmemo_view>
 
-    
-
-    <!--<adminhtml_sales_order_creditmemo_new>
-        <reference name="submit_before">
-            <block type="enterprise_customerbalance/adminhtml_sales_order_creditmemo_controls" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/refund.phtml" />
-        </reference>
-    </adminhtml_sales_order_creditmemo_new>
-
-    <adminhtml_sales_order_creditmemo_updateqty>
-        <reference name="submit_before">
-            <block type="enterprise_customerbalance/adminhtml_sales_order_creditmemo_controls" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/refund.phtml" />
-        </reference>
-    </adminhtml_sales_order_creditmemo_updateqty>
-    
---></layout>
+</layout>

@@ -59,6 +59,13 @@ class Enterprise_Reward_Model_Total_Creditmemo_Reward extends Mage_Sales_Model_O
                 $creditmemo->setGrandTotal($creditmemo->getGrandTotal() - $rewardCurrecnyAmountLeft);
                 $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal() - $baseRewardCurrecnyAmountLeft);
             }
+            $pointValue = $order->getRewardPointsBalance() / $order->getBaseRewardCurrencyAmount();
+            $rewardPointsBalance = $baseRewardCurrecnyAmountLeft*ceil($pointValue);
+            $rewardPointsBalanceLeft = $order->getRewardPointsBalance() - $order->getRewardPointsBalanceRefunded();
+            if ($rewardPointsBalance > $rewardPointsBalanceLeft) {
+                $rewardPointsBalance = $rewardPointsBalanceLeft;
+            }
+            $creditmemo->setRewardPointsBalance($rewardPointsBalance);
             $creditmemo->setRewardCurrencyAmount($rewardCurrecnyAmountLeft);
             $creditmemo->setBaseRewardCurrencyAmount($baseRewardCurrecnyAmountLeft);
         }

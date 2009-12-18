@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Reward>
-            <version>1.7.0.0.1</version>
+            <version>1.7.0.0.2</version>
         </Enterprise_Reward>
     </modules>
     <global>
@@ -230,6 +230,14 @@
                     </enterprise_reward>
                 </observers>
             </tag_save_commit_after>
+            <adminhtml_sales_order_creditmemo_register_before>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>setRewardPointsBalanceToRefund</method>
+                    </enterprise_reward>
+                </observers>
+            </adminhtml_sales_order_creditmemo_register_before>
         </events>
     </adminhtml>
     <frontend>

@@ -50,6 +50,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     const REWARD_ACTION_REVIEW              = 6;
     const REWARD_ACTION_TAG                 = 7;
     const REWARD_ACTION_ORDER_EXTRA         = 8;
+    const REWARD_ACTION_CREDITMEMO          = 9;
 
     protected $_rates = array();
 
@@ -115,6 +116,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
                 $result = !((bool)$this->loadByCustomer()->getId());
                 break;
             case self::REWARD_ACTION_ORDER:
+            case self::REWARD_ACTION_CREDITMEMO:
                 $this->getHistory()->setEntity($this->getOrder()->getId());
                 break;
         }

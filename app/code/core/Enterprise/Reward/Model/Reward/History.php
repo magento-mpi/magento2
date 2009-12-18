@@ -143,6 +143,7 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
         $addData = array();
         switch ($action) {
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER:
+            case Enterprise_Reward_Model_Reward::REWARD_ACTION_CREDITMEMO:
                 $addData['order_increment_id'] = $this->getReward()->getOrder()->getIncrementId();
                 break;
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_CUSTOMER:
@@ -217,6 +218,10 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
             case Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA:
                 $messageVar = $this->getMessageVar('order_increment_id');
                 $message = Mage::helper('enterprise_reward')->__('Gained Promotion Extra Points from Order #%s', $messageVar);
+                break;
+            case Enterprise_Reward_Model_Reward::REWARD_ACTION_CREDITMEMO:
+                $messageVar = $this->getMessageVar('order_increment_id');
+                $message = Mage::helper('enterprise_reward')->__('Refunded from Order #%s', $messageVar);
                 break;
         }
         return $message;
