@@ -1011,7 +1011,7 @@ class Mage_Core_Model_App
 
     /**
      * Get core cache model
-     * 
+     *
      * @return Mage_Core_Model_Cache
      */
     public function getCacheInstance()

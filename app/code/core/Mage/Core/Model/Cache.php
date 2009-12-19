@@ -365,7 +365,6 @@ class Mage_Core_Model_Cache
         } else {
             $res = $this->_frontend->clean($mode, array(Mage_Core_Model_App::CACHE_TAG));
             $res = $res && $this->_frontend->clean($mode, array(Mage_Core_Model_Config::CACHE_TAG));
-            $res = $res && $this->_frontend->clean($mode, array(Mage_Core_Model_Store::CACHE_TAG));
         }
         return $res;
     }
@@ -444,6 +443,17 @@ class Mage_Core_Model_Cache
                 return false;
             }
         }
+    }
+
+    /**
+     * Disable cache usage for specific data group
+     * @param string $groupCode
+     * @return Mage_Core_Model_Cache
+     */
+    public function banUse($groupCode)
+    {
+        $this->_allowedCacheOptions[$groupCode] = false;
+        return $this;
     }
 
     /**

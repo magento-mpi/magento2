@@ -37,7 +37,7 @@
  */
 abstract class Mage_Core_Block_Abstract extends Varien_Object
 {
-
+    const CACHE_GROUP = 'block_html';
     /**
      * Block name in layout
      *
@@ -910,7 +910,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         } else {
             $tags = $this->getData('cache_tags');
         }
-        $tags[] = 'block_html';
+        $tags[] = self::CACHE_GROUP;
         return $tags;
     }
 
@@ -934,7 +934,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     protected function _loadCache()
     {
-        if (is_null($this->getCacheLifetime()) || !Mage::app()->useCache('block_html')) {
+        if (is_null($this->getCacheLifetime()) || !Mage::app()->useCache(self::CACHE_GROUP)) {
             return false;
         }
         return Mage::app()->loadCache($this->getCacheKey());
@@ -948,7 +948,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     protected function _saveCache($data)
     {
-        if (is_null($this->getCacheLifetime()) || !Mage::app()->useCache('block_html')) {
+        if (is_null($this->getCacheLifetime()) || !Mage::app()->useCache(self::CACHE_GROUP)) {
             return false;
         }
         Mage::app()->saveCache($data, $this->getCacheKey(), $this->getCacheTags(), $this->getCacheLifetime());
@@ -1012,7 +1012,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     protected function _beforeCacheUrl()
     {
-        if (Mage::app()->useCache('block_html')) {
+        if (Mage::app()->useCache(self::CACHE_GROUP)) {
             Mage::app()->setUseSessionVar(true);
         }
         return $this;
@@ -1026,7 +1026,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     protected function _afterCacheUrl($html)
     {
-        if (Mage::app()->useCache('block_html')) {
+        if (Mage::app()->useCache(self::CACHE_GROUP)) {
             Mage::app()->setUseSessionVar(false);
             Varien_Profiler::start('CACHE_URL');
             $html = Mage::getSingleton('core/url')->sessionUrlVar($html);
