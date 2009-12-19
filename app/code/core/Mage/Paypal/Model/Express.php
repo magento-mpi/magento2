@@ -42,14 +42,12 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     protected $_isGateway               = false;
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
-    protected $_canCapturePartial       = false;
+    protected $_canCapturePartial       = true;
     protected $_canRefund               = true;
-    protected $_canVoid                 = false;
+    protected $_canVoid                 = true;
     protected $_canUseInternal          = false;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
-
-    //Sometime we need this. Reffer to isInitilizeNeeded() method
     protected $_isInitializeNeeded      = true;
 
     protected $_allowCurrencyCode = array(
@@ -152,26 +150,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Get checkout session namespace
-     *
-     * @return Mage_Checkout_Model_Session
-     */
-    public function getCheckout()
-    {
-        return Mage::getSingleton('checkout/session');
-    }
-
-    /**
-     * Get current quote
-     *
-     * @return Mage_Sales_Model_Quote
-     */
-    public function getQuote()
-    {
-        return $this->getCheckout()->getQuote();
-    }
-
-    /**
      * Return fraud filter config valie: enabed/ disabled
      *
      * @return bool
@@ -202,19 +180,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Return giropay redirect url to continue giropay transaction
-     *
-     * @return string
-     */
-    public function getGiropayRedirectUrl()
-    {
-      if ($this->getApi()->getRedirectRequered()) {
-          return sprintf($this->getApi()->getGiropayRedirectUrl(), $this->getApi()->getToken());
-      }
-      return "";
-    }
-
-    /**
      * Used for Express Account optional
      *
      * @return string
@@ -232,21 +197,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function getLineItemEnabled()
     {
         return $this->getConfigData('line_item');
-    }
-
-    /**
-     * Processing error from paypal
-     *
-     * @return Mage_Paypal_Model_Express
-     */
-    public function catchError()
-    {
-        try {
-            $this->throwError();
-        } catch (Mage_Core_Exception $e) {
-            $this->getCheckout()->addError($e->getMessage());
-        }
-        return $this;
     }
 
     /**
@@ -272,19 +222,17 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     /**
      * Convert api cal result into exception
      *
-     * @param Mage_Paypal_Model_Api_Abstract $api
      * @param mixed $callResult
      * @throws Mage_Core_Exception
      */
-    private function _wrapApiError($api, $callResult = null)
+    private function _wrapApiError($callResult = null)
     {
+        $api = $this->getApi();
         if (false === $callResult) {
+            if ($message = $api->getErrorMessage()) {
+                Mage::throwException(Mage::helper('paypal')->__('PayPal gateway returned error: %s', $message));
+            }
             Mage::throwException(Mage::helper('paypal')->__('Unable to communicate with PayPal gateway.'));
-        }
-        if ($api->getError()) {
-            Mage::throwException(
-                Mage::helper('paypal')->__('PayPal gateway returned error: %s.', $api->getErrorMessage())
-            );
         }
     }
 
@@ -369,46 +317,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Initialize payment transaction in case we doing checkout through onepage checkout
-     *
-     * @param string $paymentAction Preconfigured Payment Action
-     * @param Varien_Object $stateObject Object to store order status and state
-     * @return Mage_Paypal_Model_Express
-     */
-    public function initialize($paymentAction, $stateObject)
-    {
-        $api = $this->getApi();
-        if ($this->getQuote()->isVirtual()) {
-            $address = $this->getQuote()->getBillingAddress();
-        } else {
-            $address = $this->getQuote()->getShippingAddress();
-        }
-
-
-        $api->setPayment($this->getPayment())
-            ->setPaymentType($paymentAction)
-            ->setSolutionType($this->getSolutionType())
-            ->setAmount($address->getBaseGrandTotal())
-            ->setCurrencyCode($this->getQuote()->getBaseCurrencyCode())
-            ->setShippingAddress($address)
-            ->setInvNum($this->getQuote()->getReservedOrderId());
-
-        $this->_appendAdditionalToApi($address, $api);
-
-        $api->callSetExpressCheckout();
-
-        $this->throwError();
-
-        $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
-        $stateObject->setStatus('pending_paypal');
-        $stateObject->setIsNotified(false);
-
-        Mage::getSingleton('paypal/session')->unsExpressCheckoutMethod();
-
-        return $this;
-    }
-
-    /**
      * Authorize
      *
      * @param Mage_Sales_Model_Order_Payment $payment
@@ -416,7 +324,8 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function authorize(Varien_Object $payment, $amount)
     {
-        $this->placeOrder($payment);
+        parent::authorize($payment, $amount);
+        $this->_placeOrder($payment, $amount, $this->getPaymentAction());
         return $this;
     }
 
@@ -428,18 +337,16 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function void(Varien_Object $payment)
     {
-        if($payment->getVoidTransactionId()){
+        if ($authTransactionId = $payment->getParentTransactionId()) {
             $api = $this->getApi();
-            $api->setPayment($payment);
-            $api->setAuthorizationId($payment->getVoidTransactionId());
-            $this->_wrapApiError($api, $api->callDoVoid());
-            $payment->setStatus('SUCCESS')
-               ->setCcTransId($api->getTransactionId());
-            if ($this->canManageFraud($payment)) {
-                $this->updateGatewayStatus($payment, Mage_Paypal_Model_Api_Abstract::ACTION_DENY);
-            }
+            $api->setPayment($payment)->setAuthorizationId($authTransactionId);
+            $this->_wrapApiError($api->callDoVoid());
+
+//            if ($this->canManageFraud($payment)) {
+//                $this->updateGatewayStatus($payment, Mage_Paypal_Model_Api_Abstract::ACTION_DENY);
+//            }
         } else {
-            Mage::throwException(Mage::helper('paypal')->__('Invalid transaction id'));
+            Mage::throwException(Mage::helper('paypal')->__('Authorization transaction is required to void.'));
         }
         return $this;
     }
@@ -452,87 +359,83 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function capture(Varien_Object $payment, $amount)
     {
-        if ($payment->getCcTransId()) {
+        parent::capture($payment, $amount);
+
+        // capture basing on an authorized payment
+        if ($authTransactionId = $payment->getParentTransactionId()) {
             $api = $this->getApi()
-                ->setPaymentType($this->getPaymentAction())
+                ->setAuthorizationId($authTransactionId)
+                ->setCompleteType($payment->getShouldCloseParentTransaction()
+                    ? Mage_Paypal_Model_Api_Abstract::COMPLETE : Mage_Paypal_Model_Api_Abstract::NOTCOMPLETE
+                )
                 ->setAmount($amount)
-                ->setBillingAddress($payment->getOrder()->getBillingAddress())
-                ->setPayment($payment);
+                ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode())
+                ->setInvNum($payment->getOrder()->getIncrementId())
+                // TODO: pass 'NOTE' to API
+            ;
+            $this->_wrapApiError($api->callDoCapture());
 
-            $api->setAuthorizationId($payment->getCcTransId())
-                ->setCompleteType('NotComplete');
-            $this->_wrapApiError($api, $api->callDoCapture());
+            // add capture transaction info
+            $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(false);
+            // collect additional information TODO
 
-            if ($this->canStoreFraud()) {
-                $payment->setFraudFlag(true);
-            }
-            $payment->setStatus('APPROVED');
-
-            if ($api->getAccountStatus()) {
-                $payment->setAccountStatus($api->getAccountStatus());
-            }
-            if ($api->getProtectionEligibility()) {
-                $payment->setProtectionEligibility($api->getProtectionEligibility());
-            }
-            $payment->setTransactionId($api->getTransactionId());
-            $payment->setParentTransactionId($payment->getCcTransId());
-            $payment->setIsTransactionClosed( !$this->canRefund());
-
-            if ($this->canManageFraud($payment)) {
-                $this->updateGatewayStatus($payment, Mage_Paypal_Model_Api_Abstract::ACTION_ACCEPT);
-            }
-        } else {
-            $this->placeOrder($payment);
+//            if ($this->canStoreFraud()) {
+//                $payment->setFraudFlag(true);
+//            }
+//            if ($this->canManageFraud($payment)) {
+//                $this->updateGatewayStatus($payment, Mage_Paypal_Model_Api_Abstract::ACTION_ACCEPT);
+//            }
         }
+        // sale (auth & capture)
+        else {
+            return $this->_placeOrder($payment, $amount, Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE);
+        }
+
         return $this;
     }
 
     /**
-     * Making right API call for current trasaction
+     * Place an order with authorization or capture action
      *
      * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Paypal_Model_Express
+     * @param float $amount
+     * @param string $paymentAction
      */
-    public function placeOrder(Varien_Object $payment)
+    protected function _placeOrder($payment, $amount, $paymentAction = Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH)
     {
-        $api = $this->getApi();
+        // prepare api call
+        $order = $payment->getOrder();
+        $api = $this->getApi()
+            ->setPayerId($payment->getAdditionalInformation('paypal_payer_id'))
+            ->setAmount($amount)
+            ->setPaymentType($paymentAction) // TODO: refactor payment_type in API
+            ->setNotifyUrl(Mage::getUrl('paypal/ipn/express'))
+            ->setInvNum($order->getIncrementId())
+            ->setCurrencyCode($order->getBaseCurrencyCode())
+            ->setSubtotalAmount($order->getBaseSubtotal())
+            ->setShippingAmount($order->getBaseShippingAmount())
+            ->setTaxAmount($order->getBaseTaxAmount())
+            ->setDiscountAmount($order->getBaseDiscountAmount())
+        ;
 
-        if ($this->getQuote()->isVirtual()) {
-            $address = $this->getQuote()->getBillingAddress();
-        } else {
-            $address = $this->getQuote()->getShippingAddress();
+        // add line items
+        if ($this->getLineItemEnabled()) {
+            $api->setLineItems($order->getAllItems());
+        }
+        if ($this->getFraudFilterStatus()) {
+            $api->setReturnFmfDetails(true);
         }
 
-        $api->setAmount($payment->getOrder()->getBaseGrandTotal())
-            ->setPaymentType($this->getPaymentAction())
-            ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode())
-            ->setInvNum($this->getQuote()->getReservedOrderId());
-
-        $this->_appendAdditionalToApi($payment->getOrder(), $api);
-
-        $this->_wrapApiError($api, $api->callDoExpressCheckoutPayment());
-        $payment->setStatus('APPROVED')
-            ->setProtectionEligibility($api->getProtectionEligibility())
-            ->setPayerId($api->getPayerId());
-
-        if ($this->getQuote()->getPayment()->getAccountStatus()) {
-            $payment->setAccountStatus($this->getQuote()->getPayment()->getAccountStatus());
-        }
-
-        if ($this->getQuote()->getPayment()->getAddressStatus()) {
-            $payment->setAddressStatus($this->getQuote()->getPayment()->getAddressStatus());
-        }
-
-        if ($this->getPaymentAction()== Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_AUTH) {
-            $payment->setCcTransId($api->getTransactionId());
-        }
-        $payment->setTransactionId($api->getTransactionId());
-        $payment->setParentTransactionId($api->getTransactionId());
-        $payment->setIsTransactionClosed( !$this->canCapture());
-
-        if ($this->canStoreFraud()) {
-            $payment->setFraudFlag(true);
-        }
+        // call api and get details from it
+        $this->_wrapApiError($api->callDoExpressCheckoutPayment());
+        $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0);
+        // TODO accumulate additional info
+//if ($this->canStoreFraud()) {
+//    $payment->setFraudFlag(true);
+//}
+//if ($this->canManageFraud($payment)) {
+//    $this->updateGatewayStatus($payment, Mage_Paypal_Model_Api_Abstract::ACTION_ACCEPT);
+//}
         return $this;
     }
 
@@ -544,31 +447,33 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function refund(Varien_Object $payment, $amount)
     {
-        if ($payment->getRefundTransactionId() && $amount > 0) {
+        $captureTxnId = $payment->getParentTransactionId();
+        if ($captureTxnId) {
             $api = $this->getApi();
             $api->setPayment($payment)
-                ->setTransactionId($payment->getRefundTransactionId())
-                ->setAmount($amount);
-            $api->setRefundType($payment->getOrder()->canCreditmemo()
-                ? Mage_Paypal_Model_Api_Abstract::REFUND_TYPE_PARTIAL
+                ->setTransactionId($captureTxnId)
+                ->setAmount($amount)
+                ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode())
+            ;
+            $canRefundMore = $payment->getOrder()->canCreditmemo(); // TODO: fix this to be able to create multiple refunds
+            $api->setRefundType($canRefundMore ? Mage_Paypal_Model_Api_Abstract::REFUND_TYPE_PARTIAL
                 : Mage_Paypal_Model_Api_Abstract::REFUND_TYPE_FULL
             );
-            $this->_wrapApiError($api, $api->callRefundTransaction());
-            $payment->setStatus('SUCCESS')
-                ->setCcTransId($api->getTransactionId());
-
-            $payment->setTransactionId($api->getTransactionId());
-            $payment->setParentTransactionId($payment->getRefundTransactionId());
-            $payment->setIsTransactionClosed(true);
+            $this->_wrapApiError($api->callRefundTransaction());
+            $payment->setTransactionId($api->getTransactionId())
+                ->setIsTransactionClosed(1) // refund initiated by merchant
+                ->setShouldCloseParentTransaction(!$canRefundMore)
+            ;
 
         } else {
-            Mage::throwException(Mage::helper('paypal')->__('No refund transaction ID found or wrong amount.'));
+            Mage::throwException(Mage::helper('paypal')->__('Capture transaction is required to refund.'));
         }
         return $this;
     }
 
     /**
      * Process pending transaction, set status deny or approve
+     *
      * @param Mage_Sales_Model_Order_Payment $payment
      * @param string $action
      * @return Mage_Paypal_Model_Express
@@ -597,90 +502,134 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function cancel(Varien_Object $payment)
     {
-        if (!$payment->getOrder()->getInvoiceCollection()->count() && ($payment->getCcTransId() || $payment->getLastTransId())) {
-            if ($payment->getCcTransId()) {
-                $payment->setVoidTransactionId($payment->getCcTransId());
-            } else {
-                $payment->setVoidTransactionId($payment->getLastTransId());
-            }
+        if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $this->void($payment);
         }
-        parent::cancel($payment);
-        return $this;
+        return parent::cancel($payment);
     }
 
     /**
-     * Add additional fields to Api
+     * Prepare initial state before placing payment
+     * @param unknown_type $paymentAction
+     * @param unknown_type $stateObject
+     * ?
+     */
+    public function initialize($paymentAction, $stateObject)
+    {
+        $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
+        $stateObject->setStatus('pending_payment');
+        $stateObject->setIsNotified(false);
+        return parent::initialize($paymentAction, $stateObject);
+    }
+
+    /**
+     * Start Express Checkout
      *
-     * @param Varien_Object $paymentInfo
-     * @param Mage_PayPal_Model_Api_Nvp $api
-     * @return Mage_PayPal_Model_Express
+     * @param float $amount
+     * @param string $currencyCode
+     * @param string $reservedOrderId
+     * @param $returnUrl
+     * @param $cancelUrl
      */
-    protected function _appendAdditionalToApi($paymentInfo, $api)
+    public function startExpressCheckout($amount, $currencyCode, $reservedOrderId, $returnUrl, $cancelUrl, $shippingAddress = null)
     {
-        if (is_object($paymentInfo) && is_object($api)) {
-            if ($this->getLineItemEnabled()) {
-                $api->setLineItems($this->getQuote()->getAllItems())
-                    ->setShippingAmount($paymentInfo->getBaseShippingAmount())
-                    ->setDiscountAmount($paymentInfo->getBaseDiscountAmount())
-                    ->setItemAmount($paymentInfo->getBaseSubtotal())
-                    ->setItemTaxAmount($paymentInfo->getTaxAmount());
-            }
-            if ($this->getFraudFilterStatus()) {
-                $api->setReturnFmfDetails(true);
-            }
+        $api = $this->getApi()
+            ->setAmount($amount)
+            ->setCurrencyCode($currencyCode)
+            ->setInvNum($reservedOrderId)
+            ->setReturnUrl($returnUrl)
+            ->setCancelUrl($cancelUrl)
+            ->setSolutionType($this->getSolutionType())
+            ->setPayment($this->getPayment())
+            ->setPaymentType($this->getPaymentAction()) // TODO: get rid of the payment_type in API
+        ;
+        if (false === $shippingAddress) {
+            $api->setSuppressShipping(1);
+        } elseif ($shippingAddress) {
+            $api->setShippingAddress($shippingAddress);
         }
-        return $this;
-    }
-
-
-    /**
-     * @deprecated after 1.4.0.0-alpha3
-     * @see Mage_Paypal_Model_Express_Checkout
-     */
-    public function shortcutSetExpressCheckout()
-    {
-        Mage::getSingleton('paypal/express_checkout')->shortcutSetExpressCheckout($this);
-        return $this;
+        $this->_wrapApiError($api->callSetExpressCheckout());
+        return $api->getToken();
     }
 
     /**
-     * @deprecated after 1.4.0.0-alpha3
-     * @see Mage_Paypal_Model_Express_Checkout
+     * Obtain checkout details from API
+     * @param unknown_type $token
+     * @return Mage_Paypal_Model_Api_Nvp
      */
-    public function returnFromPaypal()
+    public function getExpressCheckoutDetails($token = null)
     {
-        Mage::getSingleton('paypal/express_checkout')->returnFromPaypal($this);
-        return $this;
+        $api = $this->getApi()->setPayment($this->getPayment());
+        $this->_wrapApiError($api->callGetExpressCheckoutDetails($token));
+        return $api;
     }
 
     /**
-     * @deprecated after 1.4.0.0-alpha3
-     * @see Mage_Paypal_Model_Express_Checkout
+     * Url for dispatching customer to express checkout start
+     * @param string $token
+     * TODO: move to Paypal_Model_Config
      */
-    protected function _getExpressCheckoutDetails()
+    public function getExpressCheckoutStartUrl($token = null)
     {
-        Mage::getSingleton('paypal/express_checkout')->getExpressCheckoutDetails($this);
-        return $this;
+        return $this->_getPaypalUrl(array(
+            'cmd'   => '_express-checkout',
+            'token' => $token,
+        ));
     }
 
     /**
-     * @deprecated after 1.4.0.0-alpha3
-     * @see Mage_Paypal_Model_Express_Checkout
+     * TODO: move to Paypal_Model_Config
+     * @param $token
      */
-    public function saveOrder()
+    public function getExpressCheckoutEditUrl($token = null)
     {
-        Mage::getSingleton('paypal/express_checkout')->saveOrder($this);
-        return $this;
+        return $this->_getPaypalUrl(array(
+            'cmd'        => '_express-checkout',
+            'useraction' => 'continue',
+            'token'      => $token,
+        ));
     }
 
     /**
-     * @deprecated after 1.4.0.0-alpha3
-     * @see Mage_Paypal_Model_Express_Checkout
+     * Url for additional actions that PayPal may require customer to do after placing the order.
+     * For instance, redirecting customer to bank for payment confirmation.
+     * @param string $token
+     * @return string
+     * TODO: move to Paypal_Model_Config
      */
-    public function updateOrder($orderId)
+    public function getExpressCompleteUrl($token = null)
     {
-        Mage::getSingleton('paypal/express_checkout')->updateOrder($orderId, $this);
-        return $this;
+        return $this->_getPaypalUrl(array(
+            'cmd'   => '_complete-express-checkout',
+            'token' => $token,
+        ));
+    }
+
+    /**
+     * Checkout redirect URL getter for onepage checkout (hardcode)
+     *
+     * @see Mage_Checkout_OnepageController::savePaymentAction()
+     * @see Mage_Sales_Model_Quote_Payment::getCheckoutRedirectUrl()
+     * @return string
+     * TODO: move to Paypal_Model_Config
+     */
+    public function getCheckoutRedirectUrl()
+    {
+        return Mage::getUrl('paypal/express/start');
+    }
+
+    /**
+     * TODO: remove this
+     * @param array $params
+     * @param bool $autoToken
+     */
+    protected function _getPaypalUrl(array $params, $autoToken = true)
+    {
+        if (empty($params['token']) && $autoToken) {
+            $params['token'] = $this->getApi()->getToken();
+        }
+        return sprintf('https://www.%spaypal.com/webscr?%s',
+            $this->getApi()->getSandboxFlag() ? 'sandbox.' : '', http_build_query($params)
+        );
     }
 }

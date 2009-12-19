@@ -31,216 +31,199 @@
 class Mage_Paypal_Model_Express_Checkout
 {
     /**
-     * Perform API call to start transaction from shopping cart
-     *
-     * @param Mage_Paypal_Model_Express $express Paypal Express method instance object
-     * @return Mage_Paypal_Model_Express_Checkout
+     * @var Mage_Paypal_Model_Express
      */
-    public function shortcutSetExpressCheckout($express)
+    protected $_method = null;
+
+    /**
+     * @var Mage_Sales_Model_Quote
+     */
+    protected $_quote = null;
+
+    /**
+     * State helper variables
+     * @var string
+     */
+    protected $_redirectUrl = '';
+    protected $_pendingPaymentMessage = '';
+    protected $_checkoutRedirectUrl = '';
+
+    /**
+     * Set quote and payment method instance
+     * @param array $params
+     */
+    public function __construct($params = array())
     {
-        $api = $express->getApi();
-        $express->getQuote()->reserveOrderId()->save();
-        $api->setSolutionType($express->getSolutionType())
-            ->setPayment($express->getPayment())
-            ->setPaymentType($express->getPaymentAction())
-            ->setAmount($express->getQuote()->getBaseGrandTotal())
-            ->setCurrencyCode($express->getQuote()->getBaseCurrencyCode())
-            ->setInvNum($express->getQuote()->getReservedOrderId());
+        if (isset($params['method_instance']) && $params['method_instance'] instanceof Mage_Paypal_Model_Express) {
+            $this->_method = $params['method_instance'];
+        } else {
+            Mage::throwException(Mage::helper('paypal')->__('PayPal Express Checkout requires payment method instance.'));
+        }
 
-        $api->callSetExpressCheckout();
-
-        $express->catchError();
-
-        $express->getSession()->setExpressCheckoutMethod('shortcut');
-
-        return $this;
+        if (isset($params['quote']) && $params['quote'] instanceof Mage_Sales_Model_Quote) {
+            $this->_quote = $params['quote'];
+        } else {
+            Mage::throwException(Mage::helper('paypal')->__('PayPal Express Checkout requires quote instance.'));
+        }
     }
 
     /**
-     * Perform API call to check transaction's status when customer returns from paypal
-     *
-     * @param Mage_Paypal_Model_Express $express Paypal Express method instance object
-     * @return Mage_Paypal_Model_Express_Checkout
+     * Reserve order ID for specified quote and start checkout on PayPal
+     * @return string
      */
-    public function returnFromPaypal($express)
+    public function start($returnUrl, $cancelUrl)
     {
-        try {
-            $this->getExpressCheckoutDetails($express);
-        } catch (Exception $e) {
-            $express->getSession()->addError($e->getMessage());
-            $express->getApi()->setRedirectUrl('paypal/express/review');
+        $api = $this->_method->getApi();
+        $this->_quote->reserveOrderId()->save();
+        if ($this->_quote->getIsVirtual()) {
+            $shippingAddress = false;
+        } else {
+            $shippingAddress = $this->_quote->getShippingAddress();
+            if (!$shippingAddress->getId()) {
+                $shippingAddress = null;
+            }
+        }
+        $token = $this->_method->startExpressCheckout($this->_quote->getBaseGrandTotal(),
+            $this->_quote->getBaseCurrencyCode(), $this->_quote->getReservedOrderId(),
+            $returnUrl, $cancelUrl, $shippingAddress
+        );
+        // TODO: collect additional information
+        $this->_redirectUrl = $this->_method->getExpressCheckoutStartUrl();
+        return $token;
+    }
+
+    /**
+     * Update quote when returned from PayPal
+     * @param string $token
+     */
+    public function returnFromPaypal($token = null)
+    {
+        $api = $this->_method->getExpressCheckoutDetails($token = null);
+
+        // import billing address data from PayPal
+        $billingAddress = $this->_quote->getBillingAddress();
+        foreach ($api->getExportedBillingAddress()->getData() as $key => $value) {
+            $billingAddress->setDataUsingMethod($key, $value);
         }
 
-        switch ($express->getApi()->getUserAction()) {
-            case Mage_Paypal_Model_Api_Nvp::USER_ACTION_CONTINUE:
-                $express->getApi()->setRedirectUrl(Mage::getUrl('paypal/express/review'));
+        // as well import shipping address data from PayPal
+        if ((!$this->_quote->getIsVirtual()) && $shippingAddress = $this->_quote->getShippingAddress()) {
+            foreach ($api->getExportedShippingAddress()->getData() as $key => $value) {
+                $shippingAddress->setDataUsingMethod($key, $value);
+            }
+            $shippingAddress->setCollectShippingRates(true);
+        }
+
+        // update quote payment info
+        $payment = $this->_quote->getPayment();
+        $payment->setMethod($this->_method->getCode());
+        Mage::getSingleton('paypal/info')->importToPayment($api, $payment);
+//        if ($this->_method->canStoreFraud()) {
+//            $this->_quote->getPayment()->setFraudFlag(true);
+//        }
+
+        $this->_quote->collectTotals()->save();
+    }
+
+    /**
+     * Check whether order review has enough data to initialize
+     * @param $token
+     * @throws Mage_Core_Exception
+     */
+    public function prepareOrderReview($token = null)
+    {
+        $payment = $this->_quote->getPayment();
+        if (!$payment || !$payment->getAdditionalInformation('paypal_payer_id')) {
+            Mage::throwException(Mage::helper('paypal')->__('Payer is not identified.'));
+        }
+    }
+
+    /**
+     * Set shipping method to quote, if needed
+     * @param string $methodCode
+     */
+    public function updateShippingMethod($methodCode)
+    {
+        if (!$this->_quote->getIsVirtual() && $shippingAddress = $this->_quote->getShippingAddress()) {
+            if (!$shippingAddress->getId() || $methodCode != $shippingAddress->getShippingMethod()) {
+                $shippingAddress->setShippingMethod($methodCode)->setCollectShippingRates(true);
+                $this->_quote->collectTotals()->save();
+            }
+        }
+    }
+
+    /**
+     * Place the order when customer returned from paypal
+     * Until this moment all quote data must be valid
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function placeOrder($token = null, $shippingMethodCode = null)
+    {
+        if ($shippingMethodCode) {
+            $this->updateShippingMethod($shippingMethodCode);
+        }
+        $order = Mage::getModel('sales/service_quote', $this->_quote)->submit();
+        $this->_quote->save();
+
+        switch ($order->getState()) {
+            // even after placement paypal can disallow to authorize/capture, but will wait until bank transfers money
+            case Mage_Sales_Model_Order::STATE_PENDING_PAYMENT:
+                if ($this->_method->getApi()->getIsRedirectRequired()) {
+                    $this->_redirectUrl = $this->_method->getApi()->getExpressCompleteUrl();
+                }
+                // explain reason why order is in pending payment
+                $ths->_pendingPaymentMessage = 'xz';
                 break;
-            case Mage_Paypal_Model_Api_Nvp::USER_ACTION_COMMIT:
-                if ($express->getSession()->getExpressCheckoutMethod() == 'shortcut') {
-                    $express->getApi()->setRedirectUrl(Mage::getUrl('paypal/express/saveOrder'));
-                } else {
-                    $express->getApi()->setRedirectUrl(Mage::getUrl('paypal/express/updateOrder'));
+            // regular placement, when everything is ok
+            case Mage_Sales_Model_Order::STATE_PROCESSING:
+            case Mage_Sales_Model_Order::STATE_COMPLETE:
+                if ($order->getPayment()->getCreatedInvoice() && $this->_method->canSendEmailCopy()) {
+                   $order->sendNewOrderEmail();
                 }
                 break;
         }
-        return $this;
+        return $order;
     }
+
+//    /**
+//     * Perform API call to start transaction from shopping cart
+//     *
+//     * @return Mage_Paypal_Model_Express_Checkout
+//     */
+//    public function shortcutSetExpressCheckout()
+//    {
+//        $api = $this->_method->getApi();
+//        $this->_quote->reserveOrderId()->save();
+//        $api->setSolutionType($this->_method->getSolutionType())
+//            ->setPayment($this->_method->getPayment())
+//            ->setPaymentType($this->_method->getPaymentAction())
+//            ->setAmount($this->_quote->getBaseGrandTotal())
+//            ->setCurrencyCode($this->_quote->getBaseCurrencyCode())
+//            ->setInvNum($this->_quote->getReservedOrderId());
+//
+//        $api->callSetExpressCheckout();
+//
+//        $this->_method->catchError();
+//
+//        $this->_method->getSession()->setExpressCheckoutMethod('shortcut');
+//
+//        return $this;
+//    }
 
     /**
-     * Save shipping to quote on the Order review page
+     * Determine whether redirect somewhere specifically is required
      *
-     * @param string $shippingMethod
-     * @param Mage_Paypal_Model_Express $express Paypal Express method instance object
-     * @return array
+     * @param string $action
+     * @return string
      */
-    public function saveShippingMethod($shippingMethod, $express)
+    public function getRedirectUrl()
     {
-        if (empty($shippingMethod)) {
-            $res = array(
-                'error' => -1,
-                'message' => Mage::helper('paypal')->__('Invalid Shipping Method')
-            );
-            return $res;
-        }
-
-        $express->getQuote()->getShippingAddress()
-            ->setShippingMethod($shippingMethod)
-            ->setCollectShippingRates(true);
-        $express->getQuote()->collectTotals()->save();
-        return array();
+        return $this->_redirectUrl;
     }
 
-    /**
-     * Perform API call for checkout details and update quote, payment etc.
-     *
-     * @param Mage_Paypal_Model_Express $express Paypal Express method instance object
-     * @return Mage_Paypal_Model_Express_Checkout
-     */
-    public function getExpressCheckoutDetails($express)
-    {
-        $api = $express->getApi();
-        $api->setPayment($express->getPayment());
-        if (!$api->callGetExpressCheckoutDetails()) {
-            Mage::throwException(Mage::helper('paypal')->__('Problem during communication with PayPal'));
-        }
-        $q = $express->getQuote();
-        $a = $api->getShippingAddress();
-
-        $a->setCountryId(
-            Mage::getModel('directory/country')->loadByCode($a->getCountry())->getId()
-        );
-        $a->setRegionId(
-            Mage::getModel('directory/region')->loadByCode($a->getRegion(), $a->getCountryId())->getId()
-        );
-
-        /*
-        we want to set the billing information
-        only if the customer checkout from shortcut(shopping cart) or
-        if the customer checkout from mark(one page) and guest
-        */
-        $method = $express->getSession()->getExpressCheckoutMethod();
-
-        if ($method == 'shortcut'
-            || ($method != 'shortcut' && $q->getCheckoutMethod() != Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER))
-        {
-            $q->getBillingAddress()
-                ->setPrefix($a->getPrefix())
-                ->setFirstname($a->getFirstname())
-                ->setMiddlename($a->getMiddlename())
-                ->setLastname($a->getLastname())
-                ->setSuffix($a->getSuffix())
-                ->setEmail($a->getEmail());
-        }
-
-        if ($method == 'shortcut') {
-            $q->getBillingAddress()->importCustomerAddress($a);
-        }
-
-        $q->getShippingAddress()
-            ->importCustomerAddress($a)
-            ->setCollectShippingRates(true);
-
-        //$q->setCheckoutMethod('paypal_express');
-
-        $q->getPayment()
-            ->setMethod('paypal_express')
-            ->setPaypalCorrelationId($api->getCorrelationId())
-            ->setPaypalPayerId($api->getPayerId())
-            ->setAddressStatus($api->getAddressStatus())
-            ->setPaypalPayerStatus($api->getPayerStatus())
-            ->setAccountStatus($api->getAccountStatus())
-            ->setAdditionalData($api->getPaypalPayerEmail());
-
-        if ($express->canStoreFraud()) {
-            $q->getPayment()->setFraudFlag(true);
-        }
-
-        $q->collectTotals()->save();
-
-        return $this;
-    }
-
-    /**
-     * Creating order processing based on quote convert
-     * Save additional transaction details to session
-     *
-     * @param Mage_Paypal_Model_Express $express Paypal Express method instance object
-     * @return Mage_Paypal_Model_Express_Checkout
-     */
-    public function saveOrder($express)
-    {
-        $service = Mage::getModel('sales/service_quote', $express->getQuote());
-        $order = $service->submit();
-
-        //@todo, bug: email send flag not set.
-        if ($order->hasInvoices() && $express->canSendEmailCopy()) {
-            foreach ($order->getInvoiceCollection() as $invoice) {
-                $invoice->sendEmail()->setEmailSent(true);
-            }
-        }
-
-        $order->sendNewOrderEmail();
-
-        $express->getQuote()->save();
-
-        $express->getCheckout()->setLastQuoteId($express->getQuote()->getId())
-            ->setLastSuccessQuoteId($express->getQuote()->getId())
-            ->setLastOrderId($order->getId())
-            ->setLastRealOrderId($order->getIncrementId());
-
-        return $this;
-    }
-
-    /**
-     * Do order update after return from PayPal
-     *
-     * @param int $orderId
-     * @param Mage_Paypal_Model_Express $express Paypal Express method instance object
-     * @return Mage_Paypal_Model_Express_Checkout
-     */
-    public function updateOrder($orderId, $express)
-    {
-        $order = Mage::getModel('sales/order')->load($orderId);
-        if (!$order->getId()) {
-            Mage::throwException(Mage::helper('paypal')->__('Wrong Order ID.'));
-        }
-
-        $comment = '';
-        if ($order->canInvoice() && $express->getPaymentAction() == Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE) {
-            $order->getPayment()->capture(null);
-        } else {
-            $express->placeOrder($order->getPayment());
-            $comment = Mage::helper('paypal')->__('Customer returned from PayPal site.');
-        }
-
-        $order->sendNewOrderEmail();
-
-        $history = $order->addStatusHistoryComment(Mage::helper('paypal')->__('PayPal Express processing: %s', $comment))
-            ->setIsCustomerNotified(true)
-            ->save();
-
-        $order->save();
-
-        return $this;
-    }
+//    public function getPendingPaymentMessage()
+//    {
+//        return $this->_pendingPaymentMessage;
+//    }
 }

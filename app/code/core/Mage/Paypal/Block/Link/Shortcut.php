@@ -42,7 +42,7 @@ class Mage_Paypal_Block_Link_Shortcut extends Mage_Core_Block_Template
      */
     public function getCheckoutUrl()
     {
-        return $this->getUrl('paypal/express/shortcut', array('_secure'=>true));
+        return $this->getUrl('paypal/express/start', array('_secure'=>true));
     }
 
 

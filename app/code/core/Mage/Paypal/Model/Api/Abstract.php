@@ -41,10 +41,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     const COMPLETE = 'Complete';
     const NOTCOMPLETE = 'NotComplete';
 
-    const USER_ACTION_COMMIT = 'commit';
-    const USER_ACTION_CONTINUE = 'continue';
-    const USER_GIROPAY_REDIRECT = 'giropay_redirect';
-
     const SOLUTION_TYPE_SOLE = 'Sole';
     const SOLUTION_TYPE_MARK = 'Mark';
 
@@ -100,7 +96,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getConfigData($key, $default=false, $storeId = null)
     {
-        return $this->getGeneralConfigData($key, $default, $storeId, 'paypal/wpp/');
+        return $this->_getGeneralConfigData($key, $default, $storeId, 'paypal/wpp/');
     }
 
     /**
@@ -109,14 +105,15 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getStyleConfigData($key, $default=false, $storeId = null)
     {
-        return $this->getGeneralConfigData($key, $default, $storeId, 'paypal/style/');
+        return $this->_getGeneralConfigData($key, $default, $storeId, 'paypal/style/');
     }
 
     /**
      * Return config data by give path, key, default and store Id
+     * TODO: remove this
      *
      */
-    public function getGeneralConfigData($key, $default=false, $storeId = null, $path = 'paypal/wpp/')
+    private function _getGeneralConfigData($key, $default=false, $storeId = null, $path = 'paypal/wpp/')
     {
         if (!$this->hasData($key)) {
             if ($storeId === null && $this->getPayment() instanceof Varien_Object) {
@@ -294,90 +291,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * the page where buyers will go if there are API error
-     *
-     * @return string
-     */
-    public function getApiErrorUrl()
-    {
-        return Mage::getUrl($this->getConfigData('api_error_url', 'paypal/express/error'));
-    }
-
-    /**
-     * the page where buyers return to after they are done with the payment review on PayPal
-     *
-     * @return string
-     */
-    public function getReturnUrl()
-    {
-        return Mage::getUrl($this->getConfigData('api_return_url', 'paypal/express/return'));
-    }
-
-    /**
-     * Your URL for receiving Instant Payment Notification
-     *
-     * @return string
-     */
-    public function getNotifyUrl($orderId, $method='express')
-    {
-        return Mage::getUrl($this->getConfigData('api_notify_url', 'paypal/' . $method . '/notify'), array('invoice' => $orderId));
-    }
-
-    /**
-     * The page where buyers return to when they cancel the payment review on PayPal
-     *
-     * @return string
-     */
-    public function getCancelUrl()
-    {
-        return Mage::getUrl($this->getConfigData('api_cancel_url', 'paypal/express/cancel'));
-    }
-
-    /**
-     * The page where buyer return to continue giropay transaction
-     *
-     * @return string
-     */
-    public function getGiropayRedirectUrl()
-    {
-        if ($this->getSandboxFlag()) {
-            $redirect = 'https://www.sandbox.paypal.com/';
-        } else {
-            $redirect = 'https://www.paypal.com/';
-        }
-        $redirect .= 'webscr?cmd=_complete-express-checkout&token=%s';
-        return $redirect;
-    }
-
-    /**
-     * The URL on the merchant site to redirect to after a giropay or bank transfer payment is cancelled or fails.
-     * Use this field only if you are using giropay or bank transfer payment methods in Germany
-     *
-     */
-    public function getGiropayCancelUrl()
-    {
-        return Mage::getUrl($this->getConfigData('giropay_cancel_url', 'paypal/express/cancel'));
-    }
-
-    /**
-     * The URL on the merchant site to redirect to after a successful giropay payment.
-     * Use this field only if you are using giropay or bank transfer payment methods in Germany.
-     */
-    public function getGiropaySuccessUrl()
-    {
-        return Mage::getUrl($this->getConfigData('giropay_success_url', 'checkout/onepage/success'));
-    }
-
-    /**
-     * The URL on the merchant site to transfer to after a bank transfer payment.
-     * Use this field only if you are using giropay or bank transfer payment methods in Germany.
-     */
-    public function getGiropayBankTxnPendingUrl()
-    {
-        return Mage::getUrl($this->getConfigData('giropay_bank_pending', 'paypal/express/bank'));
-    }
-
-    /**
      * Decide whether to return from Paypal EC before payment was made or after
      *
      * @return string
@@ -399,7 +312,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
 
     /**
      * PayPal API token
-     *
+     * TODO: remove this
      * @return string
      */
     public function getToken()
@@ -409,37 +322,13 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
 
     /**
      * Set tiken value in session
-     *
-     * @package $data string
-     *
+     * TODO: remove this
+     * @param string $data
      * @return Mage_Paypal_Model_Api_Abstract
      */
     public function setToken($data)
     {
         return $this->setSessionData('token', $data);
-    }
-
-    /**
-     * Return transaction id from session
-     *
-     * @return string
-     */
-    public function getTransactionId()
-    {
-        return $this->getSessionData('transaction_id');
-    }
-
-    /**
-     * Set transaction id in session
-     *
-     * @param $data string
-     *
-     * @return Mage_Paypal_Model_Api_Abstract
-     *
-     */
-    public function setTransactionId($data)
-    {
-        return $this->setSessionData('transaction_id', $data);
     }
 
     /**
@@ -463,29 +352,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     public function setAuthorizationId($data)
     {
         return $this->setSessionData('authorization_id', $data);
-    }
-
-    /**
-     * Return payer id from session
-     *
-     * @return string
-     */
-    public function getPayerId()
-    {
-        return $this->getSessionData('payer_id');
-    }
-
-    /**
-     * Set payer id in session
-     *
-     * @param $data string
-     *
-     * @return Mage_Paypal_Model_Api_Abstract
-     *
-     */
-    public function setPayerId($data)
-    {
-        return $this->setSessionData('payer_id', $data);
     }
 
     /**
@@ -559,24 +425,12 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Return currency code from session data
-     *
-     * @return string
-     */
-    public function getCurrencyCode()
-    {
-        //return $this->getSessionData('currency_code', 'USD');
-        return $this->getSessionData('currency_code', Mage::app()->getStore()->getBaseCurrencyCode());
-    }
-
-    /**
      * Set currency code in session
      *
      * @param $data string
      *
      * @return Mage_Paypal_Model_Api_Abstract
      */
-
     public function setCurrencyCode($data)
     {
         return $this->setSessionData('currency_code', $data);

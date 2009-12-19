@@ -200,7 +200,7 @@ class Mage_Paypal_Model_Ipn
         try {
             try {
                 $order = $this->_getOrder();
-                $this->_updatePaymentAdditionalInformation();
+                $this->_importPaymentInformation($order->getPayment());
                 $shouldNotifyAdmin = false;
                 $paymentStatus = $this->getIpnFormData('payment_status');
                 switch ($paymentStatus) {
@@ -271,17 +271,6 @@ class Mage_Paypal_Model_Ipn
     }
 
     /**
-     * Add additional information from ipn request to payment
-     *
-     */
-    protected function _updatePaymentAdditionalInformation()
-    {
-        $payment = $this->_getOrder()->getPayment();
-        $additionalInformation = Mage::getModel('paypal/info');
-        $additionalInformation->accumulateData($payment, $this->getIpnFormData());
-    }
-
-    /**
      * Process completed payment
      * If an existing authorized invoice with specified txn_id exists - mark it as paid and save,
      * otherwise create a completely authorized/captured invoice
@@ -297,6 +286,7 @@ class Mage_Paypal_Model_Ipn
         $payment->setTransactionId($this->getIpnFormData('txn_id'))
             ->setPreparedMessage($this->_createIpnComment('', false))
             ->setParentTransactionId($this->getIpnFormData('parent_txn_id'))
+            ->setShouldCloseParentTransaction(self::AUTH_STATUS_COMPLETED === $this->getIpnFormData('auth_status'))
             ->setIsTransactionClosed(0)
             ->registerCaptureNotification($this->getIpnFormData('mc_gross'));
         $order->save();
@@ -308,12 +298,6 @@ class Mage_Paypal_Model_Ipn
                 )
                 ->setIsCustomerNotified(true)
                 ->save();
-        }
-
-        // mark authorization as closed, if any
-        $authStatus = $this->getIpnFormData('auth_status');
-        if (self::AUTH_STATUS_COMPLETED === $authStatus && $transaction = $payment->getCreatedTransaction()) {
-            $transaction->closeAuthorization();
         }
     }
 
@@ -430,18 +414,10 @@ class Mage_Paypal_Model_Ipn
     {
         $order = $this->_getOrder();
 
-        $txnId = $this->getIpnFormData('txn_id');
-        $parentTxnId = $this->getIpnFormData('parent_txn_id');
-        // workaround for receiving a dupe of txn_id without parent_txn_id
-        if (!$parentTxnId) {
-            $parentTxnId = $txnId;
-            $txnId .= '-VOID-WORKAROUND';
-        }
-
+        $txnId = $this->getIpnFormData('txn_id'); // this is the authorization transaction ID
         $order->getPayment()
             ->setPreparedMessage($this->_createIpnComment($explanationMessage, false))
-            ->setTransactionId($txnId)
-            ->setParentTransactionId($parentTxnId)
+            ->setParentTransactionId($txnId)
             ->registerVoidNotification();
         $order->save();
     }
@@ -524,5 +500,20 @@ class Mage_Paypal_Model_Ipn
                 break;
         }
         return $this->_createIpnComment(Mage::helper('paypal')->__('Explanation: %s.', $message), $addToHistory);
+    }
+
+    /**
+     * Map payment information from IPN to payment object
+     * @param Mage_Payment_Model_Info $payment
+     */
+    protected function _importPaymentInformation(Mage_Payment_Model_Info $payment)
+    {
+        Mage::getSingleton('paypal/info')->importToPayment($this->getIpnFormData(), $payment, array(
+            'payer_id' => 'paypal_payer_id',
+            'payer_email' => 'paypal_payer_email',
+            'payer_status' => 'paypal_payer_status',
+            'address_status' => 'paypal_address_status',
+            'protection_eligibility' => 'paypal_protection_eligibility',
+        ));
     }
 }

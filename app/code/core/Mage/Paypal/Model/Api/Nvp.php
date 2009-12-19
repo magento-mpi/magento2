@@ -26,9 +26,61 @@
 
 /**
  * NVP API wrappers model
+ * @TODO: move some parts to abstract, don't hesitate to throw exceptions on api calls
  */
 class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 {
+    /**
+     * Map for billing address import/export
+     * @var array
+     */
+    protected $_billingAddressMap = array (
+        'SHIPTOCITY' => 'city',
+        'BUSINESS' => 'company',
+        'COUNTRYCODE' => 'country_id', // iso-3166 two-character code
+        'NOTETEXT' => 'customer_notes',
+        'EMAIL' => 'email',
+        'FIRSTNAME' => 'firstname',
+        'LASTNAME' => 'lastname',
+        'MIDDLENAME' => 'middlename',
+        'SHIPTOZIP' => 'postcode',
+        'SALUTATION' => 'prefix',
+        'SHIPTOSTATE' => 'region',
+        'SUFFIX' => 'suffix',
+        'PHONENUM' => 'telephone',
+        'SHIPTOSTREET' => 'street',
+        'SHIPTOSTREET2' => 'street2',
+    );
+
+    /**
+     * Map for shipping address import/export (extends billing address mapper)
+     * @var array
+     */
+    protected $_shippingAddressMap = array(
+        'SHIPTONAME' => 'firstname', // workaround to put shipping name non-corrupted into one field
+        'SHIPTOCOUNTRYCODE' => 'country_id' // iso-3166 two-character code
+    );
+
+    /**
+     * Map for various PayPal-specific payment info
+     * @see Mage_Paypal_Model_Info
+     */
+    protected $_paymentInformationMap = array(
+        // common
+        'PAYERID' => 'paypal_payer_id',
+        'PAYERSTATUS' => 'paypal_payer_status',
+        'CORRELATIONID' => 'paypal_correlation_id',
+        'ADDRESSID' => 'paypal_address_id',
+        'ADDRESSSTATUS' => 'paypal_address_status',
+        'PROTECTIONELIGIBILITY' => 'paypal_protection_eligibility',
+
+        // cardinal centinel
+//        'AUTHSTATUS3D',
+//        'MPIVENDOR3DS',
+//        'CAVV'
+        'XID' => 'paypal_centinel_verified',
+    );
+
     /**
      * Fields that should be replaced in debug with '***'
      *
@@ -70,6 +122,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * return paypal sandbox url, depending of sendbox flag.
      * used for redirect to paypal, express method
      *
+     * TODO: dispose of the paypal_url crap in sys config
      * @return string
      */
     public function getPaypalUrl()
@@ -100,42 +153,15 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
-     * Set redirect requered valie in session
-     *
-     * @return Mage_Paypal_Model_Api_Nvp
-     */
-    public function setRedirectRequered($value)
-    {
-        $this->getSession()->setData('redirect_requered',$value);
-        return $this;
-    }
-
-    /**
-     *
-     * Return redirect_requesred element from session
-     */
-    public function getRedirectRequered()
-    {
-        return $this->getSession()->getData('redirect_requered');
-    }
-    /**
-     * SetExpressCheckout API call
-     *
-     * An express checkout transaction starts with a token, that
-     * identifies to PayPal your transaction
-     * In this example, when the script sees a token, the script
-     * knows that the buyer has already authorized payment through
-     * paypal.  If no token was found, the action is to send the buyer
-     * to PayPal to first authorize payment
+     * SetExpressCheckout call
+     * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_SetExpressCheckout
+     * TODO: put together style and giropay settings
      */
     public function callSetExpressCheckout()
     {
-        //------------------------------------------------------------------------------------------------------------------------------------
-        // Construct the parameter string that describes the SetExpressCheckout API call
-
         $nvpArr = array(
             'PAYMENTACTION' => $this->getPaymentType(),
-            'AMT'           => (float) $this->getAmount(),
+            'AMT'           => (float)$this->getAmount(),
             'CURRENCYCODE'  => $this->getCurrencyCode(),
             'RETURNURL'     => $this->getReturnUrl(),
             'CANCELURL'     => $this->getCancelUrl(),
@@ -147,170 +173,72 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'LOCALECODE'     => Mage::app()->getLocale()->getLocaleCode()
         );
 
-        if ($this->getPageStyle()) {
-            $nvpArr = array_merge($nvpArr, array(
-                'PAGESTYLE' => $this->getPageStyle()
-            ));
-        }
+        $nvpArr = Varien_Object_Mapper::accumulateByMap(array($this, 'getDataUsingMethod'), $nvpArr, array(
+            'page_style' => 'PAGESTYLE',
+            'giropay_cancel_url' => 'GIROPAYCANCELURL',
+            'giropay_success_url' => 'GIROPAYSUCCESSURL',
+            'giropay_bank_txn_pending_url' => 'BANKTXNPENDINGURL',
+            'solution_type' => 'SOLUTIONTYPE'));
 
-        $nvpArr = array_merge($nvpArr, array(
-            'GIROPAYCANCELURL'      => $this->getGiropayCancelUrl(),
-            'GIROPAYSUCCESSURL'     => $this->getGiropaySuccessUrl(),
-            'BANKTXNPENDINGURL'     => $this->getGiropayBankTxnPendingUrl(),
-        ));
-
-        if ($this->getSolutionType()) {
-            $nvpArr = array_merge($nvpArr, array(
-                'SOLUTIONTYPE'      => $this->getSolutionType(),
-            ));
-        }
-
+        // prepare line items
         if ($lineItems = $this->getLineItems()) {
             $lineItemArray = $this->_prepareLineItem($lineItems, $this->getItemAmount(), $this->getItemTaxAmount(), $this->getShippingAmount(), $this->getDiscountAmount());
             $nvpArr = array_merge($nvpArr, $lineItemArray);
         }
 
-        $this->setUserAction(self::USER_ACTION_CONTINUE);
-
-        // for mark SetExpressCheckout API call
-        if ($a = $this->getShippingAddress()) {
-            $nvpArr = array_merge($nvpArr, array(
-                'ADDROVERRIDE'      => 1,
-                'SHIPTONAME'        => $a->getName(),
-                'SHIPTOSTREET'      => $a->getStreet(1),
-                'SHIPTOSTREET2'     => $a->getStreet(2),
-                'SHIPTOCITY'        => $a->getCity(),
-                'SHIPTOSTATE'       => $a->getRegionCode(),
-                'SHIPTOCOUNTRYCODE' => $a->getCountry(),
-                'SHIPTOZIP'         => $a->getPostcode(),
-                'PHONENUM'          => $a->getTelephone(),
-            ));
-            $this->setUserAction(self::USER_ACTION_COMMIT);
+        // import/suppress shipping address, if any
+        if ($address = $this->getShippingAddress()) {
+            $nvpArr = $this->_importShippingAddress($address, $nvpArr);
+            $nvpArr['ADDROVERRIDE'] = 1;
+        } elseif ($this->getSuppressShipping()) {
+            $nvpArr['NOSHIPPING'] = 1;
         }
 
-        //'---------------------------------------------------------------------------------------------------------------
-        //' Make the API call to PayPal
-        //' If the API call succeded, then redirect the buyer to PayPal to begin to authorize payment.
-        //' If an error occured, show the resulting errors
-        //'---------------------------------------------------------------------------------------------------------------
         $resArr = $this->call('SetExpressCheckout', $nvpArr);
-
-        if (false===$resArr) {
+        if (false === $resArr) {
             return false;
         }
 
         $this->setToken($resArr['TOKEN']);
-        $this->setRedirectUrl($this->getPaypalUrl());
+//        $this->setRedirectUrl($this->getPaypalUrl());
         return $resArr;
     }
 
-    /*
-    '-------------------------------------------------------------------------------------------
-    ' Purpose:  Prepares the parameters for the GetExpressCheckoutDetails API Call.
-    '
-    ' Inputs:
-    '       None
-    ' Returns:
-    '       The NVP Collection object of the GetExpressCheckoutDetails Call Response.
-    '-------------------------------------------------------------------------------------------
-    */
-    function callGetExpressCheckoutDetails()
+    /**
+     * GetExpressCheckoutDetails call
+     * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_GetExpressCheckoutDetails
+     * @param string $token
+     * @return array
+     */
+    function callGetExpressCheckoutDetails($token = null)
     {
-        //'--------------------------------------------------------------
-        //' At this point, the buyer has completed authorizing the payment
-        //' at PayPal.  The function will call PayPal to obtain the details
-        //' of the authorization, incuding any shipping information of the
-        //' buyer.  Remember, the authorization is not a completed transaction
-        //' at this state - the buyer still needs an additional step to finalize
-        //' the transaction
-        //'--------------------------------------------------------------
-
-        //'---------------------------------------------------------------------------
-        //' Build a second API request to PayPal, using the token as the
-        //'  ID to get the details on the payment authorization
-        //'---------------------------------------------------------------------------
+        if (null === $token) {
+            $token = $this->getToken();
+        }
         $nvpArr = array(
-            'TOKEN' => $this->getToken(),
+            'TOKEN' => $token,
         );
 
-        //'---------------------------------------------------------------------------
-        //' Make the API call and store the results in an array.
-        //' If the call was a success, show the authorization details, and provide
-        //'     an action to complete the payment.
-        //' If failed, show the error
-        //'---------------------------------------------------------------------------
         $resArr = $this->call('GetExpressCheckoutDetails', $nvpArr);
-        if (false===$resArr) {
+        if (false === $resArr) {
             return false;
         }
 
-        if (!empty($resArr['PAYERID'])) {
-            $this->setPayerId($resArr['PAYERID']);
-        }
-        if (!empty($resArr['PAYERSTATUS'])) {
-            $this->setAccountStatus($resArr['PAYERSTATUS']);
-        }
+        // export payment data and addresses
+        Varien_Object_Mapper::accumulateByMap($resArr, $this, $this->_paymentInformationMap);
+        $this->_exportAddressses($resArr);
 
-        $this->setCorrelationId($resArr['CORRELATIONID']);
-        if (!empty($resArr['PAYERSTATUS'])) {
-            $this->setPayerStatus($resArr['PAYERSTATUS']);
-        }
-        if (isset($resArr['ADDRESSID'])) {
-            $this->setAddressId($resArr['ADDRESSID']);
-        }
-
-        $this->setAddressStatus($resArr['ADDRESSSTATUS']);
-        $this->setPaypalPayerEmail($resArr['EMAIL']);
-
-        if (!$this->getShippingAddress()) {
-            $this->setShippingAddress(Mage::getModel('customer/address'));
-        }
-
-        $a = $this->getShippingAddress();
-        $a->setEmail($resArr['EMAIL']);
-        if (isset($resArr['SHIPTONAME']) && $resArr['SHIPTONAME']) {
-            $data = explode(' ', $resArr['SHIPTONAME']);
-            $a->setFirstname($data[0]);
-            $a->setLastname(isset($data[1]) ? $data[1] : $resArr['LASTNAME']);
-        } else {
-            $a->setFirstname($resArr['FIRSTNAME']);
-            $a->setLastname($resArr['LASTNAME']);
-        }
-
-        $street = array($resArr['SHIPTOSTREET']);
-        if (isset($resArr['SHIPTOSTREET2'])) {
-            $street[] = $resArr['SHIPTOSTREET2'];
-        }
-        $a->setStreet($street);
-        $a->setCity($resArr['SHIPTOCITY']);
-        $a->setRegion(isset($resArr['SHIPTOSTATE']) ? $resArr['SHIPTOSTATE'] : '');
-        $a->setPostcode($resArr['SHIPTOZIP']);
-        $a->setCountry($resArr['SHIPTOCOUNTRYCODE']);
-        $a->setTelephone(Mage::helper('paypal')->__('N/A'));
-        if (!empty($resArr['REDIRECTREQUIRED']) && $resArr['REDIRECTREQUIRED']==true) {
-            $this->setRedirectRequered(true);
-        } else {
-            $this->setRedirectRequered(false);
-        }
-
+//        $this->setIsRedirectRequired(!empty($resArr['REDIRECTREQUIRED']) && (bool)$resArr['REDIRECTREQUIRED']);
         return $resArr;
     }
 
-    /*
-    '-------------------------------------------------------------------------------------------------------------------------------------------
-    ' Purpose:  Prepares the parameters for the GetExpressCheckoutDetails API Call.
-    '
-    ' Returns:
-    '       The NVP Collection object of the GetExpressCheckoutDetails Call Response.
-    '--------------------------------------------------------------------------------------------------------------------------------------------
-    */
+    /**
+     * DoExpressCheckout call
+     * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoExpressCheckoutPayment
+     * @return array
+     */
     public function callDoExpressCheckoutPayment()
     {
-        /* Gather the information to make the final call to
-           finalize the PayPal payment.  The variable nvpstr
-           holds the name value pairs
-           */
-
         $nvpArr = array(
             'TOKEN'         => $this->getToken(),
             'PAYERID'       => $this->getPayerId(),
@@ -319,41 +247,32 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'CURRENCYCODE'  => $this->getCurrencyCode(),
             'IPADDRESS'     => $this->getServerName(),
             'BUTTONSOURCE'  => $this->getButtonSourceEc(),
-            'NOTIFYURL'     => $this->getNotifyUrl($this->getInvNum()),
+            'NOTIFYURL'     => $this->getNotifyUrl(),
         );
 
-        if ($lineItems = $this->getLineItems()) {
-            $lineItemArray = $this->_prepareLineItem($lineItems, $this->getItemAmount(), $this->getItemTaxAmount(), $this->getShippingAmount(), $this->getDiscountAmount());
-            $nvpArr = array_merge($nvpArr, $lineItemArray);
-        }
+        $nvpArr['TAXAMT'] = sprintf('%.2F', $this->getTaxAmount());
+        $nvpArr['SHIPPINGAMT'] = sprintf('%.2F',$this->getShippingAmount());
+
+        $this->_prepareLineItems($nvpArr);
         if ($this->getReturnFmfDetailes()) {
             $nvpArr['RETURNFMFDETAILS '] = 1;
         }
 
-        /* Make the call to PayPal to finalize payment
-            If an error occured, show the resulting errors
-        */
         $resArr = $this->call('DoExpressCheckoutPayment', $nvpArr);
-
-        if (false===$resArr) {
+        if (false === $resArr) {
             return false;
         }
+
+        Varien_Object_Mapper::accumulateByMap($resArr, $this, $this->_paymentInformationMap);
         $this->setTransactionId($resArr['TRANSACTIONID']);
-        if (!empty($resArr['PROTECTIONELIGIBILITY'])) {
-            $this->setProtectionEligibility($resArr['PROTECTIONELIGIBILITY']);
-        }
         $this->setAmount($resArr['AMT']);
-        if (!empty($resArr['REDIRECTREQUIRED']) && $resArr['REDIRECTREQUIRED']==true) {
-            $this->setRedirectRequered(true);
-        }else{
-            $this->setRedirectRequered(false);
-        }
+        $this->setIsRedirectRequired(!empty($resArr['REDIRECTREQUIRED']) && (bool)$resArr['REDIRECTREQUIRED']);
         return $resArr;
     }
 
     /**
      * Process a credit card payment.
-     *
+     * TODO: fix this
      */
     public function callDoDirectPayment()
     {
@@ -392,7 +311,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'SHIPTOSTATE'    => ($s->getRegionCode() ? $s->getRegionCode() : $s->getRegion()),
             'SHIPTOZIP'      => $s->getPostcode(),
             'SHIPTOCOUNTRYCODE' => $s->getCountry(),
-            'NOTIFYURL'      => $this->getNotifyUrl($this->getInvNum(), 'direct'),
+            'NOTIFYURL'      => $this->getNotifyUrl(), // $this->getNotifyUrl($this->getInvNum(), 'direct'),
         );
 
         if ($this->getMpiVendor()) {
@@ -427,7 +346,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 
     /**
      * Made additional request to paypal to get autharization id
-     *
+     * TODO: fix this
      */
     public function callDoReauthorization()
     {
@@ -452,8 +371,10 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
-     * Capture an authorized payment
-     *
+     * DoCapture call
+     * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoCapture
+     * @return array
+     * TODO: fix this
      */
     public function callDoCapture()
     {
@@ -467,8 +388,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         );
 
         $resArr = $this->call('DoCapture', $nvpArr);
-
-        if (false===$resArr) {
+        if (false === $resArr) {
             return false;
         }
 
@@ -488,8 +408,10 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
-     * Void an order or an authorization.
-     *
+     * DoVoid call
+     * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoVoid
+     * @return array
+     * TODO: fix this
      */
     public function callDoVoid()
     {
@@ -499,19 +421,19 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         );
 
         $resArr = $this->call('DoVoid', $nvpArr);
-
-        if (false===$resArr) {
+        if (false === $resArr) {
             return false;
         }
 
         $this->setAuthorizationId($resArr['AUTHORIZATIONID']);
-
         return $resArr;
     }
 
     /**
-     * Obtain information about a specific transaction.
-     *
+     * GetTransactionDetails
+     * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_GetTransactionDetails
+     * TODO: fix this
+     * @return array
      */
     public function callGetTransactionDetails()
     {
@@ -525,7 +447,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             return false;
         }
 
-        $this->setRedirectRequered($resArr['REDIRECTREQUIRED']);
+//        $this->setIsRedirectRequired(!empty($resArr['REDIRECTREQUIRED']) && (bool)$resArr['REDIRECTREQUIRED']);
         $this->setPayerEmail($resArr['RECEIVEREMAIL']);
         $this->setPayerId($resArr['PAYERID']);
         $this->setFirstname($resArr['FIRSTNAME']);
@@ -546,8 +468,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
-     * Issue a refund to the PayPal account holder associatedwith a transaction.
-     *
+     * RefundTransaction call
+     * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_RefundTransaction
      */
     public function callRefundTransaction()
     {
@@ -562,8 +484,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         }
 
         $resArr = $this->call('RefundTransaction', $nvpArr);
-
-        if (false===$resArr) {
+        if (false === $resArr) {
             return false;
         }
 
@@ -574,9 +495,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
-     * Manage transaction by changing staus to decline or accept.
-     * User for fraud check transaction
-     *
+     * ManagePendingTransactionStatus
+     * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_ManagePendingTransactionStatus
      * @return array
      */
     public function callManagePendingTransactionStatus()
@@ -597,17 +517,17 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
-     * Get Pal Detailes for dynamic buttons using
-     *
-     * @return array
+     * getPalDetails call
+     * @see https://www.x.com/docs/DOC-1300
+     * @return Mage_Paypal_Model_Api_Nvp
+     * TODO: fix this
      */
     public function callPalDetails()
     {
         $nvpArr = array();
 
         $resArr = $this->call('getPalDetails', $nvpArr);
-
-        if (false===$resArr) {
+        if (false === $resArr) {
             return false;
         }
         $this->setPal($resArr['PAL']);
@@ -676,7 +596,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
                 'code'=>$http->getErrno(),
                 'message'=>$http->getError()
             ));
-            $this->setRedirectUrl($this->getApiErrorUrl());
+//            $this->setRedirectUrl($this->getApiErrorUrl());
             return false;
         }
         $http->close();
@@ -700,7 +620,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             return $nvpResArray;
         }
 
-
         $errorArr = array(
             'type' => 'API',
             'ack' => $ack,
@@ -717,7 +636,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $errorArr['long_message'] = $nvpResArray['L_LONGMESSAGE'.$i];
         }
         $this->setError($errorArr);
-        $this->setRedirectUrl($this->getApiErrorUrl());
+//        $this->setRedirectUrl($this->getApiErrorUrl());
         return false;
     }
 
@@ -752,61 +671,62 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
-     * Prepare Line item array to move in paypal, canculate all fields
+     * Prepare line items request
      *
-     * @param $items Mage_Sales_Model_Entity_Quote_Item_Collection
-     * @param $shippingAmount float
-     * @param $discountAmount float
-     *
-     * @return array
+     * @param array &$request
      */
-    protected function _prepareLineItem($lineItems, $itemAmount, $itemTaxAmount, $shippingAmount, $discountAmount)
+    protected function _prepareLineItems(array &$request)
     {
-        $nvpArr = array();
-        $itemAmt = 0;
-        $taxItemAmt = 0;
-        foreach($lineItems as $index => $item) {
+        $items = $this->getLineItems();
+        $subtotal = sprintf('%.2F', $this->getSubtotalAmount());
+        $request['ITEMAMT'] = $subtotal;
+        if (!$items || !$subtotal) {
+            return;
+        }
+
+        $i = 0;
+        foreach($items as $item) {
             if ($item->getName() && $item->getBaseRowTotal()) {
-                $nvpArr['L_NAME' . $index]      = $item->getName();
-                $nvpArr['L_NUMBER' . $index]    = $item->getProductId();
+                $request["L_NAME{$i}"]   = $item->getName();
+                $request["L_NUMBER{$i}"] = $item->getProductId();
                 if ($item->getBaseCalculationPrice()) {
-                    $nvpArr['L_AMT' . $index]       = (float)$item->getBaseCalculationPrice();
+                    $request["L_AMT{$i}"] = (float)$item->getBaseCalculationPrice();
                 } else {
-                    $nvpArr['L_AMT' . $index]       = (float)$item->getBasePrice();
+                    $request["L_AMT{$i}"] = (float)$item->getBasePrice();
                 }
                 if ($item->getTotalQty()) {
-                    $nvpArr['L_QTY' . $index]       = $item->getTotalQty();
-                    $nvpArr['L_TAXAMT' . $index]    = (float)($item->getBaseTaxAmount() / $item->getTotalQty());
+                    $request["L_QTY{$i}"]    = $item->getTotalQty();
+                    $request["L_TAXAMT{$i}"] = (float)($item->getBaseTaxAmount() / $item->getTotalQty());
                 } else {
-                    $nvpArr['L_QTY' . $index]       = (int) $item->getQtyOrdered();
-                    $nvpArr['L_TAXAMT' . $index]    = (float)($item->getBaseTaxAmount() / $item->getQtyOrdered());
+                    $request["L_QTY{$i}"]    = (int) $item->getQtyOrdered();
+                    $request["L_TAXAMT{$i}"] = (float)($item->getBaseTaxAmount() / $item->getQtyOrdered());
                 }
             }
+            $i++;
         }
 
-        if ($discountAmount > 0) {
-            $index++;
-            $nvpArr['L_NAME' . $index]      = Mage::helper('paypal')->__('Discount');
-            $nvpArr['L_NUMBER' . $index]    = 0;
-            $nvpArr['L_AMT' . $index]       = (float) $discountAmount;
-            $nvpArr['L_QTY' . $index]       = 1;
-            $nvpArr['L_DESC' . $index]      = Mage::helper('paypal')->__('Discount');
-            $nvpArr['L_TAXAMT' . $index]    = 0;
+        $discount = abs(1 * $this->getDiscountAmount());
+        if ($discount > 0) {
+            $i++;
+            $request["L_NAME{$i}"]   = Mage::helper('paypal')->__('Discount');
+            $request["L_NUMBER{$i}"] = 0;
+            $request["L_AMT{$i}"]    = -1 * $discount;
+            $request["L_QTY{$i}"]    = 1;
+//            $request["L_DESC{$i}"]   = Mage::helper('paypal')->__('Discount');
+            $request["L_TAXAMT{$i}"] = 0;
         }
-
-        $nvpArr['TAXAMT'] = (float) round($itemTaxAmount,2);
-        $nvpArr['ITEMAMT']= (float) ($itemAmount + $discountAmount);
-        $nvpArr['SHIPPINGAMT'] = (float) $shippingAmount;
-        return $nvpArr;
     }
 
     /**
      * Error message NVP getter
      * @return string
      */
-    public function getErrorMessage($addErrorCode = false)
+    public function getErrorMessage()
     {
         $e = $this->getError();
+        if (!$e) {
+            return '';
+        }
         $shortMessage = '';
         if (!isset($e['short_message'])) {
             if (isset($e['code'])) {
@@ -817,5 +737,81 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         }
         $message = (isset($e['long_message']) ? sprintf('%s: %s', $shortMessage, $e['long_message']) : $shortMessage);
         return ($e['code'] ? sprintf('(#%s) ', $e['code']) : '' ) . $message;
+    }
+
+    /**
+     * Create billing and shipping addresses basing on response data
+     * @param array $data
+     */
+    protected function _exportAddressses($data)
+    {
+        $address = new Varien_Object();
+        Varien_Object_Mapper::accumulateByMap($data, $address, $this->_billingAddressMap, array(
+            // workaround for hardcoded fields non-compatible with PayPal (some of them may be empty in result data)
+            'city' => '.',
+            'company' => '.',
+            'postcode' => '.',
+            'region' => '.',
+            'telephone' => '.',
+            'middlename' => '.',
+            'lastname' => '.',
+            'prefix' => '.',
+            'suffix' => '.',
+            'street' => '.',
+        ));
+        // street address lines workaround
+        if ($address->hasStreet2()) {
+             $address->setStreet(implode("\n", array($address->getStreet(), $address->getStreet2())));
+             $address->unsStreet2();
+        }
+        // region_id workaround: there is no need in 'region_id', because PayPal provides 'region', but Magento requires it
+        $regions = Mage::getModel('directory/country')->loadByCode($address->getCountryId())->getRegionCollection()
+            ->setPageSize(1)
+        ;
+        if ('.' !== $address->getRegion()) {
+            $regions->addRegionCodeFilter($address->getRegion());
+        }
+        foreach ($regions as $region) {
+            $address->setRegionId($region->getId());
+            break;
+        }
+        $this->setExportedBillingAddress($address);
+
+        // assume there is shipping address if street is found (have to replicate billing address partially, as workaround)
+        if (trim($address->getStreet())) {
+            $shippingAddress = clone $address;
+            Varien_Object_Mapper::accumulateByMap($data, $address, $this->_shippingAddressMap);
+            $this->setExportedShippingAddress($shippingAddress);
+        }
+    }
+
+    /**
+     * Prepare request data basing on provided shipping address
+     * @param Varien_Object $address
+     * @param array $to
+     * @return array
+     */
+    protected function _importShippingAddress(Varien_Object $address, array $to)
+    {
+        $to = Varien_Object_Mapper::accumulateByMap($address, $to, array_flip($this->_billingAddressMap));
+        $to = Varien_Object_Mapper::accumulateByMap($address, $to, array_flip($this->_shippingAddressMap));
+
+        // region_id workaround: PayPal requires state code, try to find one in the address
+        if ($regionId = $address->getData('region_id')) {
+            $region = Mage::getModel('directory/region')->load($regionId);
+            if ($region->getId()) {
+                $to['SHIPTOSTATE'] = $region->getCode();
+            }
+        }
+        // street address workaround
+        $street = $address->getStreet();
+        if ($street && is_array($street)) {
+            foreach (array('SHIPTOSTREET', 'SHIPTOSTREET2') as $key) {
+                if ($value = array_pop($street)) {
+                    $to[$key] = $value;
+                }
+            }
+        }
+        return $to;
     }
 }

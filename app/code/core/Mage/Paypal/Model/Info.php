@@ -25,38 +25,153 @@
  */
 
 /**
- * PayPal Instant Payment Notification processor model
+ * Payment information import/export model
+ * Collects and provides access to PayPal-specific payment data
  */
 class Mage_Paypal_Model_Info
 {
     /**
-     * Return keys for accumulate in payment`s additional_information
-     *
+     * All payment information map
+     * @var array
+     */
+    protected $_paymentMap = array(
+        'paypal_payer_id', // payer ID
+        'paypal_payer_email', // payer account email (for legacy purposes)
+        'paypal_payer_status', // whether the payer account verified
+        'paypal_correlation_id', // some fancy stuff
+
+        'paypal_address_id', // addres ID of the payer
+        'paypal_address_status', // AVS verification result
+        'paypal_protection_eligibility', // some other fancy thing
+        'paypal_centinel_verified', // 3D-secure verification result
+    );
+
+    /**
+     * Map of payment information available to customer
+     * @var array
+     */
+    protected $_paymentPublicMap = array(
+        'paypal_payer_id',
+        'paypal_payer_email',
+    );
+
+    /**
+     * Rendered payment map cache
+     * @var array
+     */
+    protected $_paymentMapFull = array();
+
+    /**
+     * Payment info map getter
      * @return array
      */
-    public function getAccumulateKays()
+    public function getPaymentInfoMap()
     {
-        return array(
-            'protection_eligibility',
-            'account_status',
-            'address_status',
-            'payer_email'
+        return $this->_paymentMap;
+    }
+
+    /**
+     * All available payment info getter
+     * @param Mage_Payment_Model_Info $payment
+     * @param bool $labelValuesOnly
+     * @return array
+     */
+    public function getPaymentInfo(Mage_Payment_Model_Info $payment, $labelValuesOnly = false)
+    {
+        return $this->_getFullInfo($this->_paymentMap, $payment, $labelValuesOnly);
+    }
+
+    /**
+     * Public payment info getter
+     * @param Mage_Payment_Model_Info $payment
+     * @param bool $labelValuesOnly
+     * @return array
+     */
+    public function getPublicPaymentInfo(Mage_Payment_Model_Info $payment, $labelValuesOnly = false)
+    {
+        return $this->_getFullInfo($this->_paymentPublicMap, $payment, $labelValuesOnly);
+    }
+
+    /**
+     * Grab data from source and map it into payment
+     * @param array|Varien_Object|callback $from
+     * @param Mage_Payment_Model_Info $payment
+     * @param array $map
+     */
+    public function importToPayment($from, Mage_Payment_Model_Info $payment, array $map = null)
+    {
+        Varien_Object_Mapper::accumulateByMap($from, array($payment, 'setAdditionalInformation'),
+            $map ? $map : $this->_paymentMap
         );
     }
 
     /**
-     * Set additional informationdata from $data to $payment 
-     *
-     * @param Mage_Sales_Model_Order_Payment $payment
-     * @param Mage_Paypal_Model_Info
+     * Grab data from payment and map it into target
+     * @param Mage_Payment_Model_Info $payment
+     * @param array|Varien_Object|callback $to
+     * @param array $map
+     * @return array|Varien_Object
      */
-    public function accumulateData(Mage_Sales_Model_Order_Payment $payment, $data){
-        foreach ($this->getAccumulateKays() as $key) {
-            if (isset($data[$key])) {
-                $payment->setAdditionalInformation($key, $data[$key]); 
-            }
-        }
-        return $this;
+    public function &exportFromPayment(Mage_Payment_Model_Info $payment, $to, array $map = null)
+    {
+        Varien_Object_Mapper::accumulateByMap(array($payment, 'getAdditionalInformation'), $to,
+            $map ? $map : $this->_paymentMap
+        );
+        return $to;
     }
 
+    /**
+     * Render info item
+     * @param array $keys
+     * @param Mage_Payment_Model_Info $payment
+     * @param bool $labelValuesOnly
+     */
+    protected function _getFullInfo(array $keys, Mage_Payment_Model_Info $payment, $labelValuesOnly)
+    {
+        $result = array();
+        foreach ($keys as $key) {
+            if (!isset($this->_paymentMapFull[$key])) {
+                $this->_paymentMapFull[$key] = array();
+            }
+            if (!isset($this->_paymentMapFull[$key]['label'])) {
+                $this->_paymentMapFull[$key]['label'] = $this->_getLabel($key);
+                $this->_paymentMapFull[$key]['value'] = $payment->getAdditionalInformation($key);
+            }
+            if (!empty($this->_paymentMapFull[$key]['value'])) {
+                if ($labelValuesOnly) {
+                    $result[$this->_paymentMapFull[$key]['label']] = $this->_paymentMapFull[$key]['value'];
+                } else {
+                    $result[$key] = $this->_paymentMapFull[$key];
+                }
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Render info item labels
+     * @param string $key
+     */
+    protected function _getLabel($key)
+    {
+        switch ($key) {
+            case 'paypal_payer_id':
+                return Mage::helper('paypal')->__('Customer ID');
+            case 'paypal_payer_email':
+                return Mage::helper('paypal')->__('Customer Email');
+            case 'paypal_payer_status':
+                return Mage::helper('paypal')->__('Payer Status');
+            case 'paypal_correlation_id':
+                return Mage::helper('paypal')->__('Corellation ID');
+            case 'paypal_address_id':
+                return Mage::helper('paypal')->__('Customer Address ID');
+            case 'paypal_avs_status':
+                return Mage::helper('paypal')->__('Street Address Status');
+            case 'paypal_protection_eligibility':
+                return Mage::helper('paypal')->__('Protection Eligibility');
+            case 'paypal_centinel_verified':
+                return Mage::helper('paypal')->__('3D Secure Verification Result');
+        }
+        return '';
+    }
 }

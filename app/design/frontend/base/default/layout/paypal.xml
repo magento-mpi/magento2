@@ -49,7 +49,6 @@ PayPal Express Review page after shortcut link invocation
 
     <paypal_express_review translate="label">
         <label>PayPal Express Order Review Form</label>
-        <!-- Mage_Paypal -->
         <remove name="right"/>
         <remove name="left"/>
 
@@ -57,29 +56,19 @@ PayPal Express Review page after shortcut link invocation
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
-            <block type="paypal/express_review" name="paypal_express_review" template="paypal/express/review.phtml">
+            <block type="paypal/express_review" name="paypal.express.review" template="paypal/express/review.phtml">
                 <block type="paypal/express_review_details" name="paypal_express_review_details" as="details" template="paypal/express/review/details.phtml"/>
             </block>
         </reference>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/checkout/review.js</name></action>
+        </reference>
     </paypal_express_review>
 
-<!--
-PayPal Express Review details block
--->
-
     <paypal_express_review_details>
-        <!-- Mage_Paypal -->
         <block type="paypal/express_review_details" name="root" output="toHtml" template="paypal/express/review/details.phtml"/>
     </paypal_express_review_details>
     
-    <paypal_express_bank>
-        <remove name="right"/>
-        <remove name="left"/>
-        <reference name='content'>
-            <block type="core/template" name="express_bank_page" template="paypal/express/bank.phtml"/>
-        </reference>
-    </paypal_express_bank>
-
     <paypal_direct_validate>
         <block type="paypal/direct_validate" name="root" output="toHtml" template="paypal/direct/validate.phtml"/>
     </paypal_direct_validate>
