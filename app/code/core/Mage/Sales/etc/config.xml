@@ -546,7 +546,7 @@
                     <complete translate="label"><label>Complete</label></complete>
                     <closed translate="label"><label>Closed</label></closed>
                     <canceled translate="label"><label>Canceled</label></canceled>
-                    <fraud_order translate="label"><label>Fraud Suspicion</label></fraud_order>
+                    <fraud translate="label"><label>Suspected Fraud</label></fraud>
                 </statuses>
                 <states>
                     <new translate="label">
@@ -594,6 +594,7 @@
                         <label>On Hold</label>
                         <statuses>
                             <holded default=""/>
+                            <fraud/>
                         </statuses>
                         <visible_on_front/>
                     </holded>

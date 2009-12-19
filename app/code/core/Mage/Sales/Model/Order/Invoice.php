@@ -275,6 +275,15 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     }
 
     /**
+     * Whether pay() method was called (whether order and payment totals were updated)
+     * @return bool
+     */
+    public function wasPayCalled()
+    {
+        return $this->_wasPayCalled;
+    }
+
+    /**
      * Void invoice
      *
      * @return Mage_Sales_Model_Order_Invoice

@@ -42,7 +42,7 @@
                         <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
                         <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
                     </block>
-                    <block type="adminhtml/sales_order_payment" name="order_payment"></block>
+                    <block type="adminhtml/sales_order_payment" name="order_payment"/>
                     <block type="adminhtml/sales_order_view_history" name="order_history" template="sales/order/view/history.phtml"></block>
                     <block type="adminhtml/sales_order_view_giftmessage" name="order_giftmessage" template="sales/order/view/giftmessage.phtml"></block>
                     <block type="adminhtml/sales_order_totals" name="order_totals" template="sales/order/totals.phtml">

@@ -140,7 +140,9 @@ class Mage_Sales_Model_Service_Quote
             $address = $this->getQuote()->getShippingAddress();
             $addressValidation = $address->validate();
             if ($addressValidation !== true) {
-                Mage::throwException($helper->__('Please check shipping address information.'));
+                Mage::throwException(
+                    $helper->__('Please check shipping address information. %s', implode(' ', $addressValidation))
+                );
             }
             $method= $address->getShippingMethod();
             $rate  = $address->getShippingRateByCode($method);
@@ -151,7 +153,9 @@ class Mage_Sales_Model_Service_Quote
 
         $addressValidation = $this->getQuote()->getBillingAddress()->validate();
         if ($addressValidation !== true) {
-            Mage::throwException($helper->__('Please check billing address information.'));
+            Mage::throwException(
+                $helper->__('Please check billing address information. %s', implode(' ', $addressValidation))
+            );
         }
 
         if (!($this->getQuote()->getPayment()->getMethod())) {
