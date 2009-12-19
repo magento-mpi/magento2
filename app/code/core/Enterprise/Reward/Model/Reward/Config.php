@@ -35,6 +35,7 @@
 class Enterprise_Reward_Model_Reward_Config extends Varien_Object
 {
     protected $_xmlPathPointsConfig = 'enterprise_reward/points/';
+    protected $_xmlPathIsEnabled    = 'enterprise_reward/general/is_enabled';
 
     /**
      * Retrieve points delta by given action and website from config
@@ -85,5 +86,16 @@ class Enterprise_Reward_Model_Reward_Config extends Varien_Object
         $points = Mage::app()->getConfig()
             ->getNode($this->_xmlPathPointsConfig . $field, 'website', (int)$websiteId);
         return (int)$points;
+    }
+
+    /**
+     * Retrieve configuration for availability of reward points functionality enabled
+     *
+     * @param  int $websiteId OPTIONAL
+     * @return boolean
+     */
+    public function isEnabled($websiteId = null)
+    {
+        return (bool) Mage::app()->getWebsite($websiteId)->getConfig($this->_xmlPathIsEnabled);
     }
 }
