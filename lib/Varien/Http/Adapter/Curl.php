@@ -173,6 +173,13 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
         return curl_getinfo($this->_getResource(), $opt);
     }
 
+    /**
+     * curl_multi_* requests support
+     *
+     * @param array $urls
+     * @param array $options
+     * @return array
+     */
     public function multiRequest($urls, $options = array())
     {
         $handles = array();

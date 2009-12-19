@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Enterprise
+ * @package     Enterprise_PageCache
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+-->
+<config>
+    <modules>
+        <Enterprise_PageCache>
+             <version>1.6.0.0.0</version>
+        </Enterprise_PageCache>
+    </modules>
+    <global>
+        <models>
+            <enterprise_pagecache>
+                <class>Enterprise_PageCache_Model</class>
+                <resourceModel>enterprise_pagecache_mysql4</resourceModel>
+            </enterprise_pagecache>
+            <enterprise_pagecache_mysql4>
+                <class>Enterprise_PageCache_Model_Mysql4</class>
+                <entities>
+                    <crawler>enterprise_pagecache_crawler</crawler>
+                </entities>
+            </enterprise_pagecache_mysql4>
+        </models>
+        <blocks>
+            <enterprise_pagecache>
+                <class>Enterprise_PageCache_Block</class>
+            </enterprise_pagecache>
+        </blocks>
+        <helpers>
+            <enterprise_pagecache>
+                <class>Enterprise_PageCache_Helper</class>
+            </enterprise_pagecache>
+        </helpers>
+        <resources>
+            <enterprise_pagecache_setup>
+                <setup><module>Enterprise_PageCache</module></setup>
+            </enterprise_pagecache_setup>
+        </resources>
+        <cache>
+            <types>
+                <full_page translate="label,description" module="enterprise_pagecache">
+                    <label>Page Cache</label>
+                    <description>Full page caching for not session visitors.</description>
+                    <tags>FPC</tags>
+                </full_page>
+            </types>
+        </cache>
+        <ignore_user_agents>
+            <cache_crawler>MagentoCrawler</cache_crawler>
+        </ignore_user_agents>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <enterprise_pagecache>
+                    <file>pagecache.xml</file>
+                </enterprise_pagecache>
+            </updates>
+        </layout>
+        <events>
+            <model_load_after>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>registerModelTag</method>
+                    </enterprise_pagecache>
+                </observers>
+            </model_load_after>
+            <controller_action_predispatch>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>processPreDispatch</method>
+                    </enterprise_pagecache>
+                </observers>
+            </controller_action_predispatch>
+            <controller_front_send_response_after>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>cacheResponse</method>
+                    </enterprise_pagecache>
+                </observers>
+            </controller_front_send_response_after>
+        </events>
+        <cache>
+            <requests>
+                <!-- 
+                    Supported definitions:
+                    <module_front_name>*</module_front_name> - all module urls
+                    <module_front_name><controller>*</controller></module_front_name> - all module controller actions
+                    <module_front_name><controller><action>*</action></controller></module_front_name> - specific action
+                 -->
+                <cms>*</cms>
+                <catalog><category><view>*</view></category></catalog>
+                <catalog><product><view>*</view></product></catalog>
+            </requests>
+            <catalog></catalog>
+        </cache>
+        <routers>
+            <enterprise_customerbalance>
+                <use>standard</use>
+                <args>
+                    <module>Enterprise_PageCache</module>
+                    <frontName>pagecache</frontName>
+                </args>
+            </enterprise_customerbalance>
+        </routers>
+    </frontend>
+    <default>
+        <system>
+            <page_cache>
+                <lifetime>1440</lifetime>
+                <allowed_depth>1</allowed_depth>
+                <crowler_enable>0</crowler_enable>
+                <time></time>
+                <frequency>D</frequency>
+            </page_cache>
+        </system>
+    </default>
+</config>
