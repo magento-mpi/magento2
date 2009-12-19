@@ -418,6 +418,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         // call refund from gateway if required
         $isOnline = false;
         $gateway = $this->getMethodInstance();
+        $invoice = null;
         if ($gateway->canRefund() && $creditmemo->getDoTransaction()) {
             $this->setCreditmemo($creditmemo);
             $invoice = $creditmemo->getInvoice();
