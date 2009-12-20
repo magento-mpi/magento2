@@ -67,7 +67,7 @@
                         <payment_action translate="label">
                             <label>Payment Action</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>paypal/source_paymentAction</source_model>
+                            <source_model>paypal/config::getPaymentActions</source_model>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -239,7 +239,7 @@
                         <payment_action translate="label">
                             <label>Payment Action</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>paypal/source_paymentAction</source_model>
+                            <source_model>paypal/config::getPaymentActions</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -255,9 +255,9 @@
                             <show_in_store>0</show_in_store>
                         </fraud_filter>
                         <solution_type translate="label">
-                            <label>Type of checkout flow</label>
+                            <label>Checkout Flow</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>paypal/source_solutionType</source_model>
+                            <source_model>paypal/config::getExpressCheckoutSolutionTypes</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -338,7 +338,7 @@
                         <payment_action translate="label">
                             <label>Payment Action</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>paypal/source_standardAction</source_model>
+                            <source_model>paypal/config::getPaymentActions</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -411,7 +411,7 @@
             <show_in_store>0</show_in_store>
             <groups>
                 <style translate="label">
-                    <label>PayPal Style Configuration</label>
+                    <label>Payment Page Style</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>1</sort_order>
                     <show_in_default>1</show_in_default>
@@ -420,7 +420,7 @@
                     <fields>
                         <page_style translate="label comment">
                             <label>Page Style</label>
-                            <comment>Sets the Custom Payment Page Style for Payment Pages Associated With this Button/link. This Value Corresponds to the HTML Variable page_style for Pustomizing Payment Pages. The Value is the Same as the Page Style Name You Chose when Adding or Editing the Page Style from the Profile Subtab of the My Account tab of Your PayPal Account.Character Length and Limitations: 30 single-byte Alphabetic Characters.</comment>
+                            <comment>Sets the Custom Payment Page Style for Payment Pages Associated With this Button/link. This Value Corresponds to the HTML Variable page_style for customizing Payment Pages. The Value is the Same as the Page Style Name You Chose when Adding or Editing the Page Style from the Profile Subtab of the My Account tab of Your PayPal Account.Character Length and Limitations: 30 single-byte Alphabetic Characters.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
@@ -428,56 +428,54 @@
                             <show_in_store>1</show_in_store>
                         </page_style>
                         <paypal_hdrimg translate='label comment'>
-                            <label>Paypage Image</label>
+                            <label>Header Image (Express Checkout)</label>
                             <sort_order>12</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>PayPal Express and PayPal Express Payflow Edition Only. URL for the Image You Want to Appear at the Top Left of the Payment Page. The Image has a Maximum Size of 750 Pixels Wide by 90 Pixels High. Image Should Be Stored on a Secure Server (https).></comment>
+                            <comment>URL for the Image You Want to Appear at the Top Left of the Payment Page. The Image has a Maximum Size of 750 Pixels Wide by 90 Pixels High. Image Should Be Stored on a Secure Server (https).></comment>
                         </paypal_hdrimg>
                         <paypal_hdrbordercolor translate="label comment">
-                            <label>Paypage Border Color</label>
+                            <label>Header Border Color (Express Checkout)</label>
                             <sort_order>14</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment><![CDATA[PayPal Express and PayPal Express Payflow Edition Only. Sets the Border Color Around the Header of the Payment Page. The Border is a 2-pixel Perimeter Around the Header Space, Which is 750 Pixels Wide by 90 Pixels High. The PayPal Default Color is White.<br />Six Character HTML Hexadecimal Color Code in ASCII]]></comment>
+                            <comment><![CDATA[Sets the Border Color Around the Header of the Payment Page. The Border is a 2-pixel Perimeter Around the Header Space, Which is 750 Pixels Wide by 90 Pixels High. The PayPal Default Color is White.<br />Six Character HTML Hexadecimal Color Code in ASCII]]></comment>
                         </paypal_hdrbordercolor>
                         <paypal_hdrbackcolor translate="label comment">
-                            <label>Paypage Header Background Color</label>
+                            <label>Header Background Color (Express Checkout)</label>
                             <sort_order>16</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment><![CDATA[PayPal Express and PayPal Express Payflow Edition Only. Sets the Background Color For the Header of the Payment Page. By Default, the Color is White.<br />Six Character HTML Hexadecimal Color Code in ASCII]]></comment>
+                            <comment><![CDATA[Sets the Background Color For the Header of the Payment Page. By Default, the Color is White.<br />Six Character HTML Hexadecimal Color Code in ASCII]]></comment>
                         </paypal_hdrbackcolor>
                         <paypal_payflowcolor translate="label comment">
-                            <label>Paypage Background Color</label>
+                            <label>Header Background Color (Express Checkout)</label>
                             <sort_order>18</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment><![CDATA[PayPal Express and PayPal Express Payflow Edition Only. Sets the Background Color for the Payment Page. By Default, the Color is White.<br />Six Character HTML Hexadecimal Color Code in ASCII]]></comment>
+                            <comment><![CDATA[Sets the Background Color for the Payment Page. By Default, the Color is White.<br />Six Character HTML Hexadecimal Color Code in ASCII]]></comment>
                         </paypal_payflowcolor>
                         <button_flavor translate="label comment">
-                            <label>Express Checkout Button Flavors</label>
+                            <label>Express Checkout Buttons</label>
                             <sort_order>19</sort_order>
                             <frontend_type>select</frontend_type>
-                            <source_model>paypal/source_buttonFlavor</source_model>
+                            <source_model>paypal/config::getExpressCheckoutButtonFlavors</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Dynamic Image, PayPal Express Only.</comment>
                         </button_flavor>
-                        <button_type translate="label comment">
-                            <label>Dynamic Button Type</label>
+                        <button_type translate="label">
+                            <label>Express Checkout Shortcut</label>
                             <sort_order>20</sort_order>
                             <frontend_type>select</frontend_type>
-                            <source_model>paypal/source_buttonType</source_model>
+                            <source_model>paypal/config::getExpressCheckoutButtonTypes</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Dynamic Image, PayPal Express Only.</comment>
                         </button_type>
                         <logo_url translate="label comment">
                             <label>PayPal Standard Logo Image URL</label>

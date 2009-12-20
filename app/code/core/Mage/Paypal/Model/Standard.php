@@ -32,10 +32,6 @@
  */
 class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
-    //changing the payment to different from cc payment type and paypal payment type
-    const PAYMENT_TYPE_AUTH = 'AUTHORIZATION';
-    const PAYMENT_TYPE_SALE = 'SALE';
-
     const DATA_CHARSET = 'utf-8';
 
     protected $_code  = 'paypal_standard';
@@ -214,7 +210,9 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
              ));
         }
 
-        if($this->getConfigData('payment_action')==self::PAYMENT_TYPE_AUTH){
+        // strtoupper for backwards compatibility
+        if (strtoupper($this->getConfigData('payment_action'))
+            == strtoupper(Mage_Paypal_Model_Config::PAYMENT_ACTION_AUTH)) {
              $sArr = array_merge($sArr, array(
                   'paymentaction' => 'authorization'
              ));

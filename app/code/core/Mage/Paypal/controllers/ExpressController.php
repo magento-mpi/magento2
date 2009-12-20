@@ -35,6 +35,20 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     protected $_checkout = null;
 
     /**
+     * @var Mage_Paypal_Model_Config
+     */
+    protected $_config = null;
+
+    /**
+     * Instantiate config
+     */
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->_config = Mage::getModel('paypal/config', array(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS));
+    }
+
+    /**
      * Start Express Checkout by requesting initial token and dispatching customer to PayPal
      */
     public function startAction()
@@ -118,7 +132,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     public function editAction()
     {
         try {
-            $this->getResponse()->setRedirect($this->_getExpress()->getExpressCheckoutEditUrl($this->_initToken()));
+            $this->getResponse()->setRedirect($this->_config->getExpressCheckoutEditUrl($this->_initToken()));
         }
         catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -163,7 +177,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     {
         try {
             $this->_initCheckout();
-            $order = $this->_checkout->placeOrder();
+            $order = $this->_checkout->placeOrder($this->_initToken());
             // PayPal can commence redirecting somewhere
             if ($url = $this->_checkout->getRedirectUrl()) {
                 $this->getResponse()->setRedirect($url);
@@ -207,8 +221,8 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             Mage::throwException(Mage::helper('paypal')->__('Unable to initialize Express Checkout.'));
         }
         $this->_checkout = Mage::getSingleton('paypal/express_checkout', array(
-            'method_instance' => $this->_getExpress(),
-            'quote'           => $quote,
+            'config' => $this->_config,
+            'quote'  => $quote,
         ));
     }
 
@@ -237,16 +251,6 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             $setToken = $this->_getSession()->getExpressCheckoutToken();
         }
         return $setToken;
-    }
-
-    /**
-     * Get singleton with paypal express order transaction information
-     *
-     * @return Mage_Paypal_Model_Express
-     */
-    private function _getExpress()
-    {
-        return Mage::getSingleton('paypal/express');
     }
 
     /**

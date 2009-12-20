@@ -31,26 +31,17 @@
  */
 abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
 {
-    const PAYMENT_TYPE_SALE = 'Sale';
-    const PAYMENT_TYPE_ORDER = 'Order';
-    const PAYMENT_TYPE_AUTH = 'Authorization';
+    /**
+     * Global private to public interface map
+     * @var array
+     */
+    protected $_globalMap = array();
 
-    const REFUND_TYPE_FULL = 'Full';
-    const REFUND_TYPE_PARTIAL = 'Partial';
-
-    const COMPLETE = 'Complete';
-    const NOTCOMPLETE = 'NotComplete';
-
-    const SOLUTION_TYPE_SOLE = 'Sole';
-    const SOLUTION_TYPE_MARK = 'Mark';
-
-    const ACTION_ACCEPT = 'Acept';
-    const ACTION_DENY   = 'Deny';
-
-    const BUTTON_TYPE_DEFAULT       = 'ec-shortcut';
-    const BUTTON_TYPE_ACCEPTANCE    = 'ec-mark';
-    const BUTTON_FLAVOR_STATIC      = 'static';
-    const BUTTON_FLAVOR_DYNAMIC     = 'dynamic';
+    /**
+     * Filter callbacks for importing/exporting amount
+     * @var array
+     */
+    protected $_exportToRequestFilters = array();
 
     const FRAUD_ERROR_CODE = 11610;
 
@@ -74,7 +65,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     const CVV_RESPONSE_NOT_AVAILIBLE_CC         = 'U';
     const CVV_RESPONSE_NOT_AVAILIBLE_SOLO       = 4;
     const CVV_RESPONSE_NOT_RESPONSE_CC          = 'X';
-
 
     /**
      * return server name from as server variable
@@ -291,47 +281,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Decide whether to return from Paypal EC before payment was made or after
-     *
-     * @return string
-     */
-    public function getUserAction()
-    {
-        return $this->getSessionData('user_action', self::USER_ACTION_CONTINUE);
-    }
-
-    /**
-     * Return user action based on paypal reqponse process
-     *
-     * @return string
-     */
-    public function setUserAction($data)
-    {
-        return $this->setSessionData('user_action', $data);
-    }
-
-    /**
-     * PayPal API token
-     * TODO: remove this
-     * @return string
-     */
-    public function getToken()
-    {
-        return $this->getSessionData('token');
-    }
-
-    /**
-     * Set tiken value in session
-     * TODO: remove this
-     * @param string $data
-     * @return Mage_Paypal_Model_Api_Abstract
-     */
-    public function setToken($data)
-    {
-        return $this->setSessionData('token', $data);
-    }
-
-    /**
      * Get authorization id from session data
      *
      * @return string
@@ -509,6 +458,80 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     public function unsError()
     {
         return $this->setSessionData('error', null);
+    }
+
+    /**
+     * Import $this public data to specified object or array
+     *
+     * @param array|Varien_Object $to
+     * @param array $publicMap
+     * @return array|Varien_Object
+     */
+    public function &import($to, array $publicMap = array())
+    {
+        return Varien_Object_Mapper::accumulateByMap(array($this, 'getDataUsingMethod'), $to, $publicMap);
+    }
+
+    /**
+     * Export $this public data from specified object or array
+     *
+     * @param array|Varien_Object $from
+     * @param array $publicMap
+     * @return Mage_Paypal_Model_Api_Abstract
+     */
+    public function export($from, array $publicMap = array())
+    {
+        Varien_Object_Mapper::accumulateByMap($from, array($this, 'setDataUsingMethod'), $publicMap);
+        return $this;
+    }
+
+    /**
+     * Export $this public data to private request array
+     *
+     * @param array $internalRequestMap
+     * @param array $request
+     * @return array
+     */
+    protected function &_exportToRequest(array $privateRequestMap, array $request = array())
+    {
+        $map = array();
+        foreach ($privateRequestMap as $key) {
+            $map[$this->_globalMap[$key]] = $key;
+        }
+        $result = Varien_Object_Mapper::accumulateByMap(array($this, 'getDataUsingMethod'), $request, $map);
+        foreach ($privateRequestMap as $key) {
+            if (isset($this->_exportToRequestFilters[$key])) {
+                $result[$key] = call_user_func(array($this, $this->_exportToRequestFilters[$key]),
+                    $result[$key], $map[$this->_globalMap[$key]]
+                );
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Import $this public data from a private response array
+     *
+     * @param array $privateResponseMap
+     * @param array $response
+     */
+    protected function _importFromResponse(array $privateResponseMap, array $response)
+    {
+        $map = array();
+        foreach ($privateResponseMap as $key) {
+            $map[$key] = $this->_globalMap[$key];
+        }
+        Varien_Object_Mapper::accumulateByMap($response, array($this, 'setDataUsingMethod'), $map);
+    }
+
+    /**
+     * Filter amounts in API calls
+     * @param float|string $value
+     * @return string
+     */
+    protected function _filterAmount($value)
+    {
+        return sprintf('%.2F', $value);
     }
 
     /**

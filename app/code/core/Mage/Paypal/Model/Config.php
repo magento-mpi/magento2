@@ -49,6 +49,55 @@ class Mage_Paypal_Model_Config
     const METHOD_WPP_DIRECT  = 'paypal_direct';
 
     /**
+     * Buttons and images
+     * @var string
+     */
+    const EC_FLAVOR_DYNAMIC = 'dynamic';
+    const EC_FLAVOR_STATIC  = 'static';
+    const EC_BUTTON_TYPE_SHORTCUT = 'ecshortcut';
+    const EC_BUTTON_TYPE_MARK     = 'ecmark';
+    const PAYMENT_MARK_37x23   = '37x23';
+    const PAYMENT_MARK_50x34   = '50x34';
+    const PAYMENT_MARK_60x38   = '60x38';
+    const PAYMENT_MARK_180x113 = '180x113';
+
+    /**
+     * Payment actions
+     * @var string
+     */
+    const PAYMENT_ACTION_SALE  = 'Sale';
+    const PAYMENT_ACTION_ORDER = 'Order';
+    const PAYMENT_ACTION_AUTH  = 'Authorization';
+
+    /**
+     * Fraud management actions
+     * @var string
+     */
+    const FRAUD_ACTION_ACCEPT = 'Acept';
+    const FRAUD_ACTION_DENY   = 'Deny';
+
+    /**
+     * Capture types (make authorization close or remain open)
+     * @var string
+     */
+    const CAPTURE_TYPE_COMPLETE = 'Complete';
+    const CAPTURE_TYPE_NOTCOMPLETE = 'NotComplete';
+
+    /**
+     * Refund types
+     * @var string
+     */
+    const REFUND_TYPE_FULL = 'Full';
+    const REFUND_TYPE_PARTIAL = 'Partial';
+
+    /**
+     * Express Checkout flows
+     * @var string
+     */
+    const EC_SOLUTION_TYPE_SOLE = 'Sole';
+    const EC_SOLUTION_TYPE_MARK = 'Mark';
+
+    /**
      * Current payment method code
      * @var string
      */
@@ -59,6 +108,37 @@ class Mage_Paypal_Model_Config
      * @var int
      */
     protected $_storeId = null;
+
+    /**
+     * Instructions for generating proper BN code
+     *
+     * @var array
+     */
+    protected $_buildNotationPPMap = array(
+        'paypal_standard' => 'WPS',
+        'paypal_express'  => 'EC',
+        'paypal_direct'   => 'DP',
+    );
+
+    /**
+     * Legacy BN codes:
+     * 'Varien_Cart_EC_US', 'Varien_Cart_DP_US', 'Varien_Cart_WPS_US', 'Varien_Cart_EC_UK', 'Varien_Cart_DP_UK'
+     * @deprecated
+     * @var string
+     */
+    protected $_bnLegacyCountryCode = 'US';
+
+    /**
+     * Style system config map (Express Checkout)
+     * @var array
+     */
+    protected $_ecStyleConfigMap = array(
+        'page_style'    => 'page_style',
+        'paypal_hdrimg' => 'hdrimg',
+        'paypal_hdrbordercolor' => 'hdrbordercolor',
+        'paypal_hdrbackcolor'   => 'hdrbackcolor',
+        'paypal_payflowcolor'   => 'payflowcolor',
+    );
 
     /**
      * Set method and store id, if specified
@@ -93,6 +173,15 @@ class Mage_Paypal_Model_Config
     }
 
     /**
+     * Payment method instance code getter
+     * @return string
+     */
+    public function getMethodCode()
+    {
+        return $this->_methodCode;
+    }
+
+    /**
      * Store ID setter
      * @param int $storeId
      * @return Mage_Paypal_Model_Config
@@ -122,6 +211,271 @@ class Mage_Paypal_Model_Config
     }
 
     /**
+     * Get url for dispatching customer to express checkout start
+     * @param string $token
+     * @return string
+     */
+    public function getExpressCheckoutStartUrl($token)
+    {
+        return $this->getPaypalUrl(array(
+            'cmd'   => '_express-checkout',
+            'token' => $token,
+        ));
+    }
+
+    /**
+     * Get url that allows to edit checkout details on paypal side
+     * @param $token
+     * @return string
+     */
+    public function getExpressCheckoutEditUrl($token)
+    {
+        return $this->getPaypalUrl(array(
+            'cmd'        => '_express-checkout',
+            'useraction' => 'continue',
+            'token'      => $token,
+        ));
+    }
+
+    /**
+     * Get url for additional actions that PayPal may require customer to do after placing the order.
+     * For instance, redirecting customer to bank for payment confirmation.
+     * @param string $token
+     * @return string
+     */
+    public function getExpressCheckoutCompleteUrl($token)
+    {
+        return $this->getPaypalUrl(array(
+            'cmd'   => '_complete-express-checkout',
+            'token' => $token,
+        ));
+    }
+
+     /**
+     * PayPal web URL generic getter
+     *
+     * @param array $params
+     * @return string
+     */
+    public function getPaypalUrl(array $params = array())
+    {
+        return sprintf('https://www.%spaypal.com/webscr%s',
+            $this->sandboxFlag ? 'sandbox.' : '',
+            $params ? '?' . http_build_query($params) : ''
+        );
+    }
+
+    /**
+     * Whether Express Checkout button should be rendered dynamically
+     * @return bool
+     */
+    public function areButtonsDynamic()
+    {
+        return $this->buttonFlavor === self::EC_FLAVOR_DYNAMIC;
+    }
+
+    /**
+     * Express checkout shortcut pic URL getter
+     * PayPal will ignore "pal", if there is no total amount specified
+     *
+     * @param string $localeCode
+     * @param float $orderTotal
+     * @param string $pal encrypted summary about merchant
+     * @see Paypal_Model_Api_Nvp::callGetPalDetails()
+     */
+    public function getExpressCheckoutShortcutImageUrl($localeCode, $orderTotal = null, $pal = null)
+    {
+        if ($this->areButtonsDynamic()) {
+            return $this->_getDynamicImageUrl($this->buttonType, $localeCode, $orderTotal, $pal);
+            // return $this->_getDynamicImageUrl(self::EC_BUTTON_TYPE_SHORTCUT, $localeCode, $orderTotal, $pal);
+        }
+        if ($this->buttonType === self::EC_BUTTON_TYPE_MARK) {
+            return $this->getPaymentMarkImageUrl($localeCode);
+        }
+        return sprintf('https://www.paypal.com/%s/i/btn/btn_xpressCheckout.gif', $localeCode);
+    }
+
+    /**
+     * Get PayPal "mark" image URL
+     * Supposed to be used on payment methods selection
+     * $staticSize is applicable for static images only
+     *
+     * @param string $localeCode
+     * @param float $orderTotal
+     * @param string $pal
+     * @param string $staticSize
+     */
+    public function getPaymentMarkImageUrl($localeCode, $orderTotal = null, $pal = null, $staticSize = null)
+    {
+        if ($this->areButtonsDynamic()) {
+            return $this->_getDynamicImageUrl(self::EC_BUTTON_TYPE_MARK, $localeCode, $orderTotal, $pal);
+        }
+
+        if (null === $staticSize) {
+            $staticSize = $this->paymentMarkSize;
+        }
+        switch ($staticSize) {
+            case self::PAYMENT_MARK_37x23:
+            case self::PAYMENT_MARK_50x34:
+            case self::PAYMENT_MARK_60x38:
+            case self::PAYMENT_MARK_180x113:
+                break;
+            default:
+                $staticSize = self::PAYMENT_MARK_37x23;
+        }
+        return sprintf('https://www.paypal.com/%s/i/logo/PayPal_mark_%s.gif', $localeCode, $staticSize);
+    }
+
+    /**
+     * Get "What Is PayPal" localized URL
+     * Supposed to be used with "mark" as popup window
+     *
+     * @param Mage_Core_Model_Locale $locale
+     */
+    public function getPaymentMarkWhatIsPaypalUrl(Mage_Core_Model_Locale $locale = null)
+    {
+        $countryCode = 'US';
+        if (null !== $locale) {
+            $shouldEmulate = (null !== $this->_storeId) && (Mage::app()->getStore()->getId() != $this->_storeId);
+            if ($shouldEmulate) {
+                $locale->emulate($this->_storeId);
+            }
+            $countryCode = $locale->getLocale()->getRegion();
+            if ($shouldEmulate) {
+                $locale->revert();
+            }
+        }
+        return sprintf('https://www.paypal.com/%s/cgi-bin/webscr?cmd=xpt/Marketing/popup/OLCWhatIsPayPal-outside',
+            strtolower($countryCode)
+        );
+    }
+
+    /**
+     * Getter for Solution banner images
+     *
+     * @param string $localeCode
+     * @param bool $isVertical
+     * @param bool $isEcheck
+     */
+    public function getSolutionImageUrl($localeCode, $isVertical = false, $isEcheck = false)
+    {
+        return sprintf('https://www.paypal.com/%s/i/bnr/%s_solution_PP%s.gif',
+            $localeCode, $isVertical ? 'vertical' : 'horizontal', $isEcheck ? 'eCheck' : ''
+        );
+    }
+
+    /**
+     * BN code getter
+     *
+     * @param string $countryCode ISO 3166-1
+     */
+    public function getBuildNotationCode($countryCode = null)
+    {
+        $product = 'WPP';
+        if ($this->_methodCode && isset($this->_buildNotationPPMap[$this->_methodCode])) {
+            $product = $this->_buildNotationPPMap[$this->_methodCode];
+        }
+        if (null === $countryCode) {
+            $countryCode = $this->_bnLegacyCountryCode;
+            // $countryCode = Mage::getStoreConfig('shipping/origin/country_id', $this->_storeId);
+        }
+        $format = 'Varien_ShoppingCart_%s_%s';
+        if ($this->_bnLegacyCountryCode) {
+            $format = 'Varien_Cart_%s_%s';
+        }
+        return sprintf($format, $product, $countryCode);
+    }
+
+    /**
+     * Express Checkout button "flavors" source getter
+     * @return array
+     */
+    public function getExpressCheckoutButtonFlavors()
+    {
+        return array(
+            self::EC_FLAVOR_DYNAMIC => Mage::helper('paypal')->__('Dynamic'),
+            self::EC_FLAVOR_STATIC  => Mage::helper('paypal')->__('Static'),
+        );
+    }
+
+    /**
+     * Express Checkout button types source getter
+     * @return array
+     */
+    public function getExpressCheckoutButtonTypes()
+    {
+        return array(
+            self::EC_BUTTON_TYPE_SHORTCUT => Mage::helper('paypal')->__('Shortcut'),
+            self::EC_BUTTON_TYPE_MARK     => Mage::helper('paypal')->__('Acceptance Mark Image'),
+        );
+    }
+
+    /**
+     * Payment actions source getter
+     * @return array
+     */
+    public function getPaymentActions()
+    {
+        return array(
+            self::PAYMENT_ACTION_AUTH  => Mage::helper('paypal')->__('Authorization'),
+            // self::PAYMENT_ACTION_ORDER => Mage::helper('paypal')->__('Order'), // not supported yet
+            self::PAYMENT_ACTION_SALE  => Mage::helper('paypal')->__('Sale'),
+        );
+    }
+
+    /**
+     * Express Checkout "solution types" source getter
+     * @return array
+     */
+    public function getExpressCheckoutSolutionTypes()
+    {
+        return array(
+            self::EC_SOLUTION_TYPE_SOLE => Mage::helper('paypal')->__('Express Checkout for Auctions'),
+            self::EC_SOLUTION_TYPE_MARK => Mage::helper('paypal')->__('Normal Express Checkout'),
+        );
+    }
+
+    /**
+     * Export page style current settings to specified object
+     * @param Varien_Object $to
+     */
+    public function exportExpressCheckoutStyleSettings(Varien_Object $to)
+    {
+        foreach ($this->_ecStyleConfigMap as $key => $exportKey) {
+            if ($this->$key) {
+                $to->setData($exportKey, $this->$key);
+            }
+        }
+    }
+
+    /**
+     * Dynamic PayPal image URL getter
+     * Also can render dynamic Acceptance Mark
+     *
+     * @param string $type
+     * @param string $localeCode
+     * @param float $orderTotal
+     * @param string $pal
+     */
+    protected function _getDynamicImageUrl($type, $localeCode, $orderTotal, $pal)
+    {
+        $params = array(
+            'cmd'        => '_dynamic-image',
+            'buttontype' => $type,
+            'locale'     => $localeCode,
+        );
+        if ($orderTotal) {
+            $params['ordertotal'] = sprintf('%.2F', $orderTotal);
+            if ($pal) {
+                $params['pal'] = $pal;
+            }
+        }
+        return sprintf('https://fpdbs%s.paypal.com/dynamicimageweb?%s',
+            $this->sandboxFlag ? '.sandbox' : '', http_build_query($params)
+        );
+    }
+
+    /**
      * Map any supported payment method into a config path by specified field name
      * @param string $fieldName
      * @return string|null
@@ -131,8 +485,9 @@ class Mage_Paypal_Model_Config
         if (self::METHOD_WPS === $this->_methodCode) {
             return $this->_mapStandardFieldset($fieldName);
         } elseif (self::METHOD_WPP_EXPRESS === $this->_methodCode ||  self::METHOD_WPP_DIRECT === $this->_methodCode) {
-            $path = self::METHOD_WPP_EXPRESS ? $this->_mapExpressFieldset($fieldName)
-                : $this->_mapDirectFieldset($fieldName);
+            $path = self::METHOD_WPP_EXPRESS ?
+                $this->_mapExpressFieldset($fieldName) : $this->_mapDirectFieldset($fieldName)
+             ;
             if (!$path) {
                 $path = $this->_mapWppFieldset($fieldName);
             }
@@ -272,18 +627,5 @@ class Mage_Paypal_Model_Config
             case 'title':
                 return 'payment/' . self::METHOD_WPP_DIRECT . "/{$fieldName}";
         }
-    }
-
-    /**
-     * PayPal gateway submission URL getter
-     *
-     * @return string
-     */
-    public function getPaypalUrl()
-    {
-         if ($this->sandboxFlag) {
-             return 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-         }
-         return 'https://www.paypal.com/cgi-bin/webscr';
     }
 }

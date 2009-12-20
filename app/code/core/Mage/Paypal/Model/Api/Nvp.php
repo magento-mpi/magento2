@@ -31,6 +31,95 @@
 class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 {
     /**
+     * Filter callbacks for preparing internal amounts to NVP request
+     * @var array
+     */
+    protected $_exportToRequestFilters = array(
+        'AMT' => '_filterAmount',
+    );
+
+    /**
+     * Global public interface map
+     * @var array
+     */
+    protected $_globalMap = array(
+        // commands
+        'PAYMENTACTION' => 'payment_type',
+        'RETURNURL'     => 'return_url',
+        'CANCELURL'     => 'cancel_url',
+        'INVNUM'        => 'inv_num',
+        'TOKEN'         => 'token',
+        'CORRELATIONID' => 'correlation_id',
+        'SOLUTIONTYPE'  => 'solution_type',
+        'GIROPAYCANCELURL'  => 'giropay_cancel_url',
+        'GIROPAYSUCCESSURL' => 'giropay_success_url',
+        'BANKTXNPENDINGURL' => 'giropay_bank_txn_pending_url',
+        'IPADDRESS'         => 'server_name',
+        'NOTIFYURL'         => 'notify_url',
+        // style settings
+        'PAGESTYLE'      => 'page_style',
+        'HDRIMG'         => 'hdrimg',
+        'HDRBORDERCOLOR' => 'hdrbordercolor',
+        'HDRBACKCOLOR'   => 'hdrbackcolor',
+        'PAYFLOWCOLOR'   => 'payflowcolor',
+        'BUTTONSOURCE'   => 'button_source_ec',
+
+        // transaction info
+        'AUTHORIZATIONID' => 'authorization_id',
+        'AMT' => 'amount',
+
+        // payment info
+        'CURRENCYCODE'  => 'currency_code',
+        'PAYMENTSTATUS' => 'payment_status',
+        'PENDINGREASON' => 'pending_reason',
+        'PROTECTIONELIGIBILITY' => 'protection_eligibility',
+        'PAYERID' => 'payer_id',
+        'PAYERSTATUS' => 'payer_status',
+        'ADDRESSID' => 'address_id',
+        'ADDRESSSTATUS' => 'address_status',
+
+        // cardinal centinel
+//        'AUTHSTATUS3D',
+//        'MPIVENDOR3DS',
+//        'CAVV'
+        'XID' => 'centinel_verification_id',
+    );
+
+    /**
+     * SetExpressCheckout request/response map
+     * @var array
+     */
+    protected $_setExpressCheckoutRequest = array(
+        'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'RETURNURL', 'CANCELURL', 'INVNUM', 'SOLUTIONTYPE',
+        'GIROPAYCANCELURL', 'GIROPAYSUCCESSURL', 'BANKTXNPENDINGURL',
+        'PAGESTYLE', 'HDRIMG', 'HDRBORDERCOLOR', 'HDRBACKCOLOR', 'PAYFLOWCOLOR',
+    );
+    protected $_setExpressCheckoutResponse = array('TOKEN');
+
+    /**
+     * GetExpressCheckoutDetails request/response map
+     * @var array
+     */
+    protected $_getExpressCheckoutDetailsRequest = array('TOKEN');
+
+    /**
+     * DoExpressCheckoutPayment request/response map
+     * @var array
+     */
+    protected $_doExpressCheckoutPaymentRequest = array(
+        'TOKEN', 'PAYERID', 'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'IPADDRESS', 'BUTTONSOURCE', 'NOTIFYURL',
+    );
+
+    /**
+     * DoReauthorization request/response map
+     * @var array
+     */
+    protected $_doReauthorizationRequest = array('AUTHORIZATIONID', 'AMT', 'CURRENCYCODE');
+    protected $_doReauthorizationResponse = array(
+        'AUTHORIZATIONID', 'PAYMENTSTATUS', 'PENDINGREASON', 'PROTECTIONELIGIBILITY'
+    );
+
+    /**
      * Map for billing address import/export
      * @var array
      */
@@ -62,23 +151,13 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     );
 
     /**
-     * Map for various PayPal-specific payment info
-     * @see Mage_Paypal_Model_Info
+     * Payment information response specifically to be collected after some requests
+     * @var array
      */
-    protected $_paymentInformationMap = array(
-        // common
-        'PAYERID' => 'paypal_payer_id',
-        'PAYERSTATUS' => 'paypal_payer_status',
-        'CORRELATIONID' => 'paypal_correlation_id',
-        'ADDRESSID' => 'paypal_address_id',
-        'ADDRESSSTATUS' => 'paypal_address_status',
-        'PROTECTIONELIGIBILITY' => 'paypal_protection_eligibility',
-
-        // cardinal centinel
-//        'AUTHSTATUS3D',
-//        'MPIVENDOR3DS',
-//        'CAVV'
-        'XID' => 'paypal_centinel_verified',
+    protected $_paymentInformationResponse = array(
+        'PAYERID', 'PAYERSTATUS', 'CORRELATIONID', 'ADDRESSID', 'ADDRESSSTATUS',
+        'PAYMENTSTATUS', 'PENDINGREASON', 'PROTECTIONELIGIBILITY',
+        // 'AUTHSTATUS3D','MPIVENDOR3DS','CAVV','XID'
     );
 
     /**
@@ -119,30 +198,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
-     * return paypal sandbox url, depending of sendbox flag.
-     * used for redirect to paypal, express method
-     *
-     * TODO: dispose of the paypal_url crap in sys config
-     * @return string
-     */
-    public function getPaypalUrl()
-    {
-        if (!$this->hasPaypalUrl()) {
-            if ($this->getSandboxFlag()) {
-                $default = 'https://www.sandbox.paypal.com/';
-            } else {
-                $default = 'https://www.paypal.com/cgi-bin/';
-            }
-            $default .= 'webscr?cmd=_express-checkout&useraction='.$this->getUserAction().'&token=';
-
-            $url = $this->getConfigData('paypal_url', $default);
-        } else {
-            $url = $this->getData('paypal_url');
-        }
-        return $url . $this->getToken();
-    }
-
-    /**
      * Return Paypal Api version
      *
      * @return string
@@ -159,115 +214,62 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function callSetExpressCheckout()
     {
-        $nvpArr = array(
-            'PAYMENTACTION' => $this->getPaymentType(),
-            'AMT'           => (float)$this->getAmount(),
-            'CURRENCYCODE'  => $this->getCurrencyCode(),
-            'RETURNURL'     => $this->getReturnUrl(),
-            'CANCELURL'     => $this->getCancelUrl(),
-            'INVNUM'        => $this->getInvNum(),
-            'HDRIMG'        => $this->getStyleConfigData('paypal_hdrimg'),
-            'HDRBORDERCOLOR' => $this->getStyleConfigData('paypal_hdrbordercolor'),
-            'HDRBACKCOLOR'   => $this->getStyleConfigData('paypal_hdrbackcolor'),
-            'PAYFLOWCOLOR'   => $this->getStyleConfigData('paypal_payflowcolor'),
-            'LOCALECODE'     => Mage::app()->getLocale()->getLocaleCode()
-        );
-
-        $nvpArr = Varien_Object_Mapper::accumulateByMap(array($this, 'getDataUsingMethod'), $nvpArr, array(
-            'page_style' => 'PAGESTYLE',
-            'giropay_cancel_url' => 'GIROPAYCANCELURL',
-            'giropay_success_url' => 'GIROPAYSUCCESSURL',
-            'giropay_bank_txn_pending_url' => 'BANKTXNPENDINGURL',
-            'solution_type' => 'SOLUTIONTYPE'));
+        $request = $this->_exportToRequest($this->_setExpressCheckoutRequest);
+        $request['LOCALECODE'] = Mage::app()->getLocale()->getLocaleCode();
 
         // prepare line items
         if ($lineItems = $this->getLineItems()) {
             $lineItemArray = $this->_prepareLineItem($lineItems, $this->getItemAmount(), $this->getItemTaxAmount(), $this->getShippingAmount(), $this->getDiscountAmount());
-            $nvpArr = array_merge($nvpArr, $lineItemArray);
+            $request = array_merge($request, $lineItemArray);
         }
 
         // import/suppress shipping address, if any
         if ($address = $this->getShippingAddress()) {
-            $nvpArr = $this->_importShippingAddress($address, $nvpArr);
-            $nvpArr['ADDROVERRIDE'] = 1;
+            $request = $this->_importShippingAddress($address, $request);
+            $request['ADDROVERRIDE'] = 1;
         } elseif ($this->getSuppressShipping()) {
-            $nvpArr['NOSHIPPING'] = 1;
+            $request['NOSHIPPING'] = 1;
         }
 
-        $resArr = $this->call('SetExpressCheckout', $nvpArr);
-        if (false === $resArr) {
-            return false;
-        }
-
-        $this->setToken($resArr['TOKEN']);
-//        $this->setRedirectUrl($this->getPaypalUrl());
-        return $resArr;
+        $response = $this->call('SetExpressCheckout', $request);
+        $this->_importFromResponse($this->_setExpressCheckoutResponse, $response);
     }
 
     /**
      * GetExpressCheckoutDetails call
      * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_GetExpressCheckoutDetails
-     * @param string $token
-     * @return array
      */
-    function callGetExpressCheckoutDetails($token = null)
+    function callGetExpressCheckoutDetails()
     {
-        if (null === $token) {
-            $token = $this->getToken();
-        }
-        $nvpArr = array(
-            'TOKEN' => $token,
-        );
-
-        $resArr = $this->call('GetExpressCheckoutDetails', $nvpArr);
-        if (false === $resArr) {
-            return false;
-        }
-
-        // export payment data and addresses
-        Varien_Object_Mapper::accumulateByMap($resArr, $this, $this->_paymentInformationMap);
-        $this->_exportAddressses($resArr);
-
+        $request = $this->_exportToRequest($this->_getExpressCheckoutDetailsRequest);
+        $response = $this->call('GetExpressCheckoutDetails', $request);
+        $this->_importFromResponse($this->_paymentInformationResponse, $response);
+        $this->_exportAddressses($response);
 //        $this->setIsRedirectRequired(!empty($resArr['REDIRECTREQUIRED']) && (bool)$resArr['REDIRECTREQUIRED']);
-        return $resArr;
     }
 
     /**
      * DoExpressCheckout call
      * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoExpressCheckoutPayment
-     * @return array
      */
     public function callDoExpressCheckoutPayment()
     {
-        $nvpArr = array(
-            'TOKEN'         => $this->getToken(),
-            'PAYERID'       => $this->getPayerId(),
-            'PAYMENTACTION' => $this->getPaymentType(),
-            'AMT'           => $this->getAmount(),
-            'CURRENCYCODE'  => $this->getCurrencyCode(),
-            'IPADDRESS'     => $this->getServerName(),
-            'BUTTONSOURCE'  => $this->getButtonSourceEc(),
-            'NOTIFYURL'     => $this->getNotifyUrl(),
-        );
+        $request = $this->_exportToRequest($this->_doExpressCheckoutPaymentRequest);
 
-        $nvpArr['TAXAMT'] = sprintf('%.2F', $this->getTaxAmount());
-        $nvpArr['SHIPPINGAMT'] = sprintf('%.2F',$this->getShippingAmount());
+        $request['TAXAMT'] = sprintf('%.2F', $this->getTaxAmount());
+        $request['SHIPPINGAMT'] = sprintf('%.2F',$this->getShippingAmount());
 
-        $this->_prepareLineItems($nvpArr);
+        $this->_prepareLineItems($request);
         if ($this->getReturnFmfDetailes()) {
-            $nvpArr['RETURNFMFDETAILS '] = 1;
+            $request['RETURNFMFDETAILS '] = 1;
         }
 
-        $resArr = $this->call('DoExpressCheckoutPayment', $nvpArr);
-        if (false === $resArr) {
-            return false;
-        }
+        $response = $this->call('DoExpressCheckoutPayment', $request);
+        $this->_importFromResponse($this->_paymentInformationResponse, $response);
 
-        Varien_Object_Mapper::accumulateByMap($resArr, $this, $this->_paymentInformationMap);
-        $this->setTransactionId($resArr['TRANSACTIONID']);
-        $this->setAmount($resArr['AMT']);
-        $this->setIsRedirectRequired(!empty($resArr['REDIRECTREQUIRED']) && (bool)$resArr['REDIRECTREQUIRED']);
-        return $resArr;
+        $this->setTransactionId($response['TRANSACTIONID']);
+        $this->setAmount($response['AMT']);
+//        $this->setIsRedirectRequired(!empty($response['REDIRECTREQUIRED']) && (bool)$response['REDIRECTREQUIRED']);
     }
 
     /**
@@ -284,7 +286,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $s = $a;
         }
 
-        $nvpArr = array(
+        $request = array(
             'PAYMENTACTION'  => $this->getPaymentType(),
             'AMT'            => $this->getAmount(),
             'CURRENCYCODE'   => $this->getCurrencyCode(),
@@ -315,70 +317,46 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         );
 
         if ($this->getMpiVendor()) {
-            $nvpArr['AUTHSTATUS3D'] = $this->getAuthStatus();
-            $nvpArr['MPIVENDOR3DS'] = $this->getMpiVendor();
-            $nvpArr['CAVV']         = $this->getCavv();
-            $nvpArr['ECI3DS']       = $this->getEci3d();
-            $nvpArr['XID']          = $this->getXid();
+            $request['AUTHSTATUS3D'] = $this->getAuthStatus();
+            $request['MPIVENDOR3DS'] = $this->getMpiVendor();
+            $request['CAVV']         = $this->getCavv();
+            $request['ECI3DS']       = $this->getEci3d();
+            $request['XID']          = $this->getXid();
         }
         if ($this->getReturnFmfDetails()) {
-            $nvpArr['RETURNFMFDETAILS '] = 1;
+            $request['RETURNFMFDETAILS '] = 1;
         }
 
         if ($lineItems = $this->getLineItems()) {
             $lineItemArray = $this->_prepareLineItem($lineItems, $this->getItemAmount(), $this->getItemTaxAmount(), $this->getShippingAmount(), $this->getDiscountAmount());
-            $nvpArr = array_merge($nvpArr, $lineItemArray);
+            $request = array_merge($request, $lineItemArray);
         }
 
-        $resArr = $this->call('DoDirectPayment', $nvpArr);
+        $response = $this->call('DoDirectPayment', $request);
 
-        if (false===$resArr) {
-            return false;
-        }
-
-        $this->setTransactionId($resArr['TRANSACTIONID']);
-        $this->setAmount($resArr['AMT']);
-        $this->setAvsCode($resArr['AVSCODE']);
-        $this->setCvv2Match($resArr['CVV2MATCH']);
-
-        return $resArr;
+        $this->setTransactionId($response['TRANSACTIONID']);
+        $this->setAmount($response['AMT']);
+        $this->setAvsCode($response['AVSCODE']);
+        $this->setCvv2Match($response['CVV2MATCH']);
     }
 
     /**
      * Made additional request to paypal to get autharization id
-     * TODO: fix this
      */
     public function callDoReauthorization()
     {
-        $nvpArr = array(
-            'AUTHORIZATIONID' => $this->getAuthorizationId(),
-            'AMT'             => $this->getAmount(),
-            'CURRENCYCODE'    => $this->getCurrencyCode(),
-        );
-
-        $resArr = $this->call('DoReauthorization', $nvpArr);
-
-        if (false===$resArr) {
-            return false;
-        }
-
-        if (!empty($resArr['PROTECTIONELIGIBILITY'])) {
-            $this->setProtectionEligibility($resArr['PROTECTIONELIGIBILITY']);
-        }
-        $this->setAuthorizationId($resArr['AUTHORIZATIONID']);
-
-        return $resArr;
+        $request = $this->_export($this->_doReauthorizationRequest);
+        $response = $this->call('DoReauthorization', $request);
+        $this->_import($response, $this->_doReauthorizationResponse);
     }
 
     /**
      * DoCapture call
      * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoCapture
-     * @return array
-     * TODO: fix this
      */
     public function callDoCapture()
     {
-        $nvpArr = array(
+        $request = array(
             'AUTHORIZATIONID' => $this->getAuthorizationId(),
             'COMPLETETYPE'    => $this->getCompleteType(),
             'AMT'             => $this->getAmount(),
@@ -387,84 +365,62 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             'INVNUM'          => $this->getInvNum()
         );
 
-        $resArr = $this->call('DoCapture', $nvpArr);
-        if (false === $resArr) {
-            return false;
-        }
+        $response = $this->call('DoCapture', $request);
 
-        if (!empty($resArr['PAYERSTATUS'])) {
-            $this->setAccountStatus($resArr['PAYERSTATUS']);
-        }
-        if (!empty($resArr['PROTECTIONELIGIBILITY'])) {
-            $this->setProtectionEligibility($resArr['PROTECTIONELIGIBILITY']);
-        }
-        $this->setAuthorizationId($resArr['AUTHORIZATIONID']);
-        $this->setTransactionId($resArr['TRANSACTIONID']);
-        $this->setPaymentStatus($resArr['PAYMENTSTATUS']);
-        $this->setCurrencyCode($resArr['CURRENCYCODE']);
-        $this->setAmount($resArr['AMT']);
-
-        return $resArr;
+//        if (!empty($response['PAYERSTATUS'])) {
+//            $this->setAccountStatus($response['PAYERSTATUS']);
+//        }
+//        if (!empty($response['PROTECTIONELIGIBILITY'])) {
+//            $this->setProtectionEligibility($response['PROTECTIONELIGIBILITY']);
+//        }
+//        $this->setAuthorizationId($response['AUTHORIZATIONID']);
+        $this->setTransactionId($response['TRANSACTIONID']);
+//        $this->setPaymentStatus($response['PAYMENTSTATUS']);
+        $this->setCurrencyCode($response['CURRENCYCODE']);
+        $this->setAmount($response['AMT']);
     }
 
     /**
      * DoVoid call
      * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoVoid
-     * @return array
-     * TODO: fix this
      */
     public function callDoVoid()
     {
-        $nvpArr = array(
+        $request = array(
             'AUTHORIZATIONID' => $this->getAuthorizationId(),
             'NOTE'            => $this->getNote(),
         );
-
-        $resArr = $this->call('DoVoid', $nvpArr);
-        if (false === $resArr) {
-            return false;
-        }
-
-        $this->setAuthorizationId($resArr['AUTHORIZATIONID']);
-        return $resArr;
+        $this->call('DoVoid', $request);
     }
 
     /**
      * GetTransactionDetails
      * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_GetTransactionDetails
-     * TODO: fix this
-     * @return array
      */
     public function callGetTransactionDetails()
     {
-        $nvpArr = array(
+        $request = array(
             'TRANSACTIONID' => $this->getTransactionId(),
         );
 
-        $resArr = $this->call('GetTransactionDetails', $nvpArr);
-
-        if (false===$resArr) {
-            return false;
-        }
+        $response = $this->call('GetTransactionDetails', $request);
 
 //        $this->setIsRedirectRequired(!empty($resArr['REDIRECTREQUIRED']) && (bool)$resArr['REDIRECTREQUIRED']);
-        $this->setPayerEmail($resArr['RECEIVEREMAIL']);
-        $this->setPayerId($resArr['PAYERID']);
-        $this->setFirstname($resArr['FIRSTNAME']);
-        $this->setLastname($resArr['LASTNAME']);
-        $this->setTransactionId($resArr['TRANSACTIONID']);
-        $this->setParentTransactionId($resArr['PARENTTRANSACTIONID']);
-        $this->setCurrencyCode($resArr['CURRENCYCODE']);
-        $this->setAmount($resArr['AMT']);
-        if (!empty($resArr['PAYERSTATUS'])) {
-            $this->setPaymentStatus($resArr['PAYERSTATUS']);
-            $this->setAccountStatus($resArr['PAYERSTATUS']);
-        }
-        if (!empty($resArr['PROTECTIONELIGIBILITY'])) {
-            $this->setProtectionEligibility($resArr['PROTECTIONELIGIBILITY']);
-        }
-
-        return $resArr;
+//        $this->setPayerEmail($resArr['RECEIVEREMAIL']); // this is incorrect!
+        $this->setPayerId($response['PAYERID']);
+        $this->setFirstname($response['FIRSTNAME']);
+        $this->setLastname($response['LASTNAME']);
+        $this->setTransactionId($response['TRANSACTIONID']);
+        $this->setParentTransactionId($response['PARENTTRANSACTIONID']);
+        $this->setCurrencyCode($response['CURRENCYCODE']);
+        $this->setAmount($response['AMT']);
+//        if (!empty($resArr['PAYERSTATUS'])) {
+//            $this->setPaymentStatus($resArr['PAYERSTATUS']);
+//            $this->setAccountStatus($resArr['PAYERSTATUS']);
+//        }
+//        if (!empty($resArr['PROTECTIONELIGIBILITY'])) {
+//            $this->setProtectionEligibility($resArr['PROTECTIONELIGIBILITY']);
+//        }
     }
 
     /**
@@ -473,181 +429,143 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function callRefundTransaction()
     {
-        $nvpArr = array(
+        $request = array(
             'TRANSACTIONID' => $this->getTransactionId(),
             'REFUNDTYPE'    => $this->getRefundType(),
             'CURRENCYCODE'  => $this->getCurrencyCode(),
             'NOTE'          => $this->getNote(),
         );
-        if ($this->getRefundType()===self::REFUND_TYPE_PARTIAL) {
-            $nvpArr['AMT'] = $this->getAmount();
+        if ($this->getRefundType() === Mage_Paypal_Model_Config::REFUND_TYPE_PARTIAL) {
+            $request['AMT'] = $this->getAmount();
         }
 
-        $resArr = $this->call('RefundTransaction', $nvpArr);
-        if (false === $resArr) {
-            return false;
-        }
-
-        $this->setTransactionId($resArr['REFUNDTRANSACTIONID']);
-        $this->setAmount($resArr['GROSSREFUNDAMT']);
-
-        return $resArr;
+        $result = $this->call('RefundTransaction', $request);
+        $this->setTransactionId($result['REFUNDTRANSACTIONID']);
+        $this->setAmount($result['GROSSREFUNDAMT']);
     }
 
     /**
      * ManagePendingTransactionStatus
      * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_ManagePendingTransactionStatus
-     * @return array
      */
     public function callManagePendingTransactionStatus()
     {
-        $nvpArr = array(
+        $response = $this->call('ManagePendingTransactionStatus', array(
             'TRANSACTIONID' => $this->getTransactionId(),
             'ACTION'        => $this->getAction(),
-        );
-
-        $resArr = $this->call('ManagePendingTransactionStatus', $nvpArr);
-
-        if (false===$resArr) {
-            return false;
-        }
-
-        $this->setTransactionId($resArr['TRANSACTIONID']);
-        return $resArr;
+        ));
+        $this->setTransactionId($response['TRANSACTIONID']);
     }
 
     /**
      * getPalDetails call
      * @see https://www.x.com/docs/DOC-1300
-     * @return Mage_Paypal_Model_Api_Nvp
-     * TODO: fix this
+     * @see https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_ECButtonIntegration
      */
-    public function callPalDetails()
+    public function callGetPalDetails()
     {
-        $nvpArr = array();
-
-        $resArr = $this->call('getPalDetails', $nvpArr);
-        if (false === $resArr) {
-            return false;
-        }
-        $this->setPal($resArr['PAL']);
-        return $this;
+        $result = $this->call('getPalDetails', array());
+        $this->setPal($result['PAL']);
     }
 
     /**
-     * Function to perform the API call to PayPal using API signature
+     * Do the API call
      *
-     * @param $methodName string is name of API  method.
-     * @param $nvpArr array NVP params array
-     * @return array|boolean an associtive array containing the response from the server or false in case of error.
+     * @param string $methodName
+     * @param array $request
+     * @return array
+     * @throws Mage_Core_Exception
      */
-    public function call($methodName, array $nvpArr)
+    public function call($methodName, array $request)
     {
-        $nvpArr = array_merge(array(
+        $request = array_merge(array(
             'METHOD'    => $methodName,
             'VERSION'   => $this->getVersion(),
             'USER'      => $this->getApiUserName(),
             'PWD'       => $this->getApiPassword(),
             'SIGNATURE' => $this->getApiSignature(),
-        ), $nvpArr);
+        ), $request);
 
-        $nvpReq = '';
-        $nvpReqDebug = '';
-
-        foreach ($nvpArr as $k=>$v) {
-            $nvpReq .= '&'.$k.'='.urlencode($v);
-            $nvpReqDebug .= '&'.$k.'=';
-            if (in_array($k, $this->_debugReplacePrivateDataKeys)) {
-                $nvpReqDebug .= '***';
-            } else {
-                $nvpReqDebug .= urlencode($v);
-            }
-        }
-
-        $nvpReq = substr($nvpReq, 1);
         if ($this->getDebug()) {
+            $requestDebug = $request;
+            foreach ($this->_debugReplacePrivateDataKeys as $key) {
+                if (isset($request[$key])) {
+                    $requestDebug[$key] = '***';
+                }
+            }
             $debug = Mage::getModel('paypal/api_debug')
                 ->setApiEndpoint($this->getApiEndpoint())
-                ->setRequestBody($nvpReqDebug)
+                ->setRequestBody(var_export($requestDebug, 1))
                 ->save();
         }
+
         $http = new Varien_Http_Adapter_Curl();
         $config = array('timeout' => 30);
         if ($this->getUseProxy()) {
             $config['proxy'] = $this->getProxyHost(). ':' . $this->getProxyPort();
         }
         $http->setConfig($config);
-        $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', array(), $nvpReq);
+        $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', array(), http_build_query($request));
         $response = $http->read();
+        $http->close();
         $response = preg_split('/^\r?$/m', $response, 2);
         $response = trim($response[1]);
+        $response = $this->_deformatNVP($response);
 
         if ($this->getDebug()) {
-            $debug->setResponseBody($response)->save();
+            $debug->setResponseBody(var_export($response, 1))->save();
         }
 
-        $nvpReqArray = $this->deformatNVP($nvpReq);
-        $this->getSession()->setNvpReqArray($nvpReqArray);
-
+        // handle transport error
         if ($http->getErrno()) {
-            $http->close();
-            $this->setError(array(
-                'type'=>'CURL',
-                'code'=>$http->getErrno(),
-                'message'=>$http->getError()
+            Mage::logException(new Exception(
+                sprintf('PayPal NVP CURL connection error #%s: %s', $http->getErrno(), $http->getError())
             ));
 //            $this->setRedirectUrl($this->getApiErrorUrl());
-            return false;
-        }
-        $http->close();
-
-        //converting NVPResponse to an Associative Array
-        $nvpResArray = $this->deformatNVP($response);
-        $this->getSession()
-            ->setLastCallMethod($methodName)
-            ->setResHash($nvpResArray);
-        $ack = strtoupper($nvpResArray['ACK']);
-        if ($ack == 'SUCCESS' || $ack=='SUCCESSWITHWARNING') {
-            $this->unsError();
-            if ($ack=='SUCCESSWITHWARNING') {
-                //fraud checking
-                for ($i=0; isset($nvpResArray['L_SHORTMESSAGE'.$i]); $i++) {
-                    if ($nvpResArray['L_ERRORCODE'.$i] == self::FRAUD_ERROR_CODE) {
-                        $this->setIsFraud(true);
-                    }
-                }
-            }
-            return $nvpResArray;
+            Mage::throwException(Mage::helper('paypal')->__('Unable to communicate with PayPal gateway.'));
         }
 
-        $errorArr = array(
-            'type' => 'API',
-            'ack' => $ack,
-        );
-        if (isset($nvpResArray['VERSION'])) {
-            $errorArr['version'] = $nvpResArray['VERSION'];
+        $ack = strtoupper($response['ACK']);
+        if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
+//            $this->unsError();
+// TODO: move to appropriate place
+//            if ($ack=='SUCCESSWITHWARNING') {
+//                //fraud checking
+//                for ($i=0; isset($response['L_SHORTMESSAGE'.$i]); $i++) {
+//                    if ($response['L_ERRORCODE'.$i] == self::FRAUD_ERROR_CODE) {
+//                        $this->setIsFraud(true);
+//                    }
+//                }
+//            }
+            return $response;
         }
-        if (isset($nvpResArray['CORRELATIONID'])) {
-            $errorArr['correlation_id'] = $nvpResArray['CORRELATIONID'];
+
+        // handle logical errors
+        $errors = array();
+        for ($i=0; isset($response["L_SHORTMESSAGE{$i}"]); $i++) {
+            $errors[] = sprintf('%s (#%s: %s).',
+                preg_replace('/\.$/', '', $response["L_LONGMESSAGE{$i}"]),
+                $response["L_ERRORCODE{$i}"], preg_replace('/\.$/', '', $response["L_SHORTMESSAGE{$i}"])
+            );
         }
-        for ($i=0; isset($nvpResArray['L_SHORTMESSAGE'.$i]); $i++) {
-            $errorArr['code'] = $nvpResArray['L_ERRORCODE'.$i];
-            $errorArr['short_message'] = $nvpResArray['L_SHORTMESSAGE'.$i];
-            $errorArr['long_message'] = $nvpResArray['L_LONGMESSAGE'.$i];
+        if ($errors) {
+            $errors = implode(' ', $errors);
+            $e = new Exception(sprintf('PayPal NVP gateway errors %s Corellation ID: %s. Version: %s.', $errors,
+                isset($response['CORRELATIONID']) ? $response['CORRELATIONID'] : '',
+                isset($response['VERSION']) ? $response['VERSION'] : ''
+            ));
+            Mage::logException($e);
+            Mage::throwException(Mage::helper('paypal')->__('PayPal geteway rejected request. %s', $errors));
         }
-        $this->setError($errorArr);
-//        $this->setRedirectUrl($this->getApiErrorUrl());
-        return false;
+        return $response;
     }
 
-    /*'----------------------------------------------------------------------------------
-     * This function will take NVPString and convert it to an Associative Array and it will decode the response.
-      * It is usefull to search for a particular key and displaying arrays.
-      * @nvpstr is NVPString.
-      * @nvpArray is Associative Array.
-       ----------------------------------------------------------------------------------
-      */
-    public function deformatNVP($nvpstr)
+    /**
+     * Parse an NVP response string into an associative array
+     * @param string $nvpstr
+     * @return array
+     */
+    protected function _deformatNVP($nvpstr)
     {
         $intial=0;
         $nvpArray = array();
@@ -715,28 +633,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 //            $request["L_DESC{$i}"]   = Mage::helper('paypal')->__('Discount');
             $request["L_TAXAMT{$i}"] = 0;
         }
-    }
-
-    /**
-     * Error message NVP getter
-     * @return string
-     */
-    public function getErrorMessage()
-    {
-        $e = $this->getError();
-        if (!$e) {
-            return '';
-        }
-        $shortMessage = '';
-        if (!isset($e['short_message'])) {
-            if (isset($e['code'])) {
-                $shortMessage = Mage::helper('paypal')->__('Unknown API error #%s', $e['code']);
-            }
-        } else {
-            $shortMessage = $e['short_message'];
-        }
-        $message = (isset($e['long_message']) ? sprintf('%s: %s', $shortMessage, $e['long_message']) : $shortMessage);
-        return ($e['code'] ? sprintf('(#%s) ', $e['code']) : '' ) . $message;
     }
 
     /**

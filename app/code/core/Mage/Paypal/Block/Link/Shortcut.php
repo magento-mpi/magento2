@@ -26,94 +26,69 @@
 
 /**
  * Paypal shortcut link
- *
- * @category   Mage
- * @package    Mage_Paypal
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paypal_Block_Link_Shortcut extends Mage_Core_Block_Template
 {
-    protected $_method = null;
+    /**
+     * Config instance
+     *
+     * @var Mage_Paypal_Model_Config
+     */
+    protected $_config = null;
 
     /**
-     * Return checkout url as click action to button
+     * Express checkout URL getter
      *
      * @return string
      */
     public function getCheckoutUrl()
     {
-        return $this->getUrl('paypal/express/start', array('_secure'=>true));
-    }
-
-
-    /**
-     * Return payment model object
-     *
-     * @return Mage_Paypal_Model_Express
-     */
-    public function getPayment()
-    {
-        if (empty($this->_method)) {
-            $this->_method = Mage::getModel('paypal/express');
-        }
-        return $this->_method;
+        return $this->getUrl('paypal/express/start');
     }
 
     /**
-     * Return image url based on configuration data
+     * Get checkout button image url
      *
      * @return string
      */
     public function getImageUrl()
     {
-        $locale = Mage::app()->getLocale()->getLocaleCode();
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
-
-
-        if ($this->getPayment()->getApi()->getStyleConfigData('button_flavor') == Mage_Paypal_Model_Api_Abstract::BUTTON_FLAVOR_DYNAMIC) {
-            if ($this->getPayment()->getApi()->getSandboxFlag()) {
-                $url = 'https://fpdbs.sandbox.paypal.com/dynamicimageweb?cmd=_dynamic-image&locale=' . $locale;
-            } else {
-                $url = 'https://fpdbs.paypal.com/dynamicimageweb?cmd=_dynamic-image&locale=' . $locale;
-            }
-
-            $orderTotal = $quote->getGrandTotal();
-            if ($orderTotal) {
-                $url .= '&ordertotal=' . $orderTotal;
-            }
-
-            $pal = $this->getPayment()->getPalDetails();
-            if ($pal) {
-                $url .= '&pal=' . $pal;
-            }
-
-            $buttonType = $this->getPayment()->getApi()->getStyleConfigData('button_type');
-            if ($buttonType) {
-                $url .= '&buttontype=' . $buttonType;
-            }
-
-            return $url;
-        } else {
-            if (strpos('en_GB', $locale)===false) {
-                $locale = 'en_US';
-            }
-            return 'https://www.paypal.com/'.$locale.'/i/btn/btn_xpressCheckout.gif';
-        }
+        return Mage::getModel('paypal/express_checkout', array(
+            'quote'  => Mage::getSingleton('checkout/session')->getQuote(),
+            'config' => $this->_getConfig(),
+        ))->getCheckoutShortcutImageUrl();
     }
 
     /**
      * Check whether method is available and render HTML
+     * TODO: payment method instance is not supposed to know about quote.
+     * The block also is not supposed to know about payment method instance
      *
      * @return string
      */
-    public function _toHtml()
+    protected function _toHtml()
     {
+        if (!$this->_getConfig()->visibleOnCart) {
+            return '';
+        }
         $quote = Mage::getSingleton('checkout/session')->getQuote();
-        $paypalModel = Mage::getModel('paypal/express');
-        if (!$paypalModel->isAvailable($quote) || !$paypalModel->isVisibleOnCartPage()
-            || !$quote->validateMinimumAmount()) {
+        if (!$quote->validateMinimumAmount()
+            || !Mage::getModel('paypal/express')->setConfig($this->_config)->isAvailable($quote)) {
             return '';
         }
         return parent::_toHtml();
+    }
+
+    /**
+     * Config instance getter
+     *
+     * @return Mage_Paypal_Model_Config
+     */
+    protected function _getConfig()
+    {
+        if (null === $this->_config) {
+            $this->_config = Mage::getModel('paypal/config', array(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS));
+        }
+        return $this->_config;
     }
 }

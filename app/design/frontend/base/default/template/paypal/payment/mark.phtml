@@ -23,19 +23,13 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-
+?>
+<?php
 /**
- * @see Mage_PayPal_Block_Standard_From
+ * Note: This mark is a requirement of PayPal
+ * @see Mage_Paypal_Block_Standard_Form
  */
 ?>
-<?php $_code=$this->getMethodCode() ?>
-<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
-    <li>
-        <!-- PayPal Logo -->
-        <p>
-            <a href="#" onclick="javascript:window.open('https://www.paypal.com/<?php echo Mage::helper('paypal')->getLanguage()?>/cgi-bin/webscr?cmd=xpt/Marketing/popup/OLCWhatIsPayPal-outside','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=400, height=500'); return false;"><img src="<?php echo Mage::helper('paypal')->getLogo() ?>" alt="PayPal-Logo" /></a>
-        </p>
-        <!-- PayPal Logo -->
-        <?php echo $this->__('You will be redirected to PayPal website when you place an order.') ?>
-    </li>
-</ul>
+<!-- PayPal Logo -->
+<a href="#" onclick="javascript:window.open('<?php echo $this->getPaymentAcceptanceMarkHref()?>','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=400, height=350');"><img src="<?php echo $this->getPaymentAcceptanceMarkSrc()?>" style="border:0" alt="<?php Mage::helper('paypal')->__('Acceptance Mark')?>"></a>
+<!-- PayPal Logo -->

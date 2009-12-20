@@ -109,7 +109,7 @@ class Mage_Paypal_Model_Ipn
         if ($this->_config->debugFlag) {
             Mage::getModel('paypal/api_debug')
                 ->setApiEndpoint($this->_config->getPaypalUrl())
-                ->setRequestBody(print_r($this->_ipnFormData, 1))
+                ->setRequestBody(var_export($this->_ipnFormData, 1))
                 ->save();
         }
 
@@ -137,7 +137,7 @@ class Mage_Paypal_Model_Ipn
         }
 
         if ($error = $http->getError()) {
-            $this->_notifyAdmin(Mage::helper('paypal')->__('PayPal IPN postback HTTP error: %s', $http->getError()));
+            $this->_notifyAdmin(Mage::helper('paypal')->__('PayPal IPN postback HTTP error: %s', $error));
             return;
         }
 

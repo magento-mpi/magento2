@@ -209,7 +209,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     {
         $paymentAction = $this->getConfigData('payment_action');
         if (!$paymentAction) {
-            $paymentAction = Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_AUTH;
+            $paymentAction = Mage_Paypal_Model_Config::PAYMENT_ACTION_AUTH;
         }
         return $paymentAction;
     }
@@ -259,7 +259,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     public function capture(Varien_Object $payment, $amount)
     {
         $api = $this->getApi()
-            ->setPaymentType(Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_SALE)
+            ->setPaymentType(Mage_Paypal_Model_Config::PAYMENT_ACTION_SALE)
             ->setAmount($amount)
             ->setBillingAddress($payment->getOrder()->getBillingAddress())
             ->setShippingAddress($payment->getOrder()->getShippingAddress())
@@ -288,9 +288,9 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
                 ->setCcSecureVerify((bool)$api->getXid())
                 ->setCcAvsStatus($api->getAvsCode())
                 ->setCcCidStatus($api->getCvv2Match());
-            if ($this->canManageFraud($payment)) {
-                $this->updateGatewayStatus($payment, Mage_Paypal_Model_Api_Abstract::ACTION_ACCEPT);
-            }
+//            if ($this->canManageFraud($payment)) {
+//                $this->updateGatewayStatus($payment, Mage_Paypal_Model_Config::FRAUD_ACTION_ACCEPT);
+//            }
         } else {
             $e = $api->getError();
             if (isset($e['short_message'])) {
@@ -396,7 +396,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
               $api->setPayment($payment);
               //we can refund the amount full or partial so it is good to set up as partial refund
               $api->setTransactionId($payment->getRefundTransactionId())
-                ->setRefundType(Mage_Paypal_Model_Api_Nvp::REFUND_TYPE_PARTIAL)
+                ->setRefundType(Mage_Paypal_Model_Config::REFUND_TYPE_PARTIAL)
                 ->setAmount($amount);
 
              if ($api->callRefundTransaction()!==false){
@@ -418,27 +418,27 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         return $this;
       }
 
-      /**
-       * Process pending transaction, set status deny or approve
-       * @param Varien_Object $payment
-       * @param string $action
-       * @return Mage_PayPal_Model_Direct
-       */
-      public function updateGatewayStatus(Varien_Object $payment, $action)
-      {
-          if ($payment && $action) {
-              if ($payment->getCcTransId()) {
-                  $transactionId = $payment->getCcTransId();
-              } else {
-                  $transactionId = $payment->getLastTransId();
-              }
-              $api = $this->getApi();
-              $api->setAction($action)
-                  ->setTransactionId($transactionId)
-                  ->callManagePendingTransactionStatus();
-          }
-          return $this;
-      }
+//      /**
+//       * Process pending transaction, set status deny or approve
+//       * @param Varien_Object $payment
+//       * @param string $action
+//       * @return Mage_PayPal_Model_Direct
+//       */
+//      public function updateGatewayStatus(Varien_Object $payment, $action)
+//      {
+//          if ($payment && $action) {
+//              if ($payment->getCcTransId()) {
+//                  $transactionId = $payment->getCcTransId();
+//              } else {
+//                  $transactionId = $payment->getLastTransId();
+//              }
+//              $api = $this->getApi();
+//              $api->setAction($action)
+//                  ->setTransactionId($transactionId)
+//                  ->callManagePendingTransactionStatus();
+//          }
+//          return $this;
+//      }
 
     /**
     * cancel payment, if it has fraud status, need to update paypal status
@@ -448,9 +448,9 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     */
     public function cancel(Varien_Object $payment)
     {
-        if ($this->canManageFraud($payment)) {
-            $this->updateGatewayStatus($payment, Mage_Paypal_Model_Api_Abstract::ACTION_DENY);
-        }
+//        if ($this->canManageFraud($payment)) {
+//            $this->updateGatewayStatus($payment, Mage_Paypal_Model_Config::FRAUD_ACTION_DENY);
+//        }
 
         if (!$payment->getOrder()->getInvoiceCollection()->count() && ($payment->getCcTransId() || $payment->getLastTransId())) {
             if ($payment->getCcTransId()) {
@@ -475,10 +475,10 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     {
         $paymentAction = $this->getConfigData('payment_action');
         switch ($paymentAction){
-            case Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE:
+            case Mage_Paypal_Model_Config::PAYMENT_ACTION_SALE:
                 $paymentAction = Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
                 break;
-            case Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH:
+            case Mage_Paypal_Model_Config::PAYMENT_ACTION_AUTH:
             default:
                 $paymentAction = Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
                 break;

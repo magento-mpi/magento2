@@ -31,14 +31,35 @@
 class Mage_Paypal_Model_Express_Checkout
 {
     /**
-     * @var Mage_Paypal_Model_Express
+     * Cache ID prefix for "pal" lookup
+     * @var string
      */
-    protected $_method = null;
+    const PAL_CACHE_ID = 'paypal_express_checkout_pal';
+
+    /**
+     * Keys for token and payer id passthrough variables in sales/quote_payment and sales/order_payment
+     * Use additional_information as storage
+     * @var string
+     */
+    const PAYMENT_INFO_TRANSPORT_TOKEN    = 'paypal_express_checkout_token';
+    const PAYMENT_INFO_TRANSPORT_PAYER_ID = 'paypal_payer_id';
 
     /**
      * @var Mage_Sales_Model_Quote
      */
     protected $_quote = null;
+
+    /**
+     * Config instance
+     * @var Mage_Paypal_Model_Config
+     */
+    protected $_config = null;
+
+    /**
+     * API instance
+     * @var Mage_Paypal_Model_Api_Nvp
+     */
+    protected $_api = null;
 
     /**
      * State helper variables
@@ -49,22 +70,53 @@ class Mage_Paypal_Model_Express_Checkout
     protected $_checkoutRedirectUrl = '';
 
     /**
-     * Set quote and payment method instance
+     * Set quote and config instances
      * @param array $params
      */
     public function __construct($params = array())
     {
-        if (isset($params['method_instance']) && $params['method_instance'] instanceof Mage_Paypal_Model_Express) {
-            $this->_method = $params['method_instance'];
-        } else {
-            Mage::throwException(Mage::helper('paypal')->__('PayPal Express Checkout requires payment method instance.'));
-        }
-
         if (isset($params['quote']) && $params['quote'] instanceof Mage_Sales_Model_Quote) {
             $this->_quote = $params['quote'];
         } else {
-            Mage::throwException(Mage::helper('paypal')->__('PayPal Express Checkout requires quote instance.'));
+            throw new Exception('Quote instance is required.');
         }
+        if (isset($params['config']) && $params['config'] instanceof Mage_Paypal_Model_Config) {
+            $this->_config = $params['config'];
+        } else {
+            throw new Exception('Config instance is required.');
+        }
+    }
+
+    /**
+     * Checkout with PayPal image URL getter
+     * Spares API calls of getting "pal" variable, by putting it into cache per store view
+     * @return string
+     */
+    public function getCheckoutShortcutImageUrl()
+    {
+        // get "pal" thing from cache or lookup it via API
+        $pal = null;
+        if ($this->_config->areButtonsDynamic()) {
+            $cacheId = self::PAL_CACHE_ID . Mage::app()->getStore()->getId();
+            $pal = Mage::app()->loadCache($cacheId);
+            if (!$pal) {
+                $pal = null;
+                $this->_getApi();
+                try {
+                    $this->_api->callGetPalDetails();
+                    $pal = $this->_api->getPal();
+                    Mage::app()->saveCache($pal, $cacheId, array(Mage_Core_Model_Config::CACHE_TAG));
+                } catch (Exception $e) {
+                    Mage::logException($e);
+                }
+            }
+        }
+
+        return $this->_config->getExpressCheckoutShortcutImageUrl(
+            Mage::app()->getLocale()->getLocaleCode(),
+            $this->_quote->getBaseGrandTotal(),
+            $pal
+        );
     }
 
     /**
@@ -73,22 +125,35 @@ class Mage_Paypal_Model_Express_Checkout
      */
     public function start($returnUrl, $cancelUrl)
     {
-        $api = $this->_method->getApi();
         $this->_quote->reserveOrderId()->save();
+
+        // prepare API
+        $this->_getApi();
+        $this->_api->setAmount($this->_quote->getBaseGrandTotal())
+            ->setCurrencyCode($this->_quote->getBaseCurrencyCode())
+            ->setInvNum($this->_quote->getReservedOrderId())
+            ->setReturnUrl($returnUrl)
+            ->setCancelUrl($cancelUrl)
+            ->setSolutionType($this->_config->solutionType)
+            ->setPaymentType($this->_config->paymentAction)
+        ;
+        // supress or export shipping address
         if ($this->_quote->getIsVirtual()) {
-            $shippingAddress = false;
+            $this->_api->setSuppressShipping(true);
         } else {
-            $shippingAddress = $this->_quote->getShippingAddress();
-            if (!$shippingAddress->getId()) {
-                $shippingAddress = null;
+            $address = $this->_quote->getShippingAddress();
+            if ($address->getId()) {
+                $this->_api->setShippingAddress($address);
             }
         }
-        $token = $this->_method->startExpressCheckout($this->_quote->getBaseGrandTotal(),
-            $this->_quote->getBaseCurrencyCode(), $this->_quote->getReservedOrderId(),
-            $returnUrl, $cancelUrl, $shippingAddress
-        );
-        // TODO: collect additional information
-        $this->_redirectUrl = $this->_method->getExpressCheckoutStartUrl();
+
+        $this->_config->exportExpressCheckoutStyleSettings($this->_api);
+
+        // call API and redirect with token
+        $this->_api->callSetExpressCheckout();
+        $token = $this->_api->getToken();
+        // TODO: collect payment information
+        $this->_redirectUrl = $this->_config->getExpressCheckoutStartUrl($token);
         return $token;
     }
 
@@ -96,32 +161,30 @@ class Mage_Paypal_Model_Express_Checkout
      * Update quote when returned from PayPal
      * @param string $token
      */
-    public function returnFromPaypal($token = null)
+    public function returnFromPaypal($token)
     {
-        $api = $this->_method->getExpressCheckoutDetails($token = null);
+        $this->_getApi();
+        $this->_api->setToken($token)->callGetExpressCheckoutDetails();
 
-        // import billing address data from PayPal
+        // import addresses
         $billingAddress = $this->_quote->getBillingAddress();
-        foreach ($api->getExportedBillingAddress()->getData() as $key => $value) {
+        foreach ($this->_api->getExportedBillingAddress()->getData() as $key => $value) {
             $billingAddress->setDataUsingMethod($key, $value);
         }
-
-        // as well import shipping address data from PayPal
         if ((!$this->_quote->getIsVirtual()) && $shippingAddress = $this->_quote->getShippingAddress()) {
-            foreach ($api->getExportedShippingAddress()->getData() as $key => $value) {
+            foreach ($this->_api->getExportedShippingAddress()->getData() as $key => $value) {
                 $shippingAddress->setDataUsingMethod($key, $value);
             }
             $shippingAddress->setCollectShippingRates(true);
         }
 
-        // update quote payment info
+        // import payment info
         $payment = $this->_quote->getPayment();
-        $payment->setMethod($this->_method->getCode());
-        Mage::getSingleton('paypal/info')->importToPayment($api, $payment);
+        $payment->setMethod(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
+        Mage::getSingleton('paypal/info')->importToPayment($this->_api, $payment);
 //        if ($this->_method->canStoreFraud()) {
 //            $this->_quote->getPayment()->setFraudFlag(true);
 //        }
-
         $this->_quote->collectTotals()->save();
     }
 
@@ -133,7 +196,7 @@ class Mage_Paypal_Model_Express_Checkout
     public function prepareOrderReview($token = null)
     {
         $payment = $this->_quote->getPayment();
-        if (!$payment || !$payment->getAdditionalInformation('paypal_payer_id')) {
+        if (!$payment || !$payment->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_PAYER_ID)) {
             Mage::throwException(Mage::helper('paypal')->__('Payer is not identified.'));
         }
     }
@@ -156,60 +219,39 @@ class Mage_Paypal_Model_Express_Checkout
      * Place the order when customer returned from paypal
      * Until this moment all quote data must be valid
      *
+     * @param string $token
+     * @param string $shippingMethodCode
      * @return Mage_Sales_Model_Order
      */
-    public function placeOrder($token = null, $shippingMethodCode = null)
+    public function placeOrder($token, $shippingMethodCode = null)
     {
         if ($shippingMethodCode) {
             $this->updateShippingMethod($shippingMethodCode);
         }
+        $this->_quote->getPayment()->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_TOKEN, $token);
         $order = Mage::getModel('sales/service_quote', $this->_quote)->submit();
         $this->_quote->save();
 
         switch ($order->getState()) {
             // even after placement paypal can disallow to authorize/capture, but will wait until bank transfers money
             case Mage_Sales_Model_Order::STATE_PENDING_PAYMENT:
-                if ($this->_method->getApi()->getIsRedirectRequired()) {
-                    $this->_redirectUrl = $this->_method->getApi()->getExpressCompleteUrl();
-                }
-                // explain reason why order is in pending payment
-                $ths->_pendingPaymentMessage = 'xz';
+                $this->_config->getExpressCheckoutCompleteUrl($token);
+//                if ($this->_method->getApi()->getIsRedirectRequired()) {
+//                    $this->_redirectUrl = $this->_method->getApi()->getExpressCompleteUrl();
+//                }
+//                // explain reason why order is in pending payment
+//                $ths->_pendingPaymentMessage = '';
                 break;
             // regular placement, when everything is ok
             case Mage_Sales_Model_Order::STATE_PROCESSING:
             case Mage_Sales_Model_Order::STATE_COMPLETE:
-                if ($order->getPayment()->getCreatedInvoice() && $this->_method->canSendEmailCopy()) {
+                if ($this->_config->invoiceEmailCopy && $order->getPayment()->getCreatedInvoice()) {
                    $order->sendNewOrderEmail();
                 }
                 break;
         }
         return $order;
     }
-
-//    /**
-//     * Perform API call to start transaction from shopping cart
-//     *
-//     * @return Mage_Paypal_Model_Express_Checkout
-//     */
-//    public function shortcutSetExpressCheckout()
-//    {
-//        $api = $this->_method->getApi();
-//        $this->_quote->reserveOrderId()->save();
-//        $api->setSolutionType($this->_method->getSolutionType())
-//            ->setPayment($this->_method->getPayment())
-//            ->setPaymentType($this->_method->getPaymentAction())
-//            ->setAmount($this->_quote->getBaseGrandTotal())
-//            ->setCurrencyCode($this->_quote->getBaseCurrencyCode())
-//            ->setInvNum($this->_quote->getReservedOrderId());
-//
-//        $api->callSetExpressCheckout();
-//
-//        $this->_method->catchError();
-//
-//        $this->_method->getSession()->setExpressCheckoutMethod('shortcut');
-//
-//        return $this;
-//    }
 
     /**
      * Determine whether redirect somewhere specifically is required
@@ -220,6 +262,17 @@ class Mage_Paypal_Model_Express_Checkout
     public function getRedirectUrl()
     {
         return $this->_redirectUrl;
+    }
+
+    /**
+     * @return Mage_Paypal_Model_Api_Nvp
+     */
+    protected function _getApi()
+    {
+        if (null === $this->_api) {
+            $this->_api = Mage::getModel('paypal/api_nvp');
+        }
+        return $this->_api;
     }
 
 //    public function getPendingPaymentMessage()
