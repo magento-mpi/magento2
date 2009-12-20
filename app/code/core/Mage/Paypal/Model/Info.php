@@ -35,15 +35,13 @@ class Mage_Paypal_Model_Info
      * @var array
      */
     protected $_paymentMap = array(
-        'paypal_payer_id', // payer ID
-        'paypal_payer_email', // payer account email (for legacy purposes)
-        'paypal_payer_status', // whether the payer account verified
-        'paypal_correlation_id', // some fancy stuff
-
-        'paypal_address_id', // addres ID of the payer
-        'paypal_address_status', // AVS verification result
-        'paypal_protection_eligibility', // some other fancy thing
-        'paypal_centinel_verified', // 3D-secure verification result
+        'payer_id'     => 'paypal_payer_id',
+        'email'        => 'paypal_payer_email',
+        'payer_status' => 'paypal_payer_status',
+        'correlation_id' => 'paypal_correlation_id',
+        'address_id'     => 'paypal_address_id',
+        'address_status' => 'paypal_address_status',
+        'protection_eligibility' => 'paypal_protection_eligibility',
     );
 
     /**
@@ -61,14 +59,14 @@ class Mage_Paypal_Model_Info
      */
     protected $_paymentMapFull = array();
 
-    /**
-     * Payment info map getter
-     * @return array
-     */
-    public function getPaymentInfoMap()
-    {
-        return $this->_paymentMap;
-    }
+//    /**
+//     * Payment info map getter
+//     * @return array
+//     */
+//    public function getPaymentInfoMap()
+//    {
+//        return $this->_paymentMap;
+//    }
 
     /**
      * All available payment info getter
@@ -78,7 +76,7 @@ class Mage_Paypal_Model_Info
      */
     public function getPaymentInfo(Mage_Payment_Model_Info $payment, $labelValuesOnly = false)
     {
-        return $this->_getFullInfo($this->_paymentMap, $payment, $labelValuesOnly);
+        return $this->_getFullInfo(array_values($this->_paymentMap), $payment, $labelValuesOnly);
     }
 
     /**
@@ -115,7 +113,7 @@ class Mage_Paypal_Model_Info
     public function &exportFromPayment(Mage_Payment_Model_Info $payment, $to, array $map = null)
     {
         Varien_Object_Mapper::accumulateByMap(array($payment, 'getAdditionalInformation'), $to,
-            $map ? $map : $this->_paymentMap
+            $map ? $map : array_flip($this->_paymentMap)
         );
         return $to;
     }
