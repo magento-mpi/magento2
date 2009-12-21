@@ -188,12 +188,13 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
     /**
      * Gives true for a PNG with alpha, false otherwise
      *
+     * @param string $fileName
      * @return boolean
      */
 
-    private function _checkAlpha()
+    public function checkAlpha($fileName)
     {
-        return ((ord(file_get_contents($this->_fileName, false, null, 25, 1)) & 6) & 4) == 4;
+        return ((ord(file_get_contents($fileName, false, null, 25, 1)) & 6) & 4) == 4;
     }
 
     private function _getTransparency($imageResource, $fileType, &$isAlpha = false, &$isTrueColor = false)
@@ -209,7 +210,7 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
             }
             // assume that truecolor PNG has transparency
             elseif (IMAGETYPE_PNG === $fileType) {
-                $isAlpha     = $this->_checkAlpha();
+                $isAlpha     = $this->checkAlpha($this->_fileName);
                 $isTrueColor = true;
                 return $transparentIndex; // -1
             }
