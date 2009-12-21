@@ -74,12 +74,13 @@ class Enterprise_Reward_Block_Sales_Order_Total extends Mage_Core_Block_Template
     {
         if ((float) $this->getOrder()->getBaseRewardCurrencyAmount()) {
             $source = $this->getSource();
+            $value  = - $source->getRewardCurrencyAmount();
 
             $this->getParentBlock()->addTotal(new Varien_Object(array(
                 'code'   => 'reward_points',
                 'strong' => false,
                 'label'  => Mage::helper('enterprise_reward')->__('%d Reward Points', $source->getRewardPointsBalance()),
-                'value'  => $source->getRewardCurrencyAmount()
+                'value'  => $source instanceof Mage_Sales_Model_Order_Creditmem ? - $value : $value
             )));
         }
 
