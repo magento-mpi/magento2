@@ -142,7 +142,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     public function cleanMediaAction()
     {
         try {
-            Mage::getModel('core/design')->cleanCache();
+            Mage::getModel('core/design_package')->cleanMergedJsCss();
             $this->_getSession()->addSuccess(
                 Mage::helper('adminhtml')->__('JavaScript/CSS cache was cleaned successfully.')
             );
