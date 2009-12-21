@@ -26,21 +26,6 @@
 class Enterprise_Reward_Block_Sales_Order_Total extends Mage_Core_Block_Template
 {
     /**
-     * Configuration object
-     *
-     * @var Enterprise_Reward_Model_Reward_Config
-     */
-    protected $_config;
-
-    /**
-     * Initialize configuration object
-     */
-    protected function _construct()
-    {
-        $this->_config = Mage::getSingleton('enterprise_reward/reward_config');
-    }
-
-    /**
      * Get label cell tag properties
      *
      * @return string
@@ -87,13 +72,15 @@ class Enterprise_Reward_Block_Sales_Order_Total extends Mage_Core_Block_Template
      */
     public function initTotals()
     {
-        if ($this->_config->isEnabled()) {
-            $rewardTotal = new Varien_Object(array(
-                'code'       => 'reward_points',
-                'block_name' => $this->getNameInLayout()
-            ));
+        if ($this->getOrder()->getBaseRewardCurrencyAmount()) {
+            $source = $this->getSource();
 
-            $this->getParentBlock()->addTotal($rewardTotal);
+            $this->getParentBlock()->addTotal(new Varien_Object(array(
+                'code'   => 'reward_points',
+                'strong' => false,
+                'label'  => Mage::helper('enterprise_reward')->__('%d Reward Points', $source->getRewardPointsBalance()),
+                'value'  => $source->getRewardCurrencyAmount()
+            )));
         }
 
         return $this;
