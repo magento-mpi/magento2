@@ -72,7 +72,7 @@ class Enterprise_Reward_Block_Sales_Order_Total extends Mage_Core_Block_Template
      */
     public function initTotals()
     {
-        if ($this->getOrder()->getBaseRewardCurrencyAmount()) {
+        if ((float) $this->getOrder()->getBaseRewardCurrencyAmount()) {
             $source = $this->getSource();
 
             $this->getParentBlock()->addTotal(new Varien_Object(array(
