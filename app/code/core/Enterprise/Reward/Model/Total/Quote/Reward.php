@@ -123,7 +123,7 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
         if ($address->getRewardCurrencyAmount()) {
             $address->addTotal(array(
                 'code'  => $this->getCode(),
-                'title' => Mage::helper('enterprise_reward')->__('Reward Points'),
+                'title' => Mage::helper('enterprise_reward')->__('%d Reward Points', $address->getRewardPointsBalance()),
                 'value' => -$address->getRewardCurrencyAmount()
             ));
         }

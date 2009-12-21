@@ -27,7 +27,7 @@
 <?php $_order = $this->getOrder(); ?>
 <?php if ($_order->getRewardCurrencyAmountInvoiced()) : ?>
 <tr>
-    <td <?php echo $this->getLabelProperties()?>><?php echo $this->__('Reward Points'); ?></td>
-    <td <?php echo $this->getValueProperties()?>>-<?php echo $_order->formatPrice($_order->getRewardCurrencyAmountInvoiced()) ?></td>
+    <td <?php echo $this->getLabelProperties()?>><?php echo $this->__('%d Reward Points', $this->getSource()->getRewardPointsBalance()); ?></td>
+    <td <?php echo $this->getValueProperties()?>>-<?php echo $_order->formatPrice($this->getSource()->getRewardCurrencyAmount()) ?></td>
 </tr>
 <?php endif; ?>

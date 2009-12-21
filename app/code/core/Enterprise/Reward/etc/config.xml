@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Reward>
-            <version>1.7.0.0.3</version>
+            <version>1.7.0.0.4</version>
         </Enterprise_Reward>
     </modules>
     <global>
@@ -56,7 +56,6 @@
             <enterprise_reward_setup>
                 <setup>
                     <module>Enterprise_Reward</module>
-                    <!--class>Mage_Customer_Model_Entity_Setup</class-->
                     <class>Mage_Sales_Model_Mysql4_Setup</class>
                 </setup>
             </enterprise_reward_setup>

@@ -18,19 +18,24 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    design
- * @package     default_default
+ * @category    Enterprise
+ * @package     Enterprise_Reward
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
- */;
-?>
-<?php $this->setPriceDataObject($this->getSource()) ?>
+ */
 
-<?php if ((float) $this->getSource()->getRewardCurrencyAmount()): ?>
-    <tr>
-        <td class="label"><?php echo Mage::helper('enterprise_reward')->__('%d Reward Points', $this->getSource()->getRewardPointsBalance()) ?></td>
-        <td>
-            <?php echo $this->displayPrices(-$this->getSource()->getBaseRewardCurrencyAmount(), -$this->getSource()->getRewardCurrencyAmount()); ?>
-        </td>
-    </tr>
-<?php endif; ?>
+/* @var $installer Mage_Sales_Model_Mysql4_Setup */
+$installer = $this;
+$installer->startSetup();
+
+$installer->addAttribute('order', 'reward_points_balance_refunded', array('type' => 'int'));
+
+$installer->addAttribute('invoice', 'reward_points_balance', array('type' => 'int'));
+$installer->addAttribute('invoice', 'base_reward_currency_amount', array('type' => 'decimal'));
+$installer->addAttribute('invoice', 'reward_currency_amount', array('type' => 'decimal'));
+
+$installer->addAttribute('creditmemo', 'reward_points_balance', array('type' => 'int'));
+$installer->addAttribute('creditmemo', 'base_reward_currency_amount', array('type' => 'decimal'));
+$installer->addAttribute('creditmemo', 'reward_currency_amount', array('type' => 'decimal'));
+
+$installer->endSetup();

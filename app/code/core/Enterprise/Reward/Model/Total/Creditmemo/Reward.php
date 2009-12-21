@@ -42,9 +42,6 @@ class Enterprise_Reward_Model_Total_Creditmemo_Reward extends Mage_Sales_Model_O
      */
     public function collect(Mage_Sales_Model_Order_Creditmemo $creditmemo)
     {
-//        if (!Mage::helper('enterprise_reward')->isEnabled()) {
-//            return $this;
-//        }
         $order = $creditmemo->getOrder();
         $rewardCurrecnyAmountLeft = $order->getRewardCurrencyAmountInvoiced() - $order->getRewardCurrencyAmountRefunded();
         $baseRewardCurrecnyAmountLeft = $order->getBaseRewardCurrencyAmountInvoiced() - $order->getBaseRewardCurrencyAmountRefunded();

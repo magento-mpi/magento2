@@ -42,9 +42,6 @@ class Enterprise_Reward_Model_Total_Invoice_Reward extends Mage_Sales_Model_Orde
      */
     public function collect(Mage_Sales_Model_Order_Invoice $invoice)
     {
-//        if (!Mage::helper('enterprise_reward')->isEnabled()) {
-//            return $this;
-//        }
         $order = $invoice->getOrder();
         $rewardCurrecnyAmountLeft = $order->getRewardCurrencyAmount() - $order->getRewardCurrencyAmountInvoiced();
         $baseRewardCurrecnyAmountLeft = $order->getBaseRewardCurrencyAmount() - $order->getBaseRewardCurrencyAmountInvoiced();
@@ -59,6 +56,13 @@ class Enterprise_Reward_Model_Total_Invoice_Reward extends Mage_Sales_Model_Orde
                 $invoice->setGrandTotal(0);
                 $invoice->setBaseGrandTotal(0);
             }
+            $pointValue = $order->getRewardPointsBalance() / $order->getBaseRewardCurrencyAmount();
+            $rewardPointsBalance = $baseRewardCurrecnyAmountLeft*ceil($pointValue);
+            $rewardPointsBalanceLeft = $order->getRewardPointsBalance() - $order->getRewardPointsBalanceInvoiced();
+            if ($rewardPointsBalance > $rewardPointsBalanceLeft) {
+                $rewardPointsBalance = $rewardPointsBalanceLeft;
+            }
+            $invoice->setRewardPointsBalance($rewardPointsBalance);
             $invoice->setRewardCurrencyAmount($rewardCurrecnyAmountLeft);
             $invoice->setBaseRewardCurrencyAmount($baseRewardCurrecnyAmountLeft);
         }
