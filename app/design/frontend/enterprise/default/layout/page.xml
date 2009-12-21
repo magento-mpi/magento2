@@ -69,8 +69,9 @@ Default layout, loads most of the pages
                     <block type="page/switch" name="store_language" as="store_language" template="page/switch/languages.phtml"/>
                 </block>
                 <block type="core/text_list" name="top.menu" as="topMenu"/>
-                <block type="core/text_list" name="top.container" as="topContainer" translate="label">
+                <block type="page/html_wrapper" name="top.container" as="topContainer" translate="label">
                     <label>Page Header</label>
+                    <action method="setElementClass"><value>top-container</value></action>
                 </block>
             </block>
 
@@ -94,8 +95,9 @@ Default layout, loads most of the pages
                 <label>Right Column</label>
             </block>
 
-            <block type="core/text_list" name="footer.before" as="footer_before" translate="label">
+            <block type="page/html_wrapper" name="footer.before" as="footer_before" translate="label">
                 <label>Page Footer</label>
+                <action method="setElementClass"><value>footer-before-container</value></action>
             </block>
 
             <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">

@@ -32,8 +32,12 @@
     </div>
     <div class="header">
         <div class="branding">
-            <h1 id="logo" class="logo" title="<?php echo $this->getLogoAlt() ?>" style="background-image:url(<?php echo $this->getLogoSrc() ?>);"><a href="<?php echo $this->getUrl('') ?>"><?php echo $this->getLogoAlt() ?></a></h1>
-            <img src="<?php echo $this->getSkinUrl('images/callouts/header_free_shipping.gif')?>" alt="" class="free-shipping"/>
+        <?php if ($this->getIsHomePage()):?>
+            <h1 class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
+            <?php else:?>
+            <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
+            <?php endif?>
+            <img src="<?php echo $this->getSkinUrl('images/callouts/header_free_shipping.gif')?>" alt="" class="free-shipping" />
         </div>
         <div class="quick-access">
             <div class="checkout-link"><?php echo $this->getChildHtml('checkoutLinks') ?></div>
@@ -43,10 +47,5 @@
         </div>
     </div>
     <?php echo $this->getChildHtml('topMenu') ?>
-    <?php if($topContainer = $this->getChildHtml('topContainer')): ?>
-    <div class="top-container">
-        <?php echo $topContainer; ?>
-        <div class="clearer"></div>
-    </div>
-    <?php endif; ?>
+    <?php echo $this->getChildHtml('topContainer') ?>
 </div>

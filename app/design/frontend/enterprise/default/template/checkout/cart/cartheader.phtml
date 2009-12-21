@@ -47,15 +47,15 @@
 <?php else:?>
     <div class="block-title<?php if(!$_cartQty) { echo (' no-items'); } ?>">
         <?php if ($_cartQty>0): ?>
-            <h3 id="cartHeader">
+            <h2 id="cartHeader">
             <?php if ($_cartQty==1): ?>
                 <?php echo $this->__('My Cart (<strong>1</strong>)') ?>
             <?php else: ?>
                 <?php echo $this->__('My Cart (<strong>%s</strong>)', $_cartQty) ?>
             <?php endif ?>
-            </h3>
+            </h2>
         <?php else: ?>
-            <h3 id="cartHeader"><?php echo $this->__('My Cart') ?> (<strong>0</strong>)</h3>
+            <h2 id="cartHeader"><?php echo $this->__('My Cart') ?> (<strong>0</strong>)</h2>
         <?php endif ?>
     </div>
     <div id="topCartContent" class="block-content" style="display:none">
