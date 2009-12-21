@@ -80,7 +80,7 @@ class Enterprise_Reward_Block_Sales_Order_Total extends Mage_Core_Block_Template
                 'code'   => 'reward_points',
                 'strong' => false,
                 'label'  => Mage::helper('enterprise_reward')->__('%d Reward Points', $source->getRewardPointsBalance()),
-                'value'  => $source instanceof Mage_Sales_Model_Order_Creditmem ? - $value : $value
+                'value'  => $source instanceof Mage_Sales_Model_Order_Creditmemo ? - $value : $value
             )));
         }
 
