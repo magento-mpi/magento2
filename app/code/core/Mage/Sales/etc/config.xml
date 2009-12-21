@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.9.52</version>
+            <version>0.9.53</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -89,6 +89,7 @@
                 <customer_is_guest><to_order>*</to_order></customer_is_guest>
                 <customer_dob><to_order>*</to_order></customer_dob>
                 <customer_taxvat><to_order>*</to_order></customer_taxvat>
+                <customer_gender><to_order>*</to_order></customer_gender>
 
                 <global_currency_code><to_order>*</to_order></global_currency_code>
                 <base_currency_code><to_order>*</to_order></base_currency_code>
@@ -315,6 +316,7 @@
                 <tax_class_id><to_quote>customer_tax_class_id</to_quote></tax_class_id>
                 <taxvat><to_quote>customer_taxvat</to_quote></taxvat>
                 <dob><to_quote>customer_dob</to_quote></dob>
+                <gender><to_quote>customer_gender</to_quote></gender>
             </customer_account>
 
             <customer_address>
