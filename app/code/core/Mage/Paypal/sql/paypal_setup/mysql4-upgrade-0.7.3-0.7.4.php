@@ -100,7 +100,7 @@ try {
         foreach ($data as $item) {
             if ($item['additional_data'] != '') {
                 $additionalInformationFields = array();
-                $additionalInformationFields['payer_email'] = $item['additional_data']; 
+                $additionalInformationFields['paypal_payer_email'] = $item['additional_data']; 
                 $additionalInformation = serialize($additionalInformationFields);
 
                 $insertQueryItems[] = array(
