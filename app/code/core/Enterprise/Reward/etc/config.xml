@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Reward>
-            <version>1.7.0.0.2</version>
+            <version>1.7.0.0.3</version>
         </Enterprise_Reward>
     </modules>
     <global>
@@ -175,6 +175,14 @@
                     </enterprise_reward>
                 </observers>
             </sales_order_creditmemo_save_after>
+            <core_layout_update_updates_get_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>disableLayout</method>
+                    </enterprise_reward>
+                </observers>
+            </core_layout_update_updates_get_after>
         </events>
         <pdf>
             <totals>
