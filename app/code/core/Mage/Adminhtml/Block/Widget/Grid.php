@@ -823,12 +823,10 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     {
         $row = array();
         foreach ($this->_columns as $column) {
-            Mage::log($column->getExportHeader());
             if (!$column->getIsSystem()) {
                 $row[] = $column->getExportHeader();
             }
         }
-        Mage::log($row);
         return $row;
     }
 
