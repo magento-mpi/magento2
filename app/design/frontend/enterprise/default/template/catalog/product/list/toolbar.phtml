@@ -52,7 +52,7 @@
         </p>
         <?php endif; ?>
 
-        <fieldset class="sort-by">
+        <div class="sort-by">
             <label><?php echo $this->__('Sort by') ?></label>
             <select onchange="setLocation(this.value)">
             <?php foreach($this->getAvailableOrders() as $_key=>$_order): ?>
@@ -66,7 +66,7 @@
             <?php else: ?>
                 <a href="<?php echo $this->getOrderUrl(null, 'desc') ?>"><img src="<?php echo $this->getSkinUrl('images/sort_asc_arrow.gif') ?>" alt="<?php echo $this->__('Set Descending Direction') ?>" class="v-middle" /></a>
             <?php endif; ?>
-        </fieldset>
+        </div>
     </div>
     <?php endif; ?>
 
@@ -79,7 +79,7 @@
             <?php endif; ?>
         </p>
 
-        <fieldset class="limiter">
+        <div class="limiter">
             <label><?php echo $this->__('Show') ?></label>
             <select onchange="setLocation(this.value)">
             <?php foreach ($this->getAvailableLimit() as  $_key=>$_limit): ?>
@@ -88,7 +88,7 @@
                 </option>
             <?php endforeach; ?>
             </select> <?php echo $this->__('per page') ?>
-        </fieldset>
+        </div>
 
         <?php echo $this->getPagerHtml() ?>
 
