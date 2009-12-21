@@ -24,49 +24,23 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
- * Customer account reward history block
+ * Reward action for new customer registration
  *
  * @category    Enterprise
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Template
+class Enterprise_Reward_Model_Action_Register extends Enterprise_Reward_Model_Action_Abstract
 {
     /**
-     * Getter
+     * Return action message for history log
      *
-     * @return integer
+     * @param array $args Additional history data
+     * @return string
      */
-    public function getCustomerId()
+    public function getHistoryMessage($args = array())
     {
-        return Mage::getSingleton('customer/session')->getCustomerId();
-    }
-
-    /**
-     * Check if history can be shown to customer
-     *
-     * @return bool
-     */
-    public function canShow()
-    {
-        return Mage::helper('enterprise_reward')->isEnabled()
-            && Mage::getStoreConfigFlag('enterprise_reward/general/publish_history');
-    }
-
-    /**
-     * Return reword points update history collection by customer and website
-     *
-     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
-     */
-    public function getRewardHistory()
-    {
-        $collection = Mage::getModel('enterprise_reward/reward_history')
-            ->getCollection()
-            ->addCustomerFilter($this->getCustomerId())
-            ->addWebsiteFilter(Mage::app()->getWebsite()->getId())
-            ->setOrder('created_at', 'DESC');
-        return $collection;
+        return Mage::helper('enterprise_reward')->__('Customer registered');
     }
 }

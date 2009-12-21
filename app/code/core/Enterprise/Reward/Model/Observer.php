@@ -54,6 +54,7 @@ class Enterprise_Reward_Model_Observer
                     ->setData($data)
                     ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
                     ->setCustomer($customer)
+                    ->setActionEntity($customer)
                     ->setRewardUpdateNotification((isset($data['reward_update_notification']) ? true : false))
                     ->setRewardWarningNotification((isset($data['reward_warning_notification']) ? true : false))
                     ->updateRewardPoints();
@@ -82,6 +83,7 @@ class Enterprise_Reward_Model_Observer
         if ($customer->isObjectNew()) {
             $reward = Mage::getModel('enterprise_reward/reward')
                 ->setCustomer($customer)
+                ->setActionEntity($customer)
                 ->setStore(Mage::app()->getStore()->getId())
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_REGISTER)
                 ->updateRewardPoints();
@@ -108,7 +110,7 @@ class Enterprise_Reward_Model_Observer
                 ->setCustomerId($review->getCustomerId())
                 ->setStore($review->getStoreId())
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_REVIEW)
-                ->setReview($review)
+                ->setActionEntity($review)
                 ->updateRewardPoints();
         }
         return $this;
@@ -130,13 +132,13 @@ class Enterprise_Reward_Model_Observer
         /**
          * to remove
          */
-        $tag->setCustomerId(1);
+        $tag->setCustomerId(2);
         if (($tag->getApprovedStatus() == $tag->getStatus()) && $tag->getCustomerId()) {
             $reward = Mage::getModel('enterprise_reward/reward')
                 ->setCustomerId($tag->getCustomerId())
                 ->setStore($tag->getStoreId())
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_TAG)
-                ->setTag($tag)
+                ->setActionEntity($tag)
                 ->updateRewardPoints();
         }
         return $this;
@@ -157,35 +159,16 @@ class Enterprise_Reward_Model_Observer
             return $this;
         }
 
-        if ($subscriber->getData('subscriber_status') != Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED) {
-            return $this;
-        }
-
         if (!Mage::helper('enterprise_reward')->isEnabled()) {
             return $this;
         }
 
-        /* @var $subscribers Mage_Newsletter_Model_Mysql4_Subscriber_Collection */
-        $subscribers = Mage::getResourceModel('newsletter/subscriber_collection')
-            ->addFieldToFilter('customer_id', $subscriber->getCustomerId())
-            ->load();
-        // check for existing customer subscribtions
-        $found = false;
-        foreach ($subscribers as $item) {
-            if ($subscriber->getSubscriberId() != $item->getSubscriberId()) {
-                $found = true;
-                break;
-            }
-        }
-
-        if (!$found) {
-            $reward = Mage::getModel('enterprise_reward/reward')
-                ->setCustomerId($subscriber->getCustomerId())
-                ->setStore($subscriber->getStoreId())
-                ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_NEWSLETTER)
-                ->setSubscriber($subscriber)
-                ->updateRewardPoints();
-        }
+        $reward = Mage::getModel('enterprise_reward/reward')
+            ->setCustomerId($subscriber->getCustomerId())
+            ->setStore($subscriber->getStoreId())
+            ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_NEWSLETTER)
+            ->setActionEntity($subscriber)
+            ->updateRewardPoints();
 
         return $this;
     }
@@ -200,9 +183,6 @@ class Enterprise_Reward_Model_Observer
     {
         $invitation = $observer->getEvent()->getInvitation();
         /* @var $invitation Enterprise_Invitation_Model_Invitation */
-        if ($invitation->getData('status') != Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED) {
-            return $this;
-        }
 
         if (!Mage::helper('enterprise_reward')->isEnabled()) {
             return $this;
@@ -213,7 +193,7 @@ class Enterprise_Reward_Model_Observer
                 ->setCustomerId($invitation->getCustomerId())
                 ->setStore($invitation->getStoreId())
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_CUSTOMER)
-                ->setInvitation($invitation)
+                ->setActionEntity($invitation)
                 ->updateRewardPoints();
         }
 
@@ -245,7 +225,7 @@ class Enterprise_Reward_Model_Observer
             $points = intval($order->getBaseSubtotal() * $rate->getPoints() / $rate->getCurrencyAmount());
             if ($points > 0) {
                 $reward->setStore($order->getStoreId())
-                    ->setOrderIncrementId($order->getIncrementId())
+                    ->setActionEntity($order)
                     ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA)
                     ->setPointsDelta($points)
                     ->save();
@@ -269,14 +249,8 @@ class Enterprise_Reward_Model_Observer
         $order = $observer->getEvent()->getOrder();
         /* @var $invitation Mage_Sales_Model_Order */
 
-        $invitation = Mage::getModel('enterprise_invitation/invitation')
-            ->load($order->getCustomerId(), 'referral_id');
-        if (!$invitation->getId() || !$invitation->getCustomerId()) {
-            return $this;
-        }
         $reward = Mage::getModel('enterprise_reward/reward')
-            ->setOrderIncrementId($order->getIncrementId())
-            ->setInvitation($invitation)
+            ->setActionEntity($order)
             ->setCustomerId($invitation->getCustomerId())
             ->setStore($invitation->getStoreId())
             ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_ORDER)
@@ -393,7 +367,7 @@ class Enterprise_Reward_Model_Observer
                 ->setWebsiteId(Mage::app()->getStore($order->getStoreId())->getWebsiteId())
                 ->setPointsDelta(-$order->getRewardPointsBalance())
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER)
-                ->setOrder($order)
+                ->setActionEntity($order)
                 ->updateRewardPoints();
         }
         return $this;
@@ -500,7 +474,7 @@ class Enterprise_Reward_Model_Observer
                     ->setStore($order->getStoreId())
                     ->setPointsDelta((int)$creditmemo->getRewardPointsBalanceToRefund())
                     ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_CREDITMEMO)
-                    ->setOrder($order)
+                    ->setActionEntity($order)
                     ->save();
             }
         }

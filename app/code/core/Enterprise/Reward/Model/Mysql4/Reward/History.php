@@ -108,4 +108,24 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
         }
         return false;
     }
+
+    /**
+     * Return total quantity rewards for specified action and customer
+     *
+     * @param int $action
+     * @param int $customerId
+     * @param integer $websiteId
+     * @return int
+     */
+    public function getTotalQtyRewards($action, $customerId, $websiteId)
+    {
+        $select = $this->_getReadAdapter()->select()->from(array('history_table' => $this->getMainTable()), array('COUNT(*)'))
+            ->joinInner(array('reward_table' => $this->getTable('enterprise_reward/reward')),
+                'history_table.reward_id = reward_table.reward_id', array())
+            ->where("history_table.action=?", $action)
+            ->where("reward_table.customer_id=?", $customerId)
+            ->where("history_table.website_id=?", $websiteId);
+
+        return intval($this->_getReadAdapter()->fetchOne($select));
+    }
 }

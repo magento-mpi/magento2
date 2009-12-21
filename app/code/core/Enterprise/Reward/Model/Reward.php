@@ -86,10 +86,43 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     protected function _afterSave()
     {
         $this->_prepareCurrencyAmount();
-        $this->getHistory()->setReward($this)
+        $this->getHistory()
             ->prepareFromReward()
             ->save();
         return parent::_afterSave();
+    }
+
+    /**
+     * Return instance of action wrapper
+     *
+     * @param string $action Action name
+     * @return Enterprise_Reward_Model_Action_Abstract|null
+     */
+    public function getActionInstance($action)
+    {
+        if ($instance = Mage::registry('_reward_actions' . $action)) {
+            return $instance;
+        }
+        $actionModelClasses = array(
+            self::REWARD_ACTION_ADMIN               => 'enterprise_reward/action_admin',
+            self::REWARD_ACTION_ORDER               => 'enterprise_reward/action_order',
+            self::REWARD_ACTION_REGISTER            => 'enterprise_reward/action_register',
+            self::REWARD_ACTION_NEWSLETTER          => 'enterprise_reward/action_newsletter',
+            self::REWARD_ACTION_INVITATION_CUSTOMER => 'enterprise_reward/action_invitationCustomer',
+            self::REWARD_ACTION_INVITATION_ORDER    => 'enterprise_reward/action_invitationOrder',
+            self::REWARD_ACTION_REVIEW              => 'enterprise_reward/action_review',
+            self::REWARD_ACTION_TAG                 => 'enterprise_reward/action_tag',
+            self::REWARD_ACTION_ORDER_EXTRA         => 'enterprise_reward/action_orderExtra',
+            self::REWARD_ACTION_CREDITMEMO          => 'enterprise_reward/action_creditmemo',
+        );
+
+        if (isset($actionModelClasses[$action])) {
+            $instance = Mage::getModel($actionModelClasses[$action]);
+            Mage::register('_reward_actions' . $action, $instance);
+            return $instance;
+        }
+        return null;
+        //Mage::throwException(Mage::helper('enterprise_reward')->__('Model not found for action %s', $action));
     }
 
     /**
@@ -99,28 +132,13 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function canUpdateRewardPoints()
     {
-        $result = true;
-        switch ($this->getAction()) {
-            case self::REWARD_ACTION_REVIEW:
-                $this->getHistory()->setEntity($this->getReview()->getId());
-                $result = !($this->getHistory()->isExistHistoryUpdate($this->getCustomerId(), $this->getAction(),
-                    $this->getWebsiteId(), $this->getReview()->getId()));
-                break;
-            case self::REWARD_ACTION_TAG:
-                $this->getHistory()->setEntity($this->getTag()->getId());
-                $result = !($this->getHistory()->isExistHistoryUpdate($this->getCustomerId(), $this->getAction(),
-                    $this->getWebsiteId(), $this->getTag()->getId()));
-                break;
-            case self::REWARD_ACTION_REGISTER:
-                $this->getHistory()->setEntity($this->getCustomer()->getId());
-                $result = !((bool)$this->loadByCustomer()->getId());
-                break;
-            case self::REWARD_ACTION_ORDER:
-            case self::REWARD_ACTION_CREDITMEMO:
-                $this->getHistory()->setEntity($this->getOrder()->getId());
-                break;
-        }
-        return $result;
+        $action = $this->getActionInstance($this->getAction())
+            ->setAction($this->getAction())
+            ->setReward($this)
+            ->setHistory($this->getHistory())
+            ->setEntity($this->getActionEntity()); // must be assigned as context object in observer etc.
+
+        return $action->canAddRewardPoints();
     }
 
     /**
@@ -290,6 +308,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     {
         if (!$this->getData('history')) {
             $this->setData('history', Mage::getModel('enterprise_reward/reward_history'));
+            $this->getHistory()->setReward($this);
         }
         return $this->getData('history');
     }
@@ -500,7 +519,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function sendBalanceUpdateNotification()
     {
-        if (!$this->getCustomer()->getRewardUpdateNotification()) {
+        if (!$this->getRewardUpdateNotification()) {
             return $this;
         }
         $store = Mage::app()->getStore($this->getStore());
@@ -534,7 +553,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function sendBalanceWarningNotification()
     {
-        if (!$this->getCustomer()->getRewardWarningNotification()) {
+        if (!$this->getRewardWarningNotification()) {
             return $this;
         }
         $store = Mage::app()->getStore($this->getStore());

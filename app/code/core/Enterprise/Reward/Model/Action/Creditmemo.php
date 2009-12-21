@@ -24,49 +24,49 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
- * Customer account reward history block
+ * Reward action for refunding points
  *
  * @category    Enterprise
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Template
+class Enterprise_Reward_Model_Action_Creditmemo extends Enterprise_Reward_Model_Action_Abstract
 {
     /**
-     * Getter
-     *
-     * @return integer
-     */
-    public function getCustomerId()
-    {
-        return Mage::getSingleton('customer/session')->getCustomerId();
-    }
-
-    /**
-     * Check if history can be shown to customer
+     * Check whether rewards can be added for action
      *
      * @return bool
      */
-    public function canShow()
+    public function canAddRewardPoints()
     {
-        return Mage::helper('enterprise_reward')->isEnabled()
-            && Mage::getStoreConfigFlag('enterprise_reward/general/publish_history');
+        return true;
     }
 
     /**
-     * Return reword points update history collection by customer and website
+     * Return action message for history log
      *
-     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
+     * @param array $args Additional history data
+     * @return string
      */
-    public function getRewardHistory()
+    public function getHistoryMessage($args = array())
     {
-        $collection = Mage::getModel('enterprise_reward/reward_history')
-            ->getCollection()
-            ->addCustomerFilter($this->getCustomerId())
-            ->addWebsiteFilter(Mage::app()->getWebsite()->getId())
-            ->setOrder('created_at', 'DESC');
-        return $collection;
+        $incrementId = isset($args['order_increment_id']) ? $args['order_increment_id'] : '';
+        return Mage::helper('enterprise_reward')->__('Refunded from Order #%s', $incrementId);
+    }
+
+    /**
+     * Setter for $_entity and add some extra data to history
+     *
+     * @param Varien_Object $entity
+     * @return Enterprise_Reward_Model_Action_Abstract
+     */
+    public function setEntity($entity)
+    {
+        parent::setEntity($entity);
+        $this->getHistory()->addAdditionalData(array(
+            'order_increment_id' => $this->getEntity()->getOrderIncrementId()
+        ));
+        return $this;
     }
 }

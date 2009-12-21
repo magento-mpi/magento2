@@ -24,49 +24,49 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
- * Customer account reward history block
+ * Reward action for tag submission
  *
  * @category    Enterprise
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Template
+class Enterprise_Reward_Model_Action_Tag extends Enterprise_Reward_Model_Action_Abstract
 {
     /**
-     * Getter
+     * Return pre-configured limit of rewards for action
      *
-     * @return integer
+     * @return int|string
      */
-    public function getCustomerId()
+    public function getRewardLimit()
     {
-        return Mage::getSingleton('customer/session')->getCustomerId();
+        return Mage::helper('enterprise_reward')->getPointsConfig('tag_limit', $this->getReward()->getWebsiteId());
     }
 
     /**
-     * Check if history can be shown to customer
+     * Return action message for history log
      *
-     * @return bool
+     * @param array $args Additional history data
+     * @return string
      */
-    public function canShow()
+    public function getHistoryMessage($args = array())
     {
-        return Mage::helper('enterprise_reward')->isEnabled()
-            && Mage::getStoreConfigFlag('enterprise_reward/general/publish_history');
+        $tag = isset($args['tag']) ? $args['tag'] : '';
+        return Mage::helper('enterprise_reward')->__('Submitted Tag (%s) approved by Moderator', $tag);
     }
 
     /**
-     * Return reword points update history collection by customer and website
+     * Setter for $_entity and add some extra data to history
      *
-     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
+     * @param Varien_Object $entity
+     * @return Enterprise_Reward_Model_Action_Abstract
      */
-    public function getRewardHistory()
+    public function setEntity($entity)
     {
-        $collection = Mage::getModel('enterprise_reward/reward_history')
-            ->getCollection()
-            ->addCustomerFilter($this->getCustomerId())
-            ->addWebsiteFilter(Mage::app()->getWebsite()->getId())
-            ->setOrder('created_at', 'DESC');
-        return $collection;
+        parent::setEntity($entity);
+        $this->getHistory()->addAdditionalData(array(
+            'tag' => $this->getEntity()->getName()
+        ));
+        return $this;
     }
 }

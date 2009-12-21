@@ -51,7 +51,6 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->prepareAdditionalData();
         if ($this->getWebsiteId()) {
             $this->setBaseCurrencyCode(
                 Mage::app()->getWebsite($this->getWebsiteId())->getBaseCurrencyCode()
@@ -121,46 +120,22 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Prepare additional data
+     * Add additional values to additional_data
      *
+     * @param array $data
      * @return Enterprise_Reward_Model_Reward_History
      */
-    public function prepareAdditionalData()
+    public function addAdditionalData($data)
     {
-        $addData = $this->_retrieveAdditionalDataByAction($this->getAction());
-        $this->setData('additional_data', $addData);
-        return $this;
-    }
-
-    /**
-     * Retrieve prepared additional data by action
-     *
-     * @param integer $action
-     * @return array
-     */
-    protected function _retrieveAdditionalDataByAction($action)
-    {
-        $addData = array();
-        switch ($action) {
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER:
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_CREDITMEMO:
-                $addData['order_increment_id'] = $this->getReward()->getOrder()->getIncrementId();
-                break;
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_CUSTOMER:
-                $addData['invitation_email'] = $this->getReward()->getInvitation()->getEmail();
-                break;
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_ORDER:
-                $addData['order_increment_id'] = $this->getReward()->getOrderIncrementId();
-                $addData['invitation_email'] = $this->getReward()->getInvitation()->getEmail();
-                break;
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_TAG:
-                $addData['tag'] = $this->getReward()->getTag()->getName();
-                break;
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA:
-                $addData['order_increment_id'] = $this->getReward()->getOrderIncrementId();
-                break;
+        if (is_array($data)) {
+            $additional = $this->getDataSetDefault('additional_data', array());
+            foreach ($data as $k => $v) {
+                $additional[$k] = $v;
+            }
+            $this->setData('additional_data', $additional);
         }
-        return $addData;
+
+        return $this;
     }
 
     /**
@@ -170,76 +145,15 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
      */
     public function getMessage()
     {
-        if (!$this->getData('message')) {
-            $message = $this->_retrieveMessageByAction($this->getAction());
+        if (!$this->hasData('message')) {
+            $action = Mage::getSingleton('enterprise_reward/reward')->getActionInstance($this->getAction());
+            $message = '';
+            if ($action !== null) {
+                $message = $action->getHistoryMessage($this->getAdditionalData());
+            }
             $this->setData('message', $message);
         }
-        return $this->getData('message');
-    }
-
-    /**
-     * Retrieve history message by given action
-     *
-     * @param integer $action
-     * @return string
-     */
-    protected function _retrieveMessageByAction($action)
-    {
-        $message = '';
-        switch ($action) {
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN:
-                $message = Mage::helper('enterprise_reward')->__('Updated by Moderator');
-                break;
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER:
-                $messageVar = $this->getMessageVar('order_increment_id');
-                $message = Mage::helper('enterprise_reward')->__('Redeemed for Order : #%s', $messageVar);
-                break;
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_REGISTER:
-                $message = 'Registered at Website';
-                break;
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_NEWSLETTER:
-                $message = 'Signed up for Newsletter';
-                break;
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_CUSTOMER:
-                $messageVar = $this->getMessageVar('invitation_email');
-                $message = Mage::helper('enterprise_reward')->__('Invitation to %s converted into a Customer', $messageVar);
-                break;
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_ORDER:
-                $messageVar = $this->getMessageVar('invitation_email');
-                $message = Mage::helper('enterprise_reward')->__('Invitation to %s converted into an Order', $messageVar);
-                break;
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_REVIEW:
-                $message = 'Submitted Review passed Moderation';
-                break;
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_TAG:
-                $messageVar = $this->getMessageVar('tag');
-                $message = Mage::helper('enterprise_reward')->__('Submitted Tag (%s) approved by Moderator', $messageVar);
-                break;
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA:
-                $messageVar = $this->getMessageVar('order_increment_id');
-                $message = Mage::helper('enterprise_reward')->__('Gained Promotion Extra Points from Order #%s', $messageVar);
-                break;
-            case Enterprise_Reward_Model_Reward::REWARD_ACTION_CREDITMEMO:
-                $messageVar = $this->getMessageVar('order_increment_id');
-                $message = Mage::helper('enterprise_reward')->__('Refunded from Order #%s', $messageVar);
-                break;
-        }
-        return $message;
-    }
-
-    /**
-     * Retrieve message var form additional data
-     *
-     * @param string $varName
-     * @return null | string
-     */
-    public function getMessageVar($varName)
-    {
-        $additionalData = $this->getAdditionalData();
-        if (is_array($additionalData) && isset($additionalData[$varName])) {
-            return $additionalData[$varName];
-        }
-        return null;
+        return $this->_getData('message');
     }
 
     /**
@@ -255,5 +169,18 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
     {
         $result = $this->_getResource()->isExistHistoryUpdate($customerId, $action, $websiteId, $entity);
         return $result;
+    }
+
+    /**
+     * Return total quantity rewards for specified action and customer
+     *
+     * @param int $action
+     * @param int $customerId
+     * @param integer $websiteId
+     * @return int
+     */
+    public function getTotalQtyRewards($action, $customerId, $websiteId)
+    {
+        return $this->_getResource()->getTotalQtyRewards($action, $customerId, $websiteId);
     }
 }

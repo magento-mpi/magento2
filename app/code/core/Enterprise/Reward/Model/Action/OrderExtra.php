@@ -24,55 +24,39 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
- * Reward Helper for operations with customer
+ * Reward action for converting spent money to points
  *
  * @category    Enterprise
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Helper_Customer extends Mage_Core_Helper_Abstract
+class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_Action_Abstract
 {
     /**
-     * Return Unsubscribe notification URL
+     * Return action message for history log
      *
-     * @param string $notification Notification type
+     * @param array $args Additional history data
      * @return string
      */
-    public function getUnsubscribeUrl($notification = false)
+    public function getHistoryMessage($args = array())
     {
-        $params = array();
-        if ($notification) {
-            $params = array('notification' => $notification);
-        }
-        return Mage::getUrl('enterprise_reward/customer/unsubscribe/', array('notification' => $notification));
+        $incrementId = isset($args['order_increment_id']) ? $args['order_increment_id'] : '';
+        return Mage::helper('enterprise_reward')->__('Gained Promotion Extra Points from Order #%s', $incrementId);
     }
 
     /**
-     * Unsubscribe customer from notifications
+     * Setter for $_entity and add some extra data to history
      *
-     * @param Mage_Customer_Model_Customer $customer Customer model
-     * @param string $notification Notification type
-     * @return Enterprise_Reward_Helper_Customer
+     * @param Varien_Object $entity
+     * @return Enterprise_Reward_Model_Action_Abstract
      */
-    public function unsibscribeCustomer($customer, $notification)
+    public function setEntity($entity)
     {
-        $field = false;
-        if ($notification == 'update') {
-            $field = 'reward_update_notification';
-        } elseif ($notification == 'warning') {
-            $field = 'reward_warning_notification';
-        }
-
-        if ($field) {
-            Mage::getModel('enterprise_reward/reward')
-                ->setCustomer($customer)
-                ->loadByCustomer()
-                ->setData($field, 0)
-                ->save();
-        }
-
+        parent::setEntity($entity);
+        $this->getHistory()->addAdditionalData(array(
+            'order_increment_id' => $this->getEntity()->getOrderIncrementId()
+        ));
         return $this;
     }
 }

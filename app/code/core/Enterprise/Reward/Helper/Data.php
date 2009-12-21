@@ -34,6 +34,10 @@
  */
 class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const XML_PATH_SECTION_GENERAL = 'enterprise_reward/general/';
+    const XML_PATH_SECTION_POINTS = 'enterprise_reward/points/';
+    const XML_PATH_SECTION_NOTIFICATIONS = 'enterprise_reward/notification/';
+
     /**
      * Check whether reward module is enabled in system config
      *
@@ -42,6 +46,55 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
     public function isEnabled()
     {
         return Mage::getStoreConfigFlag('enterprise_reward/general/is_enabled');
+    }
+
+    /**
+     * Retrieve value of given field and website from config
+     *
+     * @param string $section
+     * @param string $field
+     * @param integer $websiteId
+     * @return mixed
+     */
+    public function getConfigValue($section, $field, $websiteId = null)
+    {
+        return Mage::app()->getConfig()->getNode($section . $field, 'website', $websiteId);
+    }
+
+    /**
+     * Retrieve config value from General section
+     *
+     * @param string $field
+     * @param integer $websiteId
+     * @return mixed
+     */
+    public function getGeneralConfig($field, $websiteId = null)
+    {
+        return $this->getConfigValue(self::XML_PATH_SECTION_GENERAL, $field, $websiteId);
+    }
+
+    /**
+     * Retrieve config value from Points section
+     *
+     * @param string $field
+     * @param integer $websiteId
+     * @return mixed
+     */
+    public function getPointsConfig($field, $websiteId = null)
+    {
+        return $this->getConfigValue(self::XML_PATH_SECTION_POINTS, $field, $websiteId);
+    }
+
+    /**
+     * Retrieve config value from Notification section
+     *
+     * @param string $field
+     * @param integer $websiteId
+     * @return mixed
+     */
+    public function getNotificationConfig($field, $websiteId = null)
+    {
+        return $this->getConfigValue(self::XML_PATH_SECTION_NOTIFICATIONS, $field, $websiteId);
     }
 
     /**
