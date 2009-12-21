@@ -57,7 +57,7 @@ class Enterprise_Logging_Model_Archive_Collection extends Varien_Data_Collection
     protected function _generateRow($filename)
     {
         $row = parent::_generateRow($filename);
-        $date = new Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMddHH');
+        $date = new Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMddHH', Mage::app()->getLocale()->getLocaleCode());
         $row['time'] = $date;
         return $row;
     }
