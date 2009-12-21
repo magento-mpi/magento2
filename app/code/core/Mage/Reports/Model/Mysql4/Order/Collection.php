@@ -389,36 +389,12 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
      */
     public function addSumAvgTotals($storeId = 0)
     {
-        if ($storeId == 0) {
-            /**
-             * Join store_to_base_rate attribute
-             */
-            $order = Mage::getResourceSingleton('sales/order');
-            /* @var $order Mage_Sales_Model_Entity_Order */
-
-            $attr = $order->getAttribute('base_to_global_rate');
-            /* @var $attr Mage_Eav_Model_Entity_Attribute_Abstract */
-            $attrId = $attr->getAttributeId();
-            $attributeTableName = $attr->getBackend()->getTable();
-            $baseToGlobalRateTableName = $attr->getBackend()->isStatic() ? 'base_to_global_rate' : 'value';
-
-            $this->getSelect()
-                ->joinLeft(array('_b2gr_'.$baseToGlobalRateTableName => $attributeTableName),
-                    "_b2gr_{$baseToGlobalRateTableName}.entity_id=e.entity_id AND ".
-                    "_b2gr_{$baseToGlobalRateTableName}.attribute_id={$attrId}", array());
-
-            /**
-             * calculate average and total amount
-             */
-            $expr = "(e.base_subtotal-IFNULL(e.base_subtotal_refunded,0)-IFNULL(e.base_subtotal_canceled,0))*_b2gr_{$baseToGlobalRateTableName}.{$baseToGlobalRateTableName}";
-
-        } else {
-
-            /**
-             * calculate average and total amount
-             */
-            $expr = "e.base_subtotal-IFNULL(e.base_subtotal_canceled,0)-IFNULL(e.base_subtotal_refunded,0)";
-        }
+        /**
+         * calculate average and total amount
+         */
+        $expr = ($storeId == 0)
+            ? '(e.base_subtotal-IFNULL(e.base_subtotal_refunded,0)-IFNULL(e.base_subtotal_canceled,0))*e.base_to_global_rate'
+            : 'e.base_subtotal-IFNULL(e.base_subtotal_canceled,0)-IFNULL(e.base_subtotal_refunded,0)';
 
         $this->getSelect()
             ->columns(array("orders_avg_amount" => "AVG({$expr})"))
