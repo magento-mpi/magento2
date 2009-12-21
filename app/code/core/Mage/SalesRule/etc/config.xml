@@ -122,4 +122,13 @@
             </modules>
         </translate>
     </frontend>
+    
+    <crontab>
+        <jobs>
+            <aggregate_sales_report_coupons_data>
+                <schedule><cron_expr>0 0 * * *</cron_expr></schedule>
+                <run><model>salesrule/observer::aggregateSalesReportCouponsData</model></run>
+            </aggregate_sales_report_coupons_data>
+        </jobs>
+    </crontab>
 </config>

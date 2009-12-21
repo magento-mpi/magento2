@@ -72,6 +72,8 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function salesAction()
     {
+        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE);
+
         $this->_initAction()
             ->_setActiveMenu('report/sales/sales')
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Sales Report'), Mage::helper('adminhtml')->__('Sales Report'));
@@ -104,6 +106,17 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         return $out;
     }
 
+    protected function _showLastExecutionTime($flagCode)
+    {
+        $flag = Mage::getModel('reports/flag')->setReportFlagCode($flagCode)->loadSelf();
+        $updatedAt = ($flag->hasData())
+            ? Mage::app()->getLocale()->storeDate(0, $flag->getLastUpdate(), true)
+            : 'undefined';
+
+        Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('adminhtml')->__('Last report data generation time is %s', $updatedAt));
+        return $this;
+    }
+
     public function refreshRecentAction()
     {
         $code = $this->getRequest()->getParam('code');
@@ -113,11 +126,11 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         $collectionsNames = $this->_getCollectionNames($code);
         try {
             $currentDate = Mage::app()->getLocale()->date();
-            $date = $currentDate->subDay(1);
+            $date = $currentDate->subHour(25);
             foreach ($collectionsNames as $collectionName) {
                 Mage::getResourceModel($collectionName)->aggregate($date);
             }
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('code = '.var_export($code, true)));
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Recent statistics was successfully updated'));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
@@ -136,32 +149,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
             foreach ($collectionsNames as $collectionName) {
                 Mage::getResourceModel($collectionName)->aggregate();
             }
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('code = '.var_export($code, true)));
-        } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-        }
-        $this->_redirectReferer('*/*/sales');
-        return $this;
-    }
-
-    public function salesRefreshLifetimeAction()
-    {
-        try {
-            Mage::getResourceModel('sales/order')->aggregateOrders();
-        } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-        }
-        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Sales report was successfully regenerated'));
-        $this->_redirect('*/*/sales', array('_current' => true));
-        return $this;
-    }
-
-    public function salesRefreshRecentAction()
-    {
-        try {
-            $currentDate = Mage::app()->getLocale()->date();
-            Mage::getResourceModel('sales/order')->aggregateOrders($currentDate->subDay(1));
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Recent Statistics for Sales report was successfully regenerated'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Lifetime statistics was successfully updated'));
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
@@ -193,6 +181,8 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function taxAction()
     {
+        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);
+
         $this->_initAction()
             ->_setActiveMenu('report/sales/tax')
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Tax'), Mage::helper('adminhtml')->__('Tax'));
@@ -232,6 +222,8 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function shippingAction()
     {
+        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE);
+
         $this->_initAction()
             ->_setActiveMenu('report/sales/shipping')
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Shipping'), Mage::helper('adminhtml')->__('Shipping'));
@@ -271,6 +263,8 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function invoicedAction()
     {
+        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_INVOICE_FLAG_CODE);
+
         $this->_initAction()
             ->_setActiveMenu('report/sales/invoiced')
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Total Invoiced'), Mage::helper('adminhtml')->__('Total Invoiced'));
@@ -310,6 +304,8 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function refundedAction()
     {
+        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE);
+
         $this->_initAction()
             ->_setActiveMenu('report/sales/refunded')
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Total Refunded'), Mage::helper('adminhtml')->__('Total Refunded'));
@@ -349,6 +345,8 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function couponsAction()
     {
+        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_COUPNS_FLAG_CODE);
+
         $this->_initAction()
             ->_setActiveMenu('report/sales/coupons')
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Coupons'), Mage::helper('adminhtml')->__('Coupons'));

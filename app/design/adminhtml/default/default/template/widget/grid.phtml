@@ -144,9 +144,9 @@ $numColumns = sizeof($this->getColumns());
         <?php endif; ?>
         <?php if ($this->getCountTotals()): ?>
             <tfoot>
-                <tr>
+                <tr class="totals">
                 <?php foreach ($this->getColumns() as $_column): ?>
-                    <th class="<?php echo $_column->getCssProperty() ?>"><?php echo $_column->getRowField($_column->getGrid()->getTotals()) ?>&nbsp;</th>
+                    <th class="<?php echo $_column->getCssProperty() ?>"><?php echo ($_column->hasTotalsLabel()) ? $_column->getTotalsLabel() : $_column->getRowField($_column->getGrid()->getTotals()) ?>&nbsp;</th>
                 <?php endforeach; ?>
                 </tr>
             </tfoot>
@@ -181,6 +181,19 @@ $numColumns = sizeof($this->getColumns());
                 </tr>
                 <?php endforeach;?>
             <?php endif;?>
+
+            <?php if ($this->shouldRenderSubTotal($_item)): ?>
+                <tr class="subtotals">
+                    <?php $i = 0; foreach ($this->getSubTotalColumns() as $_column): ?>
+                        <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$i == $numColumns ? 'last' : '' ?>">
+                            <?php echo ($_column->hasSubtotalsLabel() ? $_column->getSubtotalsLabel() :
+                                $_column->getRowField($this->getSubTotalItem($_item))
+                            );
+                            ?>
+                        </td>
+                    <?php endforeach; ?>
+                </tr>
+            <?php endif; ?>
         <?php endforeach; ?>
         <?php elseif ($this->getEmptyText()): ?>
             <tr>

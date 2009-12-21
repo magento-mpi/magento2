@@ -33,6 +33,9 @@
  */
 class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Sales_Model_Mysql4_Report_Collection_Abstract
 {
+    protected $_periodFormat;
+    protected $_selectedColumns = array();
+
     /**
      * Initialize custom resource model
      *
@@ -46,6 +49,37 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Sales_Model_Mysql4_Re
         $this->setConnection($this->getResource()->getReadConnection());
     }
 
+    protected function _getSelectedColumns()
+    {
+        if ('month' == $this->_period) {
+            $this->_periodFormat = 'DATE_FORMAT(period, \'%Y-%m\')';
+        } elseif ('year' == $this->_period) {
+            $this->_periodFormat = 'EXTRACT(YEAR FROM period)';
+        } else {
+            $this->_periodFormat = 'period';
+        }
+
+        if (!$this->isTotals() && !$this->isSubTotals()) {
+            $this->_selectedColumns = array(
+                'period'                => $this->_periodFormat,
+                'code'                  => 'code',
+                'percent'               => 'percent',
+                'orders_count'          => 'sum(orders_count)',
+                'tax_base_amount_sum'   => 'sum(tax_base_amount_sum)'
+            );
+        }
+
+        if ($this->isTotals()) {
+            $this->_selectedColumns = $this->getAggregatedColumns();
+        }
+
+        if ($this->isSubTotals()) {
+            $this->_selectedColumns = $this->getAggregatedColumns() + array('period' => $this->_periodFormat);
+        }
+
+        return $this->_selectedColumns;
+    }
+
     /**
      * Add selected data
      *
@@ -53,25 +87,20 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Sales_Model_Mysql4_Re
      */
     protected  function _initSelect()
     {
-        if ('month' == $this->_period) {
-            $period = 'DATE_FORMAT(period, \'%Y-%m\')';
-        } elseif ('year' == $this->_period) {
-            $period = 'EXTRACT(YEAR FROM period)';
-        } else {
-            $period = 'period';
+        $this->getSelect()->from($this->getResource()->getMainTable() , $this->_getSelectedColumns());
+        if (!$this->isTotals() && !$this->isSubTotals()) {
+            $this->getSelect()->group(array(
+                $this->_periodFormat,
+                'code'
+            ));
         }
 
-        $this->getSelect()->from($this->getResource()->getMainTable() , array(
-            'period'                => $period,
-            'code',
-            'percent',
-            'tax_base_amount_sum'   => 'SUM(tax_base_amount_sum)',
-            'orders_count'          => 'SUM(orders_count)'
-        ))
-        ->group(array(
-            $period,
-            'code'
-        ));
+        if ($this->isSubTotals()) {
+            $this->getSelect()->group(array(
+                $this->_periodFormat
+            ));
+        }
+
         return $this;
     }
 

@@ -33,7 +33,21 @@
  */
 class Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection extends Mage_Sales_Model_Mysql4_Report_Collection_Abstract
 {
+
+    protected $_periodFormat;
     protected $_inited = false;
+    protected $_selectedColumns = array(
+        'orders_count'              => 'COUNT(e.entity_id)',
+        'total_qty_ordered'         => 'SUM(oa.total_qty)',
+        'base_profit_amount'        => 'SUM(e.base_total_paid * e.base_to_global_rate) - SUM(e.base_total_refunded * e.base_to_global_rate) - SUM(e.base_total_invoiced_cost * e.base_to_global_rate)',
+        'base_subtotal_amount'      => 'SUM(e.base_subtotal * e.base_to_global_rate)',
+        'base_tax_amount'           => 'SUM(e.base_tax_amount * e.base_to_global_rate)',
+        'base_shipping_amount'      => 'SUM(e.base_shipping_amount * e.base_to_global_rate)',
+        'base_discount_amount'      => 'SUM(e.base_discount_amount * e.base_to_global_rate)',
+        'base_grand_total_amount'   => 'SUM(e.base_grand_total * e.base_to_global_rate)',
+        'base_invoiced_amount'      => 'SUM(e.base_total_paid * e.base_to_global_rate)',
+        'base_refunded_amount'      => 'SUM(e.base_total_refunded * e.base_to_global_rate)'
+    );
 
     /**
      * Initialize custom resource model
@@ -78,6 +92,21 @@ class Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection extends Mage_Sal
         return $this;
     }
 
+    protected function _getSelectedColumns()
+    {
+        if (!$this->isTotals()) {
+            if ('month' == $this->_period) {
+                $this->_periodFormat = 'DATE_FORMAT(e.updated_at, \'%Y-%m\')';
+            } elseif ('year' == $this->_period) {
+                $this->_periodFormat = 'EXTRACT(YEAR FROM e.updated_at)';
+            } else {
+                $this->_periodFormat = 'DATE(e.updated_at)';
+            }
+            $this->_selectedColumns += array('period' => $this->_periodFormat);
+        }
+        return $this->_selectedColumns;
+    }
+
     /**
      * Add selected data
      *
@@ -88,27 +117,8 @@ class Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection extends Mage_Sal
         if ($this->_inited) {
             return $this;
         }
-        if ('month' == $this->_period) {
-            $period = 'DATE_FORMAT(e.updated_at, \'%Y-%m\')';
-        } elseif ('year' == $this->_period) {
-            $period = 'EXTRACT(YEAR FROM e.updated_at)';
-        } else {
-            $period = 'DATE(e.updated_at)';
-        }
 
-        $columns = array(
-            'period'                    => $period,
-            'orders_count'              => 'COUNT(e.entity_id)',
-            'total_qty_ordered'         => 'SUM(oa.total_qty)',
-            'base_profit_amount'        => 'SUM(e.base_total_paid * e.base_to_global_rate) - SUM(e.base_total_refunded * e.base_to_global_rate) - SUM(e.base_total_invoiced_cost * e.base_to_global_rate)',
-            'base_subtotal_amount'      => 'SUM(e.base_subtotal * e.base_to_global_rate)',
-            'base_tax_amount'           => 'SUM(e.base_tax_amount * e.base_to_global_rate)',
-            'base_shipping_amount'      => 'SUM(e.base_shipping_amount * e.base_to_global_rate)',
-            'base_discount_amount'      => 'SUM(e.base_discount_amount * e.base_to_global_rate)',
-            'base_grand_total_amount'   => 'SUM(e.base_grand_total * e.base_to_global_rate)',
-            'base_invoiced_amount'      => 'SUM(e.base_total_paid * e.base_to_global_rate)',
-            'base_refunded_amount'      => 'SUM(e.base_total_refunded * e.base_to_global_rate)',
-        );
+        $columns = $this->_getSelectedColumns();
 
         $mainTable = $this->getResource()->getMainTable();
 
@@ -136,11 +146,11 @@ class Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection extends Mage_Sal
             ->where('p.parent_item_id IS NULL')
             ->where('o.state <> ?', 'pending');
 
-            if (!is_null($this->_from) || !is_null($this->_to)) {
-                $qtySelect->where("DATE(o.updated_at) IN(?)", $subQuery);
-            }
+        if (!is_null($this->_from) || !is_null($this->_to)) {
+            $qtySelect->where("DATE(o.updated_at) IN(?)", $subQuery);
+        }
 
-            $qtySelect->group('p.order_id');
+        $qtySelect->group('p.order_id');
 
         $select = $this->getSelect()
             ->from(array('e' => $mainTable), array())
@@ -148,14 +158,17 @@ class Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection extends Mage_Sal
             ->joinLeft(array('oa'=> $qtySelect), 'e.entity_id = oa.order_id', array())
             ->where('e.state <> ?', 'pending');
 
-            $this->_applyStoresFilter();
-            $this->_applyOrderStatusFilter();
+        $this->_applyStoresFilter();
+        $this->_applyOrderStatusFilter();
 
-            if (!is_null($this->_from) || !is_null($this->_to)) {
-                $select->where("DATE(e.updated_at) IN(?)", $subQuery);
-            }
+        if (!is_null($this->_from) || !is_null($this->_to)) {
+            $select->where("DATE(e.updated_at) IN(?)", $subQuery);
+        }
 
-            $select->group($period);
+        if (!$this->isTotals()) {
+            $select->group($this->_periodFormat);
+        }
+
         $this->_inited = true;
         return $this;
     }

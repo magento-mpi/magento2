@@ -26,12 +26,37 @@
 
 class Mage_Sales_Model_Mysql4_Report_Collection_Abstract extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    protected $_from            = null;
-    protected $_to              = null;
-    protected $_orderStatus     = null;
-    protected $_period          = null;
-    protected $_storesIds       = 0;
-    protected $_applyFilters    = true;
+    protected $_from                = null;
+    protected $_to                  = null;
+    protected $_orderStatus         = null;
+    protected $_period              = null;
+    protected $_storesIds           = 0;
+    protected $_applyFilters        = true;
+    protected $_isTotals            = false;
+    protected $_isSubTotals         = false;
+    protected $_aggregatedColumns   = array();
+
+    /**
+     * Set array of columns that should be aggregated
+     *
+     * @param array $columns
+     * @return Mage_Sales_Model_Mysql4_Report_Collection_Abstract
+     */
+    public function setAggregatedColumns(array $columns)
+    {
+        $this->_aggregatedColumns = $columns;
+        return $this;
+    }
+
+    /**
+     * Retrieve array of columns that should be aggregated
+     *
+     * @return array
+     */
+    public function getAggregatedColumns()
+    {
+        return $this->_aggregatedColumns;
+    }
 
     /**
      * Set date range
@@ -149,9 +174,45 @@ class Mage_Sales_Model_Mysql4_Report_Collection_Abstract extends Mage_Core_Model
         return $this;
     }
 
+    /**
+     * Set apply filters flag
+     *
+     * @param boolean $flag
+     * @return Mage_Sales_Model_Mysql4_Report_Collection_Abstract
+     */
     public function setApplyFilters($flag)
     {
         $this->_applyFilters = $flag;
+        return $this;
+    }
+
+    /**
+     * Getter/Setter for isTotals
+     *
+     * @param null|boolean $flag
+     * @return boolean|Mage_Sales_Model_Mysql4_Report_Collection_Abstract
+     */
+    public function isTotals($flag = null)
+    {
+        if (is_null($flag)) {
+            return $this->_isTotals;
+        }
+        $this->_isTotals = $flag;
+        return $this;
+    }
+
+    /**
+     * Getter/Setter for isSubTotals
+     *
+     * @param null|boolean $flag
+     * @return boolean|Mage_Sales_Model_Mysql4_Report_Collection_Abstract
+     */
+    public function isSubTotals($flag = null)
+    {
+        if (is_null($flag)) {
+            return $this->_isSubTotals;
+        }
+        $this->_isSubTotals = $flag;
         return $this;
     }
 

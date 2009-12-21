@@ -35,6 +35,12 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
 {
     protected $_columnGroupBy = 'period';
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setCountTotals(true);
+    }
+
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'updated_at_order')
@@ -45,26 +51,27 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'    => Mage::helper('sales')->__('Period'),
-            'index'     => 'period',
-            'type'      => 'string',
-            'width'     => 100,
-            'sortable'  => false
+            'header'        => Mage::helper('sales')->__('Period'),
+            'index'         => 'period',
+            'type'          => 'string',
+            'width'         => 100,
+            'sortable'      => false,
+            'totals_label'  => Mage::helper('adminhtml')->__('Total')
         ));
 
         $this->addColumn('orders_count', array(
             'header'    => Mage::helper('sales')->__('Number of Orders'),
             'index'     => 'orders_count',
-            'total'     => 'sum',
             'type'      => 'number',
+            'total'     => 'sum',
             'sortable'  => false
         ));
 
         $this->addColumn('total_qty_ordered', array(
             'header'    => Mage::helper('sales')->__('Items Ordered'),
             'index'     => 'total_qty_ordered',
-            'total'     => 'sum',
             'type'      => 'number',
+            'total'     => 'sum',
             'sortable'  => false
         ));
 
@@ -79,7 +86,6 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
             'currency_code' => $currency_code,
             'index'         => 'base_profit_amount',
             'total'         => 'sum',
-            'renderer'      => 'adminhtml/report_grid_column_renderer_currency',
             'sortable'      => false
         ));
 
@@ -89,7 +95,6 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
             'currency_code' => $currency_code,
             'index'         => 'base_subtotal_amount',
             'total'         => 'sum',
-            'renderer'      => 'adminhtml/report_grid_column_renderer_currency',
             'sortable'      => false
         ));
 
@@ -99,7 +104,6 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
             'currency_code' => $currency_code,
             'index'         => 'base_tax_amount',
             'total'         => 'sum',
-            'renderer'      => 'adminhtml/report_grid_column_renderer_currency',
             'sortable'      => false
         ));
 
@@ -109,7 +113,6 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
             'currency_code' => $currency_code,
             'index'         => 'base_shipping_amount',
             'total'         => 'sum',
-            'renderer'      => 'adminhtml/report_grid_column_renderer_currency',
             'sortable'      => false
         ));
 
@@ -119,7 +122,6 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
             'currency_code' => $currency_code,
             'index'         => 'base_discount_amount',
             'total'         => 'sum',
-            'renderer'      => 'adminhtml/report_grid_column_renderer_currency',
             'sortable'      => false
         ));
 
@@ -129,7 +131,6 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
             'currency_code' => $currency_code,
             'index'         => 'base_grand_total_amount',
             'total'         => 'sum',
-            'renderer'      => 'adminhtml/report_grid_column_renderer_currency',
             'sortable'      => false
         ));
 
@@ -139,7 +140,6 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
             'currency_code' => $currency_code,
             'index'         => 'base_invoiced_amount',
             'total'         => 'sum',
-            'renderer'      => 'adminhtml/report_grid_column_renderer_currency',
             'sortable'      => false
         ));
 
@@ -149,7 +149,6 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
             'currency_code' => $currency_code,
             'index'         => 'base_refunded_amount',
             'total'         => 'sum',
-            'renderer'      => 'adminhtml/report_grid_column_renderer_currency',
             'sortable'      => false
         ));
 

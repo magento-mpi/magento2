@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Report_Sales_Tax extends Mage_Adminhtml_Block_Widget_
         $this->setTemplate('report/grid/container.phtml');
         $this->_removeButton('add');
         $this->addButton('filter_form_submit', array(
-            'label'     => Mage::helper('reports')->__('Search'),
+            'label'     => Mage::helper('reports')->__('Generate Report'),
             'onclick'   => 'filterFormSubmit()'
         ));
     }

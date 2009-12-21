@@ -117,6 +117,12 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
             $writeAdapter->query("
                 INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}
             ");
+
+            $reportsFlagModel = Mage::getModel('reports/flag');
+            $reportsFlagModel->setReportFlagCode(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);
+            $reportsFlagModel->loadSelf();
+            $reportsFlagModel->save();
+
         } catch (Exception $e) {
             $writeAdapter->rollBack();
             throw $e;

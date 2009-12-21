@@ -186,6 +186,11 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
                 INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}
             ");
 
+            $reportsFlagModel = Mage::getModel('reports/flag');
+            $reportsFlagModel->setReportFlagCode(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE);
+            $reportsFlagModel->loadSelf();
+            $reportsFlagModel->save();
+
         } catch (Exception $e) {
             $writeAdapter->rollBack();
             throw $e;

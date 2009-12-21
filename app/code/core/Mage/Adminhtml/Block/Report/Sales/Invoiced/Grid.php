@@ -35,6 +35,12 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
 {
     protected $_columnGroupBy = 'period';
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setCountTotals(true);
+    }
+
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'created_at_invoice')
@@ -45,17 +51,19 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'    => Mage::helper('sales')->__('Period'),
-            'index'     => 'period',
-            'type'      => 'string',
-            'width'     => 100,
-            'sortable'  => false
+            'header'        => Mage::helper('sales')->__('Period'),
+            'index'         => 'period',
+            'type'          => 'string',
+            'width'         => 100,
+            'sortable'      => false,
+            'totals_label'  => Mage::helper('adminhtml')->__('Total')
         ));
 
         $this->addColumn('orders_count', array(
             'header'    => Mage::helper('reports')->__('Number of Orders'),
             'index'     => 'orders_count',
             'type'      => 'number',
+            'total'     => 'sum',
             'sortable'  => false
         ));
 
@@ -63,6 +71,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
             'header'    => Mage::helper('reports')->__('Number of Invoiced Orders'),
             'index'     => 'orders_invoiced',
             'type'      => 'number',
+            'total'     => 'sum',
             'sortable'  => false
         ));
 
@@ -76,6 +85,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
             'type'          => 'currency',
             'currency_code' => $currency_code,
             'index'         => 'invoiced',
+            'total'         => 'sum',
             'sortable'      => false
         ));
 
@@ -84,6 +94,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
             'type'          => 'currency',
             'currency_code' => $currency_code,
             'index'         => 'invoiced_captured',
+            'total'         => 'sum',
             'sortable'      => false
         ));
 
@@ -92,6 +103,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
             'type'          => 'currency',
             'currency_code' => $currency_code,
             'index'         => 'invoiced_not_captured',
+            'total'         => 'sum',
             'sortable'      => false
         ));
 

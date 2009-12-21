@@ -35,6 +35,13 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
 {
     protected $_columnGroupBy = 'period';
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setCountTotals(true);
+        $this->setCountSubTotals(true);
+    }
+
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'created_at_shipment')
@@ -45,11 +52,13 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'    => Mage::helper('adminhtml')->__('Period'),
-            'index'     => 'period',
-            'type'      => 'string',
-            'width'     => 100,
-            'sortable'  => false
+            'header'            => Mage::helper('adminhtml')->__('Period'),
+            'index'             => 'period',
+            'type'              => 'string',
+            'width'             => 100,
+            'sortable'          => false,
+            'totals_label'      => Mage::helper('adminhtml')->__('Total'),
+            'subtotals_label'   => Mage::helper('adminhtml')->__('SubTotal')
         ));
 
         $this->addColumn('shipping_description', array(
@@ -76,6 +85,7 @@ class Mage_Adminhtml_Block_Report_Sales_Shipping_Grid extends Mage_Adminhtml_Blo
             'type'          => 'currency',
             'currency_code' => $this->getCurrentCurrencyCode(),
             'index'         => 'total_shipping',
+            'total'         => 'sum',
             'sortable'      => false
         ));
 

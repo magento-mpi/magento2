@@ -30,6 +30,7 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
     protected $_resourceCollectionName  = '';
     protected $_currentCurrencyCode     = null;
     protected $_storeIds                = array();
+    protected $_aggregatedColumns       = null;
 
     public function __construct()
     {
@@ -40,7 +41,7 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
         if (isset($this->_columnGroupBy)) {
             $this->isColumnGrouped($this->_columnGroupBy, true);
         }
-        $this->setEmptyCellLabel(Mage::helper('sales')->__('No records found for this period.'));
+        $this->setEmptyCellLabel(Mage::helper('reports')->__('No records found for this period.'));
     }
 
     public function getResourceCollectionName()
@@ -56,11 +57,26 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
         return $this->_collection;
     }
 
+    protected function _getAggregatedColumns()
+    {
+        if (is_null($this->_aggregatedColumns)) {
+            foreach ($this->getColumns() as $column) {
+                if (!is_array($this->_aggregatedColumns)) {
+                    $this->_aggregatedColumns = array();
+                }
+                if ($column->hasTotal()) {
+                    $this->_aggregatedColumns[$column->getId()] = "{$column->getTotal()}({$column->getIndex()})";
+                }
+            }
+        }
+        return $this->_aggregatedColumns;
+    }
+
     protected function _prepareCollection()
     {
         $filterData = $this->getFilterData();
 
-        if ($filterData->getData('from') == null && $filterData->getData('to') == null) {
+        if ($filterData->getData('from') == null) {
             return parent::_prepareCollection();
         }
 
@@ -68,7 +84,8 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
             ->setPeriod($filterData->getData('period_type'))
             ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
             ->addStoreFilter(explode(',', $filterData->getData('store_ids')))
-            ->addOrderStatusFilter($filterData->getData('order_statuses'));
+            ->addOrderStatusFilter($filterData->getData('order_statuses'))
+            ->setAggregatedColumns($this->_getAggregatedColumns());
 
         if ($this->_isExport) {
             $this->setCollection($resourceCollection);
@@ -84,10 +101,65 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
             );
         }
 
+        if ($this->getCountSubTotals()) {
+            $this->getSubTotals();
+        }
+
+        if ($this->getCountTotals()) {
+            $totalsCollection = Mage::getResourceModel($this->getResourceCollectionName())
+                ->setPeriod($filterData->getData('period_type'))
+                ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
+                ->addStoreFilter(explode(',', $filterData->getData('store_ids')))
+                ->addOrderStatusFilter($filterData->getData('order_statuses'))
+                ->setAggregatedColumns($this->_getAggregatedColumns())
+                ->isTotals(true);
+            foreach ($totalsCollection as $item) {
+                $this->setTotals($item);
+                break;
+            }
+        }
+
         $this->getCollection()->setColumnGroupBy($this->_columnGroupBy);
         $this->getCollection()->setResourceCollection($resourceCollection);
 
         return parent::_prepareCollection();
+    }
+
+    public function getCountTotals()
+    {
+        if (!$this->getTotals()) {
+            $filterData = $this->getFilterData();
+            $totalsCollection = Mage::getResourceModel($this->getResourceCollectionName())
+                ->setPeriod($filterData->getData('period_type'))
+                ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
+                ->addStoreFilter(explode(',', $filterData->getData('store_ids')))
+                ->addOrderStatusFilter($filterData->getData('order_statuses'))
+                ->setAggregatedColumns($this->_getAggregatedColumns())
+                ->isTotals(true);
+            if (count($totalsCollection->getItems()) < 1 || !$filterData->getData('from')) {
+                $this->setTotals(new Varien_Object());
+            } else {
+                foreach ($totalsCollection->getItems() as $item) {
+                    $this->setTotals($item);
+                    break;
+                }
+            }
+        }
+        return parent::getCountTotals();
+    }
+
+    public function getSubTotals()
+    {
+        $filterData = $this->getFilterData();
+        $subTotalsCollection = Mage::getResourceModel($this->getResourceCollectionName())
+            ->setPeriod($filterData->getData('period_type'))
+            ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
+            ->addStoreFilter(explode(',', $filterData->getData('store_ids')))
+            ->addOrderStatusFilter($filterData->getData('order_statuses'))
+            ->setAggregatedColumns($this->_getAggregatedColumns())
+            ->isSubTotals(true);
+        $this->setSubTotals($subTotalsCollection->getItems());
+        return parent::getSubTotals();
     }
 
     public function setStoreIds($storeIds)

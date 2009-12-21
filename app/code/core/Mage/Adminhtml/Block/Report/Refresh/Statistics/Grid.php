@@ -41,40 +41,54 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
         $this->setUseAjax(false);
     }
 
+    protected function _getUpdatedAt($reportCode)
+    {
+        $flag = Mage::getModel('reports/flag')->setReportFlagCode($reportCode)->loadSelf();
+        return ($flag->hasData())
+            ? Mage::app()->getLocale()->storeDate(0, $flag->getLastUpdate(), true)
+            : Mage::helper('reports')->__('undefined');
+    }
+
     protected function _prepareCollection()
     {
         $collection = new Varien_Data_Collection();
 
         $data = array(
             array(
-                'id'        => 'sales',
-                'report'    => 'Sales',
-                'comment'   => 'Test Qwerty Comment For Sales Report'
+                'id'            => 'sales',
+                'report'        => Mage::helper('reports')->__('Sales'),
+                'comment'       => '',
+                'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE)
             ),
             array(
-                'report'    => 'Tax',
-                'id'        => 'tax',
-                'comment'   => 'Test Qwerty Comment For Sales Report'
+                'id'            => 'tax',
+                'report'        => Mage::helper('reports')->__('Tax'),
+                'comment'       => '',
+                'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE)
             ),
             array(
-                'report'    => 'Shipping',
-                'id'        => 'shipping',
-                'comment'   => 'Test Qwerty Comment For Sales Report'
+                'id'            => 'shipping',
+                'report'        => Mage::helper('reports')->__('Shipping'),
+                'comment'       => '',
+                'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE)
             ),
             array(
-                'report'    => 'Total Invoiced',
-                'id'        => 'invoiced',
-                'comment'   => 'Test Qwerty Comment For Sales Report'
+                'id'            => 'invoiced',
+                'report'        => Mage::helper('reports')->__('Total Invoiced'),
+                'comment'       => '',
+                'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_INVOICE_FLAG_CODE)
             ),
             array(
-                'report'    => 'Total Refunded',
-                'id'        => 'refunded',
-                'comment'   => 'Test Qwerty Comment For Sales Report'
+                'id'            => 'refunded',
+                'report'        => Mage::helper('reports')->__('Total Refunded'),
+                'comment'       => '',
+                'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE)
             ),
             array(
-                'report'    => 'Coupons',
-                'id'        => 'coupons',
-                'comment'   => 'Test Qwerty Comment For Sales Report'
+                'id'            => 'coupons',
+                'report'        => Mage::helper('reports')->__('Coupons'),
+                'comment'       => '',
+                'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_COUPNS_FLAG_CODE)
             )
         );
 
@@ -92,7 +106,7 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('report', array(
-            'header'    => Mage::helper('sales')->__('Report'),
+            'header'    => Mage::helper('reports')->__('Report'),
             'index'     => 'report',
             'type'      => 'string',
             'width'     => 150,
@@ -100,14 +114,22 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('comment', array(
-            'header'    => Mage::helper('sales')->__('Comment'),
+            'header'    => Mage::helper('reports')->__('Comment'),
             'index'     => 'comment',
             'type'      => 'string',
             'sortable'  => false
         ));
 
+        $this->addColumn('updated_at', array(
+            'header'    => Mage::helper('reports')->__('Updated At'),
+            'index'     => 'updated_at',
+            'type'      => 'string',
+            'width'     => 200,
+            'sortable'  => false
+        ));
+
         $this->addColumn('action', array(
-            'header'    => Mage::helper('sales')->__('Action'),
+            'header'    => Mage::helper('reports')->__('Action'),
             'index'     => 'id',
             'type'      => 'action',
             'actions'   => array(

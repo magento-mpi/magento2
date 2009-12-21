@@ -33,7 +33,12 @@
  */
 class Mage_Tax_Model_Mysql4_Report_Updatedat_Collection extends Mage_Sales_Model_Mysql4_Report_Collection_Abstract
 {
-    protected $_inited      = false;
+    protected $_periodFormat;
+    protected $_inited          = false;
+    protected $_selectedColumns = array(
+        'orders_count'          => 'COUNT(DISTINCT(e.entity_id))',
+        'tax_base_amount_sum'   => 'SUM(tax.base_real_amount * e.base_to_global_rate)'
+    );
 
     /**
      * Initialize custom resource model
@@ -78,6 +83,35 @@ class Mage_Tax_Model_Mysql4_Report_Updatedat_Collection extends Mage_Sales_Model
         return $this;
     }
 
+    protected function _getSelectedColumns()
+    {
+        if ('month' == $this->_period) {
+            $this->_periodFormat = 'DATE_FORMAT(e.updated_at, \'%Y-%m\')';
+        } elseif ('year' == $this->_period) {
+            $this->_periodFormat = 'EXTRACT(YEAR FROM e.updated_at)';
+        } else {
+            $this->_periodFormat = 'DATE(e.updated_at)';
+        }
+
+        if (!$this->isTotals() && !$this->isSubTotals()) {
+            $this->_selectedColumns = array(
+                'period'                => $this->_periodFormat,
+                'store_id'              => 'store_id',
+                'code'                  => 'tax.code',
+                'order_status'          => 'e.status',
+                'percent'               => 'tax.percent',
+                'orders_count'          => 'COUNT(DISTINCT(e.entity_id))',
+                'tax_base_amount_sum'   => 'SUM(tax.base_real_amount * e.base_to_global_rate)'
+            );
+        }
+
+        if ($this->isSubTotals()) {
+            $this->_selectedColumns += array('period' => $this->_periodFormat);
+        }
+
+        return $this->_selectedColumns;
+    }
+
     /**
      * Add selected data
      *
@@ -88,24 +122,8 @@ class Mage_Tax_Model_Mysql4_Report_Updatedat_Collection extends Mage_Sales_Model
         if ($this->_inited) {
             return $this;
         }
-        if ('month' == $this->_period) {
-            $period = 'DATE_FORMAT(e.updated_at, \'%Y-%m\')';
-        } elseif ('year' == $this->_period) {
-            $period = 'EXTRACT(YEAR FROM e.updated_at)';
-        } else {
-            $period = 'DATE(e.updated_at)';
-        }
 
-        $columns = array(
-            'period'                => $period,
-            'store_id'              => 'store_id',
-            'code'                  => 'tax.code',
-            'order_status'          => 'e.status',
-            'percent'               => 'tax.percent',
-            'orders_count'          => 'COUNT(DISTINCT(e.entity_id))',
-            'tax_base_amount_sum'   => 'SUM(tax.base_real_amount * e.base_to_global_rate)'
-        );
-
+        $columns = $this->_getSelectedColumns();
         $mainTable = $this->getResource()->getMainTable();
 
         if (!is_null($this->_from) || !is_null($this->_to)) {
@@ -123,14 +141,27 @@ class Mage_Tax_Model_Mysql4_Report_Updatedat_Collection extends Mage_Sales_Model
             ->from(array('e' => $mainTable), $columns)
             ->joinInner(array('tax'=> $this->getTable('sales/order_tax')), 'e.entity_id = tax.order_id', array());
 
-            $this->_applyStoresFilter();
-            $this->_applyOrderStatusFilter();
+        $this->_applyStoresFilter();
+        $this->_applyOrderStatusFilter();
 
-            if (!is_null($this->_from) || !is_null($this->_to)) {
-                $select->where("DATE(e.updated_at) IN(?)", $subQuery);
-            }
+        if (!is_null($this->_from) || !is_null($this->_to)) {
+            $select->where("DATE(e.updated_at) IN(?)", $subQuery);
+        }
 
-            $select->group(new Zend_Db_Expr('1,2,3'));
+        if (!$this->isTotals() && !$this->isSubTotals()) {
+            $select->group(array(
+                $this->_periodFormat,
+                'store_id',
+                'code'
+            ));
+        }
+
+        if ($this->isSubTotals()) {
+            $select->group(array(
+                $this->_periodFormat,
+                'store_id'
+            ));
+        }
 
         $this->_inited = true;
         return $this;

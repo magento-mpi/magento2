@@ -19,38 +19,37 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Reports
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Adminhtml sales report page content block
+ * Report Flag Model
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Reports
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Adminhtml_Block_Report_Sales_Sales extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Reports_Model_Flag extends Mage_Core_Model_Flag
 {
+    const REPORT_ORDER_FLAG_CODE    = 'report_order_aggregated';
+    const REPORT_TAX_FLAG_CODE      = 'report_tax_aggregated';
+    const REPORT_SHIPPING_FLAG_CODE = 'report_shipping_aggregated';
+    const REPORT_INVOICE_FLAG_CODE  = 'report_invoiced_aggregated';
+    const REPORT_REFUNDED_FLAG_CODE = 'report_refunded_aggregated';
+    const REPORT_COUPNS_FLAG_CODE   = 'report_coupons_aggregated';
 
-    public function __construct()
+    /**
+     * Setter for flag code
+     *
+     * @param string $code
+     * @return Mage_Reports_Model_Flag
+     */
+    public function setReportFlagCode($code)
     {
-        $this->_controller = 'report_sales_sales';
-        $this->_headerText = Mage::helper('reports')->__('Sales Report');
-        parent::__construct();
-        $this->setTemplate('report/grid/container.phtml');
-        $this->_removeButton('add');
-        $this->addButton('filter_form_submit', array(
-            'label'     => Mage::helper('reports')->__('Generate Report'),
-            'onclick'   => 'filterFormSubmit()'
-        ));
-    }
-
-    public function getFilterUrl()
-    {
-        $this->getRequest()->setParam('filter', null);
-        return $this->getUrl('*/*/sales', array('_current' => true));
+        $this->_flagCode = $code;
+        return $this;
     }
 }

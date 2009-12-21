@@ -33,6 +33,9 @@
  */
 class Mage_SalesRule_Model_Mysql4_Report_Collection extends Mage_Sales_Model_Mysql4_Report_Collection_Abstract
 {
+    protected $_periodFormat;
+    protected $_selectedColumns = array();
+
     /**
      * Initialize custom resource model
      *
@@ -46,6 +49,38 @@ class Mage_SalesRule_Model_Mysql4_Report_Collection extends Mage_Sales_Model_Mys
         $this->setConnection($this->getResource()->getReadConnection());
     }
 
+    protected function _getSelectedColumns()
+    {
+        if ('month' == $this->_period) {
+            $this->_periodFormat = 'DATE_FORMAT(period, \'%Y-%m\')';
+        } elseif ('year' == $this->_period) {
+            $this->_periodFormat = 'EXTRACT(YEAR FROM period)';
+        } else {
+            $this->_periodFormat = 'period';
+        }
+
+        if (!$this->isTotals() && !$this->isSubTotals()) {
+            $this->_selectedColumns = array(
+                'period'            => $this->_periodFormat,
+                'coupon_code',
+                'coupon_uses'       => 'SUM(coupon_uses)',
+                'subtotal_amount'   => 'SUM(subtotal_amount)',
+                'discount_amount'   => 'SUM(discount_amount)',
+                'total_amount'      => 'SUM(total_amount)'
+            );
+        }
+
+        if ($this->isTotals()) {
+            $this->_selectedColumns = $this->getAggregatedColumns();
+        }
+
+        if ($this->isSubTotals()) {
+            $this->_selectedColumns = $this->getAggregatedColumns() + array('period' => $this->_periodFormat);
+        }
+
+        return $this->_selectedColumns;
+    }
+
     /**
      * Add selected data
      *
@@ -53,26 +88,18 @@ class Mage_SalesRule_Model_Mysql4_Report_Collection extends Mage_Sales_Model_Mys
      */
     protected  function _initSelect()
     {
-        if ('month' == $this->_period) {
-            $period = 'DATE_FORMAT(period, \'%Y-%m\')';
-        } elseif ('year' == $this->_period) {
-            $period = 'EXTRACT(YEAR FROM period)';
-        } else {
-            $period = 'period';
+        $this->getSelect()->from($this->getResource()->getMainTable() , $this->_getSelectedColumns());
+        if (!$this->isTotals() && !$this->isSubTotals()) {
+            $this->getSelect()->group(array(
+                $this->_periodFormat,
+                'coupon_code'
+            ));
         }
-
-        $this->getSelect()->from($this->getResource()->getMainTable() , array(
-            'period'            => $period,
-            'coupon_code'       => 'coupon_code',
-            'coupon_uses'       => 'SUM(coupon_uses)',
-            'subtotal_amount'   => 'SUM(subtotal_amount)',
-            'discount_amount'   => 'SUM(discount_amount)',
-            'total_amount'      => 'SUM(total_amount)'
-        ))
-        ->group(array(
-            $period,
-            'coupon_code'
-        ));
+        if ($this->isSubTotals()) {
+            $this->getSelect()->group(array(
+                $this->_periodFormat
+            ));
+        }
         return $this;
     }
 

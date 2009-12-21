@@ -35,6 +35,13 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
 {
     protected $_columnGroupBy = 'period';
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setCountTotals(true);
+        $this->setCountSubTotals(true);
+    }
+
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'updated_at_order')
@@ -45,11 +52,13 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'    => Mage::helper('sales')->__('Period'),
-            'index'     => 'period',
-            'type'      => 'string',
-            'width'     => '100',
-            'sortable'  => false
+            'header'            => Mage::helper('sales')->__('Period'),
+            'index'             => 'period',
+            'type'              => 'string',
+            'width'             => '100',
+            'sortable'          => false,
+            'totals_label'      => Mage::helper('adminhtml')->__('Total'),
+            'subtotals_label'   => Mage::helper('adminhtml')->__('SubTotal')
         ));
 
         $this->addColumn('code', array(
@@ -63,7 +72,6 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
             'header'    => Mage::helper('sales')->__('Rate'),
             'index'     => 'percent',
             'type'      => 'number',
-            'renderer'  => 'adminhtml/report_grid_column_renderer_blanknumber',
             'width'     => '100',
             'sortable'  => false
         ));
@@ -87,7 +95,6 @@ class Mage_Adminhtml_Block_Report_Sales_Tax_Grid extends Mage_Adminhtml_Block_Re
             'currency_code' => $this->getCurrentCurrencyCode(),
             'index'         => 'tax_base_amount_sum',
             'total'         => 'sum',
-            'renderer'      => 'adminhtml/report_grid_column_renderer_currency',
             'sortable'      => false
         ));
 

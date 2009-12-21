@@ -134,11 +134,25 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     protected $_countTotals = false;
 
     /**
+     * Count subtotals
+     *
+     * @var boolean
+     */
+    protected $_countSubTotals = false;
+
+    /**
      * Totals
      *
      * @var Varien_Object
      */
     protected $_varTotals;
+
+    /**
+     * SubTotals
+     *
+     * @var array
+     */
+    protected $_subtotals = array();
 
     /**
      * Grid export types
@@ -1269,9 +1283,9 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     }
 
     /**
-     * Return count totals
+     * Retrieve totals
      *
-     * @return boolean
+     * @return Varien_Object
      */
     public function getTotals()
     {
@@ -1279,11 +1293,92 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     }
 
     /**
+     * Set subtotals
+     *
+     * @param boolean $flag
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
+    public function setCountSubTotals($flag = true)
+    {
+        $this->_countSubTotals = $flag;
+        return $this;
+    }
+
+    /**
+     * Return count subtotals
+     *
+     * @return boolean
+     */
+    public function getCountSubTotals()
+    {
+        return $this->_countSubTotals;
+    }
+
+    /**
+     * Set subtotal items
+     *
+     * @param array $items
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
+    public function setSubTotals(array $items)
+    {
+        $this->_subtotals = $items;
+        return $this;
+    }
+
+    /**
+     * Retrieve subtotal item
+     *
+     * @param Varien_Object $item
+     * @return Varien_Object
+     */
+    public function getSubTotalItem($item)
+    {
+        foreach ($this->_subtotals as $subtotalItem) {
+            foreach ($this->_groupedColumn as $groupedColumn) {
+                if ($subtotalItem->getData($groupedColumn) == $item->getData($groupedColumn)) {
+                    return $subtotalItem;
+                }
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Retrieve subtotal items
+     *
+     * @return array
+     */
+    public function getSubTotals()
+    {
+        return $this->_subtotals;
+    }
+
+    /**
+     * Check whether subtotal should be rendered
+     *
+     * @param Varien_Object $item
+     * @return boolean
+     */
+    public function shouldRenderSubTotal($item) {
+        return ($this->_countSubTotals && count($this->_subtotals) > 0 && count($this->getMultipleRows($item)) > 0);
+    }
+
+    /**
+     * Retrieve columns to render
+     *
+     * @return unknown
+     */
+    public function getSubTotalColumns() {
+        return $this->getColumns();
+    }
+
+    /**
      * Retrieve rowspan number
      *
      * @param Varien_Object $item
      * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
-     * @return integer
+     * @return integer|boolean
      */
     public function getRowspan($item, $column)
     {
@@ -1298,7 +1393,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      *
      * @param string|object $column
      * @param string $value
-     * @return unknown
+     * @return boolean|Mage_Adminhtml_Block_Widget_Grid
      */
     public function isColumnGrouped($column, $value = null)
     {
@@ -1313,7 +1408,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     }
 
     /**
-     *
+     * Get children of specified item
      *
      * @param Varien_Object $item
      * @return array
@@ -1324,7 +1419,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
     }
 
     /**
-     *
+     * Retrieve columns for multiple rows
      *
      * @param Varien_Object $item
      * @return array

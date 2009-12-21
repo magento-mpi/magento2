@@ -33,18 +33,51 @@
  */
 class Mage_Sales_Model_Mysql4_Report_Order_Collection extends Mage_Sales_Model_Mysql4_Report_Collection_Abstract
 {
+    protected $_periodFormat;
+    protected $_selectedColumns = array();
+
     /**
      * Initialize custom resource model
-     *
-     * @param array $parameters
      */
-
     public function __construct()
     {
         parent::_construct();
         $this->setModel('adminhtml/report_item');
         $this->_resource = Mage::getResourceModel('sales/report')->init('sales/order_aggregated_created');
         $this->setConnection($this->getResource()->getReadConnection());
+    }
+
+    protected function _getSelectedColumns()
+    {
+        if ('month' == $this->_period) {
+            $this->_periodFormat = 'DATE_FORMAT(period, \'%Y-%m\')';
+        } elseif ('year' == $this->_period) {
+            $this->_periodFormat = 'EXTRACT(YEAR FROM period)';
+        } else {
+            $this->_periodFormat = 'period';
+        }
+
+        if (!$this->isTotals()) {
+            $this->_selectedColumns = array(
+                'period'                    => $this->_periodFormat,
+                'orders_count'              => 'SUM(orders_count)',
+                'total_qty_ordered'         => 'SUM(total_qty_ordered)',
+                'base_profit_amount'        => 'SUM(base_profit_amount)',
+                'base_subtotal_amount'      => 'SUM(base_subtotal_amount)',
+                'base_tax_amount'           => 'SUM(base_tax_amount)',
+                'base_shipping_amount'      => 'SUM(base_shipping_amount)',
+                'base_discount_amount'      => 'SUM(base_discount_amount)',
+                'base_grand_total_amount'   => 'SUM(base_grand_total_amount)',
+                'base_invoiced_amount'      => 'SUM(base_invoiced_amount)',
+                'base_refunded_amount'      => 'SUM(base_refunded_amount)',
+            );
+        }
+
+        if ($this->isTotals()) {
+            $this->_selectedColumns = $this->getAggregatedColumns();
+        }
+
+        return $this->_selectedColumns;
     }
 
     /**
@@ -54,28 +87,10 @@ class Mage_Sales_Model_Mysql4_Report_Order_Collection extends Mage_Sales_Model_M
      */
     protected function _initSelect()
     {
-        if ('month' == $this->_period) {
-            $period = 'DATE_FORMAT(period, \'%Y-%m\')';
-        } elseif ('year' == $this->_period) {
-            $period = 'EXTRACT(YEAR FROM period)';
-        } else {
-            $period = 'period';
+        $this->getSelect()->from($this->getResource()->getMainTable(), $this->_getSelectedColumns());
+        if (!$this->isTotals()) {
+            $this->getSelect()->group($this->_periodFormat);
         }
-
-        $columns = array(
-            'period'                    => $period,
-            'orders_count'              => 'SUM(orders_count)',
-            'total_qty_ordered'         => 'SUM(total_qty_ordered)',
-            'base_profit_amount'        => 'SUM(base_profit_amount)',
-            'base_subtotal_amount'      => 'SUM(base_subtotal_amount)',
-            'base_tax_amount'           => 'SUM(base_tax_amount)',
-            'base_shipping_amount'      => 'SUM(base_shipping_amount)',
-            'base_discount_amount'      => 'SUM(base_discount_amount)',
-            'base_grand_total_amount'   => 'SUM(base_grand_total_amount)',
-            'base_invoiced_amount'      => 'SUM(base_invoiced_amount)',
-            'base_refunded_amount'      => 'SUM(base_refunded_amount)',
-        );
-        $this->getSelect()->from($this->getResource()->getMainTable(), $columns)->group($period);
         return $this;
     }
 }

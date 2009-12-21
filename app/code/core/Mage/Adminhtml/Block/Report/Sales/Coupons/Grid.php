@@ -35,6 +35,13 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
 {
     protected $_columnGroupBy = 'period';
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setCountTotals(true);
+        $this->setCountSubTotals(true);
+    }
+
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'updated_at_order')
@@ -45,11 +52,13 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'    => Mage::helper('reports')->__('Period'),
-            'index'     => 'period',
-            'type'      => 'string',
-            'width'     => 100,
-            'sortable'  => false
+            'header'            => Mage::helper('reports')->__('Period'),
+            'index'             => 'period',
+            'type'              => 'string',
+            'width'             => 100,
+            'sortable'          => false,
+            'totals_label'      => Mage::helper('adminhtml')->__('Total'),
+            'subtotals_label'   => Mage::helper('adminhtml')->__('SubTotal')
         ));
 
         $this->addColumn('coupon_code', array(
@@ -62,6 +71,7 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             'header'    => Mage::helper('reports')->__('Number of Use'),
             'sortable'  => false,
             'index'     => 'coupon_uses',
+            'total'     => 'sum',
             'type'      => 'number'
         ));
 
@@ -75,6 +85,7 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             'sortable'      => false,
             'type'          => 'currency',
             'currency_code' => $currency_code,
+            'total'         => 'sum',
             'index'         => 'subtotal_amount'
         ));
 
@@ -83,6 +94,7 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             'sortable'      => false,
             'type'          => 'currency',
             'currency_code' => $currency_code,
+            'total'         => 'sum',
             'index'         => 'discount_amount'
         ));
 
@@ -91,6 +103,7 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             'sortable'      => false,
             'type'          => 'currency',
             'currency_code' => $currency_code,
+            'total'         => 'sum',
             'index'         => 'total_amount'
         ));
 

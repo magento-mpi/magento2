@@ -146,6 +146,12 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
         $this->_aggregateByOrderCreatedAt($from, $to);
         $this->_aggregateByOrderUpdatedAt($from, $to);
+
+        $reportsFlagModel = Mage::getModel('reports/flag');
+        $reportsFlagModel->setReportFlagCode(Mage_Reports_Model_Flag::REPORT_COUPNS_FLAG_CODE);
+        $reportsFlagModel->loadSelf();
+        $reportsFlagModel->save();
+
         return $this;
     }
 

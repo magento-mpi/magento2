@@ -33,6 +33,9 @@
  */
 class Mage_Sales_Model_Mysql4_Report_Shipping_Collection_Order extends Mage_Sales_Model_Mysql4_Report_Collection_Abstract
 {
+    protected $_periodFormat;
+    protected $_selectedColumns = array();
+
     /**
      * Initialize custom resource model
      *
@@ -46,6 +49,36 @@ class Mage_Sales_Model_Mysql4_Report_Shipping_Collection_Order extends Mage_Sale
         $this->setConnection($this->getResource()->getReadConnection());
     }
 
+    protected function _getSelectedColumns()
+    {
+        if ('month' == $this->_period) {
+            $this->_periodFormat = 'DATE_FORMAT(period, \'%Y-%m\')';
+        } elseif ('year' == $this->_period) {
+            $this->_periodFormat = 'EXTRACT(YEAR FROM period)';
+        } else {
+            $this->_periodFormat = 'period';
+        }
+
+        if (!$this->isTotals() && !$this->isSubTotals()) {
+            $this->_selectedColumns = array(
+                'period'                => $this->_periodFormat,
+                'shipping_description'  => 'shipping_description',
+                'orders_count'          => 'sum(orders_count)',
+                'total_shipping'        => 'sum(total_shipping)'
+            );
+        }
+
+        if ($this->isTotals()) {
+            $this->_selectedColumns = $this->getAggregatedColumns();
+        }
+
+        if ($this->isSubTotals()) {
+            $this->_selectedColumns = $this->getAggregatedColumns() + array('period' => $this->_periodFormat);
+        }
+
+        return $this->_selectedColumns;
+    }
+
     /**
      * Add selected data
      *
@@ -53,24 +86,19 @@ class Mage_Sales_Model_Mysql4_Report_Shipping_Collection_Order extends Mage_Sale
      */
     protected  function _initSelect()
     {
-        if ('month' == $this->_period) {
-            $period = 'DATE_FORMAT(period, \'%Y-%m\')';
-        } elseif ('year' == $this->_period) {
-            $period = 'EXTRACT(YEAR FROM period)';
-        } else {
-            $period = 'period';
-        }
+        $this->getSelect()->from($this->getResource()->getMainTable() , $this->_getSelectedColumns());
 
-        $this->getSelect()->from($this->getResource()->getMainTable() , array(
-            'period'                => $period,
-            'shipping_description',
-            'orders_count'          => 'SUM(orders_count)',
-            'total_shipping'        => 'SUM(total_shipping)'
-        ))
-        ->group(array(
-            $period,
-            'shipping_description'
-        ));
+        if (!$this->isTotals() && !$this->isSubTotals()) {
+            $this->getSelect()->group(array(
+                $this->_periodFormat,
+                'shipping_description'
+            ));
+        }
+        if ($this->isSubTotals()) {
+            $this->getSelect()->group(array(
+                $this->_periodFormat
+            ));
+        }
         return $this;
     }
 }

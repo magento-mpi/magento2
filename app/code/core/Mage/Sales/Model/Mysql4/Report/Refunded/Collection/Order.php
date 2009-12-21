@@ -33,6 +33,9 @@
  */
 class Mage_Sales_Model_Mysql4_Report_Refunded_Collection_Order extends Mage_Sales_Model_Mysql4_Report_Collection_Abstract
 {
+    protected $_periodFormat;
+    protected $_selectedColumns = array();
+
     /**
      * Initialize custom resource model
      *
@@ -46,6 +49,34 @@ class Mage_Sales_Model_Mysql4_Report_Refunded_Collection_Order extends Mage_Sale
         $this->setConnection($this->getResource()->getReadConnection());
     }
 
+    protected function _getSelectedColumns()
+    {
+        if ('month' == $this->_period) {
+            $this->_periodFormat = 'DATE_FORMAT(period, \'%Y-%m\')';
+        } elseif ('year' == $this->_period) {
+            $this->_periodFormat = 'EXTRACT(YEAR FROM period)';
+        } else {
+            $this->_periodFormat = 'period';
+        }
+
+        if (!$this->isTotals()) {
+            $this->_selectedColumns = array(
+                'period'            => $this->_periodFormat,
+                'orders_count'      => 'SUM(orders_count)',
+                'refunded'          => 'SUM(refunded)',
+                'online_refunded'   => 'SUM(online_refunded)',
+                'offline_refunded'  => 'SUM(offline_refunded)'
+            );
+        }
+
+        if ($this->isTotals()) {
+            $this->_selectedColumns = $this->getAggregatedColumns();
+        }
+
+        return $this->_selectedColumns;
+
+    }
+
     /**
      * Add selected data
      *
@@ -53,22 +84,10 @@ class Mage_Sales_Model_Mysql4_Report_Refunded_Collection_Order extends Mage_Sale
      */
     protected  function _initSelect()
     {
-        if ('month' == $this->_period) {
-            $period = 'DATE_FORMAT(period, \'%Y-%m\')';
-        } elseif ('year' == $this->_period) {
-            $period = 'EXTRACT(YEAR FROM period)';
-        } else {
-            $period = 'period';
+        $this->getSelect()->from($this->getResource()->getMainTable() , $this->_getSelectedColumns());
+        if (!$this->isTotals()) {
+            $this->getSelect()->group($this->_periodFormat);
         }
-
-        $this->getSelect()->from($this->getResource()->getMainTable() , array(
-            'period'            => $period,
-            'orders_count'      => 'SUM(orders_count)',
-            'refunded'          => 'SUM(refunded)',
-            'online_refunded'   => 'SUM(online_refunded)',
-            'offline_refunded'  => 'SUM(offline_refunded)'
-        ))
-        ->group($period);
         return $this;
     }
 }

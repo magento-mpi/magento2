@@ -35,6 +35,12 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
 {
     protected $_columnGroupBy = 'period';
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setCountTotals(true);
+    }
+
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'created_at_refunded')
@@ -45,17 +51,19 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'    => Mage::helper('sales')->__('Period'),
-            'index'     => 'period',
-            'type'      => 'string',
-            'width'     => 100,
-            'sortable'  => false
+            'header'        => Mage::helper('sales')->__('Period'),
+            'index'         => 'period',
+            'type'          => 'string',
+            'width'         => 100,
+            'sortable'      => false,
+            'totals_label'  => Mage::helper('adminhtml')->__('Total')
         ));
 
         $this->addColumn('orders_count', array(
             'header'    => Mage::helper('reports')->__('Number of Refunded Orders'),
             'index'     => 'orders_count',
             'type'      => 'number',
+            'total'     => 'sum',
             'sortable'  => false
         ));
 
@@ -69,6 +77,7 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
             'type'          => 'currency',
             'currency_code' => $currency_code,
             'index'         => 'refunded',
+            'total'         => 'sum',
             'sortable'      => false
         ));
 
@@ -77,6 +86,7 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
             'type'          => 'currency',
             'currency_code' => $currency_code,
             'index'         => 'online_refunded',
+            'total'         => 'sum',
             'sortable'      => false
         ));
 
@@ -85,6 +95,7 @@ class Mage_Adminhtml_Block_Report_Sales_Refunded_Grid extends Mage_Adminhtml_Blo
             'type'          => 'currency',
             'currency_code' => $currency_code,
             'index'         => 'offline_refunded',
+            'total'         => 'sum',
             'sortable'      => false
         ));
 

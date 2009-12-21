@@ -50,6 +50,11 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Core_Model_Mysql4_Abs
         $this->_aggregateByOrderCreatedAt($from, $to);
         $this->_aggregateByRefundCreatedAt($from, $to);
 
+        $reportsFlagModel = Mage::getModel('reports/flag');
+        $reportsFlagModel->setReportFlagCode(Mage_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE);
+        $reportsFlagModel->loadSelf();
+        $reportsFlagModel->save();
+
         return $this;
     }
 
