@@ -43,16 +43,10 @@
 
             this.formAction = this.productForm.action;
 
-            // Fix for the SID issue
             var baseUrl = '<?php echo $this->getUrl('*/product/upload') ?>';
-            var sidPos = baseUrl.indexOf('/?SID=');
-            var sid = '';
-            if(sidPos > -1) {
-                sid = '?' + baseUrl.substring(sidPos + 2);
-                baseUrl = baseUrl.substring(0,sidPos + 1);
-            }
-            this.productForm.action = baseUrl+'option_id/'+element.readAttribute('id').sub('option_', '')+sid;
+            var urlExt = 'option_id/'+element.readAttribute('id').sub('option_', '');
 
+            this.productForm.action = parseSidUrl(baseUrl, urlExt);
             this.productForm.target = 'upload_target';
             this.productForm.submit();
             this.productForm.target = '';
