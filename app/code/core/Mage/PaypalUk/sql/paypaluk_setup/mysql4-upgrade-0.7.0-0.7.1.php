@@ -67,40 +67,40 @@ $paymentsCount = $connection->fetchOne("
 $connection->beginTransaction();
 try {
 
-	/* process payment attributes*/
-	for ($i=0; $i<=$paymentsCount; $i+=$processingItemsCountForOneIteration) {
-	
-		/* get payment ids for current iteration*/
-		$currentPaymentIds = $installer->getConnection()->fetchCol("
-	        SELECT entity_id 
-	        FROM {$this->getTable('sales_order_entity_varchar')} 
-	        WHERE attribute_id = {$attributesIds['method']} and value in ({$methodIds})
-	        LIMIT {$i}, {$processingItemsCountForOneIteration};
-	    ");
+    /* process payment attributes*/
+    for ($i=0; $i<=$paymentsCount; $i+=$processingItemsCountForOneIteration) {
+    
+        /* get payment ids for current iteration*/
+        $currentPaymentIds = $installer->getConnection()->fetchCol("
+            SELECT entity_id 
+            FROM {$this->getTable('sales_order_entity_varchar')} 
+            WHERE attribute_id = {$attributesIds['method']} and value in ({$methodIds})
+            LIMIT {$i}, {$processingItemsCountForOneIteration};
+        ");
 
         if (!count($currentPaymentIds)) {
             continue;
         }
-	        
-	    $currentPaymentIdsCondition = implode(',', $currentPaymentIds);
-	    
-	    /* get data for current payment ids*/
-	    $data = $installer->getConnection()->fetchAll("
-	        SELECT
-				e.entity_id,
-				ev_additional_data.value as additional_data
-			FROM {$this->getTable('sales_order_entity')} as e
-			LEFT JOIN {$this->getTable('sales_order_entity_text')} as ev_additional_data on (ev_additional_data.entity_id = e.entity_id and ev_additional_data.attribute_id = {$attributesIds['additional_data']})
-			WHERE e.entity_id in ({$currentPaymentIdsCondition})
-	    ");
-			
-		/* prepare query data items */
-		$insertQueryItems = array();
-		foreach ($data as $item) {
-	        if ($item['additional_data'] != '') {
-	            $additionalInformationFields = array();
-	        	$additionalInformationFields['payer_email'] = $item['additional_data']; 
-	            $additionalInformation = serialize($additionalInformationFields);
+            
+        $currentPaymentIdsCondition = implode(',', $currentPaymentIds);
+        
+        /* get data for current payment ids*/
+        $data = $installer->getConnection()->fetchAll("
+            SELECT
+                e.entity_id,
+                ev_additional_data.value as additional_data
+            FROM {$this->getTable('sales_order_entity')} as e
+            LEFT JOIN {$this->getTable('sales_order_entity_text')} as ev_additional_data on (ev_additional_data.entity_id = e.entity_id and ev_additional_data.attribute_id = {$attributesIds['additional_data']})
+            WHERE e.entity_id in ({$currentPaymentIdsCondition})
+        ");
+            
+        /* prepare query data items */
+        $insertQueryItems = array();
+        foreach ($data as $item) {
+            if ($item['additional_data'] != '') {
+                $additionalInformationFields = array();
+                $additionalInformationFields['paypal_payer_email'] = $item['additional_data']; 
+                $additionalInformation = serialize($additionalInformationFields);
 
                 $insertQueryItems[] = array(
                     $entityTypeId,
@@ -108,19 +108,19 @@ try {
                     $item['entity_id'],
                     $additionalInformation
                 ); 
-	        }
-		}	
+            }
+        }
 
         if (!count($insertQueryItems)) {
             continue;
         }
-		
-	    $connection->insertArray(
-	        $this->getTable('sales_order_entity_text'),
-	        array('entity_type_id', 'attribute_id', 'entity_id', 'value'),
-	        $insertQueryItems
-	    );             
-    }   
+        
+        $connection->insertArray(
+            $this->getTable('sales_order_entity_text'),
+            array('entity_type_id', 'attribute_id', 'entity_id', 'value'),
+            $insertQueryItems
+        );             
+    }
 
 } catch (Exception $e) {
     $connection->rollBack();
