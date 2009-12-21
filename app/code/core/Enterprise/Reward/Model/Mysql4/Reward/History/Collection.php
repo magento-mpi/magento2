@@ -78,12 +78,12 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Mage_Core
     /**
      * Add filter by website id
      *
-     * @param integer $websiteId
+     * @param integer|array $websiteId
      * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
      */
     public function addWebsiteFilter($websiteId)
     {
-        $this->getSelect()->where('main_table.website_id = ?', $websiteId);
+        $this->getSelect()->where(is_array($websiteId) ? 'main_table.website_id IN (?)' : 'main_table.website_id = ?', $websiteId);
         return $this;
     }
 

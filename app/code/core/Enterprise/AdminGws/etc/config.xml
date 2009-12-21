@@ -369,6 +369,8 @@
                     <widget__widget_instance_collection>addStoreFilter</widget__widget_instance_collection>
                     <enterprise_banner__banner_collection>addStoreFilter</enterprise_banner__banner_collection>
                     <enterprise_customersegment__segment_collection>limitCustomerSegments</enterprise_customersegment__segment_collection>
+                    <enterprise_reward__reward_history_collection>limitRewardHistoryWebsites</enterprise_reward__reward_history_collection>
+                    <enterprise_reward__reward_collection>limitRewardBalanceWebsites</enterprise_reward__reward_collection>
                 </collection_load_before>
                 <model_save_before>
                     <cms__page>cmsPageSaveBefore</cms__page>

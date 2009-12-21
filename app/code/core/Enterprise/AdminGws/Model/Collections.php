@@ -145,6 +145,26 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     }
 
     /**
+     * Limit Reward Points history collection
+     *
+     * @param Enterprise_Reward_Model_Mysql4_Reward_History_Collection $collection
+     */
+    public function limitRewardHistoryWebsites($collection)
+    {
+        $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
+    }
+
+    /**
+     * Limit Reward Points balance collection
+     *
+     * @param Enterprise_Reward_Model_Mysql4_Reward_Collection $collection
+     */
+    public function limitRewardBalanceWebsites($collection)
+    {
+        $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
+    }
+
+    /**
      * Limit store credit collection
      *
      * @param Enterprise_CustomerBalance_Model_Mysql4_Balance_Collection $collection
