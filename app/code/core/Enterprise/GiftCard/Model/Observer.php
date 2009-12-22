@@ -211,6 +211,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             'balance'                => $balance,
                             'is_multiple_codes'      => 1 < $goodCodes,
                             'store'                  => $order->getStore(),
+                            'store_name'             => $order->getStore()->getName(),
                             'is_redeemable'          => $isRedeemable,
                         );
 
