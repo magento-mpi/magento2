@@ -35,7 +35,31 @@
 class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Template
 {
     /**
-     * Getter
+     * Preparing global layout
+     *
+     * @return Mage_Core_Block_Abstract
+     */
+    protected function _prepareLayout()
+    {
+        $pager = $this->getLayout()->createBlock('page/html_pager', 'reward.history.pager')
+            ->setCollection($this->getRewardHistory());
+        $this->setChild('pager', $pager);
+
+        return parent::_prepareLayout();
+    }
+
+    /**
+     * Pager HTML getter
+     *
+     * @return string
+     */
+    public function getPagerHtml()
+    {
+        return $this->getChildHtml('pager');
+    }
+
+    /**
+     * Customer ID getter
      *
      * @return integer
      */
@@ -62,11 +86,14 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
      */
     public function getRewardHistory()
     {
-        $collection = Mage::getModel('enterprise_reward/reward_history')
-            ->getCollection()
-            ->addCustomerFilter($this->getCustomerId())
-            ->addWebsiteFilter(Mage::app()->getWebsite()->getId())
-            ->setOrder('created_at', 'DESC');
-        return $collection;
+        if (! $this->getCollection()) {
+            $this->setCollection(Mage::getModel('enterprise_reward/reward_history')
+                ->getCollection()
+                ->addCustomerFilter($this->getCustomerId())
+                ->addWebsiteFilter(Mage::app()->getWebsite()->getId())
+                ->setOrder('created_at', 'DESC'));
+        }
+
+        return $this->getCollection();
     }
 }

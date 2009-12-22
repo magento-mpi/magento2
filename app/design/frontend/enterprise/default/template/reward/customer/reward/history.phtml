@@ -24,6 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
+    <?php echo $this->getPagerHtml() ?>
     <h3 class="table-caption"><?php echo Mage::helper('enterprise_reward')->__('Balance History'); ?></h3>
     <table id="reward-history" class="data-table">
         <col width="120" />
@@ -53,3 +54,4 @@
         </tbody>
     </table>
     <script type="text/javascript">decorateTable('reward-history')</script>
+    <?php echo $this->getPagerHtml() ?>
