@@ -96,6 +96,16 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                         Mage::throwException(Mage::helper('catalogrule')->__('Wrong rule specified.'));
                     }
                 }
+                
+                $validateResult = $model->validateData(new Varien_Object($data));
+                if ($validateResult !== true) {
+                    foreach($validateResult as $errorMessage) {
+                        $this->_getSession()->addError($errorMessage);
+                    }
+                    $this->_redirect('*/*/edit', array('id'=>$model->getId()));
+                    return;
+                }
+                
                 $data['conditions'] = $data['rule']['conditions'];
                 unset($data['rule']);
 
