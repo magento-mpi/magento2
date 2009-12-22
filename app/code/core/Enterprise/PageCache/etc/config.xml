@@ -120,15 +120,6 @@
             </requests>
             <catalog></catalog>
         </cache>
-        <routers>
-            <enterprise_customerbalance>
-                <use>standard</use>
-                <args>
-                    <module>Enterprise_PageCache</module>
-                    <frontName>pagecache</frontName>
-                </args>
-            </enterprise_customerbalance>
-        </routers>
     </frontend>
     <default>
         <system>
