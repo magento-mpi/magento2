@@ -234,7 +234,6 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
                 $select->group(array(
                     'period',
-                    'store_id',
                     'order_status',
                     'coupon_code'
                 ));
@@ -330,7 +329,6 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
                 $select->group(array(
                     'period',
-                    'store_id',
                     'order_status',
                     'coupon_code'
                 ));

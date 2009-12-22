@@ -180,7 +180,10 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
                     $select->where("DATE(period) IN(?)", $subQuery);
                 }
 
-                $select->group(new Zend_Db_Expr('1,2,3'));
+                $select->group(array(
+                    'period',
+                    'order_status'
+                ));
 
             $writeAdapter->query("
                 INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}

@@ -112,7 +112,11 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
                     $select->where("DATE(period) IN(?)", $subQuery);
                 }
 
-                $select->group(new Zend_Db_Expr('1,2,3,4'));
+                $select->group(array(
+                    'period',
+                    'code',
+                    'order_status'
+                ));
 
             $writeAdapter->query("
                 INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}

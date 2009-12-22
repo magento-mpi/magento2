@@ -132,7 +132,6 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Core_Model_Mysql4_Abs
 
                 $select->group(array(
                     'period',
-                    'store_id',
                     'order_status',
                     'shipping_description'
                 ));
@@ -237,7 +236,6 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Core_Model_Mysql4_Abs
 
                 $select->group(array(
                     'period',
-                    'store_id',
                     'order_status',
                     'shipping_description'
                 ));

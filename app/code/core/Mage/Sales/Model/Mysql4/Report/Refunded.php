@@ -135,7 +135,6 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Core_Model_Mysql4_Abs
 
                 $select->group(array(
                     'period',
-                    'store_id',
                     'order_status'
                 ));
 
@@ -243,7 +242,6 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Core_Model_Mysql4_Abs
 
                 $select->group(array(
                     'period',
-                    'store_id',
                     'order_status'
                 ));
 
