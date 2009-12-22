@@ -18,40 +18,64 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Varien
- * @package    Varien_Object
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @category   Mage
+ * @package    Mage_Connect
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+* Class config
+*
+* @category   Mage
+* @package    Mage_Connect
+* @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+* @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
 class Maged_Model_Config extends Maged_Model
 {
+
+    /**
+    * Save post data to config
+    *
+    * @param array $p
+    * @return Maged_Model_Config
+    */
     public function saveConfigPost($p)
     {
         $configParams = array(
+            'protocol',
             'preferred_state',
             'use_custom_permissions_mode',
             'mkdir_mode',
             'chmod_file_mode',
-            'chmod_file_mode_executable'
+            'magento_root',
+            'root_channel'
         );
-
         foreach ($configParams as $paramName){
             if (isset($p[$paramName])) {
                $this->set($paramName, $p[$paramName]);
             }
         }
-        
-        //$this->set('mage_dir', $p['mage_dir']);
         $this->save();
         return $this;
     }
 
+    /**
+    * Retrive file name
+    *
+    * @return string
+    */
     public function getFilename()
     {
         return $this->controller()->filepath('config.ini');
     }
 
+    /**
+    * Load file
+    *
+    * @return Maged_Model_Config
+    */
     public function load()
     {
         if (!file_exists($this->getFilename())) {
@@ -76,6 +100,11 @@ class Maged_Model_Config extends Maged_Model
         return $this;
     }
 
+    /**
+    * Save file
+    *
+    * @return Maged_Model_Config
+    */
     public function save()
     {
         if (!is_writable($this->getFilename())) {
@@ -90,4 +119,5 @@ class Maged_Model_Config extends Maged_Model
         fclose($fp);
         return $this;
     }
+
 }

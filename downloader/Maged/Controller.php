@@ -18,20 +18,34 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Varien
- * @package    Varien_Object
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @category   Mage
+ * @package    Mage_Connect
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-include_once "Maged/Model.php";
-include_once "Maged/View.php";
-include_once "Maged/Exception.php";
+/**
+* Class Controller
+*
+* @category   Mage
+* @package    Mage_Connect
+* @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+* @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
 
 final class Maged_Controller
 {
+
+    /**
+    * Key of action
+    */
     const ACTION_KEY = 'A';
 
+    /**
+    * Instance of class
+    *
+    * @var Maged_Controller
+    */
     private static $_instance;
 
     private $_action;
@@ -49,24 +63,36 @@ final class Maged_Controller
 
     //////////////////////////// ACTIONS
 
+    /**
+    * NoRoute
+    */
     public function norouteAction()
     {
         header("HTTP/1.0 404 Invalid Action");
         echo $this->view()->template('noroute.phtml');
     }
 
+    /**
+    * Login
+    */
     public function loginAction()
     {
         $this->view()->set('username', !empty($_GET['username']) ? $_GET['username'] : '');
         echo $this->view()->template('login.phtml');
     }
 
+    /**
+    * Logout
+    */
     public function logoutAction()
     {
         $this->session()->logout();
         $this->redirect($this->url());
     }
 
+    /**
+    * Index
+    */
     public function indexAction()
     {
         if (!$this->isInstalled()) {
@@ -74,11 +100,10 @@ final class Maged_Controller
                 echo $this->view()->template('install/writable.phtml');
             } else {
                 $this->view()->set('mage_url', dirname(dirname($_SERVER['SCRIPT_NAME'])));
-                
                 $this->view()->set('use_custom_permissions_mode', $this->config()->get('use_custom_permissions_mode'));
                 $this->view()->set('mkdir_mode', $this->config()->get('mkdir_mode'));
                 $this->view()->set('chmod_file_mode', $this->config()->get('chmod_file_mode'));
-                $this->view()->set('chmod_file_mode_executable', $this->config()->get('chmod_file_mode_executable'));
+                $this->view()->set('protocol', $this->config()->get('protocol'));
                 
                 echo $this->view()->template('install/download.phtml');
             }
@@ -86,123 +111,132 @@ final class Maged_Controller
             if (!$this->isWritable()) {
                 echo $this->view()->template('writable.phtml');
             } else {
-                $this->forward('pearPackages');
+                $this->forward('connectPackages');
             }
         }
     }
 
+    /**
+    * Empty Action
+        */
     public function emptyAction()
     {
-        $this->model('pear', true)->pear()->runHtmlConsole('Please wait, preparing for updates...');
+        $this->model('connect', true)->connect()->runHtmlConsole('Please wait, preparing for updates...');
     }
 
-    public function pearGlobalAction()
-    {
-        echo $this->view()->template('pear/global.phtml');
-    }
-
-    public function pearInstallAllAction()
+    /**
+    * Install all magento
+    */
+    public function connectInstallAllAction()
     {
         $this->config()->saveConfigPost($_POST);
-        $this->model('pear', true)->installAll(!empty($_GET['force']));
+        $chan = $this->config()->get('root_channel');
+        if(empty($chan)) {
+            $chan = 'core';
+        }
+        $this->model('connect', true)->saveConfigPost($_POST);
+        $this->model('connect', true)->installAll(!empty($_GET['force']), $chan);
     }
 
-    public function pearUpgradeAllAction()
+    /**
+    * Connect packages
+    */
+    public function connectPackagesAction()
     {
-        $this->model('pear', true)->upgradeAll();
+        $connect = $this->model('connect', true);
+        $this->view()->set('connect', $connect);
+        echo $this->view()->template('connect/packages.phtml');
     }
 
-    public function pearPackagesAction()
-    {
-        $pear = $this->model('pear', true);
-        $this->view()->set('pear', $pear);
-        $this->view()->set('channels', $pear->pear()->getMagentoChannels());
-        echo $this->view()->template('pear/packages.phtml');
-    }
-
-    public function pearPackagesPostAction()
+    /**
+    * Connect packages POST
+    */
+    public function connectPackagesPostAction()
     {
         $actions = isset($_POST['actions']) ? $_POST['actions'] : array();
-        $this->model('pear', true)->applyPackagesActions($actions);
+        $ignoreLocalModification = isset($_POST['ignore_local_modification'])?$_POST['ignore_local_modification']:'';
+        $this->model('connect', true)->applyPackagesActions($actions, $ignoreLocalModification);
     }
 
-    public function pearInstallPackagePostAction()
+    /**
+    * Install package
+    */
+    public function connectInstallPackagePostAction()
     {
         if (!$_POST) {
             echo "INVALID POST DATA";
             return;
         }
-        $this->model('pear', true)->installPackage($_POST['install_package_id']);
+        $this->model('connect', true)->installPackage($_POST['install_package_id']);
     }
 
-    public function distUpgradeAction()
-    {
-        $pear = $this->model('pear', true);
-        $this->view()->set('pear', $pear);
-        $this->view()->set('state', $pear->getPreferredState());
-        echo $this->view()->template('pear/dist.phtml');
-    }
-
-    public function distUpgradePostAction()
-    {
-        if (!$_POST) {
-            echo "INVALID POST DATA";
-            return;
-        }
-        $result = $this->model('pear', true)->distUpgrade($_POST['version']);
-    }
-
+    /**
+    * Settings
+    */
     public function settingsAction()
     {
-        $pearConfig = $this->model('pear', true)->pear()->getConfig();
-        $this->view()->set('state', $pearConfig->get('preferred_state'));
-        $this->view()->set('mage_dir', $pearConfig->get('mage_dir'));
-
+        $connectConfig = $this->model('connect', true)->connect()->getConfig();
+        $this->view()->set('preferred_state', $connectConfig->__get('preferred_state'));
+        $this->view()->set('protocol', $connectConfig->__get('protocol'));
         $this->view()->set('use_custom_permissions_mode', $this->config()->get('use_custom_permissions_mode'));
         $this->view()->set('mkdir_mode', $this->config()->get('mkdir_mode'));
         $this->view()->set('chmod_file_mode', $this->config()->get('chmod_file_mode'));
-        $this->view()->set('chmod_file_mode_executable', $this->config()->get('chmod_file_mode_executable'));
-                
+
         echo $this->view()->template('settings.phtml');
     }
 
+    /**
+    * Settings post
+    */
     public function settingsPostAction()
     {
         if ($_POST) {
             $this->config()->saveConfigPost($_POST);
-            $this->model('pear', true)->saveConfigPost($_POST);
+            $this->model('connect', true)->saveConfigPost($_POST);
         }
         $this->redirect($this->url('settings'));
     }
 
     //////////////////////////// ABSTRACT
 
+    /**
+    * Constructor
+    */
+    public function __construct()
+    {
+        $this->_rootDir = dirname(dirname(__FILE__));
+        $this->_mageDir = dirname($this->_rootDir);
+    }
+
+    /**
+    * Run
+    */
     public static function run()
     {
         try {
             self::singleton()->dispatch();
         } catch (Exception $e) {
-            echo self::singleton()->view()->set('exception', $e)->template("exception.phtml");
+            echo $e->getMessage();
+            //echo self::singleton()->view()->set('exception', $e)->template("exception.phtml");
         }
     }
 
+    /**
+    * Initialize object of class
+    *
+    * @return
+    */
     public static function singleton()
     {
         if (!self::$_instance) {
             self::$_instance = new self;
-            
+
             if (self::$_instance->isDownloaded() && self::$_instance->isInstalled()) {
                 Mage::app();
                 Mage::getSingleton('adminhtml/url')->turnOffSecretKey();
             }
         }
         return self::$_instance;
-    }
-
-    public function __construct()
-    {
-        $this->_rootDir = dirname(dirname(__FILE__));
-        $this->_mageDir = dirname($this->_rootDir);
     }
 
     public function getRootDir()
@@ -233,6 +267,11 @@ final class Maged_Controller
         return rtrim($this->getRootDir().$ds.str_replace('/', $ds, $name), $ds);
     }
 
+    /**
+    * Retrieve object of view
+    *
+    * @return Maged_View
+    */
     public function view()
     {
         if (!$this->_view) {
@@ -241,6 +280,13 @@ final class Maged_Controller
         return $this->_view;
     }
 
+    /**
+    * Retrieve object of model
+    *
+    * @param string $model
+    * @param boolean $singleton
+    * @return Maged_Model
+    */
     public function model($model=null, $singleton=false)
     {
         if ($singleton && isset($this->_singletons[$model])) {
@@ -265,6 +311,11 @@ final class Maged_Controller
         return $object;
     }
 
+    /**
+    * Retrieve object of config
+    *
+    * @return Maged_Model_Config
+    */
     public function config()
     {
         if (!$this->_config) {
@@ -273,6 +324,11 @@ final class Maged_Controller
         return $this->_config;
     }
 
+    /**
+    * Retrieve object of session
+    *
+    * @return Maged_Model_Session
+    */
     public function session()
     {
         if (!$this->_session) {
@@ -311,6 +367,11 @@ final class Maged_Controller
         return $this;
     }
 
+    /**
+    * Precess redirect
+    *
+    * @return Maged_Controller
+    */
     public function processRedirect()
     {
         if ($this->_redirectUrl) {
@@ -325,6 +386,12 @@ final class Maged_Controller
         return $this;
     }
 
+    /**
+    * Forward
+    *
+    * @param string $action
+    * @return Maged_Controller
+    */
     public function forward($action)
     {
         $this->setAction($action);
@@ -354,7 +421,7 @@ final class Maged_Controller
         $this->setAction();
 
         if (!$this->isWritable() || !$this->isInstalled()) {
-            if (!in_array($this->getAction(), array('index', 'pearInstallAll', 'empty'))) {
+            if (!in_array($this->getAction(), array('index', 'connectInstallAll', 'empty'))) {
                 $this->setAction('index');
             }
         } else {
@@ -376,9 +443,7 @@ final class Maged_Controller
         if (is_null($this->_writable)) {
             $this->_writable = is_writable($this->getMageDir() . DIRECTORY_SEPARATOR)
                 && is_writable($this->filepath())
-                && (!file_exists($this->filepath('config.ini') || is_writable($this->filepath('config.ini'))))
-                && (!file_exists($this->filepath('pearlib/config.ini') || is_writable($this->filepath('pearlib/pear.ini'))))
-                && is_writable($this->filepath('pearlib/php'));
+                && (!file_exists($this->filepath('config.ini') || is_writable($this->filepath('config.ini'))));
 
         }
         return $this->_writable;
@@ -396,17 +461,26 @@ final class Maged_Controller
             return false;
         }
         if (!class_exists('Mage', false)) {
+            if(!file_exists($this->getMageFilename())) {
+                return false;                
+            }
             include_once $this->getMageFilename();
             Mage::setIsDownloader();
-        }
+        } 
         return Mage::isInstalled();
     }
 
+    /**
+    * Begin install package
+    */
     public function startInstall()
     {
-
+		
     }
 
+    /**
+    * End install package
+    */
     public function endInstall()
     {
         try {
@@ -418,4 +492,35 @@ final class Maged_Controller
             $this->session()->addMessage('error', "Exception during cache and session cleaning: ".$e->getMessage());
         }
     }
+    
+    
+    public function connectInstallPackageUploadAction()
+    {
+    	if (!$_FILES) {
+            echo "No file was uploaded";
+            return;
+        }
+        
+        if(empty($_FILES['file'])) {
+        	echo "No file was uploaded";
+        	return;
+        }
+        
+        $info =& $_FILES['file'];
+        
+        if(0 !== intval($info['error'])) {
+        	echo "File upload problem";
+        	return;
+        }
+        
+        $target = "var/".uniqid().$info['name'];
+        $res = move_uploaded_file($info['tmp_name'], $target);
+        if(false === $res) {
+        	echo "Error moving uploaded file";
+        	return;	
+        }
+        
+        $this->model('connect', true)->installUploadedPackage($target);
+        @unlink($target);
+	}
 }
