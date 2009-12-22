@@ -153,8 +153,9 @@ WysiwygWidget.Widget.prototype = {
             return;
         }
 
-        if ($(this.getOptionsContainerId()) != undefined) {
-            this.switchOptionsContainer(this.getOptionsContainerId());
+        var optionsContainerId = this.getOptionsContainerId();
+        if ($(optionsContainerId) != undefined) {
+            this.switchOptionsContainer(optionsContainerId);
             return;
         }
 
@@ -168,7 +169,11 @@ WysiwygWidget.Widget.prototype = {
                     try {
                         widgetTools.onAjaxSuccess(transport);
                         this.switchOptionsContainer();
-                        this.widgetOptionsEl.insert({bottom: widgetTools.getDivHtml(this.getOptionsContainerId(), transport.responseText)});
+                        if ($(optionsContainerId) == undefined) {
+                            this.widgetOptionsEl.insert({bottom: widgetTools.getDivHtml(optionsContainerId, transport.responseText)});
+                        } else {
+                            this.switchOptionsContainer(optionsContainerId);
+                        }
                     } catch(e) {
                         alert(e.message);
                     }
