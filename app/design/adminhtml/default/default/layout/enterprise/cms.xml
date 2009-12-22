@@ -69,6 +69,9 @@
 -->
     <adminhtml_cms_page_revision_edit>
         <update handle="editor"/>
+        <reference name="head">
+            <action method="addJs"><script>enterprise/adminhtml/cms.js</script></action>
+        </reference>
         <reference name="content">
             <block type="enterprise_cms/adminhtml_cms_page_revision_edit" name="cms_page_revision_edit">
                 <block type="enterprise_cms/adminhtml_cms_page_revision_edit_info" name="revision_info" template="enterprise/cms/page/revision/info.phtml" />
