@@ -74,8 +74,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
             $this->removeButton('delete');
         }
 
-        // Only owner and publisher can save revision
-        if ($isOwner || $isPublisher) {
+        // Only owner and publisher can save version
+        if (($isOwner || $isPublisher) && $config->canCurrentUserSaveVersion()) {
             $this->_addButton('saveandcontinue', array(
                 'label'     => Mage::helper('enterprise_cms')->__('Save and Continue Edit'),
                 'onclick'   => "editForm.submit($('edit_form').action+'back/edit/');",
