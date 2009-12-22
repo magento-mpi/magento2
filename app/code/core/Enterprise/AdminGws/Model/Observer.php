@@ -476,7 +476,9 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
                  * but it will be initialized faster without __autoload calls.
                  */
                 //if (class_exists($className, false)) {
-                $this->_callbacks[$callbackGroup][$className] = $this->_recognizeCallbackString($callback);
+                if ($className) {
+                    $this->_callbacks[$callbackGroup][$className] = $this->_recognizeCallbackString($callback);
+                }
                 //}
             }
         }
