@@ -33,11 +33,11 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfig('customer/enterprise_customersegment/is_enabled') == 1;
+        return (bool)Mage::getStoreConfig('customer/enterprise_customersegment/is_enabled');
     }
 
     /**
-     * Retrieve options array
+     * Retrieve options array for customer segment view mode
      *
      * @return array
      */
@@ -60,7 +60,7 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Return translated Label for option
+     * Return translated Label for option by specified option code
      *
      * @param string $code Option code
      * @return string

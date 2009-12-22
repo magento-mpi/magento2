@@ -223,10 +223,10 @@
     </frontend>
 
     <default>
-            <customer>
-                <enterprise_customersegment>
-                    <is_enabled>1</is_enabled>
-                </enterprise_customersegment>
-            </customer>
+        <customer>
+            <enterprise_customersegment>
+                <is_enabled>1</is_enabled>
+            </enterprise_customersegment>
+        </customer>
     </default>
 </config>
