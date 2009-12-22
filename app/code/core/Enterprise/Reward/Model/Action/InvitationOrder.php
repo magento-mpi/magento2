@@ -34,6 +34,17 @@
 class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_Model_Action_Abstract
 {
     /**
+     * Retrieve points delta for action
+     *
+     * @param int $websiteId
+     * @return int
+     */
+    public function getPoints($websiteId)
+    {
+        return (int)Mage::helper('enterprise_reward')->getPointsConfig('invitation_order', $websiteId);
+    }
+
+    /**
      * Getter for invitation instance by order
      *
      * @return Varien_Object

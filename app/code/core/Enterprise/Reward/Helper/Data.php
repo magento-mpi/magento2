@@ -58,7 +58,7 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getConfigValue($section, $field, $websiteId = null)
     {
-        return Mage::app()->getConfig()->getNode($section . $field, 'website', $websiteId);
+        return Mage::app()->getConfig()->getNode($section . $field, 'website', (int)$websiteId);
     }
 
     /**

@@ -34,6 +34,17 @@
 class Enterprise_Reward_Model_Action_Review extends Enterprise_Reward_Model_Action_Abstract
 {
     /**
+     * Retrieve points delta for action
+     *
+     * @param int $websiteId
+     * @return int
+     */
+    public function getPoints($websiteId)
+    {
+        return (int)Mage::helper('enterprise_reward')->getPointsConfig('review', $websiteId);
+    }
+
+    /**
      * Return pre-configured limit of rewards for action
      *
      * @return int|string

@@ -82,11 +82,8 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
         parent::_afterLoadCollection();
         /* @var $item Enterprise_Reward_Model_Reward */
         foreach ($this->getCollection() as $item) {
-            $minBalance = Mage::app()->getConfig()->getNode(Enterprise_Reward_Model_Reward::XML_PATH_MIN_POINTS_BALANCE,
-                'website', (int)$item->getWebsiteId());
-
-            $maxBalance = Mage::app()->getConfig()->getNode(Enterprise_Reward_Model_Reward::XML_PATH_MAX_POINTS_BALANCE,
-                'website', (int)$item->getWebsiteId());
+            $minBalance = Mage::helper('enterprise_reward')->getGeneralConfig('min_points_balance', (int)$item->getWebsiteId());
+            $maxBalance = Mage::helper('enterprise_reward')->getGeneralConfig('max_points_balance', (int)$item->getWebsiteId());
 
             $item->addData(array(
                 'min_points_balance' => (int)$minBalance,

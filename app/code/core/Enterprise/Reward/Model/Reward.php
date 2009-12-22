@@ -288,20 +288,6 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     /**
      * Getter
      *
-     * @return Enterprise_Reward_Model_Reward_Config
-     */
-    public function getConfig()
-    {
-        if (!$this->getData('config')) {
-            $config = Mage::getModel('enterprise_reward/reward_config');
-            $this->setData('config', $config);
-        }
-        return $this->getData('config');
-    }
-
-    /**
-     * Getter
-     *
      * @return Enterprise_Reward_Model_Reward_History
      */
     public function getHistory()
@@ -398,7 +384,10 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     protected function _preparePointsDelta()
     {
         $delta = 0;
-        $delta = $this->getConfig()->getPointsDeltaByAction($this->getAction(), $this->getWebsiteId());
+        $action = $this->getActionInstance($this->getAction());
+        if ($action !== null) {
+            $delta = $action->getPoints($this->getWebsiteId());
+        }
         if ($delta) {
             if ($this->hasPointsDelta()) {
                 $delta = $delta + $this->getPointsDelta();

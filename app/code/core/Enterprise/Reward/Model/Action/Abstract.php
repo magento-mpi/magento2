@@ -52,6 +52,17 @@ class Enterprise_Reward_Model_Action_Abstract extends Varien_Object
     protected $_entity;
 
     /**
+     * Retrieve points delta for action
+     *
+     * @param int $websiteId
+     * @return int
+     */
+    public function getPoints($websiteId)
+    {
+        return 0;
+    }
+
+    /**
      * Check whether rewards can be added for action
      *
      * @return bool
