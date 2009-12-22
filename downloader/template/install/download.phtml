@@ -58,12 +58,22 @@
             <tr>
                 <td class="label">Use custom permissions:</td>
                 <td class="value">
-                    <select onchange="useCustomPermissions(this)" id="use_custom_permissions_mode" name="use_custom_permissions_mode" style="width:150px;">
+                    <select onchange="togglePanel(this)" id="use_custom_permissions_mode" name="use_custom_permissions_mode" style="width:150px;">
                         <option value="1" <?php if ($this->get('use_custom_permissions_mode')=='1'):?>selected="selected"<?php endif ?>>Yes</option>
                         <option value="0" <?php if ($this->get('use_custom_permissions_mode')=='0'):?>selected="selected"<?php endif ?>>No</option>
                     </select>
                 </td>
             </tr>          
+            <tr>
+                <td class="label">Installation protocol</td>
+                <td class="value">
+                    <select id="inst_protocol" onchange="togglePanel(this)" name="inst_protocol">
+                        <option value="0">Standard</option>
+                        <option value="1">FTP</option>
+                    </select>
+                </td>
+            </tr>
+            
         </table>
         <table cellspacing="0" class="form-list" id="use_custom_permissions_mode_panel" <?php if ($this->get('use_custom_permissions_mode')=='0'):?>style="display:none;"<?php endif ?>>
             <tr>
@@ -79,6 +89,30 @@
                 </td>
             </tr>
         </table>
+        <table cellspacing="0" style="display:none" class="form-list" id="inst_protocol_panel">
+            <tr>
+                <td class="label">User:</td>
+                <td class="value">
+                    <input type="text" id="ftp_user" value="" name="ftp_user" />
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="label">Password:</td>
+                <td class="value">
+                    <input type="password" id="ftp_pswd" value="" name="ftp_pswd" />
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="label">User:</td>
+                <td class="value">
+                    <input type="text" id="ftp_path" value="" name="ftp_path" />
+                </td>
+            </tr>
+            
+        </table>
+        
 
 <?php if (!$this->controller()->isDownloaded()): ?>
             <button class="form-button" type="submit">Start the download process</button>
@@ -111,14 +145,14 @@
 </div>
 
 <script>
-function useCustomPermissions (element)
+function togglePanel (element)
 {
     if (element.value == '1') {
         disabledMode = 'block';
     } else {
         disabledMode = 'none';
     }
-    document.getElementById('use_custom_permissions_mode_panel').style.display = disabledMode;
+    document.getElementById(element.id+'_panel').style.display = disabledMode;
 }
 </script>
 

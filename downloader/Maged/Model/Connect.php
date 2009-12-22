@@ -71,11 +71,14 @@ class Maged_Model_Connect extends Maged_Model
         $packages = array(
             'Mage_All_Latest',
         );
-        
+        $ftp = $this->get('ftp'); 
+        if(!empty($ftp))
+            $options['ftp'] = $ftp;
         $params = array();
         $connectConfig = $this->connect()->getConfig();
         //$uri = "var-dev.varien.com/dev/evgeniy.lamskoy/channels/channels/{$chanName}/";
-        $uri = "http://www.localhost.com/connect20-trunk/channel/channels/{$chanName}/";
+        //$uri = "http://connect2.0/channel/channels/{$chanName}/";
+        $uri = "http://connect20.local.net/channel/channels/{$chanName}/";
         $connectConfig->root_channel = $chanName;        
         foreach ($packages as $package) {
             $params[] = $uri;
@@ -320,6 +323,10 @@ class Maged_Model_Connect extends Maged_Model
     {
         $this->connect()->getConfig()->preferred_state = $p['preferred_state'];
         $this->connect()->getConfig()->protocol = $p['protocol'];
+        if( 1 == $p['inst_protocol'])
+            $this->set('ftp',sprintf("%s:%s@%s", $p['ftp_user'],$p['ftp_pswd'],$p['ftp_path']));
+        else
+            $this->set('ftp', false);
         /*        $result1 = $this->connect()->run('config-set', array(), array('preferred_state', $p['preferred_state']));
          $result2 = $this->connect()->run('config-set', array(), array('protocol', $p['protocol']));
          $noError = $result1 && $result2;
