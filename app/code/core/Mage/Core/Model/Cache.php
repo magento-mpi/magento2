@@ -70,7 +70,7 @@ class Mage_Core_Model_Cache
      * @var array
      */
     protected $_defaultBackendOptions = array(
-        'hashed_directory_level'    => 0,
+        'hashed_directory_level'    => 1,
         'hashed_directory_umask'    => 0777,
         'file_name_prefix'          => 'mage',
     );
