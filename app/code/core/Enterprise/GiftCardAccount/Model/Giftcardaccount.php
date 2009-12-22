@@ -457,7 +457,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                 'code'          => $code,
                 'balance'       => $balance,
                 'store'         => $recipientStore,
-                'store_name'    => $recipientStore->getName()
+                'store_name'    => $recipientStore->getName()  // @deprecated after 1.4.0.0-beta1
             )
         );
 
