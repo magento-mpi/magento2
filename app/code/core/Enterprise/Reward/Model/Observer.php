@@ -247,12 +247,12 @@ class Enterprise_Reward_Model_Observer
     protected function _invitationToOrder($observer)
     {
         $order = $observer->getEvent()->getOrder();
-        /* @var $invitation Mage_Sales_Model_Order */
+        /* @var $order Mage_Sales_Model_Order */
 
         $reward = Mage::getModel('enterprise_reward/reward')
             ->setActionEntity($order)
-            ->setCustomerId($invitation->getCustomerId())
-            ->setStore($invitation->getStoreId())
+            ->setCustomerId($order->getCustomerId())
+            ->setStore($order->getStoreId())
             ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_ORDER)
             ->updateRewardPoints();
 
