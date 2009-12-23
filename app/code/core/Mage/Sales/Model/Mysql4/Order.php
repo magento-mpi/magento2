@@ -132,7 +132,7 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
                 'order_status'              => 'e.status',
                 'orders_count'              => 'COUNT(e.entity_id)',
                 'total_qty_ordered'         => 'SUM(oa.total_qty)',
-                'base_profit_amount'        => 'SUM(e.base_total_paid * e.base_to_global_rate) - SUM(e.base_total_refunded * e.base_to_global_rate) - SUM(e.base_total_invoiced_cost * e.base_to_global_rate)',
+                'base_profit_amount'        => 'SUM(IFNULL(e.base_subtotal_invoiced, 0) * e.base_to_global_rate) + SUM(IFNULL(e.base_discount_refunded, 0) * e.base_to_global_rate) - SUM(IFNULL(e.base_subtotal_refunded, 0) * e.base_to_global_rate) - SUM(IFNULL(e.base_discount_invoiced, 0) * e.base_to_global_rate) - SUM(IFNULL(e.base_total_invoiced_cost, 0) * e.base_to_global_rate)',
                 'base_subtotal_amount'      => 'SUM(e.base_subtotal * e.base_to_global_rate)',
                 'base_tax_amount'           => 'SUM(e.base_tax_amount * e.base_to_global_rate)',
                 'base_shipping_amount'      => 'SUM(e.base_shipping_amount * e.base_to_global_rate)',
