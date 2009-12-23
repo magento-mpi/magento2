@@ -92,6 +92,29 @@ class Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection extends Mage_Sal
         return $this;
     }
 
+    /**
+     * Apply order status filter
+     *
+     * @return Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection
+     */
+    protected function _applyOrderStatusFilter()
+    {
+        if (is_null($this->_orderStatus)) {
+            return $this;
+        }
+        $orderStatus = $this->_orderStatus;
+        if (!is_array($orderStatus)) {
+            $orderStatus = array($orderStatus);
+        }
+        $this->getSelect()->where('status IN(?)', $orderStatus);
+        return $this;
+    }
+
+    /**
+     * Retrieve array of columns to select
+     *
+     * @return array
+     */
     protected function _getSelectedColumns()
     {
         if (!$this->isTotals()) {
