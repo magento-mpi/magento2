@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
 
 
         if ($element->getValue()) {
-            $page = Mage::getModel('cms/page')->load($element->getValue());
+            $page = Mage::getModel('cms/page')->load((int)$element->getValue());
             if ($page->getId()) {
                 $chooser->setLabel($page->getTitle());
             }
