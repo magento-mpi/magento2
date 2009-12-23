@@ -4,7 +4,7 @@
         <system>
             <groups>
                 <page_cache translate="label">
-                    <label>Full Page Cache</label>
+                    <label>Full Page Cache Settings</label>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -19,43 +19,62 @@
                             <show_in_store>1</show_in_store>
                         </lifetime>
                         <allowed_depth translate="label">
-                            <label>Maximum Allowed Depth</label>
+                            <label>Maximum Allowed Page Depth</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Depth calculated based on page parameters count (category.html - depth 0, category.html?p=2 - depth 1)</comment>
+                            <comment>Page depth calculated based on page parameters count (category.html - depth 0, category.html?p=2 - depth 1)</comment>
                         </allowed_depth>
-                        <crowler_enable translate="label">
-                            <label>Enable Pages Crawling</label>
+                        <multicurrency translate="label">
+                            <label>Enable Cache For Not Default Currencies</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </crowler_enable>
-                        <time translate="label">
-                            <label>Crawler Start Time</label>
-                            <frontend_type>time</frontend_type>
-                            <sort_order>40</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </time>
-                        <frequency translate="label">
-                            <label>Crawling Frequency</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_cron_frequency</source_model>
-                            <backend_model>adminhtml/system_config_backend_log_cron</backend_model>
-                            <sort_order>50</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </frequency>
+                        </multicurrency>
                     </fields>
                 </page_cache>
+                <page_crawl>
+                    <label>Full Page Cache Auto Generation</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>700</sort_order>
+                    <fields>
+                        <enable translate="label">
+                            <label>Enable Pages Cache Auto Generation</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable>
+                        <threads translate="label,comment">
+                            <label>Crawler Threads Number</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Number of paralel requests for cache auto generation process.</comment>
+                        </threads>
+                        <multicurrency translate="label,comment">
+                            <label>Generate Pages Cache For Not Default Currencies</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Require enable cache for not default currencies.</comment>
+                        </multicurrency>
+                    </fields>
+                </page_crawl>
             </groups>
         </system>
     </sections>

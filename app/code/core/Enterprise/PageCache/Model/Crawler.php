@@ -26,18 +26,17 @@
 
 class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
 {
+    const XML_PATH_CRAWLER_ENABLED     = 'system/page_crawl/enable';
+    const XML_PATH_CRAWLER_THREADS     = 'system/page_crawl/threads';
+    const XML_PATH_CRAWL_MULTICURRENCY = 'system/page_crawl/multicurrency';
+
+
     const USER_AGENT = 'MagentoCrawler';
-    
+
     protected function _construct()
     {
         $this->_init('enterprise_pagecache/crawler');
     }
-    /**
-     * 1. Get Url Content
-     * 2. Get links from page
-     * 3. depth
-     * 4.
-     */
 
     /**
      * Get internal links from page content
@@ -58,46 +57,98 @@ class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Fetch Page content by url
-     * 
-     * @param string $url
-     * @return string
+     * Get configuration for stores base urls.
+     * array(
+     *  $index => array(
+     *      'store_id'  => $storeId,
+     *      'base_url'  => $url,
+     *      'cookie'    => $cookie
+     *  )
+     * )
+     * @return array
      */
-    public function fetchUrl($url)
+    public function getStoresInfo()
     {
-        $buffer = file_get_contents($url);
-        return $buffer;
-    }
+        $baseUrls = array();
 
-    public function crawl()
-    {
-        $stmt = $this->_getResource()->getUrlStmt();
-        $urls = array();
-        $urlsCount = 0;
-        $totalCount = 0;
-        $adapter = new Varien_Http_Adapter_Curl();
-        $options = array(
-            CURLOPT_USERAGENT => self::USER_AGENT,
-        );
+        foreach (Mage::app()->getStores() as $store) {
+            $website = Mage::app()->getWebsite($store->getWebsiteId());
+            $defaultWebsiteStore = $website->getDefaultStore();
+            $defaultWebsiteBaseUrl      = $defaultWebsiteStore->getBaseUrl();
+            $defaultWebsiteBaseCurrency = $defaultWebsiteStore->getDefaultCurrencyCode();
 
-        $start = microtime(true);
-        while ($row = $stmt->fetch()) {
-            $urls[] = Mage::app()->getStore($row['store_id'])->getBaseUrl().$row['request_path'];
-            $options[CURLOPT_COOKIE] = 'store='.Mage::app()->getStore($row['store_id'])->getCode();
-            $urlsCount++;
-            $totalCount++;
-            if ($urlsCount==5) {
-                $batchStart = microtime(true);
-                $adapter->multiRequest($urls, $options);
-                $batchEnd = microtime(true);
-                Mage::log('Batch Run Time:'.($batchEnd-$batchStart));
-                $urlsCount = 0;
-                $urls = array();
+            $baseUrl            = Mage::app()->getStore($store)->getBaseUrl();
+            $defaultCurrency    = Mage::app()->getStore($store)->getDefaultCurrencyCode();
+
+            $cookie = '';
+            if (($baseUrl == $defaultWebsiteBaseUrl) && ($defaultWebsiteStore->getId() != $store->getId())) {
+                $cookie = 'store='.$store->getCode().';';
             }
-            if ($totalCount>1000) {
-                Mage::log('TOTAL Time:'.(microtime(true) -  $start));
-                die();
+
+            $baseUrls[] = array(
+                'store_id' => $store->getId(),
+                'base_url' => $baseUrl,
+                'cookie'   => $cookie,
+            );
+            if ($store->getConfig(self::XML_PATH_CRAWL_MULTICURRENCY)
+                && $store->getConfig(Enterprise_PageCache_Model_Processor::XML_PATH_CACHE_MULTICURRENCY)) {
+                $currencies = $store->getAvailableCurrencyCodes(true);
+                foreach ($currencies as $currencyCode) {
+                    if ($currencyCode != $defaultCurrency) {
+                        $baseUrls[] = array(
+                            'store_id' => $store->getId(),
+                            'base_url' => $baseUrl,
+                            'cookie'   => $cookie.'currency='.$currencyCode.';'
+                        );
+                    }
+                }
             }
         }
+        return $baseUrls;
+    }
+
+    /**
+     * Crawl all system urls
+     * @return Enterprise_PageCache_Model_Crawler
+     */
+    public function crawl()
+    {
+        $storesInfo = $this->getStoresInfo();
+        $adapter = new Varien_Http_Adapter_Curl();
+
+        foreach ($storesInfo as $info) {
+            $options    = array(CURLOPT_USERAGENT => self::USER_AGENT);
+            $storeId    = $info['store_id'];
+
+            if (!Mage::app()->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_ENABLED)) {
+                continue;
+            }
+            $threads = (int)Mage::app()->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_THREADS);
+            if (!$threads) {
+                $threads = 1;
+            }
+            $stmt       = $this->_getResource()->getUrlStmt($storeId);
+            $baseUrl    = $info['base_url'];
+            if (!empty($info['cookie'])) {
+                $options[CURLOPT_COOKIE] = $info['cookie'];
+            }
+            $urls = array();
+            $urlsCount = 0;
+            $totalCount = 0;
+            while ($row = $stmt->fetch()) {
+                $urls[] = $baseUrl.$row['request_path'];
+                $urlsCount++;
+                $totalCount++;
+                if ($urlsCount==$threads) {
+                    $adapter->multiRequest($urls, $options);
+                    $urlsCount = 0;
+                    $urls = array();
+                }
+            }
+            if (!empty($urls)) {
+                $adapter->multiRequest($urls, $options);
+            }
+        }
+        return $this;
     }
 }

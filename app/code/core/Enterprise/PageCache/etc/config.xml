@@ -39,9 +39,6 @@
             </enterprise_pagecache>
             <enterprise_pagecache_mysql4>
                 <class>Enterprise_PageCache_Model_Mysql4</class>
-                <entities>
-                    <crawler>enterprise_pagecache_crawler</crawler>
-                </entities>
             </enterprise_pagecache_mysql4>
         </models>
         <blocks>
@@ -126,10 +123,21 @@
             <page_cache>
                 <lifetime>1440</lifetime>
                 <allowed_depth>1</allowed_depth>
-                <crowler_enable>0</crowler_enable>
-                <time></time>
-                <frequency>D</frequency>
+                <multicurrency>1</multicurrency>
             </page_cache>
+            <page_crawl>
+                <enable>0</enable>
+                <threads>1</threads>
+                <multicurrency>1</multicurrency>
+            </page_crawl>
         </system>
     </default>
+    <crontab>
+        <jobs>
+            <enterprise_page_cache_crawler>
+                <schedule><cron_expr>0 3 * * *</cron_expr></schedule>
+                <run><model>enterprise_pagecache/crawler::crawl</model></run>
+            </enterprise_page_cache_crawler>
+        </jobs>
+    </crontab>
 </config>

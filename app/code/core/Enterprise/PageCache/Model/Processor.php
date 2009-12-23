@@ -26,10 +26,11 @@
 
 class Enterprise_PageCache_Model_Processor
 {
-    const NO_CACHE_COOKIE           = 'NO_CACHE';
-    const XML_NODE_ALLOWED_CACHE    = 'frontend/cache/requests';
-    const XML_PATH_ALLOWED_DEPTH    = 'system/page_cache/allowed_depth';
-    const XML_PATH_LIFE_TIME        = 'system/page_cache/lifetime';
+    const NO_CACHE_COOKIE               = 'NO_CACHE';
+    const XML_NODE_ALLOWED_CACHE        = 'frontend/cache/requests';
+    const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';
+    const XML_PATH_LIFE_TIME            = 'system/page_cache/lifetime';
+    const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
     const REQUEST_ID_PREFIX         = 'REQEST_';
     const CACHE_TAG                 = 'FPC';  // Full Page Cache, minimize
 
@@ -113,6 +114,12 @@ class Enterprise_PageCache_Model_Processor
             $maxDepth = Mage::getStoreConfig(self::XML_PATH_ALLOWED_DEPTH);
             $queryParams = $request->getQuery();
             $res = count($queryParams)<=$maxDepth;
+        }
+        if ($res) {
+            $multicurrency = Mage::getStoreConfig(self::XML_PATH_CACHE_MULTICURRENCY);
+            if (!$multicurrency && !empty($_COOKIE['currency'])) {
+                $res = false;
+            }
         }
         if ($res) {
             $configuration = Mage::getConfig()->getNode(self::XML_NODE_ALLOWED_CACHE);
