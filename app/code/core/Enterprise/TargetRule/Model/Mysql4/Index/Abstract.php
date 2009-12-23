@@ -152,9 +152,9 @@ abstract class Enterprise_TargetRule_Model_Mysql4_Index_Abstract extends Mage_Co
             return $this;
         }
         if ($store instanceof Mage_Core_Model_Store) {
-            $strore = $store->getId();
+            $store = $store->getId();
         }
-        $where = array('store_id IN(?)' => $strore);
+        $where = array('store_id IN(?)' => $store);
         $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
 
         return $this;
