@@ -100,7 +100,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
     protected function _getSubfilterMap()
     {
         return array(
-            'order' => 'order.entity_id',
+            'order' => 'order.status',
             'date' => 'order.created_at',
         );
     }

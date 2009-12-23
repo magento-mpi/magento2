@@ -30,6 +30,7 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
+    const VALUE_ANY = 'any';
     protected $_inputType = 'select';
 
     public function __construct()
@@ -80,7 +81,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     public function loadValueOptions()
     {
         $this->setValueOption(array_merge(
-            array('any' => Mage::helper('enterprise_customersegment')->__('Any')),
+            array(self::VALUE_ANY => Mage::helper('enterprise_customersegment')->__('Any')),
             Mage::getSingleton('sales/order_config')->getStatuses())
         );
         return $this;
@@ -129,19 +130,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
      */
     public function getSubfilterSql($fieldName, $requireValid, $website)
     {
-        $attribute = $this->getAttributeObject();
-        $table = $attribute->getBackendTable();
-
-        $select = $this->getResource()->createSelect();
-        $select->from(array('main'=>$table), array('entity_id'));
-
-        $operator = $this->getResource()->getSqlOperator($this->getOperator());
-
-        $select->where('main.attribute_id = ?', $attribute->getId())
-            ->where("main.value {$operator} ?", $this->getValue());
-
-        $inOperator = ($requireValid ? 'IN' : 'NOT IN');
-
-        return sprintf("%s %s (%s)", $fieldName, $inOperator, $select);
+        if ($this->getValue() == self::VALUE_ANY) {
+            return '';
+        }
+        return $this->getResource()->createConditionSql($fieldName, $this->getOperator(), $this->getValue());
     }
 }
