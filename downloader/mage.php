@@ -145,4 +145,6 @@ class __cli_Mage_Connect
 	}
 
 }
-__cli_Mage_Connect::instance()->init($argv)->run();
+
+if (defined('STDIN') && defined('STDOUT') && (defined('STDERR'))) 
+    __cli_Mage_Connect::instance()->init($argv)->run();
