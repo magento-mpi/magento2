@@ -472,7 +472,12 @@ class Mage_Core_Model_App
         }
 
         if ($this->_currentStore == $store) {
-            $this->getCookie()->set('store', $this->_currentStore, true);
+            $store = $this->getStore($store);
+            if ($store->getWebsite()->getDefaultStore()->getId() == $store->getId()) {
+                $this->getCookie()->delete('store');
+            } else {
+                $this->getCookie()->set('store', $this->_currentStore, true);
+            }
         }
         return $this;
     }
