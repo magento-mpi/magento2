@@ -404,9 +404,8 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
                 ->setIsTransactionClosed(1) // refund initiated by merchant
                 ->setShouldCloseParentTransaction(!$canRefundMore)
             ;
-
         } else {
-            Mage::throwException(Mage::helper('paypal')->__('Capture transaction is required to refund.'));
+            Mage::throwException(Mage::helper('paypal')->__('Impossible to issue a refund transaction, because capture transaction does not exist.'));
         }
         return $this;
     }

@@ -429,11 +429,18 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                     $this->setParentTransactionId($captureTxn->getTxnId());
                 }
                 $this->setShouldCloseParentTransaction(true); // TODO: implement multiple refunds per capture
-                $gateway->setStore($this->getOrder()->getStoreId())
-                    ->processBeforeRefund($invoice, $this)
-                    ->refund($this, $baseAmountToRefund)
-                    ->processCreditmemo($creditmemo, $this)
-                ;
+                try {
+                    $gateway->setStore($this->getOrder()->getStoreId())
+                        ->processBeforeRefund($invoice, $this)
+                        ->refund($this, $baseAmountToRefund)
+                        ->processCreditmemo($creditmemo, $this)
+                    ;
+                } catch (Mage_Core_Exception $e) {
+                    if (!$captureTxn) {
+                        $e->setMessage(' ' . Mage::helper('sales')->__('If the invoice was created offline, try creating an offline creditmemo.'), true);
+                    }
+                    throw $e;
+                }
             }
         }
 
