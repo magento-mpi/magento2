@@ -51,9 +51,31 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
      */
     public function infoAction()
     {
+        Mage::register('current_reward', $this->_getReward());
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->renderLayout();
+    }
+
+    /**
+     * Save settings
+     */
+    public function saveSettingsAction()
+    {
+        if (!$this->_validateFormKey()) {
+            return $this->_redirect('*/*/info');
+        }
+
+        $reward = $this->_getReward();
+        if ($reward->getId()) {
+            $reward->changeBalanceUpdateNotification($this->getRequest()->getParam('subscribe_updates'))
+                ->changeBalanceWarningNotification($this->getRequest()->getParam('subscribe_warnings'));
+
+            $this->_getSession()->addSuccess(
+                $this->__('Settings were successfully saved.')
+            );
+        }
+        $this->_redirect('*/*/info');
     }
 
     /**
@@ -62,10 +84,30 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
     public function unsubscribeAction()
     {
         $notification = $this->getRequest()->getParam('notification');
-        Mage::helper('enterprise_reward/customer')->unsibscribeCustomer($this->_getCustomer(), $notification);
-        $this->_getSession()->addSuccess(
-            $this->__('You have been successfully unsubscribed.')
-        );
+        if (!in_array($notification, array('update','warning'))) {
+            $this->_forward('noroute');
+        }
+
+        try {
+            /* @var $reward Enterprise_Reward_Model_Reward */
+            $reward = $this->_getReward();
+            if (!$reward->getId()) {
+                Mage::throwException($this->__('Reward not found for customer.'));
+            }
+
+            if ($notification == 'update') {
+                $reward->changeBalanceUpdateNotification(false);
+            } elseif ($notification == 'warning') {
+                $reward->changeBalanceWarningNotification(false);
+            }
+
+            $this->_getSession()->addSuccess(
+                $this->__('You have been successfully unsubscribed.')
+            );
+        } catch (Exception $e) {
+            $this->_getSession()->addError($this->__('Unsubscribtion failed.'));
+        }
+
         $this->_redirect('*/*/info');
     }
 
@@ -87,5 +129,18 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
     protected function _getCustomer()
     {
         return $this->_getSession()->getCustomer();
+    }
+
+    /**
+     * Load reward by customer
+     *
+     * @return Enterprise_Reward_Model_Reward
+     */
+    protected function _getReward()
+    {
+        $reward = Mage::getModel('enterprise_reward/reward')
+            ->setCustomer($this->_getCustomer())
+            ->loadByCustomer();
+        return $reward;
     }
 }

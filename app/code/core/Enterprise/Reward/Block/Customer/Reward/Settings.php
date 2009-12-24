@@ -26,26 +26,41 @@
 
 
 /**
- * Reward Helper for operations with customer
+ * Reward Points Settings form
  *
  * @category    Enterprise
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Helper_Customer extends Mage_Core_Helper_Abstract
+class Enterprise_Reward_Block_Customer_Reward_Settings extends Mage_Core_Block_Template
 {
     /**
-     * Return Unsubscribe notification URL
+     * Getter for RewardUpdateNotification
      *
-     * @param string $notification Notification type
-     * @return string
+     * @return bool
      */
-    public function getUnsubscribeUrl($notification = false)
+    public function isSubscribedForUpdates()
     {
-        $params = array();
-        if ($notification) {
-            $params = array('notification' => $notification);
-        }
-        return Mage::getUrl('enterprise_reward/customer/unsubscribe/', array('notification' => $notification));
+        return (bool)$this->_getReward()->getRewardUpdateNotification();
+    }
+
+    /**
+     * Getter for RewardWarningNotification
+     *
+     * @return bool
+     */
+    public function isSubscribedForWarnings()
+    {
+        return (bool)$this->_getReward()->getRewardWarningNotification();
+    }
+
+    /**
+     * Getter for current customer reward
+     *
+     * @return Enterprise_Reward_Model_Reward
+     */
+    protected function _getReward()
+    {
+        return Mage::registry('current_reward');
     }
 }

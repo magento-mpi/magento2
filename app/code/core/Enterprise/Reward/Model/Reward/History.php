@@ -56,6 +56,24 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
                 Mage::app()->getWebsite($this->getWebsiteId())->getBaseCurrencyCode()
             );
         }
+        if ($this->getPointsDelta() < 0) {
+            $this->_spendAvailablePoints($this->getPointsDelta());
+        }
+
+        $now = $this->getResource()->formatDate(time());
+        $this->addData(array(
+            'created_at' => $now,
+            'expired_at' => $now,
+            'notification_sent' => 0
+        ));
+
+        $lifetime = (int)Mage::helper('enterprise_reward')->getGeneralConfig('expiration_days', $this->getWebsiteId());
+        if ($lifetime > 0) {
+            $expireAt = new Zend_Date($now);
+            $expireAt->addDay($lifetime);
+            $this->setData('expired_at', $this->getResource()->formatDate($expireAt));
+        }
+
         return parent::_beforeSave();
     }
 
@@ -182,5 +200,17 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
     public function getTotalQtyRewards($action, $customerId, $websiteId)
     {
         return $this->_getResource()->getTotalQtyRewards($action, $customerId, $websiteId);
+    }
+
+    /**
+     * Spend unused points for required amount
+     *
+     * @param int $required Points total that required
+     * @return Enterprise_Reward_Model_Reward_History
+     */
+    protected function _spendAvailablePoints($required)
+    {
+        $this->getResource()->useAvailablePoints($this, $required);
+        return $this;
     }
 }

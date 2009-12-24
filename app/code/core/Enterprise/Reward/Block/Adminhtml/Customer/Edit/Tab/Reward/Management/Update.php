@@ -64,7 +64,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
                 'name'  => 'store_id',
                 'title' => Mage::helper('enterprise_reward')->__('Store'),
                 'label' => Mage::helper('enterprise_reward')->__('Store'),
-                'values' => Mage::getModel('adminhtml/system_store')->getStoreValuesForForm()
+                'values' => $this->_getStoreValues()
             ));
         }
 
@@ -107,5 +107,49 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
 
         $this->setForm($form);
         return parent::_prepareForm();
+    }
+
+    /**
+     * Retrieve source values for store drop-dawn
+     *
+     * @return array
+     */
+    protected function _getStoreValues()
+    {
+        $customer = $this->getCustomer();
+        if (!$customer->getWebsiteId()
+            || Mage::app()->isSingleStoreMode()
+            || $customer->getSharingConfig()->isGlobalScope())
+        {
+            return Mage::getModel('adminhtml/system_store')->getStoreValuesForForm();
+        }
+
+        $stores = Mage::getModel('adminhtml/system_store')
+            ->getStoresStructure(false, array(), array(), array($customer->getWebsiteId()));
+        $values = array();
+        foreach ($stores as $websiteId => $website) {
+            $values[] = array(
+                'label' => $website['label'],
+                'value' => array()
+            );
+            if (isset($website['children']) && is_array($website['children'])) {
+                foreach ($website['children'] as $groupId => $group) {
+                    if (isset($group['children']) && is_array($group['children'])) {
+                        $options = array();
+                        foreach ($group['children'] as $storeId => $store) {
+                            $options[] = array(
+                                'label' => '&nbsp;&nbsp;&nbsp;&nbsp;' . $store['label'],
+                                'value' => $store['value']
+                            );
+                        }
+                        $values[] = array(
+                            'label' => '&nbsp;&nbsp;&nbsp;&nbsp;' . $group['label'],
+                            'value' => $options
+                        );
+                    }
+                }
+            }
+        }
+        return $values;
     }
 }

@@ -63,7 +63,9 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      */
     public function canShowTab()
     {
-        return Mage::helper('enterprise_reward')->isEnabled()
+        $customer = Mage::registry('current_customer');
+        return $customer->getId()
+            && Mage::helper('enterprise_reward')->isEnabled()
             && Mage::getSingleton('admin/session')->isAllowed('enterprise_reward/balance');
     }
 

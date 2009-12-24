@@ -34,9 +34,6 @@
  */
 class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
 {
-    const XML_PATH_MIN_POINTS_BALANCE = 'enterprise_reward/general/min_points_balance';
-    const XML_PATH_MAX_POINTS_BALANCE = 'enterprise_reward/general/max_points_balance';
-
     const XML_PATH_BALANCE_UPDATE_TEMPLATE = 'enterprise_reward/notification/balance_update_template';
     const XML_PATH_BALANCE_WARNING_TEMPLATE = 'enterprise_reward/notification/expiry_warning_template';
     const XML_PATH_EMAIL_IDENTITY = 'enterprise_reward/notification/email_sender';
@@ -89,6 +86,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         $this->getHistory()
             ->prepareFromReward()
             ->save();
+        $this->sendBalanceUpdateNotification();
         return parent::_afterSave();
     }
 
@@ -502,6 +500,32 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Subscribe / Unsubscribe customer from Balance Update Notifications
+     *
+     * @param bool $flag Whether to set/unset Notifications
+     * @return Enterprise_Reward_Model_Reward
+     */
+    public function changeBalanceUpdateNotification($flag)
+    {
+        $flag = (bool)$flag ? 1 : 0;
+        $this->getResource()->updateRewardRow($this, array('reward_update_notification' => $flag));
+        return $this;
+    }
+
+    /**
+     * Subscribe / Unsubscribe customer from Balance Warning Notifications
+     *
+     * @param bool $flag Whether to set/unset Notifications
+     * @return Enterprise_Reward_Model_Reward
+     */
+    public function changeBalanceWarningNotification($flag)
+    {
+        $flag = (bool)$flag ? 1 : 0;
+        $this->getResource()->updateRewardRow($this, array('reward_warning_notification' => $flag));
+        return $this;
+    }
+
+    /**
      * Send Balance Update Notification to customer if notification is enabled
      *
      * @return Enterprise_Reward_Model_Reward
@@ -511,6 +535,11 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         if (!$this->getRewardUpdateNotification()) {
             return $this;
         }
+        $delta = (int)$this->getPointsDelta();
+        if ($delta == 0) {
+            return $this;
+        }
+
         $store = Mage::app()->getStore($this->getStore());
         $mail  = Mage::getModel('core/email_template');
         /* @var $mail Mage_Core_Model_Email_Template */
@@ -538,36 +567,62 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     /**
      * Send low Balance Warning Notification to customer if notification is enabled
      *
+     * @param Enterprise_Reward_Model_Reward_History $history
      * @return Enterprise_Reward_Model_Reward
      */
-    public function sendBalanceWarningNotification()
+    public function sendBalanceWarningNotification($item)
     {
-        if (!$this->getRewardWarningNotification()) {
-            return $this;
-        }
-        $store = Mage::app()->getStore($this->getStore());
         $mail  = Mage::getModel('core/email_template');
         /* @var $mail Mage_Core_Model_Email_Template */
-        $mail->setDesignConfig(array('area' => 'frontend', 'store' => $store->getId()));
+        $mail->setDesignConfig(array('area' => 'frontend', 'store' => $item->getStoreId()));
+        $store = Mage::app()->getStore($item->getStoreId());
         $templateVars = array(
             'store' => $store,
-            'customer' => $this->getCustomer(),
+            'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),
             'unsubscription_url' => Mage::helper('enterprise_reward/customer')->getUnsubscribeUrl('warning'),
             'remaining_days' => $store->getConfig('enterprise_reward/notification/expiry_day_before'),
-            'points_balance' => $this->getPointsBalance(),
-            'points_expiring' => $this->getPointsBalance()
+            'points_balance' => $item->getPointsBalanceTotal(),
+            'points_expiring' => $item->getTotalExpired()
         );
         $mail->sendTransactional(
             $store->getConfig(self::XML_PATH_BALANCE_WARNING_TEMPLATE),
             $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
-            $this->getCustomer()->getEmail(),
+            $item->getCustomerEmail(),
             null,
             $templateVars,
             $store->getId()
         );
-        if ($mail->getSentSuccess()) {
-            $this->setBalanceWarningSent(true);
-        }
         return $this;
     }
+
+
+
+    /**
+     * Send low Balance Warning Notification to customer if notification is enabled
+     *
+     * @return Enterprise_Reward_Model_Reward
+     */
+//    public function expireRewardPoints()
+//    {
+//        if (!$this->getRewardWarningNotification()) {
+//            return $this;
+//        }
+//
+//        $collection = Mage::getResourceModel('enterprise_reward/reward_history_collection')
+//            ->loadExpiredSoonRecords($this)
+//            ->load();
+//
+//        $totalExpired = 0;
+//        $i = 0;
+//        foreach ($collection as $item) {
+//            if ($i < 8) {
+//                $totalExpired += $item['points_delta'] - $item['points_used'];
+//                $item->getResource()->updateHistoryRow($item, array('is_expired' => 1));
+//                $i++;
+//            }
+//        }
+//
+//        $this->getResource()->updateRewardRow($this, array('points_balance' => $this->getPointsBalance() - $totalExpired));
+//        return $this;
+//    }
 }

@@ -49,14 +49,15 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Mage_Core
      */
     protected function _joinReward()
     {
-        if (!$this->getFlag('reward_table_joined')) {
-            $this->getSelect()->joinInner(
-                array('reward_table' => $this->getTable('enterprise_reward/reward')),
-                'reward_table.reward_id = main_table.reward_id',
-                array('customer_id', 'points_balance_total' => 'points_balance')
-            );
-            $this->setFlag('reward_table_joined', true);
+        if ($this->getFlag('reward_joined')) {
+            return $this;
         }
+        $this->getSelect()->joinInner(
+            array('reward_table' => $this->getTable('enterprise_reward/reward')),
+            'reward_table.reward_id = main_table.reward_id',
+            array('customer_id', 'points_balance_total' => 'points_balance')
+        );
+        $this->setFlag('reward_joined', true);
         return $this;
     }
 
@@ -94,6 +95,10 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Mage_Core
      */
     public function addCustomerInfo()
     {
+        if ($this->getFlag('customer_added')) {
+            return $this;
+        }
+
         $this->_joinReward();
 
         $customer = Mage::getModel('customer/customer');
@@ -121,41 +126,64 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Mage_Core
                 array('customer_firstname' => 'value')
              );
 
+        $this->setFlag('customer_added', true);
         return $this;
     }
 
     /**
-     * Add filter by only ready fot sending item
+     * Add correction to expiration date based on expiry calculation
      *
-     * @return Mage_Newsletter_Model_Mysql4_Queue_Collection
+     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
      */
-    public function loadExpiredSoonRecords()
+    public function addExpirationDate()
     {
-        $this->addCustomerInfo();
-        $this->getSelect()->where('notification_sent=0 AND main_table.points_delta>0');
-        $websites = Mage::app()->getWebsites();
-        $websiteConditions = array();
-        foreach (Mage::app()->getWebsites() as $website) {
-            /* @var $website Mage_Core_Model_Website */
-            $expirationDays = (int)$website->getConfig('enterprise_reward/general/expiration_days');
-            $sendWarningDaysBefore = (int)$website->getConfig('enterprise_reward/notification/expiry_day_before');
-            if (!$expirationDays || !$sendWarningDaysBefore || $sendWarningDaysBefore > $expirationDays) {
-                continue;
-            }
-            $expirationSeconds = 24 * 60 * 60 * $expirationDays;
-            $sendWarningDaysBeforeSeconds = 24 * 60 * 60 * $sendWarningDaysBefore;
-            $websiteConditions[] = sprintf('( (UNIX_TIMESTAMP(main_table.created_at) + %d - %d <= %d) OR (UNIX_TIMESTAMP(main_table.expired_at) - %d <= %d) )',
-                $expirationSeconds,
-                time(),
-                $sendWarningDaysBeforeSeconds,
-                time(),
-                $sendWarningDaysBeforeSeconds
-            );
+        if ($this->getFlag('expiration_added')) {
+            return $this;
         }
 
-        if (count($websiteConditions)) {
-            $this->getSelect()->where(implode(' OR ', $websiteConditions));
+        $sql = " CASE main_table.website_id ";
+        $cases = array();
+        foreach (Mage::app()->getWebsites() as $website) {
+            $websiteId = $website->getId();
+            $expirationDays = (int)Mage::helper('enterprise_reward')->getGeneralConfig('expiration_days', $websiteId);
+            $expirationType = Mage::helper('enterprise_reward')->getGeneralConfig('expiry_calculation', $websiteId);
+            $sqlInterval = "ADDDATE(main_table.created_at, INTERVAL {$expirationDays} DAY)";
+            if (!$expirationDays) {
+                $cases[] = " WHEN '{$websiteId}' THEN '' ";
+            } elseif ($expirationType == 'dynamic') {
+                $cases[] = " WHEN '{$websiteId}' THEN {$sqlInterval} ";
+            } elseif ($expirationType == 'static') {
+                // add days dynamically also when items have equal created_at and expired_at
+                $cases[] = " WHEN '{$websiteId}' THEN IF(main_table.created_at=main_table.expired_at, {$sqlInterval}, main_table.expired_at) ";
+            }
         }
+        if (count($cases) > 0) {
+            $sql .= implode(' ', $cases) . ' END ';
+            $this->getSelect()->columns( array('expiration_date' => new Zend_Db_Expr($sql)) );
+        }
+        $this->setFlag('expiration_added', true);
+        return $this;
+    }
+
+    /**
+     * Return amounts of points that will be expired in {$inDays} aggregated by customer and website
+     *
+     * @param int $inDays Days before points will be marked as expired
+     * @return Mage_Newsletter_Model_Mysql4_Queue_Collection
+     */
+    public function loadExpiredSoonPoints($inDays)
+    {
+        $inDays = (int)abs($inDays);
+        $this->addCustomerInfo()
+            ->addExpirationDate();
+
+        $now = $this->getResource()->formatDate(time());
+        $this->getSelect()
+            ->where('points_delta-points_used>0 AND is_expired=0')
+            ->columns( array('total_expired' => new Zend_Db_Expr('SUM(points_delta-points_used)')) )
+            ->group(array('reward_table.customer_id', 'main_table.website_id'))
+            ->having("ADDDATE(expiration_date, INTERVAL -{$inDays} DAY) < '{$now}'")
+            ->order(array('reward_table.customer_id', 'main_table.website_id'));
 
         return $this;
     }

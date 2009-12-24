@@ -76,7 +76,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
     public function canShow()
     {
         return Mage::helper('enterprise_reward')->isEnabled()
-            && Mage::getStoreConfigFlag('enterprise_reward/general/publish_history');
+            && Mage::helper('enterprise_reward')->getGeneralConfig('publish_history');
     }
 
     /**
@@ -91,6 +91,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
                 ->getCollection()
                 ->addCustomerFilter($this->getCustomerId())
                 ->addWebsiteFilter(Mage::app()->getWebsite()->getId())
+                ->addExpirationDate()
                 ->setOrder('created_at', 'DESC'));
         }
 

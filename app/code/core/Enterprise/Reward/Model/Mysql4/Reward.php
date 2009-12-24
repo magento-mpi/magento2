@@ -62,4 +62,22 @@ class Enterprise_Reward_Model_Mysql4_Reward extends Mage_Core_Model_Mysql4_Abstr
         $this->_afterLoad($reward);
         return $this;
     }
+
+    /**
+     * Perform Row-level data update
+     *
+     * @param Enterprise_Reward_Model_Reward $reward
+     * @param array $data New data
+     * @return Enterprise_Reward_Model_Mysql4_Reward
+     */
+    public function updateRewardRow(Enterprise_Reward_Model_Reward $object, $data)
+    {
+        if (!$object->getId() || !is_array($data)) {
+            return $this;
+        }
+        $where = array($this->getIdFieldName().'=?' => $object->getId());
+        $this->_getWriteAdapter()
+            ->update($this->getMainTable(), $data, $where);
+        return $this;
+    }
 }

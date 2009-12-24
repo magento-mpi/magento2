@@ -68,19 +68,6 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
         if (is_array($object->getData('additional_data'))) {
             $object->setData('additional_data', serialize($object->getData('additional_data')));
         }
-
-        $now = $this->formatDate(time());
-        $object->addData(array(
-            'created_at' => $now,
-            'expired_at' => $now,
-            'notification_sent' => 0
-        ));
-
-        $expirationDays = (int)Mage::getStoreConfig('enterprise_reward/general/expiration_days', $object->getStoreId());
-        if ($expirationDays > 0) {
-            $object->setData('expired_at', $this->formatDate(time() + $expirationDays * 24 * 60 * 60));
-        }
-
         return $this;
     }
 
@@ -127,5 +114,85 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
             ->where("history_table.website_id=?", $websiteId);
 
         return intval($this->_getReadAdapter()->fetchOne($select));
+    }
+
+    /**
+     * Retrieve actual history records that have unused points, i.e. points_delta-points_used > 0
+     *
+     * @param Enterprise_Reward_Model_Reward_History $history
+     * @param int $required Points total that required
+     * @return array
+     */
+    public function getUnusedPoints($history, $required)
+    {
+        $required = (int)abs($required);
+        if (!$required) {
+            return array();
+        }
+        $this->getReadConnection()->multi_query('SET @available_total=0, @available=0;');
+        $sql = "
+            SELECT * , @available AS available, @available_total AS available_total
+            FROM `{$this->getMainTable()}` AS h
+            WHERE (@available := h.points_delta - h.points_used) > 0
+                AND (@available_total := @available + @available_total)
+                AND @available_total < {$required} + @available
+                AND h.is_expired=0
+                AND h.reward_id='{$history->getRewardId()}'
+                AND h.website_id='{$history->getWebsiteId()}'
+            ORDER BY h.history_id";
+        return $this->_getReadAdapter()->fetchAll($sql);
+    }
+
+    /**
+     * Update points_used field for non-used points
+     *
+     * @param Enterprise_Reward_Model_Reward_History $history
+     * @param int $required Points total that required
+     * @return Enterprise_Reward_Model_Mysql4_Reward_History
+     */
+    public function useAvailablePoints($history, $required)
+    {
+        $available = $this->getUnusedPoints($history, $required);
+        if (!is_array($available) || count($available) == 0) {
+            return $this;
+        }
+
+        $required = (int)abs($required);
+        $sql = "UPDATE `{$this->getMainTable()}` SET `points_used` = CASE `history_id` ";
+        $updates = 0;
+        foreach ($available as $row) {
+            if ($required <= 0) {
+                break;
+            }
+            $rowAvailable = $row['points_delta'] - $row['points_used'];
+            $pointsUsed = min($required, $rowAvailable);
+            $required -= $pointsUsed;
+            $newPointsUsed = $pointsUsed + $row['points_used'];
+            $sql .= " WHEN '{$row['history_id']}' THEN '{$newPointsUsed}' ";
+            $updates++;
+        }
+        $sql .= " ELSE `points_used` END ";
+        if ($updates > 0) {
+            $this->_getWriteAdapter()->query($sql);
+        }
+        return $this;
+    }
+
+    /**
+     * Perform Row-level data update
+     *
+     * @param Enterprise_Reward_Model_Reward $reward
+     * @param array $data New data
+     * @return Enterprise_Reward_Model_Mysql4_Reward
+     */
+    public function updateHistoryRow(Enterprise_Reward_Model_Reward_History $object, $data)
+    {
+        if (!$object->getId() || !is_array($data)) {
+            return $this;
+        }
+        $where = array($this->getIdFieldName().'=?' => $object->getId());
+        $this->_getWriteAdapter()
+            ->update($this->getMainTable(), $data, $where);
+        return $this;
     }
 }

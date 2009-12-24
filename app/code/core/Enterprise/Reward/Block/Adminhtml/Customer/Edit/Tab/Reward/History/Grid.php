@@ -57,7 +57,8 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         /* @var $collection Enterprise_Reward_Model_Mysql4_Reward_History_Collection */
         $collection = Mage::getModel('enterprise_reward/reward_history')
             ->getCollection()
-            ->addCustomerFilter($this->getCustomerId());
+            ->addCustomerFilter($this->getCustomerId())
+            ->addExpirationDate();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -73,6 +74,11 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             'header'    => Mage::helper('enterprise_reward')->__('Date'),
             'align'     => 'left',
             'index'     => 'created_at',
+        ));
+        $this->addColumn('expiration_date', array(
+            'header'    => Mage::helper('enterprise_reward')->__('Expiration Date'),
+            'align'     => 'left',
+            'index'     => 'expiration_date',
         ));
 
         $this->addColumn('website', array(

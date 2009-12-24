@@ -58,9 +58,6 @@ class Enterprise_Reward_Model_Observer
                     ->setRewardUpdateNotification((isset($data['reward_update_notification']) ? true : false))
                     ->setRewardWarningNotification((isset($data['reward_warning_notification']) ? true : false))
                     ->updateRewardPoints();
-
-                // send notification
-                $reward->sendBalanceUpdateNotification();
             }
         }
 
@@ -517,18 +514,21 @@ class Enterprise_Reward_Model_Observer
      * @param Mage_Cron_Model_Schedule $schedule
      * @return Enterprise_Reward_Model_Observer
      */
-    public function scheduledBalanceWarningSend($schedule)
+    public function scheduledBalanceExpireNotification($schedule)
     {
+        $inDays = (int)Mage::helper('enterprise_reward')->getNotificationConfig('expiry_day_before');
+        if (!$inDays) {
+            return $this;
+        }
         $collection = Mage::getResourceModel('enterprise_reward/reward_history_collection')
-            ->loadExpiredSoonRecords()
-            ->setPageSize(20)
-            ->setCurPage(1)
-            ->setOrder('history_id')
+            ->loadExpiredSoonPoints($inDays)
+//            ->setPageSize(20)
+//            ->setCurPage(1)
             ->load();
 
-//        foreach ($collection as $item) {
-//            print_R($item->getData());
-//        }
+        foreach ($collection as $item) {
+            Mage::getModel('enterprise_reward/reward')->sendBalanceWarningNotification($item);
+        }
 
         return $this;
     }
