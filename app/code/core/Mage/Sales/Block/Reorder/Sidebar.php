@@ -63,9 +63,11 @@ class Mage_Sales_Block_Reorder_Sidebar extends Mage_Core_Block_Template
         $items = array();
         $order = $this->getLastOrder();
         $limit = 5;
-        foreach ($order->getItemsRandomCollection($limit) as $item) {
-            if ($item->getProduct()) {
-                $items[] = $item;
+        if ($order) {
+            foreach ($order->getItemsRandomCollection($limit) as $item) {
+                if ($item->getProduct()) {
+                    $items[] = $item;
+                }
             }
         }
         return $items;
