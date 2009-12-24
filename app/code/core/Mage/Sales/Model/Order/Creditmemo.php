@@ -394,7 +394,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
 
         $this->setDoTransaction(true);
         if ($this->getOfflineRequested()) {
-            $this->getDoTransaction(false);
+            $this->setDoTransaction(false);
         }
         $this->refund();
 
