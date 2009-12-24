@@ -49,8 +49,9 @@ function confirmExit()
     return "There are Connect processes running.\nIf you will close the window or navigate away from the page, installation will be interrupted.";
 }
 
-function onSubmit()
+function onSubmit(formObj)
 {
+    formObj.action = addParamToUrl(formObj.action, 'maintenance', (top.$('maintenance').checked === true ? '1' : '0'));
     top.$('connect_iframe_success').style.display = 'none';
     top.$('connect_iframe_failure').style.display = 'none';
     top.$('connect_iframe_container').style.display = '';
@@ -74,5 +75,46 @@ function onFailure()
         top.location.href = top.location.href.replace(/#.*$/, '')+'#connect_iframe_result';
         div.style.display = '';
     }
+}
+
+function checkForUpdateClick()
+{
+    url = addParamToUrl(location.href, 'maintenance', (top.$('maintenance').checked === true ? '1' : '0'));
+    url = addParamToUrl(url, 'updates', 'yes');
+    location.href = url;
+}
+
+function addParamToUrl(url, param, value)
+{
+    var anchor = null, params = {};
+    var anchorPos = url.search(/#/);
+    if (anchorPos != -1) {
+        anchor = url.substr(anchorPos + 1);
+        url = url.substr(0, anchorPos);
+    }
+    getPos = url.search(/\?/);
+    console.log(getPos);
+    if (getPos != -1) {
+        url.substr(getPos + 1).split('&').each(function(pv){
+            pv = pv.split('=');
+            params[pv[0]] = pv[1];
+        });
+        url = url.substr(0, getPos);
+    }
+
+    params[param] = value;
+
+    if (params) {
+        url += '?';
+        for (k in params) {
+            url += k + '=' + params[k] + '&';
+        }
+        url = url.substr(0, url.length - 1);
+    }
+    if (anchor) {
+        url = url + '#' + anchor;
+    }
+
+    return url;
 }
 </script>

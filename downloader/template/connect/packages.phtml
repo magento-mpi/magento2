@@ -27,12 +27,20 @@
 <?php echo $this->template('header.phtml') ?>
 
 <div class="bar-head">
+    <h4>Settings</h4>
+</div>
+<ul class="bare-list">
+<li><input type="checkbox" id="maintenance" value=1 checked="checked" /> &nbsp;
+<label for="maintenance">Put store on the maintenance mode while installing/upgrading</label>
+</li>
+
+<div class="bar-head">
     <h4>Install New Extensions</h4>
 </div>
 <ul class="bare-list">
 <li><span class="step-count">1</span> &nbsp; Search for modules via <a href="http://connect.magentocommerce.com/" target="Magento_Connect">Magento Connect</a>.</li>
 <li><span class="step-count">2</span> &nbsp;
-    <form action="<?php echo $this->url('connectInstallPackagePost')?>" method="post" target="connect_iframe" onsubmit="onSubmit()">
+    <form action="<?php echo $this->url('connectInstallPackagePost')?>" method="post" target="connect_iframe" onsubmit="onSubmit(this)">
         <label for="uri">Paste extension key to install:</label> <input id="install_package_id" name="install_package_id" style="width:300px"/>
         <button type="submit">Install</button>
     </form></li>
@@ -46,19 +54,19 @@
 <ul class="bare-list">
 <li><span class="step-count">1</span> &nbsp; Download or build package file.</li>
 <li><span class="step-count">2</span> &nbsp; Upload package file:
-	<form action="<?php echo $this->url('connectInstallPackageUpload')?>" method="post" target="connect_iframe" onsubmit="onSubmit()" enctype="multipart/form-data">
+    <form action="<?php echo $this->url('connectInstallPackageUpload')?>" method="post" target="connect_iframe" onsubmit="onSubmit(this)" enctype="multipart/form-data">
         <label for="file"></label>
         <input type="file" id="file" name="file" style="width:300px"></input>
         <button type="submit">Upload</button>
-        </form>
-</li>    
+    </form>
+</li>
 </ul>
 
 <br/><br/>
 <div class="bar-head">
     <h4>Manage Existing Extensions</h4>
     <?php if (empty($_GET['updates'])): ?>
-        <span class="f-right"><button type="button" class="f-right" onclick="location.href = location.href.replace(/(\?|$)/, '?updates=yes&')">Check for Upgrades</button></span>
+        <span class="f-right"><button type="button" class="f-right" onclick="checkForUpdateClick()">Check for Upgrades</button></span>
     <?php endif; ?>
 </div>
 <?php $packages = $this->get('connect')->getAllInstalledPackages(); $i = 0; $cnt = count($packages); ?>
@@ -67,8 +75,9 @@
 <script type="text/javascript">
     function formSubmit(id)
     {
-        if (onSubmit()) {
-            document.getElementById(id).submit();
+        var formObj = $(id);
+        if (onSubmit(formObj)) {
+            formObj.submit();
         }
     }
 </script>
