@@ -468,6 +468,8 @@ class Enterprise_Reward_Model_Observer
             $order->setRewardPointsBalanceRefunded($order->getRewardPointsBalanceRefunded() + $creditmemo->getRewardPointsBalance());
             $order->setRewardCurrencyAmountRefunded($order->getRewardCurrencyAmountRefunded() + $creditmemo->getRewardCurrencyAmount());
             $order->setBaseRewardCurrencyAmountRefunded($order->getBaseRewardCurrencyAmountRefunded() + $creditmemo->getBaseRewardCurrencyAmount());
+            $order->setRewardPointsBalanceToRefund($order->getRewardPointsBalanceToRefund() + $creditmemo->getRewardPointsBalanceToRefund());
+
             if ((int)$creditmemo->getRewardPointsBalanceToRefund() > 0) {
                 $reward = Mage::getModel('enterprise_reward/reward')
                     ->setCustomerId($order->getCustomerId())

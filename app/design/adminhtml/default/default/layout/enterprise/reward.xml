@@ -36,22 +36,26 @@
             <block type="enterprise_reward/adminhtml_customer_edit_tab_reward_management_balance" name="reward.points.balance" before="-"/>
         </reference>
     </adminhtml_customer_edit>
-    
+
     <adminhtml_reward_rate_index>
         <reference name="content">
             <block type="enterprise_reward/adminhtml_reward_rate" name="reward.rate.container"/>
         </reference>
     </adminhtml_reward_rate_index>
-    
+
     <adminhtml_reward_rate_edit>
         <reference name="content">
             <block type="enterprise_reward/adminhtml_reward_rate_edit" name="reward.rate.edit.container"/>
         </reference>
     </adminhtml_reward_rate_edit>
-    
+
     <adminhtml_sales_order_view>
         <reference name="order_totals">
             <block type="adminhtml/sales_order_totals_item" name="reward_points" template="enterprise/reward/sales/order/total.phtml"/>
+            <block type="adminhtml/sales_order_totals_item" name="reward.points.refunded" template="enterprise/reward/sales/order/refunded.phtml">
+                <action method="setDisplayArea"><area>footer</area></action>
+                <action method="setAfterCondition"><condition>last</condition></action>
+            </block>
         </reference>
     </adminhtml_sales_order_view>
 
@@ -94,6 +98,10 @@
     <adminhtml_sales_order_creditmemo_view>
         <reference name="creditmemo_totals">
             <block type="adminhtml/sales_order_totals_item" name="reward_points" template="enterprise/reward/sales/order/total.phtml" after="-" />
+            <block type="adminhtml/sales_order_totals_item" name="reward.points.refunded" template="enterprise/reward/sales/order/refunded.phtml">
+                <action method="setDisplayArea"><area>footer</area></action>
+                <action method="setAfterCondition"><condition>last</condition></action>
+            </block>
         </reference>
     </adminhtml_sales_order_creditmemo_view>
 
