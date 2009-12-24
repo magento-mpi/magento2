@@ -140,6 +140,7 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
                 'base_grand_total_amount'   => 'SUM(e.base_grand_total * e.base_to_global_rate)',
                 'base_invoiced_amount'      => 'SUM(e.base_total_paid * e.base_to_global_rate)',
                 'base_refunded_amount'      => 'SUM(e.base_total_refunded * e.base_to_global_rate)',
+                'base_canceled_amount'      => 'SUM(IFNULL(e.subtotal_canceled, 0) * e.base_to_global_rate)'
             );
 
             $select = $writeAdapter->select()
@@ -171,7 +172,8 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
                 'base_discount_amount'      => 'SUM(base_discount_amount)',
                 'base_grand_total_amount'   => 'SUM(base_grand_total_amount)',
                 'base_invoiced_amount'      => 'SUM(base_invoiced_amount)',
-                'base_refunded_amount'      => 'SUM(base_refunded_amount)'
+                'base_refunded_amount'      => 'SUM(base_refunded_amount)',
+                'base_canceled_amount'      => 'SUM(base_canceled_amount)'
             );
             $select->from($tableName, $columns)
                 ->where("store_id <> 0");

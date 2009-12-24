@@ -70,6 +70,7 @@ class Mage_Sales_Model_Mysql4_Report_Order_Collection extends Mage_Sales_Model_M
                 'base_grand_total_amount'   => 'SUM(base_grand_total_amount)',
                 'base_invoiced_amount'      => 'SUM(base_invoiced_amount)',
                 'base_refunded_amount'      => 'SUM(base_refunded_amount)',
+                'base_canceled_amount'      => 'SUM(base_canceled_amount)'
             );
         }
 

@@ -152,6 +152,15 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
             'sortable'      => false
         ));
 
+        $this->addColumn('base_canceled_amount', array(
+            'header'        => Mage::helper('sales')->__('Canceled'),
+            'type'          => 'currency',
+            'currency_code' => $currency_code,
+            'index'         => 'base_canceled_amount',
+            'total'         => 'sum',
+            'sortable'      => false
+        ));
+
 
         $this->addExportType('*/*/exportSalesCsv', Mage::helper('reports')->__('CSV'));
         $this->addExportType('*/*/exportSalesExcel', Mage::helper('reports')->__('Excel'));

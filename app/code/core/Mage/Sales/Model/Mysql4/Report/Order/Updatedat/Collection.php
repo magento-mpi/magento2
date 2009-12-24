@@ -39,14 +39,15 @@ class Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection extends Mage_Sal
     protected $_selectedColumns = array(
         'orders_count'              => 'COUNT(e.entity_id)',
         'total_qty_ordered'         => 'SUM(oa.total_qty)',
-        'base_profit_amount'        => 'SUM(e.base_total_paid * e.base_to_global_rate) - SUM(e.base_total_refunded * e.base_to_global_rate) - SUM(e.base_total_invoiced_cost * e.base_to_global_rate)',
+        'base_profit_amount'        => 'SUM(IFNULL(e.base_subtotal_invoiced, 0) * e.base_to_global_rate) + SUM(IFNULL(e.base_discount_refunded, 0) * e.base_to_global_rate) - SUM(IFNULL(e.base_subtotal_refunded, 0) * e.base_to_global_rate) - SUM(IFNULL(e.base_discount_invoiced, 0) * e.base_to_global_rate) - SUM(IFNULL(e.base_total_invoiced_cost, 0) * e.base_to_global_rate)',
         'base_subtotal_amount'      => 'SUM(e.base_subtotal * e.base_to_global_rate)',
         'base_tax_amount'           => 'SUM(e.base_tax_amount * e.base_to_global_rate)',
         'base_shipping_amount'      => 'SUM(e.base_shipping_amount * e.base_to_global_rate)',
         'base_discount_amount'      => 'SUM(e.base_discount_amount * e.base_to_global_rate)',
         'base_grand_total_amount'   => 'SUM(e.base_grand_total * e.base_to_global_rate)',
         'base_invoiced_amount'      => 'SUM(e.base_total_paid * e.base_to_global_rate)',
-        'base_refunded_amount'      => 'SUM(e.base_total_refunded * e.base_to_global_rate)'
+        'base_refunded_amount'      => 'SUM(e.base_total_refunded * e.base_to_global_rate)',
+        'base_canceled_amount'      => 'SUM(IFNULL(e.subtotal_canceled, 0) * e.base_to_global_rate)'
     );
 
     /**
