@@ -35,7 +35,6 @@
  */
 class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
-
     /**
      * Constructor
      *
@@ -43,25 +42,24 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit extends Mage_Adminhtml_
      */
     public function __construct()
     {
-        $this->_objectId = 'id';
-        $this->_blockGroup = 'connect';
-        $this->_controller = 'adminhtml_extension_custom';
+        $this->_objectId    = 'id';
+        $this->_blockGroup  = 'connect';
+        $this->_controller  = 'adminhtml_extension_custom';
 
         parent::__construct();
 
         $this->_removeButton('back');
-
         $this->_updateButton('reset', 'onclick', "resetPackage()");
 
         $this->_addButton('create', array(
-            'label' => Mage::helper('connect')->__('Save data and Create Package'),
-            'class' => 'save',
-            'onclick' => "createPackage()",
+            'label'     => Mage::helper('connect')->__('Save data and Create Package'),
+            'class'     => 'save',
+            'onclick'   => "createPackage()",
         ));
         $this->_addButton('save_as', array(
-            'label' => Mage::helper('connect')->__('Save As...'),
-            'title' => Mage::helper('connect')->__('Save package with custom package file name'),
-            'onclick' => 'saveAsPackage()'
+            'label'     => Mage::helper('connect')->__('Save As...'),
+            'title'     => Mage::helper('connect')->__('Save package with custom package file name'),
+            'onclick'   => 'saveAsPackage()'
         ));
     }
 
@@ -74,5 +72,4 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit extends Mage_Adminhtml_
     {
         return Mage::helper('connect')->__('New Extension');
     }
-
 }

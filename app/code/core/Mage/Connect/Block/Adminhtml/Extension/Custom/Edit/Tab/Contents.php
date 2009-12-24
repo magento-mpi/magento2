@@ -36,28 +36,37 @@
 class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents
     extends Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
 {
-
     /**
-    * Constructor, sets default template
-    */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('connect/extension/custom/contents.phtml');
-    }
-
-    /**
-    * Retrieve list of targets
-    *
-    * @return array
-    */
+     * Retrieve list of targets
+     *
+     * @return array
+     */
     public function getMageTargets()
     {
-        $arr = Mage::getModel('connect/extension')->getLabelTargets();
-        if (!is_array($arr)) {
-            $arr = array();
+        $targets = Mage::getModel('connect/extension')->getLabelTargets();
+        if (!is_array($targets)) {
+            $targets = array();
         }
-        return $arr;
+        return $targets;
     }
 
+    /**
+     * Get Tab Label
+     *
+     * @return string
+     */
+    public function getTabLabel()
+    {
+        return Mage::helper('connect')->__('Contents');
+    }
+
+    /**
+     * Get Tab Title
+     *
+     * @return string
+     */
+    public function getTabTitle()
+    {
+        return Mage::helper('connect')->__('Contents');
+    }
 }

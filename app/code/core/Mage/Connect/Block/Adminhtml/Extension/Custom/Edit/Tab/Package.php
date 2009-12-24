@@ -36,85 +36,97 @@
 class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
     extends Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
 {
-
     /**
-    * Constructor
-    */
-    public function __construct()
+     * Prepare Package Info Form before rendering HTML
+     *
+     * @return Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
+     */
+    protected function _prepareForm()
     {
-        parent::__construct();
-        $this->setTemplate('connect/extension/custom/package.phtml');
-    }
+        parent::_prepareForm();
 
-    /**
-    * Create object of package form
-    *
-    * @return Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
-    */
-    public function initForm()
-    {
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_package');
 
-        $fieldset = $form->addFieldset('package_fieldset', array('legend'=>Mage::helper('connect')->__('Package')));
+        $fieldset = $form->addFieldset('package_fieldset', array(
+            'legend'    => Mage::helper('connect')->__('Package')
+        ));
 
         if ($this->getData('name') != $this->getData('file_name')) {
             $this->setData('file_name_disabled', $this->getData('file_name'));
             $fieldset->addField('file_name_disabled', 'text', array(
-                'name' => 'file_name_disabled',
-                'label' => Mage::helper('connect')->__('Package File Name'),
-                'disabled' => 'disabled',
+                'name'      => 'file_name_disabled',
+                'label'     => Mage::helper('connect')->__('Package File Name'),
+                'disabled'  => 'disabled',
             ));
         }
 
         $fieldset->addField('file_name', 'hidden', array(
-            'name' => 'file_name',
+            'name'      => 'file_name',
         ));
 
         $fieldset->addField('name', 'text', array(
-            'name' => 'name',
-            'label' => Mage::helper('connect')->__('Name'),
-            'required' => true,
+            'name'      => 'name',
+            'label'     => Mage::helper('connect')->__('Name'),
+            'required'  => true,
         ));
 
         $fieldset->addField('channel', 'text', array(
-            'name' => 'channel',
-            'label' => Mage::helper('connect')->__('Channel'),
-            'required' => true,
+            'name'      => 'channel',
+            'label'     => Mage::helper('connect')->__('Channel'),
+            'required'  => true,
         ));
 
         $fieldset->addField('summary', 'textarea', array(
-            'name' => 'summary',
-            'label' => Mage::helper('connect')->__('Summary'),
-            'style' => 'height:50px;',
-            'required' => true,
+            'name'      => 'summary',
+            'label'     => Mage::helper('connect')->__('Summary'),
+            'style'     => 'height:50px;',
+            'required'  => true,
         ));
 
         $fieldset->addField('description', 'textarea', array(
-            'name' => 'description',
-            'label' => Mage::helper('connect')->__('Description'),
-            'style' => 'height:200px;',
-            'required' => true,
+            'name'      => 'description',
+            'label'     => Mage::helper('connect')->__('Description'),
+            'style'     => 'height:200px;',
+            'required'  => true,
         ));
 
         $fieldset->addField('license', 'text', array(
-            'name' => 'license',
-            'label' => Mage::helper('connect')->__('License'),
-            'required' => true,
-            'value' => 'Open Software License (OSL 3.0)',
+            'name'      => 'license',
+            'label'     => Mage::helper('connect')->__('License'),
+            'required'  => true,
+            'value'     => 'Open Software License (OSL 3.0)',
         ));
 
         $fieldset->addField('license_uri', 'text', array(
-            'name' => 'license_uri',
-            'label' => Mage::helper('connect')->__('License URI'),
-            'value' => 'http://opensource.org/licenses/osl-3.0.php',
+            'name'      => 'license_uri',
+            'label'     => Mage::helper('connect')->__('License URI'),
+            'value'     => 'http://opensource.org/licenses/osl-3.0.php',
         ));
 
         $form->setValues($this->getData());
-
         $this->setForm($form);
 
         return $this;
     }
 
+    /**
+     * Get Tab Label
+     *
+     * @return string
+     */
+    public function getTabLabel()
+    {
+        return Mage::helper('connect')->__('Package Info');
+    }
+
+    /**
+     * Get Tab Title
+     *
+     * @return string
+     */
+    public function getTabTitle()
+    {
+        return Mage::helper('connect')->__('Package Info');
+    }
 }

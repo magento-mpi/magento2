@@ -38,60 +38,73 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Depends
 {
 
     /**
-    * Constructor, sets default template
-    */
-    public function __construct()
+     * Prepare Dependencies Form before rendering HTML
+     *
+     * @return Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
+     */
+    protected function _prepareForm()
     {
-        parent::__construct();
-        $this->setTemplate('connect/extension/custom/depends.phtml');
-    }
+        parent::_prepareForm();
 
-    /**
-    * Create object for form
-    *
-    * @return Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Depends
-    */
-    public function initForm()
-    {
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_depends');
 
-        $fieldset = $form->addFieldset('depends_php_fieldset', array('legend' => Mage::helper('connect')->__('PHP Version')));
+        $fieldset = $form->addFieldset('depends_php_fieldset', array(
+            'legend'    => Mage::helper('connect')->__('PHP Version')
+        ));
 
         $fieldset->addField('depends_php_min', 'text', array(
-            'name' => 'depends_php_min',
-            'label' => Mage::helper('connect')->__('Minimum'),
-            'required' => true,
-            'value' => '5.2.0',
+            'name'      => 'depends_php_min',
+            'label'     => Mage::helper('connect')->__('Minimum'),
+            'required'  => true,
+            'value'     => '5.2.0',
         ));
 
         $fieldset->addField('depends_php_max', 'text', array(
-            'name' => 'depends_php_max',
-            'label' => Mage::helper('connect')->__('Maximum'),
-            'required' => true,
-            'value' => '5.2.20',
+            'name'      => 'depends_php_max',
+            'label'     => Mage::helper('connect')->__('Maximum'),
+            'required'  => true,
+            'value'     => '5.2.20',
         ));
 
         $form->setValues($this->getData());
-
         $this->setForm($form);
 
         return $this;
     }
 
     /**
-    * Retrieve list of loaded PHP extensions
-    *
-    * @return array
-    */
+     * Retrieve list of loaded PHP extensions
+     *
+     * @return array
+     */
     public function getExtensions()
     {
-        $arr = array();
+        $extensions = array();
         foreach (get_loaded_extensions() as $ext) {
-            $arr[$ext] = $ext;
+            $extensions[$ext] = $ext;
         }
-        asort($arr, SORT_STRING);
-        return $arr;
+        asort($extensions, SORT_STRING);
+        return $extensions;
     }
 
+    /**
+     * Get Tab Label
+     *
+     * @return string
+     */
+    public function getTabLabel()
+    {
+        return Mage::helper('connect')->__('Dependencies');
+    }
+
+    /**
+     * Get Tab Title
+     *
+     * @return string
+     */
+    public function getTabTitle()
+    {
+        return Mage::helper('connect')->__('Dependencies');
+    }
 }

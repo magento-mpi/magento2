@@ -36,11 +36,11 @@
                     <children>
                         <local translate="title">
                             <title>Magento Connect Manager</title>
-                            <action>connect/adminhtml_extension_local</action>
+                            <action>adminhtml/extension_local</action>
                         </local>
                         <custom translate="title">
                             <title>Package Extensions</title>
-                            <action>connect/adminhtml_extension_custom/index</action>
+                            <action>adminhtml/extension_custom</action>
                         </custom>
                     </children>
                 </extensions>

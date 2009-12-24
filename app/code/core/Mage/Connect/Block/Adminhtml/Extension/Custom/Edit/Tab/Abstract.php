@@ -33,9 +33,10 @@
  * @subpackage  Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract extends Mage_Adminhtml_Block_Widget_Form
+abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
+    extends Mage_Adminhtml_Block_Widget_Form
+    implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-
     /**
      * TODO
      */
@@ -126,7 +127,7 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract e
         }
         return $this->_removeRowButtonHtml;
     }
-    
+
     public function getAddFileDepsRowButtonHtml($selector='span', $filesClass='files')
     {
         if (!$this->_addFileDepButtonHtml) {
@@ -137,9 +138,38 @@ abstract class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract e
                     ->setLabel($this->__('Add files'))
                     ->setOnClick("showHideFiles(this, '".$selector."', '".$filesClass."')")
                     ->toHtml();
-        } 
+        }
         return $this->_addFileDepButtonHtml;
-        
+
     }
 
+    /**
+     * Get Tab Label
+     *
+     * @return string
+     */
+    public function getTabLabel()
+    {
+        return Mage::helper('connect')->__('');
+    }
+
+    /**
+     * Get Tab Title
+     *
+     * @return string
+     */
+    public function getTabTitle()
+    {
+        return Mage::helper('connect')->__('');
+    }
+
+    public function canShowTab()
+    {
+        return true;
+    }
+
+    public function isHidden()
+    {
+        return false;
+    }
 }

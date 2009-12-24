@@ -38,38 +38,54 @@
 
 class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_Controller_Action
 {
-
+    /**
+     * Redirect to edit Extension Package action
+     *
+     */
     public function indexAction()
     {
         Mage::app()->getStore()->setStoreId(1);
         $this->_forward('edit');
     }
 
+    /**
+     * Edit Extension Package Form
+     *
+     */
     public function editAction()
     {
         $this->loadLayout();
         $this->_setActiveMenu('system/extension/custom');
-        $this->_addContent($this->getLayout()->createBlock('connect/adminhtml_extension_custom_edit'));
-        $this->_addLeft($this->getLayout()->createBlock('connect/adminhtml_extension_custom_edit_tabs'));
         $this->renderLayout();
     }
 
+    /**
+     * Reset Extension Package form data
+     *
+     */
     public function resetAction()
     {
         Mage::getSingleton('connect/session')->unsCustomExtensionPackageFormData();
         $this->_redirect('*/*/edit');
     }
 
+    /**
+     * Load Local Extension Package
+     *
+     */
     public function loadAction()
     {
-        $package = $this->getRequest()->getParam('id');
-        if ($package) {
+        $packageName = $this->getRequest()->getParam('id');
+        if ($packageName) {
             $session = Mage::getSingleton('connect/session');
             try {
-                $data = $this->_loadPackageFile(Mage::getBaseDir('var') . DS . 'connect' . DS . $package);
-                $data = array_merge($data, array('file_name' => $package));
+                $data = Mage::helper('connect')->loadLocalPackage($packageName);
+                if (!$data) {
+                    Mage::throwException(Mage::helper('connect')->__("Failed to load package data"));
+                }
+                $data = array_merge($data, array('file_name' => $packageName));
                 $session->setCustomExtensionPackageFormData($data);
-                $session->addSuccess(Mage::helper('connect')->__("Package %s data was successfully loaded", $package));
+                $session->addSuccess(Mage::helper('connect')->__("Package %s data was successfully loaded", $packageName));
             } catch (Exception $e) {
                 $session->addError($e->getMessage());
             }
@@ -78,37 +94,9 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
     }
 
     /**
+     * Save Extension Package
      *
-     * TODO
      */
-    private function _loadPackageFile($filenameNoExtension)
-    {
-        $data = null;
-
-        // try to load xml-file
-        $filename = $filenameNoExtension . '.xml';
-        if (file_exists($filename)) {
-            $xml = simplexml_load_file($filename);
-            $data = Mage::helper('core')->xmlToAssoc($xml);
-            if (!empty($data)) {
-                return $data;
-            }
-        }
-
-        // try to load ser-file
-        $filename = $filenameNoExtension . '.ser';
-        if (!is_readable($filename)) {
-            throw new Exception(Mage::helper('connect')->__('Failed to load %1$s.xml or %1$s.ser', basename($filenameNoExtension)));
-        }
-        $contents = file_get_contents($filename);
-        $data = unserialize($contents);
-        if (!empty($data)) {
-            return $data;
-        }
-
-        throw new Exception('Failed to load package data.');
-    }
-
     public function saveAction()
     {
         $session = Mage::getSingleton('connect/session');
@@ -128,9 +116,9 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
             $ext = Mage::getModel('connect/extension');
             $ext->setData($p);
             if ($ext->savePackage()) {
-                $session->addSuccess('Package data was successfully saved');
+                $session->addSuccess(Mage::helper('connect')->__('Package data was successfully saved'));
             } else {
-                $session->addError('There was a problem saving package data');
+                $session->addError(Mage::helper('connect')->__('There was a problem saving package data'));
                 $this->_redirect('*/*/edit');
             }
             if (empty($create)) {
@@ -139,15 +127,19 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
                 Mage::app()->getStore()->setStoreId(1);
                 $this->_forward('create');
             }
-        } catch(Mage_Core_Exception $e){
+        } catch (Mage_Core_Exception $e){
             $session->addError($e->getMessage());
             $this->_redirect('*/*');
-        } catch(Exception $e){
-            $session->addError($e->getMessage());
+        } catch (Exception $e){
+            $session->addException($e, Mage::helper('connect')->__("Failed to save package"));
             $this->_redirect('*/*');
         }
     }
 
+    /**
+     * Create new Extension Package
+     *
+     */
     public function createAction()
     {
         $session = Mage::getSingleton('connect/session');
@@ -162,29 +154,28 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
             $session->addError($e->getMessage());
             $this->_redirect('*/*');
         } catch(Exception $e){
-            $session->addError($e->getMessage());
+            $session->addException($e, Mage::helper('connect')->__("Failed to create package"));
             $this->_redirect('*/*');
         }
     }
 
     /**
-     * Grid for loading packages
+     * Load Grid with Local Packages
+     *
      */
     public function loadtabAction()
     {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('connect/adminhtml_extension_custom_edit_tab_load')->toHtml()
-        );
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
      * Grid for loading packages
+     *
      */
     public function gridAction()
     {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('connect/adminhtml_extension_custom_edit_tab_grid')->toHtml()
-        );
+        $this->loadLayout();
+        $this->renderLayout();
     }
-
 }

@@ -35,14 +35,13 @@
  */
 class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
-
     /**
     * Constructor
     */
     public function __construct()
     {
         parent::__construct();
-        $this->setId('extension_custom_tabs');
+        $this->setId('connect_extension_edit_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle(Mage::helper('connect')->__('Create Extension Package'));
     }
@@ -54,37 +53,37 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs extends Mage_Admin
     */
     protected function _beforeToHtml()
     {
-        $this->addTab('package', array(
-            'label'     => Mage::helper('connect')->__('Package Info'),
-            'content'   => $this->_getTabHtml('package'),
-            'active'    => true,
-        ));
-
-        $this->addTab('release', array(
-            'label'     => Mage::helper('connect')->__('Release Info'),
-            'content'   => $this->_getTabHtml('release'),
-        ));
-
-        $this->addTab('maintainers', array(
-            'label'     => Mage::helper('connect')->__('Authors'),
-            'content'   => $this->_getTabHtml('authors'),
-        ));
-
-        $this->addTab('depends', array(
-            'label'     => Mage::helper('connect')->__('Dependencies'),
-            'content'   => $this->_getTabHtml('depends'),
-        ));
-
-        $this->addTab('contents', array(
-            'label'     => Mage::helper('connect')->__('Contents'),
-            'content'   => $this->_getTabHtml('contents'),
-        ));
-
-        $this->addTab('load', array(
-            'label'     => Mage::helper('connect')->__('Load local Package'),
-            'class'     => 'ajax',
-            'url'       => $this->getUrl('*/*/loadtab', array('_current' => true)),
-        ));
+//        $this->addTab('package', array(
+//            'label'     => Mage::helper('connect')->__('Package Info'),
+//            'content'   => $this->_getTabHtml('package'),
+//            'active'    => true,
+//        ));
+//
+//        $this->addTab('release', array(
+//            'label'     => Mage::helper('connect')->__('Release Info'),
+//            'content'   => $this->_getTabHtml('release'),
+//        ));
+//
+//        $this->addTab('maintainers', array(
+//            'label'     => Mage::helper('connect')->__('Authors'),
+//            'content'   => $this->_getTabHtml('authors'),
+//        ));
+//
+//        $this->addTab('depends', array(
+//            'label'     => Mage::helper('connect')->__('Dependencies'),
+//            'content'   => $this->_getTabHtml('depends'),
+//        ));
+//
+//        $this->addTab('contents', array(
+//            'label'     => Mage::helper('connect')->__('Contents'),
+//            'content'   => $this->_getTabHtml('contents'),
+//        ));
+//
+//        $this->addTab('load', array(
+//            'label'     => Mage::helper('connect')->__('Load local Package'),
+//            'class'     => 'ajax',
+//            'url'       => $this->getUrl('*/*/loadtab', array('_current' => true)),
+//        ));
 
         return parent::_beforeToHtml();
     }
@@ -97,10 +96,10 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs extends Mage_Admin
     */
     protected function _getTabHtml($tab)
     {
-        return $this->getLayout()
-            ->createBlock('connect/adminhtml_extension_custom_edit_tab_'.$tab)
-            ->initForm()
-            ->toHtml();
+//        return $this->getLayout()
+//            ->createBlock('connect/adminhtml_extension_custom_edit_tab_'.$tab)
+//            ->initForm()
+//            ->toHtml();
     }
 
 }

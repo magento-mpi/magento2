@@ -35,5 +35,44 @@
  */
 class Mage_Connect_Helper_Data extends Mage_Core_Helper_Data
 {
+    /**
+     * Retrieve file system path for local extension packages
+     * Return path with last directory separator
+     *
+     * @return string
+     */
+    public function getLocalPackagesPath()
+    {
+        return Mage::getBaseDir('var') . DS . 'connect' . DS;
+    }
 
+    /**
+     * Load local package data array
+     *
+     * @param string $packageName without extension
+     * @return array|false
+     */
+    public function loadLocalPackage($packageName)
+    {
+        $path = $this->getLocalPackagesPath();
+        $xmlFile = $path . $packageName . '.xml';
+        $serFile = $path . $packageName . '.ser';
+
+        if (file_exists($xmlFile) && is_readable($xmlFile)) {
+            $xml  = simplexml_load_file($xmlFile);
+            $data = Mage::helper('core')->xmlToAssoc($xml);
+            if (!empty($data)) {
+                return $data;
+            }
+        }
+
+        if (file_exists($serFile) && is_readable($xmlFile)) {
+            $data = unserialize(file_get_contents($serFile));
+            if (!empty($data)) {
+                return $data;
+            }
+        }
+
+        return false;
+    }
 }

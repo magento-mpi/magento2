@@ -34,26 +34,15 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Load
-    extends Mage_Adminhtml_Block_Abstract
+    extends Mage_Adminhtml_Block_Template
 {
-
     /**
-     * Constructor
+     * Retrieve Grid Block HTML
      *
-     * Sets default template
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('connect/extension/custom/load.phtml');
-    }
-
-    /**
-     * Produces grid html
+     * @return string
      */
     public function getPackageGridHtml()
     {
-        return $this->getLayout()->createBlock('connect/adminhtml_extension_custom_edit_tab_grid')->toHtml();
+        return $this->getChildHtml('local_package_grid');
     }
-
 }

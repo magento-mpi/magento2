@@ -36,21 +36,27 @@
 class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
-     * Default collection limit
+     * Initialize Grid block
      *
-     * @var int
-     */
-    protected $_defaultLimit = 200;
-
-    /**
-     * Initialize collection and grid
      */
     public function __construct()
     {
         parent::__construct();
+        $this->_defaultLimit = 200;
         $this->setId('extension_custom_edit_grid');
         $this->setUseAjax(true);
-        $this->setCollection(Mage::getModel('connect/extension_collection'));
+    }
+
+    /**
+     * Prepare Local Package Collection for Grid
+     *
+     * @return Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid
+     */
+    protected function _prepareCollection()
+    {
+        $collection = Mage::getModel('connect/extension_collection');
+        $this->setCollection($collection);
+        return parent::_prepareCollection();
     }
 
     /**
@@ -60,8 +66,6 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mage_A
      */
     protected function _prepareColumns()
     {
-        $baseUrl = $this->getUrl();
-
         $this->addColumn('folder', array(
             'header'  => Mage::helper('connect')->__('Folder'),
             'index'   => 'folder',
@@ -83,9 +87,12 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mage_A
      *
      * @return string
      */
-    public function getCurrentUrl($params=array())
+    public function getCurrentUrl($params = array())
     {
-        return $this->getUrl('*/*/grid', array('_current'=>true));
+        if (!isset($params['_current'])) {
+            $params['_current'] = true;
+        }
+        return $this->getUrl('*/*/grid', $params);
     }
 
     /**
@@ -95,7 +102,6 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mage_A
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/load') . '?id=' . urlencode($row->getFilenameId());
+        return $this->getUrl('*/*/load', array('id' => $row->getFilenameId()));
     }
-
 }

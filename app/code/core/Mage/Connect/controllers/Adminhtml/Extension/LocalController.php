@@ -19,41 +19,27 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Connect
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Convert profile edit tab
+ * Local Magento Connect Controller
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category    Mage
+ * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Actions
-    extends Mage_Adminhtml_Block_Extensions_Local_Edit_Tab_Abstract
+class Mage_Connect_Extension_LocalController extends Mage_Adminhtml_Controller_Action
 {
-    public function __construct()
+    /**
+     * Redirect to Magento Connect
+     *
+     */
+    public function indexAction()
     {
-        parent::__construct();
-        $this->setTemplate('extensions/local/actions.phtml');
-    }
-
-    public function getActionButtonHtml()
-    {
-        $html = '';
-
-        $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
-            ->setClass('save')->setLabel($this->__('Upgrade'))
-            ->setOnClick('upgrade()')
-            ->toHtml();
-
-        $html .= $this->getLayout()->createBlock('adminhtml/widget_button')->setType('button')
-            ->setClass('delete')->setLabel($this->__('Uninstall'))
-            ->setOnClick('uninstall()')
-            ->toHtml();
-
-        return $html;
+        $url = Mage::getBaseUrl('web') . 'downloader/?return=' . urlencode(Mage::getUrl('adminhtml'));
+        $this->getResponse()->setRedirect($url);
     }
 }

@@ -26,37 +26,41 @@
  */
 -->
 <config>
-
     <modules>
         <Mage_Connect>
-            <version>0.0.1</version>
+            <version>1.4.0</version>
         </Mage_Connect>
     </modules>
-
     <global>
         <models>
             <connect>
                 <class>Mage_Connect_Model</class>
             </connect>
         </models>
-
         <blocks>
             <connect>
                 <class>Mage_Connect_Block</class>
             </connect>
         </blocks>
     </global>
-
-    <frontend>
+    <admin>
         <routers>
-            <connect>
-                <use>standard</use>
+            <adminhtml>
                 <args>
-                    <module>Mage_Connect</module>
-                    <frontName>connect</frontName>
+                    <modules>
+                        <connect before="Mage_Adminhtml">Mage_Connect_Adminhtml</connect>
+                    </modules>
                 </args>
-            </connect>
+            </adminhtml>
         </routers>
-    </frontend>
-
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <connect>
+                    <file>connect.xml</file>
+                </connect>
+            </updates>
+        </layout>
+    </adminhtml>
 </config>
