@@ -25,13 +25,13 @@
  */
 
 /**
- * Adminhtml customer orders grid block
+ * Upsell products admin grid
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Customer_Edit_Tab_Reviews extends Mage_Adminhtml_Block_Review_Grid
+class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Reviews extends Mage_Adminhtml_Block_Review_Grid
 {
 
     public function __construct()

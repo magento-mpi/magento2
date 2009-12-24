@@ -409,7 +409,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initCustomer();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/review_grid', 'admin.customer.reviews')
+            $this->getLayout()->createBlock('adminhtml/customer_edit_tab_reviews', 'admin.customer.reviews')
                 ->setCustomerId(Mage::registry('current_customer')->getId())
                 ->setUseAjax(true)
                 ->toHtml()
