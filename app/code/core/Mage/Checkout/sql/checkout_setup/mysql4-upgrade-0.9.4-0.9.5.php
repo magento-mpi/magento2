@@ -38,7 +38,7 @@ $select = $connection->select()
 
 $data = $connection->fetchRow($select);
 
-if (count($data) > 0) {
+if ($data) {
     $bind = array(
         'path'  => 'checkout/options/onepage_checkout_enabled',
         'value' => !((bool)$data['value'])
