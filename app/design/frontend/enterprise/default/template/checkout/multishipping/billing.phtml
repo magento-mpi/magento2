@@ -46,6 +46,11 @@
             <address class="box-content"><?php echo $_address->format('html') ?></address>
         </div>
     </div>
+    <script type="text/javascript">
+    //<![CDATA[
+        var quoteBaseGrandTotal = <?php echo (float)$this->getQuoteBaseGrandTotal(); ?>;
+      //]]>
+    </script>
     <div class="col-2 wide">
         <div class="info-box">
             <h3 class="box-title"><?php echo $this->__('Payment Method') ?></h3>

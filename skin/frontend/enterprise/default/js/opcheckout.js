@@ -606,14 +606,29 @@ ShippingMethod.prototype = {
 // payment
 var Payment = Class.create();
 Payment.prototype = {
+    beforeInitFunc:$H({}),
+    afterInitFunc:$H({}),
+    beforeValidateFunc:$H({}),
+    afterValidateFunc:$H({}),
     initialize: function(form, saveUrl){
         this.form = form;
         this.saveUrl = saveUrl;
         this.onSave = this.nextStep.bindAsEventListener(this);
         this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
     },
+    
+    addBeforeInitFunction : function(code, func) {
+        this.beforeInitFunc.set(code, func);
+    },
+    
+    beforeInit : function() {
+        (this.beforeInitFunc).each(function(init){
+           (init.value)();;
+        });
+    },
 
     init : function () {
+        this.beforeInit();
         if ($(this.form)) {
             $(this.form).observe('submit', function(event){this.save();Event.stop(event);}.bind(this));
             this.validator = new Validation(this.form);
@@ -632,9 +647,20 @@ Payment.prototype = {
             elements[i].setAttribute('autocomplete','off');
         }
         if (method) this.switchMethod(method);
+        this.afterInit();
+    },
+    
+    addAfterInitFunction : function(code, func) {
+        this.afterInitFunc.set(code, func);
     },
 
-    switchMethod: function(method){
+    afterInit : function() {
+        (this.afterInitFunc).each(function(init){
+            (init.value)();
+        });
+    },
+
+    switchMethod : function(method) {
         if (this.currentMethod && $('payment_form_'+this.currentMethod)) {
             var form = $('payment_form_'+this.currentMethod);
             form.style.display = 'none';
@@ -650,7 +676,25 @@ Payment.prototype = {
         this.currentMethod = method;
     },
 
+    addBeforeValidateFunction : function(code, func) {
+        this.beforeValidateFunc.set(code, func);
+    },
+
+    beforeValidate : function() {
+        var validateResult = true;
+        (this.beforeValidateFunc).each(function(validate){
+            if ((validate.value)() == false) {
+                validateResult = false;
+            }
+        }.bind(this));
+        return validateResult;
+    },
+
     validate: function() {
+        var result = this.beforeValidate();
+        if (result) {
+            return true;
+        }
         var methods = document.getElementsByName('payment[method]');
         if (methods.length==0) {
             alert(Translator.translate('Your order can not be completed at this time as there is no payment methods available for it.'));
@@ -661,8 +705,22 @@ Payment.prototype = {
                 return true;
             }
         }
+        result = this.afterValidate();
+        if (result) {
+            return truel
+        }
         alert(Translator.translate('Please specify payment method.'));
         return false;
+    },
+
+    addAfterValidateFunction : function(code, func) {
+        this.afterValidateFunc.set(code, func);
+    },
+
+    afterValidate : function() {
+        (this.afterValidateFunc).each(function(validate){
+            (validate.value)();
+        });
     },
 
     save: function(){
