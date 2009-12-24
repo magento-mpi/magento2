@@ -36,16 +36,25 @@ $select = $connection->select()
     ->from($table, array('config_id', 'value'))
     ->where('path = ?', 'checkout/options/onepage_checkout_disabled');
 
-$data = $connection->fetchRow($select);
+$data = $connection->fetchAll($select);
 
 if ($data) {
-    $bind = array(
-        'path'  => 'checkout/options/onepage_checkout_enabled',
-        'value' => !((bool)$data['value'])
-    );
-    $where = 'config_id = ' . $data['config_id'];
+    try {
+        $connection->beginTransaction();
 
-    $connection->update($table, $bind, $where);
+        foreach ($data as $value) {
+            $bind = array(
+                'path'  => 'checkout/options/onepage_checkout_enabled',
+                'value' => !((bool)$value['value'])
+            );
+            $where = 'config_id = ' . $value['config_id'];
+            $connection->update($table, $bind, $where);
+        }
+
+        $connection->commit();
+    } catch (Exception $e) {
+        $installer->getConnection()->rollback();
+        throw $e;
+    }
 }
-
 $installer->endSetup();
