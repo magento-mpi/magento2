@@ -43,6 +43,11 @@
         <?php $_address=$this->getAddress() ?>
         <address><?php echo $_address->format('html') ?></address>
     </div>
+    <script type="text/javascript">
+    //<![CDATA[
+        var quoteBaseGrandTotal = <?php echo (float)$this->getQuoteBaseGrandTotal(); ?>;
+      //]]>
+    </script>
     <div class="col-2 wide">
         <h3><?php echo $this->__('Payment Method') ?></h3>
         <div class="tool-tip" id="payment-tool-tip" style="display:none;">
