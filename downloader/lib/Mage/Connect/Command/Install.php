@@ -284,15 +284,16 @@ extends Mage_Connect_Command
                 try{
 
                     $package = new Mage_Connect_Package($file);
-                    $conflicts = $package->checkPhpDependencies();
-                    if(true !== $conflicts) {                       
-                        $confilcts = implode(",",$conflicts);
-                        $err = sprintf("Package %s/%s %s depends on PHP extensions: %s", 
+                    $pkgInfoArr = array(
                             $package->getChannel(),
                             $package->getName(),
-                            $package->getVersion(),
-                            $conflicts
+                            $package->getVersion()
                         );
+                    $conflicts = $package->checkPhpDependencies();
+                    if(true !== $conflicts) {                       
+                        $confilcts = array(implode(",",$conflicts));
+                        //makes message like "Package channel/package version : conflicts"
+                        $err = vsprintf("Package %s/%s %s depends on PHP extensions: %s", array_merge($pkgInfoArr, $conflicts));
                         if($forceMode) {
                             $this->doError($command, $err);
                         } else {
@@ -302,12 +303,8 @@ extends Mage_Connect_Command
 
                     $conflicts = $package->checkPhpVersion();
                     if(true !== $conflicts) {
-                        $err = sprintf("Package {$pChan}/{$pName} {$pVer}: %s",
-                            $package->getChannel(),
-                            $package->getName(),
-                            $package->getVersion(),
-                            $conflicts
-                        );
+                        //makes message like "Package channel/package version : conflicts"
+                        $err = vsprintf("Package %s/%s %s: %s",array_merge($pkgInfoArr, array($conflicts)));
                         if($forceMode) {
                             $this->doError($command, $err);
                         } else {
@@ -324,11 +321,7 @@ extends Mage_Connect_Command
                     }
                     $cache->addPackage($package);
                     $this->ui()->output(
-                        sprintf("install ok: channel://connect.magentocommerce.com/%s/%s-%s",
-                            $package->getChannel(),
-                            $package->getName(),
-                            $package->getVersion()
-                        )
+                        vsprintf("install ok: channel://connect.magentocommerce.com/%s/%s-%s", $pkgInfoArr)
                     );
 
                     $installedDepsAssoc[] = array(
@@ -336,11 +329,7 @@ extends Mage_Connect_Command
                         'name'=>$package->getName(), 
                         'version'=>$package->getVersion()
                     );
-                    $installedDeps[] = array(
-                        $package->getChannel(), 
-                        $package->getName(),                               
-                        $package->getVersion()
-                    );
+                    $installedDeps[] = $pkgInfoArr;
                 } catch(Exception $e) {
                     $this->doError($command, $e->getMessage());
                 }
