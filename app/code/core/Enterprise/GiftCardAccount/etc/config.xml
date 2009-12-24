@@ -77,7 +77,7 @@
                 <totals>
                     <giftcardaccount>
                         <class>enterprise_giftcardaccount/total_quote_giftcardaccount</class>
-                        <after>grand_total</after>
+                        <after>wee,discount,tax,tax_subtotal,grand_total,reward</after>
                         <before>customerbalance</before>
                         <renderer>enterprise_giftcardaccount/checkout_cart_total</renderer>
                     </giftcardaccount>

@@ -240,7 +240,7 @@ class Enterprise_GiftCardAccount_Model_Observer
 
         // disable all payment methods and enable only Zero Subtotal Checkout
         if ((0 == $quote->getBaseGrandTotal()) && (
-            (float)$quote->getGiftCardsAmountUsed() || $quote->getUseCustomerBalance())) {
+            (float)$quote->getGiftCardsAmountUsed())) {// || $quote->getUseCustomerBalance()
             $result = $observer->getEvent()->getResult();
             if ('free' === $observer->getEvent()->getMethodInstance()->getCode()) {
                 $result->isAvailable = true;

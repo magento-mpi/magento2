@@ -26,7 +26,7 @@
 ?>
 <?php if ($this->isFullyPaidAfterApplication()): ?>
     // save original init and validate Payment methods
-    if (!Payment.prototype.beforeGigtCardInit) {
+    /*if (!Payment.prototype.beforeGigtCardInit) {
         Payment.prototype.beforeGigtCardInit = Payment.prototype.init;
     }
     if (!Payment.prototype.beforeGigtCardValidate) {
@@ -50,15 +50,15 @@
             }
         }
         if (method) this.switchMethod(method);
-    };
+    };*/
 <?php else: ?>
 // restore saved original init and validate Payment methods
-if (Payment.prototype.beforeGigtCardInit) {
+/*if (Payment.prototype.beforeGigtCardInit) {
     Payment.prototype.init = Payment.prototype.beforeGigtCardInit;
     delete Payment.prototype.beforeGigtCardInit;
 }
 if (Payment.prototype.beforeGigtCardValidate) {
     Payment.prototype.validate = Payment.prototype.beforeGigtCardValidate;
     delete Payment.prototype.beforeGigtCardValidate;
-}
+}*/
 <?php endif; ?>
