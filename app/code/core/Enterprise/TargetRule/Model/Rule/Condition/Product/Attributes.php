@@ -36,6 +36,15 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
     protected $_isUsedForRuleProperty = 'is_used_for_target_rules';
 
     /**
+     * Target rule codes that do not allowed to select
+     *
+     * @var array
+     */
+    protected $_disabledTargetRuleCodes = array(
+        'status' // products with status 'disabled' cannot be shown as related/cross-sells/up-sells thus rule code is useless
+    );
+
+    /**
      * Set condition type and value
      *
      */
@@ -56,10 +65,12 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
         $conditions = array();
         foreach ($attributes as $code => $label) {
-            $conditions[] = array(
-                'value' => $this->getType() . '|' . $code,
-                'label' => $label
-            );
+            if (! in_array($code, $this->_disabledTargetRuleCodes)) {
+                $conditions[] = array(
+                    'value' => $this->getType() . '|' . $code,
+                    'label' => $label
+                );
+            }
         }
 
         return array(
