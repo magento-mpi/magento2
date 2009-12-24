@@ -24,71 +24,52 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<div class="checkout-onepage-payment-additional-reward">
+<?php if ((float)$this->getCurrencyAmount()): ?>
+<div class="checkout-onepage-payment-additional-reward" id="reward_placer">
     <input type="checkbox"" class="checkbox" name="payment[use_reward_points]" value="1" id="use_reward_points" <?php echo $this->useRewardPoints()?'checked="checked"':'' ?>/>
     <label for="use_reward_points">
-    <strong>
-        <?php echo Mage::helper('enterprise_reward')->__('Use my Reward Points'); ?>,
-        <?php echo Mage::helper('enterprise_reward')->__('%d Points (%s) available', $this->getPointsBalance(), Mage::helper('core')->currency($this->getCurrencyAmount())); ?>
-    </strong>
+        <strong>
+            <?php echo Mage::helper('enterprise_reward')->__('Use my Reward Points'); ?>,
+            <?php echo Mage::helper('enterprise_reward')->__('%d Points (%s) available', $this->getPointsBalance(), Mage::helper('core')->currency($this->getCurrencyAmount())); ?>
+        </strong>
     </label>
 </div>
 <script type="text/javascript">
     //<![CDATA[
     
-    var isFullyPaidAfterCustomerBalanceApplication = <?php if ($this->isEnoughPoints()): ?>true<?php else: ?>false<?php endif; ?>;
-    Payment.prototype.init = function () {
-        var elements = Form.getElements(this.form);
-        var method = null;
-        for (var i=0; i<elements.length; i++) {
-            if (elements[i].name=='payment[method]') {
-                if (elements[i].checked) {
-                    method = elements[i].value;
-                }
-            } else if (elements[i].name != 'payment[use_reward_points]') {
-                elements[i].disabled = true;
-            }
-        }
-        if (method) this.switchMethod(method);
+    var isEnoughPointsToCoverAmount = <?php if ($this->isEnoughPoints()): ?>true<?php else: ?>false<?php endif; ?>;
+    var rewardPointsSubstracted = <?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>;
 
-        this.switchCustomerBalanceCheckbox();
-    };
+    if (rewardPointsSubstracted) {
+        quoteBaseGrandTotal += <?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>;
+        rewardPointsSubstracted = false;
+    }
 
-    Payment.prototype.validate = function() {
-        if ($('use_reward_points') && $('use_reward_points').checked && isFullyPaidAfterCustomerBalanceApplication) {
-            return true;
-        }
-        var methods = document.getElementsByName('payment[method]');
-        if (methods.length==0) {
-            alert(Translator.translate('Your order can not be completed at this time as there is no payment methods available for it.'));
-            return false;
-        }
-        for (var i=0; i<methods.length; i++) {
-            if (methods[i].checked) {
-                return true;
-            }
-        }
-        alert(Translator.translate('Please specify payment method.'));
-        return false;
-    };
+    Payment.prototype.switchRewardPointsCheckbox = function() {
 
-    Payment.prototype.switchCustomerBalanceCheckbox = function() {
-        if (isFullyPaidAfterCustomerBalanceApplication) {
+        if (!rewardPointsSubstracted && $('use_reward_points').checked) {
+            quoteBaseGrandTotal -= <?php echo (float)$this->getCurrencyAmount(); ?>;
+            rewardPointsSubstracted = true;
+        } else if (rewardPointsSubstracted && !$('use_reward_points').checked) {
+            quoteBaseGrandTotal += <?php echo (float)$this->getCurrencyAmount(); ?>;
+            rewardPointsSubstracted = false;
+        }
+        if (quoteBaseGrandTotal < 0.0001) {
             var elements = Form.getElements(this.form);
             for (var i=0; i<elements.length; i++) {
                 if ($('use_reward_points').checked) {
-                    if (elements[i].name != 'payment[use_reward_points]') {
-                        //elements[i].prevDisabled = elements[i].disabled;
-                        //elements[i].disabled = true;
+                    if (elements[i].name == 'payment[method]') {
+                        elements[i].disabled = true;
                     }
                 } else {
-                    if (elements[i].name != 'payment[use_reward_points]') {
-                        //elements[i].disabled = elements[i].prevDisabled;
+                    if (elements[i].name == 'payment[method]') {
+                        elements[i].disabled = false;
                     }
-
-                    if (elements[i].name == 'payment[method]' && elements[i].value == 'free') {
-                        (elements[i].parentNode).hide();
-                    }
+                }
+                if (elements[i].name == 'payment[method]' && elements[i].value == 'free') {
+                    elements[i].checked = false;
+                    elements[i].disabled = true;
+                    (elements[i].parentNode).hide();
                 }
             }
             if ($('use_reward_points').checked) {
@@ -97,10 +78,36 @@
                 $('checkout-payment-method-load').show();
             }
         } else {
+            var elements = Form.getElements(this.form);
+            for (var i=0; i<elements.length; i++) {
+                if (elements[i].name == 'payment[method]') {
+                    elements[i].disabled = false;
+                }
+            }
             $('checkout-payment-method-load').show();
         }
     }
-
-    Event.observe($('use_reward_points'), 'change', payment.switchCustomerBalanceCheckbox);
+    if (payment) {
+        var rewardPaymentInit = function() {
+            if ($('use_reward_points')) {
+                $('use_reward_points').disabled = false;
+            }
+            this.switchRewardPointsCheckbox();
+        }
+        payment.addAfterInitFunction('reward', rewardPaymentInit.bind(payment));
+        var rewardPaymentValidate = function() {
+            if ($('use_reward_points') && !$('use_reward_points').checked) {
+                return true;
+            }
+            if ($('use_reward_points') && $('use_reward_points').checked && (quoteBaseGrandTotal < 0.0001)) {
+                return true;
+            }
+            
+            return false;
+        }
+        payment.addBeforeValidateFunction('reward', rewardPaymentValidate.bind(payment));
+    }
+    Event.observe($('use_reward_points'), 'change', payment.switchRewardPointsCheckbox);
     //]]>
     </script>
+<?php endif; ?>

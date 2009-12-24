@@ -57,16 +57,19 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
         $pointsCurrencyAmount = 0;
         $basePointsCurrencyAmount = 0;
 
-        $quote->setRewardPointsBalance($pointsBalance);
-        $quote->setRewardCurrencyAmount($pointsCurrencyAmount);
-        $quote->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
+        if (!$quote->getRewardPointsTotalCollected() && $address->getBaseGrandTotal() > 0) {
+            $quote->setRewardPointsBalance($pointsBalance);
+            $quote->setRewardCurrencyAmount($pointsCurrencyAmount);
+            $quote->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
 
-        $address->setRewardPointsBalance($pointsBalance);
-        $address->setRewardCurrencyAmount($pointsCurrencyAmount);
-        $address->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
+            $address->setRewardPointsBalance($pointsBalance);
+            $address->setRewardCurrencyAmount($pointsCurrencyAmount);
+            $address->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
+
+            $quote->setRewardPointsTotalCollected(true);
+        }
 
         if ($address->getBaseGrandTotal() && $quote->getCustomer()->getId() && $quote->getUseRewardPoints()) {
-
             /* @var $reward Enterprise_Reward_Model_Reward */
             $reward = $quote->getRewardInstance();
             if (!$reward || !$reward->getId()) {
@@ -95,17 +98,16 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
 
                 $address->setGrandTotal($grandTotal);
                 $address->setBaseGrandTotal($baseGrandTotal);
+
+                $quote->setRewardPointsBalance($pointsBalance);
+                $quote->setRewardCurrencyAmount($pointsCurrencyAmount);
+                $quote->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
+
+                $address->setRewardPointsBalance($pointsBalance);
+                $address->setRewardCurrencyAmount($pointsCurrencyAmount);
+                $address->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
             }
         }
-
-        $quote->setRewardPointsBalance($pointsBalance);
-        $quote->setRewardCurrencyAmount($pointsCurrencyAmount);
-        $quote->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
-
-        $address->setRewardPointsBalance($pointsBalance);
-        $address->setRewardCurrencyAmount($pointsCurrencyAmount);
-        $address->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
-
         return $this;
     }
 

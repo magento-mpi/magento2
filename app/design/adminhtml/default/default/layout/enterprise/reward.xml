@@ -97,7 +97,6 @@
 
     <adminhtml_sales_order_creditmemo_view>
         <reference name="creditmemo_totals">
-            <block type="adminhtml/sales_order_totals_item" name="reward_points" template="enterprise/reward/sales/order/total.phtml" after="-" />
             <block type="adminhtml/sales_order_totals_item" name="reward.points.refunded" template="enterprise/reward/sales/order/refunded.phtml">
                 <action method="setDisplayArea"><area>footer</area></action>
                 <action method="setAfterCondition"><condition>last</condition></action>

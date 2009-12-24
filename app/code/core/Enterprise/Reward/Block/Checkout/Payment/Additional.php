@@ -32,7 +32,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Checkout_Onepage_Payment_Additional extends Mage_Core_Block_Template
+class Enterprise_Reward_Block_Checkout_Payment_Additional extends Mage_Core_Block_Template
 {
     /**
      * Getter
@@ -45,7 +45,7 @@ class Enterprise_Reward_Block_Checkout_Onepage_Payment_Additional extends Mage_C
     }
 
     /**
-     * Enter description here...
+     * Getter
      *
      * @return Mage_Sales_Model_Quote
      */
@@ -108,7 +108,7 @@ class Enterprise_Reward_Block_Checkout_Onepage_Payment_Additional extends Mage_C
      */
     public function isEnoughPoints()
     {
-        $baseGrandTotal = $this->getQuote()->getBaseGrandTotal()+$this->getQuote()->getBaseRewardPointsCurrencyAmount();
+        $baseGrandTotal = $this->getQuote()->getBaseGrandTotal()+$this->getQuote()->getBaseRewardCurrencyAmount();
         return $this->getReward()->isEnoughPointsToCoverAmount($baseGrandTotal);
     }
 }

@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Reward>
-            <version>1.7.0.0.5</version>
+            <version>1.7.0.0.6</version>
         </Enterprise_Reward>
     </modules>
     <global>
@@ -89,8 +89,8 @@
                 <totals>
                     <reward>
                         <class>enterprise_reward/total_quote_reward</class>
-                        <before>customerbalance</before>
-                        <after>grand_total</after>
+                        <after>wee,discount,tax,tax_subtotal,grand_total</after>
+                        <before>giftcardaccount,customerbalance</before>
                         <renderer>enterprise_reward/checkout_total</renderer>
                     </reward>
                 </totals>
@@ -134,12 +134,20 @@
                     </enterprise_reward>
                 </observers>
             </sales_order_save_after>
+            <sales_quote_collect_totals_before>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>quoteCollectTotalsBefore</method>
+                    </enterprise_reward>
+                </observers>
+            </sales_quote_collect_totals_before>
             <sales_quote_merge_after>
                 <observers>
-                    <enterprise_customerbalance>
-                        <class>enterprise_customerbalance/observer</class>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
                         <method>quoteMergeAfter</method>
-                    </enterprise_customerbalance>
+                    </enterprise_reward>
                 </observers>
             </sales_quote_merge_after>
             <sales_order_load_after>
@@ -345,5 +353,10 @@
                 <expiry_warning_template>enterprise_reward_notification_expiry_warning_template</expiry_warning_template>
             </notification>
         </enterprise_reward>
+        <sales>
+            <totals_sort>
+                <reward>80</reward>
+            </totals_sort>
+        </sales>
     </default>
 </config>

@@ -260,6 +260,19 @@ class Enterprise_Reward_Model_Observer
     }
 
     /**
+     * Set flag to recollect reward points totals
+     *
+     * @param Varien_Event_Observer $observer
+     * @@return Enterprise_Reward_Model_Observer
+     */
+    public function quoteCollectTotalsBefore(Varien_Event_Observer $observer)
+    {
+        $quote = $observer->getEvent()->getQuote();
+        $quote->setRewardPointsTotalCollected(false);
+        return $this;
+    }
+
+    /**
      * Set use reward points flag to new quote
      *
      * @param Varien_Event_Observer $observer
@@ -304,9 +317,12 @@ class Enterprise_Reward_Model_Observer
             if ($reward->getId()) {
                 $quote->setRewardInstance($reward);
                 $baseGrandTotal = $quote->getBaseGrandTotal()+$quote->getBaseRewardCurrencyAmount();
-                if ($reward->isEnoughPointsToCoverAmount($baseGrandTotal)) {
+                if (!$input->getMethod()) {
                     $input->setMethod('free');
                 }
+//                if ($reward->isEnoughPointsToCoverAmount($baseGrandTotal) && !$input->getMethod()) {
+//                    $input->setMethod('free');
+//                }
             }
             else {
                 $quote->setUseRewardPoints(false);
