@@ -219,6 +219,7 @@ extends Mage_Connect_Command
                     $pVer = $package['downloaded_version'];
                     $rest->setChannel($cache->chanUrl($pChan));
 
+
                     /**
                      * Upgrade mode
                      */
@@ -264,18 +265,34 @@ extends Mage_Connect_Command
 
                     $dir = $config->getChannelCacheDir($pChan);
                     @mkdir($dir, 0777, true);
-                    $file = $dir.DIRECTORY_SEPARATOR.$pName."-".$pVer.".tgz";
+                    $packageFileName = $pName."-".$pVer.".tgz";
+                    $file = $dir.DIRECTORY_SEPARATOR.$packageFileName;
                     if(!@file_exists($file)) {
+                        $this->ui()->output("downloading $packageFileName ...");
+                        $this->ui()->output("Starting to download $packageFileName ...");
                         $rest->downloadPackageFileOfRelease($pName, $pVer, $file);
+                        $this->ui()->output(sprintf("...done: %s bytes", number_format(filesize($file))));
                     }
+                    $downloadedPackages [] = $file;
+
+                } catch(Exception $e) {
+                    $this->doError($command, $e->getMessage());
+                }
+            }
+            foreach($downloadedPackages as $file)
+            {
+                try{
+
                     $package = new Mage_Connect_Package($file);
-
-
-
                     $conflicts = $package->checkPhpDependencies();
                     if(true !== $conflicts) {                       
                         $confilcts = implode(",",$conflicts);
-                        $err = "Package {$pChan}/{$pName} {$pVer} depends on PHP extensions: ".$conflicts;
+                        $err = sprintf("Package %s/%s %s depends on PHP extensions: %s", 
+                            $package->getChannel(),
+                            $package->getName(),
+                            $package->getVersion(),
+                            $conflicts
+                        );
                         if($forceMode) {
                             $this->doError($command, $err);
                         } else {
@@ -285,7 +302,12 @@ extends Mage_Connect_Command
 
                     $conflicts = $package->checkPhpVersion();
                     if(true !== $conflicts) {
-                        $err = "Package {$pChan}/{$pName} {$pVer}: ".$conflicts;
+                        $err = sprintf("Package {$pChan}/{$pName} {$pVer}: %s",
+                            $package->getChannel(),
+                            $package->getName(),
+                            $package->getVersion(),
+                            $conflicts
+                        );
                         if($forceMode) {
                             $this->doError($command, $err);
                         } else {
@@ -301,15 +323,28 @@ extends Mage_Connect_Command
                         }
                     }
                     $cache->addPackage($package);
+                    $this->ui()->output(
+                        sprintf("install ok: channel://connect.magentocommerce.com/%s/%s-%s",
+                            $package->getChannel(),
+                            $package->getName(),
+                            $package->getVersion()
+                        )
+                    );
 
-                    $installedDepsAssoc[] = array('channel'=>$pChan, 'name'=>$pName, 'version'=>$pVer);
-                    $installedDeps[] = array($pChan, $pName, $pVer);
-
+                    $installedDepsAssoc[] = array(
+                        'channel'=>$package->getChannel(), 
+                        'name'=>$package->getName(), 
+                        'version'=>$package->getVersion()
+                    );
+                    $installedDeps[] = array(
+                        $package->getChannel(), 
+                        $package->getName(),                               
+                        $package->getVersion()
+                    );
                 } catch(Exception $e) {
                     $this->doError($command, $e->getMessage());
                 }
             }
-
 
 
             $title = isset($options['title']) ? $options['title'] : "Package installed: ";
