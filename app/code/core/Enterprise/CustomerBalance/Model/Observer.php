@@ -198,9 +198,12 @@ class Enterprise_CustomerBalance_Model_Observer
                 ->loadByCustomer();
             if ($balance) {
                 $quote->setCustomerBalanceInstance($balance);
-                if ($balance->isFullAmountCovered($quote)) {
+                if (!$payment->getMethod()) {
                     $payment->setMethod('free');
                 }
+//                if ($balance->isFullAmountCovered($quote) && !$payment->getMethod()) {
+//                    $payment->setMethod('free');
+//                }
             }
             else {
                 $quote->setUseCustomerBalance(false);

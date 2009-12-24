@@ -81,7 +81,7 @@
                 <totals>
                     <customerbalance>
                         <class>enterprise_customerbalance/total_quote_customerbalance</class>
-                        <after>grand_total</after>
+                        <after>wee,discount,tax,tax_subtotal,grand_total,reward,giftcardaccount</after>
                         <renderer>enterprise_customerbalance/checkout_total</renderer>
                     </customerbalance>
                 </totals>

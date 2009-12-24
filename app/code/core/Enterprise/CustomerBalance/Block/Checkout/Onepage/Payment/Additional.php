@@ -51,6 +51,16 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
     }
 
     /**
+     * Getter
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    public function getQuote()
+    {
+        return $this->_getQuote();
+    }
+
+    /**
      * Get balance instance
      *
      * @return Enterprise_CustomerBalance_Model_Balance
