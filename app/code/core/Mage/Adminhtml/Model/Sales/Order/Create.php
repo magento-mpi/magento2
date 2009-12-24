@@ -920,11 +920,14 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         return $this;
     }
 
+    /**
+     * Collect shipping dates for wuote shipping address
+     */
     public function collectShippingRates()
     {
-        $this->collectRates();
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
         $this->getQuote()->getShippingAddress()->collectShippingRates();
+        $this->collectRates();
         return $this;
     }
 
