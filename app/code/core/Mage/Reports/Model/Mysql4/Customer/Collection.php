@@ -69,6 +69,10 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
 
     /**
      * Order for each customer
+     *
+     * @param string $from
+     * @param string $to
+     * @return Mage_Reports_Model_Mysql4_Customer_Collection
      */
     public function joinOrders($from = '', $to = '')
     {
@@ -94,13 +98,21 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
         return $this;
     }
 
+    /**
+     * Add orders count
+     *
+     * @return Mage_Reports_Model_Mysql4_Customer_Collection
+     */
     public function addOrdersCount()
     {
+        $joinCondition = "{$this->_customerIdTableName}.entity_id=order_state.entity_id";
+        $joinCondition .= " AND order_state.state <> '" . Mage_Sales_Model_Order::STATE_CANCELED . "'";
+
         $this->getSelect()
             ->columns(array("orders_count" => "COUNT(order_state.entity_id)"))
             ->joinLeft(
                 array('order_state' => $this->getTable('sales/order')),
-                'order_state.state <> \''.Mage_Sales_Model_Order::STATE_CANCELED.'\'',
+                $joinCondition,
                 array())
             ->group("e.entity_id");
 
@@ -110,6 +122,9 @@ class Mage_Reports_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_
     /**
      * Order summary info for each customer
      * such as orders_count, orders_avg_amount, orders_total_amount
+     *
+     * @param int $storeId
+     * @return Mage_Reports_Model_Mysql4_Customer_Collection
      */
     public function addSumAvgTotals($storeId = 0)
     {
