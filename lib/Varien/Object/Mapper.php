@@ -40,6 +40,7 @@ class Varien_Object_Mapper
      * or a numeric array of keys, assuming from = to
      *
      * Defaults must be assoc array of keys => values. Target will get default, if the value is not present in source
+     * If the source has getter defined instead of magic method, the value will be taken only if not empty
      *
      * Callbacks explanation (when $from or $to is not array):
      *   for $from:
@@ -83,11 +84,21 @@ class Varien_Object_Mapper
                     }
                 }
             } elseif ($fromIsVO) {
-                if ($from->hasData($keyFrom)) {
+                // get value if (any) value is found as in magic data or a non-empty value with declared getter
+                $value = null;
+                if ($shouldGet = $from->hasData($keyFrom)) {
+                    $value = $from->$get($keyFrom);
+                } elseif (method_exists($from, $get)) {
+                    $value = $from->$get($keyFrom);
+                    if ($value) {
+                        $shouldGet = true;
+                    }
+                }
+                if ($shouldGet) {
                     if ($toIsArray) {
-                        $to[$keyTo] = $from->$get($keyFrom);
+                        $to[$keyTo] = $value;
                     } elseif ($toIsVO) {
-                        $to->$set($keyTo, $from->$get($keyFrom));
+                        $to->$set($keyTo, $value);
                     }
                 }
             }
