@@ -185,8 +185,14 @@ class Mage_Paypal_Model_Ipn
     {
         // verify merchant email intended to receive notification
         $merchantEmail = $this->_config->businessAccount;
-        if ($merchantEmail && $merchantEmail != $this->getIpnFormData('receiver_email')) {
-            Mage::throwException(Mage::helper('paypal')->__('Requested %s and configured %s merchant emails do not match.', $this->getIpnFormData('receiver_email'), $merchantEmail));
+        if ($merchantEmail) {
+            $receiverEmail = $this->getIpnFormData('business');
+            if (!$receiverEmail) {
+                $receiverEmail = $this->getIpnFormData('receiver_email');
+            }
+            if ($merchantEmail != $receiverEmail) {
+                Mage::throwException(Mage::helper('paypal')->__('Requested %s and configured %s merchant emails do not match.', $receiverEmail, $merchantEmail));
+            }
         }
     }
 
