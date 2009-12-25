@@ -34,7 +34,10 @@ class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
     {
         parent::__construct();
     }
-
+    
+    /**
+     * Load terms and try to sort it by names
+     */
     protected function _loadTerms()
     {
         if (empty($this->_terms)) {
@@ -60,12 +63,14 @@ class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
                     continue;
                 }
                 $term->setRatio(($term->getPopularity()-$this->_minPopularity)/$range);
-                $this->_terms[$term->getName()] = $term;
+                $temp[$term->getName()] = $term;
+                $termKeys[] = $term->getName();
             }
-
-            $termKeys = array_keys($this->_terms);
             natcasesort($termKeys);
-            $this->_terms = array_merge(array_flip($termKeys), $this->_terms);
+
+            foreach ($termKeys as $termKey) {
+                $this->_terms[$termKey] = $temp[$termKey];	
+            }
         }
         return $this;
     }
