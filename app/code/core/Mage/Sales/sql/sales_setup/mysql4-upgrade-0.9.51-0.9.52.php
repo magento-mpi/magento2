@@ -32,16 +32,15 @@ $tableOrderItem     = $this->getTable('sales/order_item');
 
 $select = $installer->getConnection()->select()
     ->from($tableOrderItem, array(
-        'qty_ordered_sum'   => 'SUM(qty_ordered)',
-        'order_id'          => 'order_id'))
+        'total_qty_ordered'   => 'SUM(qty_ordered)',
+        'entity_id'           => 'order_id'))
     ->group(array('order_id'));
-$query = $installer->getConnection()->query($select);
 
-while ($row = $query->fetch()) {
-    $installer->getConnection()->update(
-        $tableOrder,
-        array('total_qty_ordered' => $row['qty_ordered_sum']),
-        $installer->getConnection()->quoteInto('entity_id=?', $row['order_id'])
-    );
-}
+$installer->run('CREATE TEMPORARY TABLE `tmp_order_items` ' . $select->assemble());
 
+$select->reset()
+    ->join('tmp_order_items', 'tmp_order_items.entity_id = order.entity_id', array('total_qty_ordered', 'entity_id'));
+$sqlQuery = $select->crossUpdateFromSelect(array('order' => $tableOrder));
+$installer->getConnection()->query($sqlQuery);
+
+$installer->run('DROP TEMPORARY TABLE `tmp_order_items`');
