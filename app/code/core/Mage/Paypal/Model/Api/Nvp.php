@@ -588,19 +588,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     protected function _exportAddressses($data)
     {
         $address = new Varien_Object();
-        Varien_Object_Mapper::accumulateByMap($data, $address, $this->_billingAddressMap, array(
-            // workaround for hardcoded fields non-compatible with PayPal (some of them may be empty in result data)
-            'city' => '.',
-            'company' => '.',
-            'postcode' => '.',
-            'region' => '.',
-            'telephone' => '.',
-            'middlename' => '.',
-            'lastname' => '.',
-            'prefix' => '.',
-            'suffix' => '.',
-            'street' => '.',
-        ));
+        Varien_Object_Mapper::accumulateByMap($data, $address, $this->_billingAddressMap);
         // street address lines workaround
         if ($address->hasStreet2()) {
              $address->setStreet(implode("\n", array($address->getStreet(), $address->getStreet2())));
@@ -623,6 +611,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         if (trim($address->getStreet())) {
             $shippingAddress = clone $address;
             Varien_Object_Mapper::accumulateByMap($data, $address, $this->_shippingAddressMap);
+            // PayPal doesn't provide detailed name fields, so the name will be overwritten
+            $shippingAddress->unsPrefix()->unsMiddlename()->unsLastname()->unsSuffix();
             $this->setExportedShippingAddress($shippingAddress);
         }
     }

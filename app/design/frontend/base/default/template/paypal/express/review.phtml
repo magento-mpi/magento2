@@ -92,9 +92,13 @@
 <?php endif; ?>
 
 <h2><?php echo $this->__('Billing Information') ?></h2>
-<h2><?php echo $this->__('Payment Method') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h2>
-<p><?php echo $this->__('PayPal Account') ?></p>
-<address><?php echo $this->getBillingAddress()->getEmail() ?></address>
+<h3><?php echo $this->__('Payment Method') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h3>
+<h3><?php echo $this->__('Billing Address') ?></h3>
+<address>
+<?php echo $this->getBillingAddress()->getFormated(true) ?>
+<br/>
+<?php echo $this->__('PayPal Account: %s', $this->getBillingAddress()->getEmail()) ?>
+</address>
 
 <h2><?php echo $this->__('Items in Your Shopping Cart') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Shopping Cart') ?></a></h2>
 

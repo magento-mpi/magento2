@@ -182,6 +182,7 @@ class Mage_Paypal_Model_Express_Checkout
             }
             $shippingAddress->setCollectShippingRates(true);
         }
+        $this->_ignoreAddressValidation();
 
         // import payment info
         $payment = $this->_quote->getPayment();
@@ -213,6 +214,7 @@ class Mage_Paypal_Model_Express_Checkout
     public function updateShippingMethod($methodCode)
     {
         if (!$this->_quote->getIsVirtual() && $shippingAddress = $this->_quote->getShippingAddress()) {
+            $this->_ignoreAddressValidation();
             if (!$shippingAddress->getEmail() || $methodCode != $shippingAddress->getShippingMethod()) {
                 $shippingAddress->setShippingMethod($methodCode)->setCollectShippingRates(true);
                 $this->_quote->collectTotals()->save();
@@ -234,6 +236,7 @@ class Mage_Paypal_Model_Express_Checkout
             $this->updateShippingMethod($shippingMethodCode);
         }
         $this->_quote->getPayment()->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_TOKEN, $token);
+        $this->_ignoreAddressValidation();
         $order = Mage::getModel('sales/service_quote', $this->_quote)->submit();
         $this->_quote->save();
 
@@ -256,6 +259,17 @@ class Mage_Paypal_Model_Express_Checkout
                 break;
         }
         return $order;
+    }
+
+    /**
+     * Make sure addresses will be saved without validation errors
+     */
+    private function _ignoreAddressValidation()
+    {
+        $this->_quote->getBillingAddress()->setShouldIgnoreValidation(true);
+        if (!$this->_quote->getIsVirtual()) {
+            $this->_quote->getShippingAddress()->setShouldIgnoreValidation(true);
+        }
     }
 
     /**
