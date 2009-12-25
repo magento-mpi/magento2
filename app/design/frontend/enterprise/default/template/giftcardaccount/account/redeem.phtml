@@ -58,7 +58,7 @@
     //<![CDATA[
     var giftcardForm = new VarienForm('giftcard-form');
     function giftCardAccountLookupBalance() {
-        new Ajax.Updater('giftcard_balance_lookup', '<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/quickCheck') ?>', {
+        new Ajax.Updater('giftcard_balance_lookup', '<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/quickCheck', array('_secure' => true)) ?>', {
             onCreate: function() {
                 $('gc-please-wait').show()
             },
