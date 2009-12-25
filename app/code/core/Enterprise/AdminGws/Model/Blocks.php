@@ -977,6 +977,20 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Remove add button for users who does not permissions for any site
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeCustomerSegmentAddButton($observer)
+    {
+        if (! $this->_role->getWebsiteIds()) {
+            $observer->getEvent()->getBlock()->removeButton('add');
+        }
+        return $this;
+    }
+
+    /**
      * Remove control buttons for all GWS limited users with no exclusive rights
      *
      * @param Varien_Event_Observer $observer

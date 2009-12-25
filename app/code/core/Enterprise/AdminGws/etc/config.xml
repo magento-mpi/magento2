@@ -596,6 +596,7 @@
                     <enterprise_banner__adminhtml_banner_new>validateBannerPermissions</enterprise_banner__adminhtml_banner_new>
                     <enterprise_cms__adminhtml_cms_hierarchy_edit>removeCmsHierarchyFormButtons</enterprise_cms__adminhtml_cms_hierarchy_edit>
                     <enterprise_cms__adminhtml_cms_page_edit_tab_hierarchy>prepareCmsHierarchyNodes</enterprise_cms__adminhtml_cms_page_edit_tab_hierarchy>
+                    <enterprise_customersegment__adminhtml_customersegment>removeCustomerSegmentAddButton</enterprise_customersegment__adminhtml_customersegment>
                     <adminhtml__customer_group>removeCustomerGroupAddButton</adminhtml__customer_group>
                     <adminhtml__customer_group_edit>removeCustomerGroupControlButtons</adminhtml__customer_group_edit>
 
