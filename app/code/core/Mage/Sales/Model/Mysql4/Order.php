@@ -107,31 +107,12 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
                 $writeAdapter->delete($tableName, $deleteCondition);
             }
 
-            $qtySelect = $writeAdapter->select()
-                ->from(array('p' => $this->getTable('sales/order_item')), array())
-                ->columns(array(
-                    'order_id',
-                    'total_qty'  => 'IFNULL(SUM(c.qty_ordered), SUM(p.qty_ordered))'
-                ))
-                ->joinInner(array('o' => $this->getTable('sales/order')), 'p.order_id = o.entity_id', array())
-                ->joinLeft(array('c' => $this->getTable('sales/order_item')),
-                    'c.parent_item_id IS NOT NULL AND p.item_id = c.parent_item_id', array()
-                )
-                ->where('p.parent_item_id IS NULL')
-                ->where('o.state <> ?', 'pending');
-
-                if (!is_null($from) || !is_null($to)) {
-                    $qtySelect->where("DATE(o.created_at) IN(?)", $subQuery);
-                }
-
-                $qtySelect->group('p.order_id');
-
             $columns = array(
                 'period'                    => 'DATE(e.created_at)',
                 'store_id'                  => 'e.store_id',
                 'order_status'              => 'e.status',
                 'orders_count'              => 'COUNT(e.entity_id)',
-                'total_qty_ordered'         => 'SUM(oa.total_qty)',
+                'total_qty_ordered'         => 'SUM(e.total_qty_ordered)',
                 'base_profit_amount'        => 'SUM(IFNULL(e.base_subtotal_invoiced, 0) * e.base_to_global_rate) + SUM(IFNULL(e.base_discount_refunded, 0) * e.base_to_global_rate) - SUM(IFNULL(e.base_subtotal_refunded, 0) * e.base_to_global_rate) - SUM(IFNULL(e.base_discount_invoiced, 0) * e.base_to_global_rate) - SUM(IFNULL(e.base_total_invoiced_cost, 0) * e.base_to_global_rate)',
                 'base_subtotal_amount'      => 'SUM(e.base_subtotal * e.base_to_global_rate)',
                 'base_tax_amount'           => 'SUM(e.base_tax_amount * e.base_to_global_rate)',
@@ -145,7 +126,6 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
 
             $select = $writeAdapter->select()
                 ->from(array('e' => $this->getTable('sales/order')), $columns)
-                ->joinLeft(array('oa'=> $qtySelect), 'e.entity_id = oa.order_id', array())
                 ->where('e.state <> ?', 'pending');
 
                 if (!is_null($from) || !is_null($to)) {

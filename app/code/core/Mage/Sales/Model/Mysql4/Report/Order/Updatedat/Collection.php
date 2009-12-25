@@ -38,7 +38,7 @@ class Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection extends Mage_Sal
     protected $_inited = false;
     protected $_selectedColumns = array(
         'orders_count'              => 'COUNT(e.entity_id)',
-        'total_qty_ordered'         => 'SUM(oa.total_qty)',
+        'total_qty_ordered'         => 'SUM(e.total_qty_ordered)',
         'base_profit_amount'        => 'SUM(IFNULL(e.base_subtotal_invoiced, 0) * e.base_to_global_rate) + SUM(IFNULL(e.base_discount_refunded, 0) * e.base_to_global_rate) - SUM(IFNULL(e.base_subtotal_refunded, 0) * e.base_to_global_rate) - SUM(IFNULL(e.base_discount_invoiced, 0) * e.base_to_global_rate) - SUM(IFNULL(e.base_total_invoiced_cost, 0) * e.base_to_global_rate)',
         'base_subtotal_amount'      => 'SUM(e.base_subtotal * e.base_to_global_rate)',
         'base_tax_amount'           => 'SUM(e.base_tax_amount * e.base_to_global_rate)',
@@ -157,29 +157,8 @@ class Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection extends Mage_Sal
                 ->where($where);
         }
 
-        $qtySelect = clone $this->getSelect();
-        $qtySelect->from(array('p' => $this->getTable('sales/order_item')), array())
-            ->columns(array(
-                'order_id',
-                'total_qty'  => 'IFNULL(SUM(c.qty_ordered), SUM(p.qty_ordered))'
-            ))
-            ->joinInner(array('o' => $mainTable), 'p.order_id = o.entity_id', array())
-            ->joinLeft(array('c' => $this->getTable('sales/order_item')),
-                'c.parent_item_id IS NOT NULL AND p.item_id = c.parent_item_id', array()
-            )
-            ->where('p.parent_item_id IS NULL')
-            ->where('o.state <> ?', 'pending');
-
-        if (!is_null($this->_from) || !is_null($this->_to)) {
-            $qtySelect->where("DATE(o.updated_at) IN(?)", $subQuery);
-        }
-
-        $qtySelect->group('p.order_id');
-
         $select = $this->getSelect()
-            ->from(array('e' => $mainTable), array())
-            ->columns($columns)
-            ->joinLeft(array('oa'=> $qtySelect), 'e.entity_id = oa.order_id', array())
+            ->from(array('e' => $mainTable), $columns)
             ->where('e.state <> ?', 'pending');
 
         $this->_applyStoresFilter();
