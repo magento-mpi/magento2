@@ -188,7 +188,7 @@ class Mage_Paypal_Model_Config
      */
     public function setStoreId($storeId)
     {
-        $this->_storeId = $storeId;
+        $this->_storeId = (int)$storeId;
         return $this;
     }
 

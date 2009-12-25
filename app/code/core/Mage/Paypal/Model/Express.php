@@ -57,6 +57,13 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     protected $_config = null;
 
+    /**
+     * API instance
+     *
+     * @var Mage_Paypal_Model_Api_Nvp
+     */
+    protected $_api = null;
+
     protected $_allowCurrencyCode = array(
         'AUD', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD',
         'HUF', 'ILS', 'JPY', 'MXN', 'NOK', 'NZD',
@@ -118,13 +125,19 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Get Paypal API Model instance as singleton
+     * API instance getter
+     * Sets current store id to current config instance and passes it to API
      *
      * @return Mage_Paypal_Model_Api_Nvp
      */
     public function getApi()
     {
-        return Mage::getSingleton('paypal/api_nvp');
+        if (null === $this->_api) {
+            $this->_api = Mage::getModel('paypal/api_nvp');
+        }
+        $this->getConfig(); // make sure config is instantiated
+        $this->_api->setConfigObject($this->_config->setStoreId($this->getStore()));
+        return $this->_api;
     }
 
     /**
@@ -175,16 +188,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function getSolutionType()
     {
         return $this->getConfigData('solution_type');
-    }
-
-    /**
-     * Used for enablin line item options
-     *
-     * @return string
-     */
-    public function getLineItemEnabled()
-    {
-        return $this->getConfigData('line_item');
     }
 
     /**
@@ -359,8 +362,9 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         ;
 
         // add line items
-        if ($this->getLineItemEnabled()) {
-            $api->setLineItems($order->getAllItems());
+        if ($this->_config->lineItem) {
+            list($items, $totals) = Mage::helper('paypal')->prepareLineItems($order);
+            $this->_api->setLineItems($items)->setLineItemTotals($totals);
         }
         if ($this->getFraudFilterStatus()) {
             $api->setReturnFmfDetails(true);
@@ -485,5 +489,17 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         }
         $this->_config = $instance;
         return $this;
+    }
+
+    /**
+     * Config instance getter
+     * @return Mage_Paypal_Model_Config
+     */
+    public function getConfig()
+    {
+        if (null === $this->_config) {
+            $this->_config = Mage::getModel('paypal/config', array($this->_code, (int)$this->getStore()));
+        }
+        return $this->_config;
     }
 }

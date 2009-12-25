@@ -29,5 +29,75 @@
  */
 class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Get line items and totals from sales quote or order
+     *
+     * PayPal calculates grand total by this formula:
+     * sum(item_base_price * qty) + subtotal + shipping + shipping_discount
+     * where subtotal doesn't include anything, shipping_discount is negative
+     * the items discount should go as separate cart line item with negative amount
+     * the shipping_discount is outlined in PayPal API docs, but ignored for some reason. Hence commented out.
+     *
+     * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $salesEntity
+     * @return array (array of $items, array of totals)
+     */
+    public function prepareLineItems(Mage_Core_Model_Abstract $salesEntity)
+    {
+        $items = array();
+        foreach ($salesEntity->getAllItems() as $item) {
+            $items[] = new Varien_Object($this->_prepareLineItemFields($salesEntity, $item));
+        }
+        $discountAmount = 0; // this amount always includes the shipping discount
+        if ($salesEntity instanceof Mage_Sales_Model_Order) {
+            $discountAmount = abs(1 * $salesEntity->getBaseDiscountAmount());
+            $totals = array(
+                'subtotal' => $salesEntity->getBaseSubtotal() - $discountAmount,
+                'tax'      => $salesEntity->getBaseTaxAmount(),
+                'shipping' => $salesEntity->getBaseShippingAmount(),
+//                'shipping_discount' => -1 * abs($salesEntity->getBaseShippingDiscountAmount()),
+            );
+        } else {
+            $address = $salesEntity->getIsVirtual() ? $salesEntity->getBillingAddress() : $salesEntity->getShippingAddress();
+            $discountAmount = abs(1 * $address->getBaseDiscountAmount());
+            $totals = array (
+                'subtotal' => $salesEntity->getBaseSubtotal() - $discountAmount,
+                'tax'      => $address->getBaseTaxAmount(),
+                'shipping' => $address->getBaseShippingAmount(),
+//                'shipping_discount' => -1 * abs($address->getBaseShippingDiscountAmount()),
+            );
+        }
+        // discount total as line item
+        if ($discountAmount) {
+            $items[] = new Varien_Object(array(
+                'name'     => Mage::helper('paypal')->__('Discount'),
+                'qty'      => 1,
+                'amount'   => -1.00 * $discountAmount,
+            ));
+        }
+        return array($items, $totals);
+    }
 
+    /**
+     * Get one line item key-value array
+     *
+     * @param Mage_Core_Model_Abstract $salesEntity
+     * @param Varien_Object $item
+     * @return array
+     */
+    protected function _prepareLineItemFields(Mage_Core_Model_Abstract $salesEntity, Varien_Object $item)
+    {
+        if ($salesEntity instanceof Mage_Sales_Model_Order) {
+            $qty = $item->getQtyOrdered();
+            $amount = $item->getBasePrice();
+        } else {
+            $qty = $item->getTotalQty();
+            $amount = $item->getBaseCalculationPrice();
+        }
+        return array(
+            'id'       => $item->getSku(),
+            'name'     => $item->getName(),
+            'qty'      => $qty,
+            'amount'   => (float)$amount,
+        );
+    }
 }

@@ -32,6 +32,12 @@
 abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
 {
     /**
+     * Config instance
+     * @var Mage_Paypal_Model_Config
+     */
+    protected $_config = null;
+
+    /**
      * Global private to public interface map
      * @var array
      */
@@ -42,6 +48,13 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      * @var array
      */
     protected $_exportToRequestFilters = array();
+
+    /**
+     * Line items export to request mapping settings
+     * @var array
+     */
+    protected $_lineItemsExportMap = array();
+    protected $_lineItemsExportItemsFormat = array();
 
     const FRAUD_ERROR_CODE = 11610;
 
@@ -68,7 +81,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
 
     /**
      * return server name from as server variable
-     *
+     * @deprecated is this really needed?
      * @return string
      */
     public function getServerName()
@@ -77,45 +90,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
             $this->setServerName($_SERVER['SERVER_NAME']);
         }
         return $this->getData('server_name');
-    }
-
-    /**
-     * Return config data based on paymethod, store id
-     *
-     * @return string
-     */
-    public function getConfigData($key, $default=false, $storeId = null)
-    {
-        return $this->_getGeneralConfigData($key, $default, $storeId, 'paypal/wpp/');
-    }
-
-    /**
-     * Get PayPal Account Style Configuration
-     *
-     */
-    public function getStyleConfigData($key, $default=false, $storeId = null)
-    {
-        return $this->_getGeneralConfigData($key, $default, $storeId, 'paypal/style/');
-    }
-
-    /**
-     * Return config data by give path, key, default and store Id
-     * TODO: remove this
-     *
-     */
-    private function _getGeneralConfigData($key, $default=false, $storeId = null, $path = 'paypal/wpp/')
-    {
-        if (!$this->hasData($key)) {
-            if ($storeId === null && $this->getPayment() instanceof Varien_Object) {
-                $storeId = $this->getPayment()->getOrder()->getStoreId();
-            }
-            $value = Mage::getStoreConfig($path . $key, $storeId);
-            if (empty($value)) {
-                $value = $default;
-            }
-            $this->setData($key, $value);
-        }
-        return $this->getData($key);
     }
 
     /**
@@ -181,23 +155,13 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Return sandbox flag state, by config
-     *
-     * @return bool
-     */
-    public function getSandboxFlag()
-    {
-        return $this->getConfigData('sandbox_flag', true);
-    }
-
-    /**
      * Return Paypal Api user name based on config data
      *
      * @return string
      */
     public function getApiUsername()
     {
-        return $this->getConfigData('api_username');
+        return $this->_config->apiUsername;
     }
 
     /**
@@ -207,7 +171,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getApiPassword()
     {
-        return $this->getConfigData('api_password');
+        return $this->_config->apiPassword;
     }
 
     /**
@@ -217,27 +181,17 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getApiSignature()
     {
-        return $this->getConfigData('api_signature');
+        return $this->_config->apiSignature;
     }
 
     /**
-     * Return Paypal Express check out button source
+     * BN code getter
      *
      * @return string
      */
-    public function getButtonSourceEc()
+    public function getBuildNotationCode()
     {
-        return $this->getConfigData('button_source_ec', 'Varien_Cart_EC_US');
-    }
-
-    /**
-     * Return Paypal direct payment button source
-     *
-     * @return string
-     */
-    public function getButtonSourceDp()
-    {
-        return $this->getConfigData('button_source_dp', 'Varien_Cart_DP_US');
+        return $this->_config->getBuildNotationCode();
     }
 
     /**
@@ -247,7 +201,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getUseProxy()
     {
-        return $this->getConfigData('use_proxy', false);
+        return $this->_getDataOrConfig('use_proxy', false);
     }
 
     /**
@@ -257,7 +211,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getProxyHost()
     {
-        return $this->getConfigData('proxy_host', '127.0.0.1');
+        return $this->_getDataOrConfig('proxy_host', '127.0.0.1');
     }
 
     /**
@@ -267,7 +221,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getProxyPort()
     {
-        return $this->getConfigData('proxy_port', '808');
+        return $this->_getDataOrConfig('proxy_port', '808');
     }
 
     /**
@@ -277,7 +231,57 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getDebug()
     {
-        return $this->getConfigData('debug_flag', true);
+        return $this->_config->debugFlag;
+    }
+
+    /**
+     * PayPal page CSS getter
+     *
+     * @return string
+     */
+    public function getPageStyle()
+    {
+        return $this->_getDataOrConfig('page_style');
+    }
+
+    /**
+     * PayPal page header image URL getter
+     *
+     * @return string
+     */
+    public function getHdrimg()
+    {
+        return $this->_getDataOrConfig('hdrimg');
+    }
+
+    /**
+     * PayPal page header border color getter
+     *
+     * @return string
+     */
+    public function getHdrbordercolor()
+    {
+        return $this->_getDataOrConfig('hdrbordercolor');
+    }
+
+    /**
+     * PayPal page header background color getter
+     *
+     * @return string
+     */
+    public function getHdrbackcolor()
+    {
+        return $this->_getDataOrConfig('hdrbackcolor');
+    }
+
+    /**
+     * PayPal page "payflow color" (?) getter
+     *
+     * @return string
+     */
+    public function getPayflowcolor()
+    {
+        return $this->_getDataOrConfig('payflowcolor');
     }
 
     /**
@@ -386,60 +390,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Refund type ('Full', 'Partial')
-     *
-     * @return string
-     */
-    public function getRefundType()
-    {
-        return $this->getSessionData('refund_type');
-    }
-
-    /**
-     * Set payment return type in session as a result of paypal response come
-     *
-     * @param $data string
-     *
-     * @return Mage_Paypal_Model_Api_Abstract
-     */
-    public function setRefundType($data)
-    {
-        return $this->setSessionData('refund_type', $data);
-    }
-
-    /**
-     * Return paypal request errors, get error message from response and set in session
-     *
-     * @return string
-     */
-    public function getError()
-    {
-        return $this->getSessionData('error');
-    }
-
-
-    /**
-     * Error message getter intended to be based on error session data
-     * @return string
-     */
-    public function getErrorMessage()
-    {
-        return '';
-    }
-
-    /**
-     * Set paypal request error data in session
-     *
-     * @param $data string
-     *
-     * @return Mage_Paypal_Model_Api_Abstract
-     */
-    public function setError($data)
-    {
-        return $this->setSessionData('error', $data);
-    }
-
-    /**
      * Return ccType title by given type code
      *
      * @return string
@@ -486,6 +436,17 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     * Config instance setter
+     * @param Mage_Paypal_Model_Config $config
+     * @return Mage_Paypal_Model_Api_Abstract
+     */
+    public function setConfigObject(Mage_Paypal_Model_Config $config)
+    {
+        $this->_config = $config;
+        return $this;
+    }
+
+    /**
      * Export $this public data to private request array
      *
      * @param array $internalRequestMap
@@ -525,6 +486,44 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     * Prepare line items request
+     *
+     * @param array &$request
+     */
+    protected function _exportLineItems(array &$request)
+    {
+        $items = $this->getLineItems();
+        if (empty($items)) {
+            return;
+        }
+        // line items
+        $i = 0;
+        foreach ($items as $item) {
+            foreach ($this->_lineItemsExportItemsFormat as $publicKey => $privateFormat) {
+                $value = $item->getDataUsingMethod($publicKey);
+                if (is_float($value)) {
+                    $value = $this->_filterAmount($value);
+                }
+                $request[sprintf($privateFormat, $i)] = $value;
+            }
+            $i++;
+        }
+        // line item totals
+        $lineItemTotals = $this->getLineItemTotals();
+        if ($lineItemTotals) {
+            $request = Varien_Object_Mapper::accumulateByMap($lineItemTotals, $request, $this->_lineItemsExportMap);
+            foreach ($this->_lineItemsExportMap as $privateKey) {
+                if (isset($request[$privateKey])) {
+                    $request[$privateKey] = $this->_filterAmount($request[$privateKey]);
+                } else {
+                    Mage::logException(new Exception(sprintf('Missing index "%s" for line item totals.', $privateKey)));
+                    Mage::throwException(Mage::helper('paypal')->__('Unable to calculate cart line item totals.'));
+                }
+            }
+        }
+    }
+
+    /**
      * Filter amounts in API calls
      * @param float|string $value
      * @return string
@@ -532,6 +531,21 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     protected function _filterAmount($value)
     {
         return sprintf('%.2F', $value);
+    }
+
+    /**
+     * Unified getter that looks in data or falls back to config
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    protected function _getDataOrConfig($key, $default = null)
+    {
+        if ($this->hasData($key)) {
+            return $this->getData($key);
+        }
+        return $this->_config->$key ? $this->_config->$key : $default;
     }
 
     /**

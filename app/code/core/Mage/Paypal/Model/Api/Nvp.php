@@ -43,6 +43,12 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * @var array
      */
     protected $_globalMap = array(
+        // each call
+        'VERSION'      => 'version',
+        'USER'         => 'api_username',
+        'PWD'          => 'api_password',
+        'SIGNATURE'    => 'api_signature',
+        'BUTTONSOURCE' => 'build_notation_code',
         // commands
         'PAYMENTACTION' => 'payment_type',
         'RETURNURL'     => 'return_url',
@@ -62,7 +68,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'HDRBORDERCOLOR' => 'hdrbordercolor',
         'HDRBACKCOLOR'   => 'hdrbackcolor',
         'PAYFLOWCOLOR'   => 'payflowcolor',
-        'BUTTONSOURCE'   => 'button_source_ec',
 
         // transaction info
         'AUTHORIZATIONID' => 'authorization_id',
@@ -84,6 +89,12 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 //        'CAVV'
         'XID' => 'centinel_verification_id',
     );
+
+    /**
+     * Request map for each API call
+     * @var array
+     */
+    protected $_eachCallRequest = array('VERSION', 'USER', 'PWD', 'SIGNATURE', 'BUTTONSOURCE',);
 
     /**
      * SetExpressCheckout request/response map
@@ -161,6 +172,23 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     );
 
     /**
+     * Line items export mapping settings
+     * @var array
+     */
+    protected $_lineItemsExportMap = array(
+        'subtotal' => 'ITEMAMT',
+        'shipping' => 'SHIPPINGAMT',
+        'tax'      => 'TAXAMT',
+        // 'shipping_discount' => 'SHIPPINGDISCOUNT', // currently ignored by API for some reason
+    );
+    protected $_lineItemsExportItemsFormat = array(
+        'id'     => 'L_NUMBER%d',
+        'name'   => 'L_NAME%d',
+        'qty'    => 'L_QTY%d',
+        'amount' => 'L_AMT%d',
+    );
+
+    /**
      * Fields that should be replaced in debug with '***'
      *
      * @var array
@@ -170,31 +198,13 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     );
 
     /**
-     * Return page style for given paymethod
-     *
-     * @return string
-     */
-    public function getPageStyle()
-    {
-        return $this->getStyleConfigData('page_style');
-    }
-
-    /**
-     * Return Api endpoint url. used for direct paypal requests
+     * API endpoint getter
      *
      * @return string
      */
     public function getApiEndpoint()
     {
-        if (!$this->getData('api_endpoint')) {
-            if ($this->getSandboxFlag()) {
-                $default = 'https://api-3t.sandbox.paypal.com/nvp';
-            } else {
-                $default = 'https://api-3t.paypal.com/nvp';
-            }
-            return $this->getConfigData('api_endpoint', $default);
-        }
-        return $this->getData('api_endpoint');
+        return sprintf('https://api-3t%s.paypal.com/nvp', $this->_config->sandboxFlag ? '.sandbox' : '');
     }
 
     /**
@@ -216,12 +226,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     {
         $request = $this->_exportToRequest($this->_setExpressCheckoutRequest);
         $request['LOCALECODE'] = Mage::app()->getLocale()->getLocaleCode();
-
-        // prepare line items
-        if ($lineItems = $this->getLineItems()) {
-            $lineItemArray = $this->_prepareLineItem($lineItems, $this->getItemAmount(), $this->getItemTaxAmount(), $this->getShippingAmount(), $this->getDiscountAmount());
-            $request = array_merge($request, $lineItemArray);
-        }
+        $this->_exportLineItems($request);
 
         // import/suppress shipping address, if any
         if ($address = $this->getShippingAddress()) {
@@ -255,11 +260,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     public function callDoExpressCheckoutPayment()
     {
         $request = $this->_exportToRequest($this->_doExpressCheckoutPaymentRequest);
-
-        $request['TAXAMT'] = sprintf('%.2F', $this->getTaxAmount());
-        $request['SHIPPINGAMT'] = sprintf('%.2F',$this->getShippingAmount());
-
-        $this->_prepareLineItems($request);
+        $this->_exportLineItems($request);
         if ($this->getReturnFmfDetailes()) {
             $request['RETURNFMFDETAILS '] = 1;
         }
@@ -327,10 +328,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $request['RETURNFMFDETAILS '] = 1;
         }
 
-        if ($lineItems = $this->getLineItems()) {
-            $lineItemArray = $this->_prepareLineItem($lineItems, $this->getItemAmount(), $this->getItemTaxAmount(), $this->getShippingAmount(), $this->getDiscountAmount());
-            $request = array_merge($request, $lineItemArray);
-        }
+        $this->_exportLineItems($request);
 
         $response = $this->call('DoDirectPayment', $request);
 
@@ -478,13 +476,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function call($methodName, array $request)
     {
-        $request = array_merge(array(
-            'METHOD'    => $methodName,
-            'VERSION'   => $this->getVersion(),
-            'USER'      => $this->getApiUserName(),
-            'PWD'       => $this->getApiPassword(),
-            'SIGNATURE' => $this->getApiSignature(),
-        ), $request);
+        $request['method'] = $methodName;
+        $request = $this->_exportToRequest($this->_eachCallRequest, $request);
 
         if ($this->getDebug()) {
             $requestDebug = $request;
@@ -550,7 +543,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         }
         if ($errors) {
             $errors = implode(' ', $errors);
-            $e = new Exception(sprintf('PayPal NVP gateway errors %s Corellation ID: %s. Version: %s.', $errors,
+            $e = new Exception(sprintf('PayPal NVP gateway errors: %s Corellation ID: %s. Version: %s.', $errors,
                 isset($response['CORRELATIONID']) ? $response['CORRELATIONID'] : '',
                 isset($response['VERSION']) ? $response['VERSION'] : ''
             ));
@@ -586,53 +579,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $nvpstr=substr($nvpstr,$valuepos+1,strlen($nvpstr));
          }
         return $nvpArray;
-    }
-
-    /**
-     * Prepare line items request
-     *
-     * @param array &$request
-     */
-    protected function _prepareLineItems(array &$request)
-    {
-        $items = $this->getLineItems();
-        $subtotal = sprintf('%.2F', $this->getSubtotalAmount());
-        $request['ITEMAMT'] = $subtotal;
-        if (!$items || !$subtotal) {
-            return;
-        }
-
-        $i = 0;
-        foreach($items as $item) {
-            if ($item->getName() && $item->getBaseRowTotal()) {
-                $request["L_NAME{$i}"]   = $item->getName();
-                $request["L_NUMBER{$i}"] = $item->getProductId();
-                if ($item->getBaseCalculationPrice()) {
-                    $request["L_AMT{$i}"] = (float)$item->getBaseCalculationPrice();
-                } else {
-                    $request["L_AMT{$i}"] = (float)$item->getBasePrice();
-                }
-                if ($item->getTotalQty()) {
-                    $request["L_QTY{$i}"]    = $item->getTotalQty();
-                    $request["L_TAXAMT{$i}"] = (float)($item->getBaseTaxAmount() / $item->getTotalQty());
-                } else {
-                    $request["L_QTY{$i}"]    = (int) $item->getQtyOrdered();
-                    $request["L_TAXAMT{$i}"] = (float)($item->getBaseTaxAmount() / $item->getQtyOrdered());
-                }
-            }
-            $i++;
-        }
-
-        $discount = abs(1 * $this->getDiscountAmount());
-        if ($discount > 0) {
-            $i++;
-            $request["L_NAME{$i}"]   = Mage::helper('paypal')->__('Discount');
-            $request["L_NUMBER{$i}"] = 0;
-            $request["L_AMT{$i}"]    = -1 * $discount;
-            $request["L_QTY{$i}"]    = 1;
-//            $request["L_DESC{$i}"]   = Mage::helper('paypal')->__('Discount');
-            $request["L_TAXAMT{$i}"] = 0;
-        }
     }
 
     /**

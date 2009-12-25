@@ -142,9 +142,14 @@ class Mage_Paypal_Model_Express_Checkout
             $this->_api->setSuppressShipping(true);
         } else {
             $address = $this->_quote->getShippingAddress();
-            if ($address->getId()) {
+            if ($address->getEmail()) {
                 $this->_api->setShippingAddress($address);
             }
+        }
+        // add line items
+        if ($this->_config->lineItem) {
+            list($items, $totals) = Mage::helper('paypal')->prepareLineItems($this->_quote);
+            $this->_api->setLineItems($items)->setLineItemTotals($totals);
         }
 
         $this->_config->exportExpressCheckoutStyleSettings($this->_api);
@@ -208,7 +213,7 @@ class Mage_Paypal_Model_Express_Checkout
     public function updateShippingMethod($methodCode)
     {
         if (!$this->_quote->getIsVirtual() && $shippingAddress = $this->_quote->getShippingAddress()) {
-            if (!$shippingAddress->getId() || $methodCode != $shippingAddress->getShippingMethod()) {
+            if (!$shippingAddress->getEmail() || $methodCode != $shippingAddress->getShippingMethod()) {
                 $shippingAddress->setShippingMethod($methodCode)->setCollectShippingRates(true);
                 $this->_quote->collectTotals()->save();
             }
@@ -270,7 +275,7 @@ class Mage_Paypal_Model_Express_Checkout
     protected function _getApi()
     {
         if (null === $this->_api) {
-            $this->_api = Mage::getModel('paypal/api_nvp');
+            $this->_api = Mage::getModel('paypal/api_nvp')->setConfigObject($this->_config);
         }
         return $this->_api;
     }
