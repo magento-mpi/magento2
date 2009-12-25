@@ -114,6 +114,14 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     public function saveAction()
     {
         if ($this->getRequest()->isPost()) {
+            if (Mage::getModel('enterprise_cms/hierarchy_lock')->isLockedByOther()) {
+                $this->_getSession()->addError(
+                    Mage::helper('enterprise_cms')->__('This page is currently locked.')
+                );
+                $this->_redirect('*/*/');
+                return $this;
+            }
+
             /** @var $node Enterprise_Cms_Model_Hierarchy_Node */
             $node       = Mage::getModel('enterprise_cms/hierarchy_node');
             $data       = $this->getRequest()->getPost();
