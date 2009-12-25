@@ -66,6 +66,10 @@
                 this._validate();
             }
             else{
+            	if (this.isSubmitted) {
+                    return false;
+                }
+                this.isSubmitted = true;
                 this._submit();
             }
             displayLoadingMask();
