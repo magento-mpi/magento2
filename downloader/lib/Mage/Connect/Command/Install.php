@@ -279,6 +279,7 @@ extends Mage_Connect_Command
                     $this->doError($command, $e->getMessage());
                 }
             }
+            $this->_flushInstalledDeps();
             foreach($downloadedPackages as $file)
             {
                 try{
@@ -314,16 +315,16 @@ extends Mage_Connect_Command
 
                     if(!$noFilesInstall) {
                         if($ftp) {
-                            $packager->processInstallPackageFtp($package, $file, $config, $ftpObj);
+                            $this->getPackager()->processInstallPackageFtp($package, $file, $config, $ftpObj);
                         } else {
-                            $packager->processInstallPackage($package, $file, $config);
+                            $this->getPackager()->processInstallPackage($package, $file, $config);
                         }
                     }
                     $cache->addPackage($package);
                     $this->ui()->output(
                         vsprintf("install ok: channel://connect.magentocommerce.com/%s/%s-%s", $pkgInfoArr)
                     );
-
+                    
                     $installedDepsAssoc[] = array(
                         'channel'=>$package->getChannel(), 
                         'name'=>$package->getName(), 
@@ -340,7 +341,7 @@ extends Mage_Connect_Command
             $out = array($command => array('data'=>$installedDeps, 'assoc'=>$installedDepsAssoc,  'title'=>$title));
 
             if($ftp) {
-                $packager->writeToRemoteCache($cache, $ftpObj);
+                $this->getPackager()->writeToRemoteCache($cache, $ftpObj);
                 @unlink($config->getFilename());
             }
 
@@ -349,7 +350,7 @@ extends Mage_Connect_Command
 
         } catch (Exception $e) {
             if($ftp) {
-                $packager->writeToRemoteCache($cache, $ftpObj);
+                $this->getPackager()->writeToRemoteCache($cache, $ftpObj);
                 @unlink($config->getFilename());
             }
             return $this->doError($command, $e->getMessage());

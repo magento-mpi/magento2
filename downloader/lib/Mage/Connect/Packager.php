@@ -34,6 +34,9 @@
 
 class Mage_Connect_Packager
 {
+    private
+        $_ftpString = null,
+        $_ftpObj = null;
 
     /**
      * Constructor
@@ -76,31 +79,33 @@ class Mage_Connect_Packager
 
     public function getRemoteConf($ftpString)
     {
-        $ftpObj = new Mage_Connect_Ftp();
-        $ftpObj->connect($ftpString);
-        $cfgFile = "connect.cfg";
-        $cacheFile = "cache.cfg";
-
-
-        $wd = $ftpObj->getcwd();
-
-        $remoteConfigExists = $ftpObj->fileExists($cfgFile);
-        $tempConfigFile = uniqid($cfgFile."_temp");
-        if(!$remoteConfigExists) {
-            $remoteCfg = new Mage_Connect_Config($tempConfigFile);
-            $remoteCfg->store();
-            $ftpObj->upload($cfgFile, $tempConfigFile);
-        } else {
-            $ftpObj->get($tempConfigFile, $cfgFile);
-            $remoteCfg = new Mage_Connect_Config($tempConfigFile);
+        //$cfgFile = "connect.cfg";
+        //$cacheFile = "cache.cfg";
+        list($remoteCfg) = $this->getRemoteConfig($ftpString);
+        list($remoteCache) = $this->getRemoteCache($ftpString);
+        return array($remoteCache, $remoteCfg, $this->getFtpObj($ftpString));
+    }
+    public function getFtpObj ($ftpString)
+    {
+        if($this->_ftpString !== $ftpString)
+        {
+            $this->_ftpString = $ftpString;
+            $this->_ftpObj = new Mage_Connect_Ftp();
+            $this->_ftpObj->connect($this->_ftpString);
         }
+        return $this->_ftpObj;
+    }
 
-        $ftpObj->chdir($wd);
 
+
+    public function getRemoteCache($ftpString)
+    {
+        $cacheFile = "cache.cfg";
+        $ftpObj = $this->getFtpObj($ftpString);
+        $wd = $ftpObj->getcwd();
         $remoteCacheExists = $ftpObj->fileExists($cacheFile);
         $tempCacheFile = uniqid($cacheFile."_temp");
-
-        if(!$remoteCacheExists) {
+        if(!$remoteConfigExists) {
             $remoteCache = new Mage_Connect_Singleconfig($tempCacheFile);
             $remoteCache->clear();
             $ftpObj->upload($cacheFile, $tempCacheFile);
@@ -109,36 +114,15 @@ class Mage_Connect_Packager
             $remoteCache = new Mage_Connect_Singleconfig($tempCacheFile);
         }
         $ftpObj->chdir($wd);
-        return array($remoteCache, $remoteCfg, $ftpObj);
+        return array($remoteCache, $ftpObj);
     }
-
-
-    public function getRemoteCache($ftpString)
-    {
-
-        $ftpObj = new Mage_Connect_Ftp();
-        $ftpObj->connect($ftpString);
-        $remoteConfigExists = $ftpObj->fileExists("cache.cfg");
-        if(!$remoteConfigExists) {
-            $configFile= uniqid("temp_cachecfg_");
-            $remoteCfg = new Mage_Connect_Singleconfig($configFile);
-            $remoteCfg->clear();
-            $ftpObj->upload("cache.cfg", $configFile);
-        } else {
-            $configFile = uniqid("temp_cachecfg_");
-            $ftpObj->get($configFile, "cache.cfg");
-            $remoteCfg = new Mage_Connect_Singleconfig($configFile);
-        }
-        return array($remoteCfg, $ftpObj);
-    }
+    
 
 
     public function getRemoteConfig($ftpString)
     {
-        $ftpObj = new Mage_Connect_Ftp();
-        $ftpObj->connect($ftpString);
+        $ftpObj = $this->getFtpObj($ftpString);
         $cfgFile = "connect.cfg";
-
         $wd = $ftpObj->getcwd();
         $remoteConfigExists = $ftpObj->fileExists($cfgFile);
         $tempConfigFile = uniqid($cfgFile."_temp");
