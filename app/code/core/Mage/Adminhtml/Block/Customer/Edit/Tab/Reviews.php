@@ -45,5 +45,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Reviews extends Mage_Adminhtml_Bloc
      */
     protected function _prepareMassaction()
     {
+        return $this;
     }
 }

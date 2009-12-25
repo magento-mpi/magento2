@@ -45,5 +45,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Reviews extends Mage_Adminht
      */
     protected function _prepareMassaction()
     {
+        return $this;
     }
 }
