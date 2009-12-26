@@ -219,6 +219,23 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     }
 
     /**
+     * Getter whether the payment can be voided
+     * @return bool
+     */
+    public function canVoidPayment()
+    {
+        if ($this->canUnhold()) {
+            return false;
+        }
+        if ($this->isCanceled() ||
+            $this->getState() === self::STATE_COMPLETE ||
+            $this->getState() === self::STATE_CLOSED ) {
+            return false;
+        }
+        return $this->getPayment()->canVoid(new Varien_Object);
+    }
+
+    /**
      * Retrieve order invoice availability
      *
      * @return bool

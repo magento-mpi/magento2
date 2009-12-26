@@ -92,7 +92,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         }
 
         // invoice action intentionally
-        if ($this->_isAllowedAction('invoice') && $order->getPayment()->canVoid(new Varien_Object)) {
+        if ($this->_isAllowedAction('invoice') && $order->canVoidPayment()) {
             $message = Mage::helper('sales')->__('Are you sure you want to void the payment?');
             $this->addButton('void_payment', array(
                 'label'     => Mage::helper('sales')->__('Void'),
