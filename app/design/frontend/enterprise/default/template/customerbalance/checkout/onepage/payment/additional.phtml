@@ -70,10 +70,6 @@
                     if (elements[i].name == 'payment[method]') {
                         elements[i].disabled = true;
                     }
-                } else {
-                    if (elements[i].name == 'payment[method]') {
-                        elements[i].disabled = false;
-                    }
                 }
                 if (elements[i].name == 'payment[method]' && elements[i].value == 'free') {
                     elements[i].checked = false;
@@ -83,8 +79,6 @@
             }
             if ($('use_customer_balance').checked) {
                 $('checkout-payment-method-load').hide();
-            } else {
-                $('checkout-payment-method-load').show();
             }
         } else {
             var elements = Form.getElements(this.form);
@@ -106,10 +100,7 @@
         }
         payment.addAfterInitFunction('customerbalance', customerBalanceInit.bind(payment));
         var customerBalanceValidate = function() {
-            if ($('use_customer_balance') && !$('use_customer_balance').checked) {
-                return true;
-            }
-            if ($('use_customer_balance') && $('use_customer_balance').checked && (quoteBaseGrandTotal < 0.0001)) {
+            if (quoteBaseGrandTotal < 0.0001) {
                 return true;
             }
             return false;

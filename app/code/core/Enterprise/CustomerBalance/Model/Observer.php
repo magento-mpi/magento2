@@ -201,9 +201,6 @@ class Enterprise_CustomerBalance_Model_Observer
                 if (!$payment->getMethod()) {
                     $payment->setMethod('free');
                 }
-//                if ($balance->isFullAmountCovered($quote) && !$payment->getMethod()) {
-//                    $payment->setMethod('free');
-//                }
             }
             else {
                 $quote->setUseCustomerBalance(false);
