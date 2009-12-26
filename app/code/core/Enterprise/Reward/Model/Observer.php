@@ -257,7 +257,7 @@ class Enterprise_Reward_Model_Observer
     }
 
     /**
-     * Set flag to recollect reward points totals
+     * Set flag to reset reward points totals
      *
      * @param Varien_Event_Observer $observer
      * @@return Enterprise_Reward_Model_Observer
@@ -265,7 +265,7 @@ class Enterprise_Reward_Model_Observer
     public function quoteCollectTotalsBefore(Varien_Event_Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        $quote->setRewardPointsTotalCollected(false);
+        $quote->setRewardPointsTotalReseted(false);
         return $this;
     }
 
@@ -317,9 +317,6 @@ class Enterprise_Reward_Model_Observer
                 if (!$input->getMethod()) {
                     $input->setMethod('free');
                 }
-//                if ($reward->isEnoughPointsToCoverAmount($baseGrandTotal) && !$input->getMethod()) {
-//                    $input->setMethod('free');
-//                }
             }
             else {
                 $quote->setUseRewardPoints(false);

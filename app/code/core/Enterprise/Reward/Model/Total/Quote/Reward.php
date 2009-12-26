@@ -53,20 +53,14 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
         /* @var $quote Mage_Sales_Model_Quote */
         $quote = $address->getQuote();
 
-        $pointsBalance = 0;
-        $pointsCurrencyAmount = 0;
-        $basePointsCurrencyAmount = 0;
-
-        if (!$quote->getRewardPointsTotalCollected() && $address->getBaseGrandTotal() > 0) {
-            $quote->setRewardPointsBalance($pointsBalance);
-            $quote->setRewardCurrencyAmount($pointsCurrencyAmount);
-            $quote->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
-
-            $address->setRewardPointsBalance($pointsBalance);
-            $address->setRewardCurrencyAmount($pointsCurrencyAmount);
-            $address->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
-
-            $quote->setRewardPointsTotalCollected(true);
+        if (!$quote->getRewardPointsTotalReseted() && $address->getBaseGrandTotal() > 0) {
+            $quote->setRewardPointsBalance(0)
+                ->setRewardCurrencyAmount(0)
+                ->setBaseRewardCurrencyAmount(0);
+            $address->setRewardPointsBalance(0)
+                ->setRewardCurrencyAmount(0)
+                ->setBaseRewardCurrencyAmount(0);
+            $quote->setRewardPointsTotalReseted(true);
         }
 
         if ($address->getBaseGrandTotal() && $quote->getCustomer()->getId() && $quote->getUseRewardPoints()) {
@@ -78,35 +72,31 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
                     ->setWebsite($quote->getStore()->getWebsiteId())
                     ->loadByCustomer();
             }
-            if ($reward->isEnoughPointsToCoverAmount($address->getBaseGrandTotal())) {
-                $pointsBalance = $reward->getPointsEquivalent($address->getBaseGrandTotal());
-                $pointsCurrencyAmount = $address->getGrandTotal();
-                $basePointsCurrencyAmount = $address->getBaseGrandTotal();
+            $pointsLeft = $reward->getPointsBalance() - $quote->getRewardPointsBalance();
+            $rewardCurrencyAmountLeft = ($quote->getStore()->convertPrice($reward->getCurrencyAmount())) - $quote->getRewardCurrencyAmount();
+            $baseRewardCurrencyAmountLeft = $reward->getCurrencyAmount() - $quote->getBaseRewardCurrencyAmount();
+            if ($baseRewardCurrencyAmountLeft >= $address->getBaseGrandTotal()) {
+                $pointsBalanceUsed = $reward->getPointsEquivalent($address->getBaseGrandTotal());
+                $pointsCurrencyAmountUsed = $address->getGrandTotal();
+                $basePointsCurrencyAmountUsed = $address->getBaseGrandTotal();
 
                 $address->setGrandTotal(0);
                 $address->setBaseGrandTotal(0);
             } else {
-                $grandTotal = 0;
-                $baseGrandTotal = 0;
+                $pointsBalanceUsed = $pointsLeft;
+                $pointsCurrencyAmountUsed = $rewardCurrencyAmountLeft;
+                $basePointsCurrencyAmountUsed = $baseRewardCurrencyAmountLeft;
 
-                $pointsBalance = $reward->getPointsBalance();
-                $pointsCurrencyAmount = $quote->getStore()->convertPrice($reward->getCurrencyAmount());
-                $basePointsCurrencyAmount = $reward->getCurrencyAmount();
-
-                $grandTotal = $address->getGrandTotal() - $pointsCurrencyAmount;
-                $baseGrandTotal = $address->getBaseGrandTotal() - $basePointsCurrencyAmount;
-
-                $address->setGrandTotal($grandTotal);
-                $address->setBaseGrandTotal($baseGrandTotal);
-
-                $quote->setRewardPointsBalance($pointsBalance);
-                $quote->setRewardCurrencyAmount($pointsCurrencyAmount);
-                $quote->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
-
-                $address->setRewardPointsBalance($pointsBalance);
-                $address->setRewardCurrencyAmount($pointsCurrencyAmount);
-                $address->setBaseRewardCurrencyAmount($basePointsCurrencyAmount);
+                $address->setGrandTotal($address->getGrandTotal() - $pointsCurrencyAmountUsed);
+                $address->setBaseGrandTotal($address->getBaseGrandTotal() - $basePointsCurrencyAmountUsed);
             }
+            $quote->setRewardPointsBalance($quote->getRewardPointsBalance() + $pointsBalanceUsed);
+            $quote->setRewardCurrencyAmount($quote->getRewardCurrencyAmount() + $pointsCurrencyAmountUsed);
+            $quote->setBaseRewardCurrencyAmount($quote->getBaseRewardCurrencyAmount() + $basePointsCurrencyAmountUsed);
+
+            $address->setRewardPointsBalance($pointsBalanceUsed);
+            $address->setRewardCurrencyAmount($pointsCurrencyAmountUsed);
+            $address->setBaseRewardCurrencyAmount($basePointsCurrencyAmountUsed);
         }
         return $this;
     }

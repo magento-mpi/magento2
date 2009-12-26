@@ -61,10 +61,6 @@
                     if (elements[i].name == 'payment[method]') {
                         elements[i].disabled = true;
                     }
-                } else {
-                    if (elements[i].name == 'payment[method]') {
-                        elements[i].disabled = false;
-                    }
                 }
                 if (elements[i].name == 'payment[method]' && elements[i].value == 'free') {
                     elements[i].checked = false;
@@ -74,8 +70,6 @@
             }
             if ($('use_reward_points').checked) {
                 $('checkout-payment-method-load').hide();
-            } else {
-                $('checkout-payment-method-load').show();
             }
         } else {
             var elements = Form.getElements(this.form);
@@ -96,13 +90,9 @@
         }
         payment.addAfterInitFunction('reward', rewardPaymentInit.bind(payment));
         var rewardPaymentValidate = function() {
-            if ($('use_reward_points') && !$('use_reward_points').checked) {
+            if (quoteBaseGrandTotal < 0.0001) {
                 return true;
             }
-            if ($('use_reward_points') && $('use_reward_points').checked && (quoteBaseGrandTotal < 0.0001)) {
-                return true;
-            }
-            
             return false;
         }
         payment.addBeforeValidateFunction('reward', rewardPaymentValidate.bind(payment));
