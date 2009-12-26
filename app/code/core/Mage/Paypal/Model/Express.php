@@ -48,7 +48,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     protected $_canUseInternal          = false;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
-    protected $_isInitializeNeeded      = true;
 
     /**
      * Config instance
@@ -63,16 +62,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      * @var Mage_Paypal_Model_Api_Nvp
      */
     protected $_api = null;
-
-    /**
-     * Rewrite standard logic
-     *
-     * @return bool
-     */
-    public function isInitializeNeeded()
-    {
-        return is_object(Mage::registry('_singleton/checkout/type_onepage'));
-    }
 
     /**
      * Whether method is available for specified currency
@@ -228,24 +217,15 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Get config paypal action url
-     * Used to universilize payment actions when processing payment place
+     * Payment action getter compatible with payment model
      *
+     * @see Mage_Sales_Model_Payment::place()
      * @return string
+     * @see Mage_Paypal_Model_Express::getConfigPaymentAction() TODO: remove copypaste
      */
     public function getConfigPaymentAction()
     {
-        $paymentAction = $this->getConfigData('payment_action');
-        switch ($paymentAction){
-            case Mage_Paypal_Model_Config::PAYMENT_ACTION_SALE:
-                $paymentAction = Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
-                break;
-            case Mage_Paypal_Model_Config::PAYMENT_ACTION_AUTH:
-            default:
-                $paymentAction = Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
-                break;
-        }
-        return $paymentAction;
+        return $this->getConfig()->getPaymentAction();
     }
 
     /**
@@ -406,31 +386,31 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         return $this;
     }
 
-    /**
-     * Process pending transaction, set status deny or approve
-     *
-     * @param Mage_Sales_Model_Order_Payment $payment
-     * @param string $action
-     * @return Mage_Paypal_Model_Express
-     */
-    public function updateGatewayStatus(Varien_Object $payment, $action)
-    {
-      if ($payment && $action) {
-          if ($payment->getCcTransId()) {
-              $transactionId = $payment->getCcTransId();
-          } else {
-              $transactionId = $payment->getLastTransId();
-          }
-          $api = $this->getApi();
-          $api->setAction($action)
-              ->setTransactionId($transactionId)
-              ->callManagePendingTransactionStatus();
-      }
-      return $this;
-    }
+//    /**
+//     * Process pending transaction, set status deny or approve
+//     *
+//     * @param Mage_Sales_Model_Order_Payment $payment
+//     * @param string $action
+//     * @return Mage_Paypal_Model_Express
+//     */
+//    public function updateGatewayStatus(Varien_Object $payment, $action)
+//    {
+//      if ($payment && $action) {
+//          if ($payment->getCcTransId()) {
+//              $transactionId = $payment->getCcTransId();
+//          } else {
+//              $transactionId = $payment->getLastTransId();
+//          }
+//          $api = $this->getApi();
+//          $api->setAction($action)
+//              ->setTransactionId($transactionId)
+//              ->callManagePendingTransactionStatus();
+//      }
+//      return $this;
+//    }
 
     /**
-     * Cancel payment, if it has fraud status, need to update paypal status
+     * Cancel payment
      *
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Express

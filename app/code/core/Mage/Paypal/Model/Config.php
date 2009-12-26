@@ -440,6 +440,23 @@ class Mage_Paypal_Model_Config
     }
 
     /**
+     * Mapper from PayPal-specific payment actions to Magento payment actions
+     * @return string|null
+     */
+    public function getPaymentAction()
+    {
+        switch($this->paymentAction) {
+            case self::PAYMENT_ACTION_AUTH:
+                return Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
+            case self::PAYMENT_ACTION_SALE:
+                return Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
+                return;
+            case self::PAYMENT_ACTION_ORDER:
+                return;
+        }
+    }
+
+    /**
      * Express Checkout "solution types" source getter
      * @return array
      */
@@ -525,8 +542,9 @@ class Mage_Paypal_Model_Config
         if (self::METHOD_WPS === $this->_methodCode) {
             return $this->_mapStandardFieldset($fieldName);
         } elseif (self::METHOD_WPP_EXPRESS === $this->_methodCode ||  self::METHOD_WPP_DIRECT === $this->_methodCode) {
-            $path = self::METHOD_WPP_EXPRESS ?
-                $this->_mapExpressFieldset($fieldName) : $this->_mapDirectFieldset($fieldName)
+            $path = self::METHOD_WPP_EXPRESS === $this->_methodCode
+                ? $this->_mapExpressFieldset($fieldName)
+                : $this->_mapDirectFieldset($fieldName)
              ;
             if (!$path) {
                 $path = $this->_mapWppFieldset($fieldName);

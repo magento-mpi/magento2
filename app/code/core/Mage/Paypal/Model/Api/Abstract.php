@@ -80,19 +80,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     const CVV_RESPONSE_NOT_RESPONSE_CC          = 'X';
 
     /**
-     * return server name from as server variable
-     * @deprecated is this really needed?
-     * @return string
-     */
-    public function getServerName()
-    {
-        if (!$this->hasServerName()) {
-            $this->setServerName($_SERVER['SERVER_NAME']);
-        }
-        return $this->getData('server_name');
-    }
-
-    /**
      * Return paypal session model
      *
      * @return Mage_Paypal_Model_Session
@@ -407,17 +394,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     public function setCurrencyCode($data)
     {
         return $this->setSessionData('currency_code', $data);
-    }
-
-    /**
-     * Return ccType title by given type code
-     *
-     * @return string
-     */
-    public function getCcTypeName($ccType)
-    {
-        $types = array('AE'=>Mage::helper('paypal')->__('Amex'), 'VI'=>Mage::helper('paypal')->__('Visa'), 'MC'=>Mage::helper('paypal')->__('MasterCard'), 'DI'=>Mage::helper('paypal')->__('Discover'));
-        return isset($types[$ccType]) ? $types[$ccType] : false;
     }
 
     /**

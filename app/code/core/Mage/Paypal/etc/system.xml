@@ -306,7 +306,7 @@
                             <show_in_website>1</show_in_website>
                         </line_items_enabled>
                         <line_items_summary translate="label comment">
-                            <label>Summary for Aggregated Cart</label>
+                            <label>Summary Text for Aggregated Cart</label>
                             <comment>Uses Store Frontend Name by default</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>35</sort_order>

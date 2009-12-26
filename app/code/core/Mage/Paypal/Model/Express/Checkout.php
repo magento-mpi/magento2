@@ -143,7 +143,7 @@ class Mage_Paypal_Model_Express_Checkout
         } else {
             $address = $this->_quote->getShippingAddress();
             if ($address->getEmail()) {
-                $this->_api->setShippingAddress($address);
+                $this->_api->setAddress($address);
             }
         }
         // add line items
@@ -176,7 +176,8 @@ class Mage_Paypal_Model_Express_Checkout
         foreach ($this->_api->getExportedBillingAddress()->getData() as $key => $value) {
             $billingAddress->setDataUsingMethod($key, $value);
         }
-        if ((!$this->_quote->getIsVirtual()) && $shippingAddress = $this->_quote->getShippingAddress()) {
+        if ((!$this->_quote->getIsVirtual()) && $this->_api->getExportedShippingAddress()
+            && $shippingAddress = $this->_quote->getShippingAddress()) {
             foreach ($this->_api->getExportedShippingAddress()->getData() as $key => $value) {
                 $shippingAddress->setDataUsingMethod($key, $value);
             }
