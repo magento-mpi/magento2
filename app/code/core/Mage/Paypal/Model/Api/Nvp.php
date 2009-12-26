@@ -31,14 +31,6 @@
 class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 {
     /**
-     * Filter callbacks for preparing internal amounts to NVP request
-     * @var array
-     */
-    protected $_exportToRequestFilters = array(
-        'AMT' => '_filterAmount',
-    );
-
-    /**
      * Global public interface map
      * @var array
      */
@@ -68,6 +60,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'HDRBORDERCOLOR' => 'hdrbordercolor',
         'HDRBACKCOLOR'   => 'hdrbackcolor',
         'PAYFLOWCOLOR'   => 'payflowcolor',
+        'LOCALECODE'     => 'locale_code',
 
         // transaction info
         'AUTHORIZATIONID' => 'authorization_id',
@@ -91,6 +84,15 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     );
 
     /**
+     * Filter callbacks for preparing internal amounts to NVP request
+     *
+     * @var array
+     */
+    protected $_exportToRequestFilters = array(
+        'AMT' => '_filterAmount',
+    );
+
+    /**
      * Request map for each API call
      * @var array
      */
@@ -103,7 +105,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     protected $_setExpressCheckoutRequest = array(
         'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'RETURNURL', 'CANCELURL', 'INVNUM', 'SOLUTIONTYPE',
         'GIROPAYCANCELURL', 'GIROPAYSUCCESSURL', 'BANKTXNPENDINGURL',
-        'PAGESTYLE', 'HDRIMG', 'HDRBORDERCOLOR', 'HDRBACKCOLOR', 'PAYFLOWCOLOR',
+        'PAGESTYLE', 'HDRIMG', 'HDRBORDERCOLOR', 'HDRBACKCOLOR', 'PAYFLOWCOLOR', 'LOCALECODE',
     );
     protected $_setExpressCheckoutResponse = array('TOKEN');
 
@@ -175,13 +177,13 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * Line items export mapping settings
      * @var array
      */
-    protected $_lineItemsExportMap = array(
+    protected $_lineItemExportTotals = array(
         'subtotal' => 'ITEMAMT',
         'shipping' => 'SHIPPINGAMT',
         'tax'      => 'TAXAMT',
         // 'shipping_discount' => 'SHIPPINGDISCOUNT', // currently ignored by API for some reason
     );
-    protected $_lineItemsExportItemsFormat = array(
+    protected $_lineItemExportItemsFormat = array(
         'id'     => 'L_NUMBER%d',
         'name'   => 'L_NAME%d',
         'qty'    => 'L_QTY%d',
@@ -225,7 +227,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     public function callSetExpressCheckout()
     {
         $request = $this->_exportToRequest($this->_setExpressCheckoutRequest);
-        $request['LOCALECODE'] = Mage::app()->getLocale()->getLocaleCode();
         $this->_exportLineItems($request);
 
         // import/suppress shipping address, if any
@@ -628,22 +629,10 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $to = Varien_Object_Mapper::accumulateByMap($address, $to, array_flip($this->_billingAddressMap));
         $to = Varien_Object_Mapper::accumulateByMap($address, $to, array_flip($this->_shippingAddressMap));
 
-        // region_id workaround: PayPal requires state code, try to find one in the address
-        if ($regionId = $address->getData('region_id')) {
-            $region = Mage::getModel('directory/region')->load($regionId);
-            if ($region->getId()) {
-                $to['SHIPTOSTATE'] = $region->getCode();
-            }
+        if ($regionCode = $this->_lookupRegionCodeFromAddress($address)) {
+            $to['SHIPTOSTATE'] = $regionCode;
         }
-        // street address workaround
-        $street = $address->getStreet();
-        if ($street && is_array($street)) {
-            foreach (array('SHIPTOSTREET', 'SHIPTOSTREET2') as $key) {
-                if ($value = array_pop($street)) {
-                    $to[$key] = $value;
-                }
-            }
-        }
+        $this->_importStreetFromAddress($address, $to, 'SHIPTOSTREET', 'SHIPTOSTREET2');
         return $to;
     }
 }

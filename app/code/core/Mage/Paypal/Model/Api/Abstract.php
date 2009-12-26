@@ -53,8 +53,8 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      * Line items export to request mapping settings
      * @var array
      */
-    protected $_lineItemsExportMap = array();
-    protected $_lineItemsExportItemsFormat = array();
+    protected $_lineItemExportTotals = array();
+    protected $_lineItemExportItemsFormat = array();
 
     const FRAUD_ERROR_CODE = 11610;
 
@@ -245,13 +245,23 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     * Logo URL getter
+     *
+     * @return string
+     */
+    public function getLogoUrl()
+    {
+        return $this->_getDataOrConfig('logo_url');
+    }
+
+    /**
      * PayPal page header image URL getter
      *
      * @return string
      */
     public function getHdrimg()
     {
-        return $this->_getDataOrConfig('hdrimg');
+        return $this->_getDataOrConfig('paypal_hdrimg');
     }
 
     /**
@@ -261,7 +271,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getHdrbordercolor()
     {
-        return $this->_getDataOrConfig('hdrbordercolor');
+        return $this->_getDataOrConfig('paypal_hdrbordercolor');
     }
 
     /**
@@ -271,7 +281,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getHdrbackcolor()
     {
-        return $this->_getDataOrConfig('hdrbackcolor');
+        return $this->_getDataOrConfig('paypal_hdrbackcolor');
     }
 
     /**
@@ -281,7 +291,17 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getPayflowcolor()
     {
-        return $this->_getDataOrConfig('payflowcolor');
+        return $this->_getDataOrConfig('paypal_payflowcolor');
+    }
+
+    /**
+     * Payment action getter
+     *
+     * @return string
+     */
+    public function getPaymentAction()
+    {
+        return $this->_getDataOrConfig('payment_action');
     }
 
     /**
@@ -447,6 +467,16 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     * Current locale code getter
+     *
+     * @return string
+     */
+    public function getLocaleCode()
+    {
+        return Mage::app()->getLocale()->getLocaleCode();
+    }
+
+    /**
      * Export $this public data to private request array
      *
      * @param array $internalRequestMap
@@ -461,10 +491,11 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
         }
         $result = Varien_Object_Mapper::accumulateByMap(array($this, 'getDataUsingMethod'), $request, $map);
         foreach ($privateRequestMap as $key) {
-            if (isset($this->_exportToRequestFilters[$key])) {
-                $result[$key] = call_user_func(array($this, $this->_exportToRequestFilters[$key]),
-                    $result[$key], $map[$this->_globalMap[$key]]
-                );
+            if (isset($this->_exportToRequestFilters[$key]) && isset($result[$key])) {
+                $callback   = $this->_exportToRequestFilters[$key];
+                $privateKey = $result[$key];
+                $publicKey  = $map[$this->_globalMap[$key]];
+                $result[$key] = call_user_func(array($this, $callback), $privateKey, $publicKey);
             }
         }
         return $result;
@@ -489,17 +520,17 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      * Prepare line items request
      *
      * @param array &$request
+     * @param int $i
      */
-    protected function _exportLineItems(array &$request)
+    protected function _exportLineItems(array &$request, $i = 0)
     {
         $items = $this->getLineItems();
         if (empty($items)) {
             return;
         }
         // line items
-        $i = 0;
         foreach ($items as $item) {
-            foreach ($this->_lineItemsExportItemsFormat as $publicKey => $privateFormat) {
+            foreach ($this->_lineItemExportItemsFormat as $publicKey => $privateFormat) {
                 $value = $item->getDataUsingMethod($publicKey);
                 if (is_float($value)) {
                     $value = $this->_filterAmount($value);
@@ -511,8 +542,8 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
         // line item totals
         $lineItemTotals = $this->getLineItemTotals();
         if ($lineItemTotals) {
-            $request = Varien_Object_Mapper::accumulateByMap($lineItemTotals, $request, $this->_lineItemsExportMap);
-            foreach ($this->_lineItemsExportMap as $privateKey) {
+            $request = Varien_Object_Mapper::accumulateByMap($lineItemTotals, $request, $this->_lineItemExportTotals);
+            foreach ($this->_lineItemExportTotals as $privateKey) {
                 if (isset($request[$privateKey])) {
                     $request[$privateKey] = $this->_filterAmount($request[$privateKey]);
                 } else {
@@ -546,6 +577,45 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
             return $this->getData($key);
         }
         return $this->_config->$key ? $this->_config->$key : $default;
+    }
+
+
+    /**
+     * region_id workaround: PayPal requires state code, try to find one in the address
+     *
+     * @param Varien_Object $address
+     * @return string
+     */
+    protected function _lookupRegionCodeFromAddress(Varien_Object $address)
+    {
+        if ($regionId = $address->getData('region_id')) {
+            $region = Mage::getModel('directory/region')->load($regionId);
+            if ($region->getId()) {
+                return $region->getCode();
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Street address workaround: divides address lines into parts by specified keys
+     * (keys should go as 3rd, 4th[...] parameters)
+     *
+     * @param Varien_Object $address
+     * @param array $request
+     */
+    protected function _importStreetFromAddress(Varien_Object $address, array &$to)
+    {
+        $keys = func_get_args(); array_shift($keys); array_shift($keys);
+        $street = $address->getStreet();
+        if (!$keys || !$street || !is_array($street)) {
+            return;
+        }
+        foreach ($keys as $key) {
+            if ($value = array_pop($street)) {
+                $to[$key] = $value;
+            }
+        }
     }
 
     /**

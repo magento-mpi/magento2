@@ -64,11 +64,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     protected $_api = null;
 
-    protected $_allowCurrencyCode = array(
-        'AUD', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD',
-        'HUF', 'ILS', 'JPY', 'MXN', 'NOK', 'NZD',
-        'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'USD');
-
     /**
      * Rewrite standard logic
      *
@@ -80,17 +75,14 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Check method for processing with base currency
+     * Whether method is available for specified currency
      *
      * @param string $currencyCode
-     * @return boolean
+     * @return bool
      */
     public function canUseForCurrency($currencyCode)
     {
-        if (!in_array($currencyCode, $this->_allowCurrencyCode)) {
-            return false;
-        }
-        return true;
+        return $this->getConfig()->isCurrencyCodeSupported($currencyCode);
     }
 
     /**
@@ -362,7 +354,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         ;
 
         // add line items
-        if ($this->_config->lineItem) {
+        if ($this->_config->lineItemsEnabled) {
             list($items, $totals) = Mage::helper('paypal')->prepareLineItems($order);
             $this->_api->setLineItems($items)->setLineItemTotals($totals);
         }

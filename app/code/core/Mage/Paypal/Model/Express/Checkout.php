@@ -147,7 +147,7 @@ class Mage_Paypal_Model_Express_Checkout
             }
         }
         // add line items
-        if ($this->_config->lineItem) {
+        if ($this->_config->lineItemsEnabled) {
             list($items, $totals) = Mage::helper('paypal')->prepareLineItems($this->_quote);
             $this->_api->setLineItems($items)->setLineItemTotals($totals);
         }

@@ -98,6 +98,15 @@ class Mage_Paypal_Model_Config
     const EC_SOLUTION_TYPE_MARK = 'Mark';
 
     /**
+     * Payment data transfer methods (Standard)
+     *
+     * @var string
+     */
+    const WPS_TRANSPORT_IPN      = 'ipn';
+    const WPS_TRANSPORT_PDT      = 'pdt';
+    const WPS_TRANSPORT_IPN_PDT  = 'ipn_n_pdt';
+
+    /**
      * Current payment method code
      * @var string
      */
@@ -139,6 +148,13 @@ class Mage_Paypal_Model_Config
         'paypal_hdrbackcolor'   => 'hdrbackcolor',
         'paypal_payflowcolor'   => 'payflowcolor',
     );
+
+    /**
+     * Currency codes supported by PayPal methods
+     * @var array
+     */
+    protected $_supportedCurrencyCodes = array('AUD', 'CAD', 'CZK', 'DKK', 'EUR', 'HKD', 'HUF', 'ILS', 'JPY', 'MXN',
+        'NOK', 'NZD', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'USD');
 
     /**
      * Set method and store id, if specified
@@ -436,6 +452,30 @@ class Mage_Paypal_Model_Config
     }
 
     /**
+     * Payment data delivery methods getter for PayPal Standard
+     * @return array
+     */
+    public function getWpsPaymentDeliveryMethods()
+    {
+        return array(
+            self::WPS_TRANSPORT_IPN      => Mage::helper('adminhtml')->__('IPN (Instant Payment Notification) Only'),
+            // not supported yet:
+//            self::WPS_TRANSPORT_PDT      => Mage::helper('adminhtml')->__('PDT (Payment Data Transfer) Only'),
+//            self::WPS_TRANSPORT_IPN_PDT  => Mage::helper('adminhtml')->__('Both IPN and PDT'),
+        );
+    }
+
+    /**
+     * Check whether specified currency code is supported
+     * @param string $code
+     * @return bool
+     */
+    public function isCurrencyCodeSupported($code)
+    {
+        return in_array($code, $this->_supportedCurrencyCodes);
+    }
+
+    /**
      * Export page style current settings to specified object
      * @param Varien_Object $to
      */
@@ -509,7 +549,6 @@ class Mage_Paypal_Model_Config
         switch ($fieldName)
         {
             case 'business_account':
-            case 'business_name':
             case 'debug_flag':
             case 'sandbox_flag':
                 return "paypal/wps/{$fieldName}";
@@ -522,7 +561,11 @@ class Mage_Paypal_Model_Config
             case 'sort_order':
             case 'allowspecific':
             case 'specificcountry':
+            case 'line_items_enabled':
+            case 'line_items_summary':
                 return 'payment/' . self::METHOD_WPS . "/{$fieldName}";
+            default:
+                return $this->_mapGenericStyleFieldset($fieldName);
         }
     }
 
@@ -537,12 +580,26 @@ class Mage_Paypal_Model_Config
         switch ($fieldName)
         {
             case 'button_flavor':
-            case 'button_type':
-            case 'logo_url':
+                return "paypal/style/{$fieldName}";
+            default:
+                return $this->_mapGenericStyleFieldset($fieldName);
+        }
+    }
+
+    /**
+     * Map PayPal common style config fields
+     *
+     * @param string $fieldName
+     * @return string|null
+     */
+    protected function _mapGenericStyleFieldset($fieldName)
+    {
+        switch ($fieldName) {
             case 'page_style':
+            case 'logo_url':
+            case 'paypal_hdrimg':
             case 'paypal_hdrbackcolor':
             case 'paypal_hdrbordercolor':
-            case 'paypal_hdrimg':
             case 'paypal_payflowcolor':
                 return "paypal/style/{$fieldName}";
         }
@@ -586,7 +643,7 @@ class Mage_Paypal_Model_Config
             case 'allowspecific':
             case 'fraud_filter':
             case 'invoice_email_copy':
-            case 'line_item':
+            case 'line_items_enabled':
             case 'order_status':
             case 'payment_action':
             case 'solution_type':
@@ -595,6 +652,8 @@ class Mage_Paypal_Model_Config
             case 'title':
             case 'visible_on_cart':
                 return 'payment/' . self::METHOD_WPP_EXPRESS . "/{$fieldName}";
+            case 'button_type':
+                return "paypal/style/{$fieldName}";
         }
     }
 
@@ -612,14 +671,9 @@ class Mage_Paypal_Model_Config
             case 'allowspecific':
             case 'cctypes':
             case 'centinel':
-            case 'centinel_maps_url':
-            case 'centinel_merchant_id':
-            case 'centinel_password':
-            case 'centinel_processor_id':
-            case 'centinel_timeout_connect':
-            case 'centinel_timeout_read':
+            case 'centinel_require_enrollment':
             case 'fraud_filter':
-            case 'line_item':
+            case 'line_items_enabled':
             case 'order_status':
             case 'payment_action':
             case 'sort_order':

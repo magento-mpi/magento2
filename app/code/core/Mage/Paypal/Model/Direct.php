@@ -73,7 +73,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getLineItemEnabled()
     {
-        return $this->getConfigData('line_item');
+        return $this->getConfigData('line_items_enabled');
     }
 
     /**

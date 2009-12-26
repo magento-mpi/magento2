@@ -58,15 +58,9 @@
         <sales>
             <order>
                 <statuses>
+                    <!-- retained for backwards compatibility, not used anymore -->
                     <pending_paypal translate="label"><label>Pending PayPal</label></pending_paypal>
                 </statuses>
-                <states>
-                    <pending_payment>
-                        <statuses>
-                            <pending_paypal/>
-                        </statuses>
-                    </pending_payment>
-                </states>
             </order>
         </sales>
         <payment>
@@ -163,37 +157,25 @@
             <paypal_express translate="title">
                 <model>paypal/express</model>
                 <title>PayPal</title>
-                <payment_action>Sale</payment_action><!-- Don't add to translation -->
+                <payment_action>Sale</payment_action>
                 <allowspecific>0</allowspecific>
-                <solution_type>Sole</solution_type><!-- Don't add to translation -->
-                <line_item>1</line_item>
-                <fraud_order_status>fraud_order</fraud_order_status>
-                <fraud_filter>0</fraud_filter>
+                <solution_type>Sole</solution_type>
+                <line_items_enabled>1</line_items_enabled>
             </paypal_express>
             <paypal_direct translate="title">
-                <payment_action>Sale</payment_action><!-- Don't add to translation -->
+                <payment_action>Sale</payment_action>
                 <model>paypal/direct</model>
                 <title>Debit or Credit Card</title>
                 <cctypes>AE,VI,MC,DI</cctypes>
                 <allowspecific>0</allowspecific>
-                <fraud_order_status>fraud_order</fraud_order_status>
-                <fraud_filter>0</fraud_filter>
-                <centinel>0</centinel>
-                <centinel_processor_id></centinel_processor_id>
-                <centinel_merchant_id></centinel_merchant_id>
-                <centinel_password></centinel_password>
-                <centinel_maps_url>https://centineltest.cardinalcommerce.com/maps/txns.asp</centinel_maps_url>
-                <centinel_timeout_connect>100</centinel_timeout_connect>
-                <centinel_timeout_read>100</centinel_timeout_read>
+                <line_items_enabled>1</line_items_enabled>
             </paypal_direct>
             <paypal_standard translate="title">
                 <model>paypal/standard</model>
                 <title>PayPal</title>
-                <types>IPN</types>
                 <allowspecific>0</allowspecific>
                 <payment_action>Sale</payment_action>
-                <transaction_type>I</transaction_type>
-                <order_status>pending_paypal</order_status>
+                <line_items_enabled>1</line_items_enabled>
             </paypal_standard>
         </payment>
     </default>
