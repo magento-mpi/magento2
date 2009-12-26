@@ -24,19 +24,8 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<?php if ($this->isFullyPaidAfterApplication()): ?>
-    // save original init and validate Payment methods
-    /*if (!Payment.prototype.beforeGigtCardInit) {
-        Payment.prototype.beforeGigtCardInit = Payment.prototype.init;
-    }
-    if (!Payment.prototype.beforeGigtCardValidate) {
-        Payment.prototype.beforeGigtCardValidate = Payment.prototype.validate;
-    }
-
-    Payment.prototype.validate = function() {
-        return true;
-    };
-
+var isGiftCardApplied = <?php if($this->isFullyPaidAfterApplication()): ?>true<?php else: ?>false<?php endif; ?>;
+if (quoteBaseGrandTotal < 0.0001 && isGiftCardApplied) {
     Payment.prototype.init = function () {
         var elements = Form.getElements(this.form);
         var method = null;
@@ -50,15 +39,5 @@
             }
         }
         if (method) this.switchMethod(method);
-    };*/
-<?php else: ?>
-// restore saved original init and validate Payment methods
-/*if (Payment.prototype.beforeGigtCardInit) {
-    Payment.prototype.init = Payment.prototype.beforeGigtCardInit;
-    delete Payment.prototype.beforeGigtCardInit;
+    };
 }
-if (Payment.prototype.beforeGigtCardValidate) {
-    Payment.prototype.validate = Payment.prototype.beforeGigtCardValidate;
-    delete Payment.prototype.beforeGigtCardValidate;
-}*/
-<?php endif; ?>

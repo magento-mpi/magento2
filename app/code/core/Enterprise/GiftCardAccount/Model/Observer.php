@@ -227,6 +227,29 @@ class Enterprise_GiftCardAccount_Model_Observer
     }
 
     /**
+     * Set flag that giftcard applied on payment step in checkout process
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftCardAccount_Model_Observer
+     */
+    public function paymentDataImport(Varien_Event_Observer $observer)
+    {
+        /* @var $quote Mage_Sales_Model_Quote */
+        $quote = $observer->getEvent()->getPayment()->getQuote();
+        if (!$quote || !$quote->getCustomerId()) {
+            return $this;
+        }
+        if ((float)$quote->getBaseGiftCardsAmountUsed()) {
+            $quote->setGiftCardAccountApplied(true);
+            $input = $observer->getEvent()->getInput();
+            if (!$input->getMethod()) {
+                $input->setMethod('free');
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Force Zero Subtotal Checkout if the grand total is completely covered by SC and/or GC
      *
      * @param Varien_Event_Observer $observer
@@ -237,10 +260,12 @@ class Enterprise_GiftCardAccount_Model_Observer
         if (!$quote) {
             return;
         }
-
+        // check if giftcard applied and then try to use free method
+        if (!$quote->getGiftCardAccountApplied()) {
+            return $this;
+        }
         // disable all payment methods and enable only Zero Subtotal Checkout
-        if ((0 == $quote->getBaseGrandTotal()) && (
-            (float)$quote->getGiftCardsAmountUsed())) {// || $quote->getUseCustomerBalance()
+        if ((0 == $quote->getBaseGrandTotal()) && ((float)$quote->getGiftCardsAmountUsed())) {
             $result = $observer->getEvent()->getResult();
             if ('free' === $observer->getEvent()->getMethodInstance()->getCode()) {
                 $result->isAvailable = true;

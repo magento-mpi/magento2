@@ -38,7 +38,8 @@ class Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional exten
 
     public function isFullyPaidAfterApplication()
     {
-        if ($this->_getQuote()->getBaseGrandTotal() > 0 || $this->_getQuote()->getCustomerBalanceAmountUsed() > 0) {
+        // TODO remove dependences to other modules
+        if ($this->_getQuote()->getBaseGrandTotal() > 0 || $this->_getQuote()->getCustomerBalanceAmountUsed() > 0 || $this->_getQuote()->getRewardPointsBalance() > 0) {
             return false;
         }
 

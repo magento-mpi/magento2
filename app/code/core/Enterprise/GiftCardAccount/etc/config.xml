@@ -174,12 +174,21 @@
                 </observers>
             </adminhtml_sales_order_create_process_data>
 
+            <sales_quote_payment_import_data_before>
+                <observers>
+                    <enterprise_giftcardaccount>
+                        <class>enterprise_giftcardaccount/observer</class>
+                        <method>paymentDataImport</method>
+                    </enterprise_giftcardaccount>
+                </observers>
+            </sales_quote_payment_import_data_before>
+
             <payment_method_is_active>
                 <observers>
-                    <enterprise_customerbalance><!-- customerbalance is overriden intentionally -->
+                    <enterprise_giftcardaccount>
                         <class>enterprise_giftcardaccount/observer</class>
-                        <!-- the same method name as in the overriden class -->
-                    </enterprise_customerbalance>
+                        <method>togglePaymentMethods</method>
+                    </enterprise_giftcardaccount>
                 </observers>
             </payment_method_is_active>
 
