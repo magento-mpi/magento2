@@ -343,9 +343,6 @@
                 <publish_history>1</publish_history>
                 <expiry_calculation>static</expiry_calculation>
             </general>
-            <points>
-                <invitation_order_frequency>*</invitation_order_frequency>
-            </points>
             <notification>
                 <email_sender>general</email_sender>
                 <subscribe_by_default>1</subscribe_by_default>
