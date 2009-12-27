@@ -157,6 +157,15 @@ class Mage_Paypal_Model_Config
         'NOK', 'NZD', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'USD');
 
     /**
+     * Locale codes supported by misc images (marks, shortcuts etc)
+     * @var array
+     * @see https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_ECButtonIntegration#id089QD0O0TX4__id08AH904I0YK
+     */
+    protected $_supportedImageLocales = array('de_DE', 'en_AU', 'en_GB', 'en_US', 'es_ES', 'es_XC', 'fr_FR',
+        'fr_XC', 'it_IT', 'ja_JP', 'nl_NL', 'pl_PL', 'zh_CN', 'zh_XC',
+    );
+
+    /**
      * Set method and store id, if specified
      * @param array $params
      */
@@ -308,7 +317,8 @@ class Mage_Paypal_Model_Config
         if ($this->buttonType === self::EC_BUTTON_TYPE_MARK) {
             return $this->getPaymentMarkImageUrl($localeCode);
         }
-        return sprintf('https://www.paypal.com/%s/i/btn/btn_xpressCheckout.gif', $localeCode);
+        return sprintf('https://www.paypal.com/%s/i/btn/btn_xpressCheckout.gif',
+            $this->_getSupportedLocaleCode($localeCode));
     }
 
     /**
@@ -339,7 +349,22 @@ class Mage_Paypal_Model_Config
             default:
                 $staticSize = self::PAYMENT_MARK_37x23;
         }
-        return sprintf('https://www.paypal.com/%s/i/logo/PayPal_mark_%s.gif', $localeCode, $staticSize);
+        return sprintf('https://www.paypal.com/%s/i/logo/PayPal_mark_%s.gif',
+            $this->_getSupportedLocaleCode($localeCode), $staticSize);
+    }
+
+    /**
+     * Check whether specified locale code is supported. Fallback to en_US
+     *
+     * @param string $localeCode
+     * @return string
+     */
+    protected function _getSupportedLocaleCode($localeCode = null)
+    {
+        if (!$localeCode || !in_array($localeCode, $this->_supportedImageLocales)) {
+            return 'en_US';
+        }
+        return $localeCode;
     }
 
     /**
@@ -376,7 +401,8 @@ class Mage_Paypal_Model_Config
     public function getSolutionImageUrl($localeCode, $isVertical = false, $isEcheck = false)
     {
         return sprintf('https://www.paypal.com/%s/i/bnr/%s_solution_PP%s.gif',
-            $localeCode, $isVertical ? 'vertical' : 'horizontal', $isEcheck ? 'eCheck' : ''
+            $this->_getSupportedLocaleCode($localeCode),
+            $isVertical ? 'vertical' : 'horizontal', $isEcheck ? 'eCheck' : ''
         );
     }
 
@@ -519,7 +545,7 @@ class Mage_Paypal_Model_Config
         $params = array(
             'cmd'        => '_dynamic-image',
             'buttontype' => $type,
-            'locale'     => $localeCode,
+            'locale'     => $this->_getSupportedLocaleCode($localeCode),
         );
         if ($orderTotal) {
             $params['ordertotal'] = sprintf('%.2F', $orderTotal);
