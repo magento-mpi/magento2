@@ -33,15 +33,10 @@
  */
 class Mage_Adminhtml_Block_Customer_Edit_Tab_Reviews extends Mage_Adminhtml_Block_Review_Grid
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
-     * Hide grid massaction
+     * Hide grid mass action elements
      *
+     * @return Mage_Adminhtml_Block_Customer_Edit_Tab_Reviews
      */
     protected function _prepareMassaction()
     {

@@ -25,7 +25,7 @@
  */
 
 /**
- * Upsell products admin grid
+ * Reviews products admin grid
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -33,15 +33,10 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Reviews extends Mage_Adminhtml_Block_Review_Grid
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
-     * Hide grid massaction
+     * Hide grid mass action elements
      *
+     * @return Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Reviews
      */
     protected function _prepareMassaction()
     {
