@@ -45,7 +45,9 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $items = array();
         foreach ($salesEntity->getAllItems() as $item) {
-            $items[] = new Varien_Object($this->_prepareLineItemFields($salesEntity, $item));
+            if (!$item->getParentItem()) {
+                $items[] = new Varien_Object($this->_prepareLineItemFields($salesEntity, $item));
+            }
         }
         $discountAmount = 0; // this amount always includes the shipping discount
         $shippingDescription = '';
