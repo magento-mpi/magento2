@@ -44,6 +44,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     protected $_canCapture              = true;
     protected $_canCapturePartial       = true;
     protected $_canRefund               = true;
+    protected $_canRefundInvoicePartial = false;
     protected $_canVoid                 = true;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
@@ -213,14 +214,17 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         $captureTxnId = $payment->getParentTransactionId();
         if ($captureTxnId) {
             $api = $this->getApi();
+            $order = $payment->getOrder();
             $api->setPayment($payment)
                 ->setTransactionId($captureTxnId)
                 ->setAmount($amount)
-                ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode())
+                ->setCurrencyCode($order->getBaseCurrencyCode())
             ;
-            $canRefundMore = $payment->getOrder()->canCreditmemo(); // TODO: fix this to be able to create multiple refunds
-            $api->setRefundType($canRefundMore ? Mage_Paypal_Model_Config::REFUND_TYPE_PARTIAL
-                : Mage_Paypal_Model_Config::REFUND_TYPE_FULL
+            $canRefundMore = $order->canCreditmemo(); // TODO: fix this to be able to create multiple refunds
+            $isFullRefund = !$canRefundMore
+                && (0 == ((float)$order->getBaseTotalOnlineRefunded() + (float)$order->getBaseTotalOfflineRefunded()));
+            $api->setRefundType($isFullRefund ? Mage_Paypal_Model_Config::REFUND_TYPE_FULL
+                : Mage_Paypal_Model_Config::REFUND_TYPE_PARTIAL
             );
             $api->callRefundTransaction();
             $payment->setTransactionId($api->getTransactionId())
