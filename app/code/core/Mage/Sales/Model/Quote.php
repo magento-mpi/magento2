@@ -1166,6 +1166,14 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             }
         }
 
+        /**
+         * Init shipping and billing address if quote is new
+         */
+        if (!$this->getId()) {
+            $this->getShippingAddress();
+            $this->getBillingAddress();
+        }
+
         if ($quote->getCouponCode()) {
             $this->setCouponCode($quote->getCouponCode());
         }
