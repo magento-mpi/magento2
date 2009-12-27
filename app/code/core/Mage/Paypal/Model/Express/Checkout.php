@@ -37,12 +37,13 @@ class Mage_Paypal_Model_Express_Checkout
     const PAL_CACHE_ID = 'paypal_express_checkout_pal';
 
     /**
-     * Keys for token and payer id passthrough variables in sales/quote_payment and sales/order_payment
-     * Use additional_information as storage
+     * Keys for passthrough variables in sales/quote_payment and sales/order_payment
+     * Uses additional_information as storage
      * @var string
      */
     const PAYMENT_INFO_TRANSPORT_TOKEN    = 'paypal_express_checkout_token';
-    const PAYMENT_INFO_TRANSPORT_PAYER_ID = 'paypal_payer_id';
+    const PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN = 'paypal_express_checkout_shipping_overriden';
+    const PAYMENT_INFO_TRANSPORT_PAYER_ID = 'paypal_express_checkout_payer_id';
 
     /**
      * @var Mage_Sales_Model_Quote
@@ -142,9 +143,15 @@ class Mage_Paypal_Model_Express_Checkout
             $this->_api->setSuppressShipping(true);
         } else {
             $address = $this->_quote->getShippingAddress();
-            if ($address->getEmail()) {
+            $isOverriden = 0;
+            if (true === $address->validate()) {
+                $isOverriden = 1;
                 $this->_api->setAddress($address);
             }
+            $this->_quote->getPayment()->setAdditionalInformation(
+                self::PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN, $isOverriden
+            );
+            $this->_quote->getPayment()->save();
         }
         // add line items
         if ($this->_config->lineItemsEnabled) {
@@ -189,14 +196,15 @@ class Mage_Paypal_Model_Express_Checkout
         $payment = $this->_quote->getPayment();
         $payment->setMethod(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
         Mage::getSingleton('paypal/info')->importToPayment($this->_api, $payment);
-//        if ($this->_method->canStoreFraud()) {
-//            $this->_quote->getPayment()->setFraudFlag(true);
-//        }
+        $payment->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_PAYER_ID, $this->_api->getPayerId())
+            ->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_TOKEN, $token)
+        ;
         $this->_quote->collectTotals()->save();
     }
 
     /**
      * Check whether order review has enough data to initialize
+     *
      * @param $token
      * @throws Mage_Core_Exception
      */
@@ -215,8 +223,8 @@ class Mage_Paypal_Model_Express_Checkout
     public function updateShippingMethod($methodCode)
     {
         if (!$this->_quote->getIsVirtual() && $shippingAddress = $this->_quote->getShippingAddress()) {
-            $this->_ignoreAddressValidation();
             if (!$shippingAddress->getEmail() || $methodCode != $shippingAddress->getShippingMethod()) {
+                $this->_ignoreAddressValidation();
                 $shippingAddress->setShippingMethod($methodCode)->setCollectShippingRates(true);
                 $this->_quote->collectTotals()->save();
             }
@@ -236,7 +244,6 @@ class Mage_Paypal_Model_Express_Checkout
         if ($shippingMethodCode) {
             $this->updateShippingMethod($shippingMethodCode);
         }
-        $this->_quote->getPayment()->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_TOKEN, $token);
         $this->_ignoreAddressValidation();
         $order = Mage::getModel('sales/service_quote', $this->_quote)->submit();
         $this->_quote->save();
@@ -260,6 +267,17 @@ class Mage_Paypal_Model_Express_Checkout
                 break;
         }
         return $order;
+    }
+
+    /**
+     * Whether customer is allowed to edit shipping address on order review
+     *
+     * @return bool
+     */
+    public function mayEditShippingAddress()
+    {
+        return 1 != $this->_quote->getPayment()
+            ->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN);
     }
 
     /**

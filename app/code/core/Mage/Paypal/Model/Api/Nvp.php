@@ -281,7 +281,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         if ($address = $this->getAddress()) {
             $request = $this->_importAddress($address, $request);
             $request['ADDROVERRIDE'] = 1;
-        } elseif ($this->getSuppressShipping()) {
+        }
+        if ($this->getSuppressShipping()) {
             $request['NOSHIPPING'] = 1;
         }
 
@@ -594,35 +595,48 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     {
         $address = new Varien_Object();
         Varien_Object_Mapper::accumulateByMap($data, $address, $this->_billingAddressMap);
-        Varien_Object_Mapper::accumulateByMap($data, $address, $this->_shippingAddressMap);
-        // street address lines workaround
+        $this->_applyStreetAndRegionWorkarounds($address);
+        $this->setExportedBillingAddress($address);
+
+        // assume there is shipping address if there is at least one field specific to shipping
+        if (isset($data['SHIPTONAME'])) {
+            $shippingAddress = clone $address;
+            Varien_Object_Mapper::accumulateByMap($data, $shippingAddress, $this->_shippingAddressMap);
+            $this->_applyStreetAndRegionWorkarounds($shippingAddress);
+            // PayPal doesn't provide detailed shipping name fields, so the name will be overwritten
+            $shippingAddress->addData(array(
+                'prefix'     => null,
+                'firstname'  => $data['SHIPTONAME'],
+                'middlename' => null,
+                'lastname'   => null,
+                'suffix'     => null,
+            ));
+            $this->setExportedShippingAddress($shippingAddress);
+        }
+    }
+
+    /**
+     * Adopt specified address object to be compatible with Magento
+     *
+     * @param Varien_Object $address
+     */
+    protected function _applyStreetAndRegionWorkarounds(Varien_Object $address)
+    {
+        // merge street addresses into 1
         if ($address->hasStreet2()) {
              $address->setStreet(implode("\n", array($address->getStreet(), $address->getStreet2())));
              $address->unsStreet2();
         }
-        // region_id workaround: there is no need in 'region_id', because PayPal provides 'region', but Magento requires it
-        $regions = Mage::getModel('directory/country')->loadByCode($address->getCountryId())->getRegionCollection()
-            ->setPageSize(1)
-        ;
-        if ($address->getRegion()) {
-            $regions->addRegionCodeFilter($address->getRegion());
-        }
-        foreach ($regions as $region) {
-            $address->setRegionId($region->getId());
-            break;
-        }
-        $this->setExportedBillingAddress($address);
-
-        // assume there is shipping address if street is found (have to replicate billing address partially, as workaround)
-        if (trim($address->getStreet())) {
-            $shippingAddress = clone $address;
-            // PayPal doesn't provide detailed shipping name fields, so the name will be overwritten
-            if (isset($data['SHIPTONAME'])) {
-                $shippingAddress->unsPrefix()->unsMiddlename()->unsLastname()->unsSuffix()
-                    ->setName($data['SHIPTONAME'])
-                ;
+        // attempt to fetch region_id from directory
+        if ($address->getCountryId() && $address->getRegion()) {
+            $regions = Mage::getModel('directory/country')->loadByCode($address->getCountryId())->getRegionCollection()
+                ->addRegionCodeFilter($address->getRegion())
+                ->setPageSize(1)
+            ;
+            foreach ($regions as $region) {
+                $address->setRegionId($region->getId());
+                break;
             }
-            $this->setExportedShippingAddress($shippingAddress);
         }
     }
 

@@ -112,7 +112,10 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             $this->_checkout->prepareOrderReview($this->_initToken());
             $this->loadLayout();
             $this->_initLayoutMessages('paypal/session');
-            $this->getLayout()->getBlock('paypal.express.review')->setQuote($this->_getQuote());
+            $this->getLayout()->getBlock('paypal.express.review')
+                ->setQuote($this->_getQuote())
+                ->setCanEditShippingAddress($this->_checkout->mayEditShippingAddress())
+            ;
             $this->renderLayout();
             return;
         }
