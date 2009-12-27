@@ -103,4 +103,13 @@ class Enterprise_PageCache_Model_Observer
             }
         }
     }
+
+    /**
+     * Clean full page cache
+     */
+    public function cleanCache()
+    {
+        Mage::app()->cleanCache(Enterprise_PageCache_Model_Processor::CACHE_TAG);
+        return $this;
+    }
 }

@@ -69,6 +69,26 @@
             <cache_crawler>MagentoCrawler</cache_crawler>
         </ignore_user_agents>
     </global>
+    <adminhtml>
+        <events>
+            <clean_media_cache_after>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>cleanCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </clean_media_cache_after>
+            <clean_catalog_images_cache_after>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>cleanCache</method>
+                    </enterprise_pagecache>
+                </observers>
+            </clean_catalog_images_cache_after>
+        </events>
+    </adminhtml>
     <frontend>
         <layout>
             <updates>

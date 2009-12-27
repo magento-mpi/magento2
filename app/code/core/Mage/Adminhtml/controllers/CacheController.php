@@ -143,6 +143,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     {
         try {
             Mage::getModel('core/design_package')->cleanMergedJsCss();
+            Mage::dispatchEvent('clean_media_cache_after');
             $this->_getSession()->addSuccess(
                 Mage::helper('adminhtml')->__('JavaScript/CSS cache was cleaned successfully.')
             );
@@ -166,6 +167,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     {
         try {
             Mage::getModel('catalog/product_image')->clearCache();
+            Mage::dispatchEvent('clean_catalog_images_cache_after');
             $this->_getSession()->addSuccess(
                 Mage::helper('adminhtml')->__('Image cache was cleaned successfully.')
             );
