@@ -431,24 +431,24 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </business_account>
-                        <api_password translate="label">
-                            <label>API Password</label>
+                        <api_username translate="label">
+                            <label>API Username</label>
                             <frontend_type>obscure</frontend_type>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </api_password>
-                        <api_username translate="label">
-                            <label>API Username</label>
+                        </api_username>
+                        <api_password translate="label">
+                            <label>API Password</label>
                             <frontend_type>obscure</frontend_type>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </api_username>
+                        </api_password>
                         <api_signature translate="label">
                             <label>API Signature</label>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>

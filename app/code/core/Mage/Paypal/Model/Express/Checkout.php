@@ -100,7 +100,9 @@ class Mage_Paypal_Model_Express_Checkout
         if ($this->_config->areButtonsDynamic()) {
             $cacheId = self::PAL_CACHE_ID . Mage::app()->getStore()->getId();
             $pal = Mage::app()->loadCache($cacheId);
-            if (!$pal) {
+            if (-1 == $pal) {
+                $pal = null;
+            } elseif (!$pal) {
                 $pal = null;
                 $this->_getApi();
                 try {
@@ -108,6 +110,7 @@ class Mage_Paypal_Model_Express_Checkout
                     $pal = $this->_api->getPal();
                     Mage::app()->saveCache($pal, $cacheId, array(Mage_Core_Model_Config::CACHE_TAG));
                 } catch (Exception $e) {
+                    Mage::app()->saveCache(-1, $cacheId, array(Mage_Core_Model_Config::CACHE_TAG));
                     Mage::logException($e);
                 }
             }
