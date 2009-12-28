@@ -188,7 +188,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
                 if (in_array($key, array('from_date', 'to_date')) && $value) {
                     $value = Mage::app()->getLocale()->date(
                         $value,
-                        Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
+                        Varien_Date::DATE_INTERNAL_FORMAT,
                         null,
                         false
                     );
