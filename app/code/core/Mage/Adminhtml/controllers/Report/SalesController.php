@@ -72,7 +72,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function salesAction()
     {
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE);
+        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE, 'sales');
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/sales')
@@ -106,14 +106,17 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         return $out;
     }
 
-    protected function _showLastExecutionTime($flagCode)
+    protected function _showLastExecutionTime($flagCode, $refreshCode)
     {
         $flag = Mage::getModel('reports/flag')->setReportFlagCode($flagCode)->loadSelf();
         $updatedAt = ($flag->hasData())
             ? Mage::app()->getLocale()->storeDate(0, $flag->getLastUpdate(), true)
             : 'undefined';
 
-        Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('adminhtml')->__('Last report data generation time is %s', $updatedAt));
+        $refreshStatsLink = $this->getUrl('*/*/refreshstatistics');
+        $directRefreshLink = $this->getUrl('*/*/refreshRecent', array('code' => $refreshCode));
+
+        Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('adminhtml')->__('This Report is not realtime. Last updated: %s. To <a href="%s">refresh statistics</a> right now, click <a href="%s">here</a>', $updatedAt, $refreshStatsLink, $directRefreshLink));
         return $this;
     }
 
@@ -134,6 +137,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         }
+
         $this->_redirectReferer('*/*/sales');
         return $this;
     }
@@ -181,7 +185,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function taxAction()
     {
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);
+        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE, 'tax');
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/tax')
@@ -222,7 +226,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function shippingAction()
     {
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE);
+        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE, 'shipping');
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/shipping')
@@ -263,7 +267,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function invoicedAction()
     {
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_INVOICE_FLAG_CODE);
+        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_INVOICE_FLAG_CODE, 'invoiced');
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/invoiced')
@@ -304,7 +308,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function refundedAction()
     {
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE);
+        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE, 'refunded');
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/refunded')
@@ -345,7 +349,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function couponsAction()
     {
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_COUPNS_FLAG_CODE);
+        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_COUPNS_FLAG_CODE, 'coupons');
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/coupons')
