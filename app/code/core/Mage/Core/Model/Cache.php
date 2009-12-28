@@ -33,6 +33,7 @@ class Mage_Core_Model_Cache
 {
     const DEFAULT_LIFETIME  = 7200;
     const OPTIONS_CACHE_ID  = 'core_cache_options';
+    const INVALIDATED_TYPES = 'core_cache_invalidate';
     const XML_PATH_TYPES    = 'global/cache/types';
 
     /**
@@ -401,7 +402,7 @@ class Mage_Core_Model_Cache
     }
 
     /**
-     * Initialize cache options
+     * Initialize cache types options
      *
      * @return Mage_Core_Model_Cache
      */
@@ -423,22 +424,35 @@ class Mage_Core_Model_Cache
     }
 
     /**
-     * Check if cache can be used for specific data group
+     * Save cache usage options
      *
-     * @param string $cacheType
+     * @param array $options
+     * @return Mage_Core_Model_Cache
+     */
+    public function saveOptions($options)
+    {
+        $this->remove(self::OPTIONS_CACHE_ID);
+        $options = $this->_getResource()->saveAllOptions($options);
+        return $this;
+    }
+
+    /**
+     * Check if cache can be used for specific data type
+     *
+     * @param string $typeCode
      * @return bool
      */
-    public function canUse($groupCode)
+    public function canUse($typeCode)
     {
         if (is_null($this->_allowedCacheOptions)) {
             $this->_initOptions();
         }
 
-        if (empty($groupCode)) {
+        if (empty($typeCode)) {
             return $this->_allowedCacheOptions;
         } else {
-            if (isset($this->_allowedCacheOptions[$groupCode])) {
-                return (bool)$this->_allowedCacheOptions[$groupCode];
+            if (isset($this->_allowedCacheOptions[$typeCode])) {
+                return (bool)$this->_allowedCacheOptions[$typeCode];
             } else {
                 return false;
             }
@@ -446,13 +460,13 @@ class Mage_Core_Model_Cache
     }
 
     /**
-     * Disable cache usage for specific data group
-     * @param string $groupCode
+     * Disable cache usage for specific data type
+     * @param string $typeCode
      * @return Mage_Core_Model_Cache
      */
-    public function banUse($groupCode)
+    public function banUse($typeCode)
     {
-        $this->_allowedCacheOptions[$groupCode] = false;
+        $this->_allowedCacheOptions[$typeCode] = false;
         return $this;
     }
 
@@ -476,15 +490,108 @@ class Mage_Core_Model_Cache
     }
 
     /**
-     * Save cache usage options
+     * Get information about all declared cache types
      *
-     * @param array $options
+     * @return array
+     */
+    public function getTypes()
+    {
+        $types = array();
+        $config = Mage::getConfig()->getNode(self::XML_PATH_TYPES);
+        if ($config) {
+            foreach ($config->children() as $type=>$node) {
+                $types[$type] = new Varien_Object(array(
+                    'id'            => $type,
+                    'cache_type'    => Mage::helper('core')->__((string)$node->label),
+                    'description'   => Mage::helper('core')->__((string)$node->description),
+                    'tags'          => strtoupper((string) $node->tags),
+                    'status'        => (int)$this->canUse($type),
+                ));
+            }
+        }
+        return $types;
+    }
+
+    /**
+     * Get invalidate types codes
+     *
+     * @return array
+     */
+    protected function _getInvalidatedTypes()
+    {
+        $types = $this->load(self::INVALIDATED_TYPES);
+        if ($types) {
+            $types = unserialize($types);
+        } else {
+            $types = array();
+        }
+        return $types;
+    }
+
+    /**
+     * Save invalicated cache types
+     *
+     * @param array $types
      * @return Mage_Core_Model_Cache
      */
-    public function saveOptions($options)
+    protected function _saveInvalidatedTypes($types)
     {
-        $this->remove(self::OPTIONS_CACHE_ID);
-        $options = $this->_getResource()->saveAllOptions($options);
+        $this->save(serialize($types), self::INVALIDATED_TYPES);
+        return $this;
+    }
+
+    /**
+     * Get array of all invalidated cache types
+     *
+     * @return array
+     */
+    public function getInvalidatedTypes()
+    {
+        $invalidatedTypes = array();
+        $types = $this->_getInvalidatedTypes();
+        if ($types) {
+            $allTypes = $this->getTypes();
+            foreach ($types as $type => $flag) {
+                if (isset($allTypes[$type]) && $this->canUse($type)) {
+                    $invalidatedTypes[$type] = $allTypes[$type];
+                }
+            }
+        }
+        return $invalidatedTypes;
+    }
+
+    /**
+     * Mark specific cache type(s) as invalidated
+     *
+     * @param string|array $typeCode
+     * @return
+     */
+    public function invalidateType($typeCode)
+    {
+        $types = $this->_getInvalidatedTypes();
+        if (!is_array($typeCode)) {
+            $typeCode = array($typeCode);
+        }
+        foreach ($typeCode as $code) {
+            $types[$code] = 1;
+        }
+        $this->_saveInvalidatedTypes($types);
+        return $this;
+    }
+
+    /**
+     * Clean cached data for specific cache type
+     *
+     * @param $typeCode
+     */
+    public function cleanType($typeCode)
+    {
+        $tags = $this->getTagsByType($typeCode);
+        $this->clean($tags);
+
+        $types = $this->_getInvalidatedTypes();
+        unset($types[$typeCode]);
+        $this->_saveInvalidatedTypes($types);
         return $this;
     }
 

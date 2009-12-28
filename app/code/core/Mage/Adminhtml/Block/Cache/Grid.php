@@ -26,6 +26,7 @@
 
 class Mage_Adminhtml_Block_Cache_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+    protected $_invalidatedTypes = array();
     /**
      * Class constructor
      */
@@ -35,6 +36,7 @@ class Mage_Adminhtml_Block_Cache_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $this->setId('cache_grid');
         $this->_filterVisibility = false;
         $this->_pagerVisibility  = false;
+        $this->_invalidatedTypes = Mage::app()->getCacheInstance()->getInvalidatedTypes();
     }
 
     /**
@@ -43,18 +45,8 @@ class Mage_Adminhtml_Block_Cache_Grid extends Mage_Adminhtml_Block_Widget_Grid
     protected function _prepareCollection()
     {
         $collection = new Varien_Data_Collection();
-        $config = Mage::getConfig()->getNode(Mage_Core_Model_Cache::XML_PATH_TYPES);
-        if ($config) {
-            foreach ($config->children() as $type=>$node) {
-                $item = new Varien_Object(array(
-                    'id'            => $type,
-                    'cache_type'    => Mage::helper('core')->__((string)$node->label),
-                    'description'   => Mage::helper('core')->__((string)$node->description),
-                    'tags'          => strtoupper((string) $node->tags),
-                    'status'        => (int)Mage::app()->useCache($type),
-                ));
-                $collection->addItem($item);
-            }
+        foreach (Mage::app()->getCacheInstance()->getTypes() as $type) {
+            $collection->addItem($type);
         }
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -138,10 +130,14 @@ class Mage_Adminhtml_Block_Cache_Grid extends Mage_Adminhtml_Block_Widget_Grid
     public function decorateStatus($value, $row, $column, $isExport)
     {
         $class = '';
-        if ($row->getStatus()) {
-            $cell = '<span class="grid-severity-notice"><span>'.$value.'</span></span>';
+        if (isset($this->_invalidatedTypes[$row->getId()])) {
+            $cell = '<span class="grid-severity-minor"><span>'.$this->__('Invalidated').'</span></span>';
         } else {
-            $cell = '<span class="grid-severity-critical"><span>'.$value.'</span></span>';
+            if ($row->getStatus()) {
+                $cell = '<span class="grid-severity-notice"><span>'.$value.'</span></span>';
+            } else {
+                $cell = '<span class="grid-severity-critical"><span>'.$value.'</span></span>';
+            }
         }
         return $cell;
     }
