@@ -169,6 +169,7 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
            }
            $row['allowed_price_in_rss'] = true;
        } else {
+           $row['start_date'] = null;
            $row['allowed_price_in_rss'] = false;
        }
        $args['results'][] = $row;
