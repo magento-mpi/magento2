@@ -175,7 +175,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                 $subQuery->from(array('so'=>'sales_order'), array('DISTINCT DATE(so.created_at)'))
                     ->where($where);
 
-                $deleteCondition = 'DATE(period) IN ('.$subQuery.')';
+                $deleteCondition = 'DATE(period) IN (' . new Zend_Db_Expr($subQuery) . ')';
                 $writeAdapter->delete($tableName, $deleteCondition);
             }
 
@@ -193,7 +193,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             $select = $writeAdapter->select()->from($this->getTable('sales/order'), $columns);
 
             if (!is_null($from) || !is_null($to)) {
-                $select->where("DATE(created_at) IN(?)", $subQuery);
+                $select->where("DATE(created_at) IN(?)", new Zend_Db_Expr($subQuery));
             }
 
             $select->where("coupon_code <> ''");
@@ -229,7 +229,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                 ->where("store_id <> 0");
 
                 if (!is_null($from) || !is_null($to)) {
-                    $select->where("DATE(period) IN(?)", $subQuery);
+                    $select->where("DATE(period) IN(?)", new Zend_Db_Expr($subQuery));
                 }
 
                 $select->group(array(
@@ -270,7 +270,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                 $subQuery->from(array('so'=>'sales_order'), array('DISTINCT DATE(so.created_at)'))
                     ->where($where);
 
-                $deleteCondition = 'DATE(period) IN ('.$subQuery.')';
+                $deleteCondition = 'DATE(period) IN (' . new Zend_Db_Expr($subQuery) . ')';
                 $writeAdapter->delete($tableName, $deleteCondition);
             }
 
@@ -288,7 +288,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             $select = $writeAdapter->select()->from($this->getTable('sales/order'), $columns);
 
             if (!is_null($from) || !is_null($to)) {
-                $select->where("DATE(updated_at) IN(?)", $subQuery);
+                $select->where("DATE(updated_at) IN(?)", new Zend_Db_Expr($subQuery));
             }
 
             $select->where("coupon_code <> ''");
@@ -324,7 +324,7 @@ class Mage_SalesRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                 ->where("store_id <> 0");
 
                 if (!is_null($from) || !is_null($to)) {
-                    $select->where("DATE(period) IN(?)", $subQuery);
+                    $select->where("DATE(period) IN(?)", new Zend_Db_Expr($subQuery));
                 }
 
                 $select->group(array(

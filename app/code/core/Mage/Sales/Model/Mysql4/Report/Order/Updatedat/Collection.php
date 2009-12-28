@@ -165,7 +165,7 @@ class Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection extends Mage_Sal
         $this->_applyOrderStatusFilter();
 
         if (!is_null($this->_from) || !is_null($this->_to)) {
-            $select->where("DATE(e.updated_at) IN(?)", $subQuery);
+            $select->where("DATE(e.updated_at) IN(?)", new Zend_Db_Expr($subQuery));
         }
 
         if (!$this->isTotals()) {

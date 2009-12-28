@@ -64,7 +64,7 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
                 $subQuery->from(array('so'=>'sales_order'), array('DISTINCT DATE(so.created_at)'))
                     ->where($where);
 
-                $deleteCondition = 'DATE(period) IN ('.$subQuery.')';
+                $deleteCondition = 'DATE(period) IN (' . new Zend_Db_Expr($subQuery) . ')';
                 $writeAdapter->delete($tableName, $deleteCondition);
             }
 
@@ -83,7 +83,7 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
                 ->joinInner(array('tax' => $this->getTable('sales/order_tax')), 'e.entity_id = tax.order_id', array());
 
                 if (!is_null($from) || !is_null($to)) {
-                    $select->where("DATE(e.created_at) IN(?)", $subQuery);
+                    $select->where("DATE(e.created_at) IN(?)", new Zend_Db_Expr($subQuery));
                 }
 
                 $select->group(new Zend_Db_Expr('1,2,3'));
@@ -109,7 +109,7 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
                 ->where("store_id <> 0");
 
                 if (!is_null($from) || !is_null($to)) {
-                    $select->where("DATE(period) IN(?)", $subQuery);
+                    $select->where("DATE(period) IN(?)", new Zend_Db_Expr($subQuery));
                 }
 
                 $select->group(array(

@@ -84,7 +84,7 @@ class Mage_Sales_Model_Mysql4_Report_Invoiced extends Mage_Core_Model_Mysql4_Abs
                 $subQuery->from(array('so'=>'sales_order'), array('DISTINCT DATE(so.created_at)'))
                     ->where($where);
 
-                $deleteCondition = 'DATE(period) IN ('.$subQuery.')';
+                $deleteCondition = 'DATE(period) IN (' . new Zend_Db_Expr($subQuery) . ')';
                 $writeAdapter->delete($tableName, $deleteCondition);
             }
 
@@ -119,7 +119,7 @@ class Mage_Sales_Model_Mysql4_Report_Invoiced extends Mage_Core_Model_Mysql4_Abs
             );
 
             if (!is_null($from) || !is_null($to)) {
-                $select->where("DATE(soe.created_at) IN(?)", $subQuery);
+                $select->where("DATE(soe.created_at) IN(?)", new Zend_Db_Expr($subQuery));
             }
 
             $select->group(array(
@@ -150,7 +150,7 @@ class Mage_Sales_Model_Mysql4_Report_Invoiced extends Mage_Core_Model_Mysql4_Abs
                 ->where("store_id <> 0");
 
                 if (!is_null($from) || !is_null($to)) {
-                    $select->where("DATE(period) IN(?)", $subQuery);
+                    $select->where("DATE(period) IN(?)", new Zend_Db_Expr($subQuery));
                 }
 
                 $select->group(array(
@@ -197,7 +197,7 @@ class Mage_Sales_Model_Mysql4_Report_Invoiced extends Mage_Core_Model_Mysql4_Abs
                 $subQuery->from(array('so'=>'sales_order'), array('DISTINCT DATE(so.created_at)'))
                     ->where($where);
 
-                $deleteCondition = 'DATE(period) IN ('.$subQuery.')';
+                $deleteCondition = 'DATE(period) IN (' . new Zend_Db_Expr($subQuery) . ')';
                 $writeAdapter->delete($tableName, $deleteCondition);
             }
 
@@ -217,7 +217,7 @@ class Mage_Sales_Model_Mysql4_Report_Invoiced extends Mage_Core_Model_Mysql4_Abs
                 ->where('state <> ?', 'canceled');
 
             if (!is_null($from) || !is_null($to)) {
-                $select->where("DATE(created_at) IN(?)", $subQuery);
+                $select->where("DATE(created_at) IN(?)", new Zend_Db_Expr($subQuery));
             }
 
             $select->group(array(
@@ -250,7 +250,7 @@ class Mage_Sales_Model_Mysql4_Report_Invoiced extends Mage_Core_Model_Mysql4_Abs
                 ->where("store_id <> 0");
 
                 if (!is_null($from) || !is_null($to)) {
-                    $select->where("DATE(period) IN(?)", $subQuery);
+                    $select->where("DATE(period) IN(?)", new Zend_Db_Expr($subQuery));
                 }
 
                 $select->group(array(
