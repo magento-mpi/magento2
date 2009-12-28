@@ -335,19 +335,8 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
      */
     protected function _filterPostData($data)
     {
-        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-                'date_format' => Mage::app()->getLocale()->getDateFormat()
-            ));
-
-        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-                'date_format' => Varien_Date::DATE_INTERNAL_FORMAT
-            ));
-
-        if (isset($data['date_expires']) && $data['date_expires']) {
-            $data['date_expires'] = $filterInput->filter($data['date_expires']);
-            $data['date_expires'] = $filterInternal->filter($data['date_expires']);
-        }
-
+        $data = $this->_filterDates($data, array('date_expires'));
+        
         return $data;
     }
 

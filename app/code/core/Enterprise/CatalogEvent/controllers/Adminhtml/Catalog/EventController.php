@@ -254,28 +254,11 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     protected function _filterPostData($data)
     {
-        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-                'date_format' => Mage::app()->getLocale()->getDateTimeFormat(
-                                        Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
-            ));
-
-        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-                'date_format' => Varien_Date::DATETIME_INTERNAL_FORMAT
-            ));
-
-        if(isset($data['catalogevent'])) {
-            $_data = $data['catalogevent'];
-            if (isset($_data['date_start']) && $_data['date_start']) {
-                $_data['date_start'] = $filterInput->filter($_data['date_start']);
-                $_data['date_start'] = $filterInternal->filter($_data['date_start']);
-            }
-
-            if (isset($_data['date_end']) && $_data['date_end']) {
-                $_data['date_end'] = $filterInput->filter($_data['date_end']);
-                $_data['date_end'] = $filterInternal->filter($_data['date_end']);
-            }
-            $data['catalogevent'] = $_data;
-        }
+    	if(isset($data['catalogevent'])) {
+    		$_data = $data['catalogevent'];
+    		$_data = $this->_filterDates($_data, array('date_start', 'date_end'));
+    		$data['catalogevent'] = $_data;
+    	}
 
         return $data;
     }

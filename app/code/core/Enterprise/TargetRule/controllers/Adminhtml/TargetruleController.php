@@ -128,7 +128,8 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
         $redirectParams = array();
 
         $data = $this->getRequest()->getPost();
-
+        $data = $this->_filterDates($data, array('from_date', 'to_date'));
+        
         if ($this->getRequest()->isPost() && $data) {
             /* @var $model Enterprise_TargetRule_Model_Rule */
             $model          = Mage::getModel('enterprise_targetrule/rule');
@@ -149,7 +150,6 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                     foreach ($validateResult as $errorMessage) {
                         $this->_getSession()->addError($errorMessage);
                     }
-                    unset($data['from_date'],$data['to_date']);
                     $this->_getSession()->setFormData($data);
 
                     $this->_redirect('*/*/edit', array('id'=>$model->getId()));
