@@ -123,7 +123,7 @@ var giftMessagesController = {
     }
 };
 
-function findFieldRequireSpan (field) {
+function findFieldLabel(field) {
     var tdField = $(field).up('td');
     if (tdField) {
        var tdLabel = tdField.previous('td');
