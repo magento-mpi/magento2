@@ -42,6 +42,9 @@ class Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection
      */
     protected $_viewMode;
 
+    protected $_subQuery = null;
+    protected $_websites = null;
+
     /**
      * Add filter by segment(s)
      *
@@ -54,12 +57,28 @@ class Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection
             $segment = ($segment->getId()) ? $segment->getId() : $segment->getMassactionIds();
         }
 
-        $subQuery = ($this->getViewMode() == Enterprise_CustomerSegment_Model_Segment::VIEW_MODE_INTERSECT_CODE)
+        $this->_subQuery = ($this->getViewMode() == Enterprise_CustomerSegment_Model_Segment::VIEW_MODE_INTERSECT_CODE)
             ? $this->_getIntersectQuery($segment)
             : $this->_getUnionQuery($segment);
 
-        $this->getSelect()
-            ->where('e.entity_id IN(?)', new Zend_Db_Expr($subQuery));
+        return $this;
+    }
+
+    /**
+     * Add filter by websites
+     *
+     * @param int|null|array $websites
+     * @return Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection
+     */
+    public function addWebsiteFilter($websites)
+    {
+        if (is_null($websites)) {
+            return $this;
+        }
+        if (!is_array($websites)) {
+            $websites = array($websites);
+        }
+        $this->_websites = array_unique($websites);
         return $this;
     }
 
@@ -121,5 +140,30 @@ class Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection
     public function getViewMode()
     {
         return $this->_viewMode;
+    }
+
+    /**
+     * Apply filters
+     *
+     * @return Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection
+     */
+    protected function _applyFilters()
+    {
+        if (!is_null($this->_websites)) {
+            $this->_subQuery->where('website_id IN(?)', $this->_websites);
+        }
+        $this->getSelect()->where('e.entity_id IN(?)', new Zend_Db_Expr($this->_subQuery));
+        return $this;
+    }
+
+    /**
+     * Applying delayed filters
+     *
+     * @return Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection
+     */
+    protected function _beforeLoad()
+    {
+        $this->_applyFilters();
+        return $this;
     }
 }

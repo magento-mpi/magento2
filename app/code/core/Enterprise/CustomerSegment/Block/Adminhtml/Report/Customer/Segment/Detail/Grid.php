@@ -57,6 +57,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
         $collection->addNameToSelect()
             ->setViewMode($this->getCustomerSegment()->getViewMode())
             ->addSegmentFilter($this->getCustomerSegment())
+            ->addWebsiteFilter(Mage::registry('filter_website_ids'))
             ->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing', null, 'left')
             ->joinAttribute('billing_city', 'customer_address/city', 'default_billing', null, 'left')
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')

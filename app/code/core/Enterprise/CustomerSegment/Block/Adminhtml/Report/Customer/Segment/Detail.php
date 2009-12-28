@@ -89,4 +89,14 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
         return Mage::registry('current_customer_segment');
     }
 
+    /**
+     * Retrieve all websites
+     *
+     * @return array
+     */
+    public function getWebsites()
+    {
+        return Mage::app()->getWebsites();
+    }
+
 }

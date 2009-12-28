@@ -89,6 +89,15 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
             return false;
         }
         Mage::register('current_customer_segment', $segment);
+
+        $websiteIds = $this->getRequest()->getParam('website_ids');
+        if (!is_null($websiteIds) && empty($websiteIds)) {
+            $websiteIds = null;
+        } elseif (!is_null($websiteIds) && !empty($websiteIds)) {
+            $websiteIds = explode(',', $websiteIds);
+        }
+        Mage::register('filter_website_ids', $websiteIds);
+
         return $segment;
     }
 
@@ -143,11 +152,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
                 }
             }
 
-            $this->_initAction()
-                ->_addContent($this->getLayout()->createBlock(
-                    'enterprise_customersegment/adminhtml_report_customer_segment_detail'
-                ))
-                ->renderLayout();
+            $this->_initAction()->renderLayout();
         } else {
             $this->_redirect('*/*/segment');
             return ;
