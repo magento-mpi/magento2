@@ -205,30 +205,22 @@ class Enterprise_Reward_Model_Observer
      */
     public function orderCompleted($observer)
     {
+        /* @var $order Mage_Sales_Model_Order */
         $order = $observer->getEvent()->getOrder();
         /* @var $invitation Mage_Sales_Model_Order */
         if ($order->getCustomerIsGuest() || !Mage::helper('enterprise_reward')->isEnabled()) {
             return $this;
         }
-        if ($order->getState() != Mage_Sales_Model_Order::STATE_COMPLETE) {
-            return $this;
+        if (((float)$order->getBaseTotalInvoiced() > 0)
+            && (($order->getBaseTotalInvoiced() - $order->getBaseTotalPaid()) <= 0)) {
+            /* @var $reward Enterprise_Reward_Model_Reward */
+            $reward = Mage::getModel('enterprise_reward/reward')
+                ->setCustomerId($order->getCustomerId())
+                ->setWebsiteId($order->getStore()->getWebsiteId())
+                ->setActionEntity($order)
+                ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA)
+                ->updateRewardPoints();
         }
-
-        $reward = Mage::getModel('enterprise_reward/reward')
-            ->setCustomerId($order->getCustomerId())
-            ->loadByCustomer();
-        $rate = $reward->getRateToCurrency();
-        if ($rate->getId() && $rate->getCurrencyAmount() > 0) {
-            $points = intval($order->getBaseSubtotal() * $rate->getPoints() / $rate->getCurrencyAmount());
-            if ($points > 0) {
-                $reward->setStore($order->getStoreId())
-                    ->setActionEntity($order)
-                    ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA)
-                    ->setPointsDelta($points)
-                    ->save();
-            }
-        }
-
         // Also update inviter balance if possible
         $this->_invitationToOrder($observer);
 
@@ -287,8 +279,7 @@ class Enterprise_Reward_Model_Observer
     }
 
     /**
-     * Set reward points balance to quote if customer want to use it.
-     * Set Zero Subtotal Checkout to use if customer points cover grand total
+     * Payment data import in checkout process
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Reward_Model_Observer
@@ -301,27 +292,7 @@ class Enterprise_Reward_Model_Observer
         $input = $observer->getEvent()->getInput();
         /* @var $quote Mage_Sales_Model_Quote */
         $quote = $observer->getEvent()->getPayment()->getQuote();
-        if (!$quote || !$quote->getCustomerId()) {
-            return $this;
-        }
-        $quote->setUseRewardPoints($input->getUseRewardPoints());
-        if ($quote->getUseRewardPoints()) {
-            /* @var $reward Enterprise_Reward_Model_Reward */
-            $reward = Mage::getModel('enterprise_reward/reward')
-                ->setCustomer($quote->getCustomer())
-                ->setWebsiteId(Mage::app()->getStore($quote->getStoreId())->getWebsiteId())
-                ->loadByCustomer();
-            if ($reward->getId()) {
-                $quote->setRewardInstance($reward);
-                $baseGrandTotal = $quote->getBaseGrandTotal()+$quote->getBaseRewardCurrencyAmount();
-                if (!$input->getMethod()) {
-                    $input->setMethod('free');
-                }
-            }
-            else {
-                $quote->setUseRewardPoints(false);
-            }
-        }
+        $this->_paymentDataImport($quote, $input, $input->getUseRewardPoints());
         return $this;
     }
 
@@ -353,6 +324,60 @@ class Enterprise_Reward_Model_Observer
                 $result->isAvailable = true;
             } else {
                 $result->isAvailable = false;
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Payment data import in admin order create process
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function processOrderCreationData(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+        /* @var $quote Mage_Sales_Model_Quote */
+        $request = $observer->getEvent()->getRequest();
+        if (isset($request['payment']) && isset($request['payment']['use_reward_points'])) {
+            $quote = $observer->getEvent()->getOrderCreateModel()->getQuote();
+            $this->_paymentDataImport($quote, $quote->getPayment(), $request['payment']['use_reward_points']);
+        }
+        return $this;
+    }
+
+    /**
+     * Prepare and set to quote reward balance instance,
+     * set zero subtotal checkout payment if need
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @param Varien_Object $payment
+     * @param boolean $useRewardPoints
+     * @return Enterprise_Reward_Model_Observer
+     */
+    protected function _paymentDataImport($quote, $payment, $useRewardPoints)
+    {
+        if (!$quote || !$quote->getCustomerId()) {
+            return $this;
+        }
+        $quote->setUseRewardPoints((bool)$useRewardPoints);
+        if ($quote->getUseRewardPoints()) {
+            /* @var $reward Enterprise_Reward_Model_Reward */
+            $reward = Mage::getModel('enterprise_reward/reward')
+                ->setCustomer($quote->getCustomer())
+                ->setWebsiteId($quote->getStore()->getWebsiteId())
+                ->loadByCustomer();
+            if ($reward->getId()) {
+                $quote->setRewardInstance($reward);
+                if (!$payment->getMethod()) {
+                    $payment->setMethod('free');
+                }
+            }
+            else {
+                $quote->setUseRewardPoints(false);
             }
         }
         return $this;

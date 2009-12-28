@@ -131,10 +131,10 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
      */
     public function getAdditionalData()
     {
-        if (is_string($this->getData('additional_data'))) {
-            $this->setData('additional_data', unserialize($this->getData('additional_data')));
+        if (is_string($this->_getData('additional_data'))) {
+            $this->setData('additional_data', unserialize($this->_getData('additional_data')));
         }
-        return $this->getData('additional_data');
+        return $this->_getData('additional_data');
     }
 
     /**
@@ -167,6 +167,7 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
             $action = Mage::getSingleton('enterprise_reward/reward')->getActionInstance($this->getAction());
             $message = '';
             if ($action !== null) {
+                Mage::log($this->getAdditionalData());
                 $message = $action->getHistoryMessage($this->getAdditionalData());
             }
             $this->setData('message', $message);

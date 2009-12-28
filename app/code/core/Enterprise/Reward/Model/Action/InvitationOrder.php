@@ -94,7 +94,7 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
     public function getHistoryMessage($args = array())
     {
         $email = isset($args['email']) ? $args['email'] : '';
-        $incrementId = isset($args['order_increment_id']) ? $args['order_increment_id'] : '';
+        $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
         return Mage::helper('enterprise_reward')->__('Invitation to %s converted into an Order #%s', $email, $incrementId);
     }
 
@@ -109,7 +109,7 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
         parent::setEntity($entity);
         $invitation = $this->_getInvitation();
         $this->getHistory()->addAdditionalData(array(
-            'order_increment_id' => $this->getEntity()->getOrderIncrementId(),
+            'increment_id' => $this->getEntity()->getIncrementId(),
             'email' => $invitation->getEmail()
         ));
         return $this;

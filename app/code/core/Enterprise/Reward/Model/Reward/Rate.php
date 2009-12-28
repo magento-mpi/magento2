@@ -55,7 +55,7 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         parent::_beforeSave();
-        if ($this->getData('customer_group_id') == self::RATE_CUSTOMER_GROUP_ID_ALL) {
+        if ($this->_getData('customer_group_id') == self::RATE_CUSTOMER_GROUP_ID_ALL) {
             $this->setData('customer_group_id', null);
         }
         $this->_prepareRateValues();
@@ -92,12 +92,12 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
      */
     protected function _prepareRateValues()
     {
-        if ($this->getData('direction') == self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY) {
-            $this->setData('points', (int)$this->getData('value'));
-            $this->setData('currency_amount', (float)$this->getData('equal_value'));
-        } elseif ($this->getData('direction') == self::RATE_EXCHANGE_DIRECTION_TO_POINTS) {
-            $this->setData('currency_amount', (float)$this->getData('value'));
-            $this->setData('points', (int)$this->getData('equal_value'));
+        if ($this->_getData('direction') == self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY) {
+            $this->setData('points', (int)$this->_getData('value'));
+            $this->setData('currency_amount', (float)$this->_getData('equal_value'));
+        } elseif ($this->_getData('direction') == self::RATE_EXCHANGE_DIRECTION_TO_POINTS) {
+            $this->setData('currency_amount', (float)$this->_getData('value'));
+            $this->setData('points', (int)$this->_getData('equal_value'));
         }
         return $this;
     }
@@ -145,6 +145,12 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     public function calculateToPoints($amount)
     {
         $points = 0;
+        if ($amount >= $this->getCurrencyAmount()) {
+            $amountValue = (int)($amount/$this->getCurrencyAmount());
+            if ($amountValue) {
+                $points = $this->getPoints()*$amountValue;
+            }
+        }
         return $points;
     }
 
@@ -156,7 +162,7 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
      */
     public function prepareCustomerGroupValue()
     {
-        if (null === $this->getData('customer_group_id')) {
+        if (null === $this->_getData('customer_group_id')) {
             $this->setData('customer_group_id', self::RATE_CUSTOMER_GROUP_ID_ALL);
         }
         return $this;

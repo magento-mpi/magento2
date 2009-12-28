@@ -257,6 +257,14 @@
                     </enterprise_reward>
                 </observers>
             </tag_save_commit_after>
+            <adminhtml_sales_order_create_process_data>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>processOrderCreationData</method>
+                    </enterprise_reward>
+                </observers>
+            </adminhtml_sales_order_create_process_data>
             <adminhtml_sales_order_creditmemo_register_before>
                 <observers>
                     <enterprise_reward>

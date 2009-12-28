@@ -49,6 +49,8 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     const REWARD_ACTION_ORDER_EXTRA         = 8;
     const REWARD_ACTION_CREDITMEMO          = 9;
 
+    static protected $_actionModelClasses = array();
+
     protected $_rates = array();
 
     /**
@@ -56,7 +58,57 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     protected function _construct()
     {
+        parent::_construct();
         $this->_init('enterprise_reward/reward');
+        $this->_initDefaultActionsClassMapper();
+    }
+
+    /**
+     * Initialize default actions model classes
+     *
+     * @return Enterprise_Reward_Model_Reward
+     */
+    protected function _initDefaultActionsClassMapper()
+    {
+        if (!empty(self::$_actionModelClasses)) {
+            return $this;
+        }
+        self::$_actionModelClasses = self::$_actionModelClasses + array(
+            self::REWARD_ACTION_ADMIN               => 'enterprise_reward/action_admin',
+            self::REWARD_ACTION_ORDER               => 'enterprise_reward/action_order',
+            self::REWARD_ACTION_REGISTER            => 'enterprise_reward/action_register',
+            self::REWARD_ACTION_NEWSLETTER          => 'enterprise_reward/action_newsletter',
+            self::REWARD_ACTION_INVITATION_CUSTOMER => 'enterprise_reward/action_invitationCustomer',
+            self::REWARD_ACTION_INVITATION_ORDER    => 'enterprise_reward/action_invitationOrder',
+            self::REWARD_ACTION_REVIEW              => 'enterprise_reward/action_review',
+            self::REWARD_ACTION_TAG                 => 'enterprise_reward/action_tag',
+            self::REWARD_ACTION_ORDER_EXTRA         => 'enterprise_reward/action_orderExtra',
+            self::REWARD_ACTION_CREDITMEMO          => 'enterprise_reward/action_creditmemo'
+        );
+        return $this;
+    }
+
+    /**
+     * Add action and action class to action classes mapper stack
+     *
+     * @param integer $action
+     * @param string $actionModelClass
+     */
+    static public function addActionModelClass($action, $actionModelClass)
+    {
+        self::$_actionModelClasses = self::$_actionModelClasses + array($action => $actionModelClass);
+    }
+
+    /**
+     * Add array of actions (and actions classes) to action classes mapper stack
+     *
+     * @param array $actions
+     */
+    static public function addActionsModelClass(array $actions = array())
+    {
+        foreach ($actions as $action => $actionModelClass) {
+            self::addActionModelClass($action, $actionModelClass);
+        }
     }
 
     /**
@@ -101,21 +153,11 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         if ($instance = Mage::registry('_reward_actions' . $action)) {
             return $instance;
         }
-        $actionModelClasses = array(
-            self::REWARD_ACTION_ADMIN               => 'enterprise_reward/action_admin',
-            self::REWARD_ACTION_ORDER               => 'enterprise_reward/action_order',
-            self::REWARD_ACTION_REGISTER            => 'enterprise_reward/action_register',
-            self::REWARD_ACTION_NEWSLETTER          => 'enterprise_reward/action_newsletter',
-            self::REWARD_ACTION_INVITATION_CUSTOMER => 'enterprise_reward/action_invitationCustomer',
-            self::REWARD_ACTION_INVITATION_ORDER    => 'enterprise_reward/action_invitationOrder',
-            self::REWARD_ACTION_REVIEW              => 'enterprise_reward/action_review',
-            self::REWARD_ACTION_TAG                 => 'enterprise_reward/action_tag',
-            self::REWARD_ACTION_ORDER_EXTRA         => 'enterprise_reward/action_orderExtra',
-            self::REWARD_ACTION_CREDITMEMO          => 'enterprise_reward/action_creditmemo',
-        );
-
-        if (isset($actionModelClasses[$action])) {
-            $instance = Mage::getModel($actionModelClasses[$action]);
+        if (isset(self::$_actionModelClasses[$action])) {
+            $instance = Mage::getModel(self::$_actionModelClasses[$action]);
+            $instance->setAction($this->getAction())
+                ->setReward($this)
+                ->setHistory($this->getHistory());
             Mage::register('_reward_actions' . $action, $instance);
             return $instance;
         }
@@ -131,9 +173,6 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     public function canUpdateRewardPoints()
     {
         $action = $this->getActionInstance($this->getAction())
-            ->setAction($this->getAction())
-            ->setReward($this)
-            ->setHistory($this->getHistory())
             ->setEntity($this->getActionEntity()); // must be assigned as context object in observer etc.
 
         return $action->canAddRewardPoints();
@@ -174,11 +213,11 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function getCustomer()
     {
-        if (!$this->getData('customer') && $this->getCustomerId()) {
+        if (!$this->_getData('customer') && $this->getCustomerId()) {
             $customer = Mage::getModel('customer/customer')->load($this->getCustomerId());
             $this->setCustomer($customer);
         }
-        return $this->getData('customer');
+        return $this->_getData('customer');
     }
 
     /**
@@ -188,10 +227,10 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function getCustomerGroupId()
     {
-        if (!$this->getData('customer_group_id') && $this->getCustomer()) {
+        if (!$this->_getData('customer_group_id') && $this->getCustomer()) {
             $this->setData('customer_group_id', $this->getCustomer()->getGroupId());
         }
-        return $this->getData('customer_group_id');
+        return $this->_getData('customer_group_id');
     }
 
     /**
@@ -202,10 +241,10 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function getWebsiteId()
     {
-        if (!$this->getData('website_id') && ($store = $this->getStore())) {
+        if (!$this->_getData('website_id') && ($store = $this->getStore())) {
             $this->setData('website_id', $store->getWebsiteId());
         }
-        return $this->getData('website_id');
+        return $this->_getData('website_id');
     }
 
     /**
@@ -236,10 +275,10 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function getPointsDelta()
     {
-        if ($this->getData('points_delta') === null) {
+        if ($this->_getData('points_delta') === null) {
             $this->_preparePointsDelta();
         }
-        return $this->getData('points_delta');
+        return $this->_getData('points_delta');
     }
 
     /**
@@ -250,10 +289,10 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function getCurrencyAmount()
     {
-        if ($this->getData('currency_amount') === null) {
+        if ($this->_getData('currency_amount') === null) {
             $this->_prepareCurrencyAmount();
         }
-        return $this->getData('currency_amount');
+        return $this->_getData('currency_amount');
     }
 
     /**
@@ -276,11 +315,11 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function getWebsiteCurrencyCode()
     {
-        if (!$this->getData('website_currency_code')) {
+        if (!$this->_getData('website_currency_code')) {
             $this->setData('website_currency_code', Mage::app()->getWebsite($this->getWebsiteId())
                 ->getBaseCurrencyCode());
         }
-        return $this->getData('website_currency_code');
+        return $this->_getData('website_currency_code');
     }
 
     /**
@@ -290,11 +329,11 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function getHistory()
     {
-        if (!$this->getData('history')) {
+        if (!$this->_getData('history')) {
             $this->setData('history', Mage::getModel('enterprise_reward/reward_history'));
             $this->getHistory()->setReward($this);
         }
-        return $this->getData('history');
+        return $this->_getData('history');
     }
 
     /**
@@ -445,18 +484,6 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
             $ammount = $this->getRateToCurrency()->calculateToCurrency($points);
         }
         return (float)$ammount;
-    }
-
-    /**
-     * Convert currency amount to points
-     *
-     * @param float $amount
-     * @return integer
-     */
-    protected function _convertCurrencyToPoints($amount)
-    {
-        $points = 0;
-        return $points;
     }
 
     /**

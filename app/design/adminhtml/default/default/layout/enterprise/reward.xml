@@ -49,6 +49,24 @@
         </reference>
     </adminhtml_reward_rate_edit>
 
+    <adminhtml_sales_order_create_index>
+        <reference name="billing_method">
+            <block type="enterprise_reward/adminhtml_sales_order_create_payment" template="enterprise/reward/sales/order/create/payment.phtml" name="reward_points" before="-" />
+        </reference>
+    </adminhtml_sales_order_create_index>
+    
+    <adminhtml_sales_order_create_load_block_billing_method>
+        <reference name="billing_method">
+            <block type="enterprise_reward/adminhtml_sales_order_create_payment" template="enterprise/reward/sales/order/create/payment.phtml" name="reward_points" before="-" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_billing_method>
+
+    <adminhtml_sales_order_create_load_block_data>
+        <reference name="billing_method">
+            <block type="enterprise_reward/adminhtml_sales_order_create_payment" template="enterprise/reward/sales/order/create/payment.phtml" name="reward_points" before="-" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_data>
+
     <adminhtml_sales_order_view>
         <reference name="order_totals">
             <block type="adminhtml/sales_order_totals_item" name="reward_points" template="enterprise/reward/sales/order/total.phtml">

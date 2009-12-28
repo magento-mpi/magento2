@@ -51,7 +51,7 @@ class Enterprise_Reward_Model_Action_Creditmemo extends Enterprise_Reward_Model_
      */
     public function getHistoryMessage($args = array())
     {
-        $incrementId = isset($args['order_increment_id']) ? $args['order_increment_id'] : '';
+        $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
         return Mage::helper('enterprise_reward')->__('Refunded from Order #%s', $incrementId);
     }
 
@@ -65,7 +65,7 @@ class Enterprise_Reward_Model_Action_Creditmemo extends Enterprise_Reward_Model_
     {
         parent::setEntity($entity);
         $this->getHistory()->addAdditionalData(array(
-            'order_increment_id' => $this->getEntity()->getOrderIncrementId()
+            'increment_id' => $this->getEntity()->getIncrementId()
         ));
         return $this;
     }
