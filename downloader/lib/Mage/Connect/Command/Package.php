@@ -97,14 +97,11 @@ extends Mage_Connect_Command
             $argVersionMin = isset($params[3]) ? $params[3] : false;
             $argVersionMax = isset($params[2]) ? $params[2] : false;
 
-            $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            $packager = $this->getPackager();
-            if($ftp) {
-                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
-            } else {
-                $cache = $this->getSconfig();
-                $config = $this->config();
-            }
+            $ftp = empty($options['ftp']) ? null : $options['ftp'];
+            $packager = $this->getPackager($ftp);
+            $cache = $this->getCache($ftp);
+            $config = $this->getConfig($ftp);
+
             $data = $packager->getDependenciesList($channel, $package, $cache, $config, $argVersionMax, $argVersionMin);
             $this->ui()->output(array($command=> array('data'=>$data['deps'], 'title'=>"Package deps for {$params[1]}: ")));
 

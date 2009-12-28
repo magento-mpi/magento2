@@ -46,7 +46,6 @@ extends Mage_Connect_Command
          
 
         try {
-            $packager = $this->getPackager();
             $forceMode = isset($options['force']);
             $upgradeAllMode = $command == 'upgrade-all';
             $upgradeMode = $command == 'upgrade' || $command == 'upgrade-all';
@@ -55,9 +54,10 @@ extends Mage_Connect_Command
             $ignoreModifiedMode = true || !isset($options['ignorelocalmodification']);
 
             $rest = $this->rest();
-            $ftp = empty($options['ftp']) ? false : $options['ftp'];
+            $ftp = empty($options['ftp']) ? null : $options['ftp'];
+            $packager = $this->getPackager($ftp);
             if($ftp) {
-                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
+                list($cache, $config, $ftpObj) = $packager->getRemoteConf();
             } else {
                 $config = $this->config();
                 $cache = $this->getSconfig();
@@ -141,7 +141,7 @@ extends Mage_Connect_Command
                 $out = array($command => array('data'=>$installedDeps, 'assoc'=>$installedDepsAssoc,  'title'=>$title));
 
                 if($ftp) {
-                    $packager->writeToRemoteCache($cache, $ftpObj);
+                    $packager->writeToRemoteCache();
                     @unlink($config->getFilename());
                 }
 
@@ -314,9 +314,9 @@ extends Mage_Connect_Command
 
                     if(!$noFilesInstall) {
                         if($ftp) {
-                            $this->getPackager()->processInstallPackageFtp($package, $file, $config, $ftpObj);
+                            $this->getPackager($ftp)->processInstallPackageFtp($package, $file, $config, $ftpObj);
                         } else {
-                            $this->getPackager()->processInstallPackage($package, $file, $config);
+                            $this->getPackager($ftp)->processInstallPackage($package, $file, $config);
                         }
                     }
                     $cache->addPackage($package);
@@ -340,7 +340,7 @@ extends Mage_Connect_Command
             $out = array($command => array('data'=>$installedDeps, 'assoc'=>$installedDepsAssoc,  'title'=>$title));
 
             if($ftp) {
-                $this->getPackager()->writeToRemoteCache($cache, $ftpObj);
+                $this->getPackager($ftp)->writeToRemoteCache();
                 @unlink($config->getFilename());
             }
 
@@ -349,7 +349,7 @@ extends Mage_Connect_Command
 
         } catch (Exception $e) {
             if($ftp) {
-                $this->getPackager()->writeToRemoteCache($cache, $ftpObj);
+                $this->getPackager($ftp)->writeToRemoteCache();
                 @unlink($config->getFilename());
             }
             return $this->doError($command, $e->getMessage());
@@ -401,17 +401,14 @@ extends Mage_Connect_Command
 
             $channel = $params[0];
             $package = $params[1];
-            $packager = $this->getPackager();
             $withDepsMode = !isset($options['nodeps']);
             $forceMode = isset($options['force']);
 
-            $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if($ftp) {
-                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
-            } else {
-                $cache = $this->getSconfig();
-                $config = $this->config();
-            }
+            $ftp = empty($options['ftp']) ? null : $options['ftp'];
+            $packager = $this->getPackager($ftp);
+
+            $cache = $this->getCache($ftp);
+            $config = $this->getConfig($ftp);
 
             $chan = $cache->getChannel($channel);
             $channel = $cache->chanName($channel);
@@ -456,7 +453,7 @@ extends Mage_Connect_Command
                 }
             }
             if($ftp) {
-                $packager->writeToRemoteCache($cache, $ftpObj);
+                $packager->writeToRemoteCache();
                 @unlink($config->getFilename());
             }
             $out = array($command=>array('data'=>$deletedPackages, 'title'=>'Package deleted: '));

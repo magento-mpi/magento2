@@ -40,14 +40,10 @@ extends Mage_Connect_Command
 
         $this->cleanupParams($params);
         try {
-            $packager = new Mage_Connect_Packager();
-            $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if($ftp) {
-                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
-            } else {
-                $cache = $this->getSconfig();
-                $config = $this->config();
-            }
+            $ftp = empty($options['ftp']) ? null : $options['ftp'];
+            $packager = $this->getPackager($ftp);
+            $cache = $this->getCache($ftp);
+            $config = $this->getConfig($ftp);
 
             if(!empty($params[0])) {
                 $channels = $params[0];
@@ -82,14 +78,9 @@ extends Mage_Connect_Command
         $this->cleanupParams($params);
 
         try {
-            $packager = new Mage_Connect_Packager();
-            $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if($ftp) {
-                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
-            } else {
-                $cache = $this->getSconfig();
-                $config = $this->config();
-            }
+            $ftp = empty($options['ftp']) ? null : $options['ftp'];
+            $cache = $this->getCache($ftp);
+            $config = $this->getConfig($ftp);
 
             if(!empty($params[0])) {
                 $channels = array($params[0]);
@@ -157,14 +148,9 @@ extends Mage_Connect_Command
             $channel = $params[0];
             $package = $params[1];
 
-            $packager = $this->getPackager();
-            $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if($ftp) {
-                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
-            } else {
-                $cache = $this->getSconfig();
-                $config = $this->config();
-            }
+            $ftp = empty($options['ftp']) ? null : $options['ftp'];
+            $cache = $this->getCache($ftp);
+            $config = $this->getConfig($ftp);
 
             $chan = $cache->getChannel($channel);
             $uri = $cache->chanUrl($channel);
@@ -204,16 +190,11 @@ extends Mage_Connect_Command
     {
         $this->cleanupParams($params);
         try {
-            $packager = new Mage_Connect_Packager();
-            $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if($ftp) {
-                list($cache, $ftpObj) = $packager->getRemoteCache($ftp);
-                $cache->clear();
-                $packager->writeToRemoteCache($cache, $ftpObj);              
-            } else {
-                $cache = $this->getSconfig();
-                $cache->clear();
-            }
+            $ftp = empty($options['ftp']) ? null : $options['ftp'];
+            $packager = $this->getPackager($ftp);
+            $cache = $this->getCache($ftp);
+            $cache->clear();
+            $packager->writeToRemoteCache();              
         } catch (Exception $e) {
              $this->doError($command, $e->getMessage());
         }
