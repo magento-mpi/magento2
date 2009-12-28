@@ -80,7 +80,8 @@ class Mage_Adminhtml_Block_Report_Filter_Form extends Mage_Adminhtml_Block_Widge
             'format'    => $dateFormatIso,
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
             'label'     => Mage::helper('reports')->__('To'),
-            'title'     => Mage::helper('reports')->__('To')
+            'title'     => Mage::helper('reports')->__('To'),
+            'required'  => true
         ));
 
         $fieldset->addField('period_type', 'select', array(

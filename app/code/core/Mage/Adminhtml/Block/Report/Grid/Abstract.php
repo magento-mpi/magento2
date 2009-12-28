@@ -76,7 +76,9 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
     {
         $filterData = $this->getFilterData();
 
-        if ($filterData->getData('from') == null) {
+        if ($filterData->getData('from') == null || $filterData->getData('to') == null) {
+            $this->setCountTotals(false);
+            $this->setCountSubTotals(false);
             return parent::_prepareCollection();
         }
 
