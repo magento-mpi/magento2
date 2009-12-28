@@ -279,7 +279,6 @@ extends Mage_Connect_Command
                     $this->doError($command, $e->getMessage());
                 }
             }
-            $this->_flushInstalledDeps();
             foreach($downloadedPackages as $file)
             {
                 try{
