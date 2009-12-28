@@ -60,7 +60,7 @@
             <?php echo $this->helper('core')->formatTime($_item->getCreatedAtDate(), 'medium') ?><span class="separator">|</span><strong><?php echo $_item->getStatusLabel() ?></strong><br/><small><?php echo $this->helper('sales')->__('Customer') ?>
             <strong class="subdue">
                 <?php if ($this->isCustomerNotificationNotApplicable($_item)): ?>
-                <?php echo $this->helper('sales')->__('Not Applicable') ?>
+                <?php echo $this->helper('sales')->__('Notification Not Applicable') ?>
                 <?php elseif ($_item->getIsCustomerNotified()): ?>
                 <?php echo $this->helper('sales')->__('Notified') ?>
                 <img src="<?php echo $this->getSkinUrl('images/ico_success.gif') ?>" width="16" height="16" alt="" />
