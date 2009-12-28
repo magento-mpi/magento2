@@ -36,7 +36,7 @@
 
             order.loadArea(['totals', 'billing_method'], true, data);
         }
-        Event.observe($('p_method_use_customerbalance'), 'change', toggleUseCustomerBalance);
+        Event.observe($('p_method_use_customerbalance'), 'click', toggleUseCustomerBalance);
         Event.observe(document, 'dom:loaded', toggleUseCustomerBalance);
     </script>
 <?php endif; ?>
