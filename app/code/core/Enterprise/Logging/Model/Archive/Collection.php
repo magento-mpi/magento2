@@ -49,7 +49,9 @@ class Enterprise_Logging_Model_Archive_Collection extends Varien_Data_Collection
     }
 
     /**
-     * Row generator - adds 'time' column as Zend_Date object
+     * Row generator
+     * Add 'time' column as Zend_Date object
+     * Add 'timestamp' column as unix timestamp - used in date filter
      *
      * @param string $filename
      * @return array
@@ -59,6 +61,63 @@ class Enterprise_Logging_Model_Archive_Collection extends Varien_Data_Collection
         $row = parent::_generateRow($filename);
         $date = new Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMddHH', Mage::app()->getLocale()->getLocaleCode());
         $row['time'] = $date;
+        /**
+         * Used in date filter, becouse $date contains hours
+         */
+        $dateWithoutHours = new Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMdd', Mage::app()->getLocale()->getLocaleCode());
+        $row['timestamp'] = $dateWithoutHours->getTimestamp();
         return $row;
+    }
+
+    /**
+     * Custom callback method for 'moreq' fancy filter
+     *
+     * @param string $field
+     * @param mixed $filterValue
+     * @param array $row
+     * @return bool
+     * @see addFieldToFilter()
+     * @see addCallbackFilter()
+     */
+    public function filterCallbackIsMoreThan($field, $filterValue, $row)
+    {
+        $rowValue = $row[$field];
+        if ($field == 'time') {
+            $filterValue = $this->_getTimestampFromDate($filterValue);
+            $rowValue    = $row['timestamp'];
+        }
+        return $rowValue > $filterValue;
+    }
+
+    /**
+     * Custom callback method for 'lteq' fancy filter
+     *
+     * @param string $field
+     * @param mixed $filterValue
+     * @param array $row
+     * @return bool
+     * @see addFieldToFilter()
+     * @see addCallbackFilter()
+     */
+    public function filterCallbackIsLessThan($field, $filterValue, $row)
+    {
+        $rowValue = $row[$field];
+        if ($field == 'time') {
+            $filterValue = $this->_getTimestampFromDate($filterValue);
+            $rowValue    = $row['timestamp'];
+        }
+        return $rowValue < $filterValue;
+    }
+
+    /**
+     * Convert string date to timestamp
+     *
+     * @param string $date
+     * @return int
+     */
+    protected function _getTimestampFromDate($date)
+    {
+        $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        return  Mage::app()->getLocale()->date($date, $format)->getTimestamp();
     }
 }
