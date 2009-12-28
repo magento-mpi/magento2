@@ -309,7 +309,8 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
             $thumbSuffix = self::THUMBS_DIRECTORY_NAME . DS . substr($filePath, strlen($mediaRootDir));
 
             if (! $checkFile || is_readable($mediaRootDir . $thumbSuffix)) {
-                return str_replace('\\', '/', $this->getHelper()->getBaseUrl() . $thumbSuffix);
+                $randomIndex = '?rand=' . time();
+                return str_replace('\\', '/', $this->getHelper()->getBaseUrl() . $thumbSuffix) . $randomIndex;
             }
         }
 
