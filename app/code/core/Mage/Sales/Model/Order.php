@@ -545,7 +545,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      * @param bool $isCustomerNotified
      * @return Mage_Sales_Model_Order
      */
-    public function setState($state, $status = false, $comment = '', $isCustomerNotified = false)
+    public function setState($state, $status = false, $comment = '', $isCustomerNotified = null)
     {
         return $this->_setState($state, $status, $comment, $isCustomerNotified, true);
     }
@@ -562,7 +562,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      * @param $shouldProtectState
      * @return Mage_Sales_Model_Order
      */
-    protected function _setState($state, $status = false, $comment = '', $isCustomerNotified = false, $shouldProtectState = false)
+    protected function _setState($state, $status = false, $comment = '', $isCustomerNotified = null, $shouldProtectState = false)
     {
         // attempt to set the specified state
         if ($shouldProtectState) {
@@ -1546,13 +1546,15 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             return $this;
         }
 
+        $userNotification = $this->hasCustomerNoteNotify() ? $this->getCustomerNoteNotify() : null;
+
         if (!$this->isCanceled()
             && !$this->canUnhold()
             && !$this->canInvoice()
             && !$this->canShip()) {
             if ($this->canCreditmemo()) {
                 if ($this->getState() !== self::STATE_COMPLETE) {
-                    $this->_setState(self::STATE_COMPLETE, true);
+                    $this->_setState(self::STATE_COMPLETE, true, '', $userNotification);
                 }
             }
             /**
@@ -1560,13 +1562,13 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
              */
             elseif(floatval($this->getTotalRefunded())) {
                 if ($this->getState() !== self::STATE_CLOSED) {
-                    $this->_setState(self::STATE_CLOSED, true);
+                    $this->_setState(self::STATE_CLOSED, true, '', $userNotification);
                 }
             }
         }
 
         if ($this->getState() == self::STATE_NEW && $this->getIsInProcess()) {
-            $this->setState(self::STATE_PROCESSING, true);
+            $this->setState(self::STATE_PROCESSING, true, '', $userNotification);
         }
         return $this;
     }

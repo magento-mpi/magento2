@@ -338,6 +338,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                     $creditmemo->setEmailSent(true);
                 }
 
+                $creditmemo->getOrder()->setCustomerNoteNotify(!empty($data['send_email']));
                 $this->_saveCreditmemo($creditmemo);
                 $creditmemo->sendEmail(!empty($data['send_email']), $comment);
                 $this->_getSession()->addSuccess($this->__('Credit Memo was successfully created'));

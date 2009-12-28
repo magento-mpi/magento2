@@ -317,6 +317,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
                     $invoice->setEmailSent(true);
                 }
 
+                $invoice->getOrder()->setCustomerNoteNotify(!empty($data['send_email']));
                 $invoice->getOrder()->setIsInProcess(true);
 
                 $transactionSave = Mage::getModel('core/resource_transaction')
