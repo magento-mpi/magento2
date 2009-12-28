@@ -42,4 +42,14 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Reviews extends Mage_Adminhtml_Bloc
     {
         return $this;
     }
+
+    /**
+     * Determine ajax url for grid refresh
+     *
+     * @return string
+     */
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/productReviews', array('_current' => true));
+    }
 }
