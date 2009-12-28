@@ -105,10 +105,12 @@ class Mage_Adminhtml_Block_Report_Filter_Form extends Mage_Adminhtml_Block_Widge
         $statuses = Mage::getModel('sales/order_config')->getStatuses();
         $values = array();
         foreach ($statuses as $code => $label) {
-            $values[] = array(
-                'label' => Mage::helper('reports')->__($label),
-                'value' => $code
-            );
+            if (false === strpos($code, 'pending')) {
+                $values[] = array(
+                    'label' => Mage::helper('reports')->__($label),
+                    'value' => $code
+                );
+            }
         }
 
         $fieldset->addField('order_statuses', 'multiselect', array(

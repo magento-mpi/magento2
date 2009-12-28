@@ -159,7 +159,10 @@ class Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection extends Mage_Sal
 
         $select = $this->getSelect()
             ->from(array('e' => $mainTable), $columns)
-            ->where('e.state <> ?', 'pending');
+            ->where('e.state NOT IN (?)', array(
+                    Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
+                    Mage_Sales_Model_Order::STATE_NEW
+                ));
 
         $this->_applyStoresFilter();
         $this->_applyOrderStatusFilter();

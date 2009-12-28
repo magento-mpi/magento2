@@ -94,7 +94,7 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Core_Model_Mysql4_Abs
 
             $select = $writeAdapter->select()
                 ->from($this->getTable('sales/order'), $columns)
-                ->where('state <> ?', 'canceled')
+                ->where('state <> ?', Mage_Sales_Model_Order::STATE_CANCELED)
                 ->where('base_total_refunded > 0');
 
                 if (!is_null($from) || !is_null($to)) {

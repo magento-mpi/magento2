@@ -214,7 +214,7 @@ class Mage_Sales_Model_Mysql4_Report_Invoiced extends Mage_Core_Model_Mysql4_Abs
 
             $select = $writeAdapter->select()
                 ->from($this->getTable('sales/order'), $columns)
-                ->where('state <> ?', 'canceled');
+                ->where('state <> ?', Mage_Sales_Model_Order::STATE_CANCELED);
 
             if (!is_null($from) || !is_null($to)) {
                 $select->where("DATE(created_at) IN(?)", new Zend_Db_Expr($subQuery));

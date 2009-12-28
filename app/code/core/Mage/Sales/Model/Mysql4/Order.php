@@ -126,7 +126,10 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
 
             $select = $writeAdapter->select()
                 ->from(array('e' => $this->getTable('sales/order')), $columns)
-                ->where('e.state <> ?', 'pending');
+                ->where('e.state NOT IN (?)', array(
+                    Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
+                    Mage_Sales_Model_Order::STATE_NEW
+                ));
 
                 if (!is_null($from) || !is_null($to)) {
                     $select->where("DATE(e.created_at) IN(?)", new Zend_Db_Expr($subQuery));
