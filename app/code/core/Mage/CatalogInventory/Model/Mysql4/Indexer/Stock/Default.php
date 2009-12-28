@@ -225,7 +225,7 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock_Default
                 'website_id'    => $row['website_id'],
                 'stock_id'      => $row['stock_id'],
                 'qty'           => $row['qty'],
-                'stock_status'  => $row['status'],
+                'stock_status'  => (int)$row['status'],
             );
             if (($i % 1000) == 0) {
                 $this->_updateIndexTable($data);
