@@ -668,8 +668,10 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
         $parentItem = null;
         $errors = array();
+        $items = array();
         foreach ($cartCandidates as $candidate) {
             $item = $this->_addCatalogProduct($candidate, $candidate->getCartQty());
+            $items[] = $item;
 
             /**
              * As parent item we should always use the item of first added product
@@ -694,6 +696,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if (!empty($errors)) {
             Mage::throwException(implode("\n", $errors));
         }
+
+        Mage::dispatchEvent('sales_quote_product_add_after', array('items' => $items));
+
         return $item;
     }
 
