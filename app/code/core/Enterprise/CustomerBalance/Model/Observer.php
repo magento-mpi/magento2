@@ -300,7 +300,8 @@ class Enterprise_CustomerBalance_Model_Observer
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $order = $creditmemo->getOrder();
 
-        if ($creditmemo->getBaseCustomerBalanceTotalRefunded()) {
+        //doing actual refund to customer balance if user have submitted refund form
+        if ($creditmemo->getCustomerBalanceRefundFlag() && $creditmemo->getBaseCustomerBalanceTotalRefunded()) {
             $order->setBaseCustomerBalanceTotalRefunded($order->getBaseCustomerBalanceTotalRefunded() + $creditmemo->getBaseCustomerBalanceTotalRefunded());
             $order->setCustomerBalanceTotalRefunded($order->getCustomerBalanceTotalRefunded() + $creditmemo->getCustomerBalanceTotalRefunded());
 
@@ -346,6 +347,8 @@ class Enterprise_CustomerBalance_Model_Observer
                         $amount*$creditmemo->getOrder()->getStoreToOrderRate()
                     );
                     $creditmemo->setCustomerBalanceTotalRefunded($amount);
+                    //setting flag to make actual refund to customer balance after creditmemo save
+                    $creditmemo->setCustomerBalanceRefundFlag(true);
 
                     $creditmemo->setPaymentRefundDisallowed(true);
                 }
