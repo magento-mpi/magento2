@@ -126,13 +126,9 @@ class Enterprise_Reward_Model_Observer
         }
         /* @var $tag Mage_Tag_Model_Tag */
         $tag = $observer->getEvent()->getObject();
-        /**
-         * to remove
-         */
-        $tag->setCustomerId(2);
-        if (($tag->getApprovedStatus() == $tag->getStatus()) && $tag->getCustomerId()) {
+        if (($tag->getApprovedStatus() == $tag->getStatus()) && $tag->getFirstCustomerId()) {
             $reward = Mage::getModel('enterprise_reward/reward')
-                ->setCustomerId($tag->getCustomerId())
+                ->setCustomerId($tag->getFirstCustomerId())
                 ->setStore($tag->getStoreId())
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_TAG)
                 ->setActionEntity($tag)
