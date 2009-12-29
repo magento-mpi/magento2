@@ -170,8 +170,24 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
 
         if (!isset($post['customer_group_id'])
             || !isset($post['website_id'])
-            || !isset($post['direction'])) {
+            || !isset($post['direction'])
+            || !isset($post['value'])
+            || !isset($post['equal_value'])) {
             $message = $this->__('Invalid form data');
+        } elseif ($post['direction'] == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
+                  && ((int) $post['value'] <= 0 || (float) $post['equal_value'] <= 0)) {
+              if ((int) $post['value'] <= 0) {
+                  $message = $this->__('Please enter positive integer number to left Rate field');
+              } else {
+                  $message = $this->__('Please enter positive number to right Rate field');
+              }
+        } elseif ($post['direction'] == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
+                  && ((float) $post['value'] <= 0 || (int) $post['equal_value'] <= 0)) {
+              if ((int) $post['equal_value'] <= 0) {
+                  $message = $this->__('Please enter positive integer number to right Rate field');
+              } else {
+                  $message = $this->__('Please enter positive number to left Rate field');
+              }
         } else {
             $rate       = $this->_initRate();
             $initRateId = $rate->getId();
