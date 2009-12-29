@@ -57,7 +57,7 @@ PayPal Express Review page after shortcut link invocation
         </reference>
         <reference name="content">
             <block type="paypal/express_review" name="paypal.express.review" template="paypal/express/review.phtml">
-                <block type="paypal/express_review_details" name="paypal_express_review_details" as="details" template="paypal/express/review/details.phtml"/>
+                <block type="paypal/express_review_details" name="paypal.express.review.details" as="details" template="paypal/express/review/details.phtml"/>
             </block>
         </reference>
         <reference name="head">

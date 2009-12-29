@@ -115,6 +115,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             $this->getLayout()->getBlock('paypal.express.review')
                 ->setQuote($this->_getQuote())
                 ->setCanEditShippingAddress($this->_checkout->mayEditShippingAddress())
+                ->getChild('details')->setQuote($this->_getQuote())
             ;
             $this->renderLayout();
             return;
@@ -154,7 +155,9 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             $this->_checkout->updateShippingMethod($this->getRequest()->getParam('shipping_method'));
             if ($isAjax) {
                 $this->loadLayout('paypal_express_review_details');
-                $this->getResponse()->setBody($this->getLayout()->getBlock('root')->toHtml());
+                $this->getResponse()->setBody($this->getLayout()->getBlock('root')
+                    ->setQuote($this->_getQuote())
+                    ->toHtml());
                 return;
             }
         }
