@@ -331,11 +331,13 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                         $sourceModel->setPath($path);
                     }
                     if ($method) {
-//                        if ($fieldType == 'multiselect') {
-//                        }
-                        $optionArray = array();
-                        foreach ($sourceModel->$method() as $value => $label) {
-                            $optionArray[] = array('label' => $label, 'value' => $value);
+                        if ($fieldType == 'multiselect') {
+                            $optionArray = $sourceModel->$method();
+                        } else {
+                            $optionArray = array();
+                            foreach ($sourceModel->$method() as $value => $label) {
+                                $optionArray[] = array('label' => $label, 'value' => $value);
+                            }
                         }
                     } else {
                         $optionArray = $sourceModel->toOptionArray($fieldType == 'multiselect');
