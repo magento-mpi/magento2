@@ -34,6 +34,13 @@
 class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
 {
     /**
+     * Additional information container
+     *
+     * @var array
+     */
+    protected $_additionalInformation = -1;
+
+    /**
      * Retrieve data
      *
      * @param   string $key
@@ -109,60 +116,76 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
      * Updates data inside the 'additional_information' array
      * or all 'additional_information' if key is data array
      *
-     * @param string $key | array
+     * @param string|array $key
      * @param mixed $value
      * @return Mage_Payment_Model_Info
      * @throws Mage_Core_Exception
      */
     public function setAdditionalInformation($key, $value = null)
     {
-        if (is_array($key) && is_null($value)) {
-            return $this->setData('additional_information', $key);
-        }
         if (is_object($value)) {
             Mage::throwException(Mage::helper('sales')->__('Payment disallow storing objects.'));
         }
-        $info = $this->_getData('additional_information');
-        if (!$info) {
-            $info = array();
+        $this->_initAdditionalInformation();
+        if (is_array($key) && is_null($value)) {
+            $this->_additionalInformation = $key;
+        } else {
+            $this->_additionalInformation[$key] = $value;
         }
-        $info[$key] = $value;
-        return $this->setData('additional_information', $info);
+        return $this->setData('additional_information', $this->_additionalInformation);
     }
 
     /**
      * Getter for entire additional_information value or one of its element by key
+     *
      * @param string $key
      * @return array|null|mixed
      */
     public function getAdditionalInformation($key = null)
     {
-        $info = $this->_getData('additional_information');
-        if (!$info) {
-            $info = array();
+        $this->_initAdditionalInformation();
+        if (null === $key) {
+            return $this->_additionalInformation;
         }
-        if ($key) {
-            return (isset($info[$key]) ? $info[$key] : null);
-        }
-        return $info;
+        return isset($this->_additionalInformation[$key]) ? $this->_additionalInformation[$key] : null;
     }
 
     /**
      * Unsetter for entire additional_information value or one of its element by key
+     *
      * @param string $key
      * @return Mage_Payment_Model_Info
      */
     public function unsAdditionalInformation($key = null)
     {
-        if ($key) {
-            $info = $this->_getData('additional_information');
-            if (is_array($info)) {
-                unset($info[$key]);
-            }
-        } else {
-            $info = array();
-        }
-        return $this->setData('additional_information', $info);
+        $this->_additionalInformation = -1;
+        return $this->unsetData('additional_information');
     }
 
+    /**
+     * Check whether there is additional information by specified key
+     *
+     * @param $key
+     * @return bool
+     */
+    public function hasAdditionalInformation($key = null)
+    {
+        $this->_initAdditionalInformation();
+        return null === $key
+            ? !empty($this->_additionalInformation)
+            : array_key_exists($key, $this->_additionalInformation);
+    }
+
+    /**
+     * Make sure _additionalInformation is an array
+     */
+    protected function _initAdditionalInformation()
+    {
+        if (-1 === $this->_additionalInformation) {
+            $this->_additionalInformation = $this->_getData('additional_information');
+        }
+        if (null === $this->_additionalInformation) {
+            $this->_additionalInformation = array();
+        }
+    }
 }
