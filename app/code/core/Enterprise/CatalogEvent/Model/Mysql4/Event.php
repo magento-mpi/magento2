@@ -37,7 +37,7 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_
     const EVENT_FROM_PARENT_FIRST = 1;
     const EVENT_FROM_PARENT_LAST  = 2;
 
-    protected $_ChildToParentList;
+    protected $_childToParentList;
 
     /**
      * var which represented catalogevent collection
@@ -99,9 +99,7 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_
         }
 
         $select->reset(Zend_Db_Select::COLUMNS);
-
         $select->columns(array('entity_id','level', 'path'), $categoryCorrelationName);
-
 
         $select
             ->joinLeft(
@@ -139,13 +137,13 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_
     protected function _setChildToParentList() {
         if (is_array($this->_eventCategories)) {
             foreach ($this->_eventCategories as $row) {
-                $e = explode('/', $row['path']);
-                $c = count($e);
-                if ($c>2) {
-                    $key = $e[$c-1];
-                    $val = $e[$c-2];
-                    if (empty($this->_ChildToParentList[$key])) {
-                        $this->_ChildToParentList[$key] = $val;
+                $category = explode('/', $row['path']);
+                $amount = count($category);
+                if ($amount > 2) {
+                    $key = $category[$amount-1];
+                    $val = $category[$amount-2];
+                    if (empty($this->_childToParentList[$key])) {
+                        $this->_childToParentList[$key] = $val;
                     }
                 }
             }
@@ -161,17 +159,19 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_
      * @return unknown
      */
     protected function _getEventFromParent($categoryId, $flag =2) {
-        if (isset($this->_ChildToParentList[$categoryId])) {
-            $parentId = $this->_ChildToParentList[$categoryId];
+        if (isset($this->_childToParentList[$categoryId])) {
+            $parentId = $this->_childToParentList[$categoryId];
         }
         if (!isset($parentId)) {
             return null;
         }
-        $event_id = $this->_eventCategories[$parentId]['event_id'];
+
+        $eventId = $this->_eventCategories[$parentId]['event_id'];
+
         if ($flag == self::EVENT_FROM_PARENT_LAST){
-            if (isset($event_id) && ($event_id !==null)) {
-                return $event_id;
-            } elseif ($event_id === null) {
+            if (isset($eventId) && ($eventId !== null)) {
+                return $eventId;
+            } elseif ($eventId === null) {
                 return $this->_getEventFromParent($parentId, $flag);
             }
         }
