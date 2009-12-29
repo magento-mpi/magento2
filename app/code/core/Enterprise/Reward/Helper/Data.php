@@ -38,6 +38,8 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_SECTION_POINTS = 'enterprise_reward/points/';
     const XML_PATH_SECTION_NOTIFICATIONS = 'enterprise_reward/notification/';
 
+    protected $_expiryConfig;
+
     /**
      * Check whether reward module is enabled in system config
      *
@@ -98,6 +100,29 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
     public function getNotificationConfig($field, $websiteId = null)
     {
         return $this->getConfigValue(self::XML_PATH_SECTION_NOTIFICATIONS, $field, $websiteId);
+    }
+
+    /**
+     * Return acc array of websites expiration points config
+     *
+     * @return array
+     */
+    public function getExpiryConfig()
+    {
+        if ($this->_expiryConfig === null) {
+            $result = array();
+            foreach (Mage::app()->getWebsites() as $website) {
+                $websiteId = $website->getId();
+                $result[$websiteId] = new Varien_Object(array(
+                    'expiration_days' => $this->getGeneralConfig('expiration_days', $websiteId),
+                    'expiry_calculation' => $this->getGeneralConfig('expiry_calculation', $websiteId),
+                    'expiry_day_before' => $this->getNotificationConfig('expiry_day_before', $websiteId)
+                ));
+            }
+            $this->_expiryConfig = $result;
+        }
+
+        return $this->_expiryConfig;
     }
 
     /**

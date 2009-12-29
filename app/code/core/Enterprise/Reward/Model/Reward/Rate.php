@@ -122,13 +122,18 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
      * Calculate currency amount of given points by rate
      *
      * @param integer $points
+     * @param bool Whether to round points to integer or not
      * @return float
      */
-    public function calculateToCurrency($points)
+    public function calculateToCurrency($points, $rounded = true)
     {
         $amount = 0;
-        if ($this->getId()) {
-            $roundedPoints = (int)($points/$this->getPoints());
+        if ($this->getId() && $this->getPoints()) {
+            if ($rounded) {
+                $roundedPoints = (int)($points/$this->getPoints());
+            } else {
+                $roundedPoints = round($points/$this->getPoints(), 2);
+            }
             if ($roundedPoints) {
                 $amount = $this->getCurrencyAmount()*$roundedPoints;
             }

@@ -58,6 +58,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         $collection = Mage::getModel('enterprise_reward/reward_history')
             ->getCollection()
             ->addCustomerFilter($this->getCustomerId())
+            ->setExpiryConfig(Mage::helper('enterprise_reward')->getExpiryConfig())
             ->addExpirationDate();
         $this->setCollection($collection);
         return parent::_prepareCollection();

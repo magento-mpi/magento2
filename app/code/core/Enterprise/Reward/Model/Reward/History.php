@@ -63,7 +63,8 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
         $now = $this->getResource()->formatDate(time());
         $this->addData(array(
             'created_at' => $now,
-            'expired_at' => $now,
+            'expired_at_static' => null,
+            'expired_at_dynamic' => null,
             'notification_sent' => 0
         ));
 
@@ -71,7 +72,11 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
         if ($lifetime > 0) {
             $expireAt = new Zend_Date($now);
             $expireAt->addDay($lifetime);
-            $this->setData('expired_at', $this->getResource()->formatDate($expireAt));
+            $expired = $this->getResource()->formatDate($expireAt);
+            $this->addData(array(
+                'expired_at_static' => $expired,
+                'expired_at_dynamic' => $expired,
+            ));
         }
 
         return parent::_beforeSave();

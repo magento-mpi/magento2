@@ -43,11 +43,42 @@
             </adminhtml_reward_rate_delete>
         </actions>
     </enterprise_reward_rate>
-    <!--enterprise_reward_balance translate="label">
+
+    <customer>
+        <actions>
+            <adminhtml_customer_save>
+                <expected_models extends="merge">
+                    <enterprise_reward__reward_history>
+                        <skip_data>
+                            <history_id/>
+                            <action/>
+                            <additional_data/>
+                            <notification_sent/>
+                            <created_at/>
+                            <expired_at/>
+                        </skip_data>
+                    </enterprise_reward__reward_history>
+                </expected_models>
+            </adminhtml_customer_save>
+        </actions>
+    </customer>
+    <!--enterprise_reward translate="label">
         <label>Reward Points balance</label>
         <expected_models>
+            <enterprise_reward__reward_history>
+                <skip_data>
+                    <new_password/>
+                    <password/>
+                    <password_hash/>
+                </skip_data>
+            </enterprise_reward__reward_history>
         </expected_models>
         <actions>
+            <adminhtml_customer_save>
+                <expected_models extends="merge">
+                    <enterprise_reward__reward_history/>
+                </expected_models>
+            </adminhtml_customer_save>
         </actions>
-    </enterprise_reward_balance-->
+    </enterprise_reward-->
 </logging>

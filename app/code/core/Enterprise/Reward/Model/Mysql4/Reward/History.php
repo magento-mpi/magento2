@@ -118,32 +118,6 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
 
     /**
      * Retrieve actual history records that have unused points, i.e. points_delta-points_used > 0
-     *
-     * @param Enterprise_Reward_Model_Reward_History $history
-     * @param int $required Points total that required
-     * @return array
-     */
-    public function getUnusedPoints($history, $required)
-    {
-        $required = (int)abs($required);
-        if (!$required) {
-            return array();
-        }
-        $this->getReadConnection()->multi_query('SET @available_total=0, @available=0;');
-        $sql = "
-            SELECT * , @available AS available, @available_total AS available_total
-            FROM `{$this->getMainTable()}` AS h
-            WHERE (@available := h.points_delta - h.points_used) > 0
-                AND (@available_total := @available + @available_total)
-                AND @available_total < {$required} + @available
-                AND h.is_expired=0
-                AND h.reward_id='{$history->getRewardId()}'
-                AND h.website_id='{$history->getWebsiteId()}'
-            ORDER BY h.history_id";
-        return $this->_getReadAdapter()->fetchAll($sql);
-    }
-
-    /**
      * Update points_used field for non-used points
      *
      * @param Enterprise_Reward_Model_Reward_History $history
@@ -152,31 +126,71 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
      */
     public function useAvailablePoints($history, $required)
     {
-        $available = $this->getUnusedPoints($history, $required);
-        if (!is_array($available) || count($available) == 0) {
+        $required = (int)abs($required);
+        if (!$required) {
             return $this;
         }
 
-        $required = (int)abs($required);
-        $sql = "UPDATE `{$this->getMainTable()}` SET `points_used` = CASE `history_id` ";
-        $updates = 0;
-        foreach ($available as $row) {
-            if ($required <= 0) {
-                break;
+        try {
+            $this->_getWriteAdapter()->beginTransaction();
+            $select = $this->_getReadAdapter()->select()
+                ->from(array('history' => $this->getMainTable()), array('history_id', 'points_delta', 'points_used'))
+                ->where('reward_id=?', $history->getRewardId())
+                ->where('website_id=?', $history->getWebsiteId())
+                ->where('is_expired=0')
+                ->where('`points_delta`-`points_used`>0')
+                ->order('history_id')
+                ->forUpdate(true);
+
+            $stmt = $this->_getReadAdapter()->query($select);
+            $updateSql = "INSERT INTO `{$this->getMainTable()}` (`history_id`, `points_used`) VALUES ";
+            $updateSqlValues = array();
+            while ($row = $stmt->fetch()) {
+                if ($required <= 0) {
+                    break;
+                }
+                $rowAvailable = $row['points_delta'] - $row['points_used'];
+                $pointsUsed = min($required, $rowAvailable);
+                $required -= $pointsUsed;
+                $newPointsUsed = $pointsUsed + $row['points_used'];
+                $updateSqlValues[] = " ('{$row['history_id']}', '{$newPointsUsed}') ";
             }
-            $rowAvailable = $row['points_delta'] - $row['points_used'];
-            $pointsUsed = min($required, $rowAvailable);
-            $required -= $pointsUsed;
-            $newPointsUsed = $pointsUsed + $row['points_used'];
-            $sql .= " WHEN '{$row['history_id']}' THEN '{$newPointsUsed}' ";
-            $updates++;
+            if (count($updateSqlValues) > 0) {
+                $updateSql = $updateSql
+                           . implode(',', $updateSqlValues)
+                           . " ON DUPLICATE KEY UPDATE `points_used`=VALUES(`points_used`) ";
+                $this->_getWriteAdapter()->query($updateSql);
+            }
+            $this->_getWriteAdapter()->commit();
+        } catch (Exception $e) {
+            $this->_getWriteAdapter()->rollback();
+            throw $e;
         }
-        $sql .= " ELSE `points_used` END ";
-        if ($updates > 0) {
-            $this->_getWriteAdapter()->query($sql);
-        }
+
         return $this;
     }
+
+    /**
+     * Update history expired_at_dynamic field for specified websites
+     *
+     * @param int $days Reward Points Expire in (days)
+     * @param array $websiteIds Array of website ids that must be updated
+     * @return Enterprise_Reward_Model_Mysql4_Reward_History
+     */
+    public function updateExpirationDate($days, $websiteIds)
+    {
+        $websiteIds = is_array($websiteIds) ? $websiteIds : array($websiteIds);
+        $days = (int)abs($days);
+        if ($days) {
+            $newValue = "ADDDATE(`created_at`, INTERVAL {$days} DAY)";
+        } else {
+            $newValue = "NULL";
+        }
+        $sql = "UPDATE `{$this->getMainTable()}` SET `expired_at_dynamic`={$newValue} WHERE ";
+        $sql.= $this->_getWriteAdapter()->quoteInto("`website_id` in (?)", $websiteIds);
+        $this->_getWriteAdapter()->query($sql);
+    }
+
 
     /**
      * Perform Row-level data update

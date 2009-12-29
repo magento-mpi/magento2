@@ -87,11 +87,13 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
     public function getRewardHistory()
     {
         if (! $this->getCollection()) {
+            $websiteId = Mage::app()->getWebsite()->getId();
             $this->setCollection(Mage::getModel('enterprise_reward/reward_history')
                 ->getCollection()
                 ->addCustomerFilter($this->getCustomerId())
-                ->addWebsiteFilter(Mage::app()->getWebsite()->getId())
-                ->addExpirationDate()
+                ->addWebsiteFilter($websiteId)
+                ->setExpiryConfig(Mage::helper('enterprise_reward')->getExpiryConfig())
+                ->addExpirationDate($websiteId)
                 ->setOrder('created_at', 'DESC'));
         }
 
