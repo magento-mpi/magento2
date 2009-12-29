@@ -507,7 +507,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     protected function _afterSave()
     {
-        if ($this->getPageGroups()) {
+        if ($this->dataHasChangedFor('page_groups')) {
             $this->_invalidateCache();
         }
         return parent::_afterSave();
