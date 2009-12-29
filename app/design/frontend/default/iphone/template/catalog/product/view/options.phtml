@@ -34,7 +34,7 @@
         formAction : '',
         formElements : {},
         upload : function(element){
-            this.formElements = this.productForm.getElementsBySelector('input', 'select', 'textarea', 'button');
+            this.formElements = this.productForm.select('input', 'select', 'textarea', 'button');
             this.removeRequire(element.readAttribute('id').sub('option_', ''));
 
             template = '<iframe id="upload_target" name="upload_target" style="width:0; height:0; border:0 solid #fff;"><\/iframe>';

@@ -28,7 +28,7 @@
     <div class="block add-review">
         <div class="block-title">
             <h3><?php echo $this->__('Write Your Own Review') ?></h3>
-        </div>    
+        </div>
     <div class="block-content">
         <h4 class="product-name"><?php echo $this->__("You're reviewing:"); ?> <span><?php echo $this->htmlEscape($this->getProductInfo()->getName()) ?></span></h4>
         <?php if( $this->getRatings() && $this->getRatings()->getSize()): ?>
@@ -86,7 +86,7 @@
                     <label for="review_field" class="required"><em>*</em><?php echo $this->__('Review') ?></label>
                     <div class="input-box"><textarea name="detail" id="review_field" cols="5" rows="3" class="required-entry"><?php echo $this->htmlEscape($data->getDetail()) ?></textarea></div>
                 </li>
-            </ul>            
+            </ul>
             </fieldset>
             <div class="buttons-set form-buttons btn-only">
                 <button type="submit" class="button"><span><span><?php echo $this->__('Submit Review') ?></span></span></button>
@@ -101,14 +101,14 @@
     Validation.addAllThese(
     [
            ['validate-rating', '<?php echo $this->__('Please select one of each of the ratings above') ?>', function(v) {
-                var trs = $('product-review-table').getElementsBySelector('tr');
+                var trs = $('product-review-table').select('tr');
                 var inputs;
                 var error = 1;
 
                 for( var j=0; j < trs.length; j++ ) {
                     var tr = trs[j];
                     if( j > 0 ) {
-                        inputs = tr.getElementsBySelector('input');
+                        inputs = tr.select('input');
 
                         for( i in inputs ) {
                             if( inputs[i].checked == true ) {
