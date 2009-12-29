@@ -954,15 +954,51 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         );
     }
 
-    /**
+     /**
      * Retrieve Grid data as CSV
      *
      * @return string
      */
     public function getCsv()
     {
-        $fileData = $this->getCsvFile();
-        return $this->_getFileContainerContent($fileData);
+        $csv = '';
+        $this->_isExport = true;
+        $this->_prepareGrid();
+        $this->getCollection()->getSelect()->limit();
+        $this->getCollection()->setPageSize(0);
+        $this->getCollection()->load();
+        $this->_afterLoadCollection();
+
+        $data = array();
+        foreach ($this->_columns as $column) {
+            if (!$column->getIsSystem()) {
+                $data[] = '"'.$column->getExportHeader().'"';
+            }
+        }
+        $csv.= implode(',', $data)."\n";
+
+        foreach ($this->getCollection() as $item) {
+            $data = array();
+            foreach ($this->_columns as $column) {
+                if (!$column->getIsSystem()) {
+                    $data[] = '"'.str_replace(array('"', '\\'), array('""', '\\\\'), $column->getRowFieldExport($item)).'"';
+                }
+            }
+            $csv.= implode(',', $data)."\n";
+        }
+
+        if ($this->getCountTotals())
+        {
+            $data = array();
+            foreach ($this->_columns as $column) {
+                if (!$column->getIsSystem()) {
+                    $data[] = '"'.str_replace(array('"', '\\'), array('""', '\\\\'), $column->getRowFieldExport($this->getTotals())).'"';
+                }
+            }
+            $csv.= implode(',', $data)."\n";
+        }
+
+        return $csv;
     }
 
     public function getXml()
@@ -1066,8 +1102,48 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     public function getExcel($filename = '')
     {
-        $fileData = $this->getExcelFile($filename);
-        return $this->_getFileContainerContent($fileData);
+        $this->_isExport = true;
+        $this->_prepareGrid();
+        $this->getCollection()->getSelect()->limit();
+        $this->getCollection()->setPageSize(0);
+        $this->getCollection()->load();
+        $this->_afterLoadCollection();
+        $headers = array();
+        $data = array();
+        foreach ($this->_columns as $column) {
+            if (!$column->getIsSystem()) {
+                $headers[] = $column->getHeader();
+            }
+        }
+        $data[] = $headers;
+
+        foreach ($this->getCollection() as $item) {
+            $row = array();
+            foreach ($this->_columns as $column) {
+                if (!$column->getIsSystem()) {
+                    $row[] = $column->getRowField($item);
+                }
+            }
+            $data[] = $row;
+        }
+
+        if ($this->getCountTotals())
+        {
+            $row = array();
+            foreach ($this->_columns as $column) {
+                if (!$column->getIsSystem()) {
+                    $row[] = $column->getRowField($this->getTotals());
+                }
+            }
+            $data[] = $row;
+        }
+
+        $xmlObj = new Varien_Convert_Parser_Xml_Excel();
+        $xmlObj->setVar('single_sheet', $filename);
+        $xmlObj->setData($data);
+        $xmlObj->unparse();
+
+        return $xmlObj->getData();
     }
 
     public function canDisplayContainer()
