@@ -167,7 +167,6 @@ class Mage_Paypal_Model_Express_Checkout
         // call API and redirect with token
         $this->_api->callSetExpressCheckout();
         $token = $this->_api->getToken();
-        // TODO: collect payment information
         $this->_redirectUrl = $this->_config->getExpressCheckoutStartUrl($token);
         return $token;
     }

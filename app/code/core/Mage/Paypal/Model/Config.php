@@ -354,20 +354,6 @@ class Mage_Paypal_Model_Config
     }
 
     /**
-     * Check whether specified locale code is supported. Fallback to en_US
-     *
-     * @param string $localeCode
-     * @return string
-     */
-    protected function _getSupportedLocaleCode($localeCode = null)
-    {
-        if (!$localeCode || !in_array($localeCode, $this->_supportedImageLocales)) {
-            return 'en_US';
-        }
-        return $localeCode;
-    }
-
-    /**
      * Get "What Is PayPal" localized URL
      * Supposed to be used with "mark" as popup window
      *
@@ -509,6 +495,17 @@ class Mage_Paypal_Model_Config
     }
 
     /**
+     * PayPal Direct cc types source getter
+     *
+     * @return array
+     */
+    public function getDirectCcTypesAsOptionArray()
+    {
+        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'AE', 'DI', 'SS', 'OT'));
+        return $model->toOptionArray();
+    }
+
+    /**
      * Check whether specified currency code is supported
      * @param string $code
      * @return bool
@@ -529,6 +526,15 @@ class Mage_Paypal_Model_Config
                 $to->setData($exportKey, $this->$key);
             }
         }
+    }
+
+    /**
+     * Whether current payment method works with credit cards
+     * @return bool
+     */
+    public function doesWorkWithCc()
+    {
+        return $this->_methodCode === self::METHOD_WPP_DIRECT;
     }
 
     /**
@@ -556,6 +562,20 @@ class Mage_Paypal_Model_Config
         return sprintf('https://fpdbs%s.paypal.com/dynamicimageweb?%s',
             $this->sandboxFlag ? '.sandbox' : '', http_build_query($params)
         );
+    }
+
+    /**
+     * Check whether specified locale code is supported. Fallback to en_US
+     *
+     * @param string $localeCode
+     * @return string
+     */
+    protected function _getSupportedLocaleCode($localeCode = null)
+    {
+        if (!$localeCode || !in_array($localeCode, $this->_supportedImageLocales)) {
+            return 'en_US';
+        }
+        return $localeCode;
     }
 
     /**

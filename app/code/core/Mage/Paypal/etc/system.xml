@@ -58,7 +58,7 @@
                         <cctypes translate="label">
                             <label>Allowed Credit Card Types</label>
                             <frontend_type>multiselect</frontend_type>
-                            <source_model>paypal/source_cctype</source_model>
+                            <source_model>paypal/config::getDirectCcTypesAsOptionArray</source_model>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -75,7 +75,7 @@
                             <show_in_store>0</show_in_store>
                         </centinel>
                         <centinel_require_enrollment translate="label comment">
-                            <label>Require Credit Card Enrollment by Centinel</label>
+                            <label>Require Credit Card Validation by Centinel</label>
                             <comment><![CDATA[<strong style="color:red">Warning!</strong> Customer will not be able to place Order, if the Credit Card didn't pass initial Enrollment by Centinel.]]></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -85,17 +85,6 @@
                             <show_in_store>0</show_in_store>
                             <depends><centinel>1</centinel></depends>
                         </centinel_require_enrollment>
-<!--
-                        <fraud_filter translate="label">
-                            <label>Use Fraud Management Filters</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </fraud_filter>
--->
                         <line_items_enabled translate="label">
                             <label>Transfer Cart Line Items</label>
                             <frontend_type>select</frontend_type>
@@ -204,17 +193,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </solution_type>
-<!--
-                        <fraud_filter translate="label">
-                            <label>Use Fraud Management Filters</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </fraud_filter>
--->
                         <payment_action translate="label">
                             <label>Payment Action</label>
                             <frontend_type>select</frontend_type>

@@ -137,6 +137,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     protected $_doExpressCheckoutPaymentRequest = array(
         'TOKEN', 'PAYERID', 'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'IPADDRESS', 'BUTTONSOURCE', 'NOTIFYURL',
     );
+    protected $_doExpressCheckoutPaymentResponse = array(
+        'TRANSACTIONID', 'AMT', 'PAYMENTSTATUS'
+    );
 
     /**
      * DoDirectPayment request/response map
@@ -205,7 +208,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     protected $_paymentInformationResponse = array(
         'PAYERID', 'PAYERSTATUS', 'CORRELATIONID', 'ADDRESSID', 'ADDRESSSTATUS',
-        'PAYMENTSTATUS', 'PENDINGREASON', 'PROTECTIONELIGIBILITY',
+        'PAYMENTSTATUS', 'PENDINGREASON', 'PROTECTIONELIGIBILITY', 'EMAIL',
     );
 
     /**
@@ -311,15 +314,11 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     {
         $request = $this->_exportToRequest($this->_doExpressCheckoutPaymentRequest);
         $this->_exportLineItems($request);
-        if ($this->getReturnFmfDetailes()) {
-            $request['RETURNFMFDETAILS '] = 1;
-        }
 
         $response = $this->call('DoExpressCheckoutPayment', $request);
         $this->_importFromResponse($this->_paymentInformationResponse, $response);
-
-        $this->setTransactionId($response['TRANSACTIONID']);
-        $this->setAmount($response['AMT']);
+        $this->_importFromResponse($this->_doExpressCheckoutPaymentResponse, $response);
+        $this->_importFraudFiltersResult($response, $this->_callWarnings);
 //        $this->setIsRedirectRequired(!empty($response['REDIRECTREQUIRED']) && (bool)$response['REDIRECTREQUIRED']);
     }
 
@@ -335,6 +334,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         }
         $response = $this->call('DoDirectPayment', $request);
         $this->_importFromResponse($this->_doDirectPaymentResponse, $response);
+        $this->_importFraudFiltersResult($response, $this->_callWarnings);
     }
 
     /**
@@ -526,26 +526,18 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
                     $this->_callWarnings[] = $response["L_ERRORCODE{$i}"];
                 }
             }
-//            $this->unsError();
-// TODO: move to appropriate place
-//            if ($ack=='SUCCESSWITHWARNING') {
-//                //fraud checking
-//                for ($i=0; isset($response['L_SHORTMESSAGE'.$i]); $i++) {
-//                    if ($response['L_ERRORCODE'.$i] == self::FRAUD_ERROR_CODE) {
-//                        $this->setIsFraud(true);
-//                    }
-//                }
-//            }
             return $response;
         }
 
         // handle logical errors
         $errors = array();
         for ($i = 0; isset($response["L_ERRORCODE{$i}"]); $i++) {
-            $errors[] = sprintf('%s (#%s: %s).',
-                preg_replace('/\.$/', '', $response["L_LONGMESSAGE{$i}"]),
-                $response["L_ERRORCODE{$i}"], preg_replace('/\.$/', '', $response["L_SHORTMESSAGE{$i}"])
-            );
+            $longMessage = isset($response["L_LONGMESSAGE{$i}"])
+                ? preg_replace('/\.$/', '', $response["L_LONGMESSAGE{$i}"]) : '';
+            $shortMessage = preg_replace('/\.$/', '', $response["L_SHORTMESSAGE{$i}"]);
+            $errors[] = $longMessage
+                ? sprintf('%s (#%s: %s).', $longMessage, $response["L_ERRORCODE{$i}"], $shortMessage)
+                : sprintf('#%s: %s.', $response["L_ERRORCODE{$i}"], $shortMessage);
         }
         if ($errors) {
             $errors = implode(' ', $errors);
@@ -677,5 +669,28 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             return $this->_supportedCcTypes[$value];
         }
         return '';
+    }
+
+    /**
+     * Get FMF results from response, if any
+     * TODO: PayPal doesn't provide this information in API response for some reason.
+     *       However, the FMF results go in IPN
+     *
+     * @param array $from
+     * @param array $collectedWarnings
+     */
+    protected function _importFraudFiltersResult(array $from, array $collectedWarnings)
+    {
+        // detect whether there is a fraud warning
+        if (!in_array(11610, $collectedWarnings)) {
+            return;
+        }
+        $collectedFilters = array();
+        for ($i = 0; isset($from["L_FMFfilterID{$i}"]); $i++) {
+            $collectedFilters[] = $from["L_FMFfilterNAME{$i}"];
+        }
+        if ($collectedFilters) {
+            $this->setCollectedFraudFilters($collectedFilters);
+        }
     }
 }

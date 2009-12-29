@@ -34,7 +34,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
 {
     protected $_code  = Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS;
     protected $_formBlockType = 'paypal/express_form';
-    protected $_infoBlockType = 'paypal/express_info';
+    protected $_infoBlockType = 'paypal/payment_info';
 
     /**
      * Availability options
@@ -130,16 +130,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function getSession()
     {
         return Mage::getSingleton('paypal/session');
-    }
-
-    /**
-     * Return fraud filter config valie: enabed/ disabled
-     *
-     * @return bool
-     */
-    public function getFraudFilterStatus()
-    {
-        return $this->getConfigData('fraud_filter');
     }
 
     /**
@@ -254,10 +244,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             $api = $this->getApi();
             $api->setPayment($payment)->setAuthorizationId($authTransactionId);
             $api->callDoVoid();
-
-//            if ($this->canManageFraud($payment)) {
-//                $this->updateGatewayStatus($payment, Mage_Paypal_Model_Api_Abstract::ACTION_DENY);
-//            }
+            Mage::getModel('paypal/info')->importToPayment($api, $payment);
         } else {
             Mage::throwException(Mage::helper('paypal')->__('Authorization transaction is required to void.'));
         }
@@ -291,14 +278,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
 
             // add capture transaction info
             $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(false);
-            // collect additional information TODO
-
-//            if ($this->canStoreFraud()) {
-//                $payment->setFraudFlag(true);
-//            }
-//            if ($this->canManageFraud($payment)) {
-//                $this->updateGatewayStatus($payment, Mage_Paypal_Model_Config::FRAUD_ACTION_ACCEPT);
-//            }
+            Mage::getModel('paypal/info')->importToPayment($api, $payment);
         }
         // sale (auth & capture)
         else {
@@ -339,20 +319,13 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             list($items, $totals) = Mage::helper('paypal')->prepareLineItems($order);
             $this->_api->setLineItems($items)->setLineItemTotals($totals);
         }
-        if ($this->getFraudFilterStatus()) {
-            $api->setReturnFmfDetails(true);
-        }
 
         // call api and get details from it
         $api->callDoExpressCheckoutPayment();
-        $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0);
-        // TODO accumulate additional info
-//if ($this->canStoreFraud()) {
-//    $payment->setFraudFlag(true);
-//}
-//if ($this->canManageFraud($payment)) {
-//    $this->updateGatewayStatus($payment, Mage_Paypal_Model_Config::FRAUD_ACTION_ACCEPT);
-//}
+        $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
+            ->setIsPaid($api->isPaid($api->getPaymentStatus()))
+        ;
+        Mage::getModel('paypal/info')->importToPayment($api, $payment);
         return $this;
     }
 
@@ -384,34 +357,12 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
                 ->setIsTransactionClosed(1) // refund initiated by merchant
                 ->setShouldCloseParentTransaction(!$canRefundMore)
             ;
+            Mage::getModel('paypal/info')->importToPayment($api, $payment);
         } else {
             Mage::throwException(Mage::helper('paypal')->__('Impossible to issue a refund transaction, because capture transaction does not exist.'));
         }
         return $this;
     }
-
-//    /**
-//     * Process pending transaction, set status deny or approve
-//     *
-//     * @param Mage_Sales_Model_Order_Payment $payment
-//     * @param string $action
-//     * @return Mage_Paypal_Model_Express
-//     */
-//    public function updateGatewayStatus(Varien_Object $payment, $action)
-//    {
-//      if ($payment && $action) {
-//          if ($payment->getCcTransId()) {
-//              $transactionId = $payment->getCcTransId();
-//          } else {
-//              $transactionId = $payment->getLastTransId();
-//          }
-//          $api = $this->getApi();
-//          $api->setAction($action)
-//              ->setTransactionId($transactionId)
-//              ->callManagePendingTransactionStatus();
-//      }
-//      return $this;
-//    }
 
     /**
      * Cancel payment
@@ -425,20 +376,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             $this->void($payment);
         }
         return parent::cancel($payment);
-    }
-
-    /**
-     * Prepare initial state before placing payment
-     * @param unknown_type $paymentAction
-     * @param unknown_type $stateObject
-     * ?
-     */
-    public function initialize($paymentAction, $stateObject)
-    {
-        $stateObject->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
-        $stateObject->setStatus('pending_payment');
-        $stateObject->setIsNotified(false);
-        return parent::initialize($paymentAction, $stateObject);
     }
 
     /**

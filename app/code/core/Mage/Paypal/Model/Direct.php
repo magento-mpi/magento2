@@ -34,7 +34,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 {
     protected $_code  = 'paypal_direct';
     protected $_formBlockType = 'paypal/direct_form';
-    protected $_infoBlockType = 'paypal/direct_info';
+    protected $_infoBlockType = 'paypal/payment_info';
 
     /**
      * Availability options
@@ -111,8 +111,10 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 
         // call api and import transaction and other payment information
         $api->callDoDirectPayment();
-        $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(false);
-        // TODO accumulate payment information from api
+        $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
+            ->setIsPaid($api->isPaid($api->getPaymentStatus()))
+        ;
+        Mage::getModel('paypal/info')->importToPayment($api, $payment);
     }
 
 
@@ -151,6 +153,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             $api = $this->getApi();
             $api->setPayment($payment)->setAuthorizationId($authTransactionId);
             $api->callDoVoid();
+            Mage::getModel('paypal/info')->importToPayment($api, $payment);
         } else {
             Mage::throwException(Mage::helper('paypal')->__('Authorization transaction is required to void.'));
         }
@@ -196,6 +199,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 
             // add capture transaction info
             $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(false);
+            Mage::getModel('paypal/info')->importToPayment($api, $payment);
         } else {
             $this->_placeOrder($payment, $amount, Mage_Paypal_Model_Config::PAYMENT_ACTION_SALE);
         }

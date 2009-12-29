@@ -203,11 +203,11 @@ class Mage_Paypal_Model_Ipn
      */
     public function processIpnVerified()
     {
+        $wasPaymentInformationChanged = false;
         try {
             try {
                 $order = $this->_getOrder();
-                $this->_importPaymentInformation($order->getPayment());
-                $shouldNotifyAdmin = false;
+                $wasPaymentInformationChanged = $this->_importPaymentInformation($order->getPayment());
                 $paymentStatus = $this->getIpnFormData('payment_status');
                 switch ($paymentStatus) {
                     // paid with german bank
@@ -273,6 +273,9 @@ class Mage_Paypal_Model_Ipn
             }
         } catch (Exception $e) {
             Mage::logException($e);
+        }
+        if ($wasPaymentInformationChanged) {
+            $order->getPayment()->save();
         }
     }
 
@@ -355,7 +358,7 @@ class Mage_Paypal_Model_Ipn
         $order = $this->_getOrder();
         $message = null;
         switch ($this->getIpnFormData('pending_reason')) {
-            case 'address':
+            case 'address': // for some reason PayPal gives "address" reason, when Fraud Management Filter triggered
                 $message = Mage::helper('paypal')->__('Customer used non-confirmed address.');
                 break;
             case 'echeck':
@@ -390,7 +393,8 @@ class Mage_Paypal_Model_Ipn
                 break;
         }
         if ($message) {
-            $this->_createIpnComment($message);
+            $history = $this->_createIpnComment($message);
+            $history->save();
         }
     }
 
@@ -510,16 +514,42 @@ class Mage_Paypal_Model_Ipn
 
     /**
      * Map payment information from IPN to payment object
+     * Returns true if there were changes in information
+     *
      * @param Mage_Payment_Model_Info $payment
+     * @return bool
      */
     protected function _importPaymentInformation(Mage_Payment_Model_Info $payment)
     {
-        Mage::getSingleton('paypal/info')->importToPayment($this->getIpnFormData(), $payment, array(
-            'payer_id' => 'paypal_payer_id',
-            'payer_email' => 'paypal_payer_email',
-            'payer_status' => 'paypal_payer_status',
-            'address_status' => 'paypal_address_status',
-            'protection_eligibility' => 'paypal_protection_eligibility',
-        ));
+        $was = $payment->getAdditionalInformation();
+
+        $from = array();
+        foreach (array(
+            Mage_Paypal_Model_Info::PAYER_ID,
+            'payer_email' => Mage_Paypal_Model_Info::PAYER_EMAIL,
+            Mage_Paypal_Model_Info::PAYER_STATUS,
+            Mage_Paypal_Model_Info::ADDRESS_STATUS,
+            Mage_Paypal_Model_Info::PROTECTION_EL,
+        ) as $privateKey => $publicKey) {
+            if (is_int($privateKey)) {
+                $privateKey = $publicKey;
+            }
+            $value = $this->getIpnFormData($privateKey);
+            if ($value) {
+                $from[$publicKey] = $value;
+            }
+        }
+
+        // collect fraud filters
+        $fraudFilters = array();
+        for ($i = 1; $value = $this->getIpnFormData("fraud_management_pending_filters_{$i}"); $i++) {
+            $fraudFilters[] = $value;
+        }
+        if ($fraudFilters) {
+            $from[Mage_Paypal_Model_Info::FRAUD_FILTERS] = $fraudFilters;
+        }
+
+        Mage::getSingleton('paypal/info')->importToPayment($from, $payment);
+        return $was != $payment->getAdditionalInformation();
     }
 }

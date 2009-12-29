@@ -56,29 +56,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     protected $_lineItemExportTotals = array();
     protected $_lineItemExportItemsFormat = array();
 
-    const FRAUD_ERROR_CODE = 11610;
-
-    const AVS_RESPONSE_MATCH          = 'Y';
-    const AVS_RESPONSE_NO_MATCH       = 'N';
-    const AVS_RESPONSE_NO_CARDHOLDER  = 'X';
-    const AVS_RESPONSE_ALL            = 0;
-    const AVS_RESPONSE_NONE           = 1;
-    const AVS_RESPONSE_PARTIAL        = 2;
-    const AVS_RESPONSE_NOT_PROCESSED  = 3;
-    const AVS_RESPONSE_NOT_AVAILIABLE = 4;
-
-    const CVV_RESPONSE_MATCH_CC                 = 'M';
-    const CVV_RESPONSE_MATCH_SOLO               = 0;
-    const CVV_RESPONSE_NOT_MATCH_CC             = 'N';
-    const CVV_RESPONSE_NOT_MATCH_SOLO           = 1;
-    const CVV_RESPONSE_NOT_PROCESSED_CC         = 'P';
-    const CVV_RESPONSE_NOT_IMPLEMENTED_SOLO     = 2;
-    const CVV_RESPONSE_NOT_SUPPORTED_CC         = 'S';
-    const CVV_RESPONSE_NOT_PRESENT_SOLO         = 3;
-    const CVV_RESPONSE_NOT_AVAILIBLE_CC         = 'U';
-    const CVV_RESPONSE_NOT_AVAILIBLE_SOLO       = 4;
-    const CVV_RESPONSE_NOT_RESPONSE_CC          = 'X';
-
     /**
      * Return paypal session model
      *
@@ -453,6 +430,25 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     * Always take into accoun
+     */
+    public function getFraudManagementFiltersEnabled()
+    {
+        return 1;
+    }
+
+    /**
+     * Whether specified payment status indicates that money were paid
+     *
+     * @param string $paymentStatus
+     * @return bool
+     */
+    public function isPaid($paymentStatus)
+    {
+        return $paymentStatus === 'Completed';
+    }
+
+    /**
      * Export $this public data to private request array
      *
      * @param array $internalRequestMap
@@ -590,71 +586,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
         foreach ($keys as $key) {
             if ($value = array_pop($street)) {
                 $to[$key] = $value;
-            }
-        }
-    }
-
-    /**
-     * Get AVS proper text by given AVS response code
-     *
-     * @return string
-     */
-    public function getAvsDetail($avsCode)
-    {
-        switch ($avsCode) {
-                    case self::AVS_RESPONSE_MATCH:
-                return Mage::helper('paypal')->__('All the address information matched.');
-            case self::AVS_RESPONSE_NONE:
-            case self::AVS_RESPONSE_NO_MATCH:
-                return Mage::helper('paypal')->__('None of the address information matched.');
-            case self::AVS_RESPONSE_PARTIAL :
-                return Mage::helper('paypal')->__('Part of the address information matched.');
-            case self::AVS_RESPONSE_NOT_AVAILIABLE :
-                return Mage::helper('paypal')->__('Address not checked, or acquirer had no response. Service not available.');
-            case self::AVS_RESPONSE_NO_CARDHOLDER:
-                return Mage::helper('paypal')->__('Cardholder\'s bank doesn\'t support address verification');
-            case self::AVS_RESPONSE_NOT_PROCESSED :
-                return Mage::helper('paypal')->__('The merchant did not provide AVS information. Not processed.');
-            default:
-                if ($avsCode === self::AVS_RESPONSE_ALL) {
-                    return Mage::helper('paypal')->__('All the address information matched.');
-                } else {
-                    return '';
-                }
-        }
-    }
-
-    /**
-     * Return mapped CVV text by given cvv code
-     *
-     * @return string
-     */
-    public function getCvvDetail($cvvCode)
-    {
-        switch ($cvvCode) {
-        case self::CVV_RESPONSE_MATCH_CC:
-            return Mage::helper('paypal')->__('Matched');
-        case self::CVV_RESPONSE_NOT_MATCH_CC:
-        case self::CVV_RESPONSE_NOT_MATCH_SOLO:
-            return Mage::helper('paypal')->__('No match');
-        case self::CVV_RESPONSE_NOT_PROCESSED_CC :
-            return Mage::helper('paypal')->__('Not processed');
-        case self::CVV_RESPONSE_NOT_IMPLEMENTED_SOLO :
-            return Mage::helper('paypal')->__('The merchant has not implemented CVV2 code handling');
-        case self::CVV_RESPONSE_NOT_SUPPORTED_CC :
-            return Mage::helper('paypal')->__('Service not supported');
-        case self::CVV_RESPONSE_NOT_PRESENT_SOLO :
-            return Mage::helper('paypal')->__('Merchant has indicated that CVV2 is not present on card');
-        case self::CVV_RESPONSE_NOT_AVAILIBLE_CC :
-        case self::CVV_RESPONSE_NOT_AVAILIBLE_SOLO :
-            return Mage::helper('paypal')->__('Service not available');
-        case self::CVV_RESPONSE_NOT_RESPONSE_CC :
-            return Mage::helper('paypal')->__('No response');
-        default:
-            if (self::CVV_RESPONSE_MATCH_SOLO === $cvvCode) {
-                return Mage::helper('paypal')->__('Matched');
-            } else {
-                return '';
             }
         }
     }
