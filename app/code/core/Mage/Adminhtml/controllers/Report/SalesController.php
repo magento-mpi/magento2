@@ -89,8 +89,20 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         $this->renderLayout();
     }
 
-    protected function _getCollectionNames(array $codes)
+    /**
+     * Retrieve array of collection names by code specified in request
+     *
+     * @return array
+     */
+    protected function _getCollectionNames()
     {
+        $codes = $this->getRequest()->getParam('code');
+        if (!$codes) {
+            throw new Exception(Mage::helper('adminhtml')->__('No report code specified'));
+        }
+        if(!is_array($codes)) {
+            $codes = array($codes);
+        }
         $aliases = array(
             'sales'     => 'sales/order',
             'tax'       => 'tax/tax',
@@ -122,20 +134,19 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function refreshRecentAction()
     {
-        $code = $this->getRequest()->getParam('code');
-        if(!is_array($code)) {
-            $code = array($code);
-        }
-        $collectionsNames = $this->_getCollectionNames($code);
         try {
+            $collectionsNames = $this->_getCollectionNames();
             $currentDate = Mage::app()->getLocale()->date();
             $date = $currentDate->subHour(25);
             foreach ($collectionsNames as $collectionName) {
                 Mage::getResourceModel($collectionName)->aggregate($date);
             }
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Recent statistics was successfully updated'));
-        } catch (Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Unable to refresh recent statistics'));
+            Mage::logException($e);
         }
 
         $this->_redirectReferer('*/*/sales');
@@ -144,18 +155,17 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function refreshLifetimeAction()
     {
-        $code = $this->getRequest()->getParam('code');
-        if(!is_array($code)) {
-            $code = array($code);
-        }
-        $collectionsNames = $this->_getCollectionNames($code);
         try {
+            $collectionsNames = $this->_getCollectionNames();
             foreach ($collectionsNames as $collectionName) {
                 Mage::getResourceModel($collectionName)->aggregate();
             }
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Lifetime statistics was successfully updated'));
-        } catch (Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Unable to refresh lifetime statistics'));
+            Mage::logException($e);
         }
         $this->_redirectReferer('*/*/sales');
         return $this;
