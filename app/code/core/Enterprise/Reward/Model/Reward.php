@@ -60,19 +60,6 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     {
         parent::_construct();
         $this->_init('enterprise_reward/reward');
-        $this->_initDefaultActionsClassMapper();
-    }
-
-    /**
-     * Initialize default actions model classes
-     *
-     * @return Enterprise_Reward_Model_Reward
-     */
-    protected function _initDefaultActionsClassMapper()
-    {
-        if (!empty(self::$_actionModelClasses)) {
-            return $this;
-        }
         self::$_actionModelClasses = self::$_actionModelClasses + array(
             self::REWARD_ACTION_ADMIN               => 'enterprise_reward/action_admin',
             self::REWARD_ACTION_ORDER               => 'enterprise_reward/action_order',
@@ -85,30 +72,21 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
             self::REWARD_ACTION_ORDER_EXTRA         => 'enterprise_reward/action_orderExtra',
             self::REWARD_ACTION_CREDITMEMO          => 'enterprise_reward/action_creditmemo'
         );
-        return $this;
     }
 
     /**
-     * Add action and action class to action classes mapper stack
+     * Set action Id and action model class.
+     * Check if given action Id is not integer throw exception
      *
-     * @param integer $action
+     * @param integer $actionId
      * @param string $actionModelClass
      */
-    static public function addActionModelClass($action, $actionModelClass)
+    public static function setActionModelClass($actionId, $actionModelClass)
     {
-        self::$_actionModelClasses = self::$_actionModelClasses + array($action => $actionModelClass);
-    }
-
-    /**
-     * Add array of actions (and actions classes) to action classes mapper stack
-     *
-     * @param array $actions
-     */
-    static public function addActionsModelClass(array $actions = array())
-    {
-        foreach ($actions as $action => $actionModelClass) {
-            self::addActionModelClass($action, $actionModelClass);
+        if (!is_int($actionId)) {
+            Mage::throwException(Mage::helper('enterprise_reward')->__('Given action ID has to be an integer value.'));
         }
+        self::$_actionModelClasses[$actionId] = $actionModelClass;
     }
 
     /**
