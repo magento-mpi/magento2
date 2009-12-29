@@ -137,9 +137,8 @@ class Mage_Core_Model_Cache
             $options = array();
         }
 
-        $type = strtolower($type);
         $backendType = false;
-        switch ($type) {
+        switch (strtolower($type)) {
             case 'sqlite':
                 if (extension_loaded('sqlite') && isset($options['cache_db_complete_path'])) {
                     $backendType = 'Sqlite';
@@ -177,6 +176,16 @@ class Mage_Core_Model_Cache
                 $backendType = 'Varien_Cache_Backend_Database';
                 $options = $this->getDbAdapterOptions();
                 break;
+            default:
+                try {
+                    if (class_exists($type, true)) {
+                        $implements = class_implements($type, true);
+                        if (in_array('Zend_Cache_Backend_Interface', $implements)) {
+                            $backendType = $type;
+                        }
+                    }
+                } catch (Exception $e) {
+                }
         }
 
         if (!$backendType) {
