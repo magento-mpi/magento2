@@ -93,6 +93,9 @@ class Enterprise_PageCache_Model_Processor
      */
     public function isAllowed()
     {
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+            return false;
+        }
         if (isset($_COOKIE['NO_CACHE'])) {
             return false;
         }
