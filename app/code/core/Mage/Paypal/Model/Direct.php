@@ -69,7 +69,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     {
         $order = $payment->getOrder();
         $api = $this->getApi()
-            ->setPaymentType($paymentAction)
+            ->setPaymentAction($paymentAction)
             ->setIpAddress(Mage::app()->getRequest()->getClientIp(false))
             // fmf auto
             ->setAmount($amount)
@@ -231,7 +231,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
                 : Mage_Paypal_Model_Config::REFUND_TYPE_PARTIAL
             );
             $api->callRefundTransaction();
-            $payment->setTransactionId($api->getTransactionId())
+            $payment->setTransactionId($api->getRefundTransactionId())
                 ->setIsTransactionClosed(1) // refund initiated by merchant
                 ->setShouldCloseParentTransaction(!$canRefundMore)
             ;

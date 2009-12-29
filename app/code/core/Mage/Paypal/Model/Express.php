@@ -304,7 +304,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             ->setToken($token)
             ->setPayerId($payment->getAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_PAYER_ID))
             ->setAmount($amount)
-            ->setPaymentType($paymentAction) // TODO: refactor payment_type in API
+            ->setPaymentAction($paymentAction)
             ->setNotifyUrl(Mage::getUrl('paypal/ipn/express'))
             ->setInvNum($order->getIncrementId())
             ->setCurrencyCode($order->getBaseCurrencyCode())
@@ -353,7 +353,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
                 : Mage_Paypal_Model_Config::REFUND_TYPE_PARTIAL
             );
             $api->callRefundTransaction();
-            $payment->setTransactionId($api->getTransactionId())
+            $payment->setTransactionId($api->getRefundTransactionId())
                 ->setIsTransactionClosed(1) // refund initiated by merchant
                 ->setShouldCloseParentTransaction(!$canRefundMore)
             ;

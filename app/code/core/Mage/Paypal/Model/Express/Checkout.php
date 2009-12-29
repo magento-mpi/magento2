@@ -139,7 +139,7 @@ class Mage_Paypal_Model_Express_Checkout
             ->setReturnUrl($returnUrl)
             ->setCancelUrl($cancelUrl)
             ->setSolutionType($this->_config->solutionType)
-            ->setPaymentType($this->_config->paymentAction)
+            ->setPaymentAction($this->_config->paymentAction)
         ;
         // supress or export shipping address
         if ($this->_quote->getIsVirtual()) {

@@ -42,7 +42,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'SIGNATURE'    => 'api_signature',
         'BUTTONSOURCE' => 'build_notation_code',
         // commands
-        'PAYMENTACTION' => 'payment_type',
+        'PAYMENTACTION' => 'payment_action',
         'RETURNURL'     => 'return_url',
         'CANCELURL'     => 'cancel_url',
         'INVNUM'        => 'inv_num',
@@ -55,6 +55,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'IPADDRESS'         => 'ip_address',
         'NOTIFYURL'         => 'notify_url',
         'RETURNFMFDETAILS'  => 'fraud_management_filters_enabled',
+        'NOTE'              => 'note',
+        'REFUNDTYPE'        => 'refund_type',
+        'ACTION'            => 'action',
         // style settings
         'PAGESTYLE'      => 'page_style',
         'HDRIMG'         => 'hdrimg',
@@ -62,11 +65,15 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'HDRBACKCOLOR'   => 'hdrbackcolor',
         'PAYFLOWCOLOR'   => 'payflowcolor',
         'LOCALECODE'     => 'locale_code',
+        'PAL'            => 'pal',
 
         // transaction info
         'TRANSACTIONID'   => 'transaction_id',
         'AUTHORIZATIONID' => 'authorization_id',
+        'REFUNDTRANSACTIONID' => 'refund_transaction_id',
+        'COMPLETETYPE'    => 'complete_type',
         'AMT' => 'amount',
+        'GROSSREFUNDAMT' => 'refunded_amount', // possible mistake, check with API reference
 
         // payment/billing info
         'CURRENCYCODE'  => 'currency_code',
@@ -78,6 +85,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'ADDRESSID' => 'address_id',
         'ADDRESSSTATUS' => 'address_status',
         'EMAIL'         => 'email',
+            // backwards compatibility
+            'FIRSTNAME'     => 'firstname',
+            'LASTNAME'      => 'lastname',
         // paypal direct credit card information
         'CREDITCARDTYPE' => 'credit_card_type',
         'ACCT'           => 'credit_card_number',
@@ -163,6 +173,47 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     protected $_doReauthorizationResponse = array(
         'AUTHORIZATIONID', 'PAYMENTSTATUS', 'PENDINGREASON', 'PROTECTIONELIGIBILITY'
     );
+
+    /**
+     * DoCapture request/response map
+     * @var array
+     */
+    protected $_doCaptureRequest = array('AUTHORIZATIONID', 'COMPLETETYPE', 'AMT', 'CURRENCYCODE', 'NOTE', 'INVNUM',);
+    protected $_doCaptureResponse = array('TRANSACTIONID', 'CURRENCYCODE', 'AMT',);
+
+    /**
+     * DoVoid request map
+     * @var array
+     */
+    protected $_doVoidRequest = array('AUTHORIZATIONID', 'NOTE',);
+
+    /**
+     * GetTransactionDetailsRequest
+     * @var array
+     */
+    protected $_getTransactionDetailsRequest = array('TRANSACTIONID');
+    protected $_getTransactionDetailsResponse = array(
+        'PAYERID', 'FIRSTNAME', 'LASTNAME', 'TRANSACTIONID', 'PARENTTRANSACTIONID', 'CURRENCYCODE', 'AMT',
+    );
+
+    /**
+     * RefundTransaction request/response map
+     * @var array
+     */
+    protected $_refundTransactionRequest = array('TRANSACTIONID', 'REFUNDTYPE', 'CURRENCYCODE', 'NOTE',);
+    protected $_refundTransactionResponse = array('REFUNDTRANSACTIONID', 'GROSSREFUNDAMT',);
+
+    /**
+     * ManagePendingTransactionStatus request/response map
+     */
+    protected $_managePendingTransactionStatusRequest = array('TRANSACTIONID', 'ACTION');
+    protected $_managePendingTransactionStatusResponse = array('TRANSACTIONID');
+
+    /**
+     * GetPalDetails response map
+     * @var array
+     */
+    protected $_getPalDetailsResponse = array('PAL');
 
     /**
      * Map for billing address import/export
@@ -353,28 +404,10 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function callDoCapture()
     {
-        $request = array(
-            'AUTHORIZATIONID' => $this->getAuthorizationId(),
-            'COMPLETETYPE'    => $this->getCompleteType(),
-            'AMT'             => $this->getAmount(),
-            'CURRENCYCODE'    => $this->getCurrencyCode(),
-            'NOTE'            => $this->getNote(),
-            'INVNUM'          => $this->getInvNum()
-        );
-
+        $request = $this->_exportToRequest($this->_doCaptureRequest);
         $response = $this->call('DoCapture', $request);
-
-//        if (!empty($response['PAYERSTATUS'])) {
-//            $this->setAccountStatus($response['PAYERSTATUS']);
-//        }
-//        if (!empty($response['PROTECTIONELIGIBILITY'])) {
-//            $this->setProtectionEligibility($response['PROTECTIONELIGIBILITY']);
-//        }
-//        $this->setAuthorizationId($response['AUTHORIZATIONID']);
-        $this->setTransactionId($response['TRANSACTIONID']);
-//        $this->setPaymentStatus($response['PAYMENTSTATUS']);
-        $this->setCurrencyCode($response['CURRENCYCODE']);
-        $this->setAmount($response['AMT']);
+        $this->_importFromResponse($this->_paymentInformationResponse, $response);
+        $this->_importFromResponse($this->_doCaptureResponse, $response);
     }
 
     /**
@@ -383,10 +416,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function callDoVoid()
     {
-        $request = array(
-            'AUTHORIZATIONID' => $this->getAuthorizationId(),
-            'NOTE'            => $this->getNote(),
-        );
+        $request = $this->_exportToRequest($this->_doVoidRequest);
         $this->call('DoVoid', $request);
     }
 
@@ -396,28 +426,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function callGetTransactionDetails()
     {
-        $request = array(
-            'TRANSACTIONID' => $this->getTransactionId(),
-        );
-
+        $request = $this->_exportToRequest($this->_getTransactionDetailsRequest);
         $response = $this->call('GetTransactionDetails', $request);
-
-//        $this->setIsRedirectRequired(!empty($resArr['REDIRECTREQUIRED']) && (bool)$resArr['REDIRECTREQUIRED']);
-//        $this->setPayerEmail($resArr['RECEIVEREMAIL']); // this is incorrect!
-        $this->setPayerId($response['PAYERID']);
-        $this->setFirstname($response['FIRSTNAME']);
-        $this->setLastname($response['LASTNAME']);
-        $this->setTransactionId($response['TRANSACTIONID']);
-        $this->setParentTransactionId($response['PARENTTRANSACTIONID']);
-        $this->setCurrencyCode($response['CURRENCYCODE']);
-        $this->setAmount($response['AMT']);
-//        if (!empty($resArr['PAYERSTATUS'])) {
-//            $this->setPaymentStatus($resArr['PAYERSTATUS']);
-//            $this->setAccountStatus($resArr['PAYERSTATUS']);
-//        }
-//        if (!empty($resArr['PROTECTIONELIGIBILITY'])) {
-//            $this->setProtectionEligibility($resArr['PROTECTIONELIGIBILITY']);
-//        }
+        $this->_importFromResponse($this->_getTransactionDetailsResponse, $response);
     }
 
     /**
@@ -426,19 +437,12 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function callRefundTransaction()
     {
-        $request = array(
-            'TRANSACTIONID' => $this->getTransactionId(),
-            'REFUNDTYPE'    => $this->getRefundType(),
-            'CURRENCYCODE'  => $this->getCurrencyCode(),
-            'NOTE'          => $this->getNote(),
-        );
+        $request = $this->_exportToRequest($this->_refundTransactionRequest);
         if ($this->getRefundType() === Mage_Paypal_Model_Config::REFUND_TYPE_PARTIAL) {
             $request['AMT'] = $this->getAmount();
         }
-
-        $result = $this->call('RefundTransaction', $request);
-        $this->setTransactionId($result['REFUNDTRANSACTIONID']);
-        $this->setAmount($result['GROSSREFUNDAMT']);
+        $response = $this->call('RefundTransaction', $request);
+        $this->_importFromResponse($this->_refundTransactionResponse, $response);
     }
 
     /**
@@ -447,11 +451,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function callManagePendingTransactionStatus()
     {
-        $response = $this->call('ManagePendingTransactionStatus', array(
-            'TRANSACTIONID' => $this->getTransactionId(),
-            'ACTION'        => $this->getAction(),
-        ));
-        $this->setTransactionId($response['TRANSACTIONID']);
+        $request = $this->_exportToRequest($this->_managePendingTransactionStatusRequest);
+        $response = $this->call('ManagePendingTransactionStatus', $request);
+        $this->_importFromResponse($this->_managePendingTransactionStatusResponse, $response);
     }
 
     /**
@@ -462,7 +464,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     public function callGetPalDetails()
     {
         $result = $this->call('getPalDetails', array());
-        $this->setPal($result['PAL']);
+        $this->_importFromResponse($this->_getPalDetailsResponse, $response);
     }
 
     /**
@@ -513,7 +515,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             Mage::logException(new Exception(
                 sprintf('PayPal NVP CURL connection error #%s: %s', $http->getErrno(), $http->getError())
             ));
-//            $this->setRedirectUrl($this->getApiErrorUrl());
             Mage::throwException(Mage::helper('paypal')->__('Unable to communicate with PayPal gateway.'));
         }
 
