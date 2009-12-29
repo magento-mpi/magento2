@@ -148,4 +148,14 @@ class Enterprise_PageCache_Model_Observer
         Mage::app()->cleanCache(Enterprise_PageCache_Model_Processor::CACHE_TAG);
         return $this;
     }
+
+    /**
+     * Invalidate full page cache
+     */
+    public function invalidateCache()
+    {
+        Mage::app()->getCacheInstance()->invalidateType('full_page');
+        return $this;
+    }
+
 }
