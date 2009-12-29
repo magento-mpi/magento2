@@ -128,7 +128,7 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     public function calculateToCurrency($points, $rounded = true)
     {
         $amount = 0;
-        if ($this->getId() && $this->getPoints()) {
+        if ($this->getPoints()) {
             if ($rounded) {
                 $roundedPoints = (int)($points/$this->getPoints());
             } else {
@@ -150,7 +150,7 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     public function calculateToPoints($amount)
     {
         $points = 0;
-        if ($amount >= $this->getCurrencyAmount()) {
+        if ($this->getCurrencyAmount() && $amount >= $this->getCurrencyAmount()) {
             $amountValue = (int)($amount/$this->getCurrencyAmount());
             if ($amountValue) {
                 $points = $this->getPoints()*$amountValue;
