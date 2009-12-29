@@ -55,13 +55,8 @@ if (!file_exists($mageFilename)) {
 }
 
 if (file_exists($maintenanceFile)) {
-    $serverProtocol = !empty($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0';
-    header(sprintf('%s 503 Service Unavailable', $serverProtocol), true, 503);
-    header('Status: 503 Service Unavailable', true, 503);
-
     $baseUrl = dirname($_SERVER['PHP_SELF']);
-    $store   = 'default';
-    include_once (dirname(__FILE__) . '/503/skin/' . $store . '/index.phtml');
+    include_once dirname(__FILE__) . '/errors/503.php';
     exit;
 }
 

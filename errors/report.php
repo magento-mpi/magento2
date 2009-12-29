@@ -20,21 +20,18 @@
  *
  * @category   Mage
  * @package    Mage
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-define('CONFIG_FILE', 'config.xml');
+require_once 'functions.php';
 
-$baseUrl    = dirname(dirname($_SERVER['SCRIPT_NAME'])) . '/';
 $reportId   = 0;
+$reportFile = '';
 
-/**
- * Check defined report id
- */
 if (isset($_REQUEST['id'])) {
     $reportId   = $_REQUEST['id'];
-    $reportPath = '../var/report/';
+    $reportPath = MAGE_ERRORS_MAGE_PATH . 'var/report/';
     $reportFile = $reportPath . $reportId;
 
     if (strpos(realpath($reportFile), realpath($reportPath)) !== 0) {
@@ -45,30 +42,21 @@ if (isset($_REQUEST['id'])) {
         $reportFile = '';
     }
 }
-else {
-    $reportFile = '';
-}
 
 if (isset($_POST['submit']) && $reportId) {
     // empty if for trash action
-}
-elseif (!$reportFile || !is_file(CONFIG_FILE)) {
+} else if (!$reportFile) {
     header("Location: " . $baseUrl);
     die();
 }
 
-/**
- * Load config
- */
-$config = new SimpleXMLElement(implode('', file(CONFIG_FILE)));
-
-if ((string)$config->report->email_address == '' && (string)$config->report->action == 'email') {
+if ((string)$eConfig->report->email_address == '' && (string)$eConfig->report->action == 'email') {
     header("Location: " . $baseUrl);
     die();
 }
 
-$action = ((string)$config->report->action == '') ? 'print' : (string)$config->report->action;
-$trash  = ((string)$config->report->trash == '') ? 'leave' : (string)$config->report->trash;
+$action = ((string)$eConfig->report->action == '') ? 'print' : (string)$eConfig->report->action;
+$trash  = ((string)$eConfig->report->trash == '') ? 'leave' : (string)$eConfig->report->trash;
 
 $showErrorMsg   = false;
 $showSendForm   = ($action == 'email') ? true : false;
@@ -84,6 +72,7 @@ if ($showSendForm) {
 }
 
 if ($action == 'email') {
+    $pageTitle = 'Error Submission Form';
     if (isset($_POST['submit'])) {
         if (!empty($firstName) && !empty($lastName) && checkEmail($email)) {
             $msg  = "First Name: {$firstName}\n"
@@ -98,18 +87,15 @@ if ($action == 'email') {
                 $msg .= "Comment: {$comment}\n";
             }
 
-            mail($config->report->email_address,
-                $config->report->subject . " [{$reportId}]",
-                $msg);
+            $subject = sprintf('%s [%s]', (string)$eConfig->report->subject, $reportId);
+            @mail((string)$eConfig->report->email_address, $subject, $msg);
 
             $showSendForm   = false;
             $showSentMsg    = true;
-        }
-        else {
+        } else {
             $showErrorMsg = true;
         }
-    }
-    else {
+    } else {
         $url    = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'not available';
         $time   = gmdate('Y-m-d H:i:s \G\M\T');
 
@@ -120,38 +106,19 @@ if ($action == 'email') {
             . "Error:\n{$reportData[0]}\n\n"
             . "Trace:\n{$reportData[1]}";
 
-        mail($config->report->email_address,
-            $config->report->subject . " [{$reportId}]",
-            $msg);
+        $subject = sprintf('%s [%s]', (string)$eConfig->report->subject, $reportId);
+        @mail((string)$eConfig->report->email_address, $subject, $msg);
 
         if ($trash == 'delete') {
             unlink($reportFile);
         }
     }
-}
-
-if ($action == 'print') {
-    header("HTTP/1.0 503 Service Unavailable");
+} else if ($action == 'print') {
+    mageErrorsSendErrorHeaders(503);
     $reportData = unserialize(file_get_contents($reportFile));
+    $pageTitle = 'There has been an error processing your request';
 }
 
-$design = false;
-if (file_exists('design.xml')) {
-    $design = simplexml_load_file('design.xml');
-}
-
-$store = 'default';
-if (isset($_GET['s'])) {
-    $skinPath = realpath('skin/');
-    $skinFile = realpath($skinPath . DIRECTORY_SEPARATOR . $_GET['s']);
-
-    if ($skinFile && strpos($skinFile, $skinPath) === 0 && is_dir($skinFile)) {
-        $store = $_GET['s'];
-    }
-}
-
-include_once ('skin/' . $store . '/' . ($design ? $design->template : 'index.phtml'));
-
-function checkEmail($email) {
-    return eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $email);
-}
+// load template file
+define('MAGE_ERRORS_TEMPLATE_FILE', MAGE_ERRORS_TEMPLATE_PATH . 'report.phtml');
+include_once MAGE_ERRORS_TEMPLATE_PATH . 'page.phtml';
