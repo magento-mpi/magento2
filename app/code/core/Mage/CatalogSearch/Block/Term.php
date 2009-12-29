@@ -24,6 +24,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Catalogsearch term block
+ *
+ * @category   Mage
+ * @package    Mage_CatalogSearch
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
 {
     protected $_terms;
@@ -37,6 +44,8 @@ class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
     
     /**
      * Load terms and try to sort it by names
+     *
+     * @return Mage_CatalogSearch_Block_Term
      */
     protected function _loadTerms()
     {
