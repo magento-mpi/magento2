@@ -30,12 +30,22 @@
  */
 ?>
 <?php
-    $_code = 'invitation_customer';
+    $_action = Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_CUSTOMER;
 ?>
-<?php if ($this->canShow($_code)): ?>
+<?php if ($this->canShow($_action)): ?>
+<?php
+    $_currentBalance = $this->getCurrentBalance();
+    $_currencyAmount = $this->getCurrencyAmount($_action);
+    $_points = $this->getRewardPoints($_action);
+?>
 <ul class="messages">
     <li class="success-msg">
-        <ul><li>Invite a friend and gain <b><?php echo $this->getGainedRewardPoints($_code) ?></b> reward points!<br><a href="#">Leard more</a> about rewards.</li></ul>
+        <ul>
+            <li>Perform this action and gain <b><?php echo $_points ?></b> <?php if ($_currencyAmount): ?> (~ <?php echo Mage::helper('core')->currency($_currencyAmount) ?>) <?php endif; ?></li>
+            <?php if ($_currentBalance): ?>
+            <li>Your current balance: <?php echo $_currentBalance ?> points</li>
+            <?php endif; ?>
+        </ul>
     </li>
 </ul>
 <?php endif; ?>
