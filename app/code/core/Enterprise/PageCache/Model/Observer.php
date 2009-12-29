@@ -105,6 +105,42 @@ class Enterprise_PageCache_Model_Observer
     }
 
     /**
+     * Check category state on post dispatch to allow category page be cached
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function checkCategoryState(Varien_Event_Observer $observer)
+    {
+        $category = Mage::registry('current_category');
+        /**
+         * Categories with category event can't be cached
+         */
+        if ($category && $category->getEvent()) {
+            $request = $observer->getEvent()->getControllerAction()->getRequest();
+            $request->setParam('no_cache', true);
+        }
+        return $this;
+    }
+
+    /**
+     * Check product state on post dispatch to allow product page be cached
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function checkProductState(Varien_Event_Observer $observer)
+    {
+        $product = Mage::registry('current_product');
+        /**
+         * Categories with category event can't be cached
+         */
+        if ($product && $product->getEvent()) {
+            $request = $observer->getEvent()->getControllerAction()->getRequest();
+            $request->setParam('no_cache', true);
+        }
+        return $this;
+    }
+
+    /**
      * Clean full page cache
      */
     public function cleanCache()

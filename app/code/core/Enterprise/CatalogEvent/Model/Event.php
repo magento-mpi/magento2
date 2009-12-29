@@ -40,6 +40,8 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     const STATUS_OPEN           = 'open';
     const STATUS_CLOSED         = 'closed';
 
+    const CACHE_TAG             = 'catalog_event';
+
     /**
      * Path to time zone in configuration
      *
@@ -50,6 +52,11 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     const IMAGE_PATH = 'enterprise/catalogevent';
 
     protected $_store = null;
+
+    /**
+     * Model cache tag for clear cache in after save and after delete
+     */
+    protected $_cacheTag        = self::CACHE_TAG;
 
     /**
      * Is model deleteable
@@ -73,6 +80,21 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('enterprise_catalogevent/event');
+    }
+
+    /**
+     * Get cahce tags associated with object id.
+     * Added category id tags support
+     *
+     * @return array
+     */
+    public function getCacheIdTags()
+    {
+        $tags = parent::getCacheIdTags();
+        if ($this->getCategoryId()) {
+            $tags[] = Mage_Catalog_Model_Category::CACHE_TAG.'_'.$this->getCategoryId();
+        }
+        return $tags;
     }
 
     /**

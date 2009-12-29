@@ -119,6 +119,22 @@
                     </enterprise_pagecache>
                 </observers>
             </controller_action_predispatch>
+            <controller_action_postdispatch_catalog_product_view>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>checkProductState</method>
+                    </enterprise_pagecache>
+                </observers>
+            </controller_action_postdispatch_catalog_product_view>
+            <controller_action_postdispatch_catalog_category_view>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>checkCategoryState</method>
+                    </enterprise_pagecache>
+                </observers>
+            </controller_action_postdispatch_catalog_category_view>
             <controller_front_send_response_after>
                 <observers>
                     <enterprise_pagecache>

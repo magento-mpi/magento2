@@ -109,6 +109,9 @@ class Enterprise_PageCache_Model_Processor
     {
         $res = $this->isAllowed();
         $res = $res && Mage::app()->useCache('full_page');
+        if ($request->getParam('no_cache')) {
+            $res = false;
+        }
 
         if ($res) {
             $maxDepth = Mage::getStoreConfig(self::XML_PATH_ALLOWED_DEPTH);
