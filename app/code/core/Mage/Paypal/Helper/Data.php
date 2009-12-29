@@ -108,11 +108,18 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
             $qty = $item->getTotalQty();
             $amount = $item->getBaseCalculationPrice();
         }
+        // workaround in case if item subtotal precision is not compatible with PayPal (.2)
+        $subAggregatedLabel = '';
+        if ((float)$amount - round((float)$amount, 2)) {
+            $amount = $amount * $qty;
+            $subAggregatedLabel = ' x' . $qty;
+            $qty = 1;
+        }
         return array(
-            'id'       => $item->getSku(),
-            'name'     => $item->getName(),
-            'qty'      => $qty,
-            'amount'   => (float)$amount,
+            'id'     => $item->getSku(),
+            'name'   => $item->getName() . $subAggregatedLabel,
+            'qty'    => $qty,
+            'amount' => (float)$amount,
         );
     }
 }
