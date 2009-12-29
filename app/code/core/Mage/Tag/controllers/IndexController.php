@@ -87,6 +87,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                                 }
                             }
                             else {
+                                $tagModel->setFirstCustomerId($customerId);
                                 $status = $tagModel->getPendingStatus();
                                 $newCount++;
                             }
