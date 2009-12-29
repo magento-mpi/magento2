@@ -59,4 +59,13 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit extends Mage_Adminhtml_
             return Mage::helper('enterprise_reward')->__('New Reward Exchange Rate');
         }
     }
+
+    /**
+     * rate validation URL getter
+     *
+     */
+    public function getValidationUrl()
+    {
+        return $this->getUrl('*/*/validate', array('_current'=>true));
+    }
 }

@@ -52,19 +52,19 @@ class Enterprise_Reward_Model_Mysql4_Reward_Rate extends Mage_Core_Model_Mysql4_
      */
     public function fetch(Enterprise_Reward_Model_Reward_Rate $rate, $customerGroupId, $websiteId, $direction)
     {
-        if ($customerGroupId && $websiteId) {
-            $select = $this->_getReadAdapter()->select()
-                ->from($this->getMainTable())
-                ->where('website_id IN (?, 0)', (int)$websiteId)
-                ->where('customer_group_id = ? OR customer_group_id IS NULL', $customerGroupId)
-                ->where('direction = ?', $direction)
-                ->order('website_id DESC')
-                ->order('customer_group_id DESC')
-                ->limit(1);
-            if ($row = $this->_getReadAdapter()->fetchRow($select)) {
-                $rate->addData($row);
-            }
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable())
+            ->where('website_id IN (?, 0)', (int)$websiteId)
+            ->where('customer_group_id = ? OR customer_group_id IS NULL', $customerGroupId)
+            ->where('direction = ?', $direction)
+            ->order('website_id DESC')
+            ->order('customer_group_id DESC')
+            ->limit(1);
+
+        if ($row = $this->_getReadAdapter()->fetchRow($select)) {
+            $rate->addData($row);
         }
+        
         $this->_afterLoad($rate);
         return $this;
     }

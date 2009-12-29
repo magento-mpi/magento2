@@ -112,9 +112,7 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     public function fetch($customerGroupId, $websiteId, $direction) {
         $this->setData('original_website_id', $websiteId)
             ->setData('original_customer_group_id', $customerGroupId);
-        if ($customerGroupId && $websiteId && $direction) {
-            $this->_getResource()->fetch($this, $customerGroupId, $websiteId, $direction);
-        }
+        $this->_getResource()->fetch($this, $customerGroupId, $websiteId, $direction);
         return $this;
     }
 

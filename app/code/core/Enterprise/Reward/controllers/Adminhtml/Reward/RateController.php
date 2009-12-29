@@ -114,22 +114,28 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
     public function saveAction()
     {
         $data = $this->getRequest()->getPost('rate');
+
         if ($data) {
             $rate = $this->_initRate();
+
+            if ($this->getRequest()->getParam('rate_id') && ! $rate->getId()) {
+                $this->_getSession()->addError($this->__('This Reward Exchange Rate does not exists.'));
+                return $this->_redirect('*/*/');
+            }
+
             $rate->addData($data);
+
             try {
                 $rate->save();
                 $this->_getSession()->addSuccess(Mage::helper('enterprise_reward')->__('Rate saved successfully.'));
-                $this->_redirect('*/*/');
-                return;
             } catch (Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
-                $this->_redirect('*/*/');
-                return;
+                Mage::logException($e);
+                $this->_getSession()->addError($this->__('Can not save Rate.'));
+                return $this->_redirect('*/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
             }
         }
-        $this->_redirect('*/*/');
-        return;
+
+        return $this->_redirect('*/*/');
     }
 
     /**
@@ -147,9 +153,44 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
                 $this->_redirect('*/*/*', array('_current' => true));
                 return;
             }
-            $this->_redirect('*/*/');
-            return;
         }
+
+        return $this->_redirect('*/*/');
+    }
+
+    /**
+     * Validate Action
+     *
+     */
+    public function validateAction()
+    {
+        $response = new Varien_Object(array('error' => false));
+        $post     = $this->getRequest()->getParam('rate');
+        $message  = null;
+
+        if (!isset($post['customer_group_id'])
+            || !isset($post['website_id'])
+            || !isset($post['direction'])) {
+            $message = $this->__('Invalid form data');
+        } else {
+            $rate       = $this->_initRate();
+            $initRateId = $rate->getId();
+            $rateId     = $rate->fetch($post['customer_group_id'], $post['website_id'], $post['direction'])
+                               ->getId();
+
+            if ($rateId && ($initRateId != $rateId)) {
+                $message = $this->__('Rate with same Website, Custormer Group and Direction or covering Rate already exists.');
+            }
+        }
+
+        if ($message) {
+            $this->_getSession()->addError($message);
+            $this->_initLayoutMessages('adminhtml/session');
+            $response->setError(true);
+            $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+        }
+
+        $this->getResponse()->setBody($response->toJson());
     }
 
     /**
