@@ -40,7 +40,7 @@
     $_limit = $this->getActionRewardLimit($_action);
 ?>
 <div class="clearer"></div>
-<div class="reward-message reward-review<?php if ($_limit): ?> reward-message-big<?php endif; ?>">
+<div class="reward-message<?php if ($_limit): ?> reward-message-big<?php endif; ?> reward-review">
     <div class="reward">
         <?php if ($_currencyAmount): ?>
             <?php echo Mage::helper('enterprise_reward')->__("Submit a Review now and once it is approved by moderator, you will get <strong>%s</strong> Reward Points <small>(%s)</small>.", $_points, $this->getFormattedAmount($_currencyAmount)) ?>

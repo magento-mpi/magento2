@@ -452,7 +452,7 @@ ul.links li.last .separator { display:none; }
 .reward-message .reward .limit { margin:2px 0 0; font-size:11px; font-weight:normal; text-align:right; white-space:nowrap; }
 .reward-message .reward .limit strong { border:0; padding:0; font-weight:bold; color:#fff; }
 .reward-message .reward small { font-size:12px; color:#fff; }
-.reward-message-big .reward { margin-top:-13px; }
+.reward-message-big .reward { margin-top:-13px; margin-bottom:-13px; }
 .reward-message .balance { float:right; font-size:12px; line-height:27px; color:#fff608; white-space:nowrap; }
 .reward-message .balance strong { font-weight:bold; }
 .reward-message .balance a { color:#fff608; text-decoration:underline; }

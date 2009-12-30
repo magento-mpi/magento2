@@ -39,7 +39,7 @@
     $_points = $this->getRewardPoints($_action);
     $_limit = $this->getActionRewardLimit($_action);
 ?>
-<div class="reward-message reward-invitation<?php if ($_limit): ?> reward-message-big<?php endif; ?>">
+<div class="reward-message<?php if ($_limit): ?> reward-message-big<?php endif; ?> reward-invitation">
     <div class="reward">
         <?php if ($_currencyAmount): ?>
             <?php echo Mage::helper('enterprise_reward')->__("Invite now and get <strong>%s</strong> Reward Points (%s) if your Invitee registers.", $_points, $this->getFormattedAmount($_currencyAmount)) ?>
