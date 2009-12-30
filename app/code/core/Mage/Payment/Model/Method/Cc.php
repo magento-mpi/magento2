@@ -151,6 +151,10 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             //throw Mage::exception('Mage_Payment', $errorMsg, $errorCode);
         }
 
+        if ($centinelValidator = $this->getCentinelValidator()) {
+            $centinelValidator->validate($this->getCentinelValidationData(), $this->isCentinelValidationRequired());
+        }
+
         return $this;
     }
 
@@ -250,4 +254,110 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
         return $this->getConfigData('cctypes', ($quote ? $quote->getStoreId() : null))
             && parent::isAvailable($quote);
     }
+
+    /**
+     * Return flag - is Centinel validation enabled
+     *
+     * @return bool
+     */
+    public function isCentinelValidationEnabled()
+    {
+        return false;
+    }
+
+    /**
+     * Return flag - is Centinel validation required
+     *
+     * @return bool
+     */
+    public function isCentinelValidationRequired()
+    {
+        return false;
+    }
+
+    /**
+     * Return Centinel valodation model
+     *
+     * @return Mage_Payment_Model_Service_Centinel
+     */
+    public function getCentinelValidator()
+    {
+        if (!$this->isCentinelValidationEnabled()) {
+            return false;
+        }        
+        $validator = Mage::getSingleton('payment/service_centinel');
+        $validator->setPaymentMethodCode($this->getCode());
+        return $validator;
+    }
+
+    /**
+     * Return data for Centinel validation
+     *
+     * @return Varien_Object
+     */
+    public function getCentinelValidationData()
+    {
+        $info = $this->getInfoInstance();
+        $params = new Varien_Object();
+        $params
+            ->setCardNumber($info->getCcNumber())
+            ->setCardExpMonth($info->getCcExpMonth())
+            ->setCardExpYear($info->getCcExpYear())
+            ->setAmount($this->_getAmount())
+            ->setCurrencyCode($this->_getCurrencyCode())
+            ->setOrderNumber($this->_getOrderId());
+        return $params;
+    }
+
+    /**
+     * Return order id for Centinel validation
+     *
+     * @return string
+     */
+    private function _getOrderId()
+    {
+        $info = $this->getInfoInstance();
+        
+        if ($info instanceof Mage_Sales_Model_Quote_Payment) {
+            if (!$info->getQuote()->getReservedOrderId()) {
+                $info->getQuote()->reserveOrderId();
+            }
+            return $info->getQuote()->getReservedOrderId();
+        } elseif ($info instanceof Mage_Sales_Model_Order_Payment) {
+            return $info->getOrder()->getIncrementId();
+        }   
+    }
+
+    /**
+     * Return amount for Centinel validation
+     *
+     * @return string
+     */
+    private function _getAmount()
+    {
+        $info = $this->getInfoInstance();
+        
+        if ($info instanceof Mage_Sales_Model_Quote_Payment) {
+            return $info->getQuote()->getBaseGrandTotal();
+        } elseif ($info instanceof Mage_Sales_Model_Order_Payment) {
+            return $info->getOrder()->getBaseGrandTotal();
+        }   
+    }
+
+    /**
+     * Return currency code for Centinel validation
+     *
+     * @return string
+     */
+    private function _getCurrencyCode()
+    {
+        $info = $this->getInfoInstance();
+        
+        if ($info instanceof Mage_Sales_Model_Quote_Payment) {
+            return $info->getQuote()->getBaseCurrencyCode();
+        } elseif ($info instanceof Mage_Sales_Model_Order_Payment) {
+            return $info->getOrder()->getBaseCurrencyCode();
+        }   
+    }
+
 }

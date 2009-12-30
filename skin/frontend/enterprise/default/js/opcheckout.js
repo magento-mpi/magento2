@@ -728,7 +728,7 @@ Payment.prototype = {
         if (!this.validator) {
             this.validator = new Validation(this.form);
         }
-        if (this.validate() && this.validator.validate()) {
+        if (this.validate() && this.validator.validate() && centinelValidator.validate(this.currentMethod)) {
             checkout.setLoadWaiting('payment');
             var request = new Ajax.Request(
                 this.saveUrl,

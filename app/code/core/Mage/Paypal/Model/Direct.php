@@ -215,4 +215,24 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         Mage::getModel('paypal/info')->importToPayment($api, $payment);
         return $this;
     }
+
+    /**
+     * Return flag - is Centinel validation enabled
+     *
+     * @return bool
+     */
+    public function isCentinelValidationEnabled()
+    {
+        return $this->_pro->getConfig()->centinel;
+    }
+
+    /**
+     * Return flag - is Centinel validation required
+     *
+     * @return bool
+     */
+    public function isCentinelValidationRequired()
+    {
+        return $this->_pro->getConfig()->centinel_require_enrollment;
+    }
 }

@@ -60,5 +60,13 @@ paymentForm.prototype = {
             for (var i=0; i<elements.length; i++) elements[i].disabled = false;
             this.currentMethod = method;
         }
+    },
+
+    save: function(){
+        var validator = new Validation(this.formId);
+        if (validator.validate() && centinelValidator.validate(this.currentMethod)) {
+            $(this.formId).submit();
+        }
     }
+
 }

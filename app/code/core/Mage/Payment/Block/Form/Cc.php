@@ -113,4 +113,29 @@ class Mage_Payment_Block_Form_Cc extends Mage_Payment_Block_Form
         }
         return true;
     }
+
+    /**
+     * Retrive has Centinel validation need
+     *
+     * @return boolean
+     */
+    public function hasCentinelValidation()
+    {
+        if ($this->getMethod()) {
+            return $this->getMethod()->isCentinelValidationEnabled();
+        }
+    }
+
+    /**
+     * Get Centinel validation URL for current payment
+     *
+     * @return boolean
+     */
+    public function getCentinelValidationUrl()
+    {
+        if ($this->getMethod()) {
+            return $this->getMethod()->getCentinelValidator()->getValidationUrl();
+        }
+    }
+
 }

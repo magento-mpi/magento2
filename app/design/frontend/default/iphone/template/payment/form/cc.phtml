@@ -81,5 +81,16 @@
             </div>
         </li>
         <?php endif; ?>
+        <?php if($this->hasCentinelValidation()): ?>
+        <li>
+            <iframe id="<?php echo $_code ?>_centinel_authenticate_iframe" src="" style="width:100%; height:400px; z-index:1000; position:relative;   font-size:12px; color:#f18200; background:#fff; font-weight:bold; white-space:nowrap; display:none;" class="" ></iframe>            
+        </li>
+        <script type="text/javascript">
+        centinelValidator.registerMethod(
+                '<?php echo $_code ?>','<?php echo $this->getCentinelValidationUrl()?>',
+                '<?php echo $_code ?>_centinel_authenticate_iframe','payment_form_<?php echo $_code ?>'
+                );
+        </script>
+        <?php endif; ?>
     </ul>
 </fieldset>
