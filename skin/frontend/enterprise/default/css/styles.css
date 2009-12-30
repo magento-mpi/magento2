@@ -453,10 +453,10 @@ ul.links li.last .separator { display:none; }
 .reward-message .reward .limit strong { border:0; padding:0; font-weight:bold; color:#fff; }
 .reward-message .reward small { font-size:12px; color:#fff; }
 .reward-message-big .reward { margin-top:-13px; }
-.reward-message .balans { float:right; font-size:12px; line-height:27px; color:#fff608; white-space:nowrap; }
-.reward-message .balans strong { font-weight:bold; }
-.reward-message .balans a { color:#fff608; text-decoration:underline; }
-.reward-message .balans a:hover { color:#fff608; text-decoration:none; }
+.reward-message .balance { float:right; font-size:12px; line-height:27px; color:#fff608; white-space:nowrap; }
+.reward-message .balance strong { font-weight:bold; }
+.reward-message .balance a { color:#fff608; text-decoration:underline; }
+.reward-message .balance a:hover { color:#fff608; text-decoration:none; }
 /* Reward Points types rewrites */
 .reward-invitation {}
 .reward-newsletter {}
