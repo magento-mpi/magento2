@@ -51,7 +51,7 @@ function confirmExit()
 
 function onSubmit(formObj)
 {
-    formObj.action = addParamToUrl(formObj.action, 'maintenance', (top.$('maintenance').checked === true ? '1' : '0'));
+    if(formObj)formObj.action = addParamToUrl(formObj.action, 'maintenance', (top.$('maintenance').checked === true ? '1' : '0'));
     top.$('connect_iframe_success').style.display = 'none';
     top.$('connect_iframe_failure').style.display = 'none';
     top.$('connect_iframe_container').style.display = '';
