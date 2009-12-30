@@ -241,7 +241,7 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
                 if ($expired == 0) {
                     continue;
                 }
-                $bind = array('points_balance' => new Zend_Db_Expr('`points_balance`-' . $expired));
+                $bind = array('points_balance' => new Zend_Db_Expr("IF(`points_balance`>{$expired}, `points_balance`-{$expired}, 0)"));
                 $where = array('reward_id=?' => $rewardId);
                 $this->_getWriteAdapter()->update($this->getTable('enterprise_reward/reward'), $bind, $where);
             }
