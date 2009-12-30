@@ -41,8 +41,6 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_
     {
         parent::_construct();
         $this->setId('rewardRatesGrid');
-//        $this->setDefaultSort('created_at');
-//        $this->setDefaultDir('DESC');
     }
 
     /**
@@ -95,13 +93,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_
         $this->addColumn('rate_description', array(
             'header'  => Mage::helper('enterprise_reward')->__('Rate Description'),
             'getter' => 'getExchangeRateAsText',
-//            'renderer' => 'enterprise_reward/adminhtml_widget_grid_column_renderer_rate',
         ));
-
-//        $this->addColumn('currency_to_points', array(
-//            'header'  => Mage::helper('enterprise_reward')->__('Convert Currency to Points Rate'),
-//            'renderer' => 'enterprise_reward/adminhtml_widget_grid_column_renderer_rate',
-//        ));
 
         return parent::_prepareColumns();
     }

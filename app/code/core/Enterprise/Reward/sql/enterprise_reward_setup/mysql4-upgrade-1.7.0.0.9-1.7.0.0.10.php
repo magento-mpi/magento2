@@ -24,37 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
-/**
- * Checkout reward payment block
- *
- * @category    Enterprise
- * @package     Enterprise_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_Reward_Block_Adminhtml_Widget_Grid_Column_Renderer_Rate
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
-{
-    /**
-     * Renders grid column
-     *
-     * @param Varien_Object $row
-     * @return string
-     */
-    public function render(Varien_Object $row)
-    {
-        if ($data = $row->getData($this->getColumn()->getIndex())) {
-            $currency_code = $this->_getCurrencyCode($row);
-
-            if (!$currency_code) {
-                return $data;
-            }
-
-            $data = floatval($data) * $this->_getRate($row);
-            $data = sprintf("%f", $data);
-            $data =Mage::app()->getLocale()->currency($currency_code)->toCurrency($data);
-            return $data;
-        }
-        return $this->getColumn()->getDefault();
-    }
-}
+/* @var $installer Mage_Sales_Model_Mysql4_Setup */
+$installer = $this;
+$installer->startSetup();
+$installer->getConnection()->changeColumn($installer->getTable('enterprise_reward/reward_rate'), 'customer_group_id',
+    'customer_group_id', "SMALLINT(5) UNSIGNED NOT NULL DEFAULT '0'");
+$installer->endSetup();

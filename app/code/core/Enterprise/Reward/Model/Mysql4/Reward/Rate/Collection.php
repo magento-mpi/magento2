@@ -41,18 +41,4 @@ class Enterprise_Reward_Model_Mysql4_Reward_Rate_Collection extends Mage_Core_Mo
     {
         $this->_init('enterprise_reward/reward_rate');
     }
-
-    /**
-     * After load collection method.
-     * Prepare item customer group value
-     *
-     * @return Enterprise_Reward_Model_Mysql4_Reward_Rate_Collection
-     */
-    protected function _afterLoad()
-    {
-        foreach ($this->_items as $item) {
-            $item->prepareCustomerGroupValue();
-        }
-        return parent::_afterLoad();
-    }
 }

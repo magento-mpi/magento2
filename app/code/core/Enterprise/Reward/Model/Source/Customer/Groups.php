@@ -42,9 +42,10 @@ class Enterprise_Reward_Model_Source_Customer_Groups
     public function toOptionArray()
     {
         $groups = Mage::getResourceModel('customer/group_collection')
+            ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();
-        $groups = array('all' => Mage::helper('enterprise_reward')->__('All Customer Groups'))
+        $groups = array(0 => Mage::helper('enterprise_reward')->__('All Customer Groups'))
                 + $groups;
         return $groups;
     }

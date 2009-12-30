@@ -34,7 +34,6 @@
  */
 class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
 {
-    const RATE_CUSTOMER_GROUP_ID_ALL          = 'all';
     const RATE_EXCHANGE_DIRECTION_TO_CURRENCY = 1;
     const RATE_EXCHANGE_DIRECTION_TO_POINTS   = 2;
 
@@ -55,9 +54,6 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         parent::_beforeSave();
-        if ($this->_getData('customer_group_id') == self::RATE_CUSTOMER_GROUP_ID_ALL) {
-            $this->setData('customer_group_id', null);
-        }
         $this->_prepareRateValues();
         return $this;
     }
@@ -73,16 +69,21 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Processing object after load data.
-     * Prepare rate data
+     * Check if given rate data (website, customer group, direction)
+     * is unique to current (already loaded) rate
      *
-     * @return Enterprise_Reward_Model_Reward_Rate
+     * @param integer $websiteId
+     * @param integer $customerGroupId
+     * @param integer $direction
+     * @return boolean
      */
-    protected function _afterLoad()
+    public function getIsRateUniqueToCurrent($websiteId, $customerGroupId, $direction)
     {
-        parent::_afterLoad();
-        $this->prepareCustomerGroupValue();
-        return $this;
+        $data = $this->_getResource()->getRateData($websiteId, $customerGroupId, $direction);
+        if ($data && $data['rate_id'] != $this->getId()) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -155,20 +156,6 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
             }
         }
         return $points;
-    }
-
-    /**
-     * Prepare customer group value.
-     * Set group 'all' if customer group is NULL
-     *
-     * @return Enterprise_Reward_Model_Reward_Rate
-     */
-    public function prepareCustomerGroupValue()
-    {
-        if (null === $this->_getData('customer_group_id')) {
-            $this->setData('customer_group_id', self::RATE_CUSTOMER_GROUP_ID_ALL);
-        }
-        return $this;
     }
 
     /**

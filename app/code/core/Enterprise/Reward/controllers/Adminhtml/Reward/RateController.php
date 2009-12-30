@@ -190,11 +190,9 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
               }
         } else {
             $rate       = $this->_initRate();
-            $initRateId = $rate->getId();
-            $rateId     = $rate->fetch($post['customer_group_id'], $post['website_id'], $post['direction'])
-                               ->getId();
+            $isRateUnique = $rate->getIsRateUniqueToCurrent($post['website_id'], $post['customer_group_id'], $post['direction']);
 
-            if ($rateId && ($initRateId != $rateId)) {
+            if (!$isRateUnique) {
                 $message = $this->__('Rate with same Website, Custormer Group and Direction or covering Rate already exists.');
             }
         }
