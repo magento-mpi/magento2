@@ -23,13 +23,18 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
+/**
+ * Copy paypal_payer_email attribute value into serialized additional_information field of sales/order_payment entity
+ */
+$processingItemsCountForOneIteration = 1000;
+
 $installer = $this;
 /* @var $installer Mage_Paypal_Model_Mysql4_Setup */
 $connection = $installer->getConnection();
-$installer->startSetup();
 
 $paymentMethods = array(
-    'paypal_standard', 
+    'paypal_standard',
     'paypal_express',
     'paypal_direct'
 );
@@ -39,29 +44,28 @@ $attributesIds = array(
     'additional_data' => false,
     'additional_information' => false
 );
-$processingItemsCountForOneIteration = 1000;
 
 /* get order_payment entity type code*/
 $entityTypeId = $connection->fetchOne("
-    SELECT entity_type_id 
-    FROM {$this->getTable('eav_entity_type')} 
+    SELECT entity_type_id
+    FROM {$this->getTable('eav_entity_type')}
     WHERE entity_type_code = '{$entityTypeCode}';
 ");
 
 /* get order_payment attribute codes*/
 foreach ($attributesIds as $attributeCode => $attributeId) {
     $attributesIds[$attributeCode] = $connection->fetchOne("
-        SELECT attribute_id 
-        FROM {$this->getTable('eav_attribute')} 
+        SELECT attribute_id
+        FROM {$this->getTable('eav_attribute')}
         WHERE attribute_code = '{$attributeCode}' and entity_type_id = {$entityTypeId};
     ");
 }
 
 /* get count of paypal order payments*/
-$methodIds = "'" . implode("','", $paymentMethods) . "'"; 
+$methodIds = "'" . implode("','", $paymentMethods) . "'";
 $paymentsCount = $connection->fetchOne("
-    SELECT count(entity_id) as count 
-    FROM {$this->getTable('sales_order_entity_varchar')} 
+    SELECT count(entity_id) as count
+    FROM {$this->getTable('sales_order_entity_varchar')}
     WHERE attribute_id = {$attributesIds['method']} and value in ({$methodIds});
 ");
 
@@ -70,11 +74,11 @@ try {
 
     /* process payment attributes*/
     for ($i=0; $i<=$paymentsCount; $i+=$processingItemsCountForOneIteration) {
-    
+
         /* get payment ids for current iteration*/
         $currentPaymentIds = $installer->getConnection()->fetchCol("
-            SELECT entity_id 
-            FROM {$this->getTable('sales_order_entity_varchar')} 
+            SELECT entity_id
+            FROM {$this->getTable('sales_order_entity_varchar')}
             WHERE attribute_id = {$attributesIds['method']} and value in ({$methodIds})
             LIMIT {$i}, {$processingItemsCountForOneIteration};
         ");
@@ -82,9 +86,9 @@ try {
         if (!count($currentPaymentIds)) {
             continue;
         }
-            
+
         $currentPaymentIdsCondition = implode(',', $currentPaymentIds);
-        
+
         /* get data for current payment ids*/
         $data = $installer->getConnection()->fetchAll("
             SELECT
@@ -94,13 +98,13 @@ try {
             LEFT JOIN {$this->getTable('sales_order_entity_text')} as ev_additional_data on (ev_additional_data.entity_id = e.entity_id and ev_additional_data.attribute_id = {$attributesIds['additional_data']})
             WHERE e.entity_id in ({$currentPaymentIdsCondition})
         ");
-            
+
         /* prepare query data items */
         $insertQueryItems = array();
         foreach ($data as $item) {
             if ($item['additional_data'] != '') {
                 $additionalInformationFields = array();
-                $additionalInformationFields['paypal_payer_email'] = $item['additional_data']; 
+                $additionalInformationFields['paypal_payer_email'] = $item['additional_data'];
                 $additionalInformation = serialize($additionalInformationFields);
 
                 $insertQueryItems[] = array(
@@ -108,26 +112,23 @@ try {
                     $attributesIds['additional_information'],
                     $item['entity_id'],
                     $additionalInformation
-                ); 
+                );
             }
-        }   
+        }
 
         if (!count($insertQueryItems)) {
             continue;
         }
-        
+
         $connection->insertArray(
             $this->getTable('sales_order_entity_text'),
             array('entity_type_id', 'attribute_id', 'entity_id', 'value'),
             $insertQueryItems
-        );             
-    }   
+        );
+    }
 
 } catch (Exception $e) {
     $connection->rollBack();
     throw $e;
 }
 $connection->commit();
-
-$installer->endSetup();
-?>
