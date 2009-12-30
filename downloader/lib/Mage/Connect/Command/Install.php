@@ -42,16 +42,13 @@ extends Mage_Connect_Command
 
         $installFileMode = $command === 'install-file';
 
-
-         
-
         try {
-            $forceMode = isset($options['force']);
-            $upgradeAllMode = $command == 'upgrade-all';
-            $upgradeMode = $command == 'upgrade' || $command == 'upgrade-all';
-            $noFilesInstall = isset($options['nofiles']);
-            $withDepsMode = !isset($options['nodeps']);
-            $ignoreModifiedMode = true || !isset($options['ignorelocalmodification']);
+            $this->forceMode = isset($options['force']);
+            $this->upgradeAllMode = $command == 'upgrade-all';
+            $this->upgradeMode = $command == 'upgrade' || $command == 'upgrade-all';
+            $this->noFilesInstall = isset($options['nofiles']);
+            $this->withDepsMode = !isset($options['nodeps']);
+            $this->ignoreModifiedMode = true || !isset($options['ignorelocalmodification']);
 
             $rest = $this->rest();
             $ftp = empty($options['ftp']) ? null : $options['ftp'];
@@ -94,7 +91,7 @@ extends Mage_Connect_Command
 
                 if(false !== $conflicts) {
                     $conflicts = implode(", ",$conflicts);
-                    if($forceMode) {
+                    if($this->forceMode) {
                         $this->doError($command, "Package {$pChan}/{$pName} {$pVer} conflicts with: ".$conflicts);
                     } else {
                         throw new Exception("Package {$pChan}/{$pName} {$pVer} conflicts with: ".$conflicts);
@@ -105,7 +102,7 @@ extends Mage_Connect_Command
                 if(true !== $conflicts) {
                     $confilcts = implode(",",$conflicts);
                     $err = "Package {$pChan}/{$pName} {$pVer} depends on PHP extensions: ".$conflicts;
-                    if($forceMode) {
+                    if($this->forceMode) {
                         $this->doError($command, $err);
                     } else {
                         throw new Exception($err);
@@ -115,7 +112,7 @@ extends Mage_Connect_Command
                 $conflicts = $package->checkPhpVersion();
                 if(true !== $conflicts) {
                     $err = "Package {$pChan}/{$pName} {$pVer}: ".$conflicts;
-                    if($forceMode) {
+                    if($this->forceMode) {
                         $this->doError($command, $err);
                     } else {
                         throw new Exception($err);
@@ -123,7 +120,7 @@ extends Mage_Connect_Command
                 }
 
 
-                if(!$noFilesInstall) {
+                if(!$this->noFilesInstall) {
                     if($ftp) {
                         $packager->processInstallPackageFtp($package, $filename, $config, $ftpObj);
                     } else {
@@ -149,7 +146,7 @@ extends Mage_Connect_Command
                 return $out[$command]['data'];
             }
 
-            if(!$upgradeAllMode) {
+            if(!$this->upgradeAllMode) {
 
                 if(count($params) < 2) {
                     throw new Exception("Argument should be: channelName packageName");
@@ -178,7 +175,7 @@ extends Mage_Connect_Command
                 }
                 $channelName = $cache->chanName($channel);
                 //var_dump($channelName);
-                $packagesToInstall = $packager->getDependenciesList( $channelName, $package, $cache, $config, $argVersionMax, $argVersionMin, $withDepsMode);
+                $packagesToInstall = $packager->getDependenciesList( $channelName, $package, $cache, $config, $argVersionMax, $argVersionMin, $this->withDepsMode);
                 $packagesToInstall = $packagesToInstall['result'];
                 //var_dump($packagesToInstall);
 
@@ -197,7 +194,7 @@ extends Mage_Connect_Command
                 foreach($neededToUpgrade as $chan=>$packages) {
                     foreach($packages as $name=>$data) {
                         $versionTo = $data['to'];
-                        $tmp = $packager->getDependenciesList( $chan, $name, $cache, $config, $versionTo, $versionTo, $withDepsMode);
+                        $tmp = $packager->getDependenciesList( $chan, $name, $cache, $config, $versionTo, $versionTo, $this->withDepsMode);
                         if(count($tmp['result'])) {
                             $packagesToInstall = array_merge($packagesToInstall, $tmp['result']);
                         }
@@ -212,129 +209,8 @@ extends Mage_Connect_Command
             $installedDepsAssoc = array();
             $keys = array();
 
-            foreach($packagesToInstall as $package) {
-                try {
-                    $pName = $package['name'];
-                    $pChan = $package['channel'];
-                    $pVer = $package['downloaded_version'];
-                    $rest->setChannel($cache->chanUrl($pChan));
-
-
-                    /**
-                     * Upgrade mode
-                     */
-                    if($upgradeMode && $cache->hasPackage($pChan, $pName, $pVer, $pVer)) {
-                        $this->ui()->output("Already installed: {$pChan}/{$pName} {$pVer}, skipping");
-                        continue;
-                    }
-
-                    $conflicts = $cache->hasConflicts($pChan, $pName, $pVer);
-
-                    if(false !== $conflicts) {
-                        $conflicts = implode(", ",$conflicts);
-                        if($forceMode) {
-                            $this->doError($command, "Package {$pChan}/{$pName} {$pVer} conflicts with: ".$conflicts);
-                        } else {
-                            throw new Exception("Package {$pChan}/{$pName} {$pVer} conflicts with: ".$conflicts);
-                        }
-                    }
-
-                     
-                    /**
-                     * Modifications
-                     */
-                    if ($upgradeMode && !$ignoreModifiedMode) {
-                        if($ftp) {
-                            $modifications = $packager->getRemoteModifiedFiles($pChan, $pName, $cache, $config, $ftp);
-                        } else {
-                            $modifications = $packager->getLocalModifiedFiles($pChan, $pName, $cache, $config);
-                        }
-                        if (count($modifications) > 0) {
-                            $this->ui()->output('Changed locally: ');
-                            foreach ($modifications as $row) {
-                                if(!$ftp) {
-                                    $this->ui()->output($config->magento_root.DS.$row);
-                                } else {
-                                    $this->ui()->output($row);
-                                }
-                            }
-                            /*$this->ui()->confirm('Do you want rewrite all files?');
-                             continue;*/
-                        }
-                    }
-
-                    $dir = $config->getChannelCacheDir($pChan);
-                    @mkdir($dir, 0777, true);
-                    $packageFileName = $pName."-".$pVer.".tgz";
-                    $file = $dir.DIRECTORY_SEPARATOR.$packageFileName;
-                    if(!@file_exists($file)) {
-                        $this->ui()->output("downloading $packageFileName ...");
-                        $this->ui()->output("Starting to download $packageFileName ...");
-                        $rest->downloadPackageFileOfRelease($pName, $pVer, $file);
-                        $this->ui()->output(sprintf("...done: %s bytes", number_format(filesize($file))));
-                    }
-                    $downloadedPackages [] = $file;
-
-                } catch(Exception $e) {
-                    $this->doError($command, $e->getMessage());
-                }
-            }
-            foreach($downloadedPackages as $file)
-            {
-                try{
-
-                    $package = new Mage_Connect_Package($file);
-                    $pkgInfoArr = array(
-                            $package->getChannel(),
-                            $package->getName(),
-                            $package->getVersion()
-                        );
-                    $conflicts = $package->checkPhpDependencies();
-                    if(true !== $conflicts) {                       
-                        $confilcts = array(implode(",",$conflicts));
-                        //makes message like "Package channel/package version : conflicts"
-                        $err = vsprintf("Package %s/%s %s depends on PHP extensions: %s", array_merge($pkgInfoArr, $conflicts));
-                        if($forceMode) {
-                            $this->doError($command, $err);
-                        } else {
-                            throw new Exception($err);
-                        }
-                    }
-
-                    $conflicts = $package->checkPhpVersion();
-                    if(true !== $conflicts) {
-                        //makes message like "Package channel/package version : conflicts"
-                        $err = vsprintf("Package %s/%s %s: %s",array_merge($pkgInfoArr, array($conflicts)));
-                        if($forceMode) {
-                            $this->doError($command, $err);
-                        } else {
-                            throw new Exception($err);
-                        }
-                    }
-
-                    if(!$noFilesInstall) {
-                        if($ftp) {
-                            $this->getPackager($ftp)->processInstallPackageFtp($package, $file, $config, $ftpObj);
-                        } else {
-                            $this->getPackager($ftp)->processInstallPackage($package, $file, $config);
-                        }
-                    }
-                    $cache->addPackage($package);
-                    $this->ui()->output(
-                        vsprintf("install ok: channel://connect.magentocommerce.com/%s/%s-%s", $pkgInfoArr)
-                    );
-                    
-                    $installedDepsAssoc[] = array(
-                        'channel'=>$package->getChannel(), 
-                        'name'=>$package->getName(), 
-                        'version'=>$package->getVersion()
-                    );
-                    $installedDeps[] = $pkgInfoArr;
-                } catch(Exception $e) {
-                    $this->doError($command, $e->getMessage());
-                }
-            }
-
+            $downloadedPackages = $this->_downloadPackages($packagesToInstall, $rest, $ftp);
+            list($installedDeps, $installedDepsAssoc) = $this->_installDownloadedPackages($downloadedPackages, $ftp);
 
             $title = isset($options['title']) ? $options['title'] : "Package installed: ";
             $out = array($command => array('data'=>$installedDeps, 'assoc'=>$installedDepsAssoc,  'title'=>$title));
@@ -355,6 +231,141 @@ extends Mage_Connect_Command
             return $this->doError($command, $e->getMessage());
         }
     }
+    private function _downloadPackages ($packagesToInstall, $rest,  $ftp=null)
+    {
+        $cache = $this->getCache($ftp);
+        $config = $this->getConfig($ftp);
+        $packager = $this->getPackager($ftp);
+        foreach($packagesToInstall as $package) {
+            try {
+                $pName = $package['name'];
+                $pChan = $package['channel'];
+                $pVer = $package['downloaded_version'];
+                $rest->setChannel($cache->chanUrl($pChan));
+
+
+                /**
+                 * Upgrade mode
+                 */
+                if($this->upgradeMode && $cache->hasPackage($pChan, $pName, $pVer, $pVer)) {
+                    $this->ui()->output("Already installed: {$pChan}/{$pName} {$pVer}, skipping");
+                    continue;
+                }
+
+                $conflicts = $cache->hasConflicts($pChan, $pName, $pVer);
+
+                if(false !== $conflicts) {
+                    $conflicts = implode(", ",$conflicts);
+                    if($this->forceMode) {
+                        $this->doError($command, "Package {$pChan}/{$pName} {$pVer} conflicts with: ".$conflicts);
+                    } else {
+                        throw new Exception("Package {$pChan}/{$pName} {$pVer} conflicts with: ".$conflicts);
+                    }
+                }
+
+
+                /**
+                 * Modifications
+                 */
+                if ($this->upgradeMode && !$this->ignoreModifiedMode) {
+                    if($ftp) {
+                        $modifications = $packager->getRemoteModifiedFiles($pChan, $pName, $cache, $config, $ftp);
+                    } else {
+                        $modifications = $packager->getLocalModifiedFiles($pChan, $pName, $cache, $config);
+                    }
+                    if (count($modifications) > 0) {
+                        $this->ui()->output('Changed locally: ');
+                        foreach ($modifications as $row) {
+                            if(!$ftp) {
+                                $this->ui()->output($config->magento_root.DS.$row);
+                            } else {
+                                $this->ui()->output($row);
+                            }
+                        }
+                            /*$this->ui()->confirm('Do you want rewrite all files?');
+                            continue;*/
+                    }
+                }
+
+                $dir = $config->getChannelCacheDir($pChan);
+                @mkdir($dir, 0777, true);
+                $packageFileName = $pName."-".$pVer.".tgz";
+                $file = $dir.DIRECTORY_SEPARATOR.$packageFileName;
+                if(!@file_exists($file)) {
+                    $this->ui()->output("downloading $packageFileName ...");
+                    $this->ui()->output("Starting to download $packageFileName ...");
+                    $rest->downloadPackageFileOfRelease($pName, $pVer, $file);
+                    $this->ui()->output(sprintf("...done: %s bytes", number_format(filesize($file))));
+                }
+                $downloadedPackages [] = $file;
+
+            } catch(Exception $e) {
+                $this->doError($command, $e->getMessage());
+            }
+        }
+        return $downloadedPackages;
+
+    }
+    private function _installDownloadedPackages ($downloadedPackages, $ftp = null)
+    {
+        foreach($downloadedPackages as $file)
+        {
+            try{
+
+                $package = new Mage_Connect_Package($file);
+                $pkgInfoArr = array(
+                    $package->getChannel(),
+                    $package->getName(),
+                    $package->getVersion()
+                );
+                $conflicts = $package->checkPhpDependencies();
+                if(true !== $conflicts) {                       
+                    $confilcts = array(implode(",",$conflicts));
+                    //makes message like "Package channel/package version : conflicts"
+                    $err = vsprintf("Package %s/%s %s depends on PHP extensions: %s", array_merge($pkgInfoArr, $conflicts));
+                    if($this->forceMode) {
+                        $this->doError($command, $err);
+                    } else {
+                        throw new Exception($err);
+                    }
+                }
+
+                $conflicts = $package->checkPhpVersion();
+                if(true !== $conflicts) {
+                    //makes message like "Package channel/package version : conflicts"
+                    $err = vsprintf("Package %s/%s %s: %s",array_merge($pkgInfoArr, array($conflicts)));
+                    if($this->forceMode) {
+                        $this->doError($command, $err);
+                    } else {
+                        throw new Exception($err);
+                    }
+                }
+
+                if(!$this->noFilesInstall) {
+                    if($ftp) {
+                        $this->getPackager($ftp)->processInstallPackageFtp($package, $file, $this->getConfig($ftp), $this->getPackager($ftp)->getFtpObj());
+                    } else {
+                        $this->getPackager($ftp)->processInstallPackage($package, $file, $this->getConfig($ftp));
+                    }
+                }
+                $this->getCache($ftp)->addPackage($package);
+                $this->ui()->output(
+                    vsprintf("install ok: channel://connect.magentocommerce.com/%s/%s-%s", $pkgInfoArr)
+                );
+
+                $installedDepsAssoc[] = array(
+                    'channel'=>$package->getChannel(), 
+                    'name'=>$package->getName(), 
+                    'version'=>$package->getVersion()
+                );
+                $installedDeps[] = $pkgInfoArr;
+            } catch(Exception $e) {
+                $this->doError($command, $e->getMessage());
+            }
+        }
+        return array($installedDeps, $installedDepsAssoc);
+    }
+    
 
     /**
      * Upgrade action callback

@@ -151,7 +151,7 @@ class Mage_Connect_Command
     
     public function getCache ($ftp)
     {
-        if(!is_null($ftp) || $ftp !== false) {
+        if(!is_null($ftp)) {
             $cache= $this->getPackager($ftp)->getRemoteCache();
         } else {
             $cache = $this->getSconfig();
@@ -194,7 +194,7 @@ class Mage_Connect_Command
     
     public function getConfig ($ftp)
     {
-        if(!is_null($ftp) || $ftp !== false) {
+        if(!is_null($ftp)) {
             $config = $this->getPackager($ftp)->getRemoteConfig();
         } else {
             $config = $this->config();
