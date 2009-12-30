@@ -400,42 +400,34 @@ $CONFIG['translates'] = array(
         'app/code/core/Enterprise/Banner/',
         'app/design/adminhtml/default/default/layout/enterprise/banner.xml',
         'app/design/adminhtml/default/default/template/enterprise/banner/',
-        'app/design/frontend/enterprise/default/template/banner/',
-        'app/design/frontend/enterprise/blank/template/banner/',
+        'app/design/frontend/enterprise/default/template/banner/'
     ),
     'Enterprise_CatalogEvent' => array(
         'app/code/core/Enterprise/CatalogEvent/',
         'app/design/adminhtml/default/default/layout/enterprise/catalogevent.xml',
         'app/design/adminhtml/default/default/template/enterprise/catalogevent/',
         'app/design/frontend/enterprise/default/layout/catalogevent.xml',
-        'app/design/frontend/enterprise/default/template/catalogevent/',
-        'app/design/frontend/enterprise/blank/layout/catalogevent.xml',
-        'app/design/frontend/enterprise/blank/template/catalogevent/',
+        'app/design/frontend/enterprise/default/template/catalogevent/'
     ),
     'Enterprise_CatalogPermissions' => array(
         'app/code/core/Enterprise/CatalogPermissions/',
         'app/design/adminhtml/default/default/layout/enterprise/catalogpermissions.xml',
         'app/design/adminhtml/default/default/template/enterprise/catalogpermissions',
-        'app/design/frontend/enterprise/default/layout/catalogpermissions.xml',
-        'app/design/frontend/enterprise/blank/layout/catalogpermissions.xml',
+        'app/design/frontend/enterprise/default/layout/catalogpermissions.xml'
     ),
     'Enterprise_Cms' => array(
         'app/code/core/Enterprise/Cms/',
         'app/design/adminhtml/default/default/layout/enterprise/cms.xml',
         'app/design/adminhtml/default/default/template/enterprise/cms/',
         'app/design/frontend/enterprise/default/layout/cms.xml',
-        'app/design/frontend/enterprise/default/template/cms/',
-        'app/design/frontend/enterprise/blank/layout/cms.xml',
-        'app/design/frontend/enterprise/blank/template/cms/',
+        'app/design/frontend/enterprise/default/template/cms/'
     ),
     'Enterprise_CustomerBalance' => array(
         'app/code/core/Enterprise/CustomerBalance/',
         'app/design/adminhtml/default/default/layout/enterprise/customerbalance.xml',
         'app/design/adminhtml/default/default/template/enterprise/customerbalance/',
         'app/design/frontend/enterprise/default/layout/customerbalance.xml',
-        'app/design/frontend/enterprise/default/template/customerbalance/',
-        'app/design/frontend/enterprise/blank/layout/customerbalance.xml',
-        'app/design/frontend/enterprise/blank/template/customerbalance/',
+        'app/design/frontend/enterprise/default/template/customerbalance/'
     ),
     'Enterprise_CustomerSegment' => array(
         'app/code/core/Enterprise/CustomerSegment/',
@@ -449,27 +441,21 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/enterprise/giftcard.xml',
         'app/design/adminhtml/default/default/template/enterprise/giftcard/',
         'app/design/frontend/enterprise/default/layout/giftcard.xml',
-        'app/design/frontend/enterprise/default/template/giftcard/',
-        'app/design/frontend/enterprise/blank/layout/giftcard.xml',
-        'app/design/frontend/enterprise/blank/template/giftcard/',
+        'app/design/frontend/enterprise/default/template/giftcard/'
     ),
     'Enterprise_GiftCardAccount' => array(
         'app/code/core/Enterprise/GiftCardAccount/',
         'app/design/adminhtml/default/default/layout/enterprise/giftcardaccount.xml',
         'app/design/adminhtml/default/default/template/enterprise/giftcardaccount/',
         'app/design/frontend/enterprise/default/layout/giftcardaccount.xml',
-        'app/design/frontend/enterprise/default/template/giftcardaccount/',
-        'app/design/frontend/enterprise/blank/layout/giftcardaccount.xml',
-        'app/design/frontend/enterprise/blank/template/giftcardaccount/',
+        'app/design/frontend/enterprise/default/template/giftcardaccount/'
     ),
     'Enterprise_Invitation' => array(
         'app/code/core/Enterprise/Invitation/',
         'app/design/adminhtml/default/default/layout/enterprise/invitation.xml',
         'app/design/adminhtml/default/default/template/enterprise/invitation/',
         'app/design/frontend/enterprise/default/layout/invitation.xml',
-        'app/design/frontend/enterprise/default/template/invitation/',
-        'app/design/frontend/enterprise/blank/layout/invitation.xml',
-        'app/design/frontend/enterprise/blank/template/invitation/',
+        'app/design/frontend/enterprise/default/template/invitation/'
     ),
     'Enterprise_Logging' => array(
         'app/code/core/Enterprise/Logging/',
@@ -479,6 +465,13 @@ $CONFIG['translates'] = array(
     'Enterprise_Pci' => array(
         'app/code/core/Enterprise/Pci/',
         'app/design/adminhtml/default/default/layout/enterprise/pci.xml',
+    ),
+    'Enterprise_Reward' => array(
+        'app/code/core/Enterprise/Reward/',
+        'app/design/adminhtml/default/default/layout/enterprise/reward.xml',
+        'app/design/adminhtml/default/default/template/enterprise/reward/',
+        'app/design/frontend/enterprise/default/layout/reward.xml',
+        'app/design/frontend/enterprise/default/template/reward/'
     ),
     'Enterprise_Staging' => array(
         'app/code/core/Enterprise/Staging/',
@@ -490,14 +483,11 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/enterprise/targetrule.xml',
         'app/design/adminhtml/default/default/template/enterprise/targetrule/',
         'app/design/frontend/enterprise/default/layout/targetrule.xml',
-        'app/design/frontend/enterprise/default/template/targetrule/',
-        'app/design/frontend/enterprise/blank/layout/targetrule.xml',
-        'app/design/frontend/enterprise/blank/template/targetrule/',
+        'app/design/frontend/enterprise/default/template/targetrule/'
     ),
     'Enterprise_WebsiteRestriction' => array(
         'app/code/core/Enterprise/WebsiteRestriction/',
-        'app/design/frontend/enterprise/default/layout/websiterestriction.xml',
-        'app/design/frontend/enterprise/blank/layout/websiterestriction.xml',
+        'app/design/frontend/enterprise/default/layout/websiterestriction.xml'
     ),
 );
 
@@ -580,6 +570,7 @@ $CONFIG['helpers']  = array(
     'enterprise_invitation'         => 'Enterprise_Invitation',
     'enterprise_logging'            => 'Enterprise_Logging',
     'enterprise_pci'                => 'Enterprise_Pci',
+    'enterprise_reward'             => 'Enterprise_Reward',
     'enterprise_staging'            => 'Enterprise_Staging',
     'enterprise_targetrule'         => 'Enterprise_TargetRule',
     'enterprise_websiterestriction' => 'Enterprise_WebsiteRestriction',
