@@ -254,11 +254,11 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     protected function _filterPostData($data)
     {
-    	if(isset($data['catalogevent'])) {
-    		$_data = $data['catalogevent'];
-    		$_data = $this->_filterDates($_data, array('date_start', 'date_end'));
-    		$data['catalogevent'] = $_data;
-    	}
+        if(isset($data['catalogevent'])) {
+            $_data = $data['catalogevent'];
+            $_data = $this->_filterDates($_data, array('date_start', 'date_end'));
+            $data['catalogevent'] = $_data;
+        }
 
         return $data;
     }

@@ -137,16 +137,16 @@
                 productForm.validator.reset('giftcard_amounts_total');
                 Element.removeClassName($('giftcard_amounts_total'), 'required-entry');
             } else {
-            	if (!Element.hasClassName($('giftcard_amounts_total'), 'required-entry')) {
-         		   Element.addClassName($('giftcard_amounts_total'), 'required-entry');
-            	}
+                if (!Element.hasClassName($('giftcard_amounts_total'), 'required-entry')) {
+                    Element.addClassName($('giftcard_amounts_total'), 'required-entry');
+                }
             }
         }
     }
 
     function setupPriceAmountEvents() {
         if ($('allow_open_amount')) {
-     	   Event.observe('allow_open_amount', 'change', updatePriceAmountValidation);
+            Event.observe('allow_open_amount', 'change', updatePriceAmountValidation);
         }
         Event.observe(window, 'load', updatePriceAmountValidation);
     }

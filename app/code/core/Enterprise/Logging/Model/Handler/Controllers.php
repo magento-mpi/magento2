@@ -603,7 +603,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         }
         $info = Mage::helper('enterprise_logging')->__('All cache %s. ', $action);
         if ($catalogAction) {
-        	$info .= $catalogAction;
+            $info .= $catalogAction;
         }
 
         foreach ($cacheTypes as $type) {

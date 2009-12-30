@@ -616,11 +616,11 @@ Payment.prototype = {
         this.onSave = this.nextStep.bindAsEventListener(this);
         this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
     },
-    
+
     addBeforeInitFunction : function(code, func) {
         this.beforeInitFunc.set(code, func);
     },
-    
+
     beforeInit : function() {
         (this.beforeInitFunc).each(function(init){
            (init.value)();;
@@ -649,7 +649,7 @@ Payment.prototype = {
         if (method) this.switchMethod(method);
         this.afterInit();
     },
-    
+
     addAfterInitFunction : function(code, func) {
         this.afterInitFunc.set(code, func);
     },
