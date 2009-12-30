@@ -149,6 +149,7 @@
 "This Page is locked by '%s'.","This Page is locked by '%s'."
 "This Page is locked by you.","This Page is locked by you."
 "This page cannot be added, because a node or page with the same URL Key already exists in this tree part.","This page cannot be added, because a node or page with the same URL Key already exists in this tree part."
+"This page is currently locked.","This page is currently locked."
 "Title","Title"
 "Total of %d record(s) were successfully deleted","Total of %d record(s) were successfully deleted"
 "Tree Viewed","Tree Viewed"

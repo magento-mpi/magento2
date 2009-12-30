@@ -39,6 +39,7 @@
 "Edit Gift Card Account: %s","Edit Gift Card Account: %s"
 "Email Template","Email Template"
 "Email sent from Gift Card Account management","Email sent from Gift Card Account management"
+"Email was not sent because giftcard account is not active","Email was not sent because giftcard account is not active"
 "Enter Gift Card code","Enter Gift Card code"
 "Enter gift card code","Enter gift card code"
 "Excluding prefix, suffix and separators","Excluding prefix, suffix and separators"
