@@ -30,7 +30,7 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->getConnection()->modifyColumn(
-    $this->getTable('core_flag'), 'flag_id', 'INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT'
+    $this->getTable('core/flag'), 'flag_id', 'INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT'
 );
 
 $installer->endSetup();
