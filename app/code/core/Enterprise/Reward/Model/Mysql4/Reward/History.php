@@ -171,7 +171,7 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
     }
 
     /**
-     * Update history expired_at_dynamic field for specified websites
+     * Update history expired_at_dynamic field for specified websites when config changed
      *
      * @param int $days Reward Points Expire in (days)
      * @param array $websiteIds Array of website ids that must be updated
@@ -189,6 +189,74 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
         $sql = "UPDATE `{$this->getMainTable()}` SET `expired_at_dynamic`={$newValue} WHERE ";
         $sql.= $this->_getWriteAdapter()->quoteInto("`website_id` in (?)", $websiteIds);
         $this->_getWriteAdapter()->query($sql);
+    }
+
+    /**
+     * Make points expired for specified website
+     *
+     * @param int $websiteId
+     * @param string $expiryType Expiry calculation (static or dynamic)
+     * @param int $limit Limitation for records expired selection
+     * @return Enterprise_Reward_Model_Mysql4_Reward
+     */
+    public function expirePoints($websiteId, $expiryType, $limit)
+    {
+        $now = $this->formatDate(time());
+        $field = $expiryType == 'static' ? 'expired_at_static' : 'expired_at_dynamic';
+
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable())
+            ->where('website_id=?', $websiteId)
+            ->where("`{$field}` < ?", $now)
+            ->where("`{$field}` IS NOT NULL")
+            ->where('is_expired=0')
+            ->where('`points_delta`-`points_used`>0')
+            ->limit((int)$limit);
+
+        $duplicates = array();
+        $expiredAmounts = array();
+        $expiredHistoryIds = array();
+        $stmt = $this->_getReadAdapter()->query($select);
+        while ($row = $stmt->fetch()) {
+            $row['created_at'] = $now;
+            $row['expired_at_static'] = null;
+            $row['expired_at_dynamic'] = null;
+            $row['is_expired'] = '1';
+            $row['action'] = Enterprise_Reward_Model_Reward::REWARD_ACTION_EXPIRED;
+//            $additionalData = array('parent_history_id' => $row['history_id']);
+//            $additionalData = serialize($additionalData);
+            $expiredHistoryIds[] = $row['history_id'];
+            unset($row['history_id']);
+            if (!isset($expiredAmounts[$row['reward_id']])) {
+                $expiredAmounts[$row['reward_id']] = 0;
+            }
+            $expiredAmount = $row['points_delta'] - $row['points_used'];
+            $row['points_delta'] = -$expiredAmount;
+            $row['points_used'] = 0;
+            $expiredAmounts[$row['reward_id']] += $expiredAmount;
+            $duplicates[] = $row;
+        }
+
+        if (count($expiredHistoryIds) > 0) {
+            // decrease points balance of rewards
+            foreach ($expiredAmounts as $rewardId => $expired) {
+                if ($expired == 0) {
+                    continue;
+                }
+                $bind = array('points_balance' => new Zend_Db_Expr('`points_balance`-' . $expired));
+                $where = array('reward_id=?' => $rewardId);
+                $this->_getWriteAdapter()->update($this->getTable('enterprise_reward/reward'), $bind, $where);
+            }
+
+            // duplicate expired records
+            $this->_getWriteAdapter()->insertMultiple($this->getMainTable(), $duplicates);
+
+            // update is_expired field (using history ids instead where clause for better performance)
+            $this->_getWriteAdapter()
+                ->update($this->getMainTable(), array('is_expired' => '1'), array('history_id IN (?)' => $expiredHistoryIds));
+        }
+
+        return $this;
     }
 
 

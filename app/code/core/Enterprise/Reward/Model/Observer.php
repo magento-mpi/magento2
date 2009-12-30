@@ -531,23 +531,48 @@ class Enterprise_Reward_Model_Observer
     /**
      * Send scheduled low balance warning notifications
      *
-     * @param Mage_Cron_Model_Schedule $schedule
      * @return Enterprise_Reward_Model_Observer
      */
-    public function scheduledBalanceExpireNotification($schedule)
+    public function scheduledBalanceExpireNotification()
     {
-        $inDays = (int)Mage::helper('enterprise_reward')->getNotificationConfig('expiry_day_before');
-        if (!$inDays) {
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
             return $this;
         }
-        $collection = Mage::getResourceModel('enterprise_reward/reward_history_collection')
-            ->loadExpiredSoonPoints($inDays)
-//            ->setPageSize(20)
-//            ->setCurPage(1)
-            ->load();
+        foreach (Mage::app()->getWebsites() as $website) {
+            $inDays = (int)Mage::helper('enterprise_reward')->getNotificationConfig('expiry_day_before');
+            if (!$inDays) {
+                continue;
+            }
+            $collection = Mage::getResourceModel('enterprise_reward/reward_history_collection')
+                ->setExpiryConfig(Mage::helper('enterprise_reward')->getExpiryConfig())
+                ->loadExpiredSoonPoints($website->getId(), true)
+                ->addCustomerInfo()
+                ->setPageSize(20) // limit queues for each website
+                ->setCurPage(1)
+                ->load();
 
-        foreach ($collection as $item) {
-            Mage::getModel('enterprise_reward/reward')->sendBalanceWarningNotification($item);
+            foreach ($collection as $item) {
+                Mage::getSingleton('enterprise_reward/reward')->sendBalanceWarningNotification($item);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Make points expired
+     *
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function scheduledPointsExpiration()
+    {
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+        foreach (Mage::app()->getWebsites() as $website) {
+            $expiryType = Mage::helper('enterprise_reward')->getGeneralConfig('expiry_calculation', $website->getId());
+            Mage::getResourceModel('enterprise_reward/reward_history')
+                ->expirePoints($website->getId(), $expiryType, 100);
         }
 
         return $this;

@@ -94,6 +94,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
                 ->addWebsiteFilter($websiteId)
                 ->setExpiryConfig(Mage::helper('enterprise_reward')->getExpiryConfig())
                 ->addExpirationDate($websiteId)
+                ->skipExpiredDuplicates()
                 ->setOrder('created_at', 'DESC'));
         }
 

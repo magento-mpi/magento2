@@ -108,6 +108,17 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Mage_Core
     }
 
     /**
+     * Skip Expired duplicates records (with action = -1)
+     *
+     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
+     */
+    public function skipExpiredDuplicates()
+    {
+        $this->getSelect()->where('main_table.action<>?', Enterprise_Reward_Model_Reward::REWARD_ACTION_EXPIRED);
+        return $this;
+    }
+
+    /**
      * Add filter by website id
      *
      * @param integer|array $websiteId
@@ -163,6 +174,7 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Mage_Core
 
     /**
      * Add correction to expiration date based on expiry calculation
+     * CASE ... WHEN ... THEN is used only in admin area to show expiration date for all stores
      *
      * @param int $websiteId
      * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
@@ -194,42 +206,47 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Mage_Core
     }
 
     /**
-     * Return amounts of points that will be expired in {$inDays} aggregated by customer and website
+     * Return total amounts of points that will be expired soon (pre-configured days value) for specified website
+     * Result is grouped by customer
      *
-     * @param int $websiteId // Days before points will be marked as expired
-     * @return Mage_Newsletter_Model_Mysql4_Queue_Collection
+     * @param int $websiteId Specified Website
+     * @param bool $subscribedOnly Whether to load expired soon points only for subscribed customers
+     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
      */
-    public function loadExpiredSoonPoints($websiteId)
+    public function loadExpiredSoonPoints($websiteId, $subscribedOnly = true)
     {
-        $expirationType = Mage::helper('enterprise_reward')->getGeneralConfig('expiry_calculation', $websiteId);
-        $field = $expirationType == 'static' ? 'expired_at_static' : 'expired_at_dynamic';
-        $inDays = (int)Mage::helper('enterprise_reward')->getNotificationConfig('expiry_day_before');
+        $expiryConfig = $this->_getExpiryConfig($websiteId);
+        if (!$expiryConfig) {
+            return $this;
+        }
+        $inDays = (int)$expiryConfig->getExpiryDayBefore();
+        // Empty Value disables notification
+        if (!$inDays) {
+            return $this;
+        }
+
+        // join info about current balance and filter records by website
+        $this->_joinReward();
+        $this->addWebsiteFilter($websiteId);
+
+        $field = $expiryConfig->getExpiryCalculation()== 'static' ? 'expired_at_static' : 'expired_at_dynamic';
         $now = $this->getResource()->formatDate(time());
+        $expireAtLimit = new Zend_Date($now);
+        $expireAtLimit->addDay($inDays);
+        $expireAtLimit = $this->getResource()->formatDate($expireAtLimit);
+
         $this->getSelect()
-            ->where('points_delta-points_used>0 AND is_expired=0')
-            ->columns( array('total_expired' => new Zend_Db_Expr('SUM(points_delta-points_used)')) )
-            ->group(array('reward_table.customer_id', 'main_table.website_id'))
-            ->having("ADDDATE(expiration_date, INTERVAL -{$inDays} DAY) < '{$now}'")
-            ->order(array('reward_table.customer_id', 'main_table.website_id'));
+            ->columns( array('total_expired' => new Zend_Db_Expr('SUM(`points_delta`-`points_used`)')) )
+            ->where('`points_delta`-`points_used`>0')
+            ->where('`is_expired`=0')
+            ->where("`{$field}` IS NOT NULL") // expire_at - BEFORE_DAYS < NOW()
+            ->where("`{$field}` < ?", $expireAtLimit) // eq. expire_at - BEFORE_DAYS < NOW()
+            ->group('reward_table.customer_id')
+            ->order('reward_table.customer_id');
 
-        return $this;
-    }
-
-    /**
-     * Return all records that shoul be expired now
-     *
-     * @return Mage_Newsletter_Model_Mysql4_Queue_Collection
-     */
-    public function loadPointsForExpiration()
-    {
-        $this->addCustomerInfo()
-            ->addExpirationDate();
-
-        $now = $this->getResource()->formatDate(time());
-        $this->getSelect()
-            ->where('is_expired=0')
-                ->having("expiration_date < '{$now}'")
-            ->order('main_table.history_id');
+        if ($subscribedOnly) {
+            $this->getSelect()->where('reward_table.reward_warning_notification=1');
+        }
 
         return $this;
     }

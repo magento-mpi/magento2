@@ -49,6 +49,9 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     const REWARD_ACTION_ORDER_EXTRA         = 8;
     const REWARD_ACTION_CREDITMEMO          = 9;
 
+    // Special action for expired duplicates, has NO own action instance
+    const REWARD_ACTION_EXPIRED             = -1;
+
     static protected $_actionModelClasses = array();
 
     protected $_rates = array();
@@ -574,6 +577,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      *
      * @param Enterprise_Reward_Model_Reward_History $history
      * @return Enterprise_Reward_Model_Reward
+     * @see Enterprise_Reward_Model_Mysql4_Reward_History_Collection::loadExpiredSoonPoints()
      */
     public function sendBalanceWarningNotification($item)
     {
@@ -635,35 +639,4 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-
-
-
-    /**
-     * Send low Balance Warning Notification to customer if notification is enabled
-     *
-     * @return Enterprise_Reward_Model_Reward
-     */
-//    public function expireRewardPoints()
-//    {
-//        if (!$this->getRewardWarningNotification()) {
-//            return $this;
-//        }
-//
-//        $collection = Mage::getResourceModel('enterprise_reward/reward_history_collection')
-//            ->loadExpiredSoonRecords($this)
-//            ->load();
-//
-//        $totalExpired = 0;
-//        $i = 0;
-//        foreach ($collection as $item) {
-//            if ($i < 8) {
-//                $totalExpired += $item['points_delta'] - $item['points_used'];
-//                $item->getResource()->updateHistoryRow($item, array('is_expired' => 1));
-//                $i++;
-//            }
-//        }
-//
-//        $this->getResource()->updateRewardRow($this, array('points_balance' => $this->getPointsBalance() - $totalExpired));
-//        return $this;
-//    }
 }
