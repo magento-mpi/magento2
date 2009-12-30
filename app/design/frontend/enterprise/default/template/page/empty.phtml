@@ -34,9 +34,10 @@
 <head>
 <?php echo $this->getChildHtml('head') ?>
 </head>
-<body<?php echo $this->getBodyClass()?' class="empty-page '.$this->getBodyClass().'"':'' ?>>
+<body class="page-empty <?php echo $this->getBodyClass()?$this->getBodyClass():'' ?>">
 <?php echo $this->getChildHtml('global_messages') ?>
 <?php echo $this->getChildHtml('content') ?>
+<?php echo $this->getChildHtml('before_body_end') ?>
 <?php echo $this->getAbsoluteFooter() ?>
 </body>
 </html>

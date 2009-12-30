@@ -37,9 +37,9 @@
 .cart .cart-collaterals { _height:413px; }
 #options-container { _height:360px; }
 .opc li.section { vertical-align:top; zoom:1; }
-.product-view .tags .form-add-tags .input-box .input-text { _display:block; }
-.product-view .tags .form-add-tags .input-box .input-text { vertical-align:top; }
-.product-view .tags .form-add-tags .button { margin-top:1px; }
+.product-view .box-tags .form-add-tags .input-box .input-text { _display:block; }
+.product-view .box-tags .form-add-tags .input-box .input-text { vertical-align:top; }
+.product-view .box-tags .form-add-tags .button { margin-top:1px; }
 .giftcard-send-form   { float:left; width:416px; display:inline; margin-bottom:-40px;}
 .top-cart  { _width:10px; }
 .cart .crosssell { _height:400px; }
@@ -56,7 +56,7 @@
 #bundle-product-wrapper,
 .product-view,
 .product-view .product-img-box .more-views li,
-.product-view .tags .form-add-tags .input-box,
+.product-view .box-tags .form-add-tags .input-box,
 .form-list .customer-dob .input-box,
 .sp-methods select.month { display:inline; }
 .header .quick-access .links li { padding:0 6px 0 7px; }
@@ -73,7 +73,7 @@
 
 .please-wait { filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80); margin-top:-100px; }
 
-.form-list .form-element .input-box { padding-top:2px; }
+.form-list .control .input-box { padding-top:2px; }
 input.radio { width:13px; height:13px; }
 input.checkbox { width:13px; height:13px; }
 button.button { height:21px; padding:0 1px 1px 0; }
@@ -153,8 +153,8 @@ a.button { _height:22px; }
 .messages li,
 .search-autocomplete li,
 .block-poll li,
-.block-related li.item,
-.block-related .item-info,
+.product-view .box-related li.item,
+.product-view .box-related li.item .item-info,
 .block-reorder li,
 .block .actions,
 .block-cart .actions,
@@ -170,13 +170,15 @@ a.button { _height:22px; }
 .add-to-box,
 .add-to-cart,
 .product-view .product-img-box .more-views ul,
-.product-view .tags .form-add-tags,
+.product-view .box-tags .form-add-tags,
 .product-options .options-list li,
 .product-options-bottom,
 .truncated,
 .truncated .truncated_full_value,
 .truncated .truncated_full_value .item-options dl,
 .product-review,
+.box-collateral,
+.box-collateral .box-content,
 .account-login,
 .cart .cart-collaterals,
 .cart,
@@ -185,10 +187,8 @@ a.button { _height:22px; }
 .opc .step,
 .sp-methods,
 .checkout-progress,
-.field-100,
-.group-select .field,
 .form-list li,
-.group-select li,
+.form-list li.fields .field,
 .buttons-set2,
 .buttons-set,
 .clearfix,
@@ -196,6 +196,7 @@ a.button { _height:22px; }
 .cart-tax-total,
 .block-related,
 .new-product-spotlight .more-new,
+.addresses-list .col-2 li,
 .top-container .widget-product-link a,
 .top-container .widget-category-link a,
 .top-container .widget-cms-link a,

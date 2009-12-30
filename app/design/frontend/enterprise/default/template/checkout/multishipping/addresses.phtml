@@ -33,14 +33,14 @@
 ?>
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post">
 <div class="page-title title-buttons">
-    <h2><?php echo $this->__('Ship to Multiple Addresses') ?></h2>
+    <h1><?php echo $this->__('Ship to Multiple Addresses') ?></h1>
     <button type="submit" class="button" onclick="$('add_new_address_flag').value=1"><span><span><?php echo $this->__('Enter a New Address') ?></span></span></button>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <fieldset class="multiple-checkout">
     <input type="hidden" name="continue" value="0" id="can_continue_flag" />
     <input type="hidden" name="new_address" value="0" id="add_new_address_flag" />
-    <h3 class="table-caption"><?php echo $this->__('Please select shipping address for applicable items') ?></h3>
+    <h2 class="table-caption"><?php echo $this->__('Please select shipping address for applicable items') ?></h2>
     <table class="data-table" id="multiship-addresses-table">
         <col />
         <col width="1" />

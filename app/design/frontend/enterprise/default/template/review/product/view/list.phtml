@@ -26,13 +26,13 @@
 ?>
 
 <?php $_items = $this->getReviewsCollection()->getItems();?>
+<div class="box-collateral box-reviews" id="customer-reviews">
 <?php if (count($_items)):?>
-<div class="reviews block" id="customer-reviews">
-    <div class="block-title">
-        <h3><?php echo $this->__('Customer Reviews') ?></h3>
+    <div class="box-title">
+        <h2><?php echo $this->__('Customer Reviews') ?></h2>
     </div>
     <?php echo $this->getChildHtml('toolbar') ?>
-    <dl class="block-content" id="product-reviews-list">
+    <dl class="box-content" id="product-reviews-list">
     <?php foreach ($_items as $_review):?>
         <dt>
             <a href="<?php echo $this->getReviewUrl($_review->getId()) ?>"><?php echo $this->htmlEscape($_review->getTitle()) ?></a> <?php echo $this->__('Review by %s', $this->htmlEscape($_review->getNickname())) ?>
@@ -61,6 +61,6 @@
     </dl>
     <script type="text/javascript">decorateGeneric($$('#product-reviews-list dd'), ['last']);</script>
     <?php echo $this->getChildHtml('toolbar') ?>
-</div>
 <?php endif;?>
 <?php echo $this->getChildHtml('review_form') ?>
+</div>

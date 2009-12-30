@@ -41,20 +41,16 @@
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="product-view">
     <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
-        <fieldset class="no-display">
+        <div class="no-display">
             <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
             <input type="hidden" name="related_product" id="related-products-field" value="" />
-        </fieldset>    
+        </div>
         <div class="product-essential">
-
-                <div class="product-img-box">
-                    <?php echo $this->getChildHtml('media') ?>
-                </div>
 
                 <div class="product-shop">
                     <div class="product-main-info">
                         <div class="product-name">
-                            <h2><?php echo $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name') ?></h2>
+                            <h1><?php echo $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name') ?></h1>
                         </div>
                         <p class="product-ids"><?php echo $this->__('SKU# %s',$_product->getSku()); ?></p>
                         <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
@@ -76,7 +72,7 @@
                             <div class="options-container-small">
                                 <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
                             </div>
-                        <?php endif;?>                
+                        <?php endif;?>
                     
                         <?php echo $this->getChildHtml('addto') ?>
                     <?php endif; ?>
@@ -84,54 +80,63 @@
 
                     <?php if ($_product->getShortDescription()):?>
                         <div class="short-description std">
-                            <h3><?php echo $this->__('Quick Overview') ?></h3>
+                            <h2><?php echo $this->__('Quick Overview') ?></h2>
                             <?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
                         </div>
                     <?php endif;?>
 
                     <?php echo $this->getChildHtml('other');?>
                 </div>
+
+                <div class="product-img-box">
+                    <?php echo $this->getChildHtml('media') ?>
+                </div>
+
         </div>
         <div class="product-collateral">
-            <dl id="collateral-tabs" class="collateral-tabs">
-            <?php if ($_description = $this->getChildHtml('description')):?>
-                <dt class="tab"><span><?php echo $this->__('Details') ?></span></dt>
-                <dd class="tab-container">
-                   <div class="tab-content"><?php echo $_description ?></div>
-                </dd>
-            <?php endif;?>
-            <?php if ($_additional = $this->getChildHtml('additional')):?>
-                <dt class="tab"><span><?php echo $this->__('Additional Information') ?></span></dt>
-                <dd class="tab-container">
-                    <div class="tab-content"><?php echo $_additional ?></div>
-                </dd>
-            <?php endif;?>
-            </dl>
-            <?php if ($_description || $_additional || $this->getChildHtml('productTagList')): ?>
+            <?php $_description = $this->getChildHtml('description') ?>
+            <?php $_additional = $this->getChildHtml('additional') ?>
+            <?php if($_description || $_additional):?>
+                <dl id="collateral-tabs" class="collateral-tabs">
+                <?php if ($_description):?>
+                    <dt class="tab"><span><?php echo $this->__('Details') ?></span></dt>
+                    <dd class="tab-container">
+                       <div class="tab-content"><?php echo $_description ?></div>
+                    </dd>
+                <?php endif;?>
+                <?php if ($_additional):?>
+                    <dt class="tab"><span><?php echo $this->__('Additional Information') ?></span></dt>
+                    <dd class="tab-container">
+                        <div class="tab-content"><?php echo $_additional ?></div>
+                    </dd>
+                <?php endif;?>
+                </dl>
                 <script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>
             <?php endif; ?>
             <?php if ($this->canEmailToFriend()): ?>
                 <p class="emailto-link"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
-            <?php endif; ?>            
+            <?php endif; ?>
         </div>
         <div class="clearer"></div>
         <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container2') ):?>
             <div class="options-container-big">
                 <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
             </div>
-        <?php endif;?>        
+        <?php endif;?>
     </form>
         <?php echo $this->getChildHtml('relatedProducts') ?>  
         <?php echo $this->getChildHtml('upsell_products') ?>
         <?php echo $this->getChildHtml('productTagList') ?>
-        <?php echo $this->getChildHtml('product_additional_data') ?>        
+        <?php echo $this->getChildHtml('product_additional_data') ?>
 </div>
 
 <script type="text/javascript">
-        var productAddToCartForm = new VarienForm('product_addtocart_form');
-        productAddToCartForm.submit = function() {
-                if (this.validator.validate()) {
-                        this.form.submit();
-                }
-        }.bind(productAddToCartForm);
+//<![CDATA[
+    var productAddToCartForm = new VarienForm('product_addtocart_form');
+    productAddToCartForm.submit = function() {
+            if (this.validator.validate()) {
+                    this.form.submit();
+            }
+    }.bind(productAddToCartForm);
+//]]>
 </script>

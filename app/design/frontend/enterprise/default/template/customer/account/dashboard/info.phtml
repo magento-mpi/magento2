@@ -27,7 +27,7 @@
 <div class="col2-set">
     <div class="col-1">
         <div class="info-box">
-            <h4 class="box-title"><?php echo $this->__('Contact Information') ?> <span class="separator">|</span> <a href="<?php echo $this->getUrl('customer/account/edit') ?>"><?php echo $this->__('Edit') ?></a></h4>           
+            <h3 class="box-title"><?php echo $this->__('Contact Information') ?> <span class="separator">|</span> <a href="<?php echo $this->getUrl('customer/account/edit') ?>"><?php echo $this->__('Edit') ?></a></h3>
             <p class="box-content">
                 <?php echo $this->htmlEscape($this->getCustomer()->getName()) ?><br />
                 <?php echo $this->htmlEscape($this->getCustomer()->getEmail()) ?><br />
@@ -37,8 +37,8 @@
     </div>
     <?php if( $this->isNewsletterEnabled() ): ?>
     <div class="col-2">
-        <div class="info-box">    
-            <h4 class="box-title"><?php echo $this->__('Newsletters') ?> <span class="separator">|</span> <a href="<?php echo $this->getUrl('newsletter/manage') ?>"><?php echo $this->__('Edit') ?></a></h4>
+        <div class="info-box">
+            <h3 class="box-title"><?php echo $this->__('Newsletters') ?> <span class="separator">|</span> <a href="<?php echo $this->getUrl('newsletter/manage') ?>"><?php echo $this->__('Edit') ?></a></h3>
             <p class="box-content">
                 <?php if( $this->getIsSubscribed() ): ?>
                     <?php echo $this->__("You are currently subscribed to 'General Subscription'.") ?>

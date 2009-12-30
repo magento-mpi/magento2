@@ -28,16 +28,18 @@
 <div class="widget widget-compared">
     <div class="block block-list">
         <div class="block-title">
-            <h2><?php echo $this->__('Recently Compared') ?></h2>
+            <strong><span><?php echo $this->__('Recently Compared') ?></span></strong>
         </div>
         <div class="block-content">
-            <ol>
+            <?php $suffix = $this->getNameInLayout(); ?>
+            <ol id="widget-compared-<?php echo $suffix; ?>">
             <?php $i=0; foreach ($_products as $_product): ?>
                 <li class="item">
-                    <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>)"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
+                    <p class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></p>
                 </li>
             <?php endforeach; ?>
             </ol>
+            <script type="text/javascript">decorateList('widget-compared-<?php echo $suffix; ?>', 'none-recursive')</script>
         </div>
     </div>
 </div>

@@ -27,50 +27,50 @@
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/giftmessage.js') ?>"></script>
 <?php if(!$this->getSaveMode()): ?>
 <div class="page-title">
-    <h2><?php echo $this->__('Gift Message') ?></h2>
+    <h1><?php echo $this->__('Gift Message') ?></h1>
 </div>
 <form action="<?php echo $this->getSaveUrl() ?>" id="message-form" method="post">
-<fieldset class="fieldset">
-    <ul class="form-list group-select">
+<div class="fieldset">
+    <ul class="form-list">
         <li class="fields">
             <div class="field">
                 <label for="sender" class="required"><em>*</em><?php echo $this->__('From') ?></label>
-                <span class="input-box">
+                <div class="input-box">
                     <input type="text" name="sender" value="<?php echo $this->getEscaped($this->getMessage()->getSender()) ?>" title="<?php echo $this->__('From') ?>" class="input-text required-entry" />
-                </span>
+                </div>
             </div>
             <div class="field">
                 <label for="recipient" class="required"><em>*</em><?php echo $this->__('To') ?></label>
-                <span class="input-box">
+                <div class="input-box">
                     <input type="text" name="recipient" value="<?php echo $this->getEscaped($this->getMessage()->getRecipient()) ?>" title="<?php echo $this->__('To') ?>" class="input-text required-entry" />
-                </span>
+                </div>
             </div>
         </li>
         <li>
             <label for="email_address" class="required"><em>*</em><?php echo $this->__('Message') ?></label>
-            <span class="input-box">
+            <div class="input-box">
                 <textarea name="messagetext" title="<?php echo $this->__('Message') ?>" class="input-text required-entry" cols="60" rows="5"><?php echo $this->getEscaped($this->getMessage()->getMessage()) ?></textarea>
-            </span>
+            </div>
         </li>
     </ul>
-</fieldset>
+</div>
 <div class="buttons-set form-buttons">
     <p class="back-link"><button class="button listen-cancel" type="button"><span><span><?php echo $this->__('Cancel') ?></span></span></button></p>
     <button class="button" type="submit" name="send"><span><span><?php echo $this->__('Save') ?></span></span></button>
     <?php if($this->getMessage()->getGiftMessageId()): ?>
         &nbps;<button class="button listen-remove" type="button"><span><span><?php echo $this->__('Remove') ?></span></span></button>
-    <?php endif; ?>            
+    <?php endif; ?>
 </div>
 <p class="required"><?php echo $this->__('* Required Fields') ?></p>
 </form>
 <?php elseif($this->getSaveMode()=='save'): ?>
 <div class="page-title">
-    <h2><?php echo $this->__('Your gift message has been successfully saved') ?></h2>
+    <h1><?php echo $this->__('Your gift message has been successfully saved') ?></h1>
 </div>
 <div class="buttons-set"><button class="button" type="button" onclick="giftMessageWindowObject.close()"><span><span><?php echo $this->__('Close') ?></span></span></button></div>
 <?php else: ?>
 <div class="page-title">
-    <h2><?php echo $this->__('Your gift message has been successfully removed') ?></h2>
+    <h1><?php echo $this->__('Your gift message has been successfully removed') ?></h1>
 </div>
 <div class="buttons-set"><button class="button" type="button" onclick="giftMessageWindowObject.close()"><span><span><?php echo $this->__('Close') ?></span></span></button></div>
 <?php endif; ?>

@@ -33,3 +33,6 @@ body  { background:#fff !important; font-size:9pt !important; margin:15px !impor
 .toolbar,
 .actions,
 .buttons-set { display:none !important; }
+
+.page-print .data-table .cart-tax-total { background-position:100% -54px; }
+.page-print .data-table .cart-tax-info { display:block !important; }

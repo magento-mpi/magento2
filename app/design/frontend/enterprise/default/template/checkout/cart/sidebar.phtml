@@ -35,7 +35,7 @@
     <?php $_cartQty = $this->getSummaryCount() ?>
     <div class="block-title<?php if(!$_cartQty) { echo (' no-items'); } ?>">
         <?php if ($_cartQty>0): ?>
-            <h3 id="cartHeader">
+            <h2 id="cartHeader">
             <?php if ($_cartQty==1): ?>
                 <?php echo $this->__('Your cart contains <strong>1 item</strong>') ?>
             <?php else: ?>
@@ -44,7 +44,7 @@
             <span class="subtotal">
                 (<?php echo Mage::helper('checkout')->formatPrice($this->getSubtotal()) ?><?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?> / <?php echo Mage::helper('checkout')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('tax')->getIncExcText(true) ?><?php endif; ?>)
             </span>
-            </h3>
+            </h2>
         <?php else: ?>
             <?php echo $this->__('Your cart contains <strong>no items</strong>.') ?>
         <?php endif ?>

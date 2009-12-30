@@ -28,7 +28,7 @@
     <?php if($this->helper('wishlist')->isRssAllow() && $this->getWishlist()->getSize()): ?>
         <a href="<?php echo $this->helper('wishlist')->getRssUrl(); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
     <?php endif; ?>
-    <h2><?php echo $this->__('My Wishlist') ?></h2>
+    <h1><?php echo $this->__('My Wishlist') ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 
@@ -56,7 +56,7 @@
                 <tr>
                     <td>
                         <a class="product-image" href="<?php echo $item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($item->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($item, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->htmlEscape($item->getName()) ?>" /></a>
-                        <h3 class="product-name"><a href="<?php echo $item->getProductUrl() ?>"><?php echo $this->htmlEscape($item->getName()) ?></a></h3>
+                        <h2 class="product-name"><a href="<?php echo $item->getProductUrl() ?>"><?php echo $this->htmlEscape($item->getName()) ?></a></h2>
                         <?php echo $this->getPriceHtml($item) ?>
                     </td>
                     <td>

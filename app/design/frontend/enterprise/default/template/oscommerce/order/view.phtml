@@ -29,7 +29,7 @@
 <?php $_currency = $_order['currency_symbol'] ? $_order['currency_symbol']: $_order['currency']?>
 
 <div class="page-title">
-    <h2><?php echo $this->__('Order') ?> #<?php echo $_order['orders_id'] ?></h2>
+    <h1><?php echo $this->__('Order') ?> #<?php echo $_order['orders_id'] ?></h1>
 </div>
 <p><?php echo $this->__('Order Date:')?> <?php echo $this->formatDate($_order['date_purchased'], 'medium', false) ?></p>
 

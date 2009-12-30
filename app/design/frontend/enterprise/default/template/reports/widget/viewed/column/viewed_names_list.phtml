@@ -33,13 +33,13 @@
 <div class="widget widget-viewed">
     <div class="block block-list">
         <div class="block-title">
-            <h2><?php echo $this->__('Recently Viewed') ?></h2>
+            <strong><span><?php echo $this->__('Recently Viewed') ?></span></strong>
         </div>
         <div class="block-content">
             <ol>
             <?php $i=0; foreach ($_products as $_product): ?>
                 <li class="item">
-                   <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
+                   <p class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></p>
                 </li>
             <?php endforeach; ?>
             </ol>

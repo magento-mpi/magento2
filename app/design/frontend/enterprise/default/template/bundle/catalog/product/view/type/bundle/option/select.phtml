@@ -47,17 +47,17 @@
     <label<?php if ($_option->getRequired()) echo ' class="required"' ?>><?php if ($_option->getRequired()) echo '<em>*</em>' ?><?php echo $this->htmlEscape($_option->getTitle()) ?></label>
 </dt>
 <dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
-<div class="input-box">
-    <?php if ($_showSingle): ?>
-        <?php echo $this->getSelectionTitlePrice($_selections[0]) ?>
-        <input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>]" value="<?php echo $_selections[0]->getSelectionId() ?>" />
-    <?php else:?>
-        <select onchange="bundle.changeSelection(this)" id="bundle-option-<?php echo $_option->getId() ?>" name="bundle_option[<?php echo $_option->getId() ?>]" class="bundle-option-<?php echo $_option->getId() ?><?php if ($_option->getRequired()) echo ' required-entry' ?> bundle-option-select change-container-classname">
-            <option value=""><?php echo $this->__('Choose a selection...') ?></option>
-            <?php foreach($_selections as $_selection): ?>
-                <option value="<?php echo $_selection->getSelectionId() ?>"<?php echo ($_selection->getIsDefault() && $_selection->isSaleable())?' selected="selected" ':'' ?><?php echo !$_selection->isSaleable()?' disabled="disabled" ':'' ?>><?php echo $this->getSelectionTitlePrice($_selection, false) ?></option>
-            <?php endforeach;?>
-        </select>
-    <?php endif; ?>
-</div>
+    <div class="input-box">
+        <?php if ($_showSingle): ?>
+            <?php echo $this->getSelectionTitlePrice($_selections[0]) ?>
+            <input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>]" value="<?php echo $_selections[0]->getSelectionId() ?>" />
+        <?php else:?>
+            <select onchange="bundle.changeSelection(this)" id="bundle-option-<?php echo $_option->getId() ?>" name="bundle_option[<?php echo $_option->getId() ?>]" class="bundle-option-<?php echo $_option->getId() ?><?php if ($_option->getRequired()) echo ' required-entry' ?> bundle-option-select change-container-classname">
+                <option value=""><?php echo $this->__('Choose a selection...') ?></option>
+                <?php foreach($_selections as $_selection): ?>
+                    <option value="<?php echo $_selection->getSelectionId() ?>"<?php echo ($_selection->getIsDefault() && $_selection->isSaleable())?' selected="selected" ':'' ?><?php echo !$_selection->isSaleable()?' disabled="disabled" ':'' ?>><?php echo $this->getSelectionTitlePrice($_selection, false) ?></option>
+                <?php endforeach;?>
+            </select>
+        <?php endif; ?>
+    </div>
 </dd>

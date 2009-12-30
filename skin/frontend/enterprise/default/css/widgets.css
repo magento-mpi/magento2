@@ -24,8 +24,8 @@
  */
 /* Widgets =============================================================================== */
 .widget { display:inline; }
-.widget .page-title { background:none; border:0; margin:10px 0 !important; padding:0; }
-.widget .page-title h2 { font-size:18px; }
+.widget .widget-title { margin:10px 0; }
+.widget .widget-title h2 { font-size:18px; color:#d12c01; }
 
 /* Widget Banner */
 .widget-banner { display:block; width:100%; overflow:hidden; text-align:center; }

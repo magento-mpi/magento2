@@ -41,12 +41,11 @@
 </script>
 <div class="block block-poll">
     <div class="block-title">
-        <h2><?php echo $this->__('Community Poll') ?></h2>
+        <strong><span><?php echo $this->__('Community Poll') ?></span></strong>
     </div>
     <form id="pollForm" action="<?php echo $action ?>" method="post" onsubmit="return validatePollAnswerIsSelected();">
-    <fieldset class="block-content">
-        <legend><?php echo $this->__('Community Poll') ?></legend>
-        <h3><?php echo $poll->getPollTitle(); ?></h3>
+    <div class="block-content">
+        <p class="block-subtitle"><?php echo $poll->getPollTitle(); ?></p>
         <?php if( $poll_answers ): ?>
         <ol>
             <?php foreach( $poll_answers as $answer ): ?>
@@ -60,7 +59,7 @@
         <div class="actions">
             <button type="submit" class="button" title="<?php echo $this->__('Vote') ?>"><span><span><?php echo $this->__('Vote') ?></span></span></button>
         </div>
-    </fieldset>
+    </div>
     </form>
 </div>
 <?php endif; ?>

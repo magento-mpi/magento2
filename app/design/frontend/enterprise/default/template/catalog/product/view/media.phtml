@@ -43,7 +43,6 @@
         <?php list($_imgWidth, $_imgHeight) = $this->helper('catalog/image')->init($_product, 'image')->getOriginalSizeArray(); ?>
         <?php if ($_imgWidth > 380 && $_imgHeight > 380):?>
             <a class="product-image image-zoom" id="main-image" title="<?php echo $this->htmlEscape($_product->getImageLabel()); ?>" href="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>">
-            <?php /* if(!$_product->isSaleable()): ?><span class="sold-out">&nbsp;</span><?php endif; */ ?>
                 <?php
                     $_img = '<img src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(370).'" height="370" width="370" alt="'.$this->htmlEscape($_product->getImageLabel()).'" title="'.$this->htmlEscape($_product->getImageLabel()).'" />';
                     echo $_helper->productAttribute($_product, $_img, 'image-thumb');
@@ -127,7 +126,7 @@
 
 <?php if (count($this->getGalleryImages()) > 0): ?>
 <div class="more-views">
-    <h3><?php echo $this->__('More Views') ?></h3>
+    <h2><?php echo $this->__('More Views') ?></h2>
     <ul>
     <?php foreach ($this->getGalleryImages() as $_image): ?>
         <li>

@@ -24,13 +24,13 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<div class="block">
-    <div class="block-title">
-        <h3><?php echo $this->__('Product Tags'); ?></h3>
+<div class="box-collateral box-tags">
+    <div class="box-title">
+        <h2><?php echo $this->__('Product Tags'); ?></h2>
     </div>
-    <div class="tags block-content">
+    <div class="box-content">
         <?php if( $this->getCount() ): ?>
-        <h4><?php echo $this->__('Other people marked this product with these tags:') ?></h4>
+        <h3><?php echo $this->__('Other people marked this product with these tags:') ?></h3>
         <ul class="tags-list">
             <?php $_iterator = 0; ?>
             <?php foreach( $this->getTags() as $_tag ): ?>

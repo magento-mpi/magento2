@@ -48,8 +48,7 @@
 <?php endif; ?>
 
 <?php /* if(count($this->getGroups())>1): ?>
-<fieldset class="switcher-store">
-    <legend><?php echo $this->__('Select Store') ?>:</legend>
+<div class="switcher-store">
     <label for="select-store"><?php echo $this->__('Select Store') ?>:</label>
     <select id="select-store" onchange="location.href=this.value">
     <?php foreach ($this->getGroups() as $_group): ?>
@@ -57,5 +56,5 @@
         <option value="<?php echo $_group->getHomeUrl() ?>"<?php echo $_selected ?>><?php echo $this->htmlEscape($_group->getName()) ?></option>
     <?php endforeach; ?>
     </select>
-</fieldset>
+</div>
 <?php endif; */ ?>

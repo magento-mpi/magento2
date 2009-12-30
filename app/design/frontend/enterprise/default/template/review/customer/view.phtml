@@ -27,7 +27,7 @@
 <?php if($this->getProductData()->getId()): ?>
 <div class="product-review">
     <div class="page-title">
-        <h2><?php echo $this->__('Review Details') ?></h2>
+        <h1><?php echo $this->__('Review Details') ?></h1>
     </div>
     <div class="product-img-box">
         <a class="product-image" href="<?php echo $this->getProductData()->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProductData(), 'image')->resize(285, 285); ?>" alt="<?php echo $this->htmlEscape($this->getProductData()->getName()) ?>" height="285" width="285" /></a>
@@ -37,7 +37,7 @@
         <?php endif; ?>
     </div>
     <div class="details">
-        <h3 class="product-name"><?php echo $this->htmlEscape($this->getProductData()->getName()) ?></h3>
+        <h2 class="product-name"><?php echo $this->htmlEscape($this->getProductData()->getName()) ?></h2>
         <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
         <strong><?php echo $this->__('Your Rating:') ?></strong>
         <table class="data-table review-summary-table">

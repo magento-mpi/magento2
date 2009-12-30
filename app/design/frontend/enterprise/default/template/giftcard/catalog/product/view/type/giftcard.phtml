@@ -43,8 +43,8 @@
         </div>
 
     <?php else: ?>
-        <fieldset class="fieldset giftcard-amount-form">
-            <ul class="form-list group-select">
+        <div class="fieldset giftcard-amount-form">
+            <ul class="form-list">
                 <li>
                     <?php if ($this->isAmountAvailable($_product)): ?>
                         <label for="giftcard_amount" id="amount_label_select" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Amount'); ?></label>
@@ -105,7 +105,7 @@
                     </div>
                     <?php endif; ?>
                     <?php if ($this->isAmountAvailable($_product)): ?>
-                    <span class="input-box">
+                    <div class="input-box">
                         <select name="giftcard_amount" id="giftcard_amount" class="required-entry giftcard-amount-entry">
                             <option value=""><?php echo Mage::helper('enterprise_giftcard')->__('Choose an Amount...') ?></option>
                             <?php foreach ($this->getAmounts($_product) as $value): ?>
@@ -116,12 +116,12 @@
                                 <option value="custom"><?php echo Mage::helper('enterprise_giftcard')->__('Other Amount...') ?></option>
                             <?php endif; ?>
                         </select>
-                    </span>
+                    </div>
                     <?php endif; ?>
 
                 </li>
             </ul>
-        </fieldset>
+        </div>
 <?php /*
         <table cellpadding="0" cellspacing="0" border="0">
             <tr>
@@ -192,44 +192,44 @@
         //]]>
         </script>
     <?php endif; ?>
-    <fieldset class="fieldset giftcard-send-form">
-        <ul class="form-list group-select">
+    <div class="fieldset giftcard-send-form">
+        <ul class="form-list">
             <li class="fields">
                 <div class="field">
                     <label for="giftcard_sender_name" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Sender Name'); ?></label>
-                    <span class="input-box">
+                    <div class="input-box">
                         <input type="text" id="giftcard_sender_name" name="giftcard_sender_name" class="required-entry input-text" value="<?php echo $this->getCustomerName(); ?>" />
-                    </span>
+                    </div>
                 </div>
                 <?php if ($this->isEmailAvailable($_product)): ?>
                 <div class="field">
                     <label for="giftcard_sender_email" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Sender Email'); ?></label>
-                    <span class="input-box">
+                    <div class="input-box">
                         <input type="text" id="giftcard_sender_email" name="giftcard_sender_email" class="validate-email required-entry input-text" value="<?php echo $this->getCustomerEmail(); ?>"/>
-                    </span>
+                    </div>
                 </div>
                 <?php endif; ?>
             </li>
             <li class="fields">
                 <div class="field">
                     <label for="giftcard_recipient_name" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Recipient Name'); ?></label>
-                    <span class="input-box">
+                    <div class="input-box">
                         <input type="text" id="giftcard_recipient_name" name="giftcard_recipient_name" class="required-entry input-text" />
-                    </span>
+                    </div>
                 </div>
                 <?php if ($this->isEmailAvailable($_product)): ?>
                 <div class="field">
                     <label for="giftcard_recipient_email" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Recipient Email'); ?></label>
-                    <span class="input-box">
+                    <div class="input-box">
                         <input type="text" id="giftcard_recipient_email" name="giftcard_recipient_email" class="validate-email required-entry input-text" />
-                    </span>
+                    </div>
                 </div>
                 <?php endif; ?>
             </li>
         <?php if ($this->isMessageAvailable($_product)): ?>
             <li>
                 <label for="giftcard_message"><?php echo Mage::helper('enterprise_giftcard')->__('Message'); ?></label>
-                <span class="input-box">
+                <div class="input-box">
                     <textarea name="giftcard_message" id="giftcard_message" class="input-text giftcard-message-max-length" cols="5" rows="3"></textarea>
                     <?php if ($this->getMessageMaxLength()): ?>
                         <script type="text/javascript">
@@ -238,11 +238,11 @@
                             });
                         </script>
                     <?php endif; ?>
-                </span>
+                </div>
             </li>
         <?php endif; ?>
         </ul>
-    </fieldset>
+    </div>
 <?php /*
     <table cellpadding="0" cellspacing="0" border="0">
         <tr>

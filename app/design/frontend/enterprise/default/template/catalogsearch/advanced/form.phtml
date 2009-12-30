@@ -32,13 +32,13 @@
  */
 ?>
 <div class="page-title">
-    <h2><?php echo $this->__('Catalog Advanced Search') ?></h2>
+    <h1><?php echo $this->__('Catalog Advanced Search') ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getSearchPostUrl() ?>" method="get" id="form-validate">
-<fieldset class="fieldset">
-    <h3><?php echo $this->__('Search Settings') ?></h3>
-    <ul class="form-list group-select" id="advanced-search-list">
+<div class="fieldset">
+    <h2 class="legend"><?php echo $this->__('Search Settings') ?></h2>
+    <ul class="form-list" id="advanced-search-list">
         <?php $_counter=1; foreach ($this->getSearchableAttributes() as $_attribute): ?>
         <?php $_code = $_attribute->getAttributeCode() ?>
         <?php if ($_counter%2!=0): ?>
@@ -88,7 +88,7 @@
         <?php $_counter++; endforeach; ?>
     </ul>
     <?php /*<script type="text/javascript">decorateList('advanced-search-list')</script>*/ ?>
-</fieldset>
+</div>
 <div class="buttons-set form-buttons btn-only">
     <button type="submit" class="button" title="<?php echo $this->__('Search') ?>"><span><span><?php echo $this->__('Search') ?></span></span></button>
 </div>

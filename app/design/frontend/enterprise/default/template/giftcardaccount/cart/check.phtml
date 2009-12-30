@@ -31,7 +31,7 @@
 ?>
 <div class="giftcard-status">
     <div class="page-title">
-        <h2><?php echo Mage::helper('enterprise_giftcardaccount')->__('Gift Card status'); ?></h2>
+        <h1><?php echo Mage::helper('enterprise_giftcardaccount')->__('Gift Card status'); ?></h1>
     </div>
 
 <?php if ($this->getCode()): ?>
@@ -42,7 +42,9 @@
             <ul class="form-list">
                 <li>
                     <label for="code"><?php echo Mage::helper('enterprise_giftcardaccount')->__('Enter Gift Card code'); ?></label>
-                    <span class="input-box"><input type="text" class="input-text required-entry" name="giftcard_code" id="code" value="<?php echo $this->htmlEscape($this->getCode()) ?>" /></span>
+                    <div class="input-box">
+                        <input type="text" class="input-text required-entry" name="giftcard_code" id="code" value="<?php echo $this->htmlEscape($this->getCode()) ?>" />
+                    </div>
                 </li>
             </ul>
         </fieldset>

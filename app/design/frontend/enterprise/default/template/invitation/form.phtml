@@ -30,14 +30,14 @@
  */
 ?>
 <div class="page-title">
-    <h2><?php echo Mage::helper('enterprise_invitation')->__('Send Invitations') ?></h2>
+    <h1><?php echo Mage::helper('enterprise_invitation')->__('Send Invitations') ?></h1>
 </div>
 <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <?php if ($maxPerSend = (int)Mage::helper('enterprise_invitation')->getMaxInvitationsPerSend()): ?>
 <form id="invitationForm" action="" method="post">
-    <fieldset class="fieldset">
-    <h3><?php echo Mage::helper('enterprise_invitation')->__('Invite your friends by entering their email addresses below'); ?></h3>
-        <ul class="form-list group-select">
+    <div class="fieldset">
+    <h2 class="legend"><?php echo Mage::helper('enterprise_invitation')->__('Invite your friends by entering their email addresses below'); ?></h2>
+        <ul class="form-list">
             <?php $_perRow = ceil($maxPerSend/3); for($_index = 1; $_index <= $maxPerSend; $_index ++): ?>
             <li>
                 <label for="email_<?php echo $_index ?>"<?php if ($_index == 1) echo ' class="required"' ?>><?php if ($_index == 1) echo '<em>*</em>' ?><?php echo $_index; ?>:</label>
@@ -55,7 +55,7 @@
             </li>
         </ul>
         <?php endif;?>
-    </fieldset>
+    </div>
    <p class="required"><?php echo Mage::helper('enterprise_invitation')->__('* Required Fields') ?></p>
     <div class="buttons-set form-buttons">
         <p class="back-link"><a href="<?php echo Mage::helper('enterprise_invitation')->getCustomerInvitationUrl() ?>" class="back-link">&laquo; <?php  echo Mage::helper('enterprise_invitation')->__('Back to Invitations') ?></a></p>
