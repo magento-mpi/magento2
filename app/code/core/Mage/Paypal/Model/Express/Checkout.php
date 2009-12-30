@@ -182,13 +182,15 @@ class Mage_Paypal_Model_Express_Checkout
 
         // import addresses
         $billingAddress = $this->_quote->getBillingAddress();
-        foreach ($this->_api->getExportedBillingAddress()->getData() as $key => $value) {
-            $billingAddress->setDataUsingMethod($key, $value);
+        $exportedBillingAddress = $this->_api->getExportedBillingAddress();
+        foreach ($exportedBillingAddress->getExportedKeys() as $key) {
+            $billingAddress->setDataUsingMethod($key, $exportedBillingAddress->getData($key));
         }
-        if ((!$this->_quote->getIsVirtual()) && $this->_api->getExportedShippingAddress()
+        $exportedShippingAddress = $this->_api->getExportedShippingAddress();
+        if ((!$this->_quote->getIsVirtual()) && $exportedShippingAddress
             && $shippingAddress = $this->_quote->getShippingAddress()) {
-            foreach ($this->_api->getExportedShippingAddress()->getData() as $key => $value) {
-                $shippingAddress->setDataUsingMethod($key, $value);
+            foreach ($exportedShippingAddress->getExportedKeys() as $key) {
+                $shippingAddress->setDataUsingMethod($key, $exportedShippingAddress->getData($key));
             }
             $shippingAddress->setCollectShippingRates(true);
         }

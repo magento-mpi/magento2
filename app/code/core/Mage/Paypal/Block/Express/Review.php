@@ -53,7 +53,7 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
     /**
      * Return quote billing address
      *
-     * @return Mage_Sales_Quote_Address
+     * @return Mage_Sales_Model_Quote_Address
      */
     public function getBillingAddress()
     {
@@ -63,7 +63,7 @@ class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
     /**
      * Return quote shipping address
      *
-     * @return Mage_Sales_Quote_Address
+     * @return Mage_Sales_Model_Quote_Address
      */
     public function getShippingAddress()
     {

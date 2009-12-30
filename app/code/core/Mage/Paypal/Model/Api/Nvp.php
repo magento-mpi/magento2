@@ -589,6 +589,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $address = new Varien_Object();
         Varien_Object_Mapper::accumulateByMap($data, $address, $this->_billingAddressMap);
         $this->_applyStreetAndRegionWorkarounds($address);
+        $address->setExportedKeys(array_values($this->_billingAddressMap));
         $this->setExportedBillingAddress($address);
 
         // assume there is shipping address if there is at least one field specific to shipping

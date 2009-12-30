@@ -96,8 +96,7 @@
 <h3><?php echo $this->__('Billing Address') ?></h3>
 <address>
 <?php echo $this->getBillingAddress()->getFormated(true) ?>
-<br/>
-<?php echo $this->__('PayPal Account: %s', $this->getBillingAddress()->getEmail()) ?>
+<?php echo $this->__('Payer Email: %s', $this->getBillingAddress()->getEmail()) ?>
 </address>
 
 <h2><?php echo $this->__('Items in Your Shopping Cart') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Shopping Cart') ?></a></h2>
