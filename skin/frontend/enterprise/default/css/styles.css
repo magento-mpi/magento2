@@ -1247,7 +1247,7 @@ dt { float:left; line-height:1.2; width:10em; clear:left; padding:3px 5px 3px 0;
 
 /* Hidind Add to Cart box from Bundle product Review page */
 /*.review-product-list #bundleProduct .add-to-box { display:none !important; }*/
-#bundleProduct .box-related { display:none !important; }
+/*#bundleProduct .box-related { display:none !important; }*/
 
 #options-container .product-options { font-size:12px; margin-top:0; font-size:11px; z-index:1; margin:0; width:600px; padding:20px 20px 0; clear:both; position:relative; z-index:1; }
 #options-container .product-options-bottom { padding:0 20px 20px; width:600px; font-size:12px; margin:0 0 5px; line-height:27px; }
