@@ -518,12 +518,14 @@ class Enterprise_Reward_Model_Observer
      * Disable entire RP layout
      *
      * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
      */
-    public function disableLayout($observer)
+    public function disableLayout(Varien_Event_Observer $observer)
     {
         if (!Mage::helper('enterprise_reward')->isEnabled()) {
             unset($observer->getUpdates()->enterprise_reward);
         }
+        return $this;
     }
 
     /**
@@ -548,6 +550,20 @@ class Enterprise_Reward_Model_Observer
             Mage::getModel('enterprise_reward/reward')->sendBalanceWarningNotification($item);
         }
 
+        return $this;
+    }
+
+    /**
+     * Prepare orphan points of customers after website was deleted
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function prepareCustomerOrphanPoints(Varien_Event_Observer $observer)
+    {
+        /* @var $website Mage_Core_Model_Website */
+        $website = $observer->getEvent()->getWebsite();
+        Mage::getModel('enterprise_reward/reward')->prepareOrphanPoints($website->getId(), $website->getBaseCurrencyCode());
         return $this;
     }
 }

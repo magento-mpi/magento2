@@ -80,4 +80,39 @@ class Enterprise_Reward_Model_Mysql4_Reward extends Mage_Core_Model_Mysql4_Abstr
             ->update($this->getMainTable(), $data, $where);
         return $this;
     }
+
+    /**
+     * Prepare orphan points by given website id and website base currency code
+     * after website was deleted
+     *
+     * @param integer $websiteId
+     * @param string $baseCurrencyCode
+     * @return Enterprise_Reward_Model_Mysql4_Reward
+     */
+    public function prepareOrphanPoints($websiteId, $baseCurrencyCode)
+    {
+        if ($websiteId) {
+            $this->_getWriteAdapter()->update($this->getMainTable(),
+                array(
+                    'website_id' => null,
+                    'website_currency_code' => $baseCurrencyCode
+                ), $this->_getWriteAdapter()->quoteInto('website_id = ?', $websiteId));
+        }
+        return $this;
+    }
+
+    /**
+     * Delete orphan (points of deleted website) points by given customer
+     *
+     * @param integer $customer
+     * @return Enterprise_Reward_Model_Mysql4_Reward
+     */
+    public function deleteOrphanPointsByCustomer($customerId)
+    {
+        if ($customerId) {
+            $this->_getWriteAdapter()->delete($this->getMainTable(),
+                $this->_getWriteAdapter()->quoteInto('customer_id = ?', $customerId) . ' AND `website_id` IS NULL');
+        }
+        return $this;
+    }
 }

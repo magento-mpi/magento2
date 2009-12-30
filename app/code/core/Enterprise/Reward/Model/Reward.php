@@ -600,6 +600,42 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Prepare orphan points by given website id and website base currency code
+     * after website was deleted
+     *
+     * @param integer $websiteId
+     * @param string $baseCurrencyCode
+     * @return Enterprise_Reward_Model_Reward
+     */
+    public function prepareOrphanPoints($websiteId, $baseCurrencyCode)
+    {
+        if ($websiteId) {
+            $this->_getResource()->prepareOrphanPoints($websiteId, $baseCurrencyCode);
+        }
+        return $this;
+    }
+
+    /**
+     * Delete orphan (points of deleted website) points by given customer
+     *
+     * @param Mage_Customer_Model_Customer | integer | null $customer
+     * @return Enterprise_Reward_Model_Reward
+     */
+    public function deleteOrphanPointsByCustomer($customer = null)
+    {
+        if ($customer === null) {
+            $customer = $this->getCustomerId()?$this->getCustomerId():$this->getCustomer();
+        }
+        if (is_object($customer) && $customer instanceof Mage_Customer_Model_Customer) {
+            $customer = $customer->getId();
+        }
+        if ($customer) {
+            $this->_getResource()->deleteOrphanPointsByCustomer($customer);
+        }
+        return $this;
+    }
+
 
 
     /**

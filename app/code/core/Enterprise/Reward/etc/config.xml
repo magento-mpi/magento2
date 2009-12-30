@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Reward>
-            <version>1.7.0.0.7</version>
+            <version>1.7.0.0.8</version>
         </Enterprise_Reward>
     </modules>
     <global>
@@ -273,6 +273,14 @@
                     </enterprise_reward>
                 </observers>
             </adminhtml_sales_order_creditmemo_register_before>
+            <website_delete_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>prepareCustomerOrphanPoints</method>
+                    </enterprise_reward>
+                </observers>
+            </website_delete_after>
         </events>
     </adminhtml>
     <frontend>

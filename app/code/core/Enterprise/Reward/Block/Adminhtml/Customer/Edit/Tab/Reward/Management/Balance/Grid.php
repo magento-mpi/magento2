@@ -36,6 +36,13 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
     extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
+     * Flag to store if customer has orphan points
+     *
+     * @var boolean
+     */
+    protected $_customerHasOrphanPoints = false;
+
+    /**
      * Internal constructor
      *
      */
@@ -82,13 +89,21 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
         parent::_afterLoadCollection();
         /* @var $item Enterprise_Reward_Model_Reward */
         foreach ($this->getCollection() as $item) {
-            $minBalance = Mage::helper('enterprise_reward')->getGeneralConfig('min_points_balance', (int)$item->getWebsiteId());
-            $maxBalance = Mage::helper('enterprise_reward')->getGeneralConfig('max_points_balance', (int)$item->getWebsiteId());
-
-            $item->addData(array(
-                'min_points_balance' => (int)$minBalance,
-                'max_points_balance' => (!((int)$maxBalance)?Mage::helper('enterprise_reward')->__('Unlimited'):$maxBalance)
-            ));
+            $website = $item->getData('website_id');
+            if ($website !== null) {
+                $minBalance = Mage::helper('enterprise_reward')->getGeneralConfig('min_points_balance', (int)$website);
+                $maxBalance = Mage::helper('enterprise_reward')->getGeneralConfig('max_points_balance', (int)$website);
+                $item->addData(array(
+                    'min_points_balance' => (int)$minBalance,
+                    'max_points_balance' => (!((int)$maxBalance)?Mage::helper('enterprise_reward')->__('Unlimited'):$maxBalance)
+                ));
+            } else {
+                $this->_customerHasOrphanPoints = true;
+                $item->addData(array(
+                    'min_points_balance' => Mage::helper('enterprise_reward')->__('No Data'),
+                    'max_points_balance' => Mage::helper('enterprise_reward')->__('No Data')
+                ));
+            }
             $item->setCustomer($this->getCustomer());
         }
         return $this;
@@ -138,5 +153,36 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
         ));
 
         return parent::_prepareColumns();
+    }
+
+    /**
+     * Return url to delete orphan points
+     *
+     * @return string
+     */
+    public function getDeleteOrphanPointsUrl()
+    {
+        return $this->getUrl('*/customer_reward/deleteOrphanPoints', array('_current' => true));
+    }
+
+    /**
+     * Processing block html after rendering.
+     * Add button to delete orphan points if customer has such points
+     *
+     * @param   string $html
+     * @return  string
+     */
+    protected function _afterToHtml($html)
+    {
+        $html = parent::_afterToHtml($html);
+        if ($this->_customerHasOrphanPoints) {
+            $deleteOrhanPointsButton = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+                'label'     => Mage::helper('enterprise_reward')->__('Delete Orphan Points'),
+                'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanPointsUrl() .'\')',
+                'class'     => 'scalable delete',
+            ));
+            $html .= $deleteOrhanPointsButton->toHtml();
+        }
+        return $html;
     }
 }

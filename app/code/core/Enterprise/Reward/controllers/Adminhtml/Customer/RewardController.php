@@ -61,6 +61,25 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
     }
 
     /**
+     *  Delete orphan points Action
+     */
+    public function deleteOrphanPointsAction()
+    {
+        $customerId = $this->getRequest()->getParam('id', 0);
+        if ($customerId) {
+            try {
+                Mage::getModel('enterprise_reward/reward')
+                    ->deleteOrphanPointsByCustomer($customerId);
+                $this->_getSession()
+                    ->addSuccess(Mage::helper('enterprise_reward')->__('Orphan points removed successfully.'));
+            } catch (Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/customer/edit', array('_current' => true));
+    }
+
+    /**
      * Acl check for admin
      *
      * @return boolean
