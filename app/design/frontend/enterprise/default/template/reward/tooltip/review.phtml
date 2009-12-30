@@ -37,14 +37,28 @@
     $_currentBalance = $this->getCurrentBalance();
     $_currencyAmount = $this->getCurrencyAmount($_action);
     $_points = $this->getRewardPoints($_action);
+    $_limit = $this->getActionRewardLimit($_action);
 ?>
 <ul class="messages">
     <li class="success-msg">
         <ul>
-            <li>Perform this action and gain <b><?php echo $_points ?></b> <?php if ($_currencyAmount): ?> (~ <?php echo Mage::helper('core')->currency($_currencyAmount) ?>) <?php endif; ?></li>
-            <?php if ($_currentBalance): ?>
-            <li>Your current balance: <?php echo $_currentBalance ?> points</li>
+            <li>
+            <?php if ($_currencyAmount): ?>
+                <?php echo Mage::helper('enterprise_reward')->__("Submit a Review now and once it is approved by moderator, you will get %s Reward Points (%s).", $_points, $this->getFormattedAmount($_currencyAmount)) ?>
+            <?php else: ?>
+                <?php echo Mage::helper('enterprise_reward')->__("Submit a Review now and once it is approved by moderator, you will get %s Reward Points.", $_points) ?>
             <?php endif; ?>
+            </li>
+
+            <?php if ($_limit): ?>
+            <li><?php echo Mage::helper('enterprise_reward')->__("Up to %s Reviews rewarded.", $_limit) ?></li>
+            <?php endif; ?>
+
+            <?php if ($_currentBalance): ?>
+            <li><?php echo Mage::helper('enterprise_reward')->__("Your current balance is %s points.", $_currentBalance) ?></li>
+            <?php endif; ?>
+
+            <li><a href="<?php echo $this->getLandingPageUrl() ?>" target="_blank"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a> <?php echo Mage::helper('enterprise_reward')->__("about Reward Points") ?></li>
         </ul>
     </li>
 </ul>
