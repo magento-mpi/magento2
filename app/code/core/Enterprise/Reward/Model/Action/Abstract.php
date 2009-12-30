@@ -94,7 +94,10 @@ class Enterprise_Reward_Model_Action_Abstract extends Varien_Object
             $this->getAction(), $this->getReward()->getCustomerId(), $this->getReward()->getWebsiteId()
         );
 
-        return $limit > $total;
+        if ($limit > $total) {
+            return false;
+        }
+        return true;
     }
 
     /**
