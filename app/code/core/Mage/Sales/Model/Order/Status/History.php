@@ -80,7 +80,7 @@ class Mage_Sales_Model_Order_Status_History extends Mage_Sales_Model_Abstract
             $flag = self::CUSTOMER_NOTIFICATION_NOT_APPLICABLE;
         }
 
-        return parent::setIsCustomerNotified($flag);
+        return $this->setData('is_customer_notified', $flag);
     }
 
     /**
