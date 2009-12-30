@@ -82,6 +82,20 @@ class Enterprise_Reward_Block_Checkout_Payment_Additional extends Mage_Core_Bloc
     }
 
     /**
+     * Return true if customer can use his reward points.
+     * In case if currency amount of his points more then 0 and has minimum limit of points
+     *
+     * @return boolean
+     */
+    public function getCanUseRewardPoints()
+    {
+        $minPointsToUse = Mage::helper('enterprise_reward')
+            ->getGeneralConfig('min_points_balance', (int)Mage::app()->getWebsite()->getId());
+        $canUseRewadPoints = ($this->getPointsBalance() >= $minPointsToUse)?true:false;
+        return (boolean)(((float)$this->getCurrencyAmount() > 0) && $canUseRewadPoints);
+    }
+
+    /**
      * Getter
      *
      * @return integer

@@ -24,6 +24,6 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<?php if ((float)$this->getCurrencyAmount()): ?>
+<?php if ((float)$this->getCanUseRewardPoints()): ?>
 quoteBaseGrandTotal = <?php echo (float)$this->getQuote()->getBaseGrandTotal(); ?>;
 <?php endif; ?>

@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<?php if ((float)$this->getCurrencyAmount()): ?>
+<?php if ($this->getCanUseRewardPoints()): ?>
 <div class="checkout-onepage-payment-additional-reward" id="reward_placer">
     <input type="checkbox"" class="checkbox" name="payment[use_reward_points]" value="1" id="use_reward_points" <?php echo $this->useRewardPoints()?'checked="checked"':'' ?>/>
     <label for="use_reward_points">
