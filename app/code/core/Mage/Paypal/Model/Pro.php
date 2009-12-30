@@ -53,10 +53,14 @@ class Mage_Paypal_Model_Pro
     public function setMethod($code, $storeId = null)
     {
         if (null === $this->_config) {
-            $this->_config = $this->_config = Mage::getModel('paypal/config', array($code, $storeId));
+            $params = array($code);
+            if (null !== $storeId) {
+                $params[] = $storeId;
+            }
+            $this->_config = $this->_config = Mage::getModel('paypal/config', $params);
         } else {
             $this->_config->setMethod($code);
-            if ($storeId) {
+            if (null !== $storeId) {
                 $this->_config->setStoreId($storeId);
             }
         }
