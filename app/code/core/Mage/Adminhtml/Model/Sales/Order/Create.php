@@ -997,6 +997,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
         if (isset($data['comment'])) {
             $this->getQuote()->addData($data['comment']);
+            if (empty($data['comment']['customer_note_notify'])) {
+                $this->getQuote()->setCustomerNoteNotify(false);
+            } else {
+                $this->getQuote()->setCustomerNoteNotify(true);
+            }
         }
 
         if (isset($data['billing_address'])) {
@@ -1018,7 +1023,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if (isset($data['coupon']['code'])) {
             $this->applyCoupon($data['coupon']['code']);
         }
-
         return $this;
     }
 
