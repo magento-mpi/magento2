@@ -27,6 +27,7 @@
 class Enterprise_PageCache_Model_Processor
 {
     const NO_CACHE_COOKIE               = 'NO_CACHE';
+    const LAST_PRODUCT_COOKIE           = 'LAST_PRODUCT';
     const XML_NODE_ALLOWED_CACHE        = 'frontend/cache/requests';
     const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';
     const XML_PATH_LIFE_TIME            = 'system/page_cache/lifetime';

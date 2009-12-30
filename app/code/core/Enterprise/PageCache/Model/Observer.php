@@ -85,7 +85,26 @@ class Enterprise_PageCache_Model_Observer
             Mage::app()->setUseSessionInUrl(false); // disable SID
             Mage::app()->getCacheInstance()->banUse(Mage_Core_Block_Abstract::CACHE_GROUP); // disable blocks cache
         }
+        $this->_checkViewedProducts();
         return $this;
+    }
+
+    /**
+     * Check if last viewed product id should be processed after cached product view
+     */
+    protected function _checkViewedProducts()
+    {
+        $varName = Enterprise_PageCache_Model_Processor::LAST_PRODUCT_COOKIE;
+        $productId = (int) Mage::getSingleton('core/cookie')->get($varName);
+        if ($productId) {
+            $model = Mage::getModel('reports/product_index_viewed');
+            if (!$model->getCount()) {
+                $model->setProductId($productId)
+                    ->save()
+                    ->calculate();
+            }
+            Mage::getSingleton('core/cookie')->delete($varName);
+        }
     }
 
     /**
