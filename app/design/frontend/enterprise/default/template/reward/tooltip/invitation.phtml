@@ -55,7 +55,7 @@
         <?php if ($_currentBalance): ?>
             <?php echo Mage::helper('enterprise_reward')->__("Your current balance is <strong>%s</strong> points.", $_currentBalance) ?>
         <?php endif; ?>
-        <a href="<?php echo $this->getLandingPageUrl() ?>" onclick="this.target='_blank'"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a>
+        <a href="<?php echo $this->getLandingPageUrl() ?>"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a>
     </div>
 </div>
 <?php endif; ?>
@@ -78,7 +78,7 @@
         <?php endif; ?>
     </div>
     <div class="balans">
-        <a href="<?php echo $this->getLandingPageUrl() ?>" onclick="this.target='_blank'"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a>
+        <a href="<?php echo $this->getLandingPageUrl() ?>"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a>
     </div>
 </div>
 <?php endif; ?>
