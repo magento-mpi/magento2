@@ -30,11 +30,11 @@
 class Mage_Paypal_Block_Link_Shortcut extends Mage_Core_Block_Template
 {
     /**
-     * Config instance
+     * PayPal Pro instance
      *
-     * @var Mage_Paypal_Model_Config
+     * @var Mage_Paypal_Model_Pro
      */
-    protected $_config = null;
+    protected $_pro = null;
 
     /**
      * Express checkout URL getter
@@ -55,7 +55,7 @@ class Mage_Paypal_Block_Link_Shortcut extends Mage_Core_Block_Template
     {
         return Mage::getModel('paypal/express_checkout', array(
             'quote'  => Mage::getSingleton('checkout/session')->getQuote(),
-            'config' => $this->_getConfig(),
+            'config' => $this->_getProInstance()->getConfig(),
         ))->getCheckoutShortcutImageUrl();
     }
 
@@ -68,27 +68,27 @@ class Mage_Paypal_Block_Link_Shortcut extends Mage_Core_Block_Template
      */
     protected function _toHtml()
     {
-        if (!$this->_getConfig()->visibleOnCart) {
+        if (!$this->_getProInstance()->getConfig()->visibleOnCart) {
             return '';
         }
         $quote = Mage::getSingleton('checkout/session')->getQuote();
         if (!$quote->validateMinimumAmount()
-            || !Mage::getModel('paypal/express')->setConfig($this->_config)->isAvailable($quote)) {
+            || !Mage::getModel('paypal/express', array($this->_pro))->isAvailable($quote)) {
             return '';
         }
         return parent::_toHtml();
     }
 
     /**
-     * Config instance getter
+     * PayPal Pro instance getter
      *
-     * @return Mage_Paypal_Model_Config
+     * @return Mage_Paypal_Model_Pro
      */
-    protected function _getConfig()
+    protected function _getProInstance()
     {
-        if (null === $this->_config) {
-            $this->_config = Mage::getModel('paypal/config', array(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS));
+        if (null === $this->_pro) {
+            $this->_pro = Mage::getModel('paypal/pro')->setMethod(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
         }
-        return $this->_config;
+        return $this->_pro;
     }
 }

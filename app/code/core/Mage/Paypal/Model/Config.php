@@ -457,12 +457,11 @@ class Mage_Paypal_Model_Config
      */
     public function getPaymentAction()
     {
-        switch($this->paymentAction) {
+        switch ($this->paymentAction) {
             case self::PAYMENT_ACTION_AUTH:
                 return Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
             case self::PAYMENT_ACTION_SALE:
                 return Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
-                return;
             case self::PAYMENT_ACTION_ORDER:
                 return;
         }
