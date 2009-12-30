@@ -36,12 +36,12 @@
 <?php
     $_points = $this->getRewardPoints($_action);
 ?>
-<ul class="messages">
-    <li class="success-msg">
-        <ul>
-            <li><?php echo Mage::helper('enterprise_reward')->__("Register now and get %s Reward Points.", $_points) ?></li>
-            <li><a href="<?php echo $this->getLandingPageUrl() ?>" target="_blank"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a> <?php echo Mage::helper('enterprise_reward')->__("about Reward Points") ?></li>
-        </ul>
-    </li>
-</ul>
+<div class="reward-message reward-register">
+    <div class="reward">
+        <?php echo Mage::helper('enterprise_reward')->__("Register now and get <strong>%s</strong> Reward Points.", $_points) ?>
+    </div>
+    <div class="balans">
+        <a href="<?php echo $this->getLandingPageUrl() ?>" onclick="this.target='_blank'"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a>
+    </div>
+</div>
 <?php endif; ?>

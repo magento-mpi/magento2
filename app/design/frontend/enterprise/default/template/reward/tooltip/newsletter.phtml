@@ -38,23 +38,19 @@
     $_currencyAmount = $this->getCurrencyAmount($_action);
     $_points = $this->getRewardPoints($_action);
 ?>
-<ul class="messages">
-    <li class="success-msg">
-        <ul>
-            <li>
-            <?php if ($_currencyAmount): ?>
-                <?php echo Mage::helper('enterprise_reward')->__("Subscribe now and get %s Reward Points (%s).", $_points, $this->getFormattedAmount($_currencyAmount)) ?>
-            <?php else: ?>
-                <?php echo Mage::helper('enterprise_reward')->__("Subscribe now and get %s Reward Points.", $_points) ?>
-            <?php endif; ?>
-            </li>
-
-            <?php if ($_currentBalance): ?>
-            <li><?php echo Mage::helper('enterprise_reward')->__("Your current balance is %s points.", $_currentBalance) ?></li>
-            <?php endif; ?>
-
-            <li><a href="<?php echo $this->getLandingPageUrl() ?>" target="_blank"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a> <?php echo Mage::helper('enterprise_reward')->__("about Reward Points") ?></li>
-        </ul>
-    </li>
-</ul>
+<div class="reward-message reward-newsletter">
+    <div class="reward">
+        <?php if ($_currencyAmount): ?>
+            <?php echo Mage::helper('enterprise_reward')->__("Subscribe now and get <strong>%s</strong> Reward Points <small>(%s)</small>.", $_points, $this->getFormattedAmount($_currencyAmount)) ?>
+        <?php else: ?>
+            <?php echo Mage::helper('enterprise_reward')->__("Subscribe now and get <strong>%s</strong> Reward Points.", $_points) ?>
+        <?php endif; ?>
+    </div>
+    <div class="balans">
+        <?php if ($_currentBalance): ?>
+            <?php echo Mage::helper('enterprise_reward')->__("Your current balance is <strong>%s</strong> points.", $_currentBalance) ?>
+        <?php endif; ?>
+        <a href="<?php echo $this->getLandingPageUrl() ?>" onclick="this.target='_blank'"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a>
+    </div>
+</div>
 <?php endif; ?>

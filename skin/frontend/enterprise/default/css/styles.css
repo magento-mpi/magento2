@@ -445,6 +445,25 @@ ul.links li { display:inline; }
 ul.links li .separator { margin:0 2px 0 5px; font-size:10px; color:#8f8f8f; }
 ul.links li.last .separator { display:none; }
 
+/* Reward Points */
+.reward-message { font-size:12px; height:27px; background:url(../images/bkg_rewards1.gif) 0 0 repeat-x; margin:10px -21px 25px; padding:0 11px; }
+.reward-message .reward { float:left; background:#e18745 url(../images/bkg_rewards2.gif) 0 100% repeat-x; border:3px solid #b34f06; border-width:3px 0; margin:-5px 0 -5px; padding:7px 13px 8px; white-space:nowrap; text-align:left; font-weight:bold; color:#fff; position:relative; }
+.reward-message .reward strong { border:3px solid #f2c97f; padding:2px 6px; color:#4e2202; }
+.reward-message .reward .limit { margin:2px 0 0; font-size:11px; font-weight:normal; text-align:right; white-space:nowrap; }
+.reward-message .reward .limit strong { border:0; padding:0; font-weight:bold; color:#fff; }
+.reward-message .reward small { font-size:12px; color:#fff; }
+.reward-message-big .reward { margin-top:-13px; }
+.reward-message .balans { float:right; font-size:12px; line-height:27px; color:#fff608; white-space:nowrap; }
+.reward-message .balans strong { font-weight:bold; }
+.reward-message .balans a { color:#fff608; text-decoration:underline; }
+.reward-message .balans a:hover { color:#fff608; text-decoration:none; }
+/* Reward Points types rewrites */
+.reward-invitation {}
+.reward-newsletter {}
+.col1-layout .reward-register { margin-top:-10px; }
+.reward-review { margin-top:35px; }
+.reward-tag { margin-right:-1px; margin-left:-1px; }
+
 /* Class: std - styles for admin-controlled content */
 .std > ul,
 .std > ol,
