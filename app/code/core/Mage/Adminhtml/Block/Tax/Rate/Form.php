@@ -59,9 +59,9 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         if (!$rateObject->hasTaxCountryId()) {
             $rateObject->setTaxCountryId(Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_COUNTRY));
         }
-        
+
         if (!$rateObject->hasTaxRegionId()) {
-        	$rateObject->setTaxRegionId(Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_REGION));
+            $rateObject->setTaxRegionId(Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_REGION));
         }
 
         $regionCollection = Mage::getModel('directory/region')
@@ -142,9 +142,9 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
                     '1' => Mage::helper('tax')->__('Yes'),
                 )
         ));
-            
+
         if (!$rateObject->hasTaxPostcode()) {
-        	$rateObject->setTaxPostcode(Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_POSTCODE));
+            $rateObject->setTaxPostcode(Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_POSTCODE));
         }
 
         $fieldset->addField('tax_postcode', 'text',

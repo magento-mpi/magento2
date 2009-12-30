@@ -41,7 +41,7 @@ class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
     {
         parent::__construct();
     }
-    
+
     /**
      * Load terms and try to sort it by names
      *
@@ -78,7 +78,7 @@ class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
             natcasesort($termKeys);
 
             foreach ($termKeys as $termKey) {
-                $this->_terms[$termKey] = $temp[$termKey];	
+                $this->_terms[$termKey] = $temp[$termKey];
             }
         }
         return $this;
