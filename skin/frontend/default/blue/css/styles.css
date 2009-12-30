@@ -114,6 +114,8 @@ ul,ol         { list-style:none; }
 
 /* 3 Columns Layout */
 .col3-layout .col-main { width:475px; margin-left:17px; }
+.col3-layout .col-wrapper { float:left; width:687px; }
+.col3-layout .col-wrapper .col-main { float:right; }
 
 /* Content Columns */
 .col2-set .col-1 { float:left; width:48.5%; }
