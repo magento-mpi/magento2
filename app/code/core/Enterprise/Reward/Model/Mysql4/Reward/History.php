@@ -222,9 +222,7 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
             $row['expired_at_static'] = null;
             $row['expired_at_dynamic'] = null;
             $row['is_expired'] = '1';
-            $row['action'] = Enterprise_Reward_Model_Reward::REWARD_ACTION_EXPIRED;
-//            $additionalData = array('parent_history_id' => $row['history_id']);
-//            $additionalData = serialize($additionalData);
+            $row['is_duplicate_of'] = $row['history_id'];
             $expiredHistoryIds[] = $row['history_id'];
             unset($row['history_id']);
             if (!isset($expiredAmounts[$row['reward_id']])) {

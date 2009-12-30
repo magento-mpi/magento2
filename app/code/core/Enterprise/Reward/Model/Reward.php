@@ -49,9 +49,6 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     const REWARD_ACTION_ORDER_EXTRA         = 8;
     const REWARD_ACTION_CREDITMEMO          = 9;
 
-    // Special action for expired duplicates, has NO own action instance
-    const REWARD_ACTION_EXPIRED             = -1;
-
     static protected $_actionModelClasses = array();
 
     protected $_rates = array();

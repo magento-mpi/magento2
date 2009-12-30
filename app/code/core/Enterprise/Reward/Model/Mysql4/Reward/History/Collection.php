@@ -114,7 +114,7 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Mage_Core
      */
     public function skipExpiredDuplicates()
     {
-        $this->getSelect()->where('main_table.action<>?', Enterprise_Reward_Model_Reward::REWARD_ACTION_EXPIRED);
+        $this->getSelect()->where('main_table.is_duplicate_of IS NULL');
         return $this;
     }
 
