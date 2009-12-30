@@ -55,7 +55,8 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
      */
     public function getLandingPageUrl()
     {
-        return $this->getUrl('reward-points');
+        $pageIdentifier = Mage::getStoreConfig('enterprise_reward/general/landing_page');
+        return Mage::getUrl('', array('_direct' => $pageIdentifier));
     }
 
     /**

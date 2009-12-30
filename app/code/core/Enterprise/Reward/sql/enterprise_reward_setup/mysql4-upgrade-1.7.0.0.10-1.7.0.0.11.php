@@ -40,6 +40,7 @@ $installer->getConnection()->insert($installer->getTable('cms/page'), array(
 <p>If you are a registered member, please <a href="{{store url="customer/account/login"}}">log in here</a>.</p>
 </div>
 </div>',
+        'website_root' => '1',
         'creation_time' => $now,
         'update_time' => $now,
         'is_active' => '1'
