@@ -25,9 +25,9 @@
  */
 
 /**
- * Paypal shortcut link
+ * Paypal expess checkout shortcut link
  */
-class Mage_Paypal_Block_Link_Shortcut extends Mage_Core_Block_Template
+class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
 {
     /**
      * PayPal Pro instance

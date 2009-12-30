@@ -255,12 +255,7 @@ class Mage_Paypal_Model_Express_Checkout
         switch ($order->getState()) {
             // even after placement paypal can disallow to authorize/capture, but will wait until bank transfers money
             case Mage_Sales_Model_Order::STATE_PENDING_PAYMENT:
-                $this->_config->getExpressCheckoutCompleteUrl($token);
-//                if ($this->_method->getApi()->getIsRedirectRequired()) {
-//                    $this->_redirectUrl = $this->_method->getApi()->getExpressCompleteUrl();
-//                }
-//                // explain reason why order is in pending payment
-//                $ths->_pendingPaymentMessage = '';
+                // TODO
                 break;
             // regular placement, when everything is ok
             case Mage_Sales_Model_Order::STATE_PROCESSING:
@@ -316,9 +311,4 @@ class Mage_Paypal_Model_Express_Checkout
         }
         return $this->_api;
     }
-
-//    public function getPendingPaymentMessage()
-//    {
-//        return $this->_pendingPaymentMessage;
-//    }
 }

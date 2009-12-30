@@ -184,15 +184,6 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
         try {
             $this->_initCheckout();
             $order = $this->_checkout->placeOrder($this->_initToken());
-            // PayPal can commence redirecting somewhere
-            if ($url = $this->_checkout->getRedirectUrl()) {
-                $this->getResponse()->setRedirect($url);
-                return;
-            }
-            // PayPal can disallow to authorize/capture, in this case there may be explanation
-//            if ($message = $this->_checkout->getPendingPaymentMessage()) {
-//                Mage::getSingleton('checkout/session')->addMessage($message);
-//            }
             // prepare session to success page
             $quoteId = $this->_getQuote()->getId();
             Mage::getSingleton('checkout/session')

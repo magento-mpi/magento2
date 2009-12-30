@@ -107,13 +107,6 @@
         </layout>
     </frontend>
     <adminhtml>
-        <layout>
-            <updates>
-                <paypal>
-                    <file>paypal.xml</file>
-                </paypal>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Mage_Paypal>
@@ -124,17 +117,6 @@
             </modules>
         </translate>
     </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Mage_Paypal before="Mage_Adminhtml">Mage_Paypal_Adminhtml</Mage_Paypal>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <paypal>
             <wpp>
@@ -142,10 +124,6 @@
                 <api_password backend_model="adminhtml/system_config_backend_encrypted"/>
                 <api_signature backend_model="adminhtml/system_config_backend_encrypted"/>
                 <api_username backend_model="adminhtml/system_config_backend_encrypted"/>
-                <paypal_hdrimg></paypal_hdrimg>
-                <paypal_hdrbordercolor></paypal_hdrbordercolor>
-                <paypal_hdrbackcolor></paypal_hdrbackcolor>
-                <paypal_payflowcolor></paypal_payflowcolor>
                 <button_flavor>dynamic</button_flavor>
                 <button_type>ec-shortcut</button_type>
             </wpp>

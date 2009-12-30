@@ -23,17 +23,10 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-
-/**
- * @see Mage_PayPal_Block_Direct_Finalize
- */
-
 ?>
-
-<script type="text/javascript">
-<?php if ($this->getError()): ?>
-    parent.<?php echo $this->getCentinelJsObjectName(); ?>.processFailIframe('<?php echo $this->getError();?>');
-<?php else: ?>
-    parent.<?php echo $this->getCentinelJsObjectName(); ?>.processSuccessIframe();
-<?php endif;?>
-</script>
+<?php
+/**
+ * @see Mage_Paypal_Block_Express_Shortcut
+ */
+?>
+<li><a href="<?php echo $this->getCheckoutUrl()?>"><img src="<?php echo $this->getImageUrl()?>" alt="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" /></a></li>
