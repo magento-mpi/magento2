@@ -48,6 +48,17 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
     }
 
     /**
+     * Description goes here...
+     *
+     * @param none
+     * @return void
+     */
+    public function getLandingPageUrl()
+    {
+        return $this->getUrl('reward-points');
+    }
+
+    /**
      * Return points delta for each type of points rewards
      *
      * @param string $code Unique code for each type of points rewards
@@ -93,6 +104,17 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
             $this->setData($action . 'currency_amount', $result);
         }
         return $this->_getData($action . 'currency_amount');
+    }
+
+    /**
+     * Description goes here...
+     *
+     * @param none
+     * @return void
+     */
+    public function getFormattedAmount($currencyAmount)
+    {
+        return Mage::helper('core')->currency($currencyAmount);
     }
 
     /**
@@ -168,6 +190,21 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
                 ->isRewardLimitExceeded();
         }
         return false;
+    }
+
+    /**
+     * Description goes here...
+     *
+     * @param none
+     * @return void
+     */
+    public function getActionRewardLimit($action)
+    {
+        if ($this->_getAction($action)) {
+            return $this->_getAction($action)
+                ->getRewardLimit();
+        }
+        return 0;
     }
 
     /**
