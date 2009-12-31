@@ -99,9 +99,12 @@ class Enterprise_PageCache_Model_Observer
         if ($productId) {
             $model = Mage::getModel('reports/product_index_viewed');
             if (!$model->getCount()) {
-                $model->setProductId($productId)
-                    ->save()
-                    ->calculate();
+                $product = Mage::getModel('catalog/product')->load($productId);
+                if ($product->getId()) {
+                    $model->setProductId($productId)
+                        ->save()
+                        ->calculate();
+                }
             }
             Mage::getSingleton('core/cookie')->delete($varName);
         }
