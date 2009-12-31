@@ -599,7 +599,7 @@ final class Mage
             header('Location: ' . self::getBaseUrl());
             die();
         } catch (Mage_Core_Model_Store_Exception $e) {
-            $baseUrl = rtrim(self::getScriptSystemUrl('errors'), '/') . '/404.php';
+            $baseUrl = rtrim(self::getScriptSystemUrl('errors'), '/') . '/errors/404.php';
             if (!headers_sent()) {
                 header('Location: ' . $baseUrl);
             } else {
@@ -792,7 +792,7 @@ final class Mage
             }
 
             $baseUrl = self::getScriptSystemUrl('errors', true);
-            $reportUrl = rtrim($baseUrl, '/') . '/report.php?id=' . $reportId . '&s=' . $storeCode;
+            $reportUrl = rtrim($baseUrl, '/') . '/errors/report.php?id=' . $reportId . '&s=' . $storeCode;
 
             if (!headers_sent()) {
                 header('Location: ' . $reportUrl);
