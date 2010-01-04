@@ -172,7 +172,6 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
             $action = Mage::getSingleton('enterprise_reward/reward')->getActionInstance($this->getAction());
             $message = '';
             if ($action !== null) {
-                Mage::log($this->getAdditionalData());
                 $message = $action->getHistoryMessage($this->getAdditionalData());
             }
             $this->setData('message', $message);

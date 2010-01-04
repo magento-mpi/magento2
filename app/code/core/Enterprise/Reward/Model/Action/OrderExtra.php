@@ -70,7 +70,7 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
     {
         $pointsDelta = $this->getReward()
             ->getRateToPoints()
-            ->calculateToPoints($this->getEntity()->getBaseTotalPaid());
+            ->calculateToPoints((float)($this->getEntity()->getBaseSubtotalInvoiced()));
         return $pointsDelta;
     }
 }

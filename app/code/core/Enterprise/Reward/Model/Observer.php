@@ -208,7 +208,7 @@ class Enterprise_Reward_Model_Observer
             return $this;
         }
         if (((float)$order->getBaseTotalInvoiced() > 0)
-            && (($order->getBaseTotalInvoiced() - $order->getBaseTotalPaid()) <= 0)) {
+            && (($order->getBaseGrandTotal() - $order->getBaseSubtotalCanceled()) == $order->getBaseTotalPaid())) {
             /* @var $reward Enterprise_Reward_Model_Reward */
             $reward = Mage::getModel('enterprise_reward/reward')
                 ->setCustomerId($order->getCustomerId())
@@ -216,6 +216,11 @@ class Enterprise_Reward_Model_Observer
                 ->setActionEntity($order)
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA)
                 ->updateRewardPoints();
+            if ($reward->getPointsDelta()) {
+                $order->addStatusHistoryComment(
+                    Mage::helper('enterprise_reward')->__('Gained Promotion %d Points to Customer', $reward->getPointsDelta())
+                )->save();
+            }
         }
         // Also update inviter balance if possible
         $this->_invitationToOrder($observer);
