@@ -232,6 +232,8 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
         $this->getMethodInstance()->setStore($this->getOrder()->getStoreId())->capture($this, $amountToCapture);
 
+        $this->_updateTotals(array('base_amount_paid_online' => $amountToCapture));
+
         // update transactions, set order state (order will close itself if required)
         $transaction = $this->_addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE, $invoice, true);
         $message = $this->_appendTransactionToMessage($transaction,
@@ -273,7 +275,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $order->addRelatedObject($invoice);
             $this->setCreatedInvoice($invoice);
         } else {
-            $this->_updateTotals(array('base_amount_paid' => $amount));
+            $this->_updateTotals(array('base_amount_paid_online' => $amount));
             // shipping captured amount should be updated with the invoice
         }
 
@@ -448,8 +450,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $this->_updateTotals(array(
             'amount_refunded' => $creditmemo->getGrandTotal(),
             'base_amount_refunded' => $baseAmountToRefund,
+            'base_amount_refunded_online' => $isOnline ? $baseAmountToRefund : null,
             'shipping_refunded' => $creditmemo->getShippingAmount(),
-            'base_shipping_refunded' => $creditmemo->getBaseShippingAmount()
+            'base_shipping_refunded' => $creditmemo->getBaseShippingAmount(),
         ));
 
         // update transactions and order state
@@ -500,7 +503,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $this->setCreatedCreditmemo($creditmemo);
             */
         }
-        $this->_updateTotals(array('base_amount_refunded' => $amount));
+        $this->_updateTotals(array('base_amount_refunded_online' => $amount));
 
         // update transactions and order state
         $transaction = $this->_addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo);
@@ -615,7 +618,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $this->_avoidDoubleTransactionProcessing();
         }
 
-        // if the authorization was untouched, we may update canceled amount of the order grand total
+        // if the authorization was untouched, we may assume voided amount = order grand total
         // but only if the payment auth amount equals to order grand total
         if ($authTransaction && ($order->getBaseGrandTotal() == $this->getBaseAmountAuthorized())
             && (0 == $this->getBaseAmountCanceled())) {
@@ -625,7 +628,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         }
 
         if ($amount) {
-            $this->_updateTotals(array('base_amount_canceled' => $amount));
             $amount = $this->_formatAmount($amount);
         }
 
@@ -876,7 +878,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     protected function _isCaptureFinal($amountToCapture)
     {
         if ((float)$this->getOrder()->getBaseGrandTotal() ===
-            ((float)$this->getBaseAmountPaid() + $amountToCapture)) {
+            ((float)$this->getBaseAmountPaidOnline() + $amountToCapture)) {
             if (false !== $this->getShouldCloseParentTransaction()) {
                 $this->setShouldCloseParentTransaction(true);
             }
