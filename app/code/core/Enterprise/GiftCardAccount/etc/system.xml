@@ -30,7 +30,7 @@
         <giftcard>
             <groups>
                 <giftcardaccount_email translate="label" module="enterprise_giftcardaccount">
-                    <label>Email sent from Gift Card Account management</label>
+                    <label>Email Sent from Gift Card Account Management</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>300</sort_order>
                     <show_in_default>1</show_in_default>

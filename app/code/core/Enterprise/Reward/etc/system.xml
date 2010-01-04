@@ -54,7 +54,7 @@
                             <show_in_store>0</show_in_store>
                         </is_enabled>
                         <publish_history translate="label">
-                            <label>Customers may see Reward Points History</label>
+                            <label>Customers May See Reward Points History</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>20</sort_order>
@@ -63,7 +63,7 @@
                             <show_in_store>0</show_in_store>
                         </publish_history>
                         <min_points_balance translate="label comment">
-                            <label>Min Reward Points Balance to be able to Redeem</label>
+                            <label>Min Reward Points Balance to Be Able to Redeem</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
@@ -232,7 +232,7 @@
                             <show_in_store>1</show_in_store>
                         </email_sender>
                         <subscribe_by_default translate="label">
-                            <label>Subscribe Customers by default</label>
+                            <label>Subscribe Customers by Default</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>20</sort_order>
@@ -259,7 +259,7 @@
                             <show_in_store>1</show_in_store>
                         </expiry_warning_template>
                         <expiry_day_before translate="label comment">
-                            <label>Expiry Warning before (days)</label>
+                            <label>Expiry Warning Before (days)</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>

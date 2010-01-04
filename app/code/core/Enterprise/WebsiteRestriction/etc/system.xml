@@ -77,7 +77,7 @@
                         </cms_page>
                         <http_status translate="label comment">
                             <sort_order>50</sort_order>
-                            <label>HTTP response</label>
+                            <label>HTTP Response</label>
                             <comment>Applicable only if Restriction Mode is Website Closed. Landing Page is rendered as raw HTML.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>enterprise_websiterestriction/system_config_source_http</source_model>

@@ -52,7 +52,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
             $this->_addButton(
                 'save_and_continue',
                 array(
-                    'label' => $this->helper('enterprise_catalogevent')->__('Save And Continue Edit'),
+                    'label' => $this->helper('enterprise_catalogevent')->__('Save and Continue Edit'),
                     'class' => 'save',
                     'onclick'   => 'saveAndContinue()',
                 ),

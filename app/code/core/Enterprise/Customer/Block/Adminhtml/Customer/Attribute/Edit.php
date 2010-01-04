@@ -45,7 +45,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit extends Mage_A
         $this->_addButton(
             'save_and_edit_button',
             array(
-                'label'     => Mage::helper('enterprise_customer')->__('Save And Continue Edit'),
+                'label'     => Mage::helper('enterprise_customer')->__('Save and Continue Edit'),
                 'onclick'   => 'saveAndContinueEdit()',
                 'class'     => 'save'
             ),

@@ -59,8 +59,8 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
 
         $fieldset->addField('notify_by_email', 'checkbox', array(
             'name'     => 'notify_by_email',
-            'label'    => Mage::helper('enterprise_customerbalance')->__('Notify customer by email'),
-            'title'    => Mage::helper('enterprise_customerbalance')->__('Notify customer by email'),
+            'label'    => Mage::helper('enterprise_customerbalance')->__('Notify Customer by Email'),
+            'title'    => Mage::helper('enterprise_customerbalance')->__('Notify Customer by Email'),
             'after_element_html' => '<script type="text/javascript">'
                 . "
                 updateEmailWebsites();
@@ -75,8 +75,8 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
 
         $fieldset->addField('store_id', 'select', array(
             'name'     => 'store_id',
-            'label'    => Mage::helper('enterprise_customerbalance')->__('Send email notification from the following Store View'),
-            'title'    => Mage::helper('enterprise_customerbalance')->__('Send email notification from the following Store View'),
+            'label'    => Mage::helper('enterprise_customerbalance')->__('Send Email Notification From the Following Store View'),
+            'title'    => Mage::helper('enterprise_customerbalance')->__('Send Email Notification From the Following Store View'),
         ));
 
         $fieldset->addField('comment', 'text', array(

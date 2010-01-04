@@ -66,8 +66,8 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
 
         $fieldset->addField('store_id', 'select', array(
             'name'     => 'recipient_store',
-            'label'    => Mage::helper('enterprise_customerbalance')->__('Send email from the following Store View'),
-            'title'    => Mage::helper('enterprise_customerbalance')->__('Send email from the following Store View'),
+            'label'    => Mage::helper('enterprise_customerbalance')->__('Send Email From the Following Store View'),
+            'title'    => Mage::helper('enterprise_customerbalance')->__('Send Email From the Following Store View'),
             'after_element_html'=>$this->_getStoreIdScript()
         ));
 

@@ -179,8 +179,8 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_
             }
 
             $fieldset->addField('staging_website_visibility_'.$_id, 'select', array(
-                'label'     => Mage::helper('enterprise_staging')->__('Frontend restriction'),
-                'title'     => Mage::helper('enterprise_staging')->__('Frontend restriction'),
+                'label'     => Mage::helper('enterprise_staging')->__('Frontend Restriction'),
+                'title'     => Mage::helper('enterprise_staging')->__('Frontend Restriction'),
                 'name'      => "websites[{$_id}][visibility]",
                 'value'     => $stagingWebsite ? $stagingWebsite->getVisibility() : Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH,
                 'options'   => Mage::getSingleton('enterprise_staging/staging_config')->getVisibilityOptionArray()

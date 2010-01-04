@@ -44,7 +44,7 @@ class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Form extends Mage_Adminhtml_Block
         ));
         $fieldset->addField('generate_random', 'select', array(
             'name'    => 'generate_random',
-            'label'   => Mage::helper('enterprise_pci')->__('Auto-generate a key'),
+            'label'   => Mage::helper('enterprise_pci')->__('Auto-generate a Key'),
             'options' => array(
                 0 => Mage::helper('adminhtml')->__('No'),
                 1 => Mage::helper('adminhtml')->__('Yes'),
