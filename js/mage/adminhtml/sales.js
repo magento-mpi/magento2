@@ -133,11 +133,9 @@ AdminOrder.prototype = {
         }
         data = data.toObject();
 
-        if(name == 'postcode' || name == 'country_id' || name == 'region_id'){
-            if( (type == 'billing' && this.shippingAsBilling)
-                || (type == 'shipping' && !this.shippingAsBilling) ) {
-                data['reset_shipping'] = true;
-            }
+        if( (type == 'billing' && this.shippingAsBilling)
+            || (type == 'shipping' && !this.shippingAsBilling) ) {
+            data['reset_shipping'] = true;
         }
 
         data['order['+type+'_address][customer_address_id]'] = $('order-'+type+'_address_customer_address_id').value;
@@ -210,7 +208,7 @@ AdminOrder.prototype = {
     resetShippingMethod : function(data){
         data['reset_shipping'] = 1;
         this.isShippingMethodReseted = true;
-        this.loadArea(['shipping_method', 'billing_method', 'totals', 'giftmessage'], true, data);
+        this.loadArea(['shipping_method', 'billing_method', 'shipping_address', 'totals', 'giftmessage'], true, data);
     },
 
     loadShippingRates : function(){
