@@ -184,13 +184,24 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                         }
                     }
                 }
+                else if ($session->getAfterAuthUrl()) {
+                    $session->setBeforeAuthUrl($session->getAfterAuthUrl(true));
+                }
             } else {
                 $session->setBeforeAuthUrl(Mage::helper('customer')->getLoginUrl());
             }
         } else if ($session->getBeforeAuthUrl() == Mage::helper('customer')->getLogoutUrl()) {
             $session->setBeforeAuthUrl(Mage::helper('customer')->getDashboardUrl());
         }
-
+        else {
+            if (!$session->getAfterAuthUrl()) {
+                $session->setAfterAuthUrl($session->getBeforeAuthUrl());
+                $session->setBeforeAuthUrl(Mage::helper('customer')->getLoginUrl());
+            }
+            if ($session->isLoggedIn()) {
+                $session->setBeforeAuthUrl($session->getAfterAuthUrl(true));
+            }
+        }
         $this->_redirectUrl($session->getBeforeAuthUrl(true));
     }
 
