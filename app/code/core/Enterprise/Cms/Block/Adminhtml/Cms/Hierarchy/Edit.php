@@ -50,9 +50,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_B
         $this->_removeButton('back');
 
         if (Mage::getSingleton('enterprise_cms/hierarchy_lock')->isLockedByOther()) {
-            $confirmMessage = Mage::helper('enterprise_cms')->__('Are you sure you want to break the page lock?');
+            $confirmMessage = Mage::helper('enterprise_cms')->__('Are you sure you want to break current lock?');
             $this->addButton('break_lock', array(
-                'label'     => Mage::helper('enterprise_cms')->__('Break Existing Lock'),
+                'label'     => Mage::helper('enterprise_cms')->__('Unlock This Page'),
                 'onclick'   => "confirmSetLocation('{$confirmMessage}', '{$this->getUrl('*/*/lock')}')"
             ));
             $this->_updateButton('save', 'disabled', true);
@@ -67,6 +67,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_B
      */
     public function getHeaderText()
     {
-        return Mage::helper('enterprise_cms')->__("Manage Pages Hierarchy");
+        return Mage::helper('enterprise_cms')->__('Manage Pages Hierarchy');
     }
 }
