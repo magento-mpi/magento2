@@ -30,7 +30,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Tax_Basedon
         return array(
             array('value'=>'shipping', 'label'=>Mage::helper('adminhtml')->__('Shipping address')),
             array('value'=>'billing', 'label'=>Mage::helper('adminhtml')->__('Billing address')),
-            array('value'=>'origin', 'label'=>Mage::helper('adminhtml')->__("Shipping origin")),
+            array('value'=>'origin', 'label'=>Mage::helper('adminhtml')->__("Shipping Origin")),
         );
     }
 

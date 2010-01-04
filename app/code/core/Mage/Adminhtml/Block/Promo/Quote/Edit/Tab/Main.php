@@ -171,12 +171,12 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
 
         $fieldset->addField('uses_per_coupon', 'text', array(
             'name' => 'uses_per_coupon',
-            'label' => Mage::helper('salesrule')->__('Uses per coupon'),
+            'label' => Mage::helper('salesrule')->__('Uses per Coupon'),
         ));
 
         $fieldset->addField('uses_per_customer', 'text', array(
             'name' => 'uses_per_customer',
-            'label' => Mage::helper('salesrule')->__('Uses per customer'),
+            'label' => Mage::helper('salesrule')->__('Uses per Customer'),
         ));
 
         $dateFormatIso = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);

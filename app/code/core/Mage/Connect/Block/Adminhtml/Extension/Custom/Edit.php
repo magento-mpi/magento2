@@ -52,7 +52,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit extends Mage_Adminhtml_
         $this->_updateButton('reset', 'onclick', "resetPackage()");
 
         $this->_addButton('create', array(
-            'label'     => Mage::helper('connect')->__('Save data and Create Package'),
+            'label'     => Mage::helper('connect')->__('Save Data and Create Package'),
             'class'     => 'save',
             'onclick'   => "createPackage()",
         ));

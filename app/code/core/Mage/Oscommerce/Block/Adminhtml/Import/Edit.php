@@ -42,7 +42,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit extends Mage_Adminhtml_Block_W
         $this->_updateButton('delete', 'label', Mage::helper('oscommerce')->__('Delete Profile'));
         $this->_addButton('save_and_edit_button',
                     array(
-                    'label'     => Mage::helper('oscommerce')->__('Save And Continue Edit'),
+                    'label'     => Mage::helper('oscommerce')->__('Save and Continue Edit'),
                     'onclick'   => 'saveAndContinueEdit()',
                     'class'     => 'save'
                 ), 100

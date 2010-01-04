@@ -73,7 +73,7 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                          <active translate="label">
-                            <label>Enable email verification</label>
+                            <label>Enable Email Verification</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_enabledisable</source_model>
                             <sort_order>1</sort_order>
@@ -82,7 +82,7 @@
                             <show_in_store>1</show_in_store>
                         </active>
                         <check_admin translate="label">
-                            <label>Verify email in admin</label>
+                            <label>Verify Email in Admin</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>2</sort_order>
@@ -91,7 +91,7 @@
                             <show_in_store>1</show_in_store>
                         </check_admin>
                         <check_allservers translate="label">
-                            <label>Check all email servers</label>
+                            <label>Check All Email Servers</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>3</sort_order>
@@ -100,7 +100,7 @@
                             <show_in_store>1</show_in_store>
                         </check_allservers>
                         <undetermined_action translate="label">
-                            <label>Undetermined email action</label>
+                            <label>Undetermined Email Action</label>
                             <frontend_type>select</frontend_type>
                             <source_model>strikeiron/source_undeterminedEmailAction</source_model>
                             <sort_order>4</sort_order>
@@ -145,7 +145,7 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                          <foreigh_xrate translate="label">
-                            <label>Enable foreign exchange rate</label>
+                            <label>Enable Foreign Exchange Rate</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_enabledisable</source_model>
                             <sort_order>10</sort_order>
@@ -164,7 +164,7 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                          <active translate="label">
-                            <label>Enable US address verification</label>
+                            <label>Enable US Address Verification</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_enabledisable</source_model>
                             <sort_order>1</sort_order>
@@ -173,7 +173,7 @@
                             <show_in_store>1</show_in_store>
                         </active>
                         <check_admin translate="label">
-                            <label>Verify address in admin</label>
+                            <label>Verify Address in Admin</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>2</sort_order>
@@ -182,7 +182,7 @@
                             <show_in_store>1</show_in_store>
                         </check_admin>
                         <undetermined_action translate="label">
-                            <label>Error address action</label>
+                            <label>Error Address Action</label>
                             <frontend_type>select</frontend_type>
                             <source_model>strikeiron/source_errorAddressAction</source_model>
                             <sort_order>4</sort_order>
@@ -201,7 +201,7 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                          <active translate="label">
-                            <label>Enable global address verification</label>
+                            <label>Enable Global Address Verification</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_enabledisable</source_model>
                             <sort_order>1</sort_order>
@@ -210,7 +210,7 @@
                             <show_in_store>1</show_in_store>
                         </active>
                         <check_admin translate="label">
-                            <label>Verify address in admin</label>
+                            <label>Verify Address in Admin</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>2</sort_order>
@@ -219,7 +219,7 @@
                             <show_in_store>1</show_in_store>
                         </check_admin>
                         <undetermined_action translate="label">
-                            <label>Error address action</label>
+                            <label>Error Address Action</label>
                             <frontend_type>select</frontend_type>
                             <source_model>strikeiron/source_errorAddressAction</source_model>
                             <sort_order>4</sort_order>
@@ -238,7 +238,7 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                          <active translate="label">
-                            <label>Enable sales and use tax</label>
+                            <label>Enable Sales and Use Tax</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_enabledisable</source_model>
                             <sort_order>1</sort_order>

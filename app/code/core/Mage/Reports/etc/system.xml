@@ -47,7 +47,7 @@
                             <show_in_store>0</show_in_store>
                         </scope>
                         <viewed_count translate="label">
-                            <label>Default Recently Viewed Products count</label>
+                            <label>Default Recently Viewed Products Count</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
@@ -55,7 +55,7 @@
                             <show_in_store>1</show_in_store>
                         </viewed_count>
                         <compared_count translate="label">
-                            <label>Default Recently Compared Products count</label>
+                            <label>Default Recently Compared Products Count</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>

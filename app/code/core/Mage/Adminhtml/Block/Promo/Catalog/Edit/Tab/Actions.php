@@ -102,12 +102,12 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions
             'name' => 'discount_amount',
             'required' => true,
             'class' => 'validate-not-negative-number',
-            'label' => Mage::helper('salesrule')->__('Discount amount'),
+            'label' => Mage::helper('salesrule')->__('Discount Amount'),
         ));
 
         $fieldset->addField('stop_rules_processing', 'select', array(
-            'label'     => Mage::helper('salesrule')->__('Stop further rules processing'),
-            'title'     => Mage::helper('salesrule')->__('Stop further rules processing'),
+            'label'     => Mage::helper('salesrule')->__('Stop Further rules processing'),
+            'title'     => Mage::helper('salesrule')->__('Stop Further rules processing'),
             'name'      => 'stop_rules_processing',
             'options'    => array(
                 '1' => Mage::helper('salesrule')->__('Yes'),

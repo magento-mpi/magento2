@@ -146,7 +146,7 @@
                             <show_in_store>1</show_in_store>
                         </html_title>
                         <bgcolor translate="label comment">
-                            <label>Background color of Ogone Template</label>
+                            <label>Background Color of Ogone Template</label>
                             <frontend_type>text</frontend_type>
                             <comment><![CDATA[e.g: white]]></comment>
                             <sort_order>12</sort_order>
@@ -164,7 +164,7 @@
                             <show_in_store>1</show_in_store>
                         </txtcolor>
                         <tblbgcolor translate="label comment">
-                            <label>Table background color of the Ogone Template</label>
+                            <label>Table Background Color of the Ogone Template</label>
                             <frontend_type>text</frontend_type>
                             <comment><![CDATA[e.g: white]]></comment>
                             <sort_order>14</sort_order>
@@ -173,7 +173,7 @@
                             <show_in_store>1</show_in_store>
                         </tblbgcolor>
                         <tbltxtcolor translate="label comment">
-                            <label>Table text color of the Ogone Template</label>
+                            <label>Table Text Color of the Ogone Template</label>
                             <frontend_type>text</frontend_type>
                             <comment><![CDATA[e.g: black]]></comment>
                             <sort_order>15</sort_order>
@@ -182,7 +182,7 @@
                             <show_in_store>1</show_in_store>
                         </tbltxtcolor>
                         <buttonbgcolor translate="label">
-                            <label>Button background color of the Ogone Template</label>
+                            <label>Button Background Color of the Ogone Template</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>16</sort_order>
                             <show_in_default>1</show_in_default>
@@ -190,7 +190,7 @@
                             <show_in_store>1</show_in_store>
                         </buttonbgcolor>
                         <buttontxtcolor translate="label comment">
-                            <label>Button text color of the Ogone Template</label>
+                            <label>Button Text Color of the Ogone Template</label>
                             <frontend_type>text</frontend_type>
                             <comment><![CDATA[e.g: white]]></comment>
                             <sort_order>17</sort_order>

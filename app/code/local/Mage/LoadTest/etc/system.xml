@@ -48,7 +48,7 @@
                             <show_in_store>1</show_in_store>
                         </status>
                         <key>
-                            <label>Authorization key</label>
+                            <label>Authorization Key</label>
                             <backend_model>loadtest/backend_key</backend_model>
                             <frontend_type>text</frontend_type>
                             <sort_order>2</sort_order>

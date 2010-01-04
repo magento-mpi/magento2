@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             'name' => 'discount_amount',
             'required' => true,
             'class' => 'validate-not-negative-number',
-            'label' => Mage::helper('salesrule')->__('Discount amount'),
+            'label' => Mage::helper('salesrule')->__('Discount Amount'),
         ));
         $model->setDiscountAmount($model->getDiscountAmount()*1);
 
@@ -124,8 +124,8 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
         ));
 
         $fieldset->addField('simple_free_shipping', 'select', array(
-            'label'     => Mage::helper('salesrule')->__('Free shipping'),
-            'title'     => Mage::helper('salesrule')->__('Free shipping'),
+            'label'     => Mage::helper('salesrule')->__('Free Shipping'),
+            'title'     => Mage::helper('salesrule')->__('Free Shipping'),
             'name'      => 'simple_free_shipping',
             'options'    => array(
                 0 => Mage::helper('salesrule')->__('No'),
@@ -135,8 +135,8 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
         ));
 
         $fieldset->addField('stop_rules_processing', 'select', array(
-            'label'     => Mage::helper('salesrule')->__('Stop further rules processing'),
-            'title'     => Mage::helper('salesrule')->__('Stop further rules processing'),
+            'label'     => Mage::helper('salesrule')->__('Stop Further Rules Processing'),
+            'title'     => Mage::helper('salesrule')->__('Stop Further Rules Processing'),
             'name'      => 'stop_rules_processing',
             'options'    => array(
                 '1' => Mage::helper('salesrule')->__('Yes'),

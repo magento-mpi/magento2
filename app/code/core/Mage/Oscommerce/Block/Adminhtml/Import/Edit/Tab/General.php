@@ -94,8 +94,8 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_General extends Mage_Admin
         ));
 
         $fieldset->addField('send_subscription', 'checkbox', array(
-            'label'     => $this->__('Send subscription notify to customers'),
-            'title'     => $this->__('Send subscription notify to customers'),
+            'label'     => $this->__('Send Subscription Notify to Customers'),
+            'title'     => $this->__('Send Subscription Notify to Customers'),
             'name'      => 'send_subscription',
             'values'    => $this->getData('send_subscription'),
             'checked'   => $this->getData('send_subscription'),

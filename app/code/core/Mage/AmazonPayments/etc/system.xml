@@ -160,7 +160,7 @@
                             <show_in_store>0</show_in_store>
                         </button_url>-->
                         <order_status translate="label">
-                            <label>New order status</label>
+                            <label>New Order Status</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_order_status_new</source_model>
                             <sort_order>70</sort_order>
@@ -266,7 +266,7 @@
                             <show_in_store>0</show_in_store>
                         </is_sandbox>
                         <pay_process_immediate translate="label">
-                            <label>Payment action</label>
+                            <label>Payment Action</label>
                             <frontend_type>select</frontend_type>
                             <!-- source_model>adminhtml/system_config_source_yesno</source_model -->
                             <source_model>amazonpayments/payment_asp_source_paymentAction</source_model>
@@ -276,7 +276,7 @@
                             <show_in_store>0</show_in_store>
                         </pay_process_immediate>
                         <access_key translate="label">
-                            <label>Access key</label>
+                            <label>Access Key</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>12</sort_order>
                             <show_in_default>1</show_in_default>
@@ -284,7 +284,7 @@
                             <show_in_store>0</show_in_store>
                         </access_key>
                         <secret_key translate="label">
-                            <label>Secret key</label>
+                            <label>Secret Key</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>13</sort_order>
                             <show_in_default>1</show_in_default>
@@ -292,7 +292,7 @@
                             <show_in_store>0</show_in_store>
                         </secret_key>
                         <pay_service_url translate="label">
-                            <label>Payment service URI</label>
+                            <label>Payment Service URI</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>15</sort_order>
                             <show_in_default>0</show_in_default>
@@ -300,7 +300,7 @@
                             <show_in_store>0</show_in_store>
                         </pay_service_url>
                         <pay_service_url_sandbox translate="label">
-                            <label>Payment sandbox service URI</label>
+                            <label>Payment Sandbox Service URI</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>16</sort_order>
                             <show_in_default>0</show_in_default>
@@ -308,7 +308,7 @@
                             <show_in_store>0</show_in_store>
                         </pay_service_url_sandbox>
                         <pay_immediate_return translate="label">
-                            <label>Immediate return</label>
+                            <label>Immediate Return</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>19</sort_order>
@@ -318,7 +318,7 @@
                             <comment>Automatically redirect after payment to success page</comment>
                         </pay_immediate_return>
                         <fps_service_url translate="label">
-                            <label>FPS service URI</label>
+                            <label>FPS Service URI</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>21</sort_order>
                             <show_in_default>0</show_in_default>
@@ -326,7 +326,7 @@
                             <show_in_store>0</show_in_store>
                         </fps_service_url>
                         <fps_service_url_sandbox translate="label">
-                            <label>FPS sandbox service URI</label>
+                            <label>FPS Sandbox Service URI</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>22</sort_order>
                             <show_in_default>0</show_in_default>
@@ -351,7 +351,7 @@
                             <show_in_store>1</show_in_store>
                         </redirect_message>
                         <pay_description translate="label">
-                            <label>Payment description</label>
+                            <label>Payment Description</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>32</sort_order>
                             <show_in_default>1</show_in_default>
@@ -359,7 +359,7 @@
                             <show_in_store>1</show_in_store>
                         </pay_description>
                         <refund_description translate="label">
-                            <label>Refund description</label>
+                            <label>Refund Description</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>33</sort_order>
                             <show_in_default>1</show_in_default>
@@ -367,7 +367,7 @@
                             <show_in_store>1</show_in_store>
                         </refund_description>
                         <pay_description translate="label">
-                            <label>Payment description</label>
+                            <label>Payment Description</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>34</sort_order>
                             <show_in_default>1</show_in_default>
@@ -375,7 +375,7 @@
                             <show_in_store>1</show_in_store>
                         </pay_description>
                         <cancel_description translate="label">
-                            <label>Cancel description</label>
+                            <label>Cancel Description</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
@@ -383,7 +383,7 @@
                             <show_in_store>1</show_in_store>
                         </cancel_description>
                         <report_email translate="label">
-                            <label>Report email</label>
+                            <label>Report Email</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>36</sort_order>
                             <show_in_default>1</show_in_default>
@@ -400,7 +400,7 @@
                             <show_in_store>0</show_in_store>
                         </email_sender_identity>
                         <email_template_notification_error translate="label">
-                            <label>Notification error transactional email</label>
+                            <label>Notification Error Transactional Email</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_template</source_model>
                             <sort_order>38</sort_order>
@@ -409,7 +409,7 @@
                             <show_in_store>1</show_in_store>
                         </email_template_notification_error>
                         <report_error_to_email translate="label">
-                            <label>Report error to email</label>
+                            <label>Report Error to Email</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>39</sort_order>
@@ -418,7 +418,7 @@
                             <show_in_store>0</show_in_store>
                         </report_error_to_email>
                         <error_log translate="label">
-                            <label>Error log</label>
+                            <label>Error Log</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>40</sort_order>
@@ -427,7 +427,7 @@
                             <show_in_store>0</show_in_store>
                         </error_log>
                         <debug_log translate="label">
-                            <label>Debug log</label>
+                            <label>Debug Log</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>41</sort_order>

@@ -215,8 +215,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         ));
         $fieldset->addField('used_for_sort_by', 'select', array(
             'name'      => 'used_for_sort_by',
-            'label'     => Mage::helper('catalog')->__('Used for sorting in product listing'),
-            'title'     => Mage::helper('catalog')->__('Used for sorting in product listing'),
+            'label'     => Mage::helper('catalog')->__('Used for Sorting in Product Listing'),
+            'title'     => Mage::helper('catalog')->__('Used for Sorting in Product Listing'),
             'note'      => Mage::helper('catalog')->__('Depends on design theme'),
             'values'    => $yesnoSource,
         ));
