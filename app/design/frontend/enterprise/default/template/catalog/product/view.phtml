@@ -52,7 +52,7 @@
                         <div class="product-name">
                             <h1><?php echo $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name') ?></h1>
                         </div>
-                        <p class="product-ids"><?php echo $this->__('SKU# %s',$_product->getSku()); ?></p>
+                        <p class="product-ids"><?php echo $this->__('SKU# %s', $this->htmlEscape($_product->getSku())); ?></p>
                         <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
                         <?php echo $this->getChildHtml('product_type_data') ?>
                         <?php echo $this->getChildHtml('alert_urls') ?>
@@ -67,13 +67,13 @@
                             <?php echo $this->getChildHtml('addto') ?>
                         </div>
                     <?php else:?>
-                    
+
                         <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container1') ):?>
                             <div class="options-container-small">
                                 <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
                             </div>
                         <?php endif;?>
-                    
+
                         <?php echo $this->getChildHtml('addto') ?>
                     <?php endif; ?>
 
@@ -81,7 +81,7 @@
                     <?php if ($_product->getShortDescription()):?>
                         <div class="short-description std">
                             <h2><?php echo $this->__('Quick Overview') ?></h2>
-                            <?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
+                            <?php echo $_helper->productAttribute($_product, nl2br($this->htmlEscape($_product->getShortDescription())), 'short_description') ?>
                         </div>
                     <?php endif;?>
 
@@ -124,7 +124,7 @@
             </div>
         <?php endif;?>
     </form>
-        <?php echo $this->getChildHtml('relatedProducts') ?>  
+        <?php echo $this->getChildHtml('relatedProducts') ?>
         <?php echo $this->getChildHtml('upsell_products') ?>
         <?php echo $this->getChildHtml('productTagList') ?>
         <?php echo $this->getChildHtml('product_additional_data') ?>
