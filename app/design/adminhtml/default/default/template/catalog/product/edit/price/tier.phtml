@@ -76,7 +76,7 @@ var tierPriceRowTemplate = '<tr>'
     + '</select></td>'
     + '<td><select class="<?php echo $_htmlClass ?> custgroup required-entry" name="<?php echo $_htmlName ?>[{{index}}][cust_group]" id="tier_price_row_{{index}}_cust_group">'
     <?php foreach ($this->getCustomerGroups() as $_groupId=>$_groupName): ?>
-    + '<option value="<?php echo $_groupId ?>"><?php echo $this->htmlEscape($_groupName)?></option>'
+    + '<option value="<?php echo $_groupId ?>"><?php echo $this->jsQuoteEscape($this->htmlEscape($_groupName))?></option>'
     <?php endforeach ?>
     + '</select></td>'
     + '<td class="nobr"><input class="<?php echo $_htmlClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[{{index}}][price_qty]" value="{{qty}}" id="tier_price_row_{{index}}_qty" />'
