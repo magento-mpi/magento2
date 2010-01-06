@@ -105,7 +105,7 @@ var Variables = {
     },
     prepareVariableRow: function(varValue, varLabel) {
         var value = (varValue).replace(/"/g, '&quot;').replace(/'/g, '\\&#39;');
-        var content = '<a href="javascript:void();" onclick="'+this.insertFunction+'(\''+ value +'\');">' + varLabel + '</a>';
+        var content = '<a href="#" onclick="'+this.insertFunction+'(\''+ value +'\');">' + varLabel + '</a>';
         return content;
     },
     insertVariable: function(value) {
@@ -113,16 +113,7 @@ var Variables = {
         var textareaElm = $(this.textareaElementId);
         if (textareaElm) {
             var scrollPos = textareaElm.scrollTop;
-            var strPos = textareaElm.selectionStart;
-
-            var front = (textareaElm.value).substring(0, strPos);
-            var back = (textareaElm.value).substring(strPos, textareaElm.value.length);
-
-            strPos = strPos + (value).length;
-
-            textareaElm.value = front + value + back;
-            textareaElm.selectionStart = strPos;
-            textareaElm.selectionEnd = strPos;
+            updateElementAtCursor(textareaElm, value);
             textareaElm.focus();
             textareaElm.scrollTop = scrollPos;
             textareaElm = null;
