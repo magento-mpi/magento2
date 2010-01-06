@@ -660,16 +660,11 @@ AdminOrder.prototype = {
         }
     },
 
-    disableSubmitButtons : function(){
-        var submitButtons = $$('.save');
-        submitButtons.each(function (elem) {elem.disabled=true;elem.addClassName('disabled');});
-    },
-
     submit : function(){
         if (this.validate()) {
             if (this.orderItemChanged){
                 if (confirm('You have item changes')) {
-                    this.disableSubmitButtons();
+                    disableElements('save');
                     editForm.submit();
                 }
                 else {
@@ -677,7 +672,7 @@ AdminOrder.prototype = {
                 }
             }
             else {
-                this.disableSubmitButtons();
+                disableElements('save');
                 editForm.submit();
             }
         }

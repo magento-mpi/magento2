@@ -202,6 +202,14 @@ function firebugEnabled() {
     return false;
 }
 
+function disableElements(search){
+    $$('.' + search).each(function (elem) {elem.disabled=true;elem.addClassName('disabled');});
+}
+
+function enableElements(search){
+    $$('.' + search).each(function (elem) {elem.disabled=false;elem.removeClassName('disabled');});
+}
+
 /********** Ajax session expiration ***********/
 
 
