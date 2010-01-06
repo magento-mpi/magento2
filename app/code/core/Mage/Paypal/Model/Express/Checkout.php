@@ -218,6 +218,8 @@ class Mage_Paypal_Model_Express_Checkout
         if (!$payment || !$payment->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_PAYER_ID)) {
             Mage::throwException(Mage::helper('paypal')->__('Payer is not identified.'));
         }
+        $this->_ignoreAddressValidation();
+        $this->_quote->collectTotals()->save();
     }
 
     /**
@@ -227,7 +229,7 @@ class Mage_Paypal_Model_Express_Checkout
     public function updateShippingMethod($methodCode)
     {
         if (!$this->_quote->getIsVirtual() && $shippingAddress = $this->_quote->getShippingAddress()) {
-            if (!$shippingAddress->getEmail() || $methodCode != $shippingAddress->getShippingMethod()) {
+            if ($methodCode != $shippingAddress->getShippingMethod()) {
                 $this->_ignoreAddressValidation();
                 $shippingAddress->setShippingMethod($methodCode)->setCollectShippingRates(true);
                 $this->_quote->collectTotals()->save();

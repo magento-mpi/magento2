@@ -463,7 +463,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function callGetPalDetails()
     {
-        $result = $this->call('getPalDetails', array());
+        $response = $this->call('getPalDetails', array());
         $this->_importFromResponse($this->_getPalDetailsResponse, $response);
     }
 
@@ -588,8 +588,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     {
         $address = new Varien_Object();
         Varien_Object_Mapper::accumulateByMap($data, $address, $this->_billingAddressMap);
-        $this->_applyStreetAndRegionWorkarounds($address);
         $address->setExportedKeys(array_values($this->_billingAddressMap));
+        $this->_applyStreetAndRegionWorkarounds($address);
         $this->setExportedBillingAddress($address);
 
         // assume there is shipping address if there is at least one field specific to shipping
@@ -629,6 +629,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             ;
             foreach ($regions as $region) {
                 $address->setRegionId($region->getId());
+                $address->setExportedKeys(array_merge($address->getExportedKeys(), array('region_id')));
                 break;
             }
         }
