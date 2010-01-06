@@ -25,14 +25,24 @@
  */
 
 /**
- * Reward action for converting spent money to points
+ * Reward action for updating balance by salesrule
  *
  * @category    Enterprise
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_Action_Abstract
+class Enterprise_Reward_Model_Action_Salesrule extends Enterprise_Reward_Model_Action_Abstract
 {
+    /**
+     * Check whether rewards can be added for action
+     *
+     * @return bool
+     */
+    public function canAddRewardPoints()
+    {
+        return true;
+    }
+
     /**
      * Return action message for history log
      *
@@ -42,7 +52,7 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
     public function getHistoryMessage($args = array())
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
-        return Mage::helper('enterprise_reward')->__('Collected Points for placed Order #%s', $incrementId);
+        return Mage::helper('enterprise_reward')->__('Gained Promotion Extra Points from Order #%s', $incrementId);
     }
 
     /**
@@ -58,19 +68,5 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
             'increment_id' => $this->getEntity()->getIncrementId()
         ));
         return $this;
-    }
-
-    /**
-     * Retrieve points delta for action
-     *
-     * @param int $websiteId
-     * @return int
-     */
-    public function getPoints($websiteId)
-    {
-        $pointsDelta = $this->getReward()
-            ->getRateToPoints()
-            ->calculateToPoints((float)($this->getEntity()->getBaseSubtotalInvoiced()));
-        return $pointsDelta;
     }
 }

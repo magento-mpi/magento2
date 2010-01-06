@@ -115,4 +115,49 @@ class Enterprise_Reward_Model_Mysql4_Reward extends Mage_Core_Model_Mysql4_Abstr
         }
         return $this;
     }
+
+    /**
+     * Save salesrule reward points delta
+     *
+     * @param integer $ruleId
+     * @param integer $pointsDelta
+     * @return Enterprise_Reward_Model_Mysql4_Reward
+     */
+    public function saveRewardSalesrule($ruleId, $pointsDelta)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getTable('enterprise_reward/reward_salesrule'), array('rule_id'))
+            ->where('rule_id = ?', $ruleId);
+        if ($this->_getWriteAdapter()->fetchOne($select)) {
+            $this->_getWriteAdapter()->update($this->getTable('enterprise_reward/reward_salesrule'), array(
+                'points_delta' => $pointsDelta), $this->_getWriteAdapter()->quoteInto('rule_id = ?', $ruleId));
+        } else {
+            $this->_getWriteAdapter()->insert($this->getTable('enterprise_reward/reward_salesrule'), array(
+                'rule_id' => $ruleId,
+                'points_delta' => $pointsDelta
+            ));
+        }
+        return $this;
+    }
+
+    /**
+     * Retrieve reward salesrule data by given rule Id or array of Ids
+     *
+     * @param integer | array $rule
+     * @return array
+     */
+    public function getRewardSalesrule($rule)
+    {
+        $data = array();
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('enterprise_reward/reward_salesrule'));
+        if (is_array($rule)) {
+            $select->where('rule_id IN (?)', $rule);
+            $data = $this->_getReadAdapter()->fetchAll($select);
+        } elseif (intval($rule)) {
+            $select->where('rule_id = ?', intval($rule));
+            $data = $this->_getReadAdapter()->fetchRow($select);
+        }
+        return $data;
+    }
 }

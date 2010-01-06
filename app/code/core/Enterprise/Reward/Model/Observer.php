@@ -216,6 +216,15 @@ class Enterprise_Reward_Model_Observer
                 ->setActionEntity($order)
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA)
                 ->updateRewardPoints();
+            if ($order->getRewardSalesrulePoints()) {
+                Mage::getModel('enterprise_reward/reward')
+                    ->setCustomerId($order->getCustomerId())
+                    ->setWebsiteId($order->getStore()->getWebsiteId())
+                    ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_SALESRULE)
+                    ->setActionEntity($order)
+                    ->setPointsDelta($order->getRewardSalesrulePoints())
+                    ->updateRewardPoints();
+            }
             if ($reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
                     Mage::helper('enterprise_reward')->__('Gained Promotion %d Points to Customer', $reward->getPointsDelta())
@@ -406,6 +415,17 @@ class Enterprise_Reward_Model_Observer
                 ->setActionEntity($order)
                 ->updateRewardPoints();
         }
+        $ruleIds = explode(',', $order->getAppliedRuleIds());
+        $ruleIds = array_unique($ruleIds);
+        $data = Mage::getResourceModel('enterprise_reward/reward')
+            ->getRewardSalesrule($ruleIds);
+        $pointsDelta = 0;
+        foreach ($data as $rule) {
+            $pointsDelta =+ (int)$rule['points_delta'];
+        }
+        if ($pointsDelta) {
+            $order->setRewardSalesrulePoints($pointsDelta);
+        }
         return $this;
     }
 
@@ -594,6 +614,68 @@ class Enterprise_Reward_Model_Observer
         /* @var $website Mage_Core_Model_Website */
         $website = $observer->getEvent()->getWebsite();
         Mage::getModel('enterprise_reward/reward')->prepareOrphanPoints($website->getId(), $website->getBaseCurrencyCode());
+        return $this;
+    }
+
+    /**
+     * Prepare salesrule form. Add field to specify reward points delta
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function prepareSalesruleForm(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+        $form = $observer->getEvent()->getForm();
+        $fieldset = $form->getElement('action_fieldset');
+        $fieldset->addField('reward_points_delta', 'text', array(
+            'name'  => 'reward_points_delta',
+            'label' => Mage::helper('enterprise_reward')->__('Add Reward Points'),
+            'title' => Mage::helper('enterprise_reward')->__('Add Reward Points')
+        ), 'stop_rules_processing');
+        return $this;
+    }
+
+    /**
+     * Set reward points delta to salesrule model after it loaded
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function loadRewardSalesruleData(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+        /* @var $salesRule Mage_SalesRule_Model_Rule */
+        $salesRule = $observer->getEvent()->getRule();
+        if ($salesRule->getId()) {
+            $data = Mage::getResourceModel('enterprise_reward/reward')
+                ->getRewardSalesrule($salesRule->getId());
+            if (isset($data['points_delta'])) {
+                $salesRule->setRewardPointsDelta($data['points_delta']);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Save reward points delta for salesrule
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function saveRewardSalesruleData(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+            return $this;
+        }
+        /* @var $salesRule Mage_SalesRule_Model_Rule */
+        $salesRule = $observer->getEvent()->getRule();
+        Mage::getResourceModel('enterprise_reward/reward')
+            ->saveRewardSalesrule($salesRule->getId(), (int)$salesRule->getRewardPointsDelta());
         return $this;
     }
 }

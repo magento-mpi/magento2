@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Reward>
-            <version>1.7.0.0.11</version>
+            <version>1.7.0.0.12</version>
         </Enterprise_Reward>
     </modules>
     <global>
@@ -49,6 +49,9 @@
                     <reward_rate>
                         <table>enterprise_reward_rate</table>
                     </reward_rate>
+                    <reward_salesrule>
+                        <table>enterprise_reward_salesrule</table>
+                    </reward_salesrule>
                 </entities>
             </enterprise_reward_mysql4>
         </models>
@@ -281,6 +284,30 @@
                     </enterprise_reward>
                 </observers>
             </website_delete_after>
+            <adminhtml_block_salesrule_actions_prepareform>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>prepareSalesruleForm</method>
+                    </enterprise_reward>
+                </observers>
+            </adminhtml_block_salesrule_actions_prepareform>
+            <salesrule_rule_load_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>loadRewardSalesruleData</method>
+                    </enterprise_reward>
+                </observers>
+            </salesrule_rule_load_after>
+            <salesrule_rule_save_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>saveRewardSalesruleData</method>
+                    </enterprise_reward>
+                </observers>
+            </salesrule_rule_save_after>
         </events>
     </adminhtml>
     <frontend>
