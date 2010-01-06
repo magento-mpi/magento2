@@ -660,20 +660,24 @@ AdminOrder.prototype = {
         }
     },
 
+    disableSubmitButtons : function(){
+        var submitButtons = $$('.save');
+        submitButtons.each(function (elem) {elem.disabled=true;elem.addClassName('disabled');});
+    },
+
     submit : function(){
         if (this.validate()) {
-            //editForm.submit();
-            if(this.orderItemChanged){
-                if(confirm('You have item changes')){
-                    //$('edit_form').submit();
+            if (this.orderItemChanged){
+                if (confirm('You have item changes')) {
+                    this.disableSubmitButtons();
                     editForm.submit();
                 }
-                else{
+                else {
                     this.itemsUpdate();
                 }
             }
-            else{
-                //$('edit_form').submit();
+            else {
+                this.disableSubmitButtons();
                 editForm.submit();
             }
         }
