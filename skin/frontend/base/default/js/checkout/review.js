@@ -93,7 +93,8 @@ OrderReviewController.prototype = {
                             this._pleaseWait.hide();
                         }
                     }.bind(this),
-                    onSuccess: this._onSubmitShippingSuccess.bind(this)
+                    onSuccess: this._onSubmitShippingSuccess.bind(this),
+                    evalScripts: true
                 });
             }
         }

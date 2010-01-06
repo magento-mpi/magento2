@@ -130,10 +130,5 @@ PayPalExpressAjax = new OrderReviewController($('order_review_form'), $('review_
     $('shipping_method'), $('shipping_method_form'), 'details-reload'
 );
 PayPalExpressAjax.addPleaseWait($('review-please-wait'));
-
-PayPalExpressAjax.onSubmitShippingSuccess = function() {
-    decorateTable('details-table');
-};
-decorateTable('details-table');
 //]]>
 </script>
