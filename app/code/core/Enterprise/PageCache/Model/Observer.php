@@ -69,11 +69,15 @@ class Enterprise_PageCache_Model_Observer
         $action = $observer->getEvent()->getControllerAction();
         /* @var $request Mage_Core_Controller_Request_Http */
         $request = $action->getRequest();
-        if ($action) {
-            /* @var $request Mage_Core_Model_Cookie */
-            $cookie = Mage::getSingleton('core/cookie');
+        /* @var $cookie Mage_Core_Model_Cookie */
+        $cookie = Mage::getSingleton('core/cookie');
+        $cookieName = Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE;
+        $noCache = $cookie->get($cookieName);
+        if ($noCache) {
+            $cookie->renew($cookieName);
+        } elseif ($action) {
             if ($request->isPost()) {
-                $cookie->set(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE, 1);
+                $cookie->set($cookieName, 1);
             } elseif (in_array($action->getFullActionName(), $this->_cacheDisableActions)) {
                 $cookie->set(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE, 1);
             }
