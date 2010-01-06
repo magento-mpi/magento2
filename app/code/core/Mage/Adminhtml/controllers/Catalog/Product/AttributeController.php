@@ -143,6 +143,12 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
                 $model->load($id);
 
+                if (!$model->getId()) {
+                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('This Attribute no longer exists'));
+                    $this->_redirect('*/*/');
+                    return;
+                }
+
                 // entity type check
                 if ($model->getEntityTypeId() != $this->_entityTypeId) {
                     Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('You cannot update this attribute'));
