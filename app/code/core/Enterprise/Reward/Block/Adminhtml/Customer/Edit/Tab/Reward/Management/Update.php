@@ -127,6 +127,8 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
         $stores = Mage::getModel('adminhtml/system_store')
             ->getStoresStructure(false, array(), array(), array($customer->getWebsiteId()));
         $values = array();
+
+        $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');
         foreach ($stores as $websiteId => $website) {
             $values[] = array(
                 'label' => $website['label'],
@@ -138,12 +140,12 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
                         $options = array();
                         foreach ($group['children'] as $storeId => $store) {
                             $options[] = array(
-                                'label' => '&nbsp;&nbsp;&nbsp;&nbsp;' . $store['label'],
+                                'label' => str_repeat($nonEscapableNbspChar, 4) . $store['label'],
                                 'value' => $store['value']
                             );
                         }
                         $values[] = array(
-                            'label' => '&nbsp;&nbsp;&nbsp;&nbsp;' . $group['label'],
+                            'label' => str_repeat($nonEscapableNbspChar, 4) . $group['label'],
                             'value' => $options
                         );
                     }
