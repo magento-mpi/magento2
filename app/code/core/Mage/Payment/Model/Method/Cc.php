@@ -152,7 +152,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
         }
 
         if ($centinelValidator = $this->getCentinelValidator()) {
-            $centinelValidator->validate($this->getCentinelValidationData(), $this->isCentinelValidationRequired());
+            $centinelValidator->validate($this->getCentinelValidationData());
         }
 
         return $this;
@@ -276,6 +276,26 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
+     * Return flag - is Centinel authentication required
+     *
+     * @return bool
+     */
+    public function isCentinelAuthenticationRequired()
+    {
+        return true;
+    }
+
+    /**
+     * Return url for Centinel validation service
+     *
+     * @return string
+     */
+    public function getCentinelMapUrl()
+    {
+        return false;
+    }
+
+    /**
      * Return Centinel valodation model
      *
      * @return Mage_Payment_Model_Service_Centinel
@@ -286,7 +306,12 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             return false;
         }        
         $validator = Mage::getSingleton('payment/service_centinel');
-        $validator->setPaymentMethodCode($this->getCode());
+        $validator
+            ->setPaymentMethodCode($this->getCode())
+            ->setIsValidationRequired($this->isCentinelValidationRequired())
+            ->setIsAuthenticationRequired($this->isCentinelAuthenticationRequired())
+            ->setMapUrl($this->getCentinelMapUrl())
+            ->setStore($this->getStore());
         return $validator;
     }
 
@@ -336,12 +361,12 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     private function _getAmount()
     {
         $info = $this->getInfoInstance();
-        
+
         if ($info instanceof Mage_Sales_Model_Quote_Payment) {
             return $info->getQuote()->getBaseGrandTotal();
         } elseif ($info instanceof Mage_Sales_Model_Order_Payment) {
             return $info->getOrder()->getBaseGrandTotal();
-        }   
+        }
     }
 
     /**
@@ -352,12 +377,12 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     private function _getCurrencyCode()
     {
         $info = $this->getInfoInstance();
-        
+
         if ($info instanceof Mage_Sales_Model_Quote_Payment) {
             return $info->getQuote()->getBaseCurrencyCode();
         } elseif ($info instanceof Mage_Sales_Model_Order_Payment) {
             return $info->getOrder()->getBaseCurrencyCode();
-        }   
+        }
     }
 
 }

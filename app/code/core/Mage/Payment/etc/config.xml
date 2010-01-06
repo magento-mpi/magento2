@@ -144,6 +144,17 @@
             </modules>
         </translate>
     </adminhtml>
+    <admin>
+         <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Mage_Payment before="Mage_Adminhtml">Mage_Payment_Adminhtml</Mage_Payment>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <default>
         <payment>
             <ccsave>
@@ -188,12 +199,7 @@
          </payment>
          <payment_services>
             <centinel>
-                <processor_id></processor_id>
-                <merchant_id></merchant_id>
-                <password></password>
-                <map_url>https://centineltest.cardinalcommerce.com/maps/txns.asp</map_url>
-                <timeout_connect>100</timeout_connect>
-                <timeout_read>100</timeout_read>
+                <test_mode>1</test_mode>
             </centinel>
          </payment_services>
     </default>

@@ -233,6 +233,26 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function isCentinelValidationRequired()
     {
-        return $this->_pro->getConfig()->centinel_require_enrollment;
+        return $this->_pro->getConfig()->centinel_validation_required;
+    }
+
+    /**
+     * Return flag - is Centinel authentication required
+     *
+     * @return bool
+     */
+    public function isCentinelAuthenticationRequired()
+    {
+        return $this->_pro->getConfig()->centinel_authentication_required;
+    }
+
+    /**
+     * Return url for Centinel validation service
+     *
+     * @return string
+     */
+    public function getCentinelMapUrl()
+    {
+        return $this->_pro->getConfig()->centinel_map_url;
     }
 }

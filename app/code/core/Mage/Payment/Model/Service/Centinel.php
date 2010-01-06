@@ -27,7 +27,7 @@
 /**
  * 3D Secure Validation Model
  */
-class Mage_Payment_Model_Service_Centinel extends Mage_Core_Model_Abstract
+class Mage_Payment_Model_Service_Centinel extends Varien_Object
 {
     /**
      * States of validation
@@ -70,16 +70,13 @@ class Mage_Payment_Model_Service_Centinel extends Mage_Core_Model_Abstract
         if (!is_null($this->_api)) {
             return $this->_api;
         }
-        
+
         $this->_api = Mage::getSingleton('payment/service_centinel_api');
         $this->_api
            ->setProcessorId($this->_getConfig('processor_id'))
            ->setMerchantId($this->_getConfig('merchant_id'))
            ->setTransactionPwd(Mage::helper('core')->decrypt($this->_getConfig('password')))
-           ->setTimeoutConnect($this->_getConfig('timeout_connect'))
-           ->setTimeoutRead($this->_getConfig('timeout_read'))
-           ->setMapUrl($this->_getConfig('map_url'));
-        
+           ->setMapUrl($this->_getMapUrl());
         return $this->_api; 
     }
 
@@ -91,7 +88,7 @@ class Mage_Payment_Model_Service_Centinel extends Mage_Core_Model_Abstract
      */
     protected function _getConfig($path)
     {
-        return Mage::getStoreConfig('payment_services/centinel/' . $path);
+        return Mage::getStoreConfig('payment_services/centinel/' . $path, $this->getStore());
     }
 
     /**
@@ -104,7 +101,8 @@ class Mage_Payment_Model_Service_Centinel extends Mage_Core_Model_Abstract
         if (!is_null($this->_session)) {
             return $this->_session;
         }
-        return $this->_session = Mage::getModel('payment/service_centinel_session');
+        $this->_session = Mage::getSingleton('payment/service_centinel_session');
+        return $this->_session;
     }
 
     /**
@@ -138,6 +136,19 @@ class Mage_Payment_Model_Service_Centinel extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Return URL for Api  
+     *
+     * @return string
+     */
+    protected function _getMapUrl()
+    {
+        if ($this->_getConfig('test_mode')) {
+            return 'https://centineltest.cardinalcommerce.com/maps/txns.asp';
+        }
+        return $this->getMapUrl();
+    }
+
+    /**
      * Return URL for term response from Centinel  
      *
      * @return string
@@ -159,7 +170,12 @@ class Mage_Payment_Model_Service_Centinel extends Mage_Core_Model_Abstract
      */
     public function getValidationUrl()
     {
-        return Mage::getUrl('payment/centinel/validate', array('_secure' => true, 'method' => $this->getPaymentMethodCode()));
+        $formKey = Mage::getSingleton('core/session')->getFormKey();
+        if (Mage::app()->getStore()->isAdmin()) {
+            return Mage::getUrl('*/payment_centinel/validate', array('_secure' => true, 'form_key' => $formKey, 'method' => $this->getPaymentMethodCode()));
+        } else {
+            return Mage::getUrl('payment/centinel/validate', array('_secure' => true, 'form_key' => $formKey, 'method' => $this->getPaymentMethodCode()));
+        }
     }
 
     /**
@@ -174,7 +190,12 @@ class Mage_Payment_Model_Service_Centinel extends Mage_Core_Model_Abstract
      */
     protected function _generateEnrolledControlSum($ccNumber, $ccExpMonth, $ccExpYear, $amount, $currencyCode)
     {
-        return md5($ccNumber . $ccExpMonth .$ccExpYear . (double)$amount . $currencyCode);
+        $separator = '_';
+        return md5($ccNumber . $separator .
+                   $ccExpMonth . $separator .
+                   $ccExpYear . $separator .
+                   (double)$amount . $separator .
+                   $currencyCode);
     }
 
     /**
@@ -271,32 +292,26 @@ class Mage_Payment_Model_Service_Centinel extends Mage_Core_Model_Abstract
      * Validate payment data
      *
      * @param Varien_Object $data
-     * @param bool $isValidationRequired
      * @return bool
      */
-    public function validate($data, $isValidationRequired)
+    public function validate($data)
     {
-        if ($this->getIsValidationUnlock()) {
+        if ($this->getIsValidationLock()) {
             return true;
         }
-
-        if ($this->getAuthenticationStatus() == self::STATE_NO_VALIDATION)
-        {
+        if ($this->getAuthenticationStatus() == self::STATE_NO_VALIDATION) {
             Mage::throwException(Mage::helper('payment')->__('Centinel validation is requered'));
         }
-        if ($this->getAuthenticationStatus() == self::STATE_VALIDATION_NOT_ENROLLED)
-        {
-            if (!$isValidationRequired) {
+        if ($this->getAuthenticationStatus() == self::STATE_VALIDATION_NOT_ENROLLED) {
+            if (!$this->getIsValidationRequired()) {
                 return true;
             }
             Mage::throwException(Mage::helper('payment')->__('Centinel validation is filed. Please check information and try again'));
         }
-        if ($this->getAuthenticationStatus() == self::STATE_VALIDATION_ENROLLED)
-        {
+        if ($this->getAuthenticationStatus() == self::STATE_VALIDATION_ENROLLED) {
             Mage::throwException(Mage::helper('payment')->__('Centinel validation is not complete. Please finish authorization in the Bank`s interface'));
         }
-        if ($this->getAuthenticationStatus() == self::STATE_AUTENTICATION_COMPLETE)
-        {
+        if ($this->getAuthenticationStatus() == self::STATE_AUTENTICATION_COMPLETE) {
             if ($this->getEnrolledControlSum() == $this->_generateEnrolledControlSum(
                         $data->getCardNumber(), $data->getCardExpMonth(), $data->getCardExpYear(), 
                         $data->getAmount(), $data->getCurrencyCode())) {
@@ -304,8 +319,10 @@ class Mage_Payment_Model_Service_Centinel extends Mage_Core_Model_Abstract
             }
             Mage::throwException(Mage::helper('payment')->__('Centinel validation is filed. Please check information. If You change information please revalidate it'));       
         }
-        if ($this->getAuthenticationStatus() == self::STATE_AUTENTICATION_FAILED)
-        {
+        if ($this->getAuthenticationStatus() == self::STATE_AUTENTICATION_FAILED) {
+            if (!$this->getIsAuthenticationRequired()) {
+                return true;
+            }
             Mage::throwException(Mage::helper('payment')->__('Centinel validation is filed. Please check information and try again'));
         }
     }

@@ -39,7 +39,7 @@ class Mage_Payment_Model_Service_Centinel_Api extends Mage_Core_Model_Abstract
      *
      * @var CentinelClient
      */
-protected $_thinClient = null;
+    protected $_thinClient = null;
 
     /**
      * Return Centinel thin client object
@@ -75,6 +75,26 @@ protected $_thinClient = null;
     }
 
     /**
+     * Return Timeout Connect
+     *
+     * @return int
+     */
+    protected function _getTimeoutConnect()
+    {
+        return 100;
+    }
+
+    /**
+     * Return Timeout Read
+     *
+     * @return int
+     */
+    protected function _getTimeoutRead()
+    {
+        return 100;
+    }
+
+    /**
      * Call centinel api methods by given method name and data
      *
      * @param $method string
@@ -97,11 +117,10 @@ protected $_thinClient = null;
         $thinData = array_merge($thinData, $data);
         if (count($thinData) > 0) {
         foreach($thinData AS $key => $val) {
-            $thinClient->add($key, $val);
+                $thinClient->add($key, $val);
             }
         }
-
-        $thinClient->sendHttp($this->getMapUrl(), $this->getTimeoutConnect(), $this->getTimeoutRead());
+        $thinClient->sendHttp($this->getMapUrl(), $this->_getTimeoutConnect(), $this->_getTimeoutRead());
         return $thinClient;
     }
 

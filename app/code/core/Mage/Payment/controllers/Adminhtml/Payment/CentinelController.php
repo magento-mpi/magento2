@@ -28,7 +28,7 @@
  * Payment Centinel Controller
  *
  */
-class Mage_Payment_CentinelController extends Mage_Core_Controller_Front_Action
+class Mage_Payment_Adminhtml_Payment_CentinelController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Return centinel validation model
@@ -50,9 +50,10 @@ class Mage_Payment_CentinelController extends Mage_Core_Controller_Front_Action
      */
     public function getPayment()
     {
-        return Mage::getSingleton('checkout/session')->getQuote()->getPayment();
+        $model = Mage::getSingleton('adminhtml/sales_order_create');
+        return $model->getQuote()->getPayment();
     }
-    
+        
     /**
      * Action for centinel validation request
      *
@@ -144,5 +145,4 @@ class Mage_Payment_CentinelController extends Mage_Core_Controller_Front_Action
 
         $this->renderLayout();
     }
-
 }
