@@ -78,14 +78,8 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
             $data['username'] = $this->getUsername();
         }
 
-        if ($this->getPassword()) {
-            $data['password'] = $this->_getEncodedPassword($this->getPassword());
-        }
-
         if ($this->getNewPassword()) {
             $data['password'] = $this->_getEncodedPassword($this->getNewPassword());
-        } elseif ($this->getPassword()) {
-            $data['new_password'] = $this->getPassword();
         }
 
         if ( !is_null($this->getIsActive()) ) {
