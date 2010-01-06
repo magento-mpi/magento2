@@ -129,7 +129,7 @@ class Enterprise_Reward_Model_Observer
         if (($tag->getApprovedStatus() == $tag->getStatus()) && $tag->getFirstCustomerId()) {
             $reward = Mage::getModel('enterprise_reward/reward')
                 ->setCustomerId($tag->getFirstCustomerId())
-                ->setStore($tag->getStoreId())
+                ->setStore($tag->getFirstStoreId())
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_TAG)
                 ->setActionEntity($tag)
                 ->updateRewardPoints();
