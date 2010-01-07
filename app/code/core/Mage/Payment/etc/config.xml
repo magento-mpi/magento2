@@ -125,6 +125,9 @@
                 </payment>
             </updates>
         </layout>
+        <secure_url>
+            <payment>/payment/</payment>
+        </secure_url>
     </frontend>
     <adminhtml>
         <layout>
@@ -194,13 +197,6 @@
                 <title>Purchase Order</title>
                 <allowspecific>0</allowspecific>
             </purchaseorder>
-
-
          </payment>
-         <payment_services>
-            <centinel>
-                <test_mode>1</test_mode>
-            </centinel>
-         </payment_services>
     </default>
 </config>

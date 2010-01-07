@@ -33,11 +33,11 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
      * States of validation
      *
      */
-    const STATE_NO_VALIDATION = 'no_validation';
+    const STATE_NO_VALIDATION           = 'no_validation';
     const STATE_VALIDATION_NOT_ENROLLED = 'not_enrolled';
-    const STATE_VALIDATION_ENROLLED  = 'enrolled';
-    const STATE_AUTENTICATION_COMPLETE = 'complete';    
-    const STATE_AUTENTICATION_FAILED   = 'failed';    
+    const STATE_VALIDATION_ENROLLED     = 'enrolled';
+    const STATE_AUTENTICATION_COMPLETE  = 'complete';
+    const STATE_AUTENTICATION_FAILED    = 'failed';
 
     /**
      * Validation api model
@@ -76,8 +76,9 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
            ->setProcessorId($this->_getConfig('processor_id'))
            ->setMerchantId($this->_getConfig('merchant_id'))
            ->setTransactionPwd(Mage::helper('core')->decrypt($this->_getConfig('password')))
-           ->setMapUrl($this->_getMapUrl());
-        return $this->_api; 
+           ->setIsTestMode((bool)(int)$this->_getConfig('test_mode'))
+           ->setApiEndpointUrl($this->getCustomApiEndpointUrl());
+        return $this->_api;
     }
 
     /**
@@ -108,11 +109,11 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
     /**
      * Setter for data stored in session
      *
-     * @param string $key
+     * @param string|array $key
      * @param string $value
      * @return Mage_Payment_Model_Service_Centinel
      */
-    protected function _setDataStoredInSession($key, $value)
+    protected function _setDataStoredInSession($key, $value = null)
     {
         $this->setData($key, $value);
         $key = $this->_paymentMethodCode . '_' . $key;
@@ -136,31 +137,62 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
     }
 
     /**
-     * Return URL for Api  
+     * Generate checksum from all passed parameters
      *
      * @return string
      */
-    protected function _getMapUrl()
+    protected function _generateChecksum()
     {
-        if ($this->_getConfig('test_mode')) {
-            return 'https://centineltest.cardinalcommerce.com/maps/txns.asp';
-        }
-        return $this->getMapUrl();
+        return md5(implode(func_get_args(), '_'));
     }
 
     /**
-     * Return URL for term response from Centinel  
+     * Unified validation/authentication URL getter
+     *
+     * @param string $suffix
+     * @param bool $current
+     * @return string
+     */
+    private function _getUrl($suffix, $current = false)
+    {
+        $request = (Mage::app()->getStore()->isAdmin() ? '*/payment_centinel/' : 'payment/centinel/') . $suffix;
+        return Mage::getUrl($request, array(
+            '_secure'  => true,
+            '_current' => $current,
+            'form_key' => Mage::getSingleton('core/session')->getFormKey(),
+            'method'   => $this->getPaymentMethodCode())
+        );
+    }
+
+    /**
+     * Export cmpi lookups information stored in session into array
+     *
+     * @param mixed $to
+     * @param array $map
+     * @return mixed $to
+     */
+    public function exportCmpi($to, array $map)
+    {
+        // collect available data intersected by requested map
+        $data = array();
+        $cmpiLookup = $this->_getDataStoredInSession('cmpi_lookup');
+        if ($cmpiLookup && isset($cmpiLookup['enrolled'])) {
+            $data = Varien_Object_Mapper::accumulateByMap($cmpiLookup, $data, array_keys($cmpiLookup));
+            if ('Y' === $cmpiLookup['enrolled'] && $cmpiAuth = $this->_getDataStoredInSession('cmpi_authenticate')) {
+                $data = Varien_Object_Mapper::accumulateByMap($cmpiAuth, $data, array_keys($cmpiAuth));
+            }
+        }
+        return Varien_Object_Mapper::accumulateByMap($data, $to, $map);
+    }
+
+    /**
+     * Return URL for term response from Centinel
      *
      * @return string
      */
     public function getTermUrl()
     {
-        $formKey = Mage::getSingleton('core/session')->getFormKey();
-        if (Mage::app()->getStore()->isAdmin()) {
-            return Mage::getUrl('*/payment_centinel/term', array('_secure' => true,'_current' => true, 'form_key' => $formKey, 'method' => $this->getPaymentMethodCode()));
-        } else {
-            return Mage::getUrl('payment/centinel/term', array('_secure' => true, 'form_key' => $formKey, 'method' => $this->getPaymentMethodCode()));
-        }
+        return $this->_getUrl('authenticate', true);
     }
 
     /**
@@ -170,32 +202,7 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
      */
     public function getValidationUrl()
     {
-        $formKey = Mage::getSingleton('core/session')->getFormKey();
-        if (Mage::app()->getStore()->isAdmin()) {
-            return Mage::getUrl('*/payment_centinel/validate', array('_secure' => true, 'form_key' => $formKey, 'method' => $this->getPaymentMethodCode()));
-        } else {
-            return Mage::getUrl('payment/centinel/validate', array('_secure' => true, 'form_key' => $formKey, 'method' => $this->getPaymentMethodCode()));
-        }
-    }
-
-    /**
-     * Generate control sum for payment data
-     *
-     * @param string $ccNumber
-     * @param string $ccExpMonth
-     * @param string $ccExpYear
-     * @param string $amount
-     * @param string $currencyCode
-     * @return string
-     */
-    protected function _generateEnrolledControlSum($ccNumber, $ccExpMonth, $ccExpYear, $amount, $currencyCode)
-    {
-        $separator = '_';
-        return md5($ccNumber . $separator .
-                   $ccExpMonth . $separator .
-                   $ccExpYear . $separator .
-                   (double)$amount . $separator .
-                   $currencyCode);
+        return $this->_getUrl('validate');
     }
 
     /**
@@ -219,7 +226,7 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
     {
         return $this->_paymentMethodCode;
     }
-    
+
     /**
      * Process lookup validation
      *
@@ -229,9 +236,8 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
     public function lookup($data)
     {
         $this->reset();
-        $_api = $this->_getApi();
-        $_api
-            ->setCardNumber($data->getCardNumber())
+        $api = $this->_getApi();
+        $api->setCardNumber($data->getCardNumber())
             ->setCardExpMonth($data->getCardExpMonth())
             ->setCardExpYear($data->getCardExpYear())
             ->setAmount($data->getAmount())
@@ -239,21 +245,23 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
             ->setOrderNumber($data->getOrderNumber())
             ->callLookup();
 
-        if ($_api->getEnrolled() == 'Y' && !$_api->getErrorNo() && $_api->getAcsUrl()) {
-            $this
-                ->setAuthenticationStatus(self::STATE_VALIDATION_ENROLLED)
-                ->setAcsUrl($_api->getAcsUrl())
-                ->setPayload($_api->getPayload())
-                ->setTransactionId($_api->getTransactionId())
-                ->setEnrolled($_api->getEnrolled())
-                ->setEnrolledControlSum(
-                    $this->_generateEnrolledControlSum(
-                        $data->getCardNumber(), $data->getCardExpMonth(), $data->getCardExpYear(), 
-                        $data->getAmount(), $data->getCurrencyCode()
-                    ));
+        if (!$api->getErrorNo()) {
+            $this->_setDataStoredInSession('cmpi_lookup', array(
+                'eci_flag' => $api->getEciFlag(),
+                'enrolled' => $api->getEnrolled(),
+            ));
+            if ($api->getEnrolled() == 'Y' && $api->getAcsUrl()) {
+                $this->setAuthenticationStatus(self::STATE_VALIDATION_ENROLLED)
+                    ->setAcsUrl($api->getAcsUrl())
+                    ->setPayload($api->getPayload())
+                    ->setTransactionId($api->getTransactionId())
+                    ->setEnrolledControlSum($this->_generateChecksum(
+                        $data->getCardNumber(), $data->getCardExpMonth(), $data->getCardExpYear(),
+                        (double)$data->getAmount(), $data->getCurrencyCode())
+                    );
                 return true;
+            }
         }
-
         $this->setAuthenticationStatus(self::STATE_VALIDATION_NOT_ENROLLED);
         return false;
     }
@@ -265,22 +273,19 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
      * @param string $MD
      * @return bool
      */
-    public function authenticate($PaResPayload, $MD)
+    public function authenticate($paResPayload, $MD)
     {
-        $_api = $this->_getApi();
-
-        $_api
-            ->setPaResPayload($PaResPayload)
+        $api = $this->_getApi();
+        $api->setPaResPayload($paResPayload)
             ->setTransactionId($MD)
             ->callAuthentication();
 
-        if ($_api->getErrorNo() == 0 && $_api->getSignature() == 'Y' && $_api->getPaResStatus() != 'N') {
-            $this
-                ->setAuthenticationStatus(self::STATE_AUTENTICATION_COMPLETE)
-                ->setPaResStatus($_api->getPaResStatus())
-                ->setCavv($_api->getCavv())
-                ->setEciFlag($_api->getEciFlag())
-                ->setXid($_api->getXid());
+        if ($api->getErrorNo() == 0 && $api->getSignature() == 'Y' && $api->getPaResStatus() != 'N') {
+            $this->setAuthenticationStatus(self::STATE_AUTENTICATION_COMPLETE)
+                ->_setDataStoredInSession('cmpi_authenticate', Varien_Object_Mapper::accumulateByMap($api, array(), array(
+                    'eci_flag', 'pa_res_status', 'signature_verification', 'xid', 'cavv'
+                )))
+            ;
             return true;
         }
 
@@ -293,38 +298,37 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
      *
      * @param Varien_Object $data
      * @return bool
+     * @throws Mage_Core_Exception
      */
     public function validate($data)
     {
         if ($this->getIsValidationLock()) {
             return true;
         }
-        if ($this->getAuthenticationStatus() == self::STATE_NO_VALIDATION) {
-            Mage::throwException(Mage::helper('payment')->__('Centinel validation is requered'));
+        switch ($this->getAuthenticationStatus()) {
+            case self::STATE_NO_VALIDATION:
+                Mage::throwException(Mage::helper('payment')->__('Centinel validation is requered'));
+            case self::STATE_VALIDATION_NOT_ENROLLED:
+                if (!$this->getIsValidationRequired()) {
+                    return true;
+                }
+                Mage::throwException(Mage::helper('payment')->__('Centinel validation is filed. Please check information and try again'));
+            case self::STATE_VALIDATION_ENROLLED:
+                Mage::throwException(Mage::helper('payment')->__('Centinel validation is not complete. Please finish authorization in the Bank`s interface'));
+            case self::STATE_AUTENTICATION_COMPLETE:
+                if ($this->getEnrolledControlSum() == $this->_generateChecksum(
+                        $data->getCardNumber(), $data->getCardExpMonth(), $data->getCardExpYear(),
+                        (double)$data->getAmount(), $data->getCurrencyCode())) {
+                    return true;
+                }
+                Mage::throwException(Mage::helper('payment')->__('Centinel validation is filed. Please check information. If You change information please revalidate it'));
+            case self::STATE_AUTENTICATION_FAILED:
+                if (!$this->getIsAuthenticationRequired()) {
+                    return true;
+                }
+                Mage::throwException(Mage::helper('payment')->__('Centinel validation is filed. Please check information and try again'));
         }
-        if ($this->getAuthenticationStatus() == self::STATE_VALIDATION_NOT_ENROLLED) {
-            if (!$this->getIsValidationRequired()) {
-                return true;
-            }
-            Mage::throwException(Mage::helper('payment')->__('Centinel validation is filed. Please check information and try again'));
-        }
-        if ($this->getAuthenticationStatus() == self::STATE_VALIDATION_ENROLLED) {
-            Mage::throwException(Mage::helper('payment')->__('Centinel validation is not complete. Please finish authorization in the Bank`s interface'));
-        }
-        if ($this->getAuthenticationStatus() == self::STATE_AUTENTICATION_COMPLETE) {
-            if ($this->getEnrolledControlSum() == $this->_generateEnrolledControlSum(
-                        $data->getCardNumber(), $data->getCardExpMonth(), $data->getCardExpYear(), 
-                        $data->getAmount(), $data->getCurrencyCode())) {
-                return true;
-            }
-            Mage::throwException(Mage::helper('payment')->__('Centinel validation is filed. Please check information. If You change information please revalidate it'));       
-        }
-        if ($this->getAuthenticationStatus() == self::STATE_AUTENTICATION_FAILED) {
-            if (!$this->getIsAuthenticationRequired()) {
-                return true;
-            }
-            Mage::throwException(Mage::helper('payment')->__('Centinel validation is filed. Please check information and try again'));
-        }
+        return false;
     }
 
     /**
@@ -334,20 +338,8 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
      */
     public function reset()
     {
-        $this
-           ->setAuthenticationStatus(self::STATE_NO_VALIDATION)
-           ->setAcsUrl(false)
-           ->setPayload(false)
-           ->setTransactionId(false)
-           ->setPaResStatus(false)
-           ->setCavv(false)
-           ->setEciFlag(false)
-           ->setXid(false)
-           ->setEnrolled(false)
-           ->setEnrolledControlSum(false);
-
+        $this->_getSession()->setData(array());
         $this->_api = null;
-        
         return $this;
     }
 
@@ -379,7 +371,7 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
      * @return Mage_Payment_Model_Service_Centinel
      */
     public function setAuthenticationStatus($value){
-        return $this->_setDataStoredInSession('authenticationStatus', $value);    
+        return $this->_setDataStoredInSession('authenticationStatus', $value);
     }
 
     /**
@@ -392,7 +384,7 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
         if ($this->_getDataStoredInSession('authenticationStatus')) {
             return $this->_getDataStoredInSession('authenticationStatus');
         }
-        return self::STATE_NO_VALIDATION;   
+        return self::STATE_NO_VALIDATION;
     }
 
     /**
@@ -436,7 +428,7 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
     {
         return $this->_getDataStoredInSession('Payload');
     }
-    
+
     /**
      * Setter for TransactionId
      *
@@ -456,110 +448,5 @@ class Mage_Payment_Model_Service_Centinel extends Varien_Object
     public function getTransactionId()
     {
         return $this->_getDataStoredInSession('TransactionId');
-    }
-
-    /**
-     * Setter for PaResStatus
-     *
-     * @param string $value
-     * @return Mage_Payment_Model_Service_Centinel
-     */
-    public function setPaResStatus($value)
-    {
-        return $this->_setDataStoredInSession('PaResStatus', $value);
-    }
-
-    /**
-     * Getter for PaResStatus
-     *
-     * @return string
-     */
-    public function getPaResStatus()
-    {
-        return $this->_getDataStoredInSession('PaResStatus');
-    }
-
-    /**
-     * Setter for Cavv
-     *
-     * @param string $value
-     * @return Mage_Payment_Model_Service_Centinel
-     */
-    public function setCavv($value)
-    {
-        return $this->_setDataStoredInSession('Cavv', $value);
-    }
-
-    /**
-     * Getter for Cavv
-     *
-     * @return string
-     */
-    public function getCavv()
-    {
-        return $this->_getDataStoredInSession('Cavv');
-    }
-
-    /**
-     * Setter for EciFlag
-     *
-     * @param string $value
-     * @return Mage_Payment_Model_Service_Centinel
-     */
-    public function setEciFlag($value)
-    {
-        return $this->_setDataStoredInSession('EciFlag', $value);
-    }
-
-    /**
-     * Getter for EciFlag
-     *
-     * @return string
-     */
-    public function getEciFlag()
-    {
-        return $this->_getDataStoredInSession('EciFlag');
-    }
-
-    /**
-     * Setter for Xid
-     *
-     * @param string $value
-     * @return Mage_Payment_Model_Service_Centinel
-     */
-    public function setXid($value)
-    {
-        return $this->_setDataStoredInSession('Xid', $value);
-    }
-
-    /**
-     * Getter for Xid
-     *
-     * @return string
-     */
-    public function getXid()
-    {
-        return $this->_getDataStoredInSession('Xid');
-    }
-
-    /**
-     * Setter for Enrolled
-     *
-     * @param string $value
-     * @return Mage_Payment_Model_Service_Centinel
-     */
-    public function setEnrolled($value)
-    {
-        return $this->_setDataStoredInSession('Enrolled', $value);
-    }
-
-    /**
-     * Gerrer for Enrolled
-     *
-     * @return string
-     */
-    public function getEnrolled()
-    {
-        return $this->_getDataStoredInSession('Enrolled');
     }
 }

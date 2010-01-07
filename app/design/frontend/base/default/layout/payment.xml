@@ -27,16 +27,16 @@
 
 -->
 <layout version="0.1.0">
-    <payment_centinel_term>
-        <block type="payment/form_service_centinel_authenticate_term" name="root" output="toHtml" template="payment/form/service/centinel/authenticate/term.phtml"/>
-    </payment_centinel_term>
     <payment_centinel_validate>
-        <block type="payment/form_service_centinel_authenticate_validate" name="root" output="toHtml" template="payment/form/service/centinel/authenticate/validate.phtml"/>
+        <block type="core/template" name="root" output="toHtml" template="payment/form/centinel/validate.phtml"/>
     </payment_centinel_validate>
+    <payment_centinel_authenticate>
+        <block type="core/template" name="root" output="toHtml" template="payment/form/centinel/authenticate.phtml"/>
+    </payment_centinel_authenticate>
     <checkout_multishipping_billing>
-	    <reference name="head">
-	        <action method="addJs"><script>mage/payment/centinel.js</script></action>
-	    </reference>
+        <reference name="head">
+            <action method="addJs"><script>mage/payment/centinel.js</script></action>
+        </reference>
     </checkout_multishipping_billing>
     <checkout_onepage_index>
         <reference name="head">

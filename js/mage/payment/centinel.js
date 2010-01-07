@@ -24,56 +24,63 @@ var centinelValidator = Class.create();
 
 centinelValidator.prototype = {
     
-    initialize: function(){
+    initialize: function()
+    {
         this.methods = Array();
     },
 
-    registerMethod: function(methodCode, validationUrl, frameId, formId){
+    registerMethod: function(methodCode, validationUrl, frameId, formId)
+    {
         var method = new centinelValidationMethod(methodCode, validationUrl, frameId, formId);
         this._setMethod(methodCode, method);
     },
 
-    validate: function(methodCode){
+    validate: function(methodCode)
+    {
         var method = this._getMethod(methodCode);
         if (!method) {
             return true;
         }
-        if (method.state == true && method.checksum == this._generateChecksum(method.getForm()))
-        {
+        if (method.state == true && method.checksum == this._generateChecksum(method.getForm())) {
             return true
         }
         this._startValidation(method);
         return false;
     },
     
-    validationStart: function(methodCode, message){
-        this._showInterface(this._getMethod(methodCode));
+    validationStart: function(methodCode, message)
+    {
+        this._getMethod(methodCode).getFrame().show();
         this._showMessage(message);
     },
 
-    validationFailed: function(methodCode, message){
+    validationFailed: function(methodCode, message)
+    {
         var method = this._getMethod(methodCode);
-        this._hideInterface(method);
+        method.getFrame().hide();
         method.state = false;
         this._showMessage(message);
     },
 
-    validationComplete: function(methodCode, message){
+    validationComplete: function(methodCode, message)
+    {
         var method = this._getMethod(methodCode);
-        this._hideInterface(method);
+        method.getFrame().hide();
         method.state = true;
         this._showMessage(message);
     },
 
-    _showMessage: function(message){
+    _showMessage: function(message)
+    {
         if (message != '') {
             alert(message);
         }
         return this;
     },
 
-    _startValidation: function(method){
-        this._hideInterface(method);
+    _startValidation: function(method)
+    {
+        method.getFrame().hide();
         method.state = false;
         method.checksum = this._generateChecksum(method.getForm());
         var formParams = Form.serialize(method.getForm());
@@ -81,34 +88,27 @@ centinelValidator.prototype = {
         return this;
     },
 
-    _setMethod: function(methodCode, method){
+    _setMethod: function(methodCode, method)
+    {
         this.methods[methodCode] = method;
         return this;
     },
 
-    _getMethod: function(methodCode){
+    _getMethod: function(methodCode)
+    {
         return this.methods[methodCode];
     },
     
-    _generateChecksum: function(form){
+    _generateChecksum: function(form)
+    {
         return Form.serialize(form);
-    },
-
-    _showInterface: function(method){
-        method.getFrame().style.display = 'block';
-        return this;
-    },
-
-    _hideInterface: function(method){
-        method.getFrame().style.display = 'none';
-        return this;
     }
-
 }
 
 var centinelValidationMethod = Class.create();
 centinelValidationMethod.prototype = {
-    initialize: function(methodCode, validationUrl, frameId, formId){
+    initialize: function(methodCode, validationUrl, frameId, formId)
+    {
         this.methodCode = methodCode;
         this.validationUrl = validationUrl;
         this.state = false;
@@ -117,7 +117,8 @@ centinelValidationMethod.prototype = {
         this._formId = formId;
     },
     
-    getForm: function(){
+    getForm: function()
+    {
         return $(this._formId);
     },
 
@@ -125,6 +126,5 @@ centinelValidationMethod.prototype = {
         return $(this._frameId);
     }
 }
-
 
 centinelValidator = new centinelValidator();

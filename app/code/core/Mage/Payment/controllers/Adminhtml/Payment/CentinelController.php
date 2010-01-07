@@ -31,32 +31,7 @@
 class Mage_Payment_Adminhtml_Payment_CentinelController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Return centinel validation model
-     *
-     * @param Mage_Payment_Model_Method_Abstract $paymetMethod
-     * @return Mage_Payment_Model_Service_Centinel
-     */
-    public function getCentinelValidator($paymetMethod)
-    {
-        $validator = Mage::getSingleton('payment/service_centinel');
-        $validator->setPaymentMethodCode($paymetMethod);
-        return $validator;
-    }
-
-    /**
-     * Return payment model
-     *
-     * @return Mage_Sales_Model_Quote_Payment
-     */
-    public function getPayment()
-    {
-        $model = Mage::getSingleton('adminhtml/sales_order_create');
-        return $model->getQuote()->getPayment();
-    }
-        
-    /**
-     * Action for centinel validation request
-     *
+     * Initialize validation
      */
     public function validateAction()
     {
@@ -66,14 +41,14 @@ class Mage_Payment_Adminhtml_Payment_CentinelController extends Mage_Adminhtml_C
         $request = $this->getRequest();
         $paymentData = $request->getParam('payment');
         $paymentMethod = $request->getParam('method');
-        $paymentData['method'] = $paymentMethod; 
+        $paymentData['method'] = $paymentMethod;
 
-        $validator = $this->getCentinelValidator($paymentMethod);
+        $validator = $this->_getCentinelValidator($paymentMethod);
         $block->setPaymentMethod($paymentMethod);
 
         try {
             $validator->setIsValidationLock(true);
-            $this->getPayment()->importData($paymentData);
+            $this->_getPayment()->importData($paymentData);
             $validator->setIsValidationLock(false);
         } catch (Mage_Core_Exception $e) {
             $block->setValidationMessage($e->getMessage());
@@ -88,7 +63,7 @@ class Mage_Payment_Adminhtml_Payment_CentinelController extends Mage_Adminhtml_C
             return;
         }
 
-        $params = $this->getPayment()->getMethodInstance()->getCentinelValidationData();
+        $params = $this->_getPayment()->getMethodInstance()->getCentinelValidationData();
 
         if ($validator->lookup($params)) {
             $block
@@ -98,24 +73,23 @@ class Mage_Payment_Adminhtml_Payment_CentinelController extends Mage_Adminhtml_C
                 ->setTransactionId($validator->getTransactionId())
                 ->setValidationEnrolled(true);
         } else {
-            $isRequired = $this->getPayment()->getMethodInstance()->isCentinelValidationRequired();
+            $isRequired = $this->_getPayment()->getMethodInstance()->isCentinelValidationRequired();
             if ($isRequired) {
                 $block->setValidationError(true);
                 $block->setValidationMessage(Mage::helper('payment')->__('Centinel validation is filed. Please check information and try again'));
             } else {
                $block->setValidationComplete(true);
                $block->setValidationMessage(Mage::helper('payment')->__('Centinel validation is not complete. You can continue or check information and try again'));
-            } 
+            }
         }
 
         $this->renderLayout();
     }
 
     /**
-     * Action for centinel autentofication request
-     *
+     * Authenticate when returned from bank
      */
-    public function termAction()
+    public function authenticateAction()
     {
         $this->loadLayout();
 
@@ -126,14 +100,14 @@ class Mage_Payment_Adminhtml_Payment_CentinelController extends Mage_Adminhtml_C
 
         $block = $this->getLayout()->getBlock('root');
         $block->setMethodCode($paymentMethod);
-        
-        $validator = $this->getCentinelValidator($paymentMethod);
+
+        $validator = $this->_getCentinelValidator($paymentMethod);
 
         if ($validator->authenticate($PAResPayload, $MD)) {
             $block->setAuthenticateComplete(true);
             $block->setValidationMessage(Mage::helper('payment')->__('Validation is complete. Please continue.'));
         } else {
-            $isRequired = $this->getPayment()->getMethodInstance()->isCentinelAuthenticationRequired();
+            $isRequired = $this->_getPayment()->getMethodInstance()->isCentinelAuthenticationRequired();
             if ($isRequired) {
                 $block->setAuthenticateComplete(false);
                 $block->setValidationMessage(Mage::helper('payment')->__('Validation is failed. Please try again.'));
@@ -142,7 +116,30 @@ class Mage_Payment_Adminhtml_Payment_CentinelController extends Mage_Adminhtml_C
                 $block->setValidationMessage(Mage::helper('payment')->__('Please continue.'));
             }
         }
-
         $this->renderLayout();
+    }
+
+    /**
+     * Return centinel validation model
+     *
+     * @param Mage_Payment_Model_Method_Abstract $paymetMethod
+     * @return Mage_Payment_Model_Service_Centinel
+     */
+    private function _getCentinelValidator($paymetMethod)
+    {
+        $validator = Mage::getSingleton('payment/service_centinel');
+        $validator->setPaymentMethodCode($paymetMethod);
+        return $validator;
+    }
+
+    /**
+     * Return payment model
+     *
+     * @return Mage_Sales_Model_Quote_Payment
+     */
+    private function _getPayment()
+    {
+        $model = Mage::getSingleton('adminhtml/sales_order_create');
+        return $model->getQuote()->getPayment();
     }
 }
