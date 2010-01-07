@@ -40,14 +40,18 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
         $this->getLayout()->createBlock('catalog/breadcrumbs');
 
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            if ($title = $this->getCurrentCategory()->getMetaTitle()) {
+            $category = $this->getCurrentCategory();
+            if ($title = $category->getMetaTitle()) {
                 $headBlock->setTitle($title);
             }
-            if ($description = $this->getCurrentCategory()->getMetaDescription()) {
+            if ($description = $category->getMetaDescription()) {
                 $headBlock->setDescription($description);
             }
-            if ($keywords = $this->getCurrentCategory()->getMetaKeywords()) {
+            if ($keywords = $category->getMetaKeywords()) {
                 $headBlock->setKeywords($keywords);
+            }
+            if ($this->helper('catalog/category')->canUseCanonicalTag()) {
+                $headBlock->addLinkRel('canonical', $category->getUrl());
             }
             /*
             want to show rss feed in the url
