@@ -165,6 +165,47 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     }
 
     /**
+     * Whether centinel service is enabled
+     *
+     * @return bool
+     */
+    public function isCentinelValidationEnabled()
+    {
+        return $this->_pro->getConfig()->centinel;
+    }
+
+    /**
+     * Whether centinel validation is required
+     *
+     * @return bool
+     */
+    public function isCentinelValidationRequired()
+    {
+        return $this->_pro->getConfig()->centinelValidationRequired;
+    }
+
+    /**
+     * Whether centinel authentication is required
+     *
+     * @return bool
+     */
+    public function isCentinelAuthenticationRequired()
+    {
+        return $this->_pro->getConfig()->centinelAuthenticationRequired;
+    }
+
+    /**
+     * Set custom API endpoint URL to the validator instance
+     *
+     * @return Mage_Payment_Model_Service_Centinel
+     */
+    public function getCentinelValidator()
+    {
+        $instance = parent::getCentinelValidator();
+        return $instance->setCustomApiEndpointUrl('https://paypal.cardinalcommerce.com/maps/txns.asp');
+    }
+
+    /**
      * Place an order with authorization or capture action
      *
      * @param Mage_Sales_Model_Order_Payment $payment
@@ -186,14 +227,19 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             ->setCreditCardNumber($payment->getCcNumber())
             ->setCreditCardExpirationDate(sprintf('%02d%02d', $payment->getCcExpMonth(), $payment->getCcExpYear()))
             ->setCreditCardCvv2($payment->getCcCid())
-//            ->setCentinelAuthStatus()
-//            ->setCentinelMpivendor()
-//            ->setCentinelCavv()
-//            ->setCentinelEci()
-//            ->setCentinelxid()
 //            ->setMaestroSoloIssueDate()
 //            ->setMaestroSoloIssueNumber()
         ;
+        if ($this->isCentinelValidationEnabled()) {
+            $this->getCentinelValidator()->exportCmpi($api, array(
+                'enrolled'      => 'centinel_mpivendor',
+                'eci_flag'      => 'centinel_eci',
+                'pa_res_status' => 'centinel_authstatus',
+                'cavv'          => 'centinel_cavv',
+                'xid'           => 'centinel_xid',
+            ));
+        }
+
         // add shipping address
         if ($order->getIsVirtual()) {
             $api->setAddress($order->getBillingAddress())->setSuppressShipping(true);
@@ -214,45 +260,5 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         ;
         Mage::getModel('paypal/info')->importToPayment($api, $payment);
         return $this;
-    }
-
-    /**
-     * Return flag - is Centinel validation enabled
-     *
-     * @return bool
-     */
-    public function isCentinelValidationEnabled()
-    {
-        return $this->_pro->getConfig()->centinel;
-    }
-
-    /**
-     * Return flag - is Centinel validation required
-     *
-     * @return bool
-     */
-    public function isCentinelValidationRequired()
-    {
-        return $this->_pro->getConfig()->centinel_validation_required;
-    }
-
-    /**
-     * Return flag - is Centinel authentication required
-     *
-     * @return bool
-     */
-    public function isCentinelAuthenticationRequired()
-    {
-        return $this->_pro->getConfig()->centinel_authentication_required;
-    }
-
-    /**
-     * Return url for Centinel validation service
-     *
-     * @return string
-     */
-    public function getCentinelMapUrl()
-    {
-        return $this->_pro->getConfig()->centinel_map_url;
     }
 }

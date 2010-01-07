@@ -736,7 +736,6 @@ class Mage_Paypal_Model_Config
             case 'centinel':
             case 'centinel_validation_required':
             case 'centinel_authentication_required':
-            case 'centinel_map_url':
             case 'fraud_filter':
             case 'line_items_enabled':
             case 'order_status':
