@@ -287,8 +287,10 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             return;
         }
         if ($this->getRequest()->isPost()) {
-            $data = $this->getRequest()->getPost('billing', array());
+            $postData = $this->getRequest()->getPost('billing', array());
+            $data = $this->_filterPostData($postData);
             $customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
+
             if (isset($data['email'])) {
                 $data['email'] = trim($data['email']);
             }
@@ -492,4 +494,15 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 
+    /**
+     * Filtering posted data. Converting localized data if needed
+     *
+     * @param array
+     * @return array
+     */
+    protected function _filterPostData($data)
+    {
+        $data = $this->_filterDates($data, array('dob'));
+        return $data;
+    }
 }

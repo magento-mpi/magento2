@@ -151,6 +151,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
+            $data = $this->_filterPostData($data);
             $redirectBack   = $this->getRequest()->getParam('back', false);
             $this->_initCustomer('customer_id');
             $customer = Mage::registry('current_customer');
@@ -580,5 +581,17 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     protected function _isAllowed()
     {
         return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
+    }
+
+    /**
+     * Filtering posted data. Converting localized data if needed
+     *
+     * @param array
+     * @return array
+     */
+    protected function _filterPostData($data)
+    {
+        $data['account'] = $this->_filterDates($data['account'], array('dob'));
+        return $data;
     }
 }

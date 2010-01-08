@@ -141,12 +141,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $this->setStoreId(Mage::app()->getStore()->getId());
         }
 
-        if ($this->hasDob()) {
-            if ($this->getOrigData('dob') == $this->getDob()) {
-                $this->setData('dob_is_formated', true);
-            }
-        }
-
         $this->getGroupId();
         return $this;
     }
