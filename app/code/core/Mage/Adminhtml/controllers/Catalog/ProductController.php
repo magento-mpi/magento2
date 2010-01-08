@@ -199,7 +199,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function editAction()
     {
+        $productId  = (int) $this->getRequest()->getParam('id');
         $product = $this->_initProduct();
+
+        if ($productId && !$product->getId()) {
+            $this->_getSession()->addError(Mage::helper('catalog')->__('This Product no longer exists'));
+            $this->_redirect('*/*/');
+            return;
+        }
+
         Mage::dispatchEvent('catalog_product_edit_action', array('product' => $product));
 
         $_additionalLayoutPart = '';
