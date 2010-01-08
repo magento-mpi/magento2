@@ -120,16 +120,17 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
 
                     stores = group["stores"];
                     for (i=0; i < stores.length; i++) {
-                        option = new Option();
-                        option.value = stores[i]["id"];
-                        option.text = stores[i]["name"];
+                        var option = document.createElement("option");
+                        option.appendChild(document.createTextNode(stores[i]["name"]));
+                        option.setAttribute("value", stores[i]["id"]);
                         optionGroup.appendChild(option);
                     }
                 }
             }
             else {
-                sSel.innerHTML = \'<option value="">'
-                . Mage::helper('enterprise_giftcardaccount')->__('-- First Please Select a Website --') . '</option>\';
+              var option = document.createElement("option");
+              option.appendChild(document.createTextNode(\''.Mage::helper('enterprise_giftcardaccount')->__('-- First Please Select a Website --').'\'));
+              sSel.appendChild(option);
             }
         }
         //]]></script>';
