@@ -160,12 +160,7 @@ class Mage_Moneybookers_Model_Event
                 ->addObject($invoice->getOrder())
                 ->save();
         }
-        // set new order state
-        $newPaymentStatus = $this->_order->getPayment()->getMethodInstance()->getConfigData('order_status');
-        if (empty($newPaymentStatus)) {
-            $newPaymentStatus = Mage_Sales_Model_Order::STATE_PROCESSING;
-        }
-        $this->_order->setState($newPaymentStatus, $newPaymentStatus, $msg, true);
+        $this->_order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $msg);
         // save transaction ID
         $this->_order->getPayment()->setLastTransId($this->getEventData('mb_transaction_id'));
 
