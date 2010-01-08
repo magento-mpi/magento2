@@ -130,14 +130,6 @@ class Mage_Paypal_Model_Config
     );
 
     /**
-     * Legacy BN codes:
-     * 'Varien_Cart_EC_US', 'Varien_Cart_DP_US', 'Varien_Cart_WPS_US', 'Varien_Cart_EC_UK', 'Varien_Cart_DP_UK'
-     * @deprecated
-     * @var string
-     */
-    protected $_bnLegacyCountryCode = 'US';
-
-    /**
      * Style system config map (Express Checkout)
      * @var array
      */
@@ -404,14 +396,12 @@ class Mage_Paypal_Model_Config
             $product = $this->_buildNotationPPMap[$this->_methodCode];
         }
         if (null === $countryCode) {
-            $countryCode = $this->_bnLegacyCountryCode;
-            // $countryCode = Mage::getStoreConfig('shipping/origin/country_id', $this->_storeId);
+            $countryCode = $this->_matchBnCountryCode(Mage::getStoreConfig('general/country/default', $this->_storeId));
         }
-        $format = 'Varien_ShoppingCart_%s_%s';
-        if ($this->_bnLegacyCountryCode) {
-            $format = 'Varien_Cart_%s_%s';
+        if ($countryCode) {
+            $countryCode = '_' . $countryCode;
         }
-        return sprintf($format, $product, $countryCode);
+        return sprintf('Varien_Cart_%s%s', $product, $countryCode);
     }
 
     /**
@@ -646,6 +636,23 @@ class Mage_Paypal_Model_Config
                 return "paypal/style/{$fieldName}";
             default:
                 return $this->_mapGenericStyleFieldset($fieldName);
+        }
+    }
+
+    /**
+     * Check wheter specified country code is supported by build notation codes for specific countries
+     *
+     * @param $code
+     * @return string|null
+     */
+    private function _matchBnCountryCode($code)
+    {
+        switch ($code) {
+            // Australia, Austria, Belgium, Canada, China, France, Germany, Hong Kong, Italy
+            case 'AU': case 'AT': case 'BE': case 'CA': case 'CN': case 'FR': case 'DE': case 'HK': case 'IT':
+            // Japan, Mexico, Netherlands, Poland, Singapore, Spain, Switzerland, United Kingdom, United States
+            case 'JP': case 'MX': case 'NL': case 'PL': case 'SG': case 'ES': case 'CH': case 'UK': case 'US':
+                return $code;
         }
     }
 
