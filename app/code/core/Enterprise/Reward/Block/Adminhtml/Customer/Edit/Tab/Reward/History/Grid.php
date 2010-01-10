@@ -45,6 +45,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         $this->setId('rewardPointsHistoryGrid');
         $this->setDefaultSort('created_at');
         $this->setDefaultDir('DESC');
+//        $this->setFilterVisibility(false);
     }
 
     /**
@@ -65,6 +66,29 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
     }
 
     /**
+     * Add column filter to collection
+     *
+     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @return Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
+     */
+    protected function _addColumnFilterToCollection($column)
+    {
+        Mage::log(get_class($column));
+        if ($this->getCollection()) {
+            $field = ( $column->getFilterIndex() ) ? $column->getFilterIndex() : $column->getIndex();
+            if ($field == 'website_id') {
+                $cond = $column->getFilter()->getCondition();
+                if ($field && isset($cond)) {
+                    $this->getCollection()->addFieldToFilter('main_table.'.$field , $cond);
+                }
+            } else {
+                parent::_addColumnFilterToCollection($column);
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Prepare grid columns
      *
      * @return Mage_Widget_Block_Adminhtml_Widget_Instance_Grid
@@ -72,16 +96,18 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('enterprise_reward')->__('Date'),
-            'align'     => 'left',
-            'index'     => 'created_at',
-            'sortable' => false
+            'header'   => Mage::helper('enterprise_reward')->__('Date'),
+            'align'    => 'left',
+            'index'    => 'created_at',
+            'sortable' => false,
+            'filter'   => false
         ));
         $this->addColumn('expiration_date', array(
             'header'    => Mage::helper('enterprise_reward')->__('Expiration Date'),
             'align'     => 'left',
             'index'     => 'expiration_date',
-            'sortable' => false
+            'sortable' => false,
+            'filter'   => false
         ));
 
         $this->addColumn('website', array(
@@ -127,15 +153,17 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         $this->addColumn('rate_description', array(
             'header'   => Mage::helper('enterprise_reward')->__('Rate Description'),
             'index'    => 'rate_description',
-            'sortable' => false
+            'sortable' => false,
+            'filter'   => false
         ));
 
         $this->addColumn('message', array(
-            'header' => Mage::helper('enterprise_reward')->__('Message'),
-            'align'  => 'left',
-            'index'  => 'message',
-            'getter' => 'getMessage',
-            'sortable' => false
+            'header'   => Mage::helper('enterprise_reward')->__('Message'),
+            'align'    => 'left',
+            'index'    => 'message',
+            'getter'   => 'getMessage',
+            'sortable' => false,
+            'filter'   => false
         ));
 
         $this->addColumn('comment', array(
