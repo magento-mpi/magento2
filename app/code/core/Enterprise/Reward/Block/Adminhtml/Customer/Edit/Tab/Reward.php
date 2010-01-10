@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
-    extends Mage_Adminhtml_Block_Widget_Accordion
+    extends Mage_Adminhtml_Block_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
@@ -87,21 +87,15 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      */
     protected function _prepareLayout()
     {
-        $managementBlock = $this->getLayout()
-            ->createBlock('enterprise_reward/adminhtml_customer_edit_tab_reward_management');
-//        if ($managementBlock = $this->getLayout()->getBlock('reward_points_management')) {
-            $this->addItem('reward_points_management', array(
-                'title'   => Mage::helper('enterprise_reward')->__('Reward Points'),
-                'content' => $managementBlock,
-                'open'    => true
-            ));
-//        }
-        $this->addItem('reward_points_history', array(
+        $accordion = $this->getLayout()->createBlock('adminhtml/widget_accordion');
+        $accordion->addItem('reward_points_history', array(
             'title'       => Mage::helper('enterprise_reward')->__('Reward Points History'),
             'open'        => false,
+            'class'       => '',
             'ajax'        => true,
             'content_url' => $this->getUrl('*/customer_reward/history', array('_current' => true))
         ));
+        $this->setChild('history_accordion', $accordion);
 
         return parent::_prepareLayout();
     }

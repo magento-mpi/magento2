@@ -29,7 +29,9 @@
 <layout>
     <adminhtml_customer_edit>
         <reference name="customer_edit_tabs">
-            <block type="enterprise_reward/adminhtml_customer_edit_tab_reward" name="customer_edit_tab_reward"/>
+            <block type="enterprise_reward/adminhtml_customer_edit_tab_reward" name="customer_edit_tab_reward" template="enterprise/reward/customer/reward.phtml">
+                <block type="enterprise_reward/adminhtml_customer_edit_tab_reward_management" name="reward_management"/>
+            </block>
             <action method="addTab"><name>customer_edit_tab_reward</name><block>customer_edit_tab_reward</block></action>
         </reference>
         <reference name="customer_edit_tab_view">

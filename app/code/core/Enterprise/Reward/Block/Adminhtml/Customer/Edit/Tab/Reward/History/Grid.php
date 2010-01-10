@@ -75,24 +75,28 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             'header'    => Mage::helper('enterprise_reward')->__('Date'),
             'align'     => 'left',
             'index'     => 'created_at',
+            'sortable' => false
         ));
         $this->addColumn('expiration_date', array(
             'header'    => Mage::helper('enterprise_reward')->__('Expiration Date'),
             'align'     => 'left',
             'index'     => 'expiration_date',
+            'sortable' => false
         ));
 
         $this->addColumn('website', array(
             'header'  => Mage::helper('enterprise_reward')->__('Website'),
             'index'   => 'website_id',
             'type'    => 'options',
-            'options' => Mage::getModel('enterprise_reward/source_website')->toOptionArray(false)
+            'options' => Mage::getModel('enterprise_reward/source_website')->toOptionArray(false),
+            'sortable' => false
         ));
 
         $this->addColumn('points_balance', array(
             'header'  => Mage::helper('enterprise_reward')->__('Points Balance'),
             'align'   => 'center',
-            'index'   => 'points_balance'
+            'index'   => 'points_balance',
+            'sortable' => false
         ));
 
         $this->addColumn('currency_amount', array(
@@ -107,7 +111,8 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         $this->addColumn('points_delta', array(
             'header'  => Mage::helper('enterprise_reward')->__('Points Delta'),
             'align'   => 'center',
-            'index'   => 'points_delta'
+            'index'   => 'points_delta',
+            'sortable' => false
         ));
 
         $this->addColumn('currency_delta', array(
@@ -129,15 +134,27 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             'header' => Mage::helper('enterprise_reward')->__('Message'),
             'align'  => 'left',
             'index'  => 'message',
-            'getter' => 'getMessage'
+            'getter' => 'getMessage',
+            'sortable' => false
         ));
 
         $this->addColumn('comment', array(
             'header' => Mage::helper('enterprise_reward')->__('Comments'),
             'align' => 'left',
-            'index' => 'comment'
+            'index' => 'comment',
+            'sortable' => false
         ));
 
         return parent::_prepareColumns();
+    }
+
+    /**
+     * Return grid url for ajax actions
+     *
+     * @return string
+     */
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/historyGrid', array('_current' => true));
     }
 }

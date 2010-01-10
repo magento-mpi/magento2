@@ -61,6 +61,19 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Mage_Adminht
     }
 
     /**
+     * History Grid Ajax Action
+     *
+     */
+    public function historyGridAction()
+    {
+        $customerId = $this->getRequest()->getParam('id', 0);
+        $history = $this->getLayout()
+            ->createBlock('enterprise_reward/adminhtml_customer_edit_tab_reward_history_grid', '',
+                array('customer_id' => $customerId));
+        $this->getResponse()->setBody($history->toHtml());
+    }
+
+    /**
      *  Delete orphan points Action
      */
     public function deleteOrphanPointsAction()
