@@ -425,7 +425,7 @@ class Enterprise_Reward_Model_Observer
             ->getRewardSalesrule($ruleIds);
         $pointsDelta = 0;
         foreach ($data as $rule) {
-            $pointsDelta =+ (int)$rule['points_delta'];
+            $pointsDelta += (int)$rule['points_delta'];
         }
         if ($pointsDelta) {
             $order->setRewardSalesrulePoints($pointsDelta);
