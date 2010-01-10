@@ -213,6 +213,8 @@ class Enterprise_Reward_Model_Observer
         }
         if (((float)$order->getBaseTotalInvoiced() > 0)
             && (($order->getBaseGrandTotal() - $order->getBaseSubtotalCanceled()) == $order->getBaseTotalPaid())) {
+            $orderCollectedPoints = 0;
+            $salesrulePointsDelta = 0;
             /* @var $reward Enterprise_Reward_Model_Reward */
             $reward = Mage::getModel('enterprise_reward/reward')
                 ->setCustomerId($order->getCustomerId())
@@ -220,18 +222,25 @@ class Enterprise_Reward_Model_Observer
                 ->setActionEntity($order)
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA)
                 ->updateRewardPoints();
+            $orderCollectedPoints = $reward->getPointsDelta();
             if ($order->getRewardSalesrulePoints()) {
-                Mage::getModel('enterprise_reward/reward')
+                $reward = Mage::getModel('enterprise_reward/reward')
                     ->setCustomerId($order->getCustomerId())
                     ->setWebsiteId($order->getStore()->getWebsiteId())
                     ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_SALESRULE)
                     ->setActionEntity($order)
                     ->setPointsDelta($order->getRewardSalesrulePoints())
                     ->updateRewardPoints();
+                $salesrulePointsDelta = $reward->getPointsDelta();
             }
-            if ($reward->getPointsDelta()) {
+            if ($orderCollectedPoints) {
                 $order->addStatusHistoryComment(
-                    Mage::helper('enterprise_reward')->__('Gained Promotion %d Points to Customer', $reward->getPointsDelta())
+                    Mage::helper('enterprise_reward')->__('Collected %d Points to Customer', $orderCollectedPoints)
+                )->save();
+            }
+            if ($salesrulePointsDelta) {
+                $order->addStatusHistoryComment(
+                    Mage::helper('enterprise_reward')->__('Gained Promotion %d Points to Customer', $salesrulePointsDelta)
                 )->save();
             }
         }
