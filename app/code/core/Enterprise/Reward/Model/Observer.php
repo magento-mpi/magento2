@@ -49,18 +49,22 @@ class Enterprise_Reward_Model_Observer
         $request = $observer->getEvent()->getRequest();
         $customer = $observer->getEvent()->getCustomer();
         if ($data = $request->getPost('reward')) {
+            $reward = Mage::getModel('enterprise_reward/reward')
+                ->setCustomer($customer)
+                ->loadByCustomer();
             if (!empty($data['points_delta'])) {
-                $reward = Mage::getModel('enterprise_reward/reward')
-                    ->setData($data)
+                $reward->setData($data)
                     ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
-                    ->setCustomer($customer)
                     ->setActionEntity($customer)
                     ->setRewardUpdateNotification((isset($data['reward_update_notification']) ? true : false))
                     ->setRewardWarningNotification((isset($data['reward_warning_notification']) ? true : false))
                     ->updateRewardPoints();
+            } else {
+                $reward->setRewardUpdateNotification((isset($data['reward_update_notification']) ? true : false))
+                    ->setRewardWarningNotification((isset($data['reward_warning_notification']) ? true : false))
+                    ->save();
             }
         }
-
         return $this;
     }
 

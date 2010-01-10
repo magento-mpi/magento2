@@ -50,6 +50,8 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     const REWARD_ACTION_CREDITMEMO          = 9;
     const REWARD_ACTION_SALESRULE           = 10;
 
+    protected $_modelLoadedByCustomer = false;
+
     static protected $_actionModelClasses = array();
 
     protected $_rates = array();
@@ -386,9 +388,12 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function loadByCustomer()
     {
-        if ($this->getCustomerId() && $this->getWebsiteId()) {
+        if (!$this->_modelLoadedByCustomer && $this->getCustomerId()
+            && $this->getWebsiteId())
+        {
             $this->getResource()->loadByCustomerId($this,
                 $this->getCustomerId(), $this->getWebsiteId());
+            $this->_modelLoadedByCustomer = true;
         }
         return $this;
     }
