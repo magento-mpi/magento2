@@ -19,8 +19,8 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @package    tools
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -29,7 +29,7 @@ class Translate {
     static private $csv; # object of Varien_File_Csv_multy
     static private $parseData; # parsering data file "__()";
     static private $CONFIG; # data from config.inc.php
-    static private $allParseData=array(); 
+    static private $allParseData=array();
     /**
      *Starting checking process
      *
@@ -67,11 +67,11 @@ class Translate {
         $file = self::$opts->getOption('file');
         $key_dupl = self::$opts->getOption('key');
         $dir_en = $path.self::$CONFIG['paths']['locale'].'en_US/';
-        
+
         if($validate===null && $dups===null && $update===null && $generate===null && $sort===null){
             self::_error('type "php translate.php -h" for help.');
         }
-        
+
         if(!is_dir($dir_en)){
             self::_error('Locale dir '.$dir_en.' is not found');
         }
@@ -109,7 +109,7 @@ class Translate {
             self::_callDups($key_dupl,$path);
             return;
         }
-        
+
 
     }
     /**
@@ -141,7 +141,7 @@ class Translate {
             foreach ($files as $file_in_dir){
                 self::checkFiles($dir_en.$file_in_dir,$dir.$file_in_dir);
             }
-            
+
         }
     }
     /**
@@ -156,7 +156,7 @@ class Translate {
     static protected function _callGenerate($file,  $path, $dir_en, $level=0, $doSave=true)
     {
         static $files_name_changed = array();
-        
+
         if(!($file===null || $file === false  || $file === true) ){
             if(!is_array($file)){
                 if(isset(self::$CONFIG['translates'][$file])){
@@ -212,7 +212,7 @@ class Translate {
                         if(isset($data_en[$val]['value'])){
                             array_push($csv_data,array($val,$data_en[$val]['value']));
                         }
-                        else 
+                        else
                             array_push($csv_data,array($val,$val))	;
                     }
                     self::$csv -> saveData($dir_en.$file.'.'.EXTENSION,$csv_data);
@@ -225,7 +225,7 @@ class Translate {
                 }
             } else {
                 for($a=0;$a<count($file);$a++){
-                    self::_callGenerate($file[$a],$path,$dir_en,$level+1,false);					
+                    self::_callGenerate($file[$a],$path,$dir_en,$level+1,false);
                 }
                 self::_saveInBatchMode($dir_en);
             }
@@ -249,7 +249,7 @@ class Translate {
         }
          */
     }
-    static protected function _saveInBatchMode($dir_en) 
+    static protected function _saveInBatchMode($dir_en)
     {
         static $files_name_changed = array();
         $allUniqueArray = array();
@@ -289,7 +289,7 @@ class Translate {
                 if(isset($data_en[$val]['value'])){
                     array_push($csv_data,array($val,$data_en[$val]['value']));
                 }
-                else 
+                else
                     array_push($csv_data,array($val,$val))	;
             }
             array_push($files_name_changed,$file2save);
@@ -314,7 +314,7 @@ class Translate {
      * @param   string $dir - dir to comparing files
      * @param   string $dir_en - dir to default english files
      * @return  none
-     */	
+     */
     static protected function _callUpdate($file,  $dir, $dir_en)
     {
         if(!is_dir($dir)){
@@ -358,7 +358,7 @@ class Translate {
      * @param   string $file - files array
      * @param   string $dir - dir to comparing files
      * @return  none
-     */	
+     */
     static protected function _callSort($file,  $dir)
     {
         if(!is_dir($dir)){
@@ -391,14 +391,14 @@ class Translate {
             }
 
         }
-    }	
+    }
     /**
      *Call duplicat checking process
      *
      * @param   string $key - key checking
      * @param   string $path - path to root
      * @return  none
-     */	
+     */
     static protected function _callDups($key,$path)
     {
             self::$parseData = array();
@@ -419,7 +419,7 @@ class Translate {
                             self::_parseFile($files[$a],self::$parseData,$mod_name);
                         }
                     } else {
-                        self::_error("Could not found specific module ".$dir);					
+                        self::_error("Could not found specific module ".$dir);
                     }
                 }
             }
@@ -438,13 +438,13 @@ class Translate {
             } else {
                 print '"'.$key.'":'."\n";
                 $out = $dup[$key]['line'];
-            
+
                 $out = explode(', ',$out);
                 for($a=0;$a<count($out);$a++){
                     print "\t".ltrim($out[$a]," ")."\n";
                 }
             }
-        
+
     }
     /**
      *sort file
@@ -513,7 +513,7 @@ class Translate {
         unset($xml);
         if(is_array($arr)){
             foreach ($arr as $val){
-                if(is_a($val,"Varien_Simplexml_Element")){	
+                if(is_a($val,"Varien_Simplexml_Element")){
                     $attr = $val->attributes();
                     $transl = $attr['translate'];
                     $transl = explode(' ', (string)$transl);
@@ -521,7 +521,7 @@ class Translate {
                         $inc_arr['value']=(string)$val->$v;
                         $inc_arr['line']='';
                         $inc_arr['file']=$file;
-                        $inc_arr['mod_name'] = $mod_name; 
+                        $inc_arr['mod_name'] = $mod_name;
                         array_push($data_arr,$inc_arr);
                     }
                 }
@@ -579,7 +579,7 @@ class Translate {
         }
         return $data_arr;
     }
-    
+
     /**
      *Display error message
      *
@@ -662,7 +662,7 @@ class Translate {
      * @param   string $file_en - default english file
      * @param   string $file - comparing file
      * @return  none
-     */	
+     */
     static protected function _checkFilesUpdate($file_en,$file)
     {
         try {
@@ -673,7 +673,7 @@ class Translate {
         }
         $diff_arr = self::checkArray($data_en,$data);
         $path_inf = pathinfo($file);
-        
+
         self::_output(basename($file),$diff_arr,$path_inf['dirname']."/".basename($file,".".EXTENSION));
         $pre_data = array();
         $csv_data = array();
@@ -700,7 +700,7 @@ class Translate {
      */
     static protected function _output($file_name,$arr,$out_file_name=null)
     {
-        
+
         $out ='';
         $out.=$file_name.":\n";
         $tmp_arr = $arr['missing'];
@@ -722,7 +722,7 @@ class Translate {
         $count_miss = count($arr['missing']);
         $count_redu = count($arr['redundant']);
         $count_dupl = count($arr['duplicate']);
-        
+
         if($count_redu>0 || $count_miss>0){
             $comb_arr = array_merge($arr['missing'],$arr['redundant']);
             uksort($comb_arr, 'strcasecmp');
@@ -732,10 +732,10 @@ class Translate {
                     $out.="\t".'"'.$key.'" => missing'."\n";
                     break;
                 case 'redundant':
-                    $out.="\t".'"'.$key.'" => redundant ('.$val['line'].")\n";		
+                    $out.="\t".'"'.$key.'" => redundant ('.$val['line'].")\n";
                     break;
             }
-        
+
         }
 
         if($count_dupl>0){
