@@ -65,7 +65,7 @@ class Enterprise_Logging_Model_Archive_Collection extends Varien_Data_Collection
          * Used in date filter, becouse $date contains hours
          */
         $dateWithoutHours = new Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMdd', Mage::app()->getLocale()->getLocaleCode());
-        $row['timestamp'] = $dateWithoutHours->getTimestamp();
+        $row['timestamp'] = $dateWithoutHours->toString('yyyy-MM-dd');
         return $row;
     }
 
@@ -83,7 +83,6 @@ class Enterprise_Logging_Model_Archive_Collection extends Varien_Data_Collection
     {
         $rowValue = $row[$field];
         if ($field == 'time') {
-            $filterValue = $this->_getTimestampFromDate($filterValue);
             $rowValue    = $row['timestamp'];
         }
         return $rowValue > $filterValue;
@@ -103,21 +102,8 @@ class Enterprise_Logging_Model_Archive_Collection extends Varien_Data_Collection
     {
         $rowValue = $row[$field];
         if ($field == 'time') {
-            $filterValue = $this->_getTimestampFromDate($filterValue);
             $rowValue    = $row['timestamp'];
         }
         return $rowValue < $filterValue;
-    }
-
-    /**
-     * Convert string date to timestamp
-     *
-     * @param string $date
-     * @return int
-     */
-    protected function _getTimestampFromDate($date)
-    {
-        $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
-        return  Mage::app()->getLocale()->date($date, $format)->getTimestamp();
     }
 }
