@@ -54,8 +54,8 @@ class Enterprise_PageCache_Model_Observer
         $frontController = $observer->getEvent()->getFront();
         $request = $frontController->getRequest();
         if ($this->_processor->canProcessRequest($request)) {
-            $respose = $frontController->getResponse();
-            $this->_processor->process($respose);
+            $response = $frontController->getResponse();
+            $this->_processor->process($response);
         }
     }
 
