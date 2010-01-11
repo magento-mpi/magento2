@@ -178,8 +178,8 @@ class Enterprise_Reward_Model_Observer
      */
     public function invitationToCustomer($observer)
     {
-        $invitation = $observer->getEvent()->getInvitation();
         /* @var $invitation Enterprise_Invitation_Model_Invitation */
+        $invitation = $observer->getEvent()->getInvitation();
 
         if (!Mage::helper('enterprise_reward')->isEnabled()) {
             return $this;
@@ -188,7 +188,7 @@ class Enterprise_Reward_Model_Observer
         if ($invitation->getCustomerId() && $invitation->getReferralId()) {
             $reward = Mage::getModel('enterprise_reward/reward')
                 ->setCustomerId($invitation->getCustomerId())
-                ->setStore($invitation->getStoreId())
+                ->setWebsiteId(Mage::app()->getStore($invitation->getStoreId())->getWebsiteId())
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_CUSTOMER)
                 ->setActionEntity($invitation)
                 ->updateRewardPoints();
@@ -243,9 +243,9 @@ class Enterprise_Reward_Model_Observer
                     Mage::helper('enterprise_reward')->__('Gained Promotion %d Points to Customer', $salesrulePointsDelta)
                 )->save();
             }
+            // Also update inviter balance if possible
+            $this->_invitationToOrder($observer);
         }
-        // Also update inviter balance if possible
-        $this->_invitationToOrder($observer);
 
         return $this;
     }
@@ -258,12 +258,16 @@ class Enterprise_Reward_Model_Observer
      */
     protected function _invitationToOrder($observer)
     {
-        $order = $observer->getEvent()->getOrder();
         /* @var $order Mage_Sales_Model_Order */
-
+        $order = $observer->getEvent()->getOrder();
+        $invitation = Mage::getModel('enterprise_invitation/invitation')
+            ->load($order->getCustomerId(), 'referral_id');
+        if (!$invitation->getId() || !$invitation->getCustomerId()) {
+            return $this;
+        }
         $reward = Mage::getModel('enterprise_reward/reward')
             ->setActionEntity($order)
-            ->setCustomerId($order->getCustomerId())
+            ->setCustomerId($invitation->getCustomerId())
             ->setStore($order->getStoreId())
             ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_ORDER)
             ->updateRewardPoints();

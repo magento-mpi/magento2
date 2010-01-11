@@ -45,34 +45,13 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
     }
 
     /**
-     * Getter for invitation instance by order
-     *
-     * @return Varien_Object
-     */
-    protected function _getInvitation()
-    {
-        if (!$this->hasData('invitation')) {
-            $order = $this->getEntity();
-            $invitation = Mage::getModel('enterprise_invitation/invitation')
-                ->load($order->getCustomerId(), 'referral_id');
-            $this->setData('invitation', $invitation);
-        }
-        return $this->_getData('invitation');
-    }
-
-    /**
      * Check whether rewards can be added for action
      *
      * @return bool
      */
     public function canAddRewardPoints()
     {
-        $invitation = $this->_getInvitation();
-        if (!$invitation->getId() || !$invitation->getCustomerId()) {
-            return false;
-        }
-
-        return $this->isRewardLimitExceeded();
+        return !($this->isRewardLimitExceeded());
     }
 
     /**
@@ -107,10 +86,9 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $invitation = $this->_getInvitation();
         $this->getHistory()->addAdditionalData(array(
             'increment_id' => $this->getEntity()->getIncrementId(),
-            'email' => $invitation->getEmail()
+            'email' => $this->getEntity()->getCustomerEmail()
         ));
         return $this;
     }
