@@ -34,10 +34,10 @@
 <div class="top-cart">
 <?php $_cartQty = $this->getSummaryCount() ?>
 <?php if ($this->getIsLinkMode()):?>
-    <?php if ($_cartQty==1): ?>
-        <?php $_myCart = $this->__('My Cart (<strong>1</strong>)') ?>
-    <?php else: ?>
+    <?php if ($_cartQty > 0): ?>
         <?php $_myCart = $this->__('My Cart (<strong>%s</strong>)', $_cartQty) ?>
+    <?php else: ?>
+        <?php $_myCart = $this->__('My Cart (<strong>0</strong>)') ?>
     <?php endif ?>
     <div class="block-title no-items">
         <ul class="links cart-link">
@@ -46,17 +46,13 @@
     </div>
 <?php else:?>
     <div class="block-title<?php if(!$_cartQty) { echo (' no-items'); } ?>">
-        <?php if ($_cartQty>0): ?>
-            <h2 id="cartHeader">
-            <?php if ($_cartQty==1): ?>
-                <?php echo $this->__('My Cart (<strong>1</strong>)') ?>
-            <?php else: ?>
-                <?php echo $this->__('My Cart (<strong>%s</strong>)', $_cartQty) ?>
-            <?php endif ?>
-            </h2>
+        <h2 id="cartHeader">
+        <?php if ($_cartQty > 0): ?>
+            <?php echo $this->__('My Cart (<strong>%s</strong>)', $_cartQty) ?>
         <?php else: ?>
-            <h2 id="cartHeader"><?php echo $this->__('My Cart') ?> (<strong>0</strong>)</h2>
+            <?php echo $this->__('My Cart (<strong>0</strong>)') ?>
         <?php endif ?>
+        </h2>
     </div>
     <div id="topCartContent" class="block-content" style="display:none">
         <div class="inner-wrapper"><?php // extra div to smooth slideUp and slideDown ?>
