@@ -211,7 +211,7 @@ class Enterprise_Reward_Model_Observer
         if ($order->getCustomerIsGuest() || !Mage::helper('enterprise_reward')->isEnabled()) {
             return $this;
         }
-        if (((float)$order->getBaseTotalInvoiced() > 0)
+        if ($order->getCustomerId() && ((float)$order->getBaseTotalInvoiced() > 0)
             && (($order->getBaseGrandTotal() - $order->getBaseSubtotalCanceled()) == $order->getBaseTotalPaid())) {
             $orderCollectedPoints = 0;
             $salesrulePointsDelta = 0;
