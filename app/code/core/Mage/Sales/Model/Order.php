@@ -991,12 +991,45 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         return $this->_items;
     }
 
-    public function getItemsRandomCollection($limit=1)
+    /**
+     * Get random items collection with related children
+     *
+     * @param int $limit
+     * @return Mage_Sales_Model_Mysql4_Order_Item_Collection
+     */
+    public function getItemsRandomCollection($limit = 1)
+    {
+        return $this->_getItemsRandomCollection($limit);
+    }
+
+    /**
+     * Get random items collection without related children
+     *
+     * @param int $limit
+     * @return Mage_Sales_Model_Mysql4_Order_Item_Collection
+     */
+    public function getParentItemsRandomCollection($limit = 1)
+    {
+        return $this->_getItemsRandomCollection($limit, true);
+    }
+
+    /**
+     * Get random items collection with or without related children
+     *
+     * @param int $limit
+     * @param bool $nonChildrenOnly
+     * @return Mage_Sales_Model_Mysql4_Order_Item_Collection
+     */
+    protected function _getItemsRandomCollection($limit, $nonChildrenOnly = false)
     {
         $collection = Mage::getModel('sales/order_item')->getCollection()
             ->setOrderFilter($this->getId())
             ->setRandomOrder()
             ->setPageSize($limit);
+
+        if ($nonChildrenOnly) {
+            $collection->filterByParent();
+        }
 
         $products = array();
         foreach ($collection as $item) {
@@ -1012,6 +1045,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         foreach ($collection as $item) {
             $item->setProduct($productsCollection->getItemById($item->getProductId()));
         }
+
         return $collection;
     }
 
