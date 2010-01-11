@@ -45,7 +45,9 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
     {
         $flag = Mage::getModel('reports/flag')->setReportFlagCode($reportCode)->loadSelf();
         return ($flag->hasData())
-            ? Mage::app()->getLocale()->storeDate(0, $flag->getLastUpdate(), true)
+            ? Mage::app()->getLocale()->storeDate(
+                0, new Zend_Date($flag->getLastUpdate(), Varien_Date::DATETIME_INTERNAL_FORMAT), true
+            )
             : Mage::helper('reports')->__('undefined');
     }
 
@@ -123,7 +125,7 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
         $this->addColumn('updated_at', array(
             'header'    => Mage::helper('reports')->__('Updated At'),
             'index'     => 'updated_at',
-            'type'      => 'string',
+            'type'      => 'datetime',
             'width'     => 200,
             'sortable'  => false
         ));
