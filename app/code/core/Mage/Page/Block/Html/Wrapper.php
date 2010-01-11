@@ -49,7 +49,8 @@ class Mage_Page_Block_Html_Wrapper extends Mage_Core_Block_Abstract
      */
     protected function _toHtml()
     {
-        if ($this->_dependsOnChildren && empty($this->_children)) {
+        $html = empty($this->_children) ? '' : trim($this->getChildHtml());
+        if ($this->_dependsOnChildren && empty($html)) {
             return '';
         }
         $id          = $this->hasElementId() ? sprintf(' id="%s"', $this->getElementId()) : '';
