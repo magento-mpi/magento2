@@ -81,7 +81,7 @@ Ext.EventManager.onDocumentReady(function() {
 
     // set the root node
     var root = new Ext.tree.TreeNode({
-        text: '<?php echo $this->getRootNode()->getName() ?>',
+        text: '<?php echo $this->jsQuoteEscape($this->getRootNode()->getName()) ?>',
         draggable:false,
         checked:'<?php echo $this->getRootNode()->getChecked() ?>',
         id:'<?php echo $this->getRootNode()->getId() ?>',
