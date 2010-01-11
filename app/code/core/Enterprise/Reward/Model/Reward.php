@@ -240,7 +240,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         $store = null;
         if ($this->hasData('store') || $this->hasData('store_id')) {
             $store = $this->getDataSetDefault('store', $this->_getData('store_id'));
-        } elseif ($this->getCustomer()) {
+        } elseif ($this->getCustomer() && $this->getCustomer()->getStoreId()) {
             $store = $this->getCustomer()->getStore();
             $this->setData('store', $store);
         }
