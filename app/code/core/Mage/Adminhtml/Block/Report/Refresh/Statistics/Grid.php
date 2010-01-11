@@ -59,37 +59,37 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
             array(
                 'id'            => 'sales',
                 'report'        => Mage::helper('reports')->__('Sales'),
-                'comment'       => '',
+                'comment'       => Mage::helper('reports')->__('Total Ordered Report'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE)
             ),
             array(
                 'id'            => 'tax',
                 'report'        => Mage::helper('reports')->__('Tax'),
-                'comment'       => '',
+                'comment'       => Mage::helper('reports')->__('Order Taxes Report Grouped by Tax Rates'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE)
             ),
             array(
                 'id'            => 'shipping',
                 'report'        => Mage::helper('reports')->__('Shipping'),
-                'comment'       => '',
+                'comment'       => Mage::helper('reports')->__('Total Shipped Report'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE)
             ),
             array(
                 'id'            => 'invoiced',
                 'report'        => Mage::helper('reports')->__('Total Invoiced'),
-                'comment'       => '',
+                'comment'       => Mage::helper('reports')->__('Total Invoiced VS Paid Report'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_INVOICE_FLAG_CODE)
             ),
             array(
                 'id'            => 'refunded',
                 'report'        => Mage::helper('reports')->__('Total Refunded'),
-                'comment'       => '',
+                'comment'       => Mage::helper('reports')->__('Total Refunded Report'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE)
             ),
             array(
                 'id'            => 'coupons',
                 'report'        => Mage::helper('reports')->__('Coupons'),
-                'comment'       => '',
+                'comment'       => Mage::helper('reports')->__('Promotion Coupons Usage Report'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_COUPNS_FLAG_CODE)
             )
         );
@@ -116,7 +116,7 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('comment', array(
-            'header'    => Mage::helper('reports')->__('Comment'),
+            'header'    => Mage::helper('reports')->__('Description'),
             'index'     => 'comment',
             'type'      => 'string',
             'sortable'  => false
@@ -130,21 +130,6 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
             'sortable'  => false
         ));
 
-        $this->addColumn('action', array(
-            'header'    => Mage::helper('reports')->__('Action'),
-            'index'     => 'id',
-            'type'      => 'action',
-            'actions'   => array(
-                    array(
-                        'caption'   => Mage::helper('index')->__('Refresh Recent'),
-                        'url'       => array('base'=>'*/*/refreshRecent'),
-                        'field'     => 'code'
-                    ),
-            ),
-            'width'     => 100,
-            'sortable'  => false
-        ));
-
         return parent::_prepareColumns();
     }
 
@@ -154,15 +139,16 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
         $this->getMassactionBlock()->setFormFieldName('code');
 
         $this->getMassactionBlock()->addItem('refresh_lifetime', array(
-             'label'    => Mage::helper('reports')->__('Refresh Lifetime Statistics'),
-             'url'      => $this->getUrl('*/*/refreshLifetime'),
-             'confirm'  => Mage::helper('reports')->__('Are you sure you want to refresh lifetime statistics? There can be performance impact during this operation.')
+            'label'    => Mage::helper('reports')->__('Refresh Lifetime Statistics'),
+            'url'      => $this->getUrl('*/*/refreshLifetime'),
+            'confirm'  => Mage::helper('reports')->__('Are you sure you want to refresh lifetime statistics? There can be performance impact during this operation.')
         ));
 
         $this->getMassactionBlock()->addItem('refresh_recent', array(
-             'label'    => Mage::helper('reports')->__('Refresh Statistics for Last Day'),
-             'url'      => $this->getUrl('*/*/refreshRecent'),
-             'confirm'  => Mage::helper('reports')->__('Are you sure?')
+            'label'    => Mage::helper('reports')->__('Refresh Statistics for Last Day'),
+            'url'      => $this->getUrl('*/*/refreshRecent'),
+            'confirm'  => Mage::helper('reports')->__('Are you sure?'),
+            'selected' => true
         ));
 
         return $this;

@@ -63,6 +63,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
         foreach ($blocks as $block) {
             if ($block) {
+                $block->setPeriodType($params->getData('period_type'));
                 $block->setFilterData($params);
             }
         }
@@ -130,7 +131,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         $refreshStatsLink = $this->getUrl('*/*/refreshstatistics');
         $directRefreshLink = $this->getUrl('*/*/refreshRecent', array('code' => $refreshCode));
 
-        Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('adminhtml')->__('This Report is not realtime. Last updated: %s. To <a href="%s">refresh statistics</a> right now, click <a href="%s">here</a>', $updatedAt, $refreshStatsLink, $directRefreshLink));
+        Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('adminhtml')->__('Last updated: %s. To refresh last day\'s <a href="%s">statistics</a>, click <a href="%s">here</a>', $updatedAt, $refreshStatsLink, $directRefreshLink));
         return $this;
     }
 
