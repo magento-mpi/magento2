@@ -29,7 +29,7 @@
     <?php echo $this->getFormatedPrice() ?></dt>
 <dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
     <div class="input-box">
-        <input type="file" id="option_<?php echo $_option->getId() ?>_file"  name="options_<?php echo $_option->getId() ?>_file" />
+        <input type="file" id="option_<?php echo $_option->getId() ?>_file"  name="options_<?php echo $_option->getId() ?>_file" class="product-custom-option" onchange="opConfig.reloadPrice()"/>
         <?php if ($_option->getFileExtension()): ?>
         <p class="no-margin"><?php echo Mage::helper('catalog')->__('Allowed file extensions to upload')?>: <strong><?php echo $_option->getFileExtension() ?></strong></p>
         <?php endif; ?>
