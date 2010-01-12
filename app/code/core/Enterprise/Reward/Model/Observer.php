@@ -48,20 +48,35 @@ class Enterprise_Reward_Model_Observer
 
         $request = $observer->getEvent()->getRequest();
         $customer = $observer->getEvent()->getCustomer();
-        if ($data = $request->getPost('reward')) {
+        $data = $request->getPost('reward');
+        $subscribeByDefault = Mage::helper('enterprise_reward')
+            ->getNotificationConfig('subscribe_by_default');
+        if ($customer->isObjectNew()) {
+            $data['reward_update_notification']  = (int)$subscribeByDefault;
+            $data['reward_warning_notification'] = (int)$subscribeByDefault;
+        }
+        if ($data) {
+            if (!isset($data['store_id'])) {
+                if ($customer->getStoreId() == 0) {
+                    $data['store_id'] = Mage::app()->getDefaultStoreView()->getWebsiteId();
+                } else {
+                    $data['store_id'] = $customer->getStoreId();
+                }
+            }
             $reward = Mage::getModel('enterprise_reward/reward')
                 ->setCustomer($customer)
+                ->setWebsiteId(Mage::app()->getStore($data['store_id'])->getWebsiteId())
                 ->loadByCustomer();
             if (!empty($data['points_delta'])) {
                 $reward->addData($data)
                     ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
                     ->setActionEntity($customer)
-                    ->setRewardUpdateNotification((isset($data['reward_update_notification']) ? true : false))
-                    ->setRewardWarningNotification((isset($data['reward_warning_notification']) ? true : false))
+                    ->setRewardUpdateNotification((isset($data['reward_update_notification']) ? 1 : 0))
+                    ->setRewardWarningNotification((isset($data['reward_warning_notification']) ? 1 : 0))
                     ->updateRewardPoints();
             } else {
-                $reward->setRewardUpdateNotification((isset($data['reward_update_notification']) ? true : false))
-                    ->setRewardWarningNotification((isset($data['reward_warning_notification']) ? true : false))
+                $reward->setRewardUpdateNotification((isset($data['reward_update_notification']) ? 1 : 0))
+                    ->setRewardWarningNotification((isset($data['reward_warning_notification']) ? 1 : 0))
                     ->save();
             }
         }
@@ -83,11 +98,15 @@ class Enterprise_Reward_Model_Observer
         $customer = $observer->getEvent()->getCustomer();
         if ($customer->isObjectNew()) {
             try {
+                $subscribeByDefault = Mage::helper('enterprise_reward')
+                    ->getNotificationConfig('subscribe_by_default', Mage::app()->getStore()->getWebsiteId());
                 $reward = Mage::getModel('enterprise_reward/reward')
                     ->setCustomer($customer)
                     ->setActionEntity($customer)
                     ->setStore(Mage::app()->getStore()->getId())
                     ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_REGISTER)
+                    ->setRewardUpdateNotification((int)$subscribeByDefault)
+                    ->setRewardWarningNotification((int)$subscribeByDefault)
                     ->updateRewardPoints();
             } catch (Exception $e) {
                 //save exception if something were wrong during saving reward and allow to register customer

@@ -84,11 +84,14 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
         $fieldset = $form->addFieldset('notification_fieldset', array(
             'legend' => Mage::helper('enterprise_reward')->__('Reward Points Notifications')
         ));
-
+        $websiteId = Mage::app()->getStore($this->getCustomer()->getStoreId())->getWebsiteId();
+        if ($websiteId == 0 && Mage::app()->isSingleStoreMode()) {
+            $websiteId = Mage::app()->getDefaultStoreView()->getWebsiteId();
+        }
         $reward = Mage::getModel('enterprise_reward/reward')
             ->setCustomer($this->getCustomer())
+            ->setWebsiteId($websiteId)
             ->loadByCustomer();
-
         $fieldset->addField('update_notification', 'checkbox', array(
             'name'    => 'reward_update_notification',
             'title'   => Mage::helper('enterprise_reward')->__('Reward Points Update'),
