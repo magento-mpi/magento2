@@ -337,14 +337,14 @@
             </enterprise_reward>
         </routers>
         <events>
-            <customer_save_commit_after>
+            <customer_save_after>
                 <observers>
                     <enterprise_reward>
                         <class>enterprise_reward/observer</class>
                         <method>customerRegister</method>
                     </enterprise_reward>
                 </observers>
-            </customer_save_commit_after>
+            </customer_save_after>
             <payment_method_is_active>
                 <observers>
                     <enterprise_reward>

@@ -43,9 +43,6 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         parent::_construct();
         $this->setUseAjax(true);
         $this->setId('rewardPointsHistoryGrid');
-        $this->setDefaultSort('created_at');
-        $this->setDefaultDir('DESC');
-//        $this->setFilterVisibility(false);
     }
 
     /**
@@ -60,7 +57,8 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             ->getCollection()
             ->addCustomerFilter($this->getCustomerId())
             ->setExpiryConfig(Mage::helper('enterprise_reward')->getExpiryConfig())
-            ->addExpirationDate();
+            ->addExpirationDate()
+            ->setOrder('history_id', 'desc');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -73,7 +71,6 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
      */
     protected function _addColumnFilterToCollection($column)
     {
-        Mage::log(get_class($column));
         if ($this->getCollection()) {
             $field = ( $column->getFilterIndex() ) ? $column->getFilterIndex() : $column->getIndex();
             if ($field == 'website_id') {

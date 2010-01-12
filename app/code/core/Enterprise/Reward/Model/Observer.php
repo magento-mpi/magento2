@@ -82,12 +82,17 @@ class Enterprise_Reward_Model_Observer
         /* @var $customer Mage_Customer_Model_Customer */
         $customer = $observer->getEvent()->getCustomer();
         if ($customer->isObjectNew()) {
-            $reward = Mage::getModel('enterprise_reward/reward')
-                ->setCustomer($customer)
-                ->setActionEntity($customer)
-                ->setStore(Mage::app()->getStore()->getId())
-                ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_REGISTER)
-                ->updateRewardPoints();
+            try {
+                $reward = Mage::getModel('enterprise_reward/reward')
+                    ->setCustomer($customer)
+                    ->setActionEntity($customer)
+                    ->setStore(Mage::app()->getStore()->getId())
+                    ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_REGISTER)
+                    ->updateRewardPoints();
+            } catch (Exception $e) {
+                //save exception if something were wrong during saving reward and allow to register customer
+                Mage::logException($e);
+            }
         }
         return $this;
     }
