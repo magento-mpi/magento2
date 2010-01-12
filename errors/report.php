@@ -71,6 +71,8 @@ if ($showSendForm) {
     $errorHash  = (isset($_POST['error_hash']))? $_POST['error_hash'] : '';
 }
 
+$pageTitle = 'There has been an error processing your request';
+
 if ($action == 'email') {
     $pageTitle = 'Error Submission Form';
     if (isset($_POST['submit'])) {
