@@ -138,25 +138,30 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function getMatchingProductIds()
     {
-        if (empty($this->_productIds)) {
-            $productCollection = Mage::getResourceModel('catalog/product_collection');
+        if (!$this->_productIds) {
             $websiteIds = explode(',', $this->getWebsiteIds());
-            if (!empty($websiteIds)) {
-                $productCollection->addWebsiteFilter($websiteIds);
+            if ($websiteIds) {
+                $this->setCollectedAttributes(array());
+                $this->_productIds = array();
+
+                foreach ($websiteIds as $websiteId) {
+                    $productCollection  = Mage::getResourceModel('catalog/product_collection');
+                    $defaultStoreviewId = Mage::app()->getWebsite($websiteId)->getDefaultGroup()->getDefaultStoreId();
+
+                    $productCollection->addWebsiteFilter($websiteIds);
+                    $productCollection->setStoreId($defaultStoreviewId);
+                    $this->getConditions()->collectValidatedAttributes($productCollection);
+
+                    Mage::getSingleton('core/resource_iterator')->walk(
+                        $productCollection->getSelect(),
+                        array(array($this, 'callbackValidateProduct')),
+                        array(
+                            'attributes'=>$this->getCollectedAttributes(),
+                            'product'=>Mage::getModel('catalog/product'),
+                        )
+                    );
+                }
             }
-
-            $this->setCollectedAttributes(array());
-            $this->getConditions()->collectValidatedAttributes($productCollection);
-
-            $this->_productIds = array();
-            Mage::getSingleton('core/resource_iterator')->walk(
-                $productCollection->getSelect(),
-                array(array($this, 'callbackValidateProduct')),
-                array(
-                    'attributes'=>$this->getCollectedAttributes(),
-                    'product'=>Mage::getModel('catalog/product'),
-                )
-            );
         }
         return $this->_productIds;
     }

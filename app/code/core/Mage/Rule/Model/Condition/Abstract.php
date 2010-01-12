@@ -104,9 +104,8 @@ abstract class Mage_Rule_Model_Condition_Abstract
                 '<'   => Mage::helper('rule')->__('less than'),
                 '{}'  => Mage::helper('rule')->__('contains'),
                 '!{}' => Mage::helper('rule')->__('does not contain'),
-                '!{}' => Mage::helper('rule')->__('does not contain'),
                 '()'  => Mage::helper('rule')->__('is one of'),
-                '!()' => Mage::helper('rule')->__('is not one of'),
+                '!()' => Mage::helper('rule')->__('is not one of')
             );
         }
         return $this->_defaultOperatorOptions;
