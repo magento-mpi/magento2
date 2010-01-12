@@ -921,12 +921,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     }
 
     /**
-     * Collect shipping dates for wuote shipping address
+     * Collect shipping data for quote shipping address
      */
     public function collectShippingRates()
     {
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-        $this->getQuote()->getShippingAddress()->collectShippingRates();
         $this->collectRates();
         return $this;
     }
