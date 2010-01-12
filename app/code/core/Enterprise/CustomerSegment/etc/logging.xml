@@ -41,7 +41,7 @@
             </adminhtml_customersegment_save>
 
             <adminhtml_customersegment_match>
-                <action>match</action>
+                <action>refresh data</action>
                 <post_dispatch>postDispatchCustomerSegmentMatch</post_dispatch>
             </adminhtml_customersegment_match>
 
