@@ -258,8 +258,13 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         $addressId = $this->getRequest()->getParam('address', false);
         if ($addressId) {
             $address = $this->getOnepage()->getAddress($addressId);
-            $this->getResponse()->setHeader('Content-type', 'application/x-json');
-            $this->getResponse()->setBody($address->toJson());
+
+            if (Mage::getSingleton('customer/session')->getCustomer()->getId() == $address->getCustomerId()) {
+                $this->getResponse()->setHeader('Content-type', 'application/x-json');
+                $this->getResponse()->setBody($address->toJson());
+            } else {
+                $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
+            }
         }
     }
 
