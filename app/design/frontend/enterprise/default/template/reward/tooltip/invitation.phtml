@@ -39,23 +39,22 @@
     $_points = $this->getRewardPoints($_action);
     $_limit = $this->getActionRewardLimit($_action);
 ?>
-<div class="reward-message<?php if ($_limit): ?> reward-message-big<?php endif; ?> reward-invitation">
+<div class="reward-message reward-invitation">
     <div class="reward">
         <?php if ($_currencyAmount): ?>
-            <?php echo Mage::helper('enterprise_reward')->__("Invite now and get <strong>%s</strong> Reward Points (%s) if your Invitee registers.", $_points, $this->getFormattedAmount($_currencyAmount)) ?>
+            <?php echo Mage::helper('enterprise_reward')->__("Invite now and get <strong><span>%s</span> Reward Points</strong> (%s) if your Invitee registers.", $_points, $this->getFormattedAmount($_currencyAmount)) ?>
         <?php else: ?>
-            <?php echo Mage::helper('enterprise_reward')->__("Invite now and get <strong>%s</strong> Reward Points if your Invitee registers.", $_points) ?>
+            <?php echo Mage::helper('enterprise_reward')->__("Invite now and get <strong><span>%s</span> Reward Points</strong> if your Invitee registers.", $_points) ?>
         <?php endif; ?>
-
+        <p class="balance">
+            <?php if ($_currentBalance): ?>
+                <?php echo Mage::helper('enterprise_reward')->__("Your current balance is <span>%s</span> points.", $_currentBalance) ?>
+            <?php endif; ?>
+            <a href="<?php echo $this->getLandingPageUrl() ?>"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a>
+        </p>
         <?php if ($_limit): ?>
-            <p class="limit"><?php echo Mage::helper('enterprise_reward')->__("Up to <strong>%s</strong> Customer Conversions rewarded.", $_limit) ?></p>
+            <p class="limit"><?php echo Mage::helper('enterprise_reward')->__("Up to <span>%s</span> Customer Conversions rewarded.", $_limit) ?></p>
         <?php endif; ?>
-    </div>
-    <div class="balance">
-        <?php if ($_currentBalance): ?>
-            <?php echo Mage::helper('enterprise_reward')->__("Your current balance is <strong>%s</strong> points.", $_currentBalance) ?>
-        <?php endif; ?>
-        <a href="<?php echo $this->getLandingPageUrl() ?>"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a>
     </div>
 </div>
 <?php endif; ?>
@@ -72,13 +71,13 @@
 <div class="reward-message reward-invitation">
     <div class="reward">
         <?php if ($_currencyAmount): ?>
-            <?php echo Mage::helper('enterprise_reward')->__("Get <strong>%s</strong> Reward Points (%s) for Purchases by your Invitees.", $_points, $this->getFormattedAmount($_currencyAmount)) ?>
+            <?php echo Mage::helper('enterprise_reward')->__("Get <strong><span>%s</span> Reward</strong> Points (%s) for Purchases by your Invitees.", $_points, $this->getFormattedAmount($_currencyAmount)) ?>
         <?php else: ?>
-            <?php echo Mage::helper('enterprise_reward')->__("Get <strong>%s</strong> Reward Points for Purchases by your Invitees.", $_points) ?>
+            <?php echo Mage::helper('enterprise_reward')->__("Get <strong><span>%s</span> Reward</strong> Points for Purchases by your Invitees.", $_points) ?>
         <?php endif; ?>
-    </div>
-    <div class="balance">
-        <a href="<?php echo $this->getLandingPageUrl() ?>"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a>
+        <p class="balance">
+            <a href="<?php echo $this->getLandingPageUrl() ?>"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a>
+        </p>
     </div>
 </div>
 <?php endif; ?>

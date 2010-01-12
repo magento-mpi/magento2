@@ -47,7 +47,6 @@
     <enterprise_invitation_index_index translate="label">
         <label>Customer My Account Invitations List</label>
         <update handle="customer_account"/>
-
         <reference name="content">
             <block type="enterprise_invitation/customer_list" name="invitations_list" template="invitation/list.phtml"/>
         </reference>

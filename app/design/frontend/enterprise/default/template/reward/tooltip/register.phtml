@@ -38,10 +38,10 @@
 ?>
 <div class="reward-message reward-register">
     <div class="reward">
-        <?php echo Mage::helper('enterprise_reward')->__("Register now and get <strong>%s</strong> Reward Points.", $_points) ?>
-    </div>
-    <div class="balance">
-        <a href="<?php echo $this->getLandingPageUrl() ?>"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a>
+        <?php echo Mage::helper('enterprise_reward')->__("Register now and get <strong><span>%s</span> Reward Points.</strong>", $_points) ?>
+        <p class="balance">
+            <a href="<?php echo $this->getLandingPageUrl() ?>"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a>
+        </p>
     </div>
 </div>
 <?php endif; ?>

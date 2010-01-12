@@ -44,16 +44,22 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach($this->getRewardHistory() as $item): ?>
-            <tr>
-                <td><span class="nobr"><?php echo Mage::helper('core')->formatDate($item->getCreatedAt(), 'short', true); ?></span></td>
-                <td><?php echo Mage::helper('enterprise_reward')->formatPointsDelta($item->getPointsDelta()); ?></td>
-                <td><?php echo $item->getPointsBalance(); ?></td>
-                <td><?php echo Mage::helper('core')->currency($item->getCurrencyAmount()); ?></td>
-                <td><?php echo $this->htmlEscape($item->getMessage()); ?></td>
-                <td><span class="nobr"><?php echo Mage::helper('core')->formatDate($item->getExpirationDate(), 'short', true); ?></span></td>
-            </tr>
-            <?php endforeach; ?>
+            <?php if($this->getRewardHistory()->getSize()): ?>
+                <?php foreach($this->getRewardHistory() as $item): ?>
+                <tr>
+                    <td><span class="nobr"><?php echo Mage::helper('core')->formatDate($item->getCreatedAt(), 'short', true); ?></span></td>
+                    <td><?php echo Mage::helper('enterprise_reward')->formatPointsDelta($item->getPointsDelta()); ?></td>
+                    <td><?php echo $item->getPointsBalance(); ?></td>
+                    <td><?php echo Mage::helper('core')->currency($item->getCurrencyAmount()); ?></td>
+                    <td><?php echo $this->htmlEscape($item->getMessage()); ?></td>
+                    <td><span class="nobr"><?php echo Mage::helper('core')->formatDate($item->getExpirationDate(), 'short', true); ?></span></td>
+                </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="6"><?php echo Mage::helper('enterprise_reward')->__('No Records'); ?></td>
+                </tr>
+            <?php endif; ?>
         </tbody>
     </table>
     <script type="text/javascript">decorateTable('reward-history')</script>

@@ -205,7 +205,9 @@ a.button { _height:22px; }
 .footer-before-container .widget-product-link a,
 .footer-before-container .widget-category-link a,
 .footer-before-container .widget-cms-link a,
-.footer-before-container .widget-hierarchy-link a { zoom:1; }
+.footer-before-container .widget-hierarchy-link a,
+.col1-layout .rewards,
+.reward-message { zoom:1; }
 
 
 /* Hover Fix */
