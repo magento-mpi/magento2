@@ -25,17 +25,16 @@
  */
 
 /**
- * PayPalUk Direct Module
+ * PayPal common payment info block
+ * Uses default templates
  */
-class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
+class Mage_PaypalUk_Block_Payment_Info extends Mage_Paypal_Block_Payment_Info
 {
-    protected $_code  = 'paypaluk_direct';
-    protected $_infoBlockType = 'paypaluk/payment_info';
-
     /**
-     * Website Payments Pro instance type
+     * Config model type
      *
-     * @var $_proType string
+     * @var string
      */
-    protected $_proType = 'paypaluk/pro';
+    protected $_configType = 'paypaluk/config';
+
 }

@@ -25,17 +25,37 @@
  */
 
 /**
- * PayPalUk Direct Module
+ * PayPal Website Payments Pro (Payflow Edition) implementation for payment method instaces
+ * This model was created because right now PayPal Direct and PayPal Express payment (Payflow Edition) methods cannot have same abstract
  */
-class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
+class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
 {
-    protected $_code  = 'paypaluk_direct';
-    protected $_infoBlockType = 'paypaluk/payment_info';
+    /**
+     * Api model type
+     *
+     * @var string
+     */
+    protected $_apiType = 'paypaluk/api_nvp';
 
     /**
-     * Website Payments Pro instance type
+     * Config model type
      *
-     * @var $_proType string
+     * @var string
      */
-    protected $_proType = 'paypaluk/pro';
+    protected $_configType = 'paypaluk/config';
+
+    /**
+     * Refund a capture transaction
+     *
+     * @param Varien_Object $payment
+     * @param float $amount
+     */
+    public function refund(Varien_Object $payment, $amount)
+    {
+        if ($captureTxnId = $payment->getParentTransactionId()) {
+            $api = $this->getApi();
+            $api->setAuthorizationId($captureTxnId);
+        }
+        parent::refund($payment, $amount);
+    }
 }
