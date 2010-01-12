@@ -90,7 +90,7 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
             if ($this->isCustomerLoggedIn()) {
                 /* @var $rate Enterprise_Reward_Model_Reward_Rate */
                 $rate = Mage::getModel('enterprise_reward/reward_rate')->fetch(
-                    $this->_getCustomer()->getGroupId(),
+                    $this->getCustomer()->getGroupId(),
                     Mage::app()->getWebsite()->getId(),
                     Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
                 );
@@ -224,7 +224,7 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
      *
      * @return Mage_Customer_Model_Customer
      */
-    public function _getCustomer()
+    public function getCustomer()
     {
         return Mage::getSingleton('customer/session')->getCustomer();
     }
@@ -238,7 +238,7 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
     {
         if (!$this->hasData('reward')) {
             $reward = Mage::getModel('enterprise_reward/reward')
-                ->setCustomer($this->_getCustomer())
+                ->setCustomer($this->getCustomer())
                 ->loadByCustomer();
             $this->setData('reward', $reward);
         }
