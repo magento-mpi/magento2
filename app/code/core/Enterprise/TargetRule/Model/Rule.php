@@ -37,6 +37,13 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     const XML_PATH_DEFAULT_VALUES       = 'catalog/enterprise_targetrule/';
 
     /**
+     * Matched product objects array
+     *
+     * @var array
+     */
+    protected $_products;
+
+    /**
      * Matched product ids array
      *
      * @var array
@@ -178,19 +185,20 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     }
 
     /**
-     * Retrieve array of product ids which are matched by rule
+     * Retrieve array of product objects which are matched by rule
      *
      * @return array
      */
-    public function getMatchingProductIds()
+    public function getMatchingProducts()
     {
-        if (is_null($this->_productIds)) {
+        if (is_null($this->_products)) {
             $productCollection = Mage::getResourceModel('catalog/product_collection');
 
             $this->setCollectedAttributes(array());
             $this->getConditions()->collectValidatedAttributes($productCollection);
 
             $this->_productIds = array();
+            $this->_products   = array();
             Mage::getSingleton('core/resource_iterator')->walk(
                 $productCollection->getSelect(),
                 array(
@@ -203,6 +211,20 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
             );
         }
 
+        return $this->_products;
+    }
+
+    /**
+     * Retrieve array of product ids which are matched by rule
+     *
+     * @return array
+     */
+    public function getMatchingProductIds()
+    {
+        if (is_null($this->_productIds)) {
+            $this->getMatchingProducts();
+        }
+
         return $this->_productIds;
     }
 
@@ -213,9 +235,12 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function callbackValidateProduct($args)
     {
-        $product = $args['product']->setData($args['row']);
+        $product = clone $args['product'];
+        $product->setData($args['row']);
+
         if ($this->getConditions()->validate($product)) {
             $this->_productIds[] = $product->getId();
+            $this->_products[]   = $product;
         }
     }
 
