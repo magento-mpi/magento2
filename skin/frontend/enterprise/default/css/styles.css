@@ -458,6 +458,7 @@ ul.links li.last .separator { display:none; }
 /* Reward Points types rewrites */
 .reward-review { margin:20px -20px -20px; }
 .reward-tag { margin:0; }
+.reward-checkout { margin:0; }
 
 /* Class: std - styles for admin-controlled content */
 .std > ul,

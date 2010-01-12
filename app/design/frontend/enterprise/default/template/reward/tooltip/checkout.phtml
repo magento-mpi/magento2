@@ -36,9 +36,9 @@
 <?php
     $_points = $this->getRewardPoints($_action);
 ?>
-<div class="reward-message reward-tag">
+<div class="reward-message reward-checkout">
     <div class="reward">
-        <?php echo Mage::helper('enterprise_reward')->__("Buy now and get %d Reward Points (%s).", $_points, Mage::helper('core')->currency($this->getCurrencyAmount($_action))) ?>
+        <?php echo Mage::helper('enterprise_reward')->__("Buy now and get <strong><span>%d</span> Reward Points</strong> (%s).", $_points, Mage::helper('core')->currency($this->getCurrencyAmount($_action))) ?>
         <p class="balance">
             <a href="<?php echo $this->getLandingPageUrl() ?>"><?php echo Mage::helper('enterprise_reward')->__("Learn more") ?></a>
         </p>
