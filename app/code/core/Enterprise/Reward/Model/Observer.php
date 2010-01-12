@@ -53,7 +53,7 @@ class Enterprise_Reward_Model_Observer
                 ->setCustomer($customer)
                 ->loadByCustomer();
             if (!empty($data['points_delta'])) {
-                $reward->setData($data)
+                $reward->addData($data)
                     ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
                     ->setActionEntity($customer)
                     ->setRewardUpdateNotification((isset($data['reward_update_notification']) ? true : false))
