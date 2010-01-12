@@ -131,7 +131,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
                         $store
                    );
         } elseif ($type=='order_item') {
-            return !$entity->isVirtual() && $resultItems && $this->_getDependenceFromStoreConfig(
+            return !$entity->getIsVirtual() && $resultItems && $this->_getDependenceFromStoreConfig(
                         (is_null($entity->getGiftMessageAvailable()) ? 2 : $entity->getGiftMessageAvailable()),
                         $store
                     );
