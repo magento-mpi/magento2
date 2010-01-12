@@ -80,7 +80,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         $ratePost = $this->getRequest()->getPost();
         if ($ratePost) {
 
-            $rateId = $this->getRequest()->getParam('rate');
+            $rateId = $this->getRequest()->getParam('tax_calculation_rate_id');
             if ($rateId) {
                 $rateModel = Mage::getSingleton('tax/calculation_rate')->load($rateId);
                 if (!$rateModel->getId()) {
