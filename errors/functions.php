@@ -39,7 +39,8 @@ $hostUrl = mageErrorsGetHostUrl();
 if (empty($basePath)) {
     $basePath = dirname(dirname($_SERVER['SCRIPT_NAME']));
 }
-$baseUrl = $hostUrl . $basePath . '/';
+$basePath = str_replace($basePath, '\\', '/');
+$baseUrl = $hostUrl . ('/' == $basePath ? '' : $basePath) . '/';
 
 // detect store package
 if (!empty($_REQUEST[MAGE_ERRORS_STORE_REQUEST_KEY])) {
