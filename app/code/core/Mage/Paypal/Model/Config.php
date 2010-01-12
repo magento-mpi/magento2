@@ -77,13 +77,6 @@ class Mage_Paypal_Model_Config
     const FRAUD_ACTION_DENY   = 'Deny';
 
     /**
-     * Capture types (make authorization close or remain open)
-     * @var string
-     */
-    const CAPTURE_TYPE_COMPLETE = 'Complete';
-    const CAPTURE_TYPE_NOTCOMPLETE = 'NotComplete';
-
-    /**
      * Refund types
      * @var string
      */

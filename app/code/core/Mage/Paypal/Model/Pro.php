@@ -45,6 +45,20 @@ class Mage_Paypal_Model_Pro
     protected $_api = null;
 
     /**
+     * API model type
+     *
+     * @var string
+     */
+    protected $_apiType = 'paypal/api_nvp';
+
+    /**
+     * Config model type
+     *
+     * @var string
+     */
+    protected $_configType = 'paypal/config';
+
+    /**
      * Payment method code setter. Also instantiates/updates config
      *
      * @param string $code
@@ -57,7 +71,7 @@ class Mage_Paypal_Model_Pro
             if (null !== $storeId) {
                 $params[] = $storeId;
             }
-            $this->_config = $this->_config = Mage::getModel('paypal/config', $params);
+            $this->_config = $this->_config = Mage::getModel($this->_configType, $params);
         } else {
             $this->_config->setMethod($code);
             if (null !== $storeId) {
@@ -101,7 +115,7 @@ class Mage_Paypal_Model_Pro
     public function getApi()
     {
         if (null === $this->_api) {
-            $this->_api = Mage::getModel('paypal/api_nvp');
+            $this->_api = Mage::getModel($this->_apiType);
         }
         $this->_api->setConfigObject($this->_config);
         return $this->_api;
@@ -139,10 +153,7 @@ class Mage_Paypal_Model_Pro
         }
         $api = $this->getApi()
             ->setAuthorizationId($authTransactionId)
-            ->setCompleteType($payment->getShouldCloseParentTransaction()
-                ? Mage_Paypal_Model_Config::CAPTURE_TYPE_COMPLETE
-                : Mage_Paypal_Model_Config::CAPTURE_TYPE_NOTCOMPLETE
-            )
+            ->setIsCaptureComplete($payment->getShouldCloseParentTransaction())
             ->setAmount($amount)
             ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode())
             ->setInvNum($payment->getOrder()->getIncrementId())

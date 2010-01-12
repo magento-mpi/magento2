@@ -30,6 +30,21 @@
  */
 class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 {
+	/**
+	 * Paypal methods definition
+	 */
+    const DO_DIRECT_PAYMENT = 'DoDirectPayment';
+    const DO_CAPTURE = 'DoCapture';
+    const DO_VOID = 'DoVoid';
+    const REFUND_TRANSACTION = 'RefundTransaction';
+
+    /**
+     * Capture types (make authorization close or remain open)
+     * @var string
+     */
+    protected $_captureTypeComplete = 'Complete';
+    protected $_captureTypeNotcomplete = 'Complete';
+
     /**
      * Global public interface map
      * @var array
@@ -383,7 +398,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         if ($address = $this->getAddress()) {
             $request = $this->_importAddress($address, $request);
         }
-        $response = $this->call('DoDirectPayment', $request);
+        $response = $this->call(self::DO_DIRECT_PAYMENT, $request);
         $this->_importFromResponse($this->_doDirectPaymentResponse, $response);
         $this->_importFraudFiltersResult($response, $this->_callWarnings);
     }
@@ -404,8 +419,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function callDoCapture()
     {
+        $this->setCompleteType($this->_getCaptureCompleteType());
         $request = $this->_exportToRequest($this->_doCaptureRequest);
-        $response = $this->call('DoCapture', $request);
+        $response = $this->call(self::DO_CAPTURE, $request);
         $this->_importFromResponse($this->_paymentInformationResponse, $response);
         $this->_importFromResponse($this->_doCaptureResponse, $response);
     }
@@ -417,7 +433,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     public function callDoVoid()
     {
         $request = $this->_exportToRequest($this->_doVoidRequest);
-        $this->call('DoVoid', $request);
+        $this->call(self::DO_VOID, $request);
     }
 
     /**
@@ -441,7 +457,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         if ($this->getRefundType() === Mage_Paypal_Model_Config::REFUND_TYPE_PARTIAL) {
             $request['AMT'] = $this->getAmount();
         }
-        $response = $this->call('RefundTransaction', $request);
+        $response = $this->call(self::REFUND_TRANSACTION, $request);
         $this->_importFromResponse($this->_refundTransactionResponse, $response);
     }
 
@@ -468,6 +484,20 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
+     *Add method to request array
+     *
+     * @param string $methodName
+     * @param array $request
+     * @return array
+     */
+
+    protected function _addMethodToRequest($methodName, $request) {
+        $request['method'] = $methodName;
+        return $request;
+    }
+
+
+    /**
      * Do the API call
      *
      * @param string $methodName
@@ -477,7 +507,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function call($methodName, array $request)
     {
-        $request['method'] = $methodName;
+        $request = $this->_addMethodToRequest($methodName, $request);
         $request = $this->_exportToRequest($this->_eachCallRequest, $request);
 
         if ($this->getDebug()) {
@@ -518,19 +548,20 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             Mage::throwException(Mage::helper('paypal')->__('Unable to communicate with PayPal gateway.'));
         }
 
-        $ack = strtoupper($response['ACK']);
-        $this->_callWarnings = array();
-        if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
-            // collect warnings
-            if ($ack == 'SUCCESSWITHWARNING') {
-                for ($i = 0; isset($response["L_ERRORCODE{$i}"]); $i++) {
-                    $this->_callWarnings[] = $response["L_ERRORCODE{$i}"];
-                }
-            }
+        if ($this->_isCallSuccessful($response)) {
             return $response;
         }
+        $this->_handleCallErrors($response);
+        return $response;
+    }
 
-        // handle logical errors
+    /**
+     * Handle logical errors
+     *
+     * @param array
+     */
+    protected function _isCallSuccessful($response) {
+
         $errors = array();
         for ($i = 0; isset($response["L_ERRORCODE{$i}"]); $i++) {
             $longMessage = isset($response["L_LONGMESSAGE{$i}"])
@@ -549,7 +580,27 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             Mage::logException($e);
             Mage::throwException(Mage::helper('paypal')->__('PayPal geteway rejected request. %s', $errors));
         }
-        return $response;
+    }
+
+    /**
+     * Catch success calls and collect warnings
+     *
+     * @param array
+     * @return bool| success flag
+     */
+    protected function _handleCallErrors($response) {
+        $ack = strtoupper($response['ACK']);
+        $this->_callWarnings = array();
+        if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
+            // collect warnings
+            if ($ack == 'SUCCESSWITHWARNING') {
+                for ($i = 0; isset($response["L_ERRORCODE{$i}"]); $i++) {
+                    $this->_callWarnings[] = $response["L_ERRORCODE{$i}"];
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -695,5 +746,18 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         if ($collectedFilters) {
             $this->setCollectedFraudFilters($collectedFilters);
         }
+    }
+
+    /**
+     * Return capture type
+     *
+     * @param Varien_Object $payment
+     * @return string
+     */
+    protected function _getCaptureCompleteType()
+    {
+        return ($this->getIsCaptureComplete())
+                ? $this->_captureTypeComplete
+                : $this->_captureTypeNotcomplete;
     }
 }

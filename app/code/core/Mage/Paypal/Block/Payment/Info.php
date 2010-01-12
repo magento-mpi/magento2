@@ -37,6 +37,13 @@ class Mage_Paypal_Block_Payment_Info extends Mage_Payment_Block_Info
     private $_wasCcBlockCalled = false;
 
     /**
+     * Config model type
+     *
+     * @var string
+     */
+    protected $_configType = 'paypal/config';
+
+    /**
      * PayPal-specific information getter
      * @return array
      */
@@ -79,7 +86,7 @@ class Mage_Paypal_Block_Payment_Info extends Mage_Payment_Block_Info
     {
         if (!$this->_wasCcBlockCalled) {
             $this->_wasCcBlockCalled = true;
-            $config = Mage::getModel('paypal/config', array($this->getInfo()->getMethod()));
+            $config = Mage::getModel($this->_configType, array($this->getInfo()->getMethod()));
             if ($config->doesWorkWithCc()) {
                 $ccInfoBlock = Mage::getConfig()->getBlockClassName('payment/info_cc');
                 $ccInfoBlock = new $ccInfoBlock;

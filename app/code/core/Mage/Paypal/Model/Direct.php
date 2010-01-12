@@ -57,13 +57,27 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     protected $_pro = null;
 
+    /**
+     * Website Payments Pro instance type
+     *
+     * @var $_proType string
+     */
+    protected $_proType = 'paypal/pro';
+
+    /**
+     * Info instance type
+     *
+     * @var $_proType string
+     */
+    protected $_infoType = 'paypal/info';
+
     public function __construct($params = array())
     {
         $proInstance = array_shift($params);
         if ($proInstance && ($proInstance instanceof Mage_Paypal_Model_Pro)) {
             $this->_pro = $proInstance;
         } else {
-            $this->_pro = Mage::getModel('paypal/pro');
+            $this->_pro = Mage::getModel($this->_proType);
         }
         $this->_pro->setMethod($this->_code);
     }
@@ -258,7 +272,8 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
             ->setIsPaid($api->isPaid($api->getPaymentStatus()))
         ;
-        Mage::getModel('paypal/info')->importToPayment($api, $payment);
+        Mage::getModel($this->_infoType)->importToPayment($api, $payment);
+        //exit;
         return $this;
     }
 }
