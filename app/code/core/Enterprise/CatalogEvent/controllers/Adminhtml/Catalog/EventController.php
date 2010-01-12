@@ -135,6 +135,15 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
         }
 
         $postData = $this->_filterPostData($this->getRequest()->getPost());
+
+        if (!isset($postData['catalogevent'])) {
+            $this->_getSession()->addError(
+                Mage::helper('enterprise_catalogevent')->__('Error while saving this event. Please try again later.')
+            );
+            $this->_redirect('*/*/edit', array('_current'=>true));
+            return;
+        }
+
         $data = new Varien_Object($postData['catalogevent']);
 
         $event->setDisplayState($data->getDisplayState())
