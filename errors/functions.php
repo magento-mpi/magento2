@@ -27,14 +27,28 @@
 define('MAGE_ERRORS_STORE_REQUEST_KEY', 's');
 define('MAGE_ERRORS_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 define('MAGE_ERRORS_MAGE_PATH', dirname(MAGE_ERRORS_PATH) . DIRECTORY_SEPARATOR);
-define('MAGE_ERRORS_CONFIG_FILE', MAGE_ERRORS_PATH . 'config.xml');
+define('MAGE_ERRORS_CONFIG_FILE', MAGE_ERRORS_PATH . 'local.xml');
 define('MAGE_ERRORS_DESIGN_FILE', MAGE_ERRORS_PATH . 'design.xml');
 
 // load configuration and design
-$eConfig = simplexml_load_file(MAGE_ERRORS_CONFIG_FILE);
-$eDesign = simplexml_load_file(MAGE_ERRORS_DESIGN_FILE);
+$eConfig = (file_exists(MAGE_ERRORS_CONFIG_FILE)) ? simplexml_load_file(MAGE_ERRORS_CONFIG_FILE) : null;
+$eDesign = (file_exists(MAGE_ERRORS_DESIGN_FILE)) ? simplexml_load_file(MAGE_ERRORS_DESIGN_FILE) : null;
+
+if (is_null($eConfig)) {
+    $report = new stdClass();
+    $eConfig = new stdClass();
+
+    $report->action         = '';
+    $report->subject        = 'Store Debug Information';
+    $report->email_address  = '';
+    $report->trash          = 'leave';
+
+    $eConfig->skin      = (!is_null($eDesign)) ? (string)$eDesign->skin : 'default';
+    $eConfig->report    = $report;
+}
+
 $store   = 'default';
-$skinUrl = mageErrorsGetSkinUrl();
+$skinUrl = mageErrorsGetSkinUrl($eConfig);
 $hostUrl = mageErrorsGetHostUrl();
 if (empty($basePath)) {
     $basePath = dirname(dirname($_SERVER['SCRIPT_NAME']));
@@ -80,12 +94,12 @@ function mageErrorsGetHostUrl()
 /**
  * Retrieve skin absolute URL
  *
+ * @param object $config
  * @return string
  */
-function mageErrorsGetSkinUrl()
+function mageErrorsGetSkinUrl($config)
 {
-    global $eDesign;
-    return 'skin/' . (string)$eDesign->skin;
+    return 'skin/' . (string)$config->skin;
 }
 
 /**

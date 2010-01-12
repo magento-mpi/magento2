@@ -55,7 +55,7 @@ if ((string)$eConfig->report->email_address == '' && (string)$eConfig->report->a
     die();
 }
 
-$action = ((string)$eConfig->report->action == '') ? 'print' : (string)$eConfig->report->action;
+$action = (string)$eConfig->report->action;
 $trash  = ((string)$eConfig->report->trash == '') ? 'leave' : (string)$eConfig->report->trash;
 
 $showErrorMsg   = false;

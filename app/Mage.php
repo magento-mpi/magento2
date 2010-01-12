@@ -599,14 +599,7 @@ final class Mage
             header('Location: ' . self::getBaseUrl());
             die();
         } catch (Mage_Core_Model_Store_Exception $e) {
-            $baseUrl = rtrim(self::getScriptSystemUrl('errors'), '/') . '/errors/404.php';
-            if (!headers_sent()) {
-                header('Location: ' . $baseUrl);
-            } else {
-                print '<script type="text/javascript">';
-                print "window.location.href = '{$baseUrl}';";
-                print '</script>';
-            }
+            require_once(self::getBaseDir() . DS . 'errors' . DS . '404.php');
             die();
         } catch (Exception $e) {
             if (self::isInstalled() || self::$_isDownloader) {
