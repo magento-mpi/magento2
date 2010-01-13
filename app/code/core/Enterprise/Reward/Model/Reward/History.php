@@ -125,6 +125,12 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
             ->setRateDescription($this->getReward()->getRateToCurrency()->getExchangeRateAsText())
             ->setAction($this->getReward()->getAction())
             ->setComment($this->getReward()->getComment());
+        if ($this->getReward()->getIsCappedReward()) {
+            $this->addAdditionalData(array(
+                'is_capped_reward' => true,
+                'cropped_points'    => $this->getReward()->getCroppedPoints()
+            ));
+        }
         return $this;
     }
 
@@ -140,6 +146,22 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
             $this->setData('additional_data', unserialize($this->_getData('additional_data')));
         }
         return $this->_getData('additional_data');
+    }
+
+    /**
+     * Getter.
+     * Return value of unserialized additional data item by given item key
+     *
+     * @param string $key
+     * @return mixed | null
+     */
+    public function getAdditionalDataByKey($key)
+    {
+        $data = $this->getAdditionalData();
+        if (is_array($data) && !empty($data) && isset($data[$key])) {
+            return $data[$key];
+        }
+        return null;
     }
 
     /**

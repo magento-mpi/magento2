@@ -430,11 +430,19 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         if ($this->hasPointsDelta()) {
             $points = $this->getPointsDelta();
         }
-        if ($this->getId()) {
-            $this->setPointsBalance($this->getPointsBalance() + $points);
-        } else {
-            $this->setPointsBalance($points);
+        $pointsBalance = 0;
+        $pointsBalance = (int)$this->getPointsBalance() + $points;
+        $maxPointsBalance = Mage::helper('enterprise_reward')
+            ->getGeneralConfig('max_points_balance', $this->getWebsiteId());
+        if ($pointsBalance > $maxPointsBalance) {
+            $pointsBalance = $maxPointsBalance;
+            $pointsDelta   = $maxPointsBalance - (int)$this->getPointsBalance();
+            $croppedPoints = (int)$this->getPointsDelta() - $pointsDelta;
+            $this->setPointsDelta($pointsDelta)
+                ->setIsCappedReward(true)
+                ->setCroppedPoints($croppedPoints);
         }
+        $this->setPointsBalance($pointsBalance);
         return $this;
     }
 
