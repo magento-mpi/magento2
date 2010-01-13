@@ -30,9 +30,9 @@
  */
 class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 {
-	/**
-	 * Paypal methods definition
-	 */
+    /**
+     * Paypal methods definition
+     */
     const DO_DIRECT_PAYMENT = 'DoDirectPayment';
     const DO_CAPTURE = 'DoCapture';
     const DO_VOID = 'DoVoid';
@@ -490,12 +490,11 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * @param array $request
      * @return array
      */
-
-    protected function _addMethodToRequest($methodName, $request) {
+    protected function _addMethodToRequest($methodName, $request)
+    {
         $request['method'] = $methodName;
         return $request;
     }
-
 
     /**
      * Do the API call
@@ -560,8 +559,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      *
      * @param array
      */
-    protected function _isCallSuccessful($response) {
-
+    protected function _handleCallErrors($response)
+    {
         $errors = array();
         for ($i = 0; isset($response["L_ERRORCODE{$i}"]); $i++) {
             $longMessage = isset($response["L_LONGMESSAGE{$i}"])
@@ -588,7 +587,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * @param array
      * @return bool| success flag
      */
-    protected function _handleCallErrors($response) {
+    protected function _isCallSuccessful($response)
+    {
         $ack = strtoupper($response['ACK']);
         $this->_callWarnings = array();
         if ($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING') {
