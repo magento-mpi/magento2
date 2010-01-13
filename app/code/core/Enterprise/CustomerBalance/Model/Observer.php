@@ -284,7 +284,7 @@ class Enterprise_CustomerBalance_Model_Observer
             $order->setCustomerBalanceInvoiced($order->getCustomerBalanceInvoiced() + $invoice->getCustomerBalanceAmount());
         }
         /**
-         * Becouse of order doesn't save second time, added forced saving below attributes
+         * Because of order doesn't save second time, added forced saving below attributes
          */
         $order->getResource()->saveAttribute($order, 'base_customer_balance_invoiced');
         $order->getResource()->saveAttribute($order, 'customer_balance_invoiced');
