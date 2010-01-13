@@ -104,12 +104,15 @@ class Enterprise_GiftCardAccount_Model_Observer
     {
         $invoice = $observer->getEvent()->getInvoice();
         $order = $invoice->getOrder();
-
         if ($invoice->getBaseGiftCardsAmount()) {
             $order->setBaseGiftCardsInvoiced($order->getBaseGiftCardsInvoiced() + $invoice->getBaseGiftCardsAmount());
             $order->setGiftCardsInvoiced($order->getGiftCardsInvoiced() + $invoice->getGiftCardsAmount());
         }
-
+        /**
+         * Becouse of order doesn't save second time, added forced saving below attributes
+         */
+        $order->getResource()->saveAttribute($order, 'base_gift_cards_invoiced');
+        $order->getResource()->saveAttribute($order, 'gift_cards_invoiced');
         return $this;
     }
 
