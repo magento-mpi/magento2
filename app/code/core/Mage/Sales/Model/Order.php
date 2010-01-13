@@ -1703,7 +1703,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             if (!$orderItem->isDummy() && !$orderItem->getQtyToShip()) {
                 continue;
             }
-            if ($orderItem->isDummy() && !$this->_needToAddDummy($orderItem, $qtys)) {
+            if ($orderItem->isDummy() && !$this->_needToAddDummyForShipment($orderItem, $qtys)) {
                 continue;
             }
             $item = $convertor->itemToShipmentItem($orderItem);
@@ -1760,7 +1760,53 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
                     return true;
                 }
             } else {
-                if (isset($qtys[$child->getId()]) && $qtys[$child->getId()] > 0) {
+                if (isset($qtys[$item->getId()]) && $qtys[$item->getId()] > 0) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    /**
+     * Decides if we need to create dummy shipment item or not
+     * for eaxample we don't need create dummy parent if all
+     * children are not in process
+     *
+     * @param Mage_Sales_Model_Order_Item $item
+     * @param array $qtys
+     * @return bool
+     */
+    protected function _needToAddDummyForShipment($item, $qtys = array()) {
+        if ($item->getHasChildren()) {
+            foreach ($item->getChildrenItems() as $child) {
+                if ($child->getIsVirtual()) {
+                    continue;
+                }
+                if (empty($qtys)) {
+                    if ($child->getQtyToShip() > 0) {
+                        return true;
+                    }
+                } else {
+                    if (isset($qtys[$child->getId()]) && $qtys[$child->getId()] > 0) {
+                        return true;
+                    }
+                }
+            }
+            if ($item->isShipSeparately()) {
+                return true;
+            }
+            return false;
+        } else if($item->getParentItem()) {
+            if ($item->getIsVirtual()) {
+                return false;
+            }
+            if (empty($qtys)) {
+                if ($item->getParentItem()->getQtyToShip() > 0) {
+                    return true;
+                }
+            } else {
+                if (isset($qtys[$item->getId()]) && $qtys[$item->getId()] > 0) {
                     return true;
                 }
             }
