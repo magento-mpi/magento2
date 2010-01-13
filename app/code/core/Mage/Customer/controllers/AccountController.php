@@ -258,12 +258,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $customer = Mage::getModel('customer/customer')->setId(null);
             }
 
+            $data = $this->_filterPostData($this->getRequest()->getPost());
+
             foreach (Mage::getConfig()->getFieldset('customer_account') as $code=>$node) {
-                if ($node->is('create') && ($value = $this->getRequest()->getParam($code)) !== null) {
+                if ($node->is('create') && isset($data[$code])) {
                     if ($code == 'email') {
-                        $value = trim($value);
+                        $data[$code] = trim($data[$code]);
                     }
-                    $customer->setData($code, $value);
+                    $customer->setData($code, $data[$code]);
                 }
             }
 
