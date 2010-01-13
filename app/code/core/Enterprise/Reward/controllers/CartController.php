@@ -45,7 +45,7 @@ class Enterprise_Reward_CartController extends Mage_Core_Controller_Front_Action
      */
     public function removeAction()
     {
-        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
             return $this->_redirect('customer/account/');
         }
 

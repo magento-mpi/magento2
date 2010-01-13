@@ -202,6 +202,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
      */
     protected function _isEnabled()
     {
-        return Mage::helper('enterprise_reward')->getGeneralConfig('publish_history');
+        return Mage::helper('enterprise_reward')->isEnabledOnFront()
+            && Mage::helper('enterprise_reward')->getGeneralConfig('publish_history');
     }
 }

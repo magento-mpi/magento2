@@ -47,11 +47,11 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
      */
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabled()) {
-            return $this;
-        }
         /* @var $quote Mage_Sales_Model_Quote */
         $quote = $address->getQuote();
+        if (!Mage::helper('enterprise_reward')->isEnabledOnFront($quote->getStore()->getWebsiteId())) {
+            return $this;
+        }
 
         if (!$quote->getRewardPointsTotalReseted() && $address->getBaseGrandTotal() > 0) {
             $quote->setRewardPointsBalance(0)
@@ -109,7 +109,8 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
      */
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabled()) {
+        $websiteId = $address->getQuote()->getStore()->getWebsiteId();
+        if (!Mage::helper('enterprise_reward')->isEnabledOnFront($websiteId)) {
             return $this;
         }
         if ($address->getRewardCurrencyAmount()) {

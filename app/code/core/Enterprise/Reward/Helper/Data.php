@@ -51,6 +51,21 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Check whether reward module is enabled in system config on front per website
+     *
+     * @param integer $websiteId
+     * @return boolean
+     */
+    public function isEnabledOnFront($websiteId = null)
+    {
+        if ($websiteId === null) {
+            $websiteId = Mage::app()->getStore()->getWebsiteId();
+        }
+        $isEnabled = $this->isEnabled() && $this->getGeneralConfig('is_enabled_on_front', (int)$websiteId);
+        return $isEnabled;
+    }
+
+    /**
      * Retrieve value of given field and website from config
      *
      * @param string $section

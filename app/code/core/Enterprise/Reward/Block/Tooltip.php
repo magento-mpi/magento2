@@ -41,7 +41,7 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
      */
     public function canShow($action)
     {
-        return Mage::helper('enterprise_reward')->isEnabled()
+        return Mage::helper('enterprise_reward')->isEnabledOnFront()
             && $this->getRewardPoints($action) > 0
             && !$this->isLimitExceeded()
             && !$this->isActionLimitExceeded($action);
