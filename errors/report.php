@@ -51,8 +51,7 @@ if (isset($_POST['submit']) && $reportId) {
 }
 
 if ((string)$eConfig->report->email_address == '' && (string)$eConfig->report->action == 'email') {
-    header("Location: " . $baseUrl);
-    die();
+    $eConfig->report->action = '';
 }
 
 $action = (string)$eConfig->report->action;
@@ -69,15 +68,21 @@ if ($showSendForm) {
     $telephone  = (isset($_POST['telephone'])) ? trim($_POST['telephone']) : '';
     $comment    = (isset($_POST['comment'])) ? trim(strip_tags($_POST['comment'])) : '';
     $errorHash  = (isset($_POST['error_hash']))? $_POST['error_hash'] : '';
+    $url        = (isset($_GET['ref']) && !empty($_GET['ref'])) ? base64_decode($_GET['ref']) : 'not available';
+    $ref        = base64_encode($url);
 }
 
 $pageTitle = 'There has been an error processing your request';
 
 if ($action == 'email') {
     $pageTitle = 'Error Submission Form';
+    $clientsIp = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'undefined';
+
     if (isset($_POST['submit'])) {
         if (!empty($firstName) && !empty($lastName) && checkEmail($email)) {
-            $msg  = "First Name: {$firstName}\n"
+            $msg  = "URL: {$url}\n"
+                . "IP Address: {$clientsIp}\n"
+                . "First Name: {$firstName}\n"
                 . "Last Name: {$lastName}\n"
                 . "E-mail Address: {$email}\n";
 
@@ -98,12 +103,12 @@ if ($action == 'email') {
             $showErrorMsg = true;
         }
     } else {
-        $url    = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'not available';
         $time   = gmdate('Y-m-d H:i:s \G\M\T');
 
         $reportData = unserialize(file_get_contents($reportFile));
 
         $msg = "URL: {$url}\n"
+            . "IP Address: {$clientsIp}\n"
             . "Time: {$time}\n"
             . "Error:\n{$reportData[0]}\n\n"
             . "Trace:\n{$reportData[1]}";

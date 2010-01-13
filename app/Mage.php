@@ -785,7 +785,8 @@ final class Mage
             }
 
             $baseUrl = self::getScriptSystemUrl('errors', true);
-            $reportUrl = rtrim($baseUrl, '/') . '/errors/report.php?id=' . $reportId . '&s=' . $storeCode;
+            $refererUrl = base64_encode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+            $reportUrl = rtrim($baseUrl, '/') . '/errors/report.php?id=' . $reportId . '&s=' . $storeCode . '&ref=' . $refererUrl;
 
             if (!headers_sent()) {
                 header('Location: ' . $reportUrl);

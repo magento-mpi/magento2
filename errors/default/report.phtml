@@ -28,7 +28,7 @@
         </li>
     </ul>
         <?php endif; ?>
-    <form action="<?php echo "?id={$reportId}&amp;s={$store}" ?>" method="post" id="form-validate">
+    <form action="<?php echo "report.php?id={$reportId}&amp;s={$store}&amp;ref={$ref}" ?>" method="post" id="form-validate">
         <fieldset class="fieldset">
             <input type="hidden" name="error_hash" value="<?php echo $errorHash ?>" />
             <h3>Personal Information</h3>
