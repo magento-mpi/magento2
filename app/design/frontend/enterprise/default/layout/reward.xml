@@ -40,9 +40,9 @@
         <update handle="customer_account"/>
         <reference name="content">
             <block type="enterprise_reward/customer_reward" name="customer.reward" template="reward/customer/reward.phtml">
-                <block type="enterprise_reward/customer_reward_balance" name="customer.reward.balance" template="reward/customer/reward/balance.phtml"/>
-                <block type="enterprise_reward/customer_reward_settings" name="customer.reward.settings" template="reward/customer/reward/settings.phtml"/>
+                <block type="enterprise_reward/customer_reward_info" name="customer.reward.info" template="reward/customer/reward/info.phtml"/>
                 <block type="enterprise_reward/customer_reward_history" name="customer.reward.history" template="reward/customer/reward/history.phtml"/>
+                <block type="enterprise_reward/customer_reward_subscription" name="customer.reward.subscription" template="reward/customer/reward/subscription.phtml"/>
             </block>
         </reference>
     </enterprise_reward_customer_info>

@@ -24,10 +24,16 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
+<?php
+/**
+ * @see Enterprise_Reward_Block_Customer_Reward
+ */
+?>
 <div class="page-title">
     <h1><?php echo $this->__('Reward Points') ?></h1>
 </div>
-<div class="storecredit">
+<div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <?php echo $this->getChildHtml('', true, true); ?>
 </div>
+<p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo Mage::helper('customer')->__('Back') ?></a></p>

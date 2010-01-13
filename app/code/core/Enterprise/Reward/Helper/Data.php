@@ -141,4 +141,15 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $formatedPoints;
     }
+
+    /**
+     * Getter for "Learn More" landing page URL
+     *
+     * @return string
+     */
+    public function getLandingPageUrl()
+    {
+        $pageIdentifier = Mage::getStoreConfig('enterprise_reward/general/landing_page');
+        return Mage::getUrl('', array('_direct' => $pageIdentifier));
+    }
 }

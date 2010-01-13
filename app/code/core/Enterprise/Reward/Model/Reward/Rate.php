@@ -210,4 +210,38 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
         );
         return $optArray;
     }
+
+    /**
+     * Getter for currency part of the rate
+     * Formatted value returns string
+     *
+     * @param bool $formatted
+     * @return mixed|string
+     */
+    public function getCurrencyAmount($formatted = false)
+    {
+        $amount = $this->_getData('currency_amount');
+        if ($formatted) {
+            $websiteId = $this->getOriginalWebsiteId();
+            if ($websiteId === null) {
+                $websiteId = $this->getWebsiteId();
+            }
+            $currencyCode = Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
+            return Mage::app()->getLocale()->currency($currencyCode)->toCurrency($amount);
+        }
+        return $amount;
+    }
+
+    /**
+     * Getter for points part of the rate
+     * Formatted value returns as int
+     *
+     * @param bool $formatted
+     * @return mixed|int
+     */
+    public function getPoints($formatted = false)
+    {
+        $pts = $this->_getData('points');
+        return $formatted ? (int)$pts : $pts;
+    }
 }

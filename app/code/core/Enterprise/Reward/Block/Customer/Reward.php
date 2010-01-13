@@ -24,9 +24,8 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
- * Customer account reward block
+ * Customer My Account -> Reward Points container
  *
  * @category    Enterprise
  * @package     Enterprise_Reward
@@ -34,4 +33,14 @@
  */
 class Enterprise_Reward_Block_Customer_Reward extends Mage_Core_Block_Template
 {
+    /**
+     * Set template variables
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        $this->setBackUrl($this->getUrl('customer/account/'));
+        return parent::_toHtml();
+    }
 }

@@ -24,7 +24,6 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
  * Customer account reward history block
  *
@@ -35,48 +34,115 @@
 class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Template
 {
     /**
-     * Preparing global layout
+     * History records collection
      *
-     * @return Mage_Core_Block_Abstract
+     * @var Enterprise_Reward_Model_Mysql4_Reward_History_Collection
      */
-    protected function _prepareLayout()
-    {
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'reward.history.pager')
-            ->setCollection($this->getRewardHistory());
-        $this->setChild('pager', $pager);
+    protected $_collection = null;
 
-        return parent::_prepareLayout();
+    /**
+     * Get history collection if needed
+     *
+     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection|false
+     */
+    public function getHistory()
+    {
+        if (0 == $this->_getCollection()->getSize()) {
+            return false;
+        }
+        return $this->_collection;
     }
 
     /**
-     * Pager HTML getter
+     * History item points delta getter
      *
+     * @param Enterprise_Reward_Model_Reward_History $item
      * @return string
      */
-    public function getPagerHtml()
+    public function getPointsDelta(Enterprise_Reward_Model_Reward_History $item)
     {
-        return $this->getChildHtml('pager');
+        return Mage::helper('enterprise_reward')->formatPointsDelta($item->getPointsDelta());
     }
 
     /**
-     * Customer ID getter
+     * History item points balance getter
      *
-     * @return integer
+     * @param Enterprise_Reward_Model_Reward_History $item
+     * @return string
      */
-    public function getCustomerId()
+    public function getPointsBalance(Enterprise_Reward_Model_Reward_History $item)
     {
-        return Mage::getSingleton('customer/session')->getCustomerId();
+        return $item->getPointsBalance();
     }
 
     /**
-     * Check if history can be shown to customer
+     * History item currency balance getter
      *
-     * @return bool
+     * @param Enterprise_Reward_Model_Reward_History $item
+     * @return string
      */
-    public function canShow()
+    public function getCurrencyBalance(Enterprise_Reward_Model_Reward_History $item)
     {
-        return Mage::helper('enterprise_reward')->isEnabled()
-            && Mage::helper('enterprise_reward')->getGeneralConfig('publish_history');
+        return Mage::helper('core')->currency($item->getCurrencyAmount());
+    }
+
+    /**
+     * History item reference message getter
+     *
+     * @param Enterprise_Reward_Model_Reward_History $item
+     * @return string
+     */
+    public function getMessage(Enterprise_Reward_Model_Reward_History $item)
+    {
+        return $item->getMessage();
+    }
+
+    /**
+     * History item reference additional explanation getter
+     *
+     * @param Enterprise_Reward_Model_Reward_History $item
+     * @return string
+     */
+    public function getExplanation(Enterprise_Reward_Model_Reward_History $item)
+    {
+        return ''; // TODO
+    }
+
+    /**
+     * History item admin comment getter
+     *
+     * @param Enterprise_Reward_Model_Reward_History $item
+     * @return string
+     */
+    public function getComment(Enterprise_Reward_Model_Reward_History $item)
+    {
+        return $item->getComment();
+    }
+
+    /**
+     * History item creation date getter
+     *
+     * @param Enterprise_Reward_Model_Reward_History $item
+     * @return string
+     */
+    public function getDate(Enterprise_Reward_Model_Reward_History $item)
+    {
+        return Mage::helper('core')->formatDate($item->getCreatedAt(), 'short', true);
+    }
+
+    /**
+     * History item expiration date getter
+     *
+     * @param Enterprise_Reward_Model_Reward_History $item
+     * @return string
+     */
+    public function getExpirationDate(Enterprise_Reward_Model_Reward_History $item)
+    {
+        $expiresAt = $item->getExpiresAt();
+        if ($expiresAt) {
+            return Mage::helper('core')->formatDate($expiresAt, 'short', true);
+        }
+        return '';
     }
 
     /**
@@ -84,20 +150,58 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
      *
      * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
      */
-    public function getRewardHistory()
+    protected function _getCollection()
     {
-        if (! $this->getCollection()) {
+        if (!$this->_collection) {
             $websiteId = Mage::app()->getWebsite()->getId();
-            $this->setCollection(Mage::getModel('enterprise_reward/reward_history')
-                ->getCollection()
-                ->addCustomerFilter($this->getCustomerId())
+            $this->_collection = Mage::getModel('enterprise_reward/reward_history')->getCollection()
+                ->addCustomerFilter(Mage::getSingleton('customer/session')->getCustomerId())
                 ->addWebsiteFilter($websiteId)
                 ->setExpiryConfig(Mage::helper('enterprise_reward')->getExpiryConfig())
                 ->addExpirationDate($websiteId)
                 ->skipExpiredDuplicates()
-                ->setOrder('history_id', 'desc'));
+                ->setDefaultOrder()
+            ;
         }
+        return $this->_collection;
+    }
 
-        return $this->getCollection();
+    /**
+     * Instantiate Pagination
+     *
+     * @return Enterprise_Reward_Block_Customer_Reward_History
+     */
+    protected function _prepareLayout()
+    {
+        if ($this->_isEnabled()) {
+            $pager = $this->getLayout()->createBlock('page/html_pager', 'reward.history.pager')
+                ->setCollection($this->_getCollection())->setIsOutputRequired(false)
+            ;
+            $this->setChild('pager', $pager);
+        }
+        return parent::_prepareLayout();
+    }
+
+    /**
+     * Whether the history may show up
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        if ($this->_isEnabled()) {
+            return parent::_toHtml();
+        }
+        return '';
+    }
+
+    /**
+     * Whether the history is supposed to be rendered
+     *
+     * @return bool
+     */
+    protected function _isEnabled()
+    {
+        return Mage::helper('enterprise_reward')->getGeneralConfig('publish_history');
     }
 }

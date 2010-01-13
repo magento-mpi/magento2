@@ -230,6 +230,21 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Getter for date when the record is supposed to expire
+     *
+     * @return string|null
+     */
+    public function getExpiresAt()
+    {
+        if ($this->getPointsDelta() <= 0) {
+            return null;
+        }
+        return Mage::helper('enterprise_reward')->getGeneralConfig('expiry_calculation') == 'static'
+            ? $this->getExpiredAtStatic() : $this->getExpiredAtDynamic()
+        ;
+    }
+
+    /**
      * Spend unused points for required amount
      *
      * @param int $required Points total that required

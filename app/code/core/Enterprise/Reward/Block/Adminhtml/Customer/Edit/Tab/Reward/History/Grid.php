@@ -53,12 +53,12 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
     protected function _prepareCollection()
     {
         /* @var $collection Enterprise_Reward_Model_Mysql4_Reward_History_Collection */
-        $collection = Mage::getModel('enterprise_reward/reward_history')
-            ->getCollection()
+        $collection = Mage::getModel('enterprise_reward/reward_history')->getCollection()
             ->addCustomerFilter($this->getCustomerId())
             ->setExpiryConfig(Mage::helper('enterprise_reward')->getExpiryConfig())
             ->addExpirationDate()
             ->setOrder('history_id', 'desc');
+        $collection->setDefaultOrder();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -92,82 +92,100 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('created_at', array(
-            'header'   => Mage::helper('enterprise_reward')->__('Date'),
-            'align'    => 'left',
-            'index'    => 'created_at',
-            'sortable' => false,
-            'filter'   => false
-        ));
-        $this->addColumn('expiration_date', array(
-            'header'    => Mage::helper('enterprise_reward')->__('Expiration Date'),
-            'align'     => 'left',
-            'index'     => 'expiration_date',
-            'sortable' => false,
-            'filter'   => false
-        ));
-
-        $this->addColumn('website', array(
-            'header'  => Mage::helper('enterprise_reward')->__('Website'),
-            'index'   => 'website_id',
-            'type'    => 'options',
-            'options' => Mage::getModel('enterprise_reward/source_website')->toOptionArray(false),
-            'sortable' => false
-        ));
-
         $this->addColumn('points_balance', array(
-            'header'  => Mage::helper('enterprise_reward')->__('Points Balance'),
-            'align'   => 'center',
-            'index'   => 'points_balance',
-            'sortable' => false
+            'type'     => 'number',
+            'index'    => 'points_balance',
+            'header'   => Mage::helper('enterprise_reward')->__('Balance'),
+            'sortable' => false,
+            'filter'   => false,
+            'width'    => 1,
         ));
 
         $this->addColumn('currency_amount', array(
-            'header'   => Mage::helper('enterprise_reward')->__('Currency Amount'),
             'type'     => 'currency',
             'currency' => 'base_currency_code',
             'rate'     => 1,
             'index'    => 'currency_amount',
+            'header'   => Mage::helper('enterprise_reward')->__('Amount Balance'),
             'sortable' => false,
+            'filter'   => false,
+            'width'    => 1,
         ));
 
         $this->addColumn('points_delta', array(
-            'header'  => Mage::helper('enterprise_reward')->__('Points Delta'),
-            'align'   => 'center',
-            'index'   => 'points_delta',
-            'sortable' => false
+            'type'     => 'number',
+            'index'    => 'points_delta',
+            'header'   => Mage::helper('enterprise_reward')->__('Points'),
+            'sortable' => false,
+            'filter'   => false,
+            'show_number_sign' => true,
+            'width'    => 1,
         ));
 
         $this->addColumn('currency_delta', array(
-            'header'   => Mage::helper('enterprise_reward')->__('Currency Delta'),
             'type'     => 'currency',
             'currency' => 'base_currency_code',
             'rate'     => 1,
             'index'    => 'currency_delta',
+            'header'   => Mage::helper('enterprise_reward')->__('Amount'),
             'sortable' => false,
+            'filter'   => false,
+            'show_number_sign' => true,
+            'width'    => 1,
         ));
 
+// TODO: make this translateable
         $this->addColumn('rate_description', array(
-            'header'   => Mage::helper('enterprise_reward')->__('Rate Description'),
             'index'    => 'rate_description',
+            'header'   => Mage::helper('enterprise_reward')->__('Rate'),
             'sortable' => false,
             'filter'   => false
         ));
 
+// TODO: instead of source models move options to a getter
+        $this->addColumn('website', array(
+            'type'     => 'options',
+            'options'  => Mage::getModel('enterprise_reward/source_website')->toOptionArray(false),
+            'index'    => 'website_id',
+            'header'   => Mage::helper('enterprise_reward')->__('Website'),
+            'sortable' => false
+        ));
+
+// TODO: custom renderer for reason, which includes comments
         $this->addColumn('message', array(
-            'header'   => Mage::helper('enterprise_reward')->__('Message'),
-            'align'    => 'left',
             'index'    => 'message',
             'getter'   => 'getMessage',
+            'header'   => Mage::helper('enterprise_reward')->__('Reason'),
             'sortable' => false,
-            'filter'   => false
+            'filter'   => false,
+            'align'    => 'left',
         ));
 
+        $this->addColumn('created_at', array(
+            'type'     => 'datetime',
+            'index'    => 'created_at',
+            'header'   => Mage::helper('enterprise_reward')->__('Created At'),
+            'sortable' => false,
+            'filter'   => false,
+            'align'    => 'left',
+        ));
+
+        $this->addColumn('expiration_date', array(
+            'type'     => 'datetime',
+            'getter'   => 'getExpiresAt',
+            'header'   => Mage::helper('enterprise_reward')->__('Expires At'),
+            'sortable' => false,
+            'filter'   => false,
+            'align'    => 'left',
+        ));
+
+// TODO: merge with reason
         $this->addColumn('comment', array(
-            'header' => Mage::helper('enterprise_reward')->__('Comments'),
-            'align' => 'left',
-            'index' => 'comment',
-            'sortable' => false
+            'index'    => 'comment',
+            'header'   => Mage::helper('enterprise_reward')->__('Comment'),
+            'sortable' => false,
+            'filter'   => false,
+            'align'    => 'left',
         ));
 
         return parent::_prepareColumns();

@@ -250,4 +250,15 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Mage_Core
 
         return $this;
     }
+
+    /**
+     * Order by primary key desc
+     *
+     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
+     */
+    public function setDefaultOrder()
+    {
+        $this->getSelect()->reset(Zend_Db_Select::ORDER);
+        return $this->setOrder('history_id', 'DESC');
+    }
 }

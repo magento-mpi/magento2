@@ -48,15 +48,13 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
     }
 
     /**
-     * Description goes here...
+     * Getter for landing page Url
      *
-     * @param none
-     * @return void
+     * @return string
      */
     public function getLandingPageUrl()
     {
-        $pageIdentifier = Mage::getStoreConfig('enterprise_reward/general/landing_page');
-        return Mage::getUrl('', array('_direct' => $pageIdentifier));
+        return Mage::helper('enterprise_reward')->getLandingPageUrl();
     }
 
     /**
