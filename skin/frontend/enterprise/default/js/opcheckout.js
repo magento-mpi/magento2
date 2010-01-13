@@ -682,11 +682,16 @@ Payment.prototype = {
 
     beforeValidate : function() {
         var validateResult = true;
+        var hasValidation = false;
         (this.beforeValidateFunc).each(function(validate){
+            hasValidation = true;
             if ((validate.value)() == false) {
                 validateResult = false;
             }
         }.bind(this));
+        if (!hasValidation) {
+            validateResult = false;
+        }
         return validateResult;
     },
 
@@ -707,7 +712,7 @@ Payment.prototype = {
         }
         result = this.afterValidate();
         if (result) {
-            return truel
+            return true;
         }
         alert(Translator.translate('Please specify payment method.'));
         return false;
@@ -718,9 +723,18 @@ Payment.prototype = {
     },
 
     afterValidate : function() {
+        var validateResult = true;
+        var hasValidation = false;
         (this.afterValidateFunc).each(function(validate){
-            (validate.value)();
-        });
+            hasValidation = true;
+            if ((validate.value)() == false) {
+                validateResult = false;
+            }
+        }.bind(this));
+        if (!hasValidation) {
+            validateResult = false;
+        }
+        return validateResult;
     },
 
     save: function(){
