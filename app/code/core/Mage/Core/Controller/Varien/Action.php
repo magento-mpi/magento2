@@ -929,7 +929,7 @@ abstract class Mage_Core_Controller_Varien_Action
      * @param   array $dateFields
      * @return  array
      */
-    protected function _filterDatesTime($array, $dateFields)
+    protected function _filterDateTime($array, $dateFields)
     {
         if (empty($dateFields)) {
             return $array;

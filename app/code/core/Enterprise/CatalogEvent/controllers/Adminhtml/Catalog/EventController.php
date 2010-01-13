@@ -265,7 +265,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
     {
         if(isset($data['catalogevent'])) {
             $_data = $data['catalogevent'];
-            $_data = $this->_filterDatesTime($_data, array('date_start', 'date_end'));
+            $_data = $this->_filterDateTime($_data, array('date_start', 'date_end'));
             $data['catalogevent'] = $_data;
         }
         return $data;
