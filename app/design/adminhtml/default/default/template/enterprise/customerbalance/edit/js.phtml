@@ -45,9 +45,9 @@ function updateEmailWebsites()
                 emailWebsites.appendChild(optionGroup);
                 stores = group["stores"];
                 for (i=0; i < stores.length; i++) {
-                    option = new Option();
-                    option.value = stores[i]["store_id"];
-                    option.text = stores[i]["name"];
+                    var option = document.createElement("option");
+                    option.appendChild(document.createTextNode(stores[i]["name"]));
+                    option.setAttribute("value", stores[i]["store_id"]);
                     optionGroup.appendChild(option);
                 }
             }
