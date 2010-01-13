@@ -45,18 +45,28 @@ class Enterprise_PageCache_Model_Observer
     }
 
     /**
+     * Check if full page cache is enabled
+     * @return bool
+     */
+    public function isCacheEnabled()
+    {
+        return Mage::app()->useCache('full_page');
+    }
+
+    /**
      * Save page body to cache storage
      *
      * @param Varien_Event_Observer $observer
      */
     public function cacheResponse(Varien_Event_Observer $observer)
     {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
         $frontController = $observer->getEvent()->getFront();
         $request = $frontController->getRequest();
-        if ($this->_processor->canProcessRequest($request)) {
-            $response = $frontController->getResponse();
-            $this->_processor->process($response);
-        }
+        $response = $frontController->getResponse();
+        $this->_processor->processRequestResponse($request, $response);
     }
 
     /**
@@ -66,6 +76,9 @@ class Enterprise_PageCache_Model_Observer
      */
     public function processPreDispatch(Varien_Event_Observer $observer)
     {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
         $action = $observer->getEvent()->getControllerAction();
         /* @var $request Mage_Core_Controller_Request_Http */
         $request = $action->getRequest();
@@ -74,12 +87,13 @@ class Enterprise_PageCache_Model_Observer
         $cookieName = Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE;
         $noCache = $cookie->get($cookieName);
         if ($noCache) {
+            Mage::getSingleton('catalog/session')->setParamsMemorizeDisabled(false);
             $cookie->renew($cookieName);
         } elseif ($action) {
-            if ($request->isPost()) {
+            Mage::getSingleton('catalog/session')->setParamsMemorizeDisabled(true);
+            if ($request->isPost() || in_array($action->getFullActionName(), $this->_cacheDisableActions)) {
+                Mage::getSingleton('core/session')->setNoCacheFlag(1);
                 $cookie->set($cookieName, 1);
-            } elseif (in_array($action->getFullActionName(), $this->_cacheDisableActions)) {
-                $cookie->set(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE, 1);
             }
         }
         /**
@@ -121,6 +135,9 @@ class Enterprise_PageCache_Model_Observer
      */
     public function registerModelTag(Varien_Event_Observer $observer)
     {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
         $object = $observer->getEvent()->getObject();
         if ($object && $object->getId()) {
             $tags = $object->getCacheIdTags();
@@ -137,6 +154,9 @@ class Enterprise_PageCache_Model_Observer
      */
     public function checkCategoryState(Varien_Event_Observer $observer)
     {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
         $category = Mage::registry('current_category');
         /**
          * Categories with category event can't be cached
@@ -155,6 +175,9 @@ class Enterprise_PageCache_Model_Observer
      */
     public function checkProductState(Varien_Event_Observer $observer)
     {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
         $product = Mage::registry('current_product');
         /**
          * Categories with category event can't be cached

@@ -32,10 +32,22 @@ class Enterprise_PageCache_Model_Processor
     const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';
     const XML_PATH_LIFE_TIME            = 'system/page_cache/lifetime';
     const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
-    const REQUEST_ID_PREFIX         = 'REQEST_';
-    const CACHE_TAG                 = 'FPC';  // Full Page Cache, minimize
+    const REQUEST_ID_PREFIX             = 'REQEST_';
+    const CACHE_TAG                     = 'FPC';  // Full Page Cache, minimize
 
+    /**
+     * Request identifier
+     *
+     * @var string
+     */
     protected $_requestId;
+
+    protected $_requestCacheId;
+
+    /**
+     * Cache tags related with request
+     * @var array
+     */
     protected $_requestTags;
 
     /**
@@ -50,16 +62,70 @@ class Enterprise_PageCache_Model_Processor
         if (isset($_COOKIE['currency'])) {
             $uri = $uri.'_'.$_COOKIE['currency'];
         }
-        $this->_requestId  = self::REQUEST_ID_PREFIX.md5($uri);
-        $this->_requestTags= array(self::CACHE_TAG);
+        $this->_requestId       = $uri;
+        $this->_requestCacheId  = $this->prepareCacheId($this->_requestId);
+        $this->_requestTags     = array(self::CACHE_TAG);
+    }
+
+    /**
+     * Prepare page identifier
+     *
+     * @param string $id
+     * @return string
+     */
+    public function prepareCacheId($id)
+    {
+        return self::REQUEST_ID_PREFIX.md5($id);
     }
 
     /**
      * Get HTTP request identifier
+     *
+     * @return string
      */
     public function getRequestId()
     {
         return $this->_requestId;
+    }
+
+    /**
+     * Get page identifier for loading page from cache
+     * @return string
+     */
+    public function getRequestCacheId()
+    {
+        return $this->_requestCacheId;
+    }
+
+    /**
+     * Check if processor is allowed for current HTTP request.
+     * Disable processing HTTPS requests and requests with "NO_CACHE" cookie
+     *
+     * @return bool
+     */
+    public function isAllowed()
+    {
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+            return false;
+        }
+        if (isset($_COOKIE['NO_CACHE'])) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Get page content from cache storage
+     *
+     * @param string $content
+     * @return string | false
+     */
+    public function extractContent($content)
+    {
+        if (!$content && $this->isAllowed()) {
+            $content = Mage::app()->loadCache($this->getRequestCacheId());
+        }
+        return $content;
     }
 
     /**
@@ -80,7 +146,7 @@ class Enterprise_PageCache_Model_Processor
 
     /**
      * Get cache request associated tags
-     * @return attay();
+     * @return array
      */
     public function getRequestTags()
     {
@@ -88,25 +154,34 @@ class Enterprise_PageCache_Model_Processor
     }
 
     /**
-     * Check if processor is allowed for current HTTP request
+     * Process response body by specific request
      *
-     * @return bool
+     * @param Zend_Controller_Request_Http $request
+     * @param Zend_Controller_Response_Http $response
+     * @return Enterprise_PageCache_Model_Processor
      */
-    public function isAllowed()
+    public function processRequestResponse(Zend_Controller_Request_Http $request, Zend_Controller_Response_Http $response)
     {
-        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
-            return false;
+        /**
+         * Basic validation for request processing
+         */
+        if ($this->canProcessRequest($request)) {
+            $processor = $this->getRequestProcessor($request);
+            if ($processor && $processor->allowCache($request)) {
+                $cacheId = $this->prepareCacheId($processor->getRequestUri($this, $request));
+                $content = $processor->prepareContent($response);
+                $lifetime = Mage::getStoreConfig(self::XML_PATH_LIFE_TIME)*60;
+
+                Mage::app()->saveCache($content, $cacheId, $this->getRequestTags(), $lifetime);
+            }
         }
-        if (isset($_COOKIE['NO_CACHE'])) {
-            return false;
-        }
-        return true;
+        return $this;
     }
 
     /**
-     * Check if processor can process specific HTTP request
+     * Do basic validation for request to be cached
      *
-     * @param $request
+     * @param Zend_Controller_Request_Http $request
      * @return bool
      */
     public function canProcessRequest(Zend_Controller_Request_Http $request)
@@ -128,79 +203,37 @@ class Enterprise_PageCache_Model_Processor
                 $res = false;
             }
         }
-        if ($res) {
-            $configuration = Mage::getConfig()->getNode(self::XML_NODE_ALLOWED_CACHE);
-            if ($configuration) {
-                $configuration = $configuration->asArray();
-            }
-            $module = $request->getModuleName();
-            if (isset($configuration[$module])) {
-                if ($configuration[$module] === '*') {
-                    $res = true;
-                } else {
-                    $controller = $request->getControllerName();
-                    if (isset($configuration[$module][$controller])) {
-                        if ($configuration[$module][$controller] === '*') {
-                            $res = true;
-                        } else {
-                            $action = $request->getActionName();
-                            if (isset($configuration[$module][$controller][$action])) {
-                                $res = ($configuration[$module][$controller][$action] === '*');
-                            }
-                        }
-                    }
-                }
-            } else {
-                $res = false;
-            }
-        }
         return $res;
     }
 
     /**
-     * Get page content from cache storage
+     * Get specific request processor based on request parameters.
      *
-     * @param string $content
-     * @return string | false
+     * @param Zend_Controller_Request_Http $request
+     * @return Enterprise_PageCache_Model_Processor_Default
      */
-    public function extractContent($content)
+    public function getRequestProcessor(Zend_Controller_Request_Http $request)
     {
-        if (!$content && $this->isAllowed()) {
-            $content = Mage::app()->loadCache($this->getRequestId());
+        $processor = false;
+        $configuration = Mage::getConfig()->getNode(self::XML_NODE_ALLOWED_CACHE);
+        if ($configuration) {
+            $configuration = $configuration->asArray();
         }
-        return $content;
-    }
-
-    /**
-     * Remove dynamyc component (random generated blocks) from content
-     *
-     * @param string $content
-     * @return string
-     */
-    protected function _stripDynamic($content)
-    {
-        $tags = array();
-        preg_match_all("/<!--\[(.*?)-->/i", $content, $tags, PREG_PATTERN_ORDER);
-        $tags = array_unique($tags[1]);
-        foreach ($tags as $tag) {
-            $content = preg_replace("/<!--\[{$tag}-->(.*?)<!--{$tag}\]-->/ims", '', $content);
+        $module = $request->getModuleName();
+        if (isset($configuration[$module])) {
+            $model = $configuration[$module];
+            $controller = $request->getControllerName();
+            if (is_array($configuration[$module]) && isset($configuration[$module][$controller])) {
+                $model = $configuration[$module][$controller];
+                $action = $request->getActionName();
+                if (is_array($configuration[$module][$controller]) && isset($configuration[$module][$controller][$action])) {
+                    $model = $configuration[$module][$controller][$action];
+                }
+            }
+            if (is_string($model)) {
+                $processor = Mage::getModel($model);
+            }
         }
-        return $content;
+        return $processor;
     }
-
-    /**
-     * Process http response
-     *
-     * @param Zend_Controller_Response_Http $response
-     * @return Enterprise_PageCache_Model_Processor
-     */
-    public function process(Zend_Controller_Response_Http  $response)
-    {
-        $content = $response->getBody();
-        $content = $this->_stripDynamic($content);
-        $lifetime = Mage::getStoreConfig(self::XML_PATH_LIFE_TIME)*60;
-        $content = Mage::app()->saveCache($content, $this->getRequestId(), $this->getRequestTags(), $lifetime);
-        return $this;
-    }
-
 }

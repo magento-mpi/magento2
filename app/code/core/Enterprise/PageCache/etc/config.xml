@@ -172,15 +172,14 @@
             <requests>
                 <!-- 
                     Supported definitions:
-                    <module_front_name>*</module_front_name> - all module urls
-                    <module_front_name><controller>*</controller></module_front_name> - all module controller actions
-                    <module_front_name><controller><action>*</action></controller></module_front_name> - specific action
+                    <module_front_name>processor_model</module_front_name> - all module urls
+                    <module_front_name><controller>processor_model</controller></module_front_name> - all module controller actions
+                    <module_front_name><controller><action>processor_model</action></controller></module_front_name> - specific action
                  -->
-                <cms>*</cms>
-                <catalog><category><view>*</view></category></catalog>
-                <catalog><product><view>*</view></product></catalog>
+                <cms>enterprise_pagecache/processor_default</cms>
+                <catalog><category><view>enterprise_pagecache/processor_category</view></category></catalog>
+                <catalog><product><view>enterprise_pagecache/processor_product</view></product></catalog>
             </requests>
-            <catalog></catalog>
         </cache>
     </frontend>
     <default>
