@@ -122,6 +122,10 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
         parse_str($roleUsers, $roleUsers);
         $roleUsers = array_keys($roleUsers);
 
+        $oldRoleUsers = $this->getRequest()->getParam('in_role_user_old');
+        parse_str($oldRoleUsers, $oldRoleUsers);
+        $oldRoleUsers = array_keys($oldRoleUsers);
+
         $isAll = $this->getRequest()->getParam('all');
         if ($isAll) {
             $resource = array("all");
@@ -139,17 +143,14 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
                 ->setResources($resource)
                 ->saveRel();
 
-            $oldRoleUsers = Mage::getModel("api/roles")->setId($role->getId())->getRoleUsers($role);
-            if ( sizeof($oldRoleUsers) > 0 ) {
-                foreach($oldRoleUsers as $oUid) {
-                    $this->_deleteUserFromRole($oUid, $role->getId());
-                }
+            foreach($oldRoleUsers as $oUid) {
+                $this->_deleteUserFromRole($oUid, $role->getId());
             }
-            if ( $roleUsers ) {
-                foreach ($roleUsers as $nRuid) {
-                    $this->_addUserToRole($nRuid, $role->getId());
-                }
+
+            foreach ($roleUsers as $nRuid) {
+                $this->_addUserToRole($nRuid, $role->getId());
             }
+
             $rid = $role->getId();
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Role successfully saved.'));
         } catch (Exception $e) {
