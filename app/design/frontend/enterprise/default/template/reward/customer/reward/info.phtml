@@ -29,34 +29,37 @@
  * @see Enterprise_Reward_Block_Customer_Reward_Info
  */
 ?>
-<div class="fieldset">
-<h2 class="legend"><?php echo $this->__('Reward points balance Information'); ?></h2>
-<dl>
-    <dt><?php echo $this->__('Your current balance:')?></dt>
-        <dd><?php echo $this->__('%d pts (%s)', $this->getPointsBalance(), $this->getCurrencyBalance())?></dd>
-    <dt><?php echo $this->__('Current exchange rates:')?></dt>
-        <dd><?php echo $this->__('Each %d pts can be redeemed to %s', $this->getPtsToAmountRatePts(), $this->getPtsToAmountRateAmount())?></dd>
-        <dd><?php echo $this->__('Each %s spent is rewarded by %d pts', $this->getAmountToPtsRateAmount(), $this->getAmountToPtsRatePts())?></dd>
-<?php if ($maxBalance = $this->getMaxBalance()):?>
-    <dt><?php echo $this->__('Balance is capped by:')?></dt>
-        <dd><?php echo $this->__('%d pts', $maxBalance)?></dd>
-<?php if ($this->getIsMaxBalanceReached()):?>
-        <dd style="color:red"><?php echo $this->__('Maximum Balance is reached')?></dd>
-<?php endif;?>
-<?php endif;?>
-<?php if ($minBalance = $this->getMinBalance()):?>
-    <dt><?php echo $this->__('Minimum Balance to be able to redeem:')?></dt>
-        <dd><?php echo $minBalance?></dd>
-<?php if (!$this->getIsMinBalanceReached()):?>
-        <dd style="color:red"><?php echo $this->__('Minimum Balance is not reached')?></dd>
-<?php endif;?>
-<?php endif;?>
-<?php if ($expireIn = $this->getExpireIn()):?><dd>
-    <dt><?php echo $this->__('Each earned Reward Points record expires in %d days.', $expireIn)?></dt>
-<?php if ($this->getIsHistoryPublished()):?>
-        <dd><?php echo $this->__('Refer to Rewards Points History to see whether a specific record expires and when.')?></dd>
-<?php endif;?>
-<?php endif;?>
-    <dt><a href="<?php echo Mage::helper('enterprise_reward')->getLandingPageUrl()?>"><?php echo $this->__('Learn more...')?></a></dt>
-</dl>
+<div class="box info-box">
+    <h2 class="box-title"><?php echo $this->__('Reward points balance Information'); ?> <span class="separator">|</span> <a href="<?php echo Mage::helper('enterprise_reward')->getLandingPageUrl()?>"><?php echo $this->__('Learn more...')?></a></h2>
+    <dl class="box-content">
+        <dt><?php echo $this->__('Your current balance:')?></dt>
+            <dd><?php echo $this->__('<strong>%d pts</strong> (%s)', $this->getPointsBalance(), $this->getCurrencyBalance())?></dd>
+        <dt><?php echo $this->__('Current exchange rates:')?></dt>
+            <dd><?php echo $this->__('Each <strong>%d pts</strong> can be redeemed to <strong>%s</strong>', $this->getPtsToAmountRatePts(), $this->getPtsToAmountRateAmount())?></dd>
+            <dd><?php echo $this->__('Each <strong>%s</strong> spent is rewarded by <strong>%d pts</strong>', $this->getAmountToPtsRateAmount(), $this->getAmountToPtsRatePts())?></dd>
+    <?php if ($maxBalance = $this->getMaxBalance()):?>
+        <dt><?php echo $this->__('Balance is capped by:')?></dt>
+            <dd>
+                <?php echo $this->__('<strong>%d pts</strong>', $maxBalance)?>
+                <?php if ($this->getIsMaxBalanceReached()):?>
+                    <p class="error"><?php echo $this->__('(Maximum Balance is reached)')?></p>
+                <?php endif;?>
+            </dd>
+    <?php endif;?>
+    <?php if ($minBalance = $this->getMinBalance()):?>
+        <dt><?php echo $this->__('Minimum Balance to be able to redeem:')?></dt>
+            <dd>
+                <?php echo $minBalance?>
+                <?php if (!$this->getIsMinBalanceReached()):?>
+                    <p class="error"><?php echo $this->__('(Minimum Balance is not reached)')?></p>
+                <?php endif;?>
+            </dd>
+    <?php endif;?>
+    <?php if ($expireIn = $this->getExpireIn()):?>
+        <dt><?php echo $this->__('Each earned Reward Points record expires in <span>%d</span> days.', $expireIn)?></dt>
+    <?php if ($this->getIsHistoryPublished()):?>
+            <dd><?php echo $this->__('Refer to Rewards Points History to see whether a specific record expires and when.')?></dd>
+    <?php endif;?>
+    <?php endif;?>
+    </dl>
 </div>

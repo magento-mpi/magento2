@@ -1907,6 +1907,19 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 #my-tags-table .price-box { margin:5px 0; }
 #my-tags-table .last { text-align:center; }
 #my-tags-table .last p { margin:10px 0; }
+
+/* Reward Points */
+.my-rewards .box { margin:0 0 30px; }
+.my-rewards .info-box .box-title { margin:10px 10px; }
+.my-rewards .info-box .box-content { padding:0 10px 10px; }
+.my-rewards p.error { display:inline; color:#d91a00; }
+.my-rewards dl { font-size:12px; }
+.my-rewards dl dt { font-weight:bold; font-size:13px; margin-top:10px; }
+.my-rewards dl dt span { color:#d12c01; }
+.my-rewards dl dd.last { margin:7px 0 0; }
+.my-rewards .form-list label { width:auto; }
+.my-rewards .form-list .control .input-box { position:static; margin:0 5px 0 0; }
+.my-rewards .data-table small { display:block; font-size:1em; color:#808080; }
 /* ======================================================================================= */
 
 
