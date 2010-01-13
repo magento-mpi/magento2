@@ -140,6 +140,11 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
     protected $_defaultAvailableLimit  = array(10=>10,20=>20,50=>50);
 
     /**
+     * @var bool $_paramsMemorizeAllowed
+     */
+    protected $_paramsMemorizeAllowed = true;
+
+    /**
      * Retrieve Catalog Config object
      *
      * @return Mage_Catalog_Model_Config
@@ -180,6 +185,31 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
                 break;
         }
         $this->setTemplate('catalog/product/list/toolbar.phtml');
+    }
+
+    /**
+     * Disable list state params memorizing
+     */
+    public function disableParamsMemorizing()
+    {
+        $this->_paramsMemorizeAllowed = false;
+        return $this;
+    }
+
+    /**
+     * Memorize parameter value for session
+     *
+     * @param string $param parameter name
+     * @param mixed $value parameter value
+     * @return Mage_Catalog_Block_Product_List_Toolbar
+     */
+    protected function _memorizeParam($param, $value)
+    {
+        $session = Mage::getSingleton('catalog/session');
+        if ($this->_paramsMemorizeAllowed && !$session->getParamsMemorizeDisabled()) {
+            $session->setData($param, $value);
+        }
+        return $this;
     }
 
     /**
@@ -303,7 +333,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
             if ($order == $defaultOrder) {
                 Mage::getSingleton('catalog/session')->unsSortOrder();
             } else {
-                Mage::getSingleton('catalog/session')->setSortOrder($order);
+                $this->_memorizeParam('sort_order', $order);
             }
         } else {
             $order = Mage::getSingleton('catalog/session')->getSortOrder();
@@ -334,7 +364,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
             if ($dir == $this->_direction) {
                 Mage::getSingleton('catalog/session')->unsSortDirection();
             } else {
-                Mage::getSingleton('catalog/session')->setSortDirection($dir);
+                $this->_memorizeParam('sort_direction', $dir);
             }
         } else {
             $dir = Mage::getSingleton('catalog/session')->getSortDirection();
@@ -487,7 +517,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
             if ($mode == $defaultMode) {
                 Mage::getSingleton('catalog/session')->unsDisplayMode();
             } else {
-                Mage::getSingleton('catalog/session')->setDisplayMode($mode);
+                $this->_memorizeParam('display_mode', $mode);
             }
         } else {
             $mode = Mage::getSingleton('catalog/session')->getDisplayMode();
@@ -709,7 +739,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
             if ($limit == $defaultLimit) {
                 Mage::getSingleton('catalog/session')->unsLimitPage();
             } else {
-                Mage::getSingleton('catalog/session')->setLimitPage($limit);
+                $this->_memorizeParam('limit_page', $limit);
             }
         } else {
             $limit = Mage::getSingleton('catalog/session')->getLimitPage();
