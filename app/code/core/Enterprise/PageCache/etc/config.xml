@@ -178,7 +178,7 @@
                  -->
                 <cms>enterprise_pagecache/processor_default</cms>
                 <catalog><category><view>enterprise_pagecache/processor_category</view></category></catalog>
-                <catalog><product><view>enterprise_pagecache/processor_product</view></product></catalog>
+                <catalog><product><view>enterprise_pagecache/processor_default</view></product></catalog>
             </requests>
         </cache>
     </frontend>
