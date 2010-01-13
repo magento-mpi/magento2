@@ -122,9 +122,19 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
             ->setPointsDelta($this->getReward()->getPointsDelta())
             ->setCurrencyAmount($this->getReward()->getCurrencyAmount())
             ->setCurrencyDelta($this->getReward()->getCurrencyDelta())
-            ->setRateDescription($this->getReward()->getRateToCurrency()->getExchangeRateAsText())
+            ->setRateDescription($this->getReward()->getRate()->getExchangeRateAsText())
             ->setAction($this->getReward()->getAction())
             ->setComment($this->getReward()->getComment());
+
+        $this->addAdditionalData(array(
+            'rate' => array(
+                'points' => $this->getReward()->getRate()->getPoints(),
+                'currency_amount' => $this->getReward()->getRate()->getCurrencyAmount(),
+                'direction' => $this->getReward()->getRate()->getDirection(),
+                'currency_code' => Mage::app()->getWebsite($this->getReward()->getWebsiteId())->getBaseCurrencyCode()
+            )
+        ));
+
         if ($this->getReward()->getIsCappedReward()) {
             $this->addAdditionalData(array(
                 'is_capped_reward' => true,
