@@ -73,7 +73,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
     {
         if ($this->getCollection()) {
             $field = ( $column->getFilterIndex() ) ? $column->getFilterIndex() : $column->getIndex();
-            if ($field == 'website_id') {
+            if ($field == 'website_id' || $field == 'points_balance') {
                 $cond = $column->getFilter()->getCondition();
                 if ($field && isset($cond)) {
                     $this->getCollection()->addFieldToFilter('main_table.'.$field , $cond);
