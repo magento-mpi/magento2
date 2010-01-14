@@ -290,7 +290,7 @@ addressesModel.prototype = {
                 var inputs = $(this.itemList[i].id).getElementsBySelector('input');
                 var isActive = false;
                 for(var j in inputs){
-                    if(inputs[j].type=='radio' && inputs[j].checked && this.itemList.length > 1){
+                    if(inputs[j].type=='radio' && inputs[j].checked){
                         isActive = true;
                     }
                 }
