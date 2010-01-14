@@ -1671,7 +1671,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .checkout-progress,
 .checkout-progress li.first span,
 .checkout-progress li.last span { background-image:url(../images/bkg_crumbs.gif); background-repeat:no-repeat; }
-.checkout-progress { padding:0 0 0 0; border-bottom:1px solid #cfcfcf; background-color:#ededed; text-align:center; margin:-1px -21px 5px; font-size:11px; font-weight:bold; text-transform:uppercase; width:940px; position:relative; z-index:1; }
+.checkout-progress { padding:0 0 0 0; border-bottom:1px solid #cfcfcf; background-color:#ededed; text-align:center; margin:-21px -21px 5px; font-size:11px; font-weight:bold; text-transform:uppercase; width:940px; position:relative; z-index:1; }
 .checkout-progress li { float:left; width:20%; text-align:center; color:#888; line-height:20px; }
 .checkout-progress li span { display:block; text-align:center; border-right:1px solid #cfcfcf; }
 .checkout-progress li.first span { background-position:0 0; }
@@ -1692,12 +1692,11 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .multiple-checkout .grand-total .price { font-weight:bold; }
 .multiple-checkout .sp-methods { font-size:12px; }
 .multiple-checkout .checkout-multishipping-payment-customerbalance { font-size:12px; margin-bottom:7px; }
-.checkout-multishipping-overview .col-main { padding-top:0; }
-
 
 /********** < Common Checkout Styles */
 /* Shipping and Payment methods */
 .sp-methods dt { font-weight:bold; margin-bottom:5px; }
+.sp-methods dd { margin:0 0 7px; }
 .sp-methods .price { font-weight:bold; }
 .sp-methods .form-list { padding-left:20px; margin:15px 0; }
 .sp-methods .form-list .input-text { width:250px; }
