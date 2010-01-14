@@ -86,9 +86,9 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'width'     => 200,
         ));
 
-        $this->addColumn('action', array(
+        $this->addColumn('balance_action', array(
             'header'    => Mage::helper('enterprise_customerbalance')->__('Action'),
-            'width'     => 50,
+            'width'     => 70,
             'index'     => 'action',
             'sortable'  => false,
             'type'      => 'options',
