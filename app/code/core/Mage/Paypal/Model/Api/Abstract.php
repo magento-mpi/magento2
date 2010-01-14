@@ -155,16 +155,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Logo URL getter
-     *
-     * @return string
-     */
-    public function getLogoUrl()
-    {
-        return $this->_getDataOrConfig('logo_url');
-    }
-
-    /**
      * PayPal page header image URL getter
      *
      * @return string

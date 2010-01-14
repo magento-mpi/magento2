@@ -296,8 +296,7 @@ class Mage_Paypal_Model_Config
     public function getExpressCheckoutShortcutImageUrl($localeCode, $orderTotal = null, $pal = null)
     {
         if ($this->areButtonsDynamic()) {
-            return $this->_getDynamicImageUrl($this->buttonType, $localeCode, $orderTotal, $pal);
-            // return $this->_getDynamicImageUrl(self::EC_BUTTON_TYPE_SHORTCUT, $localeCode, $orderTotal, $pal);
+            return $this->_getDynamicImageUrl(self::EC_BUTTON_TYPE_SHORTCUT, $localeCode, $orderTotal, $pal);
         }
         if ($this->buttonType === self::EC_BUTTON_TYPE_MARK) {
             return $this->getPaymentMarkImageUrl($localeCode);
@@ -659,7 +658,6 @@ class Mage_Paypal_Model_Config
     {
         switch ($fieldName) {
             case 'page_style':
-            case 'logo_url':
             case 'paypal_hdrimg':
             case 'paypal_hdrbackcolor':
             case 'paypal_hdrbordercolor':
@@ -715,8 +713,6 @@ class Mage_Paypal_Model_Config
             case 'title':
             case 'visible_on_cart':
                 return 'payment/' . self::METHOD_WPP_EXPRESS . "/{$fieldName}";
-            case 'button_type':
-                return "paypal/style/{$fieldName}";
         }
     }
 
