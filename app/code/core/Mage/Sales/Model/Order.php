@@ -1760,7 +1760,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
                     return true;
                 }
             } else {
-                if (isset($qtys[$item->getId()]) && $qtys[$item->getId()] > 0) {
+                if (isset($qtys[$item->getParentItem()->getId()]) && $qtys[$item->getParentItem()->getId()] > 0) {
                     return true;
                 }
             }
@@ -1806,7 +1806,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
                     return true;
                 }
             } else {
-                if (isset($qtys[$item->getId()]) && $qtys[$item->getId()] > 0) {
+                if (isset($qtys[$item->getParentItem()->getId()]) && $qtys[$item->getParentItem()->getId()] > 0) {
                     return true;
                 }
             }
