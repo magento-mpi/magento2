@@ -314,7 +314,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     {
         $map = array();
         foreach ($privateResponseMap as $key) {
-            $map[$key] = $this->_globalMap[$key];
+            $map[$key] = isset($this->_globalMap[$key]) ? $this->_globalMap[$key] : null;
             if (isset($response[$key]) && isset($this->_importFromRequestFilters[$key])) {
                 $callback = $this->_importFromRequestFilters[$key];
                 $response[$key] = call_user_func(array($this, $callback), $response[$key], $key, $map[$key]);

@@ -151,6 +151,17 @@ class Mage_Paypal_Model_Pro
         if (!$authTransactionId) {
             return false;
         }
+        /**
+         * check transaction status before capture
+         */
+        $api = $this->getApi()
+            ->setTransactionId($authTransactionId);
+        $api->callGetTransactionDetails();
+        if ($api->getPaymentStatus() == 'Completed') {
+            Mage::getModel('paypal/info')->importToPayment($api, $payment);
+            return;
+        }
+
         $api = $this->getApi()
             ->setAuthorizationId($authTransactionId)
             ->setIsCaptureComplete($payment->getShouldCloseParentTransaction())
@@ -159,6 +170,7 @@ class Mage_Paypal_Model_Pro
             ->setInvNum($payment->getOrder()->getIncrementId())
             // TODO: pass 'NOTE' to API
         ;
+
         $api->callDoCapture();
 
         // add capture transaction info
