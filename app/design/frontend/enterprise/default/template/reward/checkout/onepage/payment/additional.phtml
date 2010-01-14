@@ -26,7 +26,7 @@
 ?>
 <?php if ($this->getCanUseRewardPoints()): ?>
 <div class="checkout-onepage-payment-additional-reward" id="reward_placer">
-    <input type="checkbox"" class="checkbox" name="payment[use_reward_points]" value="1" id="use_reward_points" <?php echo $this->useRewardPoints()?'checked="checked"':'' ?>/>
+    <input type="checkbox" class="checkbox" name="payment[use_reward_points]" value="1" id="use_reward_points" <?php echo $this->useRewardPoints()?'checked="checked"':'' ?>/>
     <label for="use_reward_points">
         <strong>
             <?php echo Mage::helper('enterprise_reward')->__('Use my Reward Points'); ?>,
@@ -35,7 +35,7 @@
     </label>
 </div>
 <script type="text/javascript">
-    //<![CDATA[
+//<![CDATA[
     
     var isEnoughPointsToCoverAmount = <?php if ($this->isEnoughPoints()): ?>true<?php else: ?>false<?php endif; ?>;
     var rewardPointsSubstracted = <?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>;
@@ -98,6 +98,6 @@
         payment.addBeforeValidateFunction('reward', rewardPaymentValidate.bind(payment));
     }
     Event.observe($('use_reward_points'), 'change', payment.switchRewardPointsCheckbox);
-    //]]>
+//]]>
     </script>
 <?php endif; ?>
