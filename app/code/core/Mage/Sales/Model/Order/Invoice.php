@@ -240,7 +240,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     public function capture()
     {
         $this->getOrder()->getPayment()->capture($this);
-        $this->pay();
+        if ($this->getIsPaid()) {
+            $this->pay();
+        }
         return $this;
     }
 

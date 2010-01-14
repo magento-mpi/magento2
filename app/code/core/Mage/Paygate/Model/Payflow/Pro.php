@@ -107,7 +107,8 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                      break;
 
                 case self::RESPONSE_CODE_FRAUDSERVICE_FILTER:
-                    $payment->setFraudFlag(true);
+                    $payment->setIsTransactionPending(true);
+                    $payment->getTransactionPendingStatus($this->getConfigData('fraud_order_status'));
                     break;
 
                 default:
@@ -173,7 +174,8 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                  break;
 
             case self::RESPONSE_CODE_FRAUDSERVICE_FILTER:
-                $payment->setFraudFlag(true);
+                $payment->setIsTransactionPending(true);
+                $payment->getTransactionPendingStatus($this->getConfigData('fraud_order_status'));
                 break;
 
             default:

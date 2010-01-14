@@ -270,8 +270,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         // call api and import transaction and other payment information
         $api->callDoDirectPayment();
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
-            ->setIsPaid($api->isPaid($api->getPaymentStatus()))
-        ;
+            ->setIsTransactionPending($api->getIsPaymentPending());
         Mage::getModel($this->_infoType)->importToPayment($api, $payment);
         //exit;
         return $this;
