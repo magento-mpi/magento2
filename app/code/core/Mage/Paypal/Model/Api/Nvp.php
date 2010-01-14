@@ -215,7 +215,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     protected $_getTransactionDetailsRequest = array('TRANSACTIONID');
     protected $_getTransactionDetailsResponse = array(
-        'PAYERID', 'FIRSTNAME', 'LASTNAME', 'TRANSACTIONID', 'PARENTTRANSACTIONID', 'CURRENCYCODE', 'AMT',
+        'PAYERID', 'FIRSTNAME', 'LASTNAME', 'TRANSACTIONID', 'PARENTTRANSACTIONID', 'CURRENCYCODE', 'AMT', 'PAYMENTSTATUS'
     );
 
     /**
@@ -760,6 +760,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         if (!in_array(11610, $collectedWarnings)) {
             return;
         }
+        $this->setIsPaymentPending(true);
         $collectedFilters = array();
         for ($i = 0; isset($from["L_FMFfilterID{$i}"]); $i++) {
             $collectedFilters[] = $from["L_FMFfilterNAME{$i}"];
