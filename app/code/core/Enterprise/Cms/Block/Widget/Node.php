@@ -43,24 +43,6 @@ class Enterprise_Cms_Block_Widget_Node
     protected $_node;
 
     /**
-     * Prepare layout.
-     * Prepare hierarchy node object
-     *
-     * @return Enterprise_Cms_Block_Widget_Node
-     */
-    protected function _prepareLayout()
-    {
-        parent::_prepareLayout();
-        if ($this->getNodeId()) {
-            $this->_node = Mage::getModel('enterprise_cms/hierarchy_node')
-                ->load($this->getNodeId());
-        } else {
-            $this->_node = Mage::registry('current_cms_hierarchy_node');
-        }
-        return $this;
-    }
-
-    /**
      * Retrieve specified anchor text
      *
      * @return string
@@ -103,9 +85,17 @@ class Enterprise_Cms_Block_Widget_Node
      */
     protected function _toHtml()
     {
+        if ($this->getNodeId()) {
+            $this->_node = Mage::getModel('enterprise_cms/hierarchy_node')
+                ->load($this->getNodeId());
+        } else {
+            $this->_node = Mage::registry('current_cms_hierarchy_node');
+        }
+
         if (!$this->_node) {
             return '';
         }
+
         return parent::_toHtml();
     }
 }

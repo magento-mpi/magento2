@@ -61,7 +61,7 @@
                 <label>Template</label>
                 <visible>1</visible>
                 <type>select</type>
-                <value>cms/hierarchy/widget/link/cms_link_block.phtml</value>
+                <value>cms/hierarchy/widget/link/link_block.phtml</value>
                 <values>
                     <default translate="label">
                         <value>cms/hierarchy/widget/link/link_block.phtml</value>

@@ -337,7 +337,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function getUrl($store = null)
     {
         return Mage::app()->getStore($store)->getUrl('', array(
-            '_direct' => $this->getRequestUrl()
+            '_direct' => trim($this->getRequestUrl())
         ));
     }
 
