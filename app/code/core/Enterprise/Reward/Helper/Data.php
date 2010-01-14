@@ -39,6 +39,29 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_SECTION_NOTIFICATIONS = 'enterprise_reward/notification/';
 
     protected $_expiryConfig;
+    protected $_hasRates = true;
+
+    /**
+     * Setter for hasRates flag
+     *
+     * @param boolean $flag
+     * @return Enterprise_Reward_Helper_Data
+     */
+    public function setHasRates($flag)
+    {
+        $this->_hasRates = $flag;
+        return $this;
+    }
+
+    /**
+     * Getter for hasRates flag
+     *
+     * @return boolean
+     */
+    public function getHasRates()
+    {
+        return $this->_hasRates;
+    }
 
     /**
      * Check whether reward module is enabled in system config
@@ -61,8 +84,7 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
         if ($websiteId === null) {
             $websiteId = Mage::app()->getStore()->getWebsiteId();
         }
-        $isEnabled = $this->isEnabled() && $this->getGeneralConfig('is_enabled_on_front', (int)$websiteId);
-        return $isEnabled;
+        return ($this->isEnabled() && $this->getGeneralConfig('is_enabled_on_front', (int)$websiteId));
     }
 
     /**

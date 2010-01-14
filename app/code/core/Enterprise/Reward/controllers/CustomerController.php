@@ -37,12 +37,18 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
     /**
      * Predispatch
      * Check is customer authenticate
+     * Check is RP enabled on frontend
      */
     public function preDispatch()
     {
         parent::preDispatch();
         if (!Mage::getSingleton('customer/session')->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+        }
+        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()
+            || !Mage::helper('enterprise_reward')->getHasRates()) {
+            $this->norouteAction();
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
 

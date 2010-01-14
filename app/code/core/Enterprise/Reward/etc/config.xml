@@ -337,6 +337,14 @@
             </enterprise_reward>
         </routers>
         <events>
+            <customer_session_init>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>checkRates</method>
+                    </enterprise_reward>
+                </observers>
+            </customer_session_init>
             <customer_save_after>
                 <observers>
                     <enterprise_reward>

@@ -732,4 +732,29 @@ class Enterprise_Reward_Model_Observer
             ->saveRewardSalesrule($salesRule->getId(), (int)$salesRule->getRewardPointsDelta());
         return $this;
     }
+
+    /**
+     * If not all rates found, we should disable reward points on frontend
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function checkRates(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+            return $this;
+        }
+
+        $groupId    = $observer->getEvent()->getCustomerSession()->getCustomer()->getGroupId();
+        $websiteId  = Mage::app()->getStore()->getWebsiteId();
+
+        $rate = Mage::getModel('enterprise_reward/reward_rate');
+
+        $hasRates = $rate->fetch($groupId, $websiteId, Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY)->getId()
+            && $rate->reset()->fetch($groupId, $websiteId, Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS)->getId();
+
+        Mage::helper('enterprise_reward')->setHasRates($hasRates);
+
+        return $this;
+    }
 }

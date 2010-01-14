@@ -69,6 +69,17 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Reset rate data
+     *
+     * @return Enterprise_Reward_Model_Reward_Rate
+     */
+    public function reset()
+    {
+        $this->setData(array());
+        return $this;
+    }
+
+    /**
      * Check if given rate data (website, customer group, direction)
      * is unique to current (already loaded) rate
      *

@@ -27,13 +27,7 @@
 -->
 <layout version="0.1.0">
     <customer_account>
-        <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="enterprise_reward">
-                <name>enterprise_reward</name>
-                <path>enterprise_reward/customer/info/</path>
-                <label>Reward Points</label>
-            </action>
-        </reference>
+        <block type="enterprise_reward/customer_account" name="enterprise.reward.customer.account" />
     </customer_account>
 
     <enterprise_reward_customer_info>

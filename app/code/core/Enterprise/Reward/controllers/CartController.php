@@ -35,7 +35,7 @@ class Enterprise_Reward_CartController extends Mage_Core_Controller_Front_Action
         parent::preDispatch();
 
         if (!Mage::getSingleton('customer/session')->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
 
@@ -45,7 +45,8 @@ class Enterprise_Reward_CartController extends Mage_Core_Controller_Front_Action
      */
     public function removeAction()
     {
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()
+            || !Mage::helper('enterprise_reward')->getHasRates()) {
             return $this->_redirect('customer/account/');
         }
 
