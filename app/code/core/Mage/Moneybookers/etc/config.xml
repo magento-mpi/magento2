@@ -141,17 +141,71 @@
     </phoenix>
     <default>
         <payment>
+            <moneybookers_acc>
+                <model>moneybookers/acc</model>
+            </moneybookers_acc>
+            <moneybookers_csi>
+                <model>moneybookers/csi</model>
+            </moneybookers_csi>
+            <moneybookers_did>
+                <model>moneybookers/did</model>
+            </moneybookers_did>
+            <moneybookers_dnk>
+                <model>moneybookers/dnk</model>
+            </moneybookers_dnk>
+            <moneybookers_ebt>
+                <model>moneybookers/ebt</model>
+            </moneybookers_ebt>
+            <moneybookers_ent>
+                <model>moneybookers/ent</model>
+            </moneybookers_ent>
+            <moneybookers_gcb>
+                <model>moneybookers/gcb</model>
+            </moneybookers_gcb>
+            <moneybookers_gir>
+                <model>moneybookers/gir</model>
+            </moneybookers_gir>
+            <moneybookers_idl>
+                <model>moneybookers/idl</model>
+            </moneybookers_idl>
+            <moneybookers_lsr>
+                <model>moneybookers/lsr</model>
+            </moneybookers_lsr>
+            <moneybookers_npy>
+                <model>moneybookers/npy</model>
+            </moneybookers_npy>
+            <moneybookers_pli>
+                <model>moneybookers/pli</model>
+            </moneybookers_pli>
+            <moneybookers_psp>
+                <model>moneybookers/psp</model>
+            </moneybookers_psp>
+            <moneybookers_pwy>
+                <model>moneybookers/pwy</model>
+            </moneybookers_pwy>
+            <moneybookers_sft>
+                <model>moneybookers/sft</model>
+            </moneybookers_sft>
+            <moneybookers_so2>
+                <model>moneybookers/so2</model>
+            </moneybookers_so2>
+            <moneybookers_wlt>
+                <model>moneybookers/wlt</model>
+            </moneybookers_wlt>
+        </payment>
+        <moneybookers>
+            <settings>
+                <activationstatus>0</activationstatus>
+            </settings>
             <moneybookers_acc translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/acc</model>
-                <order_status>1</order_status>
                 <title>Credit Card / Visa, Mastercard, AMEX, JCB, Diners</title>
                 <allowspecific>0</allowspecific>
             </moneybookers_acc>
             <moneybookers_csi translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/csi</model>
-                <order_status>1</order_status>
                 <title>CartaSi</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>IT</specificcountry>
@@ -159,7 +213,6 @@
             <moneybookers_did translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/did</model>
-                <order_status>1</order_status>
                 <title>Lastschrift (ELV)</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>DE</specificcountry>
@@ -167,7 +220,6 @@
             <moneybookers_dnk translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/dnk</model>
-                <order_status>1</order_status>
                 <title>Dankort</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>DK</specificcountry>
@@ -175,7 +227,6 @@
             <moneybookers_ebt translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/ebt</model>
-                <order_status>1</order_status>
                 <title>Nordea Solo</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>SE</specificcountry>
@@ -183,7 +234,6 @@
             <moneybookers_ent translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/ent</model>
-                <order_status>1</order_status>
                 <title>eNETS</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>SG</specificcountry>
@@ -191,7 +241,6 @@
             <moneybookers_gcb translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/gcb</model>
-                <order_status>1</order_status>
                 <title>Carte Bleue</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>FR</specificcountry>
@@ -199,7 +248,6 @@
             <moneybookers_gir translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/gir</model>
-                <order_status>1</order_status>
                 <title>Giropay</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>DE</specificcountry>
@@ -207,7 +255,6 @@
             <moneybookers_idl translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/idl</model>
-                <order_status>1</order_status>
                 <title>iDeal</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>NL</specificcountry>
@@ -215,7 +262,6 @@
             <moneybookers_lsr translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/lsr</model>
-                <order_status>1</order_status>
                 <title>Laser</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>IE</specificcountry>
@@ -223,7 +269,6 @@
             <moneybookers_npy translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/npy</model>
-                <order_status>1</order_status>
                 <title>EPS Online-Überweisung</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>AT</specificcountry>
@@ -231,7 +276,6 @@
             <moneybookers_pli translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/pli</model>
-                <order_status>1</order_status>
                 <title>POLi</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>AU</specificcountry>
@@ -239,7 +283,6 @@
             <moneybookers_psp translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/psp</model>
-                <order_status>1</order_status>
                 <title>Postepay</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>IT</specificcountry>
@@ -247,7 +290,6 @@
             <moneybookers_pwy translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/pwy</model>
-                <order_status>1</order_status>
                 <title>All Polish Banks</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>PL</specificcountry>
@@ -255,7 +297,6 @@
             <moneybookers_sft translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/sft</model>
-                <order_status>1</order_status>
                 <title>Sofortüberweisung</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>DE</specificcountry>
@@ -263,7 +304,6 @@
             <moneybookers_so2 translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/so2</model>
-                <order_status>1</order_status>
                 <title>Nordea Solo</title>
                 <allowspecific>1</allowspecific>
                 <specificcountry>FI</specificcountry>
@@ -271,15 +311,9 @@
             <moneybookers_wlt translate="title" module="moneybookers">
                 <active>0</active>
                 <model>moneybookers/wlt</model>
-                <order_status>1</order_status>
                 <title>Moneybookers eWallet</title>
                 <allowspecific>0</allowspecific>
             </moneybookers_wlt>
-        </payment>
-        <moneybookers>
-            <settings>
-                <activationstatus>0</activationstatus>
-            </settings>
         </moneybookers>
     </default>
 </config>

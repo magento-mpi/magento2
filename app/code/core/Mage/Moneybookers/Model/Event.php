@@ -23,6 +23,11 @@
  */
 class Mage_Moneybookers_Model_Event
 {
+    const MONEYBOOKERS_STATUS_FAIL = -2;
+    const MONEYBOOKERS_STATUS_CANCEL = -1;
+    const MONEYBOOKERS_STATUS_PENDING = 0;
+    const MONEYBOOKERS_STATUS_SUCCESS = 2;
+
     /*
      * @param Mage_Sales_Model_Order
      */
@@ -79,21 +84,21 @@ class Mage_Moneybookers_Model_Event
             $params = $this->_validateEventData();
             $msg = '';
             switch($params['status']) {
-                case '-2': //fail
+                case self::MONEYBOOKERS_STATUS_FAIL: //fail
                     $msg = Mage::helper('moneybookers')->__('Payment failed');
                     $this->_processCancel($msg);
                     break;
-                case '-1': //cancel
+                case self::MONEYBOOKERS_STATUS_CANCEL: //cancel
                     $msg = Mage::helper('moneybookers')->__('Payment was canceled');
                     $this->_processCancel($msg);
                     break;
-                case '0': //pending
+                case self::MONEYBOOKERS_STATUS_PENDING: //pending
                     $msg = Mage::helper('moneybookers')->__('Pending bank transfer created.');
-                    $this->_processSale($msg);
+                    $this->_processSale($params['status'], $msg);
                     break;
-                case '2': //ok
+                case self::MONEYBOOKERS_STATUS_SUCCESS: //ok
                     $msg = Mage::helper('moneybookers')->__('The amount has been authorized and captured by Moneybookers.');
-                    $this->_processSale($msg);
+                    $this->_processSale($params['status'], $msg);
                     break;
             }
             return $msg;
@@ -148,27 +153,42 @@ class Mage_Moneybookers_Model_Event
      * sends order confirmation to customer
      * @param string $msg Order history message
      */
-    protected function _processSale($msg)
+    protected function _processSale($status, $msg)
     {
-        // invoice order
-        if ($this->_order->canInvoice()) {
-            $invoice = $this->_order->prepareInvoice();
-
-            $invoice->register()->capture();
-            Mage::getModel('core/resource_transaction')
-                ->addObject($invoice)
-                ->addObject($invoice->getOrder())
-                ->save();
+        switch ($status) {
+            case self::MONEYBOOKERS_STATUS_SUCCESS:
+                $this->_createInvoice();
+                $this->_order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $msg);
+                // save transaction ID
+                $this->_order->getPayment()->setLastTransId($this->getEventData('mb_transaction_id'));
+                // send new order email
+                $this->_order->sendNewOrderEmail();
+                $this->_order->setEmailSent(true);
+                break;
+            case self::MONEYBOOKERS_STATUS_PENDING:
+                $this->_order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, true, $msg);
+                // save transaction ID
+                $this->_order->getPayment()->setLastTransId($this->getEventData('mb_transaction_id'));
+                break;
         }
-        $this->_order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $msg);
-        // save transaction ID
-        $this->_order->getPayment()->setLastTransId($this->getEventData('mb_transaction_id'));
-
-        // send new order email
-        $this->_order->sendNewOrderEmail();
-        $this->_order->setEmailSent(true);
-
         $this->_order->save();
+    }
+
+    /**
+     * Builds invoice for order
+     */
+    protected function _createInvoice()
+    {
+        if (!$this->_order->canInvoice()) {
+            return;
+        }
+        $invoice = $this->_order->prepareInvoice();
+
+        $invoice->register()->capture();
+        Mage::getModel('core/resource_transaction')
+            ->addObject($invoice)
+            ->addObject($invoice->getOrder())
+            ->save();
     }
 
     /**
