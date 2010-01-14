@@ -58,8 +58,8 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
     {
         $role = Mage::getModel('admin/roles')->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
-        if ($role->getRoleType() != 'G') {
-            $role->unsetData();
+        if ($role->getId() && $role->getRoleType() != 'G') {
+            $role->unsetData($role->getIdFieldName());
         }
 
         Mage::register('current_role', $role);
