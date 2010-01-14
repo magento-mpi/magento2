@@ -73,6 +73,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'NOTE'              => 'note',
         'REFUNDTYPE'        => 'refund_type',
         'ACTION'            => 'action',
+        'REDIRECTREQUIRED'  => 'redirect_required',
+        'SUCCESSPAGEREDIRECTREQUESTED'  => 'redirect_requested',
         // style settings
         'PAGESTYLE'      => 'page_style',
         'HDRIMG'         => 'hdrimg',
@@ -132,6 +134,11 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'CREDITCARDTYPE' => '_filterCcType',
     );
 
+    protected $_importFromRequestFilters = array(
+        'REDIRECTREQUIRED'  => '_filterToBool',
+        'SUCCESSPAGEREDIRECTREQUESTED'  => '_filterToBool',
+    );
+
     /**
      * Request map for each API call
      * @var array
@@ -163,7 +170,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'TOKEN', 'PAYERID', 'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'IPADDRESS', 'BUTTONSOURCE', 'NOTIFYURL',
     );
     protected $_doExpressCheckoutPaymentResponse = array(
-        'TRANSACTIONID', 'AMT', 'PAYMENTSTATUS'
+        'TRANSACTIONID', 'AMT', 'PAYMENTSTATUS', 'REDIRECTREQUIRED', 'SUCCESSPAGEREDIRECTREQUESTED',
     );
 
     /**
@@ -369,7 +376,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $response = $this->call('GetExpressCheckoutDetails', $request);
         $this->_importFromResponse($this->_paymentInformationResponse, $response);
         $this->_exportAddressses($response);
-//        $this->setIsRedirectRequired(!empty($resArr['REDIRECTREQUIRED']) && (bool)$resArr['REDIRECTREQUIRED']);
     }
 
     /**
@@ -385,7 +391,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $this->_importFromResponse($this->_paymentInformationResponse, $response);
         $this->_importFromResponse($this->_doExpressCheckoutPaymentResponse, $response);
         $this->_importFraudFiltersResult($response, $this->_callWarnings);
-//        $this->setIsRedirectRequired(!empty($response['REDIRECTREQUIRED']) && (bool)$response['REDIRECTREQUIRED']);
     }
 
     /**
@@ -723,6 +728,22 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             return $this->_supportedCcTypes[$value];
         }
         return '';
+    }
+
+    /**
+     * Filter for true/false values (converts to boolean)
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function _filterToBool($value)
+    {
+        if ('false' === $value || '0' === $value) {
+            return false;
+        } elseif ('true' === $value || '1' === $value) {
+            return true;
+        }
+        return $value;
     }
 
     /**

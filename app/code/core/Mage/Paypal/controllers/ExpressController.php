@@ -55,6 +55,9 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     {
         try {
             $this->_initCheckout();
+            $this->_checkout->prepareGiropayUrls(Mage::getUrl('checkout/onepage/success'),
+                Mage::getUrl('paypal/express/cancel'), Mage::getUrl('checkout/onepage/success')
+            );
             $token = $this->_checkout->start(Mage::getUrl('*/*/return'), Mage::getUrl('*/*/cancel'));
             if ($token && $url = $this->_checkout->getRedirectUrl()) {
                 $this->_initToken($token);
@@ -77,7 +80,30 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function cancelAction()
     {
-        $this->_initToken(false);
+        try {
+            $this->_initToken(false);
+            // if there is an order - cancel it
+            if ($orderId = $this->_getCheckoutSession()->getLastOrderId()) {
+                $order = Mage::getModel('sales/order')->load($orderId);
+                if ($order->getId()) {
+                    $order->cancel()->save();
+                    $this->_getCheckoutSession()
+                        ->unsLastQuoteId()
+                        ->unsLastSuccessQuoteId()
+                        ->unsLastOrderId()
+                        ->unsLastRealOrderId()
+                        ->addSuccess($this->__('Express Checkout and Order have been cancelled.'))
+                    ;
+                }
+            } else {
+                $this->_getCheckoutSession()->addSuccess($this->__('Express Checkout has been cancelled.'));
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_getCheckoutSession()->addError($e->getMessage());
+        } catch (Exception $e) {
+            $this->_getCheckoutSession()->addError($this->__('Unable to cancel Express Checkout.'));
+            Mage::logException($e);
+        }
         $this->_redirect('checkout/cart');
     }
 
@@ -184,14 +210,18 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
         try {
             $this->_initCheckout();
             $order = $this->_checkout->placeOrder($this->_initToken());
-            // prepare session to success page
+            // prepare session to success or cancellation page
             $quoteId = $this->_getQuote()->getId();
-            Mage::getSingleton('checkout/session')
+            $this->_getCheckoutSession()
                 ->setLastQuoteId($quoteId)
                 ->setLastSuccessQuoteId($quoteId)
                 ->setLastOrderId($order->getId())
                 ->setLastRealOrderId($order->getIncrementId())
             ;
+            if ($url = $this->_checkout->getRedirectUrl()) {
+                $this->getResponse()->setRedirect($url);
+                return;
+            }
             $this->_initToken(false); // no need in token anymore
             $this->_redirect('checkout/onepage/success');
             return;
@@ -234,6 +264,9 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     {
         if (null !== $setToken) {
             if (false === $setToken) {
+                if (!$this->_getSession()->getExpressCheckoutToken()) { // security measure for avoid unsetting token twice
+                    Mage::throwException($this->__('PayPal Express Checkout Token does not exist.'));
+                }
                 $this->_getSession()->unsExpressCheckoutToken();
             } else {
                 $this->_getSession()->setExpressCheckoutToken($setToken);

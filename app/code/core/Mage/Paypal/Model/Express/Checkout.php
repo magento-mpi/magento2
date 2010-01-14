@@ -44,6 +44,7 @@ class Mage_Paypal_Model_Express_Checkout
     const PAYMENT_INFO_TRANSPORT_TOKEN    = 'paypal_express_checkout_token';
     const PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN = 'paypal_express_checkout_shipping_overriden';
     const PAYMENT_INFO_TRANSPORT_PAYER_ID = 'paypal_express_checkout_payer_id';
+    const PAYMENT_INFO_TRANSPORT_REDIRECT = 'paypal_express_checkout_redirect_required';
 
     /**
      * @var Mage_Sales_Model_Quote
@@ -69,6 +70,13 @@ class Mage_Paypal_Model_Express_Checkout
     protected $_redirectUrl = '';
     protected $_pendingPaymentMessage = '';
     protected $_checkoutRedirectUrl = '';
+
+    /**
+     * Redirect urls supposed to be set to support giropay
+     *
+     * @var array
+     */
+    protected $_giropayUrls = array();
 
     /**
      * Set quote and config instances
@@ -124,6 +132,19 @@ class Mage_Paypal_Model_Express_Checkout
     }
 
     /**
+     * Setter that enables giropay redirects flow
+     *
+     * @param string $successUrl - payment success result
+     * @param string $cancelUrl  - payment cancellation result
+     * @param string $pendingUrl - pending payment result
+     */
+    public function prepareGiropayUrls($successUrl, $cancelUrl, $pendingUrl)
+    {
+        $this->_giropayUrls = array($successUrl, $cancelUrl, $pendingUrl);
+        return $this;
+    }
+
+    /**
      * Reserve order ID for specified quote and start checkout on PayPal
      * @return string
      */
@@ -141,6 +162,15 @@ class Mage_Paypal_Model_Express_Checkout
             ->setSolutionType($this->_config->solutionType)
             ->setPaymentAction($this->_config->paymentAction)
         ;
+        if ($this->_giropayUrls) {
+            list($successUrl, $cancelUrl, $pendingUrl) = $this->_giropayUrls;
+            $this->_api->addData(array(
+                'giropay_cancel_url' => $cancelUrl,
+                'giropay_success_url' => $successUrl,
+                'giropay_bank_txn_pending_url' => $pendingUrl,
+            ));
+        }
+
         // supress or export shipping address
         if ($this->_quote->getIsVirtual()) {
             $this->_api->setSuppressShipping(true);
@@ -253,6 +283,11 @@ class Mage_Paypal_Model_Express_Checkout
         $this->_ignoreAddressValidation();
         $order = Mage::getModel('sales/service_quote', $this->_quote)->submit();
         $this->_quote->save();
+
+        // commence redirecting to finish payment, if paypal requires it
+        if ($order->getPayment()->getAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT)) {
+            $this->_redirectUrl = $this->_config->getExpressCheckoutCompleteUrl($token);
+        }
 
         switch ($order->getState()) {
             // even after placement paypal can disallow to authorize/capture, but will wait until bank transfers money

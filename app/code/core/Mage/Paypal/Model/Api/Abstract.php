@@ -44,10 +44,18 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     protected $_globalMap = array();
 
     /**
-     * Filter callbacks for importing/exporting amount
+     * Filter callbacks for exporting $this data to API call
+     *
      * @var array
      */
     protected $_exportToRequestFilters = array();
+
+    /**
+     * Filter callbacks for importing API result to $this data
+     *
+     * @var array
+     */
+    protected $_importFromRequestFilters = array();
 
     /**
      * Line items export to request mapping settings
@@ -307,6 +315,10 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
         $map = array();
         foreach ($privateResponseMap as $key) {
             $map[$key] = $this->_globalMap[$key];
+            if (isset($response[$key]) && isset($this->_importFromRequestFilters[$key])) {
+                $callback = $this->_importFromRequestFilters[$key];
+                $response[$key] = call_user_func(array($this, $callback), $response[$key], $key, $map[$key]);
+            }
         }
         Varien_Object_Mapper::accumulateByMap($response, array($this, 'setDataUsingMethod'), $map);
     }

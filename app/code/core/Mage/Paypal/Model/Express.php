@@ -207,6 +207,9 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         // call api and get details from it
         $api->callDoExpressCheckoutPayment();
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
+            ->setAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT,
+                $api->getRedirectRequired() || $api->getRedirectRequested()
+            )
             ->setIsPaid($api->isPaid($api->getPaymentStatus()))
         ;
         Mage::getModel('paypal/info')->importToPayment($api, $payment);

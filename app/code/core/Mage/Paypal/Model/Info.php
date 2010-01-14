@@ -207,7 +207,7 @@ class Mage_Paypal_Model_Info
             case 'paypal_correlation_id':
                 return Mage::helper('paypal')->__('Last Corellation ID');
             case 'paypal_avs_code':
-                return Mage::helper('paypal')->__('Aaddress Verification System Response');
+                return Mage::helper('paypal')->__('Address Verification System Response');
             case 'paypal_cvv2_match':
                 return Mage::helper('paypal')->__('CVV2 Check Result by PayPal');
             case self::CENTINEL_VPAS:
