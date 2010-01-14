@@ -93,7 +93,7 @@ class Enterprise_Pci_Model_Observer
          * Side-effect can be when passwords were changed with different lifetime configuration settings
          */
         if ($latestPassword = Mage::getResourceSingleton('enterprise_pci/admin_user')->getLatestPassword($user->getId())) {
-            if (isset($latestPassword['expires']) && ((int)$latestPassword['expires'] < time())) {
+            if (isset($latestPassword['expires']) && ((int)$latestPassword['expires'] < time() && Mage::getStoreConfig('admin/security/password_lifetime') !== '')) {
                 if ($this->isPasswordChangeForced()) {
                     $message = Mage::helper('enterprise_pci')->__('Your password has expired, you must change it now.');
                 }
