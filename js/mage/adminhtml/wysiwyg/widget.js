@@ -43,7 +43,7 @@ var widgetTools = {
             Windows.focus('widget_window');
             return;
         }
-        Dialog.info(null, {
+        this.dialogWindow = Dialog.info(null, {
             draggable:true,
             resizable:false,
             closable:true,
@@ -56,9 +56,20 @@ var widgetTools = {
             recenterAuto:false,
             hideEffect:Element.hide,
             showEffect:Element.show,
-            id:'widget_window'
+            id:'widget_window',
+            onClose: this.closeDialog.bind(this)
         });
         new Ajax.Updater('modal_dialog_message', widgetUrl, {evalScripts: true});
+    },
+    closeDialog: function(window) {
+        if (!window) {
+            window = this.dialogWindow;
+        }
+        if (window) {
+            // IE fix - hidden form select fields after closing dialog
+            WindowUtilities._showSelect();
+            window.close();
+        }
     }
 }
 
