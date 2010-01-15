@@ -74,6 +74,7 @@
 .please-wait { filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80); margin-top:-100px; }
 
 .form-list .control .input-box { padding-top:2px; }
+.form-list .add-field .input-box { display:inline; }
 input.radio { width:13px; height:13px; }
 input.checkbox { width:13px; height:13px; }
 button.button { height:21px; padding:0 1px 1px 0; }
