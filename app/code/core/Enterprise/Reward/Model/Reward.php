@@ -116,11 +116,13 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     protected function _afterSave()
     {
-        $this->_prepareCurrencyAmount();
-        $this->getHistory()
-            ->prepareFromReward()
-            ->save();
-        $this->sendBalanceUpdateNotification();
+        if ((int)$this->getPointsDelta() > 0 || $this->getCappedReward()) {
+            $this->_prepareCurrencyAmount();
+            $this->getHistory()
+                ->prepareFromReward()
+                ->save();
+            $this->sendBalanceUpdateNotification();
+        }
         return parent::_afterSave();
     }
 
@@ -143,7 +145,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         }
         if (isset(self::$_actionModelClasses[$action])) {
             $instance = Mage::getModel(self::$_actionModelClasses[$action]);
-            $instance->setAction($this->hasAction() ? $this->getAction : $action)
+            $instance->setAction($action)
                 ->setReward($this)
                 ->setHistory($this->getHistory());
             Mage::register('_reward_actions' . $action, $instance);

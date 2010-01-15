@@ -82,7 +82,7 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
      */
     public function isExistHistoryUpdate($customerId, $action, $websiteId, $entity)
     {
-        $select = $this->_getReadAdapter()->select()
+        $select = $this->_getWriteAdapter()->select()
             ->from(array('reward_table' => $this->getTable('enterprise_reward/reward')), array())
             ->joinInner(array('history_table' => $this->getMainTable()),
                 'history_table.reward_id = reward_table.reward_id', array())
@@ -90,7 +90,7 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
             ->where('history_table.website_id = ?', $websiteId)
             ->where('history_table.entity = ?', $entity)
             ->columns(array('history_table.history_id'));
-        if ($this->_getReadAdapter()->fetchRow($select)) {
+        if ($this->_getWriteAdapter()->fetchRow($select)) {
             return true;
         }
         return false;
