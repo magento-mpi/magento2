@@ -165,13 +165,15 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_
         if (!isset($parentId)) {
             return null;
         }
-
-        $eventId = $this->_eventCategories[$parentId]['event_id'];
-
+        $eventId = null;
+        if (isset($this->_eventCategories[$parentId])) {
+            $eventId = $this->_eventCategories[$parentId]['event_id'];
+        }
         if ($flag == self::EVENT_FROM_PARENT_LAST){
             if (isset($eventId) && ($eventId !== null)) {
                 return $eventId;
-            } elseif ($eventId === null) {
+            }
+            elseif ($eventId === null) {
                 return $this->_getEventFromParent($parentId, $flag);
             }
         }
