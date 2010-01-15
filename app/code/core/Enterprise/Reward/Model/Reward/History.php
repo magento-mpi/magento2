@@ -122,7 +122,6 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
             ->setPointsDelta($this->getReward()->getPointsDelta())
             ->setCurrencyAmount($this->getReward()->getCurrencyAmount())
             ->setCurrencyDelta($this->getReward()->getCurrencyDelta())
-            ->setRateDescription($this->getReward()->getRate()->getExchangeRateAsText())
             ->setAction($this->getReward()->getAction())
             ->setComment($this->getReward()->getComment());
 

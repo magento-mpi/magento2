@@ -53,7 +53,6 @@ CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_reward_history')}`
   `points_delta` int(11) NOT NULL DEFAULT '0',
   `currency_amount` decimal(12,4) unsigned NOT NULL DEFAULT '0.0000',
   `currency_delta` decimal(12,4) NOT NULL DEFAULT '0.0000',
-  `rate_description` varchar(255) NOT NULL DEFAULT '',
   `base_currency_code` varchar(5) NOT NULL,
   `additional_data` text NOT NULL,
   `comment` text NOT NULL,

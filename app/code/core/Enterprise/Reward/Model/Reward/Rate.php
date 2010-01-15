@@ -189,45 +189,6 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Prepare and return rate as a text by given type
-     *
-     * @param integer $type
-     * @return string
-     */
-    public function getExchangeRateAsText()
-    {
-        $label = '';
-        $websiteId = $this->getOriginalWebsiteId();
-        if ($websiteId === null) {
-            $websiteId = $this->getWebsiteId();
-        }
-        if ($websiteId) {
-            $currencyCode = Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
-        }
-        switch($this->getDirection()) {
-            case self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY:
-                if ($websiteId) {
-                    $currencyAmount = Mage::app()->getLocale()->currency($currencyCode)
-                        ->toCurrency($this->getCurrencyAmount());
-                    $label = Mage::helper('enterprise_reward')->__('%d PTS is equal to %s', (int)$this->getPoints(), $currencyAmount);
-                } else {
-                    $label = Mage::helper('enterprise_reward')->__('%d PTS is equal to %s in Website Currency', (int)$this->getPoints(), number_format($this->getCurrencyAmount(), 4));
-                }
-                break;
-            case self::RATE_EXCHANGE_DIRECTION_TO_POINTS:
-                if ($websiteId) {
-                    $currencyAmount = Mage::app()->getLocale()->currency($currencyCode)
-                        ->toCurrency($this->getCurrencyAmount());
-                    $label = Mage::helper('enterprise_reward')->__('%s is equal to %d PTS', $currencyAmount, (int)$this->getPoints());
-                } else {
-                    $label = Mage::helper('enterprise_reward')->__('%s in Website Currency is equal to %d PTS', number_format($this->getCurrencyAmount(), 4), (int)$this->getPoints());
-                }
-                break;
-        }
-        return $label;
-    }
-
-    /**
      * Retrieve option array of rate directions with labels
      *
      * @return array
