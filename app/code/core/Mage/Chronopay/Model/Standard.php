@@ -90,7 +90,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     public function capture (Varien_Object $payment, $amount)
     {
         $payment->setStatus(self::STATUS_APPROVED)
-            ->setLastTransId($this->getTransactionId());
+            ->setTransactionId($this->getTransactionId());
 
         return $this;
     }

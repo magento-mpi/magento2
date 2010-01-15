@@ -127,7 +127,8 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
 
         if ($result) {
             $payment->setStatus(self::STATUS_APPROVED)
-                ->setLastTransId($this->getTransactionId());
+                ->setTransactionId($this->getTransactionId())
+                ->setIsTransactionClosed(0);
         } else {
             $e = $this->getError();
             if (isset($e['message'])) {
@@ -142,7 +143,8 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
 
     public function cancel(Varien_Object $payment)
     {
-        $payment->setStatus(self::STATUS_DECLINED);
+        $payment->setStatus(self::STATUS_DECLINED)
+            ->setIsTransactionClosed(1);
         return $this;
     }
 

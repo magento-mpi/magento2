@@ -338,6 +338,8 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
             if ($result->reasonCode==self::RESPONSE_CODE_SUCCESS) {
                 $payment->setLastTransId($result->requestID)
                     ->setCcTransId($result->requestID)
+                    ->setTransactionId($result->requestID)
+                    ->setIsTransactionClosed(0)
                     ->setCybersourceToken($result->requestToken)
                     ->setCcAvsStatus($result->ccAuthReply->avsCode);
                 /*
@@ -375,11 +377,11 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
         $soapClient = $this->getSoapApi();
         $this->iniRequest();
 
-        if ($payment->getCcTransId() && $payment->getCybersourceToken()) {
+        if ($payment->getParentTransactionId() && $payment->getCybersourceToken()) {
             $ccCaptureService = new stdClass();
             $ccCaptureService->run = "true";
             $ccCaptureService->authRequestToken = $payment->getCybersourceToken();
-            $ccCaptureService->authRequestID = $payment->getCcTransId();
+            $ccCaptureService->authRequestID = $payment->getParentTransactionId();
             $this->_request->ccCaptureService = $ccCaptureService;
 
             $item0 = new stdClass();
@@ -413,6 +415,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
                 $payment->setLastTransId($result->requestID)
                     ->setLastCybersourceToken($result->requestToken)
                     ->setCcTransId($result->requestID)
+                    ->setTransactionId($result->requestID)
                     ->setCybersourceToken($result->requestToken)
                 ;
             } else {
@@ -468,21 +471,20 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     public function void(Varien_Object $payment)
     {
         $error = false;
-        if ($payment->getVoidTransactionId() && $payment->getVoidCybersourceToken()) {
+        if ($payment->getParentTransactionId() && $payment->getVoidCybersourceToken()) {
             $soapClient = $this->getSoapApi();
             $this->iniRequest();
             $voidService = new stdClass();
             $voidService->run = "true";
             $voidService->voidRequestToken = $payment->getVoidCybersourceToken();
-            $voidService->voidRequestID = $payment->getVoidTransactionId();
+            $voidService->voidRequestID = $payment->getParentTransactionId();
             $this->_request->voidService = $voidService;
             try {
                 $result = $soapClient->runTransaction($this->_request);
                 if ($result->reasonCode==self::RESPONSE_CODE_SUCCESS) {
-                    $payment->setLastTransId($result->requestID)
-                        ->setCcTransId($result->requestID)
+                    $payment->setTransactionId($result->requestID)
                         ->setCybersourceToken($result->requestToken)
-                        ;
+                        ->setIsTransactionClosed(1);
                 } else {
                      $error = Mage::helper('cybersource')->__('There is an error in processing payment. Please try again or contact us.');
                 }
@@ -525,13 +527,13 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
     public function refund(Varien_Object $payment, $amount)
     {
         $error = false;
-        if ($payment->getRefundTransactionId() && $payment->getRefundCybersourceToken() && $amount>0) {
+        if ($payment->getParentTransactionId() && $payment->getRefundCybersourceToken() && $amount>0) {
             $soapClient = $this->getSoapApi();
             $this->iniRequest();
             $ccCreditService = new stdClass();
             $ccCreditService->run = "true";
             $ccCreditService->captureRequestToken = $payment->getCybersourceToken();
-            $ccCreditService->captureRequestID = $payment->getCcTransId();
+            $ccCreditService->captureRequestID = $payment->getParentTransactionId();
             $this->_request->ccCreditService = $ccCreditService;
 
             $purchaseTotals = new stdClass();
@@ -541,7 +543,8 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
             try {
                 $result = $soapClient->runTransaction($this->_request);
                 if ($result->reasonCode==self::RESPONSE_CODE_SUCCESS) {
-                    $payment->setLastTransId($result->requestID)
+                    $payment->setTransactionId($result->requestID)
+                        ->setIsTransactionClosed(1)
                         ->setLastCybersourceToken($result->requestToken)
                         ;
                 } else {

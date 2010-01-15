@@ -223,7 +223,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
         $this->_getCheckout()->setLastSuccessQuoteId($order->getQuoteId());
 
         $this->_prepareCCInfo($order, $params);
-        $order->getPayment()->setLastTransId($params['PAYID']);
+        $order->getPayment()->setTransactionId($params['PAYID']);
 
         try{
             if ($this->_getApi()->getPaymentAction()==Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE) {

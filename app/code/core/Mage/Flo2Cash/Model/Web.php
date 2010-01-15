@@ -117,9 +117,11 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
             Mage::throwException(Mage::helper('flo2cash')->__('Payment transaction has been declined.'));
         }
 
-        $payment->setStatus(self::STATUS_APPROVED);
-        $payment->setCcTransId($response['transaction_id']);
-        $payment->setFlo2cashAccountId($response['paynz_account_id']);
+        $payment->setStatus(self::STATUS_APPROVED)
+            ->setCcTransId($response['transaction_id'])
+            ->setTransactionId($response['transaction_id'])
+            ->setIsTransactionClosed(1)
+            ->setFlo2cashAccountId($response['paynz_account_id']);
 
         return $this;
     }
@@ -134,9 +136,9 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
             Mage::throwException(Mage::helper('flo2cash')->__('Payment transaction has been declined.'));
         }
 
-        $payment->setStatus(self::STATUS_APPROVED);
-        $payment->setLastTransId($response['transaction_id']);
-        $payment->setFlo2cashAccountId($response['paynz_account_id']);
+        $payment->setStatus(self::STATUS_APPROVED)
+            ->setTransactionId($response['transaction_id'])
+            ->setFlo2cashAccountId($response['paynz_account_id']);
 
         return $this;
     }
@@ -149,13 +151,9 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
 
     public function refund(Varien_Object $payment, $amount)
     {
-        if ($payment->getRefundTransactionId() && $amount>0) {
+        if ($payment->getParentTransactionId() && $amount>0) {
 
-            $transId = $payment->getCcTransId();
-            //if transaction type was purchase (authorize & capture)
-            if (is_null($transId)) {
-                $transId = $payment->getLastTransId();
-            }
+            $transId = $payment->getParentTransactionId();
 
             $txnDetails = array(
                 'txn_type' => self::TRANSACTION_TYPE_REFUND,
@@ -173,7 +171,8 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
             Mage::throwException(Mage::helper('flo2cash')->__('Payment transaction has been declined.'));
         }
 
-        $payment->setLastTransId($response['transaction_id']);
+        $payment->setTransactionId($response['transaction_id'])
+            ->setIsTransactionClosed(1);
 
         return $this;
     }
@@ -237,10 +236,10 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
      */
     protected function _prepareTxnDetails(Varien_Object $payment, $amount)
     {
-        if ($payment->getCcTransId()) {
+        if ($payment->getParentTransactionId()) {
             $txnDetails = array(
                 'txn_type' => self::TRANSACTION_TYPE_CAPTURE,
-                'capture_transaction_id' => $payment->getCcTransId()
+                'capture_transaction_id' => $payment->getParentTransactionId()
             );
         } else {
             $billingAddress = $payment->getOrder()->getBillingAddress();

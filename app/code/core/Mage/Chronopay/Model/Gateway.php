@@ -91,8 +91,10 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
         $result = $this->_postRequest($request);
 
         if (!$result->getError()) {
-            $payment->setStatus(self::STATUS_APPROVED);
-            $payment->setCcTransId($result->getTransaction());
+            $payment->setStatus(self::STATUS_APPROVED)
+                ->setCcTransId($result->getTransaction())
+                ->setTransactionId($result->getTransaction())
+                ->setIsTransactionClosed(0);
         } else {
             Mage::throwException($result->getError());
         }
@@ -103,8 +105,8 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
     public function capture(Varien_Object $payment, $amount)
     {
         $payment->setAmount($amount);
-        if ($payment->getCcTransId()) {
-            $this->setTransactionId($payment->getCcTransId());
+        if ($payment->getParentTransactionId()) {
+            $this->setTransactionId($payment->getParentTransactionId());
             $payment->setOpcode(self::OPCODE_CONFIRM_AUTHORIZE);
         } else {
             $payment->setOpcode(self::OPCODE_CHARGING);
@@ -114,8 +116,8 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
         $result = $this->_postRequest($request);
 
         if (!$result->getError()) {
-            $payment->setStatus(self::STATUS_APPROVED);
-            $payment->setLastTransId($result->getTransaction());
+            $payment->setStatus(self::STATUS_APPROVED)
+                ->setTransactionId($result->getTransaction());
         } else {
             Mage::throwException($result->getError());
         }
@@ -128,13 +130,14 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
         $payment->setAmount($amount);
         $payment->setOpcode(self::OPCODE_REFUND);
 
-        $this->setTransactionId($payment->getRefundTransactionId());
+        $this->setTransactionId($payment->getParentTransactionId());
 
         $request = $this->_buildRequest($payment);
         $result = $this->_postRequest($request);
 
-        $payment->setStatus(self::STATUS_APPROVED);
-        $payment->setLastTransId($result->getTransaction());
+        $payment->setStatus(self::STATUS_APPROVED)
+            ->setTransactionId($result->getTransaction())
+            ->setIsTransactionClosed(1);
 
         return $this;
     }
