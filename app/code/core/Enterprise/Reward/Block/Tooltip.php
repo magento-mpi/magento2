@@ -55,7 +55,9 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
             }
             $customer = Mage::getSingleton('customer/session')->getCustomer();
             $this->_rewardInstance = Mage::getSingleton('enterprise_reward/reward')
-                ->setCustomer($customer)->loadByCustomer();
+                ->setCustomer($customer)
+                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+                ->loadByCustomer();
             $this->_actionInstance = $this->_rewardInstance->getActionInstance($action, true);
         }
     }
