@@ -1,6 +1,6 @@
 <div class="col-main">
     <div class="page-title">
-        <h2>There has been an error processing your request.</h2>
+        <h1>There has been an error processing your request.</h1>
     </div>
     <?php if ($showSentMsg): ?>
     <ul class="messages">
@@ -31,7 +31,7 @@
     <form action="<?php echo "report.php?id={$reportId}&amp;s={$store}&amp;ref={$ref}" ?>" method="post" id="form-validate">
         <fieldset class="fieldset">
             <input type="hidden" name="error_hash" value="<?php echo $errorHash ?>" />
-            <h3>Personal Information</h3>
+            <h2>Personal Information</h2>
             <ul class="form-list group-select">
                 <li class="fields">
                     <div class="field">
