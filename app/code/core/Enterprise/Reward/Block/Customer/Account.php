@@ -25,7 +25,7 @@
  */
 
 /**
- * Enter description here...
+ * Customer Account empty block (using only just for adding RP link to tab)
  *
  * @category    Enterprise
  * @package     Enterprise_Reward
@@ -33,6 +33,11 @@
  */
 class Enterprise_Reward_Block_Customer_Account extends Mage_Core_Block_Abstract
 {
+    /**
+     * Add RP link to tab if we have all rates
+     *
+     * @return Enterprise_Reward_Block_Customer_Account
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
