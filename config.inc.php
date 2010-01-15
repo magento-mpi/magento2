@@ -217,11 +217,6 @@ $CONFIG['translates'] = array(
     'Mage_Media' => array(
         'app/code/core/Mage/Media/',
     ),
-    'Mage_Moneybookers' => array(
-        'app/code/core/Mage/Moneybookers/',
-        'app/design/frontend/base/default/template/moneybookers/',
-        'app/design/frontend/base/default/layout/moneybookers.xml',
-    ),
     'Mage_Newsletter' => array(
         'app/code/core/Mage/Newsletter/',
         'app/design/frontend/base/default/template/newsletter/',
@@ -390,6 +385,11 @@ $CONFIG['translates'] = array(
     'translate' => array(
         'app/design/frontend/base/default/template/callouts/',
         'app/design/frontend/default/modern/template/callouts/',
+    ),
+    'Phoenix_Moneybookers' => array(
+        'app/code/community/Phoenix/Moneybookers/',
+        'app/design/frontend/base/default/template/moneybookers/',
+        'app/design/frontend/base/default/layout/moneybookers.xml',
     ),
     'Enterprise_AdminGws' => array(
         'app/code/core/Enterprise/AdminGws/',
