@@ -29,24 +29,6 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
     extends Mage_CatalogRule_Model_Rule_Condition_Product
 {
     /**
-     * All attribute values as array in form:
-     * array(
-     *   [entity_id_1] => array(
-     *          [store_id_1] => store_value_1,
-     *          [store_id_2] => store_value_2,
-     *          ...
-     *          [store_id_n] => store_value_n
-     *   ),
-     *   ...
-     * )
-     *
-     * Will be set only for not global scope attribute
-     *
-     * @var array
-     */
-    protected $_entityAttributeValues = null;
-
-    /**
      * Attribute property that defines whether to use it for target rules
      *
      * @var string
@@ -74,23 +56,6 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
     }
 
     /**
-     * Collect validated attributes
-     *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $productCollection
-     * @return Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
-     */
-    public function collectValidatedAttributes($productCollection)
-    {
-        if ($this->getAttributeObject()->isScopeGlobal()) {
-            return parent::collectValidatedAttributes($productCollection);
-        }
-
-        $this->_entityAttributeValues = Mage::getResourceModel('catalog/product_collection')->getAllAttributeValues($this->getAttribute());
-
-        return $this;
-    }
-
-    /**
      * Prepare child rules option list
      *
      * @return array
@@ -112,41 +77,5 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
             'value' => $conditions,
             'label' => Mage::helper('enterprise_targetrule')->__('Product Attributes')
         );
-    }
-
-    /**
-     * Validate product attrbute value for condition
-     *
-     * @param Varien_Object $object
-     * @return bool
-     */
-    public function validate(Varien_Object $object)
-    {
-        $attrCode = $this->getAttribute();
-
-        if (! isset($this->_entityAttributeValues[$object->getId()]) || $attrCode == 'category_ids') {
-            return parent::validate($object);
-        } else {
-            $result       = false; // any valid value will set it to TRUE
-            $oldAttrValue = $object->hasData($attrCode) ? $object->getData($attrCode) : null; // remember old attribute state
-
-            foreach ($this->_entityAttributeValues[$object->getId()] as $storeId => $value) {
-                $object->setData($attrCode, $value);
-
-                $result |= parent::validate($object);
-
-                if ($result) {
-                    break;
-                }
-            }
-
-            if (is_null($oldAttrValue)) {
-                $object->unsetData($attrCode);
-            } else {
-                $object->setData($attrCode, $oldAttrValue);
-            }
-
-            return (bool) $result;
-        }
     }
 }

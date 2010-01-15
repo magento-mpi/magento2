@@ -48,7 +48,7 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
      *
      * @var array
      */
-    protected $_productIds = array();
+    protected $_productIds;
 
     protected $_now;
 
@@ -138,31 +138,28 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function getMatchingProductIds()
     {
-        if (!$this->_productIds) {
+        if (is_null($this->_productIds)) {
+            $this->_productIds = array();
+            $this->setCollectedAttributes(array());
             $websiteIds = explode(',', $this->getWebsiteIds());
+
             if ($websiteIds) {
-                $this->setCollectedAttributes(array());
-                $this->_productIds = array();
+                $productCollection = Mage::getResourceModel('catalog/product_collection');
 
-                foreach ($websiteIds as $websiteId) {
-                    $productCollection  = Mage::getResourceModel('catalog/product_collection');
-                    $defaultStoreviewId = Mage::app()->getWebsite($websiteId)->getDefaultGroup()->getDefaultStoreId();
+                $productCollection->addWebsiteFilter($websiteIds);
+                $this->getConditions()->collectValidatedAttributes($productCollection);
 
-                    $productCollection->addWebsiteFilter($websiteIds);
-                    $productCollection->setStoreId($defaultStoreviewId);
-                    $this->getConditions()->collectValidatedAttributes($productCollection);
-
-                    Mage::getSingleton('core/resource_iterator')->walk(
-                        $productCollection->getSelect(),
-                        array(array($this, 'callbackValidateProduct')),
-                        array(
-                            'attributes'=>$this->getCollectedAttributes(),
-                            'product'=>Mage::getModel('catalog/product'),
-                        )
-                    );
-                }
+                Mage::getSingleton('core/resource_iterator')->walk(
+                    $productCollection->getSelect(),
+                    array(array($this, 'callbackValidateProduct')),
+                    array(
+                        'attributes' => $this->getCollectedAttributes(),
+                        'product'    => Mage::getModel('catalog/product'),
+                    )
+                );
             }
         }
+
         return $this->_productIds;
     }
 
@@ -174,7 +171,9 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
      */
     public function callbackValidateProduct($args)
     {
-        $product = $args['product']->setData($args['row']);
+        $product = clone $args['product'];
+        $product->setData($args['row']);
+
         if ($this->getConditions()->validate($product)) {
             $this->_productIds[] = $product->getId();
         }
