@@ -111,6 +111,9 @@ class Enterprise_PageCache_Model_Processor
         if (isset($_COOKIE['NO_CACHE'])) {
             return false;
         }
+        if (isset($_GET['no_cache'])) {
+            return false;
+        }
         return true;
     }
 

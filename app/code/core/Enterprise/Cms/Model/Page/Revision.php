@@ -56,6 +56,8 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
      */
     protected $_config;
 
+    protected $_cacheTag = 'CMS_REVISION';
+
     /**
      * Constructor
      */
@@ -64,6 +66,20 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
         parent::_construct();
         $this->_init('enterprise_cms/page_revision');
         $this->_config = Mage::getSingleton('enterprise_cms/config');
+    }
+
+    /**
+     * Get cahce tags associated with object id
+     *
+     * @return array
+     */
+    public function getCacheIdTags()
+    {
+        $tags = parent::getCacheIdTags();
+        if ($tags && $this->getPageId()) {
+            $tags[] = Mage_Cms_Model_Page::CACHE_TAG.'_'.$this->getPageId();
+        }
+        return $tags;
     }
 
     /**
@@ -149,6 +165,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
             $this->_getResource()->rollBack();
             throw $e;
         }
+        $this->cleanModelCache();
         return $this;
     }
 
