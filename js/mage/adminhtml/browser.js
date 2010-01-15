@@ -28,7 +28,7 @@ MediabrowserUtility = {
             Windows.focus('browser_window');
             return;
         }
-        Dialog.info(null, {
+        this.dialogWindow = Dialog.info(null, {
             closable:     true,
             resizable:    false,
             draggable:    true,
@@ -41,10 +41,20 @@ MediabrowserUtility = {
             recenterAuto: false,
             hideEffect:   Element.hide,
             showEffect:   Element.show,
-            id:           'browser_window'
+            id:           'browser_window',
+            onClose: this.closeDialog.bind(this)
         });
-
         new Ajax.Updater('modal_dialog_message', url, {evalScripts: true});
+    },
+    closeDialog: function(window) {
+        if (!window) {
+            window = this.dialogWindow;
+        }
+        if (window) {
+            // IE fix - hidden form select fields after closing dialog
+            WindowUtilities._showSelect();
+            window.close();
+        }
     }
 };
 
