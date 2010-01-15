@@ -369,6 +369,14 @@
                     </enterprise_reward>
                 </observers>
             </sales_quote_payment_import_data_before>
+            <sales_order_place_before>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>processBeforeOrderPlace</method>
+                    </enterprise_reward>
+                </observers>
+            </sales_order_place_before>
             <sales_order_place_after>
                 <observers>
                     <enterprise_reward>

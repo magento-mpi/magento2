@@ -437,6 +437,36 @@ class Enterprise_Reward_Model_Observer
     }
 
     /**
+     * Validate order, check if enough reward points to place order
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function processBeforeOrderPlace(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+            return $this;
+        }
+        $order = $observer->getEvent()->getOrder();
+        if ($order->getRewardPointsBalance() > 0) {
+            $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
+            /* @var $reward Enterprise_Reward_Model_Reward */
+            $reward = Mage::getModel('enterprise_reward/reward')
+                ->setCustomerId($order->getCustomerId())
+                ->setWebsiteId($websiteId)
+                ->loadByCustomer();
+            if (($order->getRewardPointsBalance() - $reward->getPointsBalance()) >= 0) {
+                Mage::getSingleton('checkout/type_onepage')
+                    ->getCheckout()
+                    ->setUpdateSection('payment-method')
+                    ->setGotoSection('payment');
+                Mage::throwException(Mage::helper('enterprise_reward')->__('Not enough Reward Points to complete this Order.'));
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Reduce reward points if points was used during checkout
      *
      * @param Varien_Event_Observer $observer
