@@ -99,7 +99,9 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
             $request = $this->_buildRequest($payment);
             $result = $this->_postRequest($request);
-            $payment->setCcTransId($result->getPnref());
+            $payment->setCcTransId($result->getPnref())
+                ->setTransactionId($result->getPnref())
+                ->setIsTransactionClosed(0);
 
             switch ($result->getResultCode()){
                 case self::RESPONSE_CODE_APPROVED:
@@ -240,9 +242,9 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
     public function void(Varien_Object $payment)
     {
          $error = false;
-         if($payment->getVoidTransactionId()){
+         if($payment->getParentTransactionId()){
             $payment->setTrxtype(self::TRXTYPE_DELAYED_VOID);
-            $payment->setTransactionId($payment->getVoidTransactionId());
+            $payment->setTransactionId($payment->getParentTransactionId());
             $request=$this->_buildBasicRequest($payment);
             $result = $this->_postRequest($request);
 
