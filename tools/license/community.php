@@ -29,19 +29,16 @@ require dirname(__FILE__) . '/config.php';
 // php-code files
 updateLicense(array(
     'app/code/core/Mage',
-    '!app/code/core/Mage/Moneybookers', // "!" = skip
-), '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_OSL, 'coreCodePoolCallback', true, true, true);
+), '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_OSL, 'codePoolCallback', true, true, true);
 
 // xml-code files
 updateLicense(array(
     'app/code/core/Mage',
-    '!app/code/core/Mage/Moneybookers', // "!" = skip
-), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, 'coreCodePoolCallback', true, true, true);
+), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, 'codePoolCallback', true, true, true);
 
 // modules xml-declarations
 updateLicense(array(
     'app/etc/modules',
-    '!app/etc/modules/Mage_Moneybookers.xml', // "!" = skip
 ), 'Mage_*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, 'xmlModulesCallback', true, true, true);
 
 // design phtml-files
@@ -71,9 +68,9 @@ updateLicense(array(
 );
 
 // phoenix moneybookers
-updateLicense('app/code/core/Mage/Moneybookers', '*.php', REGEX_PHP, REPLACEMENT_PHP, PHOENIX_OSL, 'coreCodePoolCallback', true, true, true);
-updateLicense('app/code/core/Mage/Moneybookers', '*.xml', REGEX_XML, REPLACEMENT_XML, PHOENIX_OSL, 'coreCodePoolCallback', true, true, true);
-updateLicense('app/etc/modules', 'Mage_Moneybookers.xml', REGEX_XML, REPLACEMENT_XML, PHOENIX_OSL, 'xmlModulesCallback', true, true, true);
+updateLicense('app/code/community/Phoenix/Moneybookers', '*.php', REGEX_PHP, REPLACEMENT_PHP, PHOENIX_OSL, new Callback('codePoolCallback', 'community'), true, true, true);
+updateLicense('app/code/community/Phoenix/Moneybookers', '*.xml', REGEX_XML, REPLACEMENT_XML, PHOENIX_OSL, new Callback('codePoolCallback', 'community'), true, true, true);
+updateLicense('app/etc/modules', 'Phoenix_Moneybookers.xml', REGEX_XML, REPLACEMENT_XML, PHOENIX_OSL, 'xmlModulesCallback', true, true, true);
 updateLicense(array(
     'app/design/adminhtml/default/default/template/moneybookers',
     '!app/design/frontend/base/default/template/moneybookers',

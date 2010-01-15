@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento
  *
@@ -13,16 +12,16 @@
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
  *
- * @category    design
- * @package     default_default
+ * @category    Phoenix
+ * @package     Phoenix_Moneybookers
  * @copyright   Copyright (c) 2009 Phoenix Medien GmbH & Co. KG (http://www.phoenix-medien.de)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
--->
-<layout>
-    <adminhtml_system_config_edit>
-        <reference name="content">
-            <block type="moneybookers/jsinit" name="moneybookers_jsinit"  template="moneybookers/jsinit.phtml"></block>
-        </reference>
-    </adminhtml_system_config_edit>
-</layout>
+class Phoenix_Moneybookers_Model_Pwy extends Phoenix_Moneybookers_Model_Abstract
+{
+    /**
+     * unique internal payment method identifier
+     */
+    protected $_code			= 'moneybookers_pwy';
+    protected $_paymentMethod	= 'PWY';
+}

@@ -27,10 +27,10 @@
 require dirname(__FILE__) . '/config.php';
 
 // php-code files
-updateLicense('app/code/core/Enterprise', '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'coreCodePoolCallback', true, true, true);
+updateLicense('app/code/core/Enterprise', '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'codePoolCallback', true, true, true);
 
 // xml-code files
-updateLicense('app/code/core/Enterprise', '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'coreCodePoolCallback', true, true, true);
+updateLicense('app/code/core/Enterprise', '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'codePoolCallback', true, true, true);
 
 // modules xml-declarations
 updateLicense('app/etc/modules', 'Enterprise_*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'xmlModulesCallback', true, true, true);

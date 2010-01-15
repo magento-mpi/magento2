@@ -149,6 +149,49 @@ define('REGEX_XML', '/^\<\?xml version\=\"1\.0\"\?\>\s+\<\!\-\-\s+(\/\*\*.+NOTIC
 define('REPLACEMENT_XML', "<?xml version=\"1.0\"?" . ">\n<!--\n{notice}\n\\2");
 
 /**
+ * Callback parameters merger
+ */
+class Callback
+{
+    /**
+     * @var callback
+     */
+    private $_callback;
+
+    /**
+     * @var array
+     */
+    private $_params = array();
+
+    /**
+     * Initialize callback and parameters
+     * First parameter must be a valid callback
+     * Then arbitray set of passthrough parameters
+     */
+    public function __construct()
+    {
+        $params = func_get_args();
+        $this->_callback = array_shift($params);
+        if (!is_callable($this->_callback)) {
+            throw new Exception('Wrong callback provided');
+        }
+        if ($params) {
+            $this->_params = $params;
+        }
+    }
+
+    /**
+     * Call with arbitrary set of parameters (which will be appended to the prepared ones)
+     * @return mixed
+     */
+    public function call()
+    {
+        $params = array_merge(func_get_args(), $this->_params);
+        return call_user_func_array($this->_callback, $params);
+    }
+}
+
+/**
  * Dive into directories recursively and gather all files by masks
  *
  * @param string|array $paths
@@ -261,7 +304,11 @@ function updateLicense($directories, $fileMasks, $regex, $replacement, $noticeOf
         elseif ($LfBeforeEof && !preg_match('/' . "\n" . '$/s', $newContents)) {
             $newContents = rtrim($newContents) . "\n";
         }
-        list($category, $package) = (is_array($categoryPackageCallback) ? $categoryPackageCallback : $categoryPackageCallback($filename));
+        if (is_object($categoryPackageCallback) && $categoryPackageCallback instanceof Callback) {
+            list($category, $package) = $categoryPackageCallback->call($filename);
+        } else {
+            list($category, $package) = (is_array($categoryPackageCallback) ? $categoryPackageCallback : $categoryPackageCallback($filename));
+        }
         $readyNotice = str_replace(array('{category}', '{package}'), array($category, $package), $noticeOfLicense);
         $newContents = preg_replace($regex, str_replace('{notice}', $readyNotice, $replacement), $newContents);
         if ($contents !== $newContents) {
@@ -275,12 +322,12 @@ function updateLicense($directories, $fileMasks, $regex, $replacement, $noticeOf
 /**
  * Get rid of code pool part of path and treat next two as category & package
  *
- * @param unknown_type $filename
- * @return unknown
+ * @param string $filename
+ * @return array
  */
-function coreCodePoolCallback($filename)
+function codePoolCallback($filename, $pool = 'core')
 {
-    list($category, $package) = explode('/', str_replace(BP . '/app/code/core/', '', $filename));
+    list($category, $package) = explode('/', str_replace(BP . "/app/code/{$pool}/", '', $filename));
     return array($category, "{$category}_{$package}");
 }
 
