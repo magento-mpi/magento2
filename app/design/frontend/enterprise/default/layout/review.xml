@@ -91,6 +91,7 @@ Product reviews page
                     <block type="review/form" name="product.review.form" as="review_form">
                         <block type="page/html_wrapper" name="product.review.form.fields.before" as="form_fields_before">
                             <action method="setMayBeInvisible"><value>1</value></action>
+                            <action method="setElementClass"><value>rewards</value></action>
                         </block>
                     </block>
                 </block>

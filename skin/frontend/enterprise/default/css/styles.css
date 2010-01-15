@@ -446,18 +446,16 @@ ul.links li .separator { margin:0 2px 0 5px; font-size:10px; color:#8f8f8f; }
 ul.links li.last .separator { display:none; }
 
 /* Reward Points */
-.col1-layout .rewards { margin:-20px 0 20px; }
-.col1-layout .rewards .reward-message { position:relative; }
+.rewards { margin:-10px 0 20px; }
 .reward-message { display:block; margin:5px -15px 5px -15px; background:#d55721 url(../images/bkg_rewards.gif) 5px 3px no-repeat; padding:3px 5px 3px 32px; font:normal 12px/20px Arial, Helvetica, sans-serif; color:#fff; }
-.reward-message .balance { display:inline; }
+.reward-message p { display:inline; margin:0 !important; }
 .reward-message .limit { display:block; font-size:11px; line-height:1.15; }
-.reward-message .balance span { font-weight:bold; }
 .reward-message a { color:#ffe6dc; text-decoration:underline; }
 .reward-message a:hover { color:#ffe6dc; text-decoration:none; }
 .reward-message .price { font-size:1em; font-weight:normal; }
 /* Reward Points types rewrites */
-.reward-review { margin:20px -20px -20px; }
-.reward-tag { margin:0; }
+.reward-review,
+.reward-tag,
 .reward-checkout { margin:0; }
 
 /* Class: std - styles for admin-controlled content */

@@ -62,7 +62,8 @@ Customer account pages, rendered for all tabs in dashboard
         <reference name="content">
             <block type="customer/newsletter" name="customer_newsletter">
                 <block type="page/html_wrapper" name="customer.newsletter.form.before" as="form_before">
-                    <action method="setMayBeInvisible"><value>1</value></action>
+                    <!--action method="setMayBeInvisible"><value>1</value></action-->
+                    <action method="setElementClass"><value>rewards</value></action>
                 </block>
             </block>
         </reference>

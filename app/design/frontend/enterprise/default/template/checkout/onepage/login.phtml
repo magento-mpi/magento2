@@ -24,8 +24,8 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
+<?php echo $this->getChildHtml('login_before')?>
 <div class="col2-set<?php if (!$this->helper('customer')->isRegistrationAllowed() && !$this->getQuote()->isAllowedGuestCheckout()) echo ' login-only' ?>">
-    <?php echo $this->getChildHtml('login_before')?>
     <div class="col-1">
         <h4><?php echo $this->__('Login') ?></h4>
         <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>

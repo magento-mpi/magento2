@@ -78,6 +78,8 @@ Default layout, loads most of the pages
 
                 <block type="page/html_wrapper" name="checkout.cart.form.before" as="form_before" translate="label">
                     <label>Shopping Cart Form Before</label>
+                    <action method="setElementClass"><value>rewards</value></action>
+                    <action method="setMayBeInvisible"><value>1</value></action>
                 </block>
 
                 <block type="core/text_list" name="checkout.cart.methods" as="methods" translate="label">

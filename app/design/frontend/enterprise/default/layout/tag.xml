@@ -69,6 +69,7 @@ Customer account home dashboard layout
             <block type="tag/product_list" name="product_tag_list" template="tag/list.phtml">
                 <block type="page/html_wrapper" name="product.tag.list.list.before" as="list_before">
                     <action method="setMayBeInvisible"><value>1</value></action>
+                    <action method="setElementClass"><value>rewards</value></action>
                 </block>
             </block>
         </reference>
