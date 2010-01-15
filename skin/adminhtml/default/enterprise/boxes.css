@@ -1024,6 +1024,12 @@ input.downloads { width:6.5em !important; }
 .stores-tree td.store-label label { padding-left:30px; }
 .stores-tree .buttons-set { margin:10px 0; }
 
+.log-details { border:1px solid #d6d6d6; padding:15px; background:#fafafa; margin:0 0 15px; }
+.log-details table { width:100%; }
+.log-details table th,
+.log-details table td { padding-top:4px; padding-bottom:4px; vertical-align:middle; }
+.log-details table th { font-weight:bold; padding-right:30px; white-space:nowrap; }
+
 /* Configuration */
 /*fieldset.config td          { padding-top:5px; padding-bottom:5px; }
 fieldset.config input.input-text { width:250px; }

@@ -58,7 +58,8 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
         );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => $this->helper('enterprise_invitation')->__('Invitations Information')
+            'legend' => $this->helper('enterprise_invitation')->__('Invitations Information'),
+            'class' => 'fieldset-wide'
         ));
 
         $fieldset->addField('email', 'textarea', array(
