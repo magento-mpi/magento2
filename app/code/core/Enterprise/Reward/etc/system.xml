@@ -154,7 +154,7 @@
                             <show_in_store>0</show_in_store>
                         </invitation_customer>
                         <invitation_customer_limit translate="label comment">
-                            <label>Invitation to Customer Conversions Limit</label>
+                            <label>Invitation to Customer Conversions Qty Limit</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
@@ -171,7 +171,7 @@
                             <!--comment>Each or First Order - depending on Configuration</comment-->
                         </invitation_order>
                         <invitation_order_limit translate="label comment">
-                            <label>Invitation to Order Conversions Limit</label>
+                            <label>Invitation to Order Conversions Qty Limit</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>45</sort_order>
                             <show_in_default>1</show_in_default>
@@ -197,7 +197,7 @@
                             <comment>After Approval by Administrator</comment>
                         </review>
                         <review_limit translate="label comment">
-                            <label>Rewarded Reviews Submission Limit</label>
+                            <label>Rewarded Reviews Submission Qty Limit</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>65</sort_order>
                             <show_in_default>1</show_in_default>
@@ -214,7 +214,7 @@
                             <comment>After Approval by Administrator</comment>
                         </tag>
                         <tag_limit translate="label comment">
-                            <label>Rewarded Tag Submission Limit</label>
+                            <label>Rewarded Tag Submission Qty Limit</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>75</sort_order>
                             <show_in_default>1</show_in_default>

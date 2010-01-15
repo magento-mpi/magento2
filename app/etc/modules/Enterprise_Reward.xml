@@ -32,6 +32,8 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Customer/>
+                <Enterprise_Invitation/>
+                <Mage_Checkout/>
             </depends>
         </Enterprise_Reward>
     </modules>

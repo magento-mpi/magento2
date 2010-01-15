@@ -34,6 +34,13 @@
 class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_Action_Abstract
 {
     /**
+     * Quote instance, required for estimating checkout reward (order subtotal - discount)
+     *
+     * @var Mage_Sales_Model_Quote
+     */
+    protected $_quote = null;
+
+    /**
      * Return action message for history log
      *
      * @param array $args Additional history data
@@ -61,6 +68,18 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
     }
 
     /**
+     * Quote setter
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return Enterprise_Reward_Model_Action_OrderExtra
+     */
+    public function setQuote(Mage_Sales_Model_Quote $quote)
+    {
+        $this->_quote = $quote;
+        return $this;
+    }
+
+    /**
      * Retrieve points delta for action
      *
      * @param int $websiteId
@@ -68,9 +87,15 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
      */
     public function getPoints($websiteId)
     {
-        $pointsDelta = $this->getReward()
-            ->getRateToPoints()
-            ->calculateToPoints((float)($this->getEntity()->getBaseSubtotalInvoiced()));
+        if ($this->_quote) {
+            $quote = $this->_quote;
+            // known issue: no support for multishipping quote
+            $address = $quote->getIsVirtual() ? $quote->getBillingAddress() : $quote->getShippingAddress();
+            $monetaryAmount = $quote->getBaseSubtotal() - abs(1 * $address->getBaseDiscountAmount());
+        } else {
+            $monetaryAmount = $this->getEntity()->getBaseSubtotalInvoiced();
+        }
+        $pointsDelta = $this->getReward()->getRateToPoints()->calculateToPoints((float)$monetaryAmount);
         return $pointsDelta;
     }
 }

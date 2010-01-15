@@ -189,4 +189,37 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
         $pageIdentifier = Mage::getStoreConfig('enterprise_reward/general/landing_page');
         return Mage::getUrl('', array('_direct' => $pageIdentifier));
     }
+
+    /**
+     * Render a reward message as X points Y money
+     *
+     * @param int $points
+     * @param string $pointsFormat
+     * @param float|null $amount
+     * @param string $amountFormat
+     */
+    public function formatReward($points, $pointsFormat = '%s', $amount = null, $amountFormat = '%s')
+    {
+        $points = sprintf($pointsFormat, $points);
+        if (null !== $amount) {
+            $amount = sprintf($amountFormat, $this->formatAmount($amount));
+            return $this->__('%s reward points (%s)', $points, $amount);
+        }
+        return $this->__('%s reward points', $points);
+    }
+
+    /**
+     * Format an amount as currency or rounded value
+     *
+     * @param float|string|null $amount
+     * @param bool $asCurrency
+     * @return string|null
+     */
+    public function formatAmount($amount, $asCurrency = true)
+    {
+        if (null === $amount) {
+            return  null;
+        }
+        return $asCurrency ? Mage::helper('core')->currency($amount) : sprintf('%.2F', $amount);
+    }
 }

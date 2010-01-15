@@ -112,6 +112,23 @@ class Enterprise_Reward_Model_Action_Abstract extends Varien_Object
     }
 
     /**
+     * Estimate rewards available qty
+     *
+     * @return int|null
+     */
+    public function estimateRewardsQtyLimit()
+    {
+        $maxQty = (int)$this->getRewardLimit();
+        if ($maxQty > 0) {
+            $usedQty = (int)$this->getHistory()->getTotalQtyRewards(
+                $this->getAction(), $this->getReward()->getCustomerId(), $this->getReward()->getWebsiteId()
+            );
+            return min(max($maxQty - $usedQty, 0), $maxQty);
+        }
+        return null;
+    }
+
+    /**
      * Return action message for history log
      *
      * @param array $args Additional history data

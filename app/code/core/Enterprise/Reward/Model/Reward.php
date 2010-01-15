@@ -127,17 +127,23 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     /**
      * Return instance of action wrapper
      *
-     * @param string $action Action name
+     * @param string|int $action Action code or a factory name
      * @return Enterprise_Reward_Model_Action_Abstract|null
      */
-    public function getActionInstance($action)
+    public function getActionInstance($action, $isFactoryName = false)
     {
+        if ($isFactoryName) {
+            $action = array_search($action, self::$_actionModelClasses);
+            if (!$action) {
+                return null;
+            }
+        }
         if ($instance = Mage::registry('_reward_actions' . $action)) {
             return $instance;
         }
         if (isset(self::$_actionModelClasses[$action])) {
             $instance = Mage::getModel(self::$_actionModelClasses[$action]);
-            $instance->setAction($this->getAction())
+            $instance->setAction($this->hasAction() ? $this->getAction : $action)
                 ->setReward($this)
                 ->setHistory($this->getHistory());
             Mage::register('_reward_actions' . $action, $instance);
@@ -396,6 +402,43 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
             $this->_modelLoadedByCustomer = true;
         }
         return $this;
+    }
+
+    /**
+     * Estimate available points reward for specified action
+     *
+     * @param Enterprise_Reward_Model_Action_Abstract $action
+     * @return int|null
+     */
+    public function estimateRewardPoints(Enterprise_Reward_Model_Action_Abstract $action)
+    {
+        $websiteId = $this->getWebsiteId();
+        $uncappedPts = (int)$action->getPoints($websiteId);
+        $max = (int)Mage::helper('enterprise_reward')->getGeneralConfig('max_points_balance', $websiteId);
+        if ($max > 0) {
+            return min(max($max - (int)$this->getPointsBalance(), 0), $uncappedPts);
+        }
+        return $uncappedPts;
+    }
+
+    /**
+     * Estimate available monetary reward for specified action
+     * May take points value or automatically determine from action
+     *
+     * @param Enterprise_Reward_Model_Action_Abstract $action
+     * @return float|null
+     */
+    public function estimateRewardAmount(Enterprise_Reward_Model_Action_Abstract $action)
+    {
+        if (!$this->getCustomerId()) {
+            return null;
+        }
+        $websiteId = $this->getWebsiteId();
+        $rate = $this->getRateToCurrency();
+        if (!$rate->getId()) {
+            return null;
+        }
+        return $rate->calculateToCurrency($this->estimateRewardPoints($action), false);
     }
 
     /**

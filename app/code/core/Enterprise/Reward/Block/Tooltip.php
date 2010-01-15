@@ -34,212 +34,102 @@
 class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
 {
     /**
-     * Check whether tooltip is enabled
+     * Reward instance
      *
-     * @param string $code Unique code for each type of points rewards
-     * @return bool
+     * @var Enterprise_Reward_Model_Reward
      */
-    public function canShow($action)
+    protected $_rewardInstance = null;
+
+    /**
+     * Reward action instance
+     *
+     * @var Enterprise_Reward_Model_Action_Abstract
+     */
+    protected $_actionInstance = null;
+
+    public function initRewardType($action)
     {
-        return Mage::helper('enterprise_reward')->isEnabledOnFront()
-            && $this->getRewardPoints($action) > 0
-            && !$this->isLimitExceeded()
-            && !$this->isActionLimitExceeded($action);
+        if ($action) {
+            if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+                return $this;
+            }
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $this->_rewardInstance = Mage::getSingleton('enterprise_reward/reward')
+                ->setCustomer($customer)->loadByCustomer();
+            $this->_actionInstance = $this->_rewardInstance->getActionInstance($action, true);
+        }
     }
 
     /**
-     * Getter for landing page Url
+     * Getter for amount customer may be rewarded for current action
+     * Can format as currency
+     *
+     * @param float $amount
+     * @param bool $asCurrency
+     * @return string|null
+     */
+    public function getRewardAmount($amount = null, $asCurrency = false)
+    {
+        $amount = null === $amount ? $this->_getData('reward_amount') : $amount;
+        return Mage::helper('enterprise_reward')->formatAmount($amount, $asCurrency);
+    }
+
+    public function renderLearnMoreLink($format = '<a href="%1$s">%2$s</a>', $anchorText = null)
+    {
+        $anchorText = null === $anchorText ? Mage::helper('enterprise_reward')->__('Learn more') : $anchorText;
+        return sprintf($format, $this->getLandingPageUrl(), $anchorText);
+    }
+
+    /**
+     * Set various template variables
+     */
+    protected function _prepareTemplateData()
+    {
+        if ($this->_actionInstance) {
+            $this->addData(array(
+                'reward_points' => $this->_rewardInstance->estimateRewardPoints($this->_actionInstance),
+                'landing_page_url' => Mage::helper('enterprise_reward')->getLandingPageUrl(),
+            ));
+
+            if ($this->_rewardInstance->getId()) {
+                // estimate qty limitations (actually can be used without customer reward record)
+                $qtyLimit = $this->_actionInstance->estimateRewardsQtyLimit();
+                if (null !== $qtyLimit) {
+                    $this->setData('qty_limit', $qtyLimit);
+                }
+
+                if ($this->hasGuestNote()) {
+                    $this->unsGuestNote();
+                }
+
+                $this->addData(array(
+                    'points_balance' => $this->_rewardInstance->getPointsBalance(),
+                    'currency_balance' => $this->_rewardInstance->getCurrencyAmount(),
+                ));
+                // estimate monetary reward
+                $amount = $this->_rewardInstance->estimateRewardAmount($this->_actionInstance);
+                if (null !== $amount) {
+                    $this->setData('reward_amount', $amount);
+                }
+            } else {
+                if ($this->hasIsGuestNote() && !$this->hasGuestNote()) {
+                    $this->setGuestNote(Mage::helper('enterprise_reward')->__('Applies only to registered customers, may vary when logged in.'));
+                }
+            }
+        }
+    }
+
+    /**
+     * Check whether everything is set for output
      *
      * @return string
      */
-    public function getLandingPageUrl()
+    protected function _toHtml()
     {
-        return Mage::helper('enterprise_reward')->getLandingPageUrl();
-    }
-
-    /**
-     * Return points delta for each type of points rewards
-     *
-     * @param string $code Unique code for each type of points rewards
-     * @return int
-     */
-    public function getRewardPoints($action)
-    {
-        if (!$this->hasData($action . 'reward_points')) {
-            if ($this->_getAction($action)) {
-                $result = $this->_getAction($action)->getPoints(Mage::app()->getWebsite()->getId());
-            } else {
-                $result = 0;
-            }
-            $this->setData($action . 'reward_points', $result);
+        $this->_prepareTemplateData();
+        if (!$this->_actionInstance || !$this->getRewardPoints() || $this->hasQtyLimit() && !$this->getQtyLimit()) {
+            return '';
         }
-        return $this->_getData($action . 'reward_points');
-    }
-
-    /**
-     * Return points delta for each type of points rewards
-     *
-     * @param string $code Unique code for each type of points rewards
-     * @return int
-     */
-    public function getCurrencyAmount($action)
-    {
-        if (!$this->hasData($action . 'currency_amount')) {
-            if ($this->isCustomerLoggedIn()) {
-                /* @var $rate Enterprise_Reward_Model_Reward_Rate */
-                $rate = Mage::getModel('enterprise_reward/reward_rate')->fetch(
-                    $this->getCustomer()->getGroupId(),
-                    Mage::app()->getWebsite()->getId(),
-                    Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
-                );
-                if ($rate->getId()) {
-                    $result = $rate->calculateToCurrency($this->getRewardPoints($action), false);
-                } else {
-                    $result = 0;
-                }
-            } else {
-                $result = 0;
-            }
-            $this->setData($action . 'currency_amount', $result);
-        }
-        return $this->_getData($action . 'currency_amount');
-    }
-
-    /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
-     */
-    public function getFormattedAmount($currencyAmount)
-    {
-        return Mage::helper('core')->currency($currencyAmount);
-    }
-
-    /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
-     */
-    public function getCurrentBalance()
-    {
-        if ($this->isRewardExists()) {
-            return $this->_getReward()->getPointsBalance();
-        }
-        return 0;
-    }
-
-    /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
-     */
-    protected function _getAction($action)
-    {
-        if (!$this->hasData($action . 'action_instance')) {
-            $actionInstance = Mage::getModel('enterprise_reward/reward')->getActionInstance($action);
-            $this->setData($action . 'action_instance', $actionInstance);
-        }
-        return $this->_getData($action . 'action_instance');
-    }
-
-    /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
-     */
-    public function isRewardExists()
-    {
-        if ($this->isCustomerLoggedIn() && $this->_getReward()->getId()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
-     */
-    public function isLimitExceeded()
-    {
-        if ($this->isRewardExists()) {
-            $max = (int)Mage::helper('enterprise_reward')->getGeneralConfig('max_points_balance');
-            if ($max > 0) {
-                return $this->_getReward()->getPointsBalance() >= $max;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
-     */
-    public function isActionLimitExceeded($action)
-    {
-        if ($this->isRewardExists() && $this->_getAction($action)) {
-            return $this->_getAction($action)
-                ->isRewardLimitExceeded();
-        }
-        return false;
-    }
-
-    /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
-     */
-    public function getActionRewardLimit($action)
-    {
-        if ($this->_getAction($action)) {
-            return $this->_getAction($action)
-                ->getRewardLimit();
-        }
-        return 0;
-    }
-
-    /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
-     */
-    public function isCustomerLoggedIn()
-    {
-        return Mage::getSingleton('customer/session')->isLoggedIn();
-    }
-
-    /**
-     * Getter for current customer
-     *
-     * @return Mage_Customer_Model_Customer
-     */
-    public function getCustomer()
-    {
-        return Mage::getSingleton('customer/session')->getCustomer();
-    }
-
-    /**
-     * Getter for current customer
-     *
-     * @return Mage_Customer_Model_Customer
-     */
-    public function _getReward()
-    {
-        if (!$this->hasData('reward')) {
-            $reward = Mage::getModel('enterprise_reward/reward')
-                ->setCustomer($this->getCustomer())
-                ->loadByCustomer();
-            $this->setData('reward', $reward);
-        }
-        return $this->_getData('reward');
+        return parent::_toHtml();
     }
 }

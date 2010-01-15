@@ -34,42 +34,15 @@
 class Enterprise_Reward_Block_Tooltip_Checkout extends Enterprise_Reward_Block_Tooltip
 {
     /**
-     * Check whether tooltip is enabled
+     * Set quote to the reward action instance
      *
-     * @param string $code Unique code for each type of points rewards
-     * @return bool
+     * @param int|string $action
      */
-    public function canShow($action)
+    public function initRewardType($action)
     {
-        return (bool)(parent::canShow($action) && $this->isCustomerLoggedIn());
-    }
-
-    /**
-     * Getter
-     *
-     * @return Mage_Sales_Model_Quote
-     */
-    public function getQuote()
-    {
-        return Mage::getSingleton('checkout/session')->getQuote();
-    }
-
-    /**
-     * Return points delta, calculate basing on subtotal of quote
-     *
-     * @param string $code Unique code for each type of points rewards
-     * @return int
-     */
-    public function getRewardPoints($action)
-    {
-        if (!$this->hasData($action . 'reward_points')) {
-            /* @var $rate Enterprise_Reward_Model_Reward_Rate */
-            $rate = Mage::getModel('enterprise_reward/reward_rate')->fetch(
-                $this->getCustomer()->getGroupId(), Mage::app()->getStore()->getWebsiteId(),
-                Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS);
-            $result = $rate->calculateToPoints($this->getQuote()->getBaseSubtotal());
-            $this->setData($action . 'reward_points', $result);
+        parent::initRewardType($action);
+        if ($this->_actionInstance) {
+            $this->_actionInstance->setQuote(Mage::getSingleton('checkout/session')->getQuote());
         }
-        return $this->_getData($action . 'reward_points');
     }
 }
