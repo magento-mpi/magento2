@@ -222,4 +222,50 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $asCurrency ? Mage::helper('core')->currency($amount) : sprintf('%.2F', $amount);
     }
+
+    /**
+     * Format points to currency rate
+     *
+     * @param int $points
+     * @param float $amount
+     * @param string $currencyCode
+     * @return string
+     */
+    public function formatRateToCurrency($points, $amount, $currencyCode = null)
+    {
+        return $this->_formatRate('%1$s points = %2$s', $points, $amount, $currencyCode);
+    }
+
+    /**
+     * Format currency to points rate
+     *
+     * @param int $points
+     * @param float $amount
+     * @param string $currencyCode
+     * @return string
+     */
+    public function formatRateToPoints($points, $amount, $currencyCode = null)
+    {
+        return $this->_formatRate('%2$s = %1$s points', $points, $amount, $currencyCode);
+    }
+
+    /**
+     * Format rate according to format
+     *
+     * @param string $format
+     * @param int $points
+     * @param float $amount
+     * @param string $currencyCode
+     * @return string
+     */
+    protected function _formatRate($format, $points, $amount, $currencyCode)
+    {
+        $points = (int)$points;
+        if (!$currencyCode) {
+            $amountFormatted = sprintf('%.2F', $amount);
+        } else {
+            $amountFormatted = Mage::app()->getLocale()->currency($currencyCode)->toCurrency((float)$amount);
+        }
+        return sprintf($format, $points, $amountFormatted);
+    }
 }

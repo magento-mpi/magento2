@@ -38,6 +38,25 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     const RATE_EXCHANGE_DIRECTION_TO_POINTS   = 2;
 
     /**
+     * Rate text getter
+     *
+     * @param int $direction
+     * @param int $points
+     * @param float $amount
+     * @param string $currencyCode
+     * @return string|null
+     */
+    public static function getRateText($direction, $points, $amount, $currencyCode = null)
+    {
+        switch ($direction) {
+            case self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY:
+                return Mage::helper('enterprise_reward')->formatRateToCurrency($points, $amount, $currencyCode);
+            case self::RATE_EXCHANGE_DIRECTION_TO_POINTS:
+                return Mage::helper('enterprise_reward')->formatRateToPoints($points, $amount, $currencyCode);
+        }
+    }
+
+    /**
      * Internal constructor
      */
     protected function _construct()

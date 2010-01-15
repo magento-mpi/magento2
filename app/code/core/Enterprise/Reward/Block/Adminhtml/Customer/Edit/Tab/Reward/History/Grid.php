@@ -134,9 +134,8 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             'width'    => 1,
         ));
 
-// TODO: make this translateable
-        $this->addColumn('rate_description', array(
-            'index'    => 'rate_description',
+        $this->addColumn('rate', array(
+            'getter' => 'getRateText',
             'header'   => Mage::helper('enterprise_reward')->__('Rate'),
             'sortable' => false,
             'filter'   => false
@@ -166,8 +165,8 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             'index'    => 'created_at',
             'header'   => Mage::helper('enterprise_reward')->__('Created At'),
             'sortable' => false,
-            'filter'   => false,
             'align'    => 'left',
+            'html_decorators' => 'nobr',
         ));
 
         $this->addColumn('expiration_date', array(
@@ -175,8 +174,9 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             'getter'   => 'getExpiresAt',
             'header'   => Mage::helper('enterprise_reward')->__('Expires At'),
             'sortable' => false,
-            'filter'   => false,
+            'filter'   => false, // needs custom filter
             'align'    => 'left',
+            'html_decorators' => 'nobr',
         ));
 
 // TODO: merge with reason

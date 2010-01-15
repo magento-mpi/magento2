@@ -212,6 +212,22 @@ class Enterprise_Reward_Model_Reward_History extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Rate text getter
+     *
+     * @return string|null
+     */
+    public function getRateText()
+    {
+        $rate = $this->getAdditionalDataByKey('rate');
+        if (isset($rate['points']) && isset($rate['currency_amount']) && isset($rate['direction'])) {
+            return Enterprise_Reward_Model_Reward_Rate::getRateText(
+                (int)$rate['direction'], (int)$rate['points'], (float)$rate['currency_amount'],
+                $this->getBaseCurrencyCode()
+            );
+        }
+    }
+
+    /**
      * Check if history update with given action, customer and entity exist
      *
      * @param integer $customerId

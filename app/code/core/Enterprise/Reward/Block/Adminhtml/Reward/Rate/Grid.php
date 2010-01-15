@@ -64,9 +64,10 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_
     protected function _prepareColumns()
     {
         $this->addColumn('rate_id', array(
-            'header'    => Mage::helper('enterprise_reward')->__('ID'),
-            'align'     => 'left',
-            'index'     => 'rate_id',
+            'header' => Mage::helper('enterprise_reward')->__('ID'),
+            'align'  => 'left',
+            'index'  => 'rate_id',
+            'width'  => 1,
         ));
 
         $this->addColumn('website_id', array(
@@ -83,16 +84,12 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_
             'options' => Mage::getModel('enterprise_reward/source_customer_groups')->toOptionArray()
         ));
 
-        $this->addColumn('direction', array(
-            'header'  => Mage::helper('enterprise_reward')->__('Direction'),
-            'index'   => 'direction',
-            'type'    => 'options',
-            'options' => Mage::getModel('enterprise_reward/reward_rate')->getDirectionsOptionArray()
-        ));
-
-        $this->addColumn('rate_description', array(
-            'header'  => Mage::helper('enterprise_reward')->__('Rate Description'),
-            'getter' => 'getExchangeRateAsText',
+        $this->addColumn('rate', array(
+            'getter'   => array($this, 'getRateText'),
+            'header'   => Mage::helper('enterprise_reward')->__('Rate'),
+            'filter'   => false,
+            'sortable' => false,
+            'html_decorators' => 'nobr',
         ));
 
         return parent::_prepareColumns();
@@ -106,5 +103,20 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/edit', array('rate_id' => $row->getId()));
+    }
+
+    /**
+     * Rate text getter
+     *
+     * @param Varien_Object $row
+     * @return string|null
+     */
+    public function getRateText($row)
+    {
+        $websiteId = $row->getWebsiteId();
+        return Enterprise_Reward_Model_Reward_Rate::getRateText($row->getDirection(), $row->getPoints(),
+            $row->getCurrencyAmount(),
+            0 == $websiteId ? null : Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode()
+        );
     }
 }
