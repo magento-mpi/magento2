@@ -183,12 +183,8 @@ class Mage_Moneybookers_Model_Event
             return;
         }
         $invoice = $this->_order->prepareInvoice();
-
         $invoice->register()->capture();
-        Mage::getModel('core/resource_transaction')
-            ->addObject($invoice)
-            ->addObject($invoice->getOrder())
-            ->save();
+        $this->_order->addRelatedObject($invoice);
     }
 
     /**
