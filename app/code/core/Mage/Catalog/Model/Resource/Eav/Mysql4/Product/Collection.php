@@ -788,7 +788,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 $anchorStmt = clone $select;
                 $anchorStmt->limit(); //reset limits
                 $anchorStmt->where('count_table.category_id in (?)', $isAnchor);
-                $productCounts += $this->getConnection()->fetchPairs($anchorStmt, array('category_id'=>'product_count'));
+                $productCounts += $this->getConnection()->fetchPairs($anchorStmt);
                 $anchorStmt = null;
             }
             if ($isNotAnchor) {
@@ -796,7 +796,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 $notAnchorStmt->limit(); //reset limits
                 $notAnchorStmt->where('count_table.category_id in (?)', $isNotAnchor);
                 $notAnchorStmt->where('count_table.is_parent=1');
-                $productCounts += $this->getConnection()->fetchPairs($notAnchorStmt, array('category_id'=>'product_count'));
+                $productCounts += $this->getConnection()->fetchPairs($notAnchorStmt);
                 $notAnchorStmt = null;
             }
             $select = null;
