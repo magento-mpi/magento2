@@ -19,14 +19,14 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Customer
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 $installer = $this;
 
-/* @var $installer Mage_Customer_Model_Entity_Setup */
+/* @var $installer Mage_Sales_Model_Mysql4_Setup */
 $installer->startSetup();
-$installer->updateAttribute('customer', 'dob', 'backend_model', '');
+$installer->updateAttribute('order', 'customer_dob', 'backend_model', '');
 $installer->endSetup();
