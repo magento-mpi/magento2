@@ -460,6 +460,12 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
             $this->_getCheckout()->getCheckoutSession()->setDisplaySuccess(true);
             $this->_redirect('*/*/success');
         }
+        catch (Mage_Checkout_Exception $e) {
+            Mage::helper('checkout')->sendPaymentFailedEmail($this->_getCheckout()->getQuote(), $e->getMessage(), 'multi-shipping');
+            $this->_getCheckout()->getCheckoutSession()->clear();
+            Mage::getSingleton('checkout/session')->addError($e->getMessage());
+            $this->_redirect('*/cart');
+        }
         catch (Mage_Core_Exception $e){
             Mage::helper('checkout')->sendPaymentFailedEmail($this->_getCheckout()->getQuote(), $e->getMessage(), 'multi-shipping');
             Mage::getSingleton('checkout/session')->addError($e->getMessage());
