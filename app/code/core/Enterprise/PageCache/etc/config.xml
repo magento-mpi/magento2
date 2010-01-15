@@ -92,22 +92,22 @@
                     </enterprise_pagecache>
                 </observers>
             </clean_catalog_images_cache_after>
-            <catalog_category_save_commit_after>
+            <model_save_commit_after>
                 <observers>
                     <enterprise_pagecache>
                         <class>enterprise_pagecache/observer</class>
-                        <method>invalidateCache</method>
+                        <method>validateDataChanges</method>
                     </enterprise_pagecache>
                 </observers>
-            </catalog_category_save_commit_after>
-            <catalog_category_delete_commit_after>
+            </model_save_commit_after>
+            <model_delete_commit_after>
                 <observers>
                     <enterprise_pagecache>
                         <class>enterprise_pagecache/observer</class>
-                        <method>invalidateCache</method>
+                        <method>validateDataDelete</method>
                     </enterprise_pagecache>
                 </observers>
-            </catalog_category_delete_commit_after>
+            </model_delete_commit_after>
             <controller_action_postdispatch_adminhtml_system_config_save>
                 <observers>
                     <enterprise_pagecache>

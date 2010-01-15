@@ -190,6 +190,35 @@ class Enterprise_PageCache_Model_Observer
     }
 
     /**
+     * Check if data changes duering object save affect cached pages
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function validateDataChanges(Varien_Event_Observer $observer)
+    {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
+        $object = $observer->getEvent()->getObject();
+        $object = Mage::getModel('enterprise_pagecache/validator')->checkDataChange($object);
+    }
+
+    /**
+     * Check if data delete affect cached pages
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function validateDataDelete(Varien_Event_Observer $observer)
+    {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
+        $object = $observer->getEvent()->getObject();
+        $object = Mage::getModel('enterprise_pagecache/validator')->checkDataChange($object);
+    }
+
+
+    /**
      * Clean full page cache
      */
     public function cleanCache()
