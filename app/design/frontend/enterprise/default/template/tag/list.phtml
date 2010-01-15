@@ -28,6 +28,7 @@
     <div class="box-title">
         <h2><?php echo $this->__('Product Tags'); ?></h2>
     </div>
+    <?php echo $this->getChildHtml('list_before')?>
     <div class="box-content">
         <?php if( $this->getCount() ): ?>
         <h3><?php echo $this->__('Other people marked this product with these tags:') ?></h3>

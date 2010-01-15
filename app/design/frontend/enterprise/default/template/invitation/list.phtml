@@ -35,6 +35,8 @@
 
 <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 
+<?php echo $this->getChildHtml('list_before')?>
+
 <?php if (count($this->getInvitationCollection())): ?>
 
 <table class="data-table" id="invitations-list-table" cellpadding="0">
@@ -70,7 +72,7 @@
 
 <div id="cookie-notice">
     <ul class="messages"><li class="notice-msg">
-        <ul><li><?php echo Mage::helper('enterprise_invitation')->__('You have not sent invitations yet'); ?></li></ul>
+        <ul><li><?php echo Mage::helper('enterprise_invitation')->__('There are no sent invitations yet'); ?></li></ul>
     </li></ul>
 </div>
 

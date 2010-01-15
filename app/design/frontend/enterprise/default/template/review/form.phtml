@@ -28,6 +28,7 @@
     <div class="box-title">
         <h2><?php echo $this->__('Write Your Own Review') ?></h2>
     </div>
+    <?php echo $this->getChildHtml('form_fields_before')?>
     <div class="box-content">
         <h3 class="product-name"><?php echo $this->__("You're reviewing:"); ?> <span><?php echo $this->htmlEscape($this->getProductInfo()->getName()) ?></span></h3>
         <?php if( $this->getRatings() && $this->getRatings()->getSize()): ?>

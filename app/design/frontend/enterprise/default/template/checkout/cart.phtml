@@ -41,6 +41,7 @@
         <?php endif; ?>
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getChildHtml('form_before') ?>
     <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
         <fieldset>
             <table id="shopping-cart-table" class="data-table cart-table">
@@ -62,8 +63,8 @@
             <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
                 <col width="1" />
             <?php endif; ?>
-                <col width="1" />            
-            
+                <col width="1" />
+
             <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
                 <thead>
                     <tr>
@@ -113,7 +114,7 @@
         </ul>
         <?php endif; ?>
     </div>
-    <div class="cart-collaterals<?php if($this->getChildHtml('crosssell')) echo ' cross-inside'; ?>">   
+    <div class="cart-collaterals<?php if($this->getChildHtml('crosssell')) echo ' cross-inside'; ?>">
         <?php echo $this->getChildHtml('crosssell') ?>
         <div class="deals">
             <?php echo $this->getChildHtml('coupon') ?>
