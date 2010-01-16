@@ -109,17 +109,6 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
     }
 
     /**
-     * History item admin comment getter
-     *
-     * @param Enterprise_Reward_Model_Reward_History $item
-     * @return string
-     */
-    public function getComment(Enterprise_Reward_Model_Reward_History $item)
-    {
-        return $item->getComment();
-    }
-
-    /**
      * History item creation date getter
      *
      * @param Enterprise_Reward_Model_Reward_History $item
