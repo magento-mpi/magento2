@@ -1212,7 +1212,7 @@ button.btn-cart span {}
 .product-options dl.last dd.last {}
 .product-options dd .input-box { display:block; padding-right:20px; }
 .product-options dd input.input-text { width:98%; }
-.product-options dd input.datetime-picker { width:97%; }
+.product-options dd input.datetime-picker { width:150px; }
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd select { width:100%; }
 .product-options .options-list {}
