@@ -251,6 +251,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             if($result->getResultCode()==self::RESPONSE_CODE_APPROVED){
                  $payment->setStatus(self::STATUS_SUCCESS);
                  $payment->setCcTransId($result->getPnref());
+                 $payment->setTransactionId($result->getPnref());
             }else{
                 $payment->setStatus(self::STATUS_ERROR);
                 $error = $result->getRespmsg();

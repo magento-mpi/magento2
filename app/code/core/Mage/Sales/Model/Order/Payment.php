@@ -87,8 +87,12 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     public function canCapture()
     {
         /**
-         * @todo checking amounts
+         * Check Authoriztion transaction state
          */
+        $authTransaction = $this->getAuthorizationTransaction();
+        if ($authTransaction) {
+            return !$authTransaction->getIsClosed();
+        }
         return $this->getMethodInstance()->canCapture();
     }
 
