@@ -28,10 +28,9 @@
 .widget .widget-title h2 { font-size:18px; color:#d12c01; }
 
 /* Widget Banner */
-.widget-banner { display:block; width:100%; overflow:hidden; text-align:center; }
+.widget-banner { clear:both; display:block; width:100%; overflow:hidden; text-align:center; }
 .widget-banner li { margin:7px 0; }
 
-.top-container .widget-banner { clear:both; }
 .top-container .widget-banner li { margin:0; }
 
 .footer-before-container .widget-banner li { margin:0; }
