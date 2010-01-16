@@ -64,7 +64,7 @@ blockquote    { quotes:none; }
 q:before,
 q:after       { content:''; }
 small,big     { font-size:1em; }
-sup           { font-size:1em; vertical-align:top; }
+/*sup           { font-size:1em; vertical-align:top; }*/
 
 /* Lists */
 ul,ol         { list-style:none; }
