@@ -119,7 +119,6 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
             $rate = $this->_initRate();
 
             if ($this->getRequest()->getParam('rate_id') && ! $rate->getId()) {
-                $this->_getSession()->addError($this->__('This Reward Exchange Rate does not exists.'));
                 return $this->_redirect('*/*/');
             }
 
@@ -130,7 +129,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
                 $this->_getSession()->addSuccess(Mage::helper('enterprise_reward')->__('Rate saved successfully.'));
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError($this->__('Can not save Rate.'));
+                $this->_getSession()->addError($this->__('Cannot save Rate.'));
                 return $this->_redirect('*/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
             }
         }
@@ -173,20 +172,20 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
             || !isset($post['direction'])
             || !isset($post['value'])
             || !isset($post['equal_value'])) {
-            $message = $this->__('Invalid form data');
+            $message = $this->__('Please enter all Rate information.');
         } elseif ($post['direction'] == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
                   && ((int) $post['value'] <= 0 || (float) $post['equal_value'] <= 0)) {
               if ((int) $post['value'] <= 0) {
-                  $message = $this->__('Please enter positive integer number to left Rate field');
+                  $message = $this->__('Please enter positive integer number in left Rate field');
               } else {
-                  $message = $this->__('Please enter positive number to right Rate field');
+                  $message = $this->__('Please enter positive number in right Rate field');
               }
         } elseif ($post['direction'] == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
                   && ((float) $post['value'] <= 0 || (int) $post['equal_value'] <= 0)) {
               if ((int) $post['equal_value'] <= 0) {
-                  $message = $this->__('Please enter positive integer number to right Rate field');
+                  $message = $this->__('Please enter positive integer number in right Rate field');
               } else {
-                  $message = $this->__('Please enter positive number to left Rate field');
+                  $message = $this->__('Please enter positive number in left Rate field');
               }
         } else {
             $rate       = $this->_initRate();

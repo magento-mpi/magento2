@@ -94,16 +94,14 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
             ->loadByCustomer();
         $fieldset->addField('update_notification', 'checkbox', array(
             'name'    => 'reward_update_notification',
-            'title'   => Mage::helper('enterprise_reward')->__('Reward Points Update'),
-            'label'   => Mage::helper('enterprise_reward')->__('Reward Points Update'),
+            'label'   => Mage::helper('enterprise_reward')->__('Subscribe for balance updates'),
             'checked' => (bool)$reward->getRewardUpdateNotification(),
             'value'   => 1
         ));
 
         $fieldset->addField('warning_notification', 'checkbox', array(
             'name'    => 'reward_warning_notification',
-            'title'   => Mage::helper('enterprise_reward')->__('Reward Points Warning'),
-            'label'   => Mage::helper('enterprise_reward')->__('Reward Points Warning'),
+            'label'   => Mage::helper('enterprise_reward')->__('Subscribe for points expiration notifications'),
             'checked' => (bool)$reward->getRewardWarningNotification(),
             'value' => 1
         ));

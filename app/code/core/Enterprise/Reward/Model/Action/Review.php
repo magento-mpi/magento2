@@ -62,6 +62,6 @@ class Enterprise_Reward_Model_Action_Review extends Enterprise_Reward_Model_Acti
      */
     public function getHistoryMessage($args = array())
     {
-        return Mage::helper('enterprise_reward')->__('Submitted Review passed Moderation');
+        return Mage::helper('enterprise_reward')->__('For submitting a product review.');
     }
 }

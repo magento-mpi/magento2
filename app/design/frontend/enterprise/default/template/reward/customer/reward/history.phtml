@@ -31,11 +31,11 @@
 ?>
 <div class="box">
     <h2 class="sub-title"><?php echo $this->__('Balance History'); ?></h2>
-    
+
     <?php if ($history = $this->getHistory()):?>
-    
+
     <?php echo $this->getChildHtml('pager') ?>
-    
+
     <table id="reward-history" class="data-table">
         <col width="1" />
         <col width="1" />
@@ -65,7 +65,7 @@
                 <td>
                     <span class="nobr"><?php echo $this->getDate($item)?></span>
                     <?php if ($expirationDate = $this->getExpirationDate($item)):?>
-                    <small><?php echo $this->__('Expires on %s', $expirationDate);?></small>
+                    <small class="nobr"><?php echo $this->__('Expires on %s', $expirationDate);?></small>
                     <?php endif;?>
                 </td>
             </tr>
@@ -73,12 +73,12 @@
         </tbody>
     </table>
     <script type="text/javascript">decorateTable('reward-history')</script>
-    
+
     <?php echo $this->getChildHtml('pager') ?>
-    
+
     <?php else:?>
-    
+
     <p><?php echo $this->__('There is no balance history yet.')?></p>
-    
+
     <?php endif;?>
 </div>

@@ -196,8 +196,8 @@ class Enterprise_Reward_Model_Reward_Rate extends Mage_Core_Model_Abstract
     public function getDirectionsOptionArray()
     {
         $optArray = array(
-            self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY => Mage::helper('enterprise_reward')->__('Points To Currency'),
-            self::RATE_EXCHANGE_DIRECTION_TO_POINTS => Mage::helper('enterprise_reward')->__('Currency To Points')
+            self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY => Mage::helper('enterprise_reward')->__('Points to Currency'),
+            self::RATE_EXCHANGE_DIRECTION_TO_POINTS => Mage::helper('enterprise_reward')->__('Currency to Points')
         );
         return $optArray;
     }

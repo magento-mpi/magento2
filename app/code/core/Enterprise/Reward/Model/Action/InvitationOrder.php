@@ -73,8 +73,7 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
     public function getHistoryMessage($args = array())
     {
         $email = isset($args['email']) ? $args['email'] : '';
-        $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
-        return Mage::helper('enterprise_reward')->__('Invitation to %s converted into an Order #%s', $email, $incrementId);
+        return Mage::helper('enterprise_reward')->__('Invitation to %s converted into an order.', $email);
     }
 
     /**
@@ -86,10 +85,8 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array(
-            'increment_id' => $this->getEntity()->getIncrementId(),
-            'email' => $this->getEntity()->getCustomerEmail()
-        ));
+        // bug #19725: Real registration Invitee email is shown in reward points history of Inviter
+        $this->getHistory()->addAdditionalData(array('email' => $this->getEntity()->getCustomerEmail()));
         return $this;
     }
 }

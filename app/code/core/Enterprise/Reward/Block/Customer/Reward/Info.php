@@ -71,10 +71,10 @@ class Enterprise_Reward_Block_Customer_Reward_Info extends Mage_Core_Block_Templ
         $balance = $this->_rewardInstance->getPointsBalance();
         $this->addData(array(
             'points_balance' => $balance,
-            'currency_balance' => Mage::helper('core')->currency($this->_rewardInstance->getCurrencyAmount()),
+            'currency_balance' => $this->_rewardInstance->getCurrencyAmount(),
             'pts_to_amount_rate_pts' => $this->_rewardInstance->getRateToCurrency()->getPoints(true),
-            'pts_to_amount_rate_amount' => $this->_rewardInstance->getRateToCurrency()->getCurrencyAmount(true),
-            'amount_to_pts_rate_amount' => $this->_rewardInstance->getRateToPoints()->getCurrencyAmount(true),
+            'pts_to_amount_rate_amount' => $this->_rewardInstance->getRateToCurrency()->getCurrencyAmount(),
+            'amount_to_pts_rate_amount' => $this->_rewardInstance->getRateToPoints()->getCurrencyAmount(),
             'amount_to_pts_rate_pts' => $this->_rewardInstance->getRateToPoints()->getPoints(true),
             'max_balance' => $maxBalance,
             'is_max_balance_reached' => $balance >= $maxBalance,

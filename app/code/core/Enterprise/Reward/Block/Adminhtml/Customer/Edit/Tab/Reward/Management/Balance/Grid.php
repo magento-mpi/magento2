@@ -95,13 +95,13 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
                 $maxBalance = Mage::helper('enterprise_reward')->getGeneralConfig('max_points_balance', (int)$website);
                 $item->addData(array(
                     'min_points_balance' => (int)$minBalance,
-                    'max_points_balance' => (!((int)$maxBalance)?Mage::helper('enterprise_reward')->__('Unlimited'):$maxBalance)
+                    'max_points_balance' => (!((int)$maxBalance)?Mage::helper('adminhtml')->__('Unlimited'):$maxBalance)
                 ));
             } else {
                 $this->_customerHasOrphanPoints = true;
                 $item->addData(array(
-                    'min_points_balance' => Mage::helper('enterprise_reward')->__('No Data'),
-                    'max_points_balance' => Mage::helper('enterprise_reward')->__('No Data')
+                    'min_points_balance' => Mage::helper('adminhtml')->__('No Data'),
+                    'max_points_balance' => Mage::helper('adminhtml')->__('No Data')
                 ));
             }
             $item->setCustomer($this->getCustomer());
@@ -139,14 +139,14 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
         ));
 
         $this->addColumn('min_balance', array(
-            'header'   => Mage::helper('enterprise_reward')->__('Min Reward Points Balance to be able to Redeem'),
+            'header'   => Mage::helper('enterprise_reward')->__('Minimum Reward Points Balance to be able to Redeem'),
             'index'    => 'min_points_balance',
             'sortable' => false,
             'align'    => 'center'
         ));
 
         $this->addColumn('max_balance', array(
-            'header'   => Mage::helper('enterprise_reward')->__('Cap Reward Points Balance to'),
+            'header'   => Mage::helper('enterprise_reward')->__('Cap Reward Points Balance at'),
             'index'    => 'max_points_balance',
             'sortable' => false,
             'align'    => 'center'

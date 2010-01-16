@@ -261,12 +261,12 @@ class Enterprise_Reward_Model_Observer
             }
             if ($orderCollectedPoints) {
                 $order->addStatusHistoryComment(
-                    Mage::helper('enterprise_reward')->__('Collected %d Points to Customer', $orderCollectedPoints)
+                    Mage::helper('enterprise_reward')->__('Customer earned %s for the order.', Mage::helper('enterprise_reward')->formatReward($orderCollectedPoints))
                 )->save();
             }
             if ($salesrulePointsDelta) {
                 $order->addStatusHistoryComment(
-                    Mage::helper('enterprise_reward')->__('Gained Promotion %d Points to Customer', $salesrulePointsDelta)
+                    Mage::helper('enterprise_reward')->__('Customer earned promotion extra %s.', Mage::helper('enterprise_reward')->formatReward($salesrulePointsDelta))
                 )->save();
             }
             // Also update inviter balance if possible

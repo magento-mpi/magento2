@@ -55,11 +55,11 @@ class Enterprise_Reward_CartController extends Mage_Core_Controller_Front_Action
         if ($quote->getUseRewardPoints()) {
             $quote->setUseRewardPoints(false)->collectTotals()->save();
             Mage::getSingleton('checkout/session')->addSuccess(
-                $this->__('Reward Points payment was successfully removed from your shopping cart.')
+                $this->__('Reward Points were successfully removed from your order.')
             );
         } else {
             Mage::getSingleton('checkout/session')->addError(
-                $this->__('Reward Points payment is not being used in your shopping cart.')
+                $this->__('Reward Points will not be used in this order.')
             );
         }
 

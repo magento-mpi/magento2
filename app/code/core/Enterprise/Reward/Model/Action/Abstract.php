@@ -31,7 +31,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Action_Abstract extends Varien_Object
+abstract class Enterprise_Reward_Model_Action_Abstract extends Varien_Object
 {
     /**
      * Reward Instance
@@ -134,10 +134,7 @@ class Enterprise_Reward_Model_Action_Abstract extends Varien_Object
      * @param array $args Additional history data
      * @return string
      */
-    public function getHistoryMessage($args = array())
-    {
-        return Mage::helper('enterprise_reward')->__('Unknown action');
-    }
+    abstract public function getHistoryMessage($args = array());
 
     /**
      * Setter for $_reward
@@ -157,9 +154,6 @@ class Enterprise_Reward_Model_Action_Abstract extends Varien_Object
      */
     public function getReward()
     {
-        //if (!$this->_reward instanceof Varien_Object) {
-        //    Mage::throwException(Mage::helper('enterprise_reward')->__('Invalid property type'));
-        //}
         return $this->_reward;
     }
 

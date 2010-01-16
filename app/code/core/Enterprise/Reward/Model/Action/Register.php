@@ -52,6 +52,6 @@ class Enterprise_Reward_Model_Action_Register extends Enterprise_Reward_Model_Ac
      */
     public function getHistoryMessage($args = array())
     {
-        return Mage::helper('enterprise_reward')->__('Customer registered');
+        return Mage::helper('enterprise_reward')->__('Registered as customer.');
     }
 }

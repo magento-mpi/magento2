@@ -52,7 +52,7 @@ class Enterprise_Reward_Model_Action_Salesrule extends Enterprise_Reward_Model_A
     public function getHistoryMessage($args = array())
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
-        return Mage::helper('enterprise_reward')->__('Gained Promotion Extra Points from Order #%s', $incrementId);
+        return Mage::helper('enterprise_reward')->__('Earned promotion extra points from order #%s.', $incrementId);
     }
 
     /**

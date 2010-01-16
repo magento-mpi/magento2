@@ -78,7 +78,7 @@ class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
 
     public function renderLearnMoreLink($format = '<a href="%1$s">%2$s</a>', $anchorText = null)
     {
-        $anchorText = null === $anchorText ? Mage::helper('enterprise_reward')->__('Learn more') : $anchorText;
+        $anchorText = null === $anchorText ? Mage::helper('enterprise_reward')->__('Learn more...') : $anchorText;
         return sprintf($format, $this->getLandingPageUrl(), $anchorText);
     }
 

@@ -152,7 +152,6 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
             return $instance;
         }
         return null;
-        //Mage::throwException(Mage::helper('enterprise_reward')->__('Model not found for action %s', $action));
     }
 
     /**

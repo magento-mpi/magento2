@@ -74,28 +74,20 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
     }
 
     /**
-     * Getter
+     * Prepare some template data
      *
-     * @return integer
+     * @return string
      */
-    public function getPointsBalance()
+    protected function _toHtml()
     {
-        return $this->getReward()->getPointsBalance();
-    }
-
-    /**
-     * Getter
-     *
-     * @return float
-     */
-    public function getCurrencyAmount()
-    {
-        return $this->getReward()->getCurrencyAmount();
-    }
-
-    public function getFormatedCurrencyAmount()
-    {
-        return $this->getQuote()->getStore()->formatPrice($this->getCurrencyAmount());
+        $points = $this->getReward()->getPointsBalance();
+        $amount = $this->getReward()->getCurrencyAmount();
+        $rewardFormatted = Mage::helper('enterprise_reward')
+            ->formatReward($points, $amount, $this->getQuote()->getStore()->getId());
+        $this->setPointsBalance($points)->setCurrencyAmount($amount)
+            ->setUseLabel($this->__('Use my reward points, %s available', $rewardFormatted))
+        ;
+        return parent::_toHtml();
     }
 
     /**

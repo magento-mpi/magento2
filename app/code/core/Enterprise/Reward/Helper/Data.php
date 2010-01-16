@@ -194,15 +194,16 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
      * Render a reward message as X points Y money
      *
      * @param int $points
-     * @param string $pointsFormat
      * @param float|null $amount
+     * @param int|null $storeId
+     * @param string $pointsFormat
      * @param string $amountFormat
      */
-    public function formatReward($points, $pointsFormat = '%s', $amount = null, $amountFormat = '%s')
+    public function formatReward($points, $amount = null, $storeId = null, $pointsFormat = '%s', $amountFormat = '%s')
     {
         $points = sprintf($pointsFormat, $points);
         if (null !== $amount) {
-            $amount = sprintf($amountFormat, $this->formatAmount($amount));
+            $amount = sprintf($amountFormat, $this->formatAmount($amount, true, $storeId));
             return $this->__('%s reward points (%s)', $points, $amount);
         }
         return $this->__('%s reward points', $points);
@@ -213,14 +214,15 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param float|string|null $amount
      * @param bool $asCurrency
+     * @param int|null $storeId
      * @return string|null
      */
-    public function formatAmount($amount, $asCurrency = true)
+    public function formatAmount($amount, $asCurrency = true, $storeId = null)
     {
         if (null === $amount) {
             return  null;
         }
-        return $asCurrency ? Mage::helper('core')->currency($amount) : sprintf('%.2F', $amount);
+        return $asCurrency ? Mage::app()->getStore($storeId)->convertPrice($amount, true, false) : sprintf('%.2F', $amount);
     }
 
     /**
