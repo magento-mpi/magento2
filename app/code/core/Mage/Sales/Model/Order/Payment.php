@@ -40,14 +40,14 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      * Whether can void
      * @var string
      */
-    private $_canVoidLookup = null;
+    protected $_canVoidLookup = null;
 
     /**
      * Transactions registry to spare resource calls
      * array(txn_id => sales/order_payment_transaction)
      * @var array
      */
-    private $_transactionsLookup = array();
+    protected $_transactionsLookup = array();
 
     /**
      * Initialize resource model
@@ -177,6 +177,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         }
         $isCustomerNotified = (null !== $orderIsNotified) ? $orderIsNotified : $order->getCustomerNoteNotify();
         $message = $order->getCustomerNote();
+
         //add message if order was holded duering authorization or capture
         if ($order->getState() == Mage_Sales_Model_Order::STATE_HOLDED) {
             if ($message) {
@@ -190,7 +191,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $order->setState($orderState, $orderStatus, $message, $isCustomerNotified);
         }
         // set order state
-        else {
+        elseif (($order->getState() != $orderState) || ($order->getStatus() != $orderStatus) || $message) {
             $order->setState($orderState, $orderStatus, $message, $isCustomerNotified);
         }
 
@@ -244,14 +245,14 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
          * We need hold such kind of orders
          */
         if ($this->getIsTransactionPending()) {
-            $message = Mage::helper('sales')->__('Amount %s pending approval on gateway.', $amountToCapture);
+            $message = Mage::helper('sales')->__('Amount %s pending approval on gateway.', $this->_formatPrice($amountToCapture));
             $message = $this->_appendTransactionToMessage($transaction, $message);
             $status  = $this->getTransactionPendingStatus() ? $this->getTransactionPendingStatus() : true;
             $this->getOrder()->setState(Mage_Sales_Model_Order::STATE_HOLDED, $status, $message);
             $invoice->setIsPaid(false);
         } else {
             $this->_updateTotals(array('base_amount_paid_online' => $amountToCapture));
-            $message = Mage::helper('sales')->__('Captured amount of %s online.', $amountToCapture);
+            $message = Mage::helper('sales')->__('Captured amount of %s online.', $this->_formatPrice($amountToCapture));
             $message = $this->_appendTransactionToMessage($transaction, $message);
             $this->getOrder()->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $message);
             $invoice->setIsPaid(true);
@@ -297,7 +298,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
         // update transactions, set order state (order will close itself later if required)
         $transaction = $this->_addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE, $invoice);
-        $message = Mage::helper('sales')->__('Registered notification about captured amount of %s.', $this->_formatAmount($amount));
+        $message = Mage::helper('sales')->__('Registered notification about captured amount of %s.', $this->_formatPrice($amount));
         $message = $this->_prependMessage($message);
         $message = $this->_appendTransactionToMessage($transaction, $message);
         $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $message);
@@ -474,10 +475,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         // update transactions and order state
         $transaction = $this->_addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo, $isOnline);
         if ($invoice) {
-            $message = Mage::helper('sales')->__('Refunded amount of %s online.', $baseAmountToRefund);
+            $message = Mage::helper('sales')->__('Refunded amount of %s online.', $this->_formatPrice($baseAmountToRefund));
         } else {
             $message = $this->hasMessage() ? $this->getMessage()
-                : Mage::helper('sales')->__('Refunded amount of %s offline.', $baseAmountToRefund);
+                : Mage::helper('sales')->__('Refunded amount of %s offline.', $this->_formatPrice($baseAmountToRefund));
         }
         $message = $this->_appendTransactionToMessage($transaction, $message);
         $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $message);
@@ -524,7 +525,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         // update transactions and order state
         $transaction = $this->_addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND, $creditmemo);
         $message = $this->_prependMessage(
-            Mage::helper('sales')->__('Registered notification about refunded amount of %s.', $this->_formatAmount($amount))
+            Mage::helper('sales')->__('Registered notification about refunded amount of %s.', $this->_formatPrice($amount))
         );
         $message = $this->_appendTransactionToMessage($transaction, $message);
         $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $message);
@@ -602,12 +603,12 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             if ($this->getIsTransactionPending()) {
                 $status  = $this->getTransactionPendingStatus() ? $this->getTransactionPendingStatus() : true;
                 $state   = Mage_Sales_Model_Order::STATE_HOLDED;
-                $message = Mage::helper('sales')->__('Authorization amount %s pending approval on gateway.', $amount);
+                $message = Mage::helper('sales')->__('Authorization amount %s pending approval on gateway.', $this->_formatPrice($amount));
             } else {
-                $message = Mage::helper('sales')->__('Authorized amount of %s.', $amount);
+                $message = Mage::helper('sales')->__('Authorized amount of %s.', $this->_formatPrice($amount));
             }
         } else {
-            $message = Mage::helper('sales')->__('Registered notification about authorized amount of %s.', $amount);
+            $message = Mage::helper('sales')->__('Registered notification about authorized amount of %s.', $this->_formatPrice($amount));
         }
 
         // update transactions, order state and add comments
@@ -662,7 +663,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $message = $this->hasMessage() ? $this->getMessage() : Mage::helper('sales')->__('Voided authorization.');
         $message = $this->_prependMessage($message);
         if ($amount) {
-            $message .= ' ' . Mage::helper('sales')->__('Amount: %s.', $amount);
+            $message .= ' ' . Mage::helper('sales')->__('Amount: %s.', $this->_formatPrice($amount));
         }
         $message = $this->_appendTransactionToMessage($transaction, $message);
         $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $message);
@@ -828,6 +829,16 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     {
         $amount = sprintf('%.2F', $amount); // "f" depends on locale, "F" doesn't
         return $asFloat ? (float)$amount : $amount;
+    }
+
+    /**
+     * Format price with currency sign
+     * @param float $amount
+     * @return string
+     */
+    protected function _formatPrice($amount)
+    {
+        return $this->getOrder()->getBaseCurrency()->formatTxt($amount);
     }
 
     /**
