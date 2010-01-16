@@ -1262,7 +1262,7 @@ dt { float:left; line-height:1.2; width:10em; clear:left; padding:3px 5px 3px 0;
 #bundle-product-wrapper { margin:-1px -20px -20px; border-top:1px solid #cfcfcf; float:left; width:938px; overflow:hidden; position:relative; z-index:1; }
 #bundleProduct { width:1877px; background:#fff url(../images/bkg_cols.gif) repeat-y 279px 0; z-index:1; position:relative; }
 #productView { margin:0; position:static; border:0; }
-#options-container { min-height:360px; width:938px; position:relative; z-index:2; float:right; border-left:1px solid #cfcfcf; background:#fff url(../images/bkg_cols.gif) repeat-y 460px 0; }
+#options-container { min-height:510px; width:938px; position:relative; z-index:2; float:right; border-left:1px solid #cfcfcf; background:#fff url(../images/bkg_cols.gif) repeat-y 460px 0; }
 
 /* Hidind Add to Cart box from Bundle product Review page */
 /*.review-product-list #bundleProduct .add-to-box { display:none !important; }*/
