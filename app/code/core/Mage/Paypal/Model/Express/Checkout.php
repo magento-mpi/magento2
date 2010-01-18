@@ -297,9 +297,7 @@ class Mage_Paypal_Model_Express_Checkout
             // regular placement, when everything is ok
             case Mage_Sales_Model_Order::STATE_PROCESSING:
             case Mage_Sales_Model_Order::STATE_COMPLETE:
-                if ($this->_config->invoiceEmailCopy && $order->getPayment()->getCreatedInvoice()) {
-                   $order->sendNewOrderEmail();
-                }
+                $order->sendNewOrderEmail();
                 break;
         }
         return $order;

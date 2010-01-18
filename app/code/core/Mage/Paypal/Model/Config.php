@@ -703,7 +703,6 @@ class Mage_Paypal_Model_Config
             case 'active':
             case 'allowspecific':
             case 'fraud_filter':
-            case 'invoice_email_copy':
             case 'line_items_enabled':
             case 'order_status':
             case 'payment_action':
