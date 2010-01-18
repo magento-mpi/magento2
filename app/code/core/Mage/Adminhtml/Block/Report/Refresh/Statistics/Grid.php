@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
             ? Mage::app()->getLocale()->storeDate(
                 0, new Zend_Date($flag->getLastUpdate(), Varien_Date::DATETIME_INTERNAL_FORMAT), true
             )
-            : Mage::helper('reports')->__('undefined');
+            : '';
     }
 
     protected function _prepareCollection()
