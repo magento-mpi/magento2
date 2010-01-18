@@ -79,14 +79,13 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
     /**
      * Setter for $_entity and add some extra data to history
      *
-     * @param Varien_Object $entity
+     * @param Enterprise_Invitation_Model_Invitation $entity
      * @return Enterprise_Reward_Model_Action_Abstract
      */
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        // bug #19725: Real registration Invitee email is shown in reward points history of Inviter
-        $this->getHistory()->addAdditionalData(array('email' => $this->getEntity()->getCustomerEmail()));
+        $this->getHistory()->addAdditionalData(array('email' => $this->getEntity()->getEmail()));
         return $this;
     }
 }

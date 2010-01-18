@@ -314,7 +314,7 @@ class Enterprise_Reward_Model_Observer
             return $this;
         }
         $reward = Mage::getModel('enterprise_reward/reward')
-            ->setActionEntity($order)
+            ->setActionEntity($invitation)
             ->setCustomerId($invitation->getCustomerId())
             ->setStore($order->getStoreId())
             ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_INVITATION_ORDER)
