@@ -157,7 +157,8 @@ class Enterprise_Logging_Model_Processor
          * customer page.
          */
         if ($doNotLog = Mage::getSingleton('admin/session')->getSkipLoggingAction()) {
-            if (is_array($doNotLog) && $key = array_search($fullActionName, $doNotLog)) {
+            $key = array_search($fullActionName, $doNotLog);
+            if (is_array($doNotLog) && $key !== false) {
                 unset($doNotLog[$key]);
                 Mage::getSingleton('admin/session')->setSkipLoggingAction($doNotLog);
                 $this->_skipNextAction = true;
@@ -170,10 +171,12 @@ class Enterprise_Logging_Model_Processor
             $sessionValue = Mage::getSingleton('admin/session')->getSkipLoggingAction();
             if (!is_array($sessionValue) && $sessionValue) {
                 $sessionValue = explode(',', $sessionValue);
-            } elseif (!$sessionValue) {
+            }
+            elseif (!$sessionValue) {
                 $sessionValue = array();
             }
-            Mage::getSingleton('admin/session')->setSkipLoggingAction(array_merge($addValue, $sessionValue));
+            $merge = array_merge($addValue, $sessionValue);
+            Mage::getSingleton('admin/session')->setSkipLoggingAction($merge);
         }
     }
 
