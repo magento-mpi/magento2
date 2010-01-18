@@ -26,6 +26,7 @@
 "End Date","End Date"
 "End Date should be greater than Start Date","End Date should be greater than Start Date"
 "Ends On","Ends On"
+"Error while saving this event. Please try again later.","Error while saving this event. Please try again later."
 "Event for selected category","Event for selected category"
 "Event was successfully deleted.","Event was successfully deleted."
 "Event was successfully saved.","Event was successfully saved."
