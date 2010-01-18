@@ -127,8 +127,8 @@ class Enterprise_Reward_Model_Observer
 
                     $customer->setRewardUpdateNotification((int)$subscribeByDefault)
                     ->setRewardWarningNotification((int)$subscribeByDefault);
-                $customer->getResource()->saveAttribute('reward_update_notification');
-                $customer->getResource()->saveAttribute('reward_warning_notification');
+                $customer->getResource()->saveAttribute($customer, 'reward_update_notification');
+                $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
             } catch (Exception $e) {
                 //save exception if something were wrong during saving reward and allow to register customer
                 Mage::logException($e);

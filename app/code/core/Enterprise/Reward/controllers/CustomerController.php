@@ -76,8 +76,8 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
         if ($customer->getId()) {
             $customer->setRewardUpdateNotification($this->getRequest()->getParam('subscribe_updates'))
                 ->setRewardWarningNotification($this->getRequest()->getParam('subscribe_warnings'));
-            $customer->getResource()->saveAttribute('reward_update_notification');
-            $customer->getResource()->saveAttribute('reward_warning_notification');
+            $customer->getResource()->saveAttribute($customer, 'reward_update_notification');
+            $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
 
             $this->_getSession()->addSuccess(
                 $this->__('Settings were successfully saved.')
@@ -102,10 +102,10 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
             if ($customer->getId()) {
                 if ($notification == 'update') {
                     $customer->setRewardUpdateNotification(false);
-                    $customer->getResource()->saveAttribute('reward_update_notification');
+                    $customer->getResource()->saveAttribute($customer, 'reward_update_notification');
                 } elseif ($notification == 'warning') {
                     $customer->setRewardWarningNotification(false);
-                    $customer->getResource()->saveAttribute('reward_warning_notification');
+                    $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
                 }
                 $this->_getSession()->addSuccess(
                     $this->__('You have been successfully unsubscribed.')
