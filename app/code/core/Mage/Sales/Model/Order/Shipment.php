@@ -292,6 +292,12 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
                 ->addAttributeToSelect('*')
                 ->setShipmentFilter($this->getId())
                 ->setCreatedAtOrder();
+
+            /**
+             * When shipment created with adding comment, comments collection must be loaded before we added this comment.
+             */
+            $this->_comments->load();
+
             if ($this->getId()) {
                 foreach ($this->_comments as $comment) {
                     $comment->setShipment($this);

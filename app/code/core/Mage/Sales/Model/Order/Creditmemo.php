@@ -524,6 +524,11 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
                 ->addAttributeToSelect('*')
                 ->setCreditmemoFilter($this->getId())
                 ->setCreatedAtOrder();
+            /**
+             * When credit memo created with adding comment, comments collection must be loaded before we added this comment.
+             */
+            $this->_comments->load();
+
             if ($this->getId()) {
                 foreach ($this->_comments as $comment) {
                     $comment->setCreditmemo($this);
