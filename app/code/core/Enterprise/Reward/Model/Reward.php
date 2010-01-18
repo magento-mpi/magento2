@@ -378,7 +378,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     public function getRateDirectionByAction()
     {
         switch($this->getAction()) {
-            case self::REWARD_ACTION_ORDER:
+            case self::REWARD_ACTION_ORDER_EXTRA:
                 $direction = Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS;
                 break;
             default:

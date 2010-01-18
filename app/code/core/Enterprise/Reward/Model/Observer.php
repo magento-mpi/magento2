@@ -259,10 +259,9 @@ class Enterprise_Reward_Model_Observer
         {
             return $this;
         }
-        if ($order->getCustomerId() && ((float)$order->getBaseTotalInvoiced() > 0)
-            && (($order->getBaseGrandTotal() - $order->getBaseSubtotalCanceled()) == $order->getBaseTotalPaid())) {
-            $orderCollectedPoints = 0;
-            $salesrulePointsDelta = 0;
+        if ($order->getCustomerId() && ((float)$order->getBaseTotalPaid() > 0)
+            && (($order->getBaseGrandTotal() - $order->getBaseSubtotalCanceled()) - $order->getBaseTotalPaid()) < 0.0001) {
+            Mage::log(__METHOD__);
             /* @var $reward Enterprise_Reward_Model_Reward */
             $reward = Mage::getModel('enterprise_reward/reward')
                 ->setCustomerId($order->getCustomerId())
@@ -270,31 +269,14 @@ class Enterprise_Reward_Model_Observer
                 ->setActionEntity($order)
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA)
                 ->updateRewardPoints();
-            $orderCollectedPoints = $reward->getPointsDelta();
-            if ($order->getRewardSalesrulePoints()) {
-                $reward = Mage::getModel('enterprise_reward/reward')
-                    ->setCustomerId($order->getCustomerId())
-                    ->setWebsiteId($order->getStore()->getWebsiteId())
-                    ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_SALESRULE)
-                    ->setActionEntity($order)
-                    ->setPointsDelta($order->getRewardSalesrulePoints())
-                    ->updateRewardPoints();
-                $salesrulePointsDelta = $reward->getPointsDelta();
-            }
-            if ($orderCollectedPoints) {
+            if ($reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
-                    Mage::helper('enterprise_reward')->__('Customer earned %s for the order.', Mage::helper('enterprise_reward')->formatReward($orderCollectedPoints))
-                )->save();
-            }
-            if ($salesrulePointsDelta) {
-                $order->addStatusHistoryComment(
-                    Mage::helper('enterprise_reward')->__('Customer earned promotion extra %s.', Mage::helper('enterprise_reward')->formatReward($salesrulePointsDelta))
+                    Mage::helper('enterprise_reward')->__('Customer earned %s for the order.', Mage::helper('enterprise_reward')->formatReward($reward->getPointsDelta()))
                 )->save();
             }
             // Also update inviter balance if possible
             $this->_invitationToOrder($observer);
         }
-
         return $this;
     }
 
@@ -782,6 +764,36 @@ class Enterprise_Reward_Model_Observer
         $salesRule = $observer->getEvent()->getRule();
         Mage::getResourceModel('enterprise_reward/reward')
             ->saveRewardSalesrule($salesRule->getId(), (int)$salesRule->getRewardPointsDelta());
+        return $this;
+    }
+
+    /**
+     * Update customer reward points balance by points from applied sales rules
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function applyRewardSalesrulePoints(Varien_Event_Observer $observer)
+    {
+        /* @var $order Mage_Sales_Model_Order */
+        $order = $observer->getEvent()->getInvoice()->getOrder();
+        if (!Mage::helper('enterprise_reward')->isEnabledOnFront($order->getStore()->getWebsiteId())) {
+            return $this;
+        }
+        if ($order->getCustomerId() && !$order->canInvoice() && $order->getRewardSalesrulePoints()) {
+            $reward = Mage::getModel('enterprise_reward/reward')
+                ->setCustomerId($order->getCustomerId())
+                ->setWebsiteId($order->getStore()->getWebsiteId())
+                ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_SALESRULE)
+                ->setActionEntity($order)
+                ->setPointsDelta($order->getRewardSalesrulePoints())
+                ->updateRewardPoints();
+            if ($reward->getPointsDelta()) {
+                $order->addStatusHistoryComment(
+                    Mage::helper('enterprise_reward')->__('Customer earned promotion extra %s.', Mage::helper('enterprise_reward')->formatReward($reward->getPointsDelta()))
+                )->save();
+            }
+        }
         return $this;
     }
 

@@ -93,7 +93,7 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
             $address = $quote->getIsVirtual() ? $quote->getBillingAddress() : $quote->getShippingAddress();
             $monetaryAmount = $quote->getBaseSubtotal() - abs(1 * $address->getBaseDiscountAmount());
         } else {
-            $monetaryAmount = $this->getEntity()->getBaseSubtotalInvoiced();
+            $monetaryAmount = $this->getEntity()->getBaseTotalPaid() - $this->getEntity()->getBaseShippingAmount() - $this->getEntity()->getBaseTaxAmount();
         }
         $pointsDelta = $this->getReward()->getRateToPoints()->calculateToPoints((float)$monetaryAmount);
         return $pointsDelta;

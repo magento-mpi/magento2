@@ -44,6 +44,7 @@ class Enterprise_Reward_Model_Action_Order extends Enterprise_Reward_Model_Actio
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
         return Mage::helper('enterprise_reward')->__('Redeemed for order #%s.', $incrementId);
     }
+
     /**
      *
      * Setter for $_entity and add some extra data to history

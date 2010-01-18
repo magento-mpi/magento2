@@ -169,6 +169,14 @@
                     </enterprise_reward>
                 </observers>
             </sales_order_invoice_save_after>
+            <sales_order_invoice_save_commit_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>applyRewardSalesrulePoints</method>
+                    </enterprise_reward>
+                </observers>
+            </sales_order_invoice_save_commit_after>
             <sales_order_creditmemo_refund>
                 <observers>
                     <enterprise_reward>
