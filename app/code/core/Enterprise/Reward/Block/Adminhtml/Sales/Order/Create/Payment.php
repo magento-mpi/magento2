@@ -53,6 +53,17 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_
     {
         return $this->_getOrderCreateModel()->getQuote();
     }
+    
+    /**
+     * Check whether can use customer reward points
+     *
+     * @return boolean
+     */
+    public function canUseRewardPoints()
+    {
+        $websiteId = Mage::app()->getStore($this->getQuote()->getStoreId())->getWebsiteId();
+        return (float)$this->getCurrencyAmount() && Mage::helper('enterprise_reward')->isEnabledOnFront($websiteId);
+    }
 
     /**
      * Getter.
