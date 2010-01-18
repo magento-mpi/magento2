@@ -42,7 +42,8 @@ class Enterprise_Reward_Block_Customer_Account extends Mage_Core_Block_Abstract
     {
         parent::_prepareLayout();
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
-        if ($navigationBlock && Mage::helper('enterprise_reward')->getHasRates()) {
+        if ($navigationBlock && Mage::helper('enterprise_reward')->isEnabledOnFront()
+            && Mage::helper('enterprise_reward')->getHasRates()) {
             $navigationBlock->addLink('enterprise_reward', 'enterprise_reward/customer/info/',
                 Mage::helper('enterprise_reward')->__('Reward Points'));
         }

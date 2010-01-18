@@ -193,14 +193,6 @@
                     </enterprise_reward>
                 </observers>
             </sales_order_creditmemo_save_after>
-            <core_layout_update_updates_get_after>
-                <observers>
-                    <enterprise_reward>
-                        <class>enterprise_reward/observer</class>
-                        <method>disableLayout</method>
-                    </enterprise_reward>
-                </observers>
-            </core_layout_update_updates_get_after>
         </events>
         <pdf>
             <totals>
@@ -244,6 +236,14 @@
             </modules>
         </translate>
         <events>
+            <core_layout_update_updates_get_after>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>disableLayout</method>
+                    </enterprise_reward>
+                </observers>
+            </core_layout_update_updates_get_after>
             <adminhtml_customer_prepare_save>
                 <observers>
                     <enterprise_reward>

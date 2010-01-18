@@ -624,12 +624,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function disableLayout(Varien_Event_Observer $observer)
     {
-        if (Mage::app()->getStore()->isAdmin()) {
-            $isEnabled = Mage::helper('enterprise_reward')->isEnabled();
-        } else {
-            $isEnabled = Mage::helper('enterprise_reward')->isEnabledOnFront();
-        }
-        if (!$isEnabled) {
+        if (!Mage::helper('enterprise_reward')->isEnabled()) {
             unset($observer->getUpdates()->enterprise_reward);
         }
         return $this;
