@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Reward>
-            <version>1.7.0.0.13</version>
+            <version>1.7.0.0.14</version>
         </Enterprise_Reward>
     </modules>
     <global>
@@ -59,7 +59,7 @@
             <enterprise_reward_setup>
                 <setup>
                     <module>Enterprise_Reward</module>
-                    <class>Mage_Sales_Model_Mysql4_Setup</class>
+                    <class>Enterprise_Reward_Model_Mysql4_Setup</class>
                 </setup>
             </enterprise_reward_setup>
         </resources>
@@ -236,6 +236,14 @@
             </modules>
         </translate>
         <events>
+            <adminhtml_customer_prepare_save>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>saveRewardNotifications</method>
+                    </enterprise_reward>
+                </observers>
+            </adminhtml_customer_prepare_save>
             <adminhtml_customer_save_after>
                 <observers>
                     <enterprise_reward>

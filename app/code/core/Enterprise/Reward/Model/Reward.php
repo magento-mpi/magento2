@@ -596,7 +596,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function sendBalanceUpdateNotification()
     {
-        if (!$this->getRewardUpdateNotification()) {
+        if (!$this->getCustomer()->getRewardUpdateNotification()) {
             return $this;
         }
         $delta = (int)$this->getPointsDelta();

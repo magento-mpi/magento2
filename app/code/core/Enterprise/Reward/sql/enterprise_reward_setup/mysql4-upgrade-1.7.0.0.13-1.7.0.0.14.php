@@ -24,43 +24,22 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/* @var $installer Enterprise_Reward_Model_Mysql4_Setup */
+$installer = $this;
+$installer->startSetup();
 
-/**
- * Reward Points Settings form
- *
- * @category    Enterprise
- * @package     Enterprise_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_Reward_Block_Customer_Reward_Subscription extends Mage_Core_Block_Template
-{
-    /**
-     * Getter for RewardUpdateNotification
-     *
-     * @return bool
-     */
-    public function isSubscribedForUpdates()
-    {
-        return (bool)$this->_getCustomer()->getRewardUpdateNotification();
-    }
+$columnsToMove = array(
+    'reward_update_notification',
+    'reward_warning_notification'
+);
 
-    /**
-     * Getter for RewardWarningNotification
-     *
-     * @return bool
-     */
-    public function isSubscribedForWarnings()
-    {
-        return (bool)$this->_getCustomer()->getRewardWarningNotification();
-    }
-
-    /**
-     * Retrieve customer model
-     *
-     * @return Mage_Customer_Model_Customer
-     */
-    protected function _getCustomer()
-    {
-        return Mage::getSingleton('customer/session')->getCustomer();
-    }
+foreach ($columnsToMove as $column) {
+    $installer->addAttribute('customer', $column,
+        array('type' => 'int', 'visible' => 0, 'visible_on_front' => 1)
+    );
+    $installer->getConnection()->dropColumn(
+        $installer->getTable('enterprise_reward'), $column
+    );
 }
+
+$installer->endSetup();

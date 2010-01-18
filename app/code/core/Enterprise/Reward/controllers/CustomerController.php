@@ -72,10 +72,12 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
             return $this->_redirect('*/*/info');
         }
 
-        $reward = $this->_getReward();
-        if ($reward->getId()) {
-            $reward->changeBalanceUpdateNotification($this->getRequest()->getParam('subscribe_updates'))
-                ->changeBalanceWarningNotification($this->getRequest()->getParam('subscribe_warnings'));
+        $customer = $this->_getCustomer();
+        if ($customer->getId()) {
+            $customer->setRewardUpdateNotification($this->getRequest()->getParam('subscribe_updates'))
+                ->setRewardWarningNotification($this->getRequest()->getParam('subscribe_warnings'));
+            $customer->getResource()->saveAttribute('reward_update_notification');
+            $customer->getResource()->saveAttribute('reward_warning_notification');
 
             $this->_getSession()->addSuccess(
                 $this->__('Settings were successfully saved.')
@@ -95,21 +97,20 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
         }
 
         try {
-            /* @var $reward Enterprise_Reward_Model_Reward */
-            $reward = $this->_getReward();
-            if (!$reward->getId()) {
-                Mage::throwException($this->__('Reward not found for customer.'));
+            /* @var $customer Mage_Customer_Model_Session */
+            $customer = $this->_getCustomer();
+            if ($customer->getId()) {
+                if ($notification == 'update') {
+                    $customer->setRewardUpdateNotification(false);
+                    $customer->getResource()->saveAttribute('reward_update_notification');
+                } elseif ($notification == 'warning') {
+                    $customer->setRewardWarningNotification(false);
+                    $customer->getResource()->saveAttribute('reward_warning_notification');
+                }
+                $this->_getSession()->addSuccess(
+                    $this->__('You have been successfully unsubscribed.')
+                );
             }
-
-            if ($notification == 'update') {
-                $reward->changeBalanceUpdateNotification(false);
-            } elseif ($notification == 'warning') {
-                $reward->changeBalanceWarningNotification(false);
-            }
-
-            $this->_getSession()->addSuccess(
-                $this->__('You have been successfully unsubscribed.')
-            );
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Unsubscribtion failed.'));
         }
