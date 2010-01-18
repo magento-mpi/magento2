@@ -51,7 +51,7 @@ class Mage_Paypal_Block_Payment_Info extends Mage_Payment_Block_Info
     {
         $payment = $this->getInfo();
         $paypalInfo = Mage::getModel('paypal/info');
-        if (Mage::app()->getStore()->isAdmin()) {
+        if (Mage::app()->getStore($payment->getMethodInstance()->getStore())->isAdmin()) {
             return $paypalInfo->getPaymentInfo($payment, true);
         }
         return $paypalInfo->getPublicPaymentInfo($payment, true);
