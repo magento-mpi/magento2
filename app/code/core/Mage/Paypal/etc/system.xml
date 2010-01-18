@@ -64,6 +64,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </cctypes>
+<!--
                         <centinel translate="label comment">
                             <label>Use 3D Secure Credit Card Validation</label>
                             <comment>Set up the Centinel Service Credentials separately</comment>
@@ -96,6 +97,7 @@
                             <show_in_store>0</show_in_store>
                             <depends><centinel>1</centinel></depends>
                         </centinel_authentication_required>
+-->
                         <line_items_enabled translate="label">
                             <label>Transfer Cart Line Items</label>
                             <frontend_type>select</frontend_type>
