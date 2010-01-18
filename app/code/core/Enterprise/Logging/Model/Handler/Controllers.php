@@ -351,8 +351,10 @@ class Enterprise_Logging_Model_Handler_Controllers
     {
         $request = Mage::app()->getRequest();
         $change = Mage::getModel('enterprise_logging/event_changes');
-
-        $products = Mage::helper('adminhtml/catalog_product_edit_action_attribute')->getProductIds();
+        $products = $request->getParam('product');
+        if (!$products) {
+            $products = Mage::helper('adminhtml/catalog_product_edit_action_attribute')->getProductIds();
+        }
         if ($products) {
             $processor->addEventChanges(clone $change->setSourceName('product')
                 ->setOriginalData(array())
