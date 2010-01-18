@@ -183,7 +183,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      *
      * @return bool
      */
-    public function isCentinelValidationEnabled()
+    public function getIsCentinelValidationEnabled()
     {
         return $this->_pro->getConfig()->centinel;
     }
@@ -193,7 +193,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      *
      * @return bool
      */
-    public function isCentinelValidationRequired()
+    public function getIsCentinelValidationRequired()
     {
         return $this->_pro->getConfig()->centinelValidationRequired;
     }
@@ -203,7 +203,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      *
      * @return bool
      */
-    public function isCentinelAuthenticationRequired()
+    public function getIsCentinelAuthenticationRequired()
     {
         return $this->_pro->getConfig()->centinelAuthenticationRequired;
     }
@@ -244,7 +244,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 //            ->setMaestroSoloIssueDate()
 //            ->setMaestroSoloIssueNumber()
         ;
-        if ($this->isCentinelValidationEnabled()) {
+        if ($this->getIsCentinelValidationEnabled()) {
             $this->getCentinelValidator()->exportCmpi($api, array(
                 'enrolled'      => 'centinel_mpivendor',
                 'eci_flag'      => 'centinel_eci',
