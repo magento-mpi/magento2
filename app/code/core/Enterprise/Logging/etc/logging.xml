@@ -168,6 +168,10 @@
                 <action>save</action>
             </adminhtml_catalog_product_review_save>
 
+            <adminhtml_catalog_product_review_post>
+                <action>save</action>
+            </adminhtml_catalog_product_review_post>
+
             <adminhtml_catalog_product_review_delete>
                 <action>delete</action>
             </adminhtml_catalog_product_review_delete>
