@@ -1101,6 +1101,29 @@
         </actions>
     </adminhtml_system_email_template>
 
+    <adminhtml_system_variable translate="label">
+        <label>Custom Variables</label>
+        <expected_models>
+            <core__variable/>
+        </expected_models>
+        <actions>
+            <adminhtml_system_variable_save>
+                <action>save</action>
+                <skip_on_back>
+                    <adminhtml_system_variable_edit/>
+                </skip_on_back>
+            </adminhtml_system_variable_save>
+
+            <adminhtml_system_variable_edit>
+                <action>view</action>
+            </adminhtml_system_variable_edit>
+
+            <adminhtml_system_variable_delete>
+                <action>delete</action>
+            </adminhtml_system_variable_delete>
+        </actions>
+    </adminhtml_system_variable>
+
     <adminhtml_system_backups translate="label">
         <label>System Backups</label>
         <actions>
