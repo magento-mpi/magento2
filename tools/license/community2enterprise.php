@@ -27,10 +27,10 @@
 require dirname(__FILE__) . '/config.php';
 
 // php-code files
-updateLicense('app/code/core/Mage', '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'coreCodePoolCallback');
+updateLicense('app/code/core/Mage', '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'codePoolCallback');
 
 // xml-code files
-updateLicense('app/code/core/Mage', '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'coreCodePoolCallback');
+updateLicense('app/code/core/Mage', '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'codePoolCallback');
 
 // modules xml-declarations
 updateLicense('app/etc/modules', 'Mage_*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'xmlModulesCallback');
@@ -65,5 +65,28 @@ echo updateLicense(array(
     ), array('*.css', '*.js'),
     REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, 'skinCallback'
 );
+
+// varien lib
+updateLicense(array(
+    'lib/Varien',
+    '!lib/Varien/Db/test.php', // skip
+), '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'libCallback', true, true, true);
+
+// misc
+updateLicense(null, array(
+    'app/Mage.php',
+    'cron.php',
+    'errors/404.php',
+    'errors/503.php',
+    'errors/functions.php',
+    'errors/report.php',
+    'includes/config.php',
+    'index.php',
+    'index.php.sample',
+    'install.php',
+    'js/index.php',
+), REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, array('Mage', 'Mage'), true, true, true);
+
+echo updateLicense('shell', '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, array('Mage', 'Mage_Shell'), true, true, true);
 
 exit;

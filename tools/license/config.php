@@ -256,7 +256,7 @@ function globRecursive($paths, $fileMasks, &$result, $isRecursion = false)
  *  - replace tab indents to spaces
  *  - add LF to the end of file if not exists
  *
- * @param string|array $directories - relative to magento root
+ * @param null|string|array $directories - relative to magento root
  * @param string|array $fileMasks   - glob()-compatible
  * @param string $regex             - PCRE
  * @param string $replacement       - with {notice} variable
@@ -270,17 +270,24 @@ function globRecursive($paths, $fileMasks, &$result, $isRecursion = false)
 function updateLicense($directories, $fileMasks, $regex, $replacement, $noticeOfLicense, $categoryPackageCallback, $crlfToLf = false, $tabsToSpaces = false, $LfBeforeEof = false)
 {
     static $changedFilesCounter = 0;
-    if (!is_array($directories)) {
-        $directories = BP . '/' . trim($directories, '/');
-    }
-    else {
-        foreach ($directories as $key => $dir) {
-            $directories[$key] = BP . '/' . trim($dir, '/');
+    if (null !== $directories) {
+        if (!is_array($directories)) {
+            $directories = BP . '/' . trim($directories, '/');
+        }
+        else {
+            foreach ($directories as $key => $dir) {
+                $directories[$key] = BP . '/' . trim($dir, '/');
+            }
+        }
+
+        $foundFiles = array();
+        globRecursive($directories, $fileMasks, $foundFiles);
+    } else {
+        $foundFiles = $fileMasks;
+        foreach ($foundFiles as $k => $file) {
+            $foundFiles[$k] = BP . '/' . $file;
         }
     }
-
-    $foundFiles = array();
-    globRecursive($directories, $fileMasks, $foundFiles);
 
     foreach ($foundFiles as $filename) {
         $contents = file_get_contents($filename);
@@ -371,4 +378,17 @@ function skinCallback($filename)
     list(, $package) = explode('skin/', $filename);
     list(, $packagePart1, $packagePart2) = explode('/', $package);
     return array('design', "{$packagePart1}_{$packagePart2}");
+}
+
+/**
+ * Get category & package from filename of a lib file
+ *
+ * @param string $filename
+ * @return array
+ */
+function libCallback($filename)
+{
+    list(, $package) = explode('lib/', $filename);
+    list( $category, $package) = explode('/', $package);
+    return array($category, $category . '_' . str_replace('.php', '', $package));
 }
