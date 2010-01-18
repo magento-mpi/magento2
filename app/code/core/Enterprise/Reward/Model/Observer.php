@@ -455,7 +455,7 @@ class Enterprise_Reward_Model_Observer
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->loadByCustomer();
-            if (($order->getRewardPointsBalance() - $reward->getPointsBalance()) >= 0) {
+            if (($order->getRewardPointsBalance() - $reward->getPointsBalance()) > 0) {
                 Mage::getSingleton('checkout/type_onepage')
                     ->getCheckout()
                     ->setUpdateSection('payment-method')
