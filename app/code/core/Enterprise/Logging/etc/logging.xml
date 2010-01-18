@@ -798,11 +798,21 @@
 
             <adminhtml_sales_order_invoice_save>
                 <action>save</action>
+                <expected_models extends="merge">
+                    <sales__order_invoice_comment />
+                </expected_models>
                 <skip_on_back>
                     <adminhtml_system_config_edit/>
                     <adminhtml_sales_order_view/>
                 </skip_on_back>
             </adminhtml_sales_order_invoice_save>
+
+            <adminhtml_sales_order_invoice_addComment>
+                <action>save</action>
+                <expected_models>
+                    <sales__order_invoice_comment/>
+                </expected_models>
+            </adminhtml_sales_order_invoice_addComment>
         </actions>
     </sales_invoices>
 
@@ -822,10 +832,20 @@
 
             <adminhtml_sales_order_shipment_save>
                 <action>save</action>
+                <expected_models extends="merge">
+                    <sales__order_shipment_comment />
+                </expected_models>
                 <skip_on_back>
                     <adminhtml_sales_order_view/>
                 </skip_on_back>
             </adminhtml_sales_order_shipment_save>
+
+            <adminhtml_sales_order_shipment_addComment>
+                <action>save</action>
+                <expected_models>
+                    <sales__order_shipment_comment/>
+                </expected_models>
+            </adminhtml_sales_order_shipment_addComment>
         </actions>
     </sales_shipments>
 
@@ -845,10 +865,20 @@
 
             <adminhtml_sales_order_creditmemo_save>
                 <action>save</action>
+                <expected_models extends="merge">
+                    <sales__order_creditmemo_comment />
+                </expected_models>
                 <skip_on_back>
                     <adminhtml_sales_order_view/>
                 </skip_on_back>
             </adminhtml_sales_order_creditmemo_save>
+
+            <adminhtml_sales_order_creditmemo_addComment>
+                <action>save</action>
+                <expected_models>
+                    <sales__order_creditmemo_comment/>
+                </expected_models>
+            </adminhtml_sales_order_creditmemo_addComment>
         </actions>
     </sales_creditmemos>
 
