@@ -157,12 +157,14 @@ class Enterprise_Logging_Model_Processor
          * customer page.
          */
         if ($doNotLog = Mage::getSingleton('admin/session')->getSkipLoggingAction()) {
-            $key = array_search($fullActionName, $doNotLog);
-            if (is_array($doNotLog) && $key !== false) {
-                unset($doNotLog[$key]);
-                Mage::getSingleton('admin/session')->setSkipLoggingAction($doNotLog);
-                $this->_skipNextAction = true;
-                return;
+            if (is_array($doNotLog)) {
+                $key = array_search($fullActionName, $doNotLog);
+                if ($key !== false) {
+                    unset($doNotLog[$key]);
+                    Mage::getSingleton('admin/session')->setSkipLoggingAction($doNotLog);
+                    $this->_skipNextAction = true;
+                    return;
+                }
             }
         }
 
