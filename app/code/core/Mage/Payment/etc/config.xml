@@ -109,34 +109,8 @@
                 </Mage_Payment>
             </modules>
         </translate>
-        <routers>
-            <payment>
-                <use>standard</use>
-                <args>
-                    <module>Mage_Payment</module>
-                    <frontName>payment</frontName>
-                </args>
-            </payment>
-        </routers>
-        <layout>
-            <updates>
-                <payment>
-                    <file>payment.xml</file>
-                </payment>
-            </updates>
-        </layout>
-        <secure_url>
-            <payment>/payment/</payment>
-        </secure_url>
     </frontend>
     <adminhtml>
-        <layout>
-            <updates>
-                <payment>
-                    <file>payment.xml</file>
-                </payment>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Mage_Payment>
@@ -146,18 +120,8 @@
                 </Mage_Payment>
             </modules>
         </translate>
-    </adminhtml>
-    <admin>
-         <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Mage_Payment before="Mage_Adminhtml">Mage_Payment_Adminhtml</Mage_Payment>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
+   </adminhtml>
+
     <default>
         <payment>
             <ccsave>
@@ -197,6 +161,7 @@
                 <title>Purchase Order</title>
                 <allowspecific>0</allowspecific>
             </purchaseorder>
+
          </payment>
     </default>
 </config>

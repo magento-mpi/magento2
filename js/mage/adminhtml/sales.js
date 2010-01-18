@@ -660,26 +660,19 @@ AdminOrder.prototype = {
         }
     },
 
-    submit : function(){
-        if (this.validate()) {
-            if (this.orderItemChanged){
-                if (confirm('You have item changes')) {
-                    disableElements('save');
-                    editForm.submit();
-                }
-                else {
-                    this.itemsUpdate();
-                }
-            }
-            else {
+    submit : function()
+    {
+        if (this.orderItemChanged) {
+            if (confirm('You have item changes')) {
                 disableElements('save');
                 editForm.submit();
+            } else {
+                this.itemsUpdate();
             }
+        } else {
+            disableElements('save');
+            editForm.submit();
         }
-    },
-
-    validate : function(){
-        return centinelValidator.validate(this.paymentMethod);
     },
 
     overlay : function(elId, show, observe)
