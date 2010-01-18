@@ -261,7 +261,6 @@ class Enterprise_Reward_Model_Observer
         }
         if ($order->getCustomerId() && ((float)$order->getBaseTotalPaid() > 0)
             && (($order->getBaseGrandTotal() - $order->getBaseSubtotalCanceled()) - $order->getBaseTotalPaid()) < 0.0001) {
-            Mage::log(__METHOD__);
             /* @var $reward Enterprise_Reward_Model_Reward */
             $reward = Mage::getModel('enterprise_reward/reward')
                 ->setCustomerId($order->getCustomerId())
