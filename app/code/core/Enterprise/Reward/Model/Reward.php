@@ -611,7 +611,8 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         $templateVars = array(
             'store' => $store,
             'customer' => $this->getCustomer(),
-            'unsubscription_url' => Mage::helper('enterprise_reward/customer')->getUnsubscribeUrl('update'),
+            'unsubscription_url' => Mage::helper('enterprise_reward/customer')
+                ->getUnsubscribeUrl('update', $store->getId()),
             'points_balance' => $this->getPointsBalance()
         );
         $mail->sendTransactional(

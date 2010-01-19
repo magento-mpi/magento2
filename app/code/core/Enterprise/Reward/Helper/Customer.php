@@ -40,12 +40,15 @@ class Enterprise_Reward_Helper_Customer extends Mage_Core_Helper_Abstract
      * @param string $notification Notification type
      * @return string
      */
-    public function getUnsubscribeUrl($notification = false)
+    public function getUnsubscribeUrl($notification = false, $storeId = null)
     {
         $params = array();
         if ($notification) {
-            $params = array('notification' => $notification);
+            $params['notification'] = $notification;
         }
-        return Mage::getUrl('enterprise_reward/customer/unsubscribe/', array('notification' => $notification));
+        if (!is_null($storeId)) {
+            $params['store_id'] = $storeId;
+        }
+        return Mage::getUrl('enterprise_reward/customer/unsubscribe/', $params);
     }
 }
