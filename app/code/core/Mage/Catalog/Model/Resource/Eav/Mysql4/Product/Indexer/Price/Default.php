@@ -247,8 +247,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
         $curentDate     = new Zend_Db_Expr('cwd.date');
 
         $finalPrice     = new Zend_Db_Expr("IF(IF({$specialFrom} IS NULL, 1, "
-            . "IF({$specialFrom} <= {$curentDate}, 1, 0)) > 0 AND IF({$specialTo} IS NULL, 1, "
-            . "IF({$specialTo} >= {$curentDate}, 1, 0)) > 0 AND {$specialPrice} < {$price}, "
+            . "IF(DATE({$specialFrom}) <= {$curentDate}, 1, 0)) > 0 AND IF({$specialTo} IS NULL, 1, "
+            . "IF(DATE({$specialTo}) >= {$curentDate}, 1, 0)) > 0 AND {$specialPrice} < {$price}, "
             . "{$specialPrice}, {$price})");
         $select->columns(array(
             'orig_price'    => $price,
