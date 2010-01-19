@@ -385,18 +385,19 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
                 ->createOrder();
 
             $this->_getSession()->clear();
-            $url = $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Order has been successfully created'));
+            $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
         }
         catch (Mage_Core_Exception $e){
             $message = $e->getMessage();
             if( !empty($message) ) {
                 $this->_getSession()->addError($message);
             }
-            $url = $this->_redirect('*/*/');
+            $this->_redirect('*/*/');
         }
         catch (Exception $e){
             $this->_getSession()->addException($e, $this->__('Order saving error: %s', $e->getMessage()));
-            $url = $this->_redirect('*/*/');
+            $this->_redirect('*/*/');
         }
     }
 
