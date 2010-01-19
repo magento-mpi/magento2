@@ -1,16 +1,16 @@
 <_>
-   <form_key>xDTmmP0EjBtwK1ju</form_key>
+   <form_key>lGjxxTRD3XpfWJsQ</form_key>
    <name>Mage_Ogone_Official</name>
    <channel>connect.magentocommerce.com/core</channel>
    <summary>Official Ogone Payment Services Integration Module</summary>
    <description>This extension provides Ogone payment services integration.</description>
    <license>Open Software License (OSL 3.0)</license>
    <license_uri>http://opensource.org/licenses/osl-3.0.php</license_uri>
-   <release_version>1.0.1</release_version>
-   <api_version>1.0.1</api_version>
+   <release_version>1.0.2</release_version>
+   <api_version>1.0.2</api_version>
    <release_stability>stable</release_stability>
    <api_stability>stable</api_stability>
-   <notes>1.0.1</notes>
+   <notes>1.0.2</notes>
    <maintainers>
       <role>
          <role>lead</role>
@@ -159,4 +159,8 @@
          <ignore/>
       </ignore>
    </contents>
+   <page>1</page>
+   <limit>200</limit>
+   <folder/>
+   <package/>
 </_>
