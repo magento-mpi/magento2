@@ -60,7 +60,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Config extends Mage_Eav_Model_Entit
             foreach ($options as $option) {
                 $this->_options[] = array(
                     'value' => (string)$option->value,
-                    'label' => (string)$option->label
+                    'label' => Mage::helper('eav')->__((string)$option->label)
                 );
             }
         }
