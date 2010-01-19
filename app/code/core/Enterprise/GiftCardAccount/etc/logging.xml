@@ -47,6 +47,16 @@
             <adminhtml_giftcardaccount_massDelete>
                 <action>massDelete</action>
             </adminhtml_giftcardaccount_massDelete>
+
+            <adminhtml_giftcardaccount_exportCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_giftcardaccount_exportCsv>
+
+            <adminhtml_giftcardaccount_exportMsxml>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_giftcardaccount_exportMsxml>
         </actions>
     </enterprise_giftcardaccount>
 </logging>

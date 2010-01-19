@@ -37,6 +37,9 @@
             </adminhtml_catalog_event_edit>
             <adminhtml_catalog_event_save>
                 <action>save</action>
+                <skip_on_back>
+                    <adminhtml_catalog_event_edit />
+                </skip_on_back>
             </adminhtml_catalog_event_save>
             <adminhtml_catalog_event_delete>
                 <action>delete</action>

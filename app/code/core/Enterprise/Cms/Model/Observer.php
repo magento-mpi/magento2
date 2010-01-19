@@ -400,6 +400,18 @@ class Enterprise_Cms_Model_Observer
     }
 
     /**
+     * Handler for cms revision publish
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event|false
+     */
+    public function postDispatchCmsRevisionPublish($config, $eventModel)
+    {
+        return $eventModel->setInfo(Mage::app()->getRequest()->getParam('revision_id'));
+    }
+
+    /**
      * Add Hierarchy Menu layout handle to Cms page rendering
      *
      * @param $observer

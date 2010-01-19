@@ -38,6 +38,9 @@
 
             <adminhtml_banner_save>
                 <action>save</action>
+                <skip_on_back>
+                    <adminhtml_banner_edit />
+                </skip_on_back>
             </adminhtml_banner_save>
 
             <adminhtml_banner_delete>

@@ -38,8 +38,11 @@
 
             <adminhtml_targetrule_save>
                 <action>save</action>
+                <skip_on_back>
+                    <adminhtml_targetrule_edit />
+                </skip_on_back>
             </adminhtml_targetrule_save>
-            
+
             <adminhtml_targetrule_delete>
                 <action>delete</action>
             </adminhtml_targetrule_delete>

@@ -38,6 +38,9 @@
 
             <adminhtml_catalog_product_save>
                 <action>save</action>
+                <skip_on_back>
+                    <adminhtml_catalog_product_edit />
+                </skip_on_back>
             </adminhtml_catalog_product_save>
 
             <adminhtml_catalog_product_delete>
@@ -198,6 +201,9 @@
 
             <adminhtml_catalog_product_attribute_save>
                 <action>save</action>
+                <skip_on_back>
+                    <adminhtml_catalog_product_attribute_edit />
+                </skip_on_back>
             </adminhtml_catalog_product_attribute_save>
 
             <adminhtml_catalog_product_attribute_delete>
@@ -218,6 +224,9 @@
 
             <adminhtml_catalog_product_set_save>
                 <action>save</action>
+                <skip_on_back>
+                    <adminhtml_catalog_product_set_edit />
+                </skip_on_back>
             </adminhtml_catalog_product_set_save>
 
             <adminhtml_catalog_product_set_delete>
@@ -238,6 +247,9 @@
 
             <adminhtml_tag_save>
                 <action>save</action>
+                <skip_on_back>
+                    <adminhtml_tag_edit />
+                </skip_on_back>
             </adminhtml_tag_save>
 
             <adminhtml_tag_delete>
@@ -279,6 +291,9 @@
 
             <adminhtml_cms_page_save>
                 <action>save</action>
+                <skip_on_back>
+                    <adminhtml_cms_page_edit />
+                </skip_on_back>
             </adminhtml_cms_page_save>
 
             <adminhtml_cms_page_delete>
@@ -346,6 +361,9 @@
 
             <adminhtml_customer_save>
                 <action>save</action>
+                <skip_on_back>
+                    <adminhtml_customer_edit />
+                </skip_on_back>
             </adminhtml_customer_save>
 
             <adminhtml_customer_validate>
@@ -368,6 +386,20 @@
             <adminhtml_customer_massDelete>
                 <action>massDelete</action>
             </adminhtml_customer_massDelete>
+
+            <adminhtml_customer_exportCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_customer_exportCsv>
+
+            <adminhtml_customer_exportXml>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_customer_exportXml>
+
+            <adminhtml_customer_massAssignGroup>
+                <action>massUpdate</action>
+            </adminhtml_customer_massAssignGroup>
         </actions>
     </customer>
 
@@ -523,6 +555,216 @@
                 <action>view</action>
                 <post_dispatch>postDispatchReport</post_dispatch>
             </adminhtml_report_invitation_order>
+
+            <adminhtml_report_sales_exportSalesCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_sales_exportSalesCsv>
+            <adminhtml_report_sales_exportSalesExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_sales_exportSalesExcel>
+            <adminhtml_report_sales_exportTaxCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_sales_exportTaxCsv>
+            <adminhtml_report_sales_exportTaxExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_sales_exportTaxExcel>
+            <adminhtml_report_sales_exportShippingCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_sales_exportShippingCsv>
+            <adminhtml_report_sales_exportShippingExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_sales_exportShippingExcel>
+            <adminhtml_report_sales_exportInvoicedCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_sales_exportInvoicedCsv>
+            <adminhtml_report_sales_exportInvoicedExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_sales_exportInvoicedExcel>
+            <adminhtml_report_sales_exportRefundedCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_sales_exportRefundedCsv>
+            <adminhtml_report_sales_exportRefundedExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_sales_exportRefundedExcel>
+            <adminhtml_report_sales_exportCouponsCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_sales_exportCouponsCsv>
+            <adminhtml_report_sales_exportCouponsExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_sales_exportCouponsExcel>
+            <adminhtml_report_shopcart_exportProductCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_shopcart_exportProductCsv>
+            <adminhtml_report_shopcart_exportProductExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_shopcart_exportProductExcel>
+            <adminhtml_report_shopcart_exportAbandonedCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_shopcart_exportAbandonedCsv>
+            <adminhtml_report_shopcart_exportAbandonedExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_shopcart_exportAbandonedExcel>
+            <adminhtml_report_product_exportOrderedCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_product_exportOrderedCsv>
+            <adminhtml_report_product_exportOrderedExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_product_exportOrderedExcel>
+            <adminhtml_report_product_exportViewedCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_product_exportViewedCsv>
+            <adminhtml_report_product_exportViewedExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_product_exportViewedExcel>
+            <adminhtml_report_product_exportSoldCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_product_exportSoldCsv>
+            <adminhtml_report_product_exportSoldExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_product_exportSoldExcel>
+            <adminhtml_report_product_exportLowstockCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_product_exportLowstockCsv>
+            <adminhtml_report_product_exportLowstockExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_product_exportLowstockExcel>
+            <adminhtml_report_product_exportDownloadsCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_product_exportDownloadsCsv>
+            <adminhtml_report_product_exportDownloadsExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_product_exportDownloadsExcel>
+            <adminhtml_report_customer_exportAccountsCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_customer_exportAccountsCsv>
+            <adminhtml_report_customer_exportAccountsExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_customer_exportAccountsExcel>
+            <adminhtml_report_customer_exportTotalsCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_customer_exportTotalsCsv>
+            <adminhtml_report_customer_exportTotalsExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_customer_exportTotalsExcel>
+            <adminhtml_report_customer_exportOrdersCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_customer_exportOrdersCsv>
+            <adminhtml_report_customer_exportOrdersExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_customer_exportOrdersExcel>
+            <adminhtml_report_customer_customersegment_exportCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_customer_customersegment_exportCsv>
+            <adminhtml_report_customer_customersegment_exportExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_customer_customersegment_exportExcel>
+            <adminhtml_report_review_exportCustomerCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_review_exportCustomerCsv>
+            <adminhtml_report_review_exportCustomerExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_review_exportCustomerExcel>
+            <adminhtml_report_review_exportProductCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_review_exportProductCsv>
+            <adminhtml_report_review_exportProductExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_review_exportProductExcel>
+            <adminhtml_report_tag_exportCustomerCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_tag_exportCustomerCsv>
+            <adminhtml_report_tag_exportCustomerExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_tag_exportCustomerExcel>
+            <adminhtml_report_tag_exportProductCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_tag_exportProductCsv>
+            <adminhtml_report_tag_exportProductExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_tag_exportProductExcel>
+            <adminhtml_report_tag_exportPopularCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_tag_exportPopularCsv>
+            <adminhtml_report_tag_exportPopularExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_tag_exportPopularExcel>
+            <adminhtml_report_exportSearchCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_exportSearchCsv>
+            <adminhtml_report_exportSearchExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_exportSearchExcel>
+            <adminhtml_report_invitation_exportCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_invitation_exportCsv>
+            <adminhtml_report_invitation_exportExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_invitation_exportExcel>
+            <adminhtml_report_invitation_exportCustomerCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_invitation_exportCustomerCsv>
+            <adminhtml_report_invitation_exportCustomerExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_invitation_exportCustomerExcel>
+            <adminhtml_report_invitation_exportOrderCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_invitation_exportOrderCsv>
+            <adminhtml_report_invitation_exportOrderExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_invitation_exportOrderExcel>
+
         </actions>
     </reports>
 
@@ -557,6 +799,9 @@
             <adminhtml_promo_catalog_save>
                 <action>save</action>
                 <post_dispatch>postDispatchPromoCatalogSaveAndApply</post_dispatch>
+                <skip_on_back>
+                    <adminhtml_promo_catalog_edit />
+                </skip_on_back>
             </adminhtml_promo_catalog_save>
 
             <adminhtml_promo_catalog_delete>
@@ -582,6 +827,9 @@
 
             <adminhtml_promo_quote_save>
                 <action>save</action>
+                <skip_on_back>
+                    <adminhtml_promo_quote_edit />
+                </skip_on_back>
             </adminhtml_promo_quote_save>
 
             <adminhtml_promo_quote_delete>
@@ -654,20 +902,29 @@
 
     <newsletter_subscribers translate="label">
         <label>Newsletter Subscribers</label>
+        <expected_models>
+            <newsletter__subscriber/>
+        </expected_models>
         <actions>
             <adminhtml_newsletter_subscriber_massUnsubscribe>
-                <action>unsubscribe</action>
-                <post_dispatch>postDispatchNewsletterUnsubscribe</post_dispatch>
+                <action>massUpdate</action>
             </adminhtml_newsletter_subscriber_massUnsubscribe>
+
+            <adminhtml_newsletter_subscriber_massDelete>
+                <action>massDelete</action>
+            </adminhtml_newsletter_subscriber_massDelete>
+
+            <adminhtml_newsletter_subscriber_exportCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_newsletter_subscriber_exportCsv>
+
+            <adminhtml_newsletter_subscriber_exportXml>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_newsletter_subscriber_exportXml>
         </actions>
     </newsletter_subscribers>
-
-    <newsletter_problem translate="label">
-        <label>Newsletter Problem Reports</label>
-        <actions>
-            <!-- WTF? -->
-        </actions>
-    </newsletter_problem>
 
     <sales_orders translate="label">
         <label>Sales Orders</label>
@@ -1222,6 +1479,9 @@
 
             <adminhtml_tax_rule_save>
                 <action>save</action>
+                <skip_on_back>
+                    <adminhtml_tax_rule_edit />
+                </skip_on_back>
             </adminhtml_tax_rule_save>
 
             <adminhtml_tax_rule_delete>
@@ -1315,6 +1575,9 @@
             </adminhtml_widget_instance_edit>
             <adminhtml_widget_instance_save>
                 <action>save</action>
+                <skip_on_back>
+                    <adminhtml_widget_instance_edit />
+                </skip_on_back>
             </adminhtml_widget_instance_save>
             <adminhtml_widget_instance_delete>
                 <action>delete</action>

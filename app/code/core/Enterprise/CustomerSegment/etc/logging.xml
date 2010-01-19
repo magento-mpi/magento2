@@ -38,6 +38,9 @@
 
             <adminhtml_customersegment_save>
                 <action>save</action>
+                <skip_on_back>
+                    <adminhtml_customersegment_edit />
+                </skip_on_back>
             </adminhtml_customersegment_save>
 
             <adminhtml_customersegment_match>
@@ -48,6 +51,16 @@
             <adminhtml_customersegment_delete>
                 <action>delete</action>
             </adminhtml_customersegment_delete>
+
+            <adminhtml_report_customer_customersegment_exportCsv>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_customer_customersegment_exportCsv>
+
+            <adminhtml_report_customer_customersegment_exportExcel>
+                <action>export</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_report_customer_customersegment_exportExcel>
         </actions>
     </enterprise_customersegment>
 </logging>
