@@ -85,6 +85,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     public function addAction()
     {
+        Mage::getSingleton('admin/session')->unsActiveTabId();
         $this->_forward('edit');
     }
 
