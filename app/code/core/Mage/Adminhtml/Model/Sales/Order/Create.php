@@ -1035,8 +1035,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             return $this;
         }
 
-        $customer   = $this->getSession()->getCustomer();
-        $store      = $this->getSession()->getStore();
+        $customer        = $this->getSession()->getCustomer();
+        $store           = $this->getSession()->getStore();
+        $billingAddress  = null;
+        $shippingAddress = null;
 
         if ($customer->getId()) {
             if ($customer->isInStore($store)) {
@@ -1059,6 +1061,17 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     $shippingAddress->setId($this->getShippingAddress()->getCustomerAddressId());
                 }
                 $customer->addAddress($shippingAddress);
+            }
+
+            if (is_null($customer->getDefaultBilling()) && $billingAddress) {
+                $billingAddress->setIsDefaultBilling(true);
+            }
+            if (is_null($customer->getDefaultShipping())) {
+                if ($this->getShippingAddress()->getSameAsBilling() && $billingAddress) {
+                    $billingAddress->setIsDefaultShipping(true);
+                } elseif ($shippingAddress) {
+                    $shippingAddress->setIsDefaultShipping(true);
+                }
             }
         } else {
             $customer->addData($this->getBillingAddress()->exportCustomerAddress()->getData())
