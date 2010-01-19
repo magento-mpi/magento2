@@ -650,6 +650,7 @@ class Enterprise_Reward_Model_Observer
             $collection = Mage::getResourceModel('enterprise_reward/reward_history_collection')
                 ->setExpiryConfig(Mage::helper('enterprise_reward')->getExpiryConfig())
                 ->loadExpiredSoonPoints($website->getId(), true)
+                ->addNotificationSentFlag(false)
                 ->addCustomerInfo()
                 ->setPageSize(20) // limit queues for each website
                 ->setCurPage(1)
@@ -658,6 +659,10 @@ class Enterprise_Reward_Model_Observer
             foreach ($collection as $item) {
                 Mage::getSingleton('enterprise_reward/reward')->sendBalanceWarningNotification($item);
             }
+
+            // mark records as sent
+            $historyIds = $collection->getExpiredSoonIds();
+            Mage::getResourceModel('enterprise_reward/reward_history')->markAsNotified($historyIds);
         }
 
         return $this;

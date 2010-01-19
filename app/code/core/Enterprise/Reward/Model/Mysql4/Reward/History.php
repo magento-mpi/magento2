@@ -257,6 +257,18 @@ class Enterprise_Reward_Model_Mysql4_Reward_History extends Mage_Core_Model_Mysq
         return $this;
     }
 
+    /**
+     * Mark history records as notification was sent to customer (about points expiration)
+     *
+     * @param array $ids
+     * @return Enterprise_Reward_Model_Mysql4_Reward
+     */
+    public function markAsNotified($ids)
+    {
+        $this->_getWriteAdapter()
+            ->update($this->getMainTable(), array('notification_sent' => 1), array('history_id IN (?)' => $ids));
+        return $this;
+    }
 
     /**
      * Perform Row-level data update

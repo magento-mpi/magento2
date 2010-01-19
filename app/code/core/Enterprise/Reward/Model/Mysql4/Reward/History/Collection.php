@@ -147,6 +147,7 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Mage_Core
         /* @var $customer Mage_Customer_Model_Customer */
         $firstname  = $customer->getAttribute('firstname');
         $lastname   = $customer->getAttribute('lastname');
+        $warningNotification = $customer->getAttribute('reward_warning_notification');
 
         $connection = $this->getConnection();
         /* @var $connection Zend_Db_Adapter_Abstract */
@@ -166,6 +167,14 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Mage_Core
                 array('cft' => $firstname->getBackend()->getTable()),
                 $connection->quoteInto('cft.entity_id=reward_table.customer_id AND cft.attribute_id = ?', $firstname->getAttributeId()),
                 array('customer_firstname' => 'value')
+             )
+             ->joinLeft(
+                array('warning_notification' => $warningNotification->getBackend()->getTable()),
+                $connection->quoteInto(
+                    'warning_notification.entity_id=reward_table.customer_id AND warning_notification.attribute_id = ?',
+                    $warningNotification->getAttributeId()
+                ),
+                array('reward_warning_notification' => 'value')
              );
 
         $this->setFlag('customer_added', true);
@@ -241,14 +250,64 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Mage_Core
             ->where('`is_expired`=0')
             ->where("`{$field}` IS NOT NULL") // expire_at - BEFORE_DAYS < NOW()
             ->where("`{$field}` < ?", $expireAtLimit) // eq. expire_at - BEFORE_DAYS < NOW()
-            ->group('reward_table.customer_id')
-            ->order('reward_table.customer_id');
+            ->group(array('reward_table.customer_id', 'main_table.store_id'));
 
         if ($subscribedOnly) {
-            $this->getSelect()->where('reward_table.reward_warning_notification=1');
+            $this->addCustomerInfo();
+            $this->getSelect()->where('warning_notification.value=1');
         }
 
+        $this->setFlag('expired_soon_points_loaded', true);
+
         return $this;
+    }
+
+    /**
+     * Add filter for notification_sent field
+     *
+     * @param bool $flag
+     * @return Enterprise_Reward_Model_Mysql4_Reward_History_Collection
+     */
+    public function addNotificationSentFlag($flag)
+    {
+        $this->addFieldToFilter('notification_sent', (bool)$flag ? 1 : 0);
+        return $this;
+    }
+
+
+    /**
+     * Return array of history ids records that will be expired.
+     * Required loadExpiredSoonPoints() call first, based on its select object
+     *
+     * @return array|bool
+     */
+    public function getExpiredSoonIds()
+    {
+        if (!$this->getFlag('expired_soon_points_loaded')) {
+            return array();
+        }
+
+        $additionalWhere = array();
+        foreach ($this as $item) {
+            $where = $this->getConnection()->quoteInto('reward_table.customer_id=?', $item->getCustomerId());
+            $where.= $this->getConnection()->quoteInto(' AND main_table.store_id=?', $item->getStoreId());
+            $additionalWhere[] = $where;
+        }
+        if (count($additionalWhere) == 0) {
+            return array();
+        }
+        // filter rows by customer and store, as result of grouped query
+        $where = new Zend_Db_Expr('(' . implode(') OR (', $additionalWhere). ')');
+
+        $select = clone $this->getSelect();
+        $select->reset(Zend_Db_Select::COLUMNS)
+            ->columns('history_id')
+            ->reset(Zend_Db_Select::GROUP)
+            ->reset(Zend_Db_Select::LIMIT_COUNT)
+            ->reset(Zend_Db_Select::LIMIT_OFFSET)
+            ->where($where);
+
+        return $this->getConnection()->fetchCol($select);
     }
 
     /**

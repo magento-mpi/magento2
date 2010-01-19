@@ -564,32 +564,6 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Subscribe / Unsubscribe customer from Balance Update Notifications
-     *
-     * @param bool $flag Whether to set/unset Notifications
-     * @return Enterprise_Reward_Model_Reward
-     */
-    public function changeBalanceUpdateNotification($flag)
-    {
-        $flag = (bool)$flag ? 1 : 0;
-        $this->getResource()->updateRewardRow($this, array('reward_update_notification' => $flag));
-        return $this;
-    }
-
-    /**
-     * Subscribe / Unsubscribe customer from Balance Warning Notifications
-     *
-     * @param bool $flag Whether to set/unset Notifications
-     * @return Enterprise_Reward_Model_Reward
-     */
-    public function changeBalanceWarningNotification($flag)
-    {
-        $flag = (bool)$flag ? 1 : 0;
-        $this->getResource()->updateRewardRow($this, array('reward_warning_notification' => $flag));
-        return $this;
-    }
-
-    /**
      * Send Balance Update Notification to customer if notification is enabled
      *
      * @return Enterprise_Reward_Model_Reward

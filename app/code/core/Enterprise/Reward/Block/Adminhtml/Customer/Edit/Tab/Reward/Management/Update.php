@@ -91,14 +91,14 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
             'checked' => (bool)$this->getCustomer()->getRewardUpdateNotification(),
             'value'   => 1
         ));
-/*
+
         $fieldset->addField('warning_notification', 'checkbox', array(
             'name'    => 'reward_warning_notification',
             'label'   => Mage::helper('enterprise_reward')->__('Subscribe for points expiration notifications'),
             'checked' => (bool)$this->getCustomer()->getRewardWarningNotification(),
             'value' => 1
         ));
-*/
+
         $this->setForm($form);
         return parent::_prepareForm();
     }
