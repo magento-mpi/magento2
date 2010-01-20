@@ -80,7 +80,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
 
         if ($this->getNewPassword()) { // change password
             $data['password'] = $this->_getEncodedPassword($this->getNewPassword());
-        } elseif ($this->getPassword() && ! $this->getOrigData('password')) { // new user password
+        } elseif ($this->getPassword() && $this->getPassword() != $this->getOrigData('password')) { // new user password
             $data['password'] = $this->_getEncodedPassword($this->getPassword());
         }
 
