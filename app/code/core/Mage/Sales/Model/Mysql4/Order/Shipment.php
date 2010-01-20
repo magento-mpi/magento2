@@ -42,4 +42,14 @@ class Mage_Sales_Model_Mysql4_Order_Shipment extends Mage_Eav_Model_Entity_Abstr
             $resource->getConnection('sales_write')
         );
     }
+
+    /**
+     * Used for supporting public calls of _afterLoad method
+     *
+     * @param Varien_Object $object
+     */
+    public function afterLoad(Varien_Object $object)
+    {
+        parent::_afterLoad($object);
+    }
 }

@@ -70,4 +70,12 @@ class Mage_Sales_Model_Mysql4_Order_Invoice_Collection extends Mage_Eav_Model_En
         return $idsSelect;
     }
 
+    /**
+     * Used to emulate after load functionality for each item without loading them
+     *
+     */
+    protected function _afterLoad()
+    {
+        $this->walk('afterLoad');
+    }
 }
