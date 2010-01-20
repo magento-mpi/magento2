@@ -1044,9 +1044,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             if ($customer->isInStore($store)) {
                 $customer->addData($this->getData('account'));
             } else {
-                $customer->setId(null);
-                $customer->setStore($this->getSession()->getStore());
-                $customer->addData($this->getData('account'));
+                $customer->setId(null)
+                    ->setStore($store)
+                    ->addData($this->getData('account'))
+                    ->setPassword($customer->generatePassword());
             }
             if ($this->getBillingAddress()->getSaveInAddressBook()) {
                 $billingAddress = $this->getBillingAddress()->exportCustomerAddress();
@@ -1077,8 +1078,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $customer->addData($this->getBillingAddress()->exportCustomerAddress()->getData())
                 ->addData($this->getData('account'))
                 ->setPassword($customer->generatePassword())
-                ->setWebsiteId($store->getWebsiteId())
-                ->setStoreId($store->getId())
+                ->setStore($store)
                 ->setEmail($this->_getNewCustomerEmail($customer));
 
             $customerBilling = $this->getBillingAddress()->exportCustomerAddress();
@@ -1160,8 +1160,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $order->save();
         }
 
-        if ($quote->getCustomerId()) {
-            $quote->getCustomer()->sendNewAccountEmail();
+        if ($quote->getCustomerId() && ! $quote->getCustomer()->isInStore($this->getSession()->getStore())) {
+            $quote->getCustomer()->sendNewAccountEmail('registered', '', $quote->getStoreId());
         }
 
         if ($this->getSendConfirmation()) {
