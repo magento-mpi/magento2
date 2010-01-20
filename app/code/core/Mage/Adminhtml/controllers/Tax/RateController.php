@@ -59,6 +59,10 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     {
         $rateModel = Mage::getSingleton('tax/calculation_rate')
             ->load(null);
+        
+        //This line substitutes in the form the previously entered by the user values, if any of them were wrong.
+        $rateModel->setData(Mage::getSingleton('adminhtml/session')->getFormData(true));
+        
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('tax')->__('Manage Tax Rates'), Mage::helper('tax')->__('Manage Tax Rates'), $this->getUrl('*/tax_rate'))
             ->_addBreadcrumb(Mage::helper('tax')->__('New Tax Rate'), Mage::helper('tax')->__('New Tax Rate'))
@@ -98,6 +102,8 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
                 return true;
             }
             catch (Mage_Core_Exception $e) {
+                //save entered by the user values in session, for re-rendering of form.
+                Mage::getSingleton('adminhtml/session')->setFormData($ratePost);
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
             catch (Exception $e) {
