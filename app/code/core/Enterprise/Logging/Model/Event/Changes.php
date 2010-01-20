@@ -165,7 +165,7 @@ class Enterprise_Logging_Model_Event_Changes extends Mage_Core_Model_Abstract
      */
     protected function _cleanupData($data)
     {
-        if (!$data && !is_array($data)) {
+        if (!$data || !is_array($data)) {
             return array();
         }
         $skipFields = $this->_skipFields;
