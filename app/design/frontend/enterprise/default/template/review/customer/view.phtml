@@ -39,7 +39,7 @@
     <div class="details">
         <h2 class="product-name"><?php echo $this->htmlEscape($this->getProductData()->getName()) ?></h2>
         <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
-        <strong><?php echo $this->__('Your Rating:') ?></strong>
+        <strong><?php echo ($this->isReviewOwner()) ? $this->__('Your Rating:') : $this->__('Rating:'); ?></strong>
         <table class="data-table review-summary-table">
         <?php foreach ($this->getRating() as $_rating): ?>
         <?php if($_rating->getPercent()): ?>
@@ -54,7 +54,13 @@
         <?php endforeach; ?>
         </table>
         <?php endif; ?>
-        <p class="date"><?php echo $this->__('Your Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?></p>
+        <p class="date">
+            <?php if ($this->isReviewOwner()): ?>
+                <?php echo $this->__('Your Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?>
+            <?php else :?>
+                <?php echo $this->__('Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?>
+            <?php endif;?>
+        </p>
         <p><?php echo nl2br($this->htmlEscape($this->getReviewData()->getDetail())) ?></p>
     </div>
     <div class="buttons-set">
