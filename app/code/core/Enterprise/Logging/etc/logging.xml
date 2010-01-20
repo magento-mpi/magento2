@@ -1046,7 +1046,7 @@
     <sales_invoices translate="label">
         <label>Sales Invoices</label>
         <expected_models>
-            <sales__order_invoice/>
+            <sales__order_invoice />
         </expected_models>
         <actions>
             <adminhtml_sales_invoice_view>
@@ -1074,6 +1074,20 @@
                     <sales__order_invoice_comment/>
                 </expected_models>
             </adminhtml_sales_order_invoice_addComment>
+
+            <adminhtml_sales_invoice_pdfinvoices>
+                <action>export</action>
+            </adminhtml_sales_invoice_pdfinvoices>
+
+            <adminhtml_sales_order_invoice_print>
+                <action>print</action>
+            </adminhtml_sales_order_invoice_print>
+            <adminhtml_sales_order_invoice_email>
+                <action>email</action>
+                <skip_on_back>
+                    <adminhtml_sales_invoice_view />
+                </skip_on_back>
+            </adminhtml_sales_order_invoice_email>
         </actions>
     </sales_invoices>
 
@@ -1107,6 +1121,27 @@
                     <sales__order_shipment_comment/>
                 </expected_models>
             </adminhtml_sales_order_shipment_addComment>
+
+            <adminhtml_sales_shipment_pdfshipments>
+                <action>export</action>
+            </adminhtml_sales_shipment_pdfshipments>
+
+            <adminhtml_sales_order_shipment_print>
+                <action>print</action>
+            </adminhtml_sales_order_shipment_print>
+            <adminhtml_sales_order_shipment_email>
+                <action>email</action>
+                <skip_on_back>
+                    <adminhtml_sales_shipment_view />
+                </skip_on_back>
+            </adminhtml_sales_order_shipment_email>
+
+            <adminhtml_sales_order_shipment_addTrack>
+                <action>save</action>
+                <expected_models>
+                    <sales__order_shipment_track/>
+                </expected_models>
+            </adminhtml_sales_order_shipment_addTrack>
         </actions>
     </sales_shipments>
 
@@ -1140,6 +1175,20 @@
                     <sales__order_creditmemo_comment/>
                 </expected_models>
             </adminhtml_sales_order_creditmemo_addComment>
+
+            <adminhtml_sales_creditmemo_pdfcreditmemos>
+                <action>export</action>
+            </adminhtml_sales_creditmemo_pdfcreditmemos>
+
+            <adminhtml_sales_order_creditmemo_print>
+                <action>print</action>
+            </adminhtml_sales_order_creditmemo_print>
+            <adminhtml_sales_order_creditmemo_email>
+                <action>email</action>
+                <skip_on_back>
+                    <adminhtml_sales_creditmemo_view />
+                </skip_on_back>
+            </adminhtml_sales_order_creditmemo_email>
         </actions>
     </sales_creditmemos>
 
