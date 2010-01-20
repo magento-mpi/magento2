@@ -307,13 +307,17 @@ tinyMceWysiwygSetup.prototype =
     },
 
     beforeSetContent: function(o) {
-        o.content = this.encodeWidgets(o.content);
-        o.content = this.encodeDirectives(o.content);
+        if(this.config.add_widgets) {
+            o.content = this.encodeWidgets(o.content);
+            o.content = this.encodeDirectives(o.content);
+        }
     },
 
     saveContent: function(o) {
-        o.content = this.decodeWidgets(o.content);
-        o.content = this.decodeDirectives(o.content);
+        if(this.config.add_widgets) {
+            o.content = this.decodeWidgets(o.content);
+            o.content = this.decodeDirectives(o.content);
+        }
     },
 
     widgetPlaceholderExist: function(filename) {
