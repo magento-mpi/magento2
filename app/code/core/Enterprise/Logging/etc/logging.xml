@@ -1663,10 +1663,34 @@
     <cache_management translate="label">
         <label>Cache Management</label>
         <actions>
-            <adminhtml_system_cache_save>
+            <adminhtml_cache_massEnable>
                 <action>save</action>
                 <post_dispatch>postDispatchSaveCacheSettings</post_dispatch>
-            </adminhtml_system_cache_save>
+            </adminhtml_cache_massEnable>
+            <adminhtml_cache_massDisable>
+                <action>save</action>
+                <post_dispatch>postDispatchSaveCacheSettings</post_dispatch>
+            </adminhtml_cache_massDisable>
+            <adminhtml_cache_massRefresh>
+                <action>save</action>
+                <post_dispatch>postDispatchSaveCacheSettings</post_dispatch>
+            </adminhtml_cache_massRefresh>
+            <adminhtml_cache_cleanImages>
+                <action>clean</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_cache_cleanImages>
+            <adminhtml_cache_cleanMedia>
+                <action>clean</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_cache_cleanMedia>
+            <adminhtml_cache_flushSystem>
+                <action>flush</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_cache_flushSystem>
+            <adminhtml_cache_flushAll>
+                <action>flush</action>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_cache_flushAll>
         </actions>
     </cache_management>
 </logging>

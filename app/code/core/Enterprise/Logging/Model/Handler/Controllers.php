@@ -579,66 +579,13 @@ class Enterprise_Logging_Model_Handler_Controllers
         if (!$request->isPost()) {
             return false;
         }
-        $clean = $enable = array();
-        $action     = $info = '';
-        $change     = Mage::getModel('enterprise_logging/event_changes');
-        $allCache   = $request->getPost('all_cache');
-        $postEnable = $request->getPost('enable');
-        $beta       = $request->getPost('beta');
-        $catalogAction = $request->getPost('catalog_action');
-        $cacheTypes = array_keys(Mage::helper('core')->getCacheTypes());
-        $betaCacheTypes  = array_keys(Mage::helper('core')->getCacheBetaTypes());
-
-        switch ($allCache){
-            case 'disable':
-                $action = Mage::helper('enterprise_logging')->__('Disable');
-                break;
-            case 'enable':
-                $action = Mage::helper('enterprise_logging')->__('Enable');
-                break;
-            case 'refresh':
-                $action = Mage::helper('enterprise_logging')->__('Refresh');
-                break;
-            default:
-                $action = Mage::helper('enterprise_logging')->__('No change');
-                break;
-        }
-        $info = Mage::helper('enterprise_logging')->__('All cache %s. ', $action);
-        if ($catalogAction) {
-            $info .= $catalogAction;
+        $info = '-';
+        $cacheTypes = $request->getPost('types');
+        if (is_array($cacheTypes) && !empty($cacheTypes)) {
+            $cacheTypes = implode(', ', $cacheTypes);
+            $info = Mage::helper('enterprise_logging')->__('Cache types: %s ', $cacheTypes);
         }
 
-        foreach ($cacheTypes as $type) {
-            $flag = $allCache != 'disable' && (!empty($postEnable[$type]) || $allCache == 'enable');
-            $enable[$type] = $flag ? 1 : 0;
-            if ($allCache == '' && !$flag) {
-                $clean[] = $type;
-            }
-        }
-
-        foreach ($betaCacheTypes as $type) {
-            if (empty($beta[$type])) {
-                $clean[] = $type;
-            }
-            else {
-                $enable[$type] = 1;
-            }
-        }
-
-        $processor->addEventChanges(clone $change->setSourceName('enable')
-                ->setOriginalData(array())
-                ->setResultData($enable));
-
-        if (!empty($clean)) {
-            $processor->addEventChanges(clone $change->setSourceName('clean')
-                ->setOriginalData(array())
-                ->setResultData($clean));
-        }
-        if ($catalogAction) {
-            $processor->addEventChanges(clone $change->setSourceName('catalog')
-                    ->setOriginalData(array())
-                    ->setResultData(array('action' => $catalogAction)));
-        }
         $success = true;
         $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
         if ($messages) {
