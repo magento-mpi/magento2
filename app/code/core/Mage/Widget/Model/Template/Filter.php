@@ -61,6 +61,10 @@ class Mage_Widget_Model_Template_Filter extends Mage_Cms_Model_Template_Filter
             return '';
         }
 
+        // remove odd underscores, mistakely hardcoded (see #19777)
+        if (strpos($type, '__') !== false) {
+            $type = preg_replace('/_{2,}/', '_', $type);
+        }
         // define widget block and check the type is instance of Widget Interface
         $widget = Mage::app()->getLayout()->createBlock($type, $name, $params);
         if (!$widget instanceof Mage_Widget_Block_Interface) {
