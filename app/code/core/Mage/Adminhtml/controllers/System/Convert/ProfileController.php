@@ -241,8 +241,8 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
                     continue;
                 }
 
-                $importData = $batchImportModel->getBatchData();
                 try {
+                    $importData = $batchImportModel->getBatchData();
                     $adapter->saveRow($importData);
                 }
                 catch (Exception $e) {
