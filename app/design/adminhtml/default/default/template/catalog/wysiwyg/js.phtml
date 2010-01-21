@@ -93,6 +93,10 @@ var catalogWysiwygEditor = {
         if (typeof varienGlobalEvents != undefined && editorFormValidationHandler) {
             varienGlobalEvents.removeEventHandler('formSubmit', editorFormValidationHandler);
         }
+
+        //IE fix - blocked form fields after closing
+        $(dialogWindow.options.firedElementId).focus();
+
         dialogWindow.close();
         Windows.overlayShowEffectOptions = this.overlayShowEffectOptions;
         Windows.overlayHideEffectOptions = this.overlayHideEffectOptions;
