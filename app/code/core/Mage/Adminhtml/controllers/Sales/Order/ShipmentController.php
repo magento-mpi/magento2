@@ -194,7 +194,9 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                 $comment = '';
                 if (!empty($data['comment_text'])) {
                     $shipment->addComment($data['comment_text'], isset($data['comment_customer_notify']));
-                    $comment = $data['comment_text'];
+                    if (isset($data['comment_customer_notify'])) {
+                        $comment = $data['comment_text'];
+                    }
                 }
 
                 if (!empty($data['send_email'])) {

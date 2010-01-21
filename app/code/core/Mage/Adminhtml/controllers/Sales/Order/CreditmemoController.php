@@ -322,8 +322,10 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
 
                 $comment = '';
                 if (!empty($data['comment_text'])) {
-                    $comment = $data['comment_text'];
                     $creditmemo->addComment($data['comment_text'], isset($data['comment_customer_notify']));
+                    if (isset($data['comment_customer_notify'])) {
+                        $comment = $data['comment_text'];
+                    }
                 }
 
                 if (isset($data['do_refund'])) {
