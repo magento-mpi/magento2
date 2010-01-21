@@ -60,7 +60,7 @@
             <types>
                 <full_page translate="label,description" module="enterprise_pagecache">
                     <label>Page Cache</label>
-                    <description>Full page caching for not session visitors.</description>
+                    <description>Full page caching for none session visitors</description>
                     <tags>FPC</tags>
                 </full_page>
             </types>
