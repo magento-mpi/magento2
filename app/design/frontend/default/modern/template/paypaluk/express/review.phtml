@@ -118,7 +118,7 @@
 
     <br/>
 
-    <form method="post" action="<?php echo $this->getUrl('paypaluk/express/saveOrder') ?>">
+    <form method="post" action="<?php echo $this->getUrl('paypaluk/express/placeOrder') ?>">
         <p class="a-right">
              <span id="review-please-wait" style="display:none;" class="opc-please-wait">
                 <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt=""/> &nbsp; <?php echo $this->__('Submitting order information...') ?> &nbsp;
@@ -142,7 +142,7 @@
     function saveShippingMethod(value)
     {
         new Ajax.Updater('details-reload', '<?php echo $this->getUrl('paypaluk/express/saveShippingMethod') ?>', {
-            parameters: { ajax:true, shipping_method:value },
+            parameters: { isAjax:true, shipping_method:value },
             onComplete: function(){decorateTable('details-table')}
         });
     }
