@@ -173,6 +173,11 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
             $this->_redirect('*/multishipping_address/newShipping');
             return;
         }
+
+        $this->_getState()->unsCompleteStep(
+            Mage_Checkout_Model_Type_Multishipping_State::STEP_SHIPPING
+        );
+
         $this->_getState()->setActiveStep(
             Mage_Checkout_Model_Type_Multishipping_State::STEP_SELECT_ADDRESSES
         );
@@ -244,6 +249,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
         $itemId     = $this->getRequest()->getParam('id');
         $addressId  = $this->getRequest()->getParam('address');
         if ($addressId && $itemId) {
+            $this->_getCheckout()->setCollectRatesFlag(true);
             $this->_getCheckout()->removeAddressItem($addressId, $itemId);
         }
         $this->_redirect('*/*/addresses');

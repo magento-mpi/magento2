@@ -158,6 +158,11 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                     $address->removeItem($item->getId());
                 }
 
+                /**
+                 * Require shiping rate recollect
+                 */
+                $address->setCollectShippingRates((boolean) $this->getCollectRatesFlag());
+
                 if (count($address->getAllItems()) == 0) {
                     $address->isDeleted(true);
                 }
