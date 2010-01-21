@@ -536,13 +536,12 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
      */
     public function getAttributeRawValue($entityId, $attribute, $store)
     {
-        $result = '';
-        $attribute = $this->getAttribute($attribute);
         /* @var $attribute Mage_Catalog_Model_Entity_Attribute */
+        $attribute = $this->getAttribute($attribute);
         if ($attribute) {
             /* @var $select Zend_Db_Select */
             $select = $this->_read->select();
-
+            $attributeCode = $attribute->getAttributeCode();
             $attrTable = $attribute->getBackend()->getTable();
             $isStatic = $attribute->getBackend()->isStatic();
             $attrField = $isStatic ? $attributeCode : 'value';
