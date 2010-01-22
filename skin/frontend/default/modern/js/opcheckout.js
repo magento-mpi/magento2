@@ -356,6 +356,8 @@ Billing.prototype = {
 
         checkout.setStepResponse(response);
 
+        payment.initWhatIsCvvListeners();
+
         // DELETE
         //alert('error: ' + response.error + ' / redirect: ' + response.redirect + ' / shipping_methods_html: ' + response.shipping_methods_html);
         // This moves the accordion panels of one page checkout and updates the checkout progress
@@ -600,9 +602,7 @@ ShippingMethod.prototype = {
             response.update_section.html.evalScripts();
         }
 
-        $$('.cvv-what-is-this').each(function(element){
-            Event.observe(element, 'click', toggleToolTip);
-        });
+        payment.initWhatIsCvvListeners();
 
         if (response.goto_section) {
             checkout.gotoSection(response.goto_section);
@@ -804,6 +804,12 @@ Payment.prototype = {
         checkout.setStepResponse(response);
 
 //        checkout.setPayment();
+    },
+ 
+    initWhatIsCvvListeners: function(){
+        $$('.cvv-what-is-this').each(function(element){
+            Event.observe(element, 'click', toggleToolTip);
+        });
     }
 }
 
