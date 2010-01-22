@@ -137,4 +137,22 @@ class Enterprise_Logging_Block_Adminhtml_Details extends Mage_Adminhtml_Block_Wi
         }
         return $this->_eventUser;
     }
+
+    /**
+     * Unserialize and retrive event info
+     *
+     * @return string
+     */
+    public function getEventInfo()
+    {
+        $info = null;
+        $data = $this->getCurrentEvent()->getInfo();
+        try {
+            $info = unserialize($data);
+        }
+        catch (Exception $e){
+            $info = $data;
+        }
+        return $info;
+    }
 }

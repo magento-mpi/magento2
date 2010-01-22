@@ -57,6 +57,15 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
                 $this->setTime(time());
             }
         }
+        /**
+         * Prepare short details data
+         */
+        $info = array();
+        $info['general'] = $this->getInfo();
+        if ($this->getAdditionalInfo()) {
+            $info['additional'] = $this->getAdditionalInfo();
+        }
+        $this->setInfo(serialize($info));
         return parent::_beforeSave();
     }
 

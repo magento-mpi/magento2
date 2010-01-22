@@ -48,7 +48,35 @@ $event = $this->getCurrentEvent();
                 <tbody>
                     <tr>
                         <th><?php echo $this->__('Aggregated Information'); ?></th>
-                        <td><?php echo $event->getInfo(); ?></td>
+                        <td>
+                        <?php
+                            $eventInfo = $this->getEventInfo();
+                            if (is_bool($eventInfo)) {
+                                echo ($dataArray ? 'true' : 'false');
+                            }
+                            elseif (is_array($eventInfo)) {
+                                if (isset($eventInfo['general'])) {
+                                    if (!is_array($eventInfo['general'])) {
+                                        $eventInfo['general'] = array($eventInfo['general']);
+                                    }
+                                    echo implode(', ', $eventInfo['general']);
+                                }
+                         ?>
+                         <?php if (isset($eventInfo['additional'])): ?><br /><?php endif; ?>
+                         <?php
+                                if (isset($eventInfo['additional'])) {
+                                    foreach ($eventInfo['additional'] as $modelName => $modelsData) {
+                                        foreach ($modelsData as $mdoelId => $data) {
+                                            echo implode(', ', $data);
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+                                echo $eventInfo;
+                            }
+                        ?>
+                        </td>
                     </tr>
                     <tr>
                         <th><?php echo $this->__('Admin User ID'); ?></th>

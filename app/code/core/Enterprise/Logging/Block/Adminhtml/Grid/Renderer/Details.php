@@ -28,7 +28,7 @@
  * Difference columns renderer
  *
  */
-class Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff
+class Enterprise_Logging_Block_Adminhtml_Grid_Renderer_Details
     extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
@@ -41,32 +41,45 @@ class Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff
     {
         $html = '-';
         $columnData = $row->getData($this->getColumn()->getIndex());
-        $specialFlag = false;
         try {
             $dataArray = unserialize($columnData);
             if (is_bool($dataArray)) {
                 $html = $dataArray ? 'true' : 'false';
             }
             elseif (is_array($dataArray)) {
-                if (isset($dataArray['__no_changes'])) {
-                    $html = $this->__('No changes');
-                    $specialFlag = true;
-                }
-                if (isset($dataArray['__was_deleted'])) {
-                    $html = $this->__('Item was deleted');
-                    $specialFlag = true;
-                }
-                if (isset($dataArray['__was_created'])) {
-                    $html = $this->__('N/A');
-                    $specialFlag = true;
-                }
-                $dataArray = (array)$dataArray;
-                if (!$specialFlag) {
-                    $html = '<dl>';
-                    foreach ($dataArray as $key => $value) {
-                        $html .= '<dt>' . $key . '</dt><dd>' . $this->htmlEscape($value) . '</dd>';
+                if (isset($dataArray['general'])) {
+                    if (!is_array($dataArray['general'])) {
+                        $dataArray['general'] = array($dataArray['general']);
                     }
-                    $html .= '</dl>';
+                    $html = implode(', ', $dataArray['general']);
+                }
+                /**
+                 *  [additional] => Array
+                 *          (
+                 *               [Mage_Sales_Model_Order] => Array
+                 *                  (
+                 *                      [68] => Array
+                 *                          (
+                 *                              [increment_id] => 100000108,
+                 *                              [grand_total] => 422.01
+                 *                          )
+                 *                      [94] => Array
+                 *                          (
+                 *                              [increment_id] => 100000121,
+                 *                              [grand_total] => 492.77
+                 *                          )
+                 *
+                 *                  )
+                 *
+                 *          )
+                 */
+                if (isset($dataArray['additional'])) {
+                    $html .= '<br /><br />';
+                    foreach ($dataArray['additional'] as $modelName => $modelsData) {
+                        foreach ($modelsData as $mdoelId => $data) {
+                            $html .= implode(', ', $data);
+                        }
+                    }
                 }
             }
             else {

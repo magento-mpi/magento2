@@ -112,6 +112,13 @@ class Enterprise_Logging_Model_Processor
     protected $_collectedIds = array();
 
     /**
+     * Collection of additional data
+     *
+     * @var array
+     */
+    protected $_collectedAdditionalData = array();
+
+    /**
      * @deprecated after 1.6.0.0
      *
      */
@@ -193,7 +200,9 @@ class Enterprise_Logging_Model_Processor
         if ($this->_skipNextAction) {
             return;
         }
-        //These models used when we merge action models with action group models
+        /**
+         * These models used when we merge action models with action group models
+         */
         $usedModels = $defaultExpectedModels = null;
         if ($this->_eventConfig) {
             $actionGroupNode = $this->_eventConfig->getParent()->getParent();
@@ -202,7 +211,9 @@ class Enterprise_Logging_Model_Processor
             }
         }
 
-        //Exact models in exactly action node
+        /**
+         * Exact models in exactly action node
+         */
         $expectedModels = isset($this->_eventConfig->expected_models)
             ? $this->_eventConfig->expected_models : false;
 
@@ -222,21 +233,31 @@ class Enterprise_Logging_Model_Processor
             }
         }
 
-        $skipData = array();
-
-        //Log event changes for each model
+        $additionalData = $skipData = array();
+        /**
+         * Log event changes for each model
+         */
         foreach ($usedModels->children() as $expect => $callback) {
 
-            //Add custom skip fields per expecetd model
+            /**
+             * Add custom skip fields per expecetd model
+             */
             if (isset($callback->skip_data)) {
-                if ($callback->skip_data->hasChildren()) {
-                    foreach ($callback->skip_data->children() as $skipName => $skipObj) {
-                        if (!in_array($skipName, $skipData)) {
-                            $skipData[] = $skipName;
-                        }
-                    }
-                }
+                $rawData = $callback->skip_data->asCanonicalArray();
+                $skipData = array_unique(array_keys($rawData));
             }
+
+            /**
+             * Add custom additional fields per expecetd model
+             */
+            if (isset($callback->additional_data)) {
+                $rawData = $callback->additional_data->asCanonicalArray();
+                $additionalData = array_unique(array_keys($rawData));
+            }
+            /**
+             * Clean up additional data with skip data
+             */
+            $additionalData = array_diff($additionalData, $skipData);
 
             $className = Mage::getConfig()->getModelClassName(str_replace('__', '/', $expect));
             if ($model instanceof $className){
@@ -245,8 +266,11 @@ class Enterprise_Logging_Model_Processor
                 $handler  = $classMap['handler'];
                 $callback = $classMap['callback'];
                 if ($handler) {
+                    $this->collectAdditionalData($model, $additionalData);
                     $changes = $handler->$callback($model, $this);
-                    //Because of logging view action, $changes must be checked if it is an object
+                    /**
+                     * Because of logging view action, $changes must be checked if it is an object
+                     */
                     if (is_object($changes)) {
                         $changes->cleanupData($skipData);
                         if ($changes->hasDifference()) {
@@ -317,6 +341,12 @@ class Enterprise_Logging_Model_Processor
                 return;
             }
             if ($handler->$callback($this->_eventConfig, $loggingEvent, $this)) {
+                /**
+                 * Prepare additional info
+                 */
+                if ($this->getCollectedAdditionalData()) {
+                    $loggingEvent->setAdditionalInfo($this->getCollectedAdditionalData());
+                }
                 $loggingEvent->save();
                 if ($eventId = $loggingEvent->getId()) {
                     foreach ($this->_eventChanges as $changes){
@@ -356,6 +386,53 @@ class Enterprise_Logging_Model_Processor
             $this->_collectedIds[$className] = $uniqueIds;
         }
         return $ids;
+    }
+
+    /**
+     * Collect $model additional attributes
+     *
+     * @example
+     * Array
+     *     (
+     *          [Mage_Sales_Model_Order] => Array
+     *             (
+     *                 [68] => Array
+     *                     (
+     *                         [increment_id] => 100000108,
+     *                         [grand_total] => 422.01
+     *                     )
+     *                 [94] => Array
+     *                     (
+     *                         [increment_id] => 100000121,
+     *                         [grand_total] => 492.77
+     *                     )
+     *              )
+     *     )
+     *
+     * @param object $model
+     * @param array $attributes
+     */
+    public function collectAdditionalData($model, array $attributes)
+    {
+        $attributes = array_unique($attributes);
+        if ($model->getId()) {
+            foreach ($attributes as $attribute){
+                $value = $model->getDataUsingMethod($attribute);
+                if (!empty($value)) {
+                    $this->_collectedAdditionalData[get_class($model)][$model->getId()][$attribute] = $value;
+                }
+            }
+        }
+    }
+
+    /**
+     * Collected additional attributes getter
+     *
+     * @return array
+     */
+    public function getCollectedAdditionalData()
+    {
+        return $this->_collectedAdditionalData;
     }
 
     /**

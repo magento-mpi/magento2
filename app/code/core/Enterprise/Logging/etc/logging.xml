@@ -929,7 +929,11 @@
     <sales_orders translate="label">
         <label>Sales Orders</label>
         <expected_models>
-            <sales__order/>
+            <sales__order>
+                <additional_data>
+                    <increment_id />
+                </additional_data>
+            </sales__order>
         </expected_models>
         <actions>
 
@@ -1046,7 +1050,11 @@
     <sales_invoices translate="label">
         <label>Sales Invoices</label>
         <expected_models>
-            <sales__order_invoice />
+            <sales__order_invoice>
+                <additional_data>
+                    <increment_id />
+                </additional_data>
+            </sales__order_invoice>
         </expected_models>
         <actions>
             <adminhtml_sales_invoice_view>
@@ -1094,7 +1102,11 @@
     <sales_shipments translate="label">
         <label>Sales Shipments</label>
         <expected_models>
-            <sales__order_shipment/>
+            <sales__order_shipment>
+                <additional_data>
+                    <increment_id />
+                </additional_data>
+            </sales__order_shipment>
         </expected_models>
         <actions>
             <adminhtml_sales_shipment_view>
@@ -1148,7 +1160,11 @@
     <sales_creditmemos translate="label">
         <label>Sales Creditmemos</label>
         <expected_models>
-            <sales__order_creditmemo/>
+            <sales__order_creditmemo>
+                <additional_data>
+                    <increment_id />
+                </additional_data>
+            </sales__order_creditmemo>
         </expected_models>
         <actions>
             <adminhtml_sales_creditmemo_view>

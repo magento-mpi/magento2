@@ -43,8 +43,13 @@ class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
         }
         $result = array();
         foreach ($array as $item) {
-            if ((string)$item !== '') {
-                $result[] = $item;
+            if (is_array($item)) {
+                $result[] = $this->implodeValues($item);
+            }
+            else {
+                if ((string)$item !== '') {
+                    $result[] = $item;
+                }
             }
         }
         return implode($glue, $result);
