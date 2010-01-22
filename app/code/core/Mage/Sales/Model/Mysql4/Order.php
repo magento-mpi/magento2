@@ -100,7 +100,7 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
                 }
 
                 $subQuery = $writeAdapter->select();
-                $subQuery->from(array('so'=>'sales_order'), array('DISTINCT DATE(so.created_at)'))
+                $subQuery->from(array('so' => $this->getTable('sales/order')), array('DISTINCT DATE(so.created_at)'))
                     ->where($where);
 
                 $deleteCondition = 'DATE(period) IN (' . new Zend_Db_Expr($subQuery) . ')';
