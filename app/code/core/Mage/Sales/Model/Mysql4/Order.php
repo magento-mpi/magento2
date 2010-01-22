@@ -78,6 +78,7 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
      */
     public function aggregate($from = null, $to = null)
     {
+        $writeAdapter = $this->getWriteConnection();
         try {
             if (!is_null($from)) {
                 $from = $this->formatDate($from);
@@ -87,7 +88,6 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
             }
 
             $tableName = $this->getTable('sales/order_aggregated_created');
-            $writeAdapter = $this->getWriteConnection();
 
             $writeAdapter->beginTransaction();
 
