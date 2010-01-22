@@ -681,6 +681,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </max_package_weight>
+                        <min_package_weight translate="label">
+                            <label>Minimum Package Weight (Please consult your shipping carrier for minimum supported shipping weight)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </min_package_weight>
                         <origin_shipment translate="label">
                             <label>Origin of the Shipment</label>
                             <frontend_type>select</frontend_type>

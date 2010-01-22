@@ -149,7 +149,9 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
         }
 
         $weight = $this->getTotalNumOfBoxes($request->getPackageWeight());
-        $weight = ceil($weight*10) / 10;
+
+        $weight = $this->_getCorrectWeight($weight);
+
         $r->setWeight($weight);
         if ($request->getFreeMethodWeight()!=$request->getPackageWeight()) {
             $r->setFreeMethodWeight($request->getFreeMethodWeight());
@@ -170,6 +172,30 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
         return $this;
     }
 
+    /**
+     * Get correct weigt.
+     * 
+     * Namely:
+     * Checks the current weight to comply with the minimum weight standards set by the carrier.
+     * Then strictly rounds the weight up until the first significant digit after the decimal point. 
+     *
+     * @param float|integer|double $weight
+     * @return float
+     */
+    protected function _getCorrectWeight($weight)
+    {
+        $minWeight = $this->getConfigData('min_package_weight');
+        
+        if($weight < $minWeight){
+            $weight = $minWeight;
+        }
+        
+        //rounds a number to one significant figure
+        $weight = ceil($weight*10) / 10;
+        
+        return $weight;
+    }
+        
     public function getResult()
     {
        return $this->_result;
@@ -192,7 +218,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
         $r = $this->_rawRequest;
 
         $weight = $this->getTotalNumOfBoxes($r->getFreeMethodWeight());
-        $weight = ceil($weight*10) / 10;
+        $weight = $this->_getCorrectWeight($weight);
         $r->setWeight($weight);
         $r->setAction($this->getCode('action', 'single'));
         $r->setProduct($freeMethod);
