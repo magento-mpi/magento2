@@ -530,46 +530,89 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
      * Retrieve attribute's raw value from DB.
      *
      * @param int $entityId
-     * @param int|string $attribute atrribute's id or code
+     * @param int|string|array $attribute atrribute's ids or codes
      * @param int|Mage_Core_Model_Store $store
-     * @return bool|string
+     * @return bool|string|array
      */
     public function getAttributeRawValue($entityId, $attribute, $store)
     {
-        /* @var $attribute Mage_Catalog_Model_Entity_Attribute */
-        $attribute = $this->getAttribute($attribute);
-        if ($attribute) {
-            /* @var $select Zend_Db_Select */
-            $select = $this->_read->select();
-            $attributeCode = $attribute->getAttributeCode();
-            $attrTable = $attribute->getBackend()->getTable();
-            $isStatic = $attribute->getBackend()->isStatic();
-            $attrField = $isStatic ? $attributeCode : 'value';
-            $select->from(array('default_value' => $attrTable), array())
-                ->where('default_value.' . $this->getEntityIdField() . ' = ?', $entityId);
-
-            if ($isStatic) {
-                $select->columns($attrField);
-            } else {
-                $select->where('default_value.attribute_id = ?', $attribute->getId())
-                    ->where('default_value.store_id = 0');
-
-                if ($store instanceof Mage_Core_Model_Store) {
-                    $store = $store->getId();
-                }
-
-                $joinCondition = $this->_read->quoteInto('store_value.entity_id = ?', $entityId);
-                $joinCondition .= ' AND ' . $this->_read->quoteInto('store_value.attribute_id = ?', $attribute->getId());
-                $joinCondition .= ' AND ' . $this->_read->quoteInto('store_value.store_id = ?', $store);
-
-                $select->joinLeft(array('store_value' => $attrTable),
-                        $joinCondition,
-                        array('IFNULL(store_value.' . $attrField . ', default_value.' . $attrField . ')')
-                    );
+        if (!$entityId || empty($attribute)) {
+            return false;
+        }
+        if (!is_array($attribute)) {
+            $attribute = array($attribute);
+        }
+        $attributesData   = array();
+        $staticAttributes = array();
+        $typedAttributes  = array();
+        $staticTable      = null;
+        foreach ($attribute as $_attribute) {
+            /* @var $attribute Mage_Catalog_Model_Entity_Attribute */
+            $_attribute = $this->getAttribute($_attribute);
+            if (!$_attribute) {
+                continue;
             }
-            return $this->_read->fetchOne($select);
+            $attributeCode = $_attribute->getAttributeCode();
+            $attrTable     = $_attribute->getBackend()->getTable();
+            $isStatic      = $_attribute->getBackend()->isStatic();
+            if ($isStatic) {
+                $staticAttributes[] = $attributeCode;
+                $staticTable = $attrTable;
+            }
+            else {
+                /**
+                 * That structure needed to avoid farther sql joins for getting attribute's code by id
+                 */
+                $typedAttributes[$attrTable][$_attribute->getId()] = $attributeCode;
+            }
+
+        }
+        /* @var $select Zend_Db_Select */
+        $select = $this->_read->select();
+        /**
+         * Collecting static attributes
+         */
+        if ($staticAttributes) {
+            $select->from($staticTable, $staticAttributes)
+                ->where($this->getEntityIdField() . ' = ?', $entityId);
+            $attributesData = $this->_read->fetchRow($select);
         }
 
-        return false;
+        /**
+         * Collecting typed attributes, performing separate SQL query for each attribute type table
+         */
+        if ($store instanceof Mage_Core_Model_Store) {
+            $store = $store->getId();
+        }
+        $store = (int)$store;
+        if ($typedAttributes) {
+            foreach ($typedAttributes as $table => $_attributes) {
+                $select->reset()->from(array('default_value' => $table), array());
+                $select->where('default_value.attribute_id IN (?)', array_keys($_attributes))
+                    ->where('default_value.entity_type_id = ? ', $this->getTypeId())
+                    ->where('default_value.entity_id = ? ', $entityId)
+                    ->where('default_value.store_id = 0');
+
+                $joinCondition = $this->_read->quoteInto('store_value.attribute_id IN (?)', array_keys($_attributes));
+                $joinCondition .= ' AND ' . $this->_read->quoteInto('store_value.entity_type_id = ?', $this->getTypeId());
+                $joinCondition .= ' AND ' . $this->_read->quoteInto('store_value.entity_id = ?', $entityId);
+                $joinCondition .= ' AND ' . $this->_read->quoteInto('store_value.store_id = ?', $store);
+
+                $select->joinLeft(array('store_value' => $table),
+                    $joinCondition,
+                    array('attr_value' => 'IFNULL(store_value.value, default_value.value)', 'default_value.attribute_id')
+                );
+                $result = $this->_read->fetchAll($select);
+                foreach ($result as $key => $_attribute) {
+                    $attributeCode = $typedAttributes[$table][$_attribute['attribute_id']];
+                    $attributesData[$attributeCode] = $_attribute['attr_value'];
+                }
+            }
+        }
+        if (sizeof($attributesData) == 1) {
+            $_data = each($attributesData);
+            $attributesData = $_data[1];
+        }
+        return $attributesData ? $attributesData : false;
     }
 }
