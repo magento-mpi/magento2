@@ -419,7 +419,6 @@ class Mage_Customer_Model_Convert_Adapter_Customer
     {
         $customer = $this->getCustomerModel();
         $customer->setId(null);
-        $customer->setImportMode(true);
 
         if (empty($importData['website'])) {
             $message = Mage::helper('customer')->__('Skip import row, required field "%s" not defined', 'website');
@@ -688,6 +687,7 @@ class Mage_Customer_Model_Convert_Adapter_Customer
             }
         }
 
+        $customer->setImportMode(true);
         $customer->save();
         $saveCustomer = false;
 
