@@ -65,6 +65,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
 
         $this->_collection = Mage::getResourceModel('sales/sale_collection')
             ->setCustomerFilter(Mage::registry('current_customer'))
+            ->setOrderStateFilter(Mage_Sales_Model_Order::STATE_CANCELED, true)
             ->load()
         ;
 
@@ -118,19 +119,3 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
