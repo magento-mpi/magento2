@@ -124,6 +124,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_acc>
@@ -177,6 +178,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_csi>
@@ -230,6 +232,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_did>
@@ -283,6 +286,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_dnk>
@@ -336,6 +340,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_ebt>
@@ -389,6 +394,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_ent>
@@ -442,6 +448,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_gcb>
@@ -495,6 +502,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_gir>
@@ -548,6 +556,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_idl>
@@ -601,6 +610,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_lsr>
@@ -654,6 +664,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_npy>
@@ -707,6 +718,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_pli>
@@ -760,6 +772,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_psp>
@@ -813,6 +826,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_pwy>
@@ -866,6 +880,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_sft>
@@ -919,6 +934,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_so2>
@@ -972,6 +988,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <can_be_empty>1</can_be_empty>
                         </specificcountry>
                     </fields>
                 </moneybookers_wlt>
