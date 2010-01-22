@@ -31,12 +31,13 @@
 class Enterprise_Enterprise_Model_Observer_Install
 {
     /**
-     * Set Enterprise design theme
+     * Set Enterprise design theme and flag to hide iframe
      *
      * @param Varien_Event_Observer $observer
      */
     public function setDesignTheme($observer)
     {
+        Mage::getSingleton('install/installer')->setHideIframe(true);
         Mage::getDesign()->setTheme('enterprise');
     }
 }
