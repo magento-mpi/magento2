@@ -97,6 +97,12 @@ var catalogWysiwygEditor = {
         //IE fix - blocked form fields after closing
         $(dialogWindow.options.firedElementId).focus();
 
+        //destroy the instance of editor
+        wysiwygObj = eval('wysiwyg'+dialogWindow.options.firedElementId+'_editor');
+        if (tinyMCE.get(wysiwygObj.id)) {
+           tinyMCE.execCommand('mceRemoveControl', true, wysiwygObj.id);
+        }
+
         dialogWindow.close();
         Windows.overlayShowEffectOptions = this.overlayShowEffectOptions;
         Windows.overlayHideEffectOptions = this.overlayHideEffectOptions;
