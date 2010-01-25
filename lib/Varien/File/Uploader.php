@@ -200,13 +200,18 @@ class Varien_File_Uploader
         }
     }
 
+    /**
+     * Correct filename with special chars and spaces
+     *
+     * @param string $fileName
+     * @return string
+     */
     static public function getCorrectFileName($fileName)
     {
-        if (preg_match('/[^a-z0-9_\\-\\.]/i', $fileName)) {
+        if (preg_match('/[^a-z0-9_\\-\\.\s]/i', $fileName)) {
             $fileName = 'file' . substr($fileName, strrpos($fileName, '.'));
         }
-
-        return $fileName;
+        return preg_replace('/\s+/', '_', $fileName);
     }
 
     /**
