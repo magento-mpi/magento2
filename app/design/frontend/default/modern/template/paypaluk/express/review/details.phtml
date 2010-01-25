@@ -46,8 +46,8 @@
         <?php if ($_item->getParentItem()) continue ?>
         <tr>
             <td>
-                <?php echo $_item->getProduct()->getName() ?>
-                <?php echo $_item->getProduct()->getDescription() ?>
+                <?php echo $this->htmlEscape($_item->getProduct()->getName()) ?>
+                <?php echo $this->htmlEscape($_item->getProduct()->getDescription()) ?>
             </td>
             <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()); ?></td>
             <td class="a-center"><?php echo $_item->getQty() ?></td>
