@@ -33,7 +33,7 @@
         <td>
             <p><a href="<?php echo $_product->getProductUrl() ?>"><strong><?php echo $this->htmlEscape($_product->getName()) ?></strong></a></p>
             <?php if ($shortDescription = $_product->getShortDescription()): ?>
-            <p><small><?php echo $shortDescription ?></small></p>
+            <p><small><?php echo $this->htmlEscape($shortDescription) ?></small></p>
             <?php endif; ?>
             <p><?php if ($_product->getPrice() != $_product->getFinalPrice()): ?>
                 <?php echo $this->__('Regular Price:') ?> <strong style="text-decoration:line-through;"><?php echo Mage::helper('core')->currency($_product->getPrice()) ?></strong><br />

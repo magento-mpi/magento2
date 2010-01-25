@@ -44,7 +44,7 @@
                     <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
                     <?php echo $this->getPriceHtml($_product) ?>
                     <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
-                    <p><?php echo $_product->getDescription() ?></p>
+                    <p><?php echo $this->htmlEscape($_product->getDescription()) ?></p>
                 </td>
                 <td>
                     <button type="button" class="button btn-cart" onclick="setLocation('<?php echo $this->getUrl('checkout/cart/add',array('product'=>$_product->getId())) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
