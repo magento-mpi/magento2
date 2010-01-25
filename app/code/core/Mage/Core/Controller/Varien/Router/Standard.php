@@ -71,11 +71,10 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
     public function fetchDefault()
     {
-        $d = explode('/', Mage::getStoreConfig('web/default/front'));
         $this->getFront()->setDefault(array(
-            'module'     => !empty($d[0]) ? $d[0] : 'core',
-            'controller' => !empty($d[1]) ? $d[1] : 'index',
-            'action'     => !empty($d[2]) ? $d[2] : 'index'
+            'module' => 'core',
+            'controller' => 'index',
+            'action' => 'index'
         ));
     }
 
@@ -113,14 +112,20 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         $this->fetchDefault();
 
         $front = $this->getFront();
+        $path = trim($request->getPathInfo(), '/');
 
-        $p = explode('/', trim($request->getPathInfo(), '/'));
+        if ($path) {
+            $p = explode('/', $path);
+        }
+        else {
+            $p = explode('/', Mage::getStoreConfig('web/default/front'));
+        }
 
         // get module name
         if ($request->getModuleName()) {
             $module = $request->getModuleName();
         } else {
-            if(!empty($p[0])) {
+            if (!empty($p[0])) {
                 $module = $p[0];
             } else {
                 $module = $this->getFront()->getDefault('module');
