@@ -401,7 +401,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
         foreach ($address->getAllItems() as $item) {
             if (! $item->getQuoteItem()) {
-                throw new Mage_Checkout_Exception('Item not found or already ordered');
+                throw new Mage_Checkout_Exception(Mage::helper('checkout')->__('Item not found or already ordered'));
             }
             $item->setProductType($item->getQuoteItem()->getProductType())
                 ->setProductOptions($item->getQuoteItem()->getProduct()->getTypeInstance(true)->getOrderOptions($item->getQuoteItem()->getProduct()));
