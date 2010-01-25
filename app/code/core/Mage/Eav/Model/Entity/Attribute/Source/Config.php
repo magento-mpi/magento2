@@ -47,6 +47,7 @@ class Mage_Eav_Model_Entity_Attribute_Source_Config extends Mage_Eav_Model_Entit
     {
         if (is_null($this->_options)) {
             $this->_options = array();
+            $rootNode = null;
             if ($this->_configNodePath) {
                 $rootNode = Mage::getConfig()->getNode($this->_configNodePath);
             }
