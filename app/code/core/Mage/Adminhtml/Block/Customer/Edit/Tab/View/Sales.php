@@ -113,9 +113,27 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
         return $this->_collection->getTotals();
     }
 
+    /**
+     * @deprecated after 1.4.0.0-rc1
+     *
+     * @param unknown_type $price
+     * @return string
+     */
     public function getPriceFormatted($price)
     {
         return $this->_currency->format($price);
+    }
+
+    /**
+     * Format price by specified website
+     *
+     * @param unknown_type $price
+     * @param null|int $websiteId
+     * @return string
+     */
+    public function formatCurrency($price, $websiteId = null)
+    {
+        return Mage::app()->getWebsite($websiteId)->getBaseCurrency()->format($price);
     }
 
 }

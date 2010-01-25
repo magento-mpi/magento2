@@ -47,7 +47,7 @@ class Mage_Sales_Model_Mysql4_Sale_Collection extends Varien_Object implements I
      *
      * @var array
      */
-    protected $_totals = array('lifetime' => 0, 'num_orders' => 0);
+    protected $_totals = array('lifetime' => 0, 'base_lifetime' => 0, 'base_avgsale' => 0, 'num_orders' => 0);
 
     /**
      * Entity attribute
@@ -140,17 +140,19 @@ class Mage_Sales_Model_Mysql4_Sale_Collection extends Varien_Object implements I
      */
     public function load($printQuery = false, $logQuery = false)
     {
-        $this->_select = $this->_read->select();
-        $entityTable= $this->getEntity()->getEntityTable();
-        $paidTable  = $this->getAttribute('grand_total')->getBackend()->getTable();
-        $idField    = $this->getEntity()->getIdFieldName();
+        $this->_select  = $this->_read->select();
+        $entityTable    = $this->getEntity()->getEntityTable();
+        $paidTable      = $this->getAttribute('grand_total')->getBackend()->getTable();
+        $idField        = $this->getEntity()->getIdFieldName();
         $this->getSelect()
             ->from(array('sales' => $entityTable),
                 array(
                     'store_id',
-                    'lifetime'  => 'sum(sales.base_grand_total)',
-                    'avgsale'   => 'avg(sales.base_grand_total)',
-                    'num_orders'=> 'count(sales.base_grand_total)'
+                    'lifetime'      => 'sum(sales.base_grand_total)',
+                    'base_lifetime' => 'sum(sales.base_grand_total * sales.base_to_global_rate)',
+                    'avgsale'       => 'avg(sales.base_grand_total)',
+                    'base_avgsale'  => 'avg(sales.base_grand_total * sales.base_to_global_rate)',
+                    'num_orders'    => 'count(sales.base_grand_total)'
                 )
             )
             ->where('sales.entity_type_id=?', $this->getEntity()->getTypeId())
@@ -182,13 +184,14 @@ class Mage_Sales_Model_Mysql4_Sale_Collection extends Varien_Object implements I
 
                 $this->_items[ $v['store_id'] ] = $obj;
                 $this->_items[ $v['store_id'] ]->setStoreName($storeName);
+                $this->_items[ $v['store_id'] ]->setWebsiteId(Mage::app()->getStore($obj->getStoreId())->getWebsiteId());
                 $this->_items[ $v['store_id'] ]->setAvgNormalized($obj->getAvgsale() * $obj->getNumOrders());
                 foreach ($this->_totals as $key => $value) {
                     $this->_totals[$key] += $obj->getData($key);
                 }
             }
             if ($this->_totals['num_orders']) {
-                $this->_totals['avgsale'] = $this->_totals['lifetime'] / $this->_totals['num_orders'];
+                $this->_totals['avgsale'] = $this->_totals['base_lifetime'] / $this->_totals['num_orders'];
             }
         }
 
