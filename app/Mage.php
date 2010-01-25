@@ -763,38 +763,23 @@ final class Mage
             print $e->getTraceAsString();
             print '</pre>';
         } else {
-            self::getConfig()->createDirIfNotExists(self::getBaseDir('var') . DS . 'report');
-            $reportId   = abs(intval(microtime(true) * rand(100, 1000)));
-            $reportFile = self::getBaseDir('var') . DS . 'report' . DS . $reportId;
+
             $reportData = array(
                 !empty($extra) ? $extra . "\n\n" : '' . $e->getMessage(),
                 $e->getTraceAsString()
             );
-            if (isset($_SERVER) && isset($_SERVER['REQUEST_URI'])) {
-                $reportData[] = $_SERVER['REQUEST_URI'];
-            }
-            $reportData = serialize($reportData);
 
-            file_put_contents($reportFile, $reportData);
-            chmod($reportFile, 0777);
-
-            $storeCode = 'default';
-            try {
-                $storeCode = self::app()->getStore()->getCode();
-            } catch (Exception $e) {
+            // retrieve server data
+            if (isset($_SERVER)) {
+                if (isset($_SERVER['REQUEST_URI'])) {
+                    $reportData['url'] = $_SERVER['REQUEST_URI'];
+                }
+                if (isset($_SERVER['SCRIPT_NAME'])) {
+                    $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
+                }
             }
 
-            $baseUrl = self::getScriptSystemUrl('errors', true);
-            $refererUrl = base64_encode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-            $reportUrl = rtrim($baseUrl, '/') . '/errors/report.php?id=' . $reportId . '&s=' . $storeCode . '&ref=' . $refererUrl;
-
-            if (!headers_sent()) {
-                header('Location: ' . $reportUrl);
-            } else {
-                print '<script type="text/javascript">';
-                print "window.location.href = '{$reportUrl}';";
-                print '</script>';
-            }
+            require_once(self::getBaseDir() . DS . 'errors' . DS . 'report.php');
         }
 
         die();

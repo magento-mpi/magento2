@@ -24,12 +24,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-require_once 'functions.php';
+require_once 'processor.php';
 
-mageErrorsSendErrorHeaders(404);
-
-$pageTitle = 'Error 404: Not Found.';
-
-// load template file
-define('MAGE_ERRORS_TEMPLATE_FILE', MAGE_ERRORS_TEMPLATE_PATH . '404.phtml');
-include_once MAGE_ERRORS_TEMPLATE_PATH . 'page.phtml';
+$processor = new Error_Processor();
+$processor->process404();
