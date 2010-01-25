@@ -288,11 +288,11 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     /**
      * Instantiate centinel validator model
      *
-     * @return Mage_Centinel_Model_Validator
+     * @retuMage_Centinel_Model_Servicetor
      */
     public function getCentinelValidator()
     {
-        $validator = Mage::getSingleton('centinel/validator');
+        $validator = Mage::getSingleton('centinel/service');
         $validator->setPaymentMethodCode($this->getCode())
             ->setIsValidationRequired($this->getIsCentinelValidationRequired())
             ->setIsAuthenticationRequired($this->getIsCentinelAuthenticationRequired())

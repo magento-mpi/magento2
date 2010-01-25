@@ -36,7 +36,7 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
-                <centinel translate="label">
+                <centinel translate="label" module="centinel">
                     <label>3D Secure Credit Card Validation</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>1</sort_order>

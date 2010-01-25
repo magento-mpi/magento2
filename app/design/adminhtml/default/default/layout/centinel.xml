@@ -28,17 +28,17 @@
 -->
 <layout version="0.1.0">
 
-    <adminhtml_centinel_authenticate_redirect>
-        <block type="core/template" name="root" output="toHtml" template="centinel/authenticate/redirect.phtml"/>
-    </adminhtml_centinel_authenticate_redirect>
+    <adminhtml_centinel_index_authenticationstart>
+        <block type="centinel/authentication_start" name="root" output="toHtml" template="centinel/authentication/start.phtml"/>
+    </adminhtml_centinel_index_authenticationstart>
     
-    <adminhtml_centinel_authenticate_result>
-        <block type="core/template" name="root" output="toHtml" template="centinel/authenticate/result.phtml"/>
-    </adminhtml_centinel_authenticate_result>
+    <adminhtml_centinel_index_authenticationcomplete>
+        <block type="centinel/authentication_complete" name="root" output="toHtml" template="centinel/authentication/complete.phtml"/>
+    </adminhtml_centinel_index_authenticationcomplete>
     
     <adminhtml_sales_order_create_index>
         <reference name="head">
-            <action method="addJs"><script>mage/adminhtml/centinel.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/sales/centinel.js</script></action>
         </reference>
         <reference name="data">
             <block type="centinel/adminhtml_validation" as="card_validation" name="card_validation" template="sales/order/create/abstract.phtml">
@@ -48,14 +48,7 @@
     </adminhtml_sales_order_create_index>
     
     <adminhtml_sales_order_create_start>
-        <reference name="head">
-            <action method="addJs"><script>mage/adminhtml/centinel.js</script></action>
-        </reference>
-        <reference name="data">
-            <block type="centinel/adminhtml_validation" as="card_validation" name="card_validation" template="sales/order/create/abstract.phtml">
-                <block type="centinel/adminhtml_validation_form" template="centinel/validation/form.phtml" name="form" />
-            </block>
-        </reference>
+        <update handle="adminhtml_sales_order_create_index"/>
     </adminhtml_sales_order_create_start>
 
     <adminhtml_sales_order_create_load_block_data>

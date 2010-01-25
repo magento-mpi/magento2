@@ -27,7 +27,7 @@
 <?php if ($this->getAuthenticationEnrolled()): ?>
 <form name="validation_form" id="validation_form" action="<?php echo $this->getAcsUrl();?>" method="post">
     <input type="hidden" name="PaReq" value="<?php echo $this->getPayload()?>" />
-    <input type="hidden" name="TermUrl" value="<?php echo $this->getTermUrl()?>" />
+    <input type="hidden" name="TermUrl" value="<?php echo $this->getAuthenticationCompleteUrl()?>" />
     <input type="hidden" name="MD" value="<?php echo $this->getTransactionId()?>" />
 </form>
 <script type="text/javascript">

@@ -24,19 +24,28 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- *
- * Payment centinel session model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Centinel autentication start block
  */
-class Mage_Centinel_Model_Validator_Session extends Mage_Core_Model_Session_Abstract
+
+class Mage_Centinel_Block_Authentication_Start extends Mage_Core_Block_Template
 {
     /**
-     * constructor
+     * Internal constructor
+     *
      */
-	public function __construct()
+    protected function _construct()
     {
-        $this->init('centinel_validator');
+        parent::_construct();
+        $validator = Mage::registry('centinel_validator');
+        if ($validator && $validator->isAuthenticationAllow()) {
+            $this
+                ->setAcsUrl($validator->getAcsUrl())
+                ->setPayload($validator->getPayload())
+                ->setAuthenticationCompleteUrl($validator->getAuthenticationCompleteUrl())
+                ->setTransactionId($validator->getTransactionId())
+                ->setAuthenticationEnrolled(true);
+        }
     }
 }

@@ -32,7 +32,7 @@ include_once '3Dsecure/CentinelClient.php';
 /**
  * 3D Secure Validation Api
  */
-class Mage_Centinel_Model_Validator_Api extends Varien_Object
+class Mage_Centinel_Model_Api extends Varien_Object
 {
     protected static $_iso4217Currencies = array(
         'AED' => '784', 'AFN' => '971',
@@ -170,7 +170,7 @@ class Mage_Centinel_Model_Validator_Api extends Varien_Object
     /**
      * Call centinel api lookup method
      *
-     * @return Mage_Centinel_Model_Validator_Api
+     * @return Mage_Centinel_Model_Api
      */
     public function callLookup()
     {
@@ -201,7 +201,6 @@ class Mage_Centinel_Model_Validator_Api extends Varien_Object
         $this->setOrderId($clientResponse->getValue('OrderId'));
         $this->setTransactionId($clientResponse->getValue('TransactionId'));
         $this->setAuthenticationPath($clientResponse->getValue('AuthenticationPath'));
-        $this->setTermUrl($this->getTermUrl());
 
         return $this;
     }
@@ -209,7 +208,7 @@ class Mage_Centinel_Model_Validator_Api extends Varien_Object
     /**
      * Call centinel api authentication method
      *
-     * @return Mage_Centinel_Model_Validator_Api
+     * @return Mage_Centinel_Model_Api
      */
     public function callAuthentication()
     {

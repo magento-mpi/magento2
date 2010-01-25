@@ -28,31 +28,9 @@
 <config>
     <modules>
         <Mage_Centinel>
-            <version>0.1.0</version>
+            <version>1.4.0.0.0</version>
         </Mage_Centinel>
     </modules>
-
-    <global>
-        <models>
-            <centinel>
-                <class>Mage_Centinel_Model</class>
-            </centinel>
-        </models>
-
-        <resources>
-            <centinel_setup>
-                <setup>
-                    <module>Mage_Centinel</module>
-                </setup>
-            </centinel_setup>
-        </resources>
-
-        <blocks>
-            <centinel>
-                <class>Mage_Centinel_Block</class>
-            </centinel>
-        </blocks>
-    </global>
 
     <frontend>
         <translate>
@@ -85,13 +63,6 @@
         </secure_url>
     </frontend>
     <adminhtml>
-        <layout>
-            <updates>
-                <centinel>
-                    <file>centinel.xml</file>
-                </centinel>
-            </updates>
-        </layout>
         <translate>
             <modules>
                 <Mage_Centinel>
@@ -101,6 +72,13 @@
                 </Mage_Centinel>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <centinel>
+                    <file>centinel.xml</file>
+                </centinel>
+            </updates>
+        </layout>
     </adminhtml>
     <admin>
          <routers>

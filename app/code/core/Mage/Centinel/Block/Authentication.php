@@ -29,16 +29,16 @@
  * Centinel validation form lookup
  */
 
-class Mage_Centinel_Block_Authenticate extends Mage_Core_Block_Template
+class Mage_Centinel_Block_Authentication extends Mage_Core_Block_Template
 {
     /**
      * Return url for payment authentication request
      *
      * @return string
      */
-	public function getAuthenticationUrl()
+    public function getAuthenticationStartUrl()
     {
-    	return $this->_getValidator()->getAuthenticationUrl();
+        return $this->_getValidator()->getAuthenticationStartUrl();
     }
     
     /**
@@ -46,9 +46,9 @@ class Mage_Centinel_Block_Authenticate extends Mage_Core_Block_Template
      *
      * @return bool
      */
-    public function isAuthenticationEnrolled()
+    public function isAuthenticationAllow()
     {
-    	return $this->isValidationEnabled() && $this->_getValidator()->isAuthenticationEnrolled();
+        return $this->isValidationEnabled() && $this->_getValidator()->isAuthenticationAllow();
     }
     
     /**
@@ -64,7 +64,7 @@ class Mage_Centinel_Block_Authenticate extends Mage_Core_Block_Template
     /**
      * Return Centinel validation model
      *
-     * @return Mage_Centinel_Model_Validator
+     * @return Mage_Centinel_Model_Service
      */
     private function _getValidator()
     {
@@ -74,5 +74,4 @@ class Mage_Centinel_Block_Authenticate extends Mage_Core_Block_Template
         }
         return false;
     }
-    
 }

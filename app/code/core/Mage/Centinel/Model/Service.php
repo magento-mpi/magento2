@@ -27,29 +27,29 @@
 /**
  * 3D Secure Validation Model
  */
-class Mage_Centinel_Model_Validator extends Varien_Object
+class Mage_Centinel_Model_Service extends Varien_Object
 {
     /**
      * States of validation
      *
      */
-    const STATE_NEED_VALIDATION = 'no_validation';
-    const STATE_AUTENTICATION_DISABLED = 'disabled';
-    const STATE_AUTENTICATION_ENROLLED = 'enrolled';
-    const STATE_AUTENTICATION_COMPLETE = 'complete';
-    const STATE_AUTENTICATION_FAILED   = 'failed';
+    const STATE_NEED_VALIDATION = 'need_validation';
+    const STATE_VALIDATION_FAILED = 'validation_failed';
+    const STATE_VALIDATION_SUCCESSFUL = 'validation_successful';
+    const STATE_AUTENTICATION_FAILED = 'autentication_failed';
+    const STATE_AUTENTICATION_SUCCESSFUL = 'autentication_successful';
 
     /**
      * Validation api model
      *
-     * @var Mage_Centinel_Model_Validator_Api
+     * @var Mage_Centinel_Model_Api
      */
     protected $_api;
 
     /**
      * Validation session object
      *
-     * @var Mage_Centinel_Model_Validator_Session
+     * @var Mage_Centinel_Model_Session
      */
     protected $_session;
 
@@ -61,9 +61,16 @@ class Mage_Centinel_Model_Validator extends Varien_Object
     protected $_paymentMethodCode;
 
     /**
+     * Flag - if it is true, self::validate return true always
+     *
+     * @var bool
+     */
+    protected $_skipValidation = false;
+    
+    /**
      * Return validation api model
      *
-     * @return Mage_Centinel_Model_Validator_Api
+     * @return Mage_Centinel_Model_Api
      */
     protected function _getApi()
     {
@@ -71,7 +78,7 @@ class Mage_Centinel_Model_Validator extends Varien_Object
             return $this->_api;
         }
 
-        $this->_api = Mage::getSingleton('centinel/validator_api');
+        $this->_api = Mage::getSingleton('centinel/api');
         $this->_api
            ->setProcessorId($this->_getConfig('processor_id'))
            ->setMerchantId($this->_getConfig('merchant_id'))
@@ -95,14 +102,14 @@ class Mage_Centinel_Model_Validator extends Varien_Object
     /**
      * Return validation session object
      *
-     * @return Mage_Centinel_Model_Validator_Session
+     * @return Mage_Centinel_Model_Session
      */
     protected function _getSession()
     {
         if (!is_null($this->_session)) {
             return $this->_session;
         }
-        $this->_session = Mage::getSingleton('centinel/validator_session');
+        $this->_session = Mage::getSingleton('centinel/session');
         return $this->_session;
     }
 
@@ -111,7 +118,7 @@ class Mage_Centinel_Model_Validator extends Varien_Object
      *
      * @param string|array $key
      * @param string $value
-     * @return Mage_Centinel_Model_Validator
+     * @return Mage_Centinel_Model_Service
      */
     protected function _setDataStoredInSession($key, $value = null)
     {
@@ -133,6 +140,18 @@ class Mage_Centinel_Model_Validator extends Varien_Object
     }
 
     /**
+     * Set skip validation mode
+     *
+     * @param bool $shouldSkip
+     * @return Mage_Centinel_Model_Service
+     */
+    public function skipValidation($shouldSkip = true)
+    {
+        $this->_skipValidation = $shouldSkip;
+        return $this;
+    }
+    
+    /**
      * Generate checksum from all passed parameters
      *
      * @param string $cardNumber
@@ -144,7 +163,7 @@ class Mage_Centinel_Model_Validator extends Varien_Object
      */
     protected function _generateChecksum($cardNumber, $cardExpMonth, $cardExpYear, $amount, $currencyCode)
     {
-    	return md5(implode(func_get_args(), '_'));
+        return md5(implode(func_get_args(), '_'));
     }
     
     /**
@@ -156,7 +175,7 @@ class Mage_Centinel_Model_Validator extends Varien_Object
      */
     private function _getUrl($suffix, $current = false)
     {
-        $request = (Mage::app()->getStore()->isAdmin() ? '*/centinel_authenticate/' : 'centinel/authenticate/') . $suffix;
+        $request = (Mage::app()->getStore()->isAdmin() ? '*/centinel_index/' : 'centinel/index/') . $suffix;
         return Mage::getUrl($request, array(
             '_secure'  => true,
             '_current' => $current,
@@ -166,13 +185,13 @@ class Mage_Centinel_Model_Validator extends Varien_Object
     }
     
     /**
-     * Return URL for term response from Centinel
+     * Return URL for authentication complete response from Centinel
      *
      * @return string
      */
-    public function getTermUrl()
+    public function getAuthenticationCompleteUrl()
     {
-        return $this->_getUrl('result', true);
+        return $this->_getUrl('authenticationcomplete', true);
     }
     
     /**
@@ -180,9 +199,9 @@ class Mage_Centinel_Model_Validator extends Varien_Object
      *
      * @return string
      */
-    public function getAuthenticationUrl()
+    public function getAuthenticationStartUrl()
     {
-        return $this->_getUrl('redirect');
+        return $this->_getUrl('authenticationstart');
     }
     
     /**
@@ -190,9 +209,9 @@ class Mage_Centinel_Model_Validator extends Varien_Object
      *
      * @return string
      */
-    public function getValidationUrl()
+    public function getValidatePaymentDataUrl()
     {
-        return $this->_getUrl('validatedata');
+        return $this->_getUrl('validatepaymentdata');
     }
     
     /**
@@ -217,20 +236,34 @@ class Mage_Centinel_Model_Validator extends Varien_Object
     }
     
     /**
-     * Return flag - is authentication enrolled
+     * Return flag - is authentication allow
      *
      * @return bool
      */
-    public function isAuthenticationEnrolled()
+    public function isAuthenticationAllow()
     {
-    	return $this->getAuthenticationStatus() == self::STATE_AUTENTICATION_ENROLLED;
+        return $this->getStatus() == self::STATE_VALIDATION_SUCCESSFUL;
+    }
+
+    /**
+     * Return flag - is authentication success
+     *
+     * @return bool
+     */
+    public function isAuthenticationSuccess()
+    {
+        if ($this->getStatus() == self::STATE_AUTENTICATION_SUCCESSFUL ||
+            ($this->getStatus() == self::STATE_AUTENTICATION_FAILED && !$this->getIsAuthenticationRequired())) {
+            return true;
+        }
+        return false;
     }
     
     /**
      * Payment code setter
      *
      * @param string $value
-     * @return Mage_Centinel_Model_Validator
+     * @return Mage_Centinel_Model_Service
      */
     public function setPaymentMethodCode($value)
     {
@@ -272,23 +305,23 @@ class Mage_Centinel_Model_Validator extends Varien_Object
             $data->getAmount(), 
             $data->getCurrencyCode()
         );
-            
+
+        $this->setChecksum($newChecksum);
+        
         if (!$api->getErrorNo()) {
             $this->_setDataStoredInSession('cmpi_lookup', array(
                 'eci_flag' => $api->getEciFlag(),
                 'enrolled' => $api->getEnrolled(),
             ));
             if ($api->getEnrolled() == 'Y' && $api->getAcsUrl()) {
-            	$this->setAuthenticationStatus(self::STATE_AUTENTICATION_ENROLLED)
+                $this->setStatus(self::STATE_VALIDATION_SUCCESSFUL)
                     ->setAcsUrl($api->getAcsUrl())
                     ->setPayload($api->getPayload())
-                    ->setTransactionId($api->getTransactionId())
-                    ->setControlSum($newChecksum);
+                    ->setTransactionId($api->getTransactionId());
                 return true;
             }
         }
-        $this->setAuthenticationStatus(self::STATE_AUTENTICATION_DISABLED)
-            ->setControlSum($newChecksum);;
+        $this->setStatus(self::STATE_VALIDATION_FAILED);
         return false;
     }
 
@@ -307,7 +340,7 @@ class Mage_Centinel_Model_Validator extends Varien_Object
             ->callAuthentication();
 
         if ($api->getErrorNo() == 0 && $api->getSignature() == 'Y' && $api->getPaResStatus() != 'N') {
-            $this->setAuthenticationStatus(self::STATE_AUTENTICATION_COMPLETE)
+            $this->setStatus(self::STATE_AUTENTICATION_SUCCESSFUL)
                 ->_setDataStoredInSession('cmpi_authenticate', Varien_Object_Mapper::accumulateByMap($api, array(), array(
                     'eci_flag', 'pa_res_status', 'signature_verification', 'xid', 'cavv'
                 )))
@@ -315,116 +348,111 @@ class Mage_Centinel_Model_Validator extends Varien_Object
             return true;
         }
 
-        $this->setAuthenticationStatus(self::STATE_AUTENTICATION_FAILED);
+        $this->setStatus(self::STATE_AUTENTICATION_FAILED);
         return false;
     }
-
+    
     /**
      * Validate payment data
      *
      * @param Varien_Object $data
      * @return bool
-     * @throws Mage_Core_Exception
+     * @throws null
      */
     public function validate($data)
     {
-        if ($this->getIsValidationLock()) {
-            return true;	
+        if ($this->_skipValidation) {
+            return;    
         }
         
-    	$currentStatus = $this->getAuthenticationStatus(); 
-    	$newChecksum = $this->_generateChecksum(
+        $currentStatus = $this->getStatus(); 
+        $newChecksum = $this->_generateChecksum(
             $data->getCardNumber(), 
             $data->getCardExpMonth(), 
             $data->getCardExpYear(),
             $data->getAmount(), 
             $data->getCurrencyCode()
         );
-    	
-    	if ($this->getIsPlaceOrder()) {
-	        if ($this->getControlSum() != $newChecksum) {
+        
+        if ($this->getIsPlaceOrder()) {
+            if ($this->getChecksum() != $newChecksum) {
                 Mage::throwException(Mage::helper('centinel')->__('Centinel validation is filed. Please check payment information and try again'));
-	        }
-	        if (($currentStatus == self::STATE_AUTENTICATION_COMPLETE) ||
-	            ($currentStatus == self::STATE_AUTENTICATION_DISABLED && !$this->getIsValidationRequired()) ||
-	            ($currentStatus == self::STATE_AUTENTICATION_FAILED && !$this->getIsAuthenticationRequired())) {
-	            return true;
-	        }
+            }
+            if (($currentStatus == self::STATE_AUTENTICATION_SUCCESSFUL) ||
+                ($currentStatus == self::STATE_VALIDATION_FAILED && !$this->getIsValidationRequired()) ||
+                ($currentStatus == self::STATE_AUTENTICATION_FAILED && !$this->getIsAuthenticationRequired())) {
+                return;
+            }
             Mage::throwException(Mage::helper('centinel')->__('Centinel validation is not complete'));
-    	}
-    	
-        if ($this->getControlSum() != $newChecksum) {
+        }
+        
+        if ($this->getChecksum() != $newChecksum) {
             $this->reset();
             $this->lookup($data);
         } 
         
-        if ($this->getAuthenticationStatus() == self::STATE_AUTENTICATION_ENROLLED) {
-            return true;
+        if ($this->getStatus() == self::STATE_VALIDATION_SUCCESSFUL) {
+            return;
         }
 
-        if ($this->getAuthenticationStatus() == self::STATE_AUTENTICATION_DISABLED) {
-            if ($this->getIsValidationRequired()) {
-                Mage::throwException(Mage::helper('centinel')->__('Centinel validation is filed. Please check payment information and try again'));
-            }
-            return true;
+        if ($this->getStatus() == self::STATE_VALIDATION_FAILED && $this->getIsValidationRequired()) {
+            Mage::throwException(Mage::helper('centinel')->__('Centinel validation is filed. Please check payment information and try again'));
         }
-
-        return true;
     }
 
     /**
      * Reset data, api and state
      *
-     * @return Mage_Centinel_Model_Validator
+     * @return Mage_Centinel_Model_Service
      */
     public function reset()
     {
         $this->_getSession()->setData(array());
         $this->_api = null;
-        $this->setAuthenticationStatus(self::STATE_NEED_VALIDATION);
+        $this->setStatus(self::STATE_NEED_VALIDATION);
         return $this;
     }
     
     /**
-     * Setter for ControlSum
+     * Setter for checksum
      *
      * @param string $value
-     * @return Mage_Centinel_Model_Validator
+     * @return Mage_Centinel_Model_Service
      */
-    public function setControlSum($value)
+    public function setChecksum($value)
     {
-        return $this->_setDataStoredInSession('ControlSum', $value);
+        return $this->_setDataStoredInSession('checksum', $value);
     }
 
     /**
-     * Getter for ControlSum
+     * Getter for checksum
      *
      * @return string
      */
-    public function getControlSum()
+    public function getChecksum()
     {
-        return $this->_getDataStoredInSession('ControlSum');
+        return $this->_getDataStoredInSession('checksum');
     }
 
     /**
-     * Setter for AuthenticationStatus
+     * Setter for status
      *
      * @param string $value
-     * @return Mage_Centinel_Model_Validator
+     * @return Mage_Centinel_Model_Service
      */
-    public function setAuthenticationStatus($value){
-        return $this->_setDataStoredInSession('authenticationStatus', $value);
+    public function setStatus($value){
+        return $this->_setDataStoredInSession('status', $value);
     }
 
     /**
-     * Getter for AuthenticationStatus
+     * Getter for status
      *
      * @return string
      */
-    public function getAuthenticationStatus()
+    public function getStatus()
     {
-        if ($this->_getDataStoredInSession('authenticationStatus')) {
-            return $this->_getDataStoredInSession('authenticationStatus');
+        if ($this->_getDataStoredInSession('status')) {
+            return $this->_getDataStoredInSession('status');
         }
         return self::STATE_NEED_VALIDATION;
     }
@@ -433,7 +461,7 @@ class Mage_Centinel_Model_Validator extends Varien_Object
      * Setter for AcsUrl
      *
      * @param string $value
-     * @return Mage_Centinel_Model_Validator
+     * @return Mage_Centinel_Model_Service
      */
     public function setAcsUrl($value)
     {
@@ -454,7 +482,7 @@ class Mage_Centinel_Model_Validator extends Varien_Object
      * Setter for Payload
      *
      * @param string $value
-     * @return Mage_Centinel_Model_Validator
+     * @return Mage_Centinel_Model_Service
      */
     public function setPayload($value)
     {
@@ -475,7 +503,7 @@ class Mage_Centinel_Model_Validator extends Varien_Object
      * Setter for TransactionId
      *
      * @param string $value
-     * @return Mage_Centinel_Model_Validator
+     * @return Mage_Centinel_Model_Service
      */
     public function setTransactionId($value)
     {

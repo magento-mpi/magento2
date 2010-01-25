@@ -39,7 +39,7 @@ class Mage_Centinel_Block_Adminhtml_Validation_Form extends Mage_Adminhtml_Block
      *
      * @return Mage_Payment_Block_Info
      */
-	protected function _getPayment()
+    protected function _getPayment()
     {
         return $this->getQuote()->getPayment();
     }
@@ -47,7 +47,7 @@ class Mage_Centinel_Block_Adminhtml_Validation_Form extends Mage_Adminhtml_Block
     /**
      * Return Centinel validator model
      *
-     * @return Mage_Centinel_Model_Validator
+     * @return Mage_Centinel_Model_Service
      */
     protected function _getValidator()
     {
@@ -83,9 +83,9 @@ class Mage_Centinel_Block_Adminhtml_Validation_Form extends Mage_Adminhtml_Block
      *
      * @return string
      */
-    public function getValidationUrl()
+    public function getValidatePaymentDataUrl()
     {
-        return $this->_getValidator()->getValidationUrl();
+        return $this->_getValidator()->getValidatePaymentDataUrl();
     }
 
     /**
