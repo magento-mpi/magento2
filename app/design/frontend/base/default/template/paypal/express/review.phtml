@@ -47,7 +47,7 @@
                 <p><strong><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></strong></p>
             <?php else: ?>
 
-            <form method="post" id="shipping_method_form" action="<?php echo $this->getUrl('paypal/express/saveShippingMethod') ?>">
+            <form method="post" id="shipping_method_form" action="<?php echo $this->getUrl($this->getPaypalActionPrefix().'/express/saveShippingMethod') ?>">
                 <div>
                 <select name="shipping_method" id="shipping_method" style="width:250px;" class="required-entry">
                 <?php if(!$this->getAddressShippingMethod()): ?>
@@ -92,7 +92,7 @@
 <?php endif; ?>
 
 <h2><?php echo $this->__('Billing Information') ?></h2>
-<h3><?php echo $this->__('Payment Method') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h3>
+<h3><?php echo $this->__('Payment Method') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl($this->getPaypalActionPrefix().'/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h3>
 <h3><?php echo $this->__('Billing Address') ?></h3>
 <address>
 <?php echo $this->getBillingAddress()->getFormated(true) ?>
@@ -107,7 +107,7 @@
 
 <br />
 
-<form method="post" id="order_review_form" action="<?php echo $this->getUrl('paypal/express/placeOrder') ?>">
+<form method="post" id="order_review_form" action="<?php echo $this->getUrl($this->getPaypalActionPrefix().'/express/placeOrder') ?>">
     <fieldset>
         <span id="review-buttons-container">
             <button class="button" id="review_button" value="<?php echo $this->__('Place an Order') ?>"><span><span><?php echo $this->__('Place an Order') ?></span></span></button>

@@ -49,7 +49,11 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             ->setCcNumber($data->getCcNumber())
             ->setCcCid($data->getCcCid())
             ->setCcExpMonth($data->getCcExpMonth())
-            ->setCcExpYear($data->getCcExpYear());
+            ->setCcExpYear($data->getCcExpYear())
+            ->setCcSsIssue($data->getCcSsIssue())
+            ->setCcSsStartMonth($data->getCcSsStartMonth())
+            ->setCcSsStartYear($data->getCcSsStartYear())
+            ;
         return $this;
     }
 
@@ -95,10 +99,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
 
         $ccType = '';
 
-        if (!$this->_validateExpDate($info->getCcExpYear(), $info->getCcExpMonth())) {
-            $errorCode = 'ccsave_expiration,ccsave_expiration_yr';
-            $errorMsg = $this->_getHelper()->__('Incorrect credit card expiration date');
-        }
+
 
         if (in_array($info->getCcType(), $availableTypes)){
             if ($this->validateCcNum($ccNumber)
@@ -137,8 +138,8 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             $errorMsg = $this->_getHelper()->__('Credit card type is not allowed for this payment method');
         }
 
-                                //validate credit card verification number
-        if ($errorMsg === false && $this->hasVerification()) {
+        //validate credit card verification number
+        if ($errorMsg === false && $this->hasVerification() && $ccType != 'SS') {
             $verifcationRegEx = $this->getVerificationRegEx();
             $regExp = isset($verifcationRegEx[$info->getCcType()]) ? $verifcationRegEx[$info->getCcType()] : '';
             if (!$info->getCcCid() || !$regExp || !preg_match($regExp ,$info->getCcCid())){
@@ -155,6 +156,10 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             $this->getCentinelValidator()->validate($this->getCentinelValidationData());
         }
 
+        if ($ccType != 'SS' && !$this->_validateExpDate($info->getCcExpYear(), $info->getCcExpMonth())) {
+            $errorCode = 'ccsave_expiration,ccsave_expiration_yr';
+            $errorMsg = $this->_getHelper()->__('Incorrect credit card expiration date');
+        }
         return $this;
     }
 
@@ -300,7 +305,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             ->setIsPlaceOrder($this->_isPlaceOrder());
         return $validator;
     }
-    
+
     /**
      * Return data for Centinel validation
      *

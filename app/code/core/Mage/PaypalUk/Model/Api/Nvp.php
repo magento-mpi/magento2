@@ -45,6 +45,16 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
      * @var unknown_type
      */
     const TENDER_CC                 = 'C';
+    const TENDER_PAYPAL             = 'P';
+
+    /**
+     * Express Checkout Actions
+     *
+     * @var string
+     */
+    const EXPRESS_SET               = 'S';
+    const EXPRESS_GET               = 'G';
+    const EXPRESS_DO_PAYMENT        = 'D';
 
     /**
      * Response codes definition
@@ -52,6 +62,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
      * @var unknown_type
      */
     const RESPONSE_CODE_APPROVED = 0;
+    const RESPONSE_CODE_FRAUD = 126;
 
     /**
      * Capture types (make authorization close or remain open)
@@ -78,17 +89,9 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
         'INVNUM'        => 'inv_num',
         'TOKEN'         => 'token',
         'CORRELATIONID' => 'correlation_id',
-        'SOLUTIONTYPE'  => 'solution_type',
-        'GIROPAYCANCELURL'  => 'giropay_cancel_url',
-        'GIROPAYSUCCESSURL' => 'giropay_success_url',
-        'BANKTXNPENDINGURL' => 'giropay_bank_txn_pending_url',
         'CUSTIP'         => 'ip_address',
         'NOTIFYURL'         => 'notify_url',
-        'RETURNFMFDETAILS'  => 'fraud_management_filters_enabled',
         'NOTE'              => 'note',
-        'COMMENT1'          => 'note',
-        'REFUNDTYPE'        => 'refund_type',
-        'ACTION'            => 'action',
         // style settings
         'PAGESTYLE'      => 'page_style',
         'HDRIMG'         => 'hdrimg',
@@ -96,28 +99,21 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
         'HDRBACKCOLOR'   => 'hdrbackcolor',
         'PAYFLOWCOLOR'   => 'payflowcolor',
         'LOCALECODE'     => 'locale_code',
-        'PAL'            => 'pal',
 
         // transaction info
+        'PPREF'   => 'paypal_transaction_id',//We need to store paypal trx id for correct IPN working
         'PNREF'   => 'transaction_id',
         'ORIGID'    => 'authorization_id',
-        'AUTHORIZATIONID' => 'authorization_id',
-        'REFUNDTRANSACTIONID' => 'refund_transaction_id',
         'CAPTURECOMPLETE'    => 'complete_type',
-        'AMT' => 'amount',
-        'PPREF' => 'payment_id', // possible mistake, check with API reference
+        'AMT'           => 'amount',
         'AVSADDR'       => 'address_verification',
         'AVSZIP'        =>  'postcode_verification',
 
         // payment/billing info
         'CURRENCY'  => 'currency_code',
-        'PAYMENTSTATUS' => 'payment_status',
         'PENDINGREASON' => 'pending_reason',
-        'PROTECTIONELIGIBILITY' => 'protection_eligibility',
         'PAYERID' => 'payer_id',
         'PAYERSTATUS' => 'payer_status',
-        'ADDRESSID' => 'address_id',
-        'ADDRESSSTATUS' => 'address_status',
         'EMAIL'         => 'email',
         // backwards compatibility
         'FIRSTNAME'     => 'firstname',
@@ -126,10 +122,9 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
         'ACCT'           => 'credit_card_number',
         'EXPDATE'        => 'credit_card_expiration_date',
         'CVV2'           => 'credit_card_cvv2',
-        'STARTDATE'      => 'maestro_solo_issue_date', // MMYYYY, always six chars, including leading zero
-        'ISSUENUMBER'    => 'maestro_solo_issue_number',
+        'CARDSTART'      => 'maestro_solo_issue_date', // MMYYYY, always six chars, including leading zero
+        'CARDISSUE'    => 'maestro_solo_issue_number',
         'CVV2MATCH'      => 'cvv2_check_result',
-        'AVSCODE'        => 'avs_result',
         // cardinal centinel
         'AUTHSTATUS3D' => 'centinel_authstatus',
         'MPIVENDOR3DS' => 'centinel_mpivendor',
@@ -138,7 +133,6 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
         'XID'          => 'centinel_xid',
         'VPAS'         => 'centinel_vpas_result',
         'ECISUBMITTED3DS' => 'centinel_eci_result',
-
     );
 
     /**
@@ -147,7 +141,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
      * @var array
      */
     protected $_debugReplacePrivateDataKeys = array(
-        'ACCT', 'EXPDATE', 'CVV2', 'CARDISSUE', 'CARDSTART',
+        'ACCT', 'EXPDATE', 'CVV2',
         'PARTNER', 'USER', 'VENDOR', 'PWD',
     );
 
@@ -157,11 +151,11 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
      */
     protected $_doDirectPaymentRequest = array(
         'ACCT', 'EXPDATE', 'CVV2', 'CURRENCY', 'EMAIL', 'TENDER',
-        'AMT', 'CUSTIP', 'INVNUM'
+        'AMT', 'CUSTIP', 'INVNUM',
+        'CARDISSUE', 'CARDSTART',
     );
     protected $_doDirectPaymentResponse = array(
-        'PNREF', 'CORRELATIONID', 'CVV2MATCH'
-        //'AMT', 'AVSADDR', 'AVSZIP', 'PPREF'
+        'PNREF', 'PPREF', 'CORRELATIONID', 'CVV2MATCH', 'AVSADDR', 'AVSZIP', 'PENDINGREASON'
     );
 
     /**
@@ -188,7 +182,44 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
      * @var array
      */
     protected $_refundTransactionRequest = array('ORIGID', 'TENDER');
-    protected $_refundTransactionResponse = array('PNREF');
+    protected $_refundTransactionResponse = array('PNREF', 'PPREF');
+
+    /**
+     * SetExpressCheckout request/response map
+     * @var array
+     */
+    protected $_setExpressCheckoutRequest = array(
+        'TENDER', 'AMT', 'CURRENCY', 'RETURNURL', 'CANCELURL', 'INVNUM',
+        'PAGESTYLE', 'HDRIMG', 'HDRBORDERCOLOR', 'HDRBACKCOLOR', 'PAYFLOWCOLOR', 'LOCALECODE',
+    );
+    protected $_setExpressCheckoutResponse = array('REPMSG', 'TOKEN');
+
+    /**
+     * GetExpressCheckoutDetails request/response map
+     * @var array
+     */
+    protected $_getExpressCheckoutDetailsRequest = array('TENDER', 'TOKEN');
+
+    /**
+     * DoExpressCheckoutPayment request/response map
+     * @var array
+     */
+    protected $_doExpressCheckoutPaymentRequest = array(
+        'TENDER', 'TOKEN', 'PAYERID', 'AMT', 'CURRENCY', 'CUSTIP', 'BUTTONSOURCE', 'NOTIFYURL',
+    );
+    protected $_doExpressCheckoutPaymentResponse = array(
+        'PNREF', 'PPREF', 'REPMSG', 'AMT', 'PENDINGREASON',
+        'CVV2MATCH', 'AVSADDR', 'AVSZIP', 'CORRELATIONID'
+    );
+
+    /**
+     * GetTransactionDetailsRequest
+     * @var array
+     */
+    protected $_getTransactionDetailsRequest = array('ORIGID', 'TENDER');
+    protected $_getTransactionDetailsResponse = array(
+        'PAYERID', 'FIRSTNAME', 'LASTNAME', 'TRANSACTIONID', 'PARENTTRANSACTIONID', 'CURRENCYCODE', 'AMT', 'PAYMENTSTATUS'
+    );
 
     /**
      * Map for shipping address import/export (extends billing address mapper)
@@ -226,6 +257,26 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
         'STREET2'  => 'street2',
         'ZIP'      => 'postcode',
         'PHONENUM' => 'telephone',
+    );
+
+    /**
+     * Line items export mapping settings
+     * @var array
+     */
+    protected $_lineItemExportTotals = array();
+    protected $_lineItemExportItemsFormat = array(
+        'name'   => 'L_NAME%d',
+        'qty'    => 'L_QTY%d',
+        'amount' => 'L_COST%d',
+    );
+
+    /**
+     * Payment information response specifically to be collected after some requests
+     * @var array
+     */
+    protected $_paymentInformationResponse = array(
+        'PAYERID', 'CORRELATIONID', 'ADDRESSID', 'ADDRESSSTATUS',
+        'PAYMENTSTATUS', 'PENDINGREASON', 'PROTECTIONELIGIBILITY', 'EMAIL',
     );
 
     /**
@@ -269,12 +320,25 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
     }
 
     /**
+     * Return PaypalUk vendor based on config data
+     *
+     * @return string
+     */
+    public function getVendor()
+    {
+        return $this->_getDataOrConfig('vendor');
+    }
+
+    /**
      * Return PaypalUk tender based on config data
      *
      * @return string
      */
     public function getTender()
     {
+        if ($this->_config->getMethodCode() == Mage_PaypalUk_Model_Config::METHOD_WPP_PE_EXPRESS) {
+            return self::TENDER_PAYPAL;
+        }
         return self::TENDER_CC;
     }
 
@@ -288,7 +352,29 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
     protected function _addMethodToRequest($methodName, $request)
     {
         $request['TRXTYPE'] = $this->_mapPaypalMethodName($methodName);
+        if (!is_null($this->_getPaypalUkActionName($methodName))) {
+            $request['ACTION'] = $this->_getPaypalUkActionName($methodName);
+        }
         return $request;
+    }
+
+    /**
+     * Return Payflow Edition
+     *
+     * @param string
+     * @return string | null
+     */
+    protected function _getPaypalUkActionName($methodName)
+    {
+        switch($methodName) {
+            case Mage_Paypal_Model_Api_Nvp::SET_EXPRESS_CHECKOUT:
+                return self::EXPRESS_SET;
+            case Mage_Paypal_Model_Api_Nvp::GET_EXPRESS_CHECKOUT_DETAILS:
+                return self::EXPRESS_GET;
+            case Mage_Paypal_Model_Api_Nvp::DO_EXPRESS_CHECKOUT_PAYMENT:
+                return self::EXPRESS_DO_PAYMENT;
+        }
+        return null;
     }
 
     /**
@@ -300,6 +386,9 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
     protected function _mapPaypalMethodName($methodName)
     {
         switch($methodName) {
+            case Mage_Paypal_Model_Api_Nvp::DO_EXPRESS_CHECKOUT_PAYMENT:
+            case Mage_Paypal_Model_Api_Nvp::GET_EXPRESS_CHECKOUT_DETAILS:
+            case Mage_Paypal_Model_Api_Nvp::SET_EXPRESS_CHECKOUT:
             case Mage_Paypal_Model_Api_Nvp::DO_DIRECT_PAYMENT:
                 return ($this->_config->payment_action == 'authorize') ?
                     self::TRXTYPE_AUTH_ONLY:
@@ -348,13 +437,48 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
     }
 
     /**
-     * Line items export mapping settings
-     * @var array
+     * Build query string without urlencoding from request
+     *
+     * @param array $request
+     * @return string
      */
-    protected $_lineItemExportTotals = array();
-    protected $_lineItemExportItemsFormat = array(
-        'name'   => 'L_NAME%d',
-        'qty'    => 'L_QTY%d',
-        'amount' => 'L_COST%d',
-    );
+    protected function _buildQuery($request)
+    {
+        $result = '';
+        foreach ($request as $k=>$v) {
+            $result .= '&'.$k.'='.$v;
+        }
+        return trim($result, '&');
+    }
+
+    /**
+     * Generate Request ID
+     *
+     * @return
+     */
+    protected function getRequestId()
+    {
+        return Mage::helper('core')->uniqHash();
+    }
+
+    /**
+     * "GetTransactionDetails" method does not exists in PaypalUK
+     */
+    function callGetTransactionDetails()
+    {
+    }
+
+    /**
+     * Get FMF results from response, if any
+     *
+     * @param array $from
+     * @param array $collectedWarnings
+     */
+    protected function _importFraudFiltersResult(array $from, array $collectedWarnings)
+    {
+        if ($from['RESULT'] != self::RESPONSE_CODE_FRAUD) {
+            return;
+        }
+        $this->setIsPaymentPending(true);
+    }
 }

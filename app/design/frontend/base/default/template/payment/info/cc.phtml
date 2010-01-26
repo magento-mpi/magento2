@@ -36,6 +36,6 @@
         <?php echo $this->htmlEscape(Mage::helper('payment')->__('Switch/Solo card issue number: %s', $this->getInfo()->getCcSsIssue())) ?><br/>
     <?php endif; ?>
     <?php if($this->getInfo()->getCcSsStartYear()): ?>
-        <?php echo $this->htmlEscape(Mage::helper('payment')->__('Switch/Solo card start Date: %s/%s', $this->getInfo()->getCcStartMonth(), $this->getInfo()->getCcSsStartYear())) ?>
+        <?php echo $this->htmlEscape(Mage::helper('payment')->__('Switch/Solo card start Date: %s/%s', sprintf('%02d', $this->getInfo()->getCcSsStartMonth()), $this->getInfo()->getCcSsStartYear())) ?>
     <?php endif; ?>
 <?php endif; ?>

@@ -37,6 +37,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     const DO_CAPTURE = 'DoCapture';
     const DO_VOID = 'DoVoid';
     const REFUND_TRANSACTION = 'RefundTransaction';
+    const SET_EXPRESS_CHECKOUT = 'SetExpressCheckout';
+    const GET_EXPRESS_CHECKOUT_DETAILS = 'GetExpressCheckoutDetails';
+    const DO_EXPRESS_CHECKOUT_PAYMENT = 'DoExpressCheckoutPayment';
 
     /**
      * Capture types (make authorization close or remain open)
@@ -362,7 +365,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $request['NOSHIPPING'] = 1;
         }
 
-        $response = $this->call('SetExpressCheckout', $request);
+        $response = $this->call(self::SET_EXPRESS_CHECKOUT, $request);
         $this->_importFromResponse($this->_setExpressCheckoutResponse, $response);
     }
 
@@ -373,7 +376,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     function callGetExpressCheckoutDetails()
     {
         $request = $this->_exportToRequest($this->_getExpressCheckoutDetailsRequest);
-        $response = $this->call('GetExpressCheckoutDetails', $request);
+        $response = $this->call(self::GET_EXPRESS_CHECKOUT_DETAILS, $request);
         $this->_importFromResponse($this->_paymentInformationResponse, $response);
         $this->_exportAddressses($response);
     }
@@ -387,7 +390,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $request = $this->_exportToRequest($this->_doExpressCheckoutPaymentRequest);
         $this->_exportLineItems($request);
 
-        $response = $this->call('DoExpressCheckoutPayment', $request);
+        $response = $this->call(self::DO_EXPRESS_CHECKOUT_PAYMENT, $request);
         $this->_importFromResponse($this->_paymentInformationResponse, $response);
         $this->_importFromResponse($this->_doExpressCheckoutPaymentResponse, $response);
         $this->_importFraudFiltersResult($response, $this->_callWarnings);
@@ -533,7 +536,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $config['proxy'] = $this->getProxyHost(). ':' . $this->getProxyPort();
         }
         $http->setConfig($config);
-        $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', array(), http_build_query($request));
+        $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', array(), $this->_buildQuery($request));
         $response = $http->read();
         $http->close();
         $response = preg_split('/^\r?$/m', $response, 2);

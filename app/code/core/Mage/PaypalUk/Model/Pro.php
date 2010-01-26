@@ -45,6 +45,13 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
     protected $_configType = 'paypaluk/config';
 
     /**
+     * Payflow trx_id key in transaction info
+     *
+     * @var string
+     */
+    const TRANSPORT_PAYFLOW_TXN_ID = 'payflow_trxid';
+
+    /**
      * Refund a capture transaction
      *
      * @param Varien_Object $payment
@@ -52,10 +59,64 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
      */
     public function refund(Varien_Object $payment, $amount)
     {
-        if ($captureTxnId = $payment->getParentTransactionId()) {
+        if ($captureTxnId = $this->_getParentTransactionId($payment)) {
             $api = $this->getApi();
             $api->setAuthorizationId($captureTxnId);
         }
         parent::refund($payment, $amount);
+    }
+
+    /**
+     * Is capture request needed on this transaction
+     *
+     * @return true
+     */
+    protected function _isCaptureNeeded()
+    {
+        return true;
+    }
+
+    /**
+     * Get payflow transaction id from parent transaction
+     *
+     * @param Varien_Object $payment
+     * @return string
+     */
+    protected function _getParentTransactionId(Varien_Object $payment)
+    {
+        return $payment->getTransaction($payment->getParentTransactionId())
+                            ->getAdditionalInformation(Mage_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID);
+    }
+
+    /**
+     * Import capture results to payment
+     *
+     * @param Mage_Paypal_Model_Api_Nvp
+     * @param Mage_Sales_Model_Order_Payment
+     */
+    protected function _importCaptureResultToPayment($api, $payment)
+    {
+        $payment->setTransactionId($api->getPaypalTransactionId())
+                ->setIsTransactionClosed(false)
+                ->setTransactionAdditionalInfo(Mage_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId());
+
+        Mage::getModel('paypal/info')->importToPayment($api, $payment);
+    }
+
+    /**
+     * Import refund results to payment
+     *
+     * @param Mage_Paypal_Model_Api_Nvp
+     * @param Mage_Sales_Model_Order_Payment
+     * @param bool $canRefundMore
+     */
+    protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
+    {
+        $payment->setTransactionId($api->getPaypalTransactionId())
+                ->setIsTransactionClosed(1) // refund initiated by merchant
+                ->setShouldCloseParentTransaction(!$canRefundMore)
+                ->setTransactionAdditionalInfo(Mage_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId());
+            ;
+        Mage::getModel('paypal/info')->importToPayment($api, $payment);
     }
 }

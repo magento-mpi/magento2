@@ -241,9 +241,11 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             ->setCreditCardNumber($payment->getCcNumber())
             ->setCreditCardExpirationDate(sprintf('%02d%02d', $payment->getCcExpMonth(), $payment->getCcExpYear()))
             ->setCreditCardCvv2($payment->getCcCid())
-//            ->setMaestroSoloIssueDate()
-//            ->setMaestroSoloIssueNumber()
+            ->setMaestroSoloIssueNumber($payment->getCcSsIssue())
         ;
+        if ($payment->getCcSsStartMonth() && $payment->getCcSsStartYear()) {
+            $api->setMaestroSoloIssueDate(sprintf('%02d%02d', $payment->getCcSsStartMonth(), preg_replace('~\d\d(\d\d)~','$1', $payment->getCcSsStartYear())));
+        }
         if ($this->getIsCentinelValidationEnabled()) {
             $this->getCentinelValidator()->exportCmpi($api, array(
                 'enrolled'      => 'centinel_mpivendor',
@@ -269,10 +271,20 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 
         // call api and import transaction and other payment information
         $api->callDoDirectPayment();
+        $this->_importResultToPayment($api, $payment);
+        return $this;
+    }
+
+    /**
+     * Import direct payment results to payment
+     *
+     * @param Mage_Paypal_Model_Api_Nvp
+     * @param Mage_Sales_Model_Order_Payment
+     */
+    protected function _importResultToPayment($api, $payment)
+    {
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
             ->setIsTransactionPending($api->getIsPaymentPending());
         Mage::getModel($this->_infoType)->importToPayment($api, $payment);
-        //exit;
-        return $this;
     }
 }

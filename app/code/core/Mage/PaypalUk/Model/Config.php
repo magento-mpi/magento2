@@ -36,6 +36,7 @@ class Mage_PaypalUk_Model_Config extends Mage_Paypal_Model_Config
      * @var string
      */
     const METHOD_WPP_PE_DIRECT  = 'paypaluk_direct';
+    const METHOD_WPP_PE_EXPRESS  = 'paypaluk_express';
 
     /**
      * Instructions for generating proper BN code (Payflow Edition)
@@ -72,11 +73,19 @@ class Mage_PaypalUk_Model_Config extends Mage_Paypal_Model_Config
      */
     protected function _getSpecificConfigPath($fieldName)
     {
+        $path = null;
         if (self::METHOD_WPP_PE_DIRECT === $this->_methodCode) {
             $path = $this->_mapDirectFieldset($fieldName);
         }
+        if (self::METHOD_WPP_PE_EXPRESS === $this->_methodCode) {
+            $path = $this->_mapExpressFieldset($fieldName);
+        }
+
         if (!$path) {
             $path = $this->_mapWpukFieldset($fieldName);
+        }
+        if (!$path) {
+            $path = $this->_mapWppStyleFieldset($fieldName);
         }
         return $path;
     }
@@ -142,6 +151,32 @@ class Mage_PaypalUk_Model_Config extends Mage_Paypal_Model_Config
             case 'debug_flag':
             case 'sandbox_flag':
                 return "paypal/wpuk/{$fieldName}";
+        }
+    }
+
+    /**
+     * Map PayPal Express config fields
+     *
+     * @param string $fieldName
+     * @return string|null
+     */
+    protected function _mapExpressFieldset($fieldName)
+    {
+        switch ($fieldName)
+        {
+            case 'active':
+            case 'allowspecific':
+            case 'fraud_filter':
+            case 'invoice_email_copy':
+            case 'line_items_enabled':
+            case 'order_status':
+            case 'payment_action':
+            case 'solution_type':
+            case 'sort_order':
+            case 'specificcountry':
+            case 'title':
+            case 'visible_on_cart':
+                return 'payment/' . self::METHOD_WPP_PE_EXPRESS . "/{$fieldName}";
         }
     }
 }

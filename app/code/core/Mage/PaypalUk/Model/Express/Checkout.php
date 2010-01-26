@@ -24,11 +24,23 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-class Mage_PaypalUk_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
+/**
+ * Wrapper that performs Paypal Express and Checkout communication
+ * Use current Paypal Express method instance
+ */
+class Mage_PaypalUk_Model_Express_Checkout extends Mage_Paypal_Model_Express_Checkout
 {
-    protected function _construct()
-    {
-        $this->_init('paypaluk/api_debug', 'debug_id');
-    }
+    /**
+     * Api Model Type
+     *
+     * @var string
+     */
+    protected $_apiType = 'paypaluk/api_nvp';
+
+    /**
+     * Payment method tpye
+     * @var unknown_type
+     */
+    protected $_methodType = Mage_PaypalUk_Model_Config::METHOD_WPP_PE_EXPRESS;
+
 }

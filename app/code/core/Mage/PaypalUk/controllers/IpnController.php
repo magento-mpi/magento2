@@ -19,47 +19,28 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_PaypalUk
+ * @package     Mage_Paypal
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * PaypalUk Express Onepage checkout block
- *
- * @category   Mage
- * @package    Mage_PaypalUk
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Unified IPN controller for all supported PayPal methods
  */
-class Mage_PaypalUk_Block_Express_Review_Details extends Mage_Checkout_Block_Cart_Totals
+class Mage_PaypalUk_IpnController extends Mage_Paypal_Controller_Ipn_Abstract
 {
-    protected $_address;
+    /**
+     * Config Model Type
+     *
+     * @var string
+     */
+    protected $_configType = 'paypaluk/config';
 
     /**
-     * Get PayPal Express Review Information
-     *
-     * @return Mage_Paypal_Model_Express_Review
+     * Process IPN for PayPal Express
      */
-    public function getReview()
+    public function expressAction()
     {
-        return Mage::getSingleton('paypaluk/express_review');
-    }
-
-    public function getAddress()
-    {
-        if (empty($this->_address)) {
-            $this->_address = $this->getReview()->getQuote()->getShippingAddress();
-        }
-        return $this->_address;
-    }
-
-    public function getItems()
-    {
-        return $this->getReview()->getQuote()->getAllItems();
-    }
-
-    public function getTotals()
-    {
-        return $this->getReview()->getQuote()->getTotals();
+        return $this->_ipnAction(Mage_PaypalUk_Model_Config::METHOD_WPP_PE_EXPRESS);
     }
 }

@@ -270,6 +270,16 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     * Whether payment is completed
+     *
+     * @return bool
+     */
+    public function isPaymentComplete()
+    {
+        return $this->isPaid($this->getPaymentStatus());
+    }
+
+    /**
      * Export $this public data to private request array
      *
      * @param array $internalRequestMap
@@ -280,7 +290,9 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     {
         $map = array();
         foreach ($privateRequestMap as $key) {
-            $map[$this->_globalMap[$key]] = $key;
+            if (isset($this->_globalMap[$key])) {
+                $map[$this->_globalMap[$key]] = $key;
+            }
         }
         $result = Varien_Object_Mapper::accumulateByMap(array($this, 'getDataUsingMethod'), $request, $map);
         foreach ($privateRequestMap as $key) {
@@ -304,7 +316,9 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     {
         $map = array();
         foreach ($privateResponseMap as $key) {
-            $map[$key] = isset($this->_globalMap[$key]) ? $this->_globalMap[$key] : null;
+            if (isset($this->_globalMap[$key])) {
+                $map[$key] = $this->_globalMap[$key];
+            }
             if (isset($response[$key]) && isset($this->_importFromRequestFilters[$key])) {
                 $callback = $this->_importFromRequestFilters[$key];
                 $response[$key] = call_user_func(array($this, $callback), $response[$key], $key, $map[$key]);
@@ -413,5 +427,16 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
                 $to[$key] = $value;
             }
         }
+    }
+
+    /**
+     * Build query string from request
+     *
+     * @param array $request
+     * @return string
+     */
+    protected function _buildQuery($request)
+    {
+        return http_build_query($request);
     }
 }

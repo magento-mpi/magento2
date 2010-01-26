@@ -38,4 +38,19 @@ class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
      * @var $_proType string
      */
     protected $_proType = 'paypaluk/pro';
+
+    /**
+     * Import direct payment results to payment
+     *
+     * @param Mage_Paypal_Model_Api_Nvp
+     * @param Mage_Sales_Model_Order_Payment
+     */
+    protected function _importResultToPayment($api, $payment)
+    {
+        $payment->setTransactionId($api->getPaypalTransactionId())->setIsTransactionClosed(0)
+            ->setIsTransactionPending($api->getIsPaymentPending())
+            ->setTransactionAdditionalInfo(Mage_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId())
+            ;
+        Mage::getModel($this->_infoType)->importToPayment($api, $payment);
+    }
 }

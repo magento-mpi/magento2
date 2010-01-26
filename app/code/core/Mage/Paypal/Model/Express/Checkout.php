@@ -64,6 +64,20 @@ class Mage_Paypal_Model_Express_Checkout
     protected $_api = null;
 
     /**
+     * Api Model Type
+     *
+     * @var string
+     */
+    protected $_apiType = 'paypal/api_nvp';
+
+    /**
+     * Payment method type
+     *
+     * @var unknown_type
+     */
+    protected $_methodType = Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS;
+
+    /**
      * State helper variables
      * @var string
      */
@@ -151,7 +165,6 @@ class Mage_Paypal_Model_Express_Checkout
     public function start($returnUrl, $cancelUrl)
     {
         $this->_quote->reserveOrderId()->save();
-
         // prepare API
         $this->_getApi();
         $this->_api->setAmount($this->_quote->getBaseGrandTotal())
@@ -228,7 +241,7 @@ class Mage_Paypal_Model_Express_Checkout
 
         // import payment info
         $payment = $this->_quote->getPayment();
-        $payment->setMethod(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
+        $payment->setMethod($this->_methodType);
         Mage::getSingleton('paypal/info')->importToPayment($this->_api, $payment);
         $payment->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_PAYER_ID, $this->_api->getPayerId())
             ->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_TOKEN, $token)
@@ -342,7 +355,7 @@ class Mage_Paypal_Model_Express_Checkout
     protected function _getApi()
     {
         if (null === $this->_api) {
-            $this->_api = Mage::getModel('paypal/api_nvp')->setConfigObject($this->_config);
+            $this->_api = Mage::getModel($this->_apiType)->setConfigObject($this->_config);
         }
         return $this->_api;
     }
