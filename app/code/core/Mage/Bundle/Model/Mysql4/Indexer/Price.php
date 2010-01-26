@@ -315,7 +315,7 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
 
         $this->_prepareDefaultFinalPriceTable();
 
-        $minPrice  = new Zend_Db_Expr("IF(SUM(io.min_price) = 0, SUM(io.alt_price), SUM(io.min_price)) + i.price");
+        $minPrice  = new Zend_Db_Expr("IF(SUM(io.min_price) = 0, MIN(io.alt_price), SUM(io.min_price)) + i.price");
         $maxPrice  = new Zend_Db_Expr("SUM(io.max_price) + i.price");
         $tierPrice = new Zend_Db_Expr("IF(i.tier_percent IS NOT NULL, IF(SUM(io.tier_price) = 0, "
             . "SUM(io.alt_tier_price), SUM(io.tier_price)) + i.tier_price, NULL)");
