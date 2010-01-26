@@ -261,20 +261,20 @@ tinyMceWysiwygSetup.prototype =
 	encodeWidgets: function(content) {
         return content.gsub(/\{\{widget(.*?)\}\}/i, function(match){
             var attributes = this.parseAttributesString(match[1]);
-            var placeholderFilename = attributes.type.replace(/\//g, "__") + ".gif";
-            if(!this.widgetPlaceholderExist(placeholderFilename)) {
-                placeholderFilename = 'default.gif';
+            if (attributes.type) {
+                var placeholderFilename = attributes.type.replace(/\//g, "__") + ".gif";
+                if (!this.widgetPlaceholderExist(placeholderFilename)) {
+                    placeholderFilename = 'default.gif';
+                }
+                var imageSrc = this.config.widget_images_url + placeholderFilename;
+                var imageHtml = '<img';
+                    imageHtml+= ' id="' + Base64.idEncode(match[0]) + '"';
+                    imageHtml+= ' src="' + imageSrc + '"';
+                    imageHtml+= ' title="' + match[0].replace(/\{\{/g, '{').replace(/\}\}/g, '}').replace(/\"/g, '&quot;') + '"';
+                    imageHtml+= '>';
+
+                return imageHtml;
             }
-            var imageSrc = this.config.widget_images_url + placeholderFilename;
-
-            var imageHtml = '<img';
-                imageHtml+= ' id="' + Base64.idEncode(match[0]) + '"';
-                imageHtml+= ' src="' + imageSrc + '"';
-                imageHtml+= ' title="' + match[0].replace(/\{\{/g, '{').replace(/\}\}/g, '}').replace(/\"/g, '&quot;') + '"';
-                imageHtml+= '>';
-
-            return imageHtml;
-
         }.bind(this));
     },
 
