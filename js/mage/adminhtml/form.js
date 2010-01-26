@@ -41,6 +41,16 @@ varienForm.prototype = {
             elm.setHasError(false, this);
     },
 
+    validate : function(){
+        if(this.validator && this.validator.validate()){
+            if(this.validationUrl){
+                this._validate();
+            }
+            return true;
+        }
+        return false;
+    },
+
     submit : function(url){
         if (typeof varienGlobalEvents != undefined) {
             varienGlobalEvents.fireEvent('formSubmit', this.formId);
