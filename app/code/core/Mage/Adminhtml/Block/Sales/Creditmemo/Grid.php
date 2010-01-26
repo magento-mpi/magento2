@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
         $this->addColumn('increment_id', array(
             'header'    => Mage::helper('sales')->__('Credit Memo #'),
             'index'     => 'increment_id',
-            'type'      => 'number',
+            'type'      => 'text',
         ));
 
         $this->addColumn('created_at', array(
@@ -126,6 +126,9 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
                 'sortable'  => false,
                 'is_system' => true
         ));
+
+        $this->addExportType('*/*/exportCsv', Mage::helper('sales')->__('CSV'));
+        $this->addExportType('*/*/exportExcel', Mage::helper('sales')->__('Excel'));
 
         return parent::_prepareColumns();
     }

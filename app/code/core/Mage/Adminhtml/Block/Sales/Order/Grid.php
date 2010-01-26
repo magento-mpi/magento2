@@ -91,29 +91,11 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
             'width' => '100px',
         ));
 
-        /*$this->addColumn('billing_firstname', array(
-            'header' => Mage::helper('sales')->__('Bill to First name'),
-            'index' => 'billing_firstname',
-        ));
-
-        $this->addColumn('billing_lastname', array(
-            'header' => Mage::helper('sales')->__('Bill to Last name'),
-            'index' => 'billing_lastname',
-        ));*/
         $this->addColumn('billing_name', array(
             'header' => Mage::helper('sales')->__('Bill to Name'),
             'index' => 'billing_name',
         ));
 
-        /*$this->addColumn('shipping_firstname', array(
-            'header' => Mage::helper('sales')->__('Ship to First name'),
-            'index' => 'shipping_firstname',
-        ));
-
-        $this->addColumn('shipping_lastname', array(
-            'header' => Mage::helper('sales')->__('Ship to Last name'),
-            'index' => 'shipping_lastname',
-        ));*/
         $this->addColumn('shipping_name', array(
             'header' => Mage::helper('sales')->__('Ship to Name'),
             'index' => 'shipping_name',
@@ -163,6 +145,9 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
         }
         $this->addRssList('rss/order/new', Mage::helper('sales')->__('New Order RSS'));
 
+        $this->addExportType('*/*/exportCsv', Mage::helper('sales')->__('CSV'));
+        $this->addExportType('*/*/exportExcel', Mage::helper('sales')->__('Excel'));
+
         return parent::_prepareColumns();
     }
 
@@ -211,42 +196,6 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
              'label'=> Mage::helper('sales')->__('Print All'),
              'url'  => $this->getUrl('*/*/pdfdocs'),
         ));
-
-//        $statuses = Mage::getSingleton('sales/order_config')->getStatuses();
-//        array_unshift($statuses, array('value'=>'', 'label'=>''));
-//        $this->getMassactionBlock()->addItem('change_status', array(
-//             'label'=> Mage::helper('sales')->__('Change Status'),
-//             'url'  => $this->getUrl('*/*/massStatus'),
-//             'additional' => array(
-//                    'visibility' => array(
-//                             'name' => 'status',
-//                             'type' => 'select',
-//                             'class' => 'required-entry',
-//                             'label' => Mage::helper('sales')->__('New Status'),
-//                             'values' => $statuses
-//                         )
-//             )
-//        ));
-
-//        $prints = array(
-//            'empty'     => array('value'=>'', 'label'=>''),
-//            'order'    => Mage::helper('sales')->__('Orders'),
-//            'invoice'  => Mage::helper('sales')->__('Invoices'),
-//            'shipment' => Mage::helper('sales')->__('Shipments'),
-//        );
-//        $this->getMassactionBlock()->addItem('print', array(
-//             'label'=> Mage::helper('sales')->__('Print'),
-//             'url'  => $this->getUrl('*/*/massPrint'),
-//             'additional' => array(
-//                    'visibility' => array(
-//                             'name' => 'document',
-//                             'type' => 'select',
-//                             'class' => 'required-entry',
-//                             'label' => Mage::helper('sales')->__('Document'),
-//                             'values' => $prints
-//                         )
-//             )
-//        ));
 
         return $this;
     }
