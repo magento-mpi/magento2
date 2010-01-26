@@ -50,6 +50,13 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     protected $_transactionsLookup = array();
 
     /**
+     * Transaction addditional information container
+     *
+     * @var array
+     */
+    protected $_transactionAdditionalInfo = array();
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -715,6 +722,13 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 $transaction->setIsClosed((int)$this->getIsTransactionClosed());
             }
 
+            //set transaction addition information
+            if ($this->_transactionAdditionalInfo) {
+                foreach ($this->_transactionAdditionalInfo as $key => $value) {
+                    $transaction->setAdditionalInformation($key, $value);
+                }
+            }
+
             // link with sales entities
             $this->setLastTransId($transactionId);
             $this->setCreatedTransaction($transaction);
@@ -726,6 +740,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
             // link with parent transaction
             $parentTransactionId = $this->getParentTransactionId();
+
             if ($parentTransactionId) {
                 $transaction->setParentTxnId($parentTransactionId);
                 if ($this->getShouldCloseParentTransaction()) {
@@ -890,6 +905,15 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     }
 
     /**
+     * Lookup an transaction by id
+     * @return Mage_Sales_Model_Order_Payment_Transaction|false
+     */
+    public function getTransaction($transaction_id)
+    {
+        return $this->_lookupTransaction($transaction_id);
+    }
+
+    /**
      * Update transaction ids for further processing
      * If no transactions were set before invoking, may generate an "offline" transaction id
      *
@@ -922,5 +946,16 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             return true;
         }
         return false;
+    }
+
+    /**
+     * Additionnal transaction info setter
+     *
+     * @param sting $key
+     * @param string $value
+     */
+    public function setTransactionAdditionalInfo($key, $value)
+    {
+        $this->_transactionAdditionalInfo[$key] = $value;
     }
 }
