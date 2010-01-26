@@ -252,7 +252,7 @@ AdminOrder.prototype = {
                 elements[i].disabled = false;
                 if(!elements[i].bindChange){
                     elements[i].bindChange = true;
-                    elements[i].paymentContainer = 'payment_form_'+method; //@deprecated after 1.4.0.0-rc1 
+                    elements[i].paymentContainer = 'payment_form_'+method; //@deprecated after 1.4.0.0-rc1
                     elements[i].method = method;
                     elements[i].observe('change', this.changePaymentData.bind(this))
                 }
@@ -271,7 +271,7 @@ AdminOrder.prototype = {
             }
         }
     },
-    
+
     getPaymentData : function(currentMethod){
         if (typeof(currentMethod) == 'undefined') {
             if (this.paymentMethod) {
@@ -279,7 +279,7 @@ AdminOrder.prototype = {
             } else {
                 return false;
             }
-        } 
+        }
         var data = {};
         var fields = $('payment_form_' + currentMethod).select('input', 'select');
         for(var i=0;i<fields.length;i++){
@@ -681,14 +681,16 @@ AdminOrder.prototype = {
     {
         if (this.orderItemChanged) {
             if (confirm('You have item changes')) {
-                disableElements('save');
-                editForm.submit();
+                if (editForm.submit()) {
+                    disableElements('save');
+                }
             } else {
                 this.itemsUpdate();
             }
         } else {
-            disableElements('save');
-            editForm.submit();
+            if (editForm.submit()) {
+                disableElements('save');
+            }
         }
     },
 
