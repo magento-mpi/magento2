@@ -1042,7 +1042,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
         if ($customer->getId()) {
             if ($customer->isInStore($store)) {
-                $customer->addData($this->getData('account'));
+                //$customer->addData($this->getData('account')); // we should not change email and group for existing customer
             } else {
                 $customer->setId(null)
                     ->setStore($store)
