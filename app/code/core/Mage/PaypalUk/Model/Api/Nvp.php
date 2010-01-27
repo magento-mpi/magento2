@@ -390,7 +390,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
             case Mage_Paypal_Model_Api_Nvp::GET_EXPRESS_CHECKOUT_DETAILS:
             case Mage_Paypal_Model_Api_Nvp::SET_EXPRESS_CHECKOUT:
             case Mage_Paypal_Model_Api_Nvp::DO_DIRECT_PAYMENT:
-                return ($this->_config->payment_action == 'authorize') ?
+                return ($this->_config->payment_action == 'Authorization') ?
                     self::TRXTYPE_AUTH_ONLY:
                     self::TRXTYPE_SALE;
             case Mage_Paypal_Model_Api_Nvp::DO_CAPTURE:

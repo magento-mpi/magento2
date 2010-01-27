@@ -52,9 +52,9 @@ class Mage_PaypalUk_Model_Config extends Mage_Paypal_Model_Config
      *
      * @var string
      */
-    const PAYMENT_ACTION_SALE  = 'authorize_capture';
-    const PAYMENT_ACTION_ORDER = 'order';
-    const PAYMENT_ACTION_AUTH  = 'authorize';
+    const PAYMENT_ACTION_SALE  = 'Sale';
+    const PAYMENT_ACTION_ORDER = 'Order';
+    const PAYMENT_ACTION_AUTH  = 'Authorization';
 
     /**
      * Whether current payment method works with credit cards

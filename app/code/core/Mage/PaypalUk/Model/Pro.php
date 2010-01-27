@@ -84,8 +84,11 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
      */
     protected function _getParentTransactionId(Varien_Object $payment)
     {
-        return $payment->getTransaction($payment->getParentTransactionId())
+        if ($payment->getParentTransactionId()) {
+            return $payment->getTransaction($payment->getParentTransactionId())
                             ->getAdditionalInformation(Mage_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID);
+        }
+        return $payment->getParentTransactionId();
     }
 
     /**
