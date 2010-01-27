@@ -482,7 +482,7 @@ class Mage_Paypal_Model_Config
      */
     public function getDirectCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'AE', 'DI', 'SS', 'OT'));
+        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'AE', 'DI', 'OT'));
         return $model->toOptionArray();
     }
 

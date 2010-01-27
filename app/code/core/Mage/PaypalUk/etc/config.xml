@@ -59,17 +59,6 @@
         <blocks>
             <paypaluk><class>Mage_PaypalUk_Block</class></paypaluk>
         </blocks>
-        <payment>
-            <cc>
-                <types>
-                    <SS>
-                        <code>SS</code>
-                        <name>Maestro/Solo</name>
-                        <order>40</order>
-                    </SS>
-                </types>
-            </cc>
-        </payment>
     </global>
     <frontend>
         <secure_url>

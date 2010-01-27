@@ -134,6 +134,30 @@ class Mage_PaypalUk_Model_Config extends Mage_Paypal_Model_Config
     }
 
     /**
+     * Payment actions source getter
+     *
+     * @return array
+     */
+    public function getPaymentActions()
+    {
+        return array(
+            self::PAYMENT_ACTION_AUTH  => Mage::helper('paypal')->__('Authorization'),
+            self::PAYMENT_ACTION_SALE  => Mage::helper('paypal')->__('Sale'),
+        );
+    }
+
+    /**
+     * PayPal Direct cc types source getter
+     *
+     * @return array
+     */
+    public function getDirectCcTypesAsOptionArray()
+    {
+        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'AE', 'DI', 'SS', 'OT'));
+        return $model->toOptionArray();
+    }
+
+    /**
      * Map PayPal Website Payments Pro common config fields
      *
      * @param string $fieldName
