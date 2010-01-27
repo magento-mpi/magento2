@@ -79,21 +79,11 @@ class Mage_Adminhtml_Block_Report_Filter_Form extends Mage_Adminhtml_Block_Widge
             }
         }
 
-        $fieldset->addField('show_order_statuses', 'select', array(
-            'name'      => 'show_order_statuses',
-            'label'     => Mage::helper('reports')->__('Order Status'),
-            'title'     => Mage::helper('reports')->__('Order Status'),
-            'options'   => array(
-                    '0' => Mage::helper('reports')->__('Any'),
-                    '1' => Mage::helper('reports')->__('Specified'),
-                ),
-            'note'      => Mage::helper('reports')->__('Applies to Any of the Specified Order Statuses'),
-        ));
-
-        $fieldset->addField('order_statuses', 'multiselect', array(
-            'name'      => 'order_statuses',
-            'values'    => $values,
-            'display'   => 'none'
+        $fieldset->addField('report_type', 'select', array(
+            'name'      => 'report_type',
+            'options'   => $this->_reportTypeOptions,
+            'label'     => Mage::helper('reports')->__('Report Type'),
+            'title'     => Mage::helper('reports')->__('Report Type')
         ));
 
         $fieldset->addField('period_type', 'select', array(
@@ -125,11 +115,21 @@ class Mage_Adminhtml_Block_Report_Filter_Form extends Mage_Adminhtml_Block_Widge
             'required'  => true
         ));
 
-        $fieldset->addField('report_type', 'select', array(
-            'name'      => 'report_type',
-            'options'   => $this->_reportTypeOptions,
-            'label'     => Mage::helper('reports')->__('Report Type'),
-            'title'     => Mage::helper('reports')->__('Report Type')
+        $fieldset->addField('show_order_statuses', 'select', array(
+            'name'      => 'show_order_statuses',
+            'label'     => Mage::helper('reports')->__('Order Status'),
+            'title'     => Mage::helper('reports')->__('Order Status'),
+            'options'   => array(
+                    '0' => Mage::helper('reports')->__('Any'),
+                    '1' => Mage::helper('reports')->__('Specified'),
+                ),
+            'note'      => Mage::helper('reports')->__('Applies to Any of the Specified Order Statuses'),
+        ));
+
+        $fieldset->addField('order_statuses', 'multiselect', array(
+            'name'      => 'order_statuses',
+            'values'    => $values,
+            'display'   => 'none'
         ));
 
         $fieldset->addField('show_empty_rows', 'select', array(
