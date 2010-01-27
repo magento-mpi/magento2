@@ -149,7 +149,7 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
                         array('cps' => $this->getTable('cms/page_store')),
                         $this->getMainTable().'.page_id = `cps`.page_id'
                     )
-                    ->where('is_active=1 AND `cps`.store_id in (0, ?) ', $object->getStoreId())
+                    ->where('is_active=1 AND `cps`.store_id in (' . Mage_Core_Model_App::ADMIN_STORE_ID . ', ?) ', $object->getStoreId())
                     ->order('store_id DESC')
                     ->limit(1);
         }
@@ -171,7 +171,11 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
         if ($object->getId()) {
             $select->where($this->getMainTable().'.page_id <> ?',$object->getId());
         }
-        $select->where('`cps`.store_id IN (?)', (array)$object->getData('stores'));
+        $stores = (array)$object->getData('stores');
+        if (Mage::app()->isSingleStoreMode()) {
+            $stores = array(Mage_Core_Model_App::ADMIN_STORE_ID);
+        }
+        $select->where('`cps`.store_id IN (?)', $stores);
 
         if ($this->_getWriteAdapter()->fetchRow($select)) {
             return false;
@@ -208,7 +212,7 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
                 'main_table.page_id = `cps`.page_id'
             )
             ->where('main_table.identifier=?', $identifier)
-            ->where('main_table.is_active=1 AND `cps`.store_id in (0, ?) ', $storeId)
+            ->where('main_table.is_active=1 AND `cps`.store_id in (' . Mage_Core_Model_App::ADMIN_STORE_ID . ', ?) ', $storeId)
             ->order('store_id DESC');
 
         return $this->_getReadAdapter()->fetchOne($select);
@@ -225,7 +229,7 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
         $select = $this->_getReadAdapter()->select();
         /* @var $select Zend_Db_Select */
         $joinExpr = $this->_getReadAdapter()->quoteInto(
-            'main_table.page_id = cps.page_id AND (cps.store_id = 0 OR cps.store_id = ?)', $this->getStore()->getId()
+            'main_table.page_id = cps.page_id AND (cps.store_id = ' . Mage_Core_Model_App::ADMIN_STORE_ID . ' OR cps.store_id = ?)', $this->getStore()->getId()
         );
         $select->from(array('main_table' => $this->getMainTable()), 'title')
         ->joinLeft(array('cps' => $this->getTable('cms/page_store')), $joinExpr ,array())
