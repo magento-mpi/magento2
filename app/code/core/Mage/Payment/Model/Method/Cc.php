@@ -291,6 +291,16 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
+     * Return API endpoint URL to the validator instance
+     *
+     * @return string
+     */
+    public function getCentinelApiUrl()
+    {
+        return false;
+    }
+
+    /**
      * Instantiate centinel validator model
      *
      * @retuMage_Centinel_Model_Servicetor
@@ -301,6 +311,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
         $validator->setPaymentMethodCode($this->getCode())
             ->setIsValidationRequired($this->getIsCentinelValidationRequired())
             ->setIsAuthenticationRequired($this->getIsCentinelAuthenticationRequired())
+            ->setCustomApiEndpointUrl($this->getCentinelApiUrl())
             ->setStore($this->getStore())
             ->setIsPlaceOrder($this->_isPlaceOrder());
         return $validator;

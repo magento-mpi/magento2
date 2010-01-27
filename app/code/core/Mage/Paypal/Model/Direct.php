@@ -209,14 +209,13 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     }
 
     /**
-     * Set custom API endpoint URL to the validator instance
+     * Return API endpoint URL to the validator instance
      *
-     * @return Mage_Payment_Model_Service_Centinel
+     * @return string
      */
-    public function getCentinelValidator()
+    public function getCentinelApiUrl()
     {
-        $instance = parent::getCentinelValidator();
-        return $instance->setCustomApiEndpointUrl('https://paypal.cardinalcommerce.com/maps/txns.asp');
+        return $this->_pro->getConfig()->getCentinelApiUrl();
     }
 
     /**

@@ -487,6 +487,20 @@ class Mage_Paypal_Model_Config
     }
 
     /**
+     * Return Centinel Api Url
+     *
+     * @return string
+     */
+    public function getCentinelApiUrl()
+    {
+        $value = Mage::getStoreConfig('payment/' . self::METHOD_WPP_DIRECT . "/centinel_api_url", $this->_storeId);
+        if (!$value || $value == '') {
+            $value = 'https://paypal.cardinalcommerce.com/maps/txns.asp';
+        }
+        return $value;
+    }
+
+    /**
      * Check whether specified currency code is supported
      * @param string $code
      * @return bool

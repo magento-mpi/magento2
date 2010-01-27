@@ -97,6 +97,16 @@
                             <show_in_store>0</show_in_store>
                             <depends><centinel>1</centinel></depends>
                         </centinel_authentication_required>
+                        <centinel_api_url translate="label comment">
+                            <label>3D Secure API URL</label>
+                            <comment><![CDATA[Leave Blank to use Default.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>27</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><centinel>1</centinel></depends>
+                        </centinel_api_url>
 
                         <line_items_enabled translate="label">
                             <label>Transfer Cart Line Items</label>
