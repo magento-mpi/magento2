@@ -35,6 +35,13 @@
 class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
+     * Store model
+     *
+     * @var null|Mage_Core_Model_Store
+     */
+    protected $_store = null;
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -217,8 +224,13 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
     {
         $select = $this->_getReadAdapter()->select();
         /* @var $select Zend_Db_Select */
+        $joinExpr = $this->_getReadAdapter()->quoteInto(
+            'main_table.page_id = cps.page_id AND (cps.store_id = 0 OR cps.store_id = ?)', $this->getStore()->getId()
+        );
         $select->from(array('main_table' => $this->getMainTable()), 'title')
-            ->where('main_table.identifier = ?', $identifier);
+        ->joinLeft(array('cps' => $this->getTable('cms/page_store')), $joinExpr ,array())
+            ->where('main_table.identifier = ?', $identifier)
+            ->order('cps.store_id DESC');
         return $this->_getReadAdapter()->fetchOne($select);
     }
 
@@ -264,5 +276,27 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
             ->from($this->getTable('cms/page_store'), 'store_id')
             ->where("{$this->getIdFieldName()} = ?", $id)
         );
+    }
+
+    /**
+     * Set store model
+     *
+     * @param Mage_Core_Model_Store $store
+     * @return Mage_Cms_Model_Mysql4_Page
+     */
+    public function setStore($store)
+    {
+        $this->_store = $store;
+        return $this;
+    }
+
+    /**
+     * Retrieve store model
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        return Mage::app()->getStore($this->_store);
     }
 }
