@@ -102,7 +102,7 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
         $payment->setTransactionId($api->getPaypalTransactionId())
                 ->setIsTransactionClosed(false)
                 ->setTransactionAdditionalInfo(Mage_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId());
-
+        $payment->setPreparedMessage(Mage::helper('paypaluk')->__('Payflow PNREF: #%s.', $api->getTransactionId()));
         Mage::getModel('paypal/info')->importToPayment($api, $payment);
     }
 
@@ -120,6 +120,7 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
                 ->setShouldCloseParentTransaction(!$canRefundMore)
                 ->setTransactionAdditionalInfo(Mage_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId());
             ;
+        $payment->setPreparedMessage(Mage::helper('paypaluk')->__('Payflow PNREF: #%s.', $api->getTransactionId()));
         Mage::getModel('paypal/info')->importToPayment($api, $payment);
     }
 }

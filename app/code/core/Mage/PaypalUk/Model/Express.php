@@ -62,6 +62,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
             ->setIsTransactionPending($api->getIsPaymentPending())
             ->setTransactionAdditionalInfo(Mage_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId())
         ;
+        $payment->setPreparedMessage(Mage::helper('paypaluk')->__('Payflow PNREF: #%s.', $api->getTransactionId()));
         Mage::getModel('paypal/info')->importToPayment($api, $payment);
     }
 

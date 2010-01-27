@@ -253,6 +253,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
          */
         if ($this->getIsTransactionPending()) {
             $message = Mage::helper('sales')->__('Amount %s pending approval on gateway.', $this->_formatPrice($amountToCapture));
+            $message = $this->_prependMessage($message);
             $message = $this->_appendTransactionToMessage($transaction, $message);
             $status  = $this->getTransactionPendingStatus() ? $this->getTransactionPendingStatus() : true;
             $this->getOrder()->setState(Mage_Sales_Model_Order::STATE_HOLDED, $status, $message);
@@ -260,6 +261,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         } else {
             $this->_updateTotals(array('base_amount_paid_online' => $amountToCapture));
             $message = Mage::helper('sales')->__('Captured amount of %s online.', $this->_formatPrice($amountToCapture));
+            $message = $this->_prependMessage($message);
             $message = $this->_appendTransactionToMessage($transaction, $message);
             $this->getOrder()->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $message);
             $invoice->setIsPaid(true);
@@ -487,6 +489,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $message = $this->hasMessage() ? $this->getMessage()
                 : Mage::helper('sales')->__('Refunded amount of %s offline.', $this->_formatPrice($baseAmountToRefund));
         }
+        $message = $message = $this->_prependMessage($message);
         $message = $this->_appendTransactionToMessage($transaction, $message);
         $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $message);
 
