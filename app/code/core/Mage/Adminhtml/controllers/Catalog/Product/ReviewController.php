@@ -128,7 +128,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
                     $review->aggregate();
 
-                    Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Review was deleted successfully'));
+                    Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Review has been successfully saved'));
                 } catch (Exception $e){
                     Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 }
