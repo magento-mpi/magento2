@@ -247,13 +247,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             $api->setMaestroSoloIssueDate(sprintf('%02d%02d', $payment->getCcSsStartMonth(), preg_replace('~\d\d(\d\d)~','$1', $payment->getCcSsStartYear())));
         }
         if ($this->getIsCentinelValidationEnabled()) {
-            $this->getCentinelValidator()->exportCmpi($api, array(
-                'enrolled'      => 'centinel_mpivendor',
-                'eci_flag'      => 'centinel_eci',
-                'pa_res_status' => 'centinel_authstatus',
-                'cavv'          => 'centinel_cavv',
-                'xid'           => 'centinel_xid',
-            ));
+            $this->getCentinelValidator()->exportCmpiData($api);
         }
 
         // add shipping address

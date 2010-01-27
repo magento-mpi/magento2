@@ -40,6 +40,29 @@ class Mage_Centinel_Model_Service extends Varien_Object
     const STATE_AUTENTICATION_SUCCESSFUL = 'autentication_successful';
 
     /**
+     * Cmpi result`s fields
+     *
+     */
+    const CMPI_FIELD_PARES = 'pa_res_status';
+    const CMPI_FIELD_ENROLLED = 'enrolled';
+    const CMPI_FIELD_CAVV = 'cavv';
+    const CMPI_FIELD_ECI = 'eci_flag';
+    const CMPI_FIELD_XID = 'xid';
+
+    /**
+     * Cmpi data map - keys for public usage
+     *
+     * @var array
+     */
+    protected $_cmpiMap = array(
+        self::CMPI_FIELD_PARES => 'centinel_mpivendor',
+        self::CMPI_FIELD_ENROLLED => 'centinel_authstatus',
+        self ::CMPI_FIELD_CAVV => 'centinel_cavv',
+        self::CMPI_FIELD_ECI => 'centinel_eci',
+        self::CMPI_FIELD_XID => 'centinel_xid'
+    );
+
+    /**
      * Validation api model
      *
      * @var Mage_Centinel_Model_Api
@@ -150,7 +173,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
         $this->_skipValidation = $shouldSkip;
         return $this;
     }
-    
+
     /**
      * Generate checksum from all passed parameters
      *
@@ -165,7 +188,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
     {
         return md5(implode(func_get_args(), '_'));
     }
-    
+
     /**
      * Unified validation/authentication URL getter
      *
@@ -183,7 +206,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
             'method'   => $this->getPaymentMethodCode())
         );
     }
-    
+
     /**
      * Return URL for authentication complete response from Centinel
      *
@@ -193,7 +216,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
     {
         return $this->_getUrl('authenticationcomplete', true);
     }
-    
+
     /**
      * Return URL for authentication
      *
@@ -203,7 +226,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
     {
         return $this->_getUrl('authenticationstart');
     }
-    
+
     /**
      * Return URL for validation
      *
@@ -213,28 +236,42 @@ class Mage_Centinel_Model_Service extends Varien_Object
     {
         return $this->_getUrl('validatepaymentdata');
     }
-    
+
     /**
-     * Export cmpi lookups information stored in session into array
+     * Return cmpi map
+     *
+     * @return array
+     */
+    public function getCmpiMap()
+    {
+        return $this->_cmpiMap;
+    }
+
+     /**
+     * Export cmpi lookups and authentication information stored in session into array
      *
      * @param mixed $to
      * @param array $map
      * @return mixed $to
      */
-    public function exportCmpi($to, array $map)
+    public function exportCmpiData($to, $map = false)
     {
-        // collect available data intersected by requested map
+        if (!$map) {
+            $map = $this->getCmpiMap();
+        }
+
         $data = array();
-        $cmpiLookup = $this->_getDataStoredInSession('cmpi_lookup');
-        if ($cmpiLookup && isset($cmpiLookup['enrolled'])) {
-            $data = Varien_Object_Mapper::accumulateByMap($cmpiLookup, $data, array_keys($cmpiLookup));
-            if ('Y' === $cmpiLookup['enrolled'] && $cmpiAuth = $this->_getDataStoredInSession('cmpi_authenticate')) {
-                $data = Varien_Object_Mapper::accumulateByMap($cmpiAuth, $data, array_keys($cmpiAuth));
+        $lookupData = $this->getCmpiLookupResultData();
+        if ($lookupData && isset($lookupData[self::CMPI_FIELD_ENROLLED])) {
+            $data = Varien_Object_Mapper::accumulateByMap($lookupData, $data, array_keys($lookupData));
+            $authenticateData = $this->getCmpiAuthenticateResultData();
+            if ('Y' === $lookupData[self::CMPI_FIELD_ENROLLED] && $authenticateData) {
+                $data = Varien_Object_Mapper::accumulateByMap($authenticateData, $data, array_keys($authenticateData));
             }
         }
         return Varien_Object_Mapper::accumulateByMap($data, $to, $map);
     }
-    
+
     /**
      * Return flag - is authentication allow
      *
@@ -258,7 +295,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
         }
         return false;
     }
-    
+
     /**
      * Payment code setter
      *
@@ -309,10 +346,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
         $this->setChecksum($newChecksum);
         
         if (!$api->getErrorNo()) {
-            $this->_setDataStoredInSession('cmpi_lookup', array(
-                'eci_flag' => $api->getEciFlag(),
-                'enrolled' => $api->getEnrolled(),
-            ));
+            $this->setCmpiLookupResultData($api);
             if ($api->getEnrolled() == 'Y' && $api->getAcsUrl()) {
                 $this->setStatus(self::STATE_VALIDATION_SUCCESSFUL)
                     ->setAcsUrl($api->getAcsUrl())
@@ -341,17 +375,14 @@ class Mage_Centinel_Model_Service extends Varien_Object
 
         if ($api->getErrorNo() == 0 && $api->getSignature() == 'Y' && $api->getPaResStatus() != 'N') {
             $this->setStatus(self::STATE_AUTENTICATION_SUCCESSFUL)
-                ->_setDataStoredInSession('cmpi_authenticate', Varien_Object_Mapper::accumulateByMap($api, array(), array(
-                    'eci_flag', 'pa_res_status', 'signature_verification', 'xid', 'cavv'
-                )))
-            ;
+                ->setCmpiAuthenticateResultData($api);
             return true;
         }
 
         $this->setStatus(self::STATE_AUTENTICATION_FAILED);
         return false;
     }
-    
+
     /**
      * Validate payment data
      *
@@ -373,7 +404,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
             $data->getAmount(), 
             $data->getCurrencyCode()
         );
-        
+
         if ($this->getIsPlaceOrder()) {
             if ($this->getChecksum() != $newChecksum) {
                 Mage::throwException(Mage::helper('centinel')->__('Centinel validation is filed. Please check payment information and try again'));
@@ -385,12 +416,12 @@ class Mage_Centinel_Model_Service extends Varien_Object
             }
             Mage::throwException(Mage::helper('centinel')->__('Centinel validation is not complete'));
         }
-        
+
         if ($this->getChecksum() != $newChecksum) {
             $this->reset();
             $this->lookup($data);
         } 
-        
+
         if ($this->getStatus() == self::STATE_VALIDATION_SUCCESSFUL) {
             return;
         }
@@ -412,7 +443,59 @@ class Mage_Centinel_Model_Service extends Varien_Object
         $this->setStatus(self::STATE_NEED_VALIDATION);
         return $this;
     }
-    
+
+    /**
+     * Save in session authenticate result`s fields
+     *
+     * @param Mage_Centinel_Model_Api $api
+     * @return Mage_Centinel_Model_Service
+     */
+    public function setCmpiAuthenticateResultData($api)
+    {
+        $data = Varien_Object_Mapper::accumulateByMap($api, array(), array(
+            self::CMPI_FIELD_ECI, 
+            self::CMPI_FIELD_PARES, 
+            self::CMPI_FIELD_XID, 
+            self::CMPI_FIELD_CAVV)
+        );
+        $this->_setDataStoredInSession('cmpi_authenticate_result_data', $data); 
+        return $this;
+    } 
+
+    /**
+     * Return authenticate result`s fields 
+     *         * @return array
+     */
+    public function getCmpiAuthenticateResultData()
+    {
+        return $this->_getDataStoredInSession('cmpi_authenticate_result_data');
+    } 
+
+    /**
+     * Save in session lookup result`s fields
+     *
+     * @param Mage_Centinel_Model_Api $api
+     * @return Mage_Centinel_Model_Service
+     */
+    public function setCmpiLookupResultData($api)
+    {
+        $this->_setDataStoredInSession('cmpi_lookup_result_data', array(
+            self::CMPI_FIELD_ECI => $api->getEciFlag(),
+            self::CMPI_FIELD_ENROLLED => $api->getEnrolled(),
+        ));
+        return $this;
+    } 
+
+    /**
+     * Return lookup result`s fields 
+     *
+     * @return array
+     */
+    public function getCmpiLookupResultData()
+    {
+        return $this->_getDataStoredInSession('cmpi_lookup_result_data');
+    } 
+
     /**
      * Setter for checksum
      *

@@ -95,7 +95,12 @@ class Mage_Payment_Block_Info extends Mage_Core_Block_Template
      */
     public function getSpecificInformation()
     {
-        return array();
+        $transport = new Varien_Object;
+        Mage::dispatchEvent('payment_info_block_get_specific_information', array(
+            'transport' => $transport,
+            'payment' => $this->getInfo()
+        ));
+        return $transport->getData();
     }
 
     /**
