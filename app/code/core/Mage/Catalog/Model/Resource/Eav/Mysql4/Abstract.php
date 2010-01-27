@@ -187,7 +187,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
             /**
              * Update attribute value for website
              */
-            $storeIds = $object->getWebsiteStoreIds();
+            $storeIds = Mage::app()->getStore($storeId)->getWebsite()->getStoreIds(true);
             foreach ($storeIds as $storeId) {
                 $bind['store_id'] = $storeId;
                 $this->_attributeValuesToSave[$table][] = $bind;
