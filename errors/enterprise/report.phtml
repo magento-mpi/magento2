@@ -3,7 +3,10 @@
         <h1>There has been an error processing your request.</h1>
     </div>
     <?php if ($this->reportId): ?>
-        <strong>Report ID: </strong> <a href="<?php echo "{$this->getBaseUrl(true)}errors/report.php?id={$this->reportId}" ?>"><?php echo $this->reportId ?></a><br /><br />
+        <strong>Report ID: </strong> <a href="<?php echo "{$this->getBaseUrl(true)}errors/report.php?id={$this->reportId}&show=1" ?>"><?php echo $this->reportId ?></a><br />
+    <?php endif; ?>
+    <?php if ($this->reportData['url']): ?>
+        <strong>Error URL: </strong> <a href="<?php echo $this->reportData['url'] ?>"><?php echo $this->reportData['url'] ?></a><br /><br />
     <?php endif; ?>
     <?php if ($this->showSentMsg): ?>
     <ul class="messages">
@@ -76,7 +79,6 @@
             <pre><?php echo $this->reportData[0] ?><br />
 <strong>Trace:</strong>
 <?php echo htmlspecialchars($this->reportData[1]) ?><br />
-<strong>Error URL: </strong> <?php echo $this->reportData['url'] ?><br />
 </pre>
         </div>
     </div>

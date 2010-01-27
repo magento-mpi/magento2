@@ -290,7 +290,7 @@ class Error_Processor
         if ((string)$config->email_address == '' && (string)$config->action == 'email') {
             $config->action = '';
         }
-        if (isset($_GET['id'])) {
+        if (isset($_GET['show'])) {
             $config->action = 'print';
         }
 
@@ -437,6 +437,17 @@ class Error_Processor
 
         @file_put_contents($this->_reportFile, serialize($reportData));
         @chmod($this->_reportFile, 0777);
+
+        $reportUrl = $this->getBaseUrl(true).'errors/report.php?id='.$this->reportId;
+
+        if (!headers_sent()) {
+            header('Location: ' . $reportUrl);
+        } else {
+            print '<script type="text/javascript">';
+            print "window.location.href = '{$reportUrl}';";
+            print '</script>';
+        }
+        exit;
     }
 
     /**
