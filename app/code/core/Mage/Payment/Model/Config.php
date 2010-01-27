@@ -108,7 +108,7 @@ class Mage_Payment_Model_Config
      */
     public function getMonths()
     {
-        $data = Mage::app()->getLocale()->getTranslationList('month', array('gregorian', 'stand-alone', 'wide'));
+        $data = Mage::app()->getLocale()->getTranslationList('month');
         foreach ($data as $key => $value) {
             $monthNum = ($key < 10) ? '0'.$key : $key;
             $data[$key] = $monthNum . ' - ' . $value;
