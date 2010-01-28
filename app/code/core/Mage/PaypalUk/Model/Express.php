@@ -31,7 +31,6 @@ class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
 {
     protected $_code = Mage_PaypalUk_Model_Config::METHOD_WPP_PE_EXPRESS;
     protected $_formBlockType = 'paypaluk/express_form';
-    protected $_infoBlockType = 'paypaluk/payment_info';
 
     /**
      * Website Payments Pro instance type
