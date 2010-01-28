@@ -71,6 +71,13 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     protected $_infoType = 'paypal/info';
 
+    /**
+     * Ipn notify action
+     *
+     * @var string
+     */
+    protected $_notifyAction = 'paypal/ipn/direct';
+
     public function __construct($params = array())
     {
         $proInstance = array_shift($params);
@@ -209,7 +216,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             ->setCurrencyCode($order->getBaseCurrencyCode())
             ->setInvNum($order->getIncrementId())
             ->setEmail($order->getCustomerEmail())
-            ->setNotifyUrl(Mage::getUrl('paypal/ipn/direct'))
+            ->setNotifyUrl(Mage::getUrl($this->_notifyAction))
             ->setCreditCardType($payment->getCcType())
             ->setCreditCardNumber($payment->getCcNumber())
             ->setCreditCardExpirationDate(sprintf('%02d%02d', $payment->getCcExpMonth(), $payment->getCcExpYear()))

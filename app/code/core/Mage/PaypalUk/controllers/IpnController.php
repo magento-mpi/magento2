@@ -43,4 +43,12 @@ class Mage_PaypalUk_IpnController extends Mage_Paypal_Controller_Ipn_Abstract
     {
         return $this->_ipnAction(Mage_PaypalUk_Model_Config::METHOD_WPP_PE_EXPRESS);
     }
+
+    /**
+     * Process IPN for PayPal Direct
+     */
+    public function directAction()
+    {
+        return $this->_ipnAction(Mage_PaypalUk_Model_Config::METHOD_WPP_PE_DIRECT);
+    }
 }

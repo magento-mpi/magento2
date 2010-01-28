@@ -39,6 +39,13 @@ class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
     protected $_proType = 'paypaluk/pro';
 
     /**
+     * Ipn notify action
+     *
+     * @var string
+     */
+    protected $_notifyAction = 'paypaluk/ipn/direct';
+
+    /**
      * Import direct payment results to payment
      *
      * @param Mage_Paypal_Model_Api_Nvp
