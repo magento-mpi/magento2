@@ -220,7 +220,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
     {
         $attribute = $this->getAttribute();
         if ('category_ids' != $attribute) {
-            if ($this->getAttributeObject()->isScopeGlobal()) {
+            if ($this->getAttributeObject()->isScopeGlobal() || $attribute == 'attribute_set_id') {
                 $attributes = $this->getRule()->getCollectedAttributes();
                 $attributes[$attribute] = true;
                 $this->getRule()->setCollectedAttributes($attributes);
