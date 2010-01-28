@@ -184,12 +184,31 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Adminht
         return true;
     }
 
+    /**
+     * Check if capture operation is allowed in ACL
+     * @return bool
+     */
+    public function isCaptureAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/capture');
+    }
+
+    /**
+     * Check if invoice can be captured
+     * @return bool
+     */
     public function canCapture()
     {
-        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/capture')) {
-            return $this->getInvoice()->canCapture();
-        }
-        return false;
+        return $this->getInvoice()->canCapture();
+    }
+
+    /**
+     * Check if gateway is associated with invoice order
+     * @return bool
+     */
+    public function isGatewayUsed()
+    {
+        return $this->getInvoice()->getOrder()->getPayment()->getMethodInstance()->isGateway();
     }
 
     public function canSendInvoiceEmail()

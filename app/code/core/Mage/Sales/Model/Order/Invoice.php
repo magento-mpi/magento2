@@ -463,8 +463,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         }
 
         $order = $this->getOrder();
+        $captureCase = $this->getRequestedCaptureCase();
         if ($this->canCapture()) {
-            if ($captureCase = $this->getRequestedCaptureCase()) {
+            if ($captureCase) {
                 if ($captureCase == self::CAPTURE_ONLINE) {
                     $this->capture();
                 }
@@ -473,8 +474,8 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
                     $this->pay();
                 }
             }
-        }
-        elseif(!$order->getPayment()->getMethodInstance()->isGateway()) {
+        } elseif(!$order->getPayment()->getMethodInstance()->isGateway() || $captureCase == self::CAPTURE_OFFLINE) {
+            $this->setCanVoidFlag(false);
             $this->pay();
         }
 
