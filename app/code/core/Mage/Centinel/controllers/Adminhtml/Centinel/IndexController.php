@@ -30,7 +30,6 @@
  */
 class Mage_Centinel_Adminhtml_Centinel_IndexController extends Mage_Adminhtml_Controller_Action
 {
-        
     /**
      * Process validate payment data action
      *
@@ -42,24 +41,14 @@ class Mage_Centinel_Adminhtml_Centinel_IndexController extends Mage_Adminhtml_Co
             $paymentData = $this->getRequest()->getParam('payment');
             $validator = $this->_getValidator();
             if (!$validator) {
-                Mage::throwException(Mage::helper('centinel')->__('This payment method is not have centinel validation'));
+                throw new Exception('This payment method does not have centinel validation.');
             }
-            $validator->skipValidation(true);
+            $validator->reset();
             $this->_getPayment()->importData($paymentData);
-            $validator->skipValidation(false);
-            
-            $lookupPaymentData = $this->_getPayment()->getMethodInstance()->getCentinelValidationData();
-            $validator->lookup($lookupPaymentData);
-        
-            if ($validator->isAuthenticationAllow()) {
+            if ($validator->shouldAuthenticate()) {
                 $result['authenticationUrl'] = $validator->getAuthenticationStartUrl();
             } else {
-                $isRequired = $this->_getPayment()->getMethodInstance()->getIsCentinelValidationRequired();
-                if ($isRequired) {
-                    Mage::throwException(Mage::helper('centinel')->__('Centinel validation is filed. Please check information and try again'));
-                } else {
-                    Mage::throwException(Mage::helper('centinel')->__('Centinel validation is not complete. You can continue or check information and try again'));
-                } 
+                Mage::throwException(Mage::helper('centinel')->__('This card has failed validation, but it is possible to place the order.'));
             }
         } catch (Mage_Core_Exception $e) {
             $result['message'] = $e->getMessage();
@@ -67,9 +56,9 @@ class Mage_Centinel_Adminhtml_Centinel_IndexController extends Mage_Adminhtml_Co
             Mage::logException($e);
             $result['message'] = Mage::helper('centinel')->__('Validation failed.');
         }
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));        
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
-    
+
     /**
      * Process autentication start action
      *
@@ -77,7 +66,7 @@ class Mage_Centinel_Adminhtml_Centinel_IndexController extends Mage_Adminhtml_Co
     public function authenticationStartAction()
     {
         if ($validator = $this->_getValidator()) {
-            Mage::register('centinel_validator', $validator);    
+            Mage::register('centinel_validator', $validator);
         }
         $this->loadLayout()->renderLayout();
     }
@@ -94,11 +83,11 @@ class Mage_Centinel_Adminhtml_Centinel_IndexController extends Mage_Adminhtml_Co
             $MD = $request->getParam('MD');
             $validator->authenticate($PAResPayload, $MD);
             Mage::register('centinel_validator', $validator);
-        }        
-                
+        }
+
         $this->loadLayout()->renderLayout();
     }
-    
+
     /**
      * Return payment model
      *

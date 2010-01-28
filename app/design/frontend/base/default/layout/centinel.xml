@@ -27,25 +27,23 @@
 
 -->
 <layout version="0.1.0">
-    
     <centinel_index_authenticationstart>
         <block type="centinel/authentication_start" name="root" output="toHtml" template="centinel/authentication/start.phtml"/>
     </centinel_index_authenticationstart>
-    
+
     <centinel_index_authenticationcomplete>
         <block type="centinel/authentication_complete" name="root" output="toHtml" template="centinel/authentication/complete.phtml"/>
     </centinel_index_authenticationcomplete>
-    
+
     <checkout_multishipping_overview>
-        <reference name="checkout_overview">
-            <block type="centinel/authentication" as="centinel_interface" name="centinel_interface" template="centinel/authentication.phtml"/>
+        <reference name="checkout.multishipping.overview.items.after">
+            <block type="centinel/authentication" name="centinel.frame" template="centinel/authentication.phtml"/>
         </reference>
     </checkout_multishipping_overview>
-    
+
     <checkout_onepage_savepayment>
-        <reference name="root">
-            <block type="centinel/authentication" as="centinel_interface" name="centinel_interface" template="centinel/authentication.phtml"/>
+        <reference name="checkout.onepage.review.info.items.before">
+            <block type="centinel/authentication" name="centinel.frame" template="centinel/authentication.phtml"/>
         </reference>
     </checkout_onepage_savepayment>
-    
 </layout>

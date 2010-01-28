@@ -26,26 +26,25 @@
 
 
 /**
- * Centinel autentication start block
+ * Authentication start/redirect form
  */
-
 class Mage_Centinel_Block_Authentication_Start extends Mage_Core_Block_Template
 {
     /**
-     * Internal constructor
+     * Prepare form parameters and render
      *
+     * @return string
      */
-    protected function _construct()
+    protected function _toHtml()
     {
-        parent::_construct();
         $validator = Mage::registry('centinel_validator');
-        if ($validator && $validator->isAuthenticationAllow()) {
-            $this
-                ->setAcsUrl($validator->getAcsUrl())
+        if ($validator && $validator->shouldAuthenticate()) {
+            $this->setAcsUrl($validator->getAcsUrl())
                 ->setPayload($validator->getPayload())
                 ->setAuthenticationCompleteUrl($validator->getAuthenticationCompleteUrl())
-                ->setTransactionId($validator->getTransactionId())
-                ->setAuthenticationEnrolled(true);
+                ->setTransactionId($validator->getTransactionId());
+            return parent::_toHtml();
         }
+        return '';
     }
 }

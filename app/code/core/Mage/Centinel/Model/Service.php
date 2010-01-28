@@ -36,30 +36,29 @@ class Mage_Centinel_Model_Service extends Varien_Object
     const STATE_NEED_VALIDATION = 'need_validation';
     const STATE_VALIDATION_FAILED = 'validation_failed';
     const STATE_VALIDATION_SUCCESSFUL = 'validation_successful';
-    const STATE_AUTENTICATION_FAILED = 'autentication_failed';
-    const STATE_AUTENTICATION_SUCCESSFUL = 'autentication_successful';
+    const STATE_AUTHENTICATION_FAILED = 'autentication_failed';
+    const STATE_AUTHENTICATION_SUCCESSFUL = 'autentication_successful';
 
     /**
-     * Cmpi result`s fields
-     *
+     * Cmpi public keys
      */
-    const CMPI_FIELD_PARES = 'pa_res_status';
-    const CMPI_FIELD_ENROLLED = 'enrolled';
-    const CMPI_FIELD_CAVV = 'cavv';
-    const CMPI_FIELD_ECI = 'eci_flag';
-    const CMPI_FIELD_XID = 'xid';
+    const CMPI_PARES    = 'centinel_mpivendor';
+    const CMPI_ENROLLED = 'centinel_authstatus';
+    const CMPI_CAVV     = 'centinel_cavv';
+    const CMPI_ECI      = 'centinel_eci';
+    const CMPI_XID      = 'centinel_xid';
 
     /**
-     * Cmpi data map - keys for public usage
+     * Cmpi private to public map
      *
      * @var array
      */
     protected $_cmpiMap = array(
-        self::CMPI_FIELD_PARES => 'centinel_mpivendor',
-        self::CMPI_FIELD_ENROLLED => 'centinel_authstatus',
-        self ::CMPI_FIELD_CAVV => 'centinel_cavv',
-        self::CMPI_FIELD_ECI => 'centinel_eci',
-        self::CMPI_FIELD_XID => 'centinel_xid'
+        'pa_res_status' => self::CMPI_PARES,
+        'enrolled'      => self::CMPI_ENROLLED,
+        'cavv'          => self::CMPI_CAVV,
+        'eci_flag'      => self::CMPI_ECI,
+        'xid'           => self::CMPI_XID,
     );
 
     /**
@@ -89,7 +88,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
      * @var bool
      */
     protected $_skipValidation = false;
-    
+
     /**
      * Return validation api model
      *
@@ -237,16 +236,6 @@ class Mage_Centinel_Model_Service extends Varien_Object
         return $this->_getUrl('validatepaymentdata');
     }
 
-    /**
-     * Return cmpi map
-     *
-     * @return array
-     */
-    public function getCmpiMap()
-    {
-        return $this->_cmpiMap;
-    }
-
      /**
      * Export cmpi lookups and authentication information stored in session into array
      *
@@ -257,15 +246,15 @@ class Mage_Centinel_Model_Service extends Varien_Object
     public function exportCmpiData($to, $map = false)
     {
         if (!$map) {
-            $map = $this->getCmpiMap();
+            $map = $this->_cmpiMap;
         }
 
         $data = array();
         $lookupData = $this->getCmpiLookupResultData();
-        if ($lookupData && isset($lookupData[self::CMPI_FIELD_ENROLLED])) {
+        if ($lookupData && isset($lookupData['enrolled'])) {
             $data = Varien_Object_Mapper::accumulateByMap($lookupData, $data, array_keys($lookupData));
             $authenticateData = $this->getCmpiAuthenticateResultData();
-            if ('Y' === $lookupData[self::CMPI_FIELD_ENROLLED] && $authenticateData) {
+            if ('Y' === $lookupData['enrolled'] && $authenticateData) {
                 $data = Varien_Object_Mapper::accumulateByMap($authenticateData, $data, array_keys($authenticateData));
             }
         }
@@ -277,7 +266,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
      *
      * @return bool
      */
-    public function isAuthenticationAllow()
+    public function shouldAuthenticate()
     {
         return $this->getStatus() == self::STATE_VALIDATION_SUCCESSFUL;
     }
@@ -289,8 +278,8 @@ class Mage_Centinel_Model_Service extends Varien_Object
      */
     public function isAuthenticationSuccess()
     {
-        if ($this->getStatus() == self::STATE_AUTENTICATION_SUCCESSFUL ||
-            ($this->getStatus() == self::STATE_AUTENTICATION_FAILED && !$this->getIsAuthenticationRequired())) {
+        if ($this->getStatus() == self::STATE_AUTHENTICATION_SUCCESSFUL ||
+            ($this->getStatus() == self::STATE_AUTHENTICATION_FAILED && !$this->getIsAuthenticationRequired())) {
             return true;
         }
         return false;
@@ -336,15 +325,15 @@ class Mage_Centinel_Model_Service extends Varien_Object
             ->callLookup();
 
         $newChecksum = $this->_generateChecksum(
-            $data->getCardNumber(), 
-            $data->getCardExpMonth(), 
+            $data->getCardNumber(),
+            $data->getCardExpMonth(),
             $data->getCardExpYear(),
-            $data->getAmount(), 
+            $data->getAmount(),
             $data->getCurrencyCode()
         );
 
         $this->setChecksum($newChecksum);
-        
+
         if (!$api->getErrorNo()) {
             $this->setCmpiLookupResultData($api);
             if ($api->getEnrolled() == 'Y' && $api->getAcsUrl()) {
@@ -374,60 +363,70 @@ class Mage_Centinel_Model_Service extends Varien_Object
             ->callAuthentication();
 
         if ($api->getErrorNo() == 0 && $api->getSignature() == 'Y' && $api->getPaResStatus() != 'N') {
-            $this->setStatus(self::STATE_AUTENTICATION_SUCCESSFUL)
+            $this->setStatus(self::STATE_AUTHENTICATION_SUCCESSFUL)
                 ->setCmpiAuthenticateResultData($api);
             return true;
         }
 
-        $this->setStatus(self::STATE_AUTENTICATION_FAILED);
+        $this->setStatus(self::STATE_AUTHENTICATION_FAILED);
         return false;
     }
 
     /**
      * Validate payment data
      *
+     * This check is performed on payment information submission, as well as on placing order.
+     * Workflow state is stored in session.
+     * The payment information check may fail on different circumstances:
+     * - if the validation is required and the card wasn't validated or centinel failed to validate it
+     * - if the authentication is required and it wasn't performe
+     *
      * @param Varien_Object $data
-     * @return bool
-     * @throws null
+     * @throws Mage_Core_Exception
      */
     public function validate($data)
     {
         if ($this->_skipValidation) {
-            return;    
+            return;
         }
-        
-        $currentStatus = $this->getStatus(); 
+
+        $currentStatus = $this->getStatus();
         $newChecksum = $this->_generateChecksum(
-            $data->getCardNumber(), 
-            $data->getCardExpMonth(), 
+            $data->getCardNumber(),
+            $data->getCardExpMonth(),
             $data->getCardExpYear(),
-            $data->getAmount(), 
+            $data->getAmount(),
             $data->getCurrencyCode()
         );
 
+        // check whether is authenticated before placing order
         if ($this->getIsPlaceOrder()) {
             if ($this->getChecksum() != $newChecksum) {
-                Mage::throwException(Mage::helper('centinel')->__('Centinel validation is filed. Please check payment information and try again'));
+                Mage::throwException(Mage::helper('centinel')->__('Payment information error. Please start over.'));
             }
-            if (($currentStatus == self::STATE_AUTENTICATION_SUCCESSFUL) ||
-                ($currentStatus == self::STATE_VALIDATION_FAILED && !$this->getIsValidationRequired()) ||
-                ($currentStatus == self::STATE_AUTENTICATION_FAILED && !$this->getIsAuthenticationRequired())) {
+            if (($currentStatus == self::STATE_AUTHENTICATION_SUCCESSFUL)
+                || ($currentStatus == self::STATE_VALIDATION_FAILED && !$this->getIsValidationRequired())
+                || ($currentStatus == self::STATE_VALIDATION_SUCCESSFUL && !$this->getIsAuthenticationRequired())
+                || ($currentStatus == self::STATE_AUTHENTICATION_FAILED && !$this->getIsAuthenticationRequired())) {
                 return;
             }
-            Mage::throwException(Mage::helper('centinel')->__('Centinel validation is not complete'));
+            Mage::throwException(Mage::helper('centinel')->__('Please verify the card with the issuer bank before placing the order.'));
         }
 
+        // lookup on initial payment information import
         if ($this->getChecksum() != $newChecksum) {
             $this->reset();
             $this->lookup($data);
-        } 
+        }
 
+        // validation successful
         if ($this->getStatus() == self::STATE_VALIDATION_SUCCESSFUL) {
             return;
         }
 
+        // validation failed
         if ($this->getStatus() == self::STATE_VALIDATION_FAILED && $this->getIsValidationRequired()) {
-            Mage::throwException(Mage::helper('centinel')->__('Centinel validation is filed. Please check payment information and try again'));
+            Mage::throwException(Mage::helper('centinel')->__('This card has failed validation and cannot be used.'));
         }
     }
 
@@ -452,24 +451,19 @@ class Mage_Centinel_Model_Service extends Varien_Object
      */
     public function setCmpiAuthenticateResultData($api)
     {
-        $data = Varien_Object_Mapper::accumulateByMap($api, array(), array(
-            self::CMPI_FIELD_ECI, 
-            self::CMPI_FIELD_PARES, 
-            self::CMPI_FIELD_XID, 
-            self::CMPI_FIELD_CAVV)
-        );
-        $this->_setDataStoredInSession('cmpi_authenticate_result_data', $data); 
+        $data = Varien_Object_Mapper::accumulateByMap($api, array(), array('eci_flag', 'pa_res_status', 'xid', 'cavv'));
+        $this->_setDataStoredInSession('cmpi_authenticate_result_data', $data);
         return $this;
-    } 
+    }
 
     /**
-     * Return authenticate result`s fields 
+     * Return authenticate result`s fields
      *         * @return array
      */
     public function getCmpiAuthenticateResultData()
     {
         return $this->_getDataStoredInSession('cmpi_authenticate_result_data');
-    } 
+    }
 
     /**
      * Save in session lookup result`s fields
@@ -480,21 +474,21 @@ class Mage_Centinel_Model_Service extends Varien_Object
     public function setCmpiLookupResultData($api)
     {
         $this->_setDataStoredInSession('cmpi_lookup_result_data', array(
-            self::CMPI_FIELD_ECI => $api->getEciFlag(),
-            self::CMPI_FIELD_ENROLLED => $api->getEnrolled(),
+            'eci_flag' => $api->getEciFlag(),
+            'enrolled' => $api->getEnrolled(),
         ));
         return $this;
-    } 
+    }
 
     /**
-     * Return lookup result`s fields 
+     * Return lookup result`s fields
      *
      * @return array
      */
     public function getCmpiLookupResultData()
     {
         return $this->_getDataStoredInSession('cmpi_lookup_result_data');
-    } 
+    }
 
     /**
      * Setter for checksum

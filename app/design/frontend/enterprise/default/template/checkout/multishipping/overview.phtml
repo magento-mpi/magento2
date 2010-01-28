@@ -173,6 +173,8 @@
     </div>
     <?php endif; ?>
 
+    <?php echo $this->getChildHtml('items_after'); ?>
+
     <?php echo $this->getChildHtml('agreements') ?>
 
     <p class="grand-total"><strong class="price-label"><?php echo $this->__('Grand Total:') ?></strong> <?php echo $this->helper('checkout')->formatPrice($this->getTotal()) ?></p>

@@ -43,7 +43,7 @@ class Mage_Centinel_Model_Observer extends Varien_Object
     public function salesEventConvertQuoteToOrder($observer)
     {
         $payment = $observer->getEvent()->getQuote()->getPayment();
-        
+
         if ($payment->getMethodInstance()->getIsCentinelValidationEnabled()) {
             $to = array($payment, 'setAdditionalInformation');
             $payment->getMethodInstance()->getCentinelValidator()->exportCmpiData($to);
@@ -52,24 +52,27 @@ class Mage_Centinel_Model_Observer extends Varien_Object
     }
 
     /**
-     * Add cmpi data to info block 
+     * Add cmpi data to info block
      *
      * @param Varien_Object $observer
      * @return Mage_Centinel_Model_Service
      */
-    public function paymentInfoBlockGetSpecificInformation($observer)
+    public function paymentInfoBlockPrepareSpecificInformation($observer)
     {
+        if ($observer->getEvent()->getBlock()->getIsSecureMode()) {
+            return;
+        }
+
         $payment = $observer->getEvent()->getPayment();
         $transport = $observer->getEvent()->getTransport();
-        
-        if ($payment->getMethodInstance()->getIsCentinelValidationEnabled()) {
-            $map = $payment->getMethodInstance()->getCentinelValidator()->getCmpiMap();
-            foreach ($map as $cmpiFieldName => $publicCmpiFieldName) {
-                if ($value = $payment->getAdditionalInformation($publicCmpiFieldName)) {
-                    $transport->setData(Mage::helper('centinel')->getCmpiLabel($cmpiFieldName), Mage::helper('centinel')->getCmpiValue($cmpiFieldName, $value));
-                }
+        $helper = Mage::helper('centinel');
+
+        foreach (array(Mage_Centinel_Model_Service::CMPI_PARES,
+            Mage_Centinel_Model_Service::CMPI_ENROLLED,
+            Mage_Centinel_Model_Service::CMPI_ECI,) as $key) {
+            if ($value = $payment->getAdditionalInformation($key)) {
+                $transport->setData($helper->getCmpiLabel($key), $helper->getCmpiValue($key, $value));
             }
         }
-        return $this;
     }
 }

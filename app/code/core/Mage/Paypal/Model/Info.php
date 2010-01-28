@@ -211,9 +211,9 @@ class Mage_Paypal_Model_Info
             case 'paypal_cvv2_match':
                 return Mage::helper('paypal')->__('CVV2 Check Result by PayPal');
             case self::CENTINEL_VPAS:
-                return Mage::helper('paypal')->__('Centinel Visa Payer Authentication Service Result');
+                return Mage::helper('paypal')->__('PayPal/Centinel Visa Payer Authentication Service Result');
             case self::CENTINEL_ECI:
-                return Mage::helper('paypal')->__('Centinel Electronic Commerce Indicator');
+                return Mage::helper('paypal')->__('PayPal/Centinel Electronic Commerce Indicator');
         }
         return '';
     }

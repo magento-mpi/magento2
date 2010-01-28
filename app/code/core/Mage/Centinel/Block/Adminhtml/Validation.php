@@ -26,12 +26,7 @@
 
 /**
  * Adminhtml sales order create validation card block
- *
- * @category   Mage
- * @package    Mage_Centinel
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_Centinel_Block_Adminhtml_Validation extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
     /**
@@ -50,7 +45,7 @@ class Mage_Centinel_Block_Adminhtml_Validation extends Mage_Adminhtml_Block_Sale
      */
     public function getHeaderText()
     {
-        return Mage::helper('centinel')->__('Validation Card');
+        return Mage::helper('centinel')->__('3D Secure Card Validation');
     }
 
     /**

@@ -147,7 +147,7 @@
                 <cctypes>AE,VI,MC,DI</cctypes>
                 <allowspecific>0</allowspecific>
                 <line_items_enabled>1</line_items_enabled>
-                <centinel_authentication_required>1</centinel_authentication_required>
+                <centinel_must_authenticate>1</centinel_must_authenticate>
             </paypal_direct>
             <paypal_standard translate="title">
                 <model>paypal/standard</model>

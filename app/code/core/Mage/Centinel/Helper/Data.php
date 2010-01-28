@@ -32,7 +32,7 @@
 class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * Return label for cmpi field 
+     * Return label for cmpi field
      *
      * @param string $fieldName
      * @return string
@@ -40,22 +40,22 @@ class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCmpiLabel($fieldName)
     {
         switch ($fieldName) {
-            case Mage_Centinel_Model_Service::CMPI_FIELD_PARES:
-               return $this->__('Centinel Transaction Status');
-            case Mage_Centinel_Model_Service::CMPI_FIELD_ENROLLED:
-               return $this->__('Centinel Status of Availability');
-            case Mage_Centinel_Model_Service::CMPI_FIELD_CAVV:
-               return $this->__('Centinel Cardholder Authentification Verification Value');
-            case Mage_Centinel_Model_Service::CMPI_FIELD_ECI:
-               return $this->__('Centinel Electronic Commerce Indicator');
-            case Mage_Centinel_Model_Service::CMPI_FIELD_XID:
-               return $this->__('Centinel Transaction Xid');
+            case Mage_Centinel_Model_Service::CMPI_PARES:
+               return $this->__('3D Secure Verification Result');
+            case Mage_Centinel_Model_Service::CMPI_ENROLLED:
+               return $this->__('3D Secure Cardholder Validation');
+            case Mage_Centinel_Model_Service::CMPI_ECI:
+               return $this->__('3D Secure Electronic Commerce Indicator');
+            case Mage_Centinel_Model_Service::CMPI_CAVV:
+               return $this->__('3D Secure CAVV');
+            case Mage_Centinel_Model_Service::CMPI_XID:
+               return $this->__('3D Secure XID');
         }
         return '';
     }
 
     /**
-     * Return value for cmpi field 
+     * Return value for cmpi field
      *
      * @param string $fieldName
      * @param string $value
@@ -64,15 +64,14 @@ class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCmpiValue($fieldName, $value)
     {
         switch ($fieldName) {
-            case Mage_Centinel_Model_Service::CMPI_FIELD_PARES:
+            case Mage_Centinel_Model_Service::CMPI_PARES:
                return $this->_getCmpiParesValue($value);
-            case Mage_Centinel_Model_Service::CMPI_FIELD_ENROLLED:
+            case Mage_Centinel_Model_Service::CMPI_ENROLLED:
                return $this->_getCmpiEnrolledValue($value);
-            case Mage_Centinel_Model_Service::CMPI_FIELD_CAVV:
-               return $value;
-            case Mage_Centinel_Model_Service::CMPI_FIELD_ECI:
+            case Mage_Centinel_Model_Service::CMPI_ECI:
                return $this->_getCmpiEciValue($value);
-            case Mage_Centinel_Model_Service::CMPI_FIELD_XID:
+            case Mage_Centinel_Model_Service::CMPI_CAVV: // break intentionally omitted
+            case Mage_Centinel_Model_Service::CMPI_XID:
                return $value;
         }
         return '';
@@ -89,11 +88,11 @@ class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
         switch ($value) {
             case '01':
             case '07':
-                return $this->__('Indicates Merchant Liability');
+                return $this->__('Merchant Liability');
             case '02':
             case '05':
             case '06':
-                return $this->__('Indicates Card Issuer Liability');
+                return $this->__('Card Issuer Liability');
             default:
                 return $value;
         }
@@ -109,13 +108,12 @@ class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($value) {
             case 'Y':
-                return $this->__('Cardholder Enrolled');
-            case 'N':
-                return $this->__('Not Enrolled');
+                return $this->__('Enrolled');
             case 'U':
-                return $this->__('Cardholder Enrolled but Authentication Unavailable');
+                return $this->__('Enrolled but Authentication Unavailable');
+            case 'N': // break intentionally omitted
             default:
-                return $value;
+                return $this->__('Not Enrolled');
         }
     }
 
@@ -129,13 +127,13 @@ class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($value) {
             case 'Y':
-                return $this->__('Success Transaction');
+                return $this->__('Successful');
             case 'N':
-                return $this->__('Failed Transaction');
+                return $this->__('Failed');
             case 'U':
-                return $this->__('Unable to Complete Transaction');
+                return $this->__('Unable to complete');
             case 'A':
-                return $this->__('Successful Attempts Transaction');
+                return $this->__('Successful attempt');
             default:
                 return $value;
         }

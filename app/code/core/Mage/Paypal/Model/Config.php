@@ -100,6 +100,13 @@ class Mage_Paypal_Model_Config
     const WPS_TRANSPORT_IPN_PDT  = 'ipn_n_pdt';
 
     /**
+     * Default URL for centinel API (PayPal Direct)
+     *
+     * @var string
+     */
+    public $centinelDefaultApiUrl = 'https://paypal.cardinalcommerce.com/maps/txns.asp';
+
+    /**
      * Current payment method code
      * @var string
      */
@@ -487,20 +494,6 @@ class Mage_Paypal_Model_Config
     }
 
     /**
-     * Return Centinel Api Url
-     *
-     * @return string
-     */
-    public function getCentinelApiUrl()
-    {
-        $value = Mage::getStoreConfig('payment/' . self::METHOD_WPP_DIRECT . "/centinel_api_url", $this->_storeId);
-        if (!$value || $value == '') {
-            $value = 'https://paypal.cardinalcommerce.com/maps/txns.asp';
-        }
-        return $value;
-    }
-
-    /**
      * Check whether specified currency code is supported
      * @param string $code
      * @return bool
@@ -521,15 +514,6 @@ class Mage_Paypal_Model_Config
                 $to->setData($exportKey, $this->$key);
             }
         }
-    }
-
-    /**
-     * Whether current payment method works with credit cards
-     * @return bool
-     */
-    public function doesWorkWithCc()
-    {
-        return $this->_methodCode === self::METHOD_WPP_DIRECT;
     }
 
     /**
@@ -743,8 +727,9 @@ class Mage_Paypal_Model_Config
             case 'allowspecific':
             case 'cctypes':
             case 'centinel':
-            case 'centinel_validation_required':
-            case 'centinel_authentication_required':
+            case 'centinel_must_validate':
+            case 'centinel_must_authenticate':
+            case 'centinel_api_url':
             case 'fraud_filter':
             case 'line_items_enabled':
             case 'order_status':

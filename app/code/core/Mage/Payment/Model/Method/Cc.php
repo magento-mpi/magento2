@@ -267,51 +267,21 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
      */
     public function getIsCentinelValidationEnabled()
     {
-        return false;
-    }
-
-    /**
-     * Whether centinel validation is required
-     *
-     * @return bool
-     */
-    public function getIsCentinelValidationRequired()
-    {
-        return false;
-    }
-
-    /**
-     * Whether centinel authentication is required
-     *
-     * @return bool
-     */
-    public function getIsCentinelAuthenticationRequired()
-    {
-        return true;
-    }
-
-    /**
-     * Return API endpoint URL to the validator instance
-     *
-     * @return string
-     */
-    public function getCentinelApiUrl()
-    {
-        return false;
+        return false !== Mage::getConfig()->getNode('modules/Mage_Centinel') && 1 == $this->getConfigData('centinel');
     }
 
     /**
      * Instantiate centinel validator model
      *
-     * @retuMage_Centinel_Model_Servicetor
+     * @return Mage_Centinel_Model_Service
      */
     public function getCentinelValidator()
     {
         $validator = Mage::getSingleton('centinel/service');
         $validator->setPaymentMethodCode($this->getCode())
-            ->setIsValidationRequired($this->getIsCentinelValidationRequired())
-            ->setIsAuthenticationRequired($this->getIsCentinelAuthenticationRequired())
-            ->setCustomApiEndpointUrl($this->getCentinelApiUrl())
+            ->setIsValidationRequired($this->getConfigData('centinel_must_validate'))
+            ->setIsAuthenticationRequired($this->getConfigData('centinel_must_authenticate'))
+            ->setCustomApiEndpointUrl($this->getConfigData('centinel_api_url'))
             ->setStore($this->getStore())
             ->setIsPlaceOrder($this->_isPlaceOrder());
         return $validator;
@@ -336,7 +306,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Return order id for Centinel validation
+     * Order increment ID getter (either real from order or a reserved from quote)
      *
      * @return string
      */
@@ -355,7 +325,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Return amount for Centinel validation
+     * Grand total getter
      *
      * @return string
      */
@@ -371,7 +341,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Return currency code for Centinel validation
+     * Currency code getter
      *
      * @return string
      */
@@ -387,7 +357,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Return flag - is current operation is place order
+     * Whether current operation is order placement
      *
      * @return bool
      */

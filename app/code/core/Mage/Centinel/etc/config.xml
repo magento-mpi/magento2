@@ -76,15 +76,15 @@
     </frontend>
     <adminhtml>
         <events>
-            <payment_info_block_get_specific_information>
+            <payment_info_block_prepare_specific_information>
                 <observers>
                     <centinel>
                         <type>model</type>
                         <class>centinel/observer</class>
-                        <method>paymentInfoBlockGetSpecificInformation</method>
+                        <method>paymentInfoBlockPrepareSpecificInformation</method>
                     </centinel>
                 </observers>
-            </payment_info_block_get_specific_information>
+            </payment_info_block_prepare_specific_information>
         </events>
         <translate>
             <modules>

@@ -35,7 +35,7 @@
     <adminhtml_centinel_index_authenticationcomplete>
         <block type="centinel/authentication_complete" name="root" output="toHtml" template="centinel/authentication/complete.phtml"/>
     </adminhtml_centinel_index_authenticationcomplete>
-    
+
     <adminhtml_sales_order_create_index>
         <reference name="head">
             <action method="addJs"><script>mage/adminhtml/sales/centinel.js</script></action>
@@ -46,7 +46,7 @@
             </block>
         </reference>
     </adminhtml_sales_order_create_index>
-    
+
     <adminhtml_sales_order_create_start>
         <update handle="adminhtml_sales_order_create_index"/>
     </adminhtml_sales_order_create_start>

@@ -37,7 +37,7 @@ class Mage_Centinel_IndexController extends Mage_Core_Controller_Front_Action
     public function authenticationStartAction()
     {
         if ($validator = $this->_getValidator()) {
-            Mage::register('centinel_validator', $validator);    
+            Mage::register('centinel_validator', $validator);
         }
         $this->loadLayout()->renderLayout();
     }
@@ -54,11 +54,11 @@ class Mage_Centinel_IndexController extends Mage_Core_Controller_Front_Action
             $MD = $request->getParam('MD');
             $validator->authenticate($PAResPayload, $MD);
             Mage::register('centinel_validator', $validator);
-        }        
-                
+        }
+
         $this->loadLayout()->renderLayout();
     }
-        
+
     /**
      * Return payment model
      *

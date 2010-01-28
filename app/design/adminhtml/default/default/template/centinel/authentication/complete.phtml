@@ -24,4 +24,17 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php echo $this->getResultMessage()?>
+<?php if ($this->getIsSuccess()):?>
+
+<h1><?php echo $this->__('Verification Successful');?></h1>
+<p><?php echo $this->__('Please continue with placing order.')?></p>
+
+<?php else:?>
+
+<h1><?php echo $this->__('Verification Failed');?></h1>
+<p>
+<?php echo $this->__('The card has failed verification with issuer bank.')?>
+<strong><?php echo $this->getIsRequired() ? $this->__('Order cannot be placed.') : $this->__('You can continue and place the order.')?></strong>
+</p>
+
+<?php endif;?>

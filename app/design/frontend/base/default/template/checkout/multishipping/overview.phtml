@@ -138,7 +138,6 @@
             <?php endif; ?>
         <?php endforeach; ?>
         </div>
-        <?php echo $this->getChildHtml('centinel_interface'); ?>
         <?php if ($this->getQuote()->hasVirtualItems()): ?>
         <div class="col2-set">
             <h2 class="legend"><?php echo $this->__('Other items in your order') ?></h2>
@@ -186,6 +185,8 @@
                 </div>
         </div>
         <?php endif; ?>
+
+        <?php echo $this->getChildHtml('items_after'); ?>
 
         <?php echo $this->getChildHtml('agreements') ?>
 

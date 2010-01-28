@@ -35,66 +35,20 @@
 class Mage_Centinel_Block_Adminhtml_Validation_Form extends Mage_Adminhtml_Block_Sales_Order_Create_Abstract
 {
     /**
-     * Return payment model
-     *
-     * @return Mage_Payment_Block_Info
+     * Prepare validation and template parameters
      */
-    protected function _getPayment()
+    protected function _toHtml()
     {
-        return $this->getQuote()->getPayment();
-    }
-
-    /**
-     * Return Centinel validator model
-     *
-     * @return Mage_Centinel_Model_Service
-     */
-    protected function _getValidator()
-    {
-        $payment = $this->_getPayment();
-        if ($payment->getMethod() && $payment->getMethodInstance()->getIsCentinelValidationEnabled()) {
-            return $payment->getMethodInstance()->getCentinelValidator();
+        $payment = $this->getQuote()->getPayment();
+        if ($payment && $method = $payment->getMethodInstance()) {
+            if ($method->getIsCentinelValidationEnabled() && $centinel = $method->getCentinelValidator()) {
+                $this->setFrameUrl($centinel->getValidatePaymentDataUrl())
+                    ->setContainerId('centinel_authenticate_iframe')
+                    ->setMethodCode($method->getCode())
+                ;
+                return parent::_toHtml();
+            }
         }
-        return false;
-    }
-
-    /**
-     * Return flag - is centinel validation enabled 
-     *
-     * @return bool
-     */
-    public function isValidationEnabled()
-    {
-        return $this->_getValidator() != false;
-    }
-
-    /**
-     * Return code of current payment method
-     *
-     * @return string
-     */
-    public function getMethod()
-    {
-        return $this->_getPayment()->getMethod();
-    }
-
-    /**
-     * Return url for payment validation request
-     *
-     * @return string
-     */
-    public function getValidatePaymentDataUrl()
-    {
-        return $this->_getValidator()->getValidatePaymentDataUrl();
-    }
-
-    /**
-     * Return id of iframe container
-     *
-     * @return string
-     */
-    public function getContainerId()
-    {
-        return 'centinel_authenticate_iframe';
+        return '';
     }
 }

@@ -24,54 +24,27 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Centinel validation form lookup
+ * Centinel validation frame
  */
-
 class Mage_Centinel_Block_Authentication extends Mage_Core_Block_Template
 {
     /**
-     * Return url for payment authentication request
+     * Check whether authentication is required and prepare some template data
      *
      * @return string
      */
-    public function getAuthenticationStartUrl()
+    protected function _toHtml()
     {
-        return $this->_getValidator()->getAuthenticationStartUrl();
-    }
-    
-    /**
-     * Return flag - is centinel validation enrolled 
-     *
-     * @return bool
-     */
-    public function isAuthenticationAllow()
-    {
-        return $this->isValidationEnabled() && $this->_getValidator()->isAuthenticationAllow();
-    }
-    
-    /**
-     * Return flag - is centinel validation enabled 
-     *
-     * @return bool
-     */
-    public function isValidationEnabled()
-    {
-        return $this->_getValidator() != false;
-    }
-    
-    /**
-     * Return Centinel validation model
-     *
-     * @return Mage_Centinel_Model_Service
-     */
-    private function _getValidator()
-    {
-        $instance = Mage::getSingleton('checkout/session')->getQuote()->getPayment()->getMethodInstance();
-        if ($instance->getIsCentinelValidationEnabled()) {
-            return $instance->getCentinelValidator();
+        $method = Mage::getSingleton('checkout/session')->getQuote()->getPayment()->getMethodInstance();
+        if (!$method->getIsCentinelValidationEnabled()) {
+            return '';
         }
-        return false;
+        $centinel = $method->getCentinelValidator();
+        if ($centinel && $centinel->shouldAuthenticate()) {
+            $this->setFrameUrl($centinel->getAuthenticationStartUrl());
+            return parent::_toHtml();
+        }
+        return '';
     }
 }

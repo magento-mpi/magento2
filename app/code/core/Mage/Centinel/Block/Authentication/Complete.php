@@ -28,21 +28,22 @@
 /**
  * Centinel validation form lookup
  */
-
 class Mage_Centinel_Block_Authentication_Complete extends Mage_Core_Block_Template
 {
     /**
-     * Internal constructor
+     * Prepare authentication result params and render
      *
+     * @return string
      */
-    protected function _construct()
+    protected function _toHtml()
     {
-        parent::_construct();
         $validator = Mage::registry('centinel_validator');
-        if ($validator && $validator->isAuthenticationSuccess()) {
-            $this->setResultMessage(Mage::helper('centinel')->__('Please continue.'));
-        } else {
-            $this->setResultMessage(Mage::helper('centinel')->__('Centinel validation is filed. Please check payment information and try again'));    
+        if (!$validator) {
+            return '';
         }
+        $this->setIsSuccess($validator->isAuthenticationSuccess())
+            ->setIsRequired($validator->getIsAuthenticationRequired())
+        ;
+        return parent::_toHtml();
     }
 }

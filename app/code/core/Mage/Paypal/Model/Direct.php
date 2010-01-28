@@ -179,43 +179,17 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     }
 
     /**
-     * Whether centinel service is enabled
+     * Set fallback API URL if not defined in configuration
      *
-     * @return bool
+     * @return Mage_Centinel_Model_Service
      */
-    public function getIsCentinelValidationEnabled()
+    public function getCentinelValidator()
     {
-        return $this->_pro->getConfig()->centinel;
-    }
-
-    /**
-     * Whether centinel validation is required
-     *
-     * @return bool
-     */
-    public function getIsCentinelValidationRequired()
-    {
-        return $this->_pro->getConfig()->centinelValidationRequired;
-    }
-
-    /**
-     * Whether centinel authentication is required
-     *
-     * @return bool
-     */
-    public function getIsCentinelAuthenticationRequired()
-    {
-        return $this->_pro->getConfig()->centinelAuthenticationRequired;
-    }
-
-    /**
-     * Return API endpoint URL to the validator instance
-     *
-     * @return string
-     */
-    public function getCentinelApiUrl()
-    {
-        return $this->_pro->getConfig()->getCentinelApiUrl();
+        $validator = parent::getCentinelValidator();
+        if (!$validator->getCustomApiEndpointUrl()) {
+            $validator->setCustomApiEndpointUrl($this->_pro->getConfig()->centinelDefaultApiUrl);
+        }
+        return $validator;
     }
 
     /**
