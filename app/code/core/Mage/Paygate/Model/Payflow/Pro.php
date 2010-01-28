@@ -145,21 +145,6 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         return $this;
     }
 
-    /**
-     * Check capture availability
-     * To avoid capture already voided transactions, allow only one capture thus the method
-     * cannot make capture partially
-     *
-     * @return bool
-     */
-    public function canCapture()
-    {
-        if ($this->getInfoInstance()->getOrder()->getBaseSubtotalInvoiced() > 0) {
-            return false;
-        }
-        return true;
-    }
-
     public function capture(Varien_Object $payment, $amount)
     {
         $error = false;
@@ -186,6 +171,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                  $payment->setStatus(self::STATUS_APPROVED);
                  //$payment->setCcTransId($result->getPnref());
                  $payment->setLastTransId($result->getPnref());
+                 $payment->setTransactionId($result->getPnref());
                  break;
 
             case self::RESPONSE_CODE_FRAUDSERVICE_FILTER:
@@ -196,8 +182,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             default:
                 if ($result->getRespmsg()) {
                     $error = $result->getRespmsg();
-                }
-                else {
+                } else {
                     $error = Mage::helper('paygate')->__('Error in capturing the payment');
                 }
             break;
