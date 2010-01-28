@@ -665,19 +665,24 @@ final class Mage
             return;
         }
 
-        if (!self::$_isDeveloperMode) {
-            if (!self::getStoreConfig('dev/log/active')) {
-                return;
+        try {
+            $logActive = self::getStoreConfig('dev/log/active');
+            if (empty($file)) {
+                $file = self::getStoreConfig('dev/log/file');
             }
+        }
+        catch (Exception $e) {
+            $logActive = true;
+        }
+
+        if (!self::$_isDeveloperMode && !$logActive) {
+            return;
         }
 
         static $loggers = array();
 
         $level  = is_null($level) ? Zend_Log::DEBUG : $level;
-        if (empty($file)) {
-            $file = self::getStoreConfig('dev/log/file');
-            $file   = empty($file) ? 'system.log' : $file;
-        }
+        $file = empty($file) ? 'system.log' : $file;
 
         try {
             if (!isset($loggers[$file])) {
