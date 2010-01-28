@@ -196,7 +196,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         else {
             if (!$session->getAfterAuthUrl()) {
                 $session->setAfterAuthUrl($session->getBeforeAuthUrl());
-                $session->setBeforeAuthUrl(Mage::helper('customer')->getLoginUrl());
             }
             if ($session->isLoggedIn()) {
                 $session->setBeforeAuthUrl($session->getAfterAuthUrl(true));

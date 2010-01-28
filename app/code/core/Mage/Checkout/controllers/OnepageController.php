@@ -39,11 +39,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
     public function preDispatch()
     {
         parent::preDispatch();
-
-        if (!$this->_preDispatchValidateCustomer()) {
-            return $this;
-        }
-
+        $this->_preDispatchValidateCustomer();
         return $this;
     }
 
