@@ -55,7 +55,7 @@ VarienRulesForm.prototype = {
                 Event.observe(apply, 'click', this.hideParamInputField.bind(this, container));
             } else {
                 elem = elem.down('.element-value-changer');
-                elem.container = container; 
+                elem.container = container;
                 if (!elem.multiple) {
                     Event.observe(elem, 'change', this.hideParamInputField.bind(this, container));
                 }
@@ -213,7 +213,7 @@ VarienRulesForm.prototype = {
                 } else if (str.length>30) {
                     str = str.substr(0, 30)+'...';
                 }
-                label.innerHTML = str;
+                label.innerHTML = str.escapeHTML();
             }
         } else {
             elem = Element.down(container, '.element-value-changer');
