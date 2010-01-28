@@ -83,13 +83,6 @@ class Mage_Centinel_Model_Service extends Varien_Object
     protected $_paymentMethodCode;
 
     /**
-     * Flag - if it is true, self::validate return true always
-     *
-     * @var bool
-     */
-    protected $_skipValidation = false;
-
-    /**
      * Return validation api model
      *
      * @return Mage_Centinel_Model_Api
@@ -159,18 +152,6 @@ class Mage_Centinel_Model_Service extends Varien_Object
     {
         $key = $this->_paymentMethodCode . '_' . $key;
         return $this->_getSession()->getData($key);
-    }
-
-    /**
-     * Set skip validation mode
-     *
-     * @param bool $shouldSkip
-     * @return Mage_Centinel_Model_Service
-     */
-    public function skipValidation($shouldSkip = true)
-    {
-        $this->_skipValidation = $shouldSkip;
-        return $this;
     }
 
     /**
@@ -386,10 +367,6 @@ class Mage_Centinel_Model_Service extends Varien_Object
      */
     public function validate($data)
     {
-        if ($this->_skipValidation) {
-            return;
-        }
-
         $currentStatus = $this->getStatus();
         $newChecksum = $this->_generateChecksum(
             $data->getCardNumber(),
