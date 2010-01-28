@@ -484,6 +484,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 $this->addProduct($productId, $qty);
             }
         }
+
+        // skip item duplicates based on info_buyRequest option
+        $infoBuyRequests = array();
+
         if (isset($data['reorder'])) {
             foreach ($data['reorder'] as $orderItemId=>$value) {
                 $orderItem = Mage::getModel('sales/order_item')->load($orderItemId);
@@ -491,12 +495,19 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 if (is_string($item)) {
                     Mage::throwException($item);
                 }
+                $info_buyRequest = $item->getOptionByCode('info_buyRequest');
+                if ($info_buyRequest !== null) {
+                    $infoBuyRequests[] = $info_buyRequest->getValue();
+                }
             }
         }
         if (isset($data['cartItem'])) {
             foreach ($data['cartItem'] as $itemId => $qty) {
                 if ($item = $this->getCustomerCart()->getItemById($itemId)) {
-                    $this->moveQuoteItem($item, 'order', $qty);
+                    $info_buyRequest = $item->getOptionByCode('info_buyRequest');
+                    if ($info_buyRequest === null || !in_array($info_buyRequest->getValue(), $infoBuyRequests)) {
+                        $this->moveQuoteItem($item, 'order', $qty);
+                    }
 //                    $this->removeItem($itemId, 'cart');
                 }
             }
