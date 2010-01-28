@@ -232,7 +232,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
     protected function _toHtml()
     {
         $html = '';
-        if ((bool) Mage::app()->getStore()->getConfig('checkout/sidebar/display')) {
+        if ((bool) Mage::app()->getStore()->getConfig('checkout/sidebar/display') || $this->getIgnoreHidingFlag()) {
             $html = parent::_toHtml();
         }
         return $html;
