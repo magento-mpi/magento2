@@ -252,7 +252,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
          * We need hold such kind of orders
          */
         if ($this->getIsTransactionPending()) {
-            $message = Mage::helper('sales')->__('Amount %s pending approval on gateway.', $this->_formatPrice($amountToCapture));
+            $message = Mage::helper('sales')->__('Amount of %s pending approval on gateway.', $this->_formatPrice($amountToCapture));
             $message = $this->_prependMessage($message);
             $message = $this->_appendTransactionToMessage($transaction, $message);
             $status  = $this->getTransactionPendingStatus() ? $this->getTransactionPendingStatus() : true;

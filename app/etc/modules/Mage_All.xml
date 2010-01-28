@@ -184,8 +184,8 @@
             <active>true</active>
             <codePool>core</codePool>
             <depends>
-                <Mage_Payment />
-                <Mage_Checkout />
+                <Mage_Payment/>
+                <Mage_Checkout/>
             </depends>
         </Mage_Centinel>
         <Mage_Usa>
