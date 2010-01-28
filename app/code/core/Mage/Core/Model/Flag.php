@@ -68,6 +68,18 @@ class Mage_Core_Model_Flag extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Set flag code
+     *
+     * @param string $flagCode
+     * @return Mage_Core_Model_Flag
+     */
+    public function prepareFlagCode($flagCode)
+    {
+        $this->_flagCode = $flagCode;
+        return $this;
+    }
+
+    /**
      * Retrieve flag data
      *
      * @return mixed
