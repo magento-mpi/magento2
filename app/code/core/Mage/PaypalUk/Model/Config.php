@@ -57,15 +57,6 @@ class Mage_PaypalUk_Model_Config extends Mage_Paypal_Model_Config
     const PAYMENT_ACTION_AUTH  = 'Authorization';
 
     /**
-     * Whether current payment method works with credit cards
-     * @return bool
-     */
-    public function doesWorkWithCc()
-    {
-        return $this->_methodCode === self::METHOD_WPP_PE_DIRECT;
-    }
-
-    /**
      * Map any supported payment method into a config path by specified field name
      *
      * @param string $fieldName

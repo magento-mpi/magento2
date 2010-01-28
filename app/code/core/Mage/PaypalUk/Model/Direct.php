@@ -30,12 +30,11 @@
 class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
 {
     protected $_code  = 'paypaluk_direct';
-    protected $_infoBlockType = 'paypaluk/payment_info';
 
     /**
      * Website Payments Pro instance type
      *
-     * @var $_proType string
+     * @var string
      */
     protected $_proType = 'paypaluk/pro';
 
