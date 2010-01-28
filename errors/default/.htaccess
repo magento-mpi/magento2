@@ -1,3 +1,0 @@
-<Files *.phtml>
-    Deny from all
-</Files>
