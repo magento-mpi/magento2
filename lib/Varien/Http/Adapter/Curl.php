@@ -45,7 +45,7 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
     /**
      * Apply current configuration array to transport resource
      */
-    protected function applyConfig()
+    protected function _applyConfig()
     {
         //curl_setopt();
         if (isset($this->_config['timeout'])) {
@@ -111,7 +111,7 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
         if ($url instanceof Zend_Uri_Http) {
             $url = $url->getUri();
         }
-        $this->applyConfig();
+        $this->_applyConfig();
 
         // set url to post to
         curl_setopt($this->_getResource(), CURLOPT_URL, $url);
