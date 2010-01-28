@@ -126,10 +126,10 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
         'CARDISSUE'    => 'maestro_solo_issue_number',
         'CVV2MATCH'      => 'cvv2_check_result',
         // cardinal centinel
-        'AUTHSTATUS3D' => 'centinel_authstatus',
+        'AUTHSTATUS3DS' => 'centinel_authstatus',
         'MPIVENDOR3DS' => 'centinel_mpivendor',
         'CAVV'         => 'centinel_cavv',
-        'ECI3DS'       => 'centinel_eci',
+        'ECI'       => 'centinel_eci',
         'XID'          => 'centinel_xid',
         'VPAS'         => 'centinel_vpas_result',
         'ECISUBMITTED3DS' => 'centinel_eci_result',
@@ -153,6 +153,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
         'ACCT', 'EXPDATE', 'CVV2', 'CURRENCY', 'EMAIL', 'TENDER',
         'AMT', 'CUSTIP', 'INVNUM',
         'CARDISSUE', 'CARDSTART',
+        'AUTHSTATUS3DS', 'MPIVENDOR3DS', 'CAVV', 'ECI', 'XID',//cardinal centinel params
     );
     protected $_doDirectPaymentResponse = array(
         'PNREF', 'PPREF', 'CORRELATIONID', 'CVV2MATCH', 'AVSADDR', 'AVSZIP', 'PENDINGREASON'
