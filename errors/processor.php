@@ -440,14 +440,12 @@ class Error_Processor
 
         $reportUrl = $this->getBaseUrl(true).'errors/report.php?id='.$this->reportId;
 
-        if (!headers_sent()) {
-            header('Location: ' . $reportUrl);
-        } else {
+        if (headers_sent()) {
             print '<script type="text/javascript">';
             print "window.location.href = '{$reportUrl}';";
             print '</script>';
+            exit;
         }
-        exit;
     }
 
     /**
