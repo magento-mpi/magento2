@@ -78,7 +78,7 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
      * @param string  $host
      * @param int     $port
      * @param boolean $secure
-     * @deprecated Deprecated since 1.4.0.0-rc1
+     * @deprecated since 1.4.0.0-rc1
      */
     public function connect($host, $port = 80, $secure = false)
     {
@@ -121,7 +121,7 @@ class Varien_Http_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
             curl_setopt($this->_getResource(), CURLOPT_POSTFIELDS, $body);
         }
         elseif ($method == Zend_Http_Client::GET) {
-        	curl_setopt($this->_getResource(), CURLOPT_HTTPGET, true);
+            curl_setopt($this->_getResource(), CURLOPT_HTTPGET, true);
         }
 
         if( is_array($headers) ) {
