@@ -56,6 +56,8 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function orderedAction()
     {
+        $this->_title($this->__('Reports'))->_title($this->__('Product Bestsellers'));
+
         $this->_initAction()
             ->_setActiveMenu('report/product/ordered')
             ->_addBreadcrumb(Mage::helper('reports')->__('Bestsellers'), Mage::helper('reports')->__('Bestsellers'))
@@ -95,6 +97,8 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function soldAction()
     {
+        $this->_title($this->__('Reports'))->_title($this->__('Products Ordered'));
+
         $this->_initAction()
             ->_setActiveMenu('report/product/sold')
             ->_addBreadcrumb(Mage::helper('reports')->__('Products Ordered'), Mage::helper('reports')->__('Products Ordered'))
@@ -136,6 +140,8 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function viewedAction()
     {
+        $this->_title($this->__('Reports'))->_title($this->__('Most Viewed Products'));
+
         $this->_initAction()
             ->_setActiveMenu('report/product/viewed')
             ->_addBreadcrumb(Mage::helper('reports')->__('Most viewed'), Mage::helper('reports')->__('Most viewed'))
@@ -175,6 +181,8 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function lowstockAction()
     {
+        $this->_title($this->__('Reports'))->_title($this->__('Low Stock'));
+
         $this->_initAction()
             ->_setActiveMenu('report/product/lowstock')
             ->_addBreadcrumb(Mage::helper('reports')->__('Low stock'), Mage::helper('reports')->__('Low stock'))
@@ -216,6 +224,8 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function downloadsAction()
     {
+        $this->_title($this->__('Reports'))->_title($this->__('Product Downloads'));
+
         $this->_initAction()
             ->_setActiveMenu('report/product/downloads')
             ->_addBreadcrumb(Mage::helper('reports')->__('Downloads'), Mage::helper('reports')->__('Downloads'))

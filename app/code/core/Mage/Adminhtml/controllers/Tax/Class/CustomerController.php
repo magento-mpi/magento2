@@ -40,6 +40,8 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
      */
     public function indexAction()
     {
+        $this->_title($this->__('Customer Tax Classes'));
+
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/tax_class')->setClassType('CUSTOMER'))
             ->renderLayout();
@@ -60,6 +62,8 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
      */
     public function editAction()
     {
+        $this->_title($this->__('Customer Tax Classes'));
+
         $classId    = $this->getRequest()->getParam('id');
         $model      = Mage::getModel('tax/class');
         if ($classId) {
@@ -70,6 +74,8 @@ class Mage_Adminhtml_Tax_Class_CustomerController extends Mage_Adminhtml_Control
                 return;
             }
         }
+
+        $this->_title($model->getId() ? $model->getClassName() : $this->__('New Class'));
 
         $data = Mage::getSingleton('adminhtml/session')->getClassData(true);
         if (!empty($data)) {

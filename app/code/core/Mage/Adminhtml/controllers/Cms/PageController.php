@@ -56,6 +56,8 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
+        $this->_title($this->__('CMS Pages'));
+
         $this->_initAction();
         $this->renderLayout();
     }
@@ -74,6 +76,8 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
      */
     public function editAction()
     {
+        $this->_title($this->__('CMS Pages'));
+
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('page_id');
         $model = Mage::getModel('cms/page');
@@ -87,6 +91,8 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 return;
             }
         }
+
+        $this->_title($model->getId() ? $model->getTitle() : $this->__('New Page'));
 
         // 3. Set entered data if was error when we do save
         $data = Mage::getSingleton('adminhtml/session')->getFormData(true);

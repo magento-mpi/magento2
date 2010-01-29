@@ -42,6 +42,8 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     protected function _initCategory($getRootInstead = false)
     {
+        $this->_title($this->__('Categories'));
+
         $categoryId = (int) $this->getRequest()->getParam('id',false);
         $storeId    = (int) $this->getRequest()->getParam('store');
         $category = Mage::getModel('catalog/category');
@@ -134,6 +136,9 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if (!($category = $this->_initCategory(true))) {
             return;
         }
+
+        $this->_title($categoryId ? $category->getName() : $this->__('New Category'));
+
         /**
          * Check if we have data in session (if duering category save was exceprion)
          */

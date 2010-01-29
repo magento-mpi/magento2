@@ -35,6 +35,8 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
+        $this->_title($this->__('Tax Rules'));
+
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/tax_rule'))
             ->renderLayout();
@@ -48,6 +50,8 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
 
     public function editAction()
     {
+        $this->_title($this->__('Tax Rules'));
+
         $taxRuleId  = $this->getRequest()->getParam('rule');
         $ruleModel  = Mage::getModel('tax/calculation_rule');
         if ($taxRuleId) {
@@ -64,6 +68,8 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
         if (!empty($data)) {
             $ruleModel->setData($data);
         }
+
+        $this->_title($ruleModel->getId() ? sprintf("%s", $ruleModel->getCode()) : $this->__('New Rule'));
 
         Mage::register('tax_rule', $ruleModel);
 

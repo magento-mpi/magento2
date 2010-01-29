@@ -264,6 +264,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     public function indexAction()
     {
+        $this->_title($this->__('Orders'))->_title($this->__('Edit Order'));
         $this->loadLayout();
 
         $this->_initSession()

@@ -41,6 +41,8 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
+        $this->_title($this->__('Cache Storage'));
+
         $this->loadLayout()
             ->_setActiveMenu('system/cache')
             ->renderLayout();

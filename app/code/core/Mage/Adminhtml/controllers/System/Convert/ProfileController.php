@@ -36,6 +36,8 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
 
     protected function _initProfile($idFieldName = 'id')
     {
+        $this->_title($this->__('Import and Export Profiles'));
+
         $profileId = (int) $this->getRequest()->getParam($idFieldName);
         $profile = Mage::getModel('dataflow/profile');
 
@@ -58,6 +60,8 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
      */
     public function indexAction()
     {
+        $this->_title($this->__('Import and Export Profiles'));
+
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
             return;
@@ -106,6 +110,8 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
         if (!empty($data)) {
             $profile->addData($data);
         }
+
+        $this->_title($profile->getId() ? $profile->getName() : $this->__('New Profile'));
 
         $this->_setActiveMenu('system/convert');
 

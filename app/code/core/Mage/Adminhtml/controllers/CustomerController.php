@@ -36,6 +36,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
     protected function _initCustomer($idFieldName = 'id')
     {
+        $this->_title($this->__('Customers'));
+
         $customerId = (int) $this->getRequest()->getParam($idFieldName);
         $customer = Mage::getModel('customer/customer');
 
@@ -52,6 +54,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
+        $this->_title($this->__('Customers'));
+
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
             return;
@@ -108,6 +112,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $customer->addAddress($addressModel);
             }
         }
+
+        $this->_title($customer->getId() ? $customer->getName() : $this->__('New Customer'));
 
         /**
          * Set active menu item

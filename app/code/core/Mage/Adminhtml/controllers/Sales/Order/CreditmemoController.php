@@ -72,6 +72,8 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
      */
     protected function _initCreditmemo($update = false)
     {
+        $this->_title($this->__('Credit Memos'));
+
         $creditmemo = false;
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
             $creditmemo = Mage::getModel('sales/order_creditmemo')->load($creditmemoId);
@@ -235,6 +237,8 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     public function viewAction()
     {
         if ($creditmemo = $this->_initCreditmemo()) {
+            $this->_title(sprintf("#%s", $creditmemo->getInvoice()->getIncrementId()));
+
             $this->loadLayout();
             $this->getLayout()->getBlock('sales_creditmemo_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
@@ -263,6 +267,8 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     public function newAction()
     {
         if ($creditmemo = $this->_initCreditmemo()) {
+            $this->_title(sprintf("#%s", $creditmemo->getInvoice()->getIncrementId()));
+
             $commentText = Mage::getSingleton('adminhtml/session')->getCommentText(true);
 
             $creditmemo->addData(array('commentText'=>$commentText));

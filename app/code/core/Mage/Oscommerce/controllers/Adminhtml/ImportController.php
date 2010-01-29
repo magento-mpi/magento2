@@ -65,6 +65,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      */
     public function indexAction()
     {
+        $this->_title($this->__('osCommerce Profiles'));
+
         $this->_initAction();
         $this->_addContent(
             $this->getLayout()->createBlock('oscommerce/adminhtml_import')
@@ -77,6 +79,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      */
     public function editAction()
     {
+        $this->_title($this->__('osCommerce Profiles'));
+
         $this->_initImport();
         $this->loadLayout();
 
@@ -86,6 +90,8 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         if (!empty($data)) {
             $model->addData($data);
         }
+
+        $this->_title($model->getId() ? $model->getName() : $this->__('New Profile'));
 
         $this->_initAction();
         $this->_addBreadcrumb

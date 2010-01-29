@@ -50,4 +50,13 @@ class Mage_Adminhtml_Sales_CreditmemoController extends Mage_Adminhtml_Controlle
         $grid       = $this->getLayout()->createBlock('adminhtml/sales_creditmemo_grid');
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
+
+    /**
+     *  Index page
+     */
+    public function indexAction() {
+        $this->_title($this->__('Credit Memos'));
+
+        parent::indexAction();
+    }
 }

@@ -49,6 +49,8 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     public function editAction()
     {
+        $this->_title($this->__('Configuration'));
+
         $current = $this->getRequest()->getParam('section');
         $website = $this->getRequest()->getParam('website');
         $store   = $this->getRequest()->getParam('store');

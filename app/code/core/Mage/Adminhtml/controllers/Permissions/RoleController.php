@@ -56,6 +56,8 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
      */
     protected function _initRole($requestVariable = 'rid')
     {
+        $this->_title($this->__('Permissions'))->_title($this->__('Roles'));
+
         $role = Mage::getModel('admin/roles')->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
         if ($role->getId() && $role->getRoleType() != 'G') {
@@ -72,6 +74,8 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
      */
     public function indexAction()
     {
+        $this->_title($this->__('Permissions'))->_title($this->__('Roles'));
+
         $this->_initAction();
 
         $this->renderLayout();
@@ -103,6 +107,9 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
             $breadCrumb = $this->__('Add new Role');
             $breadCrumbTitle = $this->__('Add new Role');
         }
+
+        $this->_title($role->getId() ? $role->getRoleName() : $this->__('New Role'));
+
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
 
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);

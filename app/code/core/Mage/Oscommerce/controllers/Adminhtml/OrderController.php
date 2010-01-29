@@ -55,6 +55,8 @@ class Mage_Oscommerce_Adminhtml_OrderController extends Mage_Adminhtml_Controlle
      */
     protected function _initOrder()
     {
+        $this->_title($this->__('osCommerce Orders'));
+
         $id = $this->getRequest()->getParam('order_id');
         $order = Mage::getModel('oscommerce/oscommerce_order')->load($id);
 
@@ -74,6 +76,8 @@ class Mage_Oscommerce_Adminhtml_OrderController extends Mage_Adminhtml_Controlle
      */
     public function indexAction()
     {
+        $this->_title($this->__('osCommerce Orders'));
+
         $this->_initAction();
         $this->_addContent(
             $this->getLayout()->createBlock('oscommerce/adminhtml_order')
@@ -87,6 +91,8 @@ class Mage_Oscommerce_Adminhtml_OrderController extends Mage_Adminhtml_Controlle
     public function viewAction()
     {
         if ($order = $this->_initOrder()) {
+            $this->_title(sprintf("#%s", $order->getId()));
+
             $this->_initAction()
                 ->_addBreadcrumb($this->__('View Order'), $this->__('View Order'))
                 ->_addContent($this->getLayout()->createBlock('oscommerce/adminhtml_order_view'))

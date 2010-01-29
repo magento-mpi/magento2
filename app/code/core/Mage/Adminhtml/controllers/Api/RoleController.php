@@ -46,6 +46,8 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
 
     public function indexAction()
     {
+        $this->_title($this->__('API User Roles'));
+
         $this->_initAction();
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/api_roles'));
@@ -64,15 +66,19 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
 
     public function editRoleAction()
     {
+        $this->_title($this->__('API User Roles'));
+
         $this->_initAction();
 
         $roleId = $this->getRequest()->getParam('rid');
         if( intval($roleId) > 0 ) {
             $breadCrumb = $this->__('Edit Role');
             $breadCrumbTitle = $this->__('Edit Role');
+            $this->_title($this->__('Edit Role'));
         } else {
             $breadCrumb = $this->__('Add new Role');
             $breadCrumbTitle = $this->__('Add new Role');
+            $this->_title($this->__('New Role'));
         }
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
 

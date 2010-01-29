@@ -45,6 +45,8 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
 
     public function indexAction()
     {
+        $this->_title($this->__('Google Base Attribute Items'));
+
         if (0 === (int)$this->getRequest()->getParam('store')) {
             $this->_redirect('*/*/', array('store' => Mage::app()->getAnyStoreView()->getId(), '_current' => true));
             return;

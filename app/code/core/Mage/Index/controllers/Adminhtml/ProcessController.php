@@ -47,6 +47,8 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
      */
     public function listAction()
     {
+        $this->_title($this->__('Index Management'));
+
         $this->loadLayout();
         $this->_setActiveMenu('system/index');
         $this->_addContent($this->getLayout()->createBlock('index/adminhtml_process'));
@@ -60,6 +62,11 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
     {
         $process = $this->_initProcess();
         if ($process) {
+            $this->_title($process->getIndexCode());
+
+            $this->_title($this->__('Index Management'))
+                 ->_title($this->__('Edit Index'));
+
             Mage::register('current_index_process', $process);
             $this->loadLayout();
             $this->renderLayout();
