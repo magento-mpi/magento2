@@ -30,21 +30,10 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_Action
 {
-
-    /**
-     * Enter description here...
-     *
-     */
-    protected function _construct()
-    {
-        $this->setFlag('index', 'no-preDispatch', true);
-        return parent::_construct();
-    }
-
     /**
      * Enter description here...
      *
