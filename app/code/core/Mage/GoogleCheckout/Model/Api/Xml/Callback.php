@@ -67,7 +67,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             try {
                 $this->$method();
             } catch (Exception $e) {
-                $this->getGResponse()->log->logError($e->getMessage());
+                $this->getGResponse()->log->logError($e->__toString());
             }
 
             $response = ob_get_flush();
@@ -295,8 +295,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
         $shipping = $this->_importGoogleAddress($this->getData('root/buyer-shipping-address'));
         $quote->setShippingAddress($shipping);
-
-        $quote->collectTotals();
+        $quote->getPayment()->importData(array('method'=>'googlecheckout'));
 
         $this->_importGoogleTotals($quote->getShippingAddress());
 
@@ -367,11 +366,11 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
         $order->sendNewOrderEmail();
 
-        Mage::getSingleton('checkout/session')
-            ->setLastQuoteId($quote->getId())
-            ->setLastOrderId($order->getId())
-            ->setLastSuccessQuoteId($quote->getId())
-            ->setLastRealOrderId($order->getIncrementId());
+//        Mage::getSingleton('checkout/session')
+//            ->setLastQuoteId($quote->getId())
+//            ->setLastOrderId($order->getId())
+//            ->setLastSuccessQuoteId($quote->getId())
+//            ->setLastRealOrderId($order->getIncrementId());
 
         $quote->setIsActive(false)->save();
 
@@ -379,8 +378,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             Mage::getModel('newsletter/subscriber')->subscribe($order->getCustomerEmail());
         }
 
-        $shoppingCartQuoteId = Mage::getSingleton('checkout/session')->getQuoteId();
-        $tmpQuote = Mage::getModel('sales/quote')->load($shoppingCartQuoteId);
+//        $shoppingCartQuoteId = Mage::getSingleton('checkout/session')->getQuoteId();
+//        $tmpQuote = Mage::getModel('sales/quote')->load($shoppingCartQuoteId);
 /*
         if (!$tmpQuote->getIsChanged()) {
             $tmpQuote->delete();
