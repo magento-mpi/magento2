@@ -229,19 +229,35 @@ class Varien_File_Uploader
     }
 
     /**
-     * Set validation callback model for us in self::_validateFile()
+     * Add validation callback model for us in self::_validateFile()
      *
+     * @param string $callbackName
      * @param object $callbackObject
      * @param string $callbackMethod - method name of $callbackObject. It must have interface (string $tmpFilePath)
      * @access public
      * @return Varien_File_Uploader
      */
-    public function setValidateCallback($callbackObject, $callbackMethod)
+    public function addValidateCallback($callbackName, $callbackObject, $callbackMethod)
     {
-        $this->_validateCallbacks[] = array(
+        $this->_validateCallbacks[$callbackName] = array(
            'object' => $callbackObject, 
            'method' => $callbackMethod
         );
+        return $this;
+    }
+
+    /**
+     * Delete validation callback model for us in self::_validateFile()
+     *
+     * @param string $callbackName
+     * @access public
+     * @return Varien_File_Uploader
+     */
+    public function removeValidateCallback($callbackName)
+    {
+        if (isset($this->_validateCallbacks[$callbackName])) {
+            unset($this->_validateCallbacks[$callbackName]);
+        }
         return $this;
     }
 
