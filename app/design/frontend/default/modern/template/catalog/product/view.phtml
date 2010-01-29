@@ -46,7 +46,7 @@
         </div>
 
         <div class="product-info-box">
-            <h3 class="product-name"><?php echo $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name') ?></h3>
+            <h3 class="product-name"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h3>
 
             <?php if ($this->canEmailToFriend()): ?>
                 <a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a><br />
@@ -75,7 +75,7 @@
 
             <?php if ($_product->getShortDescription()):?>
                 <h4 class="border-head"><?php echo $this->__('Quick Overview') ?></h4>
-                <div class="short-description"><?php echo $_helper->productAttribute($_product, nl2br($this->htmlEscape($_product->getShortDescription())), 'short_description') ?></div>
+                <div class="short-description"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
             <?php endif;?>
 
             <?php echo $this->getChildHtml('other');?>

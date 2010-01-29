@@ -49,7 +49,7 @@
 
         <div class="product-shop">
             <div class="product-name">
-                <h1><?php echo $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name') ?></h1>
+                <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
             </div>
 
             <?php if ($this->canEmailToFriend()): ?>
@@ -78,7 +78,7 @@
             <?php if ($_product->getShortDescription()):?>
                 <div class="short-description">
                     <h2><?php echo $this->__('Quick Overview') ?></h2>
-                    <div class="std"><?php echo $_helper->productAttribute($_product, nl2br($this->htmlEscape($_product->getShortDescription())), 'short_description') ?></div>
+                    <div class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
                 </div>
             <?php endif;?>
 
