@@ -79,6 +79,13 @@ class Error_Processor
     public $reportAction;
 
     /**
+     * Report ID
+     *
+     * @var int
+     */
+    public $reportId;
+
+    /**
      * Report file
      *
      * @var string
@@ -142,6 +149,9 @@ class Error_Processor
         $this->_root  = is_dir($this->_indexDir.'app');
 
         $this->_prepareConfig();
+        if (isset($_GET['skin'])) {
+            $this->_setSkin($_GET['skin']);
+        }
     }
 
     /**
@@ -149,7 +159,7 @@ class Error_Processor
     */
     public function process404()
     {
-        $this->pageTitle = 'Error 404: Not Found.';
+        $this->pageTitle = 'Error 404: Not Found';
         $this->_sendHeaders(404);
         $this->_renderPage('404.phtml');
     }
@@ -159,7 +169,7 @@ class Error_Processor
     */
     public function process503()
     {
-        $this->pageTitle = 'Error 503: Service Unavailable.';
+        $this->pageTitle = 'Error 503: Service Unavailable';
         $this->_sendHeaders(503);
         $this->_renderPage('503.phtml');
     }
@@ -176,6 +186,7 @@ class Error_Processor
         $this->showSentMsg  = false;
         $this->showSendForm = false;
         $this->reportAction = $this->_config->action;
+        $this->_setReportUrl();
 
         if($this->reportAction == 'email') {
             $this->showSendForm = true;
@@ -268,7 +279,7 @@ class Error_Processor
 
         //combine xml data to one object
         if (!is_null($design) && (string)$design->skin) {
-            $config->skin = $design->skin;
+            $this->_setSkin((string)$design->skin, $config);
         }
         if (!is_null($local)) {
             if ((string)$local->report->action) {
@@ -284,14 +295,11 @@ class Error_Processor
                 $config->trash = $local->report->trash;
             }
             if ((string)$local->skin) {
-                $config->skin = $local->skin;
+                $this->_setSkin((string)$local->skin, $config);
             }
         }
         if ((string)$config->email_address == '' && (string)$config->action == 'email') {
             $config->action = '';
-        }
-        if (isset($_GET['show'])) {
-            $config->action = 'print';
         }
 
         $this->_config = $config;
@@ -341,7 +349,7 @@ class Error_Processor
         $baseTemplate = $this->_getTemplatePath('page.phtml');
         $contentTemplate = $this->_getTemplatePath($template);
 
-        if($baseTemplate && $contentTemplate) {
+        if ($baseTemplate && $contentTemplate) {
             require_once $baseTemplate;
         }
     }
@@ -438,11 +446,14 @@ class Error_Processor
         @file_put_contents($this->_reportFile, serialize($reportData));
         @chmod($this->_reportFile, 0777);
 
-        $reportUrl = $this->getBaseUrl(true).'errors/report.php?id='.$this->reportId;
+        if (isset($reportData['skin']) && self::DEFAULT_SKIN != $reportData['skin']) {
+            $this->_setSkin($reportData['skin']);
+        }
+        $this->_setReportUrl();
 
         if (headers_sent()) {
             print '<script type="text/javascript">';
-            print "window.location.href = '{$reportUrl}';";
+            print "window.location.href = '{$this->reportUrl}';";
             print '</script>';
             exit;
         }
@@ -529,5 +540,37 @@ class Error_Processor
     {
         $email = eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $this->postData['email']);
         return ($this->postData['firstName'] && $this->postData['lastName'] && $email);
+    }
+
+    /**
+     * Skin setter
+     *
+     * @param string $value
+     * @param object $config
+     */
+    protected function _setSkin($value, stdClass $config = null)
+    {
+        if (preg_match('/^[a-z0-9_]+$/i', $value) && is_dir($this->_indexDir . self::ERROR_DIR . '/' . $value)) {
+            if (!$config) {
+                if ($this->_config) {
+                    $config = $this->_config;
+                }
+            }
+            if ($config) {
+                $config->skin = $value;
+            }
+        }
+    }
+
+    /**
+     * Set current report URL from current params
+     */
+    protected function _setReportUrl()
+    {
+        if ($this->reportId && $this->_config && isset($this->_config->skin)) {
+            $this->reportUrl = "{$this->getBaseUrl(true)}errors/report.php?" . http_build_query(array(
+                'id' => $this->reportId, 'skin' => $this->_config->skin
+            ));
+        }
     }
 }

@@ -1,12 +1,9 @@
 <div class="col-main">
     <div class="page-title">
-        <h1>There has been an error processing your request.</h1>
+        <h1>There has been an error processing your request</h1>
     </div>
-    <?php if ($this->reportId): ?>
-        <strong>Report ID: </strong> <a href="<?php echo "{$this->getBaseUrl(true)}errors/report.php?id={$this->reportId}&show=1" ?>"><?php echo $this->reportId ?></a><br />
-    <?php endif; ?>
-    <?php if ($this->reportData['url']): ?>
-        <strong>Error URL: </strong> <a href="<?php echo $this->reportData['url'] ?>"><?php echo $this->reportData['url'] ?></a><br /><br />
+    <?php if ($this->reportId && $this->reportUrl): ?>
+        <p>#<a href="<?php echo htmlspecialchars($this->reportUrl) ?>"><?php echo $this->reportId ?></a></p>
     <?php endif; ?>
     <?php if ($this->showSentMsg): ?>
     <ul class="messages">

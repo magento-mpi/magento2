@@ -784,6 +784,13 @@ final class Mage
                 }
             }
 
+            // attempt to specify store as a skin
+            try {
+                $storeCode = self::app()->getStore()->getCode();
+                $reportData['skin'] = $storeCode;
+            }
+            catch (Exception $e) {}
+
             require_once(self::getBaseDir() . DS . 'errors' . DS . 'report.php');
         }
 
