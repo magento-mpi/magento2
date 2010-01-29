@@ -458,13 +458,16 @@ class Mage_Paypal_Model_Config
 
     /**
      * Express Checkout "solution types" source getter
+     * "sole" = "Express Checkout for Auctions" - PayPal allows guest checkout
+     * "mark" = "Normal Express Checkout" - PayPal requires to checkout with PayPal buyer account only
+     *
      * @return array
      */
     public function getExpressCheckoutSolutionTypes()
     {
         return array(
-            self::EC_SOLUTION_TYPE_SOLE => Mage::helper('paypal')->__('Express Checkout for Auctions'),
-            self::EC_SOLUTION_TYPE_MARK => Mage::helper('paypal')->__('Normal Express Checkout'),
+            self::EC_SOLUTION_TYPE_SOLE => Mage::helper('paypal')->__('Yes'),
+            self::EC_SOLUTION_TYPE_MARK => Mage::helper('paypal')->__('No'),
         );
     }
 
