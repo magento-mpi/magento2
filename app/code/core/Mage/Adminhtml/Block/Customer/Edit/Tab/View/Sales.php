@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
 {
 
     /**
-     * Enter description here...
+     * Sales entity collection
      *
      * @var Mage_Sales_Model_Entity_Sale_Collection
      */
@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
     protected $_websiteCounts;
 
     /**
-     * Enter description here...
+     * Currency model
      *
      * @var Mage_Directory_Model_Currency
      */
@@ -116,7 +116,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
     /**
      * @deprecated after 1.4.0.0-rc1
      *
-     * @param unknown_type $price
+     * @param float $price
      * @return string
      */
     public function getPriceFormatted($price)
@@ -127,7 +127,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Mage_Adminhtml_B
     /**
      * Format price by specified website
      *
-     * @param unknown_type $price
+     * @param float $price
      * @param null|int $websiteId
      * @return string
      */
