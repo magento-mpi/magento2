@@ -93,6 +93,35 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Compare order total amount with cart's items cost sum
+     *
+     * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $salesEntity
+     * @param float $order_amount
+     * @return bool
+     */
+    public function isAmountEqualCartTotal(Mage_Core_Model_Abstract $salesEntity, $order_amount)
+    {
+        $total = 0;
+        foreach ($salesEntity->getAllItems() as $item) {
+            if ($salesEntity instanceof Mage_Sales_Model_Order) {
+                $qty = $item->getQtyOrdered();
+                $amount = $item->getBasePrice();
+            } else {
+                $qty = $item->getTotalQty();
+                $amount = $item->getBaseCalculationPrice();
+            }
+            $total += (float)$amount*$qty;
+        }
+
+        $shipping = $salesEntity->getBaseShippingAmount();
+
+        if ($total == $order_amount || $total+$shipping == $order_amount) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Get one line item key-value array
      *
      * @param Mage_Core_Model_Abstract $salesEntity
