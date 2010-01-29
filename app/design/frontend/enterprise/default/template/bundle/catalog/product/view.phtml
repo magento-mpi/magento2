@@ -46,7 +46,7 @@
                 <div class="product-shop">
                     <div class="product-main-info">
                         <div class="product-name">
-                            <h1><?php echo $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name') ?></h1>
+                            <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
                         </div>
                         <p class="product-ids"><?php echo $this->__('SKU#%s',$this->htmlEscape($_product->getSku())); ?></p>
                         <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
@@ -73,7 +73,7 @@
                     <?php if ($_product->getShortDescription()):?>
                         <div class="short-description std">
                             <h2><?php echo $this->__('Quick Overview') ?></h2>
-                            <?php echo $_helper->productAttribute($_product, nl2br($this->htmlEscape($_product->getShortDescription())), 'short_description') ?>
+                            <?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
                         </div>
                     <?php endif;?>
 
@@ -122,7 +122,7 @@
         <?php if ($_product->isSaleable() && $this->hasOptions()): ?>
         <div id="options-container" style="display:none">
             <div id="customizeTitle" class="page-title title-buttons">
-                <h1><?php echo $this->__('Customize %s', $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name')) ?></h1>
+                <h1><?php echo $this->__('Customize %s', $_helper->productAttribute($_product, $_product->getName(), 'name')) ?></h1>
                 <button class="button" type="button" onclick="Enterprise.Bundle.end();"><span><span><?php echo $this->__('&laquo; Go back to product detail'); ?></span></span></button>
             </div>
             <?php echo $this->getChildHtml('bundleSummary') ?>
