@@ -100,6 +100,12 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
      */
     public function productAttribute($product, $attributeHtml, $attributeName)
     {
+        foreach ($product->getAttributes() as $attribute) {
+            if ($attribute->getName() == $attributeName
+                && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
+                $attributeHtml = $this->htmlEscape($attributeHtml);
+            }
+        }
         $attributeHtml = $this->process('productAttribute', $attributeHtml, array(
             'product'   => $product,
             'attribute' => $attributeName

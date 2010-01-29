@@ -48,6 +48,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         /* @var $fieldset Varien_Data_Form_Element_Fieldset */
         $fieldset = $form->getElement('base_fieldset');
 
+        $htmlIdPrefix = 'product_attribute_';
+        $form->setHtmlIdPrefix($htmlIdPrefix);
+
         $frontendInputElm = $form->getElement('frontend_input');
         $additionalTypes = array(
             array(
@@ -229,6 +232,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         } else {
             $form->getElement('apply_to')->addClass('no-display ignore-validate');
         }
+
+        // define field dependencies
+        $this->setChild('form_after', $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
+            ->addFieldMap("{$htmlIdPrefix}is_wysiwyg_enabled", 'is_wysiwyg_enabled')
+            ->addFieldMap("{$htmlIdPrefix}is_html_allowed_on_front", 'is_html_allowed_on_front')
+            ->addFieldDependence('is_html_allowed_on_front', 'is_wysiwyg_enabled', '0')
+        );
 
         return $this;
     }
