@@ -247,7 +247,8 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
             if ($item->getParentItem()) {
                 continue;
             }
-            if (Mage::helper('core/string')->strlen($invoiceDesc.$item->getName()) > 10000) {
+            //COM filed can only handle max 100
+            if (Mage::helper('core/string')->strlen($invoiceDesc.$item->getName()) > 100) {
                 break;
             }
             $invoiceDesc .= $item->getName() . ', ';

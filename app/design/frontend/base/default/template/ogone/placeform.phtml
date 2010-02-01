@@ -38,6 +38,8 @@
 <script type="text/javascript">
 //<![CDATA[
     var review = new VarienForm('ogone_review_form', '');
-    window.onload = review.submit();
+    Event.observe(window, 'load', function() {
+        review.submit();
+    });
 //]]>
 </script>

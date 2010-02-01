@@ -82,11 +82,11 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </pspid>
-                        <secret_key_in translate="label comment">
-                            <label>SHA Signature (used by Magento)</label>
+                        <secret_key_out translate="label comment">
+                            <label>SHA-1-IN Signature</label>
                             <comment><![CDATA[
-                                Use in posting data from Ogone to Magento. <br/>
-                                Use in Feedback data checking by Magento
+                                Use in posting data from Magento to Ogone. <br/>
+                                Use in data checking by Ogone before the payment.
                             ]]></comment>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
                             <frontend_type>obscure</frontend_type>
@@ -94,12 +94,12 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </secret_key_in>
-                        <secret_key_out translate="label comment">
-                            <label>SHA Signature (used by Ogone)</label>
+                        </secret_key_out>
+                        <secret_key_in translate="label comment">
+                            <label>SHA-1- OUT Signature</label>
                             <comment><![CDATA[
-                                Use in posting data from Magento to Ogone. <br/>
-                                Use in data checking by Ogone before the payment.
+                                Use in posting data from Ogone to Magento. <br/>
+                                Use in Feedback data checking by Magento
                             ]]></comment>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
                             <frontend_type>obscure</frontend_type>
@@ -107,7 +107,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </secret_key_out>
+                        </secret_key_in>
                         <ogone_gateway translate="label comment">
                             <label>Gateway URL</label>
                             <frontend_type>text</frontend_type>

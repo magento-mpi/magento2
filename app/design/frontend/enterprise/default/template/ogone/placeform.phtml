@@ -26,7 +26,7 @@
 ?>
 
 <b><?php echo Mage::helper('ogone')->__('Please, wait a moment. This page will transfer your data to Ogone payment gateway in a few seconds.'); ?></b>
-<form name='ogone' id='ogone_review_form' action='<?php echo $this->getFormAction();?>' method='POST' accept-charset="ISO-8859-1">
+<form name="ogone" id="ogone_review_form" action='<?php echo $this->getFormAction();?>' method='POST' accept-charset="ISO-8859-1">
 <?php if (is_array($this->getFormData())): ?>
     <?php foreach ($this->getFormData() as $name => $value) { ?>
         <input type="hidden" name="<?php echo($name); ?>" value="<?php echo($value); ?>"/>
@@ -37,6 +37,8 @@
 <script type="text/javascript">
 //<![CDATA[
     var review = new VarienForm('ogone_review_form', '');
-    window.onload = review.submit();
+    Event.observe(window, 'load', function() {
+        review.submit();
+    });
 //]]>
 </script>
