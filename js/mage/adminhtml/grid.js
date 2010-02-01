@@ -109,6 +109,9 @@ varienGrid.prototype = {
     },
     rowMouseOver : function(event){
         var element = Event.findElement(event, 'tr');
+
+        if (!element.title) return;
+
         Element.addClassName(element, 'on-mouse');
 
         if (!Element.hasClassName('pointer')
