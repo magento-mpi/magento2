@@ -890,7 +890,6 @@ abstract class Mage_Core_Controller_Varien_Action
                     }
                 }
                 $titleBlock->setTitle(implode(' / ', array_reverse($this->_titles)));
-                Mage::log($titleBlock->getTitle());
             }
         }
     }
