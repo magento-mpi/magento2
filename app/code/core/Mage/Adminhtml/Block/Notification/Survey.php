@@ -19,46 +19,45 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Install
+ * @package     Mage_Adminhtml
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Installation ending block
+ * Adminhtml AdminNotification survey question block
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Install_Block_End extends Mage_Install_Block_Abstract
+class Mage_Adminhtml_Block_Notification_Survey extends Mage_Adminhtml_Block_Template
 {
-    public function __construct()
+    /**
+     * Check whether survey question can show
+     *
+     * @return boolean
+     */
+    public function canShow()
     {
-        parent::__construct();
-        $this->setTemplate('install/end.phtml');
-    }
-
-    public function getEncryptionKey()
-    {
-        $key = $this->getData('encryption_key');
-        if (is_null($key)) {
-            $key = (string) Mage::getConfig()->getNode('global/crypt/key');
-            $this->setData('encryption_key', $key);
+        $adminSession = Mage::getSingleton('admin/session');
+        $seconds = intval(date('s', time()));
+        if ($adminSession->getHideSurveyQuestion() || !$adminSession->isAllowed('all')
+            || Mage_AdminNotification_Model_Survey::isSurveyViewed()
+            || !Mage_AdminNotification_Model_Survey::isSurveyUrlValid())
+        {
+            return false;
         }
-        return $key;
+        return true;
     }
 
     /**
-     * Return url for iframe source
+     * Return survey url
      *
      * @return string
      */
-    public function getIframeSourceUrl()
+    public function getSurveyUrl()
     {
-        if (!Mage_AdminNotification_Model_Survey::isSurveyUrlValid()
-            || Mage::getSingleton('install/installer')->getHideIframe())
-        {
-            return null;
-        }
         return Mage_AdminNotification_Model_Survey::getSurveyUrl();
     }
 }

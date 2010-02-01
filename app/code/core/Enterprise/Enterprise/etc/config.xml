@@ -46,6 +46,18 @@
             </enterprise_enterprise_setup>
         </resources>
     </global>
+    <adminhtml>
+        <events>
+            <admin_session_user_login_success>
+                <observers>
+                    <enterprise_enterprise>
+                        <class>enterprise_enterprise/observer</class>
+                        <method>setHideSurveyQuestion</method>
+                    </enterprise_enterprise>
+                </observers>
+            </admin_session_user_login_success>
+        </events>
+    </adminhtml>
     <!-- installer customizations -->
     <install>
         <eula_file>LICENSE_EE.html</eula_file>

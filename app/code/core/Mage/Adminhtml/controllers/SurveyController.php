@@ -19,46 +19,40 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Install
+ * @package     Mage_Adminhtml
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Installation ending block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Install_Block_End extends Mage_Install_Block_Abstract
-{
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('install/end.phtml');
-    }
 
-    public function getEncryptionKey()
+/**
+ * Adminhtml Survey Action
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Adminhtml_SurveyController extends Mage_Adminhtml_Controller_Action
+{
+    /**
+     * Index Action
+     *
+     */
+    public function indexAction()
     {
-        $key = $this->getData('encryption_key');
-        if (is_null($key)) {
-            $key = (string) Mage::getConfig()->getNode('global/crypt/key');
-            $this->setData('encryption_key', $key);
+        if ($this->getRequest()->getParam('isAjax', false)) {
+            Mage_AdminNotification_Model_Survey::saveSurveyViewed(true);
         }
-        return $key;
+        $this->getResponse()->setBody(Zend_Json::encode(array('survey_decision_saved' => 1)));
     }
 
     /**
-     * Return url for iframe source
+     * Check if user has enough privileges
      *
-     * @return string
+     * @return boolean
      */
-    public function getIframeSourceUrl()
+    protected function _isAllowed()
     {
-        if (!Mage_AdminNotification_Model_Survey::isSurveyUrlValid()
-            || Mage::getSingleton('install/installer')->getHideIframe())
-        {
-            return null;
-        }
-        return Mage_AdminNotification_Model_Survey::getSurveyUrl();
+        return Mage::getSingleton('admin/session')->isAllowed('all');
     }
 }
