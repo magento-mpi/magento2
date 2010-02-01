@@ -725,6 +725,11 @@ AdminOrder.prototype = {
     processOverlay : function(elId, show)
     {
         var el = $(elId);
+
+        if (!el) {
+            return false;
+        }
+
         var parentEl = el.up(1);
         var parentPos = Element.cumulativeOffset(parentEl);
         if (show) {
