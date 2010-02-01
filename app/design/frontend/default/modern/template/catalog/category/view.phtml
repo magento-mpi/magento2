@@ -46,7 +46,7 @@
     <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
         <a href="<?php echo $this->getRssLink() ?>" class="link-feed right"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
     <?php endif; ?>
-    <h2><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($this->getCurrentCategory()->getName()), 'name') ?></h2>
+    <h2><?php echo $_helper->categoryAttribute($_category, $this->getCurrentCategory()->getName(), 'name') ?></h2>
     </div>
     <?php if($_imgUrl): ?>
         <?php echo $_imgHtml ?>
@@ -60,7 +60,7 @@
     <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
         <a href="<?php echo $this->getRssLink() ?>" class="link-feed right"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
     <?php endif; ?>
-    <h2><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($this->getCurrentCategory()->getName()), 'name') ?></h2>
+    <h2><?php echo $_helper->categoryAttribute($_category, $this->getCurrentCategory()->getName(), 'name') ?></h2>
     </div>
     <?php if($_imgUrl): ?>
         <?php echo $_imgHtml ?>
@@ -79,7 +79,7 @@
     <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
         <a href="<?php echo $this->getRssLink() ?>" class="link-feed right"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
     <?php endif; ?>
-    <h2><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($this->getCurrentCategory()->getName()), 'name') ?></h2>
+    <h2><?php echo $_helper->categoryAttribute($_category, $this->getCurrentCategory()->getName(), 'name') ?></h2>
     </div>
     <?php if($_imgUrl): ?>
         <?php echo $_imgHtml ?>

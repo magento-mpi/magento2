@@ -100,11 +100,12 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
      */
     public function productAttribute($product, $attributeHtml, $attributeName)
     {
-        foreach ($product->getAttributes() as $attribute) {
-            if ($attribute->getName() == $attributeName
-                && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
+        $attributes = $product->getAttributes();
+        $attribute  = (isset($attributes[$attributeName])) ? $attributes[$attributeName] : null;
+
+        if ($attribute && ($attribute->getFrontendInput() != 'media_image')
+            && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
                 $attributeHtml = $this->htmlEscape($attributeHtml);
-            }
         }
         $attributeHtml = $this->process('productAttribute', $attributeHtml, array(
             'product'   => $product,
@@ -123,6 +124,13 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
      */
     public function categoryAttribute($category, $attributeHtml, $attributeName)
     {
+        $attributes = $category->getAttributes();
+        $attribute  = (isset($attributes[$attributeName])) ? $attributes[$attributeName] : null;
+
+        if ($attribute && ($attribute->getFrontendInput() != 'image')
+            && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
+            $attributeHtml = $this->htmlEscape($attributeHtml);
+        }
         $attributeHtml = $this->process('categoryAttribute', $attributeHtml, array(
             'category'  => $category,
             'attribute' => $attributeName
