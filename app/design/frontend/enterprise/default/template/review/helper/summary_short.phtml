@@ -32,7 +32,7 @@
             </div>
             <span class="amount">(<?php echo $this->getReviewsCount() ?>)</span>
         <?php else: ?>
-            <a href="<?php echo $this->getReviewsUrl() ?>"><?php echo $this->__('%d Review(s)', $this->getReviewsCount()) ?></a>
+            <a href="#" onclick="var t = opener ? opener.window : window; t.location.href='<?php echo $this->getReviewsUrl() ?>';"><?php echo $this->__('%d Review(s)', $this->getReviewsCount()) ?></a>
         <?php endif;?>
     </div>
 <?php elseif ($this->getDisplayIfEmpty()): ?>

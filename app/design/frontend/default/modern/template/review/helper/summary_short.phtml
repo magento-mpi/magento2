@@ -34,7 +34,7 @@
             </div>
             (<?php echo $this->getReviewsCount() ?>)
         <?php else: ?>
-            <a href="<?php echo $this->getReviewsUrl() ?>"><?php echo $this->__('%d Review(s)', $this->getReviewsCount()) ?></a>
+            <a href="#" onclick="var t = opener ? opener.window : window; t.location.href='<?php echo $this->getReviewsUrl() ?>';"><?php echo $this->__('%d Review(s)', $this->getReviewsCount()) ?></a>
         <?php endif;?>
     </div>
 
