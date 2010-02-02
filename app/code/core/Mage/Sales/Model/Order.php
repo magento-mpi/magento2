@@ -1039,9 +1039,8 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         $productsCollection = Mage::getModel('catalog/product')
             ->getCollection()
             ->addIdFilter($products)
+            ->setVisibility(Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds())
             ->load();
-        Mage::getSingleton('catalog/product_visibility')
-            ->addVisibleInSiteFilterToCollection($productsCollection);
         foreach ($collection as $item) {
             $item->setProduct($productsCollection->getItemById($item->getProductId()));
         }
