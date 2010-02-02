@@ -377,9 +377,44 @@ class Mage_Paypal_Model_Config
      */
     public function getSolutionImageUrl($localeCode, $isVertical = false, $isEcheck = false)
     {
-        return sprintf('https://www.paypal.com/%s/i/bnr/%s_solution_PP%s.gif',
-            $this->_getSupportedLocaleCode($localeCode),
-            $isVertical ? 'vertical' : 'horizontal', $isEcheck ? 'eCheck' : ''
+        $locale = $this->_getSupportedLocaleCode($localeCode);
+
+        $imageType = 'logo';
+        $domain = 'paypal.com';
+        list (,$country) = explode('_', $locale);
+        $countryPrefix = $country.'/';
+
+        switch ($locale) {
+            case 'en_GB':
+                $imageName = 'horizontal_solution_PP';
+                $imageType = 'bnr';
+                $countryPrefix = '';
+                break;
+            case 'de_DE':
+                $imageName = 'lockbox_150x47';
+                break;
+            case 'fr_FR':
+                $imageName = 'bnr_horizontal_solution_PP_327wx80h';
+                $imageType = 'bnr';
+                $locale = 'en_US';
+                $domain = 'paypalobjects.com';
+                break;
+            case 'it_IT':
+                $imageName = 'bnr_horizontal_solution_PP_178wx80h';
+                $imageType = 'bnr';
+                $domain = 'paypalobjects.com';
+                break;
+            default:
+                $imageName='PayPal_mark_60x38';
+                $countryPrefix = '';
+                break;
+        }
+        return sprintf('https://www.%s/%s/%si/%s/%s.gif',
+                        $domain,
+                        $locale,
+                        $countryPrefix,
+                        $imageType,
+                        $imageName
         );
     }
 
