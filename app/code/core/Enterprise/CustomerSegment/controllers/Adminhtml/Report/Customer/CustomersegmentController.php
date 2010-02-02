@@ -64,6 +64,8 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
      */
     protected function _initSegment($outputMessage = true)
     {
+        $this->_title($this->__('Reports'))->_title($this->__('Customer Segments'));
+
         $segmentId = $this->getRequest()->getParam('segment_id', 0);
         $segmentIds = $this->getRequest()->getParam('massaction');
         if ($segmentIds) {
@@ -151,6 +153,8 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
                     );
                 }
             }
+
+            $this->_title($this->__('Details'));
 
             $this->_initAction()->renderLayout();
         } else {

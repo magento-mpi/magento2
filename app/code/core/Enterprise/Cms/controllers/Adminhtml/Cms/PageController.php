@@ -64,6 +64,8 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
             ->_addBreadcrumb(Mage::helper('cms')->__('CMS'), Mage::helper('cms')->__('CMS'))
             ->_addBreadcrumb(Mage::helper('cms')->__('Manage Pages'), Mage::helper('cms')->__('Manage Pages'));
 
+        $this->_isLayoutLoaded = true;
+
         return $this;
     }
 
@@ -76,6 +78,8 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
      */
     protected function _initPage()
     {
+        $this->_title($this->__('CMS Pages'));
+
         $pageId = (int) $this->getRequest()->getParam('page_id');
         $page = Mage::getModel('cms/page');
 
@@ -107,6 +111,8 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         } else if (!$page->hasUnderVersionControl()) {
             $page->setUnderVersionControl((int)Mage::getSingleton('enterprise_cms/config')->getDefaultVersioningStatus());
         }
+
+        $this->_title($page->getId() ? $page->getTitle() : $this->__('New Page'));
 
         $this->_initAction()
             ->_addBreadcrumb($page->getId() ? Mage::helper('cms')->__('Edit Page')

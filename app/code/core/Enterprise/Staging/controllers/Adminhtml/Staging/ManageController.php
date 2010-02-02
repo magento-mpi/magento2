@@ -42,6 +42,8 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
      */
     protected function _initStaging($stagingId = null)
     {
+        $this->_title($this->__('Content Staging'));
+
         if (is_null($stagingId)) {
             $stagingId  = (int) $this->getRequest()->getParam('id');
         }
@@ -72,6 +74,8 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
      */
     public function indexAction()
     {
+        $this->_title($this->__('Content Staging'));
+
         $this->loadLayout();
         $this->_setActiveMenu('system');
         $this->renderLayout();
@@ -124,6 +128,8 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 }
             }
         }
+
+        $this->_title($staging->getId() ? $staging->getName() : $this->__('New Staging'));
 
         $this->loadLayout();
         $this->_setActiveMenu('system');
@@ -302,6 +308,8 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $this->_redirect('*/*/');
             return $this;
         }
+
+        $this->_title($this->__('Merging'))->_title($staging->getName());
 
         $this->_getSession()->addNotice(Mage::helper('enterprise_staging')->__('If no store view mapping is specified only website-related information will be merged'));
 

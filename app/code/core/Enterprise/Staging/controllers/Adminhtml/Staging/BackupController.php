@@ -37,6 +37,8 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
      */
     protected function _initBackup($backupId = null)
     {
+        $this->_title($this->__('Content Staging'))->_title($this->__('Backups'));
+
         if (is_null($backupId)) {
             $backupId  = (int) $this->getRequest()->getParam('id');
         }
@@ -92,6 +94,8 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
         if ($staging && $staging->isStatusProcessing()) {
             $this->_getSession()->addNotice($this->__('This Backup is read-only, because a Merge or Rollback is in progress. Please try again later.'));
         }
+
+        $this->_title($this->__('Content Staging'))->_title($this->__('Backups'))->_title($backup->getName());
 
         $this->loadLayout();
         $this->_setActiveMenu('system/enterprise_staging');

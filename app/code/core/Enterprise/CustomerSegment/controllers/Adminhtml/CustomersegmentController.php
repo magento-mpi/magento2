@@ -57,6 +57,8 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
      */
     public function indexAction()
     {
+        $this->_title($this->__('Customer Segments'));
+
         $this->loadLayout();
         $this->_setActiveMenu('customer/customersegment');
         $this->renderLayout();
@@ -76,6 +78,8 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
      */
     public function editAction()
     {
+        $this->_title($this->__('Customer Segments'));
+
         try {
             $model = $this->_initSegment();
         }
@@ -84,6 +88,8 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
             $this->_redirect('*/*/');
             return;
         }
+
+        $this->_title($model->getId() ? $model->getName() : $this->__('New Segment'));
 
         // set entered data if was error when we do save
         $data = Mage::getSingleton('adminhtml/session')->getPageData(true);

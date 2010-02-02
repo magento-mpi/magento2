@@ -70,6 +70,8 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     public function indexAction()
     {
+        $this->_title($this->__('Catalog Events'));
+
         $this->_initAction();
         $this->renderLayout();
     }
@@ -89,6 +91,8 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     public function editAction()
     {
+        $this->_title($this->__('Catalog Events'));
+
         $event = Mage::getModel('enterprise_catalogevent/event')
             ->setStoreId($this->getRequest()->getParam('store', 0));
         if ($eventId = $this->getRequest()->getParam('id', false)) {
@@ -96,6 +100,8 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
         } else {
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
         }
+
+        $this->_title($event->getId() ? sprintf("#%s", $event->getId()) : $this->__('New Event'));
 
         $sessionData = Mage::getSingleton('adminhtml/session')->getEventData(true);
         if (!empty($sessionData)) {

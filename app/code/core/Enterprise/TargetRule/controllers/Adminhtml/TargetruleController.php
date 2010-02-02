@@ -44,6 +44,8 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
      */
     public function indexAction()
     {
+        $this->_title($this->__('Product Rules'));
+
         $this->_initAction();
         $this->renderLayout();
     }
@@ -72,6 +74,8 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
      */
     public function editAction()
     {
+        $this->_title($this->__('Product Rules'));
+
         /* @var $model Enterprise_TargetRule_Model_Rule */
         $model  = Mage::getModel('enterprise_targetrule/rule');
         $ruleId = $this->getRequest()->getParam('id', null);
@@ -84,6 +88,8 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                 return;
             }
         }
+
+        $this->_title($model->getId() ? $model->getName() : $this->__('New Rule'));
 
         $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
         if (!empty($data)) {

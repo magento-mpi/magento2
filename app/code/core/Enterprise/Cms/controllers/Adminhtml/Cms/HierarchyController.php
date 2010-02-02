@@ -71,6 +71,8 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
      */
     public function indexAction()
     {
+        $this->_title($this->__('CMS Hierarchy'));
+
         $this->_getLockModel()->revalidate();
 
         if ($this->_getLockModel()->isLockedByMe()) {

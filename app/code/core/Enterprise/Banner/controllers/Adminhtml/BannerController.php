@@ -33,6 +33,8 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
      */
     public function indexAction()
     {
+        $this->_title($this->__('Banners'));
+
         $this->loadLayout();
         $this->_setActiveMenu('cms/enterprise_banner');
         $this->renderLayout();
@@ -61,6 +63,8 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
             $this->_redirect('*/*/');
             return;
         }
+
+        $this->_title($model->getId() ? $model->getName() : $this->__('New Banner'));
 
         $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
         if (!empty($data)) {
@@ -216,6 +220,8 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
      */
     protected function _initBanner($idFieldName = 'banner_id')
     {
+        $this->_title($this->__('Banners'));
+
         $id = (int)$this->getRequest()->getParam($idFieldName);
         $model = Mage::getModel('enterprise_banner/banner');
         if ($id) {
