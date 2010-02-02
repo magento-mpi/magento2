@@ -200,7 +200,7 @@ class Mage_Paypal_Model_Express_Checkout
             $this->_quote->getPayment()->save();
         }
         // add line items
-        if ($this->_config->lineItemsEnabled) {
+        if ($this->_config->lineItemsEnabled && Mage::helper('paypal')->doLineItemsMatchAmount($this->_quote, $this->_quote->getBaseGrandTotal())) {//For transfering line items order amount must be equal to cart total amount
             list($items, $totals) = Mage::helper('paypal')->prepareLineItems($this->_quote);
             $this->_api->setLineItems($items)->setLineItemTotals($totals);
         }
