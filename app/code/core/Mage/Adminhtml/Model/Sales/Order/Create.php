@@ -1071,7 +1071,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     $customer->addAddress($billingAddress);
                 }
             }
-            if ($this->getShippingAddress()->getSaveInAddressBook()) {
+            if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
                 $shippingAddress = $this->getShippingAddress()->exportCustomerAddress();
                 $customerAddressId = $this->getShippingAddress()->getCustomerAddressId();
                 if ($customerAddressId && $customer->getId()) {
@@ -1105,7 +1105,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $customer->addAddress($customerBilling);
 
             $shipping = $this->getShippingAddress();
-            if (!$shipping->getSameAsBilling()) {
+            if (!$this->getQuote()->isVirtual() && !$shipping->getSameAsBilling()) {
                 $customerShipping = $shipping->exportCustomerAddress();
                 $customerShipping->setIsDefaultShipping(true);
                 $customer->addAddress($customerShipping);
