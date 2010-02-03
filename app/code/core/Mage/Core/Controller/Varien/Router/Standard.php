@@ -101,43 +101,9 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         return true;
     }
 
-    /**
-     * Auto-redirect to base url (without SID) if the requested url doesn't match it.
-     * By default this feature is enabled in configuration.
-     *
-     * @param Zend_Controller_Request_Http $request
-     */
-    protected function _checkBaseUrl($request)
-    {
-        if (!Mage::isInstalled() || $request->getPost()) {
-            return;
-        }
-        if (!Mage::getStoreConfigFlag('web/url/redirect_to_base')) {
-            return;
-        }
-
-        $baseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB, Mage::app()->getStore()->isCurrentlySecure());
-
-        if (!$baseUrl) {
-            return;
-        }
-        $uri = Zend_Uri::factory($baseUrl);
-        $requestUri = $request->getRequestUri() ? $request->getRequestUri() : '/';
-        if ($uri->getHost() != $request->getHttpHost()
-            || $uri->getPath() && strpos($requestUri, $uri->getPath()) === false)
-        {
-            Mage::app()->getFrontController()->getResponse()
-                ->setRedirect($baseUrl)
-                ->sendResponse();
-            exit;
-        }
-    }
 
     public function match(Zend_Controller_Request_Http $request)
     {
-        // If pre-configured, check equality of base URL and requested URL
-        $this->_checkBaseUrl($request);
-
         //checking before even try to find out that current module
         //should use this router
         if (!$this->_beforeModuleMatch()) {
