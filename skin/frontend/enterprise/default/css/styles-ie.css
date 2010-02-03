@@ -90,6 +90,7 @@ a.button { _height:22px; }
 
 /* jQzoom */
 .preload { width:100px; height:55px; }
+/*.jqZoomPup { filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=60); }*/
 
 .options-container-small  dt { margin-top:1px; }
 
