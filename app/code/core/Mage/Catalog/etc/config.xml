@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.4.0.0.19</version>
+            <version>1.4.0.0.20</version>
         </Mage_Catalog>
     </modules>
 
@@ -193,6 +193,8 @@
                     <product_index_eav><table>catalog_product_index_eav</table></product_index_eav>
                     <product_index_eav_decimal><table>catalog_product_index_eav_decimal</table></product_index_eav_decimal>
                     <product_index_price><table>catalog_product_index_price</table></product_index_price>
+                    <product_index_tier_price><table>catalog_product_index_tier_price</table></product_index_tier_price>
+                    <product_index_website><table>catalog_product_index_website</table></product_index_website>
                 </entities>
             </catalog_resource_eav_mysql4>
         </models>
