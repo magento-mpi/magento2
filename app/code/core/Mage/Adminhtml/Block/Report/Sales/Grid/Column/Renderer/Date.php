@@ -109,4 +109,16 @@ class Mage_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date
         }
         return $this->getColumn()->getDefault();
     }
+
+    /**
+     * Render column for export
+     *
+     * @param Varien_Object $row
+     * @return string
+     */
+    public function renderExport(Varien_Object $row)
+    {
+        return ($this->getColumn()->hasTotalsLabel() && !$row->hasData($this->getColumn()->getIndex()))
+            ? $this->getColumn()->getTotalsLabel() : $this->render($row);
+    }
 }
