@@ -1076,6 +1076,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 $customerAddressId = $this->getShippingAddress()->getCustomerAddressId();
                 if ($customerAddressId && $customer->getId()) {
                     $customer->getAddressItemById($customerAddressId)->addData($shippingAddress->getData());
+                } elseif ($billingAddress !== null && $this->getBillingAddress()->getCustomerAddressId() == $customerAddressId) {
+                    $billingAddress->setIsDefaultShipping(true);
                 } else {
                     $customer->addAddress($shippingAddress);
                 }
