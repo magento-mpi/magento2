@@ -980,6 +980,9 @@ Product.Configurable.prototype = {
                         attribute.attribute_code);
             }
         }.bind(this));
+    },
+    showNoticeMessage : function() {
+        $('assign_product_warrning').show();
     }
 }
 
