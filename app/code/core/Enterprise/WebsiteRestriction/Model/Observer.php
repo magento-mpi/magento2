@@ -89,11 +89,16 @@ class Enterprise_WebsiteRestriction_Model_Observer
                         // to specified landing page
                         if (Enterprise_WebsiteRestriction_Model_Mode::HTTP_302_LANDING
                             === (int)Mage::getStoreConfig('general/restriction/http_redirect')) {
+
                             $allowedActionNames[] = 'cms_page_view';
                             $pageIdentifier = Mage::getStoreConfig('general/restriction/cms_page');
-                            if ((!in_array($controller->getFullActionName(), $allowedActionNames))
-                                || $request->getParam('page_id') === $pageIdentifier) {
-                                $redirectUrl = Mage::getUrl('', array('_direct' => $pageIdentifier));
+                            $redirectUrl = Mage::getUrl('', array('_direct' => $pageIdentifier));
+
+                            if (in_array($controller->getFullActionName(), $allowedActionNames)) {
+                                $page = Mage::getModel('cms/page')->load($request->getParam('page_id'));
+                                if ($page->getIdentifier() === $pageIdentifier) {
+                                    $redirectUrl = false;
+                                }
                             }
                         }
                         // to login form
