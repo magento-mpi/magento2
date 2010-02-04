@@ -426,9 +426,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         /**
          * $taxRate can be more than 1 if somebody use tax percent
          */
-        if ($taxRate>1) {
-            $taxRate = $taxRate/100;
-        }
+        $taxRate = $taxRate/100;
 
         if ($priceIncludeTax) {
             $amount = $price*(1-1/(1+$taxRate));
