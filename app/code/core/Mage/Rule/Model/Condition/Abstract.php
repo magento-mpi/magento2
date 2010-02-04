@@ -532,7 +532,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
                 break;
 
             case '<=': case '>':
-                if (is_array($validatedValue)) {
+                if (is_array($validatedValue) || is_null($validatedValue)) {
                     $result = false;
                 } else {
                     $result = $validatedValue<=$value;
@@ -540,7 +540,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
                 break;
 
             case '>=': case '<':
-                if (is_array($validatedValue)) {
+                if (is_array($validatedValue) || is_null($validatedValue)) {
                     $result = false;
                 } else {
                     $result = $validatedValue>=$value;
