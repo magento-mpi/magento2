@@ -136,7 +136,6 @@
                 <order_status>pending</order_status>
                 <title>Credit Card (saved)</title>
                 <allowspecific>0</allowspecific>
-                <centinel_must_authenticate>1</centinel_must_authenticate>
             </ccsave>
 
             <checkmo>

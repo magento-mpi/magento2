@@ -43,7 +43,6 @@ class Mage_Centinel_Adminhtml_Centinel_IndexController extends Mage_Adminhtml_Co
             if (!$validator) {
                 throw new Exception('This payment method does not have centinel validation.');
             }
-            $validator->reset();
             $this->_getPayment()->importData($paymentData);
             if ($validator->shouldAuthenticate()) {
                 $result['authenticationUrl'] = $validator->getAuthenticationStartUrl();
@@ -79,12 +78,14 @@ class Mage_Centinel_Adminhtml_Centinel_IndexController extends Mage_Adminhtml_Co
     {
         if ($validator = $this->_getValidator()) {
             $request = $this->getRequest();
-            $PAResPayload = $request->getParam('PaRes');
-            $MD = $request->getParam('MD');
-            $validator->authenticate($PAResPayload, $MD);
+
+            $data = new Varien_Object();
+            $data->setTransactionId($request->getParam('MD'));
+            $data->setPaResPayload($request->getParam('PaRes'));
+
+            $validator->authenticate($data);
             Mage::register('centinel_validator', $validator);
         }
-
         $this->loadLayout()->renderLayout();
     }
 
@@ -112,3 +113,4 @@ class Mage_Centinel_Adminhtml_Centinel_IndexController extends Mage_Adminhtml_Co
         return false;
     }
 }
+

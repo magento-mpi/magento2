@@ -72,3 +72,4 @@ class Mage_Centinel_Block_Adminhtml_Validation extends Mage_Adminhtml_Block_Sale
         return parent::_toHtml();
     }
 }
+

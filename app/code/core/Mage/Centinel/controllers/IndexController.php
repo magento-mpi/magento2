@@ -50,12 +50,14 @@ class Mage_Centinel_IndexController extends Mage_Core_Controller_Front_Action
     {
         if ($validator = $this->_getValidator()) {
             $request = $this->getRequest();
-            $PAResPayload = $request->getParam('PaRes');
-            $MD = $request->getParam('MD');
-            $validator->authenticate($PAResPayload, $MD);
+
+            $data = new Varien_Object();
+            $data->setTransactionId($request->getParam('MD'));
+            $data->setPaResPayload($request->getParam('PaRes'));
+
+            $validator->authenticate($data);
             Mage::register('centinel_validator', $validator);
         }
-
         $this->loadLayout()->renderLayout();
     }
 
@@ -82,3 +84,4 @@ class Mage_Centinel_IndexController extends Mage_Core_Controller_Front_Action
         return false;
     }
 }
+

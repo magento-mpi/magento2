@@ -114,4 +114,26 @@
             </adminhtml>
         </routers>
     </admin>
+    <global>
+        <payment>
+            <cc>
+                <types>
+                    <VI>
+                        <validator>
+                            <centinel>
+                                <state>centinel/state_visa</state>
+                            </centinel>
+                        </validator>
+                    </VI>
+                    <MC>
+                        <validator>
+                            <centinel>
+                                <state>centinel/state_mastercard</state>
+                            </centinel>
+                        </validator>
+                    </MC>
+                </types>
+            </cc>
+        </payment>
+    </global>
 </config>

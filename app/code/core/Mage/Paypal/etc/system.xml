@@ -65,7 +65,7 @@
                             <show_in_store>0</show_in_store>
                         </cctypes>
 
-                        <centinel translate="label">
+                        <centinel translate="label" module="centinel">
                             <label>3D Secure Card Validation</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -74,36 +74,25 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </centinel>
-                        <centinel_must_validate translate="label">
-                            <label>Card Must Pass Centinel Validation</label>
+                        <centinel_is_mode_strict translate="label" module="centinel">
+                            <label>Disallow Place Order if Merchant Retains Chargeback Liability.</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>21</sort_order>
+                            <sort_order>25</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends><centinel>1</centinel></depends>
-                        </centinel_must_validate>
-                        <centinel_must_authenticate translate="label comment">
-                            <label>Card Must Pass Verification with Issuer Bank</label>
-                            <comment>Raises only when Centinel Validation Passed Successfully</comment>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>22</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <depends><centinel>1</centinel></depends>
-                        </centinel_must_authenticate>
-                        <centinel_api_url translate="label">
+                        </centinel_is_mode_strict>
+                        <centinel_api_url translate="label" module="centinel">
                             <label>Centinel Api Custom URL</label>
                             <frontend_type>text</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>23</sort_order>
+                            <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <depends><centinel>1</centinel></depends>
+                            <depends><useccv>1</useccv><centinel>1</centinel></depends>
                         </centinel_api_url>
 
                         <line_items_enabled translate="label">

@@ -278,10 +278,8 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     public function getCentinelValidator()
     {
         $validator = Mage::getSingleton('centinel/service');
-        $validator->setPaymentMethodCode($this->getCode())
-            ->setIsValidationRequired($this->getConfigData('centinel_must_validate'))
-            ->setIsAuthenticationRequired($this->getConfigData('centinel_must_authenticate'))
-            ->setCustomApiEndpointUrl($this->getConfigData('centinel_api_url'))
+        $validator
+            ->setIsModeStrict($this->getConfigData('centinel_is_mode_strict'))
             ->setStore($this->getStore())
             ->setIsPlaceOrder($this->_isPlaceOrder());
         return $validator;
@@ -296,7 +294,10 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     {
         $info = $this->getInfoInstance();
         $params = new Varien_Object();
-        $params->setCardNumber($info->getCcNumber())
+        $params
+            ->setPaymentMethodCode($this->getCode())
+            ->setCardType($info->getCcType())
+            ->setCardNumber($info->getCcNumber())
             ->setCardExpMonth($info->getCcExpMonth())
             ->setCardExpYear($info->getCcExpYear())
             ->setAmount($this->_getAmount())

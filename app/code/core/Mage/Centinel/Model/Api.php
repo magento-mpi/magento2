@@ -172,37 +172,36 @@ class Mage_Centinel_Model_Api extends Varien_Object
      *
      * @return Mage_Centinel_Model_Api
      */
-    public function callLookup()
+    public function callLookup($data)
     {
-        $month = strlen($this->getCardExpMonth()) == 1 ? '0' . $this->getCardExpMonth() : $this->getCardExpMonth();
-        $currencyCode = $this->getCurrencyCode();
+        $result = new Varien_Object();
+
+        $month = strlen($data->getCardExpMonth()) == 1 ? '0' . $data->getCardExpMonth() : $data->getCardExpMonth();
+        $currencyCode = $data->getCurrencyCode();
         $currencyNumber = isset(self::$_iso4217Currencies[$currencyCode]) ? self::$_iso4217Currencies[$currencyCode] : '';
         if (!$currencyNumber) {
-            return $this->setErrorNo(1)->setErrorDesc(
+            return $result->setErrorNo(1)->setErrorDesc(
                 Mage::helper('payment')->__('Not supported currency code %s.', $currencyCode)
             );
         }
 
         $clientResponse = $this->_call('cmpi_lookup', array(
-            'Amount' => round($this->getAmount() * 100),
+            'Amount' => round($data->getAmount() * 100),
             'CurrencyCode' => $currencyNumber,
-            'CardNumber' =>  $this->getCardNumber(),
+            'CardNumber' =>  $data->getCardNumber(),
             'CardExpMonth'=> $month,
-            'CardExpYear' =>  $this->getCardExpYear(),
-            'OrderNumber' => $this->getOrderNumber()
+            'CardExpYear' =>  $data->getCardExpYear(),
+            'OrderNumber' => $data->getOrderNumber()
         ));
 
-        $this->setEnrolled($clientResponse->getValue('Enrolled'));
-        $this->setErrorNo($clientResponse->getValue('ErrorNo'));
-        $this->setErrorDesc($clientResponse->getValue('ErrorDesc'));
-        $this->setEciFlag($clientResponse->getValue('EciFlag'));
-        $this->setAcsUrl($clientResponse->getValue('ACSUrl'));
-        $this->setPayload($clientResponse->getValue('Payload'));
-        $this->setOrderId($clientResponse->getValue('OrderId'));
-        $this->setTransactionId($clientResponse->getValue('TransactionId'));
-        $this->setAuthenticationPath($clientResponse->getValue('AuthenticationPath'));
-
-        return $this;
+        $result->setErrorNo($clientResponse->getValue('ErrorNo'));
+        $result->setErrorDesc($clientResponse->getValue('ErrorDesc'));
+        $result->setTransactionId($clientResponse->getValue('TransactionId'));
+        $result->setEnrolled($clientResponse->getValue('Enrolled'));
+        $result->setAcsUrl($clientResponse->getValue('ACSUrl'));
+        $result->setPayload($clientResponse->getValue('Payload'));
+        $result->setEciFlag($clientResponse->getValue('EciFlag'));
+        return $result;
     }
 
     /**
@@ -210,20 +209,23 @@ class Mage_Centinel_Model_Api extends Varien_Object
      *
      * @return Mage_Centinel_Model_Api
      */
-    public function callAuthentication()
+    public function callAuthentication($data)
     {
+        $result = new Varien_Object();
+
         $clientResponse = $this->_call('cmpi_authenticate', array(
-            'TransactionId' => $this->getTransactionId(),
-            'PAResPayload'  => $this->getPaResPayload(),
+            'TransactionId' => $data->getTransactionId(),
+            'PAResPayload'  => $data->getPaResPayload(),
         ));
 
-        $this->setErrorNo($clientResponse->getValue('ErrorNo'));
-        $this->setErrorDesc($clientResponse->getValue('ErrorDesc'));
-        $this->setPaResStatus($clientResponse->getValue('PAResStatus'));
-        $this->setCavv($clientResponse->getValue('Cavv'));
-        $this->setSignature($clientResponse->getValue('SignatureVerification'));
-        $this->setEciFlag($clientResponse->getValue('EciFlag'));
-        $this->setXid($clientResponse->getValue('Xid'));
-        return $this;
+        $result->setErrorNo($clientResponse->getValue('ErrorNo'));
+        $result->setErrorDesc($clientResponse->getValue('ErrorDesc'));
+        $result->setPaResStatus($clientResponse->getValue('PAResStatus'));
+        $result->setSignatureVerification($clientResponse->getValue('SignatureVerification'));
+        $result->setCavv($clientResponse->getValue('Cavv'));
+        $result->setEciFlag($clientResponse->getValue('EciFlag'));
+        $result->setXid($clientResponse->getValue('Xid'));
+        return $result;
     }
 }
+
