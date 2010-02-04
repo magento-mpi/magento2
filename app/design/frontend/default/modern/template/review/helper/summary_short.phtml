@@ -32,10 +32,8 @@
             <div class="rating-box">
                 <div class="rating" style="width:<?php echo $this->getRatingSummary() ?>%"></div>
             </div>
-            (<?php echo $this->getReviewsCount() ?>)
-        <?php else: ?>
-            <a href="#" onclick="var t = opener ? opener.window : window; t.location.href='<?php echo $this->getReviewsUrl() ?>';"><?php echo $this->__('%d Review(s)', $this->getReviewsCount()) ?></a>
         <?php endif;?>
+        <a href="#" onclick="var t = opener ? opener.window : window; t.location.href='<?php echo $this->getReviewsUrl() ?>';"><?php echo $this->__('%d Review(s)', $this->getReviewsCount()) ?></a>
     </div>
 
 <?php elseif ($this->getDisplayIfEmpty()): ?>
