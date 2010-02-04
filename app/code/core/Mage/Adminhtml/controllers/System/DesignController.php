@@ -29,7 +29,7 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 {
     public function indexAction()
     {
-        $this->_title($this->__('Design Change'));
+        $this->_title($this->__('System'))->_title($this->__('Design'));
 
         $this->loadLayout();
         $this->_setActiveMenu('system');
@@ -49,7 +49,7 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 
     public function editAction()
     {
-        $this->_title($this->__('Design Change'));
+        $this->_title($this->__('System'))->_title($this->__('Design'));
 
         $this->loadLayout();
         $this->_setActiveMenu('system');

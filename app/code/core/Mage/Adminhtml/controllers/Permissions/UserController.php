@@ -39,7 +39,9 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
 
     public function indexAction()
     {
-        $this->_title($this->__('Permissions'))->_title($this->__('Users'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Permissions'))
+             ->_title($this->__('Users'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/permissions_user'))
@@ -53,7 +55,9 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
 
     public function editAction()
     {
-        $this->_title($this->__('Permissions'))->_title($this->__('Users'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Permissions'))
+             ->_title($this->__('Users'));
 
         $id = $this->getRequest()->getParam('user_id');
         $model = Mage::getModel('admin/user');

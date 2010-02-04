@@ -52,7 +52,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     public function indexAction()
     {
-        $this->_title($this->__('Stores'));
+        $this->_title($this->__('System'))->_title($this->__('Stores'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/system_store_store'))
@@ -94,7 +94,9 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     public function editStoreAction()
     {
-        $this->_title($this->__('Stores'))->_title($this->__('Edit Store'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Stores'))
+             ->_title($this->__('Edit Store'));
 
         $session = $this->_getSession();
         if ($session->getPostData()) {

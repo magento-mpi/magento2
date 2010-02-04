@@ -35,7 +35,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
 {
     protected function _initGroup()
     {
-        $this->_title($this->__('Customer Groups'));
+        $this->_title($this->__('Customers'))->_title($this->__('Customer Groups'));
 
         Mage::register('current_group', Mage::getModel('customer/group'));
         $groupId = $this->getRequest()->getParam('id');
@@ -49,7 +49,7 @@ class Mage_Adminhtml_Customer_GroupController extends Mage_Adminhtml_Controller_
      */
     public function indexAction()
     {
-        $this->_title($this->__('Customer Groups'));
+        $this->_title($this->__('Customers'))->_title($this->__('Customer Groups'));
 
         $this->loadLayout();
         $this->_setActiveMenu('customer/group');

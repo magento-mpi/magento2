@@ -53,7 +53,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
      */
     protected function _initVariable()
     {
-        $this->_title($this->__('Custom Variables'));
+        $this->_title($this->__('System'))->_title($this->__('Custom Variables'));
 
         $variableId = $this->getRequest()->getParam('variable_id', null);
         $storeId = $this->getRequest()->getParam('store', 0);
@@ -73,7 +73,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
      */
     public function indexAction()
     {
-        $this->_title($this->__('Custom Variables'));
+        $this->_title($this->__('System'))->_title($this->__('Custom Variables'));
 
         $this->_initLayout()
             ->_addContent($this->getLayout()->createBlock('adminhtml/system_variable'))

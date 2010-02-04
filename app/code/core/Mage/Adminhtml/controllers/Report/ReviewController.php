@@ -47,7 +47,9 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
 
     public function customerAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Customer Reviews'));
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Reviews'))
+             ->_title($this->__('Customer Reviews'));
 
         $this->_initAction()
             ->_setActiveMenu('report/review/customer')
@@ -82,7 +84,9 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
 
     public function productAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Product Reviews'));
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Reviews'))
+             ->_title($this->__('Product Reviews'));
 
         $this->_initAction()
             ->_setActiveMenu('report/review/product')
@@ -117,6 +121,11 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
 
     public function productDetailAction()
     {
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Reviews'))
+             ->_title($this->__('Product Reviews'))
+             ->_title($this->__('Details'));
+
         $this->_initAction()
             ->_setActiveMenu('report/review/productDetail')
             ->_addBreadcrumb(Mage::helper('reports')->__('Products Report'), Mage::helper('reports')->__('Products Report'))

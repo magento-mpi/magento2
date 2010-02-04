@@ -44,7 +44,9 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
      */
     public function indexAction()
     {
-        $this->_title($this->__('Connect'))->_title($this->__('Package Extensions'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Magentu Connect'))
+             ->_title($this->__('Package Extensions'));
 
         Mage::app()->getStore()->setStoreId(1);
         $this->_forward('edit');
@@ -56,7 +58,8 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
      */
     public function editAction()
     {
-        $this->_title($this->__('Connect'))
+        $this->_title($this->__('System'))
+             ->_title($this->__('Magentu Connect'))
              ->_title($this->__('Package Extensions'))
              ->_title($this->__('Edit Extension'));
 

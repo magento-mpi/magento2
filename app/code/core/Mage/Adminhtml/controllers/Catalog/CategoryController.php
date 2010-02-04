@@ -42,7 +42,9 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     protected function _initCategory($getRootInstead = false)
     {
-        $this->_title($this->__('Categories'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Categories'))
+             ->_title($this->__('Manage Categories'));
 
         $categoryId = (int) $this->getRequest()->getParam('id',false);
         $storeId    = (int) $this->getRequest()->getParam('store');

@@ -39,7 +39,9 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
      */
     public function indexAction()
     {
-        $this->_title($this->__('Product Tax Classes'));
+        $this->_title($this->__('Sales'))
+             ->_title($this->__('Tax'))
+             ->_title($this->__('Customer Tax Classes'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/tax_class')->setClassType('PRODUCT'))
@@ -61,7 +63,9 @@ class Mage_Adminhtml_Tax_Class_ProductController extends Mage_Adminhtml_Controll
      */
     public function editAction()
     {
-        $this->_title($this->__('Product Tax Classes'));
+        $this->_title($this->__('Sales'))
+             ->_title($this->__('Tax'))
+             ->_title($this->__('Customer Tax Classes'));
 
         $classId    = $this->getRequest()->getParam('id');
         $model      = Mage::getModel('tax/class');

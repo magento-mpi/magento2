@@ -71,7 +71,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
      */
     protected function _initRate()
     {
-        $this->_title($this->__('Reward Exchange Rates'));
+        $this->_title($this->__('Customers'))->_title($this->__('Reward Exchange Rates'));
 
         $rateId = $this->getRequest()->getParam('rate_id', 0);
         $rate = Mage::getModel('enterprise_reward/reward_rate');
@@ -87,7 +87,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
      */
     public function indexAction()
     {
-        $this->_title($this->__('Reward Exchange Rates'));
+        $this->_title($this->__('Customers'))->_title($this->__('Reward Exchange Rates'));
 
         $this->_initAction()
             ->renderLayout();

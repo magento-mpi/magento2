@@ -36,7 +36,9 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
 {
     public function indexAction()
     {
-        $this->_title($this->__('Product Sets'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Attributes'))
+             ->_title($this->__('Manage Attribute Sets'));
 
         $this->_setTypeId();
 
@@ -54,7 +56,9 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
 
     public function editAction()
     {
-        $this->_title($this->__('Product Sets'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Attributes'))
+             ->_title($this->__('Manage Attribute Sets'));
 
         $this->_setTypeId();
         $attributeSet = Mage::getModel('eav/entity_attribute_set')
@@ -156,6 +160,11 @@ class Mage_Adminhtml_Catalog_Product_SetController extends Mage_Adminhtml_Contro
 
     public function addAction()
     {
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Attributes'))
+             ->_title($this->__('Manage Attribute Sets'))
+             ->_title($this->__('New Set'));
+
         $this->_setTypeId();
 
         $this->loadLayout();

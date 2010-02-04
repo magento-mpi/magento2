@@ -54,7 +54,7 @@ class Mage_Compiler_ProcessController extends Mage_Adminhtml_Controller_Action
     }
     public function indexAction()
     {
-        $this->_title($this->__('Compilation'));
+        $this->_title($this->__('System'))->_title($this->__('Tools'))->_title($this->__('Compilation'));
 
         $this->loadLayout();
         $this->_setActiveMenu('system/tools');

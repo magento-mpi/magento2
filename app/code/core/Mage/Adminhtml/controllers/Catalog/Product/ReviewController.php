@@ -43,7 +43,11 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function indexAction()
     {
-        $this->_title($this->__('Product Reviews'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Reviews and Ratings'))
+             ->_title($this->__('Customer Reviews'));
+
+        $this->_title($this->__('All Reviews'));
 
         if ($this->getRequest()->getParam('ajax')) {
             return $this->_forward('reviewGrid');
@@ -59,7 +63,11 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function pendingAction()
     {
-        $this->_title($this->__('Product Reviews'))->_title($this->__('Pending'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Reviews and Ratings'))
+             ->_title($this->__('Customer Reviews'));
+
+        $this->_title($this->__('Pending Reviews'));
 
         if ($this->getRequest()->getParam('ajax')) {
             Mage::register('usePendingFilter', true);
@@ -77,7 +85,11 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function editAction()
     {
-        $this->_title($this->__('Product Reviews'))->_title($this->__('Review'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Reviews and Ratings'))
+             ->_title($this->__('Customer Reviews'));
+
+        $this->_title($this->__('Edit Review'));
 
         $this->loadLayout();
         $this->_setActiveMenu('catalog/review');
@@ -89,7 +101,11 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function newAction()
     {
-        $this->_title($this->__('Product Reviews'))->_title($this->__('New Review'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Reviews and Ratings'))
+             ->_title($this->__('Customer Reviews'));
+
+        $this->_title($this->__('New Review'));
 
         $this->loadLayout();
         $this->_setActiveMenu('catalog/review');

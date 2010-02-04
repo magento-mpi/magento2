@@ -38,7 +38,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
      */
     public function indexAction()
     {
-        $this->_title($this->__('Gift Card Accounts'));
+        $this->_title($this->__('Customers'))->_title($this->__('Gift Card Accounts'));
 
         if ($this->_showCodePoolStatusMessage) {
             $usage = Mage::getModel('enterprise_giftcardaccount/pool')->getPoolUsageInfo();
@@ -276,7 +276,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
      */
     protected function _initGca($idFieldName = 'id')
     {
-        $this->_title($this->__('Gift Card Accounts'));
+        $this->_title($this->__('Customers'))->_title($this->__('Gift Card Accounts'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
         $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount');

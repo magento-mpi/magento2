@@ -70,7 +70,9 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     public function indexAction()
     {
-        $this->_title($this->__('Catalog Events'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Categories'))
+             ->_title($this->__('Catalog Events'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -91,7 +93,9 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     public function editAction()
     {
-        $this->_title($this->__('Catalog Events'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Categories'))
+             ->_title($this->__('Catalog Events'));
 
         $event = Mage::getModel('enterprise_catalogevent/event')
             ->setStoreId($this->getRequest()->getParam('store', 0));

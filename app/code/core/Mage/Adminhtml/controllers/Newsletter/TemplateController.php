@@ -38,7 +38,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
      */
     public function indexAction ()
     {
-        $this->_title($this->__('Newsletter Templates'));
+        $this->_title($this->__('Newsletter'))->_title($this->__('Newsletter Templates'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
      */
     public function editAction ()
     {
-        $this->_title($this->__('Newsletter Templates'));
+        $this->_title($this->__('Newsletter'))->_title($this->__('Newsletter Templates'));
 
         $model = Mage::getModel('newsletter/template');
         if ($id = $this->getRequest()->getParam('id')) {

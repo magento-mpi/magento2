@@ -51,7 +51,9 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     public function indexAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('General Invitations'));
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Invitations'))
+             ->_title($this->__('General'));
 
         $this->_initAction()
             ->_setActiveMenu('report/enterprise_invitation/general')
@@ -89,7 +91,9 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     public function customerAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Customer Invitations'));
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Invitations'))
+             ->_title($this->__('Customers'));
 
         $this->_initAction()
             ->_setActiveMenu('report/enterprise_invitation/customer')
@@ -127,7 +131,9 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     public function orderAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Order Conversion Rate'));
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Invitations'))
+             ->_title($this->__('Order Conversion Rate'));
 
         $this->_initAction()
             ->_setActiveMenu('report/enterprise_invitation/order')

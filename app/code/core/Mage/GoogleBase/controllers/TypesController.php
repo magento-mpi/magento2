@@ -48,7 +48,9 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
 
     protected function _initItemType()
     {
-        $this->_title($this->__('Google Base Attribute Mapping'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Google base'))
+             ->_title($this->__('Manage Attributes'));
 
         Mage::register('current_item_type', Mage::getModel('googlebase/type'));
         $typeId = $this->getRequest()->getParam('id');
@@ -68,7 +70,9 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
 
     public function indexAction()
     {
-        $this->_title($this->__('Attribute Mapping'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Google base'))
+             ->_title($this->__('Manage Attributes'));
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('googlebase')->__('Item Types'), Mage::helper('googlebase')->__('Item Types'))
@@ -91,7 +95,7 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
         try {
             $this->_initItemType();
 
-            $this->_title($this->__('New Mapping'));
+            $this->_title($this->__('New ItemType'));
 
             $this->_initAction()
                 ->_addBreadcrumb(Mage::helper('googlebase')->__('New Item Type'), Mage::helper('adminhtml')->__('New Item Type'))
@@ -105,6 +109,10 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
 
     public function editAction()
     {
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Google base'))
+             ->_title($this->__('Manage Attributes'));
+
         $id = $this->getRequest()->getParam('id');
         $model = Mage::getModel('googlebase/type');
 
@@ -120,7 +128,7 @@ class Mage_GoogleBase_TypesController extends Mage_Adminhtml_Controller_Action
                 }
             }
 
-            $this->_title($this->__('Edit Mapping'));
+            $this->_title($this->__('Edit Item Type'));
 
             Mage::register('current_item_type', $model);
             Mage::register('attributes', $result);

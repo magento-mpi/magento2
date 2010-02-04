@@ -40,7 +40,9 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('Tax Zones and Rates'));
+        $this->_title($this->__('Sales'))
+             ->_title($this->__('Tax'))
+             ->_title($this->__('Manage Tax Zones and Rates'));
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('tax')->__('Manage Tax Rates'), Mage::helper('tax')->__('Manage Tax Rates'))
@@ -62,7 +64,11 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         $rateModel = Mage::getSingleton('tax/calculation_rate')
             ->load(null);
         
-        $this->_title($this->__('Tax Zones and Rates'))->_title($this->__('New Rate'));
+        $this->_title($this->__('Sales'))
+             ->_title($this->__('Tax'))
+             ->_title($this->__('Manage Tax Zones and Rates'));
+
+        $this->_title($this->__('New Rate'));
 
         //This line substitutes in the form the previously entered by the user values, if any of them were wrong.
         $rateModel->setData(Mage::getSingleton('adminhtml/session')->getFormData(true));
@@ -127,7 +133,9 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
      */
     public function editAction()
     {
-        $this->_title($this->__('Tax Zones and Rates'));
+        $this->_title($this->__('Sales'))
+             ->_title($this->__('Tax'))
+             ->_title($this->__('Manage Tax Zones and Rates'));
 
         $rateId = (int)$this->getRequest()->getParam('rate');
         $rateModel = Mage::getSingleton('tax/calculation_rate')->load($rateId);
@@ -230,7 +238,11 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
      */
     public function importExportAction()
     {
-        $this->_title($this->__('Tax Zones and Rates'))->_title($this->__('Import and Export'));
+        $this->_title($this->__('Sales'))
+             ->_title($this->__('Tax'))
+             ->_title($this->__('Manage Tax Zones and Rates'));
+
+        $this->_title($this->__('Import and Export Tax Rates'));
 
         $this->loadLayout()
             ->_setActiveMenu('sales/tax_importExport')

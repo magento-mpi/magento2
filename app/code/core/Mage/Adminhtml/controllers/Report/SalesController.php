@@ -73,7 +73,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function salesAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Total Ordered'));
+        $this->_title($this->__('Reports'))->_title($this->__('Sales'))->_title($this->__('Sales'));
 
         $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE, 'sales');
 
@@ -200,7 +200,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function taxAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Order Taxes'));
+        $this->_title($this->__('Reports'))->_title($this->__('Sales'))->_title($this->__('Tax'));
 
         $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE, 'tax');
 
@@ -243,7 +243,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function shippingAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Total Shipped'));
+        $this->_title($this->__('Reports'))->_title($this->__('Sales'))->_title($this->__('Shipping'));
 
         $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE, 'shipping');
 
@@ -286,7 +286,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function invoicedAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Total Invoiced'));
+        $this->_title($this->__('Reports'))->_title($this->__('Sales'))->_title($this->__('Total Invoiced'));
 
         $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_INVOICE_FLAG_CODE, 'invoiced');
 
@@ -329,7 +329,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function refundedAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Total Refunded'));
+        $this->_title($this->__('Reports'))->_title($this->__('Sales'))->_title($this->__('Total Refunded'));
 
         $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE, 'refunded');
 
@@ -372,7 +372,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function couponsAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Coupons Usage'));
+        $this->_title($this->__('Reports'))->_title($this->__('Sales'))->_title($this->__('Coupons'));
 
         $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_COUPNS_FLAG_CODE, 'coupons');
 
@@ -415,7 +415,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
 
     public function refreshStatisticsAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Refresh Statistics'));
+        $this->_title($this->__('Reports'))->_title($this->__('Sales'))->_title($this->__('Refresh Statistics'));
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/refreshstatistics')

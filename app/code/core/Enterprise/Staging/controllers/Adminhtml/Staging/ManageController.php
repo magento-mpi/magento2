@@ -42,7 +42,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
      */
     protected function _initStaging($stagingId = null)
     {
-        $this->_title($this->__('Content Staging'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Content Staging'))
+             ->_title($this->__('Staging Websites'));
 
         if (is_null($stagingId)) {
             $stagingId  = (int) $this->getRequest()->getParam('id');
@@ -74,7 +76,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
      */
     public function indexAction()
     {
-        $this->_title($this->__('Content Staging'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Content Staging'))
+             ->_title($this->__('Staging Websites'));
 
         $this->loadLayout();
         $this->_setActiveMenu('system');

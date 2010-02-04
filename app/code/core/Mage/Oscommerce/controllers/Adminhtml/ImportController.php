@@ -38,7 +38,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
     protected function _initAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('oscommerce/adminhtml_import');
+        $this->_setActiveMenu('system/convert');
         return $this;
     }
 
@@ -65,7 +65,9 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      */
     public function indexAction()
     {
-        $this->_title($this->__('osCommerce Profiles'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Import and Export'))
+             ->_title($this->__('osCommerce Profiles'));
 
         $this->_initAction();
         $this->_addContent(
@@ -79,7 +81,9 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
      */
     public function editAction()
     {
-        $this->_title($this->__('osCommerce Profiles'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Import and Export'))
+             ->_title($this->__('osCommerce Profiles'));
 
         $this->_initImport();
         $this->loadLayout();

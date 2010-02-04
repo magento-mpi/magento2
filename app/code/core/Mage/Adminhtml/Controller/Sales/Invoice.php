@@ -70,7 +70,7 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
      */
     public function indexAction()
     {
-        $this->_title($this->__('Invoices'));
+        $this->_title($this->__('Sales'))->_title($this->__('Invoices'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/sales_invoice'))

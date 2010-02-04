@@ -41,8 +41,9 @@ class Enterprise_Staging_Adminhtml_Staging_LogController extends Mage_Adminhtml_
      */
     public function indexAction()
     {
-        $this->_title($this->__('Content Staging'))
-             ->_title($this->__('Logs'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Content Staging'))
+             ->_title($this->__('Log'));
 
         $this->loadLayout();
         $this->_setActiveMenu('system');
@@ -57,9 +58,10 @@ class Enterprise_Staging_Adminhtml_Staging_LogController extends Mage_Adminhtml_
     {
         $this->_initLog();
 
-        $this->_title($this->__('Content Staging'))
-             ->_title($this->__('Logs'))
-             ->_title($this->__('Log View'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Content Staging'))
+             ->_title($this->__('Log'))
+             ->_title($this->__('Log Entry'));
 
         $this->loadLayout();
         $this->_setActiveMenu('system');

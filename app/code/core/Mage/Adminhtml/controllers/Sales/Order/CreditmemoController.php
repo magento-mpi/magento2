@@ -72,7 +72,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
      */
     protected function _initCreditmemo($update = false)
     {
-        $this->_title($this->__('Credit Memos'));
+        $this->_title($this->__('Sales'))->_title($this->__('Credit Memos'));
 
         $creditmemo = false;
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
@@ -238,7 +238,9 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     {
         if ($creditmemo = $this->_initCreditmemo()) {
             if ($creditmemo->getInvoice()) {
-                $this->_title(sprintf("#%s", $creditmemo->getInvoice()->getIncrementId()));
+                $this->_title($this->__("View Memo for #%s", $creditmemo->getInvoice()->getIncrementId()));
+            } else {
+                $this->_title($this->__("View Memo"));
             }
 
             $this->loadLayout();
@@ -270,7 +272,9 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     {
         if ($creditmemo = $this->_initCreditmemo()) {
             if ($creditmemo->getInvoice()) {
-                $this->_title(sprintf("#%s", $creditmemo->getInvoice()->getIncrementId()));
+                $this->_title($this->__("New Memo for #%s", $creditmemo->getInvoice()->getIncrementId()));
+            } else {
+                $this->_title($this->__("New Memo"));
             }
 
             $commentText = Mage::getSingleton('adminhtml/session')->getCommentText(true);

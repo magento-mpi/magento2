@@ -56,7 +56,9 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('CMS Pages'));
+        $this->_title($this->__('CMS'))
+             ->_title($this->__('Pages'))
+             ->_title($this->__('Manage Content'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -76,7 +78,9 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
      */
     public function editAction()
     {
-        $this->_title($this->__('CMS Pages'));
+        $this->_title($this->__('CMS'))
+             ->_title($this->__('Pages'))
+             ->_title($this->__('Manage Content'));
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('page_id');

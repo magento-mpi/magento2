@@ -64,8 +64,6 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
      */
     protected function _initSegment($outputMessage = true)
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Customer Segments'));
-
         $segmentId = $this->getRequest()->getParam('segment_id', 0);
         $segmentIds = $this->getRequest()->getParam('massaction');
         if ($segmentIds) {
@@ -119,6 +117,10 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
      */
     public function segmentAction()
     {
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Customers'))
+             ->_title($this->__('Customer Segments'));
+
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock(
                 'enterprise_customersegment/adminhtml_report_customer_segment')
@@ -132,6 +134,10 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
      */
     public function detailAction()
     {
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Customers'))
+             ->_title($this->__('Customer Segments'));
+
         if ($this->_initSegment()) {
 
             // Add help Notice to Combined Report

@@ -56,7 +56,9 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function orderedAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Product Bestsellers'));
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Products'))
+             ->_title($this->__('Bestsellers'));
 
         $this->_initAction()
             ->_setActiveMenu('report/product/ordered')
@@ -97,7 +99,9 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function soldAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Products Ordered'));
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Products'))
+             ->_title($this->__('Products Ordered'));
 
         $this->_initAction()
             ->_setActiveMenu('report/product/sold')
@@ -140,7 +144,9 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function viewedAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Most Viewed Products'));
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Products'))
+             ->_title($this->__('Most Viewed'));
 
         $this->_initAction()
             ->_setActiveMenu('report/product/viewed')
@@ -181,7 +187,9 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function lowstockAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Low Stock'));
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Products'))
+             ->_title($this->__('Low Stock'));
 
         $this->_initAction()
             ->_setActiveMenu('report/product/lowstock')
@@ -224,7 +232,9 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
      */
     public function downloadsAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Product Downloads'));
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Products'))
+             ->_title($this->__('Downloads'));
 
         $this->_initAction()
             ->_setActiveMenu('report/product/downloads')

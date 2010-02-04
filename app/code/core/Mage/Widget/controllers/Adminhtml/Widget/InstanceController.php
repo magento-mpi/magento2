@@ -66,7 +66,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     protected function _initWidgetInstance()
     {
-        $this->_title($this->__('Widget Instances'));
+        $this->_title($this->__('CMS'))->_title($this->__('Widgets'));
 
         $widgetInstance = Mage::getModel('widget/widget_instance');
         $instanceId = $this->getRequest()->getParam('instance_id', null);
@@ -94,7 +94,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     public function indexAction()
     {
-        $this->_title($this->__('Widget Instances'));
+        $this->_title($this->__('CMS'))->_title($this->__('Widgets'));
 
         $this->_initAction()
             ->renderLayout();

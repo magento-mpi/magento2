@@ -56,7 +56,9 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
      */
     protected function _initRole($requestVariable = 'rid')
     {
-        $this->_title($this->__('Permissions'))->_title($this->__('Roles'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Permissions'))
+             ->_title($this->__('Roles'));
 
         $role = Mage::getModel('admin/roles')->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
@@ -74,7 +76,9 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
      */
     public function indexAction()
     {
-        $this->_title($this->__('Permissions'))->_title($this->__('Roles'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Permissions'))
+             ->_title($this->__('Roles'));
 
         $this->_initAction();
 

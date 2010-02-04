@@ -57,7 +57,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
      */
     public function indexAction()
     {
-        $this->_title($this->__('Customer Segments'));
+        $this->_title($this->__('Customers'))->_title($this->__('Customer Segments'));
 
         $this->loadLayout();
         $this->_setActiveMenu('customer/customersegment');
@@ -78,7 +78,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
      */
     public function editAction()
     {
-        $this->_title($this->__('Customer Segments'));
+        $this->_title($this->__('Customers'))->_title($this->__('Customer Segments'));
 
         try {
             $model = $this->_initSegment();

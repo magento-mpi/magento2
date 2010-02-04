@@ -48,7 +48,9 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
 
     public function accountsAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('New Customer Accounts'));
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Customers'))
+             ->_title($this->__('New Accounts'));
 
         $this->_initAction()
             ->_setActiveMenu('report/customer/accounts')
@@ -83,7 +85,9 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
 
     public function ordersAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Customers By Number of Orders'));
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Customers'))
+             ->_title($this->__('Customers by Number of Orders'));
 
         $this->_initAction()
             ->_setActiveMenu('report/customer/orders')
@@ -119,7 +123,9 @@ class Mage_Adminhtml_Report_CustomerController extends Mage_Adminhtml_Controller
 
     public function totalsAction()
     {
-        $this->_title($this->__('Reports'))->_title($this->__('Customers By Orders Total'));
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Customers'))
+             ->_title($this->__('Customers By Orders Total'));
 
         $this->_initAction()
             ->_setActiveMenu('report/customer/totals')

@@ -51,7 +51,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
         $this->_initEnityId();
         $this->loadLayout();
 
-        $this->_title($this->__('Rating'));
+        $this->_title($this->__('Edit Rating'));
 
         $this->_setActiveMenu('catalog/ratings');
         $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Manage Ratings'), Mage::helper('adminhtml')->__('Manage Ratings'));
@@ -137,7 +137,9 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
 
     protected function _initEnityId()
     {
-        $this->_title($this->__('Ratings'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Reviews and Ratings'))
+             ->_title($this->__('Manage Ratings'));
 
         Mage::register('entityId', Mage::getModel('rating/rating_entity')->getIdByCode('product'));
     }

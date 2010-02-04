@@ -74,7 +74,9 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('Tags'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Tags'))
+             ->_title($this->__('All Tags'));
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('All Tags'), Mage::helper('adminhtml')->__('All Tags'))
@@ -118,7 +120,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function editAction()
     {
-        $this->_title($this->__('Tags'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Tags'));
 
         if (! (int) $this->getRequest()->getParam('store')) {
             return $this->_redirect('*/*/*/', array('store' => Mage::app()->getAnyStoreView()->getId(), '_current' => true));
@@ -225,7 +228,9 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function pendingAction()
     {
-        $this->_title($this->__('Tags'))->_title($this->__('Pending'));
+        $this->_title($this->__('Catalog'))
+             ->_title($this->__('Tags'))
+             ->_title($this->__('Pending Tags'));
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('Pending Tags'), Mage::helper('adminhtml')->__('Pending Tags'))

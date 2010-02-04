@@ -35,7 +35,9 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
-        $this->_title($this->__('Tax Rules'));
+        $this->_title($this->__('Sales'))
+             ->_title($this->__('Tax'))
+             ->_title($this->__('Manage Tax Rules'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/tax_rule'))
@@ -50,7 +52,9 @@ class Mage_Adminhtml_Tax_RuleController extends Mage_Adminhtml_Controller_Action
 
     public function editAction()
     {
-        $this->_title($this->__('Tax Rules'));
+        $this->_title($this->__('Sales'))
+             ->_title($this->__('Tax'))
+             ->_title($this->__('Manage Tax Rules'));
 
         $taxRuleId  = $this->getRequest()->getParam('rule');
         $ruleModel  = Mage::getModel('tax/calculation_rule');

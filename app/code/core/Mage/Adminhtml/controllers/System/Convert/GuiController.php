@@ -40,7 +40,9 @@ class Mage_Adminhtml_System_Convert_GuiController extends Mage_Adminhtml_System_
      */
     public function indexAction()
     {
-        $this->_title($this->__('Import and Export Profiles'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Import and Export'))
+             ->_title($this->__('Profiles'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
