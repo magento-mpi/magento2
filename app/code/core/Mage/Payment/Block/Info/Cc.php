@@ -37,10 +37,11 @@ class Mage_Payment_Block_Info_Cc extends Mage_Payment_Block_Info
     public function getCcTypeName()
     {
         $types = Mage::getSingleton('payment/config')->getCcTypes();
-        if (isset($types[$this->getInfo()->getCcType()])) {
-            return $types[$this->getInfo()->getCcType()];
+        $ccType = $this->getInfo()->getCcType();
+        if (isset($types[$ccType])) {
+            return $types[$ccType];
         }
-        return $this->getInfo()->getCcType();
+        return (empty($ccType)) ? Mage::helper('payment')->__('N/A') : $ccType;
     }
 
     /**
@@ -82,10 +83,13 @@ class Mage_Payment_Block_Info_Cc extends Mage_Payment_Block_Info
             return $this->_paymentSpecificInformation;
         }
         $transport = parent::_prepareSpecificInformation($transport);
-        $data = array(
-            Mage::helper('payment')->__('Credit Card Type') => $this->getCcTypeName(),
-            Mage::helper('payment')->__('Credit Card Number') => sprintf('xxxx-%s', $this->getInfo()->getCcLast4()),
-        );
+            $data[Mage::helper('payment')->__('Credit Card Type')] = $this->getCcTypeName();
+
+        if ($this->getInfo()->getCcLast4()) {
+            $data[Mage::helper('payment')->__('Credit Card Number')] = sprintf('xxxx-%s', $this->getInfo()->getCcLast4());
+        } else {
+            $data[Mage::helper('payment')->__('Credit Card Number')] = Mage::helper('payment')->__('N/A');
+        }
         if ($ccSsIssue = $this->getInfo()->getCcSsIssue()) {
             $data[Mage::helper('payment')->__('Switch/Solo Issue Number')] = $ccSsIssue;
         }
