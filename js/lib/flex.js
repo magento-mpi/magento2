@@ -157,7 +157,7 @@ Flex.getFlashPlayerVersion = function () {
        var flashPlugin = navigator.plugins['Shockwave Flash'] || navigator.plugins['Shockwave Flash 2.0'];
        version = Flex.transformVersionToArray(flashPlugin.description);
     } else {
-       version = Flex.transformVersionToArray(this.__getFlashPlayerVersionAsActiveX());
+       version = Flex.transformVersionToArray(Flex._getFlashPlayerVersionAsActiveX());
     }
     
     Flex.flashPlayerVersion = version;
