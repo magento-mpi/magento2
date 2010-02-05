@@ -29,7 +29,7 @@ $installer = $this;
 
 $installer->run("
 -- Removing old index tables if exists
-DROP TABLE IF EXISTS `{$installer->getTable('core/product')}_tier_price_idx`;
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product')}_tier_price_idx`;
 DROP TABLE IF EXISTS `{$installer->getTable('core/website')}_date_idx`;
 
 CREATE TABLE IF NOT EXISTS `{$installer->getTable('catalog/product_index_tier_price')}` (
