@@ -186,7 +186,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
      */
     protected function _getWebsiteDateTable()
     {
-        return $this->getIdxTable($this->getValueTable('core/website', 'date'));
+        return $this->getTable('catalog/product_index_website');
     }
 
     /**
@@ -567,7 +567,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
      */
     protected function _getTierPriceIndexTable()
     {
-        return $this->getIdxTable($this->getValueTable('catalog/product', 'tier_price'));
+        return $this->getTable('catalog/product_index_tier_price');
     }
 
     /**
