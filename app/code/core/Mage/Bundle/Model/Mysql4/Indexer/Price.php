@@ -445,16 +445,6 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
     }
 
     /**
-     * Retrieve table name for product tier price index
-     *
-     * @return string
-     */
-    protected function _getTierPriceIndexTable()
-    {
-        return $this->getIdxTable($this->getValueTable('catalog/product', 'tier_price'));
-    }
-
-    /**
      * Prepare percentage tier price for bundle products
      *
      * @see Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price::_prepareTierPriceIndex
