@@ -82,9 +82,6 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
         foreach ($allItems as $item) {
             /* @var $item Mage_Sales_Model_Quote_Item */
             if (!$item->getProduct()->isVisibleInSiteVisibility()) {
-                if ($item->getStoreId() == $storeId) {
-                    continue;
-                }
                 $productId = $item->getProduct()->getId();
                 $products  = Mage::getResourceSingleton('catalog/url')
                     ->getRewriteByProductStore(array($productId => $item->getStoreId()));
@@ -92,9 +89,6 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
                     continue;
                 }
                 $urlDataObject = new Varien_Object($products[$productId]);
-                if (!in_array($urlDataObject->getVisibility(), $item->getProduct()->getVisibleInSiteVisibilities())) {
-                    continue;
-                }
                 $item->getProduct()->setUrlDataObject($urlDataObject);
             }
 
