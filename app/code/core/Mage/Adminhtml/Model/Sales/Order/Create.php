@@ -1050,14 +1050,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $store           = $this->getSession()->getStore();
         $billingAddress  = null;
         $shippingAddress = null;
-
+        
+        $customer->addData($this->_getData('account'));
+        
         if ($customer->getId()) {
-            if ($customer->isInStore($store)) {
-                //$customer->addData($this->getData('account')); // we should not change email and group for existing customer
-            } else {
+            if (!$customer->isInStore($store)) {
                 $customer->setId(null)
                     ->setStore($store)
-                    ->addData($this->getData('account'))
                     ->setDefaultBilling(null)
                     ->setDefaultShipping(null)
                     ->setPassword($customer->generatePassword());
@@ -1095,7 +1094,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             }
         } else {
             $customer->addData($this->getBillingAddress()->exportCustomerAddress()->getData())
-                ->addData($this->getData('account'))
                 ->setPassword($customer->generatePassword())
                 ->setStore($store)
                 ->setEmail($this->_getNewCustomerEmail($customer));
@@ -1117,6 +1115,14 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if (!$customer->getId()) {
             $quote->setCustomerId(true);
         }
+
+        // we should not change account data for existing customer, so restore it
+        if ($customer->getId() && is_array($this->_getData('account'))) {
+            foreach($this->_getData('account') as $key => $value) {
+                $customer->setData($key, $customer->getOrigData($key));
+            }
+        }
+        
         return $this;
     }
 
