@@ -495,17 +495,17 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 if (is_string($item)) {
                     Mage::throwException($item);
                 }
-                $info_buyRequest = $item->getOptionByCode('info_buyRequest');
-                if ($info_buyRequest !== null) {
-                    $infoBuyRequests[] = $info_buyRequest->getValue();
+                $infobuyRequest = $item->getOptionByCode('info_buyRequest');
+                if ($infobuyRequest !== null) {
+                    $infoBuyRequests[] = $infobuyRequest->getValue();
                 }
             }
         }
         if (isset($data['cartItem'])) {
             foreach ($data['cartItem'] as $itemId => $qty) {
                 if ($item = $this->getCustomerCart()->getItemById($itemId)) {
-                    $info_buyRequest = $item->getOptionByCode('info_buyRequest');
-                    if ($info_buyRequest === null || !in_array($info_buyRequest->getValue(), $infoBuyRequests)) {
+                    $infobuyRequest = $item->getOptionByCode('info_buyRequest');
+                    if ($infobuyRequest === null || !in_array($infobuyRequest->getValue(), $infoBuyRequests)) {
                         $this->moveQuoteItem($item, 'order', $qty);
                     }
 //                    $this->removeItem($itemId, 'cart');
