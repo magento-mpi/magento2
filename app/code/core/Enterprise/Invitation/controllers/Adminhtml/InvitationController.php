@@ -40,7 +40,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
      */
     public function indexAction()
     {
-        $this->_title($this->__('Invitations'));
+        $this->_title($this->__('Customers'))->_title($this->__('Invitations'));
 
         $this->loadLayout()->_setActiveMenu('customer/invitation');
         $this->renderLayout();
@@ -53,7 +53,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
      */
     protected function _initInvitation()
     {
-        $this->_title($this->__('Invitations'));
+        $this->_title($this->__('Customers'))->_title($this->__('Invitations'));
 
         $invitation = Mage::getModel('enterprise_invitation/invitation')->load($this->getRequest()->getParam('id'));
         if (!$invitation->getId()) {
@@ -70,10 +70,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     public function viewAction()
     {
         try {
-            $invitation = $this->_initInvitation();
-
-            $this->_title($invitation->getEmail());
-
+            $this->_initInvitation();
             $this->loadLayout()->_setActiveMenu('customer/invitation');
             $this->renderLayout();
         }
@@ -88,8 +85,6 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
      */
     public function newAction()
     {
-        $this->_title($this->__('New Invitation'));
-
         $this->loadLayout()->_setActiveMenu('enterprise_invitation');
         $this->renderLayout();
     }
