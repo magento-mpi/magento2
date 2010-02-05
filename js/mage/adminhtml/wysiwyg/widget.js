@@ -204,8 +204,8 @@ WysiwygWidget.Widget.prototype = {
     },
 
     insertWidget: function() {
-        editForm = editForm || new varienForm(this.formEl);
-        if(editForm.validator && editForm.validator.validate() || !editForm.validator){
+        widgetOptionsForm = new varienForm(this.formEl);
+        if(widgetOptionsForm.validator && widgetOptionsForm.validator.validate() || !widgetOptionsForm.validator){
             var formElements = [];
             var i = 0;
             Form.getElements($(this.formEl)).each(function(e) {
