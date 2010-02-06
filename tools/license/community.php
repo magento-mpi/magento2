@@ -64,6 +64,12 @@ updateLicense(array(
         'app/design/frontend/default/modern/layout',
         'app/design/frontend/default/iphone/layout',
         'app/design/install/default/default/layout',
+
+        'app/design/frontend/base/default/etc',
+        'app/design/frontend/default/default/etc',
+        'app/design/frontend/default/modern/etc',
+        'app/design/frontend/default/blank/etc',
+        'app/design/frontend/default/iphone/etc',
     ), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, 'themeCallback',  true, true, true
 );
 
@@ -102,8 +108,23 @@ updateLicense('skin/frontend/default/blank', array('*.css', '*.js'),
 updateLicense('skin/frontend/default/modern', array('*.css', '*.js'),
     REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('design', 'default_modern'), true, true, true
 );
-echo updateLicense('skin/frontend/default/iphone', array('*.css', '*.js'),
+updateLicense('skin/frontend/default/iphone', array('*.css', '*.js'),
     REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('design', 'default_iphone'), true, true, true
 );
 
+// errors/
+updateLicense(array(
+    'errors', '!errors/enterprise'
+), '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_OSL, array('Mage', 'Errors'), true, true, true);
+updateLicense(array(
+    'errors', '!errors/enterprise'
+), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
+updateLicense(array(
+    'errors', '!errors/enterprise'
+), '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
+updateLicense(array(
+    'errors', '!errors/enterprise'
+), '*.css', REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
+
+echo "done\n";
 exit;
