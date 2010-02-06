@@ -118,7 +118,7 @@ updateLicense(array(
 ), '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_OSL, array('Mage', 'Errors'), true, true, true);
 updateLicense(array(
     'errors', '!errors/enterprise'
-), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
+), array('*.xml', '*.sample'), REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
 updateLicense(array(
     'errors', '!errors/enterprise'
 ), '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);

@@ -37,6 +37,7 @@ updateLicense('app/etc/modules', 'Mage_*.xml', REGEX_XML, REPLACEMENT_XML, NOTIC
 
 // design phtml-files
 updateLicense(array(
+        'app/design/adminhtml/base/default/template',
         'app/design/adminhtml/default/default/template',
         'app/design/frontend/default/default/template',
         'app/design/frontend/default/modern/template',
@@ -46,19 +47,26 @@ updateLicense(array(
     ), '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'themeCallback'
 );
 
-// layouts
+// layouts and widget.xml
 updateLicense(array(
+        'app/design/frontend/base/default/layout',
         'app/design/adminhtml/default/default/layout',
         'app/design/frontend/default/default/layout',
         'app/design/frontend/default/modern/layout',
         'app/design/frontend/default/blank/layout',
         'app/design/frontend/default/iphone/layout',
         'app/design/install/default/default/layout',
+
+        'app/design/frontend/base/default/etc',
+        'app/design/frontend/default/default/etc',
+        'app/design/frontend/default/modern/etc',
+        'app/design/frontend/default/blank/etc',
+        'app/design/frontend/default/iphone/etc',
     ), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'themeCallback'
 );
 
 // skins
-echo updateLicense(array(
+updateLicense(array(
         'skin/adminhtml/default/default',
         'skin/frontend/default',
         'skin/install/default',
@@ -76,10 +84,10 @@ updateLicense(array(
 updateLicense(null, array(
     'app/Mage.php',
     'cron.php',
-    'errors/404.php',
-    'errors/503.php',
-    'errors/functions.php',
-    'errors/report.php',
+//    'errors/404.php',
+//    'errors/503.php',
+//    'errors/functions.php',
+//    'errors/report.php',
     'includes/config.php',
     'index.php',
     'index.php.sample',
@@ -87,6 +95,13 @@ updateLicense(null, array(
     'js/index.php',
 ), REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, array('Mage', 'Mage'), true, true, true);
 
-echo updateLicense('shell', '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, array('Mage', 'Mage_Shell'), true, true, true);
+updateLicense('shell', '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, array('Mage', 'Mage_Shell'), true, true, true);
 
+// errors/
+updateLicense('errors', '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, array('Mage', 'Errors'), true, true, true);
+updateLicense('errors', array('*.xml', '*.sample'), REGEX_XML, REPLACEMENT_XML, NOTICE_EE, array('Mage', 'Errors'), true, true, true);
+updateLicense('errors', '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, array('Mage', 'Errors'), true, true, true);
+updateLicense('errors', '*.css', REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, array('Mage', 'Errors'), true, true, true);
+
+echo "done\n";
 exit;
