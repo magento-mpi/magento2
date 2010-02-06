@@ -55,12 +55,19 @@ updateLicense(array(
 updateLicense(array(
         'app/design/adminhtml/default/default/layout/enterprise',
         'app/design/frontend/enterprise/default/layout',
+        'app/design/frontend/enterprise/default/etc',
     ), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'themeCallback', true, true, true
 );
 
 // additional javascript
-echo updateLicense('js/enterprise/adminhtml', '*.js', REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE,
+updateLicense('js/enterprise/adminhtml', '*.js', REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE,
     array('design', 'default_default'), true, true, true
 );
 
+// errors/
+updateLicense('errors/enterprise', '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
+updateLicense('errors/enterprise', '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
+updateLicense('errors/enterprise', '*.css', REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
+
+echo "done\n";
 exit;
