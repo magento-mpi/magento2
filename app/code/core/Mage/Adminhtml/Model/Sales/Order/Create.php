@@ -479,12 +479,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
     public function applySidebarData($data)
     {
-        if (isset($data['add'])) {
-            foreach ($data['add'] as $productId => $qty) {
-                $this->addProduct($productId, $qty);
-            }
-        }
-
         // skip item duplicates based on info_buyRequest option
         $infoBuyRequests = array();
 
@@ -510,6 +504,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     }
 //                    $this->removeItem($itemId, 'cart');
                 }
+            }
+        }
+        if (isset($data['add'])) {
+            foreach ($data['add'] as $productId => $qty) {
+                $this->addProduct($productId, $qty);
             }
         }
         if (isset($data['remove'])) {
@@ -1050,9 +1049,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $store           = $this->getSession()->getStore();
         $billingAddress  = null;
         $shippingAddress = null;
-        
+
         $customer->addData($this->_getData('account'));
-        
+
         if ($customer->getId()) {
             if (!$customer->isInStore($store)) {
                 $customer->setId(null)
@@ -1122,7 +1121,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 $customer->setData($key, $customer->getOrigData($key));
             }
         }
-        
+
         return $this;
     }
 
