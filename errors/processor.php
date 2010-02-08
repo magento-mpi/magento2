@@ -138,7 +138,13 @@ class Error_Processor
     {
         $this->_errorDir  = dirname(__FILE__) . '/';
         $this->_reportDir = dirname($this->_errorDir) . '/var/report/';
-        $this->_scriptName = $_SERVER['SCRIPT_NAME'];
+
+        if (in_array(basename($_SERVER['SCRIPT_NAME'],'.php'), array('404','503','report'))) {
+            $this->_scriptName = dirname($_SERVER['SCRIPT_NAME']);
+        }
+        else {
+            $this->_scriptName = $_SERVER['SCRIPT_NAME'];
+        }
 
         $reportId = (isset($_GET['id'])) ? (int)$_GET['id'] : null;
         if ($reportId) {
@@ -234,9 +240,6 @@ class Error_Processor
             $path = dirname($path);
         }
 
-        if (in_array(basename($this->_scriptName,'.php'), array('404','503','report'))){
-            $path = dirname($path);
-        }
         $basePath = str_replace('\\', '/', dirname($path));
         return $this->getHostUrl() . ('/' == $basePath ? '' : $basePath) . '/';
     }
