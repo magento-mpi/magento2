@@ -166,12 +166,13 @@ input.input-text:focus,select:focus,textarea:focus { background-color:#fafaec; }
 /* Grouped fields */
 /*.form-list { width:535px; margin:0 auto; overflow:hidden; }*/
 .form-list li { margin:0 0 8px; }
-.form-list label { float:left; color:#667; font-weight:bold; position:relative; z-index:0; }
+.form-list label { float:left; color:#666; font-weight:bold; position:relative; z-index:0; }
 .form-list label.required {}
 .form-list label.required em { float:right; font-style:normal; color:#eb340a; position:absolute; top:0; right:-8px; }
 .form-list li.control label { float:none; }
 .form-list li.control input.radio,
 .form-list li.control input.checkbox { margin-right:6px; }
+.form-list li.control .input-box { clear:none; display:inline; width:auto; }
 /*.form-list li.fields { margin-right:-15px; }*/
 .form-list .input-box { display:block; clear:both; width:260px; }
 .form-list .field { float:left; width:275px; }
@@ -278,7 +279,7 @@ input.input-text:focus,select:focus,textarea:focus { background-color:#fafaec; }
 .buttons-set { clear:both; margin:4em 0 0; padding:8px 0 0; border-top:1px solid #e4e4e4; text-align:right; }
 .buttons-set p.required { margin:0 0 10px; }
 .buttons-set .back-link { float:left; margin:0; }
-.buttons-set button.button { float:right; margin-right:5px; }
+.buttons-set button.button { float:right; margin-left:5px; }
 
 .fieldset { border:1px solid #bbafa0; background:#fbfaf6; padding:22px 25px 12px 33px; margin:28px 0; }
 .fieldset .legend { float:left; font-weight:bold; font-size:13px; border:1px solid #f19900; background:#f9f3e3; color:#e76200; margin:-33px 0 0 -10px; padding:0 8px; position:relative; }
@@ -356,7 +357,6 @@ p.required { font-size:11px; text-align:right; color:#EB340A; }
 .toolbar .sorter { border-bottom:1px solid #fff; }
 .toolbar-bottom {}
 
-/* Data Table */
 /* Data Table */
 .data-table { width:100%; border:1px solid #bebcb7; }
 .data-table .odd  { background:#f8f7f5 }
@@ -619,7 +619,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .block-layered-nav dt { background:url(../images/bkg_block-layered-dt.gif) 9px 11px no-repeat; padding:7px 10px 0 28px; font-weight:bold; text-transform:uppercase; }
 .block-layered-nav dd { padding:0 12px 12px; background:url(../images/bkg_block-layered-dd.gif) 0 100% repeat-x; }
 .block-layered-nav dd.last { background:none; }
-.block-layered-nav .currently li { background:#f00 url(../images/bkg_block-layered-li.gif) 0 100% repeat-x; padding:4px 6px 4px 10px; }
+.block-layered-nav .currently li { background:#fff url(../images/bkg_block-layered-li.gif) 0 100% repeat-x; padding:4px 6px 4px 10px; }
 .block-layered-nav .currently .label { font-weight:bold; padding-left:18px; background:url(../images/bkg_block-layered-label.gif) 0 3px no-repeat; text-transform:uppercase; }
 .block-layered-nav .currently .btn-remove { margin:3px 0 0; }
 .block-layered-nav .actions { font-size:11px; padding:4px 9px; background:#cad6e4; border:1px solid #dee5e8; border-width:1px 0; text-align:right; }
@@ -693,7 +693,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 /* Block: Subscribe */
 .block-subscribe .block-content { padding:5px 10px; }
 .block-subscribe .block-title strong { background-image:url(../images/i_block-subscribe.gif); }
-.block-subscribe label { font-weight:bold; color:#667; }
+.block-subscribe label { font-weight:bold; color:#666; }
 .block-subscribe input.input-text { display:block; width:167px; margin:3px 0; }
 .block-subscribe .actions { background:none; padding:0; margin:3px 0 0; text-align:left; }
 .block-subscribe .actions button.button { float:none; }
@@ -711,7 +711,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 /* Block: Login */
 .block-login .block-title strong { background-image:url(../images/i_ma-info.gif); }
 .block-login .block-content { padding:5px 10px; }
-.block-login label { font-weight:bold; color:#667; }
+.block-login label { font-weight:bold; color:#666; }
 .block-login input.input-text { display:block; width:167px; margin:3px 0; }
 .block-login .actions { background:none; padding:0; margin:3px 0 0; }
 /* ======================================================================================= */
@@ -719,7 +719,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* Category Page ========================================================================= */
 .category-title { border:0; margin:0 0 7px; }
-.category-image { margin:0 0 10px; text-align:center; }
+.category-image { width:100%; overflow:hidden; margin:0 0 10px; text-align:center; }
 .category-image img {}
 .category-description { margin:0 0 10px; }
 .category-products {}
@@ -741,9 +741,8 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 /* View Type: List */
 .products-list li.item { border-bottom:1px solid #d9ddd3; padding:12px 10px; }
 .products-list li.item.last { border-bottom:0; }
-.products-list .product-image { float:left; width:135px; }
+.products-list .product-image { float:left; width:135px; height:135px; margin:0 0 10px; }
 .products-list .product-shop { margin-left:150px; }
-.products-list .product-image { display:block; width:135px; height:135px; margin:0 0 10px; }
 .products-list .product-name { margin:0 0 5px; font-weight:bold; font-size:13px; color:#203548; }
 .products-list .product-name a { color:#203548; }
 .products-list .price-box { float:left; margin:3px 13px 5px 0; }
@@ -878,14 +877,14 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .add-to-links .separator { display:none; }
 
 /* Add to Cart */
-.add-to-cart label { float:left; margin-right:5px; font-weight:bold; color:#667; }
+.add-to-cart label { float:left; margin-right:5px; font-weight:bold; color:#666; }
 .add-to-cart .qty { float:left; margin-right:5px; }
 .add-to-cart button.button { float:left; }
 
 /* Add to Links + Add to Cart */
 .add-to-box { margin:10px 0; }
 .add-to-box .add-to-cart { float:left; }
-.add-to-box .or { float:left; font-weight:bold; margin:0 7px; color:#667; }
+.add-to-box .or { float:left; font-weight:bold; margin:0 7px; color:#666; }
 .add-to-box .add-to-links { float:left; margin:0; font-size:12px !important; line-height:1.25 !important; text-align:left !important; }
 .add-to-box .add-to-links li { display:block !important; }
 .add-to-box .add-to-links li .separator { display:none !important; }
@@ -1070,8 +1069,8 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .cms-index-index .subtitle {}
 
 /* Sitemap */
-.page-sitemap .links { text-align:right; margin:0 8px -22px 0; position:relative; }
-.page-sitemap .links a { text-decoration:none; }
+.page-sitemap .links { text-align:right; margin:0 8px -22px 0; }
+.page-sitemap .links a { text-decoration:none; position:relative; }
 .page-sitemap .links a:hover { text-decoration:underline; }
 .page-sitemap .sitemap { margin:12px; }
 .page-sitemap .sitemap a { color:#1b2d3b; }
@@ -1162,7 +1161,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .sp-methods dt { margin:5px 0; font-weight:bold; }
 .sp-methods dd { margin:0 0 13px; }
 .sp-methods dd li { margin:5px 0; }
-.sp-methods label { font-weight:bold; color:#667; }
+.sp-methods label { font-weight:bold; color:#666; }
 .sp-methods .price { font-weight:bold; }
 .sp-methods .form-list { padding-left:20px; }
 .sp-methods .form-list li { margin:0 0 8px; }
@@ -1177,6 +1176,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 /* Tooltip */
 .tool-tip { border:1px solid #7BA7C9; background:#EAF6FF; padding:15px 20px; position:absolute; z-index:9999; }
 .tool-tip .btn-close { margin:-9px -14px 0; text-align:right; }
+.tool-tip .btn-close a { display:block; margin:0 0 0 auto; width:15px; height:15px; background:url(../images/btn_window_close.gif) 100% 0 no-repeat; text-align:left; text-indent:-999em; overflow:hidden; }
 .tool-tip .tool-tip-content { padding:5px; }
 
 /* Gift Messages */
@@ -1208,7 +1208,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .checkout-agreements .agreement-content { overflow:auto; height:12em; padding:10px; background-color:#fbfaf6; border:1px solid #bbb6a5; }
 .checkout-agreements .agree { margin:0; padding:10px 0 10px 11px; }
 .checkout-agreements .agree input.checkbox { margin-right:6px; }
-.checkout-agreements .agree label { font-weight:bold; color:#667; }
+.checkout-agreements .agree label { font-weight:bold; color:#666; }
 
 .opc .checkout-agreements { border:1px solid #d9dde3; border-width:0 1px; padding:5px 30px; }
 .opc .checkout-agreements li { margin:20px 0 0; }
@@ -1228,6 +1228,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .block-progress p { margin:0; }
 
 .opc .buttons-set { margin-top:0; padding-top:2em; }
+.opc .buttons-set p.required { margin:0; padding:0 0 10px; }
 .opc .buttons-set .back-link small { display:none; }
 .opc .buttons-set .back-link a { background:url(../images/i_arrow-top.gif) 0 50% no-repeat; padding-left:16px; }
 .opc .buttons-set.disabled button.button { display:none; }
@@ -1239,7 +1240,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 .opc .step-title { border-width:0 1px; border-style:solid; border-color:#fff #d9dde3 #d9dde3; background:#eee url(../images/bkg_opc-title-off.gif) 0 100% repeat-x; padding:4px 8px 6px; text-align:right; }
 .opc .step-title .number { float:left; background:#fff; border:1px solid #fff; padding:0 4px; margin:0 5px 0 0; font:bold 11px/14px arial, helvetica, sans-serif; color:#999; }
-.opc .step-title h2 { float:left; margin:0; font:bold 13px/16px arial, helvetica, sans-serif; color:#999; }
+.opc .step-title h2 { float:left; margin:0; font:bold 13px/16px Arial, Helvetica, sans-serif; color:#999; }
 .opc .step-title a { display:none; float:right; font-size:11px; line-height:16px; }
 
 .opc .allow .step-title { background:#d0dce1; border:1px solid #a3aeb3; border-bottom:0; color:#a4b3b9; cursor:pointer; }
@@ -1407,6 +1408,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .order-info-box { background:#fff url(../images/bkg_block-title.gif) 0 0 repeat-x; border:1px solid #d0cbc1; padding:12px 15px; margin:0 0 15px; }
 .order-info-box h2 { font-weight:bold; font-size:13px; }
 
+.order-items { width:100%; overflow-x:auto; }
 .order-items h2,
 .order-items h3 { font-weight:bold; font-size:13px; }
 .order-items .product-name { font-size:1em !important; font-weight:bold !important; }
@@ -1414,7 +1416,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .order-items p .link-print { float:none; }
 
 .order-gift-message { margin:15px 0; }
-.gift-message dt strong { color:#667; }
+.gift-message dt strong { color:#666; }
 .gift-message dd { margin:5px 0 0; font-size:13px; }
 
 .order-about { margin:15px 0; }
