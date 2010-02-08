@@ -152,14 +152,16 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             //throw Mage::exception('Mage_Payment', $errorMsg, $errorCode);
         }
 
-        if ($this->getIsCentinelValidationEnabled()) {
-            $this->getCentinelValidator()->validate($this->getCentinelValidationData());
-        }
-
         if ($ccType != 'SS' && !$this->_validateExpDate($info->getCcExpYear(), $info->getCcExpMonth())) {
             $errorCode = 'ccsave_expiration,ccsave_expiration_yr';
             $errorMsg = $this->_getHelper()->__('Incorrect credit card expiration date');
         }
+
+        //This must be after all validation conditions
+        if ($this->getIsCentinelValidationEnabled()) {
+            $this->getCentinelValidator()->validate($this->getCentinelValidationData());
+        }
+
         return $this;
     }
 

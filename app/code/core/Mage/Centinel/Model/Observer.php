@@ -38,7 +38,7 @@ class Mage_Centinel_Model_Observer extends Varien_Object
      * Set cmpi data to payment
      *
      * @param Varien_Object $observer
-     * @return Mage_Centinel_Model_Service
+     * @return Mage_Centinel_Model_Observer
      */
     public function salesEventConvertQuoteToOrder($observer)
     {
@@ -55,7 +55,7 @@ class Mage_Centinel_Model_Observer extends Varien_Object
      * Add cmpi data to info block
      *
      * @param Varien_Object $observer
-     * @return Mage_Centinel_Model_Service
+     * @return Mage_Centinel_Model_Observer
      */
     public function paymentInfoBlockPrepareSpecificInformation($observer)
     {
@@ -67,12 +67,39 @@ class Mage_Centinel_Model_Observer extends Varien_Object
         $transport = $observer->getEvent()->getTransport();
         $helper = Mage::helper('centinel');
 
-        foreach (array(Mage_Centinel_Model_Service::CMPI_PARES,
+        $info = array(
+            Mage_Centinel_Model_Service::CMPI_PARES,
             Mage_Centinel_Model_Service::CMPI_ENROLLED,
-            Mage_Centinel_Model_Service::CMPI_ECI,) as $key) {
+            Mage_Centinel_Model_Service::CMPI_ECI,
+            Mage_Centinel_Model_Service::CMPI_CAVV,
+            Mage_Centinel_Model_Service::CMPI_XID
+        );
+        foreach ($info as $key) {
             if ($value = $payment->getAdditionalInformation($key)) {
                 $transport->setData($helper->getCmpiLabel($key), $helper->getCmpiValue($key, $value));
             }
         }
+        return $this;
+    }
+
+    /**
+     * Add centinel logo block into payment form
+     *
+     * @param Varien_Object $observer
+     * @return Mage_Centinel_Model_Observer
+     */
+    public function paymentFormBlockToHtmlBefore($observer)
+    {
+        $paymentFormBlock = $observer->getEvent()->getBlock();
+        $method = $paymentFormBlock->getMethod();
+
+        if ($method && $method->getIsCentinelValidationEnabled()) {
+            $paymentFormBlock->setChild(
+               'payment.method.'.$method->getCode().'centinel.logo',
+                Mage::helper('centinel')->getMethodFormBlock($method)
+            );
+        }
+        return $this;
     }
 }
+

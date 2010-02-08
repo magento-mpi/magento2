@@ -54,6 +54,17 @@
                 </Mage_Centinel>
             </modules>
         </translate>
+        <events>
+            <payment_form_block_to_html_before>
+                <observers>
+                    <centinel>
+                        <type>model</type>
+                        <class>centinel/observer</class>
+                        <method>paymentFormBlockToHtmlBefore</method>
+                    </centinel>
+                </observers>
+            </payment_form_block_to_html_before>
+        </events>
         <routers>
             <centinel>
                 <use>standard</use>

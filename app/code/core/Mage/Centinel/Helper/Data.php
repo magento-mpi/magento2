@@ -138,5 +138,35 @@ class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
                 return $value;
         }
     }
-}
 
+    /**
+     * Enter description here...
+     *
+     * @param unknown_type $method
+     * @return unknown
+     */
+    public function getMethodFormBlock($method)
+    {
+        $blockType = 'centinel/logo';
+        if ($this->getLayout()) {
+            $block = $this->getLayout()->createBlock($blockType);
+        }
+        else {
+            $className = Mage::getConfig()->getBlockClassName($blockType);
+            $block = new $className;
+        }
+        $block->setMethod($method);
+        return $block;
+    }
+
+    public function getVisaLearnMorePageUrl()
+    {
+        return 'https://www.hotwire.com/pop-up/verified-by-visa.jsp';
+    }
+
+    public function getMastercardLearnMorePageUrl()
+    {
+        return 'http://www.mastercardbusiness.com/mcbiz/index.jsp?template=/orphans&amp;content=securecodepopup';
+    }
+
+}

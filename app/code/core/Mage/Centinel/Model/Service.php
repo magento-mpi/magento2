@@ -118,10 +118,10 @@ class Mage_Centinel_Model_Service extends Varien_Object
             '_current' => $current,
             'form_key' => Mage::getSingleton('core/session')->getFormKey()
         );
-    if (Mage::app()->getStore()->isAdmin()) {
-        return Mage::getSingleton('adminhtml/url')->getUrl('*/centinel_index/' . $suffix, $params);
+        if (Mage::app()->getStore()->isAdmin()) {
+            return Mage::getSingleton('adminhtml/url')->getUrl('*/centinel_index/' . $suffix, $params);
         } else {
-        return Mage::getUrl('centinel/index/' . $suffix, $params);
+            return Mage::getUrl('centinel/index/' . $suffix, $params);
         }
     }
 
@@ -158,7 +158,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
         if ($modelClass = $this->_getConfig()->getStateModelClass($cardType)) {
             return Mage::getModel($modelClass);
         }
-        Mage::throwException(Mage::helper('centinel')->__("Not fount state model for card type: %s" , $cardType));
+        throw new Exception('Not fount state model for card type: ' . $cardType);
     }
 
     /**
@@ -239,7 +239,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
     {
         $validationState = $this->_getValidationState();
         if (!$validationState || $data->getTransactionId() != $validationState->getLookupTransactionId()) {
-            Mage::throwException(Mage::helper('centinel')->__("Authentication can't be running"));
+            throw new Exception('Authentication can not be running. Transaction id or validation state is wrong.');
         }
 
         $api = $this->_getApi();
@@ -258,7 +258,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
      */
     public function validate($data)
     {
-    $newChecksum = $this->_generateChecksum(
+        $newChecksum = $this->_generateChecksum(
             $data->getPaymentMethodCode(),
             $data->getCardType(),
             $data->getCardNumber(),
@@ -280,7 +280,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
             }
             Mage::throwException(Mage::helper('centinel')->__('Please verify the card with the issuer bank before placing the order.'));
         } else {
-        if (!$validationState || $validationState->getChecksum() != $newChecksum) {
+            if (!$validationState || $validationState->getChecksum() != $newChecksum) {
                 $this->lookup($data);
                 $validationState = $this->_getValidationState();
             }
@@ -289,7 +289,6 @@ class Mage_Centinel_Model_Service extends Varien_Object
             }
             Mage::throwException(Mage::helper('centinel')->__('This card has failed validation and cannot be used.'));
         }
-
     }
 
     /**
@@ -331,8 +330,8 @@ class Mage_Centinel_Model_Service extends Varien_Object
     public function getAuthenticateStartData()
     {
         $validationState = $this->_getValidationState();
-        if (!$validationState) {
-            Mage::throwException(Mage::helper('centinel')->__("Authentication can't be running"));
+        if (!$validationState && $this->shouldAuthenticate()) {
+            throw new Exception('Authentication can not be running. Validation state is wrong.');
         }
         $data = array(
             'acs_url' => $validationState->getLookupAcsUrl(),
@@ -363,12 +362,13 @@ class Mage_Centinel_Model_Service extends Varien_Object
      */
     public function exportCmpiData($to, $map = false)
     {
-    if (!$map) {
+        if (!$map) {
             $map = $this->_cmpiMap;
         }
         if ($validationState = $this->_getValidationState()) {
-        Varien_Object_Mapper::accumulateByMap($validationState, $to, $map);
+            Varien_Object_Mapper::accumulateByMap($validationState, $to, $map);
         }
         return $to;
     }
 }
+

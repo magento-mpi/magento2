@@ -64,44 +64,46 @@ class Mage_Centinel_Model_State_Mastercard extends Mage_Centinel_Model_StateAbst
      */
     public function isAuthenticateSuccessful()
     {
+        $paResStatus = $this->getAuthenticatePaResStatus();
+        $eciFlag = $this->getAuthenticateEciFlag();
+        $xid = $this->getAuthenticateXid();
+        $cavv = $this->getAuthenticateCavv();
+        $errorNo = $this->getAuthenticateErrorNo();
+        $signatureVerification = $this->getAuthenticateSignatureVerification();
+
         //Test cases 1-4, 10
         if ($this->_isLookupStrictSuccessful()) {
 
-           if ($this->getAuthenticatePaResStatus() == 'Y' && $this->getAuthenticateEciFlag() == '02' &&
-               $this->getAuthenticateXid() != '' && $this->getAuthenticateCavv() != '' &&
-               $this->getAuthenticateErrorNo() == '') {
+           if ($paResStatus == 'Y' && $eciFlag == '02' && $xid != '' && $cavv != '' && $errorNo == '') {
                 //Test case 1
-                if ($this->getAuthenticateSignatureVerification() == 'Y') {
+                if ($signatureVerification == 'Y') {
                     return true;
                 }
                 //Test case 2
-                if ($this->getAuthenticateSignatureVerification() == 'N') {
+                if ($signatureVerification == 'N') {
                     return false;
                 }
             }
 
             //Test case 3
-            if ($this->getAuthenticatePaResStatus() == 'N' && $this->getAuthenticateSignatureVerification() == 'Y' &&
-                $this->getAuthenticateEciFlag() == '01' && $this->getAuthenticateXid() != '' &&
-                $this->getAuthenticateCavv() == '' && $this->getAuthenticateErrorNo() == '') {
+            if ($paResStatus == 'N' && $signatureVerification == 'Y' &&  $eciFlag == '01' &&
+                $xid != '' && $cavv == '' && $errorNo == '') {
                 return false;
             }
 
             //Test case 4
-            if ($this->getAuthenticatePaResStatus() == 'U' && $this->getAuthenticateSignatureVerification() == 'Y' &&
-                $this->getAuthenticateEciFlag() == '01' && $this->getAuthenticateXid() != '' &&
-                $this->getAuthenticateCavv() == '' && $this->getAuthenticateErrorNo() == '') {
+            if ($paResStatus == 'U' && $signatureVerification == 'Y' && $eciFlag == '01' &&
+                $xid != '' && $cavv == '' && $errorNo == '') {
                 if ($this->getIsModeStrict()) {
-                return false;
+                    return false;
                 } else {
                     return true;
                 }
             }
 
             //Test case 10
-            if ($this->getAuthenticatePaResStatus() == '' && $this->getAuthenticateSignatureVerification() == '' &&
-                $this->getAuthenticateEciFlag() == '01' && $this->getAuthenticateXid() == '' &&
-                $this->getAuthenticateCavv() == '' && $this->getAuthenticateErrorNo() == '1050') {
+            if ($paResStatus == '' && $signatureVerification == '' && $eciFlag == '01' &&
+                $xid == '' && $cavv == '' && $errorNo == '1050') {
                 if ($this->getIsModeStrict()) {
                     return false;
                 } else {
@@ -113,11 +115,10 @@ class Mage_Centinel_Model_State_Mastercard extends Mage_Centinel_Model_StateAbst
 
         //Test cases 5-9
         if (!$this->getIsModeStrict() && $this->_isLookupSoftSuccessful()) {
-                if ($this->getAuthenticatePaResStatus() == '' && $this->getAuthenticateSignatureVerification() == '' &&
-                    $this->getAuthenticateEciFlag() == '' && $this->getAuthenticateXid() == '' &&
-                    $this->getAuthenticateCavv() == '' && $this->getAuthenticateErrorNo() == '') {
-                    return true;
-                }
+            if ($paResStatus == '' && $signatureVerification == '' && $eciFlag == '' &&
+                $xid == '' && $cavv == '' && $errorNo == '') {
+                return true;
+            }
         }
 
         return false;
@@ -147,26 +148,26 @@ class Mage_Centinel_Model_State_Mastercard extends Mage_Centinel_Model_StateAbst
      */
     private function _isLookupSoftSuccessful()
     {
+        $acsUrl = $this->getLookupAcsUrl();
+        $payload = $this->getLookupPayload();
+        $errorNo = $this->getLookupErrorNo();
+        $enrolled = $this->getLookupEnrolled();
+
         //Test cases 6,7
-        if ($this->getLookupAcsUrl() == '' && $this->getLookupPayload() == '' && $this->getLookupErrorNo() == '' &&
-            ($this->getLookupEnrolled() == 'N' || $this->getLookupEnrolled() == 'U')) {
+        if ($acsUrl == '' && $payload == '' && $errorNo == '' && ($enrolled == 'N' || $enrolled == 'U')) {
             return true;
         }
 
         //Test case 5
-        if ($this->getLookupEnrolled() == '' && $this->getLookupAcsUrl() == '' &&
-            $this->getLookupPayload() == '' && $this->getLookupErrorNo() == 'Timeout number') {
+        if ($enrolled == '' && $acsUrl == '' && $payload == '' && $errorNo == 'Timeout number') {
             return true;
         }
 
         //Test cases 8,9
-        if ($this->getLookupEnrolled() == 'U' && $this->getLookupAcsUrl() == '' &&
-            $this->getLookupPayload() == '' && $this->getLookupErrorNo() == '1001') {
+        if ($enrolled == 'U' && $acsUrl == '' && $payload == '' && $errorNo == '1001') {
             return true;
         }
 
         return false;
     }
-
 }
-

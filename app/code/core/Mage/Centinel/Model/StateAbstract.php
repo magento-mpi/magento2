@@ -27,7 +27,7 @@
 /**
  * Abstract Validation State Model
  */
-class Mage_Centinel_Model_StateAbstract extends Varien_Object
+abstract class Mage_Centinel_Model_StateAbstract extends Varien_Object
 {
     /**
      * Storage data model
@@ -128,20 +128,14 @@ class Mage_Centinel_Model_StateAbstract extends Varien_Object
      *
      * @return bool
      */
-    public function isLookupSuccessful()
-    {
-        return true;
-    }
+    abstract public function isLookupSuccessful();
 
     /**
      * Analyse lookup`s results. If it has require params for authenticate, return true
      *
      * @return bool
      */
-    public function isAuthenticateAllowed()
-    {
-        return true;
-    }
+    abstract public function isAuthenticateAllowed();
 
     /**
      * Analyse authenticate`s results. If authenticate is successful return true and false if it failure
@@ -149,8 +143,5 @@ class Mage_Centinel_Model_StateAbstract extends Varien_Object
      *
      * @return bool
      */
-    public function isAuthenticateSuccessful()
-    {
-        return true;
-    }
+    abstract public function isAuthenticateSuccessful();
 }
