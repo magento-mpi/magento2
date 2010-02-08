@@ -414,7 +414,6 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     /**
      * Calculate rated tax abount based on price and tax rate.
      * If you are using price including tax $priceIncludeTax should be true.
-     * $taxRate can't be more than 1 (if it is not percent)
      *
      * @param   float $price
      * @param   float $taxRate
@@ -423,9 +422,6 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
      */
     public function calcTaxAmount($price, $taxRate, $priceIncludeTax=false, $round=true)
     {
-        /**
-         * $taxRate can be more than 1 if somebody use tax percent
-         */
         $taxRate = $taxRate/100;
 
         if ($priceIncludeTax) {
