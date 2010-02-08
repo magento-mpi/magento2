@@ -752,7 +752,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
          * Modify subtotal
          */
         if ($this->_config->displayCartSubtotalBoth($store) || $this->_config->displayCartSubtotalInclTax($store)) {
-            if ($address->getSubtotalInclTax()) {
+            if ($address->getSubtotalInclTax() > 0) {
                 $subtotalInclTax = $address->getSubtotalInclTax();
             } else {
                 $subtotalInclTax = $address->getSubtotal()+$address->getTaxAmount()-$address->getShippingTaxAmount();
