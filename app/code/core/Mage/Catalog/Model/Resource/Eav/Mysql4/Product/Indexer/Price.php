@@ -477,9 +477,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
                 array('store_id' => 'default_store_id'))
             ->where('cw.website_id != 0');
 
+        $data = array();
         foreach ($write->fetchAll($select) as $item) {
             /* @var $website Mage_Core_Model_Website */
-            $website = Mage::getModel('core/website')->load($item['website_id']);
+            $website = Mage::app()->getWebsite($item['website_id']);
 
             if ($website->getBaseCurrencyCode() != $baseCurrency) {
                 $rate = Mage::getModel('directory/currency')
@@ -492,10 +493,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
                 $rate = 1;
             }
 
-            $data = array();
-
             /* @var $store Mage_Core_Model_Store */
-            $store = Mage::getModel('core/store')->load($item['store_id']);
+            $store = Mage::app()->getStore($item['store_id']);
             if ($store) {
                 $timestamp = Mage::app()->getLocale()->storeTimeStamp($store);
                 $data[] = array(
