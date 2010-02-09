@@ -24,24 +24,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Centinel payment form logo block
- */
-class Mage_Centinel_Block_Logo extends Mage_Core_Block_Template
-{
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('centinel/logo.phtml');
-    }
 
-    /**
-     * Return code of payment method
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-        return $this->getMethod()->getCode();
-    }
+class Mage_Centinel_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+{
+
 }

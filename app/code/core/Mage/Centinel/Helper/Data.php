@@ -159,14 +159,23 @@ class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
         return $block;
     }
 
+    /**
+     * Return url of page about visa verification
+     *
+     * @return string
+     */
     public function getVisaLearnMorePageUrl()
     {
-        return 'https://www.hotwire.com/pop-up/verified-by-visa.jsp';
+        return Mage::helper('cms/page')->getPageUrl('centinel-verified-by-visa');
     }
 
+    /**
+     * Return url of page about mastercard verification
+     *
+     * @return string
+     */
     public function getMastercardLearnMorePageUrl()
     {
         return 'http://www.mastercardbusiness.com/mcbiz/index.jsp?template=/orphans&amp;content=securecodepopup';
     }
-
 }

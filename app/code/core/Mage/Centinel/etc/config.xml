@@ -43,6 +43,14 @@
                 </observers>
             </sales_convert_quote_to_order>
         </events>
+        <resources>
+            <centinel_setup>
+                <setup>
+                    <module>Mage_Centinel</module>
+                    <class>Mage_Centinel_Model_Mysql4_Setup</class>
+                </setup>
+            </centinel_setup>
+        </resources>
     </global>
     <frontend>
         <translate>
