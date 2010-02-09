@@ -168,6 +168,7 @@ EOT;
         $xml = <<<EOT
             <merchant-private-data>
                 <quote-id><![CDATA[{$this->getQuote()->getId()}]]></quote-id>
+                <store-id><![CDATA[{$this->getQuote()->getStoreId()}]]></store-id>
             </merchant-private-data>
 EOT;
         return $xml;

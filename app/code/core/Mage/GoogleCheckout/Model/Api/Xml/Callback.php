@@ -115,7 +115,10 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $merchantCalculations = new GoogleMerchantCalculations($this->getCurrency());
 
         $quoteId = $this->getData('root/shopping-cart/merchant-private-data/quote-id/VALUE');
-        $quote = Mage::getModel('sales/quote')->load($quoteId);
+        $storeId = $this->getData('root/shopping-cart/merchant-private-data/store-id/VALUE');
+        $quote = Mage::getModel('sales/quote')
+            ->setStoreId($storeId)
+            ->load($quoteId);
 
         $billingAddress = $quote->getBillingAddress();
         $address = $quote->getShippingAddress();
@@ -278,7 +281,11 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         // IMPORT GOOGLE ORDER DATA INTO QUOTE
 
         $quoteId = $this->getData('root/shopping-cart/merchant-private-data/quote-id/VALUE');
-        $quote = Mage::getModel('sales/quote')->load($quoteId)->setIsActive(true);
+        $storeId = $this->getData('root/shopping-cart/merchant-private-data/store-id/VALUE');
+        $quote = Mage::getModel('sales/quote')
+            ->setStoreId($storeId)
+            ->load($quoteId)
+            ->setIsActive(true);
 //
 //        $quoteItems = $quote->getItemsCollection();
 //        foreach ($this->getData('root/shopping-cart/items') as $item) {
