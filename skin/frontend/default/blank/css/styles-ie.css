@@ -52,6 +52,7 @@ input.radio { width:13px; height:13px; }
 input.checkbox { width:13px; height:13px; }
 button.button { height:21px; }
 button.button span { position:relative; }
+button.btn-checkout {}
 .form-list label { position:relative; z-index:0; }
 .form-list label.required em { position:absolute; top:0; right:-8px; }
 

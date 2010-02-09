@@ -90,9 +90,10 @@ ul,ol         { list-style:none; }
 /* Layout ================================================================================ */
 .wrapper {}
 .page { width:1000px; margin:0 auto; padding:10px 0; text-align:left; }
-.page-empty { background:#fff; padding:20px; text-align:left; }
 .page-print { background:#fff; padding:20px; text-align:left; }
+.page-empty { background:#fff; padding:20px; text-align:left; }
 .page-popup { padding:20px; text-align:left; }
+.main-container {}
 .main { margin:10px 0; }
 
 /* Base Columns */
@@ -109,12 +110,14 @@ ul,ol         { list-style:none; }
 
 /* 3 Columns Layout */
 .col3-layout .col-main { width:484px; margin-left:10px; }
+.col3-layout .col-wrapper { float:left; width:748px; }
+.col3-layout .col-wrapper .col-main { float:right; }
 
 /* Content Columns */
 .col2-set .col-1 { float:left; width:49%; }
 .col2-set .col-2 { float:right; width:49%; }
-.col2-set .narrow { width:33%; }
-.col2-set .wide { width:65%; }
+.col2-set .col-narrow { width:33%; }
+.col2-set .col-wide { width:65%; }
 
 .col3-set .col-1 { float:left; width:32%; }
 .col3-set .col-2 { float:left; width:32%; margin-left:2%; }
@@ -147,6 +150,9 @@ button.button span { float:left; height:21px; background:transparent url(../imag
 button.button span span { background-position:100% 0; padding:0 12px 0 4px; }
 button.disabled {}
 button.disabled span {}
+
+button.btn-checkout span {}
+button.btn-checkout span span {}
 
 p.control input.checkbox,
 p.control input.radio { margin-right:6px; }
@@ -685,6 +691,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 /* Price range */
 .price-from {}
 .price-from .price-label { font-weight:bold; white-space:nowrap; }
+
 .price-to {}
 .price-to .price-label { font-weight:bold; white-space:nowrap; }
 
@@ -728,6 +735,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* Product Images */
 .product-view .product-img-box { float:left; width:267px; }
+.col3-layout .product-view .product-img-box { float:none; margin:0 auto; }
 .product-view .product-img-box .product-image { border:1px solid #ddd; }
 .product-view .product-img-box .product-image-zoom { position:relative; width:265px; height:265px; overflow:hidden; z-index:9; }
 .product-view .product-img-box .product-image-zoom img { position:absolute; left:0; top:0; cursor:move; }
@@ -748,6 +756,8 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* Product Shop */
 .product-view .product-shop { float:right; width:445px; }
+.col1-layout .product-view .product-shop { float:right; width:700px; }
+.col3-layout .product-view .product-shop { float:none; width:auto; }
 .product-view .product-name {}
 .product-view .short-description {}
 
@@ -898,10 +908,18 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .tool-tip .tool-tip-content { padding:5px; }
 
 /* Gift Messages */
-.add-gift-message {}
-.gift-message-form { border:1px solid #ddd; background-color:#f5f5f5; }
-.gift-message-form .inner-box { padding:5px; height:300px; overflow:auto; }
-.gift-message-form .gift-item {}
+.gift-messages {}
+.gift-messages-form { border:1px solid #ddd; background-color:#f5f5f5; }
+.gift-messages-form { position:relative; }
+.gift-messages-form label { float:none !important; position:static !important; }
+.gift-messages-form h4 {}
+.gift-messages-form .whole-order {}
+.gift-messages-form .item { margin:0 0 10px; }
+.gift-messages-form .item .product-img-box { float:left; width:75px; }
+.gift-messages-form .item .product-image { margin:0 0 7px; }
+.gift-messages-form .item .number { margin:0; font-weight:bold; text-align:center; }
+.gift-messages-form .item .details { margin-left:90px; }
+.gift-messages-form .item .details .product-name {}
 
 .gift-message-link { display:block; background:url(../images/bkg_collapse.gif) 0 4px no-repeat; padding-left:20px; }
 .gift-message-link.expanded { background-position:0 -53px; }
@@ -924,6 +942,9 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 .opc { border-bottom:1px solid #ddd; position:relative; }
 .opc li.section { border:1px solid #ddd; border-bottom:0; }
+
+.opc .buttons-set.disabled button.button { display:none; }
+.opc .buttons-set .please-wait { height:21px; line-height:21px; }
 
 .opc .step-title { background-color:#f6f6f6; padding:0 5px; text-align:right; }
 .opc .step-title .number { float:left; line-height:22px; margin-right:5px; }
