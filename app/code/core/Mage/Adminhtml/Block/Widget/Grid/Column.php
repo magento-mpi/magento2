@@ -82,6 +82,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
             if ($this->hasData('column_css_class')) {
                 $this->_cssClass .= ' '. $this->getData('column_css_class');
             }
+            if ($this->getEditable()) {
+                $this->_cssClass .= ' editable';
+            }
         }
 
         return $this->_cssClass;
@@ -109,9 +112,6 @@ class Mage_Adminhtml_Block_Widget_Grid_Column extends Mage_Adminhtml_Block_Widge
         $str = '';
         if ($class = $this->getHeaderCssClass()) {
             $str.= ' class="'.$class.'"';
-        }
-        if ($this->getEditable()) {
-            $str.= ' colspan="2"';
         }
 
         return $str;
