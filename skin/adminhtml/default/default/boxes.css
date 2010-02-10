@@ -131,6 +131,7 @@
 .grid tr.invalid                { background-color:#f5d6c7; }
 .grid th, .grid td              { padding:2px 4px 2px 4px; }
 .grid th                        { white-space:nowrap; }
+.grid td.editable input.input-text { width:50px !important; margin-left:4px !important; }
 .grid td input.input-text       { width:86%; }
 .grid table td                  { border-width:0 1px 1px 0; border-color:#dadfe0; border-style:solid; }
 .grid table.border td           { background:#fff !important; }
