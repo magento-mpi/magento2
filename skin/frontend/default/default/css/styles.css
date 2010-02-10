@@ -319,7 +319,8 @@ p.required { font-size:11px; text-align:right; color:#EB340A; }
 
 /* Page Heading */
 .page-title { width:100%; overflow:hidden; border-bottom:1px solid #ccc; margin:0 0 25px; }
-.page-title h1 { margin:0; color:#0a263c; }
+.page-title h1,
+.page-title h2 { margin:0; font-size:20px; color:#0a263c; }
 .page-title .separator { margin:0 3px; }
 .page-title .link-rss { float:right; margin:7px 0 0; }
 .title-buttons { text-align:right; }
@@ -415,6 +416,11 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .cart-tax-total-expanded { background-position:100% -52px; }
 
 /* Class: std - styles for admin-controlled content */
+.std .subtitle { padding:0; }
+.std ul.disc { margin:0 0 10px; }
+.std ul.disc { list-style:disc outside; padding-left:18px; }
+.std dl dt { font-weight:bold; }
+.std dl dd { margin:0 0 10px; }
 /*.std ul,
 .std ol,
 .std dl,
@@ -1064,7 +1070,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .advanced-search-summary p { clear:both; font-weight:bold; margin:0; }
 
 /* CMS Home Page */
-.cms-home .subtitle,
+.cms-home .subtitle {}
 .cms-index-index .subtitle {}
 
 /* Sitemap */
