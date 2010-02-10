@@ -259,6 +259,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
     public function newAction()
     {
         if ($invoice = $this->_initInvoice()) {
+            $this->_title($this->__('New Invoice'));
             $this->loadLayout()
                 ->_setActiveMenu('sales/order')
                 ->renderLayout();
