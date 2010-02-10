@@ -24,19 +24,10 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<li id="<?php echo $this->getCode() ?>_centinel_logo">
-    <label for="<?php echo $this->getCode() ?>_centinel_logo"><?php echo $this->__('To ensure the security of your transactions') ?></label>
+<li class="centinel-logos" id="<?php echo $this->getCode() ?>_centinel_logo">
+    <label><?php echo $this->__('To ensure the security of your transactions') ?></label>
     <div class="input-box">
-		<a href="#" onclick="popWin('<?php echo $this->helper('centinel')->getVisaLearnMorePageUrl()?>', 'verifiedByVisa', 'width=577,height=725,left=50,top=50,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;">
-		<img src="<?php echo $this->getSkinUrl('images/centinel/visa.gif'); ?>" alt="" height="29" width="51" border="0"/>
-		</a>
-		<a href="#" onclick="popWin('<?php echo $this->helper('centinel')->getMastercardLearnMorePageUrl()?>', 'secureCode', 'width=600,height=403,left=50,top=50,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;">
-		<img src="<?php echo $this->getSkinUrl('images/centinel/mastercard.gif'); ?>" alt="" height="19" width="50" border="0"/>
-		</a>
+        <a href="#" title="<?php echo $this->__('Verified by Visa') ?> "onclick="popWin('<?php echo $this->helper('centinel')->getVisaLearnMorePageUrl()?>', 'verifiedByVisa', 'width=600,height=550,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><img src="<?php echo $this->getSkinUrl('images/centinel/vbv_ltbg_71x57.gif'); ?>" alt="<?php echo $this->__('Verified by Visa') ?>" /></a>
+        <a href="#" title="<?php echo $this->__('MasterCard SecureCode'); ?>" onclick="popWin('<?php echo $this->helper('centinel')->getMastercardLearnMorePageUrl()?>', 'secureCode', 'width=600,height=403,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><img src="<?php echo $this->getSkinUrl('images/centinel/sc_learn_62x34.gif'); ?>" alt="<?php echo $this->__('MasterCard SecureCode') ?>" /></a>
     </div>
 </li>
-
-
-
-
-
