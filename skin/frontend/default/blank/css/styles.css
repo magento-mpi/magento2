@@ -152,7 +152,7 @@ button.disabled {}
 button.disabled span {}
 
 button.btn-checkout span {}
-button.btn-checkout span span {}
+button.btn-checkout.no-checkout {}
 
 p.control input.checkbox,
 p.control input.radio { margin-right:6px; }

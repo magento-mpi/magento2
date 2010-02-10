@@ -151,11 +151,13 @@ button.button { -webkit-border-fit:lines; } /* <- Safari & Google Chrome Fix */
 button.button { overflow:visible; width:auto; border:0; padding:0; margin:0; background:transparent; cursor:pointer; }
 button.button span { float:left; height:28px; background:transparent url(../images/bkg_btn.png) 0 0 no-repeat; padding:0 0 0 6px; font:bold 11px/25px Tahoma, Verdana, Arial, sans-serif; text-transform:uppercase; text-align:center; white-space:nowrap; color:#555; }
 button.button span span { background-position:100% 0; padding:0 15px 0 9px; }
-/*button.disabled span { border-color:#999; background:#ccc; color:#eee;}*/
+button.disabled span { color:#bbb !important; }
 
 /*button.btn-cart span {}*/
-button.btn-checkout span { height:28px; border:0; background-image:url(../images/btn_checkout.gif) !important; padding:0 0 0 6px; font:bold 12px/26px Arial, Helvetica, sans-serif; color:#fff; }
+button.btn-checkout span { height:28px; border:0; background-image:url(../images/btn_checkout.gif); padding:0 0 0 6px; font:bold 12px/26px Arial, Helvetica, sans-serif; color:#fff; }
 button.btn-checkout span span { padding:0 40px 0 34px; }
+button.btn-checkout.no-checkout span { background-position:0 100%; color:#cfcfcf; }
+button.btn-checkout.no-checkout span span { background-position:100% 100%; }
 
 p.control input.checkbox,
 p.control input.radio { margin-right:6px; }
@@ -1043,8 +1045,6 @@ f/********** Product Prices > */
 
 /* Checkout Types */
 .cart .page-title .checkout-types { display:none !important; }
-.cart button.btn-checkout.disabled span { background-position:0 100%; color:#cfcfcf; }
-.cart button.btn-checkout.disabled span span { background-position:100% 100%; }
 
 /* Shopping Cart Table */
 .cart-table th { padding:2px 10px; }

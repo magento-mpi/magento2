@@ -151,10 +151,12 @@ button.button { -webkit-border-fit:lines; } /* <- Safari & Google Chrome Fix */
 button.button { overflow:visible; width:auto; border:0; padding:0; margin:0; background:transparent; cursor:pointer; }
 button.button span { display:block; height:19px; border:1px solid #de5400; background:#f18200; padding:0 8px; font:bold 12px/19px Arial, Helvetica, sans-serif; text-align:center; white-space:nowrap; color:#fff; }
 button.button span span { border:0; padding:0; }
-button.disabled span { border-color:#999; background:#ccc; color:#eee;}
+button.disabled span { border-color:#bbb !important; background:#bbb !important; }
 
 button.btn-checkout span { height:40px; border:0; background:url(../images/btn_checkout.gif) 0 0 no-repeat; padding:0 0 0 9px; font:bold 15px/40px Arial, Helvetica, sans-serif; color:#fff; }
 button.btn-checkout span span { background-position:100% 0; padding:0 25px 0 16px; }
+button.btn-checkout.no-checkout span { background-position:0 100%; color:#b8baba; }
+button.btn-checkout.no-checkout span span { background-position:100% 100%; }
 
 p.control input.checkbox,
 p.control input.radio { margin-right:6px; }
@@ -1099,8 +1101,6 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* Checkout Types */
 .cart .page-title .checkout-types li { margin:0 0 5px; }
-.cart button.btn-checkout.disabled span { background-position:0 100%; color:#b8baba; }
-.cart button.btn-checkout.disabled span span { background-position:100% 100%; }
 
 /* Shopping Cart Table */
 .cart-table th { padding:2px 10px; }
@@ -1528,7 +1528,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 /* Sample Data============================================================================ */
 .home-callout { margin-bottom:12px; }
 .home-callout img { display:block }
-/*.home-spot { float:left; width:470px; margin-left:20px; }*/
+.home-spot { float:left; width:470px; margin-left:20px; }
 .best-selling h3 { margin:12px 0 6px 0; color:#e25203; font-size:1.2em; }
 .best-selling table { border-top:1px solid #ccc; }
 .best-selling tr.odd { background:#eee url(../images/best_selling_tr_odd_bg.gif) 0 100% repeat-x; }
