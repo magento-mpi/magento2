@@ -66,7 +66,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
 
             $this->_title($this->__('System'))
                  ->_title($this->__('Index Management'))
-                 ->_title($this->__('Edit Index'));
+                 ->_title($this->__($process->getIndexer()->getName()));
 
             Mage::register('current_index_process', $process);
             $this->loadLayout();
