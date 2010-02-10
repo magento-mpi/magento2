@@ -216,7 +216,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             return;
         }
 
-        $this->_title(sprintf('#%s', $product->getSku() ? $product->getSku() : $product->getName()));
+        $this->_title(sprintf('#%s', $product->getName() ? $product->getName() : $product->getSku()));
 
         Mage::dispatchEvent('catalog_product_edit_action', array('product' => $product));
 
