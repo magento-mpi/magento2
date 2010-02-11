@@ -47,18 +47,23 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
      */
     static protected $_regionModels = array();
 
+    /**
+     * Get full customer name
+     *
+     * @return string
+     */
     public function getName()
     {
         $name = '';
-        if ($this->getPrefix()) {
+        if (Mage::helper('customer/address')->canShowConfig('prefix_show') && $this->getPrefix()) {
             $name .= $this->getPrefix() . ' ';
         }
         $name .= $this->getFirstname();
-        if ($this->getMiddlename()) {
+        if (Mage::helper('customer/address')->canShowConfig('middlename_show') && $this->getMiddlename()) {
             $name .= ' ' . $this->getMiddlename();
         }
         $name .=  ' ' . $this->getLastname();
-        if ($this->getSuffix()) {
+        if (Mage::helper('customer/address')->canShowConfig('suffix_show')&& $this->getSuffix()) {
             $name .= ' ' . $this->getSuffix();
         }
         return $name;
@@ -296,7 +301,6 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
             || !$formatType->getRenderer()) {
             return null;
         }
-
         return $formatType->getRenderer()->render($this);
     }
 
