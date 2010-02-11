@@ -196,6 +196,7 @@
 "Polls","Polls"
 "Port (25)","Port (25)"
 "Profiler","Profiler"
+"Redirect to Base URL if requested URL doesn't match it","Redirect to Base URL if requested URL doesn't match it"
 "Request path for specified store","Request path for specified store"
 "Requested invalid store ""%s""","Requested invalid store ""%s"""
 "Resource is not set","Resource is not set"
