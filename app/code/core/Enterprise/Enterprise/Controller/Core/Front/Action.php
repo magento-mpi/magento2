@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Controller_Core_Front_Action extends Mage_Core_Controller_Front_Action
 {

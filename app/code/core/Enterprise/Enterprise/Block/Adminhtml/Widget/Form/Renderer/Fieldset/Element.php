@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Block_Adminhtml_Widget_Form_Renderer_Fieldset_Element extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {

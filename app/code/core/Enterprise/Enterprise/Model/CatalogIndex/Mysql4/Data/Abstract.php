@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Model_CatalogIndex_Mysql4_Data_Abstract extends Mage_CatalogIndex_Model_Mysql4_Data_Abstract
 {

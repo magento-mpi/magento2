@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Helper_Core_Url extends Mage_Core_Helper_Url
 {

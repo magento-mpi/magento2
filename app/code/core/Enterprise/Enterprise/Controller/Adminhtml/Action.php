@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Controller_Adminhtml_Action extends Mage_Adminhtml_Controller_Action
 {

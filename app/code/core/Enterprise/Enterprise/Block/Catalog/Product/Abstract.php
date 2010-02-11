@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Block_Catalog_Product_Abstract extends Mage_Catalog_Block_Product_Abstract
 {

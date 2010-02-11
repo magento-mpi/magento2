@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Block_Checkout_Total_Default extends Mage_Checkout_Block_Total_Default
 {

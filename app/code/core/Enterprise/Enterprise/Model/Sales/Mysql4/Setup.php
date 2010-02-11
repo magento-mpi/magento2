@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Model_Sales_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
 {

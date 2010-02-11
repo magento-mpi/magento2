@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Model_Catalog_Product_Attribute_Backend_Price extends Mage_Catalog_Model_Product_Attribute_Backend_Price
 {

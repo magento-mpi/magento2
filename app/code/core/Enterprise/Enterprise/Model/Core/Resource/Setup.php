@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Model_Core_Resource_Setup extends Mage_Core_Model_Resource_Setup
 {

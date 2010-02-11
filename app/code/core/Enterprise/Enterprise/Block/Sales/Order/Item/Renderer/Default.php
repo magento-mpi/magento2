@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Block_Sales_Order_Item_Renderer_Default extends Mage_Sales_Block_Order_Item_Renderer_Default
 {

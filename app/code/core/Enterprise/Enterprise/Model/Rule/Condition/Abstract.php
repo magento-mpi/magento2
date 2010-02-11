@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Model_Rule_Condition_Abstract extends Mage_Rule_Model_Condition_Abstract
 {

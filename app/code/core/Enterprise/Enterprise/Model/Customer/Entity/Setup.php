@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Model_Customer_Entity_Setup extends Mage_Customer_Model_Entity_Setup
 {

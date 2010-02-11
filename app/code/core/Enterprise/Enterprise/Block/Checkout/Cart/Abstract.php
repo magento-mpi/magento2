@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise ionCube lock class
+ * Ancestor class
  */
 abstract class Enterprise_Enterprise_Block_Checkout_Cart_Abstract extends Mage_Checkout_Block_Cart_Abstract
 {
