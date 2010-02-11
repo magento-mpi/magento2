@@ -285,7 +285,7 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         }
 
         // include controller file if needed
-        if (!$this->_inludeControllerClass($controllerFileName, $controllerClassName)) {
+        if (!$this->_includeControllerClass($controllerFileName, $controllerClassName)) {
             return false;
         }
 
@@ -294,13 +294,22 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
 
 
     /**
-     * Including controller class if checking of existense class before include
+     * @deprecated
+     * @see _includeControllerClass()
+     */
+    protected function _inludeControllerClass($controllerFileName, $controllerClassName)
+    {
+        return $this->_includeControllerClass($controllerFileName, $controllerClassName);
+    }
+    
+    /**
+     * Include the file containing controller class if this class is not defined yet
      *
      * @param string $controllerFileName
      * @param string $controllerClassName
      * @return bool
      */
-    protected function _inludeControllerClass($controllerFileName, $controllerClassName)
+    protected function _includeControllerClass($controllerFileName, $controllerClassName)
     {
         if (!class_exists($controllerClassName, false)) {
             if (!file_exists($controllerFileName)) {
