@@ -256,6 +256,9 @@ p.control input.radio { margin-right:6px; }
 .buttons-set .back-link { float:left; margin:0; }
 .buttons-set button.button { float:right; margin-left:5px; }
 
+.buttons-set-order { margin:10px 0 0; }
+.buttons-set-order .please-wait { padding:5px 7px 0 0; }
+
 .fieldset { margin:0 10px 25px; }
 .fieldset .legend { margin:0 -10px 12px; background:#f1f1f1; padding:2px 10px; font-size:13px; line-height:1.25; }
 
@@ -1021,9 +1024,6 @@ f/********** Product Prices > */
 .cms-home .subtitle {}
 .cms-index-index .subtitle {}
 
-/* CMS Pages */
-.cms-centinel-verified-by-visa .widget { display:none !important; }
-
 /* Sitemap */
 .page-sitemap .links { text-align:right; margin:0 8px -22px 0; }
 .page-sitemap .links a { text-decoration:none; position:relative; }
@@ -1192,6 +1192,24 @@ f/********** Product Prices > */
 .centinel {}
 
 .opc .centinel { padding:10px 30px; }
+
+/* Generic Info Set */
+.info-set { background:#fbfbfb; border:1px solid #ddd; margin:0 0 25px; padding:20px; }
+.info-set h2 { font-size:12px; font-weight:bold; margin:0 0 10px; }
+.info-set h3,
+.info-set h4 { font-size:12px; font-weight:bold; }
+.info-set h2 a,
+.info-set h3 a,
+.info-set h4 a { font-weight:normal; }
+.info-set h2.legend { margin:-20px -20px 15px; padding:3px 10px; background:#777; border-bottom:1px solid #777; position:relative; color:#fff; }
+.info-set h2.legend a { color:#fff; }
+.info-set h3.legend { margin:0 0 10px; }
+.info-set .divider { margin:0 -20px; padding:25px 0; position:relative; }
+.info-set .box { margin:0 0 15px; }
+.info-set .box h2 { color:#e26703; }
+.info-set .data-table .product-name { font-size:1em !important; font-weight:bold !important; color:#4f8100 !important; }
+.info-set .data-table .product-name a { font-weight:bold !important; }
+.info-set .data-table .item-options { margin:5px 0 0; }
 /********** Common Checkout Styles > */
 
 /* One Page Checkout */
@@ -1258,7 +1276,7 @@ f/********** Product Prices > */
 .multiple-checkout h2 a,
 .multiple-checkout h3 a,
 .multiple-checkout h4 a { font-weight:normal; }
-.multiple-checkout .data-table .product-name { font-size:1em !important; font-weight:bold !important; }
+.multiple-checkout .data-table .product-name { font-size:1em !important; font-weight:bold !important; color:#4f8100 !important; }
 .multiple-checkout .data-table .product-name a { font-weight:bold !important; }
 .multiple-checkout .data-table .item-options { margin:5px 0 0; }
 

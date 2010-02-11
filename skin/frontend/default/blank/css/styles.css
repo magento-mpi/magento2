@@ -251,6 +251,8 @@ p.control input.radio { margin-right:6px; }
 .buttons-set button.button { float:right; }
 .buttons-set p.required { margin:0 0 5px; }
 
+.buttons-set-order {}
+
 .fieldset { border:1px solid #ddd; background:#fefefe; padding:22px 25px 12px 33px; margin:28px 0; }
 .fieldset .legend { float:left; font-weight:bold; font-size:13px; border:1px solid #fefefe; background:#dedede; color:#333; margin:-33px 0 0 -10px; padding:0 8px; position:relative; }
 
@@ -834,9 +836,6 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .cms-home .subtitle {}
 .cms-index-index .subtitle {}
 
-/* CMS Pages */
-.cms-centinel-verified-by-visa .widget { display:none !important; }
-
 /* Sitemap */
 .page-sitemap .links { text-align:right; margin:0 8px -22px 0; }
 .page-sitemap .links a { text-decoration:none; position:relative; }
@@ -947,6 +946,9 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* Centinel */
 .centinel {}
+
+/* Generic Info Set */
+.info-set {}
 /********** Common Checkout Styles > */
 
 /* One Page Checkout */
