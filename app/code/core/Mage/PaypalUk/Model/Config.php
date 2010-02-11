@@ -95,8 +95,7 @@ class Mage_PaypalUk_Model_Config extends Mage_Paypal_Model_Config
             case 'allowspecific':
             case 'cctypes':
             case 'centinel':
-            case 'centinel_must_validate':
-            case 'centinel_must_authenticate':
+            case 'centinel_is_mode_strict':
             case 'centinel_api_url':
             case 'fraud_filter':
             case 'line_items_enabled':

@@ -25,9 +25,15 @@
  */
 ?>
 <?php if ($this->getIsSuccess()):?>
-    <h4><?php echo $this->__('Verification Successful');?></h4>
-    <p><?php echo $this->__('Please continue with placing order.')?></p>
+<script type="text/javascript">
+//<![CDATA[
+window.parent.centinel.success();
+//]]>
+</script>
 <?php else:?>
-    <h4><?php echo $this->__('Verification Failed');?></h4>
-    <p><?php echo $this->__('The card has failed verification with issuer bank.')?> <strong><?php echo $this->__('Order cannot be placed.')?></strong></p>
+<script type="text/javascript">
+//<![CDATA[
+window.parent.centinel.failed('<?php echo $this->__('The card has failed verification with issuer bank. Order cannot be placed.')?>');
+//]]>
+</script>
 <?php endif;?>
