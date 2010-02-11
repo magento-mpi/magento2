@@ -34,34 +34,37 @@
 var centinelAutenticate = new Class.create();
 
 centinelAutenticate.prototype = {
-
-    initialize : function(){
+    initialize : function()
+    {
         this.checkoutReviewSubmitBlockId = 'checkout-review-submit';
         this.checkoutReviewTableBlockId = 'checkout-review-table-wrapper';
         this.centinelBlockId = 'centinel';
-        },
+    },
 
-    start : function() {
+    start : function()
+    {
         if($(this.checkoutReviewSubmitBlockId)) {
-            $(this.checkoutReviewSubmitBlockId).style.display = 'none';
+            $(this.checkoutReviewSubmitBlockId).hide();
         }
         if ($(this.checkoutReviewTableBlockId)) {
-            $(this.checkoutReviewTableBlockId).style.display = 'none';
+            $(this.checkoutReviewTableBlockId).hide();
         }
     },
 
-    success : function() {
+    success : function()
+    {
         if($(this.checkoutReviewSubmitBlockId)) {
-            $(this.checkoutReviewSubmitBlockId).style.display = 'block';
+            $(this.checkoutReviewSubmitBlockId).show();
         }
         if ($(this.checkoutReviewTableBlockId)) {
-            $(this.checkoutReviewTableBlockId).style.display = 'block';
+            $(this.checkoutReviewTableBlockId).show();
         }
-        $(this.centinelBlockId).style.display = 'none';
+        $(this.centinelBlockId).hide();
     },
 
-    failed : function(message) {
-        $(this.centinelBlockId).style.display = 'none';
+    failed : function(message)
+    {
+        $(this.centinelBlockId).hide();
         alert(message);
     }
 }
