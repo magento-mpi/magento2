@@ -34,8 +34,6 @@
  * @subpackage  Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-
 class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_Controller_Action
 {
     /**

@@ -26,7 +26,7 @@
  */
 
 /**
- * TODO
+ * Extension edit page
  *
  * @category    Mage
  * @package     Mage_Connect
