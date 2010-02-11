@@ -176,7 +176,7 @@
                 <div class="col-2">
                     <div class="form-buttons">
                         <button class="form-button" type="submit"><span><?php echo $this->__('Submit') ?></span></button><br />
-                        <a href="<?php echo $this->getBackUrl() ?>" class="left">&laquo; <?php echo $this->__('Back') ?></a>
+                        <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="left">&laquo; <?php echo $this->__('Back') ?></a>
                     </div>
                 </div>
             </div><div class="clear"></div>
