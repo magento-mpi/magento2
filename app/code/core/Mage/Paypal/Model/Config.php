@@ -377,6 +377,19 @@ class Mage_Paypal_Model_Config
      */
     public function getSolutionImageUrl($localeCode, $isVertical = false, $isEcheck = false)
     {
+        return sprintf('https://www.paypal.com/%s/i/bnr/%s_solution_PP%s.gif',
+            $this->_getSupportedLocaleCode($localeCode),
+            $isVertical ? 'vertical' : 'horizontal', $isEcheck ? 'eCheck' : ''
+        );
+    }
+
+    /**
+     * Getter for Payment form logo images
+     *
+     * @param string $localeCode
+     */
+    public function getPaymentFormLogoUrl($localeCode)
+    {
         $locale = $this->_getSupportedLocaleCode($localeCode);
 
         $imageType = 'logo';
@@ -409,13 +422,7 @@ class Mage_Paypal_Model_Config
                 $countryPrefix = '';
                 break;
         }
-        return sprintf('https://www.%s/%s/%si/%s/%s.gif',
-                        $domain,
-                        $locale,
-                        $countryPrefix,
-                        $imageType,
-                        $imageName
-        );
+        return sprintf('https://www.%s/%s/%si/%s/%s.gif', $domain, $locale, $countryPrefix, $imageType, $imageName);
     }
 
     /**
