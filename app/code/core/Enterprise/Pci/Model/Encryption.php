@@ -180,27 +180,18 @@ class Enterprise_Pci_Model_Encryption extends Enterprise_Enterprise_Model_Core_E
         }
         $cipherVersion = $this->validateCipher($cipherVersion);
 
-        if (!isset($this->_crypts[$key][$cipherVersion])) {
-            $this->_crypts[$key][$cipherVersion] = Varien_Crypt::factory();
-            $this->_crypts[$key][$cipherVersion]->setMode(MCRYPT_MODE_ECB);
-            $this->_crypts[$key][$cipherVersion]->setCipher(MCRYPT_BLOWFISH);
+        $this->_crypts[$key][$cipherVersion] = Varien_Crypt::factory();
+        $this->_crypts[$key][$cipherVersion]->setMode(MCRYPT_MODE_ECB);
+        $this->_crypts[$key][$cipherVersion]->setCipher(MCRYPT_BLOWFISH);
 
-            if ($cipherVersion === self::CIPHER_RIJNDAEL_128) {
-                $this->_crypts[$key][$cipherVersion]->setCipher(MCRYPT_RIJNDAEL_128);
-            }
-            if ($cipherVersion === self::CIPHER_RIJNDAEL_256) {
-                $this->_crypts[$key][$cipherVersion]->setCipher(MCRYPT_RIJNDAEL_128);
-                $this->_crypts[$key][$cipherVersion]->setMode(MCRYPT_MODE_CBC);
-                $this->_crypts[$key][$cipherVersion]->setInitVector($this->_iv);
-            }
-            Mage::log(array(
-                'cipherVersion' => $cipherVersion,
-                'cipher' => $this->_crypts[$key][$cipherVersion]->getCipher(),
-                'mode' => $this->_crypts[$key][$cipherVersion]->getMode(),
-                'iv' => $this->_crypts[$key][$cipherVersion]->getInitVector(),
-            ));
-            $this->_crypts[$key][$cipherVersion]->init($key);
+        if ($cipherVersion === self::CIPHER_RIJNDAEL_128) {
+            $this->_crypts[$key][$cipherVersion]->setCipher(MCRYPT_RIJNDAEL_128);
+        } elseif ($cipherVersion === self::CIPHER_RIJNDAEL_256) {
+            $this->_crypts[$key][$cipherVersion]->setCipher(MCRYPT_RIJNDAEL_128);
+            $this->_crypts[$key][$cipherVersion]->setMode(MCRYPT_MODE_CBC);
+            $this->_crypts[$key][$cipherVersion]->setInitVector($this->_iv);
         }
+        $this->_crypts[$key][$cipherVersion]->init($key);
         return $this->_crypts[$key][$cipherVersion];
     }
 
