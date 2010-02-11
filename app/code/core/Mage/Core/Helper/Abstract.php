@@ -160,13 +160,22 @@ abstract class Mage_Core_Helper_Abstract
     }
 
     /**
+     * @deprecated after 1.4.0.0-rc1
+     * @see self::escapeHtml()
+     */
+    public function htmlEscape($data, $allowedTags = null)
+    {
+        return $this->escapeHtml($data, $allowedTags);
+    }
+
+    /**
      * Escape html entities
      *
      * @param   mixed $data
      * @param   array $allowedTags
      * @return  mixed
      */
-    public function htmlEscape($data, $allowedTags = null)
+    public function escapeHtml($data, $allowedTags = null)
     {
         if (is_array($data)) {
             $result = array();
@@ -192,12 +201,21 @@ abstract class Mage_Core_Helper_Abstract
     }
 
     /**
+     * @deprecated after 1.4.0.0-rc1
+     * @see self::escapeHtml()
+     */
+    public function urlEscape($data)
+    {
+        return $this->escapeUrl($data);
+    }
+
+    /**
      * Escape html entities in url
      *
      * @param string $data
      * @return string
      */
-    public function urlEscape($data)
+    public function escapeUrl($data)
     {
         return htmlspecialchars($data);
     }

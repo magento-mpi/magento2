@@ -973,7 +973,16 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function escapeHtml($data, $allowedTags = null)
     {
-        return $this->helper('core')->htmlEscape($data, $allowedTags);
+        return $this->helper('core')->escapeHtml($data, $allowedTags);
+    }
+
+    /**
+     * @deprecated after 1.4.0.0-rc1
+     * @see self::escapeUrl()
+     */
+    public function urlEscape($data)
+    {
+        return $this->escapeUrl($data);
     }
 
     /**
@@ -982,9 +991,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @param string $data
      * @return string
      */
-    public function urlEscape($data)
+    public function escapeUrl($data)
     {
-        return $this->helper('core')->urlEscape($data);
+        return $this->helper('core')->escapeUrl($data);
     }
 
     /**
