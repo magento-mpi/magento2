@@ -294,11 +294,10 @@ class Mage_Paypal_Model_Express_Checkout
             $this->updateShippingMethod($shippingMethodCode);
         }
 
-        if ($this->isGuestCheckout()) {
+        if (!$this->_quote->getCustomerId()) {
             $this->_quote->setCustomerIsGuest(true)
-                         ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID)
-                         ->setCustomerEmail($this->_quote->getBillingAddress()->getEmail())
-                         ;
+                ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID)
+                ->setCustomerEmail($this->_quote->getBillingAddress()->getEmail());
         }
 
         $this->_ignoreAddressValidation();
@@ -367,21 +366,4 @@ class Mage_Paypal_Model_Express_Checkout
         }
         return $this->_api;
     }
-
-    /**
-     * Whether checkout is guest
-     *
-     * @return bool
-     */
-    public function isGuestCheckout()
-    {
-        $session = Mage::getSingleton('customer/session');
-        if (!$session->isLoggedIn() && !$this->_quote->getCheckoutMethod()) {
-            if (Mage::helper('checkout')->isAllowedGuestCheckout($this->_quote)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
-
