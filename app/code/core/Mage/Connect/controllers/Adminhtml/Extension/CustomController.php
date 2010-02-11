@@ -43,7 +43,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
     public function indexAction()
     {
         $this->_title($this->__('System'))
-             ->_title($this->__('Magentu Connect'))
+             ->_title($this->__('Magento Connect'))
              ->_title($this->__('Package Extensions'));
 
         Mage::app()->getStore()->setStoreId(1);
@@ -57,7 +57,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
     public function editAction()
     {
         $this->_title($this->__('System'))
-             ->_title($this->__('Magentu Connect'))
+             ->_title($this->__('Magento Connect'))
              ->_title($this->__('Package Extensions'))
              ->_title($this->__('Edit Extension'));
 
@@ -82,7 +82,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
      */
     public function loadAction()
     {
-        $packageName = $this->getRequest()->getParam('id');
+        $packageName = base64_decode(strtr($this->getRequest()->getParam('id'), '-_,', '+/='));
         if ($packageName) {
             $session = Mage::getSingleton('connect/session');
             try {
@@ -121,6 +121,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
         $session->setCustomExtensionPackageFormData($p);
         try {
             $ext = Mage::getModel('connect/extension');
+            /* @var $ext Mage_Connect_Model_Extension */
             $ext->setData($p);
             if ($ext->savePackage()) {
                 $session->addSuccess(Mage::helper('connect')->__('Package data was successfully saved'));

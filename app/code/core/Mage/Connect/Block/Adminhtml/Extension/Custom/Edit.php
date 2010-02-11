@@ -72,4 +72,14 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit extends Mage_Adminhtml_
     {
         return Mage::helper('connect')->__('New Extension');
     }
+
+    /*
+     * Get form submit URL
+     *
+     * @return string
+     */
+    public function getFormActionUrl()
+    {
+        return $this->getUrl('*/*/save');
+    }
 }

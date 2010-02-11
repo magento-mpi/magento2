@@ -48,14 +48,26 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mage_A
     }
 
     /**
+     * Creates extension collection if it has not been created yet
+     *
+     * @return Mage_Connect_Model_Extension_Collection
+     */
+    public function getCollection()
+    {
+        if (!$this->_collection) {
+            $this->_collection = Mage::getModel('connect/extension_collection');
+        }
+        return $this->_collection;
+    }
+
+    /**
      * Prepare Local Package Collection for Grid
      *
      * @return Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('connect/extension_collection');
-        $this->setCollection($collection);
+        $this->setCollection($this->getCollection());
         return parent::_prepareCollection();
     }
 
@@ -102,6 +114,6 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mage_A
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/load', array('id' => $row->getFilenameId()));
+        return $this->getUrl('*/*/load', array('id' => strtr(base64_encode($row->getFilenameId()), '+/=', '-_,')));
     }
 }
