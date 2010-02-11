@@ -694,7 +694,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
         foreach ($imageData as $file => $fields) {
             try {
-                $product->addImageToMediaGallery(Mage::getBaseDir('media') . DS . 'import' . $file, $fields);
+                $product->addImageToMediaGallery(Mage::getBaseDir('media') . DS . 'import' . trim($file), $fields);
             }
             catch (Exception $e) {}
         }
