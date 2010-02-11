@@ -1360,7 +1360,7 @@ f/********** Product Prices > */
 .addresses-list .link-remove {}
 .addresses-list .separator { margin:0 3px; }
 .addresses-list li.item { padding:0 10px; margin:0 0 12px; }
-.addresses-list li.empty { background:none; border:0; padding:0; }
+.addresses-list li.empty {}
 .addresses-list li.empty p { font-weight:bold; }
 .addresses-list .addresses-additional li.item {}
 
