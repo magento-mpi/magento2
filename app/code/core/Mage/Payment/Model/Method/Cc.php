@@ -282,6 +282,7 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
         $validator = Mage::getSingleton('centinel/service');
         $validator
             ->setIsModeStrict($this->getConfigData('centinel_is_mode_strict'))
+            ->setCustomApiEndpointUrl($this->getConfigData('centinel_api_url'))
             ->setStore($this->getStore())
             ->setIsPlaceOrder($this->_isPlaceOrder());
         return $validator;
