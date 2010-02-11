@@ -51,12 +51,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         $items = $this->getParentBlock()->getItems();
         foreach ($items as $item) {
             $stockItem = $item->getProduct()->getStockItem();
-            $check = $stockItem->checkQuoteItemQty($item->getQty(), $item->getQty(), $item->getQty());
-            $item->setMessage($check->getMessage());
-            $item->setHasError($check->getHasError());
-            if ($item->getProduct()->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED) {
-                $item->setMessage(Mage::helper('adminhtml')->__('This product is currently disabled'));
-                $item->setHasError(true);
+            if ($stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
+                $check = $stockItem->checkQuoteItemQty($item->getQty(), $item->getQty(), $item->getQty());
+                $item->setMessage($check->getMessage());
+                $item->setHasError($check->getHasError());
+                if ($item->getProduct()->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED) {
+                    $item->setMessage(Mage::helper('adminhtml')->__('This product is currently disabled'));
+                    $item->setHasError(true);
+                }
             }
         }
         return $items;
