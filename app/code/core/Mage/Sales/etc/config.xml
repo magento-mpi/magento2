@@ -91,6 +91,8 @@
                 <customer_taxvat><to_order>*</to_order></customer_taxvat>
                 <customer_gender><to_order>*</to_order></customer_gender>
 
+                <base_grand_total><to_order>quote_base_grand_total</to_order></base_grand_total>
+
                 <global_currency_code><to_order>*</to_order></global_currency_code>
                 <base_currency_code><to_order>*</to_order></base_currency_code>
                 <store_currency_code><to_order>*</to_order></store_currency_code>

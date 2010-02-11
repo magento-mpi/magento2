@@ -335,9 +335,8 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     private function _getAmount()
     {
         $info = $this->getInfoInstance();
-
         if ($this->_isPlaceOrder()) {
-            return (double)$info->getOrder()->getBaseGrandTotal();
+            return (double)$info->getOrder()->getQuoteBaseGrandTotal();
         } else {
             return (double)$info->getQuote()->getBaseGrandTotal();
         }
