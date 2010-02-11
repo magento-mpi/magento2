@@ -144,10 +144,10 @@ class Mage_Connect_Model_Extension extends Varien_Object
     {
         $packageFiles = array();
         if($filesString) {
-            $filesArray = split("[\n\r]+", $filesString);
+            $filesArray = preg_split("/[\n\r]+/", $filesString);
             foreach($filesArray as $file) {
                 $file = trim($file, "/");
-                $res = split("/", $file, 2);
+                $res = explode(DIRECTORY_SEPARATOR, $file, 2);
                 array_map('trim', $res);
                 if(2 == count($res)) {
                     $packageFiles[] = array('target'=>$res[0], 'path'=>$res[1]);
