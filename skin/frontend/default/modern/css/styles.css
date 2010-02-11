@@ -1401,6 +1401,8 @@ f/********** Product Prices > */
 
 .order-info-box { margin:0 0 15px; }
 .order-info-box h2 { font-size:13px; font-weight:bold; border-bottom:1px solid #ddd; margin:0 0 8px; }
+.order-info-box .box-payment p { margin:0 0 5px; }
+.order-info-box .box-payment th { font-weight:bold; padding-right:7px; }
 
 .order-items { width:100%; overflow-x:auto; }
 .order-items h2 { font-weight:bold; font-size:13px; }
