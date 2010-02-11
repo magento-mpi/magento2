@@ -1129,8 +1129,8 @@ f/********** Product Prices > */
 /********** < Common Checkout Styles */
 /* Shipping and Payment methods */
 .sp-methods { margin:0 0 8px; }
-.sp-methods dt { margin:5px 0; font-weight:bold; }
-.sp-methods dd { margin:0 0 13px; }
+.sp-methods dt { margin:13px 0 5px; font-weight:bold; }
+.sp-methods dd {}
 .sp-methods dd li { margin:5px 0; }
 .sp-methods label { font-weight:bold; color:#555; }
 .sp-methods .price { font-weight:bold; }
