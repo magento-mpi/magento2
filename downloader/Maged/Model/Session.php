@@ -38,7 +38,7 @@ class Maged_Model_Session extends Maged_Model
     /**
     * Session
     *
-    * @var Mage_Adminhtml_Model_Session
+    * @var Mage_Admin_Model_Session
     */
     protected $_session;
 
@@ -190,7 +190,7 @@ class Maged_Model_Session extends Maged_Model
     */
     public function getReturnUrl()
     {
-        if (!$this->_session) {
+        if (!$this->_session || !$this->_session->isLoggedIn()) {
             return '';
         }
         return Mage::getSingleton('adminhtml/url')->getUrl('adminhtml');
