@@ -278,7 +278,7 @@ EOT;
 
         $addressCategory = Mage::getStoreConfig('google/checkout_shipping_carrier/address_category', $this->getQuote()->getStoreId());
 
-        $defPrice = Mage::helper('tax')->getShippingPrice($defPrice, false, false);
+        $defPrice = (float) Mage::helper('tax')->getShippingPrice($defPrice, false, false);
 
 //      $taxRate = $this->_getShippingTaxRate();
 //      <additional-variable-charge-percent>{$taxRate}</additional-variable-charge-percent>
@@ -342,7 +342,7 @@ EOT;
             $title = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_'.$i, $this->getQuote()->getStoreId());
             $price = Mage::getStoreConfig('google/checkout_shipping_flatrate/price_'.$i, $this->getQuote()->getStoreId());
             $price = number_format($price, 2, '.','');
-            $price = Mage::helper('tax')->getShippingPrice($price, false, false);
+            $price = (float) Mage::helper('tax')->getShippingPrice($price, false, false);
 
             if (empty($title) || $price <= 0) {
                 continue;
@@ -415,7 +415,7 @@ EOT;
                         $method .= ' - '.$allowedMethods[$methodCode];
                     }
 
-                    $defaultPrice = $methods['price'][$i];
+                    $defaultPrice = (float) $methods['price'][$i];
                     $defaultPrice = Mage::helper('tax')->getShippingPrice($defaultPrice, false, false);
 
                     $allowedAreasXml = $this->_getAllowedCountries($carrier->getConfigData('sallowspecific'), $carrier->getConfigData('specificcountry'));
@@ -445,7 +445,7 @@ EOT;
 
         $title = Mage::getStoreConfig('google/checkout_shipping_pickup/title', $this->getQuote()->getStoreId());
         $price = Mage::getStoreConfig('google/checkout_shipping_pickup/price', $this->getQuote()->getStoreId());
-        $price = Mage::helper('tax')->getShippingPrice($price, false, false);
+        $price = (float) Mage::helper('tax')->getShippingPrice($price, false, false);
 
         $xml = <<<EOT
                 <pickup name="{$title}">
