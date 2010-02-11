@@ -17,8 +17,8 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    design
- * @package     default_default
+ * @category    Mage
+ * @package     Mage_Adminhtml
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
@@ -242,8 +242,8 @@ tinyMceWysiwygSetup.prototype =
         }
     },
 
-	encodeDirectives: function(content) {
-	    // collect all HTML tags with attributes that contain directives
+    encodeDirectives: function(content) {
+        // collect all HTML tags with attributes that contain directives
         return content.gsub(/<([a-z0-9\-\_]+.+?)([a-z0-9\-\_]+=["']\{\{.+?\}\}.*?["'].+?)>/i, function(match) {
             var attributesString = match[2];
             // process tag attributes string
@@ -258,7 +258,7 @@ tinyMceWysiwygSetup.prototype =
         }.bind(this));
     },
 
-	encodeWidgets: function(content) {
+    encodeWidgets: function(content) {
         return content.gsub(/\{\{widget(.*?)\}\}/i, function(match){
             var attributes = this.parseAttributesString(match[1]);
             if (attributes.type) {

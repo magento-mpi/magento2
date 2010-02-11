@@ -117,7 +117,7 @@ updateLicense(array(
     'errors', '!errors/enterprise'
 ), '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_OSL, array('Mage', 'Errors'), true, true, true);
 updateLicense(array(
-    'errors', '!errors/enterprise'
+    'errors', '!errors/enterprise', '!errors/design.xml'
 ), array('*.xml', '*.sample'), REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
 updateLicense(array(
     'errors', '!errors/enterprise'
@@ -125,6 +125,17 @@ updateLicense(array(
 updateLicense(array(
     'errors', '!errors/enterprise'
 ), '*.css', REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
+
+// js/mage and js/varien
+updateLicense(array('js/mage', '!js/mage/adminhtml'), array('*.css', '*.js'),
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('Mage', 'js'), true, true, true
+);
+updateLicense(array('js/mage/adminhtml', '!js/mage/adminhtml/moneybookers.js'), array('*.css', '*.js'),
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('Mage', 'Mage_Adminhtml'), true, true, true
+);
+updateLicense('js/varien', '*.js',
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('Varien', 'js'), true, true, true
+);
 
 echo "done\n";
 exit;

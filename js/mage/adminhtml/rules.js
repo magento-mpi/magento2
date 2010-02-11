@@ -17,8 +17,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @category    Mage
+ * @package     Mage_Adminhtml
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
 var VarienRulesForm = new Class.create();
@@ -154,7 +156,7 @@ VarienRulesForm.prototype = {
 
         var elem = Element.down(elemContainer, 'input.input-text');
         if (elem) {
-        	elem.focus();
+            elem.focus();
             if (elem && elem.id && elem.id.match(/__value$/)) {
                 this.updateElement = elem;
                 //this.showChooser(container, event);

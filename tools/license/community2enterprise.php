@@ -99,5 +99,16 @@ updateLicense('errors', array('*.xml', '*.sample'), REGEX_XML, REPLACEMENT_XML, 
 updateLicense('errors', '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, array('Mage', 'Errors'), true, true, true);
 updateLicense('errors', '*.css', REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, array('Mage', 'Errors'), true, true, true);
 
+// js/mage and js/varien
+updateLicense(array('js/mage', '!js/mage/adminhtml'), array('*.css', '*.js'),
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, array('Mage', 'js'), true, true, true
+);
+updateLicense(array('js/mage/adminhtml', '!js/mage/adminhtml/moneybookers.js'), array('*.css', '*.js'),
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, array('Mage', 'Mage_Adminhtml'), true, true, true
+);
+updateLicense('js/varien', '*.js',
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, array('Varien', 'js'), true, true, true
+);
+
 echo "done\n";
 exit;
