@@ -52,7 +52,7 @@
                 <p class="box-content"><?php echo $this->__('You have no default billing address in your address book.') ?></p>
             </li>
         <?php endif ?>
-        
+
         <?php if($_pAddsses = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping()): ?>
             <li class="info-box">
                 <h3 class="box-title"><?php echo $this->__('Default Shipping Address') ?> <span class="separator">|</span> <a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Shipping Address') ?></a></h3>
@@ -93,7 +93,7 @@
     </div>
 </div>
 <div class="buttons-set">
-    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="back-link"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
 </div>
 <script type="text/javascript">
 //<![CDATA[
