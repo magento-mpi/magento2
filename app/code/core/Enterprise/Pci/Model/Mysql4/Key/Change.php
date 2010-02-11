@@ -46,6 +46,36 @@ class Enterprise_Pci_Model_Mysql4_Key_Change extends Mage_Core_Model_Mysql4_Abst
     }
 
     /**
+     * Re-encrypt all encrypted data in the database
+     *
+     * @param bool $safe Specifies whether wrapping re-encryption into the database transaction or not
+     * @throws Exception
+     */
+
+    public function reEncryptDatabaseValues($safe = true)
+    {
+        $this->_encryptor = clone Mage::helper('core')->getEncryptor();
+
+        // update database only
+        if ($safe) {
+            $this->beginTransaction();
+        }
+        try {
+            $this->_reEncryptSystemConfigurationValues();
+            $this->_reEncryptCreditCardNumbers();
+            if ($safe) {
+                $this->commit();
+            }
+        }
+        catch (Exception $e) {
+            if ($safe) {
+                $this->rollBack();
+            }
+            throw $e;
+        }
+    }
+
+    /**
      * Change encryption key
      *
      * @param string $key
