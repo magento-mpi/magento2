@@ -96,11 +96,11 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
      * @var string
      */
     protected $_centinelFieldMap = array(
-        'pa_res_status' => 'MPIVENDOR3DS',
-        'enrolled'      => 'AUTHSTATUS3DS',
-        'cavv'          => 'CAVV',
-        'eci_flag'      => 'ECI',
-        'xid'           => 'XID',
+        'centinel_mpivendor' => 'MPIVENDOR3DS',
+        'centinel_authstatus'      => 'AUTHSTATUS3DS',
+        'centinel_cavv'          => 'CAVV',
+        'centinel_eci'      => 'ECI',
+        'centinel_xid'           => 'XID',
     );
 
     public function authorize(Varien_Object $payment, $amount)
@@ -410,7 +410,9 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             ;
 
         if ($this->getIsCentinelValidationEnabled()){
-            $this->getCentinelValidator()->exportCmpiData($request, $this->_centinelFieldMap);
+            $params = array();
+            $params = $this->getCentinelValidator()->exportCmpiData($params);
+            $request = Varien_Object_Mapper::accumulateByMap($params, $request, $this->_centinelFieldMap);
         }
 
         if($payment->getAmount()){

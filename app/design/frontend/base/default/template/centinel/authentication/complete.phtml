@@ -31,9 +31,6 @@ window.parent.centinel.success();
 //]]>
 </script>
 <?php else:?>
-<script type="text/javascript">
-//<![CDATA[
-window.parent.centinel.failed('<?php echo $this->__('The card has failed verification with issuer bank. Order cannot be placed.')?>');
-//]]>
-</script>
+<h4><?php echo $this->__('Verification Failed');?></h4>
+<p><?php echo $this->__('The card has failed verification with issuer bank.')?> <strong><?php echo $this->__('Order cannot be placed.')?></strong></p>
 <?php endif;?>

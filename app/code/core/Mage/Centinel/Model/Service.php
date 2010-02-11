@@ -366,7 +366,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
             $map = $this->_cmpiMap;
         }
         if ($validationState = $this->_getValidationState()) {
-            Varien_Object_Mapper::accumulateByMap($validationState, $to, $map);
+            $to = Varien_Object_Mapper::accumulateByMap($validationState, $to, $map);
         }
         return $to;
     }

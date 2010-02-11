@@ -60,12 +60,6 @@ centinelAutenticate.prototype = {
             $(this.checkoutReviewTableBlockId).show();
         }
         $(this.centinelBlockId).hide();
-    },
-
-    failed : function(message)
-    {
-        $(this.centinelBlockId).hide();
-        alert(message);
     }
 }
 centinel = new centinelAutenticate();
