@@ -339,7 +339,11 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         #$order->setPayment($convertQuote->paymentToOrderPayment($quote->getPayment()));
 
         foreach ($quote->getAllItems() as $item) {
-            $order->addItem($convertQuote->itemToOrderItem($item));
+            $orderItem = $convertQuote->itemToOrderItem($item);
+            if ($item->getParentItem()) {
+                $orderItem->setParentItem($order->getItemByQuoteItemId($item->getParentItem()->getId()));
+            }
+            $order->addItem($orderItem);
         }
 
         $payment = Mage::getModel('sales/order_payment')->setMethod('googlecheckout');
