@@ -43,10 +43,14 @@ class Mage_Core_Model_Flag extends Mage_Core_Model_Abstract
 
     /**
      * Init resource model
+     * Set flag_code if it is specified in arguments
      *
      */
     protected function _construct()
     {
+        if ($this->hasData('flag_code')) {
+            $this->_flagCode = $this->getData('flag_code');
+        }
         $this->_init('core/flag');
     }
 
@@ -65,18 +69,6 @@ class Mage_Core_Model_Flag extends Mage_Core_Model_Abstract
         $this->setLastUpdate(date('Y-m-d H:i:s'));
 
         return parent::_beforeSave();
-    }
-
-    /**
-     * Set flag code
-     *
-     * @param string $flagCode
-     * @return Mage_Core_Model_Flag
-     */
-    public function prepareFlagCode($flagCode)
-    {
-        $this->_flagCode = $flagCode;
-        return $this;
     }
 
     /**
