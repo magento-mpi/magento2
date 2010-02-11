@@ -1230,6 +1230,11 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .opc .checkout-agreements li { margin:20px 0 0; }
 .opc .checkout-agreements .agreement-content { background-color:#fff; border-color:#e4e4e4; padding:5px; }
 .opc .checkout-agreements .agree { padding-left:6px; }
+
+/* Centinel */
+.centinel {}
+
+.opc .centinel { border:1px solid #bbb6a5; border-width:0 1px; padding:10px 30px; }
 /********** Common Checkout Styles > */
 
 /* One Page Checkout */

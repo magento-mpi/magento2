@@ -25,13 +25,9 @@
  */
 ?>
 <?php if ($this->getIsSuccess()):?>
-    <div class="page-title">
-        <h1><?php echo $this->__('Verification Successful');?></h1>
-    </div>
+    <h4><?php echo $this->__('Verification Successful');?></h4>
     <p><?php echo $this->__('Please continue with placing order.')?></p>
 <?php else:?>
-    <div class="page-title">
-        <h1><?php echo $this->__('Verification Failed');?></h1>
-    </div>
+    <h4><?php echo $this->__('Verification Failed');?></h4>
     <p><?php echo $this->__('The card has failed verification with issuer bank.')?> <strong><?php echo $this->__('Order cannot be placed.')?></strong></p>
 <?php endif;?>

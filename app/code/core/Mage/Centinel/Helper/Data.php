@@ -166,7 +166,7 @@ class Mage_Centinel_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getVisaLearnMorePageUrl()
     {
-        return Mage::helper('cms/page')->getPageUrl('centinel-verified-by-visa');
+        return 'https://usa.visa.com/personal/security/vbv/index.html?ep=v_sym_verifiedbyvisa';
     }
 
     /**

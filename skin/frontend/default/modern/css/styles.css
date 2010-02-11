@@ -1187,6 +1187,11 @@ f/********** Product Prices > */
 .opc .checkout-agreements li { margin:20px 0 0; }
 .opc .checkout-agreements .agreement-content { background:#fff; padding:5px; }
 .opc .checkout-agreements .agree { padding-left:6px; }
+
+/* Centinel */
+.centinel {}
+
+.opc .centinel { padding:10px 30px; }
 /********** Common Checkout Styles > */
 
 /* One Page Checkout */

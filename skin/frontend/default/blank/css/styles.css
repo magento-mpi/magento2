@@ -944,6 +944,9 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .checkout-agreements li { margin:10px 0; }
 .checkout-agreements .agreement-content { border:1px solid #ddd; background-color:#f6f6f6; padding:5px; height:10em; overflow:auto; }
 .checkout-agreements .agree { padding:6px; }
+
+/* Centinel */
+.centinel {}
 /********** Common Checkout Styles > */
 
 /* One Page Checkout */
