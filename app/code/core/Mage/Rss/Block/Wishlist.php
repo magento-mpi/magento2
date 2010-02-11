@@ -108,7 +108,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
                 $description = '<table><tr><td><a href="' . $this->getProductUrl($product)
                     . '"><img src="' . $this->helper('catalog/image')->init($product, 'thumbnail')->resize(75, 75)
                     . '" border="0" align="left" height="75" width="75"></a></td>'
-                    . '<td style="text-decoration:none;">' . $this->htmlEscape($product->getShortDescription()) . '<p>';
+                    . '<td style="text-decoration:none;">' . $product->getShortDescription() . '<p>';
                 if ($product->getPrice() != $product->getFinalPrice()) {
                     $description .= Mage::helper('catalog')->__('Regular Price:') . ' <strike>'
                         . Mage::helper('core')->currency($product->getPrice()) . '</strike> '
