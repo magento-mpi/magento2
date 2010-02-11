@@ -164,7 +164,10 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                 ->setPostcode($googleAddress['postal-code']['VALUE'])
                 ->setLimitCarrier($limitCarrier);
 
-            $address->setCollectShippingRates(true)->collectShippingRates();
+            $address->setCollectShippingRates(true)
+                ->collectShippingRates()
+                ->collectTotals();
+            $billingAddress->collectTotals();
 
             if ($gRequestMethods = $this->getData('root/calculate/shipping/method')) {
                 $carriers = array();
@@ -233,9 +236,6 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                     if (isset($rates[$methodName])) {
                         if ($this->getData('root/calculate/tax/VALUE')=='true') {
                             $address->setShippingMethod($rateCodes[$methodName]);
-
-                            $address->setCollectShippingRates(true)->collectTotals();
-                            $billingAddress->setCollectShippingRates(true)->collectTotals();
 
                             $taxAmount = $address->getBaseTaxAmount();
                             $taxAmount += $billingAddress->getBaseTaxAmount();
