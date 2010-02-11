@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Block_Account_Redeem extends Mage_Core_Block_Template
+class Enterprise_GiftCardAccount_Block_Account_Redeem extends Enterprise_Enterprise_Block_Core_Template
 {
     /**
      * Stub for future ability to implement redeem limitations based on customer/settings

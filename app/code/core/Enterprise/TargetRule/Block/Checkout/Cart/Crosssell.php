@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_TargetRule
  */
-class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Mage_Catalog_Block_Product_Abstract
+class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Enterprise_Block_Catalog_Product_Abstract
 {
     /**
      * Array of cross-sell products

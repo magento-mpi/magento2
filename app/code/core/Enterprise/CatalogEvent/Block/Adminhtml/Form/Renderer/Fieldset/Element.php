@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+class Enterprise_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form_Renderer_Fieldset_Element
 {
     /**
      * Initialize block template

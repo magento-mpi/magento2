@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_Abstract
+class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Enterprise_Enterprise_Model_Core_Abstract
 {
     const STATUS_DISABLED = 0;
     const STATUS_ENABLED  = 1;

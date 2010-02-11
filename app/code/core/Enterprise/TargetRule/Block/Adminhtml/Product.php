@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block_Widget
+class Enterprise_TargetRule_Block_Adminhtml_Product extends Enterprise_Enterprise_Block_Adminhtml_Widget
 {
     /**
      * Attributes is read only flag

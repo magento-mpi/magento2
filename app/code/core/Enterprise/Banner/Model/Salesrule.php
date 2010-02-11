@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_Banner_Model_Salesrule extends Mage_Core_Model_Abstract
+class Enterprise_Banner_Model_Salesrule extends Enterprise_Enterprise_Model_Core_Abstract
 {
     /**
      * Initialize promo shopping cart price rule model

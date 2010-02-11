@@ -32,7 +32,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Checkout_Payment_Additional extends Mage_Core_Block_Template
+class Enterprise_Reward_Block_Checkout_Payment_Additional extends Enterprise_Enterprise_Block_Core_Template
 {
     /**
      * Getter

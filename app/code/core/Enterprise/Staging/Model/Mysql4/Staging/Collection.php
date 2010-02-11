@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Staging_Model_Mysql4_Staging_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_Staging_Model_Mysql4_Staging_Collection extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
 {
     protected function _construct()
     {

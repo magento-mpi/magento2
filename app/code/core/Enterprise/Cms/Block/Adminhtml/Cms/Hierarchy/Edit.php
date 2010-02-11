@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form_Container
 {
     /**
      * Initialize Form Container

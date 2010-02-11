@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCard_Model_Mysql4_Catalogindex_Data_Giftcard extends Mage_CatalogIndex_Model_Mysql4_Data_Abstract
+class Enterprise_GiftCard_Model_Mysql4_Catalogindex_Data_Giftcard extends Enterprise_Enterprise_Model_CatalogIndex_Mysql4_Data_Abstract
 {
     protected $_cache = array();
     public function getAmounts($product, $store)

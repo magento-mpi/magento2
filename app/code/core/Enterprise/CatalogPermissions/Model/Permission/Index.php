@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogPermissions
  */
-class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Core_Model_Abstract
+class Enterprise_CatalogPermissions_Model_Permission_Index extends Enterprise_Enterprise_Model_Core_Abstract
 {
     protected function _construct()
     {

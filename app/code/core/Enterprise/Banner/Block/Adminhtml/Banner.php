@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Banner_Block_Adminhtml_Banner extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Enterprise_Banner_Block_Adminhtml_Banner extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Container
 {
 
     /**

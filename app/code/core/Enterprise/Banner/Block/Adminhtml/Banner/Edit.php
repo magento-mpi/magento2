@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form_Container
 {
     /**
      * Initialize banner edit page. Set management buttons

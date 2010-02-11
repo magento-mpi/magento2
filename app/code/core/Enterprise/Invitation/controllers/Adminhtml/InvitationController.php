@@ -31,7 +31,7 @@
  * @package    Enterprise_Invitation
  */
 
-class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtml_Controller_Action
+class Enterprise_Invitation_Adminhtml_InvitationController extends Enterprise_Enterprise_Controller_Adminhtml_Action
 {
     /**
      * Invitation list

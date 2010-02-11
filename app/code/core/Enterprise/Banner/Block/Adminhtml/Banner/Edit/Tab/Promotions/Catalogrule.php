@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
 {
     /**
      * Initialize grid, set defaults
@@ -47,7 +47,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
     /**
      * Set catalor rule collection to grid data
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
      */
     protected function _prepareCollection()
     {
@@ -88,7 +88,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
     /**
      * Create grid columns
      *
-     * @return Mage_Adminhtml_Block_Widget_Grid
+     * @return Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
      */
     protected function _prepareColumns()
     {

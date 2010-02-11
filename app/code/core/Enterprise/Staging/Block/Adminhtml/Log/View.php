@@ -30,7 +30,7 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Adminhtml_Log_View extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Staging_Block_Adminhtml_Log_View extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form_Container
 {
     protected $_informationRenderers = array();
 

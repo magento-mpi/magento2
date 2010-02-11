@@ -27,7 +27,7 @@
 /**
  * Logging event model
  */
-class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
+class Enterprise_Logging_Model_Event extends Enterprise_Enterprise_Model_Core_Abstract
 {
     const RESULT_SUCCESS = 'success';
     const RESULT_FAILURE = 'failure';

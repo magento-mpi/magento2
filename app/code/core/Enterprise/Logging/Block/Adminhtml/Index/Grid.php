@@ -27,7 +27,7 @@
 /**
  * Admin Actions Log Grid
  */
-class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
 {
     /**
      * Constructor

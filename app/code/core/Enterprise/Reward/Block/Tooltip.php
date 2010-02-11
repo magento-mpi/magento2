@@ -31,7 +31,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Tooltip extends Mage_Core_Block_Template
+class Enterprise_Reward_Block_Tooltip extends Enterprise_Enterprise_Block_Core_Template
 {
     /**
      * Reward instance

@@ -27,7 +27,7 @@
 /**
  * Customer segments grid and edit controller
  */
-class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mage_Adminhtml_Controller_Action
+class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Enterprise_Enterprise_Controller_Adminhtml_Action
 {
     /**
      * Initialize proper segment model

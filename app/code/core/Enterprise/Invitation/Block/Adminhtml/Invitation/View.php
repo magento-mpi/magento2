@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Mage_Adminhtml_Block_Widget_Container
+class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Enterprise_Enterprise_Block_Adminhtml_Widget_Container
 {
     /**
      * Set header text, add some buttons

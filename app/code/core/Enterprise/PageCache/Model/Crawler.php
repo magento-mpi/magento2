@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_PageCache_Model_Crawler extends Mage_Core_Model_Abstract
+class Enterprise_PageCache_Model_Crawler extends Enterprise_Enterprise_Model_Core_Abstract
 {
     const XML_PATH_CRAWLER_ENABLED     = 'system/page_crawl/enable';
     const XML_PATH_CRAWLER_THREADS     = 'system/page_crawl/threads';

@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCard_Block_Sales_Order_Item_Renderer extends Mage_Sales_Block_Order_Item_Renderer_Default
+class Enterprise_GiftCard_Block_Sales_Order_Item_Renderer extends Enterprise_Enterprise_Block_Sales_Order_Item_Renderer_Default
 {
     /**
      * Prepare custom option for display, returns false if there's no value

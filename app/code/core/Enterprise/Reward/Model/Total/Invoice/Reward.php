@@ -32,7 +32,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Total_Invoice_Reward extends Mage_Sales_Model_Order_Invoice_Total_Abstract
+class Enterprise_Reward_Model_Total_Invoice_Reward extends Enterprise_Enterprise_Model_Sales_Order_Invoice_Total_Abstract
 {
     /**
      * Collect reward total for invoice

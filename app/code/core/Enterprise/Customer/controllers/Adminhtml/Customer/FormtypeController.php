@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adminhtml_Controller_Action
+class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Enterprise_Enterprise_Controller_Adminhtml_Action
 {
     /**
      * Load layout, set active menu and breadcrumbs

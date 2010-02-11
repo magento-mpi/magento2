@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards extends Mage_Core_Block_Template
+class Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards extends Enterprise_Enterprise_Block_Core_Template
 {
     /**
      * Retrieve current order model instance

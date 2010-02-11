@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_Staging_Model_Mysql4_Staging extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
 {
     protected function _construct()
     {

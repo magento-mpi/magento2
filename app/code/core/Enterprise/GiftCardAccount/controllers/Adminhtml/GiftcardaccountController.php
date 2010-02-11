@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mage_Adminhtml_Controller_Action
+class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Enterprise_Enterprise_Controller_Adminhtml_Action
 {
     /**
      * Defines if status message of code pool is show

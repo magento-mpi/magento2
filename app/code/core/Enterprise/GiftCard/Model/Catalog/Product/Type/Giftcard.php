@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catalog_Model_Product_Type_Abstract
+class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Enterprise_Enterprise_Model_Catalog_Product_Type_Abstract
 {
     const TYPE_GIFTCARD     = 'giftcard';
 

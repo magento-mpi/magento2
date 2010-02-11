@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Banner_Model_Mysql4_Catalogrule_Collection extends Mage_CatalogRule_Model_Mysql4_Rule_Collection
+class Enterprise_Banner_Model_Mysql4_Catalogrule_Collection extends Enterprise_Enterprise_Model_CatalogRule_Mysql4_Rule_Collection
 {
     /**
      * Define if banner filter is already called

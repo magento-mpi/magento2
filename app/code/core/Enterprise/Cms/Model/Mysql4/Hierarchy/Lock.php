@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Model_Mysql4_Hierarchy_Lock extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_Cms_Model_Mysql4_Hierarchy_Lock extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
 {
     /**
      * Initialize connection and define main table and field

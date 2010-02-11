@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional extends Mage_Core_Block_Template
+class Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional extends Enterprise_Enterprise_Block_Core_Template
 {
     protected function _getQuote()
     {

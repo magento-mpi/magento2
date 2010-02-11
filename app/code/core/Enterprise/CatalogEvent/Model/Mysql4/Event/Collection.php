@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
 {
     /**
      * Whether category data was added to collection

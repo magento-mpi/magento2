@@ -28,7 +28,7 @@
  * Check result block for a Giftcardaccount
  *
  */
-class Enterprise_GiftCardAccount_Block_Check extends Mage_Core_Block_Template
+class Enterprise_GiftCardAccount_Block_Check extends Enterprise_Enterprise_Block_Core_Template
 {
     /**
      * Get current card instance from registry

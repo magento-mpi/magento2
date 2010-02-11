@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogEvent_Helper_Adminhtml_Event extends Mage_Core_Helper_Abstract
+class Enterprise_CatalogEvent_Helper_Adminhtml_Event extends Enterprise_Enterprise_Helper_Core_Abstract
 {
     /**
      * Categories first and second level for admin

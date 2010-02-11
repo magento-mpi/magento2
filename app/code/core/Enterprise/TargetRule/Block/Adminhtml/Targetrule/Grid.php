@@ -27,7 +27,7 @@
 /**
  * Admin Targer Rules Grid
  */
-class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
 {
     /**
      * Constructor

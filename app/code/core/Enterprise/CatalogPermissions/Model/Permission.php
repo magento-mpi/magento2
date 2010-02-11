@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogPermissions
  */
-class Enterprise_CatalogPermissions_Model_Permission extends Mage_Core_Model_Abstract
+class Enterprise_CatalogPermissions_Model_Permission extends Enterprise_Enterprise_Model_Core_Abstract
 {
     const PERMISSION_ALLOW = -1;
     const PERMISSION_DENY = -2;

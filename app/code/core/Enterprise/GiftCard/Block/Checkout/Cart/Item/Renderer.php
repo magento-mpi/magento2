@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_Cart_Item_Renderer
+class Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer extends Enterprise_Enterprise_Block_Checkout_Cart_Item_Renderer
 {
     /**
      * Prepare custom option for display, returns false if there's no value

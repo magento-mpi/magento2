@@ -32,7 +32,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Helper_Customer extends Mage_Core_Helper_Abstract
+class Enterprise_Reward_Helper_Customer extends Enterprise_Enterprise_Helper_Core_Abstract
 {
     /**
      * Return Unsubscribe notification URL

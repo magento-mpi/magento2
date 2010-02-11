@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Model_System_Config_Backend_Pool extends Mage_Core_Model_Config_Data
+class Enterprise_GiftCardAccount_Model_System_Config_Backend_Pool extends Enterprise_Enterprise_Model_Core_Config_Data
 {
     protected function _beforeSave()
     {

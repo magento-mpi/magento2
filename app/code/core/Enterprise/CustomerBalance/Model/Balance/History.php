@@ -28,7 +28,7 @@
  * Customerbalance history model
  *
  */
-class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_Abstract
+class Enterprise_CustomerBalance_Model_Balance_History extends Enterprise_Enterprise_Model_Core_Abstract
 {
     const ACTION_UPDATED  = 1;
     const ACTION_CREATED  = 2;

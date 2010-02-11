@@ -25,7 +25,7 @@
  */
 
 
-abstract class Enterprise_GiftCardAccount_Model_Pool_Abstract extends Mage_Core_Model_Abstract
+abstract class Enterprise_GiftCardAccount_Model_Pool_Abstract extends Enterprise_Enterprise_Model_Core_Abstract
 {
     const STATUS_FREE = 0;
     const STATUS_USED = 1;

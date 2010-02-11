@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Link extends Mage_Core_Block_Template
+class Enterprise_Invitation_Block_Link extends Enterprise_Enterprise_Block_Core_Template
 {
     /**
      * Adding link to account links block link params if invitation

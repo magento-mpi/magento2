@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-abstract class Enterprise_GiftCardAccount_Model_Mysql4_Pool_Abstract extends Mage_Core_Model_Mysql4_Abstract
+abstract class Enterprise_GiftCardAccount_Model_Mysql4_Pool_Abstract extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
 {
     /**
      * Delete records in db using specified status as criteria

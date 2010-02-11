@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Model_Mysql4_Invitation_History extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_Invitation_Model_Mysql4_Invitation_History extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
 {
     /**
      * Intialize resource model

@@ -28,7 +28,7 @@
  * Customer balance history block
  *
  */
-class Enterprise_CustomerBalance_Block_Account_History extends Mage_Core_Block_Template
+class Enterprise_CustomerBalance_Block_Account_History extends Enterprise_Enterprise_Block_Core_Template
 {
     /**
      * Balance history action names

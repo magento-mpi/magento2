@@ -27,7 +27,7 @@
 /**
  * Staging Manage controller
  */
-class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminhtml_Controller_Action
+class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_Enterprise_Controller_Adminhtml_Action
 {
     protected function _construct()
     {

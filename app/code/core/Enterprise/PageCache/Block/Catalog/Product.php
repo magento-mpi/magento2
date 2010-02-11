@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_PageCache_Block_Catalog_Product extends Mage_Core_Block_Template
+class Enterprise_PageCache_Block_Catalog_Product extends Enterprise_Enterprise_Block_Core_Template
 {
     /**
      * Get currently viewed product id

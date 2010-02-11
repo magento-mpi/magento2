@@ -32,7 +32,7 @@
  * @package    Enterprise_CatalogEvent
  */
 
-abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Block_Template
+abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Enterprise_Enterprise_Block_Core_Template
 {
     /**
      * Event statuses titles

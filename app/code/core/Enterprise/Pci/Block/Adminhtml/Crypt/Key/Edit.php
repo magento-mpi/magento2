@@ -28,7 +28,7 @@
  * Encryption key change edit page block
  *
  */
-class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Edit extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form_Container
 {
     protected $_blockGroup = null;
     protected $_controller = 'crypt_key';

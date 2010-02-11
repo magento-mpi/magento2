@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Model_Mysql4_Invitation_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_Invitation_Model_Mysql4_Invitation_Collection extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
 {
     protected $_map = array('fields' => array(
         'invitee_email'    => 'c.email',

@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
 {
     /**
      * Return invitation form action url

@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
 {
     /**
      * Define resource model for collection

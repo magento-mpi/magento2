@@ -28,7 +28,7 @@
  * Stub block that outputs a raw CMS-page
  *
  */
-class Enterprise_WebsiteRestriction_Block_Cms_Stub extends Mage_Cms_Block_Page
+class Enterprise_WebsiteRestriction_Block_Cms_Stub extends Enterprise_Enterprise_Block_Cms_Page
 {
     /**
      * Retrieve page from registry if it is not there try to laod it by indetifier

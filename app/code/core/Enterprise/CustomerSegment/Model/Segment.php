@@ -23,7 +23,7 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
+class Enterprise_CustomerSegment_Model_Segment extends Enterprise_Enterprise_Model_Rule_Rule
 {
 
     const VIEW_MODE_UNION_CODE      = 'union';

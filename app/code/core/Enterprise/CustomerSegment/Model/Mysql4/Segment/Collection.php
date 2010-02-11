@@ -23,7 +23,7 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
 {
     protected $_customerCountAdded = false;
 

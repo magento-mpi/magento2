@@ -31,7 +31,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+class Enterprise_Reward_Model_Mysql4_Setup extends Enterprise_Enterprise_Model_Sales_Mysql4_Setup
 {
     /**
      * Current entity type id

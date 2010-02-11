@@ -31,7 +31,7 @@
  * @package    Enterprise_TargetRule
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
 {
     /**
      * Prepare Mail Target Rule Edit form

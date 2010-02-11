@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tabs extends Enterprise_Enterprise_Block_Adminhtml_Widget_Tabs
 {
     /**
      * Initialize banner edit page tabs

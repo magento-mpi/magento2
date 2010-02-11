@@ -28,7 +28,7 @@
  * Admin GWS helper
  *
  */
-class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_AdminGws_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
     /**
      * Transform comma-separeated ids string into array

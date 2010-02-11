@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Form extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
 {
     /**
      * Preparing from for revision page

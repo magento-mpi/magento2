@@ -28,7 +28,7 @@
  * Locked administrators page
  *
  */
-class Enterprise_Pci_Block_Adminhtml_Locks extends Mage_Adminhtml_Block_Widget_Container
+class Enterprise_Pci_Block_Adminhtml_Locks extends Enterprise_Enterprise_Block_Adminhtml_Widget_Container
 {
     /**
      * Header text getter

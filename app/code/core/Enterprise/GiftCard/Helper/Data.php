@@ -27,7 +27,7 @@
 /**
  * Giftcard module helper
  */
-class Enterprise_GiftCard_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_GiftCard_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
     /**
      * Instantiate giftardaccounts block when a gift card email should be sent

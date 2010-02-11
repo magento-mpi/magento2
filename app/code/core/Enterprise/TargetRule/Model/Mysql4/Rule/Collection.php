@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_TargetRule
  */
-class Enterprise_TargetRule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_TargetRule_Model_Mysql4_Rule_Collection extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
 {
     /**
      * Initialize resource collection

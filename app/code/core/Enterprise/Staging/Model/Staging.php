@@ -30,7 +30,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
+class Enterprise_Staging_Model_Staging extends Enterprise_Enterprise_Model_Core_Abstract
 {
     protected $_eventPrefix = 'enterprise_staging';
     protected $_eventObject = 'staging';
@@ -217,7 +217,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     /**
      * Processing object after save data
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Enterprise_Enterprise_Model_Core_Abstract
      */
     protected function _afterSave()
     {

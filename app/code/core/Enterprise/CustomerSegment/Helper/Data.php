@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_CustomerSegment_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
     /**
      * Check whether customer segment functionality should be enabled

@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_CustomerSegment
  */
-class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
 {
     /**
      * Segment websites table name

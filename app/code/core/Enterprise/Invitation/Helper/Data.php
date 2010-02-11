@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Invitation_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
     protected $_isRegistrationAllowed = null;
 

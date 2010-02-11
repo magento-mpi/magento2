@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
 {
     protected $_collection;
 

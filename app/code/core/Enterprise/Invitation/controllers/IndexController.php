@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_Action
+class Enterprise_Invitation_IndexController extends Enterprise_Enterprise_Controller_Core_Front_Action
 {
     /**
      * Only logged in users can use this functionality,

@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_Adminhtml_Block_Template
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Enterprise_Enterprise_Block_Adminhtml_Template
 {
     /**
      * Prepare chooser element HTML

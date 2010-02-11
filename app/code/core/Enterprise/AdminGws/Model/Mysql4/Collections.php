@@ -28,7 +28,7 @@
  * Collections limiter resource model
  *
  */
-class Enterprise_AdminGws_Model_Mysql4_Collections extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_AdminGws_Model_Mysql4_Collections extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
 {
     /**
      * Class construction & resource initialization

@@ -29,7 +29,7 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
+class Enterprise_Staging_Model_Staging_Item extends Enterprise_Enterprise_Model_Core_Abstract
 {
     /**
      * constructor

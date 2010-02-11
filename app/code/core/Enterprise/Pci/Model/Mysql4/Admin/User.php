@@ -28,7 +28,7 @@
  * Admin user resource model
  *
  */
-class Enterprise_Pci_Model_Mysql4_Admin_User extends Mage_Admin_Model_Mysql4_User
+class Enterprise_Pci_Model_Mysql4_Admin_User extends Enterprise_Enterprise_Model_Admin_Mysql4_User
 {
     /**
      * Unlock specified user record(s)

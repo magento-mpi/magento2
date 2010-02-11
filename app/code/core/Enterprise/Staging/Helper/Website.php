@@ -30,7 +30,7 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Helper_Website extends Mage_Core_Helper_Url
+class Enterprise_Staging_Helper_Website extends Enterprise_Enterprise_Helper_Core_Url
 {
     const XML_PATH_STAGING_CODE_SUFFIX   = 'global/enterprise/staging/staging_website_code_suffix';
 

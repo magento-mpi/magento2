@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCard_Model_Giftcard extends Mage_Core_Model_Abstract
+class Enterprise_GiftCard_Model_Giftcard extends Enterprise_Enterprise_Model_Core_Abstract
 {
     const XML_PATH                    = 'giftcard/general/';
     const XML_PATH_EMAIL              = 'giftcard/email/';

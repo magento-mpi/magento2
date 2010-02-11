@@ -32,7 +32,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Block_Adminhtml_Cms_Page extends Mage_Adminhtml_Block_Template
+class Enterprise_Cms_Block_Adminhtml_Cms_Page extends Enterprise_Enterprise_Block_Adminhtml_Template
 {
     /**
      * Add  column Versioned to cms page grid

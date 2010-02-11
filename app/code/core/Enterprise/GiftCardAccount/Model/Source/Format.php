@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Model_Source_Format extends Mage_Core_Model_Abstract
+class Enterprise_GiftCardAccount_Model_Source_Format extends Enterprise_Enterprise_Model_Core_Abstract
 {
     /**
      * Return list of gift card account code formats

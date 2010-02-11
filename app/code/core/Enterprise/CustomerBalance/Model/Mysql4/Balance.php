@@ -28,7 +28,7 @@
  * Customerbalance resource model
  *
  */
-class Enterprise_CustomerBalance_Model_Mysql4_Balance extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_CustomerBalance_Model_Mysql4_Balance extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
 {
     /**
      * Initialize table name and primary key name

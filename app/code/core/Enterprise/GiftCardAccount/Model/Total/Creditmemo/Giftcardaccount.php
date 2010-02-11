@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Model_Total_Creditmemo_Giftcardaccount extends Mage_Sales_Model_Order_Creditmemo_Total_Abstract
+class Enterprise_GiftCardAccount_Model_Total_Creditmemo_Giftcardaccount extends Enterprise_Enterprise_Model_Sales_Order_Creditmemo_Total_Abstract
 {
     /**
      * Collect gift card account totals for credit memo

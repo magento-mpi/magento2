@@ -32,7 +32,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_Address_Total_Abstract
+class Enterprise_Reward_Model_Total_Quote_Reward extends Enterprise_Enterprise_Model_Sales_Quote_Address_Total_Abstract
 {
     public function __construct()
     {

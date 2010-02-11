@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Mysql4_Increment extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_Cms_Model_Mysql4_Increment extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
 {
     /**
      * Constructor

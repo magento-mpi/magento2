@@ -32,7 +32,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_Controller_Action
+class Enterprise_Reward_Adminhtml_Reward_RateController extends Enterprise_Enterprise_Controller_Adminhtml_Action
 {
     /**
      * Check if module functionality enabled

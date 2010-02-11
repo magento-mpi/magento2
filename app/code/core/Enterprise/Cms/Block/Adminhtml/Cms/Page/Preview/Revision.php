@@ -32,7 +32,7 @@
  * @package    Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision extends Mage_Adminhtml_Block_Template
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision extends Enterprise_Enterprise_Block_Adminhtml_Template
 {
     /**
      * Retrieve id of currently selected revision

@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCard_Block_Catalog_Product_Price extends Mage_Catalog_Block_Product_Price
+class Enterprise_GiftCard_Block_Catalog_Product_Price extends Enterprise_Enterprise_Block_Catalog_Product_Price
 {
     /**
      * @deprecated See GiftCard price model

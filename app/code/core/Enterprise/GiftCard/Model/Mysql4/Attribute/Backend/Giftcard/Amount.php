@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCard_Model_Mysql4_Attribute_Backend_Giftcard_Amount extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_GiftCard_Model_Mysql4_Attribute_Backend_Giftcard_Amount extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
 {
     protected function _construct()
     {

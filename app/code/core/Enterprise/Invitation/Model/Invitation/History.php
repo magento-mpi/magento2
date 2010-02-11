@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Model_Invitation_History extends Mage_Core_Model_Abstract
+class Enterprise_Invitation_Model_Invitation_History extends Enterprise_Enterprise_Model_Core_Abstract
 {
     /**
      * Initialize model

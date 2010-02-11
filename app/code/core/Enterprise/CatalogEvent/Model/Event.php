@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
+class Enterprise_CatalogEvent_Model_Event extends Enterprise_Enterprise_Model_Core_Abstract
 {
     const DISPLAY_CATEGORY_PAGE = 1;
     const DISPLAY_PRODUCT_PAGE  = 2;

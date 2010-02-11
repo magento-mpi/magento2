@@ -28,7 +28,7 @@
  * Customer balance total block for checkout
  *
  */
-class Enterprise_CustomerBalance_Block_Checkout_Total extends Mage_Checkout_Block_Total_Default
+class Enterprise_CustomerBalance_Block_Checkout_Total extends Enterprise_Enterprise_Block_Checkout_Total_Default
 {
     /**
      * @var string

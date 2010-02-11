@@ -28,7 +28,7 @@
  * Encryption key changer controller
  *
  */
-class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Controller_Action
+class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Enterprise_Enterprise_Controller_Adminhtml_Action
 {
     /**
      * Check whether local.xml is writeable
