@@ -65,9 +65,10 @@ updateLicense('js/enterprise/adminhtml', '*.js', REGEX_SKIN, REPLACEMENT_SKIN, N
 );
 
 // errors/
-updateLicense('errors/enterprise', '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
-updateLicense('errors/enterprise', '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
-updateLicense('errors/enterprise', '*.css', REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
+updateLicense('errors/enterprise', '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, array('Mage', 'Errors'), true, true, true);
+updateLicense('errors/enterprise', '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, array('Mage', 'Errors'), true, true, true);
+updateLicense('errors/enterprise', '*.css', REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, array('Mage', 'Errors'), true, true, true);
+updateLicense('errors', 'design.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, array('Mage', 'Errors'), true, true, true);
 
 echo "done\n";
 exit;

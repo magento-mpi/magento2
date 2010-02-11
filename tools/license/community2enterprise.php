@@ -84,10 +84,6 @@ updateLicense(array(
 updateLicense(null, array(
     'app/Mage.php',
     'cron.php',
-//    'errors/404.php',
-//    'errors/503.php',
-//    'errors/functions.php',
-//    'errors/report.php',
     'includes/config.php',
     'index.php',
     'index.php.sample',
