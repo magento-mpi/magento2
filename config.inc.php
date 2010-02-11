@@ -272,7 +272,6 @@ $CONFIG['translates'] = array(
     ),
     'Mage_PaypalUk' => array(
         'app/code/core/Mage/Paypal/',
-        'app/design/frontend/base/default/template/paypaluk/',
         'app/design/frontend/base/default/layout/paypaluk.xml',
     ),
     'Mage_Poll' => array(
