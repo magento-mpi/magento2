@@ -52,7 +52,8 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     public function indexAction()
     {
-        $this->_title($this->__('System'))->_title($this->__('Stores'));
+        $this->_title($this->__('System'))
+             ->_title($this->__('Stores'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('adminhtml/system_store_store'))
@@ -245,6 +246,10 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     public function deleteWebsiteAction()
     {
+        $this->_title($this->__('System'))
+             ->_title($this->__('Stores'))
+             ->_title($this->__('Delete Website'));
+
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
         if (!$model = Mage::getModel('core/website')->load($itemId)) {
@@ -273,6 +278,10 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     public function deleteGroupAction()
     {
+        $this->_title($this->__('System'))
+             ->_title($this->__('Stores'))
+             ->_title($this->__('Delete Store'));
+
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
         if (!$model = Mage::getModel('core/store_group')->load($itemId)) {
@@ -301,6 +310,9 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     public function deleteStoreAction()
     {
+        $this->_title($this->__('System'))
+             ->_title($this->__('Stores'))
+             ->_title($this->__('Delete Store View'));
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
