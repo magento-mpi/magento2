@@ -124,8 +124,7 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
      */
     public function categoryAttribute($category, $attributeHtml, $attributeName)
     {
-        $attributes = $category->getAttributes();
-        $attribute  = (isset($attributes[$attributeName])) ? $attributes[$attributeName] : null;
+        $attribute = Mage::getSingleton('eav/config')->getAttribute('catalog_category', $attributeName);
 
         if ($attribute && ($attribute->getFrontendInput() != 'image')
             && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
