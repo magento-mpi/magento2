@@ -159,6 +159,10 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
 
     public function customerDetailAction()
     {
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Tags'))
+             ->_title($this->__('Customers'));
+
         $this->_initAction()
             ->_setActiveMenu('report/tag/customerDetail')
             ->_addBreadcrumb(Mage::helper('reports')->__('Customers Report'), Mage::helper('reports')->__('Customers Report'))
@@ -193,6 +197,10 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
 
     public function productDetailAction()
     {
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Tags'))
+             ->_title($this->__('Products'));
+
         $this->_initAction()
             ->_setActiveMenu('report/tag/productDetail')
             ->_addBreadcrumb(Mage::helper('reports')->__('Products Report'), Mage::helper('reports')->__('Products Report'))
@@ -227,6 +235,10 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
 
     public function tagDetailAction()
     {
+        $this->_title($this->__('Reports'))
+             ->_title($this->__('Tags'))
+             ->_title($this->__('Popular'));
+
         $this->_initAction()
             ->_setActiveMenu('report/tag/tagDetail')
             ->_addBreadcrumb(Mage::helper('reports')->__('Popular Tags'), Mage::helper('reports')->__('Popular Tags'))
