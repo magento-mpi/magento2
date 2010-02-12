@@ -763,12 +763,13 @@ function parseNumber(v)
  *     function validateCreditCard wich you can find above in this file
  */
 Validation.creditCartTypes = $H({
-    'VI': [new RegExp('^4[0-9]{12}([0-9]{3})?$'), new RegExp('^[0-9]{3}$'), true],
-    'MC': [new RegExp('^5[1-5][0-9]{14}$'), new RegExp('^[0-9]{3}$'), true],
-    'AE': [new RegExp('^3[47][0-9]{13}$'), new RegExp('^[0-9]{4}$'), true],
-    'DI': [new RegExp('^6011[0-9]{12}$'), new RegExp('^[0-9]{3}$'), true],
-    'SS': [new RegExp('^((6759[0-9]{12})|(49[013][1356][0-9]{13})|(633[34][0-9]{12})|(633110[0-9]{10})|(564182[0-9]{10}))([0-9]{2,3})?$'), new RegExp('^([0-9]{3}|[0-9]{4})?$'), true],
-    'OT': [false, new RegExp('^([0-9]{3}|[0-9]{4})?$'), false]
+    'VI':  [new RegExp('^4[0-9]{12}([0-9]{3})?$'), new RegExp('^[0-9]{3}$'), true],
+    'MC':  [new RegExp('^5[1-5][0-9]{14}$'), new RegExp('^[0-9]{3}$'), true],
+    'AE':  [new RegExp('^3[47][0-9]{13}$'), new RegExp('^[0-9]{4}$'), true],
+    'DI':  [new RegExp('^6011[0-9]{12}$'), new RegExp('^[0-9]{3}$'), true],
+    'SS':  [new RegExp('^((6759[0-9]{12})|(49[013][1356][0-9]{13})|(633[34][0-9]{12})|(633110[0-9]{10})|(564182[0-9]{10}))([0-9]{2,3})?$'), new RegExp('^([0-9]{3}|[0-9]{4})?$'), true],
+    'JCB': [new RegExp('^(3[0-9]{15}|(2131|1800)[0-9]{11})$'), new RegExp('^[0-9]{4}$'), true],
+    'OT':  [false, new RegExp('^([0-9]{3}|[0-9]{4})?$'), false]
 });
 
 
