@@ -179,7 +179,6 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Ent
             ->getProductCollection()
             ->setStoreId(Mage::app()->getStore()->getId())
             ->setGroupBy();
-
         $this->_addProductAttributesAndPrices($collection);
 
         Mage::getSingleton('catalog/product_visibility')
@@ -349,7 +348,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Ent
                     $collection = $this->_getLinkCollection()
                         ->addProductFilter($this->_getCartProductIds())
                         ->addExcludeProductFilter($excludeProductIds)
-                        ->setRandomOrder()
+                        ->setPositionOrder()
                         ->setPageSize($count);
 
                     foreach ($collection as $product) {
