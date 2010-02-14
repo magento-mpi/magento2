@@ -1517,7 +1517,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 /* Sample Data============================================================================ */
 .home-callout { margin-bottom:12px; }
 .home-callout img { display:block }
-/*.home-spot { float:left; width:470px; margin-left:20px; }*/
+.home-spot { float:left; width:470px; margin-left:20px; }
 .best-selling h3 { margin:12px 0 6px 0; color:#e25203; font-size:1.2em; }
 .best-selling table { border-top:1px solid #ccc; }
 .best-selling tr.odd { background:#eee url(../images/best_selling_tr_odd_bg.gif) 0 100% repeat-x; }
