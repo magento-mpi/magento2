@@ -46,7 +46,7 @@ class Mage_Rss_Block_Catalog_New extends Mage_Rss_Block_Catalog_Abstract
     {
         $storeId = $this->_getStoreId();
 
-        $newurl = Mage::getUrl('rss/catalog/new');
+        $newurl = Mage::getUrl('rss/catalog/new/store_id/' . $storeId);
         $title = Mage::helper('rss')->__('New Products from %s',Mage::app()->getStore()->getGroup()->getName());
         $lang = Mage::getStoreConfig('general/locale/code');
 
