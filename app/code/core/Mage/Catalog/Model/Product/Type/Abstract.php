@@ -681,4 +681,20 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
 
         return $searchData;
     }
+
+    /**
+     * Retrieve products divided into groups required to purchase
+     * At least one product in each group has to be purchased
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return array
+     */
+    public function getProductsToPurchaseByReqGroups($product = null)
+    {
+        $product = $this->getProduct($product);
+        if ($this->isComposite($product)) {
+            return array();
+        }
+        return array(array($product));
+    }
 }

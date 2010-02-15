@@ -207,7 +207,7 @@
                 </type>
             </product>
         </catalog>
-        
+
         <index>
             <indexer>
                 <cataloginventory_stock>
@@ -228,6 +228,13 @@
     </global>
 
     <frontend>
+        <layout>
+            <updates>
+                <cataloginventory>
+                    <file>cataloginventory.xml</file>
+                </cataloginventory>
+            </updates>
+        </layout>
         <translate>
             <modules>
                 <Mage_CatalogInventory>
@@ -257,6 +264,7 @@
                 <can_subtract>1</can_subtract>
                 <can_back_in_stock>1</can_back_in_stock>
                 <show_out_of_stock>0</show_out_of_stock>
+                <stock_threshold_qty>0</stock_threshold_qty>
             </options>
             <item_options>
                 <manage_stock>1</manage_stock>

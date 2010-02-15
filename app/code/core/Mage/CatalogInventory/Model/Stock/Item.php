@@ -65,6 +65,13 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     protected $_eventObject = 'item';
 
     /**
+     * Associated product instance
+     *
+     * @var Mage_Catalog_Model_Product
+     */
+    protected $_productInstance = null;
+
+    /**
      * Initialize resource model
      *
      */
@@ -165,7 +172,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Adding stoc data to product
+     * Adding stock data to product
      *
      * @param   Mage_Catalog_Model_Product $product
      * @return  Mage_CatalogInventory_Model_Stock_Item
@@ -514,6 +521,44 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             ->setProductStatusChanged($product->dataHasChangedFor('status'))
             ->setProductChangedWebsites($product->getIsChangedWebsites());
 
+        $this->_productInstance = $product;
+
         return $this;
+    }
+
+    /**
+     * Retrieve stock qty whether product is composite or no
+     *
+     * @return float
+     */
+    public function getStockQty()
+    {
+        if (!$this->hasStockQty()) {
+            $this->setStockQty(0);  // prevent possible recursive loop
+            $product = $this->_productInstance;
+            if (!$product || !$product->isComposite()) {
+                $stockQty = $this->getQty();
+            } else {
+                $stockQty = null;
+                $productsByGroups = $product->getTypeInstance(true)->getProductsToPurchaseByReqGroups($product);
+                foreach ($productsByGroups as $productsInGroup) {
+                    $qty = 0;
+                    foreach ($productsInGroup as $childProduct) {
+                        if ($childProduct->hasStockItem()) {
+                            $qty += $childProduct->getStockItem()->getStockQty();
+                        }
+                    }
+                    if (is_null($stockQty) || $qty < $stockQty) {
+                        $stockQty = $qty;
+                    }
+                }
+            }
+            $stockQty = (float) $stockQty;
+            if ($stockQty < 0 || !$this->getManageStock() || !$this->getIsInStock() || ($product && !$product->isSaleable())) {
+                $stockQty = 0;
+            }
+            $this->setStockQty($stockQty);
+        }
+        return $this->getData('stock_qty');
     }
 }
