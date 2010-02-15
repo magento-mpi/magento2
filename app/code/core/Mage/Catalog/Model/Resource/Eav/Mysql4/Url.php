@@ -232,6 +232,17 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
                     $rewriteData,
                     $where
                 );
+
+                // Update existing rewrites history and avoid chain redirects
+                $where = $this->_getWriteAdapter()->quoteInto('target_path=?', $rewrite->getRequestPath());
+                if ($rewrite->getStoreId()) {
+                    $where .= $this->_getWriteAdapter()->quoteInto(' AND store_id=?', $rewrite->getStoreId());
+                }
+                $this->_getWriteAdapter()->update(
+                    $this->getMainTable(),
+                    array('target_path' => $rewriteData['request_path']),
+                    $where
+                );
             }
         }
         else {
@@ -243,6 +254,19 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             }
         }
         unset($rewriteData);
+        return $this;
+    }
+    
+    public function saveRewriteHistory($rewriteData)
+    {
+        $rewriteData = new Varien_Object($rewriteData);
+        // check if rewrite exists with save request_path
+        $rewrite = $this->getRewriteByRequestPath($rewriteData->getRequestPath(), $rewriteData->getStoreId());
+        if ($rewrite === false) {
+            // create permanent redirect
+            $this->_getWriteAdapter()->insert($this->getMainTable(), $rewriteData->getData());
+        }
+
         return $this;
     }
 
@@ -902,7 +926,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
      *
      * @param int $productId Product entity Id
      * @param int $storeId Store Id for rewrites
-     * @param array $excludeCategoryIds Array of category Ids that should be skipped 
+     * @param array $excludeCategoryIds Array of category Ids that should be skipped
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Url
      */
     public function clearProductRewrites($productId, $storeId, $excludeCategoryIds = array())

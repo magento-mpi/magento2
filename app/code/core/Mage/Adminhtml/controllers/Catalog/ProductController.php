@@ -533,6 +533,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         }
 
         /**
+         * Create Permanent Redirect for old URL key
+         */
+        if ($product->getId() && isset($productData['url_key_create_redirect']))
+        // && $product->getOrigData('url_key') != $product->getData('url_key')
+        {
+            $product->setData('save_rewrites_history', (bool)$productData['url_key_create_redirect']);
+        }
+        
+        /**
          * Check "Use Default Value" checkboxes values
          */
         if ($useDefaults = $this->getRequest()->getPost('use_default')) {
@@ -540,7 +549,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $product->setData($attributeCode, false);
             }
         }
-
+        
         /**
          * Init product links data (related, upsell, crosssel)
          */

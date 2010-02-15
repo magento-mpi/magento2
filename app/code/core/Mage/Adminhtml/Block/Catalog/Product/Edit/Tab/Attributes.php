@@ -64,6 +64,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
 
             $this->_setFieldset($attributes, $fieldset, array('gallery'));
 
+            if ($urlKey = $form->getElement('url_key')) {
+                $urlKey->setRenderer(
+                    $this->getLayout()->createBlock('adminhtml/catalog_form_renderer_attribute_urlkey')
+                );
+            }
+
             if ($tierPrice = $form->getElement('tier_price')) {
                 $tierPrice->setRenderer(
                     $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_price_tier')

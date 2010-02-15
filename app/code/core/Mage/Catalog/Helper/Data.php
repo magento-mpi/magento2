@@ -37,7 +37,8 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     const PRICE_SCOPE_GLOBAL            = 0;
     const PRICE_SCOPE_WEBSITE           = 1;
     const XML_PATH_PRICE_SCOPE          = 'catalog/price/scope';
-
+    const XML_PATH_SEO_SAVE_HISTORY     = 'catalog/seo/save_rewrites_history';
+    
     /**
      * Breadcrumb Path cache
      *
@@ -203,5 +204,16 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     public function isPriceGlobal()
     {
         return $this->getPriceScope() == self::PRICE_SCOPE_GLOBAL;
+    }
+
+    /**
+     * Indicate whether to save URL Rewrite History or not (create redirects to old URLs)
+     *
+     * @param int $storeId Store View
+     * @return bool
+     */
+    public function shouldSaveUrlRewritesHistory($storeId = null)
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_SEO_SAVE_HISTORY, $storeId);
     }
 }
