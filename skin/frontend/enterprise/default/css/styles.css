@@ -1702,6 +1702,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 /* Shipping and Payment methods */
 .sp-methods dt { font-weight:bold; margin-bottom:5px; }
 .sp-methods dd { margin:0 0 7px; }
+.sp-methods dd li { margin:5px 0; }
 .sp-methods .price { font-weight:bold; }
 .sp-methods .form-list { padding-left:20px; margin:15px 0; }
 .sp-methods .form-list .input-text { width:250px; }
@@ -1716,6 +1717,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .sp-methods .checkbox {}
 .sp-methods .v-fix .validation-advice { margin-right:-250px; position:relative; z-index:1; width:250px; }
 .sp-methods .adv-container { padding-left:170px; }
+.sp-methods .centinel-logos a { margin-right:3px; }
+.sp-methods .centinel-logos img { vertical-align:middle; }
 
 .checkmo-list li { margin:0 0 4px; }
 .checkmo-list label { padding-top:0; }
@@ -1763,6 +1766,12 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .checkout-agreements .agreement-content { border:1px solid #d8cea8; font-size:11px; background-color:#fffdef; padding:15px; height:10em; overflow:auto; }
 .checkout-agreements .agree { padding:10px 0; font-size:12px; font-weight:bold; }
 .checkout-agreements .agree .checkbox { margin-right:5px; }
+
+/* Centinel */
+.centinel { margin:10px 0; }
+.centinel p { margin:0 0 10px; }
+
+.opc .centinel { margin:0; padding:20px; }
 /********** Common Checkout Styles > */
 /* ======================================================================================= */
 
