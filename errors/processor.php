@@ -218,7 +218,7 @@ class Error_Processor
      */
     public function getHostUrl()
     {
-        $isSecure = isset($_SERVER['SERVER_PORT']) && (443 == $_SERVER['SERVER_PORT']);
+        $isSecure = (!empty($_SERVER['HTTPS'])) && ($_SERVER['HTTPS'] != 'off');
         $url = ($isSecure ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'];
 
         if (!empty($_SERVER['SERVER_PORT']) && !in_array($_SERVER['SERVER_PORT'], array(80, 433))) {
