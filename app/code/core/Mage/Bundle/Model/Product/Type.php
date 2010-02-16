@@ -358,7 +358,9 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function getSelectionsCollection($optionIds, $product = null)
     {
-        if (!$this->getProduct($product)->hasData($this->_keySelectionsCollection)) {
+        $keyOptionIds = (is_array($optionIds) ? implode('_', $optionIds) : '');
+        $key = $this->_keySelectionsCollection . $keyOptionIds;
+        if (!$this->getProduct($product)->hasData($key)) {
             $selectionsCollection = Mage::getResourceModel('bundle/selection_collection')
                 ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
                 ->setFlag('require_stock_items', true)
@@ -368,9 +370,9 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 ->addFilterByRequiredOptions()
                 ->setOptionIdsFilter($optionIds);
 
-            $this->getProduct($product)->setData($this->_keySelectionsCollection, $selectionsCollection);
+            $this->getProduct($product)->setData($key, $selectionsCollection);
         }
-        return $this->getProduct($product)->getData($this->_keySelectionsCollection);
+        return $this->getProduct($product)->getData($key);
     }
 
     /**
