@@ -129,8 +129,8 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                     ->setTargetPath($this->getRequest()->getParam('target_path'))
                     ->setOptions($this->getRequest()->getParam('options'))
                     ->setDescription($this->getRequest()->getParam('description'))
-                    ->setRequestPath($this->getRequest()->getParam('request_path'))
-                ;
+                    ->setRequestPath($this->getRequest()->getParam('request_path'));
+                    
                 if (!$model->getId()) {
                     $model->setIsSystem(0);
                 }
@@ -149,8 +149,24 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                 }
                 if ($product || $category) {
                     $catalogUrlModel = Mage::getSingleton('catalog/url');
-                    $model->setIdPath($catalogUrlModel->generatePath('id', $product, $category));
-                    $model->setTargetPath($catalogUrlModel->generatePath('target', $product, $category));
+                    $idPath = $catalogUrlModel->generatePath('id', $product, $category);
+                    
+                    // if redirect specified try to find friendly URL
+                    $found = false;
+                    if (in_array($model->getOptions(), array('R', 'RP'))) {
+                        $rewrite = Mage::getResourceModel('catalog/url')
+                            ->getRewriteByIdPath($idPath, $model->getStoreId());
+                        if($rewrite->getId() && $rewrite->getId() != $model->getId()) {
+                            $model->setIdPath($catalogUrlModel->generateUniqueIdPath());
+                            $model->setTargetPath($rewrite->getRequestPath());
+                            $found = true;
+                        }
+                    }
+
+                    if (!$found) {
+                        $model->setIdPath($idPath);
+                        $model->setTargetPath($catalogUrlModel->generatePath('target', $product, $category));
+                    }
                 }
 
                 // save and redirect

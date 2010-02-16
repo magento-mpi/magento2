@@ -719,6 +719,16 @@ class Mage_Catalog_Model_Url
     }
     
     /**
+     * Return unique string based on the time in microseconds.
+     *
+     * @return string
+     */
+    public function generateUniqueIdPath()
+    {
+        return str_replace('0.', '', str_replace(' ', '_', microtime()));
+    }
+    
+    /**
      * Create Custom URL Rewrite for old product/category URL after url_key changed
      * It will perform permanent redirect from old URL to new URL
      *
@@ -731,7 +741,7 @@ class Mage_Catalog_Model_Url
         if ($rewrite instanceof Varien_Object && $rewrite->getId()) {
             $rewriteData['target_path'] = $rewriteData['request_path'];
             $rewriteData['request_path'] = $rewrite->getRequestPath();
-            $rewriteData['id_path'] = str_replace('0.', '', str_replace(' ', '_', microtime()));
+            $rewriteData['id_path'] = $this->generateUniqueIdPath();
             $rewriteData['is_system'] = 0;
             $rewriteData['options'] = 'RP'; // Redirect = Permanent
             $this->getResource()->saveRewriteHistory($rewriteData);
