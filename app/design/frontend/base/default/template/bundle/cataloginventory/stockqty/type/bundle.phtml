@@ -1,0 +1,211 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * @see Mage_Bundle_Block_CatalogInventory_Stockqty_Type_Bundle
+ */
+?>
+<span id="<?php echo $this->getPlaceholderId() ?>" class="only-x-left no-display"></span>
+
+<script type="text/javascript">
+//<![CDATA[
+
+if(typeof CatalogInventory == 'undefined') {
+    var CatalogInventory = {};
+}
+
+CatalogInventory.Bundle = Class.create();
+CatalogInventory.Bundle.prototype = {
+    /**
+     * Constructor
+     */
+    initialize: function(config){
+        this.config = config;
+        this.observersInstalled = false;
+    },
+
+    /**
+     * Install event observers on input elements
+     */
+    installObserversNow: function(){
+        if(this.observersInstalled){
+            return true;
+        }
+        for(optionId in this.config.options){
+            var option = this.config.options[optionId];
+            var tagId = 'bundle-option-' + optionId;
+            var tag = $(tagId);
+            if(!tag){
+                continue;
+            }
+            if(option.type == 'select' || option.type == 'multi'){
+                tag.observe('change', this.dispatchElementChanges.bind(this));
+                continue;
+            }
+            if(option.type == 'radio'){
+                tag.observe('click', this.dispatchElementChanges.bind(this));
+            }
+            for(selectionId in option.selections){
+                var inputTagId = tagId + '-' + selectionId;
+                $(inputTagId).observe('click', this.dispatchElementChanges.bind(this));
+            }
+            this.observersInstalled = true;
+        }
+        return this.observersInstalled;
+    },
+
+    /**
+     * Install event observers on input elements after DOM is loaded
+     */
+    installObserversLazy: function(){
+        if(this.observersInstalled){
+            return true;
+        }
+        //Event.observe(window, 'load', this.installObserversNow.bind(this));
+        Event.observe(document, 'dom:loaded', this.installObserversNow.bind(this));
+        return false;
+    },
+
+    /**
+     * Install event observers whether DOM is loaded or no
+     */
+    installObservers: function(){
+        if(this.installObserversNow()){
+            return true;
+        }
+        return this.installObserversLazy();
+    },
+
+    /**
+     * Dispatch input element changes to element-oriented method
+     */
+    dispatchElementChanges: function(event){
+        var element = Event.element(event);
+        this.reflectElementChanges(element);
+    },
+
+    /**
+     * Reflect input element changes on stock qty placeholder
+     */
+    reflectElementChanges: function(element) {
+        this.updateStockQty();
+    },
+
+    /**
+     * Update stock qty placeholder with new qty value
+     */
+    updatePlaceholder: function(qty){
+        var placeholder = $(this.config.placeholderId);
+        if(placeholder){
+            placeholder.addClassName('no-display');
+            placeholder.innerHTML = '<?php echo $this->__('Only %s left', '%s') ?>'.replace('%s', qty);
+            if(qty > 0 && qty <= this.config.thresholdQty){
+                placeholder.removeClassName('no-display');
+            }
+        }
+    },
+
+    /**
+     * Update stock qty according to current input elements
+     */
+    updateStockQty: function(){
+        if(!this.observersInstalled){
+            this.updatePlaceholder(this.config.initialStockQty);
+            return;
+        }
+        var resultQty = 0;
+        var totalQty = 0;
+
+        for(optionId in this.config.options){
+            var option = this.config.options[optionId];
+
+            // initiallize optionQty like no selections chosen
+            var optionQty = 0;
+            for(selectionId in option.selections){
+                optionQty += option.selections[selectionId].stockQty;
+            }
+
+            // collect ids of chosen selections
+            var chosenSelectionIds = [];
+            var tagId = 'bundle-option-' + optionId;
+
+            if(option.type == 'select' || option.type == 'multi'){  // select input
+                var el = $(tagId);
+                for(var i = 0; i < el.options.length; i++){
+                    if(el.options[i].selected){
+                        var selectionId = el.options[i].value;
+                        if(selectionId){
+                            chosenSelectionIds.push(selectionId);
+                        }
+                    }
+                }
+            }
+            else{  // radio or checkbox input
+                for(selectionId in option.selections){
+                    var inputTagId = tagId + '-' + selectionId;
+                    var el = $(inputTagId);
+                    if(el.checked){
+                        chosenSelectionIds.push(selectionId);
+                    }
+                }
+            }
+
+            // limit optionQty to min qty among chosen selections
+            for(var i = 0; i < chosenSelectionIds.length; i++){
+                var selectionId = chosenSelectionIds[i];
+                var qty = option.selections[selectionId].stockQty;
+                if(qty < optionQty){
+                    optionQty = qty;
+                }
+            }
+
+            // limit resultQty with optionQty if option is required or has chosen selections
+            if(chosenSelectionIds.length > 0 || option.isRequired){
+                if(optionQty < resultQty || resultQty == 0){
+                    resultQty = optionQty;
+                }
+            }
+
+            totalQty += optionQty;
+        }
+
+        // use totalQty if no required options and no chosen selections
+        if(resultQty == 0){
+            resultQty = totalQty;
+        }
+
+        // update placeholder
+        this.updatePlaceholder(resultQty);
+    }
+};
+
+var catalogInventoryBundle = new CatalogInventory.Bundle(<?php echo $this->getJsonConfig() ?>);
+catalogInventoryBundle.installObservers();
+catalogInventoryBundle.updateStockQty();
+
+//]]>
+</script>

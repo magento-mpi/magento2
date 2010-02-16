@@ -39,6 +39,7 @@
             <?php else: ?>
                 <p class="availability out-of-stock"><?php echo $this->__('Availability') ?>: <span><?php echo $this->__('Out of stock') ?></span></p>
             <?php endif; ?>
+            <?php echo $this->getChildHtml('bundle_summary_extra') ?>
         </div>
         <div class="clearer"></div>
         <?php echo $this->getChildHtml('', true, true);?>

@@ -46,10 +46,10 @@ Additional block dependent on product type
             <block type="cataloginventory/stockqty_default" template="cataloginventory/stockqty/default.phtml"/>
         </reference>
     </PRODUCT_TYPE_grouped>
-    <!--<PRODUCT_TYPE_configurable>
+    <PRODUCT_TYPE_configurable>
         <reference name="product.info.configurable.extra">
             <block type="cataloginventory/stockqty_type_configurable" template="cataloginventory/stockqty/type/configurable.phtml"/>
         </reference>
-    </PRODUCT_TYPE_configurable>-->
+    </PRODUCT_TYPE_configurable>
 
 </layout>

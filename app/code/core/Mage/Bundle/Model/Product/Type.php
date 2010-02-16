@@ -873,4 +873,34 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
         return $this;
     }
+
+    /**
+     * Retrieve products divided into groups required to purchase
+     * At least one product in each group has to be purchased
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return array
+     */
+    public function getProductsToPurchaseByReqGroups($product = null)
+    {
+        $product = $this->getProduct($product);
+        $groups = array();
+        $allProducts = array();
+        $hasRequiredOptions = false;
+        foreach ($this->getOptions($product) as $option) {
+            $groupProducts = array();
+            foreach ($this->getSelectionsCollection(array($option->getId()), $product) as $childProduct) {
+                $groupProducts[] = $childProduct;
+                $allProducts[] = $childProduct;
+            }
+            if ($option->getRequired()) {
+                $groups[] = $groupProducts;
+                $hasRequiredOptions = true;
+            }
+        }
+        if (!$hasRequiredOptions) {
+            $groups = array($allProducts);
+        }
+        return $groups;
+    }
 }
