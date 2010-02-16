@@ -1036,6 +1036,21 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     }
 
     /**
+     * Check whether we need to create new customer (for another website) during order creation
+     *
+     * @param   Mage_Core_Model_Store $store
+     * @return  boolean
+     */
+    protected function _customerIsInStore($store)
+    {
+        $customer = $this->getSession()->getCustomer();
+        if ($customer->getWebsiteId() == $store->getWebsiteId()) {
+            return true;
+        }
+        return $customer->isInStore($store);
+    }
+    
+    /**
      * Prepare quote customer
      */
     public function _prepareCustomer()
@@ -1053,7 +1068,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $customer->addData($this->_getData('account'));
 
         if ($customer->getId()) {
-            if (!$customer->isInStore($store)) {
+            if (!$this->_customerIsInStore($store)) {
                 $customer->setId(null)
                     ->setStore($store)
                     ->setDefaultBilling(null)
@@ -1267,14 +1282,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         return $email;
     }
-
-
-
-
-
-
-
-
 
     /**
      * Create customer model and assign it to quote
