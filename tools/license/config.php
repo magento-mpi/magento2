@@ -130,7 +130,7 @@ define('BP', realpath(dirname(__FILE__) . '/../..'));
  * Adds to a PHP or PHTML-file with or without notice of license
  * File should start from <?php
  */
-define('REGEX_PHP', '/^\<\?php\s+(\/\*\*.+NOTICE OF LICENSE.+?\*\/\s?)?(.*)$/us');
+define('REGEX_PHP', '/^\s*\<\?php\s+(\/\*\*.+NOTICE OF LICENSE.+?\*\/\s?)?(.*)$/us');
 define('REPLACEMENT_PHP', "<?php\n{notice}\n\\2");
 
 /**
@@ -145,8 +145,8 @@ define('REPLACEMENT_SKIN', "{notice}\n\\2");
  * Replaces an existing notice of license in an XML-file
  * Not supposed to work without notice of license
  */
-define('REGEX_XML', '/^\<\?xml version\=\"1\.0\"\?\>\s+\<\!\-\-\s+(\/\*\*.+NOTICE OF LICENSE.+?\*\/\s?)?(.+)$/us');
-define('REPLACEMENT_XML', "<?xml version=\"1.0\"?" . ">\n<!--\n{notice}\n\\2");
+define('REGEX_XML', '/^\<\?xml version\=\"1\.0\"( encoding="[a-zA-Z0-9\-]+")?\?\>\s+\<\!\-\-\s+(\/\*\*.+NOTICE OF LICENSE.+?\*\/\s?)?(.+)$/us');
+define('REPLACEMENT_XML', "<?xml version=\"1.0\"?" . ">\n<!--\n{notice}\n\\3");
 
 /**
  * Callback parameters merger
@@ -265,9 +265,10 @@ function globRecursive($paths, $fileMasks, &$result, $isRecursion = false)
  * @param bool $crlfToLf
  * @param bool $tabsToSpaces
  * @param bool $LfBeforeEof
+ * @param bool $deleteBom
  * @return int - cumulative count of changed files
  */
-function updateLicense($directories, $fileMasks, $regex, $replacement, $noticeOfLicense, $categoryPackageCallback, $crlfToLf = false, $tabsToSpaces = false, $LfBeforeEof = false)
+function updateLicense($directories, $fileMasks, $regex, $replacement, $noticeOfLicense, $categoryPackageCallback, $crlfToLf = false, $tabsToSpaces = false, $LfBeforeEof = false, $deleteBom = true)
 {
     static $changedFilesCounter = 0;
     if (null !== $directories) {
@@ -292,6 +293,9 @@ function updateLicense($directories, $fileMasks, $regex, $replacement, $noticeOf
     foreach ($foundFiles as $filename) {
         $contents = file_get_contents($filename);
         $newContents = $contents;
+        if ($deleteBom && (0 === strpos($contents, chr(239))) && (1 === strpos($contents, chr(187))) && (2 === strpos($contents, chr(191)))) { // get rid of BOM
+            $newContents = substr($contents, 3);
+        }
         // trim lines and/or replace tabs to spaces
         if (($crlfToLf || $tabsToSpaces) && (false !== strpos($newContents, "\r\n") || false !== strpos($newContents, "\t"))) {
             $newContents = '';

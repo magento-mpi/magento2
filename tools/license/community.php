@@ -35,6 +35,7 @@ updateLicense(array(
 updateLicense(array(
     'app/code/core/Mage',
 ), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, 'codePoolCallback', true, true, true);
+updateLicense(null, array('app/etc/config.xml'), REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, array('Mage', 'Mage_Core'), true, true, true);
 
 // modules xml-declarations
 updateLicense(array(
@@ -129,6 +130,11 @@ updateLicense(array(
 // js/mage and js/varien
 updateLicense(array('js/mage', '!js/mage/adminhtml'), array('*.css', '*.js'),
     REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('Mage', 'js'), true, true, true
+);
+updateLicense(null, array(
+    'js/lib/dropdown.js',
+    'js/lib/flex.js',
+    ), REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('Mage', 'js'), true, true, true
 );
 updateLicense(array('js/mage/adminhtml', '!js/mage/adminhtml/moneybookers.js'), array('*.css', '*.js'),
     REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('Mage', 'Mage_Adminhtml'), true, true, true

@@ -39,6 +39,7 @@ updateLicense('app/etc/modules', 'Enterprise_*.xml', REGEX_XML, REPLACEMENT_XML,
 updateLicense(array(
         'app/design/adminhtml/default/default/template/enterprise',
         'app/design/frontend/enterprise/default/template',
+        'app/design/install/default/enterprise/template',
     ), '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'themeCallback', true, true, true
 );
 
