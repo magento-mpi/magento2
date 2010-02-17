@@ -39,7 +39,7 @@ class Mage_Centinel_Block_Authentication_Start extends Mage_Core_Block_Template
     {
         $validator = Mage::registry('centinel_validator');
         if ($validator && $validator->shouldAuthenticate()) {
-            $this->setData($validator->getAuthenticateStartData());
+            $this->addData($validator->getAuthenticateStartData());
             return parent::_toHtml();
         }
         return '';
