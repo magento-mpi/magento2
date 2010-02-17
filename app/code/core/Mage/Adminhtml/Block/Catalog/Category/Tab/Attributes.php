@@ -137,6 +137,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Mage_Adminhtm
             }
         }
 
+        if (!$this->getCategory()->getId()){
+            $this->getCategory()->setIncludeInMenu(1);
+        }
+
         $form->addValues($this->getCategory()->getData());
 
         $form->setFieldNameSuffix('general');

@@ -143,6 +143,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
                 $collection->addFieldToFilter('entity_id', array('nin'=>$disabledIds));
             }
             $collection->addAttributeToFilter('is_active', 1);
+            $collection->addAttributeToFilter('include_in_menu', 1);
         }
 
         if ($this->_joinUrlRewriteIntoCollection) {
