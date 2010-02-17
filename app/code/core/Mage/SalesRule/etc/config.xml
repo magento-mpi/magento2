@@ -92,8 +92,8 @@
                     </freeshipping>
                     <discount>
                         <class>salesrule/quote_discount</class>
-                        <after>subtotal,shipping</after>
-                        <before>grand_total</before>
+                        <after>subtotal</after>
+                        <before>grand_total,shipping</before>
                     </discount>
                 </totals>
             </quote>
@@ -122,7 +122,7 @@
             </modules>
         </translate>
     </frontend>
-    
+
     <crontab>
         <jobs>
             <aggregate_sales_report_coupons_data>

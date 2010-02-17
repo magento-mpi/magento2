@@ -66,6 +66,8 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
         $this->_calculator->init($store->getWebsiteId(), $quote->getCustomerGroupId(), $quote->getCouponCode());
         $address->setDiscountDescription(array());
 
+        $baseVirtualDiscountAmount = $virtualDiscountAmount = 0;
+
         foreach ($items as $item) {
             if ($item->getNoDiscount()) {
                 $item->setDiscountAmount(0);
@@ -93,6 +95,14 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
                     $this->_calculator->process($item);
                     $this->_aggregateItemDiscount($item);
                 }
+
+                /**
+                 * Separatly calculate discount only for virtual products
+                 */
+                if ($item->getProduct() && $item->getProduct()->isVirtual()) {
+                    $baseVirtualDiscountAmount += -$item->getBaseDiscountAmount();
+                	$virtualDiscountAmount += -$item->getDiscountAmount();
+                }
             }
         }
 
@@ -105,7 +115,11 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
             $this->_calculator->processShippingAmount($address);
             $this->_addAmount(-$address->getShippingDiscountAmount());
             $this->_addBaseAmount(-$address->getBaseShippingDiscountAmount());
+            $baseVirtualDiscountAmount += -$address->getBaseShippingDiscountAmount();
+            $virtualDiscountAmount += -$address->getShippingDiscountAmount();
         }
+        $this->_getAddress()->setBaseVirtualDiscountAmount($baseVirtualDiscountAmount);
+        $this->_getAddress()->setVirtualDiscountAmount($virtualDiscountAmount);
 
         $this->_calculator->prepareDescription($address);
         return $this;

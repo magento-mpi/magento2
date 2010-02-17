@@ -122,8 +122,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             $r->setFreeMethodWeight($request->getFreeMethodWeight());
         }
 
-        $r->setValue($request->getPackageValue());
-        $r->setValueWithDiscount($request->getPackageValueWithDiscount());
+        $r->setValue($request->getPackagePhysicalValue());
+        $r->setValueWithDiscount($request->getPackagePhysicalValueWithDiscount());
 
         $this->_rawRequest = $r;
 
@@ -429,7 +429,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
 
         if (strlen(trim($response))>0) {
            if ($xml = $this->_parseXml($response)) {
-               
+
                if (is_object($xml->Error) && is_object($xml->Error->Message)) {
                    $errorTitle = (string)$xml->Error->Message;
                } elseif (is_object($xml->SoftError) && is_object($xml->SoftError->Message)) {
@@ -437,9 +437,9 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
                } else {
                    $errorTitle = 'Unknown error';
                }
-                
+
                $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
-                
+
                foreach ($xml->Entry as $entry) {
                    if (in_array((string)$entry->Service, $allowedMethods)) {
                        $costArr[(string)$entry->Service] = (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
@@ -481,7 +481,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     }
 
     /**
-     * Parse XML string and return XML document object or false 
+     * Parse XML string and return XML document object or false
      *
      * @param string $xmlContent
      * @return SimpleXMLElement|bool
@@ -671,7 +671,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
          $resultArr=array();
          if (strlen(trim($response))>0) {
             if ($xml = $this->_parseXml($response)) {
-                  
+
                  if (is_object($xml->Error) && is_object($xml->Error->Message)) {
                     $errorTitle = (string)$xml->Error->Message;
                  } elseif (is_object($xml->SoftError) && is_object($xml->SoftError->Message)) {

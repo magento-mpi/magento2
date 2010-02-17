@@ -38,16 +38,29 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
         parent::collect($address);
         $address->setTotalQty(0);
 
+        $baseVirtualAmount = $virtualAmount = 0;
+
         /**
          * Process address items
          */
         $items = $address->getAllItems();
-
         foreach ($items as $item) {
-            if (!$this->_initItem($address, $item) || $item->getQty()<=0) {
+            if ($this->_initItem($address, $item) && $item->getQty() > 0) {
+                /**
+                 * Separatly calculate subtotal only for virtual products
+                 */
+                if ($item->getProduct()->isVirtual()) {
+                    $virtualAmount += $item->getRowTotal();
+                    $baseVirtualAmount += $item->getBaseRowTotal();
+                }
+            }
+            else {
                 $this->_removeItem($address, $item);
             }
         }
+
+        $address->setBaseVirtualAmount($baseVirtualAmount);
+        $address->setVirtualAmount($virtualAmount);
 
         /**
          * Initialize grand totals
