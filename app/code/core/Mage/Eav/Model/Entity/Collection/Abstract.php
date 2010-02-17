@@ -987,16 +987,23 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
 
         $tableAttributes = array();
         foreach ($this->_selectAttributes as $attributeCode => $attributeId) {
+            if (!$attributeId) {
+                continue;
+            }
             $attribute = Mage::getSingleton('eav/config')->getCollectionAttribute($entity->getType(), $attributeCode);
             if ($attribute && !$attribute->isStatic()) {
                 $tableAttributes[$attribute->getBackendTable()][] = $attributeId;
             }
         }
 
+        $selects = array();
         foreach ($tableAttributes as $table=>$attributes) {
-            $select = $this->_getLoadAttributesSelect($table);
+            $selects[] = $this->_getLoadAttributesSelect($table, $attributes);
+        }
+        if (!empty($selects)) {
             try {
-                $values = $this->_fetchAll($select, $attributes);
+                $select = implode(' UNION ', $selects);
+                $values = $this->_fetchAll($select);
             } catch (Exception $e) {
                 Mage::printException($e, $select);
                 $this->printLogQuery(true, true, $select);
@@ -1007,7 +1014,6 @@ class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_D
                 $this->_setItemAttributeValue($value);
             }
         }
-
         return $this;
     }
 

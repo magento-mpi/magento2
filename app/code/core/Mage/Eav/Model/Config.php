@@ -354,7 +354,7 @@ class Mage_Eav_Model_Config
         Varien_Profiler::start('EAV: '.__METHOD__);
 
         $attributesInfo = Mage::getResourceModel('eav/entity_attribute_collection')
-            ->setEntityTypeFilter($entityType->getId())
+            ->setEntityTypeFilter($entityType)
 //            ->addSetInfo()
             ->getData();
 
@@ -469,7 +469,7 @@ class Mage_Eav_Model_Config
         if ($attributeSetId) {
 
             $attributesInfo = Mage::getResourceModel('eav/entity_attribute_collection')
-                ->setEntityTypeFilter($entityType->getId())
+                ->setEntityTypeFilter($entityType)
                 ->setAttributeSetFilter($attributeSetId)
 //                ->addSetInfo()
                 ->addStoreLabel($storeId)
@@ -519,7 +519,7 @@ class Mage_Eav_Model_Config
         Varien_Profiler::start('EAV: '.__METHOD__ . ':'.$entityTypeCode);
 
         $attributesInfo = Mage::getResourceModel('eav/entity_attribute_collection')
-            ->setEntityTypeFilter($entityType->getId())
+            ->setEntityTypeFilter($entityType)
             ->setCodeFilter($attributes)
 //            ->addSetInfo()
             ->getData();
@@ -612,7 +612,7 @@ class Mage_Eav_Model_Config
         $attributeCollection = $entityType->getEntityAttributeCollection();
         $attributesInfo = Mage::getResourceModel($attributeCollection)
             ->useLoadDataFields()
-            ->setEntityTypeFilter($entityType->getId())
+            ->setEntityTypeFilter($entityType)
             ->setCodeFilter($attributes)
             ->getData();
 

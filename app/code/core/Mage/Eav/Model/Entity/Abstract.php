@@ -846,14 +846,17 @@ abstract class Mage_Eav_Model_Entity_Abstract
          * Load data for entity attributes
          */
         Varien_Profiler::start('__EAV_LOAD_MODEL_ATTRIBUTES__');
+        $selects = array();
         foreach ($this->getAttributesByTable() as $table=>$attributes) {
-            $select = $this->_getLoadAttributesSelect($object, $table);
-            $values = $this->_getReadAdapter()->fetchAll($select);
-
+            $selects[] = $this->_getLoadAttributesSelect($object, $table);
+        }
+        if (!empty($selects)) {
+            $values = $this->_getReadAdapter()->fetchAll(implode(' UNION ', $selects));
             foreach ($values as $valueRow) {
                 $this->_setAttribteValue($object, $valueRow);
             }
         }
+
         Varien_Profiler::stop('__EAV_LOAD_MODEL_ATTRIBUTES__');
 
         $object->setOrigData();
