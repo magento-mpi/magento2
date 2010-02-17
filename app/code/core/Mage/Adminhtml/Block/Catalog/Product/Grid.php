@@ -70,6 +70,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         if ($store->getId()) {
             //$collection->setStoreId($store->getId());
             $collection->addStoreFilter($store);
+            $collection->joinAttribute('name', 'catalog_product/name', 'entity_id', null, 'inner', 0);
             $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $store->getId());
             $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner', $store->getId());
             $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner', $store->getId());
