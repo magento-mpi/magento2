@@ -552,10 +552,10 @@ class Mage_Checkout_Model_Type_Onepage
         if (isset($customerBilling) && !$customer->getDefaultBilling()) {
             $customerBilling->setIsDefaultBilling(true);
         }
-        if ($shipping && isset($customerBilling) && !$customer->getDefaultShipping() && $shipping->getSameAsBilling()) {
-            $customerBilling->setIsDefaultShipping(true);
-        } elseif ($shipping && isset($customerShipping) && !$customer->getDefaultShipping()) {
+        if ($shipping && isset($customerShipping) && !$customer->getDefaultShipping()) {
             $customerShipping->setIsDefaultShipping(true);
+        } elseif (isset($customerBilling) && !$customer->getDefaultShipping()) {
+            $customerBilling->setIsDefaultShipping(true);
         }
         $quote->setCustomer($customer);
     }
