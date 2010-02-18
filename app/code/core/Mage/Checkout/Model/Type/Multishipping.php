@@ -235,7 +235,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 $quote->removeAddress($billingAddress->getId());
             }
 
-            $quote->getBillingAddress()->importCustomerAddress($this->getCustomerDefaultBillingAddress());
+            if ($customerDefaultBilling = $this->getCustomerDefaultBillingAddress()) {
+                $quote->getBillingAddress()->importCustomerAddress($customerDefaultBilling);
+            }
 
             foreach ($quote->getAllItems() as $_item) {
                 if (!$_item->getProduct()->getIsVirtual()) {
