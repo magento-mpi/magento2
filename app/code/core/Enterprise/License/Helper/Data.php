@@ -32,6 +32,26 @@
  */
 class Enterprise_License_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
+    /**
+     * It stores information about whether the extension uploaded php "Ioncube Loader"
+     * 
+     * @var bool
+     */
+    protected $_isIoncubeLoaded = null;
+
+    /**
+     * Get info: is run the extension php "ioncube Loader" or not. 
+     * So, calculate it and stored in local variable of self class if it absent.
+     * 
+     * @return bool
+     */
+    public function isIoncubeLoaded(){
+        if(null === $this->_isIoncubeLoaded) {
+            $this->_isIoncubeLoaded = extension_loaded('ionCube Loader');
+        }
+
+        return $this->_isIoncubeLoaded;
+    }
 }
 
 ?>

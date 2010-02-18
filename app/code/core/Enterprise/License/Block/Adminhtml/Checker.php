@@ -59,7 +59,11 @@ class Enterprise_License_Block_Adminhtml_Checker extends Mage_Core_Block_Templat
      */
     public function shouldDispalyNotification()
     {
-        return ($this->_daysLeftBeforeExpired < 31);
+        if(Mage::helper('enterprise_license')->isIoncubeLoaded()) {
+            return ($this->_daysLeftBeforeExpired < 31);
+        } else {
+            return false;
+        }
     }
     
 

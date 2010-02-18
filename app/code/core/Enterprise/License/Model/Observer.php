@@ -45,7 +45,9 @@ class Enterprise_License_Model_Observer
      */
     public function adminUserAuthenticateAfter()
     {
-        $this->_calculateDaysLeftToExpired();
+        if(Mage::helper('enterprise_license')->isIoncubeLoaded()) {
+            $this->_calculateDaysLeftToExpired();
+        }
     }
 
     /**
@@ -57,16 +59,18 @@ class Enterprise_License_Model_Observer
      */
     public function preDispatch()
     {
-        $lastCalculation = Mage::getSingleton('admin/session')->getDaysLeftBeforeExpired();
+        if(Mage::helper('enterprise_license')->isIoncubeLoaded()) { 
+            $lastCalculation = Mage::getSingleton('admin/session')->getDaysLeftBeforeExpired();
 
-        $dayOfLastCalculation = date('d', $lastCalculation['updatedAt']);
+            $dayOfLastCalculation = date('d', $lastCalculation['updatedAt']);
 
-        $currentDay = date('d');
+            $currentDay = date('d');
 
-        $isComeNewDay = ($currentDay != $dayOfLastCalculation);
+            $isComeNewDay = ($currentDay != $dayOfLastCalculation);
 
-        if(!Mage::getSingleton('admin/session')->hasDaysLeftBeforeExpired() or $isComeNewDay) {
-            $this->_calculateDaysLeftToExpired();
+            if(!Mage::getSingleton('admin/session')->hasDaysLeftBeforeExpired() or $isComeNewDay) {
+                $this->_calculateDaysLeftToExpired();
+            }
         }
     }
 
@@ -78,22 +82,24 @@ class Enterprise_License_Model_Observer
      */
     protected function _calculateDaysLeftToExpired()
     {
-        $licenseProperties = ioncube_license_properties();
-        $expiredDate = (string)$licenseProperties[self::EXPIRED_DATE_KEY]['value'];
+        if(Mage::helper('enterprise_license')->isIoncubeLoaded()) { 
+            $licenseProperties = ioncube_license_properties();
+            $expiredDate = (string)$licenseProperties[self::EXPIRED_DATE_KEY]['value'];
 
-        $expiredYear = (int)(substr($expiredDate, 0, 4));
-        $expiredMonth = (int)(substr($expiredDate, 4, 2));
-        $expiredDay = (int)(substr($expiredDate, 6, 2));
+            $expiredYear = (int)(substr($expiredDate, 0, 4));
+            $expiredMonth = (int)(substr($expiredDate, 4, 2));
+            $expiredDay = (int)(substr($expiredDate, 6, 2));
 
-        $expiredTimestamp = mktime(0, 0, 0, $expiredMonth, $expiredDay, $expiredYear);
+            $expiredTimestamp = mktime(0, 0, 0, $expiredMonth, $expiredDay, $expiredYear);
 
-        $daysLeftBeforeExpired = floor(($expiredTimestamp - time()) / 86400);
+            $daysLeftBeforeExpired = floor(($expiredTimestamp - time()) / 86400);
 
-        Mage::getSingleton('admin/session')->setDaysLeftBeforeExpired(
-            array(
-                'daysLeftBeforeExpired' => $daysLeftBeforeExpired,
-                'updatedAt' => time()
-            )
-        );
-    } 
+            Mage::getSingleton('admin/session')->setDaysLeftBeforeExpired(
+                array(
+                    'daysLeftBeforeExpired' => $daysLeftBeforeExpired,
+                    'updatedAt' => time()
+                )
+            );
+        }
+    }
 }
