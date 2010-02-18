@@ -139,11 +139,13 @@ class Error_Processor
         $this->_errorDir  = dirname(__FILE__) . '/';
         $this->_reportDir = dirname($this->_errorDir) . '/var/report/';
 
-        if (in_array(basename($_SERVER['SCRIPT_NAME'],'.php'), array('404','503','report'))) {
-            $this->_scriptName = dirname($_SERVER['SCRIPT_NAME']);
-        }
-        else {
-            $this->_scriptName = $_SERVER['SCRIPT_NAME'];
+        if (!empty($_SERVER['SCRIPT_NAME'])) {
+            if (in_array(basename($_SERVER['SCRIPT_NAME'],'.php'), array('404','503','report'))) {
+                $this->_scriptName = dirname($_SERVER['SCRIPT_NAME']);
+            }
+            else {
+                $this->_scriptName = $_SERVER['SCRIPT_NAME'];
+            }
         }
 
         $reportId = (isset($_GET['id'])) ? (int)$_GET['id'] : null;
@@ -219,7 +221,8 @@ class Error_Processor
     public function getHostUrl()
     {
         $isSecure = (!empty($_SERVER['HTTPS'])) && ($_SERVER['HTTPS'] != 'off');
-        $url = ($isSecure ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'];
+        $host = (!empty($_SERVER['HTTP_HOST'])) ? $_SERVER['HTTP_HOST'] : 'localhost';
+        $url = ($isSecure ? 'https://' : 'http://') . $host;
 
         if (!empty($_SERVER['SERVER_PORT']) && !in_array($_SERVER['SERVER_PORT'], array(80, 433))) {
             $url .= ':' . $_SERVER['SERVER_PORT'];
@@ -261,7 +264,11 @@ class Error_Processor
      */
     protected function _getIndexDir()
     {
-        return dirname(rtrim($_SERVER['DOCUMENT_ROOT'],'/').$this->_scriptName) . '/';
+        $documentRoot = '';
+        if (!empty($_SERVER['DOCUMENT_ROOT'])) {
+            $documentRoot = rtrim($_SERVER['DOCUMENT_ROOT'],'/');
+        }
+        return dirname($documentRoot . $this->_scriptName) . '/';
     }
 
     /**
