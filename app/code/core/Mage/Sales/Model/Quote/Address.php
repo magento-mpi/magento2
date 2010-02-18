@@ -626,7 +626,6 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
          * Need for shipping methods that use insurance based on price of physical products
          */
         $request->setPackagePhysicalValue($this->getBaseSubtotal() - $this->getBaseVirtualAmount());
-        $request->setPackagePhysicalValueWithDiscount($request->getPackagePhysicalValue() + $this->getBaseDiscountAmount() - $this->getBaseVirtualDiscountAmount());
 
         $request->setFreeMethodWeight($this->getFreeMethodWeight());
 

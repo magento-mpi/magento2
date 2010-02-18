@@ -123,7 +123,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         }
 
         $r->setValue($request->getPackagePhysicalValue());
-        $r->setValueWithDiscount($request->getPackagePhysicalValueWithDiscount());
+        $r->setValueWithDiscount($request->getPackageValueWithDiscount());
 
         $this->_rawRequest = $r;
 
