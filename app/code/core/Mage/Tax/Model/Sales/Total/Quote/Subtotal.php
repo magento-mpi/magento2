@@ -36,15 +36,15 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      *
      * @var Mage_Tax_Model_Calculation
      */
-    protected $_calculator;
+    protected $_calculator = null;
 
     /**
      * Tax configuration object
      *
      * @var Mage_Tax_Model_Config
      */
-    protected $_config;
-    protected $_helper;
+    protected $_config = null;
+    protected $_helper = null;
 
     protected $_subtotalInclTax     = 0;
     protected $_baseSubtotalInclTax = 0;
@@ -62,8 +62,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      *
      * @var Varien_Object
      */
-    protected $_storeTaxRequest;
-    protected $_addressTaxRequest;
+    protected $_storeTaxRequest = null;
+    protected $_addressTaxRequest = null;
 
     /**
      * Class constructor
@@ -130,10 +130,6 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
              }
         }
 
-        if (!$address->getTaxSubtotalIsProcessed() && $this->_needSubtractShippingTax($address)) {
-            $this->_processShippingAmount($address);
-            $this->_config->setNeedUseShippingExcludeTax(true);
-        }
         $address->setTaxSubtotalIsProcessed(true);
         return $this;
     }
@@ -162,7 +158,9 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      */
     protected function _getStoreTaxRequest($address)
     {
-        $this->_storeTaxRequest = $this->_calculator->getRateOriginRequest($address->getQuote()->getStore());
+        if (is_null($this->_storeTaxRequest)) {
+            $this->_storeTaxRequest = $this->_calculator->getRateOriginRequest($address->getQuote()->getStore());
+        }
         return $this->_storeTaxRequest;
     }
 
@@ -174,44 +172,25 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      */
     protected function _getAddressTaxRequest($address)
     {
-        $this->_addressTaxRequest = $this->_calculator->getRateRequest(
-            $address,
-            $address->getQuote()->getBillingAddress(),
-            $address->getQuote()->getCustomerTaxClassId(),
-            $address->getQuote()->getStore()
-        );
+        if (is_null($this->_addressTaxRequest)) {
+            $this->_addressTaxRequest = $this->_calculator->getRateRequest(
+                $address,
+                $address->getQuote()->getBillingAddress(),
+                $address->getQuote()->getCustomerTaxClassId(),
+                $address->getQuote()->getStore()
+            );
+        }
         return $this->_addressTaxRequest;
     }
 
     /**
-     * Calculate shipping price without store tax
      *
+     * @deprecated after 1.4.0.1
      * @param   Mage_Sales_Model_Quote_Address $address
      * @return  Mage_Tax_Model_Sales_Total_Quote_Subtotal
      */
     protected function _processShippingAmount($address)
     {
-        if ($this->_areTaxRequestsSimilar) {
-            return $this;
-        }
-        $store = $address->getQuote()->getStore();
-        $shippingTaxClass   = $this->_config->getShippingTaxClass($store);
-        $shippingAmount     = $address->getShippingAmount();
-        $baseShippingAmount = $address->getBaseShippingAmount();
-
-        if ($shippingTaxClass) {
-            $request = $this->_getStoreTaxRequest($address);
-            $request->setProductClassId($shippingTaxClass);
-            $rate = $this->_calculator->getRate($request);
-            if ($rate) {
-                $shippingTax    = $this->_calculator->calcTaxAmount($shippingAmount, $rate, true, false);
-                $shippingBaseTax= $this->_calculator->calcTaxAmount($baseShippingAmount, $rate, true, false);
-                $shippingAmount-= $shippingTax;
-                $baseShippingAmount-=$shippingBaseTax;
-                $address->setTotalAmount('shipping', $this->_calculator->roundUp($shippingAmount));
-                $address->setBaseTotalAmount('shipping', $this->_calculator->roundUp($baseShippingAmount));
-            }
-        }
         return $this;
     }
 
@@ -363,7 +342,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
     }
 
     /**
-     * Check if we need subtract store tax amount from shipping
+     * @deprecated after 1.4.0.1
      *
      * @param Mage_Sales_Model_Quote_Address $address
      * @return bool

@@ -88,7 +88,7 @@
                     <freeshipping>
                         <class>salesrule/quote_freeshipping</class>
                         <after>subtotal</after>
-                        <before>shipping</before>
+                        <before>tax_subtotal,shipping</before>
                     </freeshipping>
                     <discount>
                         <class>salesrule/quote_discount</class>

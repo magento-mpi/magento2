@@ -127,9 +127,14 @@
                 <totals>
                     <tax_subtotal>
                         <class>tax/sales_total_quote_subtotal</class>
-                        <after>shipping</after>
+                        <after>freeshipping</after>
                         <before>tax,discount</before>
                     </tax_subtotal>
+                    <tax_shipping>
+                        <class>tax/sales_total_quote_shipping</class>
+                        <after>shipping</after>
+                        <before>tax,discount</before>
+                    </tax_shipping>
                     <tax>
                         <class>tax/sales_total_quote_tax</class>
                         <after>subtotal,shipping</after>
