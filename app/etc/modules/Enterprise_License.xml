@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_License>
-            <active>true</active>
+            <active>false</active>
             <codePool>core</codePool>
             <depends>
                 <Enterprise_Enterprise/>
