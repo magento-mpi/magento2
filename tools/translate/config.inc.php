@@ -209,7 +209,7 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/ideal/',
     ),
     'Mage_Index' => array(
-        'app/code/core/Mage/Index',
+        'app/code/core/Mage/Index/',
         'app/design/adminhtml/default/default/layout/index.xml',
         'app/design/adminhtml/default/default/template/index/',
     ),
