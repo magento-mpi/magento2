@@ -528,9 +528,14 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     protected function _renderOrders()
     {
+        $ordersInSelect = $this->_select->getPart(Zend_Db_Select::ORDER);
+
         foreach ($this->_orders as $orderExpr) {
-            $this->_select->order($orderExpr);
+            if (!in_array($orderExpr, $ordersInSelect)) {
+                $this->_select->order($orderExpr);
+            }
         }
+
         return $this;
     }
 

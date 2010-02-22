@@ -250,8 +250,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         if (is_null($this->_addressesCollection)) {
             $this->_addressesCollection = $this->getAddressCollection()
                 ->setCustomerFilter($this)
-                ->addAttributeToSelect('*')
-                ->load();
+                ->addAttributeToSelect('*');
+            foreach ($this->_addressesCollection as $address) {
+                $address->setCustomer($this);
+            }
         }
 
         return $this->_addressesCollection;
@@ -628,6 +630,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         else {
             $storeId = $store;
         }
+
         $availableStores = $this->getSharedStoreIds();
         return in_array($storeId, $availableStores);
     }
