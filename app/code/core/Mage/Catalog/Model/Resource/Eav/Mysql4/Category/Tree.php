@@ -570,4 +570,24 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
 
         return $select;
     }
+
+    /**
+     * Get real existing category ids by specified ids
+     *
+     * @param array $ids
+     * @return array
+     */
+    public function getExistingCategoryIdsBySpecifiedIds($ids)
+    {
+        if (empty($ids)) {
+            return array();
+        }
+        if (!is_array($ids)) {
+            $ids = array($ids);
+        }
+        $select = $this->_conn->select()
+            ->from($this->_table, array('entity_id'))
+            ->where(sprintf('entity_id IN (%s)', implode(', ', $ids)));
+        return $this->_conn->fetchCol($select);
+    }
 }
