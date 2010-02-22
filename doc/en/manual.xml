@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:db="http://docbook.org/ns/docbook">
+    <info>
+        <title>Magento Programmer's Guide</title>
+
+        <author>
+            <personname><firstname>Core</firstname><surname>Magento Team</surname></personname>
+
+            <affiliation>
+                <orgname>Varien</orgname>
+            </affiliation>
+        </author>
+
+        <pubdate>Jan, 2010</pubdate>
+    </info>
+
+    <xi:include href="spec/Mage_Sales.xml" xpointer="element(/1)" />
+
+    <xi:include href="spec/Mage_CatalogInventory.xml" xpointer="element(/1)" />
+
+    <xi:include href="spec/Mage_Checkout.xml" xpointer="element(/1)" />
+
+    <xi:include href="spec/Enterprise_SalesPool.xml" xpointer="element(/1)" />
+
+    <xi:include href="spec/Enterprise_SalesArchive.xml" xpointer="element(/1)" />
+
+    <xi:include href="spec/Enterprise_PageCache.xml" xpointer="element(/1)" />
+</book>

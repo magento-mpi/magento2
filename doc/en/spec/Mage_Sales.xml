@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+    <title>Mage_Sales Module</title>
+
+    <section>
+        <title>Introduction</title>
+
+        <para>Module contain next entities</para>
+
+        <orderedlist>
+            <listitem>
+                <para>Quote - data storage for customer shopping cart</para>
+            </listitem>
+
+            <listitem>
+                <para>Order - infirmation about specific order and methods for processing it</para>
+            </listitem>
+
+            <listitem>
+                <para>Invoice - actual payment registration</para>
+            </listitem>
+
+            <listitem>
+                <para>Shipment - information about order products delivery</para>
+            </listitem>
+
+            <listitem>
+                <para>credit memo</para>
+            </listitem>
+        </orderedlist>
+    </section>
+
+    <section>
+        <title>System Configuration</title>
+
+        <para></para>
+    </section>
+
+    <section>
+        <title>Administarator Configuration</title>
+
+        <para></para>
+    </section>
+
+    <section>
+        <title>Data Structure</title>
+
+        <para></para>
+
+        <section>
+            <title>Order</title>
+
+            <para></para>
+        </section>
+
+        <section>
+            <title>Order Item</title>
+
+            <para><table>
+                    <title>Order Item Properties</title>
+
+                    <tgroup cols="2">
+                        <tbody>
+                            <row>
+                                <entry>item_id</entry>
+
+                                <entry>Item identifier</entry>
+                            </row>
+
+                            <row>
+                                <entry>name</entry>
+
+                                <entry>Item Product Name</entry>
+                            </row>
+
+                            <row>
+                                <entry></entry>
+
+                                <entry></entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </table></para>
+        </section>
+    </section>
+
+    <xi:include href="Mage_Sales-Creditmemo.xml" xpointer="element(/1)" />
+</chapter>
