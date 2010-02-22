@@ -49,8 +49,9 @@
             <block type="core/messages" name="messages" as="messages"/>
             <block type="core/text_list" name="content" as="content" translate="label">
                 <label>Main Content Area</label>
-                <block type="core/template" name="cms.wrapper" template="cms/wrapper.phtml">
-                    <block type="enterprise_websiterestriction/cms_stub" name="cms_page" as="cms_page" />
+                <block type="page/html_wrapper" name="cms.wrapper">
+                    <action method="setElementClass"><value>std</value></action>
+                    <block type="enterprise_websiterestriction/cms_stub" name="cms_page" />
                 </block>
             </block>
             <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml"/>
