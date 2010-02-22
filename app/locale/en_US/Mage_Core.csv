@@ -140,7 +140,7 @@
 "Match expressions in the same order as displayed in the configuration.","Match expressions in the same order as displayed in the configuration."
 "Maximum length exceeded.","Maximum length exceeded."
 "Merge CSS Files (beta)","Merge CSS Files (beta)"
-"Merge JavaScript Files (beta)","Merge JavaScript Files (beta)"
+"Merge JavaScript Files","Merge JavaScript Files"
 "Miscellaneous HTML","Miscellaneous HTML"
 "Miscellaneous scripts","Miscellaneous scripts"
 "Model class does not exist: %s","Model class does not exist: %s"
