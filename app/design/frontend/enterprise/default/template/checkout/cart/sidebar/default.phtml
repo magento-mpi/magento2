@@ -26,10 +26,25 @@
 ?>
 <?php $_item = $this->getItem() ?>
 <li class="item">
-    <a href="<?php echo $this->getProductUrl()?>" class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(65, 65)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" /></a>
+    <?php if ($this->isProductVisible()): ?>
+        <a href="<?php echo $this->getProductUrl()?>" class="product-image">
+            <img src="<?php echo $this->getProductThumbnail()->resize(65, 65)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" />
+        </a>
+    <?php else: ?>
+        <span class="product-image">
+            <img src="<?php echo $this->getProductThumbnail()->resize(65, 65)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" />
+        </span>
+    <?php endif; ?>
+
     <div class="product-details">
 
-        <h4><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->htmlEscape($this->getProductName()) ?></a></h4>
+        <h4>
+            <?php if ($this->isProductVisible()): ?>
+                <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->htmlEscape($this->getProductName()) ?></a>
+            <?php else: ?>
+                <?php echo $this->htmlEscape($this->getProductName()) ?>
+            <?php endif; ?>
+        </h4>
         <table cellpadding="0">
         <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
             <tr>
