@@ -26,6 +26,7 @@
 "Can not apply coupon code.","Can not apply coupon code."
 "Can\'t open overview page","Can\'t open overview page"
 "Cancel Coupon","Cancel Coupon"
+"Cannot add item to shopping cart","Cannot add item to shopping cart"
 "Cannot remove item","Cannot remove item"
 "Cannot update shopping cart","Cannot update shopping cart"
 "Card Verification Number Visual Reference","Card Verification Number Visual Reference"
@@ -240,5 +241,4 @@
 "Your order has been received","Your order has been received"
 "Your order number is ","Your order number is "
 "Zip/Postal Code","Zip/Postal Code"
-"osCommerce Orders","osCommerce Orders"
 "separate by "",""","separate by "","""
