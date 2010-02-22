@@ -42,6 +42,11 @@ class Enterprise_PageCache_Model_Processor
      */
     protected $_requestId;
 
+    /**
+     * Request page cache identifier
+     *
+     * @var string
+     */
     protected $_requestCacheId;
 
     /**
@@ -55,12 +60,46 @@ class Enterprise_PageCache_Model_Processor
      */
     public function __construct()
     {
-        $uri = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-        if (isset($_COOKIE['store'])) {
-            $uri = $uri.'_'.$_COOKIE['store'];
+        $uri = false;
+        /**
+         * Define server HTTP HOST
+         */
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $uri = $_SERVER['HTTP_HOST'];
+        } elseif (isset($_SERVER['SERVER_NAME'])) {
+            $uri = $_SERVER['SERVER_NAME'];
         }
-        if (isset($_COOKIE['currency'])) {
-            $uri = $uri.'_'.$_COOKIE['currency'];
+
+        /**
+         * Define request URI
+         */
+        if ($uri) {
+            if (isset($_SERVER['HTTP_X_REWRITE_URL'])) {
+                $uri.= $_SERVER['HTTP_X_REWRITE_URL'];
+            } elseif (isset($_SERVER['REQUEST_URI'])) {
+                $uri.= $_SERVER['REQUEST_URI'];
+            } elseif (!empty($_SERVER['IIS_WasUrlRewritten']) && !empty($_SERVER['UNENCODED_URL'])) {
+                $uri.= $_SERVER['UNENCODED_URL'];
+            } elseif (isset($_SERVER['ORIG_PATH_INFO'])) {
+                $uri.= $_SERVER['ORIG_PATH_INFO'];
+                if (!empty($_SERVER['QUERY_STRING'])) {
+                    $uri.= $_SERVER['QUERY_STRING'];
+                }
+            } else {
+                $uri = false;
+            }
+        }
+
+        /**
+         * Define COOKIE state
+         */
+        if ($uri) {
+            if (isset($_COOKIE['store'])) {
+                $uri = $uri.'_'.$_COOKIE['store'];
+            }
+            if (isset($_COOKIE['currency'])) {
+                $uri = $uri.'_'.$_COOKIE['currency'];
+            }
         }
         $this->_requestId       = $uri;
         $this->_requestCacheId  = $this->prepareCacheId($this->_requestId);
@@ -105,6 +144,9 @@ class Enterprise_PageCache_Model_Processor
      */
     public function isAllowed()
     {
+        if (!$this->_requestId) {
+            return false;
+        }
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
             return false;
         }
