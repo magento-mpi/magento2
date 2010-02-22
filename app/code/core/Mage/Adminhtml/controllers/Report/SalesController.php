@@ -33,6 +33,13 @@
  */
 class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Admin session model
+     *
+     * @var null|Mage_Admin_Model_Session
+     */
+    protected $_adminSession = null;
+
     public function _initAction()
     {
         $act = $this->getRequest()->getActionName();
@@ -137,6 +144,11 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         return $this;
     }
 
+    /**
+     * Refresh statistics for last 25 hours
+     *
+     * @return Mage_Adminhtml_Report_SalesController
+     */
     public function refreshRecentAction()
     {
         try {
@@ -154,10 +166,19 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
             Mage::logException($e);
         }
 
-        $this->_redirectReferer('*/*/sales');
+        if($this->_getSession()->isFirstPageAfterLogin()) {
+            $this->_redirect('*/*/refreshstatistics');
+        } else {
+            $this->_redirectReferer('*/*/sales');
+        }
         return $this;
     }
 
+    /**
+     * Refresh statistics for all period
+     *
+     * @return Mage_Adminhtml_Report_SalesController
+     */
     public function refreshLifetimeAction()
     {
         try {
@@ -172,7 +193,13 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Unable to refresh lifetime statistics'));
             Mage::logException($e);
         }
-        $this->_redirectReferer('*/*/sales');
+
+        if($this->_getSession()->isFirstPageAfterLogin()) {
+            $this->_redirect('*/*/refreshstatistics');
+        } else {
+            $this->_redirectReferer('*/*/sales');
+        }
+
         return $this;
     }
 
@@ -427,29 +454,42 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     {
         switch ($this->getRequest()->getActionName()) {
             case 'sales':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/sales');
+                return $this->_getSession()->isAllowed('report/salesroot/sales');
                 break;
             case 'tax':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/tax');
+                return $this->_getSession()->isAllowed('report/salesroot/tax');
                 break;
             case 'shipping':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/shipping');
+                return $this->_getSession()->isAllowed('report/salesroot/shipping');
                 break;
             case 'invoiced':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/invoiced');
+                return $this->_getSession()->isAllowed('report/salesroot/invoiced');
                 break;
             case 'refunded':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/refunded');
+                return $this->_getSession()->isAllowed('report/salesroot/refunded');
                 break;
             case 'coupons':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/coupons');
+                return $this->_getSession()->isAllowed('report/salesroot/coupons');
                 break;
             case 'shipping':
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/shipping');
+                return $this->_getSession()->isAllowed('report/salesroot/shipping');
                 break;
             default:
-                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot');
+                return $this->_getSession()->isAllowed('report/salesroot');
                 break;
         }
+    }
+
+    /**
+     * Retrieve admin session model
+     *
+     * @return Mage_Admin_Model_Session
+     */
+    protected function _getSession()
+    {
+        if (is_null($this->_adminSession)) {
+            $this->_adminSession = Mage::getSingleton('admin/session');
+        }
+        return $this->_adminSession;
     }
 }
