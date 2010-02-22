@@ -566,6 +566,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .block .block-subtitle { margin:0; padding:5px 9px; font-size:1em; font-weight:bold; color:#0a263c; }
 .block .block-content { background:#f8f7f5; }
 .block .block-content li.item { padding:7px 9px; }
+.block .block-content .product-name { color:#1e7ec8; }
 .block .btn-remove { float:right; margin:1px 0 2px 5px; }
 .block .actions { background:#dee5e8 url(../images/bkg_block-actions.gif) 0 0 repeat-x; padding:6px 9px; text-align:right; }
 .block .actions a { float:left; }

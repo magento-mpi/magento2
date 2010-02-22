@@ -541,6 +541,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .block .block-content { background:#f6f6f6; padding:12px 10px; }
 .block .block-content li.item { border-bottom:1px solid #ddd; padding-bottom:5px; margin-bottom:5px; }
 .block .block-content li.item.last { border-bottom:0; padding-bottom:0; margin-bottom:0; }
+.block .block-content .product-name { color:#4f8100; }
 .block .btn-remove { float:right; margin:1px 0 2px 5px; }
 .block .actions { border-top:1px solid #ddd; padding:5px 0 0; margin:5px 0 0; text-align:right; }
 .block .actions a { float:left; }
