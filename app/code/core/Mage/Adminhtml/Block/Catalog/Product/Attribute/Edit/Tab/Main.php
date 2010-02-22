@@ -234,6 +234,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         $this->setChild('form_after', $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
             ->addFieldMap("is_wysiwyg_enabled", 'wysiwyg_enabled')
             ->addFieldMap("is_html_allowed_on_front", 'html_allowed_on_front')
+            ->addFieldMap("frontend_input", 'frontend_input_type')
+            ->addFieldDependence('wysiwyg_enabled', 'frontend_input_type', 'textarea')
             ->addFieldDependence('html_allowed_on_front', 'wysiwyg_enabled', '0')
         );
 
