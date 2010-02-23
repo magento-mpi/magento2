@@ -57,6 +57,11 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
     protected $_rates = array();
 
     /**
+     * @var array
+     */
+    private $_actionEntityIdCache = array();
+
+    /**
      * Internal constructor
      */
     protected function _construct()
@@ -102,6 +107,7 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
      */
     protected function _beforeSave()
     {
+        $this->_ensureActualActionInstanceEntity();
         $this->loadByCustomer()
             ->_preparePointsDelta()
             ->_preparePointsBalance();
@@ -124,6 +130,21 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
             $this->sendBalanceUpdateNotification();
         }
         return parent::_afterSave();
+    }
+
+    /**
+     * Ensure action instance references to actual entity
+     */
+    protected function _ensureActualActionInstanceEntity()
+    {
+        $action = $this->getAction();
+        $actionEntity = $this->getActionEntity();  // must be assigned as context object in observer etc.
+        $actionEntityId = (is_object($actionEntity) ? $actionEntity->getId() : null);
+        if (!array_key_exists($action, $this->_actionEntityIdCache) || $this->_actionEntityIdCache[$action] !== $actionEntityId) {
+            $this->getActionInstance($action)
+                ->setEntity($actionEntity);
+            $this->_actionEntityIdCache[$action] = $actionEntityId;
+        }
     }
 
     /**
@@ -161,10 +182,8 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
      */
     public function canUpdateRewardPoints()
     {
-        $action = $this->getActionInstance($this->getAction())
-            ->setEntity($this->getActionEntity()); // must be assigned as context object in observer etc.
-
-        return $action->canAddRewardPoints();
+        $this->_ensureActualActionInstanceEntity();
+        return $this->getActionInstance($this->getAction())->canAddRewardPoints();
     }
 
     /**
