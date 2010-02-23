@@ -1,0 +1,1001 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Backend Configuration</title>
+
+  <section>
+    <title>Sections</title>
+
+    <para></para>
+
+    <para></para>
+
+    <section>
+      <title>Sales Functionality Setup</title>
+
+      <para>The Sales module provides the administrator with the ability to
+      set up the following parameters: </para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Sort order of total fields on the shopping cart Checkout
+          page</para>
+        </listitem>
+
+        <listitem>
+          <para>Reorder of items from an already created order</para>
+        </listitem>
+
+        <listitem>
+          <para>Logos and an address to be displayed on PDF print-outs and
+          HTML print view of invoices and packing slips</para>
+        </listitem>
+
+        <listitem>
+          <para>Minimum order amount functionality</para>
+        </listitem>
+
+        <listitem>
+          <para>Multi-address messages for an order or for each item in an
+          order</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Locate the Sales module by clicking <emphasis
+      role="bold">System</emphasis> &gt; <emphasis
+      role="bold">Configuration</emphasis> &gt; <emphasis
+      role="bold">Sales</emphasis> &gt; <emphasis
+      role="bold">Sales</emphasis>.</para>
+
+      <section>
+        <title>Checkout Totals Sort Order</title>
+
+        <para>The order of checkout totals located in the <emphasis
+        role="bold">Order Review</emphasis> field group of the Checkout page
+        depends on the values specified under the <emphasis
+        role="bold">Checkout Totals Sort Order</emphasis> field group in the
+        Sales module parameters. The values specified in this group only
+        influence the display of the total fields sort order in the shopping
+        cart Checkout page, they have no influence on calculation order.
+        Specify the sort order values for the following fields:</para>
+
+        <para><itemizedlist>
+            <listitem>
+              <para><emphasis role="bold">Subtotal</emphasis></para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Discount</emphasis></para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Shipping</emphasis></para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Fixed Product Tax</emphasis></para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Tax</emphasis></para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Grand Total</emphasis></para>
+            </listitem>
+          </itemizedlist><note>
+            <para>A number of related parameters must be set up to include the
+            <emphasis role="bold">Discount</emphasis> and <emphasis
+            role="bold">Fixed Product Tax</emphasis> fields under the
+            <emphasis role="bold">Order Review</emphasis> field group of the
+            Checkout page. The setup of these parameters will be covered
+            further on in this tutorial.</para>
+          </note></para>
+      </section>
+
+      <section>
+        <title>Reorder</title>
+
+        <para>With the <emphasis role="bold">Reorder</emphasis> field, the
+        administrator can specify whether the user can create an order from an
+        already placed order.</para>
+
+        <note>
+          <para>Keep in mind that you cannot use the Reorder function from
+          orders containing items of the <emphasis>Bundle Product</emphasis>
+          and <emphasis>Configurable Product</emphasis> product types.</para>
+        </note>
+
+        <para>The user can simply reuse all the information from the initial
+        order or enter some changes concerning the number of items to order,
+        shipping and billing addresses, shipping and payment methods,
+        etc.</para>
+      </section>
+
+      <section>
+        <title>Invoice and Packing Slip Design</title>
+
+        <para>An administrator can perform the setup of logos and an address
+        to be included in HTML and PDF printed invoices and packing slips. The
+        following fields help perform the design setup:</para>
+
+        <para><itemizedlist>
+            <listitem>
+              <para><emphasis role="bold">Logo for PDF print-outs
+              (200*50)</emphasis> - browse for an image to include on a
+              printed PDF invoice. After an invoice is created, the
+              administrator can locate the list of all created invoices in the
+              backend by following the path <emphasis
+              role="bold">Sales</emphasis> &gt; <emphasis
+              role="bold">Invoices</emphasis> and select a check box for a
+              single or multiple invoices. Then, in the <emphasis
+              role="bold">Actions</emphasis> field, he or she needs to select
+              the <emphasis>PDF Invoices</emphasis> option and click the
+              <emphasis role="bold">Submit</emphasis> button.<note>
+                  <para>Files of the .jpeg, .tiff, and .png formats can be
+                  specified in this field.</para>
+                </note></para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Logo for HTML print view</emphasis>
+              - browse for an image to display on a printed HTML print preview
+              and on its printed paper copy. In the frontend, the user can
+              view an invoice, shipment, or refund print preview containing
+              the specified in this field image. To view the list of orders,
+              the registered user needs to open the My Orders page by clicking
+              the <emphasis>My account</emphasis> link located in the upper
+              right corner of the store page and click the <emphasis
+              role="bold">My Orders</emphasis> Navigation Pane button. For the
+              required order, click the <emphasis>View Order</emphasis> link.
+              In the order page that opens, in the About This Order area,
+              click the <emphasis>Invoices</emphasis> link. Under the shipping
+              and billing addresses, click the <emphasis>Print
+              Invoice</emphasis> link and view the print preview of the
+              invoice containing the image specified in the <emphasis
+              role="bold">Logo for HTML print view</emphasis> field of the
+              backend. <note>
+                  <para>The image specified in this field is also displayed on
+                  the shipment and refund print previews for the selected
+                  order. Images of the .jpeg, .gif, and .png file formats can
+                  be specified in the <emphasis role="bold">Logo for HTML
+                  print view</emphasis> field.</para>
+                </note></para>
+
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="../images/LogoForHTMLPrintView.png"></imagedata>
+                  </imageobject>
+                </mediaobject>
+              </screenshot>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Address</emphasis> - type an address
+              to display on a print preview of an order invoice, shipment, or
+              refund. The address can be viewed in the upper left corner of
+              the print preview.</para>
+            </listitem>
+          </itemizedlist></para>
+      </section>
+
+      <section>
+        <title>Minimum Order Amount</title>
+
+        <para>The fields under the <emphasis role="bold">Minimum Order
+        Amount</emphasis> field group let the administrator specify the
+        minimum amount allowed on the order creation. When placing an order
+        with the amount less than specified in the Sales module parameters,
+        the user will not be able to procede to the shopping cart
+        checkout.</para>
+
+        <para><itemizedlist>
+            <listitem>
+              <para><emphasis role="bold">Enable</emphasis> - select this
+              parameter to specify whether the Minimum Order Amount
+              functionality is applied to the shopping cart.</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Minimum amount</emphasis> - type the
+              minimum amount which will be validated while adding an item to
+              the shopping cart and trying to check it out. If the subtotal
+              amount of ordered items in the shopping cart after a discount is
+              less than that specified in this field, Magento will not allow
+              the user to procede to the checkout.</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Description message</emphasis> -
+              type the message stating that the shopping cart order amount is
+              less than the amount required for the checkout.</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Error to show in shopping
+              cart</emphasis> - ??? (A bug was created as it seems that this
+              field is not used in the system)</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Validate each address separately in
+              multi-address checkout</emphasis> - select this check box to
+              specify that for each address on an order, the minimum order
+              amount will be separately validated.</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Multi-address description
+              message</emphasis> - type the message stating that the order
+              amount of a shopping cart for one or all shipping addresses is
+              less than the amount allowed for shopping cart checkout.</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Multi-address error to show in
+              shopping cart</emphasis> - ??? (This can be of the same issue as
+              the Error to show in shopping cart field.)</para>
+            </listitem>
+          </itemizedlist></para>
+      </section>
+
+      <section>
+        <title>Gift Messages</title>
+
+        <para>A user is able to type a gift message for a person to get the
+        shipping list if the following fields are set up by the backend
+        administrator:</para>
+
+        <para><itemizedlist>
+            <listitem>
+              <para><emphasis role="bold">Allow Gift Messages on Order
+              Level</emphasis> - select this check box to let the user type a
+              gift message for the entire order.</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Allow Gift Messages for Order
+              Items</emphasis> - select this check box to provide the user
+              with the ability to type a gift message for each item in the
+              user's order.</para>
+            </listitem>
+          </itemizedlist><note>
+            <para>The user can type gift messages for either the entire order
+            or for each item in the order by selecting the <emphasis
+            role="bold">Do you have any gift items in your order?</emphasis>
+            check box located under the <emphasis role="bold">Shipping
+            Method</emphasis> field group on the Checkout page.</para>
+          </note></para>
+      </section>
+    </section>
+
+    <section>
+      <title>Sales Emails Functionality Setup</title>
+
+      <para>E-mail letters confirming an order, invoice, shipment, or credit
+      memo can be sent to both registered customers and store guests if this
+      is set up in the Sales Emails module. Here, the administrator can
+      specify an e-mail sender, the templates to be used for mailing
+      customers, and e-mail addresses to send a copy of a letter to. She or he
+      can also specify whether the comments on an order, invoice, shipment, or
+      credit memo will be sent to the customers. The following two subsections
+      describe the setup of Order and Order Comments e-mails; the Invoice,
+      Shipment, and Creditmemo areas are set up the same way.</para>
+
+      <para>Locate the Sales Emails module by clicking <emphasis
+      role="bold">System</emphasis> &gt; <emphasis
+      role="bold">Configuration</emphasis> &gt; <emphasis
+      role="bold">Sales</emphasis> &gt; <emphasis role="bold">Sales
+      Emails</emphasis>.</para>
+
+      <section>
+        <title>Order</title>
+
+        <para>Set up the following parameters to send an e-mail letter for an
+        order confirmation:</para>
+
+        <para><itemizedlist>
+            <listitem>
+              <para><emphasis role="bold">Enabled</emphasis> - specify whether
+              an e-mail letter is sent to the customer after an order is
+              created.</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">New Order Confirmation Email
+              Sender</emphasis> - specify an e-mail address from which a
+              customer will be sent an order confirmation e-mail letter. An
+              administrator is provided with the following options:</para>
+
+              <itemizedlist>
+                <listitem>
+                  <para>General contact</para>
+                </listitem>
+
+                <listitem>
+                  <para>Sales representative</para>
+                </listitem>
+
+                <listitem>
+                  <para>Customer support</para>
+                </listitem>
+
+                <listitem>
+                  <para>Custom email 1</para>
+                </listitem>
+
+                <listitem>
+                  <para>Custom email 2</para>
+                </listitem>
+              </itemizedlist>
+
+              <note>
+                <para>Addresses for the specified options are defined under
+                the following path: <emphasis role="bold">System</emphasis>
+                &gt; <emphasis role="bold">Configuration</emphasis> &gt;
+                <emphasis role="bold">General</emphasis> &gt; <emphasis
+                role="bold">Store Email Addresses</emphasis>.</para>
+              </note>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">New Order Confirmation
+              Template</emphasis> - specify a template for an order
+              confirmation e-mail letter. The letter based on the selected
+              template will be sent to a registered customer. In the field,
+              you can either leave a system template or choose your own
+              customized one.</para>
+
+              <para><note>
+                  <para>Create customized templates from the Transactional
+                  Emails page which can be located by clicking <emphasis
+                  role="bold">System</emphasis> &gt; <emphasis
+                  role="bold">Transactional Emails</emphasis>.</para>
+                </note></para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">New Order Confirmation Template for
+              Guest</emphasis> - specify a template for an order confirmation
+              e-mail letter to be sent to a store guest, that is an
+              unregistered user. Here, you can also choose from a system
+              template or your own customized ones. </para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Send Order Email Copy To</emphasis>
+              - type an e-mail address to which a copy of an order
+              confirmation letter will be sent.</para>
+
+              <note>
+                <para>If more than one address must be specified in the field,
+                separate them by a comma.</para>
+              </note>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Send Order Email Copy
+              Method</emphasis> - if you specified a single or multiple e-mail
+              addresses in the <emphasis role="bold">Send Order Email Copy
+              To</emphasis> field, choose whether to send a separate e-mail
+              letter to each adressee or to send e-mails using the Bcc sending
+              method (the <emphasis>To</emphasis> field in an e-mail letter
+              contains only the addressee's e-mail address).</para>
+            </listitem>
+          </itemizedlist></para>
+      </section>
+
+      <section>
+        <title>Order Comments</title>
+
+        <para>The following parameters must be set up if it is required to
+        send order comments to the customer or store guest:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><emphasis role="bold">Enabled</emphasis> - specify whether
+            it is possible to add comments on an order to the customer's order
+            confirmation e-mail letter. When this parameter is enabled, the
+            <emphasis role="bold">Notify Customer</emphasis> check box appears
+            in the Comments History area of the Order page. Selecting the
+            check box </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Order Comment Email Sender</emphasis>
+            - specify an e-mail address from which a customer will be sent an
+            e-mail letter containing comments on the order. The options are:
+            General contact, Sales representative, Customer support, Custom
+            email 1, and Custom email 2.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Order Comment Email
+            Template</emphasis> - specify a template for an e-mail letter to
+            be sent to a registered customer. The letter based on the template
+            will include the comments written in the <emphasis
+            role="bold">Comments</emphasis> field of the Order page's Comments
+            History area. In the field, you can choose whether to use a system
+            template or a customized one created by you on the Transactional
+            Emails page (<emphasis role="bold">System</emphasis> &gt;
+            <emphasis role="bold">Transactional Emails</emphasis>).</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Order Comment Email for
+            Guest</emphasis> - specify a template for an e-mail letter to be
+            sent to a store guest. In the field, you can specify whether a
+            system or a customized template will be used as a basis for an
+            e-mail letter containing comments on an order.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Send Order Comment Email Copy
+            To</emphasis> - type an e-mail address to send a copy of an e-mail
+            letter containing the comments on an order.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Send Order Email Copy
+            Method</emphasis> - if you specified a single or multiple e-mail
+            addresses in the <emphasis role="bold">Send Order Comment Email
+            Copy To</emphasis> field, choose whether to send a separate e-mail
+            letter to each adressee or to send e-mails using the Bcc sending
+            method (the <emphasis>To</emphasis> field in an e-mail letter
+            contains only the addressee's e-mail address).</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+
+    <section>
+      <title>PDF Print-outs Functionality Setup</title>
+
+      <para>Choose whether to display an order identification for an invoice,
+      shipment, and/or credit memo's header by setting up the corresponding
+      parameters under the <emphasis role="bold">Invoice</emphasis>, <emphasis
+      role="bold">Shipment</emphasis>, and <emphasis role="bold">Credit
+      Memo</emphasis> field groups.</para>
+
+      <para>Locate the PDF Print-outs module by clicking <emphasis
+      role="bold">System</emphasis> &gt; <emphasis
+      role="bold">Configuration</emphasis> &gt; <emphasis
+      role="bold">Sales</emphasis> &gt; <emphasis role="bold">PFDF
+      Print-outs</emphasis>.</para>
+    </section>
+
+    <section>
+      <title>Tax Functionality Setup</title>
+
+      <para></para>
+
+      <section>
+        <title>Tax Classes</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Calculation Settings</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Default Tax Destination Calculation</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Price Display Settings</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Shopping Cart Display Settings</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Orders, Invoices, Creditmemos Display Settings</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Fixed Product Taxes</title>
+
+        <para></para>
+      </section>
+    </section>
+
+    <section>
+      <title>Checkout Functionality Setup</title>
+
+      <para>[[For Nadia: intro sentence is required]]</para>
+
+      <section>
+        <title>Checkout Options</title>
+
+        <para>[[For Nadia: intro sentence is required]]</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><emphasis role="bold">Enable Onepage Checkout</emphasis> -
+            specify whether the user will have the ability to checkout to both
+            a single and multiple shipping addresses or to multiple shipping
+            addresses only. If you select not to enable onepage checkout, the
+            <emphasis role="bold">Procede to Checkout</emphasis> button no
+            longer appears on the Shopping Cart page.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Allow Guest Checkout</emphasis> -
+            specify whether only registered customers can perform a product
+            checkout. If you choose to not allow guests to procede to product
+            checkout, the Checkout Method section of the Checkout page will
+            require the user to enter his or her e-mail address and password
+            prior to starting the checkout process.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Enable Terms and Conditions</emphasis>
+            - choose whether to enable the terms and conditions functionality.
+            The user will need to accept the terms and conditions to be able
+            to palce an order.</para>
+
+            <note>
+              <para>Make sure that store views are selected for the Terms and
+              Conditions record created under <emphasis
+              role="bold">Sales</emphasis> &gt; <emphasis role="bold">Terms
+              and Conditions</emphasis>.</para>
+            </note>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section>
+        <title>Shopping Cart</title>
+
+        <para>[[For Nadia: intro sentence is required]]</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><emphasis role="bold">Quote Lifetime (days)</emphasis> -
+            specify the number of days a product will be available in the
+            shopping cart. In case the customer does not enter her or his
+            account in the store within the period specified in the field, the
+            item will be removed from the shopping cart.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">After adding a product redirect to
+            shopping cart</emphasis> - choose wether to simply add a product
+            to the shopping cart and stay on the currect page or to add a
+            product and be redirected to the Shopping cart page.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Grouped product image</emphasis> -
+            choose what image to display for a product of the type Grouped
+            Product. The options are as follows:</para>
+
+            <itemizedlist>
+              <listitem>
+                <para>Product Thumbnail Itself</para>
+              </listitem>
+
+              <listitem>
+                <para>Parent Product Thumbnail</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Configurable product image</emphasis>
+            - choose what image to display for a product of the type
+            Configurable Product. This can also be either an image of a parent
+            product or of a product itself.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section>
+        <title>My Cart Link</title>
+
+        <para>The My Cart link in the upper right corner of a store can
+        display either the number of products in the shopping cart or the
+        total quantity of items placed there. The administrator can set this
+        up by selecting a corresponding option in the <emphasis
+        role="bold">Display Cart Summary</emphasis> field of the My Cart Link
+        section.</para>
+      </section>
+
+      <section>
+        <title>Shopping Cart Sidebar</title>
+
+        <para>[[For Nadia: intro sentence is required]]</para>
+
+        <para><itemizedlist>
+            <listitem>
+              <para><emphasis role="bold">Display Shopping Cart
+              Sidebar</emphasis> - choose whether to display a shopping cart
+              in the right sidebar. In case the administrator chooses to not
+              display the shopping cart in the sidebar, the customer can
+              locate it by clicking the My Cart link in the upper right corner
+              of a store.</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis role="bold">Maximum display Recently Added
+              item(s)</emphasis> - specify the number of recently selected
+              products to be displayed in the Recently added items
+              area.</para>
+            </listitem>
+          </itemizedlist></para>
+      </section>
+
+      <section>
+        <title>Payment Failed Emails</title>
+
+        <para>[[For Nadia: intro sentence is required]]</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><emphasis role="bold">Payment Failed Email
+            Receiver</emphasis> - </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Payment Failed Email Sender</emphasis>
+            - </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Payment Failed Template</emphasis> -
+            </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Send Payment Failed Email Copy
+            To</emphasis> - </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Send Payment Failed Email Copy
+            Method</emphasis> - </para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+
+    <section>
+      <title>Shipping Settings Functionality Setup</title>
+
+      <para></para>
+
+      <section>
+        <title>Origin</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Options</title>
+
+        <para></para>
+      </section>
+    </section>
+
+    <section>
+      <title>Shipping Methods Functionality Setup</title>
+
+      <para></para>
+
+      <section>
+        <title>Flat Rate</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Table Rates</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Free Shipping</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>UPS</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>USPS</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>FEDEX</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>DHL</title>
+
+        <para></para>
+      </section>
+    </section>
+
+    <section>
+      <title>Google API Functionality Setup</title>
+
+      <para></para>
+
+      <section>
+        <title>Google Analytics</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Google Base</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Google Checkout</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Google Website Optimizer</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Google Checkout Shipping - Merchant Calculated</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Google Checkout Shipping - Carrier Calculated</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Google Checkout Shipping - Flat Rate</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Google Checkout Shipping - Digital Delivery</title>
+
+        <para>Paybox System</para>
+      </section>
+    </section>
+
+    <section>
+      <title>PayPal Functionality Setup</title>
+
+      <para></para>
+
+      <section>
+        <title>Website Payments Pro (Payflow Edition)</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Website Payments Standard</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Website Payments Pro</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Payment Page Style</title>
+
+        <para></para>
+      </section>
+    </section>
+
+    <section>
+      <title>Payment Methods Functionality Setup</title>
+
+      <para></para>
+
+      <section>
+        <title>Saved CC</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Zero Subtotal Checkout</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Check / Money Order</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Purchase Order</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Authorize.netPayflow Pro</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Paybox Direct</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Protx Standard</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Paybox System</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>PayPal Website Payments Pro - Express Checkout</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>PayPal Website Payments Pro - Direct Payments</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>PayPal Website Payments Pro Standard</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>PayPal Website Payments Pro (Payflow Edition) - Direct
+        Payments</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>PayPal Website Payments Pro (Payflow Edition) - Expresse
+        Checkout</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>eWAY Direct</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>eWAY Shared</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>eWAY 3D-Secure</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>ChronoPay Standard</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>ChronoPay Gateway</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Cybermut Payment</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>iDEAL Basic</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>iDEAL Advanced</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Cybersource (SOAP Toolkit)</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Flo2Cash Payment Web Service</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Checkout by Amazon</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Amazon Simple Pay</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>Ogone</title>
+
+        <para></para>
+      </section>
+    </section>
+  </section>
+
+  <section>
+    <title>Default Values</title>
+
+    <para></para>
+  </section>
+</chapter>
