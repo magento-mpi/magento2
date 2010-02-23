@@ -54,7 +54,19 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
      */
     protected $_addButtonLabel;
 
+    /**
+     * Rows cache
+     *
+     * @var array|null
+     */
     private $_arrayRowsCache;
+
+    /**
+     * Indication whether block is prepared to render or no
+     *
+     * @var bool
+     */
+    private $_isPreparedToRender = false;
 
     /**
      * Check if columns are defined, set template
@@ -62,9 +74,6 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
      */
     public function __construct()
     {
-        if (empty($this->_columns)) {
-            throw new Exception('At least one column must be defined.');
-        }
         if (!$this->_addButtonLabel) {
             $this->_addButtonLabel = Mage::helper('adminhtml')->__('Add');
         }
@@ -159,5 +168,30 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
             ($column['size'] ? 'size="' . $column['size'] . '"' : '') . ' class="' .
             (isset($column['class']) ? $column['class'] : 'input-text') . '"'.
             (isset($column['style']) ? ' style="'.$column['style'] . '"' : '') . '/>';
+    }
+
+    /**
+     * Prepare to render
+     */
+    protected function _prepareToRender()
+    {
+        // Override in descendants to add columns, change add button label etc
+    }
+
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        if (!$this->_isPreparedToRender) {
+            $this->_prepareToRender();
+            $this->_isPreparedToRender = true;
+        }
+        if (empty($this->_columns)) {
+            throw new Exception('At least one column must be defined.');
+        }
+        return parent::_toHtml();
     }
 }

@@ -49,6 +49,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     const ENTITY                    = 'cataloginventory_stock_item';
 
     /**
+     * @var float
+     */
+    private $_minSaleQty;
+
+    /**
      * Prefix of model events names
      *
      * @var string
@@ -209,14 +214,33 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     /**
      * Retrieve Minimum Qty Allowed in Shopping Cart data wraper
      *
-     * @return int
+     * @return float
      */
     public function getMinSaleQty()
     {
-        if ($this->getUseConfigMinSaleQty()) {
-            return (float) Mage::getStoreConfig(self::XML_PATH_MIN_SALE_QTY);
+        if (is_null($this->_minSaleQty)) {
+            $this->_minSaleQty = 1;
+            if ($this->getUseConfigMinSaleQty()) {
+                $currentCustomerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+                $backendModel = Mage::getModel('cataloginventory/system_config_backend_minsaleqty');
+                $backendModel->loadByValue(Mage::getStoreConfig(self::XML_PATH_MIN_SALE_QTY));
+                $minSaleQtyItems = $backendModel->getValue();
+                if ($minSaleQtyItems && is_array($minSaleQtyItems)) {
+                    foreach ($minSaleQtyItems as $_id => $item) {
+                        if ($item['customer_group_id'] == $currentCustomerGroupId) {
+                            $this->_minSaleQty = $item['min_sale_qty'];
+                            break;
+                        } else if ($item['customer_group_id'] == Mage_Customer_Model_Group::CUST_GROUP_ALL) {
+                            $this->_minSaleQty = $item['min_sale_qty'];
+                        }
+                    }
+                }
+            } else {
+                $this->_minSaleQty = $this->getData('min_sale_qty');
+            }
+            $this->_minSaleQty = (float)$this->_minSaleQty;
         }
-        return $this->getData('min_sale_qty');
+        return $this->_minSaleQty;
     }
 
     /**
