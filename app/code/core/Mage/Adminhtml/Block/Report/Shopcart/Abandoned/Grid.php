@@ -150,6 +150,13 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
             'sortable'  =>false
         ));
 
+        $this->addColumn('remote_ip', array(
+            'header'    =>Mage::helper('reports')->__('IP Address'),
+            'width'     =>'80px',
+            'index'     =>'remote_ip',
+            'sortable'  =>false
+        ));
+
         $this->addExportType('*/*/exportAbandonedCsv', Mage::helper('reports')->__('CSV'));
         $this->addExportType('*/*/exportAbandonedExcel', Mage::helper('reports')->__('Excel'));
 
