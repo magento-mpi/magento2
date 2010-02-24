@@ -114,13 +114,13 @@
             <paypaluk_express>
                 <payment_action>authorize</payment_action>
                 <model>paypaluk/express</model>
-                <title>PaypalUk Express</title>
+                <title>PayPal</title>
                 <allowspecific>0</allowspecific>
             </paypaluk_express>
             <paypaluk_direct>
                 <payment_action>authorize</payment_action>
                 <model>paypaluk/direct</model>
-                <title>PaypalUk Direct</title>
+                <title>Debit or Credit Card</title>
                 <cctypes>AE,VI,MC,DI</cctypes>
                 <allowspecific>0</allowspecific>
             </paypaluk_direct>
