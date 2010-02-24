@@ -157,9 +157,12 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                 );
                 $params['qty'] = $filter->filter($params['qty']);
             }
+            if (isset($params['bundle_option'])) {
+                $params['bundle_option'] = array_filter($params['bundle_option'], 'intval');
+            }
 
-            $product= $this->_initProduct();
-            $related= $this->getRequest()->getParam('related_product');
+            $product = $this->_initProduct();
+            $related = $this->getRequest()->getParam('related_product');
 
             /**
              * Check product availability
