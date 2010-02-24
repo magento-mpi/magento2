@@ -52,10 +52,6 @@ Customer account pages, rendered for all tabs in dashboard
         </reference>
     </customer_account>
 
-    <customer_account_index>
-
-    </customer_account_index>
-
     <newsletter_manage_index translate="label">
         <label>Customer My Account Newsletter Subscriptions</label>
         <update handle="customer_account"/>

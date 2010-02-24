@@ -40,7 +40,6 @@
 
     <catalogsearch_result_index translate="label">
         <label>Quick Search Form</label>
-        <remove name="right.reports.product.viewed" />
         <reference name="root">
             <action method="setTemplate"><template>page/3columns.phtml</template></action>
         </reference>
@@ -65,10 +64,6 @@
                 <action method="setListModes"/>
                 <action method="setListCollection"/>
             </block>
-        </reference>
-
-        <reference name="right">
-            <block type="reports/product_viewed" before="right.permanent.callout" name="left.reports.product.viewed" template="reports/product_viewed.phtml" />
         </reference>
     </catalogsearch_result_index>
 
