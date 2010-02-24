@@ -31,53 +31,43 @@
  */
 ?>
 
-<div class="block-cart">
+<div class="block block-cart">
     <?php $_cartQty = $this->getSummaryCount() ?>
-    <div class="block-title<?php if(!$_cartQty) { echo (' no-items'); } ?>">
-        <?php if ($_cartQty>0): ?>
-            <h2 id="cartHeader">
-            <?php if ($_cartQty==1): ?>
-                <?php echo $this->__('Your cart contains <strong>1 item</strong>') ?>
-            <?php else: ?>
-                <?php echo $this->__('Your cart contains <strong>%s items</strong>', $_cartQty) ?>
-            <?php endif ?>
-            <span class="subtotal">
-                (<?php echo Mage::helper('checkout')->formatPrice($this->getSubtotal()) ?><?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?> / <?php echo Mage::helper('checkout')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('tax')->getIncExcText(true) ?><?php endif; ?>)
-            </span>
-            </h2>
-        <?php else: ?>
-            <?php echo $this->__('Your cart contains <strong>no items</strong>.') ?>
-        <?php endif ?>
+    <div class="block-title">
+        <strong><span><?php echo $this->__('My Cart') ?></span></strong>
     </div>
-    <div id="topCartContent" class="block-content" style="display:none">
-        <div class="inner-wrapper"><?php // extra div to smooth slideUp and slideDown ?>
-        <?php $_items = $this->getRecentItems() ?>
-        <?php if(count($_items)): ?>
-            <h3>
-                <?php echo $this->__('Recently added item(s)') ?>
-            </h3>
-            <ol id="cart-sidebar" class="mini-products-list">
-            <?php foreach($_items as $_item): ?>
-                <?php echo $this->getItemHtml($_item) ?>
-            <?php endforeach; ?>
-            </ol>
-            <script type="text/javascript">decorateList('cart-sidebar', 'none-recursive')</script>
-        <?php else: ?>
-            <p><?php echo $this->__('You have no items in your shopping cart.') ?></p>
-        <?php endif ?>
-        <?php if($_cartQty && $this->isPossibleOnepageCheckout()): ?>
-            <div class="actions">
-                <a href="<?php echo $this->getUrl('checkout/cart'); ?>"><span><?php echo $this->__('Go to Shopping Cart') ?></span></a>
-                <button class="button" type="button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><span><?php echo $this->__('Checkout') ?></span></span></button>
-            </div>
-        <?php endif ?>
+    <div class="block-content">
+    <?php if ($_cartQty>0): ?>
+        <div class="summary">
+            <?php if ($_cartQty==1): ?>
+                <p class="amount"><?php echo $this->__('There is <a href="%s">1 item</a> in your cart.', $this->getUrl('checkout/cart')) ?></p>
+            <?php else: ?>
+                <p class="amount"><?php echo $this->__('There are <a href="%s">%s items</a> in your cart.', $this->getUrl('checkout/cart'), $_cartQty) ?></p>
+            <?php endif ?>
+            <p class="subtotal">
+                <span class="label"><?php echo $this->__('Cart Subtotal:') ?></span> <?php echo Mage::helper('checkout')->formatPrice($this->getSubtotal()) ?>
+                <?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
+                    <br />(<?php echo Mage::helper('checkout')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('tax')->getIncExcText(true) ?>)
+                <?php endif; ?>
+            </p>
         </div>
+    <?php endif ?>
+    <?php if($_cartQty && $this->isPossibleOnepageCheckout()): ?>
+    <div class="actions">
+        <button type="button" title="<?php echo $this->__('Checkout') ?>" class="button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><span><?php echo $this->__('Checkout') ?></span></span></button>
+    </div>
+    <?php endif ?>
+    <?php $_items = $this->getRecentItems() ?>
+    <?php if(count($_items)): ?>
+        <p class="block-subtitle"><?php echo $this->__('Recently added item(s)') ?></p>
+        <ol id="cart-sidebar" class="mini-products-list">
+        <?php foreach($_items as $_item): ?>
+            <?php echo $this->getItemHtml($_item) ?>
+        <?php endforeach; ?>
+        </ol>
+        <script type="text/javascript">decorateList('cart-sidebar', 'none-recursive')</script>
+    <?php else: ?>
+        <p class="empty"><?php echo $this->__('You have no items in your shopping cart.') ?></p>
+    <?php endif ?>
     </div>
 </div>
-<?php if(count($_items)): ?>
-<script type="text/javascript">
-    Enterprise.TopCart.initialize('topCartContent');
-    // Below can be used to show minicart after item added
-    // Enterprise.TopCart.showCart(7);
-</script>
-<?php endif; ?>

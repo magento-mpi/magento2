@@ -27,24 +27,21 @@
 <?php $_item = $this->getItem() ?>
 <li class="item">
     <?php if ($this->isProductVisible()): ?>
-        <a href="<?php echo $this->getProductUrl()?>" class="product-image">
-            <img src="<?php echo $this->getProductThumbnail()->resize(65, 65)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" />
-        </a>
+        <a href="<?php echo $this->getProductUrl()?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(50)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /></a>
     <?php else: ?>
         <span class="product-image">
-            <img src="<?php echo $this->getProductThumbnail()->resize(65, 65)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" />
+            <img src="<?php echo $this->getProductThumbnail()->resize(50)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" />
         </span>
     <?php endif; ?>
 
     <div class="product-details">
-
-        <h4>
+        <p class="product-name">
             <?php if ($this->isProductVisible()): ?>
                 <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->htmlEscape($this->getProductName()) ?></a>
             <?php else: ?>
                 <?php echo $this->htmlEscape($this->getProductName()) ?>
             <?php endif; ?>
-        </h4>
+        </p>
         <table cellpadding="0">
         <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
             <tr>
@@ -153,7 +150,7 @@
         <div class="truncated">
             <div class="truncated_full_value">
                 <div class="item-options">
-                    <h5><?php echo $this->__('Options Details'); ?></h5>
+                    <p><?php echo $this->__('Options Details'); ?></p>
                     <dl>
                         <?php foreach ($_options as $_option) : ?>
                         <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
