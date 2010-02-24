@@ -9,17 +9,15 @@
   <title>Backend Configuration</title>
 
   <section>
-    <title>Sections</title>
-
-    <para></para>
+    <title>Configuration - Sales</title>
 
     <para></para>
 
     <section>
       <title>Sales Functionality Setup</title>
 
-      <para>The Sales module provides the administrator with the ability to
-      set up the following parameters: </para>
+      <para>The Sales section provides the administrator with the ability to
+      set up the following parameters:</para>
 
       <itemizedlist>
         <listitem>
@@ -46,10 +44,10 @@
         </listitem>
       </itemizedlist>
 
-      <para>Locate the Sales module by clicking <emphasis
+      <para>Locate the Sales section by clicking <emphasis
       role="bold">System</emphasis> &gt; <emphasis
-      role="bold">Configuration</emphasis> &gt; <emphasis
-      role="bold">Sales</emphasis> &gt; <emphasis
+      role="bold">Configuration</emphasis> &gt;<emphasis
+      role="bold"><emphasis> Sales </emphasis></emphasis>&gt; <emphasis
       role="bold">Sales</emphasis>.</para>
 
       <section>
@@ -59,7 +57,7 @@
         role="bold">Order Review</emphasis> field group of the Checkout page
         depends on the values specified under the <emphasis
         role="bold">Checkout Totals Sort Order</emphasis> field group in the
-        Sales module parameters. The values specified in this group only
+        Sales section parameters. The values specified in this group only
         influence the display of the total fields sort order in the shopping
         cart Checkout page, they have no influence on calculation order.
         Specify the sort order values for the following fields:</para>
@@ -191,7 +189,7 @@
         <para>The fields under the <emphasis role="bold">Minimum Order
         Amount</emphasis> field group let the administrator specify the
         minimum amount allowed on the order creation. When placing an order
-        with the amount less than specified in the Sales module parameters,
+        with the amount less than specified in the Sales section parameters,
         the user will not be able to procede to the shopping cart
         checkout.</para>
 
@@ -280,7 +278,7 @@
 
       <para>E-mail letters confirming an order, invoice, shipment, or credit
       memo can be sent to both registered customers and store guests if this
-      is set up in the Sales Emails module. Here, the administrator can
+      is set up in the Sales Emails section. Here, the administrator can
       specify an e-mail sender, the templates to be used for mailing
       customers, and e-mail addresses to send a copy of a letter to. She or he
       can also specify whether the comments on an order, invoice, shipment, or
@@ -288,11 +286,11 @@
       describe the setup of Order and Order Comments e-mails; the Invoice,
       Shipment, and Creditmemo areas are set up the same way.</para>
 
-      <para>Locate the Sales Emails module by clicking <emphasis
+      <para>Locate the Sales Emails section by clicking <emphasis
       role="bold">System</emphasis> &gt; <emphasis
       role="bold">Configuration</emphasis> &gt; <emphasis
-      role="bold">Sales</emphasis> &gt; <emphasis role="bold">Sales
-      Emails</emphasis>.</para>
+      role="bold"><emphasis>Sales</emphasis></emphasis> &gt; <emphasis
+      role="bold">Sales Emails</emphasis>.</para>
 
       <section>
         <title>Order</title>
@@ -315,23 +313,23 @@
 
               <itemizedlist>
                 <listitem>
-                  <para>General contact</para>
+                  <para><emphasis>General contact</emphasis></para>
                 </listitem>
 
                 <listitem>
-                  <para>Sales representative</para>
+                  <para><emphasis>Sales representative</emphasis></para>
                 </listitem>
 
                 <listitem>
-                  <para>Customer support</para>
+                  <para><emphasis>Customer support</emphasis></para>
                 </listitem>
 
                 <listitem>
-                  <para>Custom email 1</para>
+                  <para><emphasis>Custom email 1</emphasis></para>
                 </listitem>
 
                 <listitem>
-                  <para>Custom email 2</para>
+                  <para><emphasis>Custom email 2</emphasis></para>
                 </listitem>
               </itemizedlist>
 
@@ -365,7 +363,7 @@
               Guest</emphasis> - specify a template for an order confirmation
               e-mail letter to be sent to a store guest, that is an
               unregistered user. Here, you can also choose from a system
-              template or your own customized ones. </para>
+              template or your own customized ones.</para>
             </listitem>
 
             <listitem>
@@ -404,7 +402,7 @@
             confirmation e-mail letter. When this parameter is enabled, the
             <emphasis role="bold">Notify Customer</emphasis> check box appears
             in the Comments History area of the Order page. Selecting the
-            check box </para>
+            check box</para>
           </listitem>
 
           <listitem>
@@ -463,11 +461,11 @@
       role="bold">Shipment</emphasis>, and <emphasis role="bold">Credit
       Memo</emphasis> field groups.</para>
 
-      <para>Locate the PDF Print-outs module by clicking <emphasis
+      <para>Locate the PDF Print-outs section by clicking <emphasis
       role="bold">System</emphasis> &gt; <emphasis
       role="bold">Configuration</emphasis> &gt; <emphasis
-      role="bold">Sales</emphasis> &gt; <emphasis role="bold">PFDF
-      Print-outs</emphasis>.</para>
+      role="bold"><emphasis>Sales</emphasis></emphasis> &gt; <emphasis
+      role="bold">PDF Print-outs</emphasis>.</para>
     </section>
 
     <section>
@@ -475,67 +473,334 @@
 
       <para></para>
 
+      <para>Locate the Tax section by clicking <emphasis
+      role="bold">System</emphasis> &gt; <emphasis
+      role="bold">Configuration</emphasis> &gt; <emphasis
+      role="bold"><emphasis>Sales</emphasis></emphasis> &gt;<emphasis
+      role="bold">Tax</emphasis>.</para>
+
       <section>
         <title>Tax Classes</title>
 
-        <para></para>
+        <para>Tax class charged on a shipping amount is specified in the
+        <emphasis role="bold">Tax Class for Shipping</emphasis> field. Prior
+        to setting this parameter, you can create your own tax class on the
+        Product Tax Class page which can be located by following the path:
+        <emphasis role="bold">Sales</emphasis> &gt; <emphasis
+        role="bold">Tax</emphasis> &gt; <emphasis role="bold">Product Tax
+        Classes</emphasis>.</para>
       </section>
 
       <section>
         <title>Calculation Settings</title>
 
         <para></para>
+
+        <itemizedlist>
+          <listitem>
+            <para><emphasis role="bold">Tax Calculation Method Based
+            On</emphasis> - choose whether the tax calculation is based on one
+            of the following methods:</para>
+
+            <itemizedlist>
+              <listitem>
+                <para><emphasis>Unit Price</emphasis> - tax calculation is
+                applied to the unit price of a single product</para>
+              </listitem>
+
+              <listitem>
+                <para><emphasis>Row Total</emphasis> - tax calculation is
+                applied to the total price of a single products'
+                quantity</para>
+              </listitem>
+
+              <listitem>
+                <para><emphasis>Total</emphasis> - tax calculation is applied
+                to the total price amount of all products</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Tax Calculation Based On</emphasis> -
+            choose whether tax calculation will be based on customer's
+            shipping, billing address or based on the shipping origin.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Catalog Prices</emphasis> - specify
+            whether product prices in the catalog include taxes.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Shipping Prices</emphasis> - choose
+            whether shipping prices in the shopping cart include taxes.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Apply Customer Tax</emphasis> - choose
+            whether to apply a customer tax prior to subtracting a discount
+            from the subtotal or after it.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Apply Discount On Prices</emphasis> -
+            ???</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Apply Tax On</emphasis> - choose
+            whether to apply tax calculation to a base price of an item for
+            all store views or, if the price of the product varies depending
+            on the store view, to a custom price for a specific store
+            view.</para>
+          </listitem>
+        </itemizedlist>
       </section>
 
       <section>
         <title>Default Tax Destination Calculation</title>
 
         <para></para>
+
+        <itemizedlist>
+          <listitem>
+            <para><emphasis role="bold">Default Country</emphasis> - </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Default State</emphasis> - </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Default Post Code</emphasis> - </para>
+          </listitem>
+        </itemizedlist>
       </section>
 
       <section>
         <title>Price Display Settings</title>
 
         <para></para>
+
+        <itemizedlist>
+          <listitem>
+            <para><emphasis role="bold">Display Product Prices in
+            Catalog</emphasis> - choose whether to display prices in the
+            catalog with taxes included or without them. Both prices including
+            and excluding taxes can also be displayed for a product in the
+            catalog.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Display Shipping Prices</emphasis> -
+            choose whether you want to display shipping prices with taxes
+            included or without them. Here, you can also specify that both
+            shipping prices including and excluding tax are presented in the
+            </para>
+          </listitem>
+        </itemizedlist>
       </section>
 
       <section>
         <title>Shopping Cart Display Settings</title>
 
         <para></para>
+
+        <itemizedlist>
+          <listitem>
+            <para><emphasis role="bold">Display Prices</emphasis> - choose
+            whether to display product prices in the shopping cart with taxes
+            included or without them. Both prices can be displayed if the
+            corresponding option is selected in the field.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Display Subtotal</emphasis> - specify
+            whether the subtotal for the products in the shopping cart include
+            taxes. Both subtotals can be displayed in the shopping cart if the
+            <emphasis>Including and excluding tax</emphasis> option is
+            selected in the field.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Display Shipping Amount</emphasis> -
+            choose whether shipping amount for the products in the shopping
+            cart will include taxes or not. You can also see both shipping
+            amounts with included and excluded taxes if the corresponding
+            option is selected. </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Include Tax in Grand Total</emphasis>
+            - choose whether the grand total displayed on the shopping cart
+            Checkout page will include the taxes or not. There is a
+            possibility to view both grand totals with included and excluded
+            taxes if the corresponding option is selected in this
+            field.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Display full tax summary</emphasis> -
+            </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Display Zero Tax Subtotal</emphasis> -
+            if the administrator enables this option, the Order Review section
+            of the shopping cart Checkout page will include the zero tax
+            subtotal; otherwise, if the tax equals zero for all products in
+            the shopping cart, it will not be shown.</para>
+          </listitem>
+        </itemizedlist>
       </section>
 
       <section>
         <title>Orders, Invoices, Creditmemos Display Settings</title>
 
         <para></para>
+
+        <itemizedlist>
+          <listitem>
+            <para><emphasis role="bold">Display Prices</emphasis> - choose
+            whether to display product prices with taxes included or without
+            them in the order/invoice/credit memo Totals area. Both prices can
+            be displayed if the corresponding option is selected in the
+            field.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Display Subtotal</emphasis> - specify
+            whether the subtotal for the products in the order/invoice/credit
+            memo Totals area include taxes. Both subtotals can be displayed if
+            the <emphasis>Including and excluding tax</emphasis> option is
+            selected in the field.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Display Shipping Amount</emphasis> -
+            choose whether shipping amount for the products in the shopping
+            cart will include taxes or not. You can also see both shipping
+            amounts with included and excluded taxes if the corresponding
+            option is selected.</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Include Tax in Grand Total</emphasis>
+            - </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Display full tax summary</emphasis> -
+            </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Display Zero Tax Subtotal</emphasis> -
+            </para>
+          </listitem>
+        </itemizedlist>
       </section>
 
       <section>
         <title>Fixed Product Taxes</title>
 
         <para></para>
+
+        <itemizedlist>
+          <listitem>
+            <para><emphasis role="bold">Enable FPT</emphasis> - </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Display Prices in Product
+            Lists</emphasis> - </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Display Prices on Product View
+            Page</emphasis> - </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Display Prices in Sales
+            Modules</emphasis> - </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Display Prices in Emails</emphasis> -
+            </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Apply Discounts to FPT</emphasis> -
+            </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Apply Tax to FPT</emphasis> - </para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Include FPT in Subtotal</emphasis> -
+            </para>
+          </listitem>
+        </itemizedlist>
       </section>
     </section>
 
     <section>
       <title>Checkout Functionality Setup</title>
 
-      <para>[[For Nadia: intro sentence is required]]</para>
+      <para>The Checkout section allows the administrator to set up the
+      following parameters: </para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Checkout to different types of shipping addresses, guest
+          checkout, and terms and conditions of product checkout </para>
+        </listitem>
+
+        <listitem>
+          <para>Period of product availability in the shopping cart, products'
+          images, and redirect to the shopping cart after adding a
+          product</para>
+        </listitem>
+
+        <listitem>
+          <para>My Cart link display with either the number of products or the
+          quantity of items in the shopping cart specified</para>
+        </listitem>
+
+        <listitem>
+          <para>Display of the Shopping Cart sidebar and the number of
+          products in the Recently Added items area </para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Locate the Tax section by clicking <emphasis
+      role="bold">System</emphasis> &gt; <emphasis
+      role="bold">Configuration</emphasis> &gt; <emphasis
+      role="bold"><emphasis>Sales</emphasis></emphasis> &gt; <emphasis
+      role="bold">Checkout</emphasis>.</para>
 
       <section>
         <title>Checkout Options</title>
 
-        <para>[[For Nadia: intro sentence is required]]</para>
+        <para>Among the options which are provided by this subsection are the
+        ability to check out to single and multiple addresses or to multiple
+        addresses only. The administrator can also choose whether to allow
+        store guests to check out products and can also enable the term and
+        conditionsa functionality for checking out an item.</para>
 
         <itemizedlist>
           <listitem>
             <para><emphasis role="bold">Enable Onepage Checkout</emphasis> -
-            specify whether the user will have the ability to checkout to both
-            a single and multiple shipping addresses or to multiple shipping
-            addresses only. If you select not to enable onepage checkout, the
-            <emphasis role="bold">Procede to Checkout</emphasis> button no
-            longer appears on the Shopping Cart page.</para>
+            specify whether the user will have the ability to check out to
+            both a single and multiple shipping addresses or to multiple
+            shipping addresses only. If you select not to enable onepage
+            checkout, the <emphasis role="bold">Procede to Checkout</emphasis>
+            button no longer appears on the Shopping Cart page.</para>
           </listitem>
 
           <listitem>
@@ -566,7 +831,11 @@
       <section>
         <title>Shopping Cart</title>
 
-        <para>[[For Nadia: intro sentence is required]]</para>
+        <para>This parameter subsection allows the administrator to set
+        several rules which will be applied to the period of product's
+        availability in the shopping cart and the images that will be
+        displayed for certain product types. It also provides the ability to
+        direct the user to the shopping cart after a product is added.</para>
 
         <itemizedlist>
           <listitem>
@@ -623,7 +892,9 @@
       <section>
         <title>Shopping Cart Sidebar</title>
 
-        <para>[[For Nadia: intro sentence is required]]</para>
+        <para>The administrator can control the display of a shopping cart and
+        the number of recently viewed items in the sidebar. Review the
+        following fields to be able to perform this:</para>
 
         <para><itemizedlist>
             <listitem>
@@ -652,27 +923,49 @@
         <itemizedlist>
           <listitem>
             <para><emphasis role="bold">Payment Failed Email
-            Receiver</emphasis> - </para>
+            Receiver</emphasis> - specify an e-mail address of the receiver
+            that will be sent an e-mail letter containing information about a
+            failed payment. The options are: General contact, Sales
+            representative, Customer support, Custom email 1, and Custom email
+            2. </para>
           </listitem>
 
           <listitem>
             <para><emphasis role="bold">Payment Failed Email Sender</emphasis>
-            - </para>
+            - specify an e-mail address from which a receiver will be sent an
+            e-mail letter containing information about the failed payment. The
+            options are: General contact, Sales representative, Customer
+            support, Custom email 1, and Custom email 2.</para>
           </listitem>
 
           <listitem>
             <para><emphasis role="bold">Payment Failed Template</emphasis> -
-            </para>
+            specify a template for a payment failed e-mail letter. The letter
+            based on the selected template will be sent to the address
+            specified in the <emphasis role="bold">Payment Failed Email
+            Receiver </emphasis>field. In the field, you can either leave a
+            system template or choose your own customized one.</para>
           </listitem>
 
           <listitem>
             <para><emphasis role="bold">Send Payment Failed Email Copy
-            To</emphasis> - </para>
+            To</emphasis> - type an e-mail address to which a copy of an
+            e-mail letter stating that the payment failed will be sent.</para>
+
+            <note>
+              <para>If more than one address must be specified in the field,
+              separate them by a comma.</para>
+            </note>
           </listitem>
 
           <listitem>
             <para><emphasis role="bold">Send Payment Failed Email Copy
-            Method</emphasis> - </para>
+            Method</emphasis> - if you specified a single or multiple e-mail
+            addresses in the <emphasis role="bold">Send Payment Failed Email
+            Copy To</emphasis> field, choose whether to send a separate e-mail
+            letter to each adressee or to send e-mails using the Bcc sending
+            method (the <emphasis>To</emphasis> field in an e-mail letter
+            contains only the addressee's e-mail address).</para>
           </listitem>
         </itemizedlist>
       </section>
