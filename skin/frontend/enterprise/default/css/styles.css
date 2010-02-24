@@ -1777,7 +1777,9 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 
 /* Account Login/Create Pages ============================================================ */
 .account-login { position:relative; font-size:12px; background:url(../images/bkg_cols.gif) repeat-y 266px 0; min-height:350px; margin-bottom:-20px; }
+
 .login-only { background:none; }
+.login-only .registered-users { float:none; margin:0 auto; }
 
 .account-login .new-users,
 .account-login .registered-users { width:381px; padding:30px 32px 30px; }
@@ -1970,8 +1972,9 @@ address.copyright { margin-top:6px; }
 .restriction-index-stub .page { width:652px; padding-bottom:3px; }
 .restriction-index-stub .main { margin-top:100px; min-height:0; height:auto !important; padding:13px; text-align:center; margin-bottom:0; }
 .restriction-index-stub .col-main { color:#dedede; height:auto !important; min-height:230px; height:230px; font-size:16px; background:#4a4a4a url(../images/logo-offline.gif) no-repeat 50% 95px; padding:170px 60px 40px; }
+.restriction-index-stub .page-title { margin:0 0 15px !important; padding:0 !important; border:0 !important; background:none; }
 .restriction-index-stub .col-main h1,
-.restriction-index-stub .col-main h2 { color:#fff; padding:0 0 15px; font:35px Georgia, "Times New Roman", Times, serif; font-style:italic; }
+.restriction-index-stub .col-main h2 { font:italic 35px Georgia, "Times New Roman", Times, serif; color:#fff; }
 .restriction-index-stub .header-container,
 .restriction-index-stub .footer-container { display:none; }
 .restriction-index-stub .copyright { background:url(../images/bkg_shadow-offline.gif) 50% 0 no-repeat; padding:15px 0 0; margin:0; }

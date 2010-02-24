@@ -34,8 +34,8 @@ $now = $now->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
 $installer->getConnection()->insert($installer->getTable('cms/page'), array(
         'title' => '503 Service Unavailable',
         'identifier' => 'service-unavialable',
-        'content' => '<h1>We’re Offline...</h1>
-<p>...but only for just a bit. We’re working to make the Magento Enterprise Demo a better place you!</p>',
+        'content' => '<div class="page-title"><h1>We\'re Offline...</h1></div>
+<p>...but only for just a bit. We\'re working to make the Magento Enterprise Demo a better place for you!</p>',
         'creation_time' => $now,
         'update_time' => $now,
         'is_active' => '1'
