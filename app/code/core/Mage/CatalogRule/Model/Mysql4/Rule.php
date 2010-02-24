@@ -315,7 +315,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
             ->from(array('rp'=>$this->getTable('catalogrule/rule_product')))
             ->where($read->quoteInto('rp.from_time=0 or rp.from_time<=?', $toDate)
             ." or ".$read->quoteInto('rp.to_time=0 or rp.to_time>=?', $fromDate))
-            ->order(array('rp.website_id', 'rp.customer_group_id', 'rp.product_id', 'rp.sort_order'));
+            ->order(array('rp.website_id', 'rp.customer_group_id', 'rp.product_id', 'rp.sort_order', 'rp.rule_id'));
 
         if (!is_null($productId)) {
             $select->where('rp.product_id=?', $productId);
