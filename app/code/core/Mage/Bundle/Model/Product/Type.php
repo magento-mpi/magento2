@@ -493,7 +493,9 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             $_appendAllSelections = true;
         }
 
-        if ($options = $buyRequest->getBundleOption()) {
+        $options = array_filter($buyRequest->getBundleOption(), 'intval');
+
+        if ($options) {
             $qtys = $buyRequest->getBundleOptionQty();
             foreach ($options as $_optionId => $_selections) {
                 if (empty($_selections)) {
@@ -521,12 +523,12 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             foreach ($options as $optionId => $selectionId) {
                 if (!is_array($selectionId)) {
                     if ($selectionId != '') {
-                        $selectionIds[] = $selectionId;
+                        $selectionIds[] = (int)$selectionId;
                     }
                 } else {
                     foreach ($selectionId as $id) {
                         if ($id != '') {
-                            $selectionIds[] = $id;
+                            $selectionIds[] = (int)$id;
                         }
                     }
                 }
