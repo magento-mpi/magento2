@@ -39,6 +39,20 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
 
 
     /**
+     * Add Link elements to head
+     *
+     * @return Mage_Rss_Block_List
+     */
+    protected function _prepareLayout()
+    {
+        $head = $this->getLayout()->getBlock('head');
+        foreach ($this->getRssMiscFeeds() as $feed) {
+            $head->addItem('rss', $feed['url'], 'title="'.$feed['label'].'"');
+        }
+        return parent::_prepareLayout();
+    }
+
+    /**
      * Retrieve rss feeds
      *
      * @return array
