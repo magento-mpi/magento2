@@ -55,7 +55,6 @@ if (!file_exists($mageFilename)) {
 }
 
 if (file_exists($maintenanceFile)) {
-    $basePath = dirname($_SERVER['PHP_SELF']);
     include_once dirname(__FILE__) . '/errors/503.php';
     exit;
 }
