@@ -60,7 +60,7 @@ class Mage_Paypal_Model_Api_Standard extends Mage_Paypal_Model_Api_Abstract
     );
     protected $_exportToRequestFilters = array(
         'amount'   => '_filterAmount',
-        'shipping' => '_filterAmount',
+        'shipping' => '_filterAmount'
     );
 
     /**
@@ -93,6 +93,10 @@ class Mage_Paypal_Model_Api_Standard extends Mage_Paypal_Model_Api_Abstract
         'name'   => 'item_name_%d',
         'qty'    => 'quantity_%d',
         'amount' => 'amount_%d',
+    );
+
+    protected $_lineItemExportItemsFilters = array(
+         'qty'      => '_filterQty'
     );
 
     /**

@@ -117,34 +117,35 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getStandardCheckoutFormFields()
     {
+        $orderIncrementId = $this->getCheckout()->getLastRealOrderId();
+        $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
         $api = Mage::getModel('paypal/api_standard')->setConfigObject($this->getConfig());
-        $quote = $this->getQuote();
-        $api->setOrderId($this->getCheckout()->getLastRealOrderId()) // TODO reserved order id
-            ->setCurrencyCode($quote->getBaseCurrencyCode())
+        $api->setOrderId($orderIncrementId) // TODO reserved order id
+            ->setCurrencyCode($order->getBaseCurrencyCode())
             //->setPaymentAction()
             ->setNotifyUrl(Mage::getUrl('paypal/ipn/standard'))
             ->setReturnUrl(Mage::getUrl('paypal/standard/success'))
-            ->setCancelUrl(Mage::getUrl('paypal/standard/cancel'))
-        ;
+            ->setCancelUrl(Mage::getUrl('paypal/standard/cancel'));
 
         // export address
-        $isQuoteVirtual = $quote->getIsVirtual();
-        $address = $isQuoteVirtual ? $quote->getBillingAddress() : $quote->getShippingAddress();
-        if ($isQuoteVirtual) {
+        $isOrderVirtual = $order->getIsVirtual();
+        $address = $isOrderVirtual ? $order->getBillingAddress() : $order->getShippingAddress();
+        if ($isOrderVirtual) {
             $api->setNoShipping(true);
-        } elseif ($address->getEmail()) {
+        }
+        elseif ($address->getEmail()) {
             $api->setAddress($address);
         }
 
-        list($items, $totals, $discountAmount, $shippingAmount) = Mage::helper('paypal')->prepareLineItems($quote, false, true);
+        list($items, $totals, $discountAmount, $shippingAmount) = Mage::helper('paypal')->prepareLineItems($order, false, true);
         // prepare line items if required in config
         if ($this->_config->lineItemsEnabled) {
             $api->setLineItems($items)->setLineItemTotals($totals)->setDiscountAmount($discountAmount);
         }
         // or values specific for aggregated order
         else {
-            $grandTotal = $quote->getBaseGrandTotal();
-            if (!$isQuoteVirtual) {
+            $grandTotal = $order->getBaseGrandTotal();
+            if (!$isOrderVirtual) {
                 $api->setShippingAmount($shippingAmount);
                 $grandTotal -= $shippingAmount;
             }

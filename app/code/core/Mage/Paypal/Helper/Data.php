@@ -38,7 +38,7 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
      * the items discount should go as separate cart line item with negative amount
      * the shipping_discount is outlined in PayPal API docs, but ignored for some reason. Hence commented out.
      *
-     * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $salesEntity
+     * @param Mage_Sales_Model_Order $salesEntity
      * @return array (array of $items, array of totals, $discountTotal, $shippingTotal)
      */
     public function prepareLineItems(Mage_Core_Model_Abstract $salesEntity, $discountTotalAsItem = true, $shippingTotalAsItem = false)
@@ -51,27 +51,16 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
         }
         $discountAmount = 0; // this amount always includes the shipping discount
         $shippingDescription = '';
-        if ($salesEntity instanceof Mage_Sales_Model_Order) {
-            $discountAmount = abs(1 * $salesEntity->getBaseDiscountAmount());
-            $shippingDescription = $salesEntity->getShippingDescription();
-            $totals = array(
-                'subtotal' => $salesEntity->getBaseSubtotal() - $discountAmount,
-                'tax'      => $salesEntity->getBaseTaxAmount(),
-                'shipping' => $salesEntity->getBaseShippingAmount(),
+        $discountAmount = abs(1 * $salesEntity->getBaseDiscountAmount());
+        $shippingDescription = $salesEntity->getShippingDescription();
+        $totals = array(
+            'subtotal' => $salesEntity->getBaseSubtotal() - $discountAmount,
+            'tax'      => $salesEntity->getBaseTaxAmount(),
+            'shipping' => $salesEntity->getBaseShippingAmount(),
+            'discount' => $discountAmount,
 //                'shipping_discount' => -1 * abs($salesEntity->getBaseShippingDiscountAmount()),
-            );
-        } else {
-            $address = $salesEntity->getIsVirtual() ? $salesEntity->getBillingAddress() : $salesEntity->getShippingAddress();
-            $discountAmount = abs(1 * $address->getBaseDiscountAmount());
-            $shippingDescription = $address->getShippingDescription();
-            $totals = array (
-                'subtotal' => $salesEntity->getBaseSubtotal() - $discountAmount,
-                'tax'      => $address->getBaseTaxAmount(),
-                'shipping' => $address->getBaseShippingAmount(),
-                'discount' => $discountAmount,
-//                'shipping_discount' => -1 * abs($address->getBaseShippingDiscountAmount()),
-            );
-        }
+        );
+
         // discount total as line item (negative)
         if ($discountTotalAsItem && $discountAmount) {
             $items[] = new Varien_Object(array(

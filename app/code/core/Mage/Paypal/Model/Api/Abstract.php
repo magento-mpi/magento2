@@ -63,6 +63,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     protected $_lineItemExportTotals = array();
     protected $_lineItemExportItemsFormat = array();
+    protected $_lineItemExportItemsFilters = array();
 
     /**
      * Return Paypal Api user name based on config data
@@ -343,6 +344,10 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
         foreach ($items as $item) {
             foreach ($this->_lineItemExportItemsFormat as $publicKey => $privateFormat) {
                 $value = $item->getDataUsingMethod($publicKey);
+                if (isset($this->_lineItemExportItemsFilters[$publicKey])) {
+                    $callback   = $this->_lineItemExportItemsFilters[$publicKey];
+                    $value = call_user_func(array($this, $callback), $value);
+                }
                 if (is_float($value)) {
                     $value = $this->_filterAmount($value);
                 }
@@ -438,5 +443,15 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     protected function _buildQuery($request)
     {
         return http_build_query($request);
+    }
+
+    /**
+     * Filter qty in API calls
+     * @param float|string|int $value
+     * @return string
+     */
+    protected function _filterQty($value)
+    {
+        return intval($value);
     }
 }
