@@ -28,10 +28,8 @@
  * @see Mage_CatalogInventory_Block_Stockqty_Default
  */
 ?>
-<?php if ($this->isMsgVisible()): ?>
-    <span class="only-x-left">
+<?php if ($this->isMsgVisible()) : ?>
+    <span class="stock-qty">
         <?php echo $this->__('Only %s left', $this->getStockQty()) ?>
     </span>
-<?php else: ?>
-    <span class="only-x-left no-display"></span>
-<?php endif; ?>
+<?php endif ?>

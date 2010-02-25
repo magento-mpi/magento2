@@ -43,12 +43,12 @@ Additional block dependent on product type
     </PRODUCT_TYPE_virtual>
     <PRODUCT_TYPE_grouped>
         <reference name="product.info.grouped.extra">
-            <block type="cataloginventory/stockqty_default" template="cataloginventory/stockqty/default.phtml"/>
+            <block type="cataloginventory/stockqty_type_grouped" template="cataloginventory/stockqty/composite.phtml"/>
         </reference>
     </PRODUCT_TYPE_grouped>
     <PRODUCT_TYPE_configurable>
         <reference name="product.info.configurable.extra">
-            <block type="cataloginventory/stockqty_type_configurable" template="cataloginventory/stockqty/type/configurable.phtml"/>
+            <block type="cataloginventory/stockqty_type_configurable" template="cataloginventory/stockqty/composite.phtml"/>
         </reference>
     </PRODUCT_TYPE_configurable>
 

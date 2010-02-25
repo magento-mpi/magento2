@@ -84,7 +84,7 @@ abstract class Mage_CatalogInventory_Block_Stockqty_Abstract extends Mage_Core_B
      */
     public function getPlaceholderId()
     {
-        return 'only-x-left-' . $this->_getProduct()->getId();
+        return 'stock-qty-' . $this->_getProduct()->getId();
     }
 
     /**
