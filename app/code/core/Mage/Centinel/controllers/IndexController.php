@@ -55,7 +55,12 @@ class Mage_Centinel_IndexController extends Mage_Core_Controller_Front_Action
             $data->setTransactionId($request->getParam('MD'));
             $data->setPaResPayload($request->getParam('PaRes'));
 
-            $validator->authenticate($data);
+            try {
+                $validator->authenticate($data);
+            } catch (Exception $e) {
+                $validator = false;
+            }
+
             Mage::register('centinel_validator', $validator);
         }
         $this->loadLayout()->renderLayout();
