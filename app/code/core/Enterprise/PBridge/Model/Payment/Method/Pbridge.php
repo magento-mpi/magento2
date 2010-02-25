@@ -56,6 +56,15 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     protected $_originalMethodCode = null;
 
     /**
+     * Payment Bridge call for wrapped payment operations
+     *
+     * @param array $params
+     */
+    protected function _call($params)
+    {
+    }
+
+    /**
      * Assign data to info model instance
      *
      * @param  mixed $data
@@ -63,9 +72,72 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      */
     public function assignData($data)
     {
+        $pbridgeData = array();
+        if (is_array($data)) {
+            if (isset($data['pbridge_data'])) {
+                $pbridgeData = $data['pbridge_data'];
+                unset($data['pbridge_data']);
+            }
+        } else {
+            $pbridgeData = $data->getData('pbridge_data');
+            $data->unsetData('pbridge_data');
+        }
         parent::assignData($data);
-        $this->getInfoInstance()->setAdditionalInformation('original_payment_method', $data['original_method']);
+        $this->setInfoAdditionalData($pbridgeData);
         return $this;
+    }
+
+    /**
+     * Save additional Payment Bridge parameters into the Info instance additional data storage
+     *
+     * @param array $data
+     * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge
+     */
+    public function setInfoAdditionalData($data)
+    {
+        if (empty($data)) {
+            return $this;
+        }
+        $additionaData = $this->getInfoInstance()->getAdditionalData();
+        if ($additionaData) {
+            $additionalData = array_merge(unserialize($additionaData), array('pbridge_data' => $data));
+        } else {
+            $additionalData = array('pbridge_data' => $data);
+        }
+        $this->getInfoInstance()->setAdditionalData(serialize($additionalData));
+        return $this;
+    }
+
+    /**
+     * Retrieve additional Payment Bridge parameters from the Info instance additional data storage
+     *
+     * @param string $param OPTIONAL
+     * @return mixed
+     */
+    public function getInfoAdditionalData($param = null)
+    {
+        $additionaData = $this->getInfoInstance()->getAdditionalData();
+        if (!$additionaData) {
+            return null;
+        }
+        $additionaData = unserialize($additionaData);
+        if (!isset($additionaData['pbridge_data'])) {
+            return null;
+        }
+        if (null === $param) {
+            return $additionaData['pbridge_data'];
+        }
+        return isset($additionaData['pbridge_data'][$param]) ? $additionaData['pbridge_data'][$param] : null;
+    }
+
+    /**
+     * Retrieve Payment Bridge token
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->getInfoAdditionalData('token');
     }
 
     /**
@@ -78,8 +150,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     public function getOriginalMethodInstance()
     {
         if ($this->_originalMethodInstance === null) {
-            $this->_originalMethodCode = $this->getInfoInstance()
-                ->getAdditionalInformation('original_payment_method');
+            $this->_originalMethodCode = $this->getInfoAdditionalData('original_payment_method');
             if ($this->_originalMethodCode === null) {
                 Mage::throwException('Payment method code is not specified.');
             }
@@ -87,6 +158,16 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
                 ->getMethodInstance($this->_originalMethodCode);
         }
         return $this->_originalMethodInstance;
+    }
+
+    /**
+     * Get config peyment action url
+     *
+     * @return string
+     */
+    public function getConfigPaymentAction()
+    {
+        return $this->getOriginalMethodInstance()->getConfigPaymentAction();
     }
 
     /**
@@ -220,5 +301,88 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     public function getTitle()
     {
         return $this->getOriginalMethodInstance()->getTitle();
+    }
+
+    /**
+     * Authorize
+     *
+     * @param   Varien_Object $orderPayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function authorize(Varien_Object $payment, $amount)
+    {
+        parent::authorize($payment, $amount);
+        $this->_call(array(
+            'operation' => 'authorize',
+            'payment'   => $payment,
+            'amount'    => $amount,
+        ));
+        return $this;
+    }
+
+    /**
+     * Cancel payment
+     *
+     * @param   Varien_Object $invoicePayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function cancel(Varien_Object $payment)
+    {
+        parent::cancel($payment);
+        $this->_call(array(
+            'operation' => 'cancel',
+            'payment'   => $payment,
+        ));
+        return $this;
+    }
+
+    /**
+     * Capture payment
+     *
+     * @param   Varien_Object $orderPayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function capture(Varien_Object $payment, $amount)
+    {
+        parent::capture($payment, $amount);
+        $this->_call(array(
+            'operation' => 'capture',
+            'payment'   => $payment,
+            'amount'    => $amount,
+        ));
+        return $this;
+    }
+
+    /**
+     * Refund money
+     *
+     * @param   Varien_Object $invoicePayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function refund(Varien_Object $payment, $amount)
+    {
+        parent::refund($payment, $amount);
+        $this->_call(array(
+            'operation' => 'refund',
+            'payment'   => $payment,
+            'amount'    => $amount,
+        ));
+        return $this;
+    }
+
+    /**
+     * Void payment
+     *
+     * @param   Varien_Object $invoicePayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function void(Varien_Object $payment)
+    {
+        parent::void($payment);
+        $this->_call(array(
+            'operation' => 'void',
+            'payment'   => $payment,
+        ));
+        return $this;
     }
 }

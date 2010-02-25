@@ -94,6 +94,26 @@
             </updates>
         </layout>
     </frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <enterprise_pbridge>
+                    <file>enterprise/pbridge.xml</file>
+                </enterprise_pbridge>
+            </updates>
+        </layout>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Enterprise_PBridge after="Mage_Adminhtml">Enterprise_PBridge_Adminhtml</Enterprise_PBridge>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <default>
         <payment>
             <pbridge translate="title" module="enterprise_pbridge">

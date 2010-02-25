@@ -32,12 +32,12 @@
  * @package     Enterprise_PBridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_PBridge_IndexController extends Enterprise_Enterprise_Controller_Core_Front_Action
+class Enterprise_PBridge_Adminhtml_PbridgeController extends Enterprise_Enterprise_Controller_Adminhtml_Action
 {
     /**
      * Load only action layout handles
      *
-     * @return Enterprise_PBridge_IndexController
+     * @return Enterprise_PBridge_Adminhtml_IndexController
      */
     protected function _initActionLayout()
     {
@@ -46,6 +46,7 @@ class Enterprise_PBridge_IndexController extends Enterprise_Enterprise_Controlle
         $this->generateLayoutXml();
         $this->generateLayoutBlocks();
         $this->_isLayoutLoaded = true;
+        $this->_initLayoutMessages('adminhtml/session');
         return $this;
     }
 
@@ -85,7 +86,7 @@ class Enterprise_PBridge_IndexController extends Enterprise_Enterprise_Controlle
         $data = $this->_initIncomingData();
         $this->_initActionLayout();
 
-        if ($block = $this->getLayout()->getBlock('pbridge.checkout.payment.result')) {
+        if ($block = $this->getLayout()->getBlock('pbridge.sales.order.create.result')) {
             $block->setJsonHiddenPbridgeParams(Mage::helper('core')->jsonEncode($data));
         }
 

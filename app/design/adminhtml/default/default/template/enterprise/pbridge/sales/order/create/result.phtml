@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     enterprise_default
+ * @package     default_default
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
@@ -31,11 +31,12 @@
 
     function setPaymentMethod()
     {
-        var elements = parent.Form.getElements(paymentObj.form);
+        var checkoutForm = parent.document.getElementById('edit_form');
+        var elements = parent.Form.getElements('edit_form');
         for (var i=0; i<elements.length; i++) {
             if (elements[i].name=='payment[method]')    {
                 elements[i].checked = false;
-//                elements[i].disabled = true;
+                // elements[i].disabled = true;
             }
         }
 
@@ -44,13 +45,11 @@
             'name':    'payment[method]',
             'value':   'pbridge',
             'checked': 'checked',
-            'style':   'display:none',
-            'autocomplete': 'off'
+            'style':   'display:none'
         });
 
-        var checkoutForm = parent.document.getElementById(paymentObj.form);
         checkoutForm.appendChild(method);
-        
+
         var jsonParams = <?php echo $this->getJsonHiddenPbridgeParams() ?>;
         var methodParam;
         parent.$H(jsonParams).each(function(param) {
@@ -61,8 +60,8 @@
             });
             checkoutForm.appendChild(methodParam);
         });
-        paymentObj.save();
         var message = document.getElementById('payment-method-message');
+        // parent.order.switchPaymentMethod('pbridge');
         message.innerHTML = '<?php echo Mage::helper('enterprise_pbridge')->__('Payment Bridge Selected') ?>';
     }
     window.onload = setPaymentMethod;

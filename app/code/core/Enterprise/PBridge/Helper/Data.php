@@ -39,7 +39,14 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
      *
      * @var string
      */
-    const PAYMENT_GATEWAYS_CHOOSER_ACTION = 'GetPaymentGatewaysChooser';
+    const PAYMENT_GATEWAYS_CHOOSER_ACTION = 'GatewaysChooser';
+
+    /**
+     * Payment Bridge payment methods available for the current merchant
+     *
+     * $var array
+     */
+    protected $_pbridgeAvailableMethods = array();
 
     /**
      * Check if Payment Bridge Magento Module is enabled in configuration
@@ -71,16 +78,39 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
         $pbridgeUrl = Mage::getStoreConfig('payment/pbridge/gatewayurl');
         $merchantCode = Mage::getStoreConfig('payment/pbridge/merchantcode');
         $merchantKey  = Mage::getStoreConfig('payment/pbridge/merchantkey');
-        $sourceUrl = $pbridgeUrl . '?action=' . self::PAYMENT_GATEWAYS_CHOOSER_ACTION
+        $sourceUrl = rtrim($pbridgeUrl, '/') . '/bridge.php?action=' . self::PAYMENT_GATEWAYS_CHOOSER_ACTION
             . '&merchant_code=' . $merchantCode
             . '&merchant_key=' . $merchantKey;
-        if ($this->_getQuote()->getId()) {
-            $sourceUrl .= '&quote_id=' . $this->_getQuote()->getId();
-            if ($this->_getQuote()->getPbridgeToken()) {
-                $sourceUrl .= '&token=' . $this->_getQuote()->getToken();
+        if ($availableMethods = $this->getPbridgeAvailableMethods()) {
+            $sourceUrl .= '&available_methods=' . implode($availableMethods);
+        }
+        if ($this->_getQuote()) {
+            $payment = $this->_getQuote()->getPayment();
+            if ($payment && $payment->getMethod()) {
+                $sourceUrl .= '&quote_id=' . $this->_getQuote()->getId();
+                if ($payment->getMethodInstance()->getToken()) {
+                    $sourceUrl .= '&token=' . $payment->getMethodInstance()->getToken();
+                }
             }
         }
         return $sourceUrl;
+    }
+
+    /**
+     * Prepare given payment method and return Payment Bridge payment methods
+     * available for the current merchant
+     *
+     * @param string $method
+     * @return array
+     */
+    protected function _preparePbridgeAvailableMethod($method)
+    {
+        if (!in_array($method, $this->_pbridgeAvailableMethods)) {
+            if (Mage::getStoreConfigFlag('payment/' . $method . '/using_pbridge')) {
+                $this->_pbridgeAvailableMethods[] = $method;
+            }
+        }
+        return $this->_pbridgeAvailableMethods;
     }
 
     /**
@@ -92,5 +122,27 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     public function getPbridgeUrl()
     {
         return $this->_preparePbridgeRequestUrl();
+    }
+
+    /**
+     * Getter
+     * Retrieve Payment Bridge payment methods available for the current merchant
+     *
+     * @return array
+     */
+    public function getPbridgeAvailableMethods()
+    {
+        return $this->_pbridgeAvailableMethods;
+    }
+
+    /**
+     * Check if the payment method is withing the list of available for current merchant
+     *
+     * @param string $method
+     * @return bool
+     */
+    public function isAvailablePbridgeMethod($method)
+    {
+        return in_array($method, $this->_preparePbridgeAvailableMethod($method));
     }
 }

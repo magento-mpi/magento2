@@ -27,14 +27,20 @@
 -->
 <layout version="0.1.0">
 
-    <checkout_onepage_index>
-        <reference name="checkout.onepage.payment.additional">
-            <block type="enterprise_pbridge/checkout_payment_pbridge" name="pbridge.checkout.payment.pbridge" template="pbridge/checkout/payment/pbridge.phtml" />
+    <adminhtml_sales_order_create_index>
+        <reference name="billing_method">
+            <block type="enterprise_pbridge/adminhtml_sales_order_create_pbridge" name="pbridge.sales.order.create.pbridge" template="enterprise/pbridge/sales/order/create/pbridge.phtml" />
         </reference>
-    </checkout_onepage_index>
+    </adminhtml_sales_order_create_index>
 
-    <enterprise_pbridge_index_result>
-        <block type="enterprise_pbridge/checkout_payment_result" name="pbridge.checkout.payment.result" template="pbridge/checkout/payment/result.phtml" output="toHtml" />
-    </enterprise_pbridge_index_result>
+    <adminhtml_sales_order_create_load_block_billing_method>
+        <reference name="billing_method">
+            <block type="enterprise_pbridge/adminhtml_sales_order_create_pbridge" name="pbridge.sales.order.create.pbridge" template="enterprise/pbridge/sales/order/create/pbridge.phtml" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_billing_method>
+
+    <adminhtml_pbridge_result>
+        <block type="enterprise_pbridge/adminhtml_sales_order_create_result" name="pbridge.sales.order.create.result" template="enterprise/pbridge/sales/order/create/result.phtml" output="toHtml" />
+    </adminhtml_pbridge_result>
 
 </layout>

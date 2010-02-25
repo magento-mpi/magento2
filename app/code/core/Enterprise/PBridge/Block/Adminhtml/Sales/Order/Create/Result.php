@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -19,22 +18,20 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    design
- * @package     enterprise_default
+ * @category    Enterprise
+ * @package     Enterprise_PBridge
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
--->
-<layout version="0.1.0">
 
-    <checkout_onepage_index>
-        <reference name="checkout.onepage.payment.additional">
-            <block type="enterprise_pbridge/checkout_payment_pbridge" name="pbridge.checkout.payment.pbridge" template="pbridge/checkout/payment/pbridge.phtml" />
-        </reference>
-    </checkout_onepage_index>
 
-    <enterprise_pbridge_index_result>
-        <block type="enterprise_pbridge/checkout_payment_result" name="pbridge.checkout.payment.result" template="pbridge/checkout/payment/result.phtml" output="toHtml" />
-    </enterprise_pbridge_index_result>
-
-</layout>
+/**
+ * Pbridge result payment block
+ *
+ * @category    Enterprise
+ * @package     Enterprise_PBridge
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Enterprise_PBridge_Block_Adminhtml_Sales_Order_Create_Result extends Enterprise_Enterprise_Block_Adminhtml_Template
+{
+}
