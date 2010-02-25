@@ -220,8 +220,18 @@ class Error_Processor
      */
     public function getHostUrl()
     {
+        /**
+         * Define server http host
+         */
+        if (!empty($_SERVER['HTTP_HOST'])) {
+            $host = $_SERVER['HTTP_HOST'];
+        } elseif (!empty($_SERVER['SERVER_NAME'])) {
+            $host = $_SERVER['SERVER_NAME'];
+        } else {
+            $host = 'localhost';
+        }
+
         $isSecure = (!empty($_SERVER['HTTPS'])) && ($_SERVER['HTTPS'] != 'off');
-        $host = (!empty($_SERVER['HTTP_HOST'])) ? $_SERVER['HTTP_HOST'] : 'localhost';
         $url = ($isSecure ? 'https://' : 'http://') . $host;
 
         if (!empty($_SERVER['SERVER_PORT']) && !in_array($_SERVER['SERVER_PORT'], array(80, 433))) {
@@ -494,11 +504,11 @@ class Error_Processor
     {
         $this->pageTitle = 'Error Submission Form';
 
-        $this->postData['firstName'] = (isset($_POST['firstname'])) ? trim($_POST['firstname']) : '';
-        $this->postData['lastName']  = (isset($_POST['lastname'])) ? trim($_POST['lastname']) : '';
-        $this->postData['email']     = (isset($_POST['email'])) ? trim($_POST['email']) : '';
-        $this->postData['telephone'] = (isset($_POST['telephone'])) ? trim($_POST['telephone']) : '';
-        $this->postData['comment']   = (isset($_POST['comment'])) ? trim(strip_tags($_POST['comment'])) : '';
+        $this->postData['firstName'] = (isset($_POST['firstname'])) ? trim(htmlspecialchars($_POST['firstname'])) : '';
+        $this->postData['lastName']  = (isset($_POST['lastname'])) ? trim(htmlspecialchars($_POST['lastname'])) : '';
+        $this->postData['email']     = (isset($_POST['email'])) ? trim(htmlspecialchars($_POST['email'])) : '';
+        $this->postData['telephone'] = (isset($_POST['telephone'])) ? trim(htmlspecialchars($_POST['telephone'])) : '';
+        $this->postData['comment']   = (isset($_POST['comment'])) ? trim(htmlspecialchars($_POST['comment'])) : '';
 
         if (isset($_POST['submit'])) {
             if ($this->_validate()) {
@@ -518,8 +528,8 @@ class Error_Processor
                 $subject = sprintf('%s [%s]', (string)$this->_config->subject, $this->reportId);
                 @mail((string)$this->_config->email_address, $subject, $msg);
 
-                $this->showSendForm   = false;
-                $this->showSentMsg    = true;
+                $this->showSendForm = false;
+                $this->showSentMsg  = true;
             } else {
                 $this->showErrorMsg = true;
             }
