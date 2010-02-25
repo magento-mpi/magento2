@@ -60,7 +60,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
 
             /* @var $quote Mage_Sales_Model_Quote */
             if ($this->getQuoteId()) {
-                $quote->load($this->getQuoteId());
+                $quote->loadActive($this->getQuoteId());
                 if ($quote->getId()) {
                     /**
                      * If current currency code of quote is not equal current currency code of store,

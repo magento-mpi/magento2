@@ -230,6 +230,19 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Loading only active quote
+     *
+     * @param int $quoteId
+     * @return Mage_Sales_Model_Quote
+     */
+    public function loadActive($quoteId)
+    {
+        $this->_getResource()->loadActive($this, $quoteId);
+        $this->_afterLoad();
+        return $this;
+    }
+
+    /**
      * Assign customer model object data to quote
      *
      * @param   Mage_Customer_Model_Customer $customer
