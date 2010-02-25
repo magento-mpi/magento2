@@ -479,6 +479,12 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
 
     public function setAdjustmentPositive($amount)
     {
+        $amount = trim($amount);
+        if (substr($amount, -1) == '%') {
+            $amount = (float) substr($amount, 0, -1);
+            $amount = $this->getOrder()->getGrandTotal() * $amount / 100;
+        }
+
         $amount = $this->getStore()->roundPrice($amount);
         $this->setData('base_adjustment_positive', $amount);
 
@@ -491,6 +497,12 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
 
     public function setAdjustmentNegative($amount)
     {
+        $amount = trim($amount);
+        if (substr($amount, -1) == '%') {
+            $amount = (float) substr($amount, 0, -1);
+            $amount = $this->getOrder()->getGrandTotal() * $amount / 100;
+        }
+
         $amount = $this->getStore()->roundPrice($amount);
         $this->setData('base_adjustment_negative', $amount);
 

@@ -43,7 +43,7 @@
     Validation.addAllThese([
         ['not-negative-amount', '<?php echo $this->helper('sales')->__('Please enter positive number in this field.') ?>', function(v) {
             if(v.length)
-                return parseFloat(v) >= 0;
+                return /^\s*\d+([,.]\d+)*\s*%?\s*$/.test(v);
             else
                 return true;
         }]
