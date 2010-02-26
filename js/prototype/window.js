@@ -592,7 +592,7 @@ Window.prototype = {
     var className = this.options.className;
     var win = document.createElement("div");
     win.setAttribute('id', id);
-    win.className = "dialog";
+    win.className = "dialog " + this.options.className;
 
     var content;
     if (this.options.url)
@@ -1467,7 +1467,7 @@ var Dialog = {
     return this._openDialog(content, parameters)
   },
   
-  info: function(content, parameters) {   
+  info: function(content, parameters) {
     // Get Ajax return before
     if (content && typeof content != "string") {
       Dialog._runAjaxRequest(content, parameters, Dialog.info);
@@ -1528,7 +1528,7 @@ var Dialog = {
     parameters.maximizable = parameters.maximizable ||  false;
     parameters.draggable   = parameters.draggable || false;
     parameters.closable    = parameters.closable || false;
-    
+
     var win = new Window(parameters);
     win.getContent().innerHTML = content;
     
