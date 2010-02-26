@@ -169,6 +169,10 @@ class Mage_CatalogInventory_Model_Observer
             && is_null($product->getData('stock_data/use_config_notify_stock_qty'))) {
             $item->setData('use_config_notify_stock_qty', false);
         }
+        if (!is_null($product->getData('stock_data/qty_increments'))
+            && is_null($product->getData('stock_data/use_config_qty_increments'))) {
+            $item->setData('use_config_qty_increments', false);
+        }
         return $this;
 
     }

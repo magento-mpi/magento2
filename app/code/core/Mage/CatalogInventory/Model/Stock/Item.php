@@ -45,6 +45,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     const XML_PATH_BACKORDERS       = 'cataloginventory/item_options/backorders';
     const XML_PATH_NOTIFY_STOCK_QTY = 'cataloginventory/item_options/notify_stock_qty';
     const XML_PATH_MANAGE_STOCK     = 'cataloginventory/item_options/manage_stock';
+    const XML_PATH_QTY_INCREMENTS   = 'cataloginventory/item_options/qty_increments';
 
     const ENTITY                    = 'cataloginventory_stock_item';
 
@@ -52,6 +53,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      * @var float
      */
     private $_minSaleQty;
+
+    /**
+     * @var float|false
+     */
+    private $_qtyIncrements;
 
     /**
      * Prefix of model events names
@@ -270,6 +276,28 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve Quantity Increments data wraper
+     *
+     * @return float|false
+     */
+    public function getQtyIncrements()
+    {
+        if ($this->_qtyIncrements === null) {
+            if ($this->getUseConfigQtyIncrements()) {
+                $this->_qtyIncrements = Mage::getStoreConfig(self::XML_PATH_QTY_INCREMENTS);
+            } else {
+                $this->_qtyIncrements = $this->getData('qty_increments');
+            }
+            if ($this->_qtyIncrements && $this->_qtyIncrements > 0 && $this->_qtyIncrements != 1) {
+                $this->_qtyIncrements = (float) $this->_qtyIncrements;
+            } else {
+                $this->_qtyIncrements = false;
+            }
+        }
+        return $this->_qtyIncrements;
+    }
+
+    /**
      * Retrieve backorders status
      *
      * @return int
@@ -403,6 +431,14 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return $result;
         }
 
+        if ($this->getQtyIncrements() && ($qty % $this->getQtyIncrements() != 0)) {
+            $result->setHasError(true)
+                ->setMessage(Mage::helper('cataloginventory')->__('This product is available for purchase in increments of %s only.', $this->getQtyIncrements() * 1))
+                ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products cannot be ordered in the requested quantity'))
+                ->setQuoteMessageIndex('qty');
+            return $result;
+        }
+
         if (!$this->checkQty($summaryQty)) {
             $message = Mage::helper('cataloginventory')->__('The requested quantity for "%s" is not available.', $this->getProductName());
             $result->setHasError(true)
@@ -475,10 +511,12 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         $isQty = Mage::helper('catalogInventory')->isQty($typeId);
 
         if ($isQty) {
-            if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO
-                && $this->getQty() <= $this->getMinQty()) {
-                $this->setIsInStock(false)
-                    ->setStockStatusChangedAutomaticallyFlag(true);
+            if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO) {
+                if ($this->getQty() <= $this->getMinQty()
+                    || ($this->getQtyIncrements() && $this->getQty() < $this->getQtyIncrements())) {
+                    $this->setIsInStock(false)
+                        ->setStockStatusChangedAutomaticallyFlag(true);
+                }
             }
 
             // if qty is below notify qty, update the low stock date to today date otherwise set null
