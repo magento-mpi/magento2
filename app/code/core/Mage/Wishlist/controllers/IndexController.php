@@ -132,6 +132,8 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
 
         try {
             $wishlist->addNewItem($product->getId());
+            $wishlist->save();
+
             Mage::dispatchEvent('wishlist_add_product', array('wishlist'=>$wishlist, 'product'=>$product));
 
             if ($referer = $session->getBeforeWishlistUrl()) {
@@ -171,6 +173,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         $post = $this->getRequest()->getPost();
         if($post && isset($post['description']) && is_array($post['description'])) {
             $wishlist = $this->_getWishlist();
+            $updatedItems = 0;
 
             foreach ($post['description'] as $itemId => $description) {
                 $item = Mage::getModel('wishlist/item')->load($itemId);
@@ -181,11 +184,22 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
                 try {
                     $item->setDescription($description)
                         ->save();
+                    $updatedItems++;
                 }
                 catch (Exception $e) {
                     Mage::getSingleton('customer/session')->addError(
                         $this->__('Can\'t save description %s', Mage::helper('core')->htmlEscape($description))
                     );
+                }
+            }
+
+            // save wishlist model for setting date of last update
+            if ($updatedItems) {
+                try {
+                    $wishlist->save();
+                }
+                catch (Exception $e) {
+                    Mage::getSingleton('customer/session')->addError($this->__('Can\'t update wishlist'));
                 }
             }
 
@@ -209,6 +223,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         if($item->getWishlistId()==$wishlist->getId()) {
             try {
                 $item->delete();
+                $wishlist->save();
             }
             catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('customer/session')->addError(
@@ -258,6 +273,7 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
         try {
             $item->addToCart($cart, true);
             $cart->save()-> getQuote()->collectTotals();
+            $wishlist->save();
 
             Mage::helper('wishlist')->calculate();
 
