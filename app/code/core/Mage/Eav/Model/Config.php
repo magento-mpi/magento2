@@ -533,7 +533,7 @@ class Mage_Eav_Model_Config
         $codes = array();
 
         foreach ($attributesInfo as $attribute) {
-            if (!isset($attribute['attribute_model'])) {
+            if (empty($attribute['attribute_model'])) {
                 $attribute['attribute_model'] = $entityType->getAttributeModel();
             }
 
@@ -646,7 +646,7 @@ class Mage_Eav_Model_Config
             }
         }
 
-        if (isset($attributeData['attribute_model'])) {
+        if (!empty($attributeData['attribute_model'])) {
             $model = $attributeData['attribute_model'];
         }
         else {
