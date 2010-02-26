@@ -56,6 +56,7 @@ Window.prototype = {
 
     this.options = Object.extend({
       className:         "dialog",
+      windowClassName:   null,
       blurClassName:     null,
       minWidth:          100, 
       minHeight:         20,
@@ -592,7 +593,10 @@ Window.prototype = {
     var className = this.options.className;
     var win = document.createElement("div");
     win.setAttribute('id', id);
-    win.className = "dialog " + this.options.className;
+    win.className = "dialog";
+    if (this.options.windowClassName) {
+      win.className += ' ' + this.options.windowClassName;
+    }
 
     var content;
     if (this.options.url)
