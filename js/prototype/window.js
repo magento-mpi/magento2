@@ -1661,7 +1661,7 @@ var WindowUtilities = {
 
 
       if (self.innerHeight) {  // all except Explorer
-        windowWidth = self.innerWidth;
+        windowWidth = document.documentElement.clientWidth;//self.innerWidth;
         windowHeight = self.innerHeight;
       } else if (document.documentElement && document.documentElement.clientHeight) { // Explorer 6 Strict Mode
         windowWidth = document.documentElement.clientWidth;
