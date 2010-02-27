@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Paypal>
-            <version>0.7.4</version>
+            <version>1.4.0.0</version>
         </Mage_Paypal>
     </modules>
     <global>

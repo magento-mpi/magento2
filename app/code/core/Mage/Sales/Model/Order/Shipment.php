@@ -49,6 +49,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     protected $_items;
     protected $_tracks;
     protected $_order;
+    protected $_comments;
 
     protected $_eventPrefix = 'sales_order_shipment';
     protected $_eventObject = 'shipment';
@@ -175,7 +176,6 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     {
         if (empty($this->_items)) {
             $this->_items = Mage::getResourceModel('sales/order_shipment_item_collection')
-                ->addAttributeToSelect('*')
                 ->setShipmentFilter($this->getId());
 
             if ($this->getId()) {
@@ -224,7 +224,6 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     {
         if (empty($this->_tracks)) {
             $this->_tracks = Mage::getResourceModel('sales/order_shipment_track_collection')
-                ->addAttributeToSelect('*')
                 ->setShipmentFilter($this->getId());
 
             if ($this->getId()) {
@@ -289,7 +288,6 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     {
         if (is_null($this->_comments) || $reload) {
             $this->_comments = Mage::getResourceModel('sales/order_shipment_comment_collection')
-                ->addAttributeToSelect('*')
                 ->setShipmentFilter($this->getId())
                 ->setCreatedAtOrder();
 
@@ -484,13 +482,24 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
         return false;
     }
 
+    /**
+     * Before object save
+     *
+     * @return Mage_Sales_Model_Order_Shipment
+     */
     protected function _beforeSave()
     {
-        if (!count($this->getAllItems())) {
+        if ((!$this->getId() || null !== $this->_items) && !count($this->getAllItems())) {
             Mage::throwException(
                 Mage::helper('sales')->__('Cannot create an empty shipment.')
             );
         }
+
+        if (!$this->getOrderId() && $this->getOrder()) {
+            $this->setOrderId($this->getOrder()->getId());
+            $this->setShippingAddressId($this->getOrder()->getShippingAddress()->getId());
+        }
+
         return parent::_beforeSave();
     }
 
@@ -498,6 +507,34 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     {
         $this->_protectFromNonAdmin();
         return parent::_beforeDelete();
+    }
+
+    /**
+     * After object save manipulations
+     *
+     * @return Mage_Sales_Model_Order_Shipment
+     */
+    protected function _afterSave()
+    {
+        if (null !== $this->_items) {
+            foreach ($this->_items as $item) {
+                $item->save();
+            }
+        }
+
+        if (null !== $this->_tracks) {
+            foreach($this->_tracks as $track) {
+                $track->save();
+            }
+        }
+
+        if (null !== $this->_comments) {
+            foreach($this->_comments as $comment) {
+                $comment->save();
+            }
+        }
+
+        return parent::_afterSave();
     }
 
     /**

@@ -130,7 +130,7 @@ class Mage_Sales_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('sales/order')->aggregate($date);
+        Mage::getResourceModel('sales/report_order')->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }

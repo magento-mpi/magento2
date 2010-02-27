@@ -47,6 +47,14 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      */
     protected $_paymentObject = null;
 
+
+    /**
+     * Order instance
+     *
+     * @var Mage_Sales_Model_Order_Payment
+     */
+    protected $_order = null;
+
     /**
      * Parent transaction instance
      * @var Mage_Sales_Model_Order_Payment_Transaction
@@ -85,6 +93,22 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      * @var bool
      */
     private $_hasChild = null;
+
+    /**
+     * Event object prefix
+     *
+     * @see Mage_Core_Model_Absctract::$_eventPrefix
+     * @var string
+     */
+    protected $_eventPrefix = 'sales_order_payment_transaction';
+
+    /**
+     * Event object prefix
+     *
+     * @see Mage_Core_Model_Absctract::$_eventObject
+     * @var string
+     */
+    protected $_eventObject = 'order_payment_transaction';
 
     /**
      * Initialize resource model
@@ -169,13 +193,14 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
                 $class = get_class($this);
                 $this->_parentTransaction = new $class;
                 if ($shouldLoad) {
-                    $this->_parentTransaction->load($parentId);
+                    $this->_parentTransaction
+                        ->setOrderPaymentObject($this->_paymentObject)
+                        ->load($parentId);
                     if (!$this->_parentTransaction->getId()) {
                         $this->_parentTransaction = false;
                     } else {
                         $this->_parentTransaction
-                            ->hasChildTransaction(true)
-                            ->setOrderPaymentObject($this->_paymentObject);
+                            ->hasChildTransaction(true);
                     }
                 }
             }
@@ -348,18 +373,43 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     }
 
     /**
+     * Check object before loading by by specified transaction ID
+     * @param $txnId
+     * @return Mage_Sales_Model_Order_Payment_Transaction
+     */
+    protected function _beforeLoadByTxnId($txnId)
+    {
+        $this->_verifyPaymentObject();
+        Mage::dispatchEvent($this->_eventPrefix . '_load_by_txn_id_before', $this->_getEventData() + array('txn_id' => $txnId));
+        return $this;
+    }
+
+    /**
      * Load self by specified transaction ID. Requires the valid payment object to be set
      * @param string $txnId
      * @return Mage_Sales_Model_Order_Payment_Transaction
      */
     public function loadByTxnId($txnId)
     {
-        $this->_verifyPaymentObject();
+        $this->_beforeLoadByTxnId($txnId);
         $this->getResource()->loadObjectByTxnId(
             $this, $this->getOrderId(), $this->_paymentObject->getId(), $txnId
         );
+        $this->_afterLoadByTxnId();
         return $this;
     }
+
+    /**
+     * Check object after loading by by specified transaction ID
+     * @param $txnId
+     * @return Mage_Sales_Model_Order_Payment_Transaction
+     */
+    protected function _afterLoadByTxnId()
+    {
+        Mage::dispatchEvent($this->_eventPrefix . '_load_by_txn_id_after', $this->_getEventData());
+        return $this;
+    }
+
 
     /**
      * Additional information setter
@@ -489,6 +539,46 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     }
 
     /**
+     * Retrieve order instance
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getOrder()
+    {
+        if ($this->_order === null) {
+            $this->setOrder();
+        }
+
+        return $this->_order;
+    }
+
+    /**
+     * Set order instance for transaction depends on transaction behavior
+     * If $order equals to true, method isn't loading new order instance.
+     *
+     * @param Mage_Sales_Model_Order|null|boolean $order
+     * @return Mage_Sales_Model_Order_Payment_Transaction
+     */
+    public function setOrder($order = null)
+    {
+        if (null === $order || $order === true) {
+            if (null !== $this->_paymentObject && $this->_paymentObject->getOrder()) {
+                $this->_order = $this->_paymentObject->getOrder();
+            } elseif ($this->getOrderId() && $order === null) {
+                $this->_order = Mage::getModel('sales/order')->load($this->getOrderId());
+            } else {
+                $this->_order = false;
+            }
+        } elseif (!$this->getId()) { // We can set order only for new transaction
+            $this->_order = $order;
+        } else {
+            Mage::throwException(Mage::helper('sales')->__('Set order for existing transactions not allowed'));
+        }
+
+        return $this;
+    }
+
+    /**
      * Setter/Getter whether transaction is supposed to prevent exceptions on saving
      *
      * @param bool $failsafe
@@ -511,8 +601,16 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     {
         // set parent id
         $this->_verifyPaymentObject();
-        $this->setPaymentId($this->_paymentObject->getId())
-            ->setOrderId($this->getOrderId());
+        if (!$this->getId()) {
+            // We need to set order and payment ids only for new transactions
+            if (null !== $this->_paymentObject) {
+                $this->setPaymentId($this->_paymentObject->getId());
+            }
+
+            if (null !== $this->_order) {
+                $this->setOrderId($this->_order->getId());
+            }
+        }
         return parent::_beforeSave();
     }
 
@@ -534,8 +632,16 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
             Mage::throwException(Mage::helper('sales')->__('At least a payment ID must be set.'));
         }
 
+        $this->setOrder(true);
+
+        $orderFilter = $this->getOrder(); // Try to get order instance for filter
+        if (!$orderFilter) {
+            $orderFilter = $this->getOrderId();
+        }
+
         // prepare children collection
         $children = $this->getResourceCollection()
+            ->addOrderFilter($orderFilter)
             ->addPaymentIdFilter($paymentId)
             ->addParentIdFilter($this->getId());
 

@@ -357,7 +357,6 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     {
         if (empty($this->_items)) {
             $this->_items = Mage::getResourceModel('sales/order_invoice_item_collection')
-                ->addAttributeToSelect('*')
                 ->setInvoiceFilter($this->getId());
 
             if ($this->getId()) {
@@ -537,7 +536,6 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     {
         if (is_null($this->_comments) || $reload) {
             $this->_comments = Mage::getResourceModel('sales/order_invoice_comment_collection')
-                ->addAttributeToSelect('*')
                 ->setInvoiceFilter($this->getId())
                 ->setCreatedAtOrder();
             /**
@@ -739,5 +737,66 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     {
         $this->_protectFromNonAdmin();
         return parent::_beforeDelete();
+    }
+
+    /**
+     * Reset invoice object
+     *
+     * @return Mage_Sales_Model_Order_Invoice
+     */
+    public function reset()
+    {
+        $this->unsetData();
+        $this->_origData = null;
+        $this->_items = null;
+        $this->_comments = null;
+        $this->_order = null;
+        $this->_saveBeforeDestruct = false;
+        $this->_wasPayCalled = false;
+        return $this;
+    }
+
+    /**
+     * Before object save manipulations
+     *
+     * @return Mage_Sales_Model_Order_Shipment
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+
+        if (!$this->getOrderId() && $this->getOrder()) {
+            $this->setOrderId($this->getOrder()->getId());
+            $this->setBillingAddressId($this->getOrder()->getBillingAddress()->getId());
+        }
+
+        return $this;
+    }
+
+    /**
+     * After object save manipulation
+     *
+     * @return Mage_Sales_Model_Order_Shipment
+     */
+    protected function _afterSave()
+    {
+
+        if (null !== $this->_items) {
+            /**
+             * Save invoice items
+             */
+            foreach ($this->_items as $item) {
+                $item->setOrderItem($item->getOrderItem());
+                $item->save();
+            }
+        }
+
+        if (null !== $this->_comments) {
+            foreach($this->_comments as $comment) {
+                $comment->save();
+            }
+        }
+
+        return parent::_afterSave();
     }
 }

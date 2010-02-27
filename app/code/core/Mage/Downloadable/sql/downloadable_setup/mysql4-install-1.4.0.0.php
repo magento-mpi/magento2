@@ -43,8 +43,10 @@ CREATE TABLE `{$installer->getTable('downloadable_link')}` (
   `sample_file` varchar(255) NOT NULL DEFAULT '',
   `sample_type` varchar(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`link_id`),
-  KEY `IDX_PRODUCT_ID` (`product_id`),
-  KEY `IDX_SORT_ORDER` (`product_id`,`sort_order`)
+  KEY `DOWNLODABLE_LINK_PRODUCT` (`product_id`),
+  KEY `DOWNLODABLE_LINK_PRODUCT_SORT_ORDER` (`product_id`,`sort_order`),
+  CONSTRAINT `FK_DOWNLODABLE_LINK_PRODUCT` FOREIGN KEY (`product_id`)
+    REFERENCES `{$installer->getTable('catalog_product_entity')}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `{$installer->getTable('downloadable_link_price')}` (
@@ -53,8 +55,12 @@ CREATE TABLE `{$installer->getTable('downloadable_link_price')}` (
   `website_id` smallint(5) unsigned NOT NULL DEFAULT '0',
   `price` decimal(12,4) NOT NULL DEFAULT '0.0000',
   PRIMARY KEY (`price_id`),
-  KEY `IDX_LINK_ID` (`link_id`),
-  KEY `IDX_WEBSITE_ID` (`website_id`)
+  KEY `DOWNLOADABLE_LINK_PRICE_LINK` (`link_id`),
+  KEY `DOWNLOADABLE_LINK_PRICE_WEBSITE` (`website_id`),
+  CONSTRAINT `FK_DOWNLOADABLE_LINK_PRICE_WEBSITE` FOREIGN KEY (`website_id`)
+    REFERENCES `{$installer->getTable('core_website')}` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_DOWNLOADABLE_LINK_PRICE_LINK` FOREIGN KEY (`link_id`)
+    REFERENCES `{$installer->getTable('downloadable_link')}` (`link_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `{$installer->getTable('downloadable_link_purchased')}` (
@@ -69,9 +75,9 @@ CREATE TABLE `{$installer->getTable('downloadable_link_purchased')}` (
   `product_sku` varchar(255) NOT NULL DEFAULT '',
   `link_section_title` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`purchased_id`),
-  KEY `IDX_ORDER_ID` (`order_id`),
-  KEY `IDX_CUSTOMER_ID` (`customer_id`),
-  KEY `IDX_ORDER_ITEM_ID` (`order_item_id`)
+  KEY `DOWNLOADABLE_ORDER_ID` (`order_id`),
+  KEY `DOWNLOADABLE_CUSTOMER_ID` (`customer_id`),
+  KEY `KEY_DOWNLOADABLE_ORDER_ITEM_ID` (`order_item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `{$installer->getTable('downloadable_link_purchased_item')}` (
@@ -92,9 +98,11 @@ CREATE TABLE `{$installer->getTable('downloadable_link_purchased_item')}` (
   `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`item_id`),
-  KEY `IDX_PURCHASED_ID` (`purchased_id`),
-  KEY `IDX_ORDER_ITEM_ID` (`order_item_id`),
-  KEY `IDX_LINK_HASH` (`link_hash`)
+  KEY `DOWNLOADABLE_LINK_PURCHASED_ID` (`purchased_id`),
+  KEY `DOWNLOADABLE_ORDER_ITEM_ID` (`order_item_id`),
+  KEY `DOWNLOADALBE_LINK_HASH` (`link_hash`),
+  CONSTRAINT `FK_DOWNLOADABLE_LINK_PURCHASED_ID` FOREIGN KEY (`purchased_id`)
+    REFERENCES `{$installer->getTable('downloadable_link_purchased')}` (`purchased_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `{$installer->getTable('downloadable_link_title')}` (
@@ -104,8 +112,12 @@ CREATE TABLE `{$installer->getTable('downloadable_link_title')}` (
   `title` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`title_id`),
   UNIQUE KEY `UNQ_LINK_TITLE_STORE` (`link_id`,`store_id`),
-  KEY `IDX_LINK_ID` (`link_id`),
-  KEY `IDX_STORE_ID` (`store_id`)
+  KEY `DOWNLOADABLE_LINK_TITLE_LINK` (`link_id`),
+  KEY `DOWNLOADABLE_LINK_TITLE_STORE` (`store_id`),
+  CONSTRAINT `FK_DOWNLOADABLE_LINK_TITLE_LINK` FOREIGN KEY (`link_id`)
+    REFERENCES `{$installer->getTable('downloadable_link')}` (`link_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_DOWNLOADABLE_LINK_TITLE_STORE` FOREIGN KEY (`store_id`)
+    REFERENCES `{$installer->getTable('core_store')}` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `{$installer->getTable('downloadable_sample')}` (
@@ -116,7 +128,9 @@ CREATE TABLE `{$installer->getTable('downloadable_sample')}` (
   `sample_type` varchar(20) NOT NULL DEFAULT '',
   `sort_order` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`sample_id`),
-  KEY `IDX_PRODUCT_ID` (`product_id`)
+  KEY `DOWNLODABLE_SAMPLE_PRODUCT` (`product_id`),
+  CONSTRAINT `FK_DOWNLODABLE_SAMPLE_PRODUCT` FOREIGN KEY (`product_id`)
+    REFERENCES `{$installer->getTable('catalog_product_entity')}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `{$installer->getTable('downloadable_sample_title')}` (
@@ -126,40 +140,14 @@ CREATE TABLE `{$installer->getTable('downloadable_sample_title')}` (
   `title` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`title_id`),
   UNIQUE KEY `UNQ_SAMPLE_TITLE_STORE` (`sample_id`,`store_id`),
-  KEY `IDX_SAMPLE_ID` (`sample_id`),
-  KEY `IDX_STORE_ID` (`store_id`)
+  KEY `DOWNLOADABLE_SAMPLE_TITLE_SAMPLE` (`sample_id`),
+  KEY `DOWNLOADABLE_SAMPLE_TITLE_STORE` (`store_id`),
+  CONSTRAINT `FK_DOWNLOADABLE_SAMPLE_TITLE_SAMPLE` FOREIGN KEY (`sample_id`)
+    REFERENCES `{$installer->getTable('downloadable_sample')}` (`sample_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_DOWNLOADABLE_SAMPLE_TITLE_STORE` FOREIGN KEY (`store_id`)
+    REFERENCES `{$installer->getTable('core_store')}` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
-
-$constraints = array(
-    'downloadable_link' => array(
-        'product' => array('product_id', 'catalog_product_entity', 'entity_id'),
-    ),
-    'downloadable_link_price' => array(
-        'link' => array('link_id', 'downloadable_link', 'link_id'),
-        'website' => array('website_id', 'core_website', 'website_id'),
-    ),
-    'downloadable_link_title' => array(
-        'link' => array('link_id', 'downloadable_link', 'link_id'),
-        'store' => array('store_id', 'core_store', 'store_id'),
-    ),
-    'downloadable_sample' => array(
-        'product' => array('product_id', 'catalog_product_entity', 'entity_id'),
-    ),
-    'downloadable_sample_title' => array(
-        'sample' => array('sample_id', 'downloadable_sample', 'sample_id'),
-        'store' => array('store_id', 'core_store', 'store_id'),
-    ),
-);
-
-foreach ($constraints as $table => $list) {
-    foreach ($list as $code => $constraint) {
-        $constraint[1] = $installer->getTable($constraint[1]);
-        array_unshift($constraint, $installer->getTable($table));
-        array_unshift($constraint, strtoupper($table . '_' . $code));
-        call_user_func_array(array($installer->getConnection(), 'addConstraint'), $constraint);
-    }
-}
 
 
 $fieldList = array(

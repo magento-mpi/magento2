@@ -52,6 +52,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
 
     protected $_items;
     protected $_order;
+    protected $_comments;
 
     protected $_eventPrefix = 'sales_order_creditmemo';
     protected $_eventObject = 'creditmemo';
@@ -135,7 +136,6 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     {
         if (empty($this->_items)) {
             $this->_items = Mage::getResourceModel('sales/order_creditmemo_item_collection')
-                ->addAttributeToSelect('*')
                 ->setCreditmemoFilter($this->getId());
 
             if ($this->getId()) {
@@ -533,7 +533,6 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     {
         if (is_null($this->_comments) || $reload) {
             $this->_comments = Mage::getResourceModel('sales/order_creditmemo_comment_collection')
-                ->addAttributeToSelect('*')
                 ->setCreditmemoFilter($this->getId())
                 ->setCreatedAtOrder();
             /**
@@ -735,5 +734,45 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     {
         $this->_protectFromNonAdmin();
         return parent::_beforeDelete();
+    }
+
+    /**
+     * After save object manipulations
+     *
+     * @return Mage_Sales_Model_Order_Creditmemo
+     */
+    protected function _afterSave()
+    {
+        if (null != $this->_items) {
+            foreach ($this->_items as $item) {
+                $item->save();
+            }
+        }
+
+        if (null != $this->_comments) {
+            foreach($this->_comments as $comment) {
+                $comment->save();
+            }
+        }
+
+
+        return parent::_afterSave();
+    }
+
+    /**
+     * Before object save manipulations
+     *
+     * @return Mage_Sales_Model_Order_Creditmemo
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+
+        if (!$this->getOrderId() && $this->getOrder()) {
+            $this->setOrderId($this->getOrder()->getId());
+            $this->setBillingAddressId($this->getOrder()->getBillingAddress()->getId());
+        }
+
+        return $this;
     }
 }

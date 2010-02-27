@@ -84,6 +84,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      */
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
+        $this->_calculator->setCustomer($address->getQuote()->getCustomer());
         $this->_areTaxRequestsSimilar = $this->_calculator->compareRequests(
             $this->_getStoreTaxRequest($address),
             $this->_getAddressTaxRequest($address)

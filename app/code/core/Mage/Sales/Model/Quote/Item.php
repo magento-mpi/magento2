@@ -242,6 +242,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     {
         if ($this->getQuote()) {
             $product->setStoreId($this->getQuote()->getStoreId());
+            $product->setCustomerGroupId($this->getQuote()->getCustomer()->getGroupId());
         }
         $this->setData('product', $product)
             ->setProductId($product->getId())

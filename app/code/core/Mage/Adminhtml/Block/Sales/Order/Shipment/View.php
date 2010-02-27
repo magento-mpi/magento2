@@ -111,6 +111,9 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View extends Mage_Adminhtml_Bloc
     public function updateBackButtonUrl($flag)
     {
         if ($flag) {
+            if ($this->getShipment()->getBackUrl()) {
+                return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getShipment()->getBackUrl() . '\')');
+            }
             return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/sales_shipment/') . '\')');
         }
         return $this;

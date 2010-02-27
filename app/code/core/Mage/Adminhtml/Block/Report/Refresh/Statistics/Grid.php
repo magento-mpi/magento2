@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
                 'id'            => 'coupons',
                 'report'        => Mage::helper('reports')->__('Coupons'),
                 'comment'       => Mage::helper('reports')->__('Promotion Coupons Usage Report'),
-                'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_COUPNS_FLAG_CODE)
+                'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE)
             )
         );
 
@@ -127,6 +127,7 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
             'index'     => 'updated_at',
             'type'      => 'datetime',
             'width'     => 200,
+            'default'   => Mage::helper('reports')->__('undefined'),
             'sortable'  => false
         ));
 

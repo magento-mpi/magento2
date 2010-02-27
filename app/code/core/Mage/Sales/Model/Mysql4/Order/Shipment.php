@@ -25,31 +25,49 @@
  */
 
 /**
- * Shipment entity resource model
+ * Flat sales order shipment resource
  *
- * @category   Mage
- * @package    Mage_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Sales_Model_Mysql4_Order_Shipment extends Mage_Eav_Model_Entity_Abstract
+class Mage_Sales_Model_Mysql4_Order_Shipment extends Mage_Sales_Model_Mysql4_Order_Abstract
 {
-    public function __construct()
+    protected $_eventPrefix = 'sales_order_shipment_resource';
+    protected $_grid = true;
+    protected $_useIncrementId = true;
+    protected $_entityTypeForIncrementId = 'shipment';
+
+    protected function _construct()
     {
-        $resource = Mage::getSingleton('core/resource');
-        $this->setType('shipment')->setConnection(
-            $resource->getConnection('sales_read'),
-            $resource->getConnection('sales_write')
-        );
+        $this->_init('sales/shipment', 'entity_id');
     }
 
     /**
-     * Used for supporting public calls of _afterLoad method
+     * Init virtual grid records for entity
      *
-     * @param Varien_Object $object
+     * @return Mage_Sales_Model_Mysql4_Order_Shipment
      */
-    public function afterLoad(Varien_Object $object)
+    protected function _initVirtualGridColumns()
     {
-        parent::_afterLoad($object);
+        parent::_initVirtualGridColumns();
+        $this->addVirtualGridColumn(
+                'shipping_name',
+                'sales/order_address',
+                array('shipping_address_id' => 'entity_id'),
+                'CONCAT({{table}}.firstname, " ", {{table}}.lastname)'
+            )
+            ->addVirtualGridColumn(
+                'order_increment_id',
+                'sales/order',
+                array('order_id' => 'entity_id'),
+                'increment_id'
+            )
+            ->addVirtualGridColumn(
+                'order_created_at',
+                'sales/order',
+                array('order_id' => 'entity_id'),
+                'created_at'
+            )
+            ;
+
+        return $this;
     }
 }

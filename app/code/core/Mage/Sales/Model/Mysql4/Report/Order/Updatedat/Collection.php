@@ -146,17 +146,6 @@ class Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection extends Mage_Sal
 
         $mainTable = $this->getResource()->getMainTable();
 
-        if (!is_null($this->_from) || !is_null($this->_to)) {
-            $where = (!is_null($this->_from)) ? "so.updated_at >= '{$this->_from}'" : '';
-            if (!is_null($this->_to)) {
-                $where .= (!empty($where)) ? " AND so.updated_at <= '{$this->_to}'" : "so.updated_at <= '{$this->_to}'";
-            }
-
-            $subQuery = clone $this->getSelect();
-            $subQuery->from(array('so' => $mainTable), array('DISTINCT DATE(so.updated_at)'))
-                ->where($where);
-        }
-
         $select = $this->getSelect()
             ->from(array('e' => $mainTable), $columns)
             ->where('e.state NOT IN (?)', array(
@@ -167,8 +156,12 @@ class Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection extends Mage_Sal
         $this->_applyStoresFilter();
         $this->_applyOrderStatusFilter();
 
-        if (!is_null($this->_from) || !is_null($this->_to)) {
-            $select->where("DATE(e.updated_at) IN(?)", new Zend_Db_Expr($subQuery));
+        if ($this->_to !== null) {
+            $select->where('DATE(e.updated_at) <= DATE(?)', $this->_to);
+        }
+
+        if ($this->_from !== null) {
+            $select->where('DATE(e.updated_at) >= DATE(?)', $this->_from);
         }
 
         if (!$this->isTotals()) {

@@ -39,7 +39,7 @@ class Mage_Reports_Model_Flag extends Mage_Core_Model_Flag
     const REPORT_SHIPPING_FLAG_CODE = 'report_shipping_aggregated';
     const REPORT_INVOICE_FLAG_CODE  = 'report_invoiced_aggregated';
     const REPORT_REFUNDED_FLAG_CODE = 'report_refunded_aggregated';
-    const REPORT_COUPNS_FLAG_CODE   = 'report_coupons_aggregated';
+    const REPORT_COUPONS_FLAG_CODE   = 'report_coupons_aggregated';
 
     /**
      * Setter for flag code

@@ -92,7 +92,6 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $this->_title($this->__('Sales'))->_title($this->__('Orders'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/sales_order'))
             ->renderLayout();
     }
 
@@ -101,10 +100,8 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
      */
     public function gridAction()
     {
-        $this->loadLayout();
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/sales_order_grid')->toHtml()
-        );
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     /**
@@ -410,10 +407,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $order = Mage::getModel('sales/order')->load($orderId);
-
                 $invoices = Mage::getResourceModel('sales/order_invoice_collection')
-                    ->addAttributeToSelect('*')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($invoices->getSize() > 0) {
@@ -443,9 +437,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $order = Mage::getModel('sales/order')->load($orderId);
                 $shipments = Mage::getResourceModel('sales/order_shipment_collection')
-                    ->addAttributeToSelect('*')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($shipments->getSize()) {
@@ -473,10 +465,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $order = Mage::getModel('sales/order')->load($orderId);
-
                 $creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
-                    ->addAttributeToSelect('*')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($creditmemos->getSize()) {
@@ -504,10 +493,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $order = Mage::getModel('sales/order')->load($orderId);
-
                 $invoices = Mage::getResourceModel('sales/order_invoice_collection')
-                    ->addAttributeToSelect('*')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($invoices->getSize()){
@@ -521,7 +507,6 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 }
 
                 $shipments = Mage::getResourceModel('sales/order_shipment_collection')
-                    ->addAttributeToSelect('*')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($shipments->getSize()){
@@ -535,7 +520,6 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 }
 
                 $creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
-                    ->addAttributeToSelect('*')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($creditmemos->getSize()) {

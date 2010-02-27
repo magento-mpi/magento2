@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Tax>
-            <version>0.7.13</version>
+            <version>1.4.0.0</version>
         </Mage_Tax>
     </modules>
     <global>
@@ -61,6 +61,9 @@
                     <tax_order_aggregated_updated>
                         <table>tax_order_aggregated_updated</table>
                     </tax_order_aggregated_updated>
+                    <sales_order_tax>
+                        <table>sales_order_tax</table>
+                    </sales_order_tax>
                 </entities>
             </tax_mysql4>
         </models>

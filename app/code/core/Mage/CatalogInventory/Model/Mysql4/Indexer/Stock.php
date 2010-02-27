@@ -71,15 +71,29 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock
         if (empty($data['product_id'])) {
             return $this;
         }
-        $adapter = $this->_getWriteAdapter();
 
         $productId = $data['product_id'];
+        $this->reindexProducts($productId);
+        return $this;
+    }
 
-        $parentIds = $this->getRelationsByChild($productId);
+    /**
+     * Refresh stock index for specific product ids
+     *
+     * @param array $productIds
+     * @return Mage_CatalogInventory_Model_Mysql4_Indexer_Stock
+     */
+    public function reindexProducts($productIds)
+    {
+        $adapter = $this->_getWriteAdapter();
+        if (!is_array($productIds)) {
+            $productIds = array($productIds);
+        }
+        $parentIds = $this->getRelationsByChild($productIds);
         if ($parentIds) {
-            $processIds = array_merge($parentIds, array($productId));
+            $processIds = array_merge($parentIds, $productIds);
         } else {
-            $processIds = array($productId);
+            $processIds = $productIds;
         }
 
         // retrieve product types by processIds
@@ -108,6 +122,7 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock
         $adapter->commit();
 
         return $this;
+
     }
 
     /**

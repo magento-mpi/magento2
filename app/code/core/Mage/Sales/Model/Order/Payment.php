@@ -49,6 +49,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     protected $_transactionsLookup = array();
 
+    protected $_eventPrefix = 'sales_order_payment';
+    protected $_eventObject = 'payment';
+
     /**
      * Transaction addditional information container
      *
@@ -870,6 +873,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         if (!$txnId) {
             if ($txnType && $this->getId()) {
                 $collection = Mage::getModel('sales/order_payment_transaction')->getCollection()
+                    ->setOrderFilter($this->getOrder())
                     ->addPaymentIdFilter($this->getId())
                     ->addTxnTypeFilter($txnType);
                 foreach ($collection as $txn) {
@@ -949,6 +953,22 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             return true;
         }
         return false;
+    }
+
+    /**
+     * Before object save manipulations
+     *
+     * @return Mage_Sales_Model_Order_Payment
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+
+        if (!$this->getParentId() && $this->getOrder()) {
+            $this->setParentId($this->getOrder()->getId());
+        }
+
+        return $this;
     }
 
     /**

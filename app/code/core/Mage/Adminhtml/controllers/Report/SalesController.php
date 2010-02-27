@@ -43,8 +43,10 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     public function _initAction()
     {
         $act = $this->getRequest()->getActionName();
-        if(!$act)
+        if(!$act) {
             $act = 'default';
+        }
+
         $this->loadLayout()
             ->_addBreadcrumb(Mage::helper('reports')->__('Reports'), Mage::helper('reports')->__('Reports'))
             ->_addBreadcrumb(Mage::helper('reports')->__('Sales'), Mage::helper('reports')->__('Sales'));
@@ -110,16 +112,20 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         if (!$codes) {
             throw new Exception(Mage::helper('adminhtml')->__('No report code specified'));
         }
-        if(!is_array($codes)) {
+        
+        if(!is_array($codes) && strpos($codes, ',') === false) {
             $codes = array($codes);
+        } elseif (!is_array($codes)) {
+            $codes = explode(',', $codes);
         }
+
         $aliases = array(
-            'sales'     => 'sales/order',
-            'tax'       => 'tax/tax',
+            'sales'     => 'sales/report_order',
+            'tax'       => 'tax/report_tax',
             'shipping'  => 'sales/report_shipping',
             'invoiced'  => 'sales/report_invoiced',
             'refunded'  => 'sales/report_refunded',
-            'coupons'   => 'salesrule/rule'
+            'coupons'   => 'salesrule/report_rule'
         );
         $out = array();
         foreach ($codes as $code) {

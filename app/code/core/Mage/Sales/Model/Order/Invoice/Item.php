@@ -209,4 +209,35 @@ class Mage_Sales_Model_Order_Invoice_Item extends Mage_Core_Model_Abstract
         }
         return false;
     }
+
+    /**
+     * Before object save
+     *
+     * @return Mage_Sales_Model_Order_Invoice_Item
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+
+        if (!$this->getParentId() && $this->getInvoice()) {
+            $this->setParentId($this->getInvoice()->getId());
+        }
+
+        return $this;
+    }
+
+    /**
+     * After object save
+     *
+     * @return Mage_Sales_Model_Order_Invoice_Item
+     */
+    protected function _afterSave()
+    {
+        if (null ==! $this->_orderItem) {
+            $this->_orderItem->save();
+        }
+
+        parent::_afterSave();
+        return $this;
+    }
 }

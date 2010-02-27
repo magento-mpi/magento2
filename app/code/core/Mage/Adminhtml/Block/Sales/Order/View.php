@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
                 'onclick'  => $onclickJs,
             ));
             // see if order has non-editable products as items
-            $nonEditableTypes = array_keys(Mage::getResourceSingleton('sales/order')->aggregateProductsByTypes(
+            $nonEditableTypes = array_keys($this->getOrder()->getResource()->aggregateProductsByTypes(
                 $order->getId(), array_keys(Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()), false
             ));
             if ($nonEditableTypes) {
@@ -242,5 +242,19 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
     protected function _isAllowedAction($action)
     {
         return Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/' . $action);
+    }
+
+    /**
+     * Return back url for view grid
+     *
+     * @return string
+     */
+    public function getBackUrl()
+    {
+        if ($this->getOrder()->getBackUrl()) {
+            return $this->getOrder()->getBackUrl();
+        }
+
+        return $this->getUrl('*/*/');
     }
 }

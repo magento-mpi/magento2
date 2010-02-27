@@ -25,38 +25,32 @@
  */
 
 /**
- * Orders collection
+ * Flat sales order collection
  *
- * @category   Mage
- * @package    Mage_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Mysql4_Order_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
+class Mage_Sales_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Mysql4_Collection_Abstract
 {
-    /**
-     * Initialize orders collection
-     *
-     */
+    protected $_eventPrefix = 'sales_order_collection';
+    protected $_eventObject = 'order_collection';
+
     protected function _construct()
     {
         $this->_init('sales/order');
     }
 
     /**
-     * Add order items count expression
+     * Add items count expr to collection select, backward capability with eav structure
      *
      * @return Mage_Sales_Model_Mysql4_Order_Collection
      */
     public function addItemCountExpr()
     {
-        $orderTable = $this->getEntity()->getEntityTable();
-        $orderItemEntityTypeId = Mage::getResourceSingleton('sales/order_item')->getTypeId();
-        $this->getSelect()->join(
-                array('items'=>$orderTable),
-                'items.parent_id=e.entity_id and items.entity_type_id='.$orderItemEntityTypeId,
-                array('items_count'=>new Zend_Db_Expr('COUNT(items.entity_id)'))
-            )
-            ->group('e.entity_id');
+        if ($this->_fieldsToSelect === null) { // If we select all fields from table,
+                                               // we need to add column alias
+            $this->getSelect()->columns(array('items_count'=>'total_item_count'));
+        } else {
+            $this->addFieldToSelect('total_item_count', 'items_count');
+        }
         return $this;
     }
 
@@ -67,7 +61,9 @@ class Mage_Sales_Model_Mysql4_Order_Collection extends Mage_Eav_Model_Entity_Col
      */
     public function getSelectCountSql()
     {
+        /* @var $countSelect Varien_Db_Select */
         $countSelect = parent::getSelectCountSql();
+
         $countSelect->resetJoinLeft();
         return $countSelect;
     }
@@ -79,9 +75,8 @@ class Mage_Sales_Model_Mysql4_Order_Collection extends Mage_Eav_Model_Entity_Col
      */
     protected function _getAllIdsSelect($limit=null, $offset=null)
     {
-        $idsSelect = parent::_getAllIdsSelect($limit, $offset);
+        $idsSelect = parent::getAllIds($limit, $offset);
         $idsSelect->resetJoinLeft();
         return $idsSelect;
     }
-
 }

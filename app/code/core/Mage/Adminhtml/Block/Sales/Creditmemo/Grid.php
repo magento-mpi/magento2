@@ -40,23 +40,23 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
         $this->setDefaultDir('DESC');
     }
 
+    /**
+     * Retrieve collection class
+     *
+     * @return string
+     */
+    protected function _getCollectionClass()
+    {
+        return 'sales/order_creditmemo_grid_collection';
+    }
+
     protected function _prepareCollection()
     {
-        //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_creditmemo_collection')
-            ->addAttributeToSelect('increment_id')
-            ->addAttributeToSelect('created_at')
-            ->addAttributeToSelect('order_currency_code')
-            ->addAttributeToSelect('state')
-            ->addAttributeToSelect('grand_total')
-            ->joinAttribute('billing_firstname', 'order_address/firstname', 'billing_address_id', null, 'left')
-            ->joinAttribute('billing_lastname', 'order_address/lastname', 'billing_address_id', null, 'left')
-            ->joinAttribute('order_increment_id', 'order/increment_id', 'order_id', null, 'left')
-            ->joinAttribute('order_created_at', 'order/created_at', 'order_id', null, 'left')
-        ;
+        $collection = Mage::getResourceModel($this->_getCollectionClass());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
+
 
     protected function _prepareColumns()
     {
@@ -118,7 +118,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
                 'actions'   => array(
                     array(
                         'caption' => Mage::helper('sales')->__('View'),
-                        'url'     => array('base'=>'*/*/view'),
+                        'url'     => array('base'=>'*/sales_creditmemo/view'),
                         'field'   => 'creditmemo_id'
                     )
                 ),
@@ -137,10 +137,11 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
     {
         $this->setMassactionIdField('entity_id');
         $this->getMassactionBlock()->setFormFieldName('creditmemo_ids');
+        $this->getMassactionBlock()->setUseSelectAll(false);
 
         $this->getMassactionBlock()->addItem('pdfcreditmemos_order', array(
              'label'=> Mage::helper('sales')->__('PDF Credit Memos'),
-             'url'  => $this->getUrl('*/*/pdfcreditmemos'),
+             'url'  => $this->getUrl('*/sales_creditmemo/pdfcreditmemos'),
         ));
 
         return $this;
@@ -148,7 +149,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/view',
+        return $this->getUrl('*/sales_creditmemo/view',
             array(
                 'creditmemo_id'=> $row->getId(),
             )

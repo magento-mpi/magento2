@@ -27,6 +27,16 @@
 -->
 
 <layout>
+    <adminhtml_sales_order_grid>
+        <block type="adminhtml/sales_order_grid" name="sales_order.grid" output="toHtml"></block>
+    </adminhtml_sales_order_grid>
+    
+    <adminhtml_sales_order_index>
+        <reference name="content">
+            <block type="adminhtml/sales_order" name="sales_order.grid.container"></block>
+        </reference>
+    </adminhtml_sales_order_index>
+    
     <adminhtml_sales_order_view>
         <reference name="content">
             <block type="adminhtml/sales_order_view" name="sales_order_edit"></block>

@@ -62,6 +62,34 @@ class Mage_CatalogInventory_Model_Mysql4_Stock extends Mage_Core_Model_Mysql4_Ab
     }
 
     /**
+     * Correct particular stock products qty based on operator
+     *
+     * @param Mage_CatalogInventory_Model_Stock $stock
+     * @param array $productQtys array($productId => $qty)
+     * @param string $operator +/-
+     * @return Mage_CatalogInventory_Model_Mysql4_Stock
+     */
+    public function correctItemsQty($stock, $productQtys, $operator='-')
+    {
+        if (empty($productQtys)) {
+            return $this;
+        }
+        $query = 'UPDATE '.$this->getTable('cataloginventory/stock_item').' SET `qty`=CASE `product_id` ';
+        foreach ($productQtys as $productId => $qty) {
+            $query.= $this->_getWriteAdapter()->quoteInto(' WHEN ? ', $productId);
+            $query.= $this->_getWriteAdapter()->quoteInto(' THEN `qty`'.$operator.'? ', $qty);
+        }
+        $query.= ' ELSE `qty` END';
+        $query.= $this->_getWriteAdapter()->quoteInto(' WHERE `product_id` IN (?)', array_keys($productQtys));
+        $query.= $this->_getWriteAdapter()->quoteInto(' AND `stock_id` =?', $stock->getId());
+
+        $this->_getWriteAdapter()->beginTransaction();
+        $this->_getWriteAdapter()->query($query);
+        $this->_getWriteAdapter()->commit();
+        return $this;
+    }
+
+    /**
      * add join to select only in stock products
      *
      * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection $collection

@@ -31,12 +31,52 @@
  * @package    Mage_SalesRule
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Mysql4_Report_Updatedat_Collection extends Mage_SalesRule_Model_Mysql4_Report_Collection
+class Mage_SalesRule_Model_Mysql4_Report_Updatedat_Collection extends Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection
 {
-    public function __construct()
+    protected $_selectedColumns = array(
+        'store_id'          => 'e.store_id',
+        'order_status'      => 'e.status',
+        'coupon_code'       => 'e.coupon_code',
+        'coupon_uses'       => 'COUNT(e.`entity_id`)',
+        'subtotal_amount'   => 'SUM(e.`base_subtotal` * e.`base_to_global_rate`)',
+        'discount_amount'   => 'SUM(e.`base_discount_amount` * e.`base_to_global_rate`)',
+        'total_amount'      => 'SUM((e.`base_subtotal` - e.`base_discount_amount`) * e.`base_to_global_rate`)'
+    );
+
+    /**
+     * Add selected data
+     *
+     * @return Mage_SalesRule_Model_Mysql4_Report_Updatedat_Collection
+     */
+    protected function _initSelect()
     {
-        $this->setModel('adminhtml/report_item');
-        $this->_resource = Mage::getResourceModel('sales/report')->init('salesrule/coupon_aggregated_order');
-        $this->setConnection($this->getResource()->getReadConnection());
+        if ($this->_inited) {
+            return $this;
+        }
+
+        $columns = $this->_getSelectedColumns();
+
+        $mainTable = $this->getResource()->getMainTable();
+
+        $select = $this->getSelect()
+            ->from(array('e' => $mainTable), $columns);
+
+        $this->_applyStoresFilter();
+        $this->_applyOrderStatusFilter();
+
+        if ($this->_to !== null) {
+            $select->where('DATE(e.updated_at) <= DATE(?)', $this->_to);
+        }
+
+        if ($this->_from !== null) {
+            $select->where('DATE(e.updated_at) >= DATE(?)', $this->_from);
+        }
+
+        if (!$this->isTotals()) {
+            $select->group($this->_periodFormat);
+        }
+
+        $this->_inited = true;
+        return $this;
     }
 }

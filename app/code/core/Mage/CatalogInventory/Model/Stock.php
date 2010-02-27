@@ -95,6 +95,49 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Prepare array($productId=>$qty) based on array($productId => array('qty'=>$qty, 'item'=>$stockItem))
+     *
+     * @param array $items
+     */
+    protected function _prepareProductQtys($items)
+    {
+        $qtys = array();
+        foreach ($items as $productId => $item) {
+            if (empty($item['item'])) {
+                $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
+            } else {
+                $stockItem = $item['item'];
+            }
+            if ($stockItem->getId() && Mage::helper('catalogInventory')->isQty($stockItem->getTypeId())) {
+                $qtys[$productId] = $item['qty'];
+            }
+        }
+        return $qtys;
+    }
+
+    /**
+     *
+     * @param unknown_type $items
+     */
+    public function registerProductsSale($items)
+    {
+        $qtys = $this->_prepareProductQtys($items);
+        $this->_getResource()->correctItemsQty($this, $qtys, '-');
+        return $this;
+    }
+
+    /**
+     *
+     * @param unknown_type $items
+     */
+    public function revertProductsSale($items)
+    {
+        $qtys = $this->_prepareProductQtys($items);
+        $this->_getResource()->correctItemsQty($this, $qtys, '+');
+        return $this;
+    }
+
+    /**
      * Subtract ordered qty for product
      *
      * @param   Varien_Object $item

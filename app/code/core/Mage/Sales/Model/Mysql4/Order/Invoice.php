@@ -25,31 +25,49 @@
  */
 
 /**
- * Invoice entity resource model
+ * Flat sales order invoice resource
  *
- * @category   Mage
- * @package    Mage_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Sales_Model_Mysql4_Order_Invoice extends Mage_Eav_Model_Entity_Abstract
+class Mage_Sales_Model_Mysql4_Order_Invoice extends Mage_Sales_Model_Mysql4_Order_Abstract
 {
-    public function __construct()
+    protected $_eventPrefix = 'sales_order_invoice_resource';
+    protected $_grid = true;
+    protected $_useIncrementId = true;
+    protected $_entityTypeForIncrementId = 'invoice';
+
+    protected function _construct()
     {
-        $resource = Mage::getSingleton('core/resource');
-        $this->setType('invoice')->setConnection(
-            $resource->getConnection('sales_read'),
-            $resource->getConnection('sales_write')
-        );
+        $this->_init('sales/invoice', 'entity_id');
     }
 
     /**
-     * Used for supporting public calls of _afterLoad method
+     * Init virtual grid records for entity
      *
-     * @param Varien_Object $object
+     * @return Mage_Sales_Model_Mysql4_Order_Invoice
      */
-    public function afterLoad(Varien_Object $object)
+    protected function _initVirtualGridColumns()
     {
-        parent::_afterLoad($object);
+        parent::_initVirtualGridColumns();
+        $this->addVirtualGridColumn(
+                'billing_name',
+                'sales/order_address',
+                array('billing_address_id' => 'entity_id'),
+                'CONCAT({{table}}.firstname, " ", {{table}}.lastname)'
+            )
+            ->addVirtualGridColumn(
+                'order_increment_id',
+                'sales/order',
+                array('order_id' => 'entity_id'),
+                'increment_id'
+            )
+            ->addVirtualGridColumn(
+                'order_created_at',
+                'sales/order',
+                array('order_id' => 'entity_id'),
+                'created_at'
+            )
+            ;
+
+        return $this;
     }
 }

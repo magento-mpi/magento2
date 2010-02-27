@@ -27,7 +27,7 @@
 /**
  * Payment transactions collection
  */
-class Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection extends Mage_Sales_Model_Mysql4_Order_Collection_Abstract
 {
     /**
      * Payment ID filter
@@ -46,6 +46,13 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection extends Mage_
      * @var array
      */
     protected $_txnTypes = null;
+
+    /**
+     * Order field for setOrderFilter
+     *
+     * @var string
+     */
+    protected $_orderField = 'order_id';
 
     /**
      * Initialize collection items factory class

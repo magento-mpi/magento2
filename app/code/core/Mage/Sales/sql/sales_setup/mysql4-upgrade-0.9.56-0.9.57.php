@@ -25,6 +25,10 @@
  */
 
 /**
+ * Upgrade located in sale modulule because paypal saving all data in order payment table
+ */
+
+/**
  * Copy paypal_payer_email attribute value into serialized additional_information field of sales/order_payment entity
  */
 $processingItemsCountForOneIteration = 1000;
@@ -36,7 +40,9 @@ $connection = $installer->getConnection();
 $paymentMethods = array(
     'paypal_standard',
     'paypal_express',
-    'paypal_direct'
+    'paypal_direct',
+    'paypaluk_direct',
+    'paypaluk_express'
 );
 $entityTypeCode = 'order_payment';
 $attributesIds = array(

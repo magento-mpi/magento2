@@ -27,7 +27,7 @@
 /**
  * Sales transaction resource model
  */
-class Mage_Sales_Model_Mysql4_Order_Payment_Transaction extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Sales_Model_Mysql4_Order_Payment_Transaction extends Mage_Sales_Model_Mysql4_Order_Abstract
 {
     /**
      * Initialize main table and the primary key field name
