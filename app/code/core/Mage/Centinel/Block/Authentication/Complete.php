@@ -37,7 +37,7 @@ class Mage_Centinel_Block_Authentication_Complete extends Mage_Core_Block_Templa
      */
     protected function _toHtml()
     {
-        $validator = Mage::registry('centinel_validator');
+        $validator = Mage::registry('current_centinel_validator');
         if ($validator) {
             $this->setIsProcessed(true);
             $this->setIsSuccess($validator->isAuthenticateSuccessful());
