@@ -26,10 +26,5 @@
 
 /* @var $installer Enterprise_CatalogEvent_Model_Mysql4_Setup */
 $installer = $this;
-$installer->getTable('enterprise_catalogevent/event');
-
-$installer->removeAttribute('quote_item', 'event_name');
-$installer->removeAttribute('order_item', 'event_name');
-
 $installer->getConnection()->dropColumn($installer->getTable('sales/quote_item'), 'event_name');
 $installer->getConnection()->dropColumn($installer->getTable('sales/order_item'), 'event_name');

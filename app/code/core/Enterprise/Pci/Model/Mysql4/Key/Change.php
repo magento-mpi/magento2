@@ -142,25 +142,16 @@ class Enterprise_Pci_Model_Mysql4_Key_Change extends Enterprise_Enterprise_Model
      */
     protected function _reEncryptCreditCardNumbers()
     {
-        // dive into EAV for them
-        $valuesTable      = $this->getTable('sales/order_entity') . '_varchar';
-        $attributesTable  = $this->getTable('eav/attribute');
-        $entityTypesTable = $this->getTable('eav/entity_type');
-        $attributeValues = $this->_getReadAdapter()->fetchPairs($this->_getReadAdapter()->select()
-            ->from($valuesTable, array('value_id', 'value'))
-            ->where('attribute_id = (' . $this->_getReadAdapter()->select()
-                ->from(array('a' => $attributesTable), 'a.attribute_id')
-                ->joinInner(array('t' => $entityTypesTable), 'a.entity_type_id = t.entity_type_id', array())
-                ->where('a.attribute_code = ?', 'cc_number_enc')
-                ->where('t.entity_type_code = ?', 'order_payment')
-                ->limit(1)
-             . ')')
-        );
+        $table = $this->getTable('sales/order_payment');
+        $select = $this->_getWriteAdapter()->select()
+            ->from($table, array('entity_id', 'cc_number_enc'));
+
+        $attributeValues = $this->_getWriteAdapter()->fetchPairs($select);
         // save new values
         foreach ($attributeValues as $valueId => $value) {
-            $this->_getWriteAdapter()->update($valuesTable,
-                array('value' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),
-                "value_id = {$valueId}");
+            $this->_getWriteAdapter()->update($table,
+                array('cc_number_enc' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),
+                "entity_id = {$valueId}");
         }
     }
 }
