@@ -1248,6 +1248,48 @@ ul.super-product-attributes { padding-left:15px; }
 .options-box .option-header td { padding:5px 2px; }
 .options-box .option-header .tree { margin:5px 0 0; }
 
+/* CMS Popup Window */
+.popup-window .table_window { border:none; }
+.popup-window,
+.popup-window .table_window td .magento_content,
+.popup-window .magento_w,
+.popup-window .magento_e,
+.popup-window .magento_sw,
+.popup-window .magento_s,
+.popup-window .magento_se { background:#fff; border-color:#fff; }
+.popup-window .top { background-color:#fff; background-image:none; border-bottom:1px solid #e0e4e8; }
+.popup-window .title_window { font-family:Tahoma, Verdana, Arial, sans-serif; font-size:18px; padding:3px 0; color:#002042; }
+.popup-window .magento_close { background-image:url(images/button-close.png); width:16px; height:16px; right:10px; top:8px; }
+.popup-window .magento_message { padding:0 3px; }
+
+/* CMS Widget Popup */
+#widget_window .entry-edit { width:921px; margin:0 auto; }
+#widget_window .entry-edit-head { background:url(images/window_form_top.png) no-repeat 0 0; height:26px; }
+#widget_window .entry-edit-head h4 { color:#333; }
+#widget_window .magento_message { padding-left:13px; padding-right:10px; }
+#widget_window .fieldset { background:url(images/window_form_bottom.png) no-repeat bottom; border:none; }
+#widget_window .content-header { width:921px; border:none; margin:0 auto; padding:10px 0 20px; }
+#widget_window .content-header h3 { color:#000; display:none; padding-left:0; }
+#widget_window .content-header .add-widget { margin:0; }
+
+/* CMS Widget Chooser */
+#widget-chooser .columns { background-image:none; }
+#widget-chooser .grid th,
+#widget-chooser .grid td { padding:2px 4px 2px 4px; }
+#widget-chooser .grid tr.filter th { padding-top:5px; padding-bottom:5px; }
+#widget-chooser .side-col { padding-top:0.5em; }
+#widget-chooser .main-col { padding-right:4px; }
+
+/* CMS Variables Popup */
+#variables-chooser .magento_message { padding:3px 6px 0; }
+
+/* Product description WYSIWYG editor */
+#catalog-wysiwyg-editor .buttons-set { margin-top:10px; }
+#catalog-wysiwyg-editor .magento_content { overflow:hidden; }
+#catalog-wysiwyg-editor .textarea { width:930px !important; }
+#catalog-wysiwyg-editor .magento_message { padding:0 7px; }
+#catalog-wysiwyg-editor .magento_buttons { padding-left:7px; padding-right:7px; }
+
 
 /*****************************************/
 /******** ALIGNMENTS AND CLEARS **********/
