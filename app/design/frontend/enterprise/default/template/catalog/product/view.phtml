@@ -54,8 +54,8 @@
                         </div>
                         <p class="product-ids"><?php echo $this->__('SKU# %s', $this->htmlEscape($_product->getSku())); ?></p>
                         <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
-                        <?php echo $this->getChildHtml('product_type_data') ?>
                         <?php echo $this->getChildHtml('alert_urls') ?>
+                        <?php echo $this->getChildHtml('product_type_data') ?>
                     </div>
                     <?php echo $this->getChildHtml('tierprices') ?>
                     <?php echo $this->getChildHtml('extrahint') ?>
