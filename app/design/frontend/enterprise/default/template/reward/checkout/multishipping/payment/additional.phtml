@@ -56,7 +56,7 @@
                         elements[i].disabled = true;
                         if (elements[i].value == 'free' && elements[i].type == 'radio'){
                             elements[i].disabled = true;
-                            elements[i].parentNode.hide();
+                            $(elements[i].parentNode).hide();
                         }
                     }
                 } else {
@@ -89,7 +89,7 @@
             $('payment-methods').show();
         }
     }
-    Event.observe($('use_reward_points'), 'change', switchRewardPointsCheckbox);
+    Event.observe($('use_reward_points'), 'click', switchRewardPointsCheckbox);
     Event.observe(window, 'load', switchRewardPointsCheckbox);
     function setUseRewardPointsEnabled() {
         $('use_reward_points').disabled = false;
