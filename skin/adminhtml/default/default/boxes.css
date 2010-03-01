@@ -1227,6 +1227,13 @@ ul.super-product-attributes { padding-left:15px; }
 /* CMS Variables Popup */
 #variables-chooser .magento_message { padding:3px 6px 0; }
 
+/* Product description WYSIWYG editor */
+#catalog-wysiwyg-editor .buttons-set { margin-top:10px; }
+#catalog-wysiwyg-editor .magento_content { overflow:hidden; }
+#catalog-wysiwyg-editor .textarea { width:930px !important; }
+#catalog-wysiwyg-editor .magento_message { padding:0 7px; }
+#catalog-wysiwyg-editor .magento_buttons { padding-left:7px; padding-right:7px; }
+
 
 /*****************************************/
 /******** ALIGNMENTS AND CLEARS **********/
