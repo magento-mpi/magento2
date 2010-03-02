@@ -181,14 +181,20 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
 
     protected function _getMemoryLimit()
     {
-        $memoryLimit = ini_get('memory_limit');
+        $memoryLimit = trim(strtoupper(ini_get('memory_limit')));
 
         if (!isSet($memoryLimit[0])){
             $memoryLimit = "128M";
         }
 
+        if (substr($memoryLimit, -1) == 'K') {
+            return substr($memoryLimit, 0, -1) * 1024;
+        }
         if (substr($memoryLimit, -1) == 'M') {
-            return (int)$memoryLimit * 1024 * 1024;
+            return substr($memoryLimit, 0, -1) * 1024 * 1024;
+        }
+        if (substr($memoryLimit, -1) == 'G') {
+            return substr($memoryLimit, 0, -1) * 1024 * 1024 * 1024;
         }
         return $memoryLimit;
     }
