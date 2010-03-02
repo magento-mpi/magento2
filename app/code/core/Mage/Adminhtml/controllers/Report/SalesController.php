@@ -112,7 +112,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
         if (!$codes) {
             throw new Exception(Mage::helper('adminhtml')->__('No report code specified'));
         }
-        
+
         if(!is_array($codes) && strpos($codes, ',') === false) {
             $codes = array($codes);
         } elseif (!is_array($codes)) {
@@ -407,7 +407,7 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Ac
     {
         $this->_title($this->__('Reports'))->_title($this->__('Sales'))->_title($this->__('Coupons'));
 
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_COUPNS_FLAG_CODE, 'coupons');
+        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE, 'coupons');
 
         $this->_initAction()
             ->_setActiveMenu('report/sales/coupons')
