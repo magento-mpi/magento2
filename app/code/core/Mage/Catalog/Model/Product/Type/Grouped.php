@@ -275,7 +275,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
                 foreach ($associatedProducts as $subProduct) {
                     if(isset($productsInfo[$subProduct->getId()])) {
                         $qty = $productsInfo[$subProduct->getId()];
-                        if (!empty($qty)) {
+                        if (!empty($qty) && is_numeric($qty)) {
 
                             $_result = $subProduct->getTypeInstance(true)
                                 ->prepareForCart($buyRequest, $subProduct);
