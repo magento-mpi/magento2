@@ -309,8 +309,8 @@ function xmlFindTranslate($xmlNode, &$translate, $module = null, $xPath = array(
     $xPath[] = (string)$xmlNode->getName();
     foreach ($xmlNode as $node) {
         $attributes = $node->attributes();
+        $nodeModule = isset($attributes['module']) ? (string)$attributes['module'] : $module;
         if (isset($attributes['translate'])) {
-            $module = isset($attributes['module']) ? (string)$attributes['module'] : $module;
             $translateNodes = explode(' ', $attributes['translate']);
 
             foreach ($translateNodes as $nodeName) {
@@ -318,13 +318,13 @@ function xmlFindTranslate($xmlNode, &$translate, $module = null, $xPath = array(
                     continue;
                 }
                 $translate[] = array(
-                    'module'    => $module,
+                    'module'    => $nodeModule,
                     'value'     => (string)$node->$nodeName,
                     'xpath'     => '//' . join('/', $xPath + array($nodeName))
                 );
             }
         }
-        xmlFindTranslate($node, $translate, $module, $xPath);
+        xmlFindTranslate($node, $translate, $nodeModule, $xPath);
     }
 }
 
