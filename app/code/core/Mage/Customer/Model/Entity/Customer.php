@@ -80,7 +80,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
             Mage::throwException(Mage::helper('customer')->__('Customer email is required'));
         }
 
-        $select = $this->_getReadAdapter()->select()
+        $select = $this->_getWriteAdapter()->select()
             ->from($this->getEntityTable(), array($this->getEntityIdField()))
             ->where('email=?', $customer->getEmail());
         if ($customer->getSharingConfig()->isWebsiteScope()) {
@@ -145,6 +145,7 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
             } else {
                 $address->setParentId($customer->getId())
                     ->setStoreId($customer->getStoreId())
+                    ->setIsCustomerSaveTransaction(true)
                     ->save();
                 if (($address->getIsPrimaryBilling() || $address->getIsDefaultBilling())
                     && $address->getId() != $defaultBillingId) {
@@ -155,12 +156,12 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
                     $customer->setData('default_shipping', $address->getId());
                 }
             }
-            if ($customer->dataHasChangedFor('default_billing')) {
-                $this->saveAttribute($customer, 'default_billing');
-            }
-            if ($customer->dataHasChangedFor('default_shipping')) {
-                $this->saveAttribute($customer, 'default_shipping');
-            }
+        }
+        if ($customer->dataHasChangedFor('default_billing')) {
+            $this->saveAttribute($customer, 'default_billing');
+        }
+        if ($customer->dataHasChangedFor('default_shipping')) {
+            $this->saveAttribute($customer, 'default_shipping');
         }
         return $this;
     }
