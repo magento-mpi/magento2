@@ -219,16 +219,12 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
     }
 
     /**
-     * Render block HTML
+     * Define if Shopping Cart Sidebar enabled
      *
-     * @return string
+     * @return bool
      */
-    protected function _toHtml()
+    public function getIsNeedToDisplaySideBar()
     {
-        $html = '';
-        if ((bool) Mage::app()->getStore()->getConfig('checkout/sidebar/display') || $this->getIgnoreHidingFlag()) {
-            $html = parent::_toHtml();
-        }
-        return $html;
+        return (bool) Mage::app()->getStore()->getConfig('checkout/sidebar/display');
     }
 }
