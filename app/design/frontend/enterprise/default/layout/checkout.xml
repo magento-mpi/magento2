@@ -43,7 +43,6 @@ Default layout, loads most of the pages
         </reference>
         <reference name="header">
             <block type="checkout/cart_sidebar" name="topCart" template="checkout/cart/cartheader.phtml">
-                <action method="setIgnoreHidingFlag"><value>1</value></action>
                 <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/sidebar/default.phtml</template></action>
@@ -52,7 +51,6 @@ Default layout, loads most of the pages
         <reference name="right">
             <!-- May be used instead of topCart block -->
             <!--block type="checkout/cart_sidebar" name="cart_sidebar" template="checkout/cart/sidebar.phtml" before="-">
-                <action method="setIgnoreHidingFlag"><value>1</value></action>
                 <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/sidebar/default.phtml</template></action>

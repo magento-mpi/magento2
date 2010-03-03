@@ -38,7 +38,7 @@
 <?php else: ?>
     <?php $_myCart = $this->__('My Cart (<span>0</span>)') ?>
 <?php endif ?>
-<?php if ($this->getIsLinkMode()):?>
+<?php if ($this->getIsLinkMode() || !$this->getIsNeedToDisplaySideBar()):?>
     <div class="block-title no-items">
         <ul class="links cart-link">
             <li ><a href="<?php echo $this->getUrl('checkout/cart'); ?>"><?php echo $_myCart ?></a></li>
