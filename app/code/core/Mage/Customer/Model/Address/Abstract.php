@@ -55,15 +55,16 @@ class Mage_Customer_Model_Address_Abstract extends Mage_Core_Model_Abstract
     public function getName()
     {
         $name = '';
-        if (Mage::helper('customer/address')->canShowConfig('prefix_show') && $this->getPrefix()) {
+        $helper = Mage::helper('customer/address');
+        if ($helper->canShowConfig('prefix_show') && $this->getPrefix()) {
             $name .= $this->getPrefix() . ' ';
         }
         $name .= $this->getFirstname();
-        if (Mage::helper('customer/address')->canShowConfig('middlename_show') && $this->getMiddlename()) {
+        if ($helper->canShowConfig('middlename_show') && $this->getMiddlename()) {
             $name .= ' ' . $this->getMiddlename();
         }
         $name .=  ' ' . $this->getLastname();
-        if (Mage::helper('customer/address')->canShowConfig('suffix_show')&& $this->getSuffix()) {
+        if ($helper->canShowConfig('suffix_show')&& $this->getSuffix()) {
             $name .= ' ' . $this->getSuffix();
         }
         return $name;

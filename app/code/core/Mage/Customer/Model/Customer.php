@@ -179,15 +179,16 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function getName()
     {
         $name = '';
-        if (Mage::helper('customer/address')->canShowConfig('prefix_show') && $this->getPrefix()) {
+        $helper = Mage::helper('customer/address');
+        if ($helper->canShowConfig('prefix_show') && $this->getPrefix()) {
             $name .= $this->getPrefix() . ' ';
         }
         $name .= $this->getFirstname();
-        if (Mage::helper('customer/address')->canShowConfig('middlename_show') && $this->getMiddlename()) {
+        if ($helper->canShowConfig('middlename_show') && $this->getMiddlename()) {
             $name .= ' ' . $this->getMiddlename();
         }
         $name .=  ' ' . $this->getLastname();
-        if (Mage::helper('customer/address')->canShowConfig('suffix_show')&& $this->getSuffix()) {
+        if ($helper->canShowConfig('suffix_show')&& $this->getSuffix()) {
             $name .= ' ' . $this->getSuffix();
         }
         return $name;
@@ -712,42 +713,43 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function validate()
     {
         $errors = array();
-
+        $customerHelper = Mage::helper('customer');
+        $addressHelper = Mage::helper('customer/address');
         if (!Zend_Validate::is( trim($this->getFirstname()) , 'NotEmpty')) {
-            $errors[] = Mage::helper('customer')->__('First name can\'t be empty');
+            $errors[] = $customerHelper->__('First name can\'t be empty');
         }
 
         if (!Zend_Validate::is( trim($this->getLastname()) , 'NotEmpty')) {
-            $errors[] = Mage::helper('customer')->__('Last name can\'t be empty');
+            $errors[] = $customerHelper->__('Last name can\'t be empty');
         }
 
         if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            $errors[] = Mage::helper('customer')->__('Invalid email address "%s"', $this->getEmail());
+            $errors[] = $customerHelper->__('Invalid email address "%s"', $this->getEmail());
         }
 
         $password = $this->getPassword();
         if (!$this->getId() && !Zend_Validate::is($password , 'NotEmpty')) {
-            $errors[] = Mage::helper('customer')->__('Password can\'t be empty');
+            $errors[] = $customerHelper->__('Password can\'t be empty');
         }
         if ($password && !Zend_Validate::is($password, 'StringLength', array(6))) {
-            $errors[] = Mage::helper('customer')->__('Password minimal length must be more %s', 6);
+            $errors[] = $customerHelper->__('Password minimal length must be more %s', 6);
         }
         $confirmation = $this->getConfirmation();
         if ($password != $confirmation) {
-            $errors[] = Mage::helper('customer')->__('Please make sure your passwords match.');
+            $errors[] = $customerHelper->__('Please make sure your passwords match.');
         }
 
-        if (('req' === Mage::helper('customer/address')->getConfig('dob_show'))
+        if (('req' === $addressHelper->getConfig('dob_show'))
             && '' == trim($this->getDob())) {
-            $errors[] = Mage::helper('customer')->__('Date of Birth is required.');
+            $errors[] = $customerHelper->__('Date of Birth is required.');
         }
-        if (('req' === Mage::helper('customer/address')->getConfig('taxvat_show'))
+        if (('req' === $addressHelper->getConfig('taxvat_show'))
             && '' == trim($this->getTaxvat())) {
-            $errors[] = Mage::helper('customer')->__('TAX/VAT number is required.');
+            $errors[] = $customerHelper->__('TAX/VAT number is required.');
         }
-        if (('req' === Mage::helper('customer/address')->getConfig('gender_show'))
+        if (('req' === $addressHelper->getConfig('gender_show'))
             && '' == trim($this->getGender())) {
-            $errors[] = Mage::helper('customer')->__('Gender is required.');
+            $errors[] = $customerHelper->__('Gender is required.');
         }
 
         if (empty($errors)) {
