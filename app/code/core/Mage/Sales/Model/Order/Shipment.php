@@ -334,6 +334,8 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
         }
         $paymentBlock   = Mage::helper('payment')->getInfoBlock($order->getPayment())
             ->setIsSecureMode(true);
+        $paymentBlock->getMethod()->setStore($order->getStore()->getId());
+
         $mailTemplate = Mage::getModel('core/email_template');
 
         if ($order->getCustomerIsGuest()) {
