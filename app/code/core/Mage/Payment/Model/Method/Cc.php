@@ -148,14 +148,14 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             }
         }
 
-        if($errorMsg){
-            Mage::throwException($errorMsg);
-            //throw Mage::exception('Mage_Payment', $errorMsg, $errorCode);
-        }
-
         if ($ccType != 'SS' && !$this->_validateExpDate($info->getCcExpYear(), $info->getCcExpMonth())) {
             $errorCode = 'ccsave_expiration,ccsave_expiration_yr';
             $errorMsg = $this->_getHelper()->__('Incorrect credit card expiration date');
+        }
+
+        if($errorMsg){
+            Mage::throwException($errorMsg);
+            //throw Mage::exception('Mage_Payment', $errorMsg, $errorCode);
         }
 
         //This must be after all validation conditions
@@ -375,4 +375,3 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
         }
     }
 }
-
