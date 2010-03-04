@@ -141,9 +141,11 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
         $actionEntity = $this->getActionEntity();  // must be assigned as context object in observer etc.
         $actionEntityId = (is_object($actionEntity) ? $actionEntity->getId() : null);
         if (!array_key_exists($action, $this->_actionEntityIdCache) || $this->_actionEntityIdCache[$action] !== $actionEntityId) {
-            $this->getActionInstance($action)
-                ->setEntity($actionEntity);
-            $this->_actionEntityIdCache[$action] = $actionEntityId;
+            $actionInstance = $this->getActionInstance($action);
+            if ($actionInstance) {
+                $actionInstance->setEntity($actionEntity);
+                $this->_actionEntityIdCache[$action] = $actionEntityId;
+            }
         }
     }
 
