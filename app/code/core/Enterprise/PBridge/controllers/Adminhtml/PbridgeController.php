@@ -57,11 +57,7 @@ class Enterprise_PBridge_Adminhtml_PbridgeController extends Enterprise_Enterpri
      */
     protected function _initIncomingData()
     {
-        $data = array(
-            'original_payment_method' => $this->getRequest()->getParam('original_payment_method', null),
-            'token' => $this->getRequest()->getParam('token'),
-            'quote_id' => $this->getRequest()->getParam('quote_id')
-        );
+        $data = Mage::helper('enterprise_pbridge')->getPbridgeParams();
         return $data;
     }
 
@@ -86,7 +82,8 @@ class Enterprise_PBridge_Adminhtml_PbridgeController extends Enterprise_Enterpri
         $data = $this->_initIncomingData();
         $this->_initActionLayout();
 
-        if ($block = $this->getLayout()->getBlock('pbridge.sales.order.create.result')) {
+        $block = $this->getLayout()->getBlock('pbridge.sales.order.create.result');
+        if ($block) {
             $block->setJsonHiddenPbridgeParams(Mage::helper('core')->jsonEncode($data));
         }
 

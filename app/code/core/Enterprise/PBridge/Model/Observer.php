@@ -45,10 +45,9 @@ class Enterprise_PBridge_Model_Observer
         $method = $observer->getEvent()->getData('method_instance');
         $quote = $observer->getEvent()->getData('quote');
         $result = $observer->getEvent()->getData('result');
-        // Show Payment Brige method for the verification before saving stage only
-        if ($method->getCode() == 'pbridge') {
-            $result->isAvailable = $quote->getIsPaymentBridgeInitialized() ? true : false;
-        }
+//        if ($method->getCode() == 'pbridge') {
+//            $result->isAvailable = $quote->getIsPaymentBridgeInitialized() ? true : false;
+//        }
         if (Mage::helper('enterprise_pbridge')->isAvailablePbridgeMethod($method->getCode())) {
             if (Mage::helper('enterprise_pbridge')->isEnabled()) {
                 $result->isAvailable = $quote->getIsPaymentBridgeInitialized() ? true : false;

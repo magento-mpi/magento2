@@ -32,12 +32,12 @@
  * @package     Enterprise_PBridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_PBridge_IndexController extends Enterprise_Enterprise_Controller_Core_Front_Action
+class Enterprise_PBridge_PbridgeController extends Enterprise_Enterprise_Controller_Core_Front_Action
 {
     /**
      * Load only action layout handles
      *
-     * @return Enterprise_PBridge_IndexController
+     * @return Enterprise_PBridge_PbridgeController
      */
     protected function _initActionLayout()
     {
@@ -56,11 +56,7 @@ class Enterprise_PBridge_IndexController extends Enterprise_Enterprise_Controlle
      */
     protected function _initIncomingData()
     {
-        $data = array(
-            'original_payment_method' => $this->getRequest()->getParam('original_payment_method', null),
-            'token' => $this->getRequest()->getParam('token'),
-            'quote_id' => $this->getRequest()->getParam('quote_id')
-        );
+        $data = Mage::helper('enterprise_pbridge')->getPbridgeParams();
         return $data;
     }
 
@@ -85,7 +81,8 @@ class Enterprise_PBridge_IndexController extends Enterprise_Enterprise_Controlle
         $data = $this->_initIncomingData();
         $this->_initActionLayout();
 
-        if ($block = $this->getLayout()->getBlock('pbridge.checkout.payment.result')) {
+        $block = $this->getLayout()->getBlock('pbridge.checkout.payment.result');
+        if ($block) {
             $block->setJsonHiddenPbridgeParams(Mage::helper('core')->jsonEncode($data));
         }
 

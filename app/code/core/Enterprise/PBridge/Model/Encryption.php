@@ -19,41 +19,44 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Enterprise
- * @package     Enterprise_PBridge
+ * @package     Enterprise_Pbridge
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+class Enterprise_PBridge_Model_Encryption extends Enterprise_Pci_Model_Encryption {
 
-/**
- * Pbridge payment block
- *
- * @category    Enterprise
- * @package     Enterprise_PBridge
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_PBridge_Block_Checkout_Payment_Pbridge extends Mage_Payment_Block_Form
-{
     /**
      * Constructor
      */
-    protected function _construct()
+    public function __construct()
     {
-        parent::_construct();
-        $this->setTemplate('pbridge/checkout/payment/pbridge.phtml');
+        // load a secure key from config
+        $this->_keys = array(trim((string)$pbridgeUrl = Mage::getStoreConfig('payment/pbridge/transferkey')));
+        $this->_keyVersion = 0;
+    }
+    
+    /**
+     * Look for key and crypt versions in encrypted data before decrypting
+     *
+     * @param string $data
+     * @return string
+     */
+    public function decrypt($data)
+    {
+        return parent::decrypt($this->_keyVersion . ':' . self::CIPHER_LATEST . ':' . $data);
     }
 
     /**
-     * Getter.
-     * Return Payment Bridge url with required parameters (such as merchant code, merchant key etc.)
+     * Prepend IV to encrypted data after encrypting
      *
+     * @param string $data
      * @return string
      */
-    public function getSourceUrl()
+    public function encrypt($data)
     {
-        $sourceUrl = Mage::helper('enterprise_pbridge')->getPbridgeUrl(array(
-            'redirect_url' => $this->getUrl('enterprise_pbridge/pbridge/result', array('_current' => true))
-        ));
-        return $sourceUrl;
+        $crypt = $this->_getCrypt();
+        return $crypt->getInitVector() . ':' . base64_encode($crypt->encrypt((string)$data));
     }
 }
+

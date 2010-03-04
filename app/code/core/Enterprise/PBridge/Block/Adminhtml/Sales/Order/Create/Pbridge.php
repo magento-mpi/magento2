@@ -32,19 +32,15 @@
  * @package     Enterprise_PBridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_PBridge_Block_Adminhtml_Sales_Order_Create_Pbridge extends Enterprise_Enterprise_Block_Adminhtml_Template
+class Enterprise_PBridge_Block_Adminhtml_Sales_Order_Create_Pbridge extends Mage_Payment_Block_Form
 {
     /**
-     * Render block HTML
-     *
-     * @return string
+     * Constructor
      */
-    public function _toHtml()
+    protected function _construct()
     {
-        if (!Mage::helper('enterprise_pbridge')->isEnabled()) {
-            return '';
-        }
-        return parent::_toHtml();
+        parent::_construct();
+        $this->setTemplate('enterprise/pbridge/sales/order/create/pbridge.phtml');
     }
 
     /**
@@ -55,7 +51,9 @@ class Enterprise_PBridge_Block_Adminhtml_Sales_Order_Create_Pbridge extends Ente
      */
     public function getSourceUrl()
     {
-        $sourceUrl = Mage::helper('enterprise_pbridge')->getPbridgeUrl();
+        $sourceUrl = Mage::helper('enterprise_pbridge')->getPbridgeUrl(array(
+            'redirect_url' => $this->getUrl('*/pbridge/result', array('_current' => true))
+        ));
         return $sourceUrl;
     }
 }

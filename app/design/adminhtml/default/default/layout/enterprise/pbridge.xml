@@ -27,18 +27,6 @@
 -->
 <layout version="0.1.0">
 
-    <adminhtml_sales_order_create_index>
-        <reference name="billing_method">
-            <block type="enterprise_pbridge/adminhtml_sales_order_create_pbridge" name="pbridge.sales.order.create.pbridge" template="enterprise/pbridge/sales/order/create/pbridge.phtml" />
-        </reference>
-    </adminhtml_sales_order_create_index>
-
-    <adminhtml_sales_order_create_load_block_billing_method>
-        <reference name="billing_method">
-            <block type="enterprise_pbridge/adminhtml_sales_order_create_pbridge" name="pbridge.sales.order.create.pbridge" template="enterprise/pbridge/sales/order/create/pbridge.phtml" />
-        </reference>
-    </adminhtml_sales_order_create_load_block_billing_method>
-
     <adminhtml_pbridge_result>
         <block type="enterprise_pbridge/adminhtml_sales_order_create_result" name="pbridge.sales.order.create.result" template="enterprise/pbridge/sales/order/create/result.phtml" output="toHtml" />
     </adminhtml_pbridge_result>

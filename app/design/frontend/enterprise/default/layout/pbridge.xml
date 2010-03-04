@@ -27,12 +27,6 @@
 -->
 <layout version="0.1.0">
 
-    <checkout_onepage_index>
-        <reference name="checkout.onepage.payment.additional">
-            <block type="enterprise_pbridge/checkout_payment_pbridge" name="pbridge.checkout.payment.pbridge" template="pbridge/checkout/payment/pbridge.phtml" />
-        </reference>
-    </checkout_onepage_index>
-
     <enterprise_pbridge_index_result>
         <block type="enterprise_pbridge/checkout_payment_result" name="pbridge.checkout.payment.result" template="pbridge/checkout/payment/result.phtml" output="toHtml" />
     </enterprise_pbridge_index_result>
