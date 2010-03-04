@@ -34,6 +34,13 @@ include_once '3Dsecure/CentinelClient.php';
  */
 class Mage_Centinel_Model_Api extends Varien_Object
 {
+    /**
+     * Fields that should be replaced in debug with '***'
+     *
+     * @var array
+     */
+    protected $_debugReplacePrivateDataKeys = array('TransactionPwd', 'CardNumber', 'CardExpMonth', 'CardExpYear');
+
     protected static $_iso4217Currencies = array(
         'AED' => '784', 'AFN' => '971',
         'ALL' => '008', 'AMD' => '051', 'ANG' => '532', 'AOA' => '973', 'ARS' => '032', 'AUD' => '036', 'AWG' => '533',
@@ -142,6 +149,9 @@ class Mage_Centinel_Model_Api extends Varien_Object
             'TransactionPwd'  => $this->getTransactionPwd(),
             'TransactionType' => $this->_getTransactionType(),
         ), $data);
+
+        $this->_debug(array('request' => $request));
+
         foreach($request as $key => $val) {
             $client->add($key, $val);
         }
@@ -201,6 +211,9 @@ class Mage_Centinel_Model_Api extends Varien_Object
         $result->setAcsUrl($clientResponse->getValue('ACSUrl'));
         $result->setPayload($clientResponse->getValue('Payload'));
         $result->setEciFlag($clientResponse->getValue('EciFlag'));
+
+        $this->_debug(array('result' => $result->getData()));
+
         return $result;
     }
 
@@ -225,7 +238,24 @@ class Mage_Centinel_Model_Api extends Varien_Object
         $result->setCavv($clientResponse->getValue('Cavv'));
         $result->setEciFlag($clientResponse->getValue('EciFlag'));
         $result->setXid($clientResponse->getValue('Xid'));
+
+        $this->_debug(array('result' => $result->getData()));
+
         return $result;
+    }
+
+    /**
+     * Log debug data to file
+     *
+     * @param mixed $debugData
+     */
+    protected function _debug($debugData)
+    {
+        if ($this->getDebugFlag()) {
+            Mage::getModel('core/log_adapter', 'card_validation_3d_secure.log')
+               ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
+               ->log($debugData);
+        }
     }
 }
 

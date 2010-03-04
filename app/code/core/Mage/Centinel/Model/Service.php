@@ -143,6 +143,7 @@ class Mage_Centinel_Model_Service extends Varien_Object
            ->setMerchantId($config->getMerchantId())
            ->setTransactionPwd($config->getTransactionPwd())
            ->setIsTestMode($config->getIsTestMode())
+           ->setDebugFlag($config->getDebugFlag())
            ->setApiEndpointUrl($this->getCustomApiEndpointUrl());
         return $this->_api;
     }
