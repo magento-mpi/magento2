@@ -658,8 +658,9 @@ final class Mage
      * @param string $message
      * @param integer $level
      * @param string $file
+     * @param bool $forceLog
      */
-    public static function log($message, $level = null, $file = '')
+    public static function log($message, $level = null, $file = '', $forceLog = false)
     {
         if (!self::getConfig()) {
             return;
@@ -675,7 +676,7 @@ final class Mage
             $logActive = true;
         }
 
-        if (!self::$_isDeveloperMode && !$logActive) {
+        if (!self::$_isDeveloperMode && !$logActive && !$forceLog) {
             return;
         }
 
@@ -699,7 +700,13 @@ final class Mage
 
                 $format = '%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL;
                 $formatter = new Zend_Log_Formatter_Simple($format);
-                $writer = new Zend_Log_Writer_Stream($logFile);
+                $writerModel = (string)self::getConfig()->getNode('global/log/core/writer_model');
+                if (!self::$_app || !$writerModel) {
+                    $writer = new Zend_Log_Writer_Stream($logFile);
+                }
+                else {
+                    $writer = new $writerModel($logFile);
+                }
                 $writer->setFormatter($formatter);
                 $loggers[$file] = new Zend_Log($writer);
             }
