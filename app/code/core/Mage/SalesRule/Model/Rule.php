@@ -48,6 +48,20 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
 
     protected $_labels = array();
 
+    /**
+     * Rule's primary coupon
+     *
+     * @var Mage_SalesRule_Model_Coupon
+     */
+    protected $_primaryCoupon;
+
+    /**
+     * Rule's subordinate coupons
+     *
+     * @var array of Mage_SalesRule_Model_Coupon
+     */
+    protected $_coupons;
+
     protected function _construct()
     {
         parent::_construct();
@@ -56,37 +70,32 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     }
 
     /**
-     * Check unique coupon code before saving and clear coupon related cache
+     * Retrieve rule's primary coupon
      *
-     * @return Mage_SalesRule_Model_Rule
+     * @return Mage_SalesRule_Model_Coupon
      */
-    protected function _beforeSave()
+    public function getPrimaryCoupon()
     {
-        $coupon = $this->getCouponCode();
-        if($coupon) {
-            $this->getResource()->addUniqueField(array(
-                'field' => 'coupon_code',
-                'title' => Mage::helper('salesRule')->__('Coupon with the same code')
-            ));
-            Mage::app()->cleanCache('salesrule_coupon_'.md5($coupon));
-        } else {
-            $this->getResource()->resetUniqueField();
+        if ($this->_primaryCoupon === null) {
+            $this->_primaryCoupon = Mage::getModel('salesrule/coupon');
+            $this->_primaryCoupon->loadPrimaryByRule($this->getId());
+            if ($this->_primaryCoupon->isObjectNew()) {
+                $this->_primaryCoupon->setRuleId($this->getId())->setIsPrimary(true);
+            }
         }
-        return parent::_beforeSave();
+        return $this->_primaryCoupon;
     }
 
     /**
-     * Delete rule coupon code related cache
+     * Processing object after load data
      *
-     * @return Mage_SalesRule_Model_Rule
+     * @return Mage_Core_Model_Abstract
      */
-    protected function _beforeDelete()
+    protected function _afterLoad()
     {
-        $coupon = $this->getCouponCode();
-        if ($coupon) {
-            Mage::app()->cleanCache('salesrule_coupon_'.$coupon);
-        }
-        return parent::_beforeDelete();
+        $this->setCouponCode($this->getPrimaryCoupon()->getCode());
+        $this->setUsesPerCoupon($this->getPrimaryCoupon()->getUsageLimit());
+        return parent::_afterLoad();
     }
 
     public function getConditionsInstance()
@@ -160,7 +169,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     }
 
     /**
-     * Save rula labels after rule save
+     * Save rule labels after rule save
      *
      * @return Mage_SalesRule_Model_Rule
      */
@@ -168,6 +177,17 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
     {
         if ($this->hasStoreLabels()) {
             $this->_getResource()->saveStoreLabels($this->getId(), $this->getStoreLabels());
+        }
+        $couponCode = trim($this->getCouponCode());
+        if ($couponCode) {
+            $this->getPrimaryCoupon()
+                ->setCode($couponCode)
+                ->setUsageLimit($this->getUsesPerCoupon() ? $this->getUsesPerCoupon() : null)
+                ->setUsagePerCustomer($this->getUsesPerCustomer() ? $this->getUsesPerCustomer() : null)
+                ->setExpirationDate($this->getToDate())
+                ->save();
+        } else {
+            $this->getPrimaryCoupon()->delete();
         }
         return parent::_afterSave();
     }
@@ -207,5 +227,21 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
             $this->setStoreLabels($labels);
         }
         return $this->_getData('store_labels');
+    }
+
+    /**
+     * Retrieve subordinate coupons
+     *
+     * @return array of Mage_SalesRule_Model_Coupon
+     */
+    public function getCoupons()
+    {
+        if ($this->_coupons === null) {
+            $collection = Mage::getResourceModel('salesrule/coupon_collection');
+            /** @var Mage_SalesRule_Model_Mysql4_Coupon_Collection */
+            $collection->addRuleToFilter($this);
+            $this->_coupons = $collection->getItems();
+        }
+        return $this->_coupons;
     }
 }

@@ -100,6 +100,18 @@ class Mage_SalesRule_Model_Observer
                 }
             }
         }
+
+        $coupon = Mage::getModel('salesrule/coupon');
+        /** @var Mage_SalesRule_Model_Coupon */
+        $coupon->load($order->getCouponCode(), 'code');
+        if (!$coupon->isObjectNew()) {
+            $coupon->setTimesUsed($coupon->getTimesUsed() + 1);
+            $coupon->save();
+            if ($customerId) {
+                $couponUsage = Mage::getResourceModel('salesrule/coupon_usage');
+                $couponUsage->updateCustomerCouponTimesUsed($customerId, $coupon->getId());
+            }
+        }
     }
 
     /**
