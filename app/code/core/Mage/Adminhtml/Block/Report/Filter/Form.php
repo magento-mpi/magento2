@@ -82,8 +82,7 @@ class Mage_Adminhtml_Block_Report_Filter_Form extends Mage_Adminhtml_Block_Widge
         $fieldset->addField('report_type', 'select', array(
             'name'      => 'report_type',
             'options'   => $this->_reportTypeOptions,
-            'label'     => Mage::helper('reports')->__('Report Type'),
-            'title'     => Mage::helper('reports')->__('Report Type')
+            'label'     => Mage::helper('reports')->__('Match Period To'),
         ));
 
         $fieldset->addField('period_type', 'select', array(

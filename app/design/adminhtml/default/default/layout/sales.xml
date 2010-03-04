@@ -30,13 +30,13 @@
     <adminhtml_sales_order_grid>
         <block type="adminhtml/sales_order_grid" name="sales_order.grid" output="toHtml"></block>
     </adminhtml_sales_order_grid>
-    
+
     <adminhtml_sales_order_index>
         <reference name="content">
             <block type="adminhtml/sales_order" name="sales_order.grid.container"></block>
         </reference>
     </adminhtml_sales_order_index>
-    
+
     <adminhtml_sales_order_view>
         <reference name="content">
             <block type="adminhtml/sales_order_view" name="sales_order_edit"></block>
@@ -719,11 +719,11 @@
                 <block type="adminhtml/report_filter_form" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_order</key>
-                        <value>Created At Order</value>
+                        <value>Order Created Date</value>
                     </action>
                     <action method="addReportTypeOption" translate="value">
                         <key>updated_at_order</key>
-                        <value>Updated At Order</value>
+                        <value>Order Updated Date</value>
                     </action>
                 </block>
             </block>
@@ -739,11 +739,11 @@
                 <block type="adminhtml/report_filter_form" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_order</key>
-                        <value>Created At Order</value>
+                        <value>Order Created Date</value>
                     </action>
                     <action method="addReportTypeOption" translate="value">
                         <key>updated_at_order</key>
-                        <value>Updated At Order</value>
+                        <value>Order Updated Date</value>
                     </action>
                 </block>
             </block>
@@ -759,11 +759,11 @@
                 <block type="adminhtml/report_filter_form" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_order</key>
-                        <value>Created At Order</value>
+                        <value>Order Created Date</value>
                     </action>
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_shipment</key>
-                        <value>Created At Shipment</value>
+                        <value>Shipment Created Date</value>
                     </action>
                 </block>
             </block>
@@ -779,11 +779,11 @@
                 <block type="adminhtml/report_filter_form" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_order</key>
-                        <value>Created At Order</value>
+                        <value>Order Created Date</value>
                     </action>
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_invoice</key>
-                        <value>Created At Invoice</value>
+                        <value>Invoice Created Date</value>
                     </action>
                 </block>
             </block>
@@ -799,11 +799,11 @@
                 <block type="adminhtml/report_filter_form" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_order</key>
-                        <value>Created At Order</value>
+                        <value>Order Created Date</value>
                     </action>
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_refunded</key>
-                        <value>Created At Refunded</value>
+                        <value>Credit Memo Created Date</value>
                     </action>
                 </block>
             </block>
@@ -819,11 +819,11 @@
                 <block type="adminhtml/report_filter_form" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_order</key>
-                        <value>Created At Order</value>
+                        <value>Order Created Date</value>
                     </action>
                     <action method="addReportTypeOption" translate="value">
                         <key>updated_at_order</key>
-                        <value>Updated At Order</value>
+                        <value>Order Updated Date</value>
                     </action>
                 </block>
             </block>
