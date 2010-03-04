@@ -148,7 +148,7 @@ class Mage_Checkout_Model_Type_Onepage
      *
      * @return string
      */
-    public function getCheckoutMehod()
+    public function getCheckoutMethod()
     {
         if ($this->getCustomerSession()->isLoggedIn()) {
             return self::METHOD_CUSTOMER;
@@ -590,7 +590,7 @@ class Mage_Checkout_Model_Type_Onepage
     {
         $this->validate();
         $isNewCustomer = false;
-        switch ($this->getCheckoutMehod()) {
+        switch ($this->getCheckoutMethod()) {
             case self::METHOD_GUEST:
                 $this->_prepareGuestQuote();
                 break;
