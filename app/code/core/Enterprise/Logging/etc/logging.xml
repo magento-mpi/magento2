@@ -1209,13 +1209,13 @@
     </sales_creditmemos>
 
     <sales_agreement translate="label">
-        <label>Sales Agreement</label>
+        <label>Checkout Terms and Conditions</label>
         <expected_models>
             <checkout__agreement/>
         </expected_models>
         <actions>
             <adminhtml_checkout_agreement_edit>
-                <action>edit</action>
+                <action>view</action>
             </adminhtml_checkout_agreement_edit>
 
             <adminhtml_checkout_agreement_save>
