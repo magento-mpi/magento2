@@ -27,8 +27,8 @@
 -->
 <layout version="0.1.0">
 
-    <enterprise_pbridge_index_result>
+    <enterprise_pbridge_pbridge_result>
         <block type="enterprise_pbridge/checkout_payment_result" name="pbridge.checkout.payment.result" template="pbridge/checkout/payment/result.phtml" output="toHtml" />
-    </enterprise_pbridge_index_result>
+    </enterprise_pbridge_pbridge_result>
 
 </layout>
