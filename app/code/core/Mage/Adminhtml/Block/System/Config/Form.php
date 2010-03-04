@@ -268,7 +268,6 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                 $fieldType  = (string)$e->frontend_type ? (string)$e->frontend_type : 'text';
                 $name       = 'groups['.$group->getName().'][fields]['.$fieldPrefix.$e->getName().'][value]';
                 $label      =  Mage::helper($helperName)->__($labelPrefix).' '.Mage::helper($helperName)->__((string)$e->label);
-                $comment    = (string)$e->comment ? Mage::helper($helperName)->__((string)$e->comment) : '';
                 $hint       = (string)$e->hint ? Mage::helper($helperName)->__((string)$e->hint) : '';
 
                 if ($e->backend_model) {
@@ -279,6 +278,8 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     $model->setPath($path)->setValue($data)->afterLoad();
                     $data = $model->getValue();
                 }
+
+                $comment    = $this->_prepareFieldComment($e, $helperName, $data);
 
                 if ($e->depends) {
                     foreach ($e->depends->children() as $dependent) {
@@ -347,6 +348,32 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
             }
         }
         return $this;
+    }
+
+    /**
+     * Support models "getCommentText" method for field note generation
+     *
+     * @param Mage_Core_Model_Config_Element $element
+     * @param string $helper
+     * @return string
+     */
+    protected function _prepareFieldComment($element, $helper, $currentValue)
+    {
+        $comment = '';
+        if ($element->comment) {
+            $commentInfo = $element->comment->asArray();
+            if (is_array($commentInfo)) {
+                if (isset($commentInfo['model'])) {
+                    $model = Mage::getModel($commentInfo['model']);
+                    if (method_exists($model, 'getCommentText')) {
+                        $comment = $model->getCommentText($currentValue);
+                    }
+                }
+            } else {
+                $comment = Mage::helper($helper)->__($commentInfo);
+            }
+        }
+        return $comment;
     }
 
     /**
