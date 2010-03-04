@@ -1250,19 +1250,26 @@ ul.super-product-attributes { padding-left:15px; }
 
 /* CMS Popup Window */
 .popup-window .table_window { border:none; }
-.popup-window,
-.popup-window .table_window td .magento_content,
+.popup-window .magento_nw,
+.popup-window .magento_n,
+.popup-window .magento_ne { height:28px; }
+.popup-window { border:1px solid #000; }
+.popup-window .bot { display:none; }
+.popup-window .top { background-color:#fff; background-image:none; }
+.popup-window .top td { background:url(images/window_top.png) repeat-x; border-bottom:1px solid #e6e6e6; }
 .popup-window .magento_w,
 .popup-window .magento_e,
-.popup-window .magento_sw,
-.popup-window .magento_s,
-.popup-window .magento_se { background:#fff; border-color:#fff; }
-.popup-window .top { background-color:#fff; background-image:none; border-bottom:1px solid #e0e4e8; }
-.popup-window .title_window { font-family:Tahoma, Verdana, Arial, sans-serif; font-size:18px; padding:3px 0; color:#002042; }
-.popup-window .magento_close { background-image:url(images/button-close.png); width:16px; height:16px; right:10px; top:8px; }
-.popup-window .magento_message { padding:0 3px; }
+.popup-window .magento_content { background:url(images/window_content.png) repeat-x 0 0 #fafafa; }
+.popup-window .title_window { color:#fff; font-family:Arial, Helvetica, sans-serif; font-size:12px; height:auto; line-height:28px; margin:0; }
+.popup-window .magento_close { background-image:url(images/window_close.png); height:16px; right:7px; top:5px; width:16px; }
+.popup-window .magento_message { padding:0 18px; }
+.popup-window .content-header { font-family:Arial, Helvetica, sans-serif; padding-top:9px; }
+.popup-window .content-header h3 { color:#eb5e00; padding:0; }
+.popup-window { height:auto !important; }
+.popup-window .grid { position:static; }
 
 /* CMS Widget Popup */
+/*
 #widget_window .entry-edit { width:921px; margin:0 auto; }
 #widget_window .entry-edit-head { background:url(images/window_form_top.png) no-repeat 0 0; height:26px; }
 #widget_window .entry-edit-head h4 { color:#333; }
@@ -1271,9 +1278,11 @@ ul.super-product-attributes { padding-left:15px; }
 #widget_window .content-header { width:921px; border:none; margin:0 auto; padding:10px 0 20px; }
 #widget_window .content-header h3 { color:#000; display:none; padding-left:0; }
 #widget_window .content-header .add-widget { margin:0; }
+*/
 
 /* CMS Widget Chooser */
 #widget-chooser .columns { background-image:none; }
+#widget-chooser .magento_message { padding:10px 18px; }
 #widget-chooser .grid th,
 #widget-chooser .grid td { padding:2px 4px 2px 4px; }
 #widget-chooser .grid tr.filter th { padding-top:5px; padding-bottom:5px; }
