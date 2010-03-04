@@ -26,7 +26,7 @@
 ?>
 <?php $_item = $this->getItem() ?>
 <li class="item">
-    <?php if ($this->isProductVisible()): ?>
+    <?php if ($this->hasProductUrl()): ?>
         <a href="<?php echo $this->getProductUrl()?>" title="<?php echo $this->htmlEscape($this->getProductName()) ?>" class="product-image"><img src="<?php echo $this->getProductThumbnail()->resize(50)->setWatermarkSize('30x10'); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /></a>
     <?php else: ?>
         <span class="product-image">
@@ -36,7 +36,7 @@
 
     <div class="product-details">
         <p class="product-name">
-            <?php if ($this->isProductVisible()): ?>
+            <?php if ($this->hasProductUrl()): ?>
                 <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->htmlEscape($this->getProductName()) ?></a>
             <?php else: ?>
                 <?php echo $this->htmlEscape($this->getProductName()) ?>

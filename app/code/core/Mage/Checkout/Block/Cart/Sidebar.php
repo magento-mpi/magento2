@@ -77,7 +77,6 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
         }
 
         $i = 0;
-        $storeId  = Mage::app()->getStore()->getId();
         $allItems = array_reverse($this->getItems());
         foreach ($allItems as $item) {
             /* @var $item Mage_Sales_Model_Quote_Item */
