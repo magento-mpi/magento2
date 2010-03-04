@@ -229,11 +229,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
         $client->setParameterPost($request->getData());
         $client->setMethod(Zend_Http_Client::POST);
 
-        if ($this->getConfigData('debug_flag')) {
-            $debug = Mage::getModel('chronopay/api_debug')
-                ->setRequestBody($client->getUri() . "\n" . print_r($request->getData(), 1))
-                ->save();
-        }
+        $debugData = array('request' => $request->getData());
 
         try {
             $response = $client->request();
@@ -263,25 +259,22 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
             } else {
                 Mage::throwException(Mage::helper('chronopay')->__('Invalid response format'));
             }
-
-            if ($this->getConfigData('debug_flag')) {
-                $debug->setResponseBody($body)->save();
-            }
-
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             $result->setResponseCode(-1)
                 ->setResponseReasonCode($e->getCode())
                 ->setResponseReasonText($e->getMessage());
 
-
             $exceptionMsg = Mage::helper('chronopay')->__('Gateway request error: %s', $e->getMessage());
 
-            if ($this->getConfigData('debug_flag')) {
-                $debug->setResponseBody($body)->save();
-            }
+            $debugData['result'] = $result->getData();
+            $this->_debug($debugData);
 
             Mage::throwException($exceptionMsg);
         }
+
+        $debugData['result'] = $result->getData();
+        $this->_debug($debugData);
         return $result;
     }
 
@@ -336,4 +329,13 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
         return md5(implode('', $hashArray));
     }
 
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->getConfigData('debug_flag');
+    }
 }

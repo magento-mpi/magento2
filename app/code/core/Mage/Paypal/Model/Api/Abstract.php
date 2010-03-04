@@ -65,6 +65,13 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     protected $_lineItemExportItemsFormat = array();
     protected $_lineItemExportItemsFilters = array();
 
+   /**
+     * Fields that should be replaced in debug with '***'
+     *
+     * @var array
+     */
+    protected $_debugReplacePrivateDataKeys = array();
+
     /**
      * Return Paypal Api user name based on config data
      *
@@ -136,13 +143,13 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Return Paypal Api debug flag based on config data
+     * @deprecated after 1.4.1.0
      *
      * @return bool
      */
     public function getDebug()
     {
-        return $this->_config->debugFlag;
+        return $this->getDebugFlag();
     }
 
     /**
@@ -455,5 +462,29 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     protected function _filterQty($value)
     {
         return intval($value);
+    }
+
+    /**
+     * Log debug data to file
+     *
+     * @param mixed $debugData
+     */
+    protected function _debug($debugData)
+    {
+        if ($this->getDebugFlag()) {
+            Mage::getModel('core/log_adapter', 'payment_' . $this->_config->getMethodCode() . '.log')
+               ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
+               ->log($debugData);
+        }
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->_config->debugFlag;
     }
 }

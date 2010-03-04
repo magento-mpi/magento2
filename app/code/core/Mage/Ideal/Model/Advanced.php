@@ -72,14 +72,14 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
      */
     public function getApi()
     {
-        return Mage::getSingleton('ideal/api_advanced');
+        return Mage::getSingleton('ideal/api_advanced')->setPaymentModel($this);
     }
 
     public function getIssuerList($saveAttrbute = false)
     {
         if ($this->_issuersList == null) {
             $request = new Mage_Ideal_Model_Api_Advanced_DirectoryRequest();
-            $response = $this->getApi()->processRequest($request, $this->getDebug());
+            $response = $this->getApi()->processRequest($request, $this->getDebugFlag());
             if ($response) {
                 $this->_issuersList = $response->getIssuerList();
                 return $this->_issuersList;
@@ -133,7 +133,7 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
         $request->setEntranceCode(Mage::helper('ideal')->encrypt($order->getIncrementId()));
         //we need to be sure that we sending number without decimal part
         $request->setAmount(floor($order->getBaseGrandTotal()*100));
-        $response = $this->getApi()->processRequest($request, $this->getDebug());
+        $response = $this->getApi()->processRequest($request, $this->getDebugFlag());
         return $response;
     }
 
@@ -147,7 +147,7 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
     {
         $request = new Mage_Ideal_Model_Api_Advanced_AcquirerStatusRequest();
         $request->setTransactionId($transactionId);
-        $response = $this->getApi()->processRequest($request, $this->getDebug());
+        $response = $this->getApi()->processRequest($request, $this->getDebugFlag());
         return $response;
     }
 
@@ -216,11 +216,21 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Get debug flag
+     * @deprecated after 1.4.1.0
      *
      * @return boolean
      */
     public function getDebug()
+    {
+        return $this->getDebugFlag();
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
     {
         return $this->getConfigData('debug_flag');
     }

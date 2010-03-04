@@ -76,15 +76,10 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
      */
     protected function _validateOgoneData()
     {
-        if ($this->_getApi()->getDebug()) {
-            $debug = Mage::getModel('ogone/api_debug')
-                ->setDir('in')
-                ->setUrl($this->getRequest()->getPathInfo())
-                ->setData('data',http_build_query($this->getRequest()->getParams()))
-                ->save();
-        }
-
         $params = $this->getRequest()->getParams();
+
+        $this->_getApi()->debugData(array('result' => $params));
+
         $secureKey = $this->_getApi()->getConfig()->getShaInCode();
         $secureSet = $this->_getSHAInSet($params, $secureKey);
 
@@ -115,13 +110,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
                 $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, Mage_Ogone_Model_Api::PENDING_OGONE_STATUS, Mage::helper('ogone')->__('Start ogone processing'));
                 $order->save();
 
-                if ($this->_getApi()->getDebug()) {
-                    $debug = Mage::getModel('ogone/api_debug')
-                        ->setDir('out')
-                        ->setUrl($this->getRequest()->getPathInfo())
-                        ->setData('data', http_build_query($this->_getApi()->getFormFields($order)))
-                        ->save();
-                }
+                $this->_getApi()->debugData(array('request' => $this->_getApi()->getFormFields($order)));
             }
         }
 

@@ -100,11 +100,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
         $returnedMAC = $this->getRequest()->getPost('MAC');
         $correctMAC = $model->getResponseMAC($postData);
 
-        if ($model->getConfigData('debug_flag')) {
-            Mage::getModel('cybermut/api_debug')
-                ->setResponseBody(print_r($postData ,1))
-                ->save();
-        }
+        $model->debugData(array('result' => $postData));
 
         $order = Mage::getModel('sales/order')
             ->loadByIncrementId($this->getRequest()->getPost('reference'));

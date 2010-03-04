@@ -92,29 +92,25 @@ class Mage_Cybersource_Model_Api_ExtendedSoapClient extends SoapClient
         $node, $requestDOM->firstChild->firstChild);
 
         $request = $requestDOM->saveXML();
-        if ($api->getConfigData('debug', $this->getStoreId())) {
-
-            $requestDOMXPath = new DOMXPath($requestDOM);
-
-            foreach ($this->_debugReplacePrivateDataXPaths as $xPath) {
-                foreach ($requestDOMXPath->query($xPath) as $element) {
-                    $element->data = '***';
-                }
+        $requestDOMXPath = new DOMXPath($requestDOM);
+        foreach ($this->_debugReplacePrivateDataXPaths as $xPath) {
+            foreach ($requestDOMXPath->query($xPath) as $element) {
+                $element->data = '***';
             }
-
-            $debug = Mage::getModel('cybersource/api_debug')
-                ->setAction($action)
-                ->setRequestBody($requestDOM->saveXML())
-                ->save();
         }
 
-        $response = parent::__doRequest($request, $location, $action, $version);
-
-        if (!empty($debug)) {
-            $debug
-                ->setResponseBody($response)
-                ->save();
+        $debugData = array('request' => $requestDOM->saveXML());
+        try {
+            $response = parent::__doRequest($request, $location, $action, $version);
         }
+        catch (Exception $e) {
+            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+            $api->debugData($debugData);
+            throw $e;
+        }
+
+        $debugData['result'] = $response;
+        $api->debugData($debugData);
 
         return $response;
     }

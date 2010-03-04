@@ -212,13 +212,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
                         'cs1'              => Mage::helper('core')->encrypt($order->getRealOrderId())
                         );
 
-        if ($this->getConfig()->getDebug()) {
-            $debug = Mage::getModel('chronopay/api_debug')
-                ->setRequestBody($this->getChronopayUrl()."\n".print_r($fields,1))
-                ->save();
-            $fields['cs2'] = $debug->getId();
-        }
-
+        $this->_debug(array('request' => $fields));
         return $fields;
     }
 
@@ -265,5 +259,15 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
         } catch (Exception $e) {
             return $e;
         }
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->getConfigData('debug_flag');
     }
 }

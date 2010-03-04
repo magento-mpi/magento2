@@ -517,35 +517,32 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $request = $this->_addMethodToRequest($methodName, $request);
         $request = $this->_exportToRequest($this->_eachCallRequest, $request);
 
-        if ($this->getDebug()) {
-            $requestDebug = $request;
-            foreach ($this->_debugReplacePrivateDataKeys as $key) {
-                if (isset($request[$key])) {
-                    $requestDebug[$key] = '***';
-                }
+        $debugData = array('request' => $request);
+
+        try {
+            $http = new Varien_Http_Adapter_Curl();
+            $config = array('timeout' => 30);
+            if ($this->getUseProxy()) {
+                $config['proxy'] = $this->getProxyHost(). ':' . $this->getProxyPort();
             }
-            $debug = Mage::getModel('paypal/api_debug')
-                ->setApiEndpoint($this->getApiEndpoint())
-                ->setRequestBody(var_export($requestDebug, 1))
-                ->save();
+            $http->setConfig($config);
+            $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', array(), $this->_buildQuery($request));
+            $response = $http->read();
+        }
+        catch (Exception $e) {
+            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+            $this->_debug($debugData);
+            throw $e;
         }
 
-        $http = new Varien_Http_Adapter_Curl();
-        $config = array('timeout' => 30);
-        if ($this->getUseProxy()) {
-            $config['proxy'] = $this->getProxyHost(). ':' . $this->getProxyPort();
-        }
-        $http->setConfig($config);
-        $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', array(), $this->_buildQuery($request));
-        $response = $http->read();
         $http->close();
+
         $response = preg_split('/^\r?$/m', $response, 2);
         $response = trim($response[1]);
         $response = $this->_deformatNVP($response);
 
-        if ($this->getDebug()) {
-            $debug->setResponseBody(var_export($response, 1))->save();
-        }
+        $debugData['result'] = $response;
+        $this->_debug($debugData);
 
         // handle transport error
         if ($http->getErrno()) {

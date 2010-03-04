@@ -49,13 +49,13 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
     protected $_canUseForMultishipping  = false;
 
     /**
-     * Get debug flag
+     * @deprecated after 1.4.1.0
      *
      * @return boolean
      */
     public function getDebug()
     {
-        return $this->getConfigData('debug_flag');
+        return $this->getDebugFlag();
     }
 
     /**
@@ -180,19 +180,12 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
             'urlError' => Mage::getUrl('ideal/basic/failure', array('_secure' => true))
         ));
 
-        $requestString = '';
         $returnArray = array();
-
         foreach ($fields as $k=>$v) {
             $returnArray[$k] =  $v;
-            $requestString .= '&'.$k.'='.$v;
         }
 
-        if ($this->getDebug()) {
-            Mage::getModel('ideal/api_debug')
-                ->setRequestBody($this->getApiUrl() . "\n" . $requestString)
-                ->save();
-        }
+        $this->_debug(array('request' => $returnArray));
 
         return $returnArray;
     }
@@ -213,5 +206,15 @@ class Mage_Ideal_Model_Basic extends Mage_Payment_Model_Method_Abstract
             $hashString);
         $hash = sha1($hashString);
         return array_merge($returnArray, array('hash' => $hash));
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->getConfigData('debug_flag');
     }
 }

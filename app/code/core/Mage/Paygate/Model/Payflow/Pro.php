@@ -309,31 +309,10 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
     protected function _postRequest(Varien_Object $request)
     {
-        if ($this->getConfigData('debug')) {
-            $requestDebug = clone $request;
-
-
-            foreach ($this->_debugReplacePrivateDataKeys as $key) {
-                if ($requestDebug->hasData($key)) {
-                    $requestDebug->setData($key, '***');
-                }
-            }
-
-            foreach( $requestDebug->getData() as $key => $value ) {
-                $value = (string)$value;
-                $requestData[] = strtoupper($key) . '[' . strlen($value) . ']=' . $value;
-            }
-
-            $requestData = join('&', $requestData);
-
-            $debug = Mage::getModel('paygate/authorizenet_debug')
-                ->setRequestBody($requestData)
-                ->setRequestSerialized(serialize($requestDebug->getData()))
-                ->setRequestDump(print_r($requestDebug->getData(),1))
-                ->save();
-        }
+        $debugData = array('request' => $request->getData());
 
         $client = new Varien_Http_Client();
+        $result = Mage::getModel('paygate/payflow_pro_result');
 
         $_config = array(
                         'maxredirects'=>5,
@@ -354,17 +333,26 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             ->setParameterPost($request->getData())
             ->setHeaders('X-VPS-VIT-CLIENT-CERTIFICATION-ID: 33baf5893fc2123d8b191d2d011b7fdc')
             ->setHeaders('X-VPS-Request-ID: ' . $request->getRequestId())
-            ->setHeaders('X-VPS-CLIENT-TIMEOUT: ' . $this->_clientTimeout)
-        ;
+            ->setHeaders('X-VPS-CLIENT-TIMEOUT: ' . $this->_clientTimeout);
 
-        /*
-        * we are sending request to payflow pro without url encoding
-        * so we set up _urlEncodeBody flag to false
-        */
-        $response = $client->setUrlEncodeBody(false)
-                           ->request();
+        try {
+           /**
+            * we are sending request to payflow pro without url encoding
+            * so we set up _urlEncodeBody flag to false
+            */
+            $response = $client->setUrlEncodeBody(false)->request();
+        }
+        catch (Exception $e) {
+            $result->setResponseCode(-1)
+                ->setResponseReasonCode($e->getCode())
+                ->setResponseReasonText($e->getMessage());
 
-        $result = Mage::getModel('paygate/payflow_pro_result');
+            $debugData['result'] = $result->getData();
+            $this->_debug($debugData);
+            throw $e;
+        }
+
+
 
         $response = strstr($response->getBody(), 'RESULT');
         $valArray = explode('&', $response);
@@ -377,13 +365,8 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         $result->setResultCode($result->getResult())
                 ->setRespmsg($result->getRespmsg());
 
-        if (!empty($debug)) {
-            $debug
-                ->setResponseBody($response)
-                ->setResultSerialized(serialize($result->getData()))
-                ->setResultDump(print_r($result->getData(),1))
-                ->save();
-        }
+        $debugData['result'] = $result->getData();
+        $this->_debug($debugData);
 
         return $result;
     }

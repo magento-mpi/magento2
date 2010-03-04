@@ -393,6 +393,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         $xml->addChild('PackageCount', '1');
 
         $request = $xml->asXML();
+        $debugData = array('request' => $request);
 /*
         $client = new Zend_Http_Client();
         $client->setUri($this->getConfigData('gateway_url'));
@@ -414,11 +415,15 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
             $responseBody = curl_exec($ch);
+            $debugData['result'] = $responseBody;
             curl_close ($ch);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
+            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $responseBody = '';
         }
 
+        $this->_debug($debugData);
         return $this->_parseXmlResponse($responseBody);
     }
 
@@ -645,6 +650,8 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         $xml->addChild('DetailScans', '1');
 
         $request = $xml->asXML();
+        $debugData = array('request' => $request);
+
         try {
             $url = $this->getConfigData('gateway_url');
             if (!$url) {
@@ -657,11 +664,14 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
             $responseBody = curl_exec($ch);
+            $debugData['result'] = $responseBody;
             curl_close ($ch);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
+            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $responseBody = '';
         }
-
+        $this->_debug($debugData);
         #echo "<xmp>".$responseBody."</xmp>";
         $this->_parseXmlTrackingResponse($tracking, $responseBody);
     }

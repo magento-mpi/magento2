@@ -366,4 +366,13 @@ class Mage_Cybermut_Model_Payment extends Mage_Payment_Model_Method_Abstract
         return implode("\n", $response) . "\n";
     }
 
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->getConfigData('debug_flag');
+    }
 }

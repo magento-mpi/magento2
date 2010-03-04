@@ -57,13 +57,13 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     *  Return debug flag
+     *  @deprecated after 1.4.1.0
      *
      *  @return  boolean
      */
-    public function getDebug ()
+    public function getDebug()
     {
-        return $this->getStandard()->getDebug();
+        return $this->getStandard()->getDebugFlag();
     }
 
     /**
@@ -106,11 +106,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 
         $transactionId = $this->responseArr['VendorTxCode'];
 
-        if ($this->getDebug()) {
-            Mage::getModel('protx/api_debug')
-                ->setResponseBody(print_r($this->responseArr,1))
-                ->save();
-        }
+        $this->getStandard()->debugData(array('result' => $this->responseArr));
 
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId($transactionId);
@@ -200,11 +196,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 
         $transactionId = $this->responseArr['VendorTxCode'];
 
-        if ($this->getDebug()) {
-            Mage::getModel('protx/api_debug')
-                ->setResponseBody(print_r($this->responseArr,1))
-                ->save();
-        }
+        $this->getStandard()->debugData(array('result' => $this->responseArr));
 
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId($transactionId);

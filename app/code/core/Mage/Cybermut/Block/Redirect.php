@@ -56,11 +56,7 @@ class Mage_Cybermut_Block_Redirect extends Mage_Core_Block_Abstract
         $html.= '<script type="text/javascript">document.getElementById("cybermut_payment_checkout").submit();</script>';
         $html.= '</body></html>';
 
-        if ($standard->getConfigData('debug_flag')) {
-            Mage::getModel('cybermut/api_debug')
-                ->setRequestBody($formHTML)
-                ->save();
-        }
+        $standard->debugData(array('request' => $formHTML));
 
         return $html;
     }

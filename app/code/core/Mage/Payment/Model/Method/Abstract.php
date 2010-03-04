@@ -67,6 +67,13 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      */
     protected $_canCancelInvoice        = false;
 
+    /**
+     * Fields that should be replaced in debug with '***'
+     *
+     * @var array
+     */
+    protected $_debugReplacePrivateDataKeys = array();
+
     public function __construct()
     {
 
@@ -521,5 +528,39 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function getConfigPaymentAction()
     {
         return $this->getConfigData('payment_action');
+    }
+
+    /**
+     * Log debug data to file
+     *
+     * @param mixed $debugData
+     */
+    protected function _debug($debugData)
+    {
+        if ($this->getDebugFlag()) {
+            Mage::getModel('core/log_adapter', 'payment_' . $this->getCode() . '.log')
+               ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
+               ->log($debugData);
+        }
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->getConfigData('debug');
+    }
+
+    /**
+     * Used to call debug method from not Paymant Method context
+     *
+     * @param mixed $debugData
+     */
+    public function debugData($debugData)
+    {
+        $this->_debug($debugData);
     }
 }

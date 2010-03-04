@@ -123,7 +123,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
     }
 
     /**
-     * Add item in to log storage
+     * @deprecated after 1.4.1.0
      *
      * @param string $request
      * @param string $response
@@ -131,10 +131,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
      */
     protected function _log($request, $response = '')
     {
-        $debug = Mage::getModel('amazonpayments/api_debug')
-            ->setRequestBody($request)
-            ->setResponseBody($response)
-            ->save();
+        $this->_debug(array('request' => $request, 'response' => $response));
         return $this;
     }
 
@@ -284,17 +281,13 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
      */
     public function processNotification($requestParams)
     {
-        if ($this->getConfig('debug_log')) {
-            $this->_log('DEBUG ASP notification: ' . print_r($requestParams, 1));
-        }
-
+        $this->_debug(array('request' => $requestParams));
         try {
            $this->getNotification()->setPayment($this)->process($requestParams);
-        } catch(Exception $e) {
-            if ($this->getConfig('error_log')) {
-                $this->_log('ERROR ASP notification: ' . print_r($requestParams, 1), $e->getMessage());
-            }
+        }
+        catch(Exception $e) {
 
+            $this->_debug(array('request' => $requestParams, 'error' => $e->getMessage()));
             if ($this->getConfig('report_error_to_email')) {
                 $variables = array();
                 $variables['request'] = print_r($requestParams, 1);
@@ -431,5 +424,15 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
             }
         }
         return $this;
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->getConfigData('debug_log');
     }
 }

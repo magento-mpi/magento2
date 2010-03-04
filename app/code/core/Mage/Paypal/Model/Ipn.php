@@ -62,6 +62,13 @@ class Mage_Paypal_Model_Ipn
     protected $_ipnFormData = array();
 
     /**
+     * Fields that should be replaced in debug with '***'
+     *
+     * @var array
+     */
+    protected $_debugReplacePrivateDataKeys = array();
+
+    /**
      * Config model setter
      * @param Mage_Paypal_Model_Config $config
      * @return Mage_Paypal_Model_Ipn
@@ -105,13 +112,7 @@ class Mage_Paypal_Model_Ipn
             return;
         }
 
-        // debug requested
-        if ($this->_config->debugFlag) {
-            Mage::getModel('paypal/api_debug')
-                ->setApiEndpoint($this->_config->getPaypalUrl())
-                ->setRequestBody(var_export($this->_ipnFormData, 1))
-                ->save();
-        }
+        $debugData = array('request' => $this->_ipnFormData);
 
         $sReq = '';
         $sReqDebug = '';
@@ -123,18 +124,20 @@ class Mage_Paypal_Model_Ipn
         $sReq .= "&cmd=_notify-validate";
         $sReq = substr($sReq, 1);
 
-        $http = new Varien_Http_Adapter_Curl();
-        $http->write(Zend_Http_Client::POST, $this->_config->getPaypalUrl(), '1.1', array(), $sReq);
-        $response = $http->read();
+        try {
+            $http = new Varien_Http_Adapter_Curl();
+            $http->write(Zend_Http_Client::POST, $this->_config->getPaypalUrl(), '1.1', array(), $sReq);
+            $response = $http->read();
+            $debugData['result'] = $response;
+        }
+        catch (Exception $e) {
+            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+            $this->_debug($debugData);
+            throw $e;
+        }
 
         // debug postback request & response
-        if ($this->_config->debugFlag) {
-            Mage::getModel('paypal/api_debug')
-                ->setApiEndpoint($this->_config->getPaypalUrl())
-                ->setRequestBody($sReq)
-                ->setResponseBody($response)
-                ->save();
-        }
+        $this->_debug($debugData);
 
         if ($error = $http->getError()) {
             $this->_notifyAdmin(Mage::helper('paypal')->__('PayPal IPN postback HTTP error: %s', $error));
@@ -552,5 +555,29 @@ class Mage_Paypal_Model_Ipn
 
         Mage::getSingleton('paypal/info')->importToPayment($from, $payment);
         return $was != $payment->getAdditionalInformation();
+    }
+
+    /**
+     * Log debug data to file
+     *
+     * @param mixed $debugData
+     */
+    protected function _debug($debugData)
+    {
+        if ($this->getDebugFlag()) {
+            Mage::getModel('core/log_adapter', 'payment_' . $this->_config->getMethodCode() . '.log')
+               ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
+               ->log($debugData);
+        }
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        $this->_config->debugFlag;
     }
 }

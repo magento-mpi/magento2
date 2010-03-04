@@ -133,7 +133,7 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
             $response = $this->processTrxRequest($requestType);
         }
 
-        if ($debug) {
+        if ($debug && $this->getPaymentModel()) {
 
             if ($response === false) {
                 $responseData = $this->getError();
@@ -141,10 +141,10 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
                 $responseData = $response->getData();
             }
 
-            Mage::getModel('ideal/api_debug')
-                ->setResponseBody(get_class($requestType) . "\n" . print_r($responseData, true))
-                ->setRequestBody(get_class($requestType) . "\n" . print_r($requestType->getData(), true))
-                ->save();
+            $this->getPaymentModel()->debugData(array(
+                'request' => $requestType->getData(),
+                'result' => $responseData
+            ));
         }
 
         return $response;

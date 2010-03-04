@@ -473,12 +473,7 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
             $fieldsArr = array_merge($fieldsArr, $tmpFieldsArr);
         }
 
-        if ($this->getDebugFlag()) {
-            $debug = Mage::getModel('paybox/api_debug')
-                ->setRealOrderId($this->getOrder()->getRealOrderId())
-                ->setRequestBody(print_r($fieldsArr, 1))
-                ->save();
-        }
+        $this->_debug(array('request' => $fieldsArr));
 
         return $fieldsArr;
     }
@@ -491,16 +486,9 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
      */
     public function checkResponse($response)
     {
-        if ($this->getDebugFlag()) {
-            $debug = Mage::getModel('paybox/api_debug')
-                ->load($response['ref'], 'real_order_id')
-                ->setResponseBody(print_r($response, 1))
-                ->save();
-        }
+        $this->_debug(array('result' => $response));
 
-        if (isset($response['error'], $response['amount'],
-            $response['ref'], $response['trans'])
-            ) {
+        if (isset($response['error'], $response['amount'], $response['ref'], $response['trans'])) {
             return true;
         }
         return false;

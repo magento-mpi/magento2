@@ -383,6 +383,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         }
 
         $request = $xml->asXML();
+        $debugData = array('request' => $request);
 
         try {
             $url = $this->getConfigData('gateway_url');
@@ -396,10 +397,15 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
             $responseBody = curl_exec($ch);
+            $debugData['result'] = $responseBody;
             curl_close ($ch);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
+            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $responseBody = '';
         }
+
+        $this->_debug($debugData);
         $res = $this->_parseXmlResponse($responseBody);
 
         return $res;
@@ -948,6 +954,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                $track->addChild('Shipment')->addChild('TrackingNbr',$tracking);
             }
          $request = $xml->asXML();
+         $debugData = array('request' => $request);
          /*
          * tracking api cannot process from 3pm to 5pm PST time on Sunday
          * DHL Airborne conduts a maintainance during that period.
@@ -964,10 +971,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
             $responseBody = curl_exec($ch);
+            $debugData['result'] = $responseBody;
             curl_close ($ch);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
+            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $responseBody = '';
         }
+        $this->_debug($debugData);
 #echo "<xmp>".$responseBody."</xmp>";
         $this->_parseXmlTrackingResponse($trackings, $responseBody);
     }

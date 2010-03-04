@@ -199,27 +199,24 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
             'txn_details' => $txnDetails
         );
 
+        $debugData = array('request' => $parameters);
         try {
             $response = $client->ProcessPayment($parameters);
 
-            if ($this->getConfigData('debug_flag')) {
-                $debug = Mage::getModel('flo2cash/api_debug')
-                    ->setRequestBody(print_r($parameters, true))
-                    ->setResponseBody(print_r($response, true))
-                    ->save();
-            }
+            $debugData['result'] = $response;
+            $this->_debug($debugData);
+
             return (array)$response->ProcessPaymentResult;
-        } catch (SoapFault $e) {
-            if ($this->getConfigData('debug_flag')) {
-                $debug = Mage::getModel('flo2cash/api_debug')
-                    ->setRequestBody(print_r($parameters, true))
-                    ->setException($e->getMessage())
-                    ->save();
-            }
+        }
+        catch (SoapFault $e) {
+
+            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+            $this->_debug($debugData);
 
             if (strpos($e->getMessage(), ' ---> ') !== FALSE) {
                 list($title, $error) = explode(' ---> ', $e->getMessage());
-            } else {
+            }
+            else {
                 $error = $e->getMessage();
             }
 
@@ -293,5 +290,15 @@ class Mage_Flo2Cash_Model_Web extends Mage_Payment_Model_Method_Cc
     protected function _convertCcType($magentoCcType = 'VI')
     {
         return $this->_ccTypesConvert[$magentoCcType];
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->getConfigData('debug_flag');
     }
 }

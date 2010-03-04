@@ -354,6 +354,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
     protected function _postRequest(Varien_Object $request)
     {
+        $debugData = array('request' => $request->getData());
+
         $result = Mage::getModel('paygate/authorizenet_result');
 
         $client = new Varien_Http_Client();
@@ -368,41 +370,16 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         $client->setParameterPost($request->getData());
         $client->setMethod(Zend_Http_Client::POST);
 
-        if ($this->getConfigData('debug')) {
-            $requestDebug = clone $request;
-
-            foreach ($this->_debugReplacePrivateDataKeys as $key) {
-                if ($requestDebug->hasData($key)) {
-                    $requestDebug->setData($key, '***');
-                }
-            }
-
-            foreach( $requestDebug->getData() as $key => $value ) {
-                $requestData[] = strtoupper($key) . '=' . $value;
-            }
-
-            $requestData = join('&', $requestData);
-
-            $debug = Mage::getModel('paygate/authorizenet_debug')
-                ->setRequestBody($requestData)
-                ->setRequestSerialized(serialize($requestDebug->getData()))
-                ->setRequestDump(print_r($requestDebug->getData(),1))
-                ->save();
-        }
-
         try {
             $response = $client->request();
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             $result->setResponseCode(-1)
                 ->setResponseReasonCode($e->getCode())
                 ->setResponseReasonText($e->getMessage());
 
-            if (!empty($debug)) {
-                $debug
-                    ->setResultSerialized(serialize($result->getData()))
-                    ->setResultDump(print_r($result->getData(),1))
-                    ->save();
-            }
+            $debugData['result'] = $result->getData();
+            $this->_debug($debugData);
             Mage::throwException($this->_wrapGatewayError($e->getMessage()));
         }
 
@@ -427,19 +404,15 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 ->setMd5Hash($r[37])
                 ->setCardCodeResponseCode($r[38])
                 ->setCAVVResponseCode( (isset($r[39])) ? $r[39] : null);
-        } else {
+        }
+        else {
              Mage::throwException(
                 Mage::helper('paygate')->__('Error in payment gateway')
             );
         }
 
-        if (!empty($debug)) {
-            $debug
-                ->setResponseBody($responseBody)
-                ->setResultSerialized(serialize($result->getData()))
-                ->setResultDump(print_r($result->getData(),1))
-                ->save();
-        }
+        $debugData['result'] = $result->getData();
+        $this->_debug($debugData);
 
         return $result;
     }

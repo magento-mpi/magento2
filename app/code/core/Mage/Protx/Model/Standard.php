@@ -61,13 +61,13 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Return debug flag
+     * @deprecated after 1.4.1.0
      *
      *  @return  boolean
      */
     public function getDebug ()
     {
-        return $this->getConfig()->getDebug();
+        return $this->getDebugFlag();
     }
 
     /**
@@ -248,11 +248,7 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
          */
         $queryPairs['Apply3DSecure'] = '0';
 
-        if ($this->getDebug()) {
-            Mage::getModel('protx/api_debug')
-                ->setRequestBody($this->getProtxUrl()."\n".print_r($queryPairs,1))
-                ->save();
-        }
+        $this->_debug(array('request' => $queryPairs));
 
         // Encrypt the plaintext string for inclusion in the hidden field
         $result = $this->arrayToCrypt($queryPairs);
@@ -452,5 +448,15 @@ class Mage_Protx_Model_Standard extends Mage_Payment_Model_Method_Abstract
                         'Crypt'             => $this->getCrypted()
                         );
         return $fields;
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->getConfigData('debug_flag');
     }
 }

@@ -50,13 +50,13 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
     protected $_infoBlockType = 'eway/info';
 
     /**
-     * Get debug flag
+     * @deprecated after 1.4.1.0
      *
      * @return string
      */
     public function getDebug()
     {
-        return Mage::getStoreConfig('payment/eway_direct/debug_flag');
+        return $this->getDebugFlag();
     }
 
     /**
@@ -233,25 +233,26 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function call($xml)
     {
-        if ($this->getDebug()) {
-            $debug = Mage::getModel('eway/api_debug')
-                ->setRequestBody($xml)
-                ->save();
+        $debugData = array('request' => $xml);
+        try {
+            $http = new Varien_Http_Adapter_Curl();
+            $config = array('timeout' => 30);
+
+            $http->setConfig($config);
+            $http->write(Zend_Http_Client::POST, $this->getApiGatewayUrl(), '1.1', array(), $xml);
+            $response = $http->read();
+
+            $response = preg_split('/^\r?$/m', $response, 2);
+            $response = trim($response[1]);
+            $debugData['result'] = $response;
+        }
+        catch (Exception $e) {
+            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+            $this->_debug($debugData);
+            throw $e;
         }
 
-        $http = new Varien_Http_Adapter_Curl();
-        $config = array('timeout' => 30);
-
-        $http->setConfig($config);
-        $http->write(Zend_Http_Client::POST, $this->getApiGatewayUrl(), '1.1', array(), $xml);
-        $response = $http->read();
-
-        $response = preg_split('/^\r?$/m', $response, 2);
-        $response = trim($response[1]);
-
-        if ($this->getDebug()) {
-            $debug->setResponseBody($response)->save();
-        }
+        $this->_debug($debugData);
 
         if ($http->getErrno()) {
             $http->close();
@@ -293,6 +294,16 @@ class Mage_Eway_Model_Direct extends Mage_Payment_Model_Method_Cc
         }
 
         return $newResArr;
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->getConfigData('debug_flag');
     }
 
 }

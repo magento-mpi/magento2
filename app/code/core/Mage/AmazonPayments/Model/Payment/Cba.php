@@ -175,19 +175,12 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     public function handleCallback($_request)
     {
         $response = '';
-
+        $this->_debug(array('request' => $_request));
         if (!empty($_request['order-calculations-request'])) {
             $xmlRequest = urldecode($_request['order-calculations-request']);
 
             $session = $this->getCheckout();
             $xml = $this->getApi()->handleXmlCallback($xmlRequest, $session);
-
-            if ($this->getDebug()) {
-                $debug = Mage::getModel('amazonpayments/api_debug')
-                    ->setRequestBody(print_r($_request, 1))
-                    ->setResponseBody(time().' - request callback')
-                    ->save();
-            }
 
             if ($xml) {
                 $xmlText = $xml->asXML();
@@ -204,36 +197,17 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 }
                 $response .= '&aws-access-key-id='.urlencode(Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id'));
 
-                if ($this->getDebug()) {
-                    $debug = Mage::getModel('amazonpayments/api_debug')
-                        ->setResponseBody($response)
-                        ->setRequestBody(time() .' - response calllback')
-                        ->save();
-                }
-            }
-        } else {
-            if ($this->getDebug()) {
-                $debug = Mage::getModel('amazonpayments/api_debug')
-                    ->setRequestBody(print_r($_request, 1))
-                    ->setResponseBody(time().' - error request callback')
-                    ->save();
+                $this->_debug(array('response_xml' => $xmlText, 'response_text' => $response));
             }
         }
+
         return $response;
     }
 
     public function handleNotification($_request)
     {
+        $this->_debug(array('request' => $_request));
         if (!empty($_request) && !empty($_request['NotificationData']) && !empty($_request['NotificationType'])) {
-            /**
-             * Debug
-             */
-            if ($this->getDebug()) {
-                $debug = Mage::getModel('amazonpayments/api_debug')
-                    ->setRequestBody(print_r($_request, 1))
-                    ->setResponseBody(time().' - Notification: '. $_request['NotificationType'])
-                    ->save();
-            }
             switch ($_request['NotificationType']) {
                 case 'NewOrderNotification':
                     $newOrderDetails = $this->getApi()->parseOrder($_request['NotificationData']);
@@ -252,14 +226,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 default:
                     // Unknown notification type
             }
-        } else {
-            if ($this->getDebug()) {
-                $debug = Mage::getModel('amazonpayments/api_debug')
-                    ->setRequestBody(print_r($_request, 1))
-                    ->setResponseBody(time().' - error request callback')
-                    ->save();
-            }
         }
+
         return $this;
     }
 
@@ -549,12 +517,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             ."signature:{$this->getApi()->calculateSignature($xml, $secretKeyID)};"
             ."aws-access-key-id:".Mage::getStoreConfig('payment/amazonpayments_cba/accesskey_id')
             );
-        if ($this->getDebug()) {
-            $debug = Mage::getModel('amazonpayments/api_debug')
-                ->setResponseBody(print_r($xmlCart, 1)."\norder:".$xml)
-                ->setRequestBody(time() .' - xml cart')
-                ->save();
-        }
+
+        $this->_debug(array('response_xml' => $xml, 'xml_cart' => $xmlCart));
         return $xmlCart;
     }
 
@@ -564,16 +528,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
      */
     public function returnAmazon()
     {
-        $_request = Mage::app()->getRequest()->getParams();
-        #$_amazonOrderId = Mage::app()->getRequest()->getParam('amznPmtsOrderIds');
-        #$_quoteId = Mage::app()->getRequest()->getParam('amznPmtsReqId');
-
-        if ($this->getDebug()) {
-            $debug = Mage::getModel('amazonpayments/api_debug')
-                ->setRequestBody(print_r($_request, 1))
-                ->setResponseBody(time().' - success')
-                ->save();
-        }
+        $this->_debug(array('request' => Mage::app()->getRequest()->getParams()));
     }
 
     /**
@@ -587,12 +542,22 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
     }
 
     /**
-     * Get debug flag
+     * @deprecated after 1.4.1.0
      *
      * @return string
      */
     public function getDebug()
     {
-        return Mage::getStoreConfig('payment/' . $this->getCode() . '/debug_flag');
+        return $this->getDebugFlag();
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->getConfigData('debug_flag');
     }
 }

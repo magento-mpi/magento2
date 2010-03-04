@@ -37,6 +37,13 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     const HANDLING_ACTION_PERPACKAGE = 'P';
     const HANDLING_ACTION_PERORDER = 'O';
 
+    /**
+     * Fields that should be replaced in debug with '***'
+     *
+     * @var array
+     */
+    protected $_debugReplacePrivateDataKeys = array();
+
     public function __construct()
     {
 
@@ -282,5 +289,49 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     public function isZipCodeRequired()
     {
         return false;
+    }
+
+    /**
+     * Log debug data to file
+     *
+     * @param mixed $debugData
+     */
+    protected function _debug($debugData)
+    {
+        if ($this->getDebugFlag()) {
+            Mage::getModel('core/log_adapter', 'shipping_' . $this->getCarrierCode() . '.log')
+               ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
+               ->log($debugData);
+        }
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->getConfigData('debug');
+    }
+
+    /**
+     * Used to call debug method from not Paymant Method context
+     *
+     * @param mixed $debugData
+     */
+    public function debugData($debugData)
+    {
+        $this->_debug($debugData);
+    }
+
+    /**
+     * Getter for carrier code
+     *
+     * @return string
+     */
+    public function getCarrierCode()
+    {
+        return $this->_code;
     }
 }

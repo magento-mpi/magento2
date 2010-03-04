@@ -159,12 +159,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
             $request .= '<' . $k . '>' . $v . '</' . $k . '>';
         }
 
-        if ($this->getDebug()) {
-            $debug = Mage::getModel('eway/api_debug')
-                ->setRequestBody($request)
-                ->save();
-            $fieldsArr['ewayOption1'] = $debug->getId();
-        }
+        $this->_debug(array('request' => $request));
 
         return $fieldsArr;
     }
@@ -183,13 +178,13 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Get debug flag
+     * @deprecated after 1.4.1.0
      *
      * @return string
      */
     public function getDebug()
     {
-        return Mage::getStoreConfig('payment/' . $this->getCode() . '/debug_flag');
+        return $this->getDebugFlag();
     }
 
     public function capture(Varien_Object $payment, $amount)
@@ -219,12 +214,7 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     {
         $response = $this->getResponse();
 
-        if ($this->getDebug()) {
-            $debug = Mage::getModel('eway/api_debug')
-                ->load($response['eWAYoption1'])
-                ->setResponseBody(print_r($response, 1))
-                ->save();
-        }
+        $this->_debug(array('result' => $response));
 
         if ($response['ewayTrxnStatus'] == 'True') {
             return true;
@@ -250,5 +240,15 @@ class Mage_Eway_Model_Shared extends Mage_Payment_Model_Method_Abstract
     public function getPaymentMethodType()
     {
         return $this->_paymentMethod;
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->getConfigData('debug_flag');
     }
 }

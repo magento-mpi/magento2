@@ -35,19 +35,14 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             $xmlResponse = stripslashes($xmlResponse);
         }
 
-        #$this->log($xmlResponse);
-        $debug = Mage::getModel('googlecheckout/api_debug')->setDir('in')
-            ->setUrl('process')
-            ->setRequestBody($xmlResponse)
-            ->save();
+        $debugData = array('request' => $xmlResponse, 'dir' => 'in');
 
         if (empty($xmlResponse)) {
+            $this->getApi()->debugData($debugData);
             return false;
         }
 
         list($root, $data) = $this->getGResponse()->GetParsedXML($xmlResponse);
-
-        $debug->setUrl($root)->save();
 
         $this->getGResponse()->SetMerchantAuthentication($this->getMerchantId(), $this->getMerchantKey());
         $status = $this->getGResponse()->HttpAuthentication();
@@ -70,9 +65,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                 $this->getGResponse()->log->logError($e->__toString());
             }
 
-            $response = ob_get_flush();
-            #$this->log($response);
-            $debug->setResponseBody($response)->save();
+            $debugData['result'] = ob_get_flush();
+            $this->getApi()->debugData($debugData);
         } else {
             $this->getGResponse()->SendBadRequestStatus("Invalid or not supported Message");
         }

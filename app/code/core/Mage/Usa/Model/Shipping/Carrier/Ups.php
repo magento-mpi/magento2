@@ -174,10 +174,10 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
 
     /**
      * Get correct weigt.
-     * 
+     *
      * Namely:
      * Checks the current weight to comply with the minimum weight standards set by the carrier.
-     * Then strictly rounds the weight up until the first significant digit after the decimal point. 
+     * Then strictly rounds the weight up until the first significant digit after the decimal point.
      *
      * @param float|integer|double $weight
      * @return float
@@ -185,17 +185,17 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
     protected function _getCorrectWeight($weight)
     {
         $minWeight = $this->getConfigData('min_package_weight');
-        
+
         if($weight < $minWeight){
             $weight = $minWeight;
         }
-        
+
         //rounds a number to one significant figure
         $weight = ceil($weight*10) / 10;
-        
+
         return $weight;
     }
-        
+
     public function getResult()
     {
        return $this->_result;
@@ -244,7 +244,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             'weight_std'     => strtolower($r->getUnitMeasure()),
         );
         $params['47_rate_chart'] = $params['47_rate_chart']['label'];
-
+        $debugData = array('request' => $params);
         try {
             $url = $this->getConfigData('gateway_url');
             if (!$url) {
@@ -256,10 +256,13 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             $client->setParameterGet($params);
             $response = $client->request();
             $responseBody = $response->getBody();
-        } catch (Exception $e) {
+            $debugData['result'] = $responseBody;
+        }
+        catch (Exception $e) {
+            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $responseBody = '';
         }
-
+        $this->_debug($debugData);
         return $this->_parseCgiResponse($responseBody);
     }
 
@@ -628,6 +631,7 @@ $xmlRequest .= <<< XMLRequest
 XMLRequest;
 
 
+        $debugData = array('request' => $xmlRequest);
         try {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -638,9 +642,14 @@ XMLRequest;
             curl_setopt($ch, CURLOPT_TIMEOUT, 30);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, (boolean)$this->getConfigFlag('mode_xml'));
             $xmlResponse = curl_exec ($ch);
-        } catch (Exception $e) {
+            $debugData['result'] = $xmlResponse;
+        }
+        catch (Exception $e) {
+            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $xmlResponse = '';
         }
+
+        $this->_debug($debugData);
         return $this->_parseXmlResponse($xmlResponse);
     }
 
@@ -792,6 +801,8 @@ $xmlRequest .=  <<<XMLAuth
     <IncludeFreight>01</IncludeFreight>
 </TrackRequest>
 XMLAuth;
+            $debugData = array('request' => $xmlRequest);
+
             try {
                 $ch = curl_init();
                    curl_setopt($ch, CURLOPT_URL, $url);
@@ -801,11 +812,15 @@ XMLAuth;
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
                 curl_setopt($ch, CURLOPT_TIMEOUT, 30);
                 $xmlResponse = curl_exec ($ch);
+                $debugData['result'] = $xmlResponse;
                 curl_close ($ch);
-            }catch (Exception $e) {
+            }
+            catch (Exception $e) {
+                $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
                 $xmlResponse = '';
             }
 
+            $this->_debug($debugData);
             $this->_parseXmlTrackingResponse($tracking, $xmlResponse);
         }
 

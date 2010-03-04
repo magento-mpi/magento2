@@ -417,11 +417,8 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function call($requestStr)
     {
-        if ($this->getDebugFlag()) {
-            $debug = Mage::getModel('paybox/api_debug')
-                ->setRequestBody($requestStr)
-                ->save();
-        }
+        $debugData = array('request' => $requestStr);
+
         $recall = true;
         $recallCounter = 0;
         while ($recall && $recallCounter < 3) {
@@ -439,9 +436,10 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
 
             if ($http->getErrno()) {
                 $http->close();
-                if ($this->getDebugFlag()) {
-                    $debug->setResponseBody($response)->save();
-                }
+
+                $debugData['result'] = $response;
+                $this->_debug($debugData);
+
                 $this->setError(array(
                     'message' => $http->getError()
                 ));
@@ -461,9 +459,8 @@ class Mage_Paybox_Model_Direct extends Mage_Payment_Model_Method_Cc
             }
         }
 
-        if ($this->getDebugFlag()) {
-            $debug->setResponseBody($response)->save();
-        }
+        $debugData['result'] = $response;
+        $this->_debug($debugData);
 
         //if backup gateway was down too
         if ($recall) {

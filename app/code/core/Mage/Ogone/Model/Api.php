@@ -101,14 +101,14 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Return debug flag by storeConfig
+     * @deprecated after 1.4.1.0
      *
      * @param int storeId
      * @return bool
      */
     public function getDebug($storeId=null)
     {
-        return $this->getConfig()->getConfigData('debug_flag', $storeId);
+        return $this->getDebugFlag();
     }
 
     /**
@@ -254,5 +254,15 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
             $invoiceDesc .= $item->getName() . ', ';
         }
         return Mage::helper('core/string')->substr($invoiceDesc, 0, -2);
+    }
+
+    /**
+     * Define if debugging is enabled
+     *
+     * @return bool
+     */
+    public function getDebugFlag()
+    {
+        return $this->getConfigData('debug_flag');
     }
 }
