@@ -579,7 +579,8 @@ class Enterprise_Reward_Model_Observer
         /* @var $order Mage_Sales_Model_Order */
         $order = $observer->getEvent()->getCreditmemo()->getOrder();
         $refundedAmount = (float)($order->getBaseRewardCurrencyAmountRefunded() + $creditmemo->getBaseRewardCurrencyAmount());
-        if ((float)$order->getBaseRewardCurrencyAmountInvoiced() == $refundedAmount) {
+        $rewardAmount = (float)$order->getBaseRewardCurrencyAmountInvoiced();
+        if ($rewardAmount > 0 &&  $rewardAmount == $refundedAmount) {
             $order->setForcedCanCreditmemo(false);
         }
         return $this;

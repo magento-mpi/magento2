@@ -330,7 +330,7 @@ class Enterprise_GiftCardAccount_Model_Observer
             $order->setGiftCardsRefunded($order->getGiftCardsRefunded() + $creditmemo->getGiftCardsAmount());
 
             // we need to update flag after credit memo was refunded and order's properties changed
-            if ($order->getGiftCardsInvoiced() == $order->getGiftCardsRefunded()) {
+            if ($order->getGiftCardsInvoiced() > 0 && $order->getGiftCardsInvoiced() == $order->getGiftCardsRefunded()) {
                 $order->setForcedCanCreditmemo(false);
             }
         }
