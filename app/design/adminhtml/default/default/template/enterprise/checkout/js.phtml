@@ -1,0 +1,179 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+
+<?php
+/**
+ * @see Enterprise_Checkout_Block_Adminhtml_Manage
+ */
+?>
+
+<script type="text/javascript">
+var AdminCheckout = new Class.create();
+AdminCheckout.prototype = {
+
+    searchProducts: function()
+    {
+        $('products_search').show();
+        $('add_products_btn').hide();
+    },
+
+    cancelSearch: function()
+    {
+        $('products_search').hide();
+        $('add_products_btn').show();
+    },
+
+    addToCart: function()
+    {
+        new Ajax.Request('<?php echo $this->getActionUrl('addToCart') ?>', {
+            parameters: this.serializeData('products_search_accordion'),
+            onSuccess: function(transport) {
+                try {
+                    this.onAjaxSuccess(transport);
+                    this.cancelSearch();
+                    this.reloadItems();
+                    $('products_search_accordion').select('input[type="checkbox"]').each(function(e) {
+                        e.checked = false;
+                    });
+                } catch (e) {
+                    var message = e.error ? e.error : e.message;
+                    alert(message);
+                }
+            }.bind(this)
+        });
+    },
+
+    updateItems: function()
+    {
+        var params = this.serializeData('checkout_items');
+        new Ajax.Request('<?php echo $this->getActionUrl('updateItems') ?>', {
+            parameters: params,
+            onSuccess: function(transport) {
+                try {
+                    this.onAjaxSuccess(transport);
+                    this.reloadItems()
+
+                    var reloadWishlist = false;
+                    params.each(function(p) {
+                        if(p.value == 'wishlist') {
+                            reloadWishlist = true;    
+                        }
+                    });
+                    if (reloadWishlist) {
+                        wishlistItemsGrid.reload();
+                    }
+                } catch (e) {
+                    var message = e.error ? e.error : e.message;
+                    alert(message);
+                }
+            }.bind(this)
+        });
+    },
+
+    applyCoupon: function(ccode)
+    {
+        if (ccode == undefined || !ccode.blank()) {
+            ccode = ccode == undefined ? '' : ccode; 
+            new Ajax.Request('<?php echo $this->getActionUrl('applyCoupon') ?>',
+                {
+                    parameters: {code: ccode},
+                    onSuccess: function(transport) {
+                        try {
+                            this.onAjaxSuccess(transport);
+                            this.reloadItems();
+                            $('coupon_container').update(transport.responseText);
+                        } catch (e) {
+                            var message = e.error ? e.error : e.message;
+                            alert(message);
+                        }
+                    }.bind(this)
+                });
+       }
+    },
+    
+    accordionGridRowClick: function(grid, evt) 
+    {
+        var el = Event.element(evt);
+        if (el.tagName.toLowerCase() != 'input') {
+            var trElement = Event.findElement(evt, 'tr');
+            el = $(trElement).down('input[type="checkbox"]');
+            el.checked = !el.checked; 
+        }
+        
+        if (!grid.checkedCheckboxes) {
+            grid.checkedCheckboxes = $H({});
+        }
+        el.checked ? grid.checkedCheckboxes.set(el.value, el.value) : grid.checkedCheckboxes.unset(el.value); 
+    },
+
+    rowInitCallback: function(grid, row) 
+    {
+        if (!grid.checkedCheckboxes) {
+            return;
+        }
+        var checkbox = row.down('input[type="checkbox"]');
+        if (checkbox != undefined && grid.checkedCheckboxes.get(checkbox.value)) {
+            checkbox.checked = true;   
+        }
+    },
+                    
+    onAjaxSuccess: function(transport) 
+    {
+        if (transport.responseText.isJSON()) {
+            var response = transport.responseText.evalJSON()
+            if (response.error) {
+                throw response;
+            } else if (response.url) {
+                setLocation(response.url);
+             }
+        }
+    },
+    
+    reloadItems: function(container) 
+    {
+        new Ajax.Request('<?php echo $this->getActionUrl('cart') ?>',
+            {
+                onSuccess: function(transport) {
+                    try {
+                        this.onAjaxSuccess(transport);
+                        $('checkout_items').update(transport.responseText);
+                    } catch (e) {
+                        var message = e.error ? e.error : e.message;
+                        alert(message);
+                    }
+                }.bind(this)
+            });
+    },
+    
+    serializeData: function(container) 
+    {
+        var fields = $(container).select('input', 'select');
+        var data = Form.serializeElements(fields, true);
+        return $H(data);
+    }
+}
+</script>
