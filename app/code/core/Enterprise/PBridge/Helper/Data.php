@@ -101,6 +101,7 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
 
         $params = array_merge(array(
             'redirect_url' => $this->_getUrl('enterprise_pbridge/pbridge/result', array('_current' => true)),
+            'locale' => Mage::app()->getLocale(),
         ), $params);
         if ($this->_getQuote()) {
             $payment = $this->_getQuote()->getPayment();
