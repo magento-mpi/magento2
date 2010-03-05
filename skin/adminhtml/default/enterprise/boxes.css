@@ -358,6 +358,7 @@ select.multiselect option       { padding:3px 4px; border-bottom:1px solid #ddd;
 .form-list                      { width:auto; border:0 !important; }
 .form-list td.label,
 .form-list td.value,
+.form-list td.value2,
 .form-list td.note,
 .form-list td.scope-label,
 .form-list td.use-default       { border:0 !important; padding-top:5px !important; padding-bottom:5px !important; padding-left:5px !important; background:0 !important; }
@@ -1268,6 +1269,9 @@ ul.super-product-attributes { padding-left:15px; }
 .popup-window .content-header h3 { color:#eb5e00; padding:0; }
 .popup-window { height:auto !important; }
 .popup-window .grid { position:static; }
+.popup-window .table_window td.value2 .grid td,
+.popup-window .table_window td.value2 .grid th { padding:2px 4px !important; }
+.popup-window .table_window td.value2 .grid tr.headings th { padding:1px 4px 2px !important; }
 .popup-window .columns { background-image:none; }
 .popup-window .middle { background:none; padding:10px 0; }
 .popup-window #contents .filecnt { margin-left:0; padding-left:0; }

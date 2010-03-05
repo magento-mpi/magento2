@@ -75,7 +75,7 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
         $hidden->setId($this->_elementValueId)->setForm($element->getForm());
         $hiddenHtml = $hidden->getElementHtml();
 
-        $element->setValue('')->setValueClass('');
+        $element->setValue('')->setValueClass('value2');
         $element->setData('after_element_html', $hiddenHtml . $this->toHtml());
 
         return $element;

@@ -357,6 +357,7 @@ select.multiselect option       { padding:3px 4px; border-bottom:1px solid #ddd;
 .form-list                      { width:auto; border:0 !important; }
 .form-list td.label,
 .form-list td.value,
+.form-list td.value2,
 .form-list td.note,
 .form-list td.scope-label,
 .form-list td.use-default       { border:0 !important; padding-top:5px !important; padding-bottom:5px !important; padding-left:5px !important; background:0 !important; }
@@ -1193,19 +1194,6 @@ ul.super-product-attributes { padding-left:15px; }
 .options-box .option-header td { padding:5px 2px; }
 .options-box .option-header .tree { margin:5px 0 0; }
 
-/* CMS Widgets Instance */
-.options-box .option-box { border:1px solid #cddddd; padding:1em; background:#e7efef; margin:1.5em 0; }
-.options-box .option-title { padding:0 0 10px; border-bottom:1px solid #cddddd; }
-.options-box .option-title button { float:right; }
-.options-box .option-title label {font-weight:bold; line-height:21px; padding-right:1em; float:left; }
-.options-box .option-title select { float:left; width:260px; vertical-align:middle; }
-.options-box .option-header { margin:5px 0 0; width:100%; border:0; background:#e7efef; border-bottom:1em solid #e7efef; }
-.options-box .option-header .input-text,
-.options-box .option-header select { width:95%; }
-.options-box .option-header th { padding:2px; }
-.options-box .option-header td { padding:5px 2px; }
-.options-box .option-header .tree { margin:5px 0 0; }
-
 /* CMS Popup Window */
 .popup-window .table_window { border:none; }
 .popup-window .magento_nw,
@@ -1225,6 +1213,9 @@ ul.super-product-attributes { padding-left:15px; }
 .popup-window .content-header h3 { color:#eb5e00; padding:0; }
 .popup-window { height:auto !important; }
 .popup-window .grid { position:static; }
+.popup-window .table_window td.value2 .grid td,
+.popup-window .table_window td.value2 .grid th { padding:2px 4px !important; }
+.popup-window .table_window td.value2 .grid tr.headings th { padding:1px 4px 2px !important; }
 .popup-window .columns { background-image:none; }
 .popup-window .middle { background:none; padding:10px 0; }
 .popup-window #contents .filecnt { margin-left:0; padding-left:0; }
