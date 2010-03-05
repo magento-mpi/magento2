@@ -435,6 +435,7 @@ button.save span { background-image:url(images/save_btn_icon.gif); }
 button.show-hide span { background-image:url(images/btn_show-hide_icon.gif); padding-left:26px; }
 button.add-image span { background-image:url(images/btn_add-image_icon.gif); }
 button.add-widget span { background-image:url(images/btn_add-widget_icon2.gif); padding-left:24px; }
+button.add-variable span { background-image:url(images/btn_add-variable_icon.gif); padding-left:26px; }
 button.btn-chooser { display:block; margin:0 0 10px; }
 
 button.disabled,
@@ -1267,18 +1268,9 @@ ul.super-product-attributes { padding-left:15px; }
 .popup-window .content-header h3 { color:#eb5e00; padding:0; }
 .popup-window { height:auto !important; }
 .popup-window .grid { position:static; }
-
-/* CMS Widget Popup */
-/*
-#widget_window .entry-edit { width:921px; margin:0 auto; }
-#widget_window .entry-edit-head { background:url(images/window_form_top.png) no-repeat 0 0; height:26px; }
-#widget_window .entry-edit-head h4 { color:#333; }
-#widget_window .magento_message { padding-left:13px; padding-right:10px; }
-#widget_window .fieldset { background:url(images/window_form_bottom.png) no-repeat bottom; border:none; }
-#widget_window .content-header { width:921px; border:none; margin:0 auto; padding:10px 0 20px; }
-#widget_window .content-header h3 { color:#000; display:none; padding-left:0; }
-#widget_window .content-header .add-widget { margin:0; }
-*/
+.popup-window .columns { background-image:none; }
+.popup-window .middle { background:none; padding:10px 0; }
+.popup-window #contents .filecnt { margin-left:0; padding-left:0; }
 
 /* CMS Widget Chooser */
 #widget-chooser .columns { background-image:none; }
@@ -1290,7 +1282,7 @@ ul.super-product-attributes { padding-left:15px; }
 #widget-chooser .main-col { padding-right:4px; }
 
 /* CMS Variables Popup */
-#variables-chooser .magento_message { padding:3px 6px 0; }
+#variables-chooser .magento_message { padding:10px 18px; }
 
 /* Product description WYSIWYG editor */
 #catalog-wysiwyg-editor .buttons-set { margin-top:10px; }
