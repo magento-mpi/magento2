@@ -158,7 +158,7 @@ class Enterprise_SalesArchive_Model_Mysql4_Archive extends Mage_Core_Model_Mysql
             ->where('status IN(?)', $statuses);
 
         if ($archiveAge) { // Check archive age
-            $select->where('(TO_DAYS(?) - TO_DAYS(updated_at)) >= ' . (int) $archiveAge, $this->formatDate(time()));
+            $select->where('(TO_DAYS(?) - TO_DAYS(created_at)) >= ' . (int) $archiveAge, $this->formatDate(time()));
         }
 
         return $select;
