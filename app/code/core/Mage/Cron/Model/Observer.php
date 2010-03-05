@@ -109,7 +109,7 @@ class Mage_Cron_Model_Observer
 
             } catch (Exception $e) {
                 $schedule->setStatus($errorStatus)
-                    ->setMessages($e->getMessage());
+                    ->setMessages($e->__toString());
             }
             $schedule->save();
         }
