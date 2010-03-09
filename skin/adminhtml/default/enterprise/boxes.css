@@ -1192,6 +1192,10 @@ ul.super-product-attributes { padding-left:15px; }
 
 /* CMS
 *******************************************************************************/
+.breadcrumbs { margin: 0 0 10px; }
+.breadcrumbs li { display:inline; }
+.breadcrumbs li span { margin:0 2px; }
+
 .adminhtml-cms-page-revision-preview { background:#fff; }
 .toolbar { height:40px; padding:14px 15px 0; background:url(images/bkg_toolbar.gif) 0 0 repeat-x; border-bottom:15px solid #fff; color:#fff; }
 .toolbar label { color:#fff; vertical-align:middle; }
@@ -1276,10 +1280,12 @@ ul.super-product-attributes { padding-left:15px; }
 .popup-window .middle { background:none; padding:10px 0; }
 
 .popup-window .uploader .file-row { margin:16px 0; width:auto; }
-.popup-window #contents-uploader { margin-bottom:10px; }
-.popup-window #contents { margin-left:-3px; position:relative; }
-.popup-window #contents .filecnt { border:1px solid #ccc; cursor:pointer; display:inline; margin:0 0 15px 4px; position:relative; }
-.popup-window #contents .selected { border:1px solid #f1af73; cursor:default; }
+.popup-window #contents-uploader { margin-bottom:10px; background:#d7e5ef; padding:5px 10px; }
+.popup-window #contents-uploader .flex { font-size:0; line-height:0; height:20px; }
+.popup-window #contents { margin-left:-3px; height:400px; overflow:auto; position:relative; }
+.popup-window #contents .filecnt { float:left; border:1px solid #ccc; cursor:pointer; padding:3px; display:inline; margin:0 0 15px 4px; position:relative; }
+.popup-window #contents .selected { border:1px solid #f1af73; background:#f0f0f0; cursor:default; }
+.popup-window #contents .nm { text-align:center; }
 .popup-window #contents .nm img { vertical-align:bottom; }
 
 /* Widget Insert */
