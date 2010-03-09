@@ -92,6 +92,19 @@ class Mage_Tag_Model_Tag_Relation extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve list of related tag ids for products specified in current object
+     *
+     * @return array
+     */
+    public function getRelatedTagIds()
+    {
+        if (is_null($this->getData('related_tag_ids'))) {
+            $this->setRelatedTagIds($this->_getResource()->getRelatedTagIds($this));
+        }
+        return $this->getData('related_tag_ids');
+    }
+
+    /**
      * Deactivate tag relations (using current settings)
      *
      * @return Mage_Tag_Model_Tag_Relation
@@ -114,7 +127,7 @@ class Mage_Tag_Model_Tag_Relation extends Mage_Core_Model_Abstract
         $this->setAddedProductIds($productIds);
         $this->setTagId($model->getTagId());
         $this->setCustomerId(null);
-        $this->setStoreId($model->getStoreId());
+        $this->setStoreId($model->getStore());
         $this->_getResource()->addRelations($this);
         return $this;
     }

@@ -75,7 +75,8 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                                       ->loadByTagCustomer(
                                             $productId,
                                             $tagModel->getId(),
-                                            $customerId
+                                            $customerId,
+                                            Mage::app()->getStore()->getId()
                                         )
                                       ->getProductIds();
 
@@ -114,7 +115,6 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                                 ->setCreatedAt( $tagRelationModel->getResource()->formatDate(time()) )
                                 ->setActive(1)
                                 ->save();
-                            $tagModel->aggregate();
                         } else {
                             continue;
                         }
@@ -123,6 +123,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                         $session->addSuccess(Mage::helper('tag')->__('%s tag(s) have been accepted for moderation', $newCount));
                     }
                 } catch (Exception $e) {
+                    Mage::logException($e);
                     $session->addError(Mage::helper('tag')->__('Unable to save tag(s)'));
                 }
             }

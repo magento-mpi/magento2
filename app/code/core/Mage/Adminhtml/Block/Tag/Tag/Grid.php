@@ -74,14 +74,6 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'index'     => 'name',
         ));
 
-        $this->addColumn('total_used', array(
-            'header'    => Mage::helper('tag')->__('Uses'),
-            'width'     => 140,
-            'align'     => 'right',
-            'index'     => 'uses',
-            'type'      => 'number',
-        ));
-
         $this->addColumn('products', array(
             'header'    => Mage::helper('tag')->__('Products'),
             'width'     => 140,
@@ -95,14 +87,6 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
             'width'     => 140,
             'align'     => 'right',
             'index'     => 'customers',
-            'type'      => 'number',
-        ));
-
-        $this->addColumn('popularity', array(
-            'header'    => Mage::helper('tag')->__('Popularity'),
-            'width'     => 140,
-            'align'     => 'right',
-            'index'     => 'popularity',
             'type'      => 'number',
         ));
 

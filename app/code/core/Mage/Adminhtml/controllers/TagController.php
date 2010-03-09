@@ -52,19 +52,20 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     protected function _initTag()
     {
         $model = Mage::getModel('tag/tag');
+        $storeId = $this->getRequest()->getParam('store');
+        $model->setStoreId($storeId);
 
         if (($id = $this->getRequest()->getParam('tag_id'))) {
+            $model->setAddBasePopularity();
             $model->load($id);
+            $model->setStoreId($storeId);
 
-            if (! $model->getId()) {
+            if (!$model->getId()) {
                 return false;
             }
-
-            $model->setStoreId($this->getRequest()->getParam('store'));
         }
 
         Mage::register('current_tag', $model);
-
         return $model;
     }
 
@@ -132,8 +133,6 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             return $this->_redirect('*/*/index', array('store' => $this->getRequest()->getParam('store')));
         }
 
-        $model->addSummary($this->getRequest()->getParam('store'));
-
         // set entered data if was error when we do save
         $data = Mage::getSingleton('adminhtml/session')->getTagData(true);
         if (! empty($data)) {
@@ -178,7 +177,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
             try {
                 $model->save();
-                $model->aggregate();
+
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Tag was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setTagData(false);
 
