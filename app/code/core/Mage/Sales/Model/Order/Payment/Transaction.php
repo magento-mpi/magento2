@@ -127,6 +127,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     public function setOrderPaymentObject(Mage_Sales_Model_Order_Payment $payment)
     {
         $this->_paymentObject = $payment;
+        $this->setOrder($payment->getOrder());
         return $this;
     }
 
@@ -569,7 +570,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
             } else {
                 $this->_order = false;
             }
-        } elseif (!$this->getId()) { // We can set order only for new transaction
+        } elseif (!$this->getId() || ($this->getOrderId() == $order->getId())) {
             $this->_order = $order;
         } else {
             Mage::throwException(Mage::helper('sales')->__('Set order for existing transactions not allowed'));
