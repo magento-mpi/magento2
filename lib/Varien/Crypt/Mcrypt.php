@@ -75,7 +75,7 @@ class Varien_Crypt_Mcrypt extends Varien_Crypt_Abstract
 
         $maxKeySize = mcrypt_enc_get_key_size($this->getHandler());
 
-        if (iconv_strlen($key, 'UTF-8')>$maxKeySize) {
+        if (strlen($key) > $maxKeySize) { // strlen() intentionally, to count bytes, rather than characters
             $this->setHandler(null);
             throw new Varien_Exception('Maximum key size must should be smaller '.$maxKeySize);
         }
