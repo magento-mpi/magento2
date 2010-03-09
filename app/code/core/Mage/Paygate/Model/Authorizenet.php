@@ -177,6 +177,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $payment->setStatus(self::STATUS_APPROVED);
             //$payment->setCcTransId($result->getTransactionId());
             $payment->setLastTransId($result->getTransactionId());
+            $payment->setTransactionId($result->getTransactionId());
             return $this;
         }
         if ($result->getResponseReasonText()) {
