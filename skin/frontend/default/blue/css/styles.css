@@ -394,8 +394,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 /* Class: std - styles for admin-controlled content */
 .std .subtitle { padding:0; }
 .std ol.ol { list-style:decimal outside; padding-left:1.5em; }
-.std ul.disc { margin:0 0 10px; }
-.std ul.disc { list-style:disc outside; padding-left:18px; }
+.std ul.disc { list-style:disc outside; padding-left:18px; margin:0 0 10px; }
 .std dl dt { font-weight:bold; }
 .std dl dd { margin:0 0 10px; }
 /*.std ul,
