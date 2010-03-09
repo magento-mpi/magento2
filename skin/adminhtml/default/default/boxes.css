@@ -1218,7 +1218,13 @@ ul.super-product-attributes { padding-left:15px; }
 .popup-window .table_window td.value2 .grid tr.headings th { padding:1px 4px 2px !important; }
 .popup-window .columns { background-image:none; }
 .popup-window .middle { background:none; padding:10px 0; }
-.popup-window #contents .filecnt { margin-left:0; padding-left:0; }
+
+.popup-window .uploader .file-row { margin:16px 0; width:auto; }
+.popup-window #contents-uploader { margin-bottom:10px; }
+.popup-window #contents { margin-left:-3px; position:relative; }
+.popup-window #contents .filecnt { border:1px solid #ccc; cursor:pointer; display:inline; margin:0 0 15px 4px; position:relative; }
+.popup-window #contents .selected { border:1px solid #f1af73; cursor:default; }
+.popup-window #contents .nm img { vertical-align:bottom; }
 
 /* CMS Widget Chooser */
 #widget-chooser .columns { background-image:none; }
