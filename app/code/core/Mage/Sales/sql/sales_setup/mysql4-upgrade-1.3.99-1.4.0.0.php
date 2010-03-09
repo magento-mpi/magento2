@@ -856,7 +856,7 @@ foreach ($entityToFlat as $entityCode => $flags) {
             }
 
             // Collect data for fast access on update
-            $attributesByTable[$installer->getTable($entityTable) . '_' . $attribute['type']][] = $attribute;
+            $attributesByTable[$entityTable . '_' . $attribute['type']][] = $attribute;
         }
     }
 
