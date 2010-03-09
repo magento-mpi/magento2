@@ -54,7 +54,7 @@ var widgetTools = {
             title:'Insert Widget',
             top:50,
             width:950,
-            height:450,
+            //height:450,
             zIndex:1000,
             recenterAuto:false,
             hideEffect:Element.hide,
