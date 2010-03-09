@@ -196,7 +196,7 @@ class Mage_Tag_Model_Mysql4_Indexer_Summary extends Mage_Catalog_Model_Resource_
                 'website_field' => new Zend_Db_Expr('cs.website_id'),
                 'store_field'   => new Zend_Db_Expr('cs.store_id')
             ));
-Mage::log('QQQQ   '.$select);
+
             $writeAdapter->query(
                 $select->insertFromSelect($this->getTable('tag/summary'), array(
                     'tag_id',
