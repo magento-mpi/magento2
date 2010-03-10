@@ -74,6 +74,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
                     }
                 }
             }
+            if (isset($order)) {
+                $collection = Mage::helper('enterprise_checkout')->applyProductTypesFilter($collection);
+            }
             $this->setData('items_collection', isset($order) ? $collection : false);
         }
         return $this->getData('items_collection');
@@ -89,7 +92,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
         $this->addColumn('product_name', array(
             'header'    => Mage::helper('customer')->__('Product name'),
             'index'     => 'name',
-            'filter'    => false,
+            'sortable'  => false
         ));
 
         $this->addColumn('price', array(
@@ -97,18 +100,19 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
             'align'     => 'right',
             'type'      => 'price',
             'currency_code' => $this->_getStore()->getBaseCurrency()->getCode(),
-            'index'     => 'price'
+            'index'     => 'price',
+            'sortable'  => false
         ));
 
         $this->addColumn('in_products', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
-            'field_name'=> 'add_order_item[]',
+            'field_name'=> 'add_order_item',
             'align'     => 'center',
             'index'     => 'item_id',
         ));
         
-        return parent::_prepareColumns();
+        return $this;
     }
 
     /**

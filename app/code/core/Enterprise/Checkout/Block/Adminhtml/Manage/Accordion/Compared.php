@@ -60,43 +60,12 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
                 ->setCustomerId($this->_getCustomer()->getId())
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price');
+            $collection = Mage::helper('enterprise_checkout')->applyProductTypesFilter($collection);
             $this->setData('items_collection', $collection);
         }
         return $this->_getData('items_collection');
     }
     
-    
-    /**
-     * Prepare Grid columns
-     *
-     * @return Mage_Adminhtml_Block_Widget_Grid
-     */
-    protected function _prepareColumns()
-    {
-        $this->addColumn('product_name', array(
-            'header'    => Mage::helper('customer')->__('Product name'),
-            'index'     => 'name'
-        ));
-
-        $this->addColumn('price', array(
-            'header'    => Mage::helper('sales')->__('Price'),
-            'align'     => 'right',
-            'type'      => 'price',
-            'currency_code' => $this->_getStore()->getBaseCurrency()->getCode(),
-            'index'     => 'price'
-        ));
-
-        $this->addColumn('in_products', array(
-            'header_css_class' => 'a-center',
-            'type'      => 'checkbox',
-            'field_name'=> 'add_product[]',
-            'align'     => 'center',
-            'index'     => 'entity_id',
-        ));
-        
-        return parent::_prepareColumns();
-    }
-
     /**
      * Return grid URL for sorting and filtering
      *

@@ -42,7 +42,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
         $this->setUseAjax(true);
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
-        $this->setRowClickCallback('checkoutObj.accordionGridRowClick');
+        $this->setRowClickCallback('checkoutObj.accordionGridRowClick.bind(checkoutObj)');
     }
 
     /**
@@ -53,7 +53,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     public function getItemsCount()
     {
         if ($collection = $this->getItemsCollection()) {
-            return $collection->getSize();
+            return count($collection->getItems());
         }
         return 0;
     }
@@ -78,6 +78,39 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     }
 
     /**
+     * Prepare Grid columns
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
+    protected function _prepareColumns()
+    {
+        $this->addColumn('product_name', array(
+            'header'    => Mage::helper('customer')->__('Product name'),
+            'index'     => 'name',
+            'sortable'  => false
+        ));
+
+        $this->addColumn('price', array(
+            'header'    => Mage::helper('sales')->__('Price'),
+            'align'     => 'right',
+            'type'      => 'price',
+            'currency_code' => $this->_getStore()->getBaseCurrency()->getCode(),
+            'index'     => 'price',
+            'sortable'  => false
+        ));
+
+        $this->addColumn('in_products', array(
+            'header_css_class' => 'a-center',
+            'type'      => 'checkbox',
+            'field_name'=> 'add_product',
+            'align'     => 'center',
+            'index'     => 'entity_id',
+        ));
+        
+        return parent::_prepareColumns();
+    }
+    
+    /**
      * Return current customer from regisrty
      *
      * @return Mage_Customer_Model_Customer
@@ -95,5 +128,18 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     protected function _getStore()
     {
         return Mage::registry('checkout_current_store');
+    }
+    
+    /**
+     * Empty html when no items found
+     *
+     * @return string
+     */
+    protected function _toHtml() 
+    {
+        if ($this->getItemsCount()) {
+            return parent::_toHtml();
+        }
+        return '';
     }
 }

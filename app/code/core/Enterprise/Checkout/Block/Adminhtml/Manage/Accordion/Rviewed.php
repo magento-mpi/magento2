@@ -72,42 +72,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
                     ->addAttributeToSelect('price')
                     ->addIdFilter($productIds)
                     ->load();
+                $productCollection = Mage::helper('enterprise_checkout')->applyProductTypesFilter($productCollection);
             }
             $this->setData('items_collection', $productCollection);
         }
         return $this->_getData('items_collection');
-    }
-
-    /**
-     * Prepare Grid columns
-     *
-     * @return Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist
-     */
-    protected function _prepareColumns()
-    {
-
-        $this->addColumn('product_name', array(
-            'header'    => Mage::helper('customer')->__('Product name'),
-            'index'     => 'name'
-        ));
-
-        $this->addColumn('price', array(
-            'header'    => Mage::helper('sales')->__('Price'),
-            'align'     => 'right',
-            'type'      => 'price',
-            'currency_code' => $this->_getStore()->getBaseCurrency()->getCode(),
-            'index'     => 'price'
-        ));
-
-        $this->addColumn('in_products', array(
-            'header_css_class' => 'a-center',
-            'type'      => 'checkbox',
-            'field_name'=> 'add_product[]',
-            'align'     => 'center',
-            'index'     => 'entity_id',
-        ));
-        
-        return parent::_prepareColumns();
     }
 
     /**

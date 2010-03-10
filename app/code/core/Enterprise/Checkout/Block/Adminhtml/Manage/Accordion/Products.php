@@ -45,10 +45,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
         $this->setDefaultSort('entity_id');
         $this->setPagerVisibility(true);
         $this->setFilterVisibility(true);
-        $this->setData('open', true);
         $this->setSaveParametersInSession(true);
         $this->setHeaderText(Mage::helper('enterprise_checkout')->__('Products'));
-        $this->setRowInitCallback('checkoutObj.rowInitCallback');
+        $this->setRowInitCallback('checkoutObj.rowInitCallback.bind(checkoutObj)');
     }
 
     /**
@@ -64,6 +63,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('sku')
                 ->addAttributeToSelect('price')
+                ->addAttributeToFilter('type_id', array_keys(Mage::helper('enterprise_checkout')->getAvailableProductTypes()))
                 ->addStoreFilter($this->_getStore());
             Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
             $this->setData('items_collection', $collection);
@@ -106,13 +106,13 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
         $this->addColumn('in_products', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
-            'field_name'=> 'add_product[]',
+            'field_name'=> 'add_product',
             'align'     => 'center',
             'index'     => 'entity_id',
             'inline_css'     => 'massaction-checkbox'
         ));
         
-        return parent::_prepareColumns();
+        return $this;
     }
     
     /**

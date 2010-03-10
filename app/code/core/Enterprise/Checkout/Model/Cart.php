@@ -189,6 +189,9 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         else {
             $product->setSkipCheckRequiredOption(true);
             $item = $this->createQuote()->addProduct($product, $qty);
+            if (is_string($item)) {
+                Mage::throwException($item);
+            }
             $product->unsSkipCheckRequiredOption();
             $item->checkData();
         }
@@ -295,7 +298,8 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         if ($item = $this->_getQuoteItem($item)) {
             switch ($moveTo) {
                 case 'wishlist':
-                    if ($wishlist = $this->getCustomerWishlist()) {
+                    $wishlist = Mage::helper('enterprise_checkout')->getCustomerWishlist($this->getCustomer(), $this->getStore());
+                    if ($wishlist->getId()) {
                         $wishlist->addNewItem($item->getProduct()->getId());
                     }
                     break;
@@ -347,24 +351,6 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         }
         
         return $newQuote;
-    }
-    
-    /**
-     * Return current customer wishlist model
-     *
-     * @return Mage_Wishlist_Model_Wishlist|bool
-     */
-    public function getCustomerWishlist()
-    {
-        if ($this->getCustomer()->getId()) {
-            $wishlist = Mage::getModel('wishlist/wishlist')
-                ->loadByCustomer($this->getCustomer()->getId(), true)
-                ->setStore($this->getStore())
-                ->setSharedStoreIds($this->getStore()->getWebsite()->getStoreIds());
-            return $wishlist->getId() ? $wishlist : false;
-        }
-
-        return false;
     }
     
     /**

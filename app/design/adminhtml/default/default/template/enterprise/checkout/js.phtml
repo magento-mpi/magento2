@@ -35,30 +35,24 @@
 var AdminCheckout = new Class.create();
 AdminCheckout.prototype = {
 
-    searchProducts: function()
-    {
-        $('products_search').show();
-        $('add_products_btn').hide();
-    },
-
-    cancelSearch: function()
-    {
-        $('products_search').hide();
-        $('add_products_btn').show();
+    initialize: function(){
+        this.checkedCheckboxes = $H({});
+        this.resetCheckboxes = false;
     },
 
     addToCart: function()
     {
         new Ajax.Request('<?php echo $this->getActionUrl('addToCart') ?>', {
-            parameters: this.serializeData('products_search_accordion'),
+            parameters: {source: this.checkedCheckboxes.toJSON()},
             onSuccess: function(transport) {
                 try {
                     this.onAjaxSuccess(transport);
-                    this.cancelSearch();
+                    this.checkedCheckboxes = $H({});
                     this.reloadItems();
                     $('products_search_accordion').select('input[type="checkbox"]').each(function(e) {
                         e.checked = false;
                     });
+                    this.resetCheckboxes = true;
                 } catch (e) {
                     var message = e.error ? e.error : e.message;
                     alert(message);
@@ -123,11 +117,20 @@ AdminCheckout.prototype = {
             el = $(trElement).down('input[type="checkbox"]');
             el.checked = !el.checked; 
         }
-        
+
+        if (this.resetCheckboxes) {
+            this.resetCheckboxes = false;
+            this.checkedCheckboxes = $H({});
+            grid.checkedCheckboxes = $H({});
+        }
         if (!grid.checkedCheckboxes) {
             grid.checkedCheckboxes = $H({});
         }
-        el.checked ? grid.checkedCheckboxes.set(el.value, el.value) : grid.checkedCheckboxes.unset(el.value); 
+        if (!this.checkedCheckboxes.get(el.name)) {
+            this.checkedCheckboxes.set(el.name, $H({}));
+        }
+        el.checked ? grid.checkedCheckboxes.set(el.value, el.value) : grid.checkedCheckboxes.unset(el.value);
+        el.checked ? this.checkedCheckboxes.get(el.name).set(el.value, el.value) : this.checkedCheckboxes.get(el.name).unset(el.value); 
     },
 
     rowInitCallback: function(grid, row) 
@@ -136,6 +139,11 @@ AdminCheckout.prototype = {
             return;
         }
         var checkbox = row.down('input[type="checkbox"]');
+        if (this.resetCheckboxes) {
+            this.resetCheckboxes = false;
+            this.checkedCheckboxes = $H({});
+            grid.checkedCheckboxes = $H({});
+        }
         if (checkbox != undefined && grid.checkedCheckboxes.get(checkbox.value)) {
             checkbox.checked = true;   
         }

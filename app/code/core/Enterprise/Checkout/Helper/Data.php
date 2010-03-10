@@ -33,4 +33,59 @@
  */
 class Enterprise_Checkout_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
+    /**
+     * Return allowed product types that could be added to shopping cart
+     *
+     * @return array
+     */
+    public function getAvailableProductTypes() 
+    {
+        return Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray();
+    }
+    
+    /**
+     * Filter collection by removing not available product types
+     *
+     * @param Mage_Core_Model_Mysql4_Collection_Abstract $collection
+     * @return Mage_Core_Model_Mysql4_Collection_Abstract
+     */
+    public function applyProductTypesFilter($collection) 
+    {
+        $productTypes = array_keys($this->getAvailableProductTypes());
+        foreach($collection->getItems() as $key => $item) {
+            if ($item instanceof Mage_Catalog_Model_Product) {
+                $type = $item->getTypeId();
+            } else if ($item instanceof Mage_Sales_Model_Order_Item) {
+                $type = $item->getProductType();
+            } else if ($item instanceof Mage_Sales_Model_Quote_Item) {
+                $type = $item->getProductType();
+            } else {
+                $type = '';
+            }
+            if (!in_array($type, $productTypes)) {
+                $collection->removeItemByKey($key);
+            }
+        }
+        return $collection;
+    }
+    
+    /**
+     * Return customer wishlist model
+     *
+     * @param Mage_Customer_Model_Customer|int $customer
+     * @param Mage_Core_Model_Store $store
+     * @return Mage_Wishlist_Model_Wishlist
+     */
+    public function getCustomerWishlist($customer, $store = null) 
+    {
+        $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($customer, true);
+        if ($store !== null) {
+            if (!($store instanceof Mage_Core_Model_Store)) {
+                $store = Mage::app()->getStore($store);
+            }
+            $wishlist->setStore($store)
+                ->setSharedStoreIds($store->getWebsite()->getStoreIds());
+        }
+        return $wishlist;
+    }
 }

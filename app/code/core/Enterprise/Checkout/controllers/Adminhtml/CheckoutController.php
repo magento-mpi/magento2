@@ -167,19 +167,21 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
             }
 
             // Add new products
+            $source = Mage::helper('core')->jsonDecode($this->getRequest()->getPost('source'));
             $products = $this->getRequest()->getPost('add_product');
             $cart = $this->getCartModel();
-            if (is_array($products)) {
-                foreach ($products as $productId) {
+            if (isset($source['add_product']) && is_array($source['add_product'])) {
+                foreach ($source['add_product'] as $productId) {
                     $cart->addProduct($productId);
                 }
             }
 
             // Reorder products
-            $reordered = $this->getRequest()->getPost('add_order_item', array());
-            foreach ($reordered as $orderItemId) {
-                $orderItem = Mage::getModel('sales/order_item')->load($orderItemId);
-                $cart->reorderItem($orderItem);
+            if (isset($source['add_order_item']) && is_array($source['add_order_item'])) {
+                foreach ($source['add_order_item'] as $orderItemId) {
+                    $orderItem = Mage::getModel('sales/order_item')->load($orderItemId);
+                    $cart->reorderItem($orderItem);
+                }
             }
 
         } catch (Mage_Core_Exception $e) {
