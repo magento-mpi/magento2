@@ -174,7 +174,7 @@ tinyMceWysiwygSetup.prototype =
             typeTitle = this.translate('Insert File...');
         }
 
-        MediabrowserUtility.openDialog(wUrl, this.config.files_browser_window_width, this.config.files_browser_window_height, typeTitle);
+        MediabrowserUtility.openDialog(wUrl, false, false, typeTitle);
     },
 
     translate: function(string) {

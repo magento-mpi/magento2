@@ -1227,7 +1227,7 @@ ul.super-product-attributes { padding-left:15px; }
 .popup-window #contents-uploader { margin-bottom:10px; background:#d7e5ef; padding:5px 10px; }
 .popup-window #contents-uploader .flex { font-size:0; line-height:0; height:20px; }
 .popup-window #contents { margin-left:-3px; height:400px; overflow:auto; position:relative; }
-.popup-window #contents .filecnt { float:left; border:1px solid #ccc; cursor:pointer; padding:3px; display:inline; margin:0 0 15px 4px; position:relative; }
+.popup-window #contents .filecnt { float:left; border:1px solid #ccc; cursor:pointer; padding:3px; display:inline; margin:0 0 15px 4px; overflow:hidden; position:relative; width:100px; }
 .popup-window #contents .selected { border:1px solid #f1af73; background:#f0f0f0; cursor:default; }
 .popup-window #contents .nm { text-align:center; }
 .popup-window #contents .nm img { vertical-align:bottom; }
