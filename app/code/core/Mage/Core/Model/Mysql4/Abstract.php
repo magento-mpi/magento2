@@ -94,6 +94,13 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
     protected $_isPkAutoIncrement = true;
 
     /**
+     * Use is object new method for save of object
+     *
+     * @var boolean
+     */
+    protected $_useIsObjectNew = false;
+
+    /**
      * Fields List for update in forsedSave
      *
      * @var array
@@ -369,7 +376,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
         $this->_beforeSave($object);
         $this->_checkUnique($object);
 
-        if (!is_null($object->getId())) {
+        if (!is_null($object->getId()) && (!$this->_useIsObjectNew || !$object->isObjectNew())) {
             $condition = $this->_getWriteAdapter()->quoteInto($this->getIdFieldName().'=?', $object->getId());
             /**
              * Not auto increment primary key support
@@ -389,6 +396,9 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
         } else {
             $this->_getWriteAdapter()->insert($this->getMainTable(), $this->_prepareDataForSave($object));
             $object->setId($this->_getWriteAdapter()->lastInsertId($this->getMainTable()));
+            if ($this->_useIsObjectNew) {
+                $object->isObjectNew(false);
+            }
         }
 
         $this->_afterSave($object);
@@ -518,12 +528,10 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
                 $fieldValue = $object->getData($field);
                 if ($fieldValue instanceof Zend_Db_Expr) {
                     $data[$field] = $fieldValue;
-                }
-                else {
+                } else {
                     if (null !== $fieldValue) {
                         $data[$field] = $this->_prepareValueForSave($fieldValue, $fields[$field]['DATA_TYPE']);
-                    }
-                    elseif (!empty($fields[$field]['NULLABLE'])) {
+                    } elseif (!empty($fields[$field]['NULLABLE'])) {
                         $data[$field] = null;
                     }
                 }

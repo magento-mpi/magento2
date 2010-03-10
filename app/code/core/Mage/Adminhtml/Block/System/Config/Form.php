@@ -366,7 +366,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                 if (isset($commentInfo['model'])) {
                     $model = Mage::getModel($commentInfo['model']);
                     if (method_exists($model, 'getCommentText')) {
-                        $comment = $model->getCommentText($currentValue);
+                        $comment = $model->getCommentText($element, $currentValue);
                     }
                 }
             } else {
