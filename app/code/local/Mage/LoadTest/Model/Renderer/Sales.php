@@ -85,6 +85,8 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
      */
     public $orders;
 
+    private $_orderProducts = array();
+
     /**
      * Init model
      *
@@ -168,7 +170,7 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
                 ->load();
             foreach ($collection as $order) {
                 $this->_profilerOperationStart();
-                $customer = $this->_customers[$order->getCustomerId()];
+                $customer = $this->_getCustomerItem($order->getCustomerId());
                 $customerName = $customer->getFirstname() . ' ' . $customer->getLastname();
                 $this->_order = array(
                     'id'            => $order->getId(),
@@ -188,7 +190,8 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
                 /* @var $quote Mage_Sales_Model_Quote */
                 $this->_profilerOperationStart();
                 $customerId = $quote->getCustomerId();
-                $customerName = $this->_customers[$customerId]->getFirstname() . ' ' . $this->_customers[$customerId]->getLastname();
+		$customer = $this->_getCustomerItem($customerId);
+                $customerName = $customer->getFirstname() . ' ' . $customer->getLastname();
                 $this->_quote = array(
                     'id'            => $quote->getId(),
                     'customer_id'   => $customerId,
@@ -216,29 +219,52 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
             $this->_profilerOperationStart();
         }
         $quote = Mage::getModel('sales/quote');
+	$quote->setIsSuperMode(true);
         /* @var $quote Mage_Sales_Model_Quote */
+	$this->_quote = array();
 
-        $customer = $this->_getCustomer(empty($returnObject));
+        $this->_addProductsToQuote($quote);
+
+	$customer = $this->_getCustomer(empty($returnObject));
         /* @var $customer Mage_Customer_Model_Customer */
         $customerName = $customer->getFirstname() . ' ' . $customer->getLastname();
-        $store = $this->_stores[$customer->getStoreId()];
-
+        $store = $this->_getStore($customer->getStoreId());
         $quote->setStoreId($store->getId());
         $quote->setCustomer($customer);
-        $this->_addProductsToQuote($quote);
-        $quote->setBillingAddress(Mage::getModel('sales/quote_address')->importCustomerAddress($customer->getDefaultBillingAddress()));
-        $quote->setShippingAddress(Mage::getModel('sales/quote_address')->importCustomerAddress($customer->getDefaultShippingAddress()));
-        $quote->getPayment()->setMethod($this->getPaymentMethod());
-        $quote->getShippingAddress()->setShippingMethod($this->getShippingMethod());
+
+	foreach($customer->getAddressesCollection() as $address) {
+	    $quoteAddress = Mage::getModel('sales/quote_address')->importCustomerAddress($address);
+	    if($address->getIsPrimaryBilling())
+		$quote->setBillingAddress($quoteAddress);
+	    if($address->getIsPrimaryShipping())
+		$quote->setShippingAddress($quoteAddress);
+	
+
+	}
+
+	$paymentMethod = $this->getPaymentMethod();
+	$shippingMethod = $this->getShippingMethod();
+
+	$quote->getPayment()->setMethod($this->getPaymentMethod());
+	$quote->getShippingAddress()->setCollectShippingRates(true);
+        $quote->getShippingAddress()
+	    ->setShippingMethod($shippingMethod);
+	$this->_quote['address_count'] = count($quote->getAllAddresses());
+	$this->_quote['visible_count'] = count($quote->getAllVisibleItems());
+		Varien_Profiler::reset("quote::payment::total");
+		Varien_Profiler::reset("quote::total::foreach");
+		Varien_Profiler::reset("quote::total::foreachitems");
+	Varien_Profiler::start("quote::payment::total");
         $quote->collectTotals();
+	Varien_Profiler::stop("quote::payment::total");
+
         $quote->save();
 
         $quoteId = $quote->getId();
-
-        $this->_quote = array(
-            'id'            => $quoteId,
-            'customer_id'   => $customer->getId(),
-            'customer_name' => $customerName,
+        $this->_quote = array_merge($this->_quote,
+            array('id'		  => $quoteId,
+		  'customer_id'   => $customer->getId(),
+		  'customer_name' => $customerName,)
         );
 
         unset($customer);
@@ -263,14 +289,21 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
     {
         $this->_loadData();
         $this->_profilerOperationStart();
+	Varien_Profiler::start("quote::create");
         $quote = $this->_createQuote(true);
-        /* @var $quote Mage_Sales_Model_Quote */
-        $quoteConvert = Mage::getModel('sales/convert_quote');
-        /* @var $quoteConvert Mage_Sales_Model_Convert_Quote */
+	Varien_Profiler::stop("quote::create");
 
-        $order = $quoteConvert->addressToOrder($quote->getShippingAddress());
+	Varien_Profiler::start("order::save");
+        $service = Mage::getModel('sales/service_quote', $quote);
+        $order = $service->submit();
+
+        /* @var $quote Mage_Sales_Model_Quote */
+        //$quoteConvert = Mage::getModel('sales/convert_quote');
+        /* @var $quoteConvert Mage_Sales_Model_Convert_Quote */
+	//Varien_Profiler::start("order::addresses::add");
+       // $order = $quoteConvert->addressToOrder($quote->getShippingAddress());
         /* @var $order Mage_Sales_Model_Order */
-        $order->setBillingAddress($quoteConvert->addressToOrderAddress($quote->getBillingAddress()))
+        /*$order->setBillingAddress($quoteConvert->addressToOrderAddress($quote->getBillingAddress()))
             ->setShippingAddress($quoteConvert->addressToOrderAddress($quote->getShippingAddress()))
             ->setPayment($quoteConvert->paymentToOrderPayment($quote->getPayment()))
             ->setCreatedAt($this->_getRandomDate());
@@ -278,15 +311,16 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
         foreach ($quote->getShippingAddress()->getAllItems() as $item) {
             $order->addItem($quoteConvert->itemToOrderItem($item));
         }
-
+	Varien_Profiler::stop("order::addresses::add");
+	Varien_Profiler::start("order::save");
         try {
             $order->place()
                 ->save();
         }
         catch (Exception $e) {
             Mage::throwException($e->__toString() . "\n\n" . print_r($order->getData(), true));
-        }
-
+        }*/
+	Varien_Profiler::stop("order::save");
         $orderId = $order->getId();
         $this->_order = $this->_quote;
         $this->_order['id'] = $orderId;
@@ -295,9 +329,8 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
         unset($quote);
         unset($quoteConvert);
         unset($order);
-
         $this->_profilerOperationStop();
-
+	//Mage::app()->getLeyout()->createBlock('core/profiler')->toHtml();
         return $orderId;
     }
 
@@ -311,7 +344,7 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
     {
         $this->_loadData();
 
-        $customer = $this->_customers[array_rand($this->_customers)];
+        $customer = $this->_getCustomerItem(array_rand($this->_customers));
         /* @var $customer Mage_Customer_Model_Customer */
 
         if ($noQuote) {
@@ -334,22 +367,90 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
     protected function _addProductsToQuote(Mage_Sales_Model_Quote $quote)
     {
         $this->_loadData();
+	$this->_order['products'] = array();
+//	$itemIds = array(12, 13);
+//	$itemIds = array(1, 2, 3, 4, 5);
+        $itemIds  = array_rand($this->_products,
+		rand($this->getMinProducts(),
+		$this->getMaxProducts()));
 
-        $itemIds  = array_rand($this->_products, rand($this->getMinProducts(), $this->getMaxProducts()));
         if (is_numeric($itemIds)) {
             $itemIds = array($itemIds);
         }
+	$request = array();
         foreach ($itemIds as $itemId) {
-            $_product = $this->_products[$itemId];
-            /* @var $_product Mage_Catalog_Model_Product */
-            if ($max = $_product->getStockItem()->getQty()) {
-                $qty = rand(1, $max);
-            }
-            else {
-                $qty = 1;
-            }
-            $quote->addProduct(clone $this->_products[$itemId], $qty);
+	    /* @var $_product Mage_Catalog_Model_Product */
+            $_product = $this->_getProduct($itemId);
+	    $debugInfo = array('id' => $itemId, 'type' => $_product->getTypeId());
+	    //$params = array('product' => &$_product);
+	    $itemTypeInstance = $this->_getItemTypeInstance($_product->getTypeId());
+	    if ($itemTypeInstance) {
+		$request = $itemTypeInstance->prepareRequestForCart($_product);
+		if($request instanceof Varien_Object) {
+		    //Varien_Profiler::start("product::addtocart");
+		    $quote->addProduct(clone $_product, $request);
+		    //Varien_Profiler::stop("product::addtocart");
+		}
+		/*$debugInfo['time'] = array(
+		  'init_options'    => Varien_profiler::fetch("option::collection::init"),
+		  'insider'         => Varien_profiler::fetch("option::collection::insider"),
+		  'init_selections' => Varien_profiler::fetch("selection::collection::init"),
+		  'foreach'         => Varien_profiler::fetch("filterd::options::foreach"),
+		  'addtocart'       => Varien_profiler::fetch("product::addtocart"),
+		);
+		Varien_profiler::reset("option::collection::init");
+		Varien_profiler::reset("option::collection::insider");
+		Varien_profiler::reset("selection::collection::init");
+		Varien_profiler::reset("filterd::options::foreach");
+		Varien_profiler::reset("product::addtocart");*/
+	    }
+	    $this->_quote['products'][] = $debugInfo;
         }
+    }
+
+    protected function _getItemTypeInstance($type, $params = array())
+    {
+	return Mage::getSingleton('loadtest/renderer_sales_item_type_' . strtolower($type));
+    }
+
+    protected function _getProduct($product_id)
+    {
+	if(!$this->_products[$product_id] instanceof Varien_Object) {
+	    $_product = Mage::getModel('catalog/product')->load($product_id);
+	    $this->_products[$product_id] = $_product;
+	}
+	return $this->_products[$product_id];
+    }
+
+    protected function _getStore($store_id)
+    {
+	if(!$this->_stores[$store_id] instanceof Varien_Object) {
+	    $this->_stores[$store_id] = Mage::getModel('core/store')->load($store_id);
+	}
+	return $this->_stores[$store_id];
+    }
+
+    protected function _getCustomerItem($customer_id)
+    {
+	$noQuote = 0;
+	if(!$this->_customers[$customer_id] instanceof Varien_Object) {
+	    $_customer = Mage::getModel('customer/customer')->load($customer_id);
+            $this->_customers[$customer_id] = $_customer;
+            if ($this->getType() == 'QUOTE') {
+                $quotes = Mage::getModel('sales/quote')
+                    ->loadByCustomer($_customer);
+                $_customer->setQuote($quotes->getEntityId() ? true : false);
+                $noQuote += $quotes->getEntityId() ? 0 : 1;
+            }
+
+	    /*if ($exception && $this->getType() == 'QUOTE' && $noQuote == 0) {
+                Mage::throwException(Mage::helper('loadtest')->__('All active customers already have active quotes'));
+            }
+            if ($exception && $this->getType() == 'QUOTE' && $this->getCountQuotes() > $noQuote) {
+                $this->setCountQuotes($noQuote);
+            }*/
+	}
+	return $this->_customers[$customer_id];
     }
 
     protected function _getRandomDate()
@@ -366,25 +467,37 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
      */
     protected function _loadData($exception = true)
     {
-        if (is_null($this->_customers)) {
-            $collection = Mage::getModel('customer/customer')
+        $this->_loadCustomersIds();
+        $this->_loadProductsIds();
+        $this->_loadStoresIds();
+    }
+
+    protected function _loadCustomersIds()
+    {
+	if (is_null($this->_customers)) {
+            /*$customers_ids = Mage::getModel('customer/customer')
                 ->getCollection()
                 ->addAttributeToSelect('*')
-                ->load();
+		->getAllIds();*/
+                //->load();
+	    $customers_ids = Mage::getResourceModel('customer/customer_collection')
+		->getAllIds();
             $this->_customers = array();
-            $noQuote = 0;
-            foreach ($collection as $customer) {
-                $this->_customers[$customer->getId()] = $customer;
+            //$noQuote = 0;
+            foreach ($customers_ids as $customer_id) {
+		$this->_customers[$customer_id] = $customer_id;
+		/*$_customer = Mage::getModel('customer/customer')->load($customer_id);
+                $this->_customers[$customer_id] = $_customer;
                 if ($this->getType() == 'QUOTE') {
                     $quotes = Mage::getModel('sales/quote')
-                        ->loadByCustomer($customer);
-                    $customer->setQuote($quotes->getEntityId() ? true : false);
+                        ->loadByCustomer($_customer);
+                    $_customer->setQuote($quotes->getEntityId() ? true : false);
                     $noQuote += $quotes->getEntityId() ? 0 : 1;
-                }
+                }*/
             }
-            unset($collection);
+            unset($customers_ids);
 
-            if ($exception && count($this->_customers) == 0) {
+            /*if ($exception && count($this->_customers) == 0) {
                 Mage::throwException(Mage::helper('loadtest')->__('Customers not found, please create customer(s) first'));
             }
             if ($exception && $this->getType() == 'QUOTE' && $noQuote == 0) {
@@ -392,38 +505,53 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
             }
             if ($exception && $this->getType() == 'QUOTE' && $this->getCountQuotes() > $noQuote) {
                 $this->setCountQuotes($noQuote);
-            }
+            }*/
         }
-        if (is_null($this->_products)) {
-            $collection = Mage::getModel('catalog/product')
+    }
+
+    protected function _loadProductsIds()
+    {
+	if (is_null($this->_products)) {
+            /*$product_ids = Mage::getModel('catalog/product')
                 ->getCollection()
                 ->addAttributeToSelect('*')
-                ->load();
+		->getAllIds();*/
+                //->load();
+	    $product_ids = Mage::getResourceModel('catalog/product_collection')
+		->getAllIds();
             $this->_products = array();
-            foreach ($collection as $product) {
-                $this->_products[$product->getId()] = $product;
+
+	    foreach ($product_ids as $product_id) {
+		//$_product = Mage::getModel('catalog/product')->load($product_id);
+                //$this->_products[$product_id] = $_product;
+		$this->_products[$product_id] = $product_id;
             }
-            unset($collection);
+            unset($product_ids);
 
             if (count($this->_products) == 0) {
                 Mage::throwException(Mage::helper('loadtest')->__('Products not found, please create product(s) first'));
             }
         }
-        if (is_null($this->_stores)) {
+    }
+
+    protected function _loadStoresIds()
+    {
+	if (is_null($this->_stores)) {
             $this->_stores = array();
-            $collection = Mage::getModel('core/store')
-                ->getCollection();
-            foreach ($collection as $item) {
-                $this->_stores[$item->getId()] = $item;
+            $stores_ids = Mage::getModel('core/store')
+                ->getCollection()
+		->getAllIds();
+            foreach ($stores_ids as $store_id) {
+                //$this->_stores[$store_id] = Mage::getModel('core/store')->load($store_id);
+		$this->_stores[$store_id] = $store_id;
             }
-            unset($collection);
+            unset($stores_ids);
         }
     }
 
     protected function _profilerOperationStop()
     {
         parent::_profilerOperationStop();
-
         if ($this->getDebug()) {
             if ($this->getType() == 'ORDER') {
                 if (!$this->_xmlFieldSet) {
@@ -434,6 +562,23 @@ class Mage_LoadTest_Model_Renderer_Sales extends Mage_LoadTest_Model_Renderer_Ab
                 $order->addAttribute('id', $this->_order['id']);
                 $order->addChild('customer', $this->_order['customer_name'])
                     ->addAttribute('id', $this->_order['customer_id']);
+
+		$order->addChild('quote_total', Varien_Profiler::fetch("quote::payment::total"));
+		$order->addChild('quote_total_foreach', Varien_Profiler::fetch("quote::total::foreach"));
+		$order->addChild('quote_total_foreach_1', Varien_Profiler::fetch("quote::total::foreach::1"));
+		$order->addChild('quote_total_foreach_2', Varien_Profiler::fetch("quote::total::foreach::2"));
+		$order->addChild('quote_total_foreachitems', Varien_Profiler::fetch("quote::total::foreachitems"));
+		$order->addChild('address_count', $this->_quote['address_count']);
+		$order->addChild('visible_count', $this->_quote['visible_count']);
+
+
+
+		/*foreach($this->_order['products'] as $product) {
+		    $productNode = $order->addChild('product', $product['type']);
+		    $productNode->addAttribute('id', $product['id']);
+		    foreach($product['time'] as $timer_name => $sum)
+			$productNode->addChild($timer_name, $sum);
+		}*/
                 $this->_profilerOperationAddDebugInfo($order);
             }
             elseif ($this->getType() == 'QUOTE') {
