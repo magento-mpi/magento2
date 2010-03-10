@@ -254,9 +254,7 @@ abstract class Mage_Sales_Model_Mysql4_Order_Abstract extends Mage_Sales_Model_M
         if ($this->_gridColumns === null) {
             if ($this->_grid) {
                 $this->_gridColumns = array_keys(
-                    $this->_getReadAdapter()->describeTable(
-                        $this->getGridTable()
-                    )
+                    $this->_getReadAdapter()->describeTable($this->getGridTable())
                 );
             } else {
                 $this->_gridColumns = array();
@@ -276,7 +274,6 @@ abstract class Mage_Sales_Model_Mysql4_Order_Abstract extends Mage_Sales_Model_M
         if ($this->_grid) {
             return $this->getMainTable() . '_grid';
         }
-
         return false;
     }
 
@@ -337,7 +334,6 @@ abstract class Mage_Sales_Model_Mysql4_Order_Abstract extends Mage_Sales_Model_M
 
         if (is_array($attribute) && !empty($attribute)) {
             $this->beginTransaction();
-
             try {
                 $this->_beforeSaveAttribute($object, $attribute);
                 $data = new Varien_Object();
@@ -373,11 +369,8 @@ abstract class Mage_Sales_Model_Mysql4_Order_Abstract extends Mage_Sales_Model_M
         if ($this->_useIncrementId && !$object->getIncrementId()) {
             /* @var $entityType Mage_Eav_Model_Entity_Type */
             $entityType = Mage::getModel('eav/entity_type')->loadByCode($this->_entityTypeForIncrementId);
-            $object->setIncrementId(
-                $entityType->fetchNewIncrementId($object->getStoreId())
-            );
+            $object->setIncrementId($entityType->fetchNewIncrementId($object->getStoreId()));
         }
-
         parent::_beforeSave($object);
         return $this;
     }
