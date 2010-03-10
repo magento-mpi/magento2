@@ -327,7 +327,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Compare data from two tax rate requests.
+     * Compare data and rates for two tax rate requests.
      * Return true if requests are semilar
      *
      * @param   Varien_Object $first
@@ -353,6 +353,14 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         $taxClass= $first->getCustomerClassId() == $second->getCustomerClassId();
 
         if ($country && $region && $postcode && $taxClass) {
+            return true;
+        }
+        /**
+         * Compare available tax rates for both requests
+         */
+        $firstReqRates = $this->_getResource()->getRateIds($first);
+        $secondReqRates = $this->_getResource()->getRateIds($second);
+        if ($firstReqRates === $secondReqRates) {
             return true;
         }
         return false;

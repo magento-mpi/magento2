@@ -160,8 +160,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Shipping extends Mage_Sales_Model_Quote_A
                 $shippingBaseTax     = $this->_calculator->calcTaxAmount($baseShippingAmount, $rate, true, false);
                 $shippingAmount     -= $shippingTax;
                 $baseShippingAmount -= $shippingBaseTax;
-                $address->setTotalAmount($this->getCode(), $this->_calculator->roundUp($shippingAmount));
-                $address->setBaseTotalAmount($this->getCode(), $this->_calculator->roundUp($baseShippingAmount));
+                $address->setTotalAmount('shipping', $this->_calculator->round($shippingAmount));
+                $address->setBaseTotalAmount('shipping', $this->_calculator->round($baseShippingAmount));
             }
         }
         return $this;

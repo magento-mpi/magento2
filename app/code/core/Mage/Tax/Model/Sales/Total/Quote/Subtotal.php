@@ -173,14 +173,12 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      */
     protected function _getAddressTaxRequest($address)
     {
-        if (is_null($this->_addressTaxRequest)) {
-            $this->_addressTaxRequest = $this->_calculator->getRateRequest(
-                $address,
-                $address->getQuote()->getBillingAddress(),
-                $address->getQuote()->getCustomerTaxClassId(),
-                $address->getQuote()->getStore()
-            );
-        }
+        $this->_addressTaxRequest = $this->_calculator->getRateRequest(
+            $address,
+            $address->getQuote()->getBillingAddress(),
+            $address->getQuote()->getCustomerTaxClassId(),
+            $address->getQuote()->getStore()
+        );
         return $this->_addressTaxRequest;
     }
 

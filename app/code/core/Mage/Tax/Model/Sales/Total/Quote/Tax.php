@@ -311,7 +311,6 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         $qty                = $item->getTotalQty();
 
         $item->setTaxPercent($rate);
-        $rate = $rate/100;
 
         $calculationSequence = $this->_config->getCalculationSequence($store);
         switch ($calculationSequence) {
@@ -439,7 +438,6 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         $baseDiscountAmount = $item->getBaseDiscountAmount();
 
         $item->setTaxPercent($rate);
-        $rate = $rate/100;
 
         $calculationSequence = $this->_helper->getCalculationSequence($store);
         switch ($calculationSequence) {

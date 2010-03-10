@@ -71,6 +71,11 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
         );
     }
 
+    /**
+     * Get tax rate for specific tax rate request
+     *
+     * @param Varien_Object $request
+     */
     public function getRate($request)
     {
         return $this->_calculateRate($this->_getRates($request));
@@ -187,8 +192,10 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
         $select = $this->_getReadAdapter()->select();
         $select
             ->from(array('main_table'=>$this->getMainTable()))
-            ->where('customer_tax_class_id = ?', $request->getCustomerClassId())
-            ->where('product_tax_class_id = ?', $request->getProductClassId());
+            ->where('customer_tax_class_id = ?', $request->getCustomerClassId());
+        if ($request->getProductClassId()) {
+            $select->where('product_tax_class_id = ?', $request->getProductClassId());
+        }
 
         $select->join(
             array('rule'=>$this->getTable('tax/tax_calculation_rule')),
