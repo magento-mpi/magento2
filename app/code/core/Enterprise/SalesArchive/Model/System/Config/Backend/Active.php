@@ -54,7 +54,7 @@ class Enterprise_SalesArchive_Model_System_Config_Backend_Active
      * @param string $currentValue
      * @return string
      */
-    public function getCommentText($currentValue)
+    public function getCommentText($element, $currentValue)
     {
         if ($currentValue) {
             $ordersCount = Mage::getResourceSingleton('enterprise_salesarchive/order_collection')->getSize();
