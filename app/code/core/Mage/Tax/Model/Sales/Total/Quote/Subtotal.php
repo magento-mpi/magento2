@@ -63,7 +63,6 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      * @var Varien_Object
      */
     protected $_storeTaxRequest = null;
-    protected $_addressTaxRequest = null;
 
     /**
      * Class constructor
@@ -173,13 +172,13 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      */
     protected function _getAddressTaxRequest($address)
     {
-        $this->_addressTaxRequest = $this->_calculator->getRateRequest(
+        $addressTaxRequest = $this->_calculator->getRateRequest(
             $address,
             $address->getQuote()->getBillingAddress(),
             $address->getQuote()->getCustomerTaxClassId(),
             $address->getQuote()->getStore()
         );
-        return $this->_addressTaxRequest;
+        return $addressTaxRequest;
     }
 
     /**
