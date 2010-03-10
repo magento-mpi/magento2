@@ -125,19 +125,33 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
     {
         if (!$rule->hasIsValid()) {
             /**
-             * check coupon usage limit
+             * check per coupon usage limit
              */
             $couponCode = $address->getQuote()->getCouponCode();
             if ($couponCode) {
                 $coupon = Mage::getModel('salesrule/coupon');
                 $coupon->load($couponCode, 'code');
-                if ($coupon->getUsageLimit() && $coupon->getTimesUsed() >= $coupon->getUsageLimit()) {
-                    $rule->setIsValid(false);
-                    return false;
+                if ($coupon->getId()) {
+                    // check entire usage limit
+                    if ($coupon->getUsageLimit() && $coupon->getTimesUsed() >= $coupon->getUsageLimit()) {
+                        $rule->setIsValid(false);
+                        return false;
+                    }
+                    // check per customer usage limit
+                    $customerId = $address->getQuote()->getCustomerId();
+                    if ($customerId && $coupon->getUsagePerCustomer()) {
+                        $couponUsage = new Varien_Object();
+                        Mage::getResourceModel('salesrule/coupon_usage')->loadByCustomerCoupon(
+                            $couponUsage, $customerId, $coupon->getId());
+                        if ($couponUsage->getCouponId() && $couponUsage->getTimesUsed() >= $coupon->getUsagePerCustomer()) {
+                            $rule->setIsValid(false);
+                            return false;
+                        }
+                    }
                 }
             }
             /**
-             * too many times used for this customer
+             * check per rule usage limit
              */
             $ruleId = $rule->getId();
             if ($ruleId && $rule->getUsesPerCustomer()) {

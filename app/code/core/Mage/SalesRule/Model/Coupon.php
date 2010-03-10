@@ -27,10 +27,42 @@
 
 class Mage_SalesRule_Model_Coupon extends Mage_Core_Model_Abstract
 {
+    /**
+     * Coupon's owner rule instance
+     *
+     * @var Mage_SalesRule_Model_Rule
+     */
+    protected $_rule;
+
     protected function _construct()
     {
         parent::_construct();
         $this->_init('salesrule/coupon');
+    }
+
+    /**
+     * Processing object before save data
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _beforeSave()
+    {
+        if (!$this->getRuleId() && $this->_rule instanceof Mage_SalesRule_Model_Rule) {
+            $this->setRuleId($this->_rule->getId());
+        }
+        return parent::_beforeSave();
+    }
+
+    /**
+     * Set rule instance
+     *
+     * @param  Mage_SalesRule_Model_Rule
+     * @return Mage_SalesRule_Model_Coupon
+     */
+    public function setRule(Mage_SalesRule_Model_Rule $rule)
+    {
+        $this->_rule = $rule;
+        return $this;
     }
 
     /**

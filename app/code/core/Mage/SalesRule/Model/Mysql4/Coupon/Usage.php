@@ -52,4 +52,31 @@ class Mage_SalesRule_Model_Mysql4_Coupon_Usage extends Mage_Core_Model_Mysql4_Ab
             )
         );
     }
+
+    /**
+     * Load an object by customer_id & coupon_id
+     *
+     * @param  Varien_Object Object to load data to
+     * @param  int Customer Id
+     * @param  int Coupon Id
+     * @return Mage_Core_Model_Mysql4_Abstract
+     */
+    public function loadByCustomerCoupon(Varien_Object $object, $customerId, $couponId)
+    {
+        $read = $this->_getReadAdapter();
+        if ($read && $couponId && $customerId) {
+            $select = $read->select()
+                ->from($this->getMainTable())
+                ->where($this->getMainTable() . '.customer_id=?', $customerId)
+                ->where($this->getMainTable() . '.coupon_id=?', $couponId);
+            $data = $read->fetchRow($select);
+            if ($data) {
+                $object->setData($data);
+            }
+        }
+        if ($object instanceof Mage_Core_Model_Abstract) {
+            $this->_afterLoad($object);
+        }
+        return $this;
+    }
 }
