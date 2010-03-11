@@ -106,6 +106,9 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
         if ($attribute && ($attribute->getFrontendInput() != 'media_image')
             && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
                 $attributeHtml = $this->htmlEscape($attributeHtml);
+                if ($attribute->getFrontendInput() == 'textarea') {
+                    $attributeHtml = nl2br($attributeHtml);
+                }
         }
         $attributeHtml = $this->process('productAttribute', $attributeHtml, array(
             'product'   => $product,

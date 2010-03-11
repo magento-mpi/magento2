@@ -103,8 +103,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Config extends Mage_Core_Model_Mysq
             ->from(array('main_table' => $this->getTable('eav/attribute')))
             ->join(
                 array('additional_table' => $this->getTable('catalog/eav_attribute')),
-                'main_table.attribute_id = additional_table.attribute_id',
-                array()
+                'main_table.attribute_id = additional_table.attribute_id'
             )
             ->joinLeft(
                  array('al' => $this->getTable('eav/attribute_label')),

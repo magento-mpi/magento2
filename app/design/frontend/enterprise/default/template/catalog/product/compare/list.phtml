@@ -53,14 +53,15 @@
 <?php endif ?>
         <tbody>
             <tr>
-            <?php $_i=0 ?>
+            <?php $_i = 0; ?>
+            <?php $_helper = $this->helper('catalog/output'); ?>
             <?php foreach($this->getItems() as $_item): ?>
                 <?php if($_i++%10==0): ?>
                     <th class="label">&nbsp;</th>
                 <?php endif; ?>
                 <td>
-                    <a class="product-image" href="#" onclick="setPLocation('<?php echo $_item->getProductUrl() ?>', true)" title="<?php echo $this->htmlEscape($_item->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
-                    <h3 class="product-name"><a href="#" onclick="setPLocation('<?php echo $_item->getProductUrl() ?>', true)" title="<?php echo $this->htmlEscape($_item->getName()) ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h3>
+                    <a class="product-image" href="#" onclick="setPLocation('<?php echo $_item->getProductUrl() ?>', true)" title="<?php echo strip_tags($_item->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo strip_tags($_item->getName()) ?>" /></a>
+                    <h3 class="product-name"><a href="#" onclick="setPLocation('<?php echo $_item->getProductUrl() ?>', true)" title="<?php echo strip_tags($_item->getName()) ?>"><?php echo $_helper->productAttribute($_item, $_item->getName(), 'name') ?></a></h3>
                     <?php echo $this->getReviewsSummaryHtml($_item, 'short') ?>
                     <?php echo $this->getPriceHtml($_item, true, '-compare-list-top') ?>
                     <?php if($_item->isSaleable()): ?>
@@ -82,7 +83,7 @@
         <tbody>
         <?php foreach ($this->getAttributes() as $_attribute): ?>
             <tr>
-                <?php $_i=0 ?>
+                <?php $_i = 0 ?>
                 <?php foreach($this->getItems() as $_item): ?>
                 <?php if($_i++%10==0): ?>
                 <th class="label"><span class="nobr"><?php echo $this->__($_attribute->getFrontendLabel()) ?></span></th>
@@ -93,10 +94,10 @@
                             <?php echo $this->getPriceHtml($_item, true, '-compare-list-' . $_attribute->getCode()) ?>
                             <?php break;
                         case "small_image": ?>
-                            <img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" />
+                            <img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo strip_tags($_item->getName()) ?>" />
                             <?php break;
                         default: ?>
-                            <?php echo nl2br($this->getProductAttributeValue($_item, $_attribute)) ?>
+                            <?php echo $_helper->productAttribute($_item, $this->getProductAttributeValue($_item, $_attribute), $_attribute->getCode()) ?>
                             <?php break;
                     } ?>
                 </td>
