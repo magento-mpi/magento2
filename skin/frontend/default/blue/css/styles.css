@@ -1201,6 +1201,8 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* Centinel */
 .centinel {}
+.centinel .authentication { border:1px solid #ddd; background:#fff; }
+.centinel .authentication iframe { width:99%; height:400px; background:transparent !important; margin:0 !important; padding:0 !important; border:0 !important; }
 
 .opc .centinel { border:1px solid #bbb6a5; border-width:0 1px 1px; padding:10px 30px; }
 

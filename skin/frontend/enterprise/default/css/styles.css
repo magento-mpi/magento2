@@ -1663,7 +1663,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .checkout-progress,
 .checkout-progress li.first span,
 .checkout-progress li.last span { background-image:url(../images/bkg_crumbs.gif); background-repeat:no-repeat; }
-.checkout-progress { padding:0 0 0 0; border-bottom:1px solid #cfcfcf; background-color:#ededed; text-align:center; margin:-21px -21px 5px; font-size:11px; font-weight:bold; text-transform:uppercase; width:940px; position:relative; z-index:1; }
+.checkout-progress { padding:0 0 0 0; border-bottom:1px solid #cfcfcf; background-color:#ededed; text-align:center; margin:-21px -21px 5px; font-size:11px; font-weight:bold; text-transform:uppercase; width:940px; position:relative; z-index:2; }
 .checkout-progress li { float:left; width:20%; text-align:center; color:#888; line-height:20px; }
 .checkout-progress li span { display:block; text-align:center; border-right:1px solid #cfcfcf; }
 .checkout-progress li.first span { background-position:0 0; }
@@ -1757,6 +1757,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 /* Centinel */
 .centinel { margin:10px 0; }
 .centinel p { margin:0 0 10px; }
+.centinel .authentication { border:1px solid #ddd; background:#fff; }
+.centinel .authentication iframe { width:99%; height:400px; background:transparent !important; margin:0 !important; padding:0 !important; border:0 !important; }
 
 .opc .centinel { margin:0; padding:20px; }
 /********** Common Checkout Styles > */
