@@ -294,9 +294,12 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
                 Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON => Mage::helper('salesrule')->__('No Coupon'),
                 Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC  => Mage::helper('salesrule')->__('Specific Coupon'),
             );
-            $transport = new Varien_Object(array('coupon_types' => $this->_couponTypes));
+            $transport = new Varien_Object(array('coupon_types' => $this->_couponTypes, 'is_coupon_type_auto_visible' => false));
             Mage::dispatchEvent('salesrule_rule_get_coupon_types', array('transport' => $transport));
             $this->_couponTypes = $transport->getCouponTypes();
+            if ($transport->getIsCouponTypeAutoVisible()) {
+                $this->_couponTypes[Mage_SalesRule_Model_Rule::COUPON_TYPE_AUTO] = Mage::helper('salesrule')->__('Auto');
+            }
         }
         return $this->_couponTypes;
     }

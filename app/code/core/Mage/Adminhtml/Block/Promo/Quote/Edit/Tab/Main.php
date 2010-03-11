@@ -251,6 +251,9 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
                 $couponTypeFiled->getName(),
                 Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
         );
+
+        Mage::dispatchEvent('adminhtml_promo_quote_edit_tab_main_prepare_form', array('form' => $form));
+
         return parent::_prepareForm();
     }
 }
