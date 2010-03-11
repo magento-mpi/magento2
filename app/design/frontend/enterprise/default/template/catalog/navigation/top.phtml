@@ -39,9 +39,10 @@
  */
 ?>
 <?php $_menu = $this->renderCategoriesMenuHtml('level-top') ?>
+<?php if($_menu): ?>
 <div class="nav-container">
     <ul id="nav">
         <?php echo $_menu ?>
     </ul>
 </div>
-<script type="text/javascript">decorateGeneric($('nav').select('li.level0'),['first','last']);</script>
+<?php endif ?>
