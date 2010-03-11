@@ -99,7 +99,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 
     /**
      * Promo quote save action
-     * 
+     *
      */
     public function saveAction()
     {
@@ -108,7 +108,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 $model = Mage::getModel('salesrule/rule');
                 Mage::dispatchEvent('adminhtml_controller_salesrule_prepare_save', array('request' => $this->getRequest()));
                 $data = $this->getRequest()->getPost();
-                
+
                 $data = $this->_filterDates($data, array('from_date', 'to_date'));
                 $id = $this->getRequest()->getParam('rule_id');
                 if ($id) {
@@ -117,9 +117,9 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                         Mage::throwException(Mage::helper('salesrule')->__('Wrong rule specified.'));
                     }
                 }
-                
+
                 $session = Mage::getSingleton('adminhtml/session');
-                
+
                 $validateResult = $model->validateData(new Varien_Object($data));
                 if ($validateResult !== true) {
                     foreach($validateResult as $errorMessage) {
@@ -129,7 +129,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                     $this->_redirect('*/*/edit', array('id'=>$model->getId()));
                     return;
                 }
-                
+
                 if (isset($data['simple_action']) && $data['simple_action'] == 'by_percent' && isset($data['discount_amount'])) {
                     $data['discount_amount'] = min(100,$data['discount_amount']);
                 }
@@ -246,7 +246,18 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
     public function gridAction()
     {
         $this->_initRule()->loadLayout()->renderLayout();
+    }
 
+    /**
+     * Chooser source action
+     */
+    public function chooserAction()
+    {
+        $uniqId = $this->getRequest()->getParam('uniq_id');
+        $chooserBlock = $this->getLayout()->createBlock('adminhtml/promo_widget_chooser', '', array(
+            'id' => $uniqId
+        ));
+        $this->getResponse()->setBody($chooserBlock->toHtml());
     }
 
     protected function _isAllowed()
