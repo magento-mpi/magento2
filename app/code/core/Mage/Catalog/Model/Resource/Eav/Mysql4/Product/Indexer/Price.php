@@ -92,7 +92,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
             return $this;
         }
 
-        $this->cloneIndexTable(true);
+        $this->clearTemporaryIndexTable();
 
         $processIds = array_keys($data['reindex_price_parent_ids']);
         $parentIds  = array();
@@ -161,7 +161,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
             return $this;
         }
 
-        $this->cloneIndexTable(true);
+        $this->clearTemporaryIndexTable();
         $this->_prepareWebsiteDateTable();
 
         $indexer = $this->_getIndexer($data['product_type_id']);
@@ -238,7 +238,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
             return $this->reindexAll();
         }
 
-        $this->cloneIndexTable(true);
+        $this->clearTemporaryIndexTable();
 
         // retrieve products types
         $select = $write->select()
@@ -348,7 +348,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
      */
     public function reindexAll()
     {
-        $this->cloneIndexTable(true);
+        $this->useIdxTable(true);
+        $this->clearTemporaryIndexTable();
         $this->_prepareWebsiteDateTable();
         $this->_prepareTierPriceIndex();
 
@@ -510,5 +511,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
         }
 
         return $this;
+    }
+
+    /**
+     * Retrieve temporary index table name
+     *
+     * @return string
+     */
+    public function getIdxTable($table = null)
+    {
+        if ($this->useIdxTable()) {
+            return $this->getTable('catalog/product_price_indexer_idx');
+        }
+        return $this->getTable('catalog/product_price_indexer_tmp');
     }
 }

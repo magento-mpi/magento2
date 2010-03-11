@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.4.0.0.23</version>
+            <version>1.4.0.0.24</version>
         </Mage_Catalog>
     </modules>
 
@@ -195,6 +195,78 @@
                     <product_index_price><table>catalog_product_index_price</table></product_index_price>
                     <product_index_tier_price><table>catalog_product_index_tier_price</table></product_index_tier_price>
                     <product_index_website><table>catalog_product_index_website</table></product_index_website>
+                    <product_price_indexer_cfg_option_aggregate_idx>
+                        <table>catalog_product_index_price_cfg_opt_agr_idx</table>
+                    </product_price_indexer_cfg_option_aggregate_idx>
+                    <product_price_indexer_cfg_option_aggregate_tmp>
+                        <table>catalog_product_index_price_cfg_opt_agr_tmp</table>
+                    </product_price_indexer_cfg_option_aggregate_tmp>
+                    <product_price_indexer_cfg_option_idx>
+                        <table>catalog_product_index_price_cfg_opt_idx</table>
+                    </product_price_indexer_cfg_option_idx>
+                    <product_price_indexer_cfg_option_tmp>
+                        <table>catalog_product_index_price_cfg_opt_tmp</table>
+                    </product_price_indexer_cfg_option_tmp>
+                    <product_price_indexer_final_idx>
+                        <table>catalog_product_index_price_final_idx</table>
+                    </product_price_indexer_final_idx>
+                    <product_price_indexer_final_tmp>
+                        <table>catalog_product_index_price_final_tmp</table>
+                    </product_price_indexer_final_tmp>
+                    <product_price_indexer_option_idx>
+                        <table>catalog_product_index_price_opt_idx</table>
+                    </product_price_indexer_option_idx>
+                    <product_price_indexer_option_tmp>
+                        <table>catalog_product_index_price_opt_tmp</table>
+                    </product_price_indexer_option_tmp>
+                    <product_price_indexer_option_aggregate_idx>
+                        <table>catalog_product_index_price_opt_agr_idx</table>
+                    </product_price_indexer_option_aggregate_idx>
+                    <product_price_indexer_option_aggregate_tmp>
+                        <table>catalog_product_index_price_opt_agr_tmp</table>
+                    </product_price_indexer_option_aggregate_tmp>
+                    <product_eav_indexer_idx>
+                        <table>catalog_product_index_eav_idx</table>
+                    </product_eav_indexer_idx>
+                    <product_eav_indexer_tmp>
+                        <table>catalog_product_index_eav_tmp</table>
+                    </product_eav_indexer_tmp>
+                    <product_eav_decimal_indexer_idx>
+                        <table>catalog_product_index_eav_decimal_idx</table>
+                    </product_eav_decimal_indexer_idx>
+                    <product_eav_decimal_indexer_tmp>
+                        <table>catalog_product_index_eav_decimal_tmp</table>
+                    </product_eav_decimal_indexer_tmp>
+                    <product_price_indexer_idx>
+                        <table>catalog_product_index_price_idx</table>
+                    </product_price_indexer_idx>
+                    <product_price_indexer_tmp>
+                        <table>catalog_product_index_price_tmp</table>
+                    </product_price_indexer_tmp>
+                    <category_product_indexer_idx>
+                        <table>catalog_category_product_index_idx</table>
+                    </category_product_indexer_idx>
+                    <category_product_indexer_tmp>
+                        <table>catalog_category_product_index_tmp</table>
+                    </category_product_indexer_tmp>
+                    <category_product_enabled_indexer_idx>
+                        <table>catalog_category_product_index_enbl_idx</table>
+                    </category_product_enabled_indexer_idx>
+                    <category_product_enabled_indexer_tmp>
+                        <table>catalog_category_product_index_enbl_tmp</table>
+                    </category_product_enabled_indexer_tmp>
+                    <category_anchor_indexer_idx>
+                        <table>catalog_category_anc_categs_index_idx</table>
+                    </category_anchor_indexer_idx>
+                    <category_anchor_indexer_tmp>
+                        <table>catalog_category_anc_categs_index_tmp</table>
+                    </category_anchor_indexer_tmp>
+                    <category_anchor_products_indexer_idx>
+                        <table>catalog_category_anc_products_index_idx</table>
+                    </category_anchor_products_indexer_idx>
+                    <category_anchor_products_indexer_tmp>
+                        <table>catalog_category_anc_products_index_tmp</table>
+                    </category_anchor_products_indexer_tmp>
                 </entities>
             </catalog_resource_eav_mysql4>
         </models>

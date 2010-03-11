@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_CatalogInventory>
-            <version>0.7.6</version>
+            <version>0.7.7</version>
         </Mage_CatalogInventory>
     </modules>
     <global>
@@ -49,6 +49,12 @@
                     <stock_status>
                         <table>cataloginventory_stock_status</table>
                     </stock_status>
+                    <stock_status_indexer_idx>
+                        <table>cataloginventory_stock_status_idx</table>
+                    </stock_status_indexer_idx>
+                    <stock_status_indexer_tmp>
+                        <table>cataloginventory_stock_status_tmp</table>
+                    </stock_status_indexer_tmp>
                 </entities>
             </cataloginventory_mysql4>
         </models>

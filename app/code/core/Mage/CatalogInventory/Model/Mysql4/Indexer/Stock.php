@@ -240,7 +240,8 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock
      */
     public function reindexAll()
     {
-        $this->cloneIndexTable(true);
+        $this->useIdxTable(true);
+        $this->clearTemporaryIndexTable();
 
         foreach ($this->_getTypeIndexers() as $indexer) {
             $indexer->reindexAll();
@@ -374,5 +375,18 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock
         }
 
         return $this;
+    }
+
+    /**
+     * Retrieve temporary index table name
+     *
+     * @return string
+     */
+    public function getIdxTable($table = null)
+    {
+        if ($this->useIdxTable()) {
+            return $this->getTable('cataloginventory/stock_status_indexer_idx');
+        }
+        return $this->getTable('cataloginventory/stock_status_indexer_tmp');
     }
 }

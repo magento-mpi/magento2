@@ -66,6 +66,7 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock_Default
      */
     public function reindexAll()
     {
+        $this->useIdxTable(true);
         $this->_prepareIndexTable();
         return $this;
     }
@@ -253,5 +254,18 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock_Default
         $adapter->insertOnDuplicate($this->getMainTable(), $data, array('qty', 'stock_status'));
 
         return $this;
+    }
+
+    /**
+     * Retrieve temporary index table name
+     *
+     * @return string
+     */
+    public function getIdxTable($table = null)
+    {
+        if ($this->useIdxTable()) {
+            return $this->getTable('cataloginventory/stock_status_indexer_idx');
+        }
+        return $this->getTable('cataloginventory/stock_status_indexer_tmp');
     }
 }
