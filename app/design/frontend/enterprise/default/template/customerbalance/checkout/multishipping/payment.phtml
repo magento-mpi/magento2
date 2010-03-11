@@ -56,7 +56,7 @@
                             elements[i].disabled = true;
                             if (elements[i].value == 'free' && elements[i].type == 'radio'){
                                 elements[i].disabled = true;
-                                elements[i].parentNode.hide();
+                                $(elements[i].parentNode).hide();
                             }
                         }
                     } else {
@@ -89,7 +89,7 @@
                 $('payment-methods').show();
             }
         }
-        Event.observe($('use_customer_balance'), 'change', switchCustomerBalanceCheckbox);
+        Event.observe($('use_customer_balance'), 'click', switchCustomerBalanceCheckbox);
         Event.observe(window, 'load', switchCustomerBalanceCheckbox);
         function setUseCustomerBalanceEnabled() {
             $('use_customer_balance').disabled = false;
