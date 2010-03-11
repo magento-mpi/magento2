@@ -46,6 +46,8 @@ class Mage_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content
 
         $config['add_variables'] = false;
         $config['add_widgets'] = false;
+        $config['use_container'] = true;
+        $config['container_class'] = 'hor-scroll';
 
         $form->addField($this->getData('editor_element_id'), 'editor', array(
             'name'      => 'content',

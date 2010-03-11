@@ -303,7 +303,10 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
             return $html;
         }
 
-        $html = '<div id="editor'.$this->getHtmlId().'"'.($this->getConfig('no_display') ? ' style="display:none;"' : '').'>'
+        $html = '<div id="editor'.$this->getHtmlId().'"'
+              . ($this->getConfig('no_display') ? ' style="display:none;"' : '')
+              . ($this->getConfig('container_class') ? ' class="' . $this->getConfig('container_class') . '"' : '')
+              . '>'
               . $html
               . '</div>';
 
