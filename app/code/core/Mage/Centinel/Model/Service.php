@@ -32,8 +32,8 @@ class Mage_Centinel_Model_Service extends Varien_Object
     /**
      * Cmpi public keys
      */
-    const CMPI_PARES    = 'centinel_mpivendor';
-    const CMPI_ENROLLED = 'centinel_authstatus';
+    const CMPI_PARES    = 'centinel_authstatus';
+    const CMPI_ENROLLED = 'centinel_mpivendor';
     const CMPI_CAVV     = 'centinel_cavv';
     const CMPI_ECI      = 'centinel_eci';
     const CMPI_XID      = 'centinel_xid';
