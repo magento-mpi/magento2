@@ -240,7 +240,7 @@ class Enterprise_SalesPool_Model_Mysql4_Setup extends Mage_Core_Model_Resource_S
 
             if (isset($this->_poolIndicies[$entityCode])) {
                 // Synchronize pool indicies
-                $indecies = $this->getConnection()->getKeyList($this->getTable($poolTable));
+                $indecies = $this->getConnection()->getKeyList($poolTable);
 
                 foreach ($this->_poolIndicies[$entityCode] as $indexName => $indexInfo) {
                     if (!is_string($indexName) && is_string($indexInfo)) {
@@ -280,7 +280,7 @@ class Enterprise_SalesPool_Model_Mysql4_Setup extends Mage_Core_Model_Resource_S
                     $indexName = strtoupper(($type == 'unique'? 'unq_':'idx_') . $indexName);
 
                     if (!isset($indecies[$indexName]) || count(array_diff($indecies[$indexName], $fields)) > 0) {
-                        $this->getConnection()->addKey($this->getTable($poolTable), $indexName, $fields, $type);
+                        $this->getConnection()->addKey($poolTable, $indexName, $fields, $type);
                     }
                 }
             }
