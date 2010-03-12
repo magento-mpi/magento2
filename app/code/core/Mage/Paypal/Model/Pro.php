@@ -157,6 +157,7 @@ class Mage_Paypal_Model_Pro
         $api = $this->getApi()
             ->setTransactionId($authTransactionId);
         if (!$this->_isCaptureNeeded()) {
+            Mage::getModel('paypal/info')->importToPayment($api, $payment);
             return;
         }
 
@@ -254,7 +255,6 @@ class Mage_Paypal_Model_Pro
     {
         $this->_api->callGetTransactionDetails();
         if ($this->_api->isPaymentComplete()) {
-            Mage::getModel('paypal/info')->importToPayment($api, $payment);
             return false;
         }
         return true;
