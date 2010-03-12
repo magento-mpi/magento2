@@ -57,11 +57,6 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
     protected $_rates = array();
 
     /**
-     * @var array
-     */
-    private $_actionEntityIdCache = array();
-
-    /**
      * Internal constructor
      */
     protected function _construct()
@@ -107,7 +102,6 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
      */
     protected function _beforeSave()
     {
-        $this->_ensureActualActionInstanceEntity();
         $this->loadByCustomer()
             ->_preparePointsDelta()
             ->_preparePointsBalance();
@@ -133,23 +127,6 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
     }
 
     /**
-     * Ensure action instance references to actual entity
-     */
-    protected function _ensureActualActionInstanceEntity()
-    {
-        $action = $this->getAction();
-        $actionEntity = $this->getActionEntity();  // must be assigned as context object in observer etc.
-        $actionEntityId = (is_object($actionEntity) ? $actionEntity->getId() : null);
-        if (!array_key_exists($action, $this->_actionEntityIdCache) || $this->_actionEntityIdCache[$action] !== $actionEntityId) {
-            $actionInstance = $this->getActionInstance($action);
-            if ($actionInstance) {
-                $actionInstance->setEntity($actionEntity);
-                $this->_actionEntityIdCache[$action] = $actionEntityId;
-            }
-        }
-    }
-
-    /**
      * Return instance of action wrapper
      *
      * @param string|int $action Action code or a factory name
@@ -163,18 +140,23 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
                 return null;
             }
         }
-        if ($instance = Mage::registry('_reward_actions' . $action)) {
-            return $instance;
-        }
-        if (isset(self::$_actionModelClasses[$action])) {
+        $instance = Mage::registry('_reward_actions' . $action);
+        if (!$instance && array_key_exists($action, self::$_actionModelClasses)) {
             $instance = Mage::getModel(self::$_actionModelClasses[$action]);
-            $instance->setAction($action)
-                ->setReward($this)
-                ->setHistory($this->getHistory());
+            // setup invariant properties once
+            $instance->setAction($action);
+            $instance->setReward($this);
             Mage::register('_reward_actions' . $action, $instance);
-            return $instance;
         }
-        return null;
+        if (!$instance) {
+            return null;
+        }
+        // keep variable properties up-to-date
+        $instance->setHistory($this->getHistory());
+        if ($this->getActionEntity()) {
+            $instance->setEntity($this->getActionEntity());
+        }
+        return $instance;
     }
 
     /**
@@ -184,7 +166,6 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
      */
     public function canUpdateRewardPoints()
     {
-        $this->_ensureActualActionInstanceEntity();
         return $this->getActionInstance($this->getAction())->canAddRewardPoints();
     }
 
