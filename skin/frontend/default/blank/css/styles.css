@@ -533,9 +533,9 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .block-related {}
 .block-related li { padding:5px 0; }
 .block-related input.checkbox { float:left; margin-right:-20px; }
-.block-related .item { margin-left:20px; }
-.block-related .item .product-image { float:left; margin-right:-65px; }
-.block-related .item .product-details { margin-left:65px; }
+.block-related .product { margin-left:20px; }
+.block-related .product .product-image { float:left; margin-right:-65px; }
+.block-related .product .product-details { margin-left:65px; }
 
 /* Block: Compare Products */
 .block-compare {}
