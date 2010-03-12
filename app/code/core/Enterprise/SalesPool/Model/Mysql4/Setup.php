@@ -132,7 +132,6 @@ class Enterprise_SalesPool_Model_Mysql4_Setup extends Mage_Core_Model_Resource_S
      */
     protected function _fastDescribe($table)
     {
-        $table = $this->getTable($table);
         return $this->getConnection()->fetchPairs('DESCRIBE ' . $table);
     }
 
@@ -150,7 +149,7 @@ class Enterprise_SalesPool_Model_Mysql4_Setup extends Mage_Core_Model_Resource_S
             $poolTable = Enterprise_SalesPool_Model_Mysql4_Pool::POOL_TABLE_PREFIX . $entityCode . Enterprise_SalesPool_Model_Mysql4_Pool::POOL_TABLE_SUFIX;
             $poolTable = $this->getTable($poolTable);
 
-            $fields = $this->_fastDescribe($entityConfig['source']);
+            $fields = $this->_fastDescribe($this->getTable($entityConfig['source']));
 
             if ($this->tableExists($poolTable)) {
                 $poolFields = $this->_fastDescribe($poolTable);
