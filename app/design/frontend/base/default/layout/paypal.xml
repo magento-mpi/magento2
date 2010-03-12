@@ -68,4 +68,24 @@
             <block type="checkout/cart_totals" name="paypal.express.review.details.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
         </block>
     </paypal_express_review_details>
+    
+    <catalog_product_view>
+        <reference name="product.info.extrabuttons">
+            <block type="paypal/express_shortcut" name="paypal.partner.catalog.shortcut" template="paypal/partner/catalog/product/shortcut.phtml"/>
+        </reference>
+    </catalog_product_view>
+    
+    <default>
+        <reference name="topCart.extra_actions">
+            <block type="paypal/express_shortcut" name="paypal.partner.top_cart.shortcut" template="paypal/partner/shortcut.phtml"/>
+        </reference>
+        <reference name="cart_sidebar.extra_actions">
+            <block type="paypal/express_shortcut" name="paypal.partner.cart_sidebar.shortcut" template="paypal/partner/shortcut.phtml"/>
+        </reference>
+        <reference name="right">
+            <block type="paypal/partner_mark" name="paypal.partner.right.mark" template="paypal/partner/mark.phtml">
+                <action method="setData"><key>size</key><value>60x38</value></action>
+            </block>
+        </reference>
+    </default>
 </layout>

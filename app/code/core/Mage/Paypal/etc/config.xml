@@ -105,6 +105,16 @@
                 </paypal>
             </updates>
         </layout>
+        <events>
+            <checkout_cart_add_product_complete>
+                <observers>
+                    <paypal>
+                        <class>paypal/observer</class>
+                        <method>processAddtoCartExpressCheckout</method>
+                    </paypal>
+                </observers>
+            </checkout_cart_add_product_complete>
+        </events>
     </frontend>
     <adminhtml>
         <translate>

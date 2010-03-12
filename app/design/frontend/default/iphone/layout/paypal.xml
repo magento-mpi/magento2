@@ -67,4 +67,24 @@ PayPal Express Review details block
         <block type="paypal/express_review_details" name="root" output="toHtml" template="paypal/express/review/details.phtml"/>
     </paypal_express_review_details>
 
+    <catalog_product_view>
+        <reference name="product.info.extrabuttons">
+            <block type="paypal/express_shortcut" name="paypal.partner.shortcut" template="paypal/partner/catalog/product/shortcut.phtml"/>
+        </reference>
+    </catalog_product_view>
+    
+    <default>
+        <reference name="topCart.extra_actions">
+            <block type="paypal/express_shortcut" name="paypal.partner.shortcut" template="paypal/partner/shortcut.phtml"/>
+        </reference>
+        <reference name="cart_sidebar.extra_actions">
+            <block type="paypal/express_shortcut" name="paypal.partner.shortcut" template="paypal/partner/shortcut.phtml"/>
+        </reference>
+        <reference name="right">
+            <block type="paypal/partner_mark" name="paypal.partner.mark" template="paypal/partner/mark.phtml">
+                <action method="setData"><key>size</key><value>60x38</value></action>
+            </block>
+        </reference>
+    </default>
+
 </layout>
