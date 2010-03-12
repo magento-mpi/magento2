@@ -90,7 +90,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
      *
      * @return Mage_SalesRule_Model_Coupon_CodegeneratorInterface
      */
-    public static function getCouponCodeGeneredtor()
+    public static function getCouponCodeGenerator()
     {
         if (!self::$_couponCodeGenerator) {
             return Mage::getSingleton('salesrule/coupon_codegenerator', array('length' => 16));
@@ -103,7 +103,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
      *
      * @param Mage_SalesRule_Model_Coupon_CodegeneratorInterface
      */
-    public static function setCouponCodeGeneredtor(Mage_SalesRule_Model_Coupon_CodegeneratorInterface $codeGenerator)
+    public static function setCouponCodeGenerator(Mage_SalesRule_Model_Coupon_CodegeneratorInterface $codeGenerator)
     {
         self::$_couponCodeGenerator = $codeGenerator;
     }
@@ -326,7 +326,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
                 ->setUsagePerCustomer($this->getUsesPerCustomer() ? $this->getUsesPerCustomer() : null)
                 ->setExpirationDate($this->getToDate());
 
-        $couponCode = self::getCouponCodeGeneredtor()->generateCode();
+        $couponCode = self::getCouponCodeGenerator()->generateCode();
         $coupon->setCode($couponCode);
         $ok = false;
         if (!$saveNewlyCreated) {
@@ -339,7 +339,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Rule
                     if ($e instanceof Mage_Core_Exception || $coupon->getId()) {
                         throw $e;
                     }
-                    $coupon->setCode($couponCode . self::getCouponCodeGeneredtor()->getDelimiter() . sprintf('%04u', rand(0, 9999)));
+                    $coupon->setCode($couponCode . self::getCouponCodeGenerator()->getDelimiter() . sprintf('%04u', rand(0, 9999)));
                     continue;
                 }
                 $ok = true;
