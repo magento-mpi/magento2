@@ -482,9 +482,9 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .nav-container { width:950px; padding:0 10px; background:url(../images/bkg_shadow.png) 50% 0 repeat-y; }
 #nav { padding:0 16px; background:#0a263d; font-size:13px; }
 
-/* ALL Levels */ /* Style consistent throughout all nav levels */
+/* All Levels */ /* Style consistent throughout all nav levels */
 #nav li { position:relative; text-align:left; }
-#nav li.over { z-index:999; }
+#nav li.over { z-index:998; }
 #nav a,
 #nav a:hover { display:block; line-height:1.3em; text-decoration:none; }
 #nav span { display:block; cursor:pointer; white-space:nowrap; }
@@ -502,7 +502,6 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 /* 1st Level */
 #nav ul li,
 #nav ul li.active { float:none; margin:0; padding-bottom:1px; background:#ecf3f6 url(../images/bkg_nav1.gif) 0 100% repeat-x; }
-/*#nav ul li.over { background:#d5e4eb url(../images/bkg_nav1.gif) repeat-x 0 100%; }*/
 #nav ul li.last { background:#ecf3f6; padding-bottom:0; }
 
 #nav ul a,
@@ -510,21 +509,26 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 #nav ul li a { font-weight:normal !important; }
 
 /* 2nd Level */
-#nav ul { position:absolute; width:15em; top:27px; left:-10000px; border:1px solid #899ba5; }
+#nav ul,
+#nav div { position:absolute; width:15em; top:27px; left:-10000px; border:1px solid #899ba5; }
+#nav div ul { position:static; width:auto; border:none; }
 
-/* Show menu */
-#nav li.over > ul { left:0; }
-#nav li.over > ul li.over > ul { left:100px; }
-#nav li.over ul ul { left:-10000px; }
+/* 3rd+ Level */
+#nav ul ul,
+#nav ul div { top:5px; }
 
 #nav ul li a { background:#ecf3f6; }
 #nav ul li a:hover { background:#d5e4eb; }
 #nav ul li a,
 #nav ul li a:hover { color:#2f2f2f !important; }
-#nav ul span, #nav ul li.last li span { padding:3px 15px 4px 15px; }
+#nav ul span,
+#nav ul li.last li span { padding:3px 15px 4px 15px; }
 
-/* 3rd+ Level */
-#nav ul ul { top:5px; }
+/* Show menu */
+#nav li ul.shown-sub,
+#nav li div.shown-sub { left:0; z-index:999; }
+#nav li .shown-sub ul.shown-sub,
+#nav li .shown-sub li div.shown-sub { left:100px; }
 /********** Navigation > */
 /* ======================================================================================= */
 

@@ -487,7 +487,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* ALL Levels */ /* Style consistent throughout all nav levels */
 #nav li { position:relative;text-transform:uppercase; text-align:left;	}
-#nav li.over { z-index:999; }
+#nav li.over { z-index:998; }
 #nav a,
 #nav a:hover { display:block; line-height:1.3em; text-decoration:none; }
 #nav span { display:block; cursor:pointer; white-space:nowrap; }
@@ -514,18 +514,22 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 #nav ul li a { font-weight:normal !important; }
 
 /* 2nd Level */
-#nav ul { position:absolute; width:15em; top:22px; left:-10000px; border:1px solid #bbb; border-bottom:2px solid #999; padding:3px 8px; background:#fcfcfc; font-size:11px; }
+#nav ul,
+#nav div { position:absolute; width:15em; top:22px; left:-10000px; border:1px solid #bbb; border-bottom:2px solid #999; padding:3px 8px; background:#fcfcfc; font-size:11px; }
+#nav div ul { position:static; width:auto; border:none; padding:0; }
 
-/* Show menu */
-#nav li.over > ul { left:-1px; }
-#nav li.over > ul li.over > ul { left:100px; }
-#nav li.over ul ul { left:-10000px; }
+/* 3rd+ Level */
+#nav ul ul,
+#nav ul div { top:5px; }
 
 #nav ul li a { padding:3px 0; color:#444 !important; }
 #nav ul li a:hover { padding:3px 0; color:#5a7f00 !important; }
 
-/* 3rd+ Level */
-#nav ul ul { top:5px; }
+/* Show menu */
+#nav li ul.shown-sub,
+#nav li div.shown-sub { left:0; z-index:999; }
+#nav li .shown-sub ul.shown-sub,
+#nav li .shown-sub li div.shown-sub { left:100px; }
 /********** Navigation > */
 /* ======================================================================================= */
 

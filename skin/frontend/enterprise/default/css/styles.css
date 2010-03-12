@@ -602,26 +602,31 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 #nav li.over a span { padding:1px 19px 0 0; }
 
 /* 2nd Level */
-#nav ul { position:absolute; width:13.5em; top:30px; left:-10000px; background:#fbfbfb; padding:5px 11px 10px; border:1px solid #aeaeae; border-top:0; }
+#nav ul,
+#nav div { position:absolute; width:13.5em; top:30px; left:-10000px; background:#fbfbfb; padding:5px 11px 10px; border:1px solid #aeaeae; border-top:0; }
+#nav div ul {position:static; width:auto; border:none !important; padding:0; }
+
 #nav ul li,
 #nav ul li a,
-#nav ul li a span { display:block; font-size:12px; float:none; background:none; height:auto !important; line-height:1.2 !important; font-weight:normal; text-transform:none; }
-#nav ul li { margin:0; padding:0; border-bottom:1px solid #e2e2e2; }
+#nav ul li a span { display:block; font-size:12px; float:none; background:none; height:auto !important; line-height:1.2 !important; font-weight:normal; text-transform:none; border-top:0; }
+#nav ul li { margin:0; padding:0; border-bottom:1px solid #e2e2e2; z-index:auto; }
 #nav ul li.last { border-bottom:0; }
-#nav ul li a { padding:5px 4px !important; color:#444; }
+#nav ul li a { padding:5px 4px !important; color:#444; margin:0 !important; z-index:auto !important; }
 #nav ul li a span { padding:0 !important; }
 #nav ul li a:hover { color:#d02600; }
 #nav ul li.active > a,
-#nav ul li.over > a { color:#444 }
+#nav ul li.parent > a { color:#444 }
 #nav ul li.parent { background-image:url(../images/bkg_parent.gif); background-repeat:no-repeat; background-position:100% 50%; }
 
 /* 3rd+ leven */
-#nav ul ul { top:7px; border-top:1px solid #aeaeae; padding-bottom:5px; }
+#nav ul ul,
+#nav ul div { top:7px; border-top:1px solid #aeaeae; padding-bottom:5px; }
 
 /* Show Menu */
-#nav li.over > ul { left:-1px; }
-#nav li.over > ul li.over > ul { left:100px; }
-#nav li.over ul ul { left:-10000px; }
+#nav li ul.shown-sub,
+#nav li div.shown-sub { left:-1px; z-index:991; }
+#nav li .shown-sub ul.shown-sub,
+#nav li .shown-sub li div.shown-sub { left:100px; }
 /********** Navigation > */
 /* ======================================================================================= */
 

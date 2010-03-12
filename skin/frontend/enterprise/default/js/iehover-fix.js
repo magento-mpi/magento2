@@ -22,26 +22,10 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-function toggleMenu(el, over)
-{
-    if (Element.childElements(el)) {
-    var uL = Element.childElements(el)[1];
-    var iS = true;
-    }
-    if (over) {
-        Element.addClassName(el, 'over');
-        
-        if(iS){ uL.addClassName('shown-sub')};
-    }
-    else {
-        Element.removeClassName(el, 'over');
-        if(iS){ uL.removeClassName('shown-sub')};
-    }
-}
 
 ieHover = function() {
     var items, iframe;
-    items = $$('#nav ul', '.truncated_full_value .item-options', '.tool-tip', '#topCartContent');
+    items = $$('#nav ul', '#nav div', '.truncated_full_value .item-options', '.tool-tip', '#topCartContent');
     $$('#checkout-step-payment', '.tool-tip', '#topCartContent').each(function(el) {
         el.show();
         el.setStyle({'visibility':'hidden'})
