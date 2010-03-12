@@ -118,8 +118,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'CVV2MATCH'      => 'cvv2_check_result',
         'AVSCODE'        => 'avs_result',
         // cardinal centinel
-        'AUTHSTATUS3D' => 'centinel_authstatus',
-        'MPIVENDOR3DS' => 'centinel_mpivendor',
+        'AUTHSTATUS3DS' => 'centinel_authstatus',
+        'MPIVENDOR3DS'  => 'centinel_mpivendor',
         'CAVV'         => 'centinel_cavv',
         'ECI3DS'       => 'centinel_eci',
         'XID'          => 'centinel_xid',
@@ -184,7 +184,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'PAYMENTACTION', 'IPADDRESS', 'RETURNFMFDETAILS',
         'AMT', 'CURRENCYCODE', 'INVNUM', 'NOTIFYURL', 'EMAIL', //, 'ITEMAMT', 'SHIPPINGAMT', 'TAXAMT',
         'CREDITCARDTYPE', 'ACCT', 'EXPDATE', 'CVV2', 'STARTDATE', 'ISSUENUMBER',
-        'AUTHSTATUS3D', 'MPIVENDOR3DS', 'CAVV', 'ECI3DS', 'XID',
+        'AUTHSTATUS3DS', 'MPIVENDOR3DS', 'CAVV', 'ECI3DS', 'XID',
     );
     protected $_doDirectPaymentResponse = array(
         'TRANSACTIONID', 'AMT', 'AVSCODE', 'CVV2MATCH', 'VPAS', 'ECISUBMITTED3DS'
