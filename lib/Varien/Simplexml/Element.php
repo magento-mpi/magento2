@@ -140,6 +140,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
      * Find a descendant of a node by path
      *
      * @todo    Do we need to make it xpath look-a-like?
+     * @todo    Check if we still need all this and revert to plain XPath if this makes any sense
      * @todo    param string $path Subset of xpath. Example: "child/grand[@attrName='attrValue']/subGrand"
      * @param   string $path Example: "child/grand@attrName=attrValue/subGrand" (to make it faster without regex)
      * @return  Varien_Simplexml_Element
@@ -151,7 +152,13 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         if (is_array($path)) {
             $pathArr = $path;
         } else {
-            $pathArr = explode('/', $path);
+            // Simple exploding by / does not suffice,
+            // as an attribute value may contain a / inside
+            // Note that there are three matches for different kinds of attribute values specification
+            while(preg_match("#^/?((?:[^@/\\\"]+)(?:@(?:[^=/]+)=(?:'(?:[^']*)'|\\\"(?:[^\\\"]*)\\\"|(?:[^/]*)))?)(?:$|/)#", $path, $pathMatches)){
+                $pathArr[] = $pathMatches[1];
+                $path = preg_replace('/^'.preg_quote($pathMatches[0], '/').'/', '', $path);
+            }
         }
         $desc = $this;
         foreach ($pathArr as $nodeName) {
@@ -169,9 +176,11 @@ class Varien_Simplexml_Element extends SimpleXMLElement
                     $attributeValue = ($matchesArray[1] == '') ? $matchesArray[2] : $matchesArray[1];
                 }
                 $found = false;
-                foreach ($this->$nodeName as $desc) {
-                    if ((string)$desc[$attributeName]===$attributeValue) {
+                foreach ($desc->$nodeName as $subdesc) {
+                    echo (string)$subdesc[$attributeName]." $attributeValue\n";
+                    if ((string)$subdesc[$attributeName]===$attributeValue) {
                         $found = true;
+                        $desc = $subdesc;
                         break;
                     }
                 }
