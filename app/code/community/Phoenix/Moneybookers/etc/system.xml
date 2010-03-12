@@ -40,7 +40,7 @@
                     <fields>
                         <moneybookers_email translate="label,comment">
                             <label>Email Address of Your Moneybookers Account</label>
-                            <comment><![CDATA[To have access to the international payment network of Moneybookers please register <a href="http://www.moneybookers.com/" target="_blank">here</a> for a free account if you don’t have one yet.]]></comment>
+                            <comment><![CDATA[To have access to the international payment network of Moneybookers please register <a href="http://www.moneybookers.com/partners/magento/" target="_blank">here</a> for a free account if you don’t have one yet.]]></comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
