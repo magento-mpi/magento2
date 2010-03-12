@@ -738,7 +738,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .availability.in-stock span {}
 .availability.out-of-stock span { color:#d83820; }
 
-.availability-only { margin:10px 0 7px; background:url(../images/i_availability_only.gif) 0 50% no-repeat; padding-left:15px; }
+.availability-only { margin:10px 0 7px; line-height:16px; background:url(../images/i_availability_only.gif) 0 50% no-repeat; padding-left:15px; }
 .availability-only span,
 .availability-only a { border-bottom:1px dashed #751d02; color:#000; cursor:help; }
 .availability-only a { background:url(../images/i_availability_only_arrow.gif) 100% 0 no-repeat; cursor:pointer; padding-right:15px; text-decoration:none; }
