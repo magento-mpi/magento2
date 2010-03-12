@@ -60,4 +60,17 @@ class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
         $payment->setPreparedMessage(Mage::helper('paypaluk')->__('Payflow PNREF: #%s.', $api->getTransactionId()));
         Mage::getModel($this->_infoType)->importToPayment($api, $payment);
     }
+
+    /**
+     * Format credit card expiration date based on month and year values
+     * Format: mmyy
+     * 
+     * @param string|int $month
+     * @param string|int $year
+     * @return string
+     */
+    protected function _getFormattedCcExpirationDate($month, $year)
+    {
+        return sprintf('%02d', $month) . sprintf('%02d', substr($year, -2, 2));
+    }
 }

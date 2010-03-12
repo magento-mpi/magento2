@@ -219,12 +219,17 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             ->setNotifyUrl(Mage::getUrl($this->_notifyAction))
             ->setCreditCardType($payment->getCcType())
             ->setCreditCardNumber($payment->getCcNumber())
-            ->setCreditCardExpirationDate(sprintf('%02d%02d', $payment->getCcExpMonth(), $payment->getCcExpYear()))
+            ->setCreditCardExpirationDate(
+                $this->_getFormattedCcExpirationDate($payment->getCcExpMonth(), $payment->getCcExpYear())
+            )
             ->setCreditCardCvv2($payment->getCcCid())
             ->setMaestroSoloIssueNumber($payment->getCcSsIssue())
         ;
         if ($payment->getCcSsStartMonth() && $payment->getCcSsStartYear()) {
-            $api->setMaestroSoloIssueDate(sprintf('%02d%02d', $payment->getCcSsStartMonth(), preg_replace('~\d\d(\d\d)~','$1', $payment->getCcSsStartYear())));
+            $year = sprintf('%02d', substr($payment->getCcSsStartYear(), -2, 2));
+            $api->setMaestroSoloIssueDate(
+                $this->_getFormattedCcExpirationDate($payment->getCcSsStartMonth(), $year)
+            );
         }
         if ($this->getIsCentinelValidationEnabled()) {
             $this->getCentinelValidator()->exportCmpiData($api);
@@ -249,6 +254,19 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
+    /**
+     * Format credit card expiration date based on month and year values
+     * Format: mmyyyy
+     *
+     * @param string|int $month
+     * @param string|int $year
+     * @return string
+     */
+    protected function _getFormattedCcExpirationDate($month, $year)
+    {
+        return sprintf('%02d%02d', $month, $year);
+    }
+    
     /**
      * Import direct payment results to payment
      *
