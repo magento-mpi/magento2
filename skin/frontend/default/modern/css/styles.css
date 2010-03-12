@@ -485,7 +485,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .nav-container {}
 #nav { float:left; margin:15px 0 0 15px; font-size:12px; }
 
-/* ALL Levels */ /* Style consistent throughout all nav levels */
+/* All Levels */ /* Style consistent throughout all nav levels */
 #nav li { position:relative;text-transform:uppercase; text-align:left;	}
 #nav li.over { z-index:998; }
 #nav a,
@@ -527,7 +527,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* Show menu */
 #nav li ul.shown-sub,
-#nav li div.shown-sub { left:0; z-index:999; }
+#nav li div.shown-sub { left:-1px; z-index:999; }
 #nav li .shown-sub ul.shown-sub,
 #nav li .shown-sub li div.shown-sub { left:100px; }
 /********** Navigation > */
