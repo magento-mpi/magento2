@@ -155,9 +155,15 @@ class Varien_Simplexml_Element extends SimpleXMLElement
             // Simple exploding by / does not suffice,
             // as an attribute value may contain a / inside
             // Note that there are three matches for different kinds of attribute values specification
-            while(preg_match("#^/?((?:[^@/\\\"]+)(?:@(?:[^=/]+)=(?:'(?:[^']*)'|\\\"(?:[^\\\"]*)\\\"|(?:[^/]*)))?)(?:$|/)#", $path, $pathMatches)){
-                $pathArr[] = $pathMatches[1];
-                $path = preg_replace('/^'.preg_quote($pathMatches[0], '/').'/', '', $path);
+            if(strpos('@', $path) === false)
+                $pathArr = explode('/', $path);
+            else {
+                $regex = "#^/?((?:[^@/\\\"]+)(?:@(?:[^=/]+)=(?:'(?:[^']*)'|\\\"(?:[^\\\"]*)\\\"|(?:[^/]*)))?)(?:$|/)#";
+                $pathArr = array();
+                while(preg_match($regex, $path, $pathMatches)){
+                    $pathArr[] = $pathMatches[1];
+                    $path = preg_replace('/^'.preg_quote($pathMatches[0], '/').'/', '', $path);
+                }
             }
         }
         $desc = $this;
@@ -177,7 +183,6 @@ class Varien_Simplexml_Element extends SimpleXMLElement
                 }
                 $found = false;
                 foreach ($desc->$nodeName as $subdesc) {
-                    echo (string)$subdesc[$attributeName]." $attributeValue\n";
                     if ((string)$subdesc[$attributeName]===$attributeValue) {
                         $found = true;
                         $desc = $subdesc;
