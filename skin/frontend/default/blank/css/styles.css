@@ -637,16 +637,17 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .availability.in-stock span {}
 .availability.out-of-stock span { color:#d83820; }
 
-.availability-only {}
-.availability-only span, .availability-only a {}
-.availability-only a {}
-.availability-only .expanded {}
+.availability-only { margin:0 0 7px; }
+.availability-only span,
+.availability-only a { cursor:help; }
+.availability-only a { background:url(../images/i_availability_only_arrow.gif) 100% 0 no-repeat; cursor:pointer; padding-right:15px; }
+.availability-only .expanded { background-position:100% -15px; }
 .availability-only strong {}
 
-.availability-only-details {}
-.availability-only-details th {}
-.availability-only-details td {}
-.availability-only-details .odd .last {}
+.availability-only-details { margin:0 0 7px; }
+.availability-only-details th { background:#f2f2f2; font-size:10px; padding:0 8px; }
+.availability-only-details td { border-bottom:1px solid #ddd; font-size:11px; padding:2px 8px 1px; }
+.availability-only-details tr.odd td.last {}
 
 /* Email to a Friend */
 .email-friend {}
