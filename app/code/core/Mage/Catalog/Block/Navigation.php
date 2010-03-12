@@ -171,18 +171,101 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     }
 
     /**
-     * Render category to html
+     * Render category menu item to HTML
      *
+     * @deprecated deprecated after 1.4
      * @param Mage_Catalog_Model_Category $category
-     * @param int Nesting level number
-     * @param boolean Whether ot not this item is last, affects list item class
-     * @param boolean Whether ot not this item is first, affects list item class
-     * @param boolean Whether ot not this item is outermost, affects list item class
-     * @param string Extra class of outermost list items
-     * @param string If specified wraps children list in div with this class
+     * @param integer $level Nesting level number
+     * @param boolean $last Whether ot not this item is last, affects list item class
      * @return string
      */
-    public function drawItem($category, $level = 0, $isLast = false, $isFirst = false, $isOutermost = false, $outermostItemClass = '', $childrenWrapClass = '')
+    public function drawItem($category, $level = 0, $last = false)
+    {
+        return $this->_renderCategoryMenuItemHtml($category, $level, $last);
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return Mage_Catalog_Model_Category
+     */
+    public function getCurrentCategory()
+    {
+        if (Mage::getSingleton('catalog/layer')) {
+            return Mage::getSingleton('catalog/layer')->getCurrentCategory();
+        }
+        return false;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
+    public function getCurrentCategoryPath()
+    {
+        if ($this->getCurrentCategory()) {
+            return explode(',', $this->getCurrentCategory()->getPathInStore());
+        }
+        return array();
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return string
+     */
+    public function drawOpenCategoryItem($category) {
+        $html = '';
+        if (!$category->getIsActive()) {
+            return $html;
+        }
+
+        $html.= '<li';
+
+        if ($this->isCategoryActive($category)) {
+            $html.= ' class="active"';
+        }
+
+        $html.= '>'."\n";
+        $html.= '<a href="'.$this->getCategoryUrl($category).'"><span>'.$this->htmlEscape($category->getName()).'</span></a>'."\n";
+
+        if (in_array($category->getId(), $this->getCurrentCategoryPath())){
+            $children = $category->getChildren();
+            $hasChildren = $children && $children->count();
+
+            if ($hasChildren) {
+                $htmlChildren = '';
+                foreach ($children as $child) {
+                    $htmlChildren.= $this->drawOpenCategoryItem($child);
+                }
+
+                if (!empty($htmlChildren)) {
+                    $html.= '<ul>'."\n"
+                            .$htmlChildren
+                            .'</ul>';
+                }
+            }
+        }
+        $html.= '</li>'."\n";
+        return $html;
+    }
+
+    /**
+     * Render category menu item to HTML
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @param integer $level Nesting level number
+     * @param boolean $isLast Whether ot not this item is last, affects list item class
+     * @param boolean $isFirst Whether ot not this item is first, affects list item class
+     * @param boolean $isOutermost Whether ot not this item is outermost, affects list item class
+     * @param string  $outermostItemClass Extra class of outermost list items
+     * @param string  $childrenWrapClass If specified wraps children list in div with this class
+     * @return string
+     */
+    protected function _renderCategoryMenuItemHtml($category, $level = 0, $isLast = false,
+        $isFirst = false, $isOutermost = false, $outermostItemClass = '', $childrenWrapClass = '')
     {
         if (!$category->getIsActive()) {
             return '';
@@ -255,7 +338,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $htmlChildren = '';
         $j = 0;
         foreach ($activeChildren as $child) {
-            $htmlChildren .= $this->drawItem(
+            $htmlChildren .= $this->_renderCategoryMenuItemHtml(
                 $child,
                 ($level + 1),
                 ($j == $activeChildrenCount - 1),
@@ -285,80 +368,11 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     }
 
     /**
-     * Enter description here...
+     * Render categories menu to HTML
      *
-     * @return Mage_Catalog_Model_Category
-     */
-    public function getCurrentCategory()
-    {
-        if (Mage::getSingleton('catalog/layer')) {
-            return Mage::getSingleton('catalog/layer')->getCurrentCategory();
-        }
-        return false;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return string
-     */
-    public function getCurrentCategoryPath()
-    {
-        if ($this->getCurrentCategory()) {
-            return explode(',', $this->getCurrentCategory()->getPathInStore());
-        }
-        return array();
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @param Mage_Catalog_Model_Category $category
-     * @return string
-     */
-    public function drawOpenCategoryItem($category) {
-        $html = '';
-        if (!$category->getIsActive()) {
-            return $html;
-        }
-
-        $html.= '<li';
-
-        if ($this->isCategoryActive($category)) {
-            $html.= ' class="active"';
-        }
-
-        $html.= '>'."\n";
-        $html.= '<a href="'.$this->getCategoryUrl($category).'"><span>'.$this->htmlEscape($category->getName()).'</span></a>'."\n";
-
-        if (in_array($category->getId(), $this->getCurrentCategoryPath())){
-            $children = $category->getChildren();
-            $hasChildren = $children && $children->count();
-
-            if ($hasChildren) {
-                $htmlChildren = '';
-                foreach ($children as $child) {
-                    $htmlChildren.= $this->drawOpenCategoryItem($child);
-                }
-
-                if (!empty($htmlChildren)) {
-                    $html.= '<ul>'."\n"
-                            .$htmlChildren
-                            .'</ul>';
-                }
-            }
-        }
-        $html.= '</li>'."\n";
-        return $html;
-    }
-
-    /**
-     * Render categories menu in HTML
-     *
-     * @param int Level number for list item class to start from
-     * @param string Extra class of outermost list items
-     * @param string If specified wraps children list in div with this class
-     * @return string
+     * @param integer $level Nesting level number
+     * @param string  $outermostItemClass Extra class of outermost list items
+     * @param string  $childrenWrapClass If specified wraps children list in div with this class
      */
     public function renderCategoriesMenuHtml($level = 0, $outermostItemClass = '', $childrenWrapClass = '')
     {
@@ -378,7 +392,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $html = '';
         $j = 0;
         foreach ($activeCategories as $category) {
-            $html .= $this->drawItem(
+            $html .= $this->_renderCategoryMenuItemHtml(
                 $category,
                 $level,
                 ($j == $activeCategoriesCount - 1),
