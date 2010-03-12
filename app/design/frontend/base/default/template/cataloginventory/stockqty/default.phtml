@@ -29,7 +29,9 @@
  */
 ?>
 <?php if ($this->isMsgVisible()) : ?>
-    <span class="stock-qty">
-        <?php echo $this->__('Only %s left', $this->getStockQty()) ?>
-    </span>
+    <p class="availability-only">
+        <span title="Only <?php echo $this->getStockQty(); ?> pieces of this mega item left in our stock. Don't hesitate!">
+            <?php echo $this->__('Only %s left', "<strong>{$this->getStockQty()}</strong>") ?>
+        </span>
+    </p>
 <?php endif ?>

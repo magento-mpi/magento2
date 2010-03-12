@@ -637,6 +637,17 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .availability.in-stock span {}
 .availability.out-of-stock span { color:#d83820; }
 
+.availability-only {}
+.availability-only span, .availability-only a {}
+.availability-only a {}
+.availability-only .expanded {}
+.availability-only strong {}
+
+.availability-only-details {}
+.availability-only-details th {}
+.availability-only-details td {}
+.availability-only-details .odd .last {}
+
 /* Email to a Friend */
 .email-friend {}
 
