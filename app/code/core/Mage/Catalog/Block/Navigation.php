@@ -177,11 +177,12 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      * @param int Nesting level number
      * @param boolean Whether ot not this item is last, affects list item class
      * @param boolean Whether ot not this item is first, affects list item class
+     * @param boolean Whether ot not this item is outermost, affects list item class
      * @param string Extra class of outermost list items
      * @param string If specified wraps children list in div with this class
      * @return string
      */
-    public function drawItem($category, $level = 0, $isLast = false, $isFirst = false, $outermostItemClass = '', $childrenWrapClass = '')
+    public function drawItem($category, $level = 0, $isLast = false, $isFirst = false, $isOutermost = false, $outermostItemClass = '', $childrenWrapClass = '')
     {
         if (!$category->getIsActive()) {
             return '';
@@ -212,7 +213,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $classes = array();
         $classes[] = 'level' . $level;
         $classes[] = 'nav-' . $this->_getItemPosition($level);
-        if ($level == 0 && $outermostItemClass) {
+        if ($isOutermost && $outermostItemClass) {
             $classes[] = $outermostItemClass;
         }
         if ($this->isCategoryActive($category)) {
@@ -259,6 +260,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
                 ($level + 1),
                 ($j == $activeChildrenCount - 1),
                 ($j == 0),
+                false,
                 $outermostItemClass,
                 $childrenWrapClass
             );
@@ -353,11 +355,12 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     /**
      * Render categories menu in HTML
      *
+     * @param int Level number for list item class to start from
      * @param string Extra class of outermost list items
      * @param string If specified wraps children list in div with this class
      * @return string
      */
-    public function renderCategoriesMenuHtml($outermostItemClass = '', $childrenWrapClass = '')
+    public function renderCategoriesMenuHtml($level = 0, $outermostItemClass = '', $childrenWrapClass = '')
     {
         $activeCategories = array();
         foreach ($this->getStoreCategories() as $child) {
@@ -376,9 +379,11 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $j = 0;
         foreach ($activeCategories as $category) {
             $html .= $this->drawItem(
-                $category, 0,
+                $category,
+                $level,
                 ($j == $activeCategoriesCount - 1),
                 ($j == 0),
+                true,
                 $outermostItemClass,
                 $childrenWrapClass
             );
