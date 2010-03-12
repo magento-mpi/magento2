@@ -367,7 +367,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
         if ($lineItemTotals) {
             $request = Varien_Object_Mapper::accumulateByMap($lineItemTotals, $request, $this->_lineItemExportTotals);
             foreach ($this->_lineItemExportTotals as $privateKey) {
-                if (isset($request[$privateKey])) {
+                if (array_key_exists($privateKey, $request)) {
                     $request[$privateKey] = $this->_filterAmount($request[$privateKey]);
                 } else {
                     Mage::logException(new Exception(sprintf('Missing index "%s" for line item totals.', $privateKey)));
