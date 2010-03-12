@@ -25,7 +25,7 @@
  */
 ?>
 <?php if ($this->getAuthenticationStart()):?>
-    <div class="centinel" id="centinel_authenticate_block" style="display:none">
+    <div class="centinel" id="centinel_authenticate_block">
         <h3><?php echo $this->__('Card Verification')?></h3>
         <p><?php echo $this->__('Please verify the card with the issuer bank:') ?></p>
         <div class="authentication">
@@ -34,22 +34,22 @@
     </div>
     <script type="text/javascript">
     //<![CDATA[
-        centinel = new centinelAuthenticate('centinel_authenticate_block', 'centinel_authenticate_iframe');
+        CentinelAuthenticateController = new CentinelAuthenticate('centinel_authenticate_block', 'centinel_authenticate_iframe');
         <?php foreach ($this->getRelatedBlocks() as $relatedBlockId):?>
-            centinel.addRelatedBlock('<?php echo $relatedBlockId ?>');
+            CentinelAuthenticateController.addRelatedBlock('<?php echo $relatedBlockId ?>');
         <?php endforeach;?>
-        <?php if ($this->getAuthenticationStartMode()): ?>
-            centinel.start('<?php echo $this->getFrameUrl() ?>');
-        <?php else:?>
-            Event.observe(window, 'load', function(){centinel.start('<?php echo $this->getFrameUrl() ?>');});
+        <?php if ($this->getAuthenticationStartMode() == 'instant'): ?>
+            CentinelAuthenticateController.start('<?php echo $this->getFrameUrl() ?>');
+        <?php elseif ($this->getAuthenticationStartMode() == 'window'):?>
+            Event.observe(window, 'load', function(){CentinelAuthenticateController.start('<?php echo $this->getFrameUrl() ?>');});
         <?php endif;?>
     //]]>
     </script>
 <?php else:?>
     <script type="text/javascript">
     //<![CDATA[
-        if (typeof centinel != 'undefined') {
-            centinel.cancel();
+        if (typeof CentinelAuthenticateController != 'undefined') {
+            CentinelAuthenticateController.cancel();
         }
     //]]>
     </script>

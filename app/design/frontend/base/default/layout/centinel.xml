@@ -42,7 +42,7 @@
         <reference name="checkout.multishipping.overview.items.after">
             <block type="centinel/authentication" name="centinel.frame" template="centinel/authentication.phtml">
                 <action method="addRelatedBlock"><blockId>checkout-review-submit</blockId></action>
-                <action method="setAuthenticationStartMode"><mode>0</mode></action>
+                <action method="setAuthenticationStartMode"><mode>window</mode></action>
             </block>
         </reference>
     </checkout_multishipping_overview>
@@ -52,7 +52,7 @@
             <block type="centinel/authentication" name="centinel.frame" template="centinel/authentication.phtml">
                 <action method="addRelatedBlock"><blockId>checkout-review-submit</blockId></action>
                 <action method="addRelatedBlock"><blockId>checkout-review-table-wrapper</blockId></action>
-                <action method="setAuthenticationStartMode"><mode>1</mode></action>
+                <action method="setAuthenticationStartMode"><mode>instant</mode></action>
             </block>
         </reference>
     </checkout_onepage_savepayment>

@@ -67,31 +67,6 @@ class Mage_Centinel_Block_Authentication extends Mage_Core_Block_Template
     }
 
     /**
-     * Return _authenticationStartMode flag value
-     * @see self::setAuthenticationStartMode
-     *
-     * @return bool
-     */
-    public function getAuthenticationStartMode()
-    {
-       return $this->_authenticationStartMode;
-    }
-
-    /**
-     * Set _authenticationStartMode flag value
-     * If $mode is true - authentication start after loading block content
-     * If $mode is false - authentication start after 'onload' event
-     *
-     * @param bool $mode
-     * @return Mage_Centinel_Block_Authentication
-     */
-    public function setAuthenticationStartMode($mode)
-    {
-        $this->_authenticationStartMode = $mode;
-        return $this;
-    }
-
-    /**
      * Check whether authentication is required and prepare some template data
      *
      * @return string

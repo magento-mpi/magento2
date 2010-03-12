@@ -22,14 +22,17 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-var centinelAuthenticate = Class.create();
-centinelAuthenticate.prototype = {
+var CentinelAuthenticate = Class.create();
+CentinelAuthenticate.prototype = {
     initialize : function(blockId, iframeId)
     {
         this._isAuthenticationStarted = false;
         this._relatedBlocks = new Array();
         this.centinelBlockId = blockId;
         this.iframeId = iframeId;
+        if (this._isCentinelBlocksLoaded()) {
+            $(this.centinelBlockId).hide();
+        }
     },
 
     isAuthenticationStarted : function()
