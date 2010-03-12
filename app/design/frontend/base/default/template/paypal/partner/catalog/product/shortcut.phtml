@@ -29,5 +29,7 @@
  * @see Mage_Paypal_Block_Express_Shortcut
  */
 ?>
-<input type="hidden" id="paypal_rpc" name="redirect_paypal_checkout" value="0">
-<a href="<?php echo $this->getCheckoutUrl()?>" title="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" onclick="$('paypal_rpc').value='1';productAddToCartForm.submit();return false;"><img src="<?php echo $this->getImageUrl()?>" alt="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" /></a>
+<p class="paypal-checkout">
+    <input type="hidden" id="paypal_rpc" name="redirect_paypal_checkout" value="0" />
+    <a href="<?php echo $this->getCheckoutUrl()?>" title="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" onclick="$('paypal_rpc').value='1';productAddToCartForm.submit();return false;"><img src="<?php echo $this->getImageUrl()?>" alt="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" /></a>
+</p>
