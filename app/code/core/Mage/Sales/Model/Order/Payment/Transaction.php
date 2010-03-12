@@ -92,7 +92,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      * Whether transaction has children
      * @var bool
      */
-    private $_hasChild = null;
+    protected $_hasChild = null;
 
     /**
      * Event object prefix
@@ -673,7 +673,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      * TODO: implement that there should be only one void per authorization
      * @return bool
      */
-    private function _isVoided()
+    protected function _isVoided()
     {
         $this->_verifyThisTransactionExists();
         return self::TYPE_AUTH === $this->getTxnType()
@@ -681,11 +681,20 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     }
 
     /**
+     * Check whether this transaction is voided
+     * @return bool
+     */
+    public function isVoided()
+    {
+        return $this->_isVoided();
+    }
+
+    /**
      * Check whether specified or set transaction type is supported
      * @param string $txnType
      * @throws Mage_Core_Exception
      */
-    private function _verifyTxnType($txnType = null)
+    protected function _verifyTxnType($txnType = null)
     {
         if (null === $txnType) {
             $txnType = $this->getTxnType();
@@ -709,7 +718,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      * @return Mage_Sales_Model_Order_Payment|null|false
      * @throws Mage_Core_Exception
      */
-    private function _verifyPaymentObject($dryRun = false)
+    protected function _verifyPaymentObject($dryRun = false)
     {
         if (!$this->_paymentObject || !$this->getOrderId()) {
             if (!$dryRun) {
@@ -724,7 +733,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      * @param string $txnId
      * @throws Mage_Core_Exception
      */
-    private function _verifyTxnId($txnId)
+    protected function _verifyTxnId($txnId)
     {
         if (null !== $txnId && 0 == strlen($txnId)) {
             Mage::throwException(Mage::helper('sales')->__('Transaction ID must not be empty.'));
@@ -736,7 +745,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      * TODO for more restriction we can check for data consistency
      * @throws Mage_Core_Exception
      */
-    private function _verifyThisTransactionExists()
+    protected function _verifyThisTransactionExists()
     {
         if (!$this->getId()) {
             Mage::throwException(Mage::helper('sales')->__('This operation requires an existing transaction object.'));

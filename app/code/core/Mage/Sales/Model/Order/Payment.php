@@ -634,6 +634,16 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     }
 
     /**
+     * Public access to _authorize method
+     * @param bool $isOnline
+     * @param float $amount
+     */
+    public function authorize($isOnline, $amount)
+    {
+        return $this->_authorize($isOnline, $amount);
+    }
+
+    /**
      * Void payment either online or offline (process void notification)
      * NOTE: that in some cases authorization can be voided after a capture. In such case it makes sense to use
      *       the amount void amount, for informational purposes.
@@ -762,12 +772,25 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     }
 
     /**
+     * Public acces to _addTransaction method
+     *
+     * @param string $type
+     * @param Mage_Sales_Model_Abstract $salesDocument
+     * @param bool $failsafe
+     * @return null|Mage_Sales_Model_Order_Payment_Transaction
+     */
+    public function addTransaction($type, $salesDocument = null, $failsafe = false)
+    {
+        return $this->_addTransaction($type, $salesDocument, $failsafe);
+    }
+
+    /**
      * Totals updater utility method
      * Updates self totals by keys in data array('key' => $delta)
      *
      * @param array $data
      */
-    private function _updateTotals($data)
+    protected function _updateTotals($data)
     {
         foreach ($data as $key => $amount) {
             if (null !== $amount) {
@@ -808,7 +831,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      * @param string $message
      * @return string
      */
-    private function _appendTransactionToMessage($transaction, $message)
+    protected function _appendTransactionToMessage($transaction, $message)
     {
         if ($transaction) {
             $message .= ' ' . Mage::helper('sales')->__('Transaction ID: "%s".', $transaction->getTxnId());
@@ -823,7 +846,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      * @param string|Mage_Sales_Model_Order_Status_History $messagePrependTo
      * @return string|Mage_Sales_Model_Order_Status_History
      */
-    private function _prependMessage($messagePrependTo)
+    protected function _prependMessage($messagePrependTo)
     {
         $preparedMessage = $this->getPreparedMessage();
         if ($preparedMessage) {
@@ -917,12 +940,13 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     }
 
     /**
-     * Lookup an transaction by id
+     * Lookup the transaction by id
+     * @param string $transactionId
      * @return Mage_Sales_Model_Order_Payment_Transaction|false
      */
-    public function getTransaction($transaction_id)
+    public function getTransaction($transactionId)
     {
-        return $this->_lookupTransaction($transaction_id);
+        return $this->_lookupTransaction($transactionId);
     }
 
     /**
