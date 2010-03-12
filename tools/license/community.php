@@ -86,6 +86,9 @@ updateLicense(array(
     'app/design/adminhtml/default/default/layout',
     'app/design/frontend/base/default/layout'
 ), 'moneybookers.xml', REGEX_XML, REPLACEMENT_XML, PHOENIX_OSL, 'themeCallback', true, true, true);
+updateLicense(array('js/mage/adminhtml'), array('moneybookers.js'),
+    REGEX_SKIN, REPLACEMENT_SKIN, PHOENIX_OSL, array('Phoenix', 'Phoenix_Moneybookers'), true, true, true
+);
 
 // frontend skins for default theme
 updateLicense(array(
