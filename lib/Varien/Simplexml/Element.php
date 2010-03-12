@@ -161,9 +161,16 @@ class Varien_Simplexml_Element extends SimpleXMLElement
                 $nodeName = $a[0];
                 $attributeName = $b[0];
                 $attributeValue = $b[1];
+                //
+                // Does a very simplistic trimming of attribute value.
+                // If the string is enclosed in '' or "", strips them off.
+                //
+                if (preg_match('/(?:^\"(.*)\"$|^\\\'(.*)\\\'$)/', $attributeValue, $matchesArray)){
+                    $attributeValue = ($matchesArray[1] == '') ? $matchesArray[2] : $matchesArray[1];
+                }
                 $found = false;
                 foreach ($this->$nodeName as $desc) {
-                    if ((string)$nodeChild[$attributeName]===$attributeValue) {
+                    if ((string)$desc[$attributeName]===$attributeValue) {
                         $found = true;
                         break;
                     }
