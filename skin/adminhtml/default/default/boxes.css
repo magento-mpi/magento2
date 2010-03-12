@@ -1253,7 +1253,7 @@ ul.super-product-attributes { padding-left:15px; }
 
 /* Product description WYSIWYG editor */
 #catalog-wysiwyg-editor .buttons-set { margin-top:10px; }
-#catalog-wysiwyg-editor .magento_content { overflow:hidden; }
+#catalog-wysiwyg-editor .magento_content { height:auto !important; overflow:hidden; }
 #catalog-wysiwyg-editor .textarea { width:930px !important; }
 #catalog-wysiwyg-editor .magento_message { padding:0 7px; }
 #catalog-wysiwyg-editor .magento_buttons { padding-left:7px; padding-right:7px; }
