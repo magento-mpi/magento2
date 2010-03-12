@@ -86,8 +86,9 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
         if ($this->_isAllowedAction('creditmemo') && $order->canCreditmemo()) {
             $this->_addButton('order_creditmemo', array(
-                'label'     => Mage::helper('sales')->__('Credit Memo...'),
+                'label'     => Mage::helper('sales')->__('Credit Memo'),
                 'onclick'   => 'setLocation(\'' . $this->getCreditmemoUrl() . '\')',
+                'class'     => 'go'
             ));
         }
 
@@ -116,26 +117,29 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
         if ($this->_isAllowedAction('invoice') && $order->canInvoice()) {
             $_label = $order->getForcedDoShipmentWithInvoice() ?
-                Mage::helper('sales')->__('Invoice and Ship...') :
-                Mage::helper('sales')->__('Invoice...');
+                Mage::helper('sales')->__('Invoice and Ship') :
+                Mage::helper('sales')->__('Invoice');
             $this->_addButton('order_invoice', array(
                 'label'     => $_label,
                 'onclick'   => 'setLocation(\'' . $this->getInvoiceUrl() . '\')',
+                'class'     => 'go'
             ));
         }
 
         if ($this->_isAllowedAction('ship') && $order->canShip()
             && !$order->getForcedDoShipmentWithInvoice()) {
             $this->_addButton('order_ship', array(
-                'label'     => Mage::helper('sales')->__('Ship...'),
+                'label'     => Mage::helper('sales')->__('Ship'),
                 'onclick'   => 'setLocation(\'' . $this->getShipUrl() . '\')',
+                'class'     => 'go'
             ));
         }
 
         if ($this->_isAllowedAction('reorder') && $order->canReorder()) {
             $this->_addButton('order_reorder', array(
-                'label'     => Mage::helper('sales')->__('Reorder...'),
+                'label'     => Mage::helper('sales')->__('Reorder'),
                 'onclick'   => 'setLocation(\'' . $this->getReorderUrl() . '\')',
+                'class'     => 'go'
             ));
         }
     }

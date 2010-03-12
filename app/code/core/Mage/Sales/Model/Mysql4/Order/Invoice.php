@@ -52,7 +52,7 @@ class Mage_Sales_Model_Mysql4_Order_Invoice extends Mage_Sales_Model_Mysql4_Orde
                 'billing_name',
                 'sales/order_address',
                 array('billing_address_id' => 'entity_id'),
-                'CONCAT({{table}}.firstname, " ", {{table}}.lastname)'
+                'CONCAT(IFNULL({{table}}.firstname, ""), " ", IFNULL({{table}}.lastname, ""))'
             )
             ->addVirtualGridColumn(
                 'order_increment_id',
