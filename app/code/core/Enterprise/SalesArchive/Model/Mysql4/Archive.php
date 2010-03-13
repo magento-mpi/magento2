@@ -198,7 +198,6 @@ class Enterprise_SalesArchive_Model_Mysql4_Archive extends Mage_Core_Model_Mysql
 
         $sourceTable = $this->getArchiveEntitySourceTable($archiveEntity);
         $targetTable = $this->getArchiveEntityTable($archiveEntity);
-        $sourceResource = Mage::getResourceSingleton($archive->getEntityModel($archiveEntity));
 
         $insertFields = array_intersect(
             array_keys($this->_getWriteAdapter()->describeTable($targetTable)),
@@ -211,17 +210,40 @@ class Enterprise_SalesArchive_Model_Mysql4_Archive extends Mage_Core_Model_Mysql
             ->where($fieldCondition, $conditionValue);
 
         $this->_getWriteAdapter()->query($select->insertFromSelect($targetTable, $insertFields, true));
+        return $this;
+    }
+
+    /**
+     * Remove regords from source grid table
+     *
+     * @param Enterprise_SalesArchive_Model_Archive $archive
+     * @param string $archiveEntity
+     * @param string $conditionField
+     * @param array $conditionValue
+     * @return Enterprise_SalesArchive_Model_Mysql4_Archive
+     */
+    public function removeFromGrid($archive, $archiveEntity, $conditionField, $conditionValue)
+    {
+        if (!$this->isArchiveEntityExists($archiveEntity)) {
+            return $this;
+        }
+
+        $sourceTable = $this->getArchiveEntitySourceTable($archiveEntity);
+        $targetTable = $this->getArchiveEntityTable($archiveEntity);
+        $sourceResource = Mage::getResourceSingleton($archive->getEntityModel($archiveEntity));
         if ($conditionValue instanceof Zend_Db_Expr) {
-            $select->reset()
-                ->from($targetTable, $sourceResource->getIdFieldName()); // Remove order grid records moved to archive
+            $select = $this->_getWriteAdapter()->select();
+            $select->from($targetTable, $sourceResource->getIdFieldName()); // Remove order grid records moved to archive
             $condition = $this->_getWriteAdapter()->quoteInto($sourceResource->getIdFieldName() . ' IN(?)', new Zend_Db_Expr($select));
         } else {
+            $fieldCondition = $this->_getWriteAdapter()->quoteIdentifier($conditionField) . ' IN(?)';
             $condition = $this->_getWriteAdapter()->quoteInto($fieldCondition, $conditionValue);
         }
 
         $this->_getWriteAdapter()->delete($sourceTable, $condition);
         return $this;
     }
+
 
     /**
      * Remove records from archive

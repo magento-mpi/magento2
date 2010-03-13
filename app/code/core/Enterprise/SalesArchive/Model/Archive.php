@@ -119,12 +119,21 @@ class Enterprise_SalesArchive_Model_Archive
     public function archiveOrders()
     {
         $orderIds = $this->_getResource()->getOrderIdsForArchiveExpression();
-
-        $this->_getResource()->moveToArchive($this, self::ORDER, 'entity_id', $orderIds);
-        $this->_getResource()->moveToArchive($this, self::INVOICE, 'order_id', $orderIds);
-        $this->_getResource()->moveToArchive($this, self::SHIPMENT, 'order_id', $orderIds);
-        $this->_getResource()->moveToArchive($this, self::CREDITMEMO, 'order_id', $orderIds);
-
+        $this->_getResource()->beginTransaction();
+        try {
+            $this->_getResource()->moveToArchive($this, self::ORDER, 'entity_id', $orderIds);
+            $this->_getResource()->moveToArchive($this, self::INVOICE, 'order_id', $orderIds);
+            $this->_getResource()->moveToArchive($this, self::SHIPMENT, 'order_id', $orderIds);
+            $this->_getResource()->moveToArchive($this, self::CREDITMEMO, 'order_id', $orderIds);
+            $this->_getResource()->removeFromGrid($this, self::ORDER, 'entity_id', $orderIds);
+            $this->_getResource()->removeFromGrid($this, self::INVOICE, 'order_id', $orderIds);
+            $this->_getResource()->removeFromGrid($this, self::SHIPMENT, 'order_id', $orderIds);
+            $this->_getResource()->removeFromGrid($this, self::CREDITMEMO, 'order_id', $orderIds);
+            $this->_getResource()->commit();
+        } catch (Exception $e) {
+            $this->_getResource()->rollBack();
+            throw $e;
+        }
         Mage::dispatchEvent(
             'enterprise_salesarchive_archive_archive_orders',
             array('order_ids' => $orderIds)
@@ -143,10 +152,21 @@ class Enterprise_SalesArchive_Model_Archive
         $orderIds = $this->_getResource()->getOrderIdsForArchive($orderIds, false);
 
         if (!empty($orderIds)) {
-            $this->_getResource()->moveToArchive($this, self::ORDER, 'entity_id', $orderIds);
-            $this->_getResource()->moveToArchive($this, self::INVOICE, 'order_id', $orderIds);
-            $this->_getResource()->moveToArchive($this, self::SHIPMENT, 'order_id', $orderIds);
-            $this->_getResource()->moveToArchive($this, self::CREDITMEMO, 'order_id', $orderIds);
+            $this->_getResource()->beginTransaction();
+            try {
+                $this->_getResource()->moveToArchive($this, self::ORDER, 'entity_id', $orderIds);
+                $this->_getResource()->moveToArchive($this, self::INVOICE, 'order_id', $orderIds);
+                $this->_getResource()->moveToArchive($this, self::SHIPMENT, 'order_id', $orderIds);
+                $this->_getResource()->moveToArchive($this, self::CREDITMEMO, 'order_id', $orderIds);
+                $this->_getResource()->removeFromGrid($this, self::ORDER, 'entity_id', $orderIds);
+                $this->_getResource()->removeFromGrid($this, self::INVOICE, 'order_id', $orderIds);
+                $this->_getResource()->removeFromGrid($this, self::SHIPMENT, 'order_id', $orderIds);
+                $this->_getResource()->removeFromGrid($this, self::CREDITMEMO, 'order_id', $orderIds);
+                $this->_getResource()->commit();
+            } catch (Exception $e) {
+                $this->_getResource()->rollBack();
+                throw $e;
+            }
             Mage::dispatchEvent(
                 'enterprise_salesarchive_archive_archive_orders',
                 array('order_ids' => $orderIds)
@@ -164,10 +184,17 @@ class Enterprise_SalesArchive_Model_Archive
      */
     public function removeOrdersFromArchive()
     {
-        $this->_getResource()->removeFromArchive($this, self::ORDER);
-        $this->_getResource()->removeFromArchive($this, self::INVOICE);
-        $this->_getResource()->removeFromArchive($this, self::SHIPMENT);
-        $this->_getResource()->removeFromArchive($this, self::CREDITMEMO);
+        $this->_getResource()->beginTransaction();
+        try {
+            $this->_getResource()->removeFromArchive($this, self::ORDER);
+            $this->_getResource()->removeFromArchive($this, self::INVOICE);
+            $this->_getResource()->removeFromArchive($this, self::SHIPMENT);
+            $this->_getResource()->removeFromArchive($this, self::CREDITMEMO);
+            $this->_getResource()->commit();
+        } catch (Exception $e) {
+            $this->_getResource()->rollBack();
+            throw $e;
+        }
         return $this;
     }
 
@@ -183,10 +210,17 @@ class Enterprise_SalesArchive_Model_Archive
         $orderIds = $this->_getResource()->getIdsInArchive(self::ORDER, $orderIds);
 
         if (!empty($orderIds)) {
-            $this->_getResource()->removeFromArchive($this, self::ORDER, 'entity_id', $orderIds);
-            $this->_getResource()->removeFromArchive($this, self::INVOICE, 'order_id', $orderIds);
-            $this->_getResource()->removeFromArchive($this, self::SHIPMENT, 'order_id', $orderIds);
-            $this->_getResource()->removeFromArchive($this, self::CREDITMEMO, 'order_id', $orderIds);
+            $this->_getResource()->beginTransaction();
+            try {
+                $this->_getResource()->removeFromArchive($this, self::ORDER, 'entity_id', $orderIds);
+                $this->_getResource()->removeFromArchive($this, self::INVOICE, 'order_id', $orderIds);
+                $this->_getResource()->removeFromArchive($this, self::SHIPMENT, 'order_id', $orderIds);
+                $this->_getResource()->removeFromArchive($this, self::CREDITMEMO, 'order_id', $orderIds);
+                $this->_getResource()->commit();
+            } catch (Exception $e) {
+                $this->_getResource()->rollBack();
+                throw $e;
+            }
 
             Mage::dispatchEvent(
                 'enterprise_salesarchive_archive_remove_orders_from_archive',
