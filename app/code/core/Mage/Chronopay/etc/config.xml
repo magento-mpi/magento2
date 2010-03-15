@@ -63,11 +63,6 @@
                         <name>Discover</name>
                         <order>60</order>
                     </DI>
-                    <JCB>
-                        <code>JCB</code>
-                        <name>JCB</name>
-                        <order>61</order>
-                    </JCB>
                     <DICL>
                         <code>DICL</code>
                         <name>Diners Club</name>

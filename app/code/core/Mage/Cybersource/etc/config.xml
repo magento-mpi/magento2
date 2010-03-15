@@ -58,11 +58,6 @@
         <payment>
             <cc>
                 <types>
-                    <JCB>
-                        <code>JCB</code>
-                        <name>JCB</name>
-                        <order>50</order>
-                    </JCB>
                     <LASER>
                         <code>LASER</code>
                         <name>Laser</name>

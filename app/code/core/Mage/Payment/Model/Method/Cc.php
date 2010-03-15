@@ -183,7 +183,8 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             'AE' => '/^[0-9]{4}$/',        // American Express
             'DI' => '/^[0-9]{3}$/',          // Discovery
             'SS' => '/^[0-9]{3,4}$/',
-            'OT' => '/^[0-9]{3,4}$/'
+            'OT' => '/^[0-9]{3,4}$/',
+            'JCB' => '/^[0-9]{4}$/' //JCB
         );
         return $verificationExpList;
     }

@@ -82,6 +82,11 @@
                         <name>Maestro/Solo</name>
                         <order>40</order>
                     </SS>
+                    <JCB>
+                        <code>JCB</code>
+                        <name>JCB</name>
+                        <order>50</order>
+                    </JCB>
                     <OT>
                         <code>OT</code>
                         <name>Other</name>
