@@ -156,6 +156,9 @@ class Mage_Centinel_Model_Api extends Varien_Object
             $client->add($key, $val);
         }
         $client->sendHttp($this->_getApiEndpointUrl(), $this->_getTimeoutConnect(), $this->_getTimeoutRead());
+
+        $this->_debug(array('response' => $client->response));
+
         return $client;
     }
 
@@ -212,8 +215,6 @@ class Mage_Centinel_Model_Api extends Varien_Object
         $result->setPayload($clientResponse->getValue('Payload'));
         $result->setEciFlag($clientResponse->getValue('EciFlag'));
 
-        $this->_debug(array('result' => $result->getData()));
-
         return $result;
     }
 
@@ -238,8 +239,6 @@ class Mage_Centinel_Model_Api extends Varien_Object
         $result->setCavv($clientResponse->getValue('Cavv'));
         $result->setEciFlag($clientResponse->getValue('EciFlag'));
         $result->setXid($clientResponse->getValue('Xid'));
-
-        $this->_debug(array('result' => $result->getData()));
 
         return $result;
     }
