@@ -147,23 +147,22 @@ class Varien_Simplexml_Element extends SimpleXMLElement
      */
     public function descend($path)
     {
-        #$node = $this->xpath($path);
-        #return $node[0];
+        # $node = $this->xpath($path);
+        # return $node[0];
         if (is_array($path)) {
             $pathArr = $path;
         } else {
             // Simple exploding by / does not suffice,
             // as an attribute value may contain a / inside
             // Note that there are three matches for different kinds of attribute values specification
-            if(strpos('@', $path) === false)
+            if(strpos($path, "@") === false) {
                 $pathArr = explode('/', $path);
+            }
             else {
-                $regex = "#^/?((?:[^@/\\\"]+)(?:@(?:[^=/]+)=(?:'(?:[^']*)'|\\\"(?:[^\\\"]*)\\\"|(?:[^/]*)))?)(?:$|/)#";
-                $pathArr = array();
-                while(preg_match($regex, $path, $pathMatches)){
-                    $pathArr[] = $pathMatches[1];
-                    $path = preg_replace('/^'.preg_quote($pathMatches[0], '/').'/', '', $path);
-                }
+                $regex = "#([^@/\\\"]+(?:@[^=/]+=(?:\\\"[^\\\"]*\\\"|[^/]*))?)/?#";
+                $pathArr = $pathMatches = array();
+                if(preg_match_all($regex, $path, $pathMatches))
+                    $pathArr = $pathMatches[1];
             }
         }
         $desc = $this;
@@ -176,11 +175,8 @@ class Varien_Simplexml_Element extends SimpleXMLElement
                 $attributeValue = $b[1];
                 //
                 // Does a very simplistic trimming of attribute value.
-                // If the string is enclosed in '' or "", strips them off.
                 //
-                if (preg_match('/(?:^\"(.*)\"$|^\\\'(.*)\\\'$)/', $attributeValue, $matchesArray)){
-                    $attributeValue = ($matchesArray[1] == '') ? $matchesArray[2] : $matchesArray[1];
-                }
+                $attributeValue = trim($attributeValue, '"');
                 $found = false;
                 foreach ($desc->$nodeName as $subdesc) {
                     if ((string)$subdesc[$attributeName]===$attributeValue) {
