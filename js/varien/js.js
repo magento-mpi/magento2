@@ -413,6 +413,8 @@ Varien.DOB.prototype = {
         this.day.validate = this.validate.bind(this);
         this.month.validate = this.validate.bind(this);
         this.year.validate = this.validate.bind(this);
+        
+        this.year.setAttribute('autocomplete','off');
 
         this.advice.hide();
     },
