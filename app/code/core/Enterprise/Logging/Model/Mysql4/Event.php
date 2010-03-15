@@ -53,10 +53,6 @@ class Enterprise_Logging_Model_Mysql4_Event extends Enterprise_Enterprise_Model_
         try {
             $this->beginTransaction();
 
-            // make sure folder for dump file will exist
-            $archive = Mage::getModel('enterprise_logging/archive');
-            $archive->createNew();
-
             $table = $this->getTable('enterprise_logging/event');
 
             // get the latest log entry required to the moment
@@ -66,6 +62,10 @@ class Enterprise_Logging_Model_Mysql4_Event extends Enterprise_Enterprise_Model_
             if (!$latestLogEntry) {
                 return;
             }
+
+            // make sure folder for dump file will exist
+            $archive = Mage::getModel('enterprise_logging/archive');
+            $archive->createNew();
 
             // dump all records before this log entry into a CSV-file
             $csv = fopen($archive->getFilename(), 'w');
