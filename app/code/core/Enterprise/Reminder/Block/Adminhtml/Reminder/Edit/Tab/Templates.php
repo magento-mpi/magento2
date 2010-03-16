@@ -97,6 +97,10 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
         $template = Mage::getModel('adminhtml/system_config_source_email_template');
         $template->setPath(Enterprise_Reminder_Model_Rule::XML_PATH_EMAIL_TEMPLATE);
 
-        return $template->toOptionArray();
+        $options = $template->toOptionArray();
+        array_unshift($options, array('value'=>'',
+            'label'=>Mage::helper('enterprise_reminder')->__('-- Please select --'))
+        );
+        return $options;
     }
 }
