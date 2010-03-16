@@ -319,4 +319,15 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
 
         return $data;
     }
+
+    /**
+     * Prepare cart from order
+     *
+     * @param Mage_Core_Model_Abstract $order
+     * @return array
+     */
+    public function prepareCart($order)
+    {
+        return Mage::helper('paypal')->prepareLineItems($order);
+    }
 }

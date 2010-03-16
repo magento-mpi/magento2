@@ -84,6 +84,16 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     protected $_api = null;
 
     /**
+     * List of address fields
+     *
+     * @var unknown_type
+     */
+    protected $_addressFileds = array(
+        'prefix', 'firstname', 'middlename', 'lastname', 'suffix',
+        'company', 'city', 'country_id', 'telephone', 'fax', 'postcode',
+    );
+
+    /**
      * Initialize and return Pbridge Api object
      *
      * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api
@@ -435,8 +445,23 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     public function authorize(Varien_Object $payment, $amount)
     {
         parent::authorize($payment, $amount);
+        $order = $payment->getOrder();
         $request = new Varien_Object();
-        $request->setData('payment_action', 'place');
+        $request
+            ->setData('payment_action', 'place')
+            ->setData('client_ip', Mage::app()->getRequest()->getClientIp(false))
+            ->setData('amount', (string)$amount)
+            ->setData('currency_code', $order->getBaseCurrencyCode())
+            ->setData('order_id', $order->getIncrementId())
+            ->setData('customer_email', $order->getCustomerEmail())
+            ->setData('is_virtual', $order->getIsVirtual())
+        ;
+
+        $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
+        $request->setData('shipping_address', $this->_getAddressInfo($order->getShippingAddress()));
+
+        $request->setData('cart', $this->_getCart($order));
+
         $this->_getApi()->doAuthorize($request);
         return $this;
     }
@@ -487,5 +512,55 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     {
         parent::void($payment);
         return $this;
+    }
+
+    /**
+     * Create address request data
+     *
+     * @param $address
+     * @return array
+     */
+    protected function _getAddressInfo($address)
+    {
+        $result = array();
+
+        foreach ($this->_addressFileds as $addressField) {
+            if ($address->hasData($addressField)) {
+                $result[$addressField] = $address->getData($addressField);
+            }
+        }
+        //Streets must be transfered separately
+        $streets = $address->getStreet();
+        $result['street'] = array_shift($streets) ;
+        if ($street2 = array_shift($streets)) {
+            $result['street2'] = $street2;
+        }
+        //Region code lookup
+        $region = Mage::getModel('directory/region')->load($address->getData('region_id'));
+        if ($region && $region->getId()) {
+            $result['region'] = $region->getCode();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Fill cart request section from order
+     *
+     * @param Mage_Core_Model_Abstract $order
+     *
+     * @return array
+     */
+    protected function _getCart(Mage_Core_Model_Abstract $order)
+    {
+        list($items, $totals) = Mage::helper('enterprise_pbridge')->prepareCart($order);
+        //Getting cart items
+        $result = array();
+
+        foreach ($items as $item) {
+            $result['items'][] = $item->getData();
+        }
+
+        return array_merge($result, $totals);
     }
 }
