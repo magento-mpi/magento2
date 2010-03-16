@@ -353,6 +353,14 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
+                <global>
+                    <frontend_type>text</frontend_type>
+                    <frontend_model>paypal/system_config_fieldset_global</frontend_model>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </global>
                 <wps translate="label comment">
                     <label>Website Payments Standard</label>
                     <comment><![CDATA[<a href="http://www.magentocommerce.com/paypal" target="_blank">Sign up for PayPal Merchant Account now!</a>]]></comment>
