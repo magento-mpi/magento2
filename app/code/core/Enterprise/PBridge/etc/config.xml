@@ -119,6 +119,7 @@
             <pbridge translate="title" module="enterprise_pbridge">
                 <model>enterprise_pbridge/payment_method_pbridge</model>
                 <title>Payment Bridge</title>
+                <debug>0</debug>
             </pbridge>
         </payment>
     </default>
