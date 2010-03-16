@@ -167,10 +167,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'values' => $yesnoSource,
         ));
 
-        $fieldset->addField('is_used_for_price_rules', 'select', array(
-            'name' => 'is_used_for_price_rules',
-            'label' => Mage::helper('catalog')->__('Use for Price Rule Conditions'),
-            'title' => Mage::helper('catalog')->__('Use for Price Rule Conditions'),
+        $fieldset->addField('is_used_for_promo_rules', 'select', array(
+            'name' => 'is_used_for_promo_rules',
+            'label' => Mage::helper('catalog')->__('Use for Promo Rule Conditions'),
+            'title' => Mage::helper('catalog')->__('Use for Promo Rule Conditions'),
             'values' => $yesnoSource,
         ));
 
