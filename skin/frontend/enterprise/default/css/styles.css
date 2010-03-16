@@ -1280,13 +1280,36 @@ dt { float:left; line-height:1.2; width:10em; clear:left; padding:3px 5px 3px 0;
 
 /**/
 #bundle-product-wrapper { margin:-1px -20px -20px; border-top:1px solid #cfcfcf; float:left; width:938px; overflow:hidden; position:relative; z-index:1; }
-#bundleProduct { width:1877px; background:#fff url(../images/bkg_cols.gif) repeat-y 279px 0; z-index:1; position:relative; }
+#bundleProduct { width:1877px; background:#fff url(../images/bkg_cols.gif) repeat-y 279px 0; z-index:1; left:-1px; position:relative; }
 #productView { margin:0; position:static; border:0; }
 #options-container { min-height:510px; width:938px; position:relative; z-index:2; float:right; border-left:1px solid #cfcfcf; background:#fff url(../images/bkg_cols.gif) repeat-y 460px 0; }
 
-/* Hidind Add to Cart box from Bundle product Review page */
-/*.review-product-list #bundleProduct .add-to-box { display:none !important; }*/
-/*#bundleProduct .box-related { display:none !important; }*/
+/* Bundle Product 2 column design */
+.col2-left-layout  #bundle-product-wrapper,
+.col2-right-layout #bundle-product-wrapper { width:755px; }
+.col2-left-layout  #bundleProduct,
+.col2-right-layout #bundleProduct { background-position:573px 0; width:1510px; }
+.col2-left-layout  #options-container,
+.col2-right-layout #options-container { background-position:277px 0; width:755px; }
+
+.col2-left-layout  #options-container .product-options,
+.col2-left-layout  #options-container .product-options-bottom,
+.col2-right-layout #options-container .product-options,
+.col2-right-layout #options-container .product-options-bottom { width:420px; }
+
+.col2-left-layout  .bundle-summary,
+.col2-right-layout .bundle-summary { left:460px; }
+
+/* Bundle Product 3 column design */
+.col3-layout #bundle-product-wrapper,
+.col3-layout #options-container { width:572px; }
+.col3-layout #bundleProduct { background-position:390px 0; width:1144px; }
+.col3-layout #options-container { background-position:94px 0; }
+
+.col3-layout #options-container .product-options,
+.col3-layout #options-container .product-options-bottom { width:237px; }
+
+.col3-layout .bundle-summary { left:277px; }
 
 #options-container .product-options { font-size:12px; margin-top:0; font-size:11px; z-index:1; margin:0; width:600px; padding:20px 20px 0; clear:both; position:relative; z-index:1; }
 #options-container .product-options-bottom { padding:0 20px 20px; width:600px; font-size:12px; margin:0 0 5px; line-height:27px; }

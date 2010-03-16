@@ -115,6 +115,7 @@ Enterprise.Bundle = {
      oldReloadPrice: false,
      initialize: function () {
         this.slider = $('bundleProduct');
+        this.xOffset = $('bundle-product-wrapper').getDimensions().width;
      },
      swapReloadPrice: function () {
          Enterprise.Bundle.oldReloadPrice = Product.Bundle.prototype.reloadPrice;
@@ -181,7 +182,7 @@ Enterprise.Bundle = {
      start: function () {
         if (!$('bundle-product-wrapper').hasClassName('moving-now')) {
             new Effect.Move(this.slider, {
-                x: -939, y: 0, mode: 'relative', duration: 1.5,
+                x: -this.xOffset, y: 0, mode: 'relative', duration: 1.5,
                 beforeStart: function (effect) {
                     $('bundle-product-wrapper').setStyle({height: $('productView').getHeight() + 'px'});
                     $('options-container').show();
@@ -199,7 +200,7 @@ Enterprise.Bundle = {
      end: function () {
         if (!$('bundle-product-wrapper').hasClassName('moving-now')) {
             new Effect.Move(this.slider, {
-                    x: 939, y: 0, mode: 'relative', duration: 1.5,
+                    x: this.xOffset, y: 0, mode: 'relative', duration: 1.5,
                     beforeStart: function (effect) {
                         $('bundle-product-wrapper').setStyle({height: $('options-container').getHeight() + 'px'});
                         $('productView').show();
