@@ -180,9 +180,11 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
      * @param boolean Whether ot not this item is outermost, affects list item class
      * @param string Extra class of outermost list items
      * @param string If specified wraps children list in div with this class
+     * @param boolean Whether ot not to add on* attributes to list item
      * @return string
      */
-    public function drawItem($category, $level = 0, $isLast = false, $isFirst = false, $isOutermost = false, $outermostItemClass = '', $childrenWrapClass = '')
+    protected function _renderCategoryMenuItemHtml($category, $level = 0, $isLast = false, $isFirst = false,
+        $isOutermost = false, $outermostItemClass = '', $childrenWrapClass = '', $noEventAttributes = false)
     {
         if (!$category->getIsActive()) {
             return '';
@@ -236,10 +238,10 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         if (count($classes) > 0) {
             $attributes['class'] = implode(' ', $classes);
         }
-        /*if ($hasActiveChildren) {
+        if ($hasActiveChildren && !$noEventAttributes) {
              $attributes['onmouseover'] = 'toggleMenu(this,1)';
              $attributes['onmouseout'] = 'toggleMenu(this,0)';
-        }*/
+        }
 
         // assemble list item with attributes
         $htmlLi = '<li';
@@ -257,14 +259,15 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $htmlChildren = '';
         $j = 0;
         foreach ($activeChildren as $child) {
-            $htmlChildren .= $this->drawItem(
+            $htmlChildren .= $this->_renderCategoryMenuItemHtml(
                 $child,
                 ($level + 1),
                 ($j == $activeChildrenCount - 1),
                 ($j == 0),
                 false,
                 $outermostItemClass,
-                $childrenWrapClass
+                $childrenWrapClass,
+                $noEventAttributes
             );
             $j++;
         }
@@ -284,6 +287,20 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
 
         $html = implode("\n", $html);
         return $html;
+    }
+
+    /**
+     * Render category to html
+     *
+     * @deprecated deprecated after 1.4
+     * @param Mage_Catalog_Model_Category $category
+     * @param int Nesting level number
+     * @param boolean Whether ot not this item is last, affects list item class
+     * @return string
+     */
+    public function drawItem($category, $level = 0, $last = false)
+    {
+        return $this->_renderCategoryMenuItemHtml($category, $level, $last);
     }
 
     /**
@@ -380,14 +397,15 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         $html = '';
         $j = 0;
         foreach ($activeCategories as $category) {
-            $html .= $this->drawItem(
+            $html .= $this->_renderCategoryMenuItemHtml(
                 $category,
                 $level,
                 ($j == $activeCategoriesCount - 1),
                 ($j == 0),
                 true,
                 $outermostItemClass,
-                $childrenWrapClass
+                $childrenWrapClass,
+                true
             );
             $j++;
         }
