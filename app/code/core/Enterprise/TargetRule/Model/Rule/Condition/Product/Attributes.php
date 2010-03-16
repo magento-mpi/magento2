@@ -33,7 +33,7 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
      *
      * @var string
      */
-    protected $_isUsedForRuleProperty = 'is_used_for_target_rules';
+    protected $_isUsedForRuleProperty = 'is_used_for_promo_rules';
 
     /**
      * Target rule codes that do not allowed to select
