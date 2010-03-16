@@ -30,7 +30,7 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
     extends Mage_CatalogRule_Model_Rule_Condition_Product
 {
-    protected $_isUsedForRuleProperty = 'is_used_for_customer_segment';
+    protected $_isUsedForRuleProperty = 'is_used_for_promo_rules';
 
     public function __construct()
     {

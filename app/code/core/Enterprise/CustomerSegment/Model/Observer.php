@@ -31,28 +31,6 @@
 class Enterprise_CustomerSegment_Model_Observer
 {
     /**
-     * Add select element is_used_for_customer_segment into form edit attribute
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function addProductAttributeField(Varien_Event_Observer $observer)
-    {
-        if (!Mage::helper('enterprise_customersegment')->isEnabled()) {
-            return;
-        }
-        /* @var $form Varien_Data_Form */
-        $form = $observer->getForm();
-        /* @var $fieldset Varien_Data_Form_Element_Fieldset */
-        $fieldset = $form->getElement('front_fieldset');
-        $fieldset->addField('is_used_for_customer_segment', 'select', array(
-            'name' => 'is_used_for_customer_segment',
-            'label' => Mage::helper('enterprise_customersegment')->__('Use for Customer Segment Conditions'),
-            'title' => Mage::helper('enterprise_customersegment')->__('Use for Customer Segment Conditions'),
-            'values' => Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray(),
-        ), 'is_used_for_customer_segment');
-    }
-
-    /**
      * Add Customer Segment condition to the salesrule management
      *
      * @param Varien_Event_Observer $observer
