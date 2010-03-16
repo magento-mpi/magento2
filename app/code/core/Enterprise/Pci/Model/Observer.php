@@ -96,8 +96,7 @@ class Enterprise_Pci_Model_Observer
             if (isset($latestPassword['expires']) && ((int)$latestPassword['expires'] < time() && Mage::getStoreConfig('admin/security/password_lifetime') !== '')) {
                 if ($this->isPasswordChangeForced()) {
                     $message = Mage::helper('enterprise_pci')->__('Your password has expired, you must change it now.');
-                }
-                else {
+                } else {
                     $myAccountUrl = Mage::getUrl('adminhtml/system_account/');
                     $message = Mage::helper('enterprise_pci')->__('Your password has expired, please <a href="%s">change it</a>.', $myAccountUrl);
                 }
@@ -230,9 +229,22 @@ class Enterprise_Pci_Model_Observer
         $controller = $observer->getEvent()->getControllerAction();
         if (Mage::getSingleton('admin/session')->getPciAdminUserIsPasswordExpired()) {
             if (!in_array($controller->getFullActionName(), array('adminhtml_system_account_index', 'adminhtml_system_account_save', 'adminhtml_index_logout'))) {
-                $controller->getResponse()->setRedirect(Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/system_account/'));
-                $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
-                $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_POST_DISPATCH, true);
+                if (Mage::getSingleton('admin/session')->isAllowed('admin/system/myaccount')) {
+                    $controller->getResponse()->setRedirect(Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/system_account/'));
+                    $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+                    $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_POST_DISPATCH, true);
+                } else {
+                    /*
+                     * if admin password is expired and access to 'My Account' page is denied
+                     * than we need to do force logout with error message
+                     */
+                    Mage::getSingleton('admin/session')->unsetAll();
+                    Mage::getSingleton('adminhtml/session')->unsetAll();
+                    Mage::getSingleton('adminhtml/session')->addError(
+                        Mage::helper('enterprise_pci')->__('Your password has expired, please contact administrator.')
+                    );
+                    $controller->getRequest()->setDispatched(false);
+                }
             }
         }
     }
