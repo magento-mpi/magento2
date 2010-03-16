@@ -31,6 +31,7 @@ $installer->run("
 
 DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_index_price')}_idx_cfg_opt_aggregate`;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_price_indexer_cfg_option_aggregate_idx')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_cfg_option_aggregate_idx')}` (
     `parent_id` int(10) unsigned NOT NULL,
     `child_id` int(10) unsigned NOT NULL,
@@ -41,6 +42,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_cfg_option_ag
     PRIMARY KEY  (`parent_id`,`child_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_price_indexer_cfg_option_aggregate_tmp')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_cfg_option_aggregate_tmp')}` (
      `entity_id` int(10) unsigned NOT NULL,
     `customer_group_id` smallint(5) unsigned NOT NULL,
@@ -52,6 +54,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_cfg_option_ag
 
 DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_index_price')}_idx_cfg_option`;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_price_indexer_cfg_option_idx')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_cfg_option_idx')}` (
     `entity_id` int(10) unsigned NOT NULL,
     `customer_group_id` smallint(5) unsigned NOT NULL,
@@ -62,6 +65,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_cfg_option_id
     PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_price_indexer_cfg_option_tmp')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_cfg_option_tmp')}` (
     `entity_id` int(10) unsigned NOT NULL,
     `customer_group_id` smallint(5) unsigned NOT NULL,
@@ -74,6 +78,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_cfg_option_tm
 
 DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_index_price')}_final_idx`;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_price_indexer_final_idx')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_final_idx')}` (
     `entity_id` INT(10) UNSIGNED NOT NULL,
     `customer_group_id` SMALLINT(5) UNSIGNED NOT NULL,
@@ -88,6 +93,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_final_idx')}`
     PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_price_indexer_final_tmp')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_final_tmp')}` (
     `entity_id` INT(10) UNSIGNED NOT NULL,
     `customer_group_id` SMALLINT(5) UNSIGNED NOT NULL,
@@ -104,6 +110,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_final_tmp')}`
 
 DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_index_price')}_idx_option`;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_price_indexer_option_idx')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_option_idx')}` (
     `entity_id` INT(10) UNSIGNED NOT NULL,
     `customer_group_id` SMALLINT(5) UNSIGNED NOT NULL,
@@ -114,6 +121,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_option_idx')}
     PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_price_indexer_option_tmp')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_option_tmp')}` (
     `entity_id` INT(10) UNSIGNED NOT NULL,
     `customer_group_id` SMALLINT(5) UNSIGNED NOT NULL,
@@ -126,6 +134,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_option_tmp')}
 
 DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_index_price')}_idx_option_aggregate`;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_price_indexer_option_aggregate_idx')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_option_aggregate_idx')}` (
     `entity_id` INT(10) UNSIGNED NOT NULL,
     `customer_group_id` SMALLINT(5) UNSIGNED NOT NULL,
@@ -137,6 +146,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_option_aggreg
     PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`, `option_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_price_indexer_option_aggregate_tmp')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_option_aggregate_tmp')}` (
     `entity_id` INT(10) UNSIGNED NOT NULL,
     `customer_group_id` SMALLINT(5) UNSIGNED NOT NULL,
@@ -151,6 +161,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_option_aggreg
 
 DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_index_eav')}_idx`;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_eav_indexer_idx')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_eav_indexer_idx')}` (
     `entity_id` int(10) unsigned NOT NULL,
      `attribute_id` smallint(5) unsigned NOT NULL,
@@ -163,6 +174,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_eav_indexer_idx')}` (
      KEY `IDX_VALUE` (`value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_eav_indexer_tmp')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_eav_indexer_tmp')}` (
     `entity_id` int(10) unsigned NOT NULL,
      `attribute_id` smallint(5) unsigned NOT NULL,
@@ -177,6 +189,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_eav_indexer_tmp')}` (
 
 DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_index_eav_decimal')}_idx`;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_eav_decimal_indexer_idx')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_eav_decimal_indexer_idx')}` (
      `entity_id` int(10) unsigned NOT NULL,
      `attribute_id` smallint(5) unsigned NOT NULL,
@@ -189,6 +202,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_eav_decimal_indexer_idx')}`
      KEY `IDX_VALUE` (`value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_eav_decimal_indexer_tmp')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_eav_decimal_indexer_tmp')}` (
      `entity_id` int(10) unsigned NOT NULL,
      `attribute_id` smallint(5) unsigned NOT NULL,
@@ -203,6 +217,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_eav_decimal_indexer_tmp')}`
 
 DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_index_price')}_idx`;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_price_indexer_idx')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_idx')}` (
      `entity_id` int(10) unsigned NOT NULL,
      `customer_group_id` smallint(5) unsigned NOT NULL,
@@ -219,6 +234,7 @@ CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_idx')}` (
      KEY `IDX_MIN_PRICE` (`min_price`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/product_price_indexer_tmp')}`;
 CREATE TABLE `{$installer->getTable('catalog/product_price_indexer_tmp')}` (
      `entity_id` int(10) unsigned NOT NULL,
      `customer_group_id` smallint(5) unsigned NOT NULL,
@@ -246,6 +262,7 @@ CREATE TABLE `{$installer->getTable('catalog/category_product_indexer_idx')}` (
      `visibility` tinyint(3) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/category_product_indexer_tmp')}`;
 CREATE TABLE `{$installer->getTable('catalog/category_product_indexer_tmp')}` (
      `category_id` int(10) unsigned NOT NULL default '0',
      `product_id` int(10) unsigned NOT NULL default '0',
@@ -257,12 +274,14 @@ CREATE TABLE `{$installer->getTable('catalog/category_product_indexer_tmp')}` (
 
 DROP TABLE IF EXISTS `{$installer->getTable('tmp_category_index_enabled_products')}`;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/category_product_enabled_indexer_idx')}`;
 CREATE TABLE `{$installer->getTable('catalog/category_product_enabled_indexer_idx')}` (
     `product_id` int(10) unsigned NOT NULL DEFAULT '0',
     `visibility` int(11) unsigned NOT NULL DEFAULT '0',
     KEY `IDX_PRODUCT` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/category_product_enabled_indexer_tmp')}`;
 CREATE TABLE `{$installer->getTable('catalog/category_product_enabled_indexer_tmp')}` (
     `product_id` int(10) unsigned NOT NULL DEFAULT '0',
     `visibility` int(11) unsigned NOT NULL DEFAULT '0',
@@ -271,12 +290,14 @@ CREATE TABLE `{$installer->getTable('catalog/category_product_enabled_indexer_tm
 
 DROP TABLE IF EXISTS `{$installer->getTable('tmp_category_index_anchor_categories')}`;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/category_anchor_indexer_idx')}`;
 CREATE TABLE `{$installer->getTable('catalog/category_anchor_indexer_idx')}` (
     `category_id` int(10) unsigned NOT NULL DEFAULT '0',
     `path` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
     KEY `IDX_CATEGORY` (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/category_anchor_indexer_tmp')}`;
 CREATE TABLE `{$installer->getTable('catalog/category_anchor_indexer_tmp')}` (
     `category_id` int(10) unsigned NOT NULL DEFAULT '0',
     `path` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
@@ -285,11 +306,13 @@ CREATE TABLE `{$installer->getTable('catalog/category_anchor_indexer_tmp')}` (
 
 DROP TABLE IF EXISTS `{$installer->getTable('tmp_category_index_anchor_products')}`;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/category_anchor_products_indexer_idx')}`;
 CREATE TABLE `{$installer->getTable('catalog/category_anchor_products_indexer_idx')}` (
     `category_id` int(10) unsigned NOT NULL DEFAULT '0',
     `product_id` int(10) unsigned NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `{$installer->getTable('catalog/category_anchor_products_indexer_tmp')}`;
 CREATE TABLE `{$installer->getTable('catalog/category_anchor_products_indexer_tmp')}` (
     `category_id` int(10) unsigned NOT NULL DEFAULT '0',
     `product_id` int(10) unsigned NOT NULL DEFAULT '0'
