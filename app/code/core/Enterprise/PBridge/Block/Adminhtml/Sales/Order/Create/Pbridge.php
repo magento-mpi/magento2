@@ -51,7 +51,7 @@ class Enterprise_PBridge_Block_Adminhtml_Sales_Order_Create_Pbridge extends Mage
      */
     public function getSourceUrl()
     {
-        $sourceUrl = Mage::helper('enterprise_pbridge')->getPbridgeUrl(array(
+        $sourceUrl = Mage::helper('enterprise_pbridge')->getGatewaysChooserUrl(array(
             'redirect_url' => $this->getUrl('*/pbridge/result', array('_current' => true))
         ));
         return $sourceUrl;

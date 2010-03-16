@@ -77,12 +77,24 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     protected $_originalMethodCode = null;
 
     /**
-     * Payment Bridge call for wrapped payment operations
+     * Pbridge Api object
      *
-     * @param array $params
+     * @var Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api
      */
-    protected function _call($params)
+    protected $_api = null;
+
+    /**
+     * Initialize and return Pbridge Api object
+     *
+     * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api
+     */
+    protected function _getApi()
     {
+        if ($this->_api === null) {
+            $this->_api = Mage::getModel('enterprise_pbridge/payment_method_pbridge_api');
+            $this->_api->setMethodInstance($this);
+        }
+        return $this->_api;
     }
 
     /**
@@ -227,7 +239,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
                 array($this->_dependentMethodInstances[$method], $featureMethod),
                 array($param)
             );
-            
+
             if (null !== $this->_dependentMethodInstances[$method] && $featureResult) {
                 Mage::helper('enterprise_pbridge')->setPbridgeMethodUsable($method);
                 $flag = true;
@@ -423,11 +435,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     public function authorize(Varien_Object $payment, $amount)
     {
         parent::authorize($payment, $amount);
-        $this->_call(array(
-            'operation' => 'authorize',
-            'payment'   => $payment,
-            'amount'    => $amount,
-        ));
+        $request = new Varien_Object();
+        $request->setData('payment_action', 'place');
+        $this->_getApi()->doAuthorize($request);
         return $this;
     }
 
@@ -440,10 +450,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     public function cancel(Varien_Object $payment)
     {
         parent::cancel($payment);
-        $this->_call(array(
-            'operation' => 'cancel',
-            'payment'   => $payment,
-        ));
         return $this;
     }
 
@@ -456,11 +462,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     public function capture(Varien_Object $payment, $amount)
     {
         parent::capture($payment, $amount);
-        $this->_call(array(
-            'operation' => 'capture',
-            'payment'   => $payment,
-            'amount'    => $amount,
-        ));
         return $this;
     }
 
@@ -473,11 +474,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     public function refund(Varien_Object $payment, $amount)
     {
         parent::refund($payment, $amount);
-        $this->_call(array(
-            'operation' => 'refund',
-            'payment'   => $payment,
-            'amount'    => $amount,
-        ));
         return $this;
     }
 
@@ -490,10 +486,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     public function void(Varien_Object $payment)
     {
         parent::void($payment);
-        $this->_call(array(
-            'operation' => 'void',
-            'payment'   => $payment,
-        ));
         return $this;
     }
 }

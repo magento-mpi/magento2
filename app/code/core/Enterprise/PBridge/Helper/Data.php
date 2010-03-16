@@ -79,50 +79,98 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     /**
      * Getter
      *
-     * @return Mage_Sales_Model_Quote
+     * @param Mage_Sales_Model_Quote $quote
+     * @return Mage_Sales_Model_Quote | null
      */
-    protected function _getQuote()
+    protected function _getQuote($quote = null)
     {
-        return Mage::getSingleton('checkout/session')->getQuote();
+        if ($quote && $quote instanceof Mage_Sales_Model_Quote) {
+            return $quote;
+        }
+        return null;
     }
 
     /**
-     * Prepare and return Payment Bridge request url with parameters
+     * Prepare and return Payment Bridge request url with parameters if passed.
+     * Encrypt parameters by default.
+     *
+     * @param array $params OPTIONAL
+     * @param boolean $encryptParams OPTIONAL true by default
+     * @return string
+     */
+    protected function _prepareRequestUrl($params = array(), $encryptParams = true)
+    {
+        $pbridgeUrl = trim(Mage::getStoreConfig('payment/pbridge/gatewayurl'));
+
+        $sourceUrl = rtrim($pbridgeUrl, '/') . '/bridge.php';
+
+        if (!empty($params)) {
+            if ($encryptParams) {
+                $params = array('data' => $this->encrypt(serialize($params)));
+            }
+            $sourceUrl .= '?' . http_build_query($params);
+        }
+
+        return $sourceUrl;
+    }
+
+    /**
+     * Prepare required request params.
+     * Optinal accept additional params to merge with required
+     *
+     * @param array $params OPTIONAL
+     * @param Varien_Object $payment OPTIONAL
+     * @return array
+     */
+    public function getRequestParams(array $params = array(), $quote = null)
+    {
+        $params = array_merge(array(
+            'locale' => Mage::app()->getLocale()->getLocaleCode(),
+        ), $params);
+
+        if ($this->_getQuote($quote) && $this->_getQuote($quote)->getId()) {
+            $params['quote_id'] = $this->_getQuote($quote)->getId();
+            $payment = $this->_getQuote($quote)->getPayment();
+            if ($payment && $payment->getMethod() && $payment->getMethodInstance()->getToken()) {
+                $params['token'] = $payment->getMethodInstance()->getToken();
+            }
+        }
+
+        $params['merchant_code'] = trim(Mage::getStoreConfig('payment/pbridge/merchantcode'));
+        $params['merchant_key']  = trim(Mage::getStoreConfig('payment/pbridge/merchantkey'));
+        return $params;
+    }
+
+    /**
+     * Return payment Bridge request URL to display gateways chooser
+     *
+     * @param array $params OPTIONAL
+     * @param Mage_Sale_Model_Quote $quote
+     * @return string
+     */
+    public function getGatewaysChooserUrl(array $params = array(), $quote = null)
+    {
+        $availableMethods = $this->getPbridgeUsableMethods();
+        if ($availableMethods) {
+            $params = array_merge(array(
+                'available_methods' => implode(',', $availableMethods)
+            ), $params);
+        }
+        $params = $this->getRequestParams($params, $quote);
+        $params['action'] = self::PAYMENT_GATEWAYS_CHOOSER_ACTION;
+        return $this->_prepareRequestUrl($params, true);
+    }
+
+    /**
+     * Getter.
+     * Retrieve Payment Bridge url
      *
      * @param array $params
      * @return string
      */
-    protected function _preparePbridgeRequestUrl($params = array())
+    public function getRequestUrl()
     {
-        $pbridgeUrl = trim(Mage::getStoreConfig('payment/pbridge/gatewayurl'));
-        $merchantCode = trim(Mage::getStoreConfig('payment/pbridge/merchantcode'));
-        $merchantKey  = trim(Mage::getStoreConfig('payment/pbridge/merchantkey'));
-        $availableMethods = $this->getPbridgeUsableMethods();
-
-        $params = array_merge(array(
-            'redirect_url' => $this->_getUrl('enterprise_pbridge/pbridge/result', array('_current' => true)),
-            'locale' => Mage::app()->getLocale()->getLocaleCode(),
-        ), $params);
-        if ($this->_getQuote()) {
-            $payment = $this->_getQuote()->getPayment();
-            if ($payment && $payment->getMethod()) {
-                $params['quote_id']= $this->_getQuote()->getId();
-                if ($payment->getMethodInstance()->getToken()) {
-                    $params['token'] = $payment->getMethodInstance()->getToken();
-                }
-            }
-        }
-        $params = array_merge($params, array(
-            'action'            => self::PAYMENT_GATEWAYS_CHOOSER_ACTION,
-            'merchant_code'     => $merchantCode,
-            'merchant_key'      => $merchantKey,
-            'available_methods' => $availableMethods ? implode(',', $availableMethods) : '',
-        ));
-
-        $params = $this->encryptData($params);
-        $sourceUrl = rtrim($pbridgeUrl, '/') . '/bridge.php?' . http_build_query($params);
-
-        return $sourceUrl;
+        return $this->_prepareRequestUrl();
     }
 
     /**
@@ -140,18 +188,6 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
             }
         }
         return $this->_pbridgeAvailableMethods;
-    }
-
-    /**
-     * Getter.
-     * Retrieve Payment Bridge url with required parameters
-     *
-     * @param array $params
-     * @return string
-     */
-    public function getPbridgeUrl($params = array())
-    {
-        return $this->_preparePbridgeRequestUrl($params);
     }
 
     /**
@@ -248,33 +284,23 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     /**
      * Decrypt data array
      *
-     * @param array $data
-     * @return array
+     * @param string $data
+     * @return string
      */
-    public function decryptData($data)
+    public function decrypt($data)
     {
-        if (!($data && is_array($data) && isset($data['data']))) {
-            return array();
-        }
-        $data = unserialize($this->getEncryptor()->decrypt($data['data']));
-
-        return $data;
+        return $this->getEncryptor()->decrypt($data);
     }
 
     /**
      * Encrypt data array
      *
-     * @param array $data
-     * @return array
+     * @param string $data
+     * @return string
      */
-    public function encryptData($data)
+    public function encrypt($data)
     {
-        if (!($data && is_array($data))) {
-            return array();
-        }
-        $data = array('data' => $this->getEncryptor()->encrypt(serialize($data)));
-
-        return $data;
+        return $this->getEncryptor()->encrypt($data);
     }
 
     /**
@@ -284,7 +310,7 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
      */
     public function getPbridgeParams()
     {
-        $data = $this->decryptData($this->_getRequest()->getParams());
+        $data = unserialize($this->decrypt($this->_getRequest()->getParam('data', '')));
         $data = array(
             'original_payment_method' => isset($data['original_payment_method']) ? $data['original_payment_method'] : null,
             'token'                   => isset($data['token']) ? $data['token'] : '',

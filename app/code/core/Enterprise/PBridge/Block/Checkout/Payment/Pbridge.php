@@ -51,9 +51,9 @@ class Enterprise_PBridge_Block_Checkout_Payment_Pbridge extends Mage_Payment_Blo
      */
     public function getSourceUrl()
     {
-        $sourceUrl = Mage::helper('enterprise_pbridge')->getPbridgeUrl(array(
+        $sourceUrl = Mage::helper('enterprise_pbridge')->getGatewaysChooserUrl(array(
             'redirect_url' => $this->getUrl('enterprise_pbridge/pbridge/result', array('_current' => true))
-        ));
+        ), Mage::getSingleton('checkout/session')->getQuote());
         return $sourceUrl;
     }
 }
