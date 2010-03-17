@@ -84,7 +84,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Quantity
             array()
         );
 
-        //$this->_limitByStoreWebsite($select, $website, 'item.store_id');
+        $this->_limitByStoreWebsite($select, $website, 'item.store_id');
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
         return $select;
     }

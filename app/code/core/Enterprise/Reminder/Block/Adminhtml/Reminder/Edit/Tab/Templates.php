@@ -35,10 +35,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
-        $form->setHtmlIdPrefix('rule_');
-
         $model = Mage::registry('current_reminder_rule');
-        $model->getTemplates();
 
         $fieldset = $form->addFieldset('email_fieldset', array(
             'legend' => Mage::helper('enterprise_reminder')->__('E-mail Templates'),
@@ -46,7 +43,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
         ));
 
         foreach (Mage::app()->getWebsites() as $website) {
-            $fieldset->addField("website_{$website->getId()}_template", 'note', array(
+            $fieldset->addField("website_template_{$website->getId()}", 'note', array(
                 'label'    => $website->getName(),
                 'fieldset_html_class' => 'website',
             ));
@@ -55,7 +52,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
                 if (count($stores) == 0) {
                     continue;
                 }
-                $fieldset->addField("store_{$group->getId()}_template", 'note', array(
+                $fieldset->addField("group_template_{$group->getId()}", 'note', array(
                     'label'    => $group->getName(),
                     'fieldset_html_class' => 'store-group',
                 ));
@@ -75,17 +72,17 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
             'legend' => Mage::helper('enterprise_reminder')->__('Default Labels and Description')
         ));
 
-        $fieldset->addField('store_default_label', 'text', array(
-            'name'      => 'store_labels[0]',
+        $fieldset->addField('default_label', 'text', array(
+            'name'      => 'default_label',
             'required'  => false,
             'label'     => Mage::helper('enterprise_reminder')->__('Default Rule Label for All Store Views')
         ));
 
-        $fieldset->addField('store_default_desctiption', 'textarea', array(
-            'name'      => 'store_descriptions[0]',
-            'required'  => false,
-            'label'     => Mage::helper('enterprise_reminder')->__('Default Rule Description for All Store Views'),
-            'style' => 'width: 98%; height: 50px;'
+        $fieldset->addField('default_description', 'textarea', array(
+            'name'     => 'default_description',
+            'required' => false,
+            'label'    => Mage::helper('enterprise_reminder')->__('Default Rule Description for All Store Views'),
+            'style'    => 'height: 50px;'
         ));
 
         $fieldset = $form->addFieldset('labels_fieldset', array(
@@ -94,7 +91,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
         ));
 
         foreach (Mage::app()->getWebsites() as $website) {
-            $fieldset->addField("website_{$website->getId()}_label", 'note', array(
+            $fieldset->addField("website_label_{$website->getId()}", 'note', array(
                 'label'    => $website->getName(),
                 'fieldset_html_class' => 'website',
             ));
@@ -103,7 +100,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
                 if (count($stores) == 0) {
                     continue;
                 }
-                $fieldset->addField("store_{$group->getId()}_label", 'note', array(
+                $fieldset->addField("group_label_{$group->getId()}", 'note', array(
                     'label'    => $group->getName(),
                     'fieldset_html_class' => 'store-group',
                 ));
@@ -124,7 +121,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
         ));
 
         foreach (Mage::app()->getWebsites() as $website) {
-            $fieldset->addField("website_{$website->getId()}_description", 'note', array(
+            $fieldset->addField("website_description_{$website->getId()}", 'note', array(
                 'label'    => $website->getName(),
                 'fieldset_html_class' => 'website',
             ));
@@ -133,7 +130,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
                 if (count($stores) == 0) {
                     continue;
                 }
-                $fieldset->addField("store_{$group->getId()}_description", 'note', array(
+                $fieldset->addField("group_description_{$group->getId()}", 'note', array(
                     'label'    => $group->getName(),
                     'fieldset_html_class' => 'store-group',
                 ));
@@ -143,7 +140,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
                         'label'     => $store->getName(),
                         'required'  => false,
                         'fieldset_html_class' => 'store',
-                        'style' => 'width: 98%; height: 50px;'
+                        'style' => 'height: 50px;'
                     ));
                 }
             }

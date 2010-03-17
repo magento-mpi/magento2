@@ -121,7 +121,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Storeview
             array()
         );
 
-        //$this->_limitByStoreWebsite($select, $website, 'quote.store_id');
+        $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where("item.store_id {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
         $select->limit(1);

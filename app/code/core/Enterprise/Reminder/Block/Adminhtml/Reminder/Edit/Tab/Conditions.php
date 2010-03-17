@@ -34,9 +34,8 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
      */
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_reminder_rule');
         $form = new Varien_Data_Form();
-        $form->setHtmlIdPrefix('rule_');
+        $model = Mage::registry('current_reminder_rule');
 
         $renderer = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
             ->setTemplate('promo/fieldset.phtml')

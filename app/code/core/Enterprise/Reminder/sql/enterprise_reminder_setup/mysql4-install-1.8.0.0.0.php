@@ -38,6 +38,8 @@ CREATE TABLE `{$this->getTable('enterprise_reminder/rule')}` (
     `is_active` tinyint(1) unsigned NOT NULL default '0',
     `salesrule_id` INT(10) UNSIGNED NOT NULL,
     `schedule` varchar(255) NOT NULL DEFAULT '',
+    `default_label` varchar(255) NOT NULL default '',
+    `default_description` text NOT NULL,
     `active_from` datetime default NULL,
     `active_to` datetime default NULL,
     PRIMARY KEY  (`rule_id`),
@@ -54,9 +56,12 @@ CREATE TABLE `{$this->getTable('enterprise_reminder/website')}` (
 CREATE TABLE `{$this->getTable('enterprise_reminder/template')}` (
   `rule_id` int(10) unsigned NOT NULL,
   `store_id` smallint(5) NOT NULL,
-  `template_id` varchar(100) NOT NULL DEFAULT '',
+  `template_id` int(10) unsigned DEFAULT NULL,
+  `label` varchar(255) NOT NULL default '',
+  `description` text NOT NULL,
   PRIMARY KEY (`rule_id`,`store_id`),
-  KEY `IDX_EE_REMINDER_TEMPLATE_RULE` (`rule_id`)
+  KEY `IDX_EE_REMINDER_TEMPLATE_RULE` (`rule_id`),
+  KEY `IDX_EE_REMINDER_TEMPLATE` (`template_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `{$this->getTable('enterprise_reminder/coupon')}` (
@@ -104,6 +109,15 @@ $installer->getConnection()->addConstraint(
     'rule_id',
     $this->getTable('enterprise_reminder/rule'),
     'rule_id'
+);
+
+$installer->getConnection()->addConstraint(
+    'IDX_EE_REMINDER_TEMPLATE',
+    $this->getTable('enterprise_reminder/template'),
+    'template_id',
+    $this->getTable('core_email_template'),
+    'template_id',
+    'SET NULL'
 );
 
 $installer->getConnection()->addConstraint(

@@ -78,7 +78,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Totalquantity
         $select = $this->getResource()->createSelect();
         $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)));
 
-        //$this->_limitByStoreWebsite($select, $website, 'quote.store_id');
+        $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where("quote.items_qty {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
         $select->limit(1);

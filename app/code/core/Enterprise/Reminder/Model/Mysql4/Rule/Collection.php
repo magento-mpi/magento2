@@ -48,6 +48,21 @@ class Enterprise_Reminder_Model_Mysql4_Rule_Collection extends Enterprise_Enterp
     }
 
     /**
+     * Limit rules collection by date columns
+     *
+     * @param int $value
+     * @return Enterprise_Reminder_Model_Mysql4_Rule_Collection
+     */
+    public function addDateFilter($date)
+    {
+        $this->getSelect()
+            ->where($this->getConnection()->quoteInto('active_from IS NULL OR active_from <= ?', $date))
+            ->where($this->getConnection()->quoteInto('active_to IS NULL OR active_to >= ?', $date));
+
+        return $this;
+    }
+
+    /**
      * Redeclare after load method for adding website ids to items
      *
      * @return Enterprise_Reminder_Model_Mysql4_Rule_Collection
@@ -125,15 +140,5 @@ class Enterprise_Reminder_Model_Mysql4_Rule_Collection extends Enterprise_Enterp
             return $this->addWebsiteFilter($condition);
         }
         return parent::addFieldToFilter($field, $condition);
-    }
-
-    /**
-     * Retrieve collection items as option array
-     *
-     * @return array
-     */
-    public function toOptionArray()
-    {
-        return $this->_toOptionArray('rule_id', 'name');
     }
 }

@@ -34,10 +34,8 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
      */
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_reminder_rule');
-
         $form = new Varien_Data_Form();
-        //$form->setHtmlIdPrefix('rule_');
+        $model = Mage::registry('current_reminder_rule');
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('enterprise_reminder')->__('General Properties')));
 

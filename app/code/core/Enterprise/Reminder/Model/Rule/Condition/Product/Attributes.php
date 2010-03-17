@@ -30,8 +30,6 @@
 class Enterprise_Reminder_Model_Rule_Condition_Product_Attributes
     extends Mage_CatalogRule_Model_Rule_Condition_Product
 {
-    protected $_isUsedForRuleProperty = 'is_used_for_customer_segment';
-
     public function __construct()
     {
         parent::__construct();

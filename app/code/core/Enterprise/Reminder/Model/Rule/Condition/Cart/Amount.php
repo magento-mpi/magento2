@@ -106,7 +106,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
                 Mage::throwException(Mage::helper('enterprise_reminder')->__('Unknown quote total specified'));
         }
 
-        //$this->_limitByStoreWebsite($select, $website, 'quote.store_id');
+        $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active=1');
         $select->where("{$field} {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'customer_id'));

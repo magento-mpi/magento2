@@ -123,7 +123,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
             array()
         );
 
-        //$this->_limitByStoreWebsite($select, $website, 'item.store_id');
+        $this->_limitByStoreWebsite($select, $website, 'item.store_id');
         $select->where("item.store_id {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
         $select->limit(1);

@@ -39,42 +39,6 @@ class Enterprise_Reminder_Model_Rule extends Enterprise_Enterprise_Model_Rule_Ru
     }
 
     /**
-     * Return conditions instance
-     *
-     * @return Enterprise_Reminder_Model_Rule_Condition_Combine
-     */
-    public function getConditionsInstance()
-    {
-        return Mage::getModel('enterprise_reminder/rule_condition_combine_root');
-    }
-
-    /**
-     * Get rule associated website ids
-     *
-     * @return array
-     */
-    public function getWebsiteIds()
-    {
-        if (!$this->hasData('website_ids')) {
-            $this->setData('website_ids', $this->_getResource()->getWebsiteIds($this->getId()));
-        }
-        return $this->_getData('website_ids');
-    }
-
-    /**
-     * Get existing templates
-     *
-     * @return array
-     */
-    public function getTemplates()
-    {
-        $templates = $this->_getResource()->getTemplates($this->getId());
-        foreach($templates as $store => $template) {
-            $this->setData('store_template_'.$store, $template);
-        }
-    }
-
-    /**
      * Perform actions after object load
      */
     protected function _afterLoad()
@@ -84,6 +48,17 @@ class Enterprise_Reminder_Model_Rule extends Enterprise_Enterprise_Model_Rule_Ru
         if (!empty($conditionsArr) && is_array($conditionsArr)) {
             $this->getConditions()->loadArray($conditionsArr);
         }
+
+        $storeData = $this->_getResource()->getStoreData($this->getId());
+        $defaultTemplate = str_replace('/', '_', self::XML_PATH_EMAIL_TEMPLATE);
+
+        foreach($storeData as $data) {
+            $template = (empty($data['template_id'])) ? $defaultTemplate : $data['template_id'];
+            $this->setData('store_template_'.$data['store_id'], $template);
+            $this->setData('store_label_'.$data['store_id'], $data['label']);
+            $this->setData('store_description_'.$data['store_id'], $data['description']);
+        }
+
         return $this;
     }
 
@@ -113,31 +88,25 @@ class Enterprise_Reminder_Model_Rule extends Enterprise_Enterprise_Model_Rule_Ru
     }
 
     /**
-     * Get list of all models which are used in rule conditions
+     * Return conditions instance
      *
-     * @param  null | Mage_Rule_Model_Condition_Combine $conditions
+     * @return Enterprise_Reminder_Model_Rule_Condition_Combine
+     */
+    public function getConditionsInstance()
+    {
+        return Mage::getModel('enterprise_reminder/rule_condition_combine_root');
+    }
+
+    /**
+     * Get rule associated website ids
+     *
      * @return array
      */
-    public function getConditionModels($conditions = null)
+    public function getWebsiteIds()
     {
-        $models = array();
-
-        if (is_null($conditions)) {
-            $conditions = $this->getConditions();
+        if (!$this->hasData('website_ids')) {
+            $this->setData('website_ids', $this->_getResource()->getWebsiteIds($this->getId()));
         }
-
-        $models[] = $conditions->getType();
-        $childConditions = $conditions->getConditions();
-        if ($childConditions) {
-            if (is_array($childConditions)) {
-                foreach ($childConditions as $child) {
-                    $models = array_merge($models, $this->getConditionModels($child));
-                }
-            } else {
-                $models = array_merge($models, $this->getConditionModels($childConditions));
-            }
-        }
-
-        return $models;
+        return $this->_getData('website_ids');
     }
 }

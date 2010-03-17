@@ -48,17 +48,25 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
     }
 
     /**
-     * Get website ids associated to the rule id
+     * Get empty select object
      *
-     * @param   int $ruleId
-     * @return  array
+     * @return Varien_Db_Select
      */
-    public function getWebsiteIds($ruleId)
+    public function createSelect()
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->_websiteTable, 'website_id')
-            ->where('rule_id=?', $ruleId);
-        return $this->_getReadAdapter()->fetchCol($select);
+        return $this->_getReadAdapter()->select();
+    }
+
+    /**
+     * Quote parameters into condition string
+     *
+     * @param string $string
+     * @param string | array $param
+     * @return string unknown_type
+     */
+    public function quoteInto($string, $param)
+    {
+        return $this->_getReadAdapter()->quoteInto($string, $param);
     }
 
     /**
@@ -69,12 +77,12 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!$object->getActiveFrom()) {
-            $date = Mage::app()->getLocale()->date();
-            $date->setHour(0)->setMinute(0)->setSecond(0);
-            $object->setActiveFrom($date);
+            $object->setActiveFrom(new Zend_Db_Expr('NULL'));
         }
-        if ($object->getActiveFrom() instanceof Zend_Date) {
-            $object->setActiveFrom($object->getActiveFrom()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+        else {
+            if ($object->getActiveFrom() instanceof Zend_Date) {
+                $object->setActiveFrom($object->getActiveFrom()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+            }
         }
 
         if (!$object->getActiveTo()) {
@@ -99,7 +107,7 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
             $this->_saveWebsiteIds($rule);
         }
         if ($rule->hasData('store_templates')) {
-            $this->_saveStoreTemplates($rule);
+            $this->_saveStoreData($rule);
         }
         return parent::_afterSave($rule);
     }
@@ -124,25 +132,47 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
     }
 
     /**
+     * Get website ids associated to the rule id
+     *
+     * @param   int $ruleId
+     * @return  array
+     */
+    public function getWebsiteIds($ruleId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->_websiteTable, 'website_id')
+            ->where('rule_id=?', $ruleId);
+        return $this->_getReadAdapter()->fetchCol($select);
+    }
+
+    /**
      * Save store templates
      *
      * @param $rule
      * @return unknown_type
      */
-    protected function _saveStoreTemplates($rule)
+    protected function _saveStoreData($rule)
     {
         $adapter = $this->_getWriteAdapter();
-        $templateTabel = $this->getTable('enterprise_reminder/template');
-        $adapter->delete($templateTabel, array('rule_id=?'=>$rule->getId()));
+        $templateTable = $this->getTable('enterprise_reminder/template');
+        $adapter->delete($templateTable, array('rule_id=?'=>$rule->getId()));
+
+        $labels = $rule->getStoreLabels();
+        $descriptions = $rule->getStoreDescriptions();
 
         foreach ($rule->getStoreTemplates() as $storeId=>$templateId) {
             if (!$templateId) {
                 continue;
             }
-            $adapter->insert($templateTabel, array(
+            if (!is_numeric($templateId)) {
+                $templateId = null;
+            }
+            $adapter->insert($templateTable, array(
                 'rule_id'     => $rule->getId(),
                 'store_id'    => $storeId,
-                'template_id' => $templateId
+                'template_id' => $templateId,
+                'label'       => $labels[$storeId],
+                'description' => $descriptions[$storeId]
             ));
         }
         return $this;
@@ -154,46 +184,13 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
      * @param   int $actionId
      * @return  array
      */
-    public function getTemplates($ruleId)
+    public function getStoreData($ruleId)
     {
+        $templateTable = $this->getTable('enterprise_reminder/template');
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('enterprise_reminder/template'), array('store_id', 'template_id'))
+            ->from($templateTable, array('store_id', 'template_id', 'label', 'description'))
             ->where('rule_id=?', $ruleId);
-        return $this->_getReadAdapter()->fetchPairs($select);
-    }
-
-    /**
-     * Get select query result
-     *
-     * @param   Varien_Db_Select|string $sql
-     * @param   array $bindParams array of binded variables
-     * @return  int
-     */
-    public function runConditionSql($sql, $bindParams)
-    {
-        return $this->_getReadAdapter()->fetchOne($sql, $bindParams);
-    }
-
-    /**
-     * Get empty select object
-     *
-     * @return Varien_Db_Select
-     */
-    public function createSelect()
-    {
-        return $this->_getReadAdapter()->select();
-    }
-
-    /**
-     * Quote parameters into condition string
-     *
-     * @param string $string
-     * @param string | array $param
-     * @return string unknown_type
-     */
-    public function quoteInto($string, $param)
-    {
-        return $this->_getReadAdapter()->quoteInto($string, $param);
+        return $this->_getReadAdapter()->fetchAll($select);
     }
 
     /**
@@ -243,25 +240,146 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
                 if (is_array($value)) {
                     if (!empty($value)) {
                         $sqlOperator = ($operator == '{}') ? 'IN' : 'NOT IN';
-                        $condition = $this->_getReadAdapter()->quoteInto(
-                            $field.' '.$sqlOperator.' (?)', $value
-                        );
+                        $condition = $this->quoteInto($field.' '.$sqlOperator.' (?)', $value);
                     }
                 } else {
-                    $condition = $this->_getReadAdapter()->quoteInto(
-                        $field.' '.$sqlOperator.' ?', '%'.$value.'%'
-                    );
+                    $condition = $this->quoteInto($field.' '.$sqlOperator.' ?', '%'.$value.'%');
                 }
                 break;
             case 'between':
                 $condition = $field.' '.sprintf($sqlOperator, $value['start'], $value['end']);
                 break;
             default:
-                $condition = $this->_getReadAdapter()->quoteInto(
-                    $field.' '.$sqlOperator.' ?', $value
-                );
+                $condition = $this->quoteInto($field.' '.$sqlOperator.' ?', $value);
                 break;
         }
         return $condition;
+    }
+
+    /**
+     * Get active reminder rules
+     *
+     * @return array
+     */
+    public function getActiveRules()
+    {
+        $now = $this->formatDate(time());
+
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('enterprise_reminder/rule'), array('rule_id','salesrule_id','condition_sql'))
+            ->where($this->quoteInto('active_from IS NULL OR active_from <= ?', $now))
+            ->where($this->quoteInto('active_to IS NULL OR active_to >= ?', $now))
+            ->where('is_active = 1');
+
+        return $this->_getReadAdapter()->fetchAll($select);
+    }
+
+    /**
+     * Deactivate already matched customers before new matching process
+     *
+     * @return Enterprise_Reminder_Model_Mysql4_Rule
+     */
+    public function deactiveMatchedCustomers($ruleId)
+    {
+        $this->_getWriteAdapter()->update(
+            $this->getTable('enterprise_reminder/coupon'),
+            array('is_active' => '1'),
+            array('rule_id = ?' => $ruleId)
+        );
+        return $this;
+    }
+
+    /**
+     * Get matched customers
+     *
+     * @return Enterprise_Reminder_Model_Mysql4_Rule
+     */
+    public function getMatchedCustomers($select)
+    {
+        return $this->_getReadAdapter()->fetchAll($select);
+    }
+
+    /**
+     * Try to associate reminder rule with customer.
+     * If customer was added earlier, update is_active column.
+     *
+     * @return Enterprise_Reminder_Model_Mysql4_Rule
+     */
+    public function saveMatchedCustomer($ruleId, $customerId, $couponId)
+    {
+        $data = array(
+            'rule_id'       => $ruleId,
+            'coupon_id'     => $couponId,
+            'customer_id'   => $customerId,
+            'associated_at' => $this->formatDate(time()),
+            'is_active'     => '1'
+        );
+
+        $this->_getWriteAdapter()->insertOnDuplicate(
+            $this->getTable('enterprise_reminder/coupon'), $data, array('is_active')
+        );
+
+        return $this;
+    }
+
+    /**
+     *
+     * @param $ruleId
+     * @return unknown_type
+     */
+    public function getCustomersForNotification($ruleId)
+    {
+        $ruleTable = $this->getTable('enterprise_reminder/rule');
+        $couponTable = $this->getTable('enterprise_reminder/coupon');
+        $templateTable = $this->getTable('enterprise_reminder/template');
+        $logTable = $this->getTable('enterprise_reminder/log');
+        $customerTable = $this->getTable('customer/entity');
+
+        $subSelect = $this->_getReadAdapter()->select();
+        $subSelect->from(array('r'=>$ruleTable),
+            'IF((MAX(l.sent_at) IS NULL) OR (TO_DAYS(NOW()) - TO_DAYS(MIN(l.sent_at)) IN (r.schedule) AND TO_DAYS(NOW()) != TO_DAYS(MAX(l.sent_at))),1,0)'
+        );
+
+        $subSelect->join(
+            array('c'=>$couponTable),
+            'c.rule_id=r.rule_id',
+            array()
+        );
+
+        $subSelect->joinLeft(
+            array('l' => $logTable),
+            'c.rule_id=l.rule_id AND c.customer_id=l.customer_id',
+            array()
+        );
+
+        $subSelect->where('r.rule_id=c.rule_id');
+        $subSelect->where('c.rule_id=?', $ruleId);
+        $subSelect->where('c.is_active=? AND e.entity_id=c.customer_id', '1');
+        $subSelect->group('c.customer_id');
+        $subSelect->limit('1');
+
+        $mainSelect = $this->_getReadAdapter()->select();
+        $mainSelect->from(array('e' => $customerTable), array('entity_id', 'store_id', 'email'));
+        $mainSelect->where('IFNULL(?,0)=1', $subSelect);
+        $mainSelect->limit('500');
+
+        return $this->_getReadAdapter()->fetchAssoc($mainSelect);
+    }
+
+    /**
+     * Add notification log
+     *
+     * @return Enterprise_Reminder_Model_Mysql4_Rule
+     */
+    public function addNotificationLog($ruleId, $customerId)
+    {
+        $data = array(
+            'rule_id'     => $ruleId,
+            'customer_id' => $customerId,
+            'sent_at'     => $this->formatDate(time())
+        );
+
+        $this->_getWriteAdapter()->insert($this->getTable('enterprise_reminder/log'), $data);
+        return $this;
     }
 }

@@ -125,7 +125,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
                 Mage::throwException(Mage::helper('enterprise_reminder')->__('Unknown attribute specified'));
         }
 
-         //$this->_limitByStoreWebsite($select, $website, 'quote.store_id');
+        $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where("{$field} {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
         $select->limit(1);

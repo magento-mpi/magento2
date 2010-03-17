@@ -63,7 +63,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Combine
             Mage::getModel($prefix.'itemsquantity')->getNewChildSelectOptions(),
             Mage::getModel($prefix.'totalquantity')->getNewChildSelectOptions(),
             Mage::getModel($prefix.'virtual')->getNewChildSelectOptions(),
-            Mage::getModel($prefix.'amount')->getNewChildSelectOptions(),
+            Mage::getModel($prefix.'amount')->getNewChildSelectOptions()
         ));
         return $result;
     }
