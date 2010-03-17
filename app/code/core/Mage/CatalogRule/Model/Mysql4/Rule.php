@@ -513,9 +513,12 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 
             $write->delete($this->getTable('catalogrule/rule_group_website'), array());
 
+            $timestamp = Mage::getModel('core/date')->gmtTimestamp();
+
             $select = $write->select()
                 ->distinct(true)
-                ->from($this->getTable('catalogrule/rule_product'), array('rule_id', 'customer_group_id', 'website_id'));
+                ->from($this->getTable('catalogrule/rule_product'), array('rule_id', 'customer_group_id', 'website_id'))
+                ->where("{$timestamp} >= from_time AND {$timestamp} <= to_time");
             $query = $select->insertFromSelect($this->getTable('catalogrule/rule_group_website'));
             $write->query($query);
 
