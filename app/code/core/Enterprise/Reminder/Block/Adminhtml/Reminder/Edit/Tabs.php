@@ -62,8 +62,8 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
         ));
 
         $this->addTab('template_section', array(
-            'label'     => Mage::helper('enterprise_reminder')->__('Templates'),
-            'title'     => Mage::helper('enterprise_reminder')->__('Templates'),
+            'label'     => Mage::helper('enterprise_reminder')->__('Emails and Labels'),
+            'title'     => Mage::helper('enterprise_reminder')->__('Emails and Labels'),
             'content'   => $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_templates')->toHtml(),
         ));
 

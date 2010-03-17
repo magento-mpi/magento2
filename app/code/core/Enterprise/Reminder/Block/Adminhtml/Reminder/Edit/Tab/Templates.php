@@ -40,19 +40,57 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
         $model = Mage::registry('current_reminder_rule');
         $model->getTemplates();
 
-        $fieldset = $form->addFieldset('schedule_fieldset', array(
-            'legend'       => Mage::helper('enterprise_reminder')->__('Schedule List'),
-            'table_class'  => 'form-list stores-tree',
-        ));
-
-        $fieldset->addField('schedule', 'text', array(
-            'name' => 'schedule',
-            'label' => Mage::helper('enterprise_reminder')->__('Action Schedule')
-        ));
-
         $fieldset = $form->addFieldset('email_fieldset', array(
-            'legend'       => Mage::helper('enterprise_reminder')->__('E-mail Templates'),
-            'table_class'  => 'form-list stores-tree',
+            'legend' => Mage::helper('enterprise_reminder')->__('E-mail Templates'),
+            'table_class'  => 'form-list stores-tree'
+        ));
+
+        foreach (Mage::app()->getWebsites() as $website) {
+            $fieldset->addField("website_{$website->getId()}_template", 'note', array(
+                'label'    => $website->getName(),
+                'fieldset_html_class' => 'website',
+            ));
+            foreach ($website->getGroups() as $group) {
+                $stores = $group->getStores();
+                if (count($stores) == 0) {
+                    continue;
+                }
+                $fieldset->addField("store_{$group->getId()}_template", 'note', array(
+                    'label'    => $group->getName(),
+                    'fieldset_html_class' => 'store-group',
+                ));
+                foreach ($stores as $store) {
+                    $fieldset->addField('store_template_'.$store->getId(), 'select', array(
+                        'name'      => 'store_templates['.$store->getId().']',
+                        'required'  => false,
+                        'label'     => $store->getName(),
+                        'values'    => $this->getTemplatesOptionsArray(),
+                        'fieldset_html_class' => 'store'
+                    ));
+                }
+            }
+        }
+
+        $fieldset = $form->addFieldset('default_label_fieldset', array(
+            'legend' => Mage::helper('enterprise_reminder')->__('Default Labels and Description')
+        ));
+
+        $fieldset->addField('store_default_label', 'text', array(
+            'name'      => 'store_labels[0]',
+            'required'  => false,
+            'label'     => Mage::helper('enterprise_reminder')->__('Default Rule Label for All Store Views')
+        ));
+
+        $fieldset->addField('store_default_desctiption', 'textarea', array(
+            'name'      => 'store_descriptions[0]',
+            'required'  => false,
+            'label'     => Mage::helper('enterprise_reminder')->__('Default Rule Description for All Store Views'),
+            'style' => 'width: 98%; height: 50px;'
+        ));
+
+        $fieldset = $form->addFieldset('labels_fieldset', array(
+            'legend' => Mage::helper('enterprise_reminder')->__('Labels per Store View'),
+            'table_class'  => 'form-list stores-tree'
         ));
 
         foreach (Mage::app()->getWebsites() as $website) {
@@ -70,12 +108,42 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
                     'fieldset_html_class' => 'store-group',
                 ));
                 foreach ($stores as $store) {
-                    $fieldset->addField('store_template_'.$store->getId(), 'select', array(
-                        'name'      => 'store_templates['.$store->getId().']',
-                        'required'  => false,
+                    $fieldset->addField('store_label_'.$store->getId(), 'text', array(
+                        'name'      => 'store_labels['.$store->getId().']',
                         'label'     => $store->getName(),
-                        'values'    => $this->getTemplatesOptionsArray(),
+                        'required'  => false,
+                        'fieldset_html_class' => 'store'
+                    ));
+                }
+            }
+        }
+
+        $fieldset = $form->addFieldset('descriptions_fieldset', array(
+            'legend' => Mage::helper('enterprise_reminder')->__('Descriptions per Store View'),
+            'table_class'  => 'form-list stores-tree'
+        ));
+
+        foreach (Mage::app()->getWebsites() as $website) {
+            $fieldset->addField("website_{$website->getId()}_description", 'note', array(
+                'label'    => $website->getName(),
+                'fieldset_html_class' => 'website',
+            ));
+            foreach ($website->getGroups() as $group) {
+                $stores = $group->getStores();
+                if (count($stores) == 0) {
+                    continue;
+                }
+                $fieldset->addField("store_{$group->getId()}_description", 'note', array(
+                    'label'    => $group->getName(),
+                    'fieldset_html_class' => 'store-group',
+                ));
+                foreach ($stores as $store) {
+                    $fieldset->addField('store_description_'.$store->getId(), 'textarea', array(
+                        'name'      => 'store_descriptions['.$store->getId().']',
+                        'label'     => $store->getName(),
+                        'required'  => false,
                         'fieldset_html_class' => 'store',
+                        'style' => 'width: 98%; height: 50px;'
                     ));
                 }
             }

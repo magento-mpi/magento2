@@ -59,6 +59,11 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             'style' => 'width: 98%; height: 100px;',
         ));
 
+        $fieldset->addField('schedule', 'text', array(
+            'name' => 'schedule',
+            'label' => Mage::helper('enterprise_reminder')->__('Action Schedule')
+        ));
+
         $field = $fieldset->addField('salesrule_id', 'label', array(
             'name'      => 'salesrule_id',
             'label'     => Mage::helper('enterprise_reminder')->__('Sales Rule'),
