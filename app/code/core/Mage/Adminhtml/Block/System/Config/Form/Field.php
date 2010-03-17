@@ -58,7 +58,9 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
     {
         $id = $element->getHtmlId();
 
-        $html = '<tr><td class="label"><label for="'.$id.'">'.$element->getLabel().'</label></td>';
+        $useContainerId = $element->getData('use_container_id');
+        $html = '<tr'.($useContainerId ? ' id="row_' . $id . '"' : '').'>'
+              . '<td class="label"><label for="'.$id.'">'.$element->getLabel().'</label></td>';
 
         //$isDefault = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
         $isMultiple = $element->getExtType()==='multiple';
