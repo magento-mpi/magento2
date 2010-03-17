@@ -37,7 +37,10 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
         $form = new Varien_Data_Form();
         $model = Mage::registry('current_reminder_rule');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('enterprise_reminder')->__('General Properties')));
+        $fieldset = $form->addFieldset('base_fieldset', array(
+            'legend' => Mage::helper('enterprise_reminder')->__('General Information'),
+            'comment' => Mage::helper('enterprise_reminder')->__('Reminder email may promote a shopping cart price rule with or without coupon. If shopping cart price rule defines an auto-generated coupon, this reminder rule will generate a random coupon code for each customer.'),
+        ));
 
         if ($model->getId()) {
             $fieldset->addField('rule_id', 'hidden', array(
@@ -57,17 +60,13 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             'style' => 'width: 98%; height: 100px;',
         ));
 
-        $fieldset->addField('schedule', 'text', array(
-            'name' => 'schedule',
-            'label' => Mage::helper('enterprise_reminder')->__('Action Schedule')
-        ));
-
         $field = $fieldset->addField('salesrule_id', 'label', array(
             'name'      => 'salesrule_id',
-            'label'     => Mage::helper('enterprise_reminder')->__('Sales Rule'),
+            'label'     => Mage::helper('enterprise_reminder')->__('Shopping Cart Price Rule'),
             'required'  => true,
-            'class' => 'widget-option',
-            'value' => $model->getSalesruleId()
+            'class'     => 'widget-option',
+            'value'     => $model->getSalesruleId(),
+            'note'      => Mage::helper('enterprise_reminder')->__('Promotion rule this reminder will advertise.'),
         ));
 
         $model->unsSalesruleId();
@@ -127,6 +126,12 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
             'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
             'format'       => $dateFormatIso
+        ));
+
+        $fieldset->addField('schedule', 'text', array(
+            'name' => 'schedule',
+            'label' => Mage::helper('enterprise_reminder')->__('Repeat Schedule'),
+            'note' => Mage::helper('enterprise_reminder')->__('In what number of days to repeat reminder email, if the rule condition still matches. Enter days, comma-separated.'),
         ));
 
         $form->setValues($model->getData());

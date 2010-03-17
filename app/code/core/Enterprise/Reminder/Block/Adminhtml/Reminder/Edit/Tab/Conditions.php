@@ -41,13 +41,11 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/reminder/newConditionHtml/form/rule_conditions_fieldset'));
         $fieldset = $form->addFieldset('conditions_fieldset', array(
-            'legend'=>Mage::helper('enterprise_reminder')->__('Conditions'))
+            'legend'=>Mage::helper('enterprise_reminder')->__('Conditions (leave blank to send instant reminder)'))
         )->setRenderer($renderer);
 
         $fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
-            'label' => Mage::helper('enterprise_reminder')->__('Conditions'),
-            'title' => Mage::helper('enterprise_reminder')->__('Conditions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getBlockSingleton('rule/conditions'));
 

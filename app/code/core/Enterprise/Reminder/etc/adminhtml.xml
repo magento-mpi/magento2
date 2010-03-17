@@ -33,7 +33,7 @@
                     <promo>
                         <children>
                             <reminder translate="title" module="enterprise_reminder">
-                                <title>Reminder Rules</title>
+                                <title>Automated Email Reminder Rules</title>
                                 <sort_order>20</sort_order>
                             </reminder>
                         </children>
@@ -46,7 +46,7 @@
         <promo>
             <children>
                 <reminder translate="title" module="enterprise_reminder">
-                    <title>Reminder Rules</title>
+                    <title>Automated Email Reminder Rules</title>
                     <action>adminhtml/reminder</action>
                     <sort_order>20</sort_order>
                 </reminder>
