@@ -85,6 +85,8 @@ a.button { _height:22px; }
 .product-view .add-review .form-list .review-summary-table .rating-box .rating { height:0px; padding-top:13px; overflow:hidden; }
 .product-options dd select { _margin-bottom:1px; }
 
+.col2-right-layout #options-container { margin-left:-3px; }
+
 /* jQzoom */
 .preload { width:100px; height:55px; }
 /*.jqZoomPup { filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=60); }*/
