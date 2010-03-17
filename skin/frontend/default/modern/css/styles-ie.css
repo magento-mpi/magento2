@@ -154,7 +154,8 @@ table { face-color:expression(runtimeStyle.scrollbarFaceColor = '#fff', cellSpac
 .advanced-search-summary,
 .advanced-search-summary p,
 .gift-messages-form .item,
-.send-friend .form-list li p { zoom:1; }
+.send-friend .form-list li p,
+.centinel .authentication { zoom:1; }
 
 /* Hover Fix */
 iframe.hover-fix { position:absolute; left:-1px; top:-1px; z-index:-1; background:transparent; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }
