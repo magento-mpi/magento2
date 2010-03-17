@@ -35,6 +35,13 @@
 class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Varien_Object
 {
     /**
+     * Api response
+     *
+     * @var $_response array
+     */
+    protected $_response = array();
+
+    /**
      * Make a call to Payment Bridge service with given request parameters
      *
      * @param array $request
@@ -77,11 +84,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Varien_Object
                 );
             }
             if (isset($response['status']) && $response['status'] == 'Success') {
-                return $response;
+                $this->_response = $response;
+                return true;
             }
         }
         $this->_handleError($response);
-        return $response;
+        $this->_response = $response;
+        return false;
     }
 
     /**
@@ -149,8 +158,55 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Varien_Object
      */
     public function doAuthorize($request)
     {
-        $response = $this->_call($request->getData());
+        $request->setData('payment_action', 'place');
+        $this->_call($request->getData());
         return $this;
     }
 
+    /**
+     * Capture
+     *
+     * @param Varien_Object $request
+     * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api
+     */
+    public function doCapture($request)
+    {
+        $request->setData('payment_action', 'capture');
+        $this->_call($request->getData());
+        return $this;
+    }
+
+    /**
+     * Refund
+     *
+     * @param Varien_Object $request
+     * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api
+     */
+    public function doRefund($request)
+    {
+        $request->setData('payment_action', 'refund');
+        $this->_call($request->getData());
+        return $this;
+    }
+
+    /**
+     * Void
+     *
+     * @param Varien_Object $request
+     * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api
+     */
+    public function doVoid($request)
+    {
+        $request->setData('payment_action', 'void');
+        $this->_call($request->getData());
+        return $this;
+    }
+
+    /**
+     * Return API response
+     */
+    public function getResponse()
+    {
+        return $this->_response;
+    }
 }

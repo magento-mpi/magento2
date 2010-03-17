@@ -448,7 +448,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         $order = $payment->getOrder();
         $request = new Varien_Object();
         $request
-            ->setData('payment_action', 'place')
             ->setData('client_ip', Mage::app()->getRequest()->getClientIp(false))
             ->setData('amount', (string)$amount)
             ->setData('currency_code', $order->getBaseCurrencyCode())
@@ -462,7 +461,14 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
 
         $request->setData('cart', $this->_getCart($order));
 
-        $this->_getApi()->doAuthorize($request);
+        $api = $this->_getApi()->doAuthorize($request);
+        $apiResponse = $api->getResponse();
+        $this->_importResultToPayment($payment, $apiResponse);
+
+        $payment->setIsTransactionPending((isset($apiResponse['is_transaction_pending'])) ?
+            $apiResponse['is_transaction_pending'] : 0);
+        $payment->setIsTransactionClosed(0);
+
         return $this;
     }
 
@@ -487,6 +493,24 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     public function capture(Varien_Object $payment, $amount)
     {
         parent::capture($payment, $amount);
+
+        $authTransactionId = $payment->getParentTransactionId();
+
+        if (!$authTransactionId) {
+            return false;
+        }
+
+        $request = new Varien_Object();
+        $request
+            ->setData('transaction_id', $authTransactionId)
+            ->setData('is_capture_complete', (int)$payment->getShouldCloseParentTransaction())
+            ->setData('amount', $amount)
+            ->setData('currency_code', $payment->getOrder()->getBaseCurrencyCode())
+            ->setData('order_id', $payment->getOrder()->getIncrementId())
+        ;
+
+        $api = $this->_getApi()->doCapture($request);
+        $this->_importResultToPayment($payment, $api->getResponse());
         return $this;
     }
 
@@ -499,6 +523,35 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     public function refund(Varien_Object $payment, $amount)
     {
         parent::refund($payment, $amount);
+
+        $captureTxnId = $payment->getParentTransactionId();
+        if ($captureTxnId) {
+            $order = $payment->getOrder();
+
+            $request = new Varien_Object();
+            $request
+                ->setData('transaction_id', $captureTxnId)
+                ->setData('amount', $amount)
+                ->setData('currency_code', $order->getBaseCurrencyCode())
+            ;
+
+            $canRefundMore = $order->canCreditmemo(); // TODO: fix this to be able to create multiple refunds
+            $isFullRefund = !$canRefundMore
+                && (0 == ((float)$order->getBaseTotalOnlineRefunded() + (float)$order->getBaseTotalOfflineRefunded()));
+            $request->setData('is_full_refund', (int)$isFullRefund);
+
+            $api = $this->_getApi()->doRefund($request);
+            $this->_importResultToPayment($payment, $api->getResponse());
+
+            $payment
+                ->setIsTransactionClosed(1)
+                ->setShouldCloseParentTransaction(!$canRefundMore);
+            ;
+
+        } else {
+            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Impossible to issue a refund transaction, because capture transaction does not exist.'));
+        }
+
         return $this;
     }
 
@@ -511,6 +564,17 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     public function void(Varien_Object $payment)
     {
         parent::void($payment);
+
+        if ($authTransactionId = $payment->getParentTransactionId()) {
+            $request = new Varien_Object();
+            $request
+                ->setData('transaction_id', $authTransactionId);
+
+            $this->_getApi()->doVoid($request);
+
+        } else {
+            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Authorization transaction is required to void.'));
+        }
         return $this;
     }
 
@@ -562,5 +626,31 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         }
 
         return array_merge($result, $totals);
+    }
+
+    /**
+     * Transfer API results to payment.
+     * Api response must be compatible with payment response expectation
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param array $apiResponse
+     */
+    protected function _importResultToPayment(Mage_Sales_Model_Order_Payment $payment, $apiResponse)
+    {
+        if (!empty($apiResponse['gateway_transaction_id'])) {
+            $payment->setPreparedMessage(Mage::helper('enterprise_pbridge')->__('Original gateway transaction id: #%s.',
+                $apiResponse['gateway_transaction_id']));
+        }
+
+        if (isset($apiResponse['transaction_id'])) {
+            $payment->setTransactionId($apiResponse['transaction_id']);
+            unset($apiResponse['transaction_id']);
+        }
+
+        if (is_array($apiResponse)) {
+            foreach ($apiResponse as $key => $value) {
+                $payment->setAdditionalInformation($key, $value);
+            }
+        }
     }
 }
