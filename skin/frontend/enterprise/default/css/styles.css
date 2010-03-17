@@ -308,11 +308,10 @@ p.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
 .messages li.note-msg ul,
 .messages li.notice-msg ul { /* background-image:url(../images/bkg_msg-note.gif); */ }
 
-.std .messages { width:auto; }
-/*.std .messages { list-style:none !important; margin:10px 0 0 ; }
-.std .messages ul { padding:10px 17px 18px; margin:0 0 -11px; }
-.std .messages li { margin:0 0 10px !important; background-image:none; padding:0 !important; }
-.std .messages li li { margin:0 !important; padding:0 0 3px !important; }*/
+/* std class reset */
+.std .messages { margin-top:0; }
+.std .messages { width:auto; list-style:none !important; padding:0 !important; margin-bottom:0 !important; }
+.std .messages ul { list-style:none !important; padding-left:17px !important; margin:0 0 -11px !important; } 
 
 /* BreadCrumbs */
 .breadcrumbs { margin:0; padding:7px 20px 5px; background:#ededed url(../images/bkg_crumbs.gif) no-repeat 0 0; text-align:left; }
@@ -326,6 +325,7 @@ p.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
 .page-title .link-rss { float:right; margin-top:8px; }
 .page-title h1,
 .page-title h2 { font:normal 22px/27px Arial, Helvetica, sans-serif; color:#d12c01; }
+
 .title-buttons { text-align:right; }
 .title-buttons h1,
 .title-buttons h2,
@@ -334,6 +334,8 @@ p.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
 .title-buttons h5,
 .title-buttons h6 { float:left; }
 .title-buttons .link-print { float:right; margin-top:4px; }
+
+.subtitle { clear:both; padding:10px 0; font-size:18px; color:#d12c01; }
 
 .page-popup .page-title,
 .col-main .page-title { margin-left:-20px; margin-right:-20px; }
@@ -459,15 +461,16 @@ ul.links li.last .separator { display:none; }
 .reward-checkout { margin:0; }
 
 /* Class: std - styles for admin-controlled content */
-.std > ul,
-.std > ol,
-.std > dl,
-.std > p,
-.std > address,
-.std > blockquote { margin:0 0 1em; padding:0; }
-/*.std ul { list-style:none; }
+.std ul,
+.std ol,
+.std dl,
+.std p,
+.std address,
+.std blockquote,
+.std table { margin-bottom:1em; }
+.std ul { list-style:disc outside; padding-left:1.5em; }
 .std ol { list-style:decimal outside; padding-left:1.5em; }
-.std ul ul { list-style-type:none; }
+.std ul ul { list-style-type:circle; }
 .std ul ul,
 .std ol ol,
 .std ul ol,
@@ -479,7 +482,13 @@ ul.links li.last .separator { display:none; }
 .std b,
 .std strong { font-weight:bold; }
 .std i,
-.std em { font-style:italic; }*/
+.std em { font-style:italic; }
+.std hr { margin:1.5em 0; color:#d9d9d9; }
+.std table { width:100%; }
+.std table thead { background:#e8e8e8; }
+.std table th { background:#e8e8e8; font-weight:bold; }
+.std table th,
+.std table td { padding:5px 10px; border:1px solid #d9d9d9; }
 
 ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-repeat 0 0.5em; }
 
@@ -940,10 +949,10 @@ dd.even { background:#f6f6f6; }*/
 .category-products .price-box { font-size:12px; }
 
 /* View Type: Grid */
-.products-grid { padding:0 0 0 20px; margin:0 0 40px 0; position:relative; z-index:1; }
+.products-grid { padding:0 0 0 20px; margin:0 0 40px 0; }
 .products-grid li.item { float:left; width:164px; margin-right:20px; overflow:hidden; }
 .products-grid li.last { margin-right:0; }
-.products-grid .actions { bottom:0; }
+.products-grid .actions {}
 .products-grid .product-image { display:block; text-decoration:none !important; margin:0 auto 10px; position:relative; width:135px; }
 .products-grid .product-name { margin-bottom:7px; }
 .products-grid .ratings { text-align:left; line-height:13px; }
@@ -1456,10 +1465,6 @@ dt { float:left; line-height:1.2; width:10em; clear:left; padding:3px 5px 3px 0;
 /* CMS ============================================================================= */
 .cms-home .col1-layout,
 .cms-index-index .col1-layout { border:0; }
-/*.cms-home .col1-layout .std,
-.cms-index-index .col1-layout .std { border:1px solid #cbc0b2; }*/
-.cms-home .main .std .messages,
-.cms-index-index .main .std .messages { margin-top:0; }
 .cms-home .top-callout,
 .cms-index-index .top-callout { margin-bottom:6px; }
 .cms-home .col1-layout .col-main,
@@ -1478,9 +1483,9 @@ dt { float:left; line-height:1.2; width:10em; clear:left; padding:3px 5px 3px 0;
 .cms-home .col1-layout .page-title,
 .cms-index-index .col1-layout .page-title { margin:3px 0 0; }
 .cms-home .col1-layout .products-grid,
-.cms-index-index .col1-layout .products-grid { margin:0; border:1px solid #cbc0b2; border-top:0; padding-top:20px; padding-bottom:20px; }
+.cms-index-index .col1-layout .products-grid { margin:0; border:1px solid #cbc0b2; padding-top:20px; padding-bottom:20px; }
 .cms-home .col1-layout .products-list,
-.cms-index-index .col1-layout .products-list { margin:0; border:1px solid #cbc0b2; border-top:0; padding-top:20px; }
+.cms-index-index .col1-layout .products-list { margin:0; border:1px solid #cbc0b2; padding-top:20px; }
 
 .cms-hp-touchsmart-iq506-has-arrived .col-main { padding:0; }
 .cms-hp-touchsmart-iq506-has-arrived .main { margin-top:0; }
