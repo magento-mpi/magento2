@@ -48,6 +48,10 @@ class Mage_Sales_Model_Mysql4_Report_Order extends Mage_Sales_Model_Mysql4_Repor
      */
     public function aggregate($from = null, $to = null)
     {
+        // convert input dates to UTC to be comparable with DATETIME fields in DB
+        $from = $this->_dateToUtc($from);
+        $to = $this->_dateToUtc($to);
+
         $this->_checkDates($from, $to);
         $this->_getWriteAdapter()->beginTransaction();
 
@@ -64,7 +68,8 @@ class Mage_Sales_Model_Mysql4_Report_Order extends Mage_Sales_Model_Mysql4_Repor
             $this->_clearTableByDateRange($this->getMainTable(), $from, $to, $subSelect);
 
             $columns = array(
-                'period'                         => 'DATE(source_table.created_at)',
+                // convert dates from UTC to current admin timezone
+                'period'                         => 'DATE(CONVERT_TZ(source_table.created_at, "+00:00", "' . $this->_getStoreTimezoneUtcOffset() . '"))',
                 'store_id'                       => 'source_table.store_id',
                 'order_status'                   => 'source_table.status',
                 'orders_count'                   => 'COUNT(source_table.entity_id)',
@@ -104,7 +109,7 @@ class Mage_Sales_Model_Mysql4_Report_Order extends Mage_Sales_Model_Mysql4_Repor
                 ));
 
             if ($subSelect !== null) {
-                $select->where("DATE(source_table.created_at) IN(?)", new Zend_Db_Expr($subSelect));
+                $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'source_table.created_at'));
             }
 
             $select->group(new Zend_Db_Expr('1,2,3'));
@@ -147,8 +152,8 @@ class Mage_Sales_Model_Mysql4_Report_Order extends Mage_Sales_Model_Mysql4_Repor
             $select->from($this->getMainTable(), $columns)
                 ->where("store_id <> 0");
 
-                if ($subSelect !== null) {
-                $select->where("DATE(period) IN(?)", new Zend_Db_Expr($subSelect));
+            if ($subSelect !== null) {
+                $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
             $select->group(array(

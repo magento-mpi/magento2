@@ -40,6 +40,10 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Sales_Model_Mysql4_Re
      */
     public function aggregate($from = null, $to = null)
     {
+        // convert input dates to UTC to be comparable with DATETIME fields in DB
+        $from = $this->_dateToUtc($from);
+        $to = $this->_dateToUtc($to);
+
         $this->_checkDates($from, $to);
         $this->_aggregateByOrderCreatedAt($from, $to);
         $this->_aggregateByRefundCreatedAt($from, $to);
@@ -71,7 +75,8 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Sales_Model_Mysql4_Re
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
 
             $columns = array(
-                'period'            => 'DATE(created_at)',
+                // convert dates from UTC to current admin timezone
+                'period'            => 'DATE(CONVERT_TZ(created_at, "+00:00", "' . $this->_getStoreTimezoneUtcOffset() . '"))',
                 'store_id'          => 'store_id',
                 'order_status'      => 'status',
                 'orders_count'      => 'COUNT(`total_refunded`)',
@@ -86,11 +91,11 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Sales_Model_Mysql4_Re
                 ->where('base_total_refunded > 0');
 
             if ($subSelect !== null) {
-                $select->where('DATE(created_at) IN(?)', new Zend_Db_Expr($subSelect));
+                $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'created_at'));
             }
 
             $select->group(array(
-                'DATE(created_at)',
+                'period',
                 'store_id',
                 'order_status'
             ));
@@ -116,7 +121,7 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Sales_Model_Mysql4_Re
                 ->where("store_id <> 0");
 
             if ($subSelect !== null) {
-                $select->where("DATE(period) IN(?)", new Zend_Db_Expr($subSelect));
+                $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
             $select->group(array(
@@ -161,7 +166,8 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Sales_Model_Mysql4_Re
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
 
             $columns = array(
-                'period'            => 'DATE(source_table.created_at)',
+                // convert dates from UTC to current admin timezone
+                'period'            => 'DATE(CONVERT_TZ(source_table.created_at, "+00:00", "' . $this->_getStoreTimezoneUtcOffset() . '"))',
                 'store_id'          => 'order_table.store_id',
                 'order_status'      => 'order_table.status',
                 'orders_count'      => 'COUNT(order_table.`entity_id`)',
@@ -174,26 +180,25 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Sales_Model_Mysql4_Re
             $select->from(array('source_table' => $sourceTable), $columns)
                 ->joinInner(
                     array('order_table' => $orderTable),
-                    'source_table.order_id = order_table.entity_id',
+                    $this->_getWriteAdapter()->quoteInto(
+                        'source_table.order_id = order_table.entity_id AND order_table.state <> ? AND order_table.base_total_refunded > 0',
+                        Mage_Sales_Model_Order::STATE_CANCELED),
                     array()
                 );
 
             $filterSubSelect = $this->_getWriteAdapter()->select();
             $filterSubSelect->from(array('filter_source_table' => $sourceTable), 'MAX(filter_source_table.entity_id)')
-                ->joinInner(array('filter_order_table' => $orderTable), 'filter_source_table.order_id = filter_order_table.entity_id', array())
-                ->where('filter_order_table.state <> ?', Mage_Sales_Model_Order::STATE_CANCELED)
-                ->where('filter_order_table.base_total_refunded > ?', 0)
-                ->group('filter_order_table.entity_id');
+                ->where('filter_source_table.order_id = source_table.order_id');
 
             if ($subSelect !== null) {
-                $filterSubSelect->where('DATE(filter_source_table.created_at) IN(?)', new Zend_Db_Expr($subSelect));
+                $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'source_table.created_at'));
             }
 
-            $select->where('source_table.entity_id IN(?)', new Zend_Db_Expr($filterSubSelect));
+            $select->where('source_table.entity_id = (?)', new Zend_Db_Expr($filterSubSelect));
             unset($filterSubSelect);
 
             $select->group(array(
-                "DATE(source_table.created_at)",
+                'period',
                 'store_id',
                 'order_status'
             ));
@@ -219,7 +224,7 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Sales_Model_Mysql4_Re
                 ->where("store_id <> 0");
 
             if ($subSelect !== null) {
-                $select->where("DATE(period) IN(?)", new Zend_Db_Expr($subSelect));
+                $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
             $select->group(array(

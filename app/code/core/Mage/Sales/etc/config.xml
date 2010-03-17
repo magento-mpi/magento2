@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>1.4.0.1</version>
+            <version>1.4.0.2</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -370,38 +370,38 @@
                     <invoice_grid><table>sales_flat_invoice_grid</table></invoice_grid>
                     <invoice_item><table>sales_flat_invoice_item</table></invoice_item>
                     <invoice_comment><table>sales_flat_invoice_comment</table></invoice_comment>
-                    
+
                     <shipment><table>sales_flat_shipment</table></shipment>
                     <shipment_grid><table>sales_flat_shipment_grid</table></shipment_grid>
                     <shipment_item><table>sales_flat_shipment_item</table></shipment_item>
                     <shipment_comment><table>sales_flat_shipment_comment</table></shipment_comment>
                     <shipment_track><table>sales_flat_shipment_track</table></shipment_track>
-                     
+
                     <creditmemo><table>sales_flat_creditmemo</table></creditmemo>
                     <creditmemo_grid><table>sales_flat_creditmemo_grid</table></creditmemo_grid>
                     <creditmemo_item><table>sales_flat_creditmemo_item</table></creditmemo_item>
                     <creditmemo_comment><table>sales_flat_creditmemo_comment</table></creditmemo_comment>
-                    
+
                     <!-- /**
-                          * @depraceted since 1.4 order taxes moved to tax module 
+                          * @depraceted since 1.4 order taxes moved to tax module
                           */
                     -->
                     <order_tax><table>sales_order_tax</table></order_tax>
-                    
+
                     <!-- /**
-                          * @depraceted since 1.4 unused table configurations definition 
+                          * @depraceted since 1.4 unused table configurations definition
                           */
                     -->
                     <order_item_option><table>sales_flat_order_item_option</table></order_item_option>
-                    
-                    
+
+
                     <!-- /**
-                          * @depraceted since 1.4 sales order no more EAV 
+                          * @depraceted since 1.4 sales order no more EAV
                           */
                     -->
                     <order_entity><table>sales_order_entity</table></order_entity>
-                    
-                    
+
+
                     <order_aggregated_created><table>sales_order_aggregated_created</table></order_aggregated_created>
                     <order_aggregated_updated><table>sales_order_aggregated_updated</table></order_aggregated_updated>
 

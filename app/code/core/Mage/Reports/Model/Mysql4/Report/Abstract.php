@@ -31,13 +31,13 @@
  */
 abstract class Mage_Reports_Model_Mysql4_Report_Abstract extends Mage_Core_Model_Mysql4_Abstract
 {
-	/**
+    /**
      * Flag object
      *
      * @var Mage_Reports_Model_Flag
      */
-	protected $_flag = null;
-	
+    protected $_flag = null;
+
     /**
      * Retrive flag object
      *
@@ -45,9 +45,9 @@ abstract class Mage_Reports_Model_Mysql4_Report_Abstract extends Mage_Core_Model
      */
     protected function _getFlag()
     {
-    	if ($this->_flag === null) {
-    		$this->_flag = Mage::getModel('reports/flag'); 
-    	}
+        if ($this->_flag === null) {
+            $this->_flag = Mage::getModel('reports/flag');
+        }
         return $this->_flag;
     }
 
@@ -124,15 +124,19 @@ abstract class Mage_Reports_Model_Mysql4_Report_Abstract extends Mage_Core_Model
         }
 
         if ($subSelect !== null) {
-            $deleteCondition = 'DATE(period) IN (' . (string) $subSelect . ')';
+            $deleteCondition = $this->_makeConditionFromDateRangeSelect($subSelect, 'period');
         } else {
             $condition = array();
             if ($from !== null) {
-                $condition[] = $this->_getWriteAdapter()->quoteInto('DATE(period) >= DATE(?)', $from);
+                $dt = new Zend_Date($from);
+                $dt = $this->formatDate($dt->getDate());
+                $condition[] = $this->_getWriteAdapter()->quoteInto('period >= ?', $dt);
             }
 
             if ($to !== null) {
-                $condition[] = $this->_getWriteAdapter()->quoteInto('DATE(period) <= DATE(?)', $to);
+                $dt = new Zend_Date($to);
+                $dt = $this->formatDate($dt->getDate());
+                $condition[] = $this->_getWriteAdapter()->quoteInto('period <= ?', $dt);
             }
             $deleteCondition = implode(' AND ', $condition);
         }
@@ -185,7 +189,51 @@ abstract class Mage_Reports_Model_Mysql4_Report_Abstract extends Mage_Core_Model
         return $select;
     }
 
-/**
+    /**
+     * Make condition for using in where section
+     * from select statement with single date column
+     *
+     * @param string|Zend_Db_Select Query string or instance retrieved from _getTableDateRangeSelect or _getTableDateRangeRelatedSelect
+     * @param string Name of period column
+     * @result string|false
+     */
+    protected function _makeConditionFromDateRangeSelect($select, $periodColumn)
+    {
+        static $selectResultCache = array();
+        $cacheKey = (string)$select;
+
+        if (!array_key_exists($cacheKey, $selectResultCache)) {
+            try {
+                $selectResult = array();
+                $query = $this->_getReadAdapter()->query($select);
+                while ($date = $query->fetchColumn()) {
+                    $selectResult[] = $date;
+                }
+            } catch (Exception $e) {
+                $selectResult = false;
+            }
+            $selectResultCache[$cacheKey] = $selectResult;
+        } else {
+            $selectResult = $selectResultCache[$cacheKey];
+        }
+
+        if ($selectResult === false) {
+            return false;
+        }
+
+        $whereCondition = array();
+        foreach ($selectResult as $date) {
+            $whereCondition[] = "{$periodColumn} BETWEEN '{$date} 00:00:00' AND '{$date} 23:59:59'";
+        }
+        $whereCondition = implode(' OR ', $whereCondition);
+        if ($whereCondition == '') {
+            $whereCondition = '1<>1';  // FALSE condition!
+        }
+
+        return $whereCondition;
+    }
+
+    /**
      * Generate table date range select
      *
      * @param string $table
@@ -272,5 +320,30 @@ abstract class Mage_Reports_Model_Mysql4_Report_Abstract extends Mage_Core_Model
         }
 
         return $this;
+    }
+
+    /**
+     * Retrieve store timezone offset from UTC in the form acceptable by SQL's CONVERT_TZ()
+     *
+     * @return string
+     */
+    protected function _getStoreTimezoneUtcOffset($store = null)
+    {
+        return Mage::app()->getLocale()->storeDate($store)->toString(Zend_Date::GMT_DIFF_SEP);
+    }
+
+    /**
+     * Retrieve date in UTC timezone
+     *
+     * @return Zend_Date|null
+     */
+    protected function _dateToUtc($date)
+    {
+        if ($date === null) {
+            return null;
+        }
+        $dateUtc = new Zend_Date($date);
+        $dateUtc->setTimezone('Etc/UTC');
+        return $dateUtc;
     }
 }
