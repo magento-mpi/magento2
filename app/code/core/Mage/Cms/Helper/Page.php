@@ -64,6 +64,10 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
     {
         $page = Mage::getSingleton('cms/page');
         if (!is_null($pageId) && $pageId!==$page->getId()) {
+            if ($delimeterPosition = strrpos($pageId, '|')) {
+                $pageId = substr($pageId, 0, $delimeterPosition);
+            }
+
             $page->setStoreId(Mage::app()->getStore()->getId());
             if (!$page->load($pageId)) {
                 return false;
