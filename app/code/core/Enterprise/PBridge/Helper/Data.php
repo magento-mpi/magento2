@@ -156,6 +156,14 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
                 'available_methods' => implode(',', $availableMethods)
             ), $params);
         }
+
+        $quote = $this->_getQuote($quote);
+        $params = array_merge(array(
+            'order_id'      => $quote ? $quote->getReservedOrderId() : '',
+            'amount'        => $quote ? $quote->getBaseGrandTotal() : '0',
+            'currency_code' => $quote ? $quote->getBaseCurrencyCode() : ''
+        ), $params);
+
         $params = $this->getRequestParams($params, $quote);
         $params['action'] = self::PAYMENT_GATEWAYS_CHOOSER_ACTION;
         return $this->_prepareRequestUrl($params, true);
