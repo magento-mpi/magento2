@@ -579,63 +579,48 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 
 /********** < Navigation */
 .nav-container { background:url(../images/bkg_nav.gif) 0 100% no-repeat; padding-bottom:3px; margin-bottom:-1px; position:relative; z-index:4; }
-#nav { min-height:28px; background:#dedede url(../images/bkg_nav.gif) 0 0 no-repeat; text-align:left; /* height:31px; */ overflow:visible; padding:0 4px 0; width:932px; }
+
+#nav { width:932px; min-height:28px; background:#dedede url(../images/bkg_nav.gif) 0 0 no-repeat; text-align:left; padding:0 4px 0; }
 
 /* All Levels */
-#nav li { position:relative; z-index:4; }
-#nav li.active { z-index:5; }
 #nav li.over { z-index:990; }
-/*#nav li.parent {}*/
-#nav li a { text-decoration:none; }
-#nav li a:hover { text-decoration:none; }
-#nav li a span { display:block; white-space:nowrap; cursor:pointer; }
-#nav li ul a span { white-space:normal; }
+#nav li.parent { position:relative; }
+#nav li a span { cursor:pointer; }
 
-/* 1st Level */
-#nav li { margin:0; padding:0 0 0 0; height:28px; float:left; }
-#nav li a { float:left; height:28px; line-height:28px; border-top:1px solid #c0c0c0; padding:0 0 0 17px; }
-#nav li a,
-#nav li a span { background:url(../images/bkg_nav-item-border.gif) no-repeat 100% 0; }
-#nav li.first a { border-left:0; padding-left:17px; }
-#nav li.last a { /* border-right:0; */}
-#nav li a span { font-weight:bold; padding:0 19px 0 0; float:left; }
-#nav li a { color:#333; font-size:13px; }
-#nav li a:hover { background-position:0 -60px; margin-left:-1px; height:29px; border:0; overflow:hidden; padding:0 0 0 18px; }
-#nav li a:hover span { background-position:100% -60px; padding:2px 19px 0 0; }
-#nav li.over a,
-#nav li.active a { background-position:0 -60px; margin-left:-1px; height:29px; border:0; overflow:hidden; padding:0 0 0 18px; }
-#nav li.over a span,
-#nav li.active a span { background-position:100% -60px; padding:1px 19px 0 0; }
+/* 1st Level (Top Level) */
+#nav li.level-top { float:left; height:28px; position:relative; z-index:1; }
+#nav a.level-top { float:left; height:28px; background:url(../images/bkg_nav-item-border.gif) 100% 0 no-repeat; font-weight:bold; font-size:13px; line-height:28px; padding:0 0 0 17px; border-top:1px solid #c0c0c0; text-decoration:none !important; color:#333; }
+#nav a.level-top span { float:left; background:url(../images/bkg_nav-item-border.gif) 100% 0 no-repeat; padding:0 19px 0 0; white-space:nowrap; }
 
-#nav li.over a { position:relative; z-index:2; line-height:30px; height:31px; }
-#nav li.over a span { padding:1px 19px 0 0; }
+#nav li.over a.level-top,
+#nav li.active a.level-top { height:29px; background-position:0 -60px; margin-left:-1px; border:0; padding:0 0 0 18px; }
+#nav li.over a.level-top { height:31px; line-height:30px; position:relative; z-index:2; }
+
+#nav li.over a.level-top span,
+#nav li.active a.level-top span { background-position:100% -60px; padding:1px 19px 0 0; }
 
 /* 2nd Level */
 #nav ul,
 #nav div { position:absolute; width:13.5em; top:30px; left:-10000px; background:#fbfbfb; padding:5px 11px 10px; border:1px solid #aeaeae; border-top:0; }
-#nav div ul {position:static; width:auto; border:none !important; padding:0; }
+#nav div ul { position:static; width:auto; background:none; padding:0; border:0 !important; }
 
-#nav ul li,
-#nav ul li a,
-#nav ul li a span { display:block; font-size:12px; float:none; background:none; height:auto !important; line-height:1.2 !important; font-weight:normal; text-transform:none; border-top:0; }
-#nav ul li { margin:0; padding:0; border-bottom:1px solid #e2e2e2; z-index:auto; }
+#nav ul li { float:none; height:auto; display:block; border-bottom:1px solid #e2e2e2; }
 #nav ul li.last { border-bottom:0; }
-#nav ul li a { padding:5px 4px !important; color:#444; margin:0 !important; z-index:auto !important; }
-#nav ul li a span { padding:0 !important; }
+#nav ul li.parent { background:url(../images/bkg_parent.gif) 100% 50% no-repeat; }
+#nav ul li a { display:block; font-size:12px; line-height:1.2; padding:5px 4px; text-decoration:none !important; color:#444; }
+#nav ul li.last > a { padding-bottom:0; }
 #nav ul li a:hover { color:#d02600; }
-#nav ul li.active > a,
-#nav ul li.parent > a { color:#444 }
-#nav ul li.parent { background-image:url(../images/bkg_parent.gif); background-repeat:no-repeat; background-position:100% 50%; }
+#nav ul li a span {}
+#nav ul li.over a.over { color:#d02600; }
+#nav ul li.active > a { color:#d02600; }
 
-/* 3rd+ leven */
+/* 3rd+ Level */
 #nav ul ul,
-#nav ul div { top:7px; border-top:1px solid #aeaeae; padding-bottom:5px; }
+#nav ul div { top:7px; border-top:1px solid #aeaeae; }
 
 /* Show Menu */
-#nav li ul.shown-sub,
-#nav li div.shown-sub { left:-1px; z-index:991; }
-#nav li .shown-sub ul.shown-sub,
-#nav li .shown-sub li div.shown-sub { left:100px; }
+#nav li .shown-sub { left:-1px; z-index:991; }
+#nav li .shown-sub .shown-sub { left:100px; }
 /********** Navigation > */
 /* ======================================================================================= */
 

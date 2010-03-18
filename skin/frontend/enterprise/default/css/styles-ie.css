@@ -43,15 +43,8 @@
 .giftcard-send-form   { float:left; width:416px; display:inline; margin-bottom:-40px;}
 .top-cart  { _width:10px; }
 .cart .crosssell { _height:400px; }
-#nav { _height:28px; }
-#nav li a { _margin-bottom:-2px; _position:relative; _z-index:2; }
-#nav li.active a {  }
-#nav li.active,
-#nav li.over a { _margin-bottom:-2px; _height:30px; }
-#nav li a:hover { _margin-bottom:-2px; _height:30px; }
-#nav li li a:hover { margin-bottom:0 !important; }
-#nav li li a { margin-bottom:0 !important; _position:static; }
 .event  .event-bottom { _bottom:-14px }
+
 /* Doubled Margin Fixes */
 #bundle-product-wrapper,
 .product-view,
@@ -63,6 +56,10 @@
 .header .quick-access .checkout-link li { padding:0 0 0 12px; }
 
 /********** < Navigation styles */
+#nav { _height:28px; zoom:1; }
+#nav li.level-top { _margin-bottom:-2px; }
+#nav li.over a.level-top  { _height:30px; _margin-bottom:-2px; }
+#nav li.active a.level-top  { _position:relative; }
 #nav li,
 #nav li a { zoom:1; }
 #nav li { vertical-align:top; }
@@ -143,7 +140,6 @@ a.button { _height:22px; }
 .header-container .top-container,
 .header,
 .header-panel,
-#nav,
 .main,
 .footer-before-container,
 .footer-container,
@@ -209,7 +205,6 @@ a.button { _height:22px; }
 .footer-before-container .widget-hierarchy-link a,
 .reward-message,
 .centinel .authentication { zoom:1; }
-
 
 /* Hover Fix */
 iframe.hover-fix { position:absolute; left:-1px; top:-1px; z-index:-1; background:transparent; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }
