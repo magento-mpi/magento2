@@ -29,8 +29,9 @@ $installer = $this;
 
 $installer->startSetup();
 
-$installer->run("
-ALTER TABLE {$installer->getTable('salesrule')} 
-     CHANGE `customer_group_ids` `customer_group_ids` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci");
+$installer->getConnection()
+    ->modifyColumn($installer->getTable('salesrule'), 
+        'customer_group_ids', 
+        'TEXT CHARACTER SET utf8 COLLATE utf8_general_ci');
 
 $installer->endSetup();
