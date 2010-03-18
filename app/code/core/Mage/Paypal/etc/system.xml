@@ -364,6 +364,7 @@
                 </global>
                 <tmp_general translate="label comment">
                     <label>General PayPal Settings</label>
+                    <fieldset_css>paypal-config</fieldset_css>
                     <frontend_type>text</frontend_type>
                     <frontend_model>adminhtml/system_config_form_fieldset_complex</frontend_model>
                     <sort_order>1</sort_order>
