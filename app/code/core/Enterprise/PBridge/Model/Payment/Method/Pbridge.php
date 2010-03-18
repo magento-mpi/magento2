@@ -447,7 +447,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         parent::authorize($payment, $amount);
         $order = $payment->getOrder();
         $request = new Varien_Object();
+
         $request
+            ->setData('magento_payment_action' , $this->getOriginalMethodInstance()->getConfigPaymentAction())
             ->setData('client_ip', Mage::app()->getRequest()->getClientIp(false))
             ->setData('amount', (string)$amount)
             ->setData('currency_code', $order->getBaseCurrencyCode())
@@ -497,7 +499,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         $authTransactionId = $payment->getParentTransactionId();
 
         if (!$authTransactionId) {
-            return false;
+            return $this->authorize($payment, $amount);
         }
 
         $request = new Varien_Object();
