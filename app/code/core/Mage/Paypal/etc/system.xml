@@ -346,6 +346,7 @@
         </payment>
         <paypal translate="label" module="paypal">
             <label>PayPal</label>
+            <class>paypal-section</class>
             <header_css>paypal-header</header_css>
             <tab>sales</tab>
             <frontend_type>text</frontend_type>

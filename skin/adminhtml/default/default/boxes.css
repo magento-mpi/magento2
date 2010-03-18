@@ -817,6 +817,41 @@ ul.item-options li { padding-left:.7em; }
 .giftmessage-whole-order-container .entry-edit textarea { width:99% !important; padding:2px 3px; }
 .giftmessage-whole-order-container .entry-edit label { width:121px; }
 
+/* PayPal */
+h3.paypal-header { background:url(images/paypal_section.png) no-repeat 0 0; height:0; overflow:hidden; padding:14px 0 0; width:53px; }
+
+.paypal-sub-head td { background:#f2f2f2; padding:5px; }
+.paypal-sub-head h4 { margin:0; }
+
+ul.tabs a.paypal-section,
+ul.tabs a.paypal-section:hover { background:url(images/tabs_span_bg.gif) repeat-x 0 100%; border-bottom:none; padding:0.5em 0.5em 0.28em 1.5em; }
+ul.tabs a.paypal-section:hover { background-color:#d8e6e6; }
+ul.tabs a.paypal-section.active, ul.tabs a.paypal-section.active:hover { background-color:#fff; }
+ul.tabs a.paypal-section span,
+ul.tabs a.paypal-section:hover span { background:url(images/paypal_section.png) no-repeat 0 0; height:0; overflow:hidden; padding:14px 0 0; width:53px; }
+
+.paypal-global { border-collapse:collapse; width:100%; }
+.paypal-global .pg-empty { background:none; border:none; }
+.paypal-global tr.even { background:#f2f2f2; }
+.paypal-global tbody .pg-empty { background:#fff; border-right:1px solid #ededed; }
+.paypal-global th { background:#e9eef1; border:1px solid #e4eae8; border-bottom:none; padding:0 0 5px; text-align:center; vertical-align:middle; }
+.paypal-global th label { color:#306375; display:block; font-weight:bold; }
+.paypal-global thead .last th { border-top:none; }
+.paypal-global td { border-right:1px solid #ededed; padding:5px; }
+.paypal-global tr.last td { border-bottom:1px solid #ededed; text-align:center; }
+.paypal-global tr.last .pg-empty { border-bottom:none; border-right:1px solid #ededed; }
+.paypal-global tr.last .last { border-right:1px solid #ededed; }
+.paypal-global tr.last a, .pg-options a { color:#39c; text-decoration:none; }
+
+.paypal-note { color:#ccc; }
+
+.pg-options { color:#ccc; margin:0.5em 0 1.5em; text-align:right; }
+.pg-tick { background:url(images/paypal_tick.gif) no-repeat; display:block; height:17px; margin:0 auto; width:18px; }
+
+.paypal-config .form-list { float:left; width:75% !important; }
+.paypal-config .row-comment { float:right; width:24%; }
+.paypal-config td.label { width:25%; }
+.paypal-config td.label label { width:auto; }
 
 /* CATALOG
 *******************************************************************************/

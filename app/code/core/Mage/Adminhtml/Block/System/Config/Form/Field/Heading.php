@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Heading
      */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
-        $html = '<tr class="sub-head">'
+        $html = '<tr class="paypal-sub-head">'
               . '<td colspan="5">'
               . '<h4>' . $element->getLabel() . '</h4>'
               . '</td>'
