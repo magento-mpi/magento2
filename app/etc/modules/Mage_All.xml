@@ -383,7 +383,6 @@
             <depends>
                 <Mage_Catalog />
                 <Mage_Customer />
-                <Mage_Newsletter />
             </depends>
         </Mage_ProductAlert>
         <Mage_GoogleOptimizer>
