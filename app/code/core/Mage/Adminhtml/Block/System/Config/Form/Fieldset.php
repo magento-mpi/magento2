@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
 
         $html = '<div  class="entry-edit-head collapseable" ><a id="'.$element->getHtmlId().'-head" href="#" onclick="Fieldset.toggleCollapse(\''.$element->getHtmlId().'\', \''.$this->getUrl('*/*/state').'\'); return false;">'.$element->getLegend().'</a></div>';
         $html.= '<input id="'.$element->getHtmlId().'-state" name="config_state['.$element->getId().']" type="hidden" value="'.(int)$this->_getCollapseState($element).'" />';
-        $html.= '<fieldset class="config collapseable" id="'.$element->getHtmlId().'">';
+        $html.= '<fieldset class="'.$this->_getFieldsetCss().'" id="'.$element->getHtmlId().'">';
         $html.= '<legend>'.$element->getLegend().'</legend>';
 
         if ($element->getComment()) {
@@ -82,6 +82,17 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
         $html.= '<colgroup class="scope-label" /><colgroup class="" /><tbody>';
 
         return $html;
+    }
+
+    /**
+     * Return full css class name for form fieldset
+     *
+     * @return string
+     */
+    protected function _getFieldsetCss()
+    {
+        $configCss = (string)$this->getGroup()->fieldset_css;
+        return 'config collapseable'.($configCss ? ' ' . $configCss : '');
     }
 
     /**
