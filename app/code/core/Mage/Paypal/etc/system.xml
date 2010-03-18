@@ -346,6 +346,7 @@
         </payment>
         <paypal translate="label" module="paypal">
             <label>PayPal</label>
+            <header_css>paypal-header</header_css>
             <tab>sales</tab>
             <frontend_type>text</frontend_type>
             <sort_order>350</sort_order>
@@ -361,6 +362,157 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                 </global>
+                <tmp_general translate="label comment">
+                    <label>General PayPal Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <frontend_model>adminhtml/system_config_form_fieldset_complex</frontend_model>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <heading_account translate="label">
+                            <label>Account</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_account>
+                        <primary_email translate='label'>
+                            <label>Email address to accociate with PayPal</label>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </primary_email>
+                        <heading_sales translate="label">
+                            <label>Sales</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_sales>
+                        <allowspecific translate="label">
+                            <label>Payment Applicable From</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>15</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </allowspecific>
+                        <specificcountry translate="label">
+                            <label>Countries Payment Applicable From</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>20</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><allowspecific>1</allowspecific></depends>
+                        </specificcountry>
+                        <line_items_enabled translate="label">
+                            <label>Transfer Cart Line Items</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </line_items_enabled>
+                        <payment_action translate="label">
+                            <label>Payment Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>paypal/config::getPaymentActions</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </payment_action>
+                        <sort_order translate="label">
+                            <label>Sort Order of ____</label>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                        <heading_page_style translate="label">
+                            <label>Logos and Colors</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_page_style>
+                        <page_style translate="label comment">
+                            <label>Page Style</label>
+                            <comment>Allowable values: "paypal", "primary" (default), your_custom_value (a custom payment page style from your merchant account profile).</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </page_style>
+                        <paypal_hdrimg translate='label comment'>
+                            <label>Header Image URL</label>
+                            <comment><![CDATA[The image at the top left of the checkout page. Max size is 750x90-pixel. <strong style="color:red">https</strong> is highly encouraged.]]></comment>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </paypal_hdrimg>
+                        <paypal_hdrbackcolor translate="label comment">
+                            <label>Header Background Color</label>
+                            <comment>The background color for the header of the checkout page. Case-insensitive six-character HTML hexadecimal color code in ASCII.</comment>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </paypal_hdrbackcolor>
+                        <paypal_hdrbordercolor translate="label comment">
+                            <label>Header Border Color</label>
+                            <comment>2-pixel perimeter around the header space.</comment>
+                            <sort_order>65</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </paypal_hdrbordercolor>
+                        <paypal_payflowcolor translate="label comment">
+                            <label>Page Background Color</label>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The background color for the checkout page around the header and payment form.</comment>
+                        </paypal_payflowcolor>
+                        <button_flavor translate="label comment">
+                            <label>Buttons Flavor (Website Payments Pro)</label>
+                            <sort_order>75</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <source_model>paypal/config::getExpressCheckoutButtonFlavors</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </button_flavor>
+                        <heading_api translate="label">
+                            <label>API / Integration</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_api>
+                        <paypal_payflowcolor translate="label comment">
+                            <label>API username</label>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            
+                        </paypal_payflowcolor>
+                    </fields>
+                </tmp_general>
                 <wps translate="label comment">
                     <label>Website Payments Standard</label>
                     <comment><![CDATA[<a href="http://www.magentocommerce.com/paypal" target="_blank">Sign up for PayPal Merchant Account now!</a>]]></comment>
