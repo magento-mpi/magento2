@@ -27,8 +27,8 @@
 $installer = $this;
 /** @var $installer Mage_Sales_Model_Mysql4_Setup */
 
-$tableSalesrule = $installer->getTable('salesrule');
-$tableSalesruleCoupon = $installer->getTable('salesrule_coupon');
+$tableSalesrule = $installer->getTable('salesrule/rule');
+$tableSalesruleCoupon = $installer->getTable('salesrule/coupon');
 
 $connection = $installer->getConnection();
 /** @var $connection Varien_Db_Adapter_Pdo_Mysql */
