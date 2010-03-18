@@ -130,8 +130,8 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
                 ->addStoreFilter($this->getStoreFilter($product))
                 ->addAttributeToFilter('status', array('in' => $this->getStatusFilters($product)));
 
-            foreach ($collection as $product) {
-                $associatedProducts[] = $product;
+            foreach ($collection as $item) {
+                $associatedProducts[] = $item;
             }
 
             $this->getProduct($product)->setData($this->_keyAssociatedProducts, $associatedProducts);
@@ -199,8 +199,8 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
     {
         if (!$this->getProduct($product)->hasData($this->_keyAssociatedProductIds)) {
             $associatedProductIds = array();
-            foreach ($this->getAssociatedProducts($product) as $product) {
-                $associatedProductIds[] = $product->getId();
+            foreach ($this->getAssociatedProducts($product) as $item) {
+                $associatedProductIds[] = $item->getId();
             }
             $this->getProduct($product)->setData($this->_keyAssociatedProductIds, $associatedProductIds);
         }
