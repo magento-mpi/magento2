@@ -121,6 +121,12 @@ T: {{var telephone}}
 <![CDATA[{{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var lastname}}{{depend suffix}} {{var suffix}}{{/depend}}, {{var street}}, {{var city}}, {{var region}} {{var postcode}}, {{var country}}]]>
                         </defaultFormat>
                     </oneline>
+                    <oneline_noescape translate="title" module="customer">
+                        <title>Text One Line</title>
+                        <defaultFormat>
+<![CDATA[{{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var lastname}}{{depend suffix}} {{var suffix}}{{/depend}}, {{var street}}, {{var city}}, {{var region}} {{var postcode}}, {{var country}}]]>
+                        </defaultFormat>
+                    </oneline_noescape>
                     <html translate="title" module="customer">
                         <title>HTML</title>
                         <htmlEscape>true</htmlEscape>
