@@ -71,6 +71,16 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Complex extends Mage_Admi
     }
 
     /**
+     * Return full css class name for form fieldset
+     *
+     * @return string
+     */
+    protected function _getFieldsetCss()
+    {
+        return parent::_getFieldsetCss() . ' fieldset-wide';
+    }
+
+    /**
      * Return js code for fieldset:
      * - observe fieldset rows;
      * - apply collapse;
