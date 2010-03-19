@@ -57,7 +57,8 @@ ul.tabs li a,
 .files-wide .row,
 .uploader .file-row,
 .grid tr.filter .range .range-line,
-.centinel .authentication{ zoom:1; }
+.centinel .authentication,
+.paypal-payment-notice { zoom:1; }
 
 .clear { display:block; clear:both; height:0; font-size:0; line-height:0; overflow:hidden; }
 

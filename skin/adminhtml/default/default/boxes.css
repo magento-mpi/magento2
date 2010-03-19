@@ -818,6 +818,12 @@ ul.item-options li { padding-left:.7em; }
 .giftmessage-whole-order-container .entry-edit label { width:121px; }
 
 /* PayPal */
+.paypal-payment-notice { background:url(images/paypal_logo.gif) no-repeat 5px center #eaf0ee; border:1px solid #ccc; margin-bottom:10px; padding:10px 5px 5px 115px; }
+.paypal-payment-notice h4,
+.paypal-payment-notice p { margin:0; }
+.paypal-payment-notice h2 { color:#444; font-size:1.4em; line-height:1em; }
+.paypal-payment-notice a { text-decoration:none; }
+
 h3.paypal-header { background:url(images/paypal_section.png) no-repeat 0 0; height:0; overflow:hidden; padding:14px 0 0; width:53px; }
 
 .paypal-sub-head td { background:#f2f2f2; padding:5px; }
@@ -841,11 +847,15 @@ ul.tabs a.paypal-section:hover span { background:url(images/paypal_section.png) 
 .paypal-global tr.last td { border-bottom:1px solid #ededed; text-align:center; }
 .paypal-global tr.last .pg-empty { border-bottom:none; border-right:1px solid #ededed; }
 .paypal-global tr.last .last { border-right:1px solid #ededed; }
-.paypal-global tr.last a, .pg-options a { color:#39c; text-decoration:none; }
+.paypal-global tr.last a,
+.pg-options a { color:#39c; text-decoration:none; }
+.paypal-global tr.last a:hover,
+.pg-options a:hover { text-decoration:underline; }
 
-.paypal-note { color:#ccc; }
+.paypal-note,
+.pg-options { color:#999; }
 
-.pg-options { color:#ccc; margin:0.5em 0 1.5em; text-align:right; }
+.pg-options { margin:0.5em 0 1.5em; text-align:right; }
 .pg-tick { background:url(images/paypal_tick.gif) no-repeat; display:block; height:17px; margin:0 auto; width:18px; }
 
 .paypal-config .form-list { float:left; width:75% !important; }
