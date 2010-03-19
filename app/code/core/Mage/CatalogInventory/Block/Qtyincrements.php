@@ -39,7 +39,7 @@ class Mage_CatalogInventory_Block_Qtyincrements extends Mage_Core_Block_Template
      *
      * @var float|false
      */
-    private $_qtyIncrements;
+    protected $_qtyIncrements;
 
     /**
      * Retrieve current product object

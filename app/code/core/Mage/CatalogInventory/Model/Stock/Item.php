@@ -38,14 +38,15 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     const XML_PATH_CAN_SUBTRACT      = 'cataloginventory/options/can_subtract';
     const XML_PATH_CAN_BACK_IN_STOCK = 'cataloginventory/options/can_back_in_stock';
 
-    const XML_PATH_ITEM             = 'cataloginventory/item_options/';
-    const XML_PATH_MIN_QTY          = 'cataloginventory/item_options/min_qty';
-    const XML_PATH_MIN_SALE_QTY     = 'cataloginventory/item_options/min_sale_qty';
-    const XML_PATH_MAX_SALE_QTY     = 'cataloginventory/item_options/max_sale_qty';
-    const XML_PATH_BACKORDERS       = 'cataloginventory/item_options/backorders';
-    const XML_PATH_NOTIFY_STOCK_QTY = 'cataloginventory/item_options/notify_stock_qty';
-    const XML_PATH_MANAGE_STOCK     = 'cataloginventory/item_options/manage_stock';
-    const XML_PATH_QTY_INCREMENTS   = 'cataloginventory/item_options/qty_increments';
+    const XML_PATH_ITEM                  = 'cataloginventory/item_options/';
+    const XML_PATH_MIN_QTY               = 'cataloginventory/item_options/min_qty';
+    const XML_PATH_MIN_SALE_QTY          = 'cataloginventory/item_options/min_sale_qty';
+    const XML_PATH_MAX_SALE_QTY          = 'cataloginventory/item_options/max_sale_qty';
+    const XML_PATH_BACKORDERS            = 'cataloginventory/item_options/backorders';
+    const XML_PATH_NOTIFY_STOCK_QTY      = 'cataloginventory/item_options/notify_stock_qty';
+    const XML_PATH_MANAGE_STOCK          = 'cataloginventory/item_options/manage_stock';
+    const XML_PATH_ENABLE_QTY_INCREMENTS = 'cataloginventory/item_options/enable_qty_increments';
+    const XML_PATH_QTY_INCREMENTS        = 'cataloginventory/item_options/qty_increments';
 
     const ENTITY                    = 'cataloginventory_stock_item';
 
@@ -57,7 +58,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     /**
      * @var float|false
      */
-    private $_qtyIncrements;
+    protected $_qtyIncrements;
 
     /**
      * Prefix of model events names
@@ -314,6 +315,19 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve whether Quantity Increments is enabled
+     *
+     * @return bool
+     */
+    public function getEnableQtyIncrements()
+    {
+        if ($this->getUseConfigEnableQtyIncrements()) {
+            return Mage::getStoreConfigFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS);
+        }
+        return (bool)$this->getData('enable_qty_increments');
+    }
+
+    /**
      * Retrieve Quantity Increments data wraper
      *
      * @return float|false
@@ -321,15 +335,17 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     public function getQtyIncrements()
     {
         if ($this->_qtyIncrements === null) {
-            if ($this->getUseConfigQtyIncrements()) {
-                $this->_qtyIncrements = Mage::getStoreConfig(self::XML_PATH_QTY_INCREMENTS);
-            } else {
-                $this->_qtyIncrements = $this->getData('qty_increments');
-            }
-            if ($this->_qtyIncrements && $this->_qtyIncrements > 0 && $this->_qtyIncrements != 1) {
-                $this->_qtyIncrements = (float) $this->_qtyIncrements;
-            } else {
-                $this->_qtyIncrements = false;
+            $this->_qtyIncrements = false;
+            if ($this->getEnableQtyIncrements()) {
+                if ($this->getUseConfigQtyIncrements()) {
+                    $this->_qtyIncrements = Mage::getStoreConfig(self::XML_PATH_QTY_INCREMENTS);
+                } else {
+                    $this->_qtyIncrements = $this->getData('qty_increments');
+                }
+                $this->_qtyIncrements = (float)$this->_qtyIncrements;
+                if ($this->_qtyIncrements <= 0) {
+                    $this->_qtyIncrements = false;
+                }
             }
         }
         return $this->_qtyIncrements;
@@ -550,8 +566,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
 
         if ($isQty) {
             if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO) {
-                if ($this->getQty() <= $this->getMinQty()
-                    || ($this->getQtyIncrements() && $this->getQty() < $this->getQtyIncrements())) {
+                if ($this->getQty() <= $this->getMinQty()) {
                     $this->setIsInStock(false)
                         ->setStockStatusChangedAutomaticallyFlag(true);
                 }

@@ -173,6 +173,10 @@ class Mage_CatalogInventory_Model_Observer
         if (strlen($originalQty)>0) {
             $item->setQtyCorrection($item->getQty()-$originalQty);
         }
+        if (!is_null($product->getData('stock_data/enable_qty_increments'))
+            && is_null($product->getData('stock_data/use_config_enable_qty_increments'))) {
+            $item->setData('use_config_enable_qty_increments', false);
+        }
         if (!is_null($product->getData('stock_data/qty_increments'))
             && is_null($product->getData('stock_data/use_config_qty_increments'))) {
             $item->setData('use_config_qty_increments', false);

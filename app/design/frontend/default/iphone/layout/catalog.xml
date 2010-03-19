@@ -207,7 +207,13 @@ Product view
                     <block type="catalog/product_view_attributes" name="product.attributes" as="additional" template="catalog/product/view/attributes.phtml"/>
                     <block type="catalog/product_view" name="product.info.addto" as="addto" template="catalog/product/view/addto.phtml"/>
                     <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml"/>
+
                     <block type="core/text_list" name="product.info.extrabuttons" as="extrabuttons"/>
+
+                    <block type="core/text_list" name="product.info.extrahint" as="extrahint" translate="label">
+                        <label>Product View Extra Hint</label>
+                    </block>
+
                     <block type="catalog/product_view" name="product.info.options.wrapper" as="product_options_wrapper" template="catalog/product/view/options/wrapper.phtml">
                         <block type="core/template" name="options_js" template="catalog/product/view/options/js.phtml"/>
                         <block type="catalog/product_view_options" name="product.info.options" as="product_options" template="catalog/product/view/options.phtml">

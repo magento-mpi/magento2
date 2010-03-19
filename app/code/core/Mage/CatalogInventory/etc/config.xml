@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_CatalogInventory>
-            <version>0.7.7</version>
+            <version>0.7.8</version>
         </Mage_CatalogInventory>
     </modules>
     <global>
@@ -290,6 +290,7 @@
                 <min_sale_qty>1</min_sale_qty>
                 <min_qty>0</min_qty>
                 <notify_stock_qty>1</notify_stock_qty>
+                <enable_qty_increments>0</enable_qty_increments>
                 <qty_increments>1</qty_increments>
             </item_options>
         </cataloginventory>

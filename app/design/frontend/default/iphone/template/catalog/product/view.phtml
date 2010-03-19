@@ -54,6 +54,7 @@
                 <div class="col-2">
                     <h3 class="product-name"><?php echo $this->htmlEscape($_product->getName()) ?></h3>
                     <?php echo $this->getChildHtml('product_type_data') ?>
+                    <?php echo $this->getChildHtml('extrahint') ?>
 
                     <fieldset class="no-display">
                         <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
