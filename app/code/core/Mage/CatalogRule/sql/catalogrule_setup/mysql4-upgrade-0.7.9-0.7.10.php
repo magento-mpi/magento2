@@ -32,6 +32,6 @@ $installer->startSetup();
 $installer->getConnection()
     ->modifyColumn($this->getTable('catalogrule'), 
         'customer_group_ids', 
-        'TEXT CHARACTER SET utf8 COLLATE utf8_general_ci');
+        'TEXT');
 
 $installer->endSetup();
