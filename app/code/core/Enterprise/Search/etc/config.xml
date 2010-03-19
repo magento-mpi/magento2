@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Search
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+-->
+<config>
+    <modules>
+        <Enterprise_Search>
+             <version>1.8.0.0.0</version>
+        </Enterprise_Search>
+    </modules>
+
+    <global>
+        <models>
+             <enterprise_search>
+                <class>Enterprise_Search_Model</class>
+                <resourceModel>enterprise_search_resource</resourceModel>
+             </enterprise_search>
+
+             <enterprise_search_resource>
+                 <class>Enterprise_Search_Model_Resource</class>
+             </enterprise_search_resource>
+        </models>
+        <helpers>
+            <enterprise_search>
+                <class>Enterprise_Search_Helper</class>
+            </enterprise_search>
+        </helpers>
+        <blocks>
+             <enterprise_search>
+                <class>Enterprise_Search_Block</class>
+             </enterprise_search>
+        </blocks>
+        <search>
+            <engine>enterprise_search/engine</engine>
+        </search>
+    </global>
+
+    <default>
+        <catalog>
+            <search_engine>
+                <server_hostname>localhost</server_hostname>
+                <server_port>8983</server_port>
+                <server_username>admin</server_username>
+                <server_timeout>15</server_timeout>
+                <server_path>solr</server_path>
+                <use_language_fields>0</use_language_fields>
+            </search_engine>
+        </catalog>
+    </default>
+</config>

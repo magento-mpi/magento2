@@ -300,4 +300,40 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
     }
+
+    /**
+     * Join index array to string by separator
+     * Support 2 level array gluing
+     *
+     * @param array $index
+     * @param string $separator
+     * @return string
+     */
+    public function prepareIndexdata($index, $separator = ' ')
+    {
+        $_index = array();
+        foreach ($index as $key => $value) {
+            if (!is_array($value)) {
+                $_index[] = $value;
+            }
+            else {
+                $_index = array_merge($_index, $value);
+            }
+        }
+        return join($separator, $_index);
+    }
+
+    /**
+     * Get current search engine resource model
+     *
+     * @return object|false
+     */
+    public function getEngine()
+    {
+        $engine = (string)Mage::getConfig()->getNode('global/search/engine');
+        if ($engine) {
+            return Mage::getResourceSingleton($engine);
+        }
+        return false;
+    }
 }
