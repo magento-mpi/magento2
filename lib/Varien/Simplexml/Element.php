@@ -161,8 +161,9 @@ class Varien_Simplexml_Element extends SimpleXMLElement
             else {
                 $regex = "#([^@/\\\"]+(?:@[^=/]+=(?:\\\"[^\\\"]*\\\"|[^/]*))?)/?#";
                 $pathArr = $pathMatches = array();
-                if(preg_match_all($regex, $path, $pathMatches))
+                if(preg_match_all($regex, $path, $pathMatches)) {
                     $pathArr = $pathMatches[1];
+                }
             }
         }
         $desc = $this;
