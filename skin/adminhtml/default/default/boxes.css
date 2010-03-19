@@ -227,13 +227,8 @@ dl.accordion .grid      { margin-bottom:0; }
 dl.accordion dt,
 .entry-edit .entry-edit-head { background:#6f8992; padding:2px 10px; }
 dl.accordion dt, div.collapseable { margin-top:1px; }
-dl.accordion dt a, div.collapseable a {
-    display:block;
-    background:url(images/entry_edit_head_arrow_down.gif) 100% 50% no-repeat;
-    color:#fff;
-    font-weight:bold;
-    text-decoration:none;
-    }
+dl.accordion dt a, div.collapseable a { background:url(images/entry_edit_head_arrow_down.gif) 100% 50% no-repeat; color:#fff; display:block; font-weight:bold; text-decoration:none; }
+div.disabled {}
 
 .entry-edit fieldset.collapseable { margin-bottom:10px; }
 
@@ -858,10 +853,13 @@ ul.tabs a.paypal-section:hover span { background:url(images/paypal_section.png) 
 .pg-options { margin:0.5em 0 1.5em; text-align:right; }
 .pg-tick { background:url(images/paypal_tick.gif) no-repeat; display:block; height:17px; margin:0 auto; width:18px; }
 
-.paypal-config .form-list { float:left; width:75% !important; }
-.paypal-config .row-comment { float:right; width:24%; }
-.paypal-config td.label { width:25%; }
-.paypal-config td.label label { width:auto; }
+.paypal-config .form-list { width:100%; }
+.paypal-config tr.hover { background:#f7f7f7; }
+.paypal-config tr.hover label { cursor:help; }
+
+.tooltip { background:url(images/tooltip_top.gif) no-repeat 0 0; padding:10px 0 0; position:absolute; width:250px; }
+.tooltip-bg { background:url(images/tooltip_bg.gif) repeat-x #d7dbce; border-bottom:1px solid #999; display:block; }
+.tooltip-corner { background:url(images/tooltip_corner.gif) no-repeat top right; border-left:1px solid #999; border-right:1px solid #999; display:block; margin:0 -1px; padding:10px; position:relative; width:230px; }
 
 /* CATALOG
 *******************************************************************************/
