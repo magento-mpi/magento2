@@ -29,6 +29,13 @@
    <sections>
         <payment>
             <groups>
+                <hint>
+                    <frontend_model>paypal/system_config_fieldset_hint</frontend_model>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </hint>
                 <paypal_direct translate="label comment" module="paypal">
                     <label>PayPal Website Payments Pro - Direct Payments</label>
                     <comment><![CDATA[<a href="http://www.magentocommerce.com/paypal" target="_blank">Sign up for PayPal Merchant Account now!</a>]]></comment>
@@ -371,7 +378,7 @@
                     <sort_order>1</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
-                    <show_in_store>0</show_in_store>
+                    <show_in_store>1</show_in_store>
                     <fields>
                         <heading_account translate="label">
                             <label>Account</label>
