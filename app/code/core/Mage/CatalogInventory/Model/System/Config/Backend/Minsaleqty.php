@@ -43,7 +43,7 @@ class Mage_CatalogInventory_Model_System_Config_Backend_Minsaleqty extends Mage_
                 parent::_afterLoad();
             } catch(Exception $e) {
                 $this->setValue(array(
-                    array(
+                    Mage::helper('core')->uniqHash('_') => array(
                         'customer_group_id' => Mage_Customer_Model_Group::CUST_GROUP_ALL,
                         'min_sale_qty' => $value,
                     )
@@ -60,15 +60,21 @@ class Mage_CatalogInventory_Model_System_Config_Backend_Minsaleqty extends Mage_
         $value = $this->getValue();
         if (is_array($value)) {
             unset($value['__empty']);
+
+            $foundGroups = array();
             $hasGroupAllOnly = false;
             $groupAllQty = null;
             foreach ($value as $k => $v) {
+                if (in_array($v['customer_group_id'], $foundGroups)) {
+                    unset($value[$k]);
+                    continue;
+                }
+                $foundGroups[] = $v['customer_group_id'];
                 if ($v['customer_group_id'] == Mage_Customer_Model_Group::CUST_GROUP_ALL) {
                     $hasGroupAllOnly = true;
                     $groupAllQty = $v['min_sale_qty'];
                 } else {
                     $hasGroupAllOnly = false;
-                    break;
                 }
             }
             if ($hasGroupAllOnly) {

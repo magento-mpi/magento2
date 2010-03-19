@@ -66,7 +66,7 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
      *
      * @var bool
      */
-    private $_isPreparedToRender = false;
+    protected $_isPreparedToRender = false;
 
     /**
      * Check if columns are defined, set template
@@ -118,6 +118,16 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
     }
 
     /**
+     * Prepare existing row data object
+     *
+     * @param Varien_Object
+     */
+    protected function _prepareArrayRow(Varien_Object $row)
+    {
+        // override in descendants
+    }
+
+    /**
      * Obtain existing data from form element
      *
      * Each row will be instance of Varien_Object
@@ -139,6 +149,7 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract exte
                 }
                 $row['_id'] = $rowId;
                 $result[$rowId] = new Varien_Object($row);
+                $this->_prepareArrayRow($result[$rowId]);
             }
         }
         $this->_arrayRowsCache = $result;

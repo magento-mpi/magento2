@@ -229,7 +229,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         if ($product->getStockItem()) {
             $minimumQty = $product->getStockItem()->getMinSaleQty();
             //If product was not found in cart and there is set minimal qty for it
-            if($minimumQty > 0 && $request->getQty() < $minimumQty && $quoteProduct === null){
+            if($minimumQty && $minimumQty > 0 && $request->getQty() < $minimumQty && $quoteProduct === null){
                 $request->setQty($minimumQty);
             }
         }

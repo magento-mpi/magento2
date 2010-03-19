@@ -50,9 +50,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     const ENTITY                    = 'cataloginventory_stock_item';
 
     /**
-     * @var float
+     * @var array
      */
-    private $_minSaleQty;
+    private $_minSaleQtyCache = array();
 
     /**
      * @var float|false
@@ -81,6 +81,13 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      * @var Mage_Catalog_Model_Product
      */
     protected $_productInstance = null;
+
+    /**
+     * Customer group id
+     *
+     * @var int|null
+     */
+    protected $_customerGroupId;
 
     /**
      * Initialize resource model
@@ -218,35 +225,66 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve Minimum Qty Allowed in Shopping Cart data wraper
+     * Getter for customer group id
      *
-     * @return float
+     * @return int
+     */
+    public function getCustomerGroupId()
+    {
+        return $this->_customerGroupId;
+    }
+
+    /**
+     * Setter for customer group id
+     *
+     * @param int Value of customer group id
+     * @return Mage_CatalogInventory_Model_Stock_Item
+     */
+    public function setCustomerGroupId($value)
+    {
+        $this->_customerGroupId = $value;
+        return $this;
+    }
+
+    /**
+     * Retrieve Minimum Qty Allowed in Shopping Cart or NULL when there is no limitation
+     *
+     * @return float|null
      */
     public function getMinSaleQty()
     {
-        if (is_null($this->_minSaleQty)) {
-            $this->_minSaleQty = 1;
+        if ($this->getCustomerGroupId()) {
+            $customerGroupId = $this->getCustomerGroupId();
+        } else if (Mage::app()->getStore()->isAdmin()) {
+            $customerGroupId = Mage_Customer_Model_Group::CUST_GROUP_ALL;
+        } else {
+            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        }
+        if (!array_key_exists($customerGroupId, $this->_minSaleQtyCache)) {
+            $minSaleQty = null;
             if ($this->getUseConfigMinSaleQty()) {
-                $currentCustomerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-                $backendModel = Mage::getModel('cataloginventory/system_config_backend_minsaleqty');
+                $backendModel = Mage::getSingleton('cataloginventory/system_config_backend_minsaleqty');
                 $backendModel->loadByValue(Mage::getStoreConfig(self::XML_PATH_MIN_SALE_QTY));
                 $minSaleQtyItems = $backendModel->getValue();
                 if ($minSaleQtyItems && is_array($minSaleQtyItems)) {
                     foreach ($minSaleQtyItems as $_id => $item) {
-                        if ($item['customer_group_id'] == $currentCustomerGroupId) {
-                            $this->_minSaleQty = $item['min_sale_qty'];
+                        if ($item['customer_group_id'] == $customerGroupId) {
+                            $minSaleQty = $item['min_sale_qty'];
                             break;
                         } else if ($item['customer_group_id'] == Mage_Customer_Model_Group::CUST_GROUP_ALL) {
-                            $this->_minSaleQty = $item['min_sale_qty'];
+                            $minSaleQty = $item['min_sale_qty'];
                         }
                     }
                 }
             } else {
-                $this->_minSaleQty = $this->getData('min_sale_qty');
+                $minSaleQty = $this->getData('min_sale_qty');
             }
-            $this->_minSaleQty = (float)$this->_minSaleQty;
+            if ($minSaleQty !== null) {
+                $minSaleQty = (float)$minSaleQty;
+            }
+            $this->_minSaleQtyCache[$customerGroupId] = $minSaleQty;
         }
-        return $this->_minSaleQty;
+        return $this->_minSaleQtyCache[$customerGroupId];
     }
 
     /**

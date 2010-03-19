@@ -34,16 +34,36 @@
 class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Minsaleqty extends Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
 {
     /**
+     * @var Mage_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup
+     */
+    protected $_groupRenderer;
+
+    /**
+     * Retrieve group column renderer
+     *
+     * @return Mage_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup
+     */
+    protected function _getGroupRenderer()
+    {
+        if (!$this->_groupRenderer) {
+            $this->_groupRenderer = $this->getLayout()->createBlock(
+                'cataloginventory/adminhtml_form_field_customergroup', '',
+                array('is_render_to_js_template' => true)
+            );
+            $this->_groupRenderer->setClass('customer_group_select');
+            $this->_groupRenderer->setExtraParams('style="width:120px"');
+        }
+        return $this->_groupRenderer;
+    }
+
+    /**
      * Prepare to render
      */
     protected function _prepareToRender()
     {
-        $groupColumnRenderer = $this->getLayout()->createBlock('cataloginventory/adminhtml_form_field_customergroup');
-        $groupColumnRenderer->setClass('customer_group_select');
-        $groupColumnRenderer->setExtraParams('style="width:120px" rel="#{customer_group_id}"');
         $this->addColumn('customer_group_id', array(
             'label' => Mage::helper('customer')->__('Customer Group'),
-            'renderer' => $groupColumnRenderer,
+            'renderer' => $this->_getGroupRenderer(),
         ));
         $this->addColumn('min_sale_qty', array(
             'label' => Mage::helper('cataloginventory')->__('Minimum Qty'),
@@ -54,24 +74,15 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Minsaleqty extends Mage_A
     }
 
     /**
-     * Render block HTML with js add-on to choose select options
+     * Prepare existing row data object
      *
-     * @return string
+     * @param Varien_Object
      */
-    public function _toHtml()
+    protected function _prepareArrayRow(Varien_Object $row)
     {
-        return parent::_toHtml()
-            . ' <script type="text/javascript">'
-            . ' var selects = $$(".customer_group_select");'
-            . ' for(var j = 0; j < selects.length; j++){'
-            . '     for(var i = 0; i < selects[j].options.length; i++){'
-            . '         if(selects[j].options[i].value == selects[j].attributes.getNamedItem("rel").value){'
-            . '             selects[j].options[i].selected = true;'
-            . '             break;'
-            . '         }'
-            . '     }'
-            . ' }'
-            . ' </script>'
-        ;
+        $row->setData(
+            'option_extra_attr_' . $this->_getGroupRenderer()->calcOptionHash($row->getData('customer_group_id')),
+            'selected="selected"'
+        );
     }
 }
