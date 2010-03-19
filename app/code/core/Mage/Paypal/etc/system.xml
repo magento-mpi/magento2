@@ -512,14 +512,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </heading_api>
-                        <paypal_payflowcolor translate="label comment">
-                            <label>API username</label>
+                        <api>
+                            <frontend_model>paypal/system_config_fieldset_credentials</frontend_model>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             
-                        </paypal_payflowcolor>
+                        </api>
                     </fields>
                 </tmp_general>
                 <wps translate="label comment">
