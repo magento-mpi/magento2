@@ -34,12 +34,12 @@
 //]]>
 </script>
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
-    <!--li>
+    <?php /*<li>
         <label for="<?php echo $_code ?>_cc_owner" class="required"><em>*</em><?php echo $this->__('Name on Card') ?></label>
         <div class="input-box">
             <input type="text" title="<?php echo $this->__('Name on Card') ?>" class="input-text required-entry" id="<?php echo $_code ?>_cc_owner" name="payment[cc_owner]" value="<?php echo $this->htmlEscape($this->getInfoData('cc_owner')) ?>" />
         </div>
-    </li-->
+    </li>*/ ?>
     <li>
         <label for="<?php echo $_code ?>_cc_type" class="required"><em>*</em><?php echo $this->__('Credit Card Type') ?></label>
         <div class="input-box">
@@ -80,39 +80,39 @@
     </li>
     <?php if ($this->hasSsCardType()): ?>
     <li id="<?php echo $_code ?>_cc_type_ss_div">
-        <label for="<?php echo $_code ?>_issue" class="required"><em>*</em><?php echo $this->__('Switch/Solo/Maestro(UK Domestic) Only') ?></label>
-        <div class="input-box">
-            <ul>
-                <li>
-                    <label for="<?php echo $_code ?>_cc_issue"><?php echo $this->__('Issue Number') ?></label>
-                    <div class="input-box">
-                        <input type="text" title="<?php echo $this->__('Issue Number') ?>" class="input-text cvv validate-cybersource-cc-ss" id="<?php echo $_code ?>_cc_issue" name="payment[cc_ss_issue]" value="" />
+        <ul class="inner-form">
+            <li class="form-alt">
+                <label for="<?php echo $_code ?>_issue" class="required"><em>*</em><?php echo $this->__('Switch/Solo/Maestro(UK Domestic) Only') ?></label>
+            </li>
+            <li>
+                <label for="<?php echo $_code ?>_cc_issue"><?php echo $this->__('Issue Number') ?></label>
+                <div class="input-box">
+                    <input type="text" title="<?php echo $this->__('Issue Number') ?>" class="input-text cvv validate-cybersource-cc-ss" id="<?php echo $_code ?>_cc_issue" name="payment[cc_ss_issue]" value="" />
+                </div>
+            </li>
+            <li>
+                <label for="<?php echo $_code ?>_start_month"><?php echo $this->__('Start Date') ?></label>
+                <div class="input-box">
+                    <div class="v-fix">
+                        <select id="<?php echo $_code ?>_start_month" name="payment[cc_ss_start_month]" class="month validate-cybersource-cc-ss">
+                        <?php $_ccStartMonth = $this->getInfoData('cc_ss_start_month') ?>
+                        <?php foreach ($this->getCcMonths() as $k=>$v): ?>
+                            <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccStartMonth): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
+                        <?php endforeach ?>
+                        </select>
                     </div>
-                </li>
-                <li>
-                    <label for="<?php echo $_code ?>_start_month"><?php echo $this->__('Start Date') ?></label>
-                    <div class="input-box">
-                        <div class="v-fix">
-                            <select id="<?php echo $_code ?>_start_month" name="payment[cc_ss_start_month]" class="month validate-cybersource-cc-ss">
-                            <?php $_ccStartMonth = $this->getInfoData('cc_ss_start_month') ?>
-                            <?php foreach ($this->getCcMonths() as $k=>$v): ?>
-                                <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccStartMonth): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
-                            <?php endforeach ?>
-                            </select>
-                        </div>
-                        <div class="v-fix">
-                            <select id="<?php echo $_code ?>_start_year" name="payment[cc_ss_start_year]" class="year validate-cybersource-cc-ss">
-                            <?php $_ccStartYear = $this->getInfoData('cc_ss_start_year') ?>
-                            <?php foreach ($this->getSsStartYears() as $k=>$v): ?>
-                                <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccStartYear): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
-                            <?php endforeach ?>
-                            </select>
-                         </div>
+                    <div class="v-fix">
+                        <select id="<?php echo $_code ?>_start_year" name="payment[cc_ss_start_year]" class="year validate-cybersource-cc-ss">
+                        <?php $_ccStartYear = $this->getInfoData('cc_ss_start_year') ?>
+                        <?php foreach ($this->getSsStartYears() as $k=>$v): ?>
+                            <option value="<?php echo $k?$k:'' ?>" <?php if($k==$_ccStartYear): ?>selected="selected"<?php endif ?>><?php echo $v ?></option>
+                        <?php endforeach ?>
+                        </select>
                      </div>
-                </li>
-                <li class="adv-container"></li>
-           </ul>
-        </div>
+                </div>
+            </li>
+            <li class="adv-container"></li>
+        </ul>
         <script type="text/javascript">
         var SSChecked<?php echo $_code ?> = function() {
             var elm = $('<?php echo $_code ?>_cc_type');
