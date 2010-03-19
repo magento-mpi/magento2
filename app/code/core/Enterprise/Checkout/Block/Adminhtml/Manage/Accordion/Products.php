@@ -31,23 +31,22 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products 
+class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     extends Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract
 {
     /**
-     * Block initializing, grid parameters 
+     * Block initializing, grid parameters
      */
     public function __construct()
     {
         parent::__construct();
-        $this->setId('products_grid');
+        $this->setId('source_products');
         $this->setDefaultLimit(10);
         $this->setDefaultSort('entity_id');
         $this->setPagerVisibility(true);
         $this->setFilterVisibility(true);
         $this->setSaveParametersInSession(true);
         $this->setHeaderText(Mage::helper('enterprise_checkout')->__('Products'));
-        $this->setRowInitCallback('checkoutObj.rowInitCallback.bind(checkoutObj)');
     }
 
     /**
@@ -63,7 +62,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('sku')
                 ->addAttributeToSelect('price')
-                ->addAttributeToFilter('type_id', array_keys(Mage::helper('enterprise_checkout')->getAvailableProductTypes()))
+                ->addAttributeToFilter('type_id',
+                    array_keys(Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray())
+                )
                 ->addStoreFilter($this->_getStore());
             Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
             $this->setData('items_collection', $collection);
@@ -79,42 +80,35 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('sales')->__('ID'),
+            'header'    => Mage::helper('enterprise_checkout')->__('ID'),
             'sortable'  => true,
             'width'     => '60',
             'index'     => 'entity_id'
         ));
-        
+
         $this->addColumn('name', array(
-            'header'    => Mage::helper('sales')->__('Product Name'),
+            'header'    => Mage::helper('enterprise_checkout')->__('Product Name'),
             'index'     => 'name'
         ));
-        
+
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('sales')->__('SKU'),
+            'header'    => Mage::helper('enterprise_checkout')->__('SKU'),
             'width'     => '80',
             'index'     => 'sku'
         ));
-        
+
         $this->addColumn('price', array(
-            'header'    => Mage::helper('sales')->__('Price'),
+            'header'    => Mage::helper('enterprise_checkout')->__('Price'),
             'type'      => 'price',
             'currency_code' => $this->_getStore()->getBaseCurrency()->getCode(),
             'index'     => 'price'
         ));
 
-        $this->addColumn('in_products', array(
-            'header_css_class' => 'a-center',
-            'type'      => 'checkbox',
-            'field_name'=> 'add_product',
-            'align'     => 'center',
-            'index'     => 'entity_id',
-            'inline_css'     => 'massaction-checkbox'
-        ));
-        
+        $this->_addControlColumns();
+
         return $this;
     }
-    
+
     /**
      * Return grid URL for sorting and filtering
      *

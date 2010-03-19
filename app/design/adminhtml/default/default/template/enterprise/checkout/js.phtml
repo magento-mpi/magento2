@@ -36,23 +36,65 @@ var AdminCheckout = new Class.create();
 AdminCheckout.prototype = {
 
     initialize: function(){
-        this.checkedCheckboxes = $H({});
-        this.resetCheckboxes = false;
+        this.checkboxes =  $H({});
+    },
+
+    onAjaxSuccess: function(transport)
+    {
+        if (transport.responseText.isJSON()) {
+            var response = transport.responseText.evalJSON()
+            if (response.error) {
+                throw response;
+            } else if (response.url) {
+                setLocation(response.url);
+             }
+        }
+    },
+
+    getContext: function(elementName)
+    {
+        return (this.checkboxes.get(elementName) || this.checkboxes.set(elementName, $H({})));
+    },
+
+    resetSource: function()
+    {
+        this.checkboxes =  $H({});
+        $('products_search_accordion').select('input.checkbox').each(function(e) {
+            if (e.checked) {
+                e.checked = false;
+                this.setCheckboxChecked(e, false);
+            }
+        }.bind(this));
+    },
+
+    reloadItems: function(container)
+    {
+        new Ajax.Request('<?php echo $this->getActionUrl('cart') ?>',
+            {
+                onSuccess: function(transport) {
+                    try {
+                        this.onAjaxSuccess(transport);
+                        $('checkout_items').update(transport.responseText);
+                    } catch (e) {
+                        var message = e.error ? e.error : e.message;
+                        alert(message);
+                    }
+                }.bind(this)
+            });
     },
 
     addToCart: function()
     {
         new Ajax.Request('<?php echo $this->getActionUrl('addToCart') ?>', {
-            parameters: {source: this.checkedCheckboxes.toJSON()},
+            parameters: {source: this.checkboxes.toJSON()},
             onSuccess: function(transport) {
                 try {
                     this.onAjaxSuccess(transport);
-                    this.checkedCheckboxes = $H({});
                     this.reloadItems();
-                    $('products_search_accordion').select('input[type="checkbox"]').each(function(e) {
-                        e.checked = false;
-                    });
-                    this.resetCheckboxes = true;
+                    if (this.getContext('source_wishlist').keys().size() > 0) {
+                        wishlistItemsGrid.reload();
+                    }
+                    this.resetSource();
                 } catch (e) {
                     var message = e.error ? e.error : e.message;
                     alert(message);
@@ -69,19 +111,12 @@ AdminCheckout.prototype = {
             onSuccess: function(transport) {
                 try {
                     this.onAjaxSuccess(transport);
-                    this.reloadItems()
-
-                    var reloadWishlist = false;
-                    params.each(function(p) {
-                        if(p.value == 'wishlist') {
-                            reloadWishlist = true;    
-                        }
-                    });
-                    if (reloadWishlist) {
+                    this.reloadItems();
+                    if (params.values().indexOf('wishlist') != -1) {
                         wishlistItemsGrid.reload();
                     }
                 } catch (e) {
-                    var message = e.error ? e.error : e.message;
+                    var message = e.error ? e.error : e.message;ma
                     alert(message);
                 }
             }.bind(this)
@@ -91,7 +126,7 @@ AdminCheckout.prototype = {
     applyCoupon: function(ccode)
     {
         if (ccode == undefined || !ccode.blank()) {
-            ccode = ccode == undefined ? '' : ccode; 
+            ccode = ccode == undefined ? '' : ccode;
             new Ajax.Request('<?php echo $this->getActionUrl('applyCoupon') ?>',
                 {
                     parameters: {code: ccode},
@@ -108,76 +143,80 @@ AdminCheckout.prototype = {
                 });
        }
     },
-    
-    accordionGridRowClick: function(grid, evt) 
-    {
-        var el = Event.element(evt);
-        if (el.tagName.toLowerCase() != 'input') {
-            var trElement = Event.findElement(evt, 'tr');
-            el = $(trElement).down('input[type="checkbox"]');
-            el.checked = !el.checked; 
-        }
 
-        if (this.resetCheckboxes) {
-            this.resetCheckboxes = false;
-            this.checkedCheckboxes = $H({});
-            grid.checkedCheckboxes = $H({});
+    gridRowClick: function(grid, event)
+    {
+        var trElement = Event.findElement(event, 'tr');
+        var isInput = Event.element(event).tagName.toLowerCase() == 'input';
+        if (trElement) {
+            var checkbox = Element.select(trElement, 'input');
+            if (checkbox[0]) {
+                var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
+                grid.setCheckboxChecked(checkbox[0], checked);
+            }
         }
-        if (!grid.checkedCheckboxes) {
-            grid.checkedCheckboxes = $H({});
-        }
-        if (!this.checkedCheckboxes.get(el.name)) {
-            this.checkedCheckboxes.set(el.name, $H({}));
-        }
-        el.checked ? grid.checkedCheckboxes.set(el.value, el.value) : grid.checkedCheckboxes.unset(el.value);
-        el.checked ? this.checkedCheckboxes.get(el.name).set(el.value, el.value) : this.checkedCheckboxes.get(el.name).unset(el.value); 
     },
 
-    rowInitCallback: function(grid, row) 
+    gridCheckboxCheck: function(grid, element, checked)
     {
-        if (!grid.checkedCheckboxes) {
+        this.setCheckboxChecked(element, checked);
+    },
+
+    setCheckboxChecked: function(element, checked)
+    {
+        if (checked) {
+            var qty = 1;
+            if(element.qty) {
+                element.qty.disabled = false;
+                if (!element.qty.value) {
+                    element.qty.value = 1;
+                }
+                qty = element.qty.value;
+            }
+            this.getContext(element.name).set(element.value, qty);
+        } else {
+            if(element.qty){
+                element.qty.disabled = true;
+            }
+            this.getContext(element.name).unset(element.value);
+        }
+    },
+
+    gridRowInit: function(grid, row)
+    {
+        var checkbox = $(row).down('input[type="checkbox"]');
+        if(!checkbox) {
             return;
         }
-        var checkbox = row.down('input[type="checkbox"]');
-        if (this.resetCheckboxes) {
-            this.resetCheckboxes = false;
-            this.checkedCheckboxes = $H({});
-            grid.checkedCheckboxes = $H({});
+        var context = this.getContext(checkbox.name);
+        var found = false;
+        if (context && context.get(checkbox.value)) {
+            checkbox.checked = true;
+            found = true;
         }
-        if (checkbox != undefined && grid.checkedCheckboxes.get(checkbox.value)) {
-            checkbox.checked = true;   
+        var qty = $(row).down('.input-text');
+        if(!qty) {
+            return;
+        }
+        checkbox.qty = qty;
+        qty.checkboxElement = checkbox;
+        qty.disabled = true;
+        if (found) {
+            qty.disabled = false;
+            qty.value = context.get(checkbox.value);
+        }
+        Event.observe(qty,'keyup', this.qtyChanged.bind(this));
+        Event.observe(qty,'change',this.qtyChanged.bind(this));
+    },
+
+    qtyChanged : function(event){
+        var element = Event.element(event);
+        if (element && element.checkboxElement && element.checkboxElement.checked){
+            this.getContext(element.checkboxElement.name).set(element.checkboxElement.value, element.value);
         }
     },
-                    
-    onAjaxSuccess: function(transport) 
-    {
-        if (transport.responseText.isJSON()) {
-            var response = transport.responseText.evalJSON()
-            if (response.error) {
-                throw response;
-            } else if (response.url) {
-                setLocation(response.url);
-             }
-        }
-    },
-    
-    reloadItems: function(container) 
-    {
-        new Ajax.Request('<?php echo $this->getActionUrl('cart') ?>',
-            {
-                onSuccess: function(transport) {
-                    try {
-                        this.onAjaxSuccess(transport);
-                        $('checkout_items').update(transport.responseText);
-                    } catch (e) {
-                        var message = e.error ? e.error : e.message;
-                        alert(message);
-                    }
-                }.bind(this)
-            });
-    },
-    
-    serializeData: function(container) 
+
+    serializeData: function(container)
     {
         var fields = $(container).select('input', 'select');
         var data = Form.serializeElements(fields, true);

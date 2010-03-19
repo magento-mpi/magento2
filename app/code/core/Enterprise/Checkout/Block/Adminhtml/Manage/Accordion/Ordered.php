@@ -31,9 +31,15 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered 
+class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
     extends Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract
 {
+    /**
+     * Collection field name for using in controls
+     * @var string
+     */
+    protected $_controlFieldName = 'item_id';
+
     /**
      * Initialize Grid
      *
@@ -41,7 +47,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
     public function __construct()
     {
         parent::__construct();
-        $this->setId('ordered_grid');
+        $this->setId('source_ordered');
         $this->setHeaderText(
             Mage::helper('enterprise_checkout')->__('Last ordered items (%s)', $this->getItemsCount())
         );
@@ -67,7 +73,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
                 break;
             }
             if (isset($order)) {
-                $collection = $order->getItemsCollection(); 
+                $collection = $order->getItemsCollection();
                 foreach ($collection as $item) {
                     if ($item->getParentItem()) {
                         $collection->removeItemByKey($item->getId());
@@ -75,44 +81,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
                 }
             }
             if (isset($order)) {
-                $collection = Mage::helper('enterprise_checkout')->applyProductTypesFilter($collection);
+                $collection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($collection);
             }
             $this->setData('items_collection', isset($order) ? $collection : false);
         }
         return $this->getData('items_collection');
-    }
-
-    /**
-     * Prepare Grid columns
-     *
-     * @return Mage_Adminhtml_Block_Widget_Grid
-     */
-    protected function _prepareColumns()
-    {
-        $this->addColumn('product_name', array(
-            'header'    => Mage::helper('customer')->__('Product name'),
-            'index'     => 'name',
-            'sortable'  => false
-        ));
-
-        $this->addColumn('price', array(
-            'header'    => Mage::helper('sales')->__('Price'),
-            'align'     => 'right',
-            'type'      => 'price',
-            'currency_code' => $this->_getStore()->getBaseCurrency()->getCode(),
-            'index'     => 'price',
-            'sortable'  => false
-        ));
-
-        $this->addColumn('in_products', array(
-            'header_css_class' => 'a-center',
-            'type'      => 'checkbox',
-            'field_name'=> 'add_order_item',
-            'align'     => 'center',
-            'index'     => 'item_id',
-        ));
-        
-        return $this;
     }
 
     /**

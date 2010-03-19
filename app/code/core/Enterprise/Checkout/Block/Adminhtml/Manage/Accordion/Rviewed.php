@@ -31,7 +31,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed 
+class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
     extends Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract
 {
     /**
@@ -40,7 +40,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
     public function __construct()
     {
         parent::__construct();
-        $this->setId('rviewed_grid');
+        $this->setId('source_rviewed');
         $this->setHeaderText(
             Mage::helper('enterprise_checkout')->__('Recently Viewed Products (%s)', $this->getItemsCount())
         );
@@ -62,7 +62,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
             foreach ($collection as $event) {
                 $productIds[] = $event->getObjectId();
             }
-            
+
             $productCollection = false;
             if ($productIds) {
                 $productCollection = Mage::getModel('catalog/product')->getCollection()
@@ -72,7 +72,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
                     ->addAttributeToSelect('price')
                     ->addIdFilter($productIds)
                     ->load();
-                $productCollection = Mage::helper('enterprise_checkout')->applyProductTypesFilter($productCollection);
+                $productCollection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($productCollection);
             }
             $this->setData('items_collection', $productCollection);
         }

@@ -52,7 +52,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Enterprise_
     {
         return Mage::registry('checkout_current_quote');
     }
-    
+
     /**
      * Button html
      *
@@ -69,7 +69,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Enterprise_
                 ))
             ->toHtml();
     }
-    
+
     /**
      * Apply admin acl
      */

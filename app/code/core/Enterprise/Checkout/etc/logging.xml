@@ -51,7 +51,12 @@
             <adminhtml_checkout_addToCart>
                 <action>add to cart</action>
                 <expected_models>
-                    <sales__quote_item/>
+                    <sales__quote_item>
+                    <additional_data>
+                    <item_id/>
+                    <quote_id/>
+                    </additional_data>
+                    </sales__quote_item>
                 </expected_models>
             </adminhtml_checkout_addToCart>
         </actions>

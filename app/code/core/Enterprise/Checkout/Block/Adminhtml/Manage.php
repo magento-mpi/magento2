@@ -37,7 +37,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Enterprise_Enterprise_B
     {
         parent::__construct();
         $this->setId('checkout_manage_container');
-        
+
         if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/create')) {
             $this->_updateButton('save', 'label', Mage::helper('sales')->__('Create Order'));
             $this->_updateButton('save', 'onclick', 'setLocation(\'' . $this->getCreateOrderUrl() . '\');');
@@ -58,7 +58,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Enterprise_Enterprise_B
         if (!Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update')) {
             return $this;
         }
-        
+
         $this->setChild('add_products_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(

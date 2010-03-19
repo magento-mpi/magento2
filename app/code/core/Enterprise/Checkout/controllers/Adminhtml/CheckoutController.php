@@ -50,7 +50,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
     {
         return Mage::getSingleton('enterprise_checkout/cart');
     }
-    
+
     /**
      * Init store based on quote and customer sharing options
      * Store customer, store and quote to registry
@@ -147,8 +147,6 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
             }
             $this->loadLayout();
             $this->renderLayout();
-        } catch (Mage_Core_Exception $e) {
-            $this->_processCoreException($e);
         } catch (Exception $e) {
             $this->_processException($e);
         }
@@ -160,32 +158,60 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
     public function addToCartAction()
     {
         try {
-            $this->_checkIsAllowedModification();
+            $this->_isModificationAllowed();
             $this->_initAction();
             if ($this->_redirectFlag) {
                 return;
             }
 
-            // Add new products
-            $source = Mage::helper('core')->jsonDecode($this->getRequest()->getPost('source'));
-            $products = $this->getRequest()->getPost('add_product');
             $cart = $this->getCartModel();
-            if (isset($source['add_product']) && is_array($source['add_product'])) {
-                foreach ($source['add_product'] as $productId) {
-                    $cart->addProduct($productId);
-                }
-            }
+            $customer = Mage::registry('checkout_current_customer');
+            $store = Mage::registry('checkout_current_store');
+
+            $source = Mage::helper('core')->jsonDecode($this->getRequest()->getPost('source'));
 
             // Reorder products
-            if (isset($source['add_order_item']) && is_array($source['add_order_item'])) {
-                foreach ($source['add_order_item'] as $orderItemId) {
+            if (isset($source['source_ordered']) && is_array($source['source_ordered'])) {
+                foreach ($source['source_ordered'] as $orderItemId => $qty) {
                     $orderItem = Mage::getModel('sales/order_item')->load($orderItemId);
-                    $cart->reorderItem($orderItem);
+                    $cart->reorderItem($orderItem, $qty);
+                }
+                unset($source['source_ordered']);
+            }
+
+            // Add new products
+            if (is_array($source)) {
+                foreach ($source as $key => $products) {
+                    if (is_array($products)) {
+                        foreach ($products as $productId => $qty) {
+                            $cart->addProduct($productId, $qty);
+                        }
+                    }
                 }
             }
 
-        } catch (Mage_Core_Exception $e) {
-            $this->_processCoreException($e);
+            // Collect quote totals and save it
+            $cart->saveQuote();
+
+            // Remove items from wishlist
+            if (isset($source['source_wishlist']) && is_array($source['source_wishlist'])) {
+                $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($customer)
+                    ->setStore($store)
+                    ->setSharedStoreIds($store->getWebsite()->getStoreIds());
+                if ($wishlist->getId()) {
+                    foreach ($source['source_wishlist'] as $productId => $qty) {
+                        $product = Mage::getModel('catalog/product')->load($productId);
+                        $quoteItem = $cart->getQuote()->getItemByProduct($product);
+                        if ($quoteItem->getId()) {
+                            $wishlistItem = Mage::getModel('wishlist/item')
+                                ->loadByProductWishlist($wishlist->getId(), $productId, $wishlist->getSharedStoreIds());
+                            if ($wishlistItem->getId()) {
+                                $wishlistItem->delete();
+                            }
+                        }
+                    }
+                }
+            }
         } catch (Exception $e) {
             $this->_processException($e);
         }
@@ -197,7 +223,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
     public function updateItemsAction()
     {
         try {
-            $this->_checkIsAllowedModification();
+            $this->_isModificationAllowed();
             $this->_initAction();
             if ($this->_redirectFlag) {
                 return;
@@ -205,8 +231,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
             if ($items = $this->getRequest()->getPost('item', array())) {
                 $this->getCartModel()->updateQuoteItems($items);
             }
-        } catch (Mage_Core_Exception $e) {
-            $this->_processCoreException($e);
+            $this->getCartModel()->saveQuote();
         } catch (Exception $e) {
             $this->_processException($e);
         }
@@ -218,7 +243,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
     public function applyCouponAction()
     {
         try {
-            $this->_checkIsAllowedModification();
+            $this->_isModificationAllowed();
             $this->_initAction();
             if ($this->_redirectFlag) {
                 return;
@@ -236,8 +261,6 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
                     ->setInvalidCouponCode($code);
             }
             $this->renderLayout();
-        } catch (Mage_Core_Exception $e) {
-            $this->_processCoreException($e);
         } catch (Exception $e) {
             $this->_processException($e);
         }
@@ -255,8 +278,6 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
             }
             $this->loadLayout();
             $this->renderLayout();
-        } catch (Mage_Core_Exception $e) {
-            $this->_processCoreException($e);
         } catch (Exception $e) {
             $this->_processException($e);
         }
@@ -282,7 +303,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
                 $session->setQuoteId($quote->getId())
                    ->setStoreId($quote->getStoreId())
                    ->setCustomerId($quote->getCustomerId());
-                
+
             }
             $this->_redirect('*/sales_order_create', array(
                 'customer_id' => Mage::registry('checkout_current_customer')->getId(),
@@ -349,44 +370,35 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
     }
 
     /**
-     * Process Core exception
+     * Process exceptions in ajax requests
      *
      * @param Exception $e
-     * @return return
-     */
-    protected function _processCoreException(Exception $e)
-    {
-        $result = array('error' => $e->getMessage());
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
-    }
-
-    /**
-     * Process Generic exception
-     *
-     * @param Exception $e
-     * @return return
      */
     protected function _processException(Exception $e)
     {
-        Mage::logException($e);
-        $result = array(
-            'error' => Mage::helper('enterprise_checkout')->__('An error was occured. Please, see error log for details.')
-        );
+        if ($e instanceof Mage_Core_Exception) {
+            $result = array('error' => $e->getMessage());
+        } elseif ($e instanceof Exception) {
+            Mage::logException($e);
+            $result = array(
+                'error' => Mage::helper('enterprise_checkout')->__('An error was occured. Please, see error log for details.')
+            );
+        }
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
-    
+
     /**
      * Acl check for quote modifications
      *
      * @return boolean
      */
-    protected function _checkIsAllowedModification()
+    protected function _isModificationAllowed()
     {
         if (!Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update')) {
             Mage::throwException(Mage::helper('enterprise_checkout')->__('Access denied.'));
         }
     }
-    
+
     /**
      * Acl check for admin
      *

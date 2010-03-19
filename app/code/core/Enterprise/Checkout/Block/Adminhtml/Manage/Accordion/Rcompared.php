@@ -31,7 +31,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared 
+class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
     extends Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract
 {
     /**
@@ -41,11 +41,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
     public function __construct()
     {
         parent::__construct();
-        $this->setId('rcompared_grid');
+        $this->setId('source_rcompared');
         $this->setHeaderText(
             Mage::helper('enterprise_checkout')->__('Recently Compared Products (%s)', $this->getItemsCount())
         );
-        
+
     }
 
     /**
@@ -53,7 +53,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
      *
      * @return Mage_Core_Model_Mysql4_Collection_Abstract
      */
-    public function getItemsCollection() 
+    public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
             $skipProducts = array();
@@ -66,7 +66,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
             foreach ($collection as $_item) {
                 $skipProducts[] = $_item->getProductId();
             }
-            
+
             // prepare products collection and apply visitors log to it
             $productCollection = Mage::getModel('catalog/product')->getCollection()
                 ->setStoreId($this->_getStore()->getId())
@@ -76,12 +76,12 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
             Mage::getResourceSingleton('reports/event')->applyLogToCollection(
                 $productCollection, Mage_Reports_Model_Event::EVENT_PRODUCT_COMPARE, $this->_getCustomer()->getId(), 0, $skipProducts
             );
-            $productCollection = Mage::helper('enterprise_checkout')->applyProductTypesFilter($productCollection);
+            $productCollection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($productCollection);
             $this->setData('items_collection', $productCollection);
         }
         return $this->_getData('items_collection');
     }
-    
+
     /**
      * Retrieve Grid URL
      *

@@ -36,32 +36,25 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      * @var Mage_Sales_Model_Quote
      */
     protected $_quote;
-    
+
     /**
      * @var Mage_Customer_Model_Customer
      */
     protected $_customer;
-    
+
 
     /**
      * Setter for $_customer
      *
-     * @param int|Mage_Customer_Model_Customer $customer
+     * @param Mage_Customer_Model_Customer $customer
      * @return Enterprise_Checkout_Model_Cart
      */
     public function setCustomer($customer)
     {
-        if (is_numeric($customer)) {
-            $customer = Mage::getModel('customer/customer')->load($customer);
-            if ($customer->getId()) {
-                $this->_customer = $customer;
-                $this->_quote = null;
-            }
-        } elseif ($customer instanceof Varien_Object && $customer->getId()) {
+        if ($customer instanceof Varien_Object && $customer->getId()) {
             $this->_customer = $customer;
             $this->_quote = null;
         }
-
         return $this;
     }
 
@@ -121,19 +114,37 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         }
         return $this->getQuote();
     }
-    
+
     /**
-     * Return preferred non-admin store Id 
+     * Recollect quote and save it
+     *
+     * @param bool $recollect Collect quote totals or not
+     * @return Enterprise_Checkout_Model_Cart
+     */
+    public function saveQuote($recollect = true)
+    {
+        if (!$this->getQuote()->getId()) {
+            return $this;
+        }
+        if ($recollect) {
+            $this->getQuote()->collectTotals();
+        }
+        $this->getQuote()->save();
+        return $this;
+    }
+
+    /**
+     * Return preferred non-admin store Id
      * If Customer has active quote - return its store, otherwise try to get customer store or default store
-     * 
+     *
      * @return int|bool
      */
-    public function getPreferredStoreId() 
+    public function getPreferredStoreId()
     {
         $storeId = false;
         $quote = $this->getQuote();
         $customer = $this->getCustomer();
-        
+
         if ($quote->getId() && $quote->getStoreId()) {
             $storeId = $quote->getStoreId();
         } elseif ($customer !== null && $customer->getStoreId() && !$customer->getStore()->isAdmin()) {
@@ -142,18 +153,18 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             $customerStoreIds = $customer->getSharedStoreIds();
             $storeId = array_shift($customerStoreIds);
             if (Mage::app()->getStore($storeId)->isAdmin()) {
-                $defaultStore = Mage::app()->getDefaultStoreView();
+                $defaultStore = Mage::app()->getAnyStoreView();
                 if ($defaultStore) {
                     $storeId = $defaultStore->getId();
                 }
             }
         }
-        
+
         return $storeId;
     }
-    
+
     /**
-     * Add product to current order quote
+     * Add product to current quote
      *
      * @param mixed $product
      * @param mixed $qty
@@ -195,8 +206,6 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             $product->unsSkipCheckRequiredOption();
             $item->checkData();
         }
-
-        $this->getQuote()->collectTotals()->save();
         return $item;
     }
 
@@ -225,9 +234,9 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             if (is_string($item)) {
                 Mage::throwException($item);
             }
-            
+
             $item->setQty($qty);
-            
+
             if ($additionalOptions = $orderItem->getProductOptionByCode('additional_options')) {
                 $item->addOption(new Varien_Object(
                     array(
@@ -237,20 +246,25 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                     )
                 ));
             }
-            
+
             Mage::dispatchEvent('sales_convert_order_item_to_quote_item', array(
                 'order_item' => $orderItem,
                 'quote_item' => $item
             ));
 
-            $this->getQuote()->collectTotals()->save();
             return $item;
-            
+
         } else {
-            Mage::throwException(Mage::helper('enterprise_checkout')->__('Failed to add a product of order item'));        
+            Mage::throwException(Mage::helper('enterprise_checkout')->__('Failed to add a product of order item'));
         }
     }
-    
+
+    /**
+     * Remove items from quote or move them to wishlist etc.
+     *
+     * @param array $data Array of items
+     * @return Enterprise_Checkout_Model_Cart
+     */
     public function updateQuoteItems($data)
     {
         if (!$this->getQuote()->getId()) {
@@ -281,24 +295,25 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                     $this->moveQuoteItem($itemId, $info['action'], $itemQty);
                 }
             }
-            $this->getQuote()->collectTotals()->save();
         }
         return $this;
     }
-    
+
     /**
-     * Move quote item to another items store
+     * Move quote item to wishlist
      *
-     * @param   mixed $item
-     * @param   string $mogeTo
-     * @return  Mage_Adminhtml_Model_Sales_Order_Create
+     * @param Mage_Sales_Model_Quote_Item|int $item
+     * @param string $moveTo Destination storage
+     * @return Enterprise_Checkout_Model_Cart
      */
     public function moveQuoteItem($item, $moveTo, $qty)
     {
         if ($item = $this->_getQuoteItem($item)) {
             switch ($moveTo) {
                 case 'wishlist':
-                    $wishlist = Mage::helper('enterprise_checkout')->getCustomerWishlist($this->getCustomer(), $this->getStore());
+                    $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($this->getCustomer(), true)
+                        ->setStore($this->getStore())
+                        ->setSharedStoreIds($this->getStore()->getWebsite()->getStoreIds());
                     if ($wishlist->getId()) {
                         $wishlist->addNewItem($item->getProduct()->getId());
                     }
@@ -310,7 +325,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         }
         return $this;
     }
-    
+
     /**
      * Create duplicate of quote preesrving all data (items, addresses, payment etc.)
      *
@@ -318,7 +333,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      * @param bool $active Create active quote or not
      * @return Mage_Sales_Model_Quote New created quote
      */
-    public function copyQuote(Mage_Sales_Model_Quote $quote, $active = false) 
+    public function copyQuote(Mage_Sales_Model_Quote $quote, $active = false)
     {
         if (!$quote->getId()) {
             return $quote;
@@ -335,7 +350,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             $newItem->setId(null);
             $newItem->save();
         }
-        
+
         // copy billing and shipping addresses
         foreach ($quote->getAddressesCollection() as $address) {
             $address->setQuote($newQuote);
@@ -349,15 +364,15 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
             $payment->setId(null);
             $payment->save();
         }
-        
+
         return $newQuote;
     }
-    
+
     /**
-     * Retrieve quote item
+     * Wrapper for getting quote item
      *
-     * @param   mixed $item
-     * @return  Mage_Sales_Model_Quote_Item
+     * @param Mage_Sales_Model_Quote_Item|int $item
+     * @return Mage_Sales_Model_Quote_Item|bool
      */
     protected function _getQuoteItem($item)
     {

@@ -31,25 +31,25 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared 
+class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
     extends Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setId('compared_grid');
+        $this->setId('source_compared');
         $this->setHeaderText(
             Mage::helper('enterprise_checkout')->__('Products in Compare List (%s)', $this->getItemsCount())
         );
     }
-    
-    
+
+
     /**
      * Return items collection
      *
      * @return Mage_Core_Model_Mysql4_Collection_Abstract
      */
-    public function getItemsCollection() 
+    public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
             $collection = Mage::getModel('catalog/product_compare_list')
@@ -60,12 +60,12 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
                 ->setCustomerId($this->_getCustomer()->getId())
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price');
-            $collection = Mage::helper('enterprise_checkout')->applyProductTypesFilter($collection);
+            $collection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($collection);
             $this->setData('items_collection', $collection);
         }
         return $this->_getData('items_collection');
     }
-    
+
     /**
      * Return grid URL for sorting and filtering
      *

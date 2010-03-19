@@ -37,7 +37,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
     {
         return 'checkoutItemsGrid';
     }
-    
+
     protected function _prepareCollection()
     {
         $collection = $this->getQuote()->getItemsCollection();
@@ -100,7 +100,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
     {
         return $this->getQuote()->getShippingAddress()->getDiscountAmount();
     }
-    
+
     /**
      * Retrieve formated price
      *
@@ -111,12 +111,12 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
     {
         return $this->getStore()->formatPrice($value);
     }
-    
+
     public function usedCustomPriceForItem($item)
     {
         return false;
     }
-    
+
     /**
      * Retrieve formated price
      *
@@ -127,7 +127,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
     {
         return Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update');
     }
-    
+
 /*
     protected function _prepareColumns()
     {
@@ -185,8 +185,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
             'sortable' => false,
             'renderer'  => 'enterprise_checkout/adminhtml_manage_items_renderer_action',
             'options'   => array(
-                '' => '', 
-                'delete' => Mage::helper('enterprise_checkout')->__('Remove'), 
+                '' => '',
+                'delete' => Mage::helper('enterprise_checkout')->__('Remove'),
                 'wishlist' => Mage::helper('enterprise_checkout')->__('Move to Wishlist')
             ),
             'width' => 50
@@ -205,7 +205,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
     {
         return Mage::registry('checkout_current_quote');
     }
-    
+
     /**
      * Return current store from regisrty
      *
@@ -215,7 +215,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
     {
         return Mage::registry('checkout_current_store');
     }
-    
+
     /**
      * Return current customer from regisrty
      *

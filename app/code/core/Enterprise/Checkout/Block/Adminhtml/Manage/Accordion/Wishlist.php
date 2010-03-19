@@ -31,7 +31,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist 
+class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     extends Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract
 {
     /**
@@ -41,7 +41,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     public function __construct()
     {
         parent::__construct();
-        $this->setId('wishlist_grid');
+        $this->setId('source_wishlist');
         $this->setDefaultSort('added_at');
         $this->setData('open', true);
         $this->setHeaderText(
@@ -53,22 +53,28 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
     {
         return 'wishlistItemsGrid';
     }
-    
+
     /**
      * Return items collection
      *
      * @return Mage_Core_Model_Mysql4_Collection_Abstract
      */
-    public function getItemsCollection() 
+    public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $wishlist = Mage::helper('enterprise_checkout')->getCustomerWishlist($this->_getCustomer(), $this->_getStore());
-            $collection = $wishlist->getProductCollection()
-                ->resetSortOrder()
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('price')
-                ->addAttributeToSelect('small_image');
-            $collection = Mage::helper('enterprise_checkout')->applyProductTypesFilter($collection);
+            $wishlist = Mage::getModel('wishlist/wishlist')->loadByCustomer($this->_getCustomer())
+                ->setStore($this->_getStore())
+                ->setSharedStoreIds($this->_getStore()->getWebsite()->getStoreIds());
+            if ($wishlist->getId()) {
+                $collection = $wishlist->getProductCollection()
+                    ->resetSortOrder()
+                    ->addAttributeToSelect('name')
+                    ->addAttributeToSelect('price')
+                    ->addAttributeToSelect('small_image');
+                $collection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($collection);
+            } else {
+                $collection = false;
+            }
             $this->setData('items_collection', $collection);
         }
         return $this->_getData('items_collection');
