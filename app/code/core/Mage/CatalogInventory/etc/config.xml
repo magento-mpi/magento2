@@ -71,6 +71,9 @@
                 </setup>
             </cataloginventory_setup>
         </resources>
+        <blocks>
+            <cataloginventory><class>Mage_CatalogInventory_Block</class></cataloginventory>
+        </blocks>
 
         <events>
             <catalog_product_load_after>
