@@ -25,7 +25,7 @@
  */
 class Enterprise_Reminder_Model_Rule extends Enterprise_Enterprise_Model_Rule_Rule
 {
-    const XML_PATH_EMAIL_TEMPLATE  = 'enterprise_reminder/email/template';
+    const XML_PATH_EMAIL_TEMPLATE  = 'enterprise_reminder_email_template';
 
     /**
      * Intialize model
@@ -40,6 +40,8 @@ class Enterprise_Reminder_Model_Rule extends Enterprise_Enterprise_Model_Rule_Ru
 
     /**
      * Perform actions after object load
+     *
+     * @return Enterprise_Reminder_Model_Rule
      */
     protected function _afterLoad()
     {
@@ -50,7 +52,7 @@ class Enterprise_Reminder_Model_Rule extends Enterprise_Enterprise_Model_Rule_Ru
         }
 
         $storeData = $this->_getResource()->getStoreData($this->getId());
-        $defaultTemplate = str_replace('/', '_', self::XML_PATH_EMAIL_TEMPLATE);
+        $defaultTemplate = self::XML_PATH_EMAIL_TEMPLATE;
 
         foreach($storeData as $data) {
             $template = (empty($data['template_id'])) ? $defaultTemplate : $data['template_id'];

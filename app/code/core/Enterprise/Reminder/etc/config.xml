@@ -126,4 +126,28 @@
             </modules>
         </translate>
     </adminhtml>
+
+    <default>
+        <customer>
+            <enterprise_reminder>
+                <enabled>1</enabled>
+                <frequency>H</frequency>
+                <periodicity>30</periodicity>
+                <limit>500</limit>
+                <identity>general</identity>
+            </enterprise_reminder>
+        </customer>
+    </default>
+
+    <crontab>
+        <jobs>
+            <send_notification>
+                <run><model>enterprise_reminder/observer::scheduledNotification</model></run>
+            </send_notification>
+            <match_customers>
+                <schedule><cron_expr>0 1 * * *</cron_expr></schedule>
+                <run><model>enterprise_reminder/observer::scheduledMatch</model></run>
+            </match_customers>
+        </jobs>
+    </crontab>
 </config>

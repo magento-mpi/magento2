@@ -26,5 +26,13 @@
 
 class Enterprise_Reminder_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
-
+    /**
+     * Check whether reminder rules should be enabled
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return (bool)Mage::getStoreConfig('customer/enterprise_reminder/enabled');
+    }
 }
