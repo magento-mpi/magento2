@@ -135,22 +135,3 @@ varienEvents.prototype = {
 
 varienGlobalEvents = new varienEvents();
 
-/**
- * Executes event handler on the element. Works with event handlers attached by Prototype,
- * in a browser-agnostic fashion.
- * @param element The element object
- * @param event Event name, like 'change'
- */
-function fireEvent(element, event){
-    if (document.createEventObject){
-        // dispatch for IE
-        var evt = document.createEventObject();
-        return element.fireEvent('on'+event,evt)
-    }
-    else{
-        // dispatch for firefox + others
-        var evt = document.createEvent("HTMLEvents");
-        evt.initEvent(event, true, true ); // event type,bubbling,cancelable
-        return !element.dispatchEvent(evt);
-    }
-}
