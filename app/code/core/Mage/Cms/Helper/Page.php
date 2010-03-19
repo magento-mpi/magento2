@@ -64,7 +64,8 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
     {
         $page = Mage::getSingleton('cms/page');
         if (!is_null($pageId) && $pageId!==$page->getId()) {
-            if ($delimeterPosition = strrpos($pageId, '|')) {
+            $delimeterPosition = strrpos($pageId, '|');
+            if ($delimeterPosition) {
                 $pageId = substr($pageId, 0, $delimeterPosition);
             }
 
@@ -100,7 +101,6 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
                         && $inRange) ? $page->getCustomRootTemplate() : $page->getRootTemplate();
             $action->getLayout()->helper('page/layout')->applyHandle($handle);
         }
-
 
         Mage::dispatchEvent('cms_page_render', array('page' => $page, 'controller_action' => $action));
 

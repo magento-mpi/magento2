@@ -144,7 +144,8 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
     {
         $select = parent::_getLoadSelect($field, $value, $object);
 
-        if ($storeId = $object->getStoreId()) {
+        $storeId = $object->getStoreId();
+        if ($storeId) {
             $select->join(
                         array('cps' => $this->getTable('cms/page_store')),
                         $this->getMainTable().'.page_id = `cps`.page_id'
