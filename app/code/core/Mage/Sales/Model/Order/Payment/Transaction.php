@@ -707,7 +707,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
             case self::TYPE_REFUND:
                 break;
             default:
-                Mage::throwException(Mage::helper('sales')->__('Non-supported Transaction Type "%s".', $txnType));
+                Mage::throwException(Mage::helper('sales')->__('Unsupported transaction type "%s".', $txnType));
         }
     }
 

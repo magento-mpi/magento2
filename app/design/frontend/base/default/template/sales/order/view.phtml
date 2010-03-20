@@ -57,7 +57,7 @@ function giftMessageToogle(giftMessageIdentifier)
 <div class="order-items">
     <h2><?php echo $this->__('Items Ordered') ?>
         <?php if ($_order->getTracksCollection()->count()) : ?>
-            <span class="separator">|</span> <a href="#" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopupUrlBySalesModel($_order) ?>','trackorder','top=50,left=50,width=800,height=600,resizable=yes,scrollbars=yes'); return false;" title="<?php echo $this->__('Track your order') ?>"><?php echo $this->__('Track your order') ?></a>
+            <span class="separator">|</span> <a href="#" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopupUrlBySalesModel($_order) ?>','trackorder','top=50,left=50,width=800,height=600,resizable=yes,scrollbars=yes'); return false;" title="<?php echo $this->__('Track Your Order') ?>"><?php echo $this->__('Track Your Order') ?></a>
         <?php endif; ?>
     </h2>
 
@@ -65,7 +65,7 @@ function giftMessageToogle(giftMessageIdentifier)
 
     <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $_order) && $_order->getGiftMessageId()): ?>
     <div class="order-gift-message">
-        <h2><?php echo $this->__('Gift Message for this Order') ?></h2>
+        <h2><?php echo $this->__('Gift Message for This Order') ?></h2>
         <?php $_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_order); ?>
         <dl class="gift-message">
             <dt><strong><?php echo $this->__('From:') ?></strong> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?></dt>

@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
         ));
 
         $this->addColumn('coupon_uses', array(
-            'header'    => Mage::helper('reports')->__('Number of Use'),
+            'header'    => Mage::helper('reports')->__('Number of Uses'),
             'sortable'  => false,
             'index'     => 'coupon_uses',
             'total'     => 'sum',

@@ -84,13 +84,13 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
         $secureSet = $this->_getSHAInSet($params, $secureKey);
 
         if (Mage::helper('ogone')->shaCryptValidation($secureSet, $params['SHASIGN'])!=true) {
-            $this->_getCheckout()->addError($this->__('Hash is not valid'));
+            $this->_getCheckout()->addError($this->__('The hash is not valid'));
             return false;
         }
 
         $order = $this->_getOrder();
         if (!$order->getId()){
-            $this->_getCheckout()->addError($this->__('Order is not valid'));
+            $this->_getCheckout()->addError($this->__('The order is not valid'));
             return false;
         }
 
@@ -107,7 +107,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
             $order = Mage::getModel('sales/order');
             $order->loadByIncrementId($lastIncrementId);
             if ($order->getId()) {
-                $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, Mage_Ogone_Model_Api::PENDING_OGONE_STATUS, Mage::helper('ogone')->__('Start ogone processing'));
+                $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, Mage_Ogone_Model_Api::PENDING_OGONE_STATUS, Mage::helper('ogone')->__('Start Ogone Processing'));
                 $order->save();
 
                 $this->_getApi()->debugData(array('request' => $this->_getApi()->getFormFields($order)));
@@ -221,7 +221,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
                 $this->_processAuthorize();
             }
         }catch(Exception $e) {
-            $this->_getCheckout()->addError(Mage::helper('ogone')->__('Order can\'t save'));
+            $this->_getCheckout()->addError(Mage::helper('ogone')->__('The order cannot be saved.'));
             $this->_redirect('checkout/cart');
             return;
         }
@@ -369,7 +369,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
                 }
                 $order->save();
             }catch(Exception $e) {
-                $this->_getCheckout()->addError(Mage::helper('ogone')->__('Order can not be save for system reason'));
+                $this->_getCheckout()->addError(Mage::helper('ogone')->__('The order cannot be saved for a system reason.'));
             }
         } else {
             $this->_getCheckout()->addError(Mage::helper('ogone')->__('Exception not defined'));
@@ -401,7 +401,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     protected function _declineProcess()
     {
         $status     = Mage_Ogone_Model_Api::DECLINE_OGONE_STATUS;
-        $comment    = Mage::helper('ogone')->__('Declined Order on ogone side');
+        $comment    = Mage::helper('ogone')->__('Declined Order on Ogone side.');
         $this->_getCheckout()->addError(Mage::helper('ogone')->__('Payment transaction has been declined.'));
         $this->_cancelOrder($status, $comment);
     }
@@ -432,7 +432,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     public function _cancelProcess()
     {
         $status     = Mage_Ogone_Model_Api::CANCEL_OGONE_STATUS;
-        $comment    = Mage::helper('ogone')->__('Order canceled on ogone side');
+        $comment    = Mage::helper('ogone')->__('The order was canceled on ogone side.');
         $this->_cancelOrder($status, $comment);
         return $this;
     }
@@ -450,7 +450,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
             $order->setState(Mage_Sales_Model_Order::STATE_CANCELED, $status, $comment);
             $order->save();
         }catch(Exception $e) {
-            $this->_getCheckout()->addError(Mage::helper('ogone')->__('Order can not be canceled for system reason'));
+            $this->_getCheckout()->addError(Mage::helper('ogone')->__('The order cannot be canceled for a system reason.'));
         }
 
         $this->_redirect('checkout/cart');

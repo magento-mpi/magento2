@@ -101,7 +101,7 @@ abstract class Mage_Sales_Model_Mysql4_Order_Abstract extends Mage_Sales_Model_M
 
         if (!in_array($alias, $this->getGridColumns())) {
             Mage::throwException(
-                Mage::helper('sales')->__('Please specify valid grid column alias name that exists in grid table')
+                Mage::helper('sales')->__('Please specify a valid grid column alias name that exists in grid table.')
             );
         }
 

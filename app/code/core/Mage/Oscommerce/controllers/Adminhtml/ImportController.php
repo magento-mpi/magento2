@@ -145,7 +145,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
             try {
                 $model->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('oscommerce')->__('osCommerce Profile was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('oscommerce')->__('The osCommerce profile has been saved.'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -347,7 +347,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
         if ($model->getId()) {
             try {
                 $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('oscommerce')->__('osCommerce profile was deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('oscommerce')->__('The osCommerce profile has been deleted.'));
             }
             catch (Exception $e){
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -391,7 +391,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
                 }
             } catch (Exception $e) {
                 $error = true;
-                $html = (preg_match("/Column not found/",$e->getMessage())? Mage::helper('oscommerce')->__('languages table error '):'') . $e->getMessage();
+                $html = (preg_match("/Column not found/",$e->getMessage())? Mage::helper('oscommerce')->__('Languages table error '):'') . $e->getMessage();
             }
 
             if ($error) {

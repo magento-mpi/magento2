@@ -220,7 +220,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController extends Enterpr
                     }
                 }
                 $formElements->save();
-                $this->_getSession()->addSuccess(Mage::helper('enterprise_customer')->__('Customer attribute was successfully saved.'));
+                $this->_getSession()->addSuccess(Mage::helper('enterprise_customer')->__('The customer attribute has been saved.'));
                 $this->_getSession()->setAttributeData(false);
                 if ($this->getRequest()->getParam('back', false)) {
                     $this->_redirect('*/*/edit', array('attribute_id' => $attributeObject->getId(), '_current' => true));
@@ -255,7 +255,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController extends Enterpr
             }
             try {
                 $attributeObject->delete();
-                $this->_getSession()->addSuccess(Mage::helper('enterprise_customer')->__('Customer attribute was successfully deleted.'));
+                $this->_getSession()->addSuccess(Mage::helper('enterprise_customer')->__('The customer attribute has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
             } catch (Exception $e) {

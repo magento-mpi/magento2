@@ -101,7 +101,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main exten
                 ),
                 array(
                     'value' => 'replace_non_alphanum',
-                    'label' => Mage::helper('enterprise_customer')->__('Replace Non Alphanumeric Characters')
+                    'label' => Mage::helper('enterprise_customer')->__('Replace Non-Alphanumeric Characters')
                 ),
                 array(
                     'value' => 'strip_html',
@@ -114,8 +114,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main exten
 
         $fieldset->addField('is_visible_on_front', 'select', array(
             'name' => 'is_visible_on_front',
-            'label' => Mage::helper('enterprise_customer')->__('Show On Frontend'),
-            'title' => Mage::helper('enterprise_customer')->__('Show On Frontend'),
+            'label' => Mage::helper('enterprise_customer')->__('Show on the Frontend'),
+            'title' => Mage::helper('enterprise_customer')->__('Show on the Frontend'),
             'values' => $yesnoSource,
         ));
 
@@ -124,8 +124,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main exten
 
         $fieldset->addField('used_in', 'multiselect', array(
             'name' => 'used_in',
-            'label' => Mage::helper('enterprise_customer')->__('Forms To Use In'),
-            'title' => Mage::helper('enterprise_customer')->__('Forms To Use In'),
+            'label' => Mage::helper('enterprise_customer')->__('Forms to Use In'),
+            'title' => Mage::helper('enterprise_customer')->__('Forms to Use In'),
             'values' => $formTypesValues
         ));
 

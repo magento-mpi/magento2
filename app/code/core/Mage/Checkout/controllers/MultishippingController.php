@@ -430,7 +430,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
         }
         catch (Exception $e) {
             Mage::logException($e);
-            Mage::getSingleton('checkout/session')->addException($e, $this->__('Can\'t open overview page'));
+            Mage::getSingleton('checkout/session')->addException($e, $this->__('Cannot open the overview page'));
             $this->_redirect('*/*/billing');
         }
     }

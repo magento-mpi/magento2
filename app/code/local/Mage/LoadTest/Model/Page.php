@@ -51,13 +51,13 @@ class Mage_LoadTest_Model_Page
                 Mage::getUrl('*/render/orders/') => Mage::helper('loadtest')->__('Render Orders')
             ),
             'delete' => array(
-                Mage::getUrl('*/delete/categories/') => Mage::helper('loadtest')->__('Delete all Categories'),
-                Mage::getUrl('*/delete/products/') => Mage::helper('loadtest')->__('Delete all Products'),
-                Mage::getUrl('*/delete/customers/') => Mage::helper('loadtest')->__('Delete all Customers'),
-                Mage::getUrl('*/delete/reviews/') => Mage::helper('loadtest')->__('Delete all Reviews and Ratings'),
-                Mage::getUrl('*/delete/tags/') => Mage::helper('loadtest')->__('Delete all Tags'),
-                Mage::getUrl('*/delete/quotes/') => Mage::helper('loadtest')->__('Delete all Quotes'),
-                Mage::getUrl('*/delete/orders/') => Mage::helper('loadtest')->__('Delete all Orders')
+                Mage::getUrl('*/delete/categories/') => Mage::helper('loadtest')->__('Delete All Categories'),
+                Mage::getUrl('*/delete/products/') => Mage::helper('loadtest')->__('Delete All Products'),
+                Mage::getUrl('*/delete/customers/') => Mage::helper('loadtest')->__('Delete All Customers'),
+                Mage::getUrl('*/delete/reviews/') => Mage::helper('loadtest')->__('Delete All Reviews and Ratings'),
+                Mage::getUrl('*/delete/tags/') => Mage::helper('loadtest')->__('Delete All Tags'),
+                Mage::getUrl('*/delete/quotes/') => Mage::helper('loadtest')->__('Delete All Quotes'),
+                Mage::getUrl('*/delete/orders/') => Mage::helper('loadtest')->__('Delete All Orders')
             )
         );
     }
@@ -85,7 +85,7 @@ class Mage_LoadTest_Model_Page
 
         $gridCols = array();
         $gridCols[] = array(
-            'name'  => Mage::helper('loadtest')->__('Id'),
+            'name'  => Mage::helper('loadtest')->__('ID'),
             'field' => 'key'
         );
         $operationName = $method == 'render'
@@ -100,7 +100,7 @@ class Mage_LoadTest_Model_Page
                 if ($rendererObject->getType() == 'PRODUCT') {
                     $rendererField = 'products';
                     $gridCols[] = array(
-                        'name'  => Mage::helper('loadtest')->__('Product name'),
+                        'name'  => Mage::helper('loadtest')->__('Product Name'),
                         'field' => 'index'
                     );
                 }
@@ -109,7 +109,7 @@ class Mage_LoadTest_Model_Page
                         $rendererField = 'categories';
                         $recursion = 1;
                         $rendererAdditional[] = array(
-                            Mage::helper('loadtest')->__('Update categories tree and urls')
+                            Mage::helper('loadtest')->__('Update categories tree and URLs')
                         );
                     }
                     else {
@@ -118,7 +118,7 @@ class Mage_LoadTest_Model_Page
                     }
 
                     $gridCols[] = array(
-                        'name'  => Mage::helper('loadtest')->__('Category name'),
+                        'name'  => Mage::helper('loadtest')->__('Category Name'),
                         'field' => 'index'
                     );
                 }
@@ -127,11 +127,11 @@ class Mage_LoadTest_Model_Page
             case 'Mage_LoadTest_Model_Renderer_Customer':
                 $rendererField = 'customers';
                 $gridCols[] = array(
-                    'name'  => Mage::helper('loadtest')->__('Customer First name'),
+                    'name'  => Mage::helper('loadtest')->__('Customer First Name'),
                     'field' => 'firstname'
                 );
                 $gridCols[] = array(
-                    'name'  => Mage::helper('loadtest')->__('Customer Last name'),
+                    'name'  => Mage::helper('loadtest')->__('Customer Last Name'),
                     'field' => 'lastname'
                 );
                 $gridCols[] = array(
@@ -159,7 +159,7 @@ class Mage_LoadTest_Model_Page
             case 'Mage_LoadTest_Model_Renderer_Tag':
                 $rendererField = 'tags';
                 $gridCols[] = array(
-                    'name'  => Mage::helper('loadtest')->__('Tag name'),
+                    'name'  => Mage::helper('loadtest')->__('Tag Name'),
                     'field' => 'index'
                 );
                 break;
@@ -168,7 +168,7 @@ class Mage_LoadTest_Model_Page
                 if ($rendererObject->getType() == 'ORDER') {
                     $rendererField = 'orders';
                     $gridCols[] = array(
-                        'name'  => Mage::helper('loadtest')->__('Customer Id'),
+                        'name'  => Mage::helper('loadtest')->__('Customer ID'),
                         'field' => 'customer_id'
                     );
                     $gridCols[] = array(
@@ -179,7 +179,7 @@ class Mage_LoadTest_Model_Page
                 else {
                     $rendererField = 'quotes';
                     $gridCols[] = array(
-                        'name'  => Mage::helper('loadtest')->__('Customer Id'),
+                        'name'  => Mage::helper('loadtest')->__('Customer ID'),
                         'field' => 'customer_id'
                     );
                     $gridCols[] = array(
@@ -192,8 +192,8 @@ class Mage_LoadTest_Model_Page
         foreach ($gridCols as $gridProp) {
             $this->_gridFields[] = $gridProp['name'];
         }
-        $this->_gridFields[] = Mage::helper('loadtest')->__('Memory after, Mb');
-        $this->_gridFields[] = Mage::helper('loadtest')->__('Memory before, Mb');
+        $this->_gridFields[] = Mage::helper('loadtest')->__('Memory After, MB');
+        $this->_gridFields[] = Mage::helper('loadtest')->__('Memory Before, MB');
         $this->_gridFields[] = Mage::helper('loadtest')->__('Execution, sec');
 
         $tableProps = array(

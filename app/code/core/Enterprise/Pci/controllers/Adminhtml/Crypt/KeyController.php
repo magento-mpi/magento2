@@ -82,7 +82,7 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Enterprise_Enterprise
             if (0 == $this->getRequest()->getPost('generate_random')) {
                 $key = $this->getRequest()->getPost('crypt_key');
                 if (empty($key)) {
-                    throw new Exception(Mage::helper('enterprise_pci')->__('Enter encryption key'));
+                    throw new Exception(Mage::helper('enterprise_pci')->__('Please enter an encryption key.'));
                 }
                 Mage::helper('core')->validateKey($key);
             }

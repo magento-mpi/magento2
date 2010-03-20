@@ -77,8 +77,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Form extends En
             ));
             $fieldset->addField('type_id', 'select', array(
                 'name'      => 'type_id',
-                'label'     => Mage::helper('enterprise_customer')->__('Based on'),
-                'title'     => Mage::helper('enterprise_customer')->__('Based on'),
+                'label'     => Mage::helper('enterprise_customer')->__('Based On'),
+                'title'     => Mage::helper('enterprise_customer')->__('Based On'),
                 'required'  => true,
                 'values'    => $options
             ));

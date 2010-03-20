@@ -72,7 +72,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     {
         $config = array(
             'row' => $this->getChildHtml('row'),
-            'duplicate_message' => $this->helper('enterprise_catalogpermissions')->__('Permission with same scope already exists.'),
+            'duplicate_message' => $this->helper('enterprise_catalogpermissions')->__('A permission with the same scope already exists.'),
             'permissions'  => array()
         );
 

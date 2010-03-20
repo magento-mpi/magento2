@@ -104,7 +104,7 @@ EOT;
         $discountItem = new Varien_Object(array(
                 'price' => $discount,
                 'name'  => $this->__('Cart Discount'),
-                'description' => $this->__('Virtual item to reflect discount total')
+                'description' => $this->__('A virtual item to reflect the discount total')
             ));
 
         Mage::dispatchEvent('google_checkout_discount_item_price', array('quote' => $this->getQuote(), 'discount_item' => $discountItem));

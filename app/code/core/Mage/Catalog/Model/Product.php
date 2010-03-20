@@ -128,7 +128,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getResourceCollection()
     {
         if (empty($this->_resourceCollectionName)) {
-            Mage::throwException(Mage::helper('core')->__('Model collection resource name is not defined'));
+            Mage::throwException(Mage::helper('core')->__('The model collection resource name is not defined.'));
         }
         $collection = Mage::getResourceModel($this->_resourceCollectionName);
         $collection->setStoreId($this->getStoreId());
@@ -308,7 +308,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $ids = explode(',', $ids);
         }
         elseif (!is_array($ids)) {
-            Mage::throwException(Mage::helper('catalog')->__('Invalid category IDs'));
+            Mage::throwException(Mage::helper('catalog')->__('Invalid category IDs.'));
         }
         foreach ($ids as $i => $v) {
             if (empty($v)) {

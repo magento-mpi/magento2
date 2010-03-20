@@ -90,11 +90,11 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
         $staging = $backup->getStaging();
 
         if (!$backup->canRollback()) {
-            $this->_getSession()->addNotice($this->__('All Backup Items are outdated. The Backup is read-only.'));
+            $this->_getSession()->addNotice($this->__('All backup items are outdated. The backup is read-only.'));
         }
 
         if ($staging && $staging->isStatusProcessing()) {
-            $this->_getSession()->addNotice($this->__('This Backup is read-only, because a Merge or Rollback is in progress. Please try again later.'));
+            $this->_getSession()->addNotice($this->__('This backup is read-only, because a merge or a rollback is in progress.'));
         }
 
         $this->_title($this->__('System'))
@@ -137,7 +137,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
                             $backup->delete();
                         } catch (Exception $e) {
                             $this->_getSession()->addNotice(
-                                $this->__('Couldn\'t remove backup: #%s', $backup->getId()));
+                                $this->__('Could not remove the backup: #%s', $backup->getId()));
                         }
                     }
                 }
@@ -188,7 +188,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
         $mapData = array('staging_items' => array_flip((array)$mapDataRaw));
 
         if (!$staging->checkCoreFlag()) {
-            $this->_getSession()->addError($this->__('Cannot perform rollback operation, because reindexing process or another staging operation is running'));
+            $this->_getSession()->addError($this->__('Cannot perform rollback operation because reindexing process or another staging operation is running.'));
             $this->_redirect('*/*/edit', array(
                 '_current'  => true
             ));
@@ -200,16 +200,16 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
                 $staging->getMapperInstance()->setRollbackMapData($mapData);
                 $staging->getMapperInstance()->setBackupTablePrefix($backup->getStagingTablePrefix());
                 $staging->rollback();
-                $this->_getSession()->addSuccess($this->__('Master website successfully restored.'));
+                $this->_getSession()->addSuccess($this->__('The master website has been restored.'));
             } else {
-                $this->_getSession()->addNotice($this->__('There are no items were selected for rollback.'));
+                $this->_getSession()->addNotice($this->__('There are no items selected for rollback.'));
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $staging->releaseCoreFlag();
             $redirectBack = true;
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('enterprise_staging')->__('Error while performing rollback. Please review log and try again.'));
+            $this->_getSession()->addException($e, Mage::helper('enterprise_staging')->__('An error occurred while performing rollback. Please review the log and try again.'));
             $staging->releaseCoreFlag();
             $redirectBack = true;
         }

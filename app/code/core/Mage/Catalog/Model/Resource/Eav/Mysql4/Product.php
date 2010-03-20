@@ -333,7 +333,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         $indexTable = $this->getTable('catalog/product_enabled_index');
         if (is_null($store) && is_null($product)) {
             Mage::throwException(
-                Mage::helper('catalog')->__('For reindex enabled product(s) you need specify store or product')
+                Mage::helper('catalog')->__('To reindex the enabled product(s), the store or product must be specified.')
             );
         } elseif (is_null($product) || is_array($product)) {
             $storeId    = $store->getId();

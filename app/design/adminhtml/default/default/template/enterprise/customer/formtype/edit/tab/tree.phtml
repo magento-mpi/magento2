@@ -166,7 +166,7 @@ var formType = {
             var code = node.attributes.code;
             for(var i=0, l = parent.childNodes.length; i < l; i++) {
                 if (parent.childNodes[i].attributes.type == 'fieldset' && code == parent.childNodes[i].attributes.code) {
-                    alert('<?php echo $this->__("Fieldset with same code alredy exists!")?>');
+                    alert('<?php echo $this->__("A fieldset with the same code alredy exists.")?>');
                     return false;
                 }
             }

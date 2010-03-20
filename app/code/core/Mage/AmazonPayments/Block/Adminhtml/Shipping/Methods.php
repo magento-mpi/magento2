@@ -33,7 +33,7 @@ class Mage_AmazonPayments_Block_Adminhtml_Shipping_Methods
         $this->setElement($element);
 
         $html = '<select name="'.$this->getElement()->getName().'[method]" '.$this->_getDisabled().'>';
-        $html .= '<option value="None">'.$this->__(' Select shipping method').'</option>';
+        $html .= '<option value="None">'.$this->__(' Select Shipping Method').'</option>';
         foreach ($this->getShippingMethods() as $carrierCode=>$carrier) {
             $html .= '<optgroup label="'.$carrier['title'].'" style="border-top:solid 1px black; margin-top:3px;">';
             foreach ($carrier['methods'] as $methodCode=>$method) {

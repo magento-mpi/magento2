@@ -58,7 +58,7 @@ class Enterprise_CustomerBalance_CartController extends Enterprise_Enterprise_Co
         $quote = Mage::getSingleton('checkout/session')->getQuote();
         if ($quote->getUseCustomerBalance()) {
             Mage::getSingleton('checkout/session')->addSuccess(
-                $this->__('Store Credit payment was successfully removed from your shopping cart.')
+                $this->__('The store credit payment has been removed from shopping cart.')
             );
             $quote->setUseCustomerBalance(false)->collectTotals()->save();
         } else {

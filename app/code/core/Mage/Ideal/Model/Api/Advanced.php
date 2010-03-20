@@ -175,7 +175,7 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
         $res = new Mage_Ideal_Model_Api_Advanced_DirectoryResponse();
 
         if (!$request->checkMandatory()) {
-            $res->setError(Mage::helper('ideal')->__('Required fields missing'));
+            $res->setError(Mage::helper('ideal')->__('Required fields are missing.'));
             return $res;
         }
 
@@ -265,7 +265,7 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
         $res = new Mage_Ideal_Model_Api_Advanced_AcquirerTrxResponse();
 
         if (!$request->checkMandatory()) {
-            $res->setError(Mage::helper('ideal')->__('Required fields missing'));
+            $res->setError(Mage::helper('ideal')->__('Required fields are missing.'));
             return $res;
         }
 
@@ -358,7 +358,7 @@ class Mage_Ideal_Model_Api_Advanced extends Varien_Object
         $res = new Mage_Ideal_Model_Api_Advanced_AcquirerStatusResponse();
 
         if (!$request->checkMandatory()) {
-            $$request->setErrorMessage(Mage::helper('ideal')->__('Required fields missing'));
+            $$request->setErrorMessage(Mage::helper('ideal')->__('Required fields are missing.'));
             return $res;
         }
 

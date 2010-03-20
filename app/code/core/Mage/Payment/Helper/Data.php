@@ -69,7 +69,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
             }
             $methodInstance = Mage::getModel($model);
             if (!$methodInstance->isAvailable($quote)) {
-                /* if the payment method can not be used at this time */
+                /* if the payment method cannot be used at this time */
                 continue;
             }
 

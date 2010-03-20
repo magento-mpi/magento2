@@ -151,7 +151,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     {
         if ($this->getId()) {
             Mage::throwException(
-                Mage::helper('sales')->__('Can not register existing shipment')
+                Mage::helper('sales')->__('Cannot register existing shipment')
             );
         }
 

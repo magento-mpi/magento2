@@ -250,7 +250,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function getCode()
     {
         if (empty($this->_code)) {
-            Mage::throwException($this->_getHelper()->__('Can not retrieve payment method code'));
+            Mage::throwException($this->_getHelper()->__('Cannot retrieve the payment method code.'));
         }
         return $this->_code;
     }
@@ -266,7 +266,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     }
 
     /**
-     * Retirve block type for display method information
+     * Retrieve block type for display method information
      *
      * @return string
      */
@@ -284,7 +284,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         $instance = $this->getData('info_instance');
         if (!($instance instanceof Mage_Payment_Model_Info)) {
-            Mage::throwException($this->_getHelper()->__('Can not retrieve payment iformation object instance'));
+            Mage::throwException($this->_getHelper()->__('Cannot retrieve the payment information object instance.'));
         }
         return $instance;
     }
@@ -321,7 +321,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function authorize(Varien_Object $payment, $amount)
     {
         if (!$this->canAuthorize()) {
-            Mage::throwException($this->_getHelper()->__('Authorize action is not available'));
+            Mage::throwException($this->_getHelper()->__('Authorize action is not available.'));
         }
         return $this;
     }
@@ -335,7 +335,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function capture(Varien_Object $payment, $amount)
     {
         if (!$this->canCapture()) {
-            Mage::throwException($this->_getHelper()->__('Capture action is not available'));
+            Mage::throwException($this->_getHelper()->__('Capture action is not available.'));
         }
 
         return $this;
@@ -379,7 +379,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
 
         if (!$this->canRefund()) {
-            Mage::throwException($this->_getHelper()->__('Refund action is not available'));
+            Mage::throwException($this->_getHelper()->__('Refund action is not available.'));
         }
 
 
@@ -432,7 +432,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function void(Varien_Object $payment)
     {
         if (!$this->canVoid($payment)) {
-            Mage::throwException($this->_getHelper()->__('Void action is not available'));
+            Mage::throwException($this->_getHelper()->__('Void action is not available.'));
         }
         return $this;
     }

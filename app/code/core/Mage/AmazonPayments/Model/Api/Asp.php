@@ -34,17 +34,17 @@
 class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_Asp_Abstract
 {
     /**
-     * collect shipping address to IPN notification request 
+     * collect shipping address to IPN notification request
      */
     protected $_collectShippingAddress = 0;
 
     /**
-     * IPN notification request model path 
+     * IPN notification request model path
      */
     protected $_ipnRequest = 'amazonpayments/api_asp_ipn_request';
-    
+
     /**
-     * FPS model path 
+     * FPS model path
      */
     protected $_fpsModel = 'amazonpayments/api_asp_fps';
 
@@ -57,7 +57,7 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
     {
         return Mage::getSingleton($this->_fpsModel)->setStoreId($this->getStoreId());
     }
-    
+
     /**
      * Get singleton with AmazonPayments ASP IPN notification request Model
      *
@@ -67,21 +67,21 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
     {
         return Mage::getSingleton($this->_ipnRequest);
     }
-    
-    
+
+
     /**
      * Return Amazon Simple Pay payment url
      *
      * @return string
      */
-    public function getPayUrl () 
+    public function getPayUrl ()
     {
         if ($this->_isSandbox()) {
             return $this->_getConfig('pay_service_url_sandbox');
         }
         return $this->_getConfig('pay_service_url');
-    } 
-    
+    }
+
     /**
      * Return Amazon Simple Pay payment params
      *
@@ -93,15 +93,15 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
      * @param string $ipnUrl
      * @return array
      */
-    public function getPayParams($referenceId, $amountValue, $currencyCode, $abandonUrl, $returnUrl, $ipnUrl) 
+    public function getPayParams($referenceId, $amountValue, $currencyCode, $abandonUrl, $returnUrl, $ipnUrl)
     {
         $amount = Mage::getSingleton('amazonpayments/api_asp_amount')
             ->setValue($amountValue)
             ->setCurrencyCode($currencyCode);
-        
+
         $requestParams = array();
         $requestParams['referenceId'] = $referenceId;
-        $requestParams['amount'] = $amount->toString(); 
+        $requestParams['amount'] = $amount->toString();
         $requestParams['description'] = $this->_getConfig('pay_description');
 
         $requestParams['accessKey'] = $this->_getConfig('access_key');
@@ -111,39 +111,39 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
         $requestParams['abandonUrl'] = $abandonUrl;
         $requestParams['returnUrl'] = $returnUrl;
         $requestParams['ipnUrl'] = $ipnUrl;
-        
+
         $signature = $this->_getSignatureForArray($requestParams, $this->_getConfig('secret_key'));
         $requestParams['signature'] = $signature;
 
         return $requestParams;
     }
-    
+
     /**
      * process notification request
      *
      * @param array $requestParams
      * @return Mage_AmazonPayments_Model_Api_Asp_Ipn_Request
      */
-    public function processNotification($requestParams) 
+    public function processNotification($requestParams)
     {
         $requestSignature = false;
-        
+
         if (isset($requestParams['signature'])) {
             $requestSignature = $requestParams['signature'];
             unset($requestParams['signature']);
         }
-        
+
         $originalSignature = $this->_getSignatureForArray($requestParams, $this->_getConfig('secret_key'));
         if ($requestSignature != $originalSignature) {
-            Mage::throwException(Mage::helper('amazonpayments')->__('Request signed an incorrect or missing signature'));
+            Mage::throwException(Mage::helper('amazonpayments')->__('The request was signed incorrectly or the signature is missing.'));
         }
-        
+
         $ipnRequest = $this->_getIpnRequest();
-        
+
         if(!$ipnRequest->init($requestParams)) {
-            Mage::throwException(Mage::helper('amazonpayments')->__('Request is not a valid IPN request'));
+            Mage::throwException(Mage::helper('amazonpayments')->__('The request is not a valid IPN request.'));
         }
-        
+
         return $ipnRequest;
     }
 
@@ -153,18 +153,18 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
      * @param string $transactionId
      * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
      */
-    public function cancel($transactionId) 
+    public function cancel($transactionId)
     {
         $fps = $this->_getFps();
 
         $request = $fps->getRequest(Mage_AmazonPayments_Model_Api_Asp_Fps::ACTION_CODE_CANCEL)
             ->setTransactionId($transactionId)
             ->setDescription($this->_getConfig('cancel_description'));
-            
+
         $response = $fps->process($request);
-        return $response; 
+        return $response;
     }
-    
+
     /**
      * capture payment through FPS api
      *
@@ -173,19 +173,19 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
      * @param string $currencyCode
      * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
      */
-    public function capture($transactionId, $amount, $currencyCode) 
+    public function capture($transactionId, $amount, $currencyCode)
     {
         $fps = $this->_getFps();
         $amount = $this->_getAmount()
             ->setValue($amount)
             ->setCurrencyCode($currencyCode);
-                        
+
         $request = $fps->getRequest(Mage_AmazonPayments_Model_Api_Asp_Fps::ACTION_CODE_SETTLE)
             ->setTransactionId($transactionId)
             ->setAmount($amount);
 
         $response = $fps->process($request);
-        return $response; 
+        return $response;
     }
 
     /**
@@ -197,14 +197,14 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
      * @param string $referenceId
      * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract
      */
-    public function refund($transactionId, $amount, $currencyCode, $referenceId) 
+    public function refund($transactionId, $amount, $currencyCode, $referenceId)
     {
         $fps = $this->_getFps();
 
         $amount = $this->_getAmount()
             ->setValue($amount)
             ->setCurrencyCode($currencyCode);
-        
+
         $request = $fps->getRequest(Mage_AmazonPayments_Model_Api_Asp_Fps::ACTION_CODE_REFUND)
             ->setTransactionId($transactionId)
             ->setReferenceId($referenceId)
@@ -212,6 +212,6 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
             ->setDescription($this->_getConfig('refund_description'));
 
         $response = $fps->process($request);
-        return $response; 
+        return $response;
     }
 }

@@ -137,7 +137,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
 
         // validate specified data
         if ($object->getGwsIsAll() == 0 && empty($websiteIds) && empty($storeGroupIds)) {
-            Mage::throwException(Mage::helper('enterprise_admingws')->__('Specify at least one website or one store group.'));
+            Mage::throwException(Mage::helper('enterprise_admingws')->__('Please specify at least one website or one store group.'));
         }
         if (!$this->_role->getIsAll()) {
             if ($object->getGwsIsAll()) {

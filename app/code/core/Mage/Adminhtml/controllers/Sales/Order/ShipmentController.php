@@ -68,21 +68,21 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
              * Check order existing
              */
             if (!$order->getId()) {
-                $this->_getSession()->addError($this->__('Order not longer exist.'));
+                $this->_getSession()->addError($this->__('The order no longer exists.'));
                 return false;
             }
             /**
              * Check shipment is available to create separate from invoice
              */
             if ($order->getForcedDoShipmentWithInvoice()) {
-                $this->_getSession()->addError($this->__('Can not do shipment for order separate from invoice.'));
+                $this->_getSession()->addError($this->__('Cannot do shipment for the order separately from invoice.'));
                 return false;
             }
             /**
              * Check shipment create availability
              */
             if (!$order->canShip()) {
-                $this->_getSession()->addError($this->__('Can not do shipment for order.'));
+                $this->_getSession()->addError($this->__('Cannot do shipment for the order.'));
                 return false;
             }
             $savedQtys = $this->_getItemQtys();
@@ -190,7 +190,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                 $shipment->getOrder()->setCustomerNoteNotify(!empty($data['send_email']));
                 $this->_saveShipment($shipment);
                 $shipment->sendEmail(!empty($data['send_email']), $comment);
-                $this->_getSession()->addSuccess($this->__('Shipment was successfully created.'));
+                $this->_getSession()->addSuccess($this->__('The shipment has been created.'));
                 $this->_redirect('*/sales_order/view', array('order_id' => $shipment->getOrderId()));
                 return;
             } else {
@@ -200,7 +200,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Can not save shipment.'));
+            $this->_getSession()->addError($this->__('Cannot save shipment.'));
         }
         $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
     }
@@ -215,12 +215,12 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                 $shipment->sendEmail(true)
                     ->setEmailSent(true)
                     ->save();
-                $this->_getSession()->addSuccess($this->__('Shipment was successfully sent.'));
+                $this->_getSession()->addSuccess($this->__('The shipment has been sent.'));
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Can not send shipment information.'));
+            $this->_getSession()->addError($this->__('Cannot send shipment information.'));
         }
         $this->_redirect('*/*/view', array(
             'shipment_id' => $this->getRequest()->getParam('shipment_id')
@@ -237,10 +237,10 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $number  = $this->getRequest()->getPost('number');
             $title  = $this->getRequest()->getPost('title');
             if (empty($carrier)) {
-                Mage::throwException($this->__('You need specify carrier.'));
+                Mage::throwException($this->__('The carrier needs to be specified.'));
             }
             if (empty($number)) {
-                Mage::throwException($this->__('Tracking number can not be empty.'));
+                Mage::throwException($this->__('Tracking number cannot be empty.'));
             }
             if ($shipment = $this->_initShipment()) {
                 $track = Mage::getModel('sales/order_shipment_track')
@@ -255,7 +255,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             } else {
                 $response = array(
                     'error'     => true,
-                    'message'   => $this->__('Can not initialize shipment for adding tracking number.'),
+                    'message'   => $this->__('Cannot initialize shipment for adding tracking number.'),
                 );
             }
         } catch (Mage_Core_Exception $e) {
@@ -266,7 +266,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
-                'message'   => $this->__('Can not add tracking number.'),
+                'message'   => $this->__('Cannot add tracking number.'),
             );
         }
         if (is_array($response)) {
@@ -293,19 +293,19 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                 } else {
                     $response = array(
                         'error'     => true,
-                        'message'   => $this->__('Can not initialize shipment for delete tracking number.'),
+                        'message'   => $this->__('Cannot initialize shipment for delete tracking number.'),
                     );
                 }
             } catch (Exception $e) {
                 $response = array(
                     'error'     => true,
-                    'message'   => $this->__('Can not delete tracking number.'),
+                    'message'   => $this->__('Cannot delete tracking number.'),
                 );
             }
         } else {
             $response = array(
                 'error'     => true,
-                'message'   => $this->__('Can not load track with retrieving identifier.'),
+                'message'   => $this->__('Cannot load track with retrieving identifier.'),
             );
         }
         if (is_array($response)) {
@@ -328,13 +328,13 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             } catch (Exception $e) {
                 $response = array(
                     'error'     => true,
-                    'message'   => $this->__('Can not retrieve tracking number detail.'),
+                    'message'   => $this->__('Cannot retrieve tracking number detail.'),
                 );
             }
         } else {
             $response = array(
                 'error'     => true,
-                'message'   => $this->__('Can not load track with retrieving identifier.'),
+                'message'   => $this->__('Cannot load track with retrieving identifier.'),
             );
         }
 
@@ -369,7 +369,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             );
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
-                Mage::throwException($this->__('Comment text field can not be empty.'));
+                Mage::throwException($this->__('Comment text field cannot be empty.'));
             }
             $shipment = $this->_initShipment();
             $shipment->addComment($data['comment'], isset($data['is_customer_notified']));
@@ -387,7 +387,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
-                'message'   => $this->__('Can not add new comment.')
+                'message'   => $this->__('Cannot add new comment.')
             );
             $response = Mage::helper('core')->jsonEncode($response);
         }

@@ -44,22 +44,22 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
 
             try {
                 if (!Zend_Validate::is($email, 'EmailAddress')) {
-                    Mage::throwException($this->__('Please enter a valid email address'));
+                    Mage::throwException($this->__('Please enter a valid email address.'));
                 }
 
                 $status = Mage::getModel('newsletter/subscriber')->subscribe($email);
                 if ($status == Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE) {
-                    $session->addSuccess($this->__('Confirmation request has been sent'));
+                    $session->addSuccess($this->__('Confirmation request has been sent.'));
                 }
                 else {
-                    $session->addSuccess($this->__('Thank you for your subscription'));
+                    $session->addSuccess($this->__('Thank you for your subscription.'));
                 }
             }
             catch (Mage_Core_Exception $e) {
                 $session->addException($e, $this->__('There was a problem with the subscription: %s', $e->getMessage()));
             }
             catch (Exception $e) {
-                $session->addException($e, $this->__('There was a problem with the subscription'));
+                $session->addException($e, $this->__('There was a problem with the subscription.'));
             }
         }
         $this->_redirectReferer();
@@ -79,12 +79,12 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
 
             if($subscriber->getId() && $subscriber->getCode()) {
                 if($subscriber->confirm($code)) {
-                    $session->addSuccess($this->__('Your subscription was successfully confirmed'));
+                    $session->addSuccess($this->__('Your subscription has been confirmed.'));
                 } else {
-                    $session->addError($this->__('Invalid subscription confirmation code'));
+                    $session->addError($this->__('Invalid subscription confirmation code.'));
                 }
             } else {
-                $session->addError($this->__('Invalid subscription ID'));
+                $session->addError($this->__('Invalid subscription ID.'));
             }
         }
 
@@ -105,7 +105,7 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
                 Mage::getModel('newsletter/subscriber')->load($id)
                     ->setCheckCode($code)
                     ->unsubscribe();
-                $session->addSuccess($this->__('You have been successfully unsubscribed.'));
+                $session->addSuccess($this->__('You have been unsubscribed.'));
             }
             catch (Mage_Core_Exception $e) {
                 $session->addException($e, $e->getMessage());

@@ -112,7 +112,7 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
         }
 
         if (!in_array($currency_code,$this->_allowCurrencyCode)) {
-            Mage::throwException(Mage::helper('ideal')->__('Selected currency code (%s) is not compatible with iDEAL', $currency_code));
+            Mage::throwException(Mage::helper('ideal')->__('Selected currency code (%s) is not compatible with iDEAL.', $currency_code));
         }
 
         return $this;
@@ -200,14 +200,14 @@ class Mage_Ideal_Model_Advanced extends Mage_Payment_Model_Method_Abstract
                         ->addObject($invoice->getOrder())
                         ->save();
 
-                    $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Transaction Status Update: finished successfully'));
+                    $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Transaction Status Update: finished successfully.'));
                 }
             } else if ($response->getTransactionStatus() == Mage_Ideal_Model_Api_Advanced::STATUS_CANCELLED) {
                 $order->cancel();
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Transaction Status Update: cancelled by customer'));
+                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Transaction Status Update: canceled by the customer.'));
             } else {
                 $order->cancel();
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Transaction Status Update: rejected by iDEAL'));
+                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Transaction Status Update: rejected by iDEAL.'));
             }
 
             $order->getPayment()->setIdealTransactionChecked(1);

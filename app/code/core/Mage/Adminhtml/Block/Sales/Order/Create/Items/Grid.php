@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
                 $item->setMessage($check->getMessage());
                 $item->setHasError($check->getHasError());
                 if ($item->getProduct()->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED) {
-                    $item->setMessage(Mage::helper('adminhtml')->__('This product is currently disabled'));
+                    $item->setMessage(Mage::helper('adminhtml')->__('This product is currently disabled.'));
                     $item->setHasError(true);
                 }
             }

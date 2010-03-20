@@ -191,7 +191,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
                 break;
             default :
                 Mage::throwException(
-                    Mage::helper('chronopay')->__('Invalid operation code')
+                    Mage::helper('chronopay')->__('Invalid operation code.')
                 );
                 break;
         }
@@ -254,10 +254,10 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
                 }
 
                 if (!$result->getTransaction()) {
-                    Mage::throwException(Mage::helper('chronopay')->__('Transaction ID is invalid'));
+                    Mage::throwException(Mage::helper('chronopay')->__('The transaction ID is invalid.'));
                 }
             } else {
-                Mage::throwException(Mage::helper('chronopay')->__('Invalid response format'));
+                Mage::throwException(Mage::helper('chronopay')->__('Invalid response format.'));
             }
         }
         catch (Exception $e) {
@@ -321,7 +321,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
 
             default :
                 Mage::throwException(
-                    Mage::helper('chronopay')->__('Invalid operation code')
+                    Mage::helper('chronopay')->__('Invalid operation code.')
                 );
                 break;
         }

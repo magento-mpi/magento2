@@ -133,7 +133,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Enterprise_Enter
 
             try {
                 $rate->save();
-                $this->_getSession()->addSuccess(Mage::helper('enterprise_reward')->__('Rate saved successfully.'));
+                $this->_getSession()->addSuccess(Mage::helper('enterprise_reward')->__('The rate has been saved.'));
             } catch (Exception $e) {
                 Mage::logException($e);
                 $this->_getSession()->addError($this->__('Cannot save Rate.'));
@@ -153,7 +153,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Enterprise_Enter
         if ($rate->getId()) {
             try {
                 $rate->delete();
-                $this->_getSession()->addSuccess(Mage::helper('enterprise_reward')->__('Rate deleted successfully.'));
+                $this->_getSession()->addSuccess(Mage::helper('enterprise_reward')->__('The rate has been deleted.'));
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/*', array('_current' => true));
@@ -183,23 +183,23 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Enterprise_Enter
         } elseif ($post['direction'] == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
                   && ((int) $post['value'] <= 0 || (float) $post['equal_value'] <= 0)) {
               if ((int) $post['value'] <= 0) {
-                  $message = $this->__('Please enter positive integer number in left Rate field');
+                  $message = $this->__('Please enter a positive integer number in the left rate field.');
               } else {
-                  $message = $this->__('Please enter positive number in right Rate field');
+                  $message = $this->__('Please enter a positive number in the right rate field.');
               }
         } elseif ($post['direction'] == Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
                   && ((float) $post['value'] <= 0 || (int) $post['equal_value'] <= 0)) {
               if ((int) $post['equal_value'] <= 0) {
-                  $message = $this->__('Please enter positive integer number in right Rate field');
+                  $message = $this->__('Please enter a positive integer number in the right rate field.');
               } else {
-                  $message = $this->__('Please enter positive number in left Rate field');
+                  $message = $this->__('Please enter a positive number in the left rate field.');
               }
         } else {
             $rate       = $this->_initRate();
             $isRateUnique = $rate->getIsRateUniqueToCurrent($post['website_id'], $post['customer_group_id'], $post['direction']);
 
             if (!$isRateUnique) {
-                $message = $this->__('Rate with same Website, Custormer Group and Direction or covering Rate already exists.');
+                $message = $this->__('Rate with the same website, customer group and direction or covering rate already exists.');
             }
         }
 

@@ -162,7 +162,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Enterprise_Enterp
 
                 $hasError = false;
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_cms')->__('Hierarchy has been successfully saved.')
+                    Mage::helper('enterprise_cms')->__('The hierarchy has been saved.')
                 );
             }
             catch (Mage_Core_Exception $e) {

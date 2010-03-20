@@ -655,7 +655,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $request = new Varien_Object(array('qty'=>$request));
         }
         if (!($request instanceof Varien_Object)) {
-            Mage::throwException(Mage::helper('sales')->__('Invalid request for adding product to quote'));
+            Mage::throwException(Mage::helper('sales')->__('Invalid request for adding product to quote.'));
         }
 
         $cartCandidates = $product->getTypeInstance(true)

@@ -120,7 +120,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('protx')->__('Customer successfully returned from Protx')
+            Mage::helper('protx')->__('The customer has returned from Protx.')
         );
 
         $order->sendNewOrderEmail();
@@ -216,7 +216,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
 
         // Customer clicked CANCEL Butoon
         if ($this->responseArr['Status'] == 'ABORT') {
-            $history = Mage::helper('protx')->__('Order '.$order->getId().' was canceled by customer');
+            $history = Mage::helper('protx')->__('The order %s was canceled by the customer.', $order->getId());
             $redirectTo = 'checkout/cart';
         } else {
             $history = Mage::helper('protx')->__($this->responseArr['StatusDetail']);
@@ -224,7 +224,7 @@ class Mage_Protx_StandardController extends Mage_Core_Controller_Front_Action
             $redirectTo = 'protx/standard/failure';
         }
 
-        $history = Mage::helper('protx')->__('Customer was returned from Protx.') . ' ' . $history;
+        $history = Mage::helper('protx')->__('The customer has returned from Protx.') . ' ' . $history;
         $order->addStatusToHistory($order->getStatus(), $history);
         $order->save();
 

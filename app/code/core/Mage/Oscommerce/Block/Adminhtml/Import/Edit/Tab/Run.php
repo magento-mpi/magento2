@@ -46,7 +46,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
         $this->setChild('save_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'   => Mage::helper('oscommerce')->__('Start Runing!'),
+                    'label'   => Mage::helper('oscommerce')->__('Start Running'),
                     'class'   => 'run',
                     'id'      => 'run_import'
                 ))
@@ -56,7 +56,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
         $this->setChild('check_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'   => Mage::helper('oscommerce')->__('Check requirements!'),
+                    'label'   => Mage::helper('oscommerce')->__('Check Requirements'),
                     'class'   => 'run',
                     'id'      => 'check_import'
                 ))
@@ -201,7 +201,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
     {
 
         $html  = '<select id="data_charset" name="data_charset">';
-        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a data charset'). '</option>';
+        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a Data Charset'). '</option>';
         $html .= $this->drowOptions($this->getDataCharsets());
         $html .= '</select>';
         return $html;
@@ -210,7 +210,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit_Tab_Run extends Mage_Adminhtml
     public function getConnectionCharsetOptionHtml()
     {
         $html  = '<select id="connection_charset" name="connection_charset">';
-        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a connection charset'). '</option>';
+        $html .= '  <option value="">'.Mage::helper('oscommerce')->__('Select a Connection Charset'). '</option>';
         $html .= $this->drowOptions($this->getConnectionCharsets());
         $html .= '</select>';
         return $html;

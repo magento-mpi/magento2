@@ -188,15 +188,12 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
     {
         if (is_null($this->getSection())) {
             $this->setSection('');
-//            Mage::throwException(Mage::helper('adminhtml')->__('Invalid section value'));
         }
         if (is_null($this->getWebsite())) {
             $this->setWebsite('');
-//            Mage::throwException(Mage::helper('adminhtml')->__('Invalid website value'));
         }
         if (is_null($this->getStore())) {
             $this->setStore('');
-//            Mage::throwException(Mage::helper('adminhtml')->__('Invalid store value'));
         }
     }
 

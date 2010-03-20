@@ -114,7 +114,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
         ));
 
         $this->addColumn('catalogrule_from_date', array(
-            'header'    => Mage::helper('catalogrule')->__('Date Start'),
+            'header'    => Mage::helper('catalogrule')->__('Start Date'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -122,7 +122,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
         ));
 
         $this->addColumn('catalogrule_to_date', array(
-            'header'    => Mage::helper('catalogrule')->__('Date Expire'),
+            'header'    => Mage::helper('catalogrule')->__('Expiration Date'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',

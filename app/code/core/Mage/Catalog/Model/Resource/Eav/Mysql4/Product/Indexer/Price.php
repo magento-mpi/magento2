@@ -308,7 +308,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
     {
         $types = $this->getTypeIndexers();
         if (!isset($types[$productTypeId])) {
-            Mage::throwException(Mage::helper('catalog')->__('Unsupported product type "%s"', $productTypeId));
+            Mage::throwException(Mage::helper('catalog')->__('Unsupported product type "%s".', $productTypeId));
         }
         return $types[$productTypeId];
     }

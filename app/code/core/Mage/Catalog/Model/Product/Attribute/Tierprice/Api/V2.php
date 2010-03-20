@@ -67,7 +67,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api_V2 extends Mage_Catalog
             }
 
             if (intval($tierPrice->website) > 0 && !in_array($tierPrice->website, $product->getWebsiteIds())) {
-                $this->_fault('data_invalid', Mage::helper('catalog')->__('Invalid tier prices. Product is not associated to the requested website.'));
+                $this->_fault('data_invalid', Mage::helper('catalog')->__('Invalid tier prices. The product is not associated to the requested website.'));
             }
 
             if (!isset($tierPrice->customer_group_id)) {

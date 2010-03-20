@@ -224,7 +224,7 @@ class Enterprise_Banner_Model_Banner extends Enterprise_Enterprise_Model_Core_Ab
             }
         }
         if (!$flag) {
-            Mage::throwException(Mage::helper('enterprise_banner')->__('Specify default content or at least for one store view.'));
+            Mage::throwException(Mage::helper('enterprise_banner')->__('Please specify default content for at least one store view.'));
         }
         return parent::_beforeSave();
     }

@@ -219,7 +219,7 @@ class Mage_CatalogInventory_Model_Observer
                 $stockItem = $option->getProduct()->getStockItem();
                 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
                 if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
-                    Mage::throwException(Mage::helper('cataloginventory')->__('Stock item for Product in option is not valid'));
+                    Mage::throwException(Mage::helper('cataloginventory')->__('The stock item for Product in option is not valid.'));
                 }
 
                 $qtyForCheck = $this->_getProductQtyForCheck($option->getProduct()->getId(), $increaseOptionQty);
@@ -259,7 +259,7 @@ class Mage_CatalogInventory_Model_Observer
             $stockItem = $quoteItem->getProduct()->getStockItem();
             /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
             if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
-                Mage::throwException(Mage::helper('cataloginventory')->__('Stock item for Product is not valid'));
+                Mage::throwException(Mage::helper('cataloginventory')->__('The stock item for Product is not valid.'));
             }
 
 

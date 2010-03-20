@@ -148,13 +148,13 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Enterprise_E
         $this->setMassactionIdField('invitation_id');
         $this->getMassactionBlock()->setFormFieldName('invitations');
         $this->getMassactionBlock()->addItem('cancel', array(
-                'label' => $this->helper('enterprise_invitation')->__('Discard selected'),
+                'label' => $this->helper('enterprise_invitation')->__('Discard Selected'),
                 'url' => $this->getUrl('*/*/massCancel'),
                 'confirm' => Mage::helper('enterprise_invitation')->__('Are you sure you want to do this?')
         ));
 
         $this->getMassactionBlock()->addItem('resend', array(
-                'label' => $this->helper('enterprise_invitation')->__('Send selected'),
+                'label' => $this->helper('enterprise_invitation')->__('Send Selected'),
                 'url' => $this->getUrl('*/*/massResend')
         ));
 

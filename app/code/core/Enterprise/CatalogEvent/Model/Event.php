@@ -321,7 +321,7 @@ class Enterprise_CatalogEvent_Model_Event extends Enterprise_Enterprise_Model_Co
             return true;
         }
         else {
-            return array(Mage::helper('enterprise_catalogevent')->__("End Date should be greater than Start Date"));
+            return array(Mage::helper('enterprise_catalogevent')->__('End date should be greater than start date.'));
         }
     }
 

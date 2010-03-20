@@ -251,7 +251,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
 
         $storeInfo = $this->getOscStoreInformation();
 
-        $categoryName = Mage::helper('oscommerce')->__('Root category for %s', $websiteModel->getName());
+        $categoryName = Mage::helper('oscommerce')->__('Root Category for %s', $websiteModel->getName());
 
         $categoryModel->setStoreId(0);
         $categoryModel->setIsActive(1);
@@ -488,7 +488,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
                 $this->saveLogs(array($oscCustomerId => $customerId), 'customer');
                 $this->_saveRows++;
             } catch (Exception $e) {
-                $this->_addErrors(Mage::helper('oscommerce')->__('Email %s cannot be saved because of %s', $data['email'], $e->getMessage()));
+                $this->_addErrors(Mage::helper('oscommerce')->__('Email %s cannot be saved because of %s.', $data['email'], $e->getMessage()));
             }
         }
     }
@@ -567,7 +567,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             }
             $this->_saveRows++;
         } catch (Exception $e) {
-            $this->_addErrors(Mage::helper('oscommerce')->__('Category %s cannot be saved because of %s', $data['name'], $e->getMessage()));
+            $this->_addErrors(Mage::helper('oscommerce')->__('Category %s cannot be saved because of %s.', $data['name'], $e->getMessage()));
         }
     }
 
@@ -728,7 +728,7 @@ class Mage_Oscommerce_Model_Mysql4_Oscommerce extends Mage_Core_Model_Mysql4_Abs
             $this->saveLogs(array($oscProductId => $productId), 'product');
             $this->_saveRows++;
         } catch (Exception $e) {
-            $this->_addErrors(Mage::helper('oscommerce')->__('SKU %s cannot be saved because of %s', $data['sku'], $e->getMessage()));
+            $this->_addErrors(Mage::helper('oscommerce')->__('SKU %s cannot be saved because of %s.', $data['sku'], $e->getMessage()));
         }
     }
 

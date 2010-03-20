@@ -644,7 +644,7 @@ class Mage_Catalog_Model_Url
     public function generatePath($type = 'target', $product = null, $category = null, $parentPath = null)
     {
         if (!$product && !$category) {
-            Mage::throwException(Mage::helper('core')->__('Specify either category or product, or both.'));
+            Mage::throwException(Mage::helper('core')->__('Please specify either a category or a product, or both.'));
         }
 
         // generate id_path
@@ -685,7 +685,7 @@ class Mage_Catalog_Model_Url
 
             // for product & category
             if (!$category) {
-                Mage::throwException(Mage::helper('core')->__('Category object is required for determining product request path')); // why?
+                Mage::throwException(Mage::helper('core')->__('A category object is required for determining the product request path.')); // why?
             }
 
             if ($product->getUrlKey() == '') {

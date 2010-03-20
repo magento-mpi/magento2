@@ -445,7 +445,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         if (!$this->_role->hasWebsiteAccess($model->getStore()->getWebsiteId(), true)) {
             Mage::throwException(
-                Mage::helper('enterprise_admingws')->__('You cannot create order in dissalowed store')
+                Mage::helper('enterprise_admingws')->__('An order cannot be created in disallowed store.')
             );
         }
     }

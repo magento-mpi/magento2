@@ -133,7 +133,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     protected function _getResource()
     {
         if (empty($this->_resourceName)) {
-            Mage::throwException(Mage::helper('core')->__('Resource is not set'));
+            Mage::throwException(Mage::helper('core')->__('Resource is not set.'));
         }
 
         return Mage::getResourceSingleton($this->_resourceName);
@@ -203,7 +203,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     public function getResourceCollection()
     {
         if (empty($this->_resourceCollectionName)) {
-            Mage::throwException(Mage::helper('core')->__('Model collection resource name is not defined'));
+            Mage::throwException(Mage::helper('core')->__('Model collection resource name is not defined.'));
         }
         return Mage::getResourceModel($this->_resourceCollectionName, $this->_getResource());
     }

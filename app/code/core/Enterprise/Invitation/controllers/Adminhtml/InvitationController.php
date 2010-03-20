@@ -112,7 +112,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Enterprise_En
                 }
             }
             if (empty($emails)) {
-                Mage::throwException(Mage::helper('enterprise_invitation')->__('Specify at least one email.'));
+                Mage::throwException(Mage::helper('enterprise_invitation')->__('Please specify at least one email.'));
             }
             if (Mage::app()->isSingleStoreMode()) {
                 $storeId = Mage::app()->getStore(true)->getId();
@@ -198,7 +198,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Enterprise_En
                 //If there was no validation errors trying to save
                 $invitation->save();
 
-                $this->_getSession()->addSuccess(Mage::helper('enterprise_invitation')->__('Invitation was successfully saved.'));
+                $this->_getSession()->addSuccess(Mage::helper('enterprise_invitation')->__('The invitation has been saved.'));
             }
         }
         catch (Mage_Core_Exception $e) {

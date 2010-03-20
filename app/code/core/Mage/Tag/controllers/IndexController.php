@@ -47,7 +47,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
             $product = Mage::getModel('catalog/product')
                 ->load($productId);
             if(!$product->getId()){
-                $session->addError(Mage::helper('tag')->__('Unable to save tag(s)'));
+                $session->addError(Mage::helper('tag')->__('Unable to save tag(s).'));
             } else {
                 try {
                     $customerId = Mage::getSingleton('customer/session')->getCustomerId();
@@ -81,10 +81,10 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                                       ->getProductIds();
 
                                 if(0 < count($productIds)) {
-                                    $session->addNotice(Mage::helper('tag')->__('Tag "%s" has already been added to the product' ,$tagName));
+                                    $session->addNotice(Mage::helper('tag')->__('Tag "%s" has already been added to the product.' ,$tagName));
                                 }
                                 else {
-                                    $session->addSuccess(Mage::helper('tag')->__('Tag "%s" has been added to the product' ,$tagName));
+                                    $session->addSuccess(Mage::helper('tag')->__('Tag "%s" has been added to the product.' ,$tagName));
                                 }
                             }
                             else {
@@ -120,11 +120,11 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                         }
                     }
                     if ($newCount > 0) {
-                        $session->addSuccess(Mage::helper('tag')->__('%s tag(s) have been accepted for moderation', $newCount));
+                        $session->addSuccess(Mage::helper('tag')->__('%s tag(s) have been accepted for moderation.', $newCount));
                     }
                 } catch (Exception $e) {
                     Mage::logException($e);
-                    $session->addError(Mage::helper('tag')->__('Unable to save tag(s)'));
+                    $session->addError(Mage::helper('tag')->__('Unable to save tag(s).'));
                 }
             }
         }

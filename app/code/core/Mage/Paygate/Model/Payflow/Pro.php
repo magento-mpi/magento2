@@ -131,12 +131,12 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                         $error = $result->getRespmsg();
                     }
                     else {
-                        $error = Mage::helper('paygate')->__('Error in authorizing the payment');
+                        $error = Mage::helper('paygate')->__('Error in authorizing the payment.');
                     }
                 break;
             }
         }else{
-            $error = Mage::helper('paygate')->__('Invalid amount for authorization');
+            $error = Mage::helper('paygate')->__('Invalid amount for authorization.');
         }
 
         if ($error !== false) {
@@ -183,7 +183,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                 if ($result->getRespmsg()) {
                     $error = $result->getRespmsg();
                 } else {
-                    $error = Mage::helper('paygate')->__('Error in capturing the payment');
+                    $error = Mage::helper('paygate')->__('Error in capturing the payment.');
                 }
             break;
         }
@@ -212,7 +212,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             if($result->getResultCode()==self::RESPONSE_CODE_APPROVED){
                 if($result->getTransstate()>1000){
                     $payment->setStatus(self::STATUS_ERROR);
-                    $payment->setStatusDescription(Mage::helper('paygate')->__('Voided transaction'));
+                    $payment->setStatusDescription(Mage::helper('paygate')->__('Voided transaction.'));
                 }elseif(in_array($result->getTransstate(),$this->_validVoidTransState)){
                      $payment->setStatus(self::STATUS_VOID);
                 }
@@ -220,11 +220,11 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                 $payment->setStatus(self::STATUS_ERROR);
                 $payment->setStatusDescription($result->getRespmsg()?
                     $result->getRespmsg():
-                    Mage::helper('paygate')->__('Error in retrieving the transaction'));
+                    Mage::helper('paygate')->__('Error in retrieving the transaction.'));
             }
         }else{
             $payment->setStatus(self::STATUS_ERROR);
-            $payment->setStatusDescription(Mage::helper('paygate')->__('Invalid transaction id'));
+            $payment->setStatusDescription(Mage::helper('paygate')->__('Invalid transaction ID.'));
         }
 
         return $this;
@@ -256,7 +256,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             }
          }else{
             $payment->setStatus(self::STATUS_ERROR);
-            $error = Mage::helper('paygate')->__('Invalid transaction id');
+            $error = Mage::helper('paygate')->__('Invalid transaction ID.');
         }
 
         if ($error !== false) {
@@ -297,7 +297,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
             }
         }else{
-            $error = Mage::helper('paygate')->__('Error in refunding the payment');
+            $error = Mage::helper('paygate')->__('Error in refunding the payment.');
         }
 
         if ($error !== false) {

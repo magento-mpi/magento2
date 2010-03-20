@@ -218,11 +218,11 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         $file = realpath($file);
 
         if (!$file || !file_exists($file)) {
-            Mage::throwException(Mage::helper('catalog')->__('Image not exists'));
+            Mage::throwException(Mage::helper('catalog')->__('Image does not exist.'));
         }
         $pathinfo = pathinfo($file);
         if (!isset($pathinfo['extension']) || !in_array(strtolower($pathinfo['extension']), array('jpg','jpeg','gif','png'))) {
-            Mage::throwException(Mage::helper('catalog')->__('Invalid image file type'));
+            Mage::throwException(Mage::helper('catalog')->__('Invalid image file type.'));
         }
 
         $fileName       = Varien_File_Uploader::getCorrectFileName($pathinfo['basename']);

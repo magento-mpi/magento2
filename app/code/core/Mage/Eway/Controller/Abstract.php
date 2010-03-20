@@ -160,12 +160,12 @@ abstract class Mage_Eway_Controller_Abstract extends Mage_Core_Controller_Front_
                     ->save();
 
                 $paymentInst->setTransactionId($response['ewayTrxnReference']);
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer successfully returned from eWAY'));
+                $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('The customer has successfully returned from eWAY.'));
             }
         } else {
             $paymentInst->setTransactionId($response['ewayTrxnReference']);
             $order->cancel();
-            $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('Customer was rejected by eWAY'));
+            $order->addStatusToHistory($order->getStatus(), Mage::helper('eway')->__('The customer was rejected by eWAY.'));
             $status = false;
             $this->getCheckout()->setEwayErrorMessage($response['eWAYresponseText']);
         }

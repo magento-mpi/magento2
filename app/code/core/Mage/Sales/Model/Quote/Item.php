@@ -225,7 +225,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         $parent = parent::checkData();
         if ($this->getProduct()->getHasError()) {
             $this->setHasError(true);
-            $this->setMessage(Mage::helper('sales')->__('Item options declare error'));
+            $this->setMessage(Mage::helper('sales')->__('Item options declaration error.'));
             $this->getQuote()->setHasError(true);
             $this->getQuote()->addMessage($this->getProduct()->getMessage(), 'options');
         }
@@ -479,7 +479,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             $option->setItem($this);
         }
         else {
-            Mage::throwException(Mage::helper('sales')->__('Invalid item option format'));
+            Mage::throwException(Mage::helper('sales')->__('Invalid item option format.'));
         }
 
         if ($exOption = $this->getOptionByCode($option->getCode())) {
@@ -544,7 +544,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             $this->_optionsByCode[$option->getCode()] = $option;
         }
         else {
-            Mage::throwException(Mage::helper('sales')->__('Item option with code %s already exist', $option->getCode()));
+            Mage::throwException(Mage::helper('sales')->__('An item option with code %s already exists.', $option->getCode()));
         }
         return $this;
     }

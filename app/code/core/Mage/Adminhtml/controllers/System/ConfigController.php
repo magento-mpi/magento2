@@ -139,7 +139,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             Mage::dispatchEvent("admin_system_config_changed_section_{$section}",
                 array('website' => $website, 'store' => $store)
             );
-            $session->addSuccess(Mage::helper('adminhtml')->__('Configuration successfully saved'));
+            $session->addSuccess(Mage::helper('adminhtml')->__('The configuration has been saved.'));
         }
         catch (Mage_Core_Exception $e) {
             foreach(explode("\n", $e->getMessage()) as $message) {
@@ -147,7 +147,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             }
         }
         catch (Exception $e) {
-            $session->addException($e, Mage::helper('adminhtml')->__('Error while saving this configuration: '.$e->getMessage()));
+            $session->addException($e, Mage::helper('adminhtml')->__('An error occurred while saving this configuration:').' '.$e->getMessage());
         }
 
         $this->_saveState($this->getRequest()->getPost('config_state'));

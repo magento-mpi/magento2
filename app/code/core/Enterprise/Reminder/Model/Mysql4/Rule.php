@@ -250,7 +250,7 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
             case '<=':
                 return $operator;
             default:
-                Mage::throwException(Mage::helper('enterprise_reminder')->__('Unknown operator specified'));
+                Mage::throwException(Mage::helper('enterprise_reminder')->__('Unknown operator specified.'));
         }
     }
 

@@ -179,7 +179,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
             try {
                 $segment->matchCustomers();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    $this->__('Customer Segment data refreshed successfully.')
+                    $this->__('Customer Segment data has been refreshed.')
                 );
                 $this->_redirect('*/*/detail', array('_current' => true));
                 return ;

@@ -284,7 +284,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
                             }
 
                             if (!isset($_result[0])) {
-                                return Mage::helper('checkout')->__('Can not add item to shopping cart');
+                                return Mage::helper('checkout')->__('Cannot add the item to shopping cart.');
                             }
 
                             $_result[0]->setCartQty($qty);
@@ -306,7 +306,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
                 return $products;
             }
         }
-        return Mage::helper('catalog')->__('Please specify the product(s) quantity');
+        return Mage::helper('catalog')->__('Please specify the quantity of product(s).');
     }
 
     /**

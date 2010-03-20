@@ -175,7 +175,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Enterprise_Enterp
                 Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
                 $model->save();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Reminder rule has been successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The reminder rule has been saved.'));
                 Mage::getSingleton('adminhtml/session')->setPageData(false);
 
                 if ($redirectBack) {
@@ -207,7 +207,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Enterprise_Enterp
         try {
             $model = $this->_initRule('id', true);
             $model->delete();
-            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Reminder rule has been successfully deleted.'));
+            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The reminder rule has been deleted.'));
         }
         catch (Mage_Core_Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

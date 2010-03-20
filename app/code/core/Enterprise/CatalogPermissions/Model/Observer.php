@@ -275,12 +275,12 @@ class Enterprise_CatalogPermissions_Model_Observer
             if ($parentItem) {
                 $quoteItem->getQuote()->setHasError(true)
                         ->addMessage(
-                            $this->_helper->__('You cannot add product "%s" to cart.', $parentItem->getName())
+                            $this->_helper->__('The product "%s" cannot be added to cart.', $parentItem->getName())
                         );
             } else {
                  $quoteItem->getQuote()->setHasError(true)
                         ->addMessage(
-                            $this->_helper->__('You cannot add product "%s" to cart.', $quoteItem->getName())
+                            $this->_helper->__('The product "%s" cannot be added to cart.', $quoteItem->getName())
                         );
             }
         }
@@ -318,11 +318,11 @@ class Enterprise_CatalogPermissions_Model_Observer
             $quoteItem->getQuote()->removeItem($quoteItem->getId());
             if ($parentItem) {
                 Mage::throwException(
-                    $this->_helper->__('You cannot add product "%s" to cart.', $parentItem->getName())
+                    $this->_helper->__('The product "%s" cannot be added to cart.', $parentItem->getName())
                 );
             } else {
                 Mage::throwException(
-                            $this->_helper->__('You cannot add product "%s" to cart.', $quoteItem->getName())
+                            $this->_helper->__('The product "%s" cannot be added to cart.', $quoteItem->getName())
                 );
             }
         }

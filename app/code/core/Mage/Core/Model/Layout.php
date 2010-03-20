@@ -674,7 +674,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 //        }
 //
 //        if (!$update instanceof Mage_Core_Model_Layout_Element) {
-//            throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid layout update argument, expected Mage_Core_Model_Layout_Element'));
+//            throw Mage::exception('Mage_Core', Mage::helper('core')->__('Invalid layout update argument, expected Mage_Core_Model_Layout_Element.'));
 //        }
 //        foreach ($update->children() as $child) {
 //            switch ($child->getName()) {

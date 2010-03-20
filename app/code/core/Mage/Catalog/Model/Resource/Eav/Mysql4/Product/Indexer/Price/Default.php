@@ -81,7 +81,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
     public function getTypeId()
     {
         if (is_null($this->_typeId)) {
-            Mage::throwException(Mage::helper('catalog')->__('Not defined Product Type for Indexer'));
+            Mage::throwException(Mage::helper('catalog')->__('A product type is not defined for the indexer.'));
         }
         return $this->_typeId;
     }

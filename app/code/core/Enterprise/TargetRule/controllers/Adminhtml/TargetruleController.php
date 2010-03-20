@@ -137,7 +137,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Enterprise_En
 
         $data = $this->getRequest()->getPost();
         $data = $this->_filterDates($data, array('from_date', 'to_date'));
-        
+
         if ($this->getRequest()->isPost() && $data) {
             /* @var $model Enterprise_TargetRule_Model_Rule */
             $model          = Mage::getModel('enterprise_targetrule/rule');
@@ -172,7 +172,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Enterprise_En
                 $model->save();
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_targetrule')->__('Rule was successfully saved')
+                    Mage::helper('enterprise_targetrule')->__('The rule has been saved.')
                 );
 
                 if ($redirectBack) {
@@ -187,7 +187,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Enterprise_En
                 $hasError = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_targetrule')->__('Error in saving Product Rule')
+                    Mage::helper('enterprise_targetrule')->__('An error occurred while saving Product Rule.')
                 );
 
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -219,7 +219,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Enterprise_En
                 $model->load($id);
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')
-                    ->addSuccess(Mage::helper('enterprise_targetrule')->__('Rule has been successfully deleted'));
+                    ->addSuccess(Mage::helper('enterprise_targetrule')->__('The rule has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
             }

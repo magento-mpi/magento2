@@ -84,7 +84,7 @@ class Enterprise_Reward_Adminhtml_Customer_RewardController extends Enterprise_E
                 Mage::getModel('enterprise_reward/reward')
                     ->deleteOrphanPointsByCustomer($customerId);
                 $this->_getSession()
-                    ->addSuccess(Mage::helper('enterprise_reward')->__('Orphan points removed successfully.'));
+                    ->addSuccess(Mage::helper('enterprise_reward')->__('The orphan points have been removed.'));
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }

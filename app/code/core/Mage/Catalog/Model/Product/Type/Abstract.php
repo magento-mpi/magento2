@@ -340,7 +340,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function getSpecifyOptionMessage()
     {
-        return Mage::helper('catalog')->__('Please specify the product required option(s)');
+        return Mage::helper('catalog')->__('Please specify the product\'s required option(s).');
     }
 
     /**
@@ -383,7 +383,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                 if ($option->getIsRequire() && (!$this->getProduct($product)->getCustomOption('option_'.$option->getId())
                 || strlen($this->getProduct($product)->getCustomOption('option_'.$option->getId())->getValue()) == 0)) {
                     Mage::throwException(
-                        Mage::helper('catalog')->__('Product has required options')
+                        Mage::helper('catalog')->__('The product has required options')
                     );
                     break;
                 }

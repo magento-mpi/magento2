@@ -104,7 +104,7 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock_Default
     public function getTypeId()
     {
         if (is_null($this->_typeId)) {
-            Mage::throwException(Mage::helper('cataloginventory')->__('Undefined product type'));
+            Mage::throwException(Mage::helper('cataloginventory')->__('Undefined product type.'));
         }
         return $this->_typeId;
     }

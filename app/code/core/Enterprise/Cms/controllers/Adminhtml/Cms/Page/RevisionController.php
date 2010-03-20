@@ -139,7 +139,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 $revision->save();
 
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Revision was successfully saved.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('The revision has been saved.'));
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
                 // check if 'Save and Continue'
@@ -185,7 +185,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
         try {
             $revision->publish();
             // display success message
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Revision was successfully published.'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('The revision has been published.'));
             $this->_redirect('*/cms_page/edit', array('page_id' => $revision->getPageId()));
             return;
         } catch (Exception $e) {
@@ -346,7 +346,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 $revision = $this->_initRevision();
                 $revision->delete();
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Revision was successfully deleted.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('The revision has been deleted.'));
                 $this->_redirect('*/cms_page_version/edit', array(
                         'page_id' => $revision->getPageId(),
                         'version_id' => $revision->getVersionId()
@@ -358,7 +358,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 $error = true;
             } catch (Exception $e) {
                 Mage::logException($e);
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_cms')->__('Error while deleting revision. Please try again later.'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_cms')->__('An error occurred while deleting the revision.'));
                 $error = true;
             }
 

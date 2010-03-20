@@ -226,11 +226,11 @@ class Enterprise_CatalogEvent_Model_Observer
                 if ($event->getStatus() !== Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
                     $item->setHasError(true)
                         ->setMessage(
-                            Mage::helper('enterprise_catalogevent')->__('Sale was closed for this product')
+                            Mage::helper('enterprise_catalogevent')->__('Sale was closed for this product.')
                         );
                     $item->getQuote()->setHasError(true)
                         ->addMessage(
-                            Mage::helper('enterprise_catalogevent')->__('Some products are not salable anymore')
+                            Mage::helper('enterprise_catalogevent')->__('Some products are not salable anymore.')
                         );
                 }
             } else {

@@ -585,7 +585,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
                     }
                 }
             } else {
-                $this->_errors[] = Mage::helper('usa')->__('Response is in the wrong format');
+                $this->_errors[] = Mage::helper('usa')->__('The response is in wrong format.');
             }
         }
 
@@ -837,14 +837,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
 
 
         if (!isset($codes[$type])) {
-//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid DHL XML code type: %s', $type));
+//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid DHL XML code type: %s.', $type));
             return false;
         } elseif (''===$code) {
             return $codes[$type];
         }
 
         if (!isset($codes[$type][$code])) {
-//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid DHL XML code for type %s: %s', $type, $code));
+//            throw Mage::exception('Mage_Shipping', Mage::helper('usa')->__('Invalid DHL XML code for type %s: %s.', $type, $code));
             return false;
         } else {
             return $codes[$type][$code];
@@ -1198,8 +1198,8 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     public function getAdditionalProtectionRoundingTypes()
     {
         return array(
-            self::ADDITIONAL_PROTECTION_ROUNDING_FLOOR => Mage::helper('usa')->__('To lower'),
-            self::ADDITIONAL_PROTECTION_ROUNDING_CEIL  => Mage::helper('usa')->__('To upper'),
+            self::ADDITIONAL_PROTECTION_ROUNDING_FLOOR => Mage::helper('usa')->__('To Lower'),
+            self::ADDITIONAL_PROTECTION_ROUNDING_CEIL  => Mage::helper('usa')->__('To Upper'),
             self::ADDITIONAL_PROTECTION_ROUNDING_ROUND => Mage::helper('usa')->__('Round'),
             );
     }

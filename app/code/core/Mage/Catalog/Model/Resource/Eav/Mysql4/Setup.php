@@ -558,7 +558,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                     'available_sort_by' => array(
                         'input'         => 'multiselect',
                         'type'          => 'text',
-                        'label'         => 'Available Product Listing Sort by',
+                        'label'         => 'Available Product Listing Sort By',
                         'source'        => 'catalog/category_attribute_source_sortby',
                         'backend'       => 'catalog/category_attribute_backend_sortby',
                         'required'      => true,
@@ -568,7 +568,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                     ),
                     'default_sort_by' => array(
                         'input'         => 'select',
-                        'label'         => 'Default Product Listing Sort by',
+                        'label'         => 'Default Product Listing Sort By',
                         'source'        => 'catalog/category_attribute_source_sortby',
                         'backend'       => 'catalog/category_attribute_backend_sortby',
                         'required'      => true,

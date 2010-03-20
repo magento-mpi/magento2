@@ -101,13 +101,13 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
         $staging = $this->_initStaging();
         /* @var $staging Enterprise_Staging_Model_Staging */
         if (!$staging) {
-            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect Id'));
+            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect ID'));
             $this->_redirect('*/*/');
             return $this;
         }
 
         if ($staging->isStatusProcessing()) {
-            $this->_getSession()->addNotice(Mage::helper('enterprise_staging')->__('Merge cannot be done now, because a Merge or Rollback is in progress. Please try again later.'));
+            $this->_getSession()->addNotice(Mage::helper('enterprise_staging')->__('Merge cannot be done now because a merge or rollback is in progress.'));
         }
 
         Mage::dispatchEvent('staging_edit_action', array('staging' => $staging));
@@ -116,17 +116,17 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
             $defaultUnsecure= (string) Mage::getConfig()->getNode('default/'.Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL);
             $defaultSecure  = (string) Mage::getConfig()->getNode('default/'.Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL);
             if ($defaultSecure == '{{base_url}}' || $defaultUnsecure == '{{base_url}}') {
-                $this->_getSession()->addNotice(Mage::helper('enterprise_staging')->__('Before creating a staging website, make sure that the base URLs of the source website are properly defined.'));
+                $this->_getSession()->addNotice(Mage::helper('enterprise_staging')->__('Before creating a staging website, please make sure that the base URLs of the source website are properly defined.'));
             }
 
             $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
             if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
-                $this->_getSession()->addNotice(Mage::helper('enterprise_staging')->__('Cannot perform create operation, because reindexing process or another staging operation is running.'));
+                $this->_getSession()->addNotice(Mage::helper('enterprise_staging')->__('Cannot perform create operation because reindexing process or another staging operation is running.'));
             }
 
             $entryPoint = Mage::getSingleton('enterprise_staging/entry');
             if ($entryPoint->isAutomatic()) {
-                $this->_getSession()->addNotice(Mage::helper('enterprise_staging')->__('Base URL for this website will be created automatically.'));
+                $this->_getSession()->addNotice(Mage::helper('enterprise_staging')->__('The base URL for this website will be created automatically.'));
                 if (!$entryPoint->canEntryPointBeCreated()) {
                     $this->_getSession()->addNotice(Mage::helper('enterprise_staging')->__('To create entry points, the folder %s must be writeable.', $entryPoint->getBaseFolder()));
                 }
@@ -170,7 +170,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Error while validating data. Please review log and try again.'));
+            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('An error occurred while validating data. Please review the log and try again.'));
             $this->_initLayoutMessages('adminhtml/session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
@@ -208,7 +208,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
         if ($data) {
             $staging    = $this->_initStagingSave();
             if (!$staging) {
-                $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect Id'));
+                $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect ID'));
                 $this->_redirect('*/*/', array('_current' => true));
                 return $this;
             }
@@ -216,7 +216,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
 
             if ($isNew) {
                 if (!$staging->checkCoreFlag()) {
-                    $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Cannot perform create operation, because reindexing process or another staging operation is running'));
+                    $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Cannot perform the create operation because reindexing process or another staging operation is running.'));
                     $this->_redirect('*/*/edit', array(
                         '_current'  => true
                     ));
@@ -228,7 +228,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
                 if ($entryPoint->isAutomatic()) {
                     if (!$entryPoint->canEntryPointBeCreated()) {
                         $redirectBack = true;
-                        Mage::throwException(Mage::helper('enterprise_staging')->__('Please, make sure that folder %s exists and is writeable.', $entryPoint->getBaseFolder()));
+                        Mage::throwException(Mage::helper('enterprise_staging')->__('Please make sure that folder %s exists and is writeable.', $entryPoint->getBaseFolder()));
                     }
                 }
 
@@ -237,16 +237,16 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
                 $staging->save();
 
                 if ($isNew) {
-                    $this->_getSession()->addSuccess(Mage::helper('enterprise_staging')->__('Staging website successfully created'));
+                    $this->_getSession()->addSuccess(Mage::helper('enterprise_staging')->__('The staging website has been created.'));
                 } else {
-                    $this->_getSession()->addSuccess(Mage::helper('enterprise_staging')->__('Staging website successfully saved'));
+                    $this->_getSession()->addSuccess(Mage::helper('enterprise_staging')->__('The staging website has been saved.'));
                 }
                 Mage::dispatchEvent('on_enterprise_staging_save', array('staging' => $staging));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $staging->releaseCoreFlag();
             } catch (Exception $e) {
-                $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Error while saving staging data. Please review log and try again.'));
+                $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('An error occurred while saving staging data. Please review log and try again.'));
                 Mage::logException($e);
                 $staging->releaseCoreFlag();
             }
@@ -269,7 +269,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
         $staging = $this->_initStaging();
         /* @var $staging Enterprise_Staging_Model_Staging */
         if (!$staging) {
-            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect Id'));
+            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect ID'));
             $this->_redirect('*/*/');
             return $this;
         }
@@ -302,20 +302,20 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
         $staging = $this->_initStaging();
         /* @var $staging Enterprise_Staging_Model_Staging */
         if (!$staging) {
-            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect Id'));
+            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect ID'));
             $this->_redirect('*/*/');
             return $this;
         }
 
         if (!$staging->canMerge()) {
-            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Staging Website "%s" cannot be merged at this moment', $staging->getName()));
+            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('The staging Website "%s" cannot be merged at this moment.', $staging->getName()));
             $this->_redirect('*/*/');
             return $this;
         }
 
         $this->_title($this->__('Merging'))->_title($staging->getName());
 
-        $this->_getSession()->addNotice(Mage::helper('enterprise_staging')->__('If no store view mapping is specified only website-related information will be merged'));
+        $this->_getSession()->addNotice(Mage::helper('enterprise_staging')->__('If no store view mapping is specified, only website-related information will be merged.'));
 
         $this->loadLayout();
         $this->_setActiveMenu('system');
@@ -331,7 +331,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
         $staging = $this->_initStaging();
         /* @var $staging Enterprise_Staging_Model_Staging */
         if (!$staging) {
-            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect Id'));
+            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect ID'));
             $this->_redirect('*/*/');
             return $this;
         }
@@ -344,7 +344,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
         $mapData        = $this->getRequest()->getPost('map');
 
         if (!$staging->checkCoreFlag()) {
-            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Cannot perform merge operation, because reindexing process or another staging operation is running'));
+            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Cannot perform the merge operation because reindexing process or another staging operation is running.'));
             $this->_redirect('*/*/edit', array(
                 '_current'  => true
             ));
@@ -387,9 +387,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
                     ->save();
 
                 if ($isMergeLater && !empty($schedulingDate)) {
-                    $this->_getSession()->addSuccess(Mage::helper('enterprise_staging')->__('Staging website successfully scheduled to merge.'));
+                    $this->_getSession()->addSuccess(Mage::helper('enterprise_staging')->__('The staging website has been scheduled to merge.'));
                 } else {
-                    $this->_getSession()->addSuccess(Mage::helper('enterprise_staging')->__('Staging website successfully merged.'));
+                    $this->_getSession()->addSuccess(Mage::helper('enterprise_staging')->__('The staging website has been merged.'));
                 }
                 Mage::dispatchEvent('on_enterprise_staging_merge', array('staging' => $staging));
             } catch (Mage_Core_Exception $e) {
@@ -397,7 +397,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
                 $staging->releaseCoreFlag();
                 $redirectBack = true;
             } catch (Exception $e) {
-                $this->_getSession()->addException($e, Mage::helper('enterprise_staging')->__('Error while merging. Please review log and try again.'));
+                $this->_getSession()->addException($e, Mage::helper('enterprise_staging')->__('An error occurred while merging. Please review log and try again.'));
                 $staging->releaseCoreFlag();
                 $redirectBack = true;
             }
@@ -421,7 +421,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
         $staging = $this->_initStaging();
 
         if (!$staging) {
-            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect Id'));
+            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect ID'));
             $this->_redirect('*/*/');
             return $this;
         }
@@ -430,9 +430,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
 
         try {
             $staging->unscheduleMege();
-            $this->_getSession()->addSuccess(Mage::helper('enterprise_staging')->__('Staging was successfully unscheduled'));
+            $this->_getSession()->addSuccess(Mage::helper('enterprise_staging')->__('Staging has been unscheduled.'));
         } catch (Exception $e) {
-            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Failed to unschedule merge'));
+            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Failed to unschedule merge.'));
         }
 
         $this->_redirect('*/*/');

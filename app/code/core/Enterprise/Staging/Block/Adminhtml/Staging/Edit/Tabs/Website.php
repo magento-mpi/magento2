@@ -74,7 +74,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Enter
 
             $fieldset->addField('master_website_id_'.$_id, 'hidden',
                 array(
-                    'label' => Mage::helper('enterprise_staging')->__('Master Website Id'),
+                    'label' => Mage::helper('enterprise_staging')->__('Master Website ID'),
                     'name'  => "websites[{$_id}][master_website_id]",
                     'value' => $_id
                 )
@@ -107,7 +107,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Enter
 
                 $element = $fieldset->addField('staging_website_base_url_'.$_id, 'label',
                     array(
-                        'label' => Mage::helper('enterprise_staging')->__('Base Url'),
+                        'label' => Mage::helper('enterprise_staging')->__('Base URL'),
                         'name'  => "websites[{$_id}][base_url]",
                         'value' => $stagingWebsite->getConfig('web/unsecure/base_url')
                     )
@@ -118,7 +118,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Enter
 
                 $element = $fieldset->addField('staging_website_base_secure_url_'.$_id, 'label',
                     array(
-                        'label' => Mage::helper('enterprise_staging')->__('Secure Base Url'),
+                        'label' => Mage::helper('enterprise_staging')->__('Secure Base URL'),
                         'name'  => "websites[{$_id}][base_secure_url]",
                         'value' => $stagingWebsite->getConfig('web/secure/base_url')
                     )
@@ -156,7 +156,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Enter
                 if (!Mage::getSingleton('enterprise_staging/entry')->isAutomatic()) {
                     $fieldset->addField('staging_website_base_url_'.$_id, 'text',
                         array(
-                            'label' => Mage::helper('enterprise_staging')->__('Base Url'),
+                            'label' => Mage::helper('enterprise_staging')->__('Base URL'),
                             'name'  => "websites[{$_id}][base_url]",
                             'value' => '',
                             'class' => 'validate-url',
@@ -244,10 +244,10 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Enter
 
         if ($stagingWebsite) {
             $fieldset = $form->addFieldset('staging_website_items',
-                array('legend'=>Mage::helper('enterprise_staging')->__('Items copied')));
+                array('legend'=>Mage::helper('enterprise_staging')->__('Items to Copy')));
         } else {
             $fieldset = $form->addFieldset('staging_website_items',
-                array('legend' => Mage::helper('enterprise_staging')->__('Select Original Website Content to be Copied to Staging Website')));
+                array('legend' => Mage::helper('enterprise_staging')->__('Select Original Website Content to be Copied to the Staging Website')));
         }
 
         $usedItemCodes = $staging->getStagingItemCodes();
@@ -336,7 +336,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Enter
 
         if ($stagingWebsite) {
             $fieldset = $form->addFieldset('staging_website_stores',
-                array('legend' => Mage::helper('enterprise_staging')->__('Store views copied')));
+                array('legend' => Mage::helper('enterprise_staging')->__('Store Views to Copy')));
         } else {
             $fieldset = $form->addFieldset('staging_website_stores',
                 array('legend' => Mage::helper('enterprise_staging')->__('Select Original Website Store Views to be Copied to Staging Website')));
@@ -364,13 +364,13 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Enter
             if ($stagingWebsite) {
                 $fieldset->addField('staging_no_stores', 'label',
                     array(
-                        'label' => Mage::helper('enterprise_staging')->__('There are no store views were copied')
+                        'label' => Mage::helper('enterprise_staging')->__('There are no store views to be copied.')
                     )
                 );
             } else {
                 $fieldset->addField('staging_no_stores', 'label',
                     array(
-                        'label' => Mage::helper('enterprise_staging')->__('There are no store views for copying')
+                        'label' => Mage::helper('enterprise_staging')->__('There are no store views for copying.')
                     )
                 );
             }
@@ -420,7 +420,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Enter
 
             $fieldset->addField('master_store_id_'.$_id, 'hidden',
                 array(
-                    'label' => Mage::helper('enterprise_staging')->__('Master Store Id'),
+                    'label' => Mage::helper('enterprise_staging')->__('Master Store ID'),
                     'name'  => "websites[{$websiteId}][stores][{$_id}][master_store_id]",
                     'value' => $storeView->getId(),
                 )

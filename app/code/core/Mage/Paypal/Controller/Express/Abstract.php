@@ -92,11 +92,11 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
                         ->unsLastSuccessQuoteId()
                         ->unsLastOrderId()
                         ->unsLastRealOrderId()
-                        ->addSuccess($this->__('Express Checkout and Order have been cancelled.'))
+                        ->addSuccess($this->__('Express Checkout and Order have been canceled.'))
                     ;
                 }
             } else {
-                $this->_getCheckoutSession()->addSuccess($this->__('Express Checkout has been cancelled.'));
+                $this->_getCheckoutSession()->addSuccess($this->__('Express Checkout has been canceled.'));
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getCheckoutSession()->addError($e->getMessage());

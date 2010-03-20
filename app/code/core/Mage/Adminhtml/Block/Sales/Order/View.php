@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
         if ($this->_isAllowedAction('edit') && $order->canEdit()) {
             $onclickJs = 'deleteConfirm(\''
-                . Mage::helper('sales')->__('Are you sure? This order will be cancelled and a new one will be created instead')
+                . Mage::helper('sales')->__('Are you sure? This order will be canceled and a new one will be created instead')
                 . '\', \'' . $this->getEditUrl() . '\');';
             $this->_addButton('order_edit', array(
                 'label'    => Mage::helper('sales')->__('Edit'),
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
             if ($nonEditableTypes) {
                 $this->_updateButton('order_edit', 'onclick',
                     'if (!confirm(\'' .
-                    Mage::helper('sales')->__('This order contains (%s) items and therefore cannot be edited through the admin interface at this time, if you wish to continue editing the (%s) items will be removed, the order will be cancelled and a new order will be placed', implode(', ', $nonEditableTypes), implode(', ', $nonEditableTypes)) . '\')) return false;' . $onclickJs
+                    Mage::helper('sales')->__('This order contains (%s) items and therefore cannot be edited through the admin interface at this time, if you wish to continue editing the (%s) items will be removed, the order will be canceled and a new order will be placed.', implode(', ', $nonEditableTypes), implode(', ', $nonEditableTypes)) . '\')) return false;' . $onclickJs
                 );
             }
         }

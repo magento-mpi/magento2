@@ -148,7 +148,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Enterpri
 
         if (!isset($postData['catalogevent'])) {
             $this->_getSession()->addError(
-                Mage::helper('enterprise_catalogevent')->__('Error while saving this event. Please try again later.')
+                Mage::helper('enterprise_catalogevent')->__('An error occurred while saving this event.')
             );
             $this->_redirect('*/*/edit', array('_current'=>true));
             return;
@@ -192,14 +192,14 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Enterpri
                     $event->setImage($uploader);
                 } catch (Exception $e) {
                     Mage::throwException(
-                        Mage::helper('enterprise_catalogevent')->__('Image was not uploaded')
+                        Mage::helper('enterprise_catalogevent')->__('Image was not uploaded.')
                     );
                 }
             }
             $event->save();
 
             $this->_getSession()->addSuccess(
-                Mage::helper('enterprise_catalogevent')->__('Event was successfully saved.')
+                Mage::helper('enterprise_catalogevent')->__('Event has been saved.')
             );
             if ($this->getRequest()->getParam('_continue')) {
                 $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$event->getId()));
@@ -228,7 +228,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Enterpri
             try {
                 $event->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_catalogevent')->__('Event was successfully deleted.')
+                    Mage::helper('enterprise_catalogevent')->__('Event has been deleted.')
                 );
                 if ($this->getRequest()->getParam('category')) {
                     $this->_redirect('*/catalog_category/edit', array('id' => $event->getCategoryId(), 'clear' => 1));

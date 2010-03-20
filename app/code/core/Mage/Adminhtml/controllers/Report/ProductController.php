@@ -150,7 +150,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
 
         $this->_initAction()
             ->_setActiveMenu('report/product/viewed')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Most viewed'), Mage::helper('reports')->__('Most viewed'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Most Viewed'), Mage::helper('reports')->__('Most Viewed'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_viewed'))
             ->renderLayout();
     }
@@ -193,7 +193,7 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
 
         $this->_initAction()
             ->_setActiveMenu('report/product/lowstock')
-            ->_addBreadcrumb(Mage::helper('reports')->__('Low stock'), Mage::helper('reports')->__('Low stock'))
+            ->_addBreadcrumb(Mage::helper('reports')->__('Low Stock'), Mage::helper('reports')->__('Low Stock'))
             ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_lowstock'))
             ->renderLayout();
     }

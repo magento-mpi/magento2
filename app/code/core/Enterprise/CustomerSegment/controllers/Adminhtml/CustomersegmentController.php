@@ -197,7 +197,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Ent
                 $model->save();
                 $model->matchCustomers();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Segment has been successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The segment has been saved.'));
                 Mage::getSingleton('adminhtml/session')->setPageData(false);
 
                 if ($redirectBack) {
@@ -214,7 +214,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Ent
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($this->__('Failed to save segment.'));
+                Mage::getSingleton('adminhtml/session')->addError($this->__('Unable to save the segment.'));
                 Mage::logException($e);
             }
         }
@@ -229,14 +229,14 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Ent
         try {
             $model = $this->_initSegment('id', true);
             $model->delete();
-            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Segment has been successfully deleted.'));
+            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The segment has been deleted.'));
         }
         catch (Mage_Core_Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($this->__('Failed to delete segment.'));
+            Mage::getSingleton('adminhtml/session')->addError($this->__('Unable to delete the segment.'));
             Mage::logException($e);
         }
         $this->_redirect('*/*/');

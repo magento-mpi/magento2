@@ -59,7 +59,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Enterprise_Enterprise
         $model = $this->_initBanner('id');
 
         if (!$model->getId() && $id) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This Banner no longer exists'));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This banner no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -89,7 +89,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Enterprise_Enterprise
             $id = $this->getRequest()->getParam('id');
             $model = $this->_initBanner();
             if (!$model->getId() && $id) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This Banner no longer exists'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This banner no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -127,12 +127,12 @@ class Enterprise_Banner_Adminhtml_BannerController extends Enterprise_Enterprise
                 }
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_banner')->__('Banner was successfully saved.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_banner')->__('The banner has been saved.'));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $redirectBack = true;
             } catch (Exception $e) {
-                $this->_getSession()->addError(Mage::helper('enterprise_banner')->__('Unable to save banner.'));
+                $this->_getSession()->addError(Mage::helper('enterprise_banner')->__('Unable to save the banner.'));
                 $redirectBack = true;
                 Mage::logException($e);
             }
@@ -158,14 +158,14 @@ class Enterprise_Banner_Adminhtml_BannerController extends Enterprise_Enterprise
                 $model->load($id);
                 $model->delete();
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_banner')->__('Banner was successfully deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_banner')->__('The banner has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError(Mage::helper('enterprise_banner')->__('Error while deleting banner data. Please review log and try again.'));
+                $this->_getSession()->addError(Mage::helper('enterprise_banner')->__('An error occurred while deleting banner data. Please review log and try again.'));
                 Mage::logException($e);
                 // save data in session
                 Mage::getSingleton('adminhtml/session')->setFormData($data);
@@ -175,7 +175,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Enterprise_Enterprise
             }
         }
         // display error message
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('Unable to find a Banner to delete'));
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('Unable to find a banner to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -188,7 +188,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Enterprise_Enterprise
     {
         $ids = $this->getRequest()->getParam('banner');
         if (!is_array($ids)) {
-            $this->_getSession()->addError($this->__('Please select banner(s)'));
+            $this->_getSession()->addError($this->__('Please select banner(s).'));
         }
         else {
             try {
@@ -198,12 +198,12 @@ class Enterprise_Banner_Adminhtml_BannerController extends Enterprise_Enterprise
                 }
 
                 $this->_getSession()->addSuccess(
-                    $this->__('Total of %d record(s) were successfully deleted', count($ids))
+                    $this->__('Total of %d record(s) have been deleted.', count($ids))
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError(Mage::helper('enterprise_banner')->__('Error while mass delete banners. Please review log and try again.'));
+                $this->_getSession()->addError(Mage::helper('enterprise_banner')->__('An error occurred while mass deleting banners. Please review log and try again.'));
                 Mage::logException($e);
                 return;
             }
@@ -264,7 +264,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Enterprise_Enterprise
         $model = $this->_initBanner('id');
 
         if (!$model->getId() && $id) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This Banner no longer exists'));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This banner no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -288,7 +288,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Enterprise_Enterprise
         $model = $this->_initBanner('id');
 
         if (!$model->getId() && $id) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This Banner no longer exists'));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This banner no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -312,7 +312,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Enterprise_Enterprise
         if ($id) {
             $model->load($id);
             if (! $model->getRuleId()) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('salesrule')->__('This rule no longer exists'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('salesrule')->__('This rule no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
@@ -339,7 +339,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Enterprise_Enterprise
         if ($id) {
             $model->load($id);
             if (! $model->getRuleId()) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalogrule')->__('This rule no longer exists'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalogrule')->__('This rule no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }

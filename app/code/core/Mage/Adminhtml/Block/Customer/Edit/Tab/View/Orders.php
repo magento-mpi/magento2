@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Mage_Adminhtml_
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('customer')->__('Purchased at'),
+            'header'    => Mage::helper('customer')->__('Purchased At'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));

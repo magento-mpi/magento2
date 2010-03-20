@@ -173,7 +173,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
 
         $couponCodeFiled = $fieldset->addField('coupon_code', 'text', array(
             'name' => 'coupon_code',
-            'label' => Mage::helper('salesrule')->__('Coupon code'),
+            'label' => Mage::helper('salesrule')->__('Coupon Code'),
             'required' => true,
         ));
 

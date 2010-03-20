@@ -120,7 +120,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard exten
         if (is_array($codes)) {
             foreach ($codes as &$code) {
                 if ($code === null) {
-                    $code = Mage::helper('enterprise_giftcard')->__('Unable to create');
+                    $code = Mage::helper('enterprise_giftcard')->__('Unable to create.');
                 }
             }
         } else {

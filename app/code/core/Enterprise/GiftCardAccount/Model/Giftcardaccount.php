@@ -86,7 +86,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Enterprise_Enterp
                     null, Varien_Date::DATE_INTERNAL_FORMAT,
                     null, false);
                 if ($expirationDate < $currentDate) {
-                    Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Expiration date can not be in the past'));
+                    Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Expiration date cannot be in the past'));
                 }
             } else {
                 $this->setDateExpires(null);
@@ -102,7 +102,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Enterprise_Enterp
                 ->setBalanceDelta($this->getBalance() - $this->getOrigData('balance'));
         }
         if ($this->getBalance() < 0) {
-            Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Balance can not be less than zero'));
+            Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Balance cannot be less than zero'));
         }
     }
 

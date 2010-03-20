@@ -176,7 +176,7 @@ class Mage_Sales_Model_Service_Quote
             $method= $address->getShippingMethod();
             $rate  = $address->getShippingRateByCode($method);
             if (!$this->getQuote()->isVirtual() && (!$method || !$rate)) {
-                Mage::throwException($helper->__('Please specify shipping method.'));
+                Mage::throwException($helper->__('Please specify a shipping method.'));
             }
         }
 
@@ -188,7 +188,7 @@ class Mage_Sales_Model_Service_Quote
         }
 
         if (!($this->getQuote()->getPayment()->getMethod())) {
-            Mage::throwException($helper->__('Please select valid payment method.'));
+            Mage::throwException($helper->__('Please select a valid payment method.'));
         }
         return $this;
     }

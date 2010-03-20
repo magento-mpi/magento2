@@ -56,7 +56,7 @@ class Enterprise_GiftCardAccount_CustomerController extends Enterprise_Enterpris
                 Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($code)
                     ->setIsRedeemed(true)->redeem();
                 Mage::getSingleton('customer/session')->addSuccess(
-                    $this->__('Gift Card "%s" was redeemed successfully.', Mage::helper('core')->htmlEscape($code))
+                    $this->__('Gift Card "%s" was redeemed.', Mage::helper('core')->htmlEscape($code))
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('customer/session')->addError($e->getMessage());

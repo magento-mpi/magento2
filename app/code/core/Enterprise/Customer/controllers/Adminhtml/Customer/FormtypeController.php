@@ -121,7 +121,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Enterpri
             catch (Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_customer')->__('Error while saving Form Type. Please try again later.'));
+                    Mage::helper('enterprise_customer')->__('An error occurred while saving the form type.'));
             }
             if ($hasError) {
                 $this->_getSession()->setFormData($this->getRequest()->getPost());
@@ -259,7 +259,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Enterpri
             catch (Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_customer')->__('Error while saving Form Type. Please try again later.'));
+                    Mage::helper('enterprise_customer')->__('An error occurred while saving the form type.'));
             }
 
             if ($hasError) {
@@ -281,19 +281,19 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Enterpri
         $formType = $this->_initFormType();
         if ($this->getRequest()->isPost() && $formType->getId()) {
             if ($formType->getIsSystem()) {
-                $message = Mage::helper('enterprise_customer')->__('You can not delete system form type');
+                $message = Mage::helper('enterprise_customer')->__('System form type cannot be deleted'.);
                 $this->_getSession()->addError($message);
             } else {
                 try {
                     $formType->delete();
-                    $message = Mage::helper('enterprise_customer')->__('Form Type was successfully deleted');
+                    $message = Mage::helper('enterprise_customer')->__('Form type has been deleted.');
                     $this->_getSession()->addSuccess($message);
                 }
                 catch (Mage_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                 }
                 catch (Exception $e) {
-                    $message = Mage::helper('enterprise_customer')->__('Error while deleting Form Type. Please try again later.');
+                    $message = Mage::helper('enterprise_customer')->__('An error occurred while deleting the form type.');
                     $this->_getSession()->addException($e, $message);
                 }
             }

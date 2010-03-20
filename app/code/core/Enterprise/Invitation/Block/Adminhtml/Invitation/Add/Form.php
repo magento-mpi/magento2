@@ -63,7 +63,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Enterpri
         ));
 
         $fieldset->addField('email', 'textarea', array(
-            'label' => $this->helper('enterprise_invitation')->__('Enter each Email on New Line'),
+            'label' => $this->helper('enterprise_invitation')->__('Enter Each Email on New Line'),
             'required' => true,
             'class' => 'validate-emails',
             'name' => 'email'

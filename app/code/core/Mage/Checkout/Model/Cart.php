@@ -175,7 +175,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($productInfo);
         } else {
-            Mage::throwException(Mage::helper('checkout')->__('Can\'t find product'));
+            Mage::throwException(Mage::helper('checkout')->__('The product could not be found.'));
         }
         return $product;
     }
@@ -248,7 +248,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object
             }
         }
         else {
-            Mage::throwException(Mage::helper('checkout')->__('Product does not exist'));
+            Mage::throwException(Mage::helper('checkout')->__('The product does not exist.'));
         }
 
         Mage::dispatchEvent('checkout_cart_product_add_after', array('quote_item'=>$result, 'product'=>$product));
@@ -289,12 +289,12 @@ class Mage_Checkout_Model_Cart extends Varien_Object
 
             if (!$allAvailable) {
                 $this->getCheckoutSession()->addError(
-                    Mage::helper('checkout')->__('Some of the products you requested are unavailable')
+                    Mage::helper('checkout')->__('Some of the requested products are unavailable.')
                 );
             }
             if (!$allAdded) {
                 $this->getCheckoutSession()->addError(
-                    Mage::helper('checkout')->__('Some of the products you requested are not available in the desired quantity')
+                    Mage::helper('checkout')->__('Some of the requested products are not available in the desired quantity.')
                 );
             }
         }

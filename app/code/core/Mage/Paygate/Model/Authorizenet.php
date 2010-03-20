@@ -183,7 +183,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         if ($result->getResponseReasonText()) {
             Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
         }
-        Mage::throwException(Mage::helper('paygate')->__('Error in capturing the payment'));
+        Mage::throwException(Mage::helper('paygate')->__('Error in capturing the payment.'));
     }
 
 
@@ -209,7 +209,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
         }
         $payment->setStatus(self::STATUS_ERROR);
-        Mage::throwException(Mage::helper('paygate')->__('Invalid transaction id'));
+        Mage::throwException(Mage::helper('paygate')->__('Invalid transaction ID.'));
     }
 
     /**
@@ -240,7 +240,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             }
             Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
         }
-        Mage::throwException(Mage::helper('paygate')->__('Error in refunding the payment'));
+        Mage::throwException(Mage::helper('paygate')->__('Error in refunding the payment.'));
     }
 
     /**
@@ -408,7 +408,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         }
         else {
              Mage::throwException(
-                Mage::helper('paygate')->__('Error in payment gateway')
+                Mage::helper('paygate')->__('Error in payment gateway.')
             );
         }
 

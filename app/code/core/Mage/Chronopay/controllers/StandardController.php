@@ -82,7 +82,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
 
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('chronopay')->__('Customer was redirected to Chronopay')
+            Mage::helper('chronopay')->__('The customer was redirected to Chronopay.')
         );
         $order->save();
 
@@ -113,7 +113,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
 
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('chronopay')->__('Customer successfully returned from Chronopay')
+            Mage::helper('chronopay')->__('The customer has successfully returned from Chronopay.')
         );
 
         $order->save();
@@ -195,7 +195,7 @@ class Mage_Chronopay_StandardController extends Mage_Core_Controller_Front_Actio
      */
     public function failureAction ()
     {
-        $errorMsg = Mage::helper('chronopay')->__('There was an error occurred during paying process.');
+        $errorMsg = Mage::helper('chronopay')->__('An error occurred during the paying process.');
 
         $order = $this->getOrder();
 

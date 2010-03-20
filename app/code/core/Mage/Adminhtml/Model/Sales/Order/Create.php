@@ -584,7 +584,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 ->setStoreId($this->getSession()->getStoreId())
                 ->load($product);
             if (!$product->getId()) {
-                Mage::throwException(Mage::helper('adminhtml')->__('Failed to add a product to cart by id "%s"', $productId));
+                Mage::throwException(Mage::helper('adminhtml')->__('Failed to add a product to cart by id "%s".', $productId));
             }
         }
 
@@ -722,7 +722,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 try {
                     list($label,$value) = explode(':', $_additionalOption, 2);
                 } catch (Exception $e) {
-                    Mage::throwException(Mage::helper('adminhtml')->__('One of options row has error'));
+                    Mage::throwException(Mage::helper('adminhtml')->__('There is an error in one of the option rows.'));
                 }
                 $label = trim($label);
                 $value = trim($value);
@@ -1049,7 +1049,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         return $customer->isInStore($store);
     }
-    
+
     /**
      * Prepare quote customer
      */
@@ -1219,34 +1219,34 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         $customerId = $this->getSession()->getCustomerId();
         if (is_null($customerId)) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Please select a customer'));
+            Mage::throwException(Mage::helper('adminhtml')->__('Please select a customer.'));
         }
 
         if (!$this->getSession()->getStore()->getId()) {
-            Mage::throwException(Mage::helper('adminhtml')->__('Please select a store'));
+            Mage::throwException(Mage::helper('adminhtml')->__('Please select a store.'));
         }
         $items = $this->getQuote()->getAllItems();
 
         $errors = array();
         if (count($items) == 0) {
-            $errors[] = Mage::helper('adminhtml')->__('You need to specify order items');
+            $errors[] = Mage::helper('adminhtml')->__('You need to specify order items.');
         }
 
         if (!$this->getQuote()->isVirtual()) {
             if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
-                $errors[] = Mage::helper('adminhtml')->__('Shipping method must be specified');
+                $errors[] = Mage::helper('adminhtml')->__('Shipping method must be specified.');
             }
         }
 
         if (!$this->getQuote()->getPayment()->getMethod()) {
-            $errors[] = Mage::helper('adminhtml')->__('Payment method must be specified');
+            $errors[] = Mage::helper('adminhtml')->__('Payment method must be specified.');
         } else {
             $method = $this->getQuote()->getPayment()->getMethodInstance();
             if (!$method) {
-                $errors[] = Mage::helper('adminhtml')->__('Payment method instance is not available');
+                $errors[] = Mage::helper('adminhtml')->__('Payment method instance is not available.');
             } else {
                 if (!$method->isAvailable($this->getQuote())) {
-                    $errors[] = Mage::helper('adminhtml')->__('Payment method is not available');
+                    $errors[] = Mage::helper('adminhtml')->__('Payment method is not available.');
                 } else {
                     try {
                         $method->validate();

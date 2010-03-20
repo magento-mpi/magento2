@@ -103,7 +103,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Enterprise_Enterprise_Mod
         $this->setData('notify_by_email', $shouldNotify);
         if ($shouldNotify) {
             if (null === $storeId) {
-                Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Set Store ID as well.'));
+                Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Please set store ID as well.'));
             }
             $this->setStoreId($storeId);
         }

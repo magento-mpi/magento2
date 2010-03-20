@@ -80,7 +80,7 @@ class Enterprise_SalesPool_Model_Pool_Check
             $modelClass = Mage::getModel($model);
             $modelClass = get_class($modelClass);
             if ($class != $modelClass) {
-                $problems[] = Mage::helper('enterprise_salespool')->__('"%s" moder overwriting', $model);
+                $problems[] = Mage::helper('enterprise_salespool')->__('"%s" mode overwriting', $model);
             }
         }
         return $problems;

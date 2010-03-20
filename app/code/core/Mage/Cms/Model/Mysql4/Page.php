@@ -69,11 +69,11 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
         }
 
         if (!$this->getIsUniquePageToStores($object)) {
-            Mage::throwException(Mage::helper('cms')->__('Page URL Key for specified store already exist.'));
+            Mage::throwException(Mage::helper('cms')->__('A page URL key for specified store already exists.'));
         }
 
         if ($this->isNumericPageIdentifier($object)) {
-            Mage::throwException(Mage::helper('cms')->__('Page URL Key cannot consist only of numbers.'));
+            Mage::throwException(Mage::helper('cms')->__('The page URL key cannot consist only of numbers.'));
         }
 
         if (! $object->getId()) {

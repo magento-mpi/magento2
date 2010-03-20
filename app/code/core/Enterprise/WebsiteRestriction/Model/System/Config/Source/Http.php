@@ -41,7 +41,7 @@ extends Varien_Object
         return array(
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::HTTP_503,
-                'label' => Mage::helper('enterprise_websiterestriction')->__('503 Service unavailable'),
+                'label' => Mage::helper('enterprise_websiterestriction')->__('503 Service Unavailable'),
             ),
             array(
                 'value' => Enterprise_WebsiteRestriction_Model_Mode::HTTP_200,

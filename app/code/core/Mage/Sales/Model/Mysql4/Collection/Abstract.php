@@ -48,7 +48,7 @@ abstract class Mage_Sales_Model_Mysql4_Collection_Abstract extends Mage_Core_Mod
             $field = $attribute->getAttributeCode();
         }
         if (!$field) {
-            Mage::throwException(Mage::helper('sales')->__('Can\'t determine field name'));
+            Mage::throwException(Mage::helper('sales')->__('Cannot determine the field name.'));
         }
         return $field;
     }

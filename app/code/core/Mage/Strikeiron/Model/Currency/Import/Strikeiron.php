@@ -66,12 +66,12 @@ class Mage_Strikeiron_Model_Currency_Import_Strikeiron extends Mage_Directory_Mo
                     $currenciesNotConverted = array_diff($currenciesToArr, $convertedCurrencies);
                     if ($currenciesNotConverted) {
                         foreach ($currenciesNotConverted as $_currencyNconvert) {
-                             $this->_messages[] = Mage::helper('strikeiron')->__('%s is not supported currency.', $_currencyNconvert);
+                             $this->_messages[] = Mage::helper('strikeiron')->__('%s is not a supported currency.', $_currencyNconvert);
                              $data[$currencyFrom][$_currencyNconvert] = $this->_numberFormat(null);
                         }
                     }
                 } else {
-                    $this->_messages[] = Mage::helper('strikeiron')->__('Cannot retreive rate from strikeirion.');
+                    $this->_messages[] = Mage::helper('strikeiron')->__('Cannot retrieve rate from Strikeiron.');
                 }
             }
             ksort($data[$currencyFrom]);
@@ -94,7 +94,7 @@ class Mage_Strikeiron_Model_Currency_Import_Strikeiron extends Mage_Directory_Mo
             if( $retry == 0 ) {
                 $this->_convert($currencyFrom, $currencyTo, 1);
             } else {
-                $this->_messages[] = Mage::helper('strikeiron')->__('Cannot retrieve rate from %s to %s', $currencyFrom, $currencyTo);
+                $this->_messages[] = Mage::helper('strikeiron')->__('Cannot retrieve rate from %s to %s.', $currencyFrom, $currencyTo);
             }
         }
 

@@ -93,8 +93,8 @@ class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
         $str = Mage::helper('catalogrule')->__("Name: %s", $this->getName()) ."\n"
              . Mage::helper('catalogrule')->__("Start at: %s", $this->getStartAt()) ."\n"
              . Mage::helper('catalogrule')->__("Expire at: %s", $this->getExpireAt()) ."\n"
-             . Mage::helper('catalogrule')->__("Customer registered: %s", $this->getCustomerRegistered()) ."\n"
-             . Mage::helper('catalogrule')->__("Customer is new buyer: %s", $this->getCustomerNewBuyer()) ."\n"
+             . Mage::helper('catalogrule')->__("Customer Registered: %s", $this->getCustomerRegistered()) ."\n"
+             . Mage::helper('catalogrule')->__("Customer is a New Buyer: %s", $this->getCustomerNewBuyer()) ."\n"
              . Mage::helper('catalogrule')->__("Description: %s", $this->getDescription()) ."\n\n"
              . $this->getConditions()->toStringRecursive() ."\n\n"
              . $this->getActions()->toStringRecursive() ."\n\n";

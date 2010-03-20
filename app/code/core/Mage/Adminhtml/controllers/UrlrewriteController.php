@@ -130,7 +130,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                     ->setOptions($this->getRequest()->getParam('options'))
                     ->setDescription($this->getRequest()->getParam('description'))
                     ->setRequestPath($this->getRequest()->getParam('request_path'));
-                    
+
                 if (!$model->getId()) {
                     $model->setIsSystem(0);
                 }
@@ -150,7 +150,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                 if ($product || $category) {
                     $catalogUrlModel = Mage::getSingleton('catalog/url');
                     $idPath = $catalogUrlModel->generatePath('id', $product, $category);
-                    
+
                     // if redirect specified try to find friendly URL
                     $found = false;
                     if (in_array($model->getOptions(), array('R', 'RP'))) {
@@ -172,7 +172,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                 // save and redirect
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__('URL Rewrite has been successfully saved')
+                    Mage::helper('adminhtml')->__('The URL Rewrite has been saved.')
                 );
                 $this->_redirect('*/*/');
                 return;
@@ -200,7 +200,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
             try {
                 Mage::registry('current_urlrewrite')->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('adminhtml')->__('URL Rewrite has been successfully deleted')
+                    Mage::helper('adminhtml')->__('The URL Rewrite has been deleted.')
                 );
             }
             catch (Exception $e) {

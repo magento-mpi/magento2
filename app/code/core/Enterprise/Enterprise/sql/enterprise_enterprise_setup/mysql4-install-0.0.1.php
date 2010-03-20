@@ -126,7 +126,7 @@ $page = $installer->getConnection()->fetchRow($installer->getConnection()->selec
     ->where('identifier = ?', 'no-route')
     ->limit(1));
 if ($page) {
-    $content = '<div class="page-head-alt"><h3>We’re sorry, the page you’re looking for can not be found.</h3></div>
+    $content = '<div class="page-head-alt"><h3>We are sorry, but the page you are looking for cannot be found.</h3></div>
 <div>
     <ul class="disc">
         <li>If you typed the URL directly, please make sure the spelling is correct.</li>

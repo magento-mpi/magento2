@@ -132,7 +132,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
             }
         }
         if ($countCancelOrder>0) {
-            $this->_getSession()->addSuccess($this->__('%s order(s) successfully canceled', $countCancelOrder));
+            $this->_getSession()->addSuccess($this->__('%s order(s) have been canceled.', $countCancelOrder));
         }
         else {
             // selected orders is not available for cancel
@@ -156,7 +156,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
             }
         }
         if ($countHoldOrder>0) {
-            $this->_getSession()->addSuccess($this->__('%s order(s) successfully put on hold', $countHoldOrder));
+            $this->_getSession()->addSuccess($this->__('%s order(s) have been put on hold.', $countHoldOrder));
         }
         else {
             // selected orders is not available for hold
@@ -180,7 +180,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
             }
         }
         if ($countUnholdOrder>0) {
-            $this->_getSession()->addSuccess($this->__('%s order(s) successfully released from holding status', $countUnholdOrder));
+            $this->_getSession()->addSuccess($this->__('%s order(s) have been released from holding status.', $countUnholdOrder));
         }
         else {
             // selected orders is not available for hold
@@ -200,7 +200,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
 
         $removedFromArchiveCount = count($removedFromArchive);
         if ($removedFromArchiveCount>0) {
-            $this->_getSession()->addSuccess($this->__('%s order(s) successfully removed from archive', $removedFromArchiveCount));
+            $this->_getSession()->addSuccess($this->__('%s order(s) have been removed from archive.', $removedFromArchiveCount));
         }
         else {
             // selected orders is not available for removing from archive
@@ -220,7 +220,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
 
         $archivedCount = count($archivedIds);
         if ($archivedCount>0) {
-            $this->_getSession()->addSuccess($this->__('%s order(s) successfully archived', $archivedCount));
+            $this->_getSession()->addSuccess($this->__('%s order(s) have been archived.', $archivedCount));
         }
         else {
             // selected orders is not available for removing from archive
@@ -237,7 +237,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
         if ($orderId) {
             $archivedIds = Mage::getSingleton('enterprise_salesarchive/archive')
                 ->archiveOrdersById($orderId);
-            $this->_getSession()->addSuccess($this->__('Order has been successfully archived.'));
+            $this->_getSession()->addSuccess($this->__('The order has been archived.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));
         } else {
             $this->_getSession()->addError($this->__('Please specify order id to be archived.'));
@@ -254,7 +254,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
         if ($orderId) {
             $orderIds = Mage::getSingleton('enterprise_salesarchive/archive')
                 ->removeOrdersFromArchiveById($orderId);
-            $this->_getSession()->addSuccess($this->__('Order has been successfully removed from archive.'));
+            $this->_getSession()->addSuccess($this->__('The order has been removed from the archive.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));
         } else {
             $this->_getSession()->addError($this->__('Please specify order id to be removed from archive.'));

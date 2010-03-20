@@ -102,7 +102,7 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction extends Mage_Sales_Model
 
         if ($parentTxnId) {
             if (!$txnId || !$orderId || !$paymentId) {
-                Mage::throwException(Mage::helper('sales')->__('Not enough valid data to save parent transaction ID.'));
+                Mage::throwException(Mage::helper('sales')->__('Not enough valid data to save the parent transaction ID.'));
             }
             $parentId = (int)$this->_lookupByTxnId($orderId, $paymentId, $parentTxnId, $idFieldName);
             if ($parentId) {

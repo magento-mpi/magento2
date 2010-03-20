@@ -172,7 +172,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
         }
         catch (Exception $e) {
             $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
-                ->addException($e, Mage::helper('customer')->__('Can\'t save customer'));
+                ->addException($e, Mage::helper('customer')->__('Unable to save the customer.'));
         }
 
         $this->_redirectError('');

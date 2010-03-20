@@ -82,7 +82,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
 
         $order = Mage::getModel('sales/order');
         $order->loadByIncrementId($session->getLastRealOrderId());
-        $order->addStatusToHistory($order->getStatus(), $this->__('Customer was redirected to Paybox'));
+        $order->addStatusToHistory($order->getStatus(), $this->__('The customer was redirected to Paybox'));
         $order->save();
 
         $session->setPayboxOrderId(Mage::helper('core')->encrypt($session->getLastRealOrderId()));
@@ -112,20 +112,20 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
             $order->loadByIncrementId($this->_payboxResponse['ref']);
 
             if (!$order->getId()) {
-                Mage::throwException($this->__('There are no order.'));
+                Mage::throwException($this->__('There are no orders.'));
             }
 
             if (Mage::helper('core')->decrypt($this->getCheckout()->getPayboxOrderId()) != $this->_payboxResponse['ref']) {
-                Mage::throwException($this->__('Order is not match.'));
+                Mage::throwException($this->__('Order does not match.'));
             }
             $this->getCheckout()->unsPayboxOrderId();
 
             if (($order->getBaseGrandTotal()*100) != $this->_payboxResponse['amount']) {
-                Mage::throwException($this->__('Amount is not match.'));
+                Mage::throwException($this->__('Amount does not match.'));
             }
 
             if ($this->_payboxResponse['error'] == '00000') {
-                $order->addStatusToHistory($order->getStatus(), $this->__('Customer successfully returned from Paybox'));
+                $order->addStatusToHistory($order->getStatus(), $this->__('The customer has returned from Paybox.'));
 
                 $redirectTo = 'checkout/onepage/success';
                 if ($this->getCheckout()->getPayboxPaymentAction() == Mage_Paybox_Model_System::PBX_PAYMENT_ACTION_ATHORIZE_CAPTURE) {
@@ -134,9 +134,9 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
                         ->getMethodInstance()
                         ->setTransactionId($this->_payboxResponse['trans']);
                     if ($this->_createInvoice($order)) {
-                        $order->addStatusToHistory($order->getStatus(), $this->__('Invoice was create successfully'));
+                        $order->addStatusToHistory($order->getStatus(), $this->__('The invoice has been created.'));
                     } else {
-                        $order->addStatusToHistory($order->getStatus(), $this->__('Cann\'t create invoice'));
+                        $order->addStatusToHistory($order->getStatus(), $this->__('Cannot create the invoice.'));
                         $redirectTo = '*/*/failure';
                     }
                 }
@@ -148,7 +148,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
             } else {
                 $redirectTo = '*/*/failure';
                 $order->cancel();
-                $order->addStatusToHistory($order->getStatus(), $this->__('Customer was rejected by Paybox'));
+                $order->addStatusToHistory($order->getStatus(), $this->__('The customer was rejected by Paybox.'));
             }
 
             $order->sendNewOrderEmail();
@@ -174,7 +174,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
             $order = Mage::getModel('sales/order')
                 ->loadByIncrementId($this->_payboxResponse['ref']);
             $order->cancel();
-            $order->addStatusToHistory($order->getStatus(), $this->__('Customer was refuse by Paybox'));
+            $order->addStatusToHistory($order->getStatus(), $this->__('The customer was refused by Paybox.'));
             $order->save();
 
             $this->_redirect('*/*/failure');
@@ -195,7 +195,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
             $order = Mage::getModel('sales/order')
                 ->loadByIncrementId($this->_payboxResponse['ref']);
             $order->cancel();
-            $order->addStatusToHistory($order->getStatus(), $this->__('Order was canceled by customer'));
+            $order->addStatusToHistory($order->getStatus(), $this->__('The order was canceled by the customer.'));
             $order->save();
 
             $session = $this->getCheckout();
@@ -222,7 +222,7 @@ class Mage_Paybox_SystemController extends Mage_Core_Controller_Front_Action
         $order = Mage::getModel('sales/order')
             ->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
         $order->addStatusToHistory(
-            $order->getStatus(), $this->__('Customer was redirected to Paybox using \'command line\' mode')
+            $order->getStatus(), $this->__('The customer was redirected to Paybox using \'command line\' mode.')
         );
         $order->save();
 

@@ -72,7 +72,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Upda
             'name'  => 'points_delta',
             'title' => Mage::helper('enterprise_reward')->__('Update Points'),
             'label' => Mage::helper('enterprise_reward')->__('Update Points'),
-            'note'  => Mage::helper('enterprise_reward')->__('Enter Negative Number to Subtract Balance')
+            'note'  => Mage::helper('enterprise_reward')->__('Enter a negative number to subtract from balance.')
         ));
 
         $fieldset->addField('comment', 'text', array(

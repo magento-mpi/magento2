@@ -179,7 +179,7 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Enterprise_Enterpr
             case '<=':
                 return $operator;
             default:
-                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified'));
+                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified.'));
         }
     }
 

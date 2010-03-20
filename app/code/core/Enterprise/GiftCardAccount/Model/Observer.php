@@ -188,7 +188,7 @@ class Enterprise_GiftCardAccount_Model_Observer
                     ->addToCart(true, $quote);
                 /*
                 Mage::getSingleton('adminhtml/session_quote')->addSuccess(
-                    $this->__('Gift Card "%s" was added successfully.', Mage::helper('core')->htmlEscape($code))
+                    $this->__('Gift Card "%s" was added.', Mage::helper('core')->htmlEscape($code))
                 );
                 */
             } catch (Mage_Core_Exception $e) {
@@ -212,7 +212,7 @@ class Enterprise_GiftCardAccount_Model_Observer
                     ->removeFromCart(false, $quote);
                 /*
                 Mage::getSingleton('adminhtml/session_quote')->addSuccess(
-                    $this->__('Gift Card "%s" was removed successfully.', Mage::helper('core')->htmlEscape($code))
+                    $this->__('Gift Card "%s" was removed.', Mage::helper('core')->htmlEscape($code))
                 );
                 */
             } catch (Mage_Core_Exception $e) {

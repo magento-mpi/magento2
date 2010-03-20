@@ -779,7 +779,7 @@ XML;
                     }
                 }
                 if (is_null($_quoteItem)) {
-                    Mage::throwException($this->__('Item specified in callback request XML was not found in quote.'));
+                    Mage::throwException($this->__('The item specified in callback request XML was not found in quote.'));
                 }
 
                 $_xmlCallbackOrderItem = $_xmlCallbackOrderItems->addChild('CallbackOrderItem');

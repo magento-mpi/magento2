@@ -96,7 +96,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Enterprise_Enterpr
 
         $this->addColumn('base_url', array(
             'width'     => 250,
-            'header'    => Mage::helper('enterprise_staging')->__('Url'),
+            'header'    => Mage::helper('enterprise_staging')->__('URL'),
             'index'     => 'base_url',
             'title'     => 'base_url',
             'length'    => '40',

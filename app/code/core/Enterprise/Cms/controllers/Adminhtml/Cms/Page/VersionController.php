@@ -139,7 +139,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
                 $version->save();
 
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Version was successfully saved.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('The version has been saved.'));
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
                 // check if 'Save and Continue'
@@ -197,7 +197,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
     {
         $ids = $this->getRequest()->getParam('revision');
         if (!is_array($ids)) {
-            $this->_getSession()->addError($this->__('Please select revision(s)'));
+            $this->_getSession()->addError($this->__('Please select revision(s).'));
         }
         else {
             try {
@@ -213,13 +213,13 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
                     }
                 }
                 $this->_getSession()->addSuccess(
-                    $this->__('Total of %d record(s) were successfully deleted', count($ids))
+                    $this->__('Total of %d record(s) have been deleted.', count($ids))
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError(Mage::helper('enterprise_cms')->__('Error while deleting revisions. Please try again later.'));
+                $this->_getSession()->addError(Mage::helper('enterprise_cms')->__('An error occurred while deleting revisions.'));
             }
         }
         $this->_redirect('*/*/edit', array('_current' => true, 'tab' => 'revisions'));
@@ -242,7 +242,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
             try {
                 $version->delete();
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Version was successfully deleted.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('The version has been deleted.'));
                 $this->_redirect('*/cms_page/edit', array('page_id' => $version->getPageId()));
                 return;
             } catch (Mage_Core_Exception $e) {
@@ -251,7 +251,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
                 $error = true;
             } catch (Exception $e) {
                 Mage::logException($e);
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_cms')->__('Error while deleting version. Please try again later.'));
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_cms')->__('An error occurred while deleting the version.'));
                 $error = true;
             }
 
@@ -297,7 +297,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
             try {
                 $version->save();
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('New version was successfully created.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('The new version has been created.'));
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
                 if (isset($data['revision_id'])) {

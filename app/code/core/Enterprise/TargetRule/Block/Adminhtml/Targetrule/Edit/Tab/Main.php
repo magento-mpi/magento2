@@ -108,7 +108,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main extends Ent
         $fieldset->addField('positions_limit', 'text', array(
             'name'  => 'positions_limit',
             'label' => Mage::helper('enterprise_targetrule')->__('Result Limit'),
-            'note'  => Mage::helper('enterprise_targetrule')->__('Maximum Number of Products that can be matched by this Rule. Capped to 20.'),
+            'note'  => Mage::helper('enterprise_targetrule')->__('Maximum number of products that can be matched by this Rule. Capped to 20.'),
         ));
 
         $form->setValues($model->getData());

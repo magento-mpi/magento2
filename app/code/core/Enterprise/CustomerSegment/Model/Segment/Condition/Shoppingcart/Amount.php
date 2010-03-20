@@ -136,7 +136,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
                 $field = 'quote.base_gift_cards_amount_used';
                 break;
             default:
-                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown quote total specified'));
+                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown quote total specified.'));
         }
 
         if ($joinAddress) {

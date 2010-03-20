@@ -67,7 +67,7 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
         }
         $order->addStatusToHistory(
             $order->getStatus(),
-            $this->__('Customer was redirected to iDEAL. Please, check the status of a transaction via the ING iDEAL Dashboard before delivery of the goods purchased.')
+            $this->__('Customer was redirected to iDEAL. Please, check the status of the transaction via the ING iDEAL Dashboard before delivery of the goods purchased.')
         );
         $order->save();
 
@@ -98,7 +98,7 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
 
         $order->addStatusToHistory(
             $order->getStatus(),
-            $this->__('Customer successfully returned from iDEAL')
+            $this->__('Customer has successfully returned from iDEAL.')
         );
 
         $order->sendNewOrderEmail();
@@ -126,7 +126,7 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
 
         $order->cancel();
 
-        $history = $this->__('Payment was canceled by customer');
+        $history = $this->__('Payment was canceled by the customer.');
 
         $order->addStatusToHistory(
             $order->getStatus(),
@@ -158,8 +158,8 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
 
         $order->cancel();
 
-        $history = $this->__('Error occured with transaction %s.', $order->getIncrementId()) . ' '
-                 . $this->__('Customer was returned from iDEAL.');
+        $history = $this->__('An error has occurred with the transaction #%s.', $order->getIncrementId()) . ' '
+                 . $this->__('The customer has returned from iDEAL.');
 
         $order->addStatusToHistory(
             $order->getStatus(),
@@ -169,7 +169,7 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
         $order->save();
 
         $session->setQuoteId($session->getIdealBasicQuoteId(true));
-        $session->setIdealErrorMessage($this->__('An error occurred while processing your iDEAL transaction. Please contact the web shop or try again later. Transaction number is %s.', $order->getIncrementId()));
+        $session->setIdealErrorMessage($this->__('An error occurred while processing your iDEAL transaction. Please contact the web shop or try again later. The transaction number is %s.', $order->getIncrementId()));
 
         $this->loadLayout();
         $this->renderLayout();
@@ -207,16 +207,16 @@ class Mage_Ideal_BasicController extends Mage_Core_Controller_Front_Action
             if (!$order->hasInvoices()) {
                 $this->_saveInvoice($order);
                 $order->addStatusToHistory($order->getStatus(),
-                    $this->__('Notification from iDEAL was recived with status %s. Invoice was created. Please, check the status of a transaction via the ING iDEAL Dashboard before delivery of the goods purchased.', $status)
+                    $this->__('Notification from iDEAL was received with status %s. The invoice was created. Please check the status of a transaction via the ING iDEAL Dashboard before delivery of the goods purchased.', $status)
                 );
             } else {
                 $order->addStatusToHistory($order->getStatus(),
-                    $this->__('Notification from iDEAL was recived with status %s.', $status)
+                    $this->__('Notification from iDEAL was received with status %s.', $status)
                 );
             }
         } else {
             $order->addStatusToHistory($order->getStatus(),
-                $this->__('Notification from iDEAL was recived with status %s.', $status)
+                $this->__('Notification from iDEAL was received with status %s.', $status)
             );
             $order->cancel();
         }

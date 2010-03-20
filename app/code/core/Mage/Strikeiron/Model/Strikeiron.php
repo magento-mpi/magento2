@@ -84,16 +84,16 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
                     if ($result) {
                         switch ($result->IsValid) {
                            case 'INVALID':
-                               Mage::throwException(Mage::helper('strikeiron')->__('Invalid email address'));
+                               Mage::throwException(Mage::helper('strikeiron')->__('Invalid email address.'));
                            break;
                            case 'UNDETERMINED':
                                switch($this->getConfigData('email_verification', 'undetermined_action')) {
                                    case Mage_Strikeiron_Model_Service_EmailVerification::EMAIL_UNDETERMINED_REJECT:
-                                       Mage::throwException(Mage::helper('strikeiron')->__('Invalid email address'));
+                                       Mage::throwException(Mage::helper('strikeiron')->__('Invalid email address.'));
                                    break;
                                    case  Mage_Strikeiron_Model_Service_EmailVerification::EMAIL_UNDETERMINED_CONFIRM:
                                           $_session->setStrikeironUndertermined($email);
-                                          Mage::throwException(Mage::helper('strikeiron')->__('Email address cannot be verified. Please check again and make sure your email address entered correctly.'));
+                                          Mage::throwException(Mage::helper('strikeiron')->__('The email address cannot be verified. Please check again and make sure your email address is entered correctly.'));
                                    break;
                                }
                            break;
@@ -166,7 +166,7 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
     public function fetchExchangeRate ($defaultCurrency, $currencies=array())
     {
         if(!$this->getConfigData('currency', 'foreigh_xrate')){
-            Mage::throwException(Mage::helper('strikeiron')->__('Strikeiron foreign exchange rate is disabled'));
+            Mage::throwException(Mage::helper('strikeiron')->__('Strikeiron foreign exchange rate is disabled.'));
         }
 
         $data = array();
@@ -200,15 +200,15 @@ class Mage_Strikeiron_Model_Strikeiron extends Mage_Core_Model_Abstract
                               Mage::throwException($result->ServiceStatus->StatusDescription);
                             }
                         } else {
-                           Mage::throwException(Mage::helper('strikeiron')->__('There is no response back from Strikeiron server'));
+                           Mage::throwException(Mage::helper('strikeiron')->__('There is no response back from Strikeiron server.'));
                         }
                     }
                 }
             } else {
-                Mage::throwException(Mage::helper('strikeiron')->__('There is no more hits remaining for the foreign Exchange Rate Service.'));
+                Mage::throwException(Mage::helper('strikeiron')->__('There are no more hits remaining for the foreign Exchange Rate Service.'));
             }
         } catch (Zend_Service_StrikeIron_Exception $e) {
-               Mage::throwException(Mage::helper('strikeiron')->__('There is no response back from Strikeiron server'));
+               Mage::throwException(Mage::helper('strikeiron')->__('There is no response back from Strikeiron server.'));
         }
         return $data;
     }
@@ -280,7 +280,7 @@ $_session = Mage::getSingleton('strikeiron/session');
             }
 
         } catch (Zend_Service_StrikeIron_Exception $e) {
-               Mage::throwException(Mage::helper('strikeiron')->__('There is no response back from Strikeiron server'));
+               Mage::throwException(Mage::helper('strikeiron')->__('There is no response back from Strikeiron server.'));
         }
         return true;
     }
@@ -357,7 +357,7 @@ $_session = Mage::getSingleton('strikeiron/session');
             } catch (Zend_Service_StrikeIron_Exception $e) {
                 //we won't throw exception
                 //since the method is calling via event handler
-               //Mage::throwException(Mage::helper('strikeiron')->__('There is an error in retrieving tax rate. Please contact us'));
+               //Mage::throwException(Mage::helper('strikeiron')->__('There is an error in retrieving the tax rate. Please contact us.'));
             }
         }
 

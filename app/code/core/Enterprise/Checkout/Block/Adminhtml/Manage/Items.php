@@ -173,7 +173,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
 
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('Sku'),
+            'header'    => Mage::helper('enterprise_checkout')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku',
             'column_css_class'=> 'sku'

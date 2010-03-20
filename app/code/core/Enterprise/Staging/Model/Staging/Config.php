@@ -95,7 +95,7 @@ class Enterprise_Staging_Model_Staging_Config
         return array(
         self::VISIBILITY_NOT_ACCESSIBLE    => Mage::helper('enterprise_staging')->__('Not accessible'),
         self::VISIBILITY_ACCESSIBLE        => Mage::helper('enterprise_staging')->__('Accessible'),
-        self::VISIBILITY_REQUIRE_HTTP_AUTH => Mage::helper('enterprise_staging')->__('Require Http Auth')
+        self::VISIBILITY_REQUIRE_HTTP_AUTH => Mage::helper('enterprise_staging')->__('Require HTTP Authentication')
         );
     }
 

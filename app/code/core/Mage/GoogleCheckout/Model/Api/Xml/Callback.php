@@ -350,17 +350,17 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             $order->getStatus(),
             $this->__('Google Order Number: %s', '<strong>'.$this->getGoogleOrderNumber()).'</strong>'.
             '<br />'.
-            $this->__('Google Buyer Id: %s', '<strong>'.$this->getData('root/buyer-id/VALUE').'</strong>').
+            $this->__('Google Buyer ID: %s', '<strong>'.$this->getData('root/buyer-id/VALUE').'</strong>').
             '<br />'.
-            $this->__('Is Buyer Willing To Receive Marketing E-Mails: %s', '<strong>' . ($emailAllowed ? $this->__('Yes') : $this->__('No')) . '</strong>')
+            $this->__('Is Buyer Willing to Receive Marketing Emails: %s', '<strong>' . ($emailAllowed ? $this->__('Yes') : $this->__('No')) . '</strong>')
         );
 
 //        $order->setCustomerNote(
 //            $this->__('Google Order Number: %s', '<strong>'.$this->getGoogleOrderNumber()).'</strong>'.
 //            '<br />'.
-//            $this->__('Google Buyer Id: %s', '<strong>'.$this->getData('root/buyer-id/VALUE').'</strong>').
+//            $this->__('Google Buyer ID: %s', '<strong>'.$this->getData('root/buyer-id/VALUE').'</strong>').
 //            '<br />'.
-//            $this->__('Is Buyer Willing To Receive Marketing E-Mails: %s', '<strong>' . ($emailAllowed ? $this->__('Yes') : $this->__('No')) . '</strong>')
+//            $this->__('Is Buyer Willing to Receive Marketing Emails: %s', '<strong>' . ($emailAllowed ? $this->__('Yes') : $this->__('No')) . '</strong>')
 //        );
 
 #ob_start(array($this, 'log'));
@@ -524,8 +524,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $msg .= '<br />'.$this->__('CC Partial: xxxx-%s', '<strong>'.$payment->getCcLast4().'</strong>');
         $msg .= '<br />'.$this->__('AVS Status: %s', '<strong>'.$payment->getCcAvsStatus().'</strong>');
         $msg .= '<br />'.$this->__('CID Status: %s', '<strong>'.$payment->getCcCidStatus().'</strong>');
-        $msg .= '<br />'.$this->__('Eligible for protection: %s', '<strong>'.($this->getData('root/risk-information/eligible-for-protection/VALUE')=='true' ? 'Yes' : 'No').'</strong>');
-        $msg .= '<br />'.$this->__('Buyer account age: %s days', '<strong>'.$this->getData('root/risk-information/buyer-account-age/VALUE').'</strong>');
+        $msg .= '<br />'.$this->__('Eligible for Protection: %s', '<strong>'.($this->getData('root/risk-information/eligible-for-protection/VALUE')=='true' ? 'Yes' : 'No').'</strong>');
+        $msg .= '<br />'.$this->__('Buyer Account Age: %s days', '<strong>'.$this->getData('root/risk-information/buyer-account-age/VALUE').'</strong>');
 
         $order->addStatusToHistory($order->getStatus(), $msg);
         $order->save();
@@ -579,7 +579,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
         if (!$order->hasInvoices() && abs($order->getGrandTotal()-$latestCharged)<.0001) {
             $invoice = $this->_createInvoice();
-            $msg .= '<br />'.$this->__('Invoice auto-created: %s', '<strong>'.$invoice->getIncrementId().'</strong>');
+            $msg .= '<br />'.$this->__('Invoice Auto-Created: %s', '<strong>'.$invoice->getIncrementId().'</strong>');
         }
 
         foreach ($order->getInvoiceCollection() as $orderInvoice) {
@@ -674,7 +674,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $prevFulfillment = $this->getData('root/previous-fulfillment-order-state/VALUE');
         $newFulfillment = $this->getData('root/new-fulfillment-order-state/VALUE');
 
-        $msg = $this->__('Google order status change:');
+        $msg = $this->__('Google Order Status Change:');
         if ($prevFinancial!=$newFinancial) {
             $msg .= "<br />".$this->__('Financial: %s -> %s', '<strong>'.$prevFinancial.'</strong>', '<strong>'.$newFinancial.'</strong>');
         }

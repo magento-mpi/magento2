@@ -578,8 +578,8 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         }
 
         if (!$this->hasMessage()) {
-            $this->setMessage($isOnline ? Mage::helper('sales')->__('Cancelled order online.')
-                : Mage::helper('sales')->__('Cancelled order offline.')
+            $this->setMessage($isOnline ? Mage::helper('sales')->__('Canceled order online.')
+                : Mage::helper('sales')->__('Canceled order offline.')
             );
         }
         $this->_void($isOnline, null, 'cancel');

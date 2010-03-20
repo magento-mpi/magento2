@@ -52,7 +52,7 @@ class Enterprise_SalesPool_Model_System_Config_Backend_Active extends Mage_Core_
             $id  = $element->getName();
             $url = Mage::helper('adminhtml')->getUrl('*/sales_order_pool/check');
             $onclick = "new Ajax.Updater('database-check-result".$id."', '".$url."', {evalScripts: true});return false;";
-            $comment = Mage::helper('enterprise_salespool')->__('Please <a href="#" onclick="%s">check</a> your installation before enable this option.', $onclick);
+            $comment = Mage::helper('enterprise_salespool')->__('Please <a href="#" onclick="%s">check</a> your installation before enabling this option.', $onclick);
             $comment.= '<div id="database-check-result'.$id.'"></div>';
         }
         return $comment;

@@ -80,7 +80,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
     {
         $this->setValueOption(array(
             '1' => Mage::helper('enterprise_reminder')->__('has'),
-            '0' => Mage::helper('enterprise_reminder')->__('doesn\'t have')
+            '0' => Mage::helper('enterprise_reminder')->__('does not have')
         ));
         return $this;
     }

@@ -88,7 +88,7 @@ class Mage_Sales_Model_Quote_Address_Total_Collector
                     $this->_models[$totalCode]      = $model;
                 } else {
                     Mage::throwException(
-                        Mage::helper('sales')->__('Address total model should be extended from Mage_Sales_Model_Quote_Address_Total_Abstract')
+                        Mage::helper('sales')->__('The address total model should be extended from Mage_Sales_Model_Quote_Address_Total_Abstract.')
                     );
                 }
             }

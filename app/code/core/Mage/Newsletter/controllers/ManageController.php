@@ -70,10 +70,10 @@ class Mage_Newsletter_ManageController extends Mage_Core_Controller_Front_Action
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->setIsSubscribed((boolean)$this->getRequest()->getParam('is_subscribed', false))
                 ->save();
-            Mage::getSingleton('customer/session')->addSuccess($this->__('The subscription was successfully saved'));
+            Mage::getSingleton('customer/session')->addSuccess($this->__('The subscription has been saved.'));
         }
         catch (Exception $e) {
-            Mage::getSingleton('customer/session')->addError($this->__('There was an error while saving your subscription'));
+            Mage::getSingleton('customer/session')->addError($this->__('An error occurred while saving your subscription.'));
         }
         $this->_redirect('customer/account/');
     }

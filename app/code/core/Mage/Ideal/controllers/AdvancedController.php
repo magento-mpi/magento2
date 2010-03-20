@@ -73,7 +73,7 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
 
                 $order->addStatusToHistory(
                     $order->getStatus(),
-                    $this->__('Customer was redirected to iDEAL')
+                    $this->__('The customer was redirected to iDEAL.')
                 );
                 $order->save();
 
@@ -87,7 +87,7 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
 
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('ideal/advanced_redirect')
-                ->setMessage($this->__('Error occured. You will be redirected back to store.'))
+                ->setMessage($this->__('An error has occurred. You will be redirected back to store.'))
                 ->setRedirectUrl(Mage::getUrl('checkout/cart'))
                 ->toHtml()
         );
@@ -109,7 +109,7 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
 
         $order->addStatusToHistory(
             $order->getStatus(),
-            $this->__('Customer canceled payment.')
+            $this->__('The customer canceled payment.')
         );
         $order->cancel();
         $order->save();
@@ -151,7 +151,7 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
                         ->addObject($invoice->getOrder())
                         ->save();
 
-                    $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer successfully returned from iDEAL'));
+                    $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer has successfully returned from iDEAL.'));
                 }
 
                 $order->sendNewOrderEmail();
@@ -159,12 +159,12 @@ class Mage_Ideal_AdvancedController extends Mage_Core_Controller_Front_Action
                 $this->_redirect('checkout/onepage/success');
             } else if ($response->getTransactionStatus() == Mage_Ideal_Model_Api_Advanced::STATUS_CANCELLED) {
                 $order->cancel();
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer cancelled payment'));
+                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer has canceled payment.'));
 
                 $this->_redirect('checkout/cart');
             } else {
                 $order->cancel();
-                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer was rejected by iDEAL'));
+                $order->addStatusToHistory($order->getStatus(), Mage::helper('ideal')->__('Customer was rejected by iDEAL.'));
                 $this->getCheckout()->setIdealErrorMessage(
                     Mage::helper('ideal')->__('An error occurred while processing your iDEAL transaction. Please contact the web shop or try
 again later. Transaction number is %s.', $order->getIncrementId())

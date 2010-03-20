@@ -146,7 +146,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
     {
         $ids = $this->getRequest()->getParam('version');
         if (!is_array($ids)) {
-            $this->_getSession()->addError($this->__('Please select version(s)'));
+            $this->_getSession()->addError($this->__('Please select version(s).'));
         }
         else {
             try {
@@ -162,13 +162,13 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
                     }
                 }
                 $this->_getSession()->addSuccess(
-                    $this->__('Total of %d record(s) were successfully deleted', count($ids))
+                    $this->__('Total of %d record(s) have been deleted', count($ids))
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError(Mage::helper('enterprise_cms')->__('Error while deleting versions. Please try again later.'));
+                $this->_getSession()->addError(Mage::helper('enterprise_cms')->__('An error occurred while deleting versions.'));
             }
         }
         $this->_redirect('*/*/edit', array('_current' => true, 'tab' => 'versions'));

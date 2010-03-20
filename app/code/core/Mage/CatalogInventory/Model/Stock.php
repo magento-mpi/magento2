@@ -158,7 +158,7 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
             }
         }
         else {
-            Mage::throwException(Mage::helper('cataloginventory')->__('Can not specify product identifier for order item'));
+            Mage::throwException(Mage::helper('cataloginventory')->__('Cannot specify product identifier for the order item.'));
         }
         return $this;
     }

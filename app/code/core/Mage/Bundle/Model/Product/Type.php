@@ -514,7 +514,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             if (!$this->getProduct($product)->getSkipCheckRequiredOption()) {
                 foreach ($optionsCollection->getItems() as $option) {
                     if ($option->getRequired() && !isset($options[$option->getId()])) {
-                        return Mage::helper('bundle')->__('Required options not selected.');
+                        return Mage::helper('bundle')->__('Required options are not selected.');
                     }
                 }
             }
@@ -548,7 +548,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                         $moreSelections = false;
                     }
                     if ($_option->getRequired() && (!$_option->isMultiSelection() || ($_option->isMultiSelection() && !$moreSelections))) {
-                        return Mage::helper('bundle')->__('Selected required options not available.');
+                        return Mage::helper('bundle')->__('Selected required options are not available.');
                     }
                 }
             }
@@ -626,7 +626,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 }
 
                 if (!isset($_result[0])) {
-                    return Mage::helper('checkout')->__('Can not add item to shopping cart');
+                    return Mage::helper('checkout')->__('Cannot add item to the shopping cart.');
                 }
 
                 $result[] = $_result[0]->setParentProductId($product->getId())
@@ -661,7 +661,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function getSpecifyOptionMessage()
     {
-        return Mage::helper('bundle')->__('Please specify product option(s)');
+        return Mage::helper('bundle')->__('Please specify product option(s).');
     }
 
     /**
@@ -868,7 +868,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             $selection = $productSelections->getItemById($selectionId);
             if (!$selection || !$selection->isSalable()) {
                 Mage::throwException(
-                    Mage::helper('bundle')->__('Selected required options not available.')
+                    Mage::helper('bundle')->__('Selected required options are not available.')
                 );
             }
         }

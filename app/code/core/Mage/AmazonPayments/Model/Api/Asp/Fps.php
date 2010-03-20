@@ -37,23 +37,23 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
      * Amazon FPS version protocol
      */
     const SERVICE_VERSION = '2008-09-17';
-    
+
     /*
      * FPS action codes
      */
-    const ACTION_CODE_CANCEL = 'Cancel'; 
-    const ACTION_CODE_SETTLE = 'Settle'; 
-    const ACTION_CODE_REFUND = 'Refund'; 
+    const ACTION_CODE_CANCEL = 'Cancel';
+    const ACTION_CODE_SETTLE = 'Settle';
+    const ACTION_CODE_REFUND = 'Refund';
 
     /*
      * Exeption identifiers
      */
-    const EXCEPTION_INVALID_ACTION_CODE = 10031;    
-    const EXCEPTION_INVALID_REQUEST = 10031;    
-    const EXCEPTION_INVALID_RESPONSE = 10032;    
-    
+    const EXCEPTION_INVALID_ACTION_CODE = 10031;
+    const EXCEPTION_INVALID_REQUEST = 10031;
+    const EXCEPTION_INVALID_RESPONSE = 10032;
+
     /**
-     * Return FPS request model 
+     * Return FPS request model
      *
      * @param string $actionCode
      * @return Mage_AmazonPayments_Model_Api_Asp_Fps_Request_Abstract
@@ -61,21 +61,21 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
     public function getRequest($actionCode)
     {
         switch ($actionCode) {
-            case self::ACTION_CODE_CANCEL: 
+            case self::ACTION_CODE_CANCEL:
                 $requestModelPath = 'amazonpayments/api_asp_fps_request_cancel';
-                break;  
+                break;
             case self::ACTION_CODE_SETTLE:
                 $requestModelPath = 'amazonpayments/api_asp_fps_request_settle';
-                break;  
+                break;
             case self::ACTION_CODE_REFUND:
                 $requestModelPath = 'amazonpayments/api_asp_fps_request_refund';
-                break;  
+                break;
             default: $this->_throwExeptionInvalidActionCode();
         }
 
-        return Mage::getSingleton($requestModelPath)->init($actionCode); 
+        return Mage::getSingleton($requestModelPath)->init($actionCode);
     }
-    
+
     /**
      * Return FPS response model for response body
      *
@@ -86,34 +86,34 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
     protected function _getResponse($requestActionCode, $responseBody)
     {
         switch ($requestActionCode) {
-            case self::ACTION_CODE_CANCEL: 
+            case self::ACTION_CODE_CANCEL:
                 $responseModelPath = 'amazonpayments/api_asp_fps_response_cancel';
-                break;  
+                break;
             case self::ACTION_CODE_SETTLE:
                 $responseModelPath = 'amazonpayments/api_asp_fps_response_settle';
-                break;  
+                break;
             case self::ACTION_CODE_REFUND:
                 $responseModelPath = 'amazonpayments/api_asp_fps_response_refund';
-                break;  
+                break;
             default: $this->_throwExeptionInvalidActionCode();
         }
-    
+
         $actionResponse = Mage::getSingleton($responseModelPath);
         if ($actionResponse->init($responseBody)) {
             return $actionResponse;
         }
-        
+
         $errorResponse = Mage::getSingleton('amazonpayments/api_asp_fps_response_error');
         if ($errorResponse->init($responseBody)) {
             return $errorResponse;
         }
 
         throw new Exception(
-            Mage::helper('amazonpayments')->__('Response body is not valid FPS respons'), 
+            Mage::helper('amazonpayments')->__('Response body is not a valid FPS response.'),
             self::EXCEPTION_INVALID_RESPONSE
         );
     }
-    
+
     /**
      * Process FPS request
      *
@@ -124,11 +124,11 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
     {
         if (!$request->isValid()) {
             throw new Exception(
-                Mage::helper('amazonpayments')->__('Invalid request'), 
+                Mage::helper('amazonpayments')->__('Invalid request.'),
                 self::EXCEPTION_INVALID_REQUEST
             );
         }
-        
+
         $request = $this->_addRequiredParameters($request);
         $request = $this->_signRequest($request);
 
@@ -148,7 +148,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
         }
         return $this->_getConfig('fps_service_url');
     }
-    
+
     /**
      * Add required params to FPS request
      *
@@ -161,7 +161,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
                     ->setData('Timestamp', gmdate("Y-m-d\TH:i:s.\\0\\0\\0\\Z", time()))
                     ->setData('Version', self::SERVICE_VERSION)
                     ->setData('SignatureVersion', '1');
-    } 
+    }
 
     /**
      * Add signature param to FPS request
@@ -174,7 +174,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
         $signature = $this->_getSignatureForArray($request->getData(), $this->_getConfig('secret_key'));
         return $request->setData('Signature', $signature);
     }
-    
+
     /**
      * Send request to Amazon FPS service and return response body
      *
@@ -184,12 +184,12 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
      */
     protected function _call($serviceUrl, $params)
     {
-        $tmpArray = array(); 
+        $tmpArray = array();
         foreach ($params as $kay => $value) {
             $tmpArray[] = $kay . '=' . urlencode($value);
         }
         $requestBody = implode('&', $tmpArray);
-        
+
         $http = new Varien_Http_Adapter_Curl();
         $http->setConfig(array('timeout' => 30));
         $http->write(Zend_Http_Client::POST, $serviceUrl, '1.1', array(), $requestBody);
@@ -197,7 +197,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
         $responseBody = $http->read();
         $responseBody = preg_split('/^\r?$/m', $responseBody, 2);
         $responseBody = trim($responseBody[1]);
-        
+
         $responseBody = new Varien_Simplexml_Element($responseBody);
 
         $http->close();
@@ -210,7 +210,7 @@ class Mage_AmazonPayments_Model_Api_Asp_Fps extends Mage_AmazonPayments_Model_Ap
     protected function _throwExeptionInvalidActionCode()
     {
         throw new Exception(
-            Mage::helper('amazonpayments')->__('Invalid action code'), 
+            Mage::helper('amazonpayments')->__('Invalid action code.'),
             self::EXCEPTION_INVALID_ACTION_CODE
         );
     }

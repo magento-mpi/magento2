@@ -167,7 +167,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
 
         $order->addStatusToHistory(
             $order->getStatus(),
-            Mage::helper('cybermut')->__('Customer successfully returned from Cybermut')
+            Mage::helper('cybermut')->__('The customer successfully returned from Cybermut.')
         );
 
         $order->save();
@@ -190,7 +190,7 @@ class Mage_Cybermut_PaymentController extends Mage_Core_Controller_Front_Action
         if ($order instanceof Mage_Sales_Model_Order && $order->getId()) {
             $order->addStatusToHistory(
                 $order->getStatus(),
-                Mage::helper('cybermut')->__('Customer returned from Cybermut.') . $errorMsg
+                Mage::helper('cybermut')->__('Customer has returned from Cybermut.') . $errorMsg
             );
             $order->cancel();
             $order->save();

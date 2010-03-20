@@ -104,7 +104,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     {
         $this->setValueOption(array(
             '1' => Mage::helper('enterprise_customersegment')->__('has'),
-            '0' => Mage::helper('enterprise_customersegment')->__('doesn\'t have'),
+            '0' => Mage::helper('enterprise_customersegment')->__('does not have'),
         ));
         return $this;
     }

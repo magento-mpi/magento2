@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
     {
         $indexers = $this->getIndexers();
         if (!isset($indexers[$type])) {
-            Mage::throwException(Mage::helper('catalog')->__('Unknown eav indexer type "%s"', $type));
+            Mage::throwException(Mage::helper('catalog')->__('Unknown EAV indexer type "%s".', $type));
         }
         return $indexers[$type];
     }

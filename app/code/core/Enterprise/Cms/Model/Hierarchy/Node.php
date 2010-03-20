@@ -89,7 +89,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Enterprise_Enterprise_Model_Co
             foreach ($required as $field) {
                 if (!array_key_exists($field, $v)) {
                     Mage::throwException(
-                        Mage::helper('enterprise_cms')->__('Invalid node data')
+                        Mage::helper('enterprise_cms')->__('Invalid node data.')
                     );
                 }
             }

@@ -80,7 +80,7 @@ class Enterprise_Reward_CustomerController extends Enterprise_Enterprise_Control
             $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
 
             $this->_getSession()->addSuccess(
-                $this->__('Settings were successfully saved.')
+                $this->__('The settings have been saved.')
             );
         }
         $this->_redirect('*/*/info');
@@ -108,11 +108,11 @@ class Enterprise_Reward_CustomerController extends Enterprise_Enterprise_Control
                     $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
                 }
                 $this->_getSession()->addSuccess(
-                    $this->__('You have been successfully unsubscribed.')
+                    $this->__('You have been unsubscribed.')
                 );
             }
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Unsubscribtion failed.'));
+            $this->_getSession()->addError($this->__('Failed to unsubscribe.'));
         }
 
         $this->_redirect('*/*/info');

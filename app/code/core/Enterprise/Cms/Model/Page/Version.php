@@ -83,10 +83,10 @@ class Enterprise_Cms_Model_Page_Version extends Enterprise_Enterprise_Model_Core
         }
 
         if (!$this->getLabel()) {
-            Mage::throwException(Mage::helper('enterprise_cms')->__('Label for version is required field.'));
+            Mage::throwException(Mage::helper('enterprise_cms')->__('Label for version is a required field.'));
         }
 
-        // We can not allow changing access level for some versions
+        // We cannot allow changing access level for some versions
         if ($this->getAccessLevel() != $this->getOrigData('access_level')) {
             if ($this->getOrigData('access_level') == Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC) {
                 $resource = $this->_getResource();
@@ -94,13 +94,13 @@ class Enterprise_Cms_Model_Page_Version extends Enterprise_Enterprise_Model_Core
 
                 if ($resource->isVersionLastPublic($this)) {
                     Mage::throwException(
-                        Mage::helper('enterprise_cms')->__('Cannot change version access level because it is last public version for its page.')
+                        Mage::helper('enterprise_cms')->__('Cannot change version access level because it is the last public version for its page.')
                     );
                 }
 
 //                if ($resource->isVersionHasPublishedRevision($this)) {
 //                    Mage::throwException(
-//                        Mage::helper('enterprise_cms')->__('Can not change version access level because its revision has been published.')
+//                        Mage::helper('enterprise_cms')->__('Cannot change version access level because its revision is published.')
 //                    );
 //                }
             }
@@ -152,7 +152,7 @@ class Enterprise_Cms_Model_Page_Version extends Enterprise_Enterprise_Model_Core
         if ($this->isPublic()) {
             if ($resource->isVersionLastPublic($this)) {
                 Mage::throwException(
-                    Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because it is last public version for its page.', $this->getLabel())
+                    Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because it is the last public version for its page.', $this->getLabel())
                 );
             }
         }

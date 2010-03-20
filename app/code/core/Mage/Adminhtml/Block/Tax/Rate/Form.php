@@ -102,7 +102,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
             array(
                 'name' => 'tax_country_id',
                 'label' => Mage::helper('tax')->__('Country'),
-                'title' => Mage::helper('tax')->__('Please select Country'),
                 'required' => true,
                 'values' => $countries
             )
@@ -112,7 +111,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
             array(
                 'name' => 'tax_region_id',
                 'label' => Mage::helper('tax')->__('State'),
-                'title' => Mage::helper('tax')->__('Please select State'),
                 'values' => $regions
             )
         );
@@ -122,7 +120,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
             array(
                 'name' => 'tax_county_id',
                 'label' => Mage::helper('tax')->__('County'),
-                'title' => Mage::helper('tax')->__('Please select County'),
                 'values' => array(
                     array(
                         'label' => '*',
@@ -136,7 +133,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
 
         $fieldset->addField('zip_is_range', 'select', array(
             'name' => 'zip_is_range',
-            'label' => Mage::helper('tax')->__('Zip/Post Is Range'),
+            'label' => Mage::helper('tax')->__('Zip/Post is Range'),
             'options'   => array(
                     '0' => Mage::helper('tax')->__('No'),
                     '1' => Mage::helper('tax')->__('Yes'),
@@ -158,7 +155,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $fieldset->addField('zip_from', 'text',
             array(
                 'name' => 'zip_from',
-                'label' => Mage::helper('tax')->__('Range from'),
+                'label' => Mage::helper('tax')->__('Range From'),
                 'value' => $rateObject->getZipFrom(),
                 'required' => true,
                 'class' => 'validate-digits'
@@ -168,7 +165,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $fieldset->addField('zip_to', 'text',
             array(
                 'name' => 'zip_to',
-                'label' => Mage::helper('tax')->__('Range to'),
+                'label' => Mage::helper('tax')->__('Range To'),
                 'value' => $rateObject->getZipTo(),
                 'required' => true,
                 'class' => 'validate-digits'

@@ -104,7 +104,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Enterprise_Enterpris
         ));
 
         $this->addColumn('ip', array(
-            'header'    => Mage::helper('enterprise_logging')->__('IP-address'),
+            'header'    => Mage::helper('enterprise_logging')->__('IP Address'),
             'index'     => 'ip',
             'type'      => 'text',
             'filter'    => 'enterprise_logging/adminhtml_grid_filter_ip',

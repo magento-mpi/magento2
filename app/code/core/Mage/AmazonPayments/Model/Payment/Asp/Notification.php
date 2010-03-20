@@ -110,7 +110,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         if ($order->isCanceled()) {
             $order->addStatusToHistory(
                $order->getStatus(),
-               Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed cancelation.')
+               Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed cancelation.')
             )->save();
             return true;
         }
@@ -118,7 +118,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         if ($order->getState() == Mage_Sales_Model_Order::STATE_NEW) {
             $order->addStatusToHistory(
                $order->getStatus(),
-               Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed cancelation.')
+               Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed cancelation.')
             )->cancel()->save();
             return true;
         }
@@ -140,7 +140,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         $order->setState(
             Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
             'pending_amazon_asp',
-            Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed amount authorization.'),
+            Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed amount authorization.'),
             $notified = false
         )->save();
 
@@ -160,7 +160,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         $order->setState(
             Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
             'pending_amazon_asp',
-            Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed capture initiation.'),
+            Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed capture initiation.'),
             $notified = false
         )->save();
 
@@ -185,7 +185,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
             $requestAmount = Mage::app()->getStore()->roundPrice($request->getAmount());
             if ($orderAmount != $requestAmount) {
                 $this->_error(
-                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service capture confirmation error: confirmation request amount not equal to the amount of order.'),
+                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service capture confirmation error: confirmation request amount is not equal to the amount of order.'),
                     $request,
                     $order
                 );
@@ -193,14 +193,14 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
 
             $invoice = $order->prepareInvoice();
             $invoice->register()->pay();
-            $invoice->addComment(Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed payment capture. Invoice created automatically.'));
+            $invoice->addComment(Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed payment capture. Invoice was created automatically.'));
             $invoice->setTransactionId($request->getTransactionId());
 
             $order->getPayment()->setLastTransId($request->getTransactionId());
             $order->setState(
                 Mage_Sales_Model_Order::STATE_PROCESSING,
                 true,
-                Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed payment capture. Invoice %s was automatically created after confirmation.', $invoice->getIncrementId()),
+                Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed payment capture. Invoice %s was automatically created after confirmation.', $invoice->getIncrementId()),
                 $notified = true
             );
 
@@ -213,7 +213,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
 
             if ($invoice->getTransactionId() != $request->getTransactionId()) {
                 $this->_error(
-                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service capture confirmation error: existing transaction ID doesn\'t match transaction ID in the confirmation request.'),
+                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service capture confirmation error: the existing transaction ID does not match the transaction ID in the confirmation request.'),
                     $request,
                     $order
                 );
@@ -223,7 +223,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
             $requestAmount = Mage::app()->getStore()->roundPrice($request->getAmount());
             if ($invoiceAmount != $requestAmount) {
                 $this->_error(
-                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service capture confirmation error: amount in the existing invoice doensn\'t match the amount in confirmation request.'),
+                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service capture confirmation error: the amount in the existing invoice does not match the amount in the confirmation request.'),
                     $request,
                     $order
                 );
@@ -234,14 +234,14 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
             switch ($invoice->getState())
             {
                 case Mage_Sales_Model_Order_Invoice::STATE_OPEN:
-                    $invoice->addComment(Mage::helper('amazonpayments')->__('Amazon Simple Pay service capture confirmation. Invoice was captured automatically.'));
+                    $invoice->addComment(Mage::helper('amazonpayments')->__('Amazon Simple Pay service capture confirmation. The invoice was captured automatically.'));
                     $invoice->setState(Mage_Sales_Model_Order_Invoice::STATE_PAID);
-                    $msg = $msg . Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed capture for invoice %s. Invoice automatically captured.', $invoice->getIncrementId());
+                    $msg = $msg . Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed capture for invoice %s. The invoice was automatically captured.', $invoice->getIncrementId());
                     break;
 
                 case Mage_Sales_Model_Order_Invoice::STATE_PAID:
-                    $invoice->addComment(Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed capture'));
-                    $msg = $msg . Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed capture for invoice %s', $invoice->getIncrementId());
+                    $invoice->addComment(Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed capture.'));
+                    $msg = $msg . Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed capture for invoice %s.', $invoice->getIncrementId());
                     break;
             }
 
@@ -276,7 +276,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
         $order->setState(
             Mage_Sales_Model_Order::STATE_CANCELED,
             true,
-            Mage::helper('amazonpayments')->__('Amazon Simple Pay service payment confirmation failed'),
+            Mage::helper('amazonpayments')->__('Amazon Simple Pay service payment confirmation has failed.'),
             $notified = false
         )->save();
 
@@ -300,7 +300,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
             $requestAmount = Mage::app()->getStore()->roundPrice($request->getAmount());
             if ($orderAmount != $requestAmount || $order->getBaseTotalRefunded() > 0) {
                 $this->_error(
-                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service refund confirmation error: confirmation request amount doesn\'t match the order amount.'),
+                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service refund confirmation error: the confirmation request amount does not match the order amount.'),
                     $request,
                     $order
                 );
@@ -308,7 +308,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
 
             if ($creditmemo = $this->_initCreditmemo($order)) {
                 $creditmemo->setTransactionId($request->getTransactionId());
-                $creditmemo->addComment(Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed payment refund. Creditmemo %s was automatically created after confirmation.', $creditmemo->getIncrementId()));
+                $creditmemo->addComment(Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed payment refund. Credit memo %s was automatically created after confirmation.', $creditmemo->getIncrementId()));
                 $creditmemo->register();
 
                 $transactionSave = Mage::getModel('core/resource_transaction')
@@ -320,7 +320,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
 
                 $order->addStatusToHistory(
                     $order->getStatus(), 
-                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed payment refund. Credit memo created automatically.', $creditmemo->getIncrementId())
+                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed payment refund. Credit memo was created automatically.', $creditmemo->getIncrementId())
                 );
 
                 $transactionSave->save();
@@ -330,7 +330,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
 
             if ($creditmemo->getTransactionId() != $request->getTransactionId()) {
                 $this->_error(
-                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service refund confirmation error: transaction ID in the existing creditmemo doesn\'t match the transaction ID in the confirmation request.'),
+                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service refund confirmation error: the transaction ID in the existing creditmemo does not match the transaction ID in the confirmation request.'),
                     $request,
                     $order
                 );
@@ -340,7 +340,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
             $requestAmount = Mage::app()->getStore()->roundPrice($request->getAmount());
             if ($creditmemoAmount != $requestAmount) {
                 $this->_error(
-                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service refund confirmation error: amount in the existing creditmemo doensn\'t match the amount in confirmation request.'),
+                    Mage::helper('amazonpayments')->__('Amazon Simple Pay service refund confirmation error: the amount in the existing creditmemo does not match the amount in the confirmation request.'),
                     $request,
                     $order
                 );
@@ -351,20 +351,20 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
             switch ($creditmemo->getState())
             {
                 case Mage_Sales_Model_Order_Creditmemo::STATE_OPEN:
-                    $creditmemo->addComment(Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed refund. Creditmemo processed automatically.'));
+                    $creditmemo->addComment(Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed refund. The credit memo was processed automatically.'));
                     $creditmemo->setState(Mage_Sales_Model_Order_Creditmemo::STATE_REFUNDED);
-                    $msg = $msg . Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed refunded creditmemo %s. Creditmemo processed automatically.', $creditmemo->getIncrementId());
+                    $msg = $msg . Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed refunded credit memo %s. The credit memo was processed automatically.', $creditmemo->getIncrementId());
                     break;
 
                 case Mage_Sales_Model_Order_Creditmemo::STATE_REFUNDED:
-                    $creditmemo->addComment(Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed refund.'));
-                    $msg = $msg . Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed refund for creditmemo %s.', $creditmemo->getIncrementId());
+                    $creditmemo->addComment(Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed refund.'));
+                    $msg = $msg . Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed refund for credit memo %s.', $creditmemo->getIncrementId());
                     break;
             }
 
             $order->addStatusToHistory(
                  $order->getStatus(), 
-                 Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed payment refund. Credit memo created automatically.', $creditmemo->getIncrementId())
+                 Mage::helper('amazonpayments')->__('Amazon Simple Pay service has confirmed payment refund. The credit memo was created automatically.', $creditmemo->getIncrementId())
             );
 
             $transactionSave = Mage::getModel('core/resource_transaction')
@@ -384,7 +384,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
     {
         $order->addStatusToHistory(
             $order->getStatus(), 
-            Mage::helper('amazonpayments')->__('Amazon Simple Pay service payment confirmation failed')
+            Mage::helper('amazonpayments')->__('Amazon Simple Pay service payment confirmation has failed.')
         )->save();
         return true;
     }
@@ -417,21 +417,21 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
 
         if ($order->isEmpty()) {
             $this->_error(
-               Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmation error: order specified in the IPN request can not be found'),
+               Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmation error: the order specified in the IPN request cannot be found.'),
                $request
             );
         }
 
         if ($order->getPayment()->getMethodInstance()->getCode() != $this->getPayment()->getCode()) {
             $this->_error(
-               Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmation error: payment method in the order is not Amazon Simple Pay'),
+               Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmation error: the payment method in the order is not Amazon Simple Pay.'),
                $request
             );
         }
 
         if ($order->getBaseCurrency()->getCurrencyCode() != $request->getCurrencyCode()) {
             $this->_error(
-               Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmation error: order currency does not match the currency of the IPN request'),
+               Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmation error: the order currency does not match the currency of the IPN request.'),
                $request
             );
         }
@@ -515,7 +515,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
     protected function _errorViolationSequenceStates($request, $order)
     {
         $this->_error(
-            Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmation error: order states sequence violation'),
+            Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmation error: order states sequence violation.'),
             $request,
             $order
         );

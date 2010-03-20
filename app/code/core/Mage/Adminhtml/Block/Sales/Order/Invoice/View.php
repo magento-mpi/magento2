@@ -125,10 +125,10 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
     public function getHeaderText()
     {
         if ($this->getInvoice()->getEmailSent()) {
-            $emailSent = Mage::helper('sales')->__('Invoice email sent');
+            $emailSent = Mage::helper('sales')->__('The invoice email has been sent.');
         }
         else {
-            $emailSent = Mage::helper('sales')->__('Invoice email not sent');
+            $emailSent = Mage::helper('sales')->__('The invoice email has not been sent.');
         }
 
         $header = Mage::helper('sales')->__('Invoice #%s | %s (%s)',

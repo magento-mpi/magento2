@@ -56,11 +56,11 @@ class Enterprise_SalesPool_Adminhtml_Sales_Order_PoolController extends Mage_Adm
     {
         try {
             Mage::getModel('enterprise_salespool/pool')->flushAllOrders();
-            $this->_getSession()->addSuccess(Mage::helper('enterprise_salespool')->__('All orders successfully processed'));
+            $this->_getSession()->addSuccess(Mage::helper('enterprise_salespool')->__('All orders have been processed.'));
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('Unable to process all orders'));
+            $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('Unable to process all orders.'));
         }
         $this->_redirect('*/*/');
     }
@@ -78,17 +78,17 @@ class Enterprise_SalesPool_Adminhtml_Sales_Order_PoolController extends Mage_Adm
             try {
                 $flushedOrdersCount = Mage::getModel('enterprise_salespool/pool')->flushOrderById($orderIds);
                 if ($flushedOrdersCount > 0) {
-                    $this->_getSession()->addSuccess(Mage::helper('enterprise_salespool')->__('%d order(s) successfully processed', $flushedOrdersCount));
+                    $this->_getSession()->addSuccess(Mage::helper('enterprise_salespool')->__('%d order(s) have been processed.', $flushedOrdersCount));
                 } else {
-                   $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('There are no orders for process'));
+                   $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('There are no orders for process.'));
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('Unable to process selected orders'));
+                $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('Unable to process selected orders.'));
             }
         } else {
-            $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('Please select orders'));
+            $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('Please select orders.'));
         }
 
         $this->_redirect('*/*/');
@@ -107,17 +107,17 @@ class Enterprise_SalesPool_Adminhtml_Sales_Order_PoolController extends Mage_Adm
             try {
                 $flushedOrdersCount = Mage::getModel('enterprise_salespool/pool')->flushOrderById($orderId);
                 if ($flushedOrdersCount > 0) {
-                    $this->_getSession()->addSuccess(Mage::helper('enterprise_salespool')->__('Order successfully processed'));
+                    $this->_getSession()->addSuccess(Mage::helper('enterprise_salespool')->__('The order has been processed.'));
                 } else {
-                   $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('This order has been already processed'));
+                   $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('This order has been already processed.'));
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('Unable to process selected orders'));
+                $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('Unable to process selected orders.'));
             }
         } else {
-            $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('There is no order to process'));
+            $this->_getSession()->addError(Mage::helper('enterprise_salespool')->__('There is no order to process.'));
             $this->_redirect('*/*/');
         }
 

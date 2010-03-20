@@ -80,7 +80,7 @@ class Enterprise_Invitation_IndexController extends Enterprise_Enterprise_Contro
                         'message'  => (isset($data['message']) ? $data['message'] : ''),
                     ))->save();
                     if ($invitation->sendInvitationEmail()) {
-                        Mage::getSingleton('customer/session')->addSuccess(Mage::helper('enterprise_invitation')->__('Invitation for %s has been sent successfully.', $email));
+                        Mage::getSingleton('customer/session')->addSuccess(Mage::helper('enterprise_invitation')->__('Invitation for %s has been sent.', $email));
                         $sent++;
                     }
                     else {
@@ -97,7 +97,7 @@ class Enterprise_Invitation_IndexController extends Enterprise_Enterprise_Contro
                     }
                 }
                 catch (Exception $e) {
-                    Mage::getSingleton('customer/session')->addError(Mage::helper('enterprise_invitation')->__('Failed to send email to %s. Please try again later.', $email));
+                    Mage::getSingleton('customer/session')->addError(Mage::helper('enterprise_invitation')->__('Failed to send email to %s.', $email));
                 }
             }
             if ($customerExists) {

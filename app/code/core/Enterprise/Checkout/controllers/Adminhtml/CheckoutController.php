@@ -102,7 +102,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
     }
 
     /**
-     * Empty page for final errors occured
+     * Empty page for final errors occurred
      */
     public function errorAction()
     {
@@ -128,7 +128,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError(
-                Mage::helper('enterprise_checkout')->__('An error was occured. Please, see error log for details.')
+                Mage::helper('enterprise_checkout')->__('An error has occurred. See error log for details.')
             );
         }
         $this->_redirect('*/*/error');
@@ -315,7 +315,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError(
-                Mage::helper('enterprise_checkout')->__('An error was occured. Please, see error log for details.')
+                Mage::helper('enterprise_checkout')->__('An error has occurred. See error log for details.')
             );
         }
         $this->_redirect('*/*/error');
@@ -381,7 +381,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
         } elseif ($e instanceof Exception) {
             Mage::logException($e);
             $result = array(
-                'error' => Mage::helper('enterprise_checkout')->__('An error was occured. Please, see error log for details.')
+                'error' => Mage::helper('enterprise_checkout')->__('An error has occurred. See error log for details.')
             );
         }
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));

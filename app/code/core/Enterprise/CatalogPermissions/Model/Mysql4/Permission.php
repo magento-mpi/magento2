@@ -52,7 +52,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission extends Enterprise_E
         parent::_initUniqueFields();
         $this->_uniqueFields[] = array(
             'field' => array('category_id', 'website_id', 'customer_group_id'),
-            'title' => Mage::helper('enterprise_catalogpermissions')->__('Permission with same scope')
+            'title' => Mage::helper('enterprise_catalogpermissions')->__('Permission with the same scope')
         );
     }
 }

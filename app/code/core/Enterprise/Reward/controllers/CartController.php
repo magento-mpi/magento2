@@ -55,11 +55,11 @@ class Enterprise_Reward_CartController extends Enterprise_Enterprise_Controller_
         if ($quote->getUseRewardPoints()) {
             $quote->setUseRewardPoints(false)->collectTotals()->save();
             Mage::getSingleton('checkout/session')->addSuccess(
-                $this->__('Reward Points were successfully removed from your order.')
+                $this->__('The reward points have been removed from the order.')
             );
         } else {
             Mage::getSingleton('checkout/session')->addError(
-                $this->__('Reward Points will not be used in this order.')
+                $this->__('Reward points will not be used in this order.')
             );
         }
 

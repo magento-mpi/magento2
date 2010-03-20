@@ -211,7 +211,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $product = $this->_initProduct();
 
         if ($productId && !$product->getId()) {
-            $this->_getSession()->addError(Mage::helper('catalog')->__('This Product no longer exists'));
+            $this->_getSession()->addError(Mage::helper('catalog')->__('This product no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -540,7 +540,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         {
             $product->setData('save_rewrites_history', (bool)$productData['url_key_create_redirect']);
         }
-        
+
         /**
          * Check "Use Default Value" checkboxes values
          */
@@ -549,7 +549,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $product->setData($attributeCode, false);
             }
         }
-        
+
         /**
          * Init product links data (related, upsell, crosssel)
          */
@@ -647,7 +647,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                             ->save();
                     }
                 }
-                $this->_getSession()->addSuccess($this->__('Product was successfully saved.'));
+                $this->_getSession()->addSuccess($this->__('The product has been saved.'));
             }
             catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage())
@@ -688,7 +688,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $product = Mage::getModel('catalog/product')->load($productId);
         try {
             $newProduct = $product->duplicate();
-            $this->_getSession()->addSuccess($this->__('Product duplicated'));
+            $this->_getSession()->addSuccess($this->__('The product has been duplicated.'));
             $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$newProduct->getId()));
         }
         catch (Exception $e) {
@@ -721,7 +721,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $sku = $product->getSku();
             try {
                 $product->delete();
-                $this->_getSession()->addSuccess($this->__('Product deleted'));
+                $this->_getSession()->addSuccess($this->__('The product has been deleted.'));
             }
             catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -775,10 +775,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     ->setParamValues($this->getRequest()->getParams())
                     ->addCustomersToAlertQueue())
                 {
-                    $collection->addMessage(Mage::getModel('core/message')->success($this->__('Customers for alert %s was successfuly added to queue', Mage::getSingleton('customeralert/config')->getTitleByType($key))));
+                    $collection->addMessage(Mage::getModel('core/message')->success($this->__('Customers for alert %s were successfuly added to queue', Mage::getSingleton('customeralert/config')->getTitleByType($key))));
                 }
             } catch (Exception $e) {
-                $collection->addMessage(Mage::getModel('core/message')->error($this->__('Error while adding customers for %s alert. Message: %s',Mage::getSingleton('customeralert/config')->getTitleByType($key),$e->getMessage())));
+                $collection->addMessage(Mage::getModel('core/message')->error($this->__('An error occurred while adding customers for the %s alert. Message: %s',Mage::getSingleton('customeralert/config')->getTitleByType($key),$e->getMessage())));
                 continue;
             }
         }
@@ -788,7 +788,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
     public function addAttributeAction()
     {
-        $this->_getSession()->addNotice(Mage::helper('catalog')->__('Please click on Close Window button if it won\'t be closed automatically'));
+        $this->_getSession()->addNotice(Mage::helper('catalog')->__('Please click on the Close Window button if it is not closed automatically.'));
         $this->loadLayout('popup');
         $this->_initProduct();
         $this->_addContent(
@@ -799,7 +799,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
     public function createdAction()
     {
-        $this->_getSession()->addNotice(Mage::helper('catalog')->__('Please click on Close Window button if it won\'t be closed automatically'));
+        $this->_getSession()->addNotice(Mage::helper('catalog')->__('Please click on the Close Window button if it is not closed automatically.'));
         $this->loadLayout('popup');
         $this->_addContent(
             $this->getLayout()->createBlock('adminhtml/catalog_product_created')
@@ -811,7 +811,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $productIds = $this->getRequest()->getParam('product');
         if (!is_array($productIds)) {
-            $this->_getSession()->addError($this->__('Please select product(s)'));
+            $this->_getSession()->addError($this->__('Please select product(s).'));
         }
         else {
             try {
@@ -821,7 +821,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     $product->delete();
                 }
                 $this->_getSession()->addSuccess(
-                    $this->__('Total of %d record(s) were successfully deleted', count($productIds))
+                    $this->__('Total of %d record(s) have been deleted.', count($productIds))
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -845,14 +845,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->updateAttributes($productIds, array('status' => $status), $storeId);
 
             $this->_getSession()->addSuccess(
-                $this->__('Total of %d record(s) were successfully updated', count($productIds))
+                $this->__('Total of %d record(s) have been updated.', count($productIds))
             );
         }
         catch (Mage_Core_Model_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('There was an error while updating product(s) status'));
+            $this->_getSession()->addException($e, $this->__('An error occurred while updating the product(s) status.'));
         }
 
         $this->_redirect('*/*/', array('store'=> $storeId));
@@ -955,7 +955,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->validate();
             $product->save();
             $result['product_id'] = $product->getId();
-            $this->_getSession()->addSuccess(Mage::helper('catalog')->__('Product was successfully created.'));
+            $this->_getSession()->addSuccess(Mage::helper('catalog')->__('The product has been created.'));
             $this->_initLayoutMessages('adminhtml/session');
             $result['messages']  = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
         } catch (Mage_Core_Exception $e) {
@@ -969,7 +969,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         } catch (Exception $e) {
             Mage::logException($e);
             $result['error'] = array(
-                'message'   =>  $this->__('Product saving error. ') . $e->getMessage()
+                'message'   =>  $this->__('An error occurred while saving the product. ') . $e->getMessage()
              );
         }
 

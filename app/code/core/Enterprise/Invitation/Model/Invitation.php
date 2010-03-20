@@ -189,7 +189,7 @@ class Enterprise_Invitation_Model_Invitation extends Enterprise_Enterprise_Model
     public function getInvitationCode()
     {
         if (!$this->getId()) {
-            Mage::throwException(Mage::helper('enterprise_invitation')->__('Impossible to generate encrypted code.'));
+            Mage::throwException(Mage::helper('enterprise_invitation')->__('Unable to generate encrypted code.'));
         }
         return $this->getId() . ':' . $this->getProtectionCode();
     }

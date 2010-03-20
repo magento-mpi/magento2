@@ -61,7 +61,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Run extends Mage_Adminhtml_Block_Ab
             echo '</li>';
             echo '<li style="background-color:#FFD;">';
             echo '<img src="'.Mage::getDesign()->getSkinUrl('images/fam_bullet_error.gif').'" class="v-middle" style="margin-right:5px"/>';
-            echo $this->__("Warning: Please don't close window during importing/exporting data");
+            echo $this->__("Warning: Please do not close window during importing/exporting data.");
             echo '</li>';
         } else {
             echo '<img src="'.Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif').'" class="v-middle" style="margin-right:5px"/>';

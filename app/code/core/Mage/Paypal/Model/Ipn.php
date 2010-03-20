@@ -362,14 +362,14 @@ class Mage_Paypal_Model_Ipn
         $message = null;
         switch ($this->getIpnFormData('pending_reason')) {
             case 'address': // for some reason PayPal gives "address" reason, when Fraud Management Filter triggered
-                $message = Mage::helper('paypal')->__('Customer used non-confirmed address.');
+                $message = Mage::helper('paypal')->__('Customer used an unconfirmed address.');
                 break;
             case 'echeck':
                 $message = Mage::helper('paypal')->__('Waiting until Customer\'s eCheck will be cleared.');
                 // possible requires processing on our side as well
                 break;
             case 'intl':
-                $message = Mage::helper('paypal')->__('Merchant account doesn\'t have a withdrawal mechanism. Merchant must manually accept or deny this payment from your Account Overview.');
+                $message = Mage::helper('paypal')->__('Merchant account does not have a withdrawal mechanism. Merchant must manually accept or deny this payment from your Account Overview.');
                 break;
             case 'multi-currency':
                 $message = Mage::helper('paypal')->__('Multi-currency issue. Merchant must manually accept or deny this payment from PayPal Account Overview.');

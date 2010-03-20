@@ -76,7 +76,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
             $currency_code = $paymentInfo->getQuote()->getBaseCurrencyCode();
         }
         if ($currency_code != $this->getConfig()->getCurrency()) {
-            Mage::throwException(Mage::helper('chronopay')->__('Selected currency code ('.$currency_code.') is not compatible with ChronoPay'));
+            Mage::throwException(Mage::helper('chronopay')->__('The selected currency code (%s) is not compatible with ChronoPay.', $currency_code));
         }
         return $this;
     }
@@ -168,7 +168,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
     {
         $order = $this->getOrder();
         if (!($order instanceof Mage_Sales_Model_Order)) {
-            Mage::throwException($this->_getHelper()->__('Cannot retrieve order object'));
+            Mage::throwException($this->_getHelper()->__('Cannot retrieve the order object.'));
         }
 
         $billingAddress = $order->getBillingAddress();
@@ -227,7 +227,7 @@ class Mage_Chronopay_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $order = $this->getOrder();
 
         if (!($order instanceof Mage_Sales_Model_Order)) {
-            Mage::throwException($this->_getHelper()->__('Cannot retrieve order object'));
+            Mage::throwException($this->_getHelper()->__('Cannot retrieve the order object.'));
         }
 
         try {

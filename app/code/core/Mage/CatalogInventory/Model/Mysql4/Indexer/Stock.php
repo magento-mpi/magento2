@@ -288,7 +288,7 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock
     {
         $types = $this->_getTypeIndexers();
         if (!isset($types[$productTypeId])) {
-            Mage::throwException(Mage::helper('catalog')->__('Unsupported product type "%s"', $productTypeId));
+            Mage::throwException(Mage::helper('catalog')->__('Unsupported product type "%s".', $productTypeId));
         }
         return $types[$productTypeId];
     }

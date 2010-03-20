@@ -318,7 +318,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
                 if($data['db_prefix']!='') {
                     if(!preg_match('/^[a-z]+[a-z0-9_]*$/',$data['db_prefix'])) {
                         Mage::throwException(
-                            Mage::helper('install')->__('Table prefix should contain only letters (a-z), numbers (0-9) or underscore(_), first character should be a letter'));
+                            Mage::helper('install')->__('The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_), the first character should be a letter.'));
                     }
                 }
                 $this->_getInstaller()->installConfig($data);

@@ -549,7 +549,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             Mage::logException(new Exception(
                 sprintf('PayPal NVP CURL connection error #%s: %s', $http->getErrno(), $http->getError())
             ));
-            Mage::throwException(Mage::helper('paypal')->__('Unable to communicate with PayPal gateway.'));
+            Mage::throwException(Mage::helper('paypal')->__('Unable to communicate with the PayPal gateway.'));
         }
 
         if ($this->_isCallSuccessful($response)) {
@@ -582,7 +582,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
                 isset($response['VERSION']) ? $response['VERSION'] : ''
             ));
             Mage::logException($e);
-            Mage::throwException(Mage::helper('paypal')->__('PayPal gateway rejected request. %s', $errors));
+            Mage::throwException(Mage::helper('paypal')->__('PayPal gateway has rejected request. %s', $errors));
         }
     }
 

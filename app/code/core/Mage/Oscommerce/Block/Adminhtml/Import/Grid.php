@@ -65,7 +65,7 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Grid extends Mage_Adminhtml_Block_W
         ));
 
         $this->addColumn('db_name', array(
-            'header'    =>Mage::helper('oscommerce')->__('Db Name'),
+            'header'    =>Mage::helper('oscommerce')->__('DB Name'),
             'index'     =>'db_name',
             'width'     =>'120px',
         ));
