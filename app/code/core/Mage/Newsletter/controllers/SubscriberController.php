@@ -39,20 +39,26 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
     public function newAction()
     {
         if ($this->getRequest()->isPost() && $this->getRequest()->getPost('email')) {
-            $session   = Mage::getSingleton('core/session');
-            $email     = (string) $this->getRequest()->getPost('email');
+            $session            = Mage::getSingleton('core/session');
+            $customerSession    = Mage::getSingleton('customer/session');
+            $email              = (string) $this->getRequest()->getPost('email');
 
             try {
                 if (!Zend_Validate::is($email, 'EmailAddress')) {
                     Mage::throwException($this->__('Please enter a valid email address.'));
                 }
 
+                if (Mage::getStoreConfig(Mage_Newsletter_Model_Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1 && 
+                    !$customerSession->isLoggedIn()) {
+                    Mage::throwException($this->__('Sorry, but administrator denied subscription for guests. Please <a href="http://magento.local/index.php/customer/account/create/">register</a>.'));
+                }
+
                 $owner_id = Mage::getModel('customer/customer')
                         ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                         ->loadByEmail($email)
                         ->getId();
-                if ($owner_id !== null && $owner_id != $session['visitor_data']['customer_id']) {
-                    Mage::throwException($this->__('Sorry, but your can not subscribe email adress assigned to another user'));
+                if ($owner_id !== null && $owner_id != $customerSession->getId()) {
+                    Mage::throwException($this->__('Sorry, but your can not subscribe email adress assigned to another user.'));
                 }
 
                 $status = Mage::getModel('newsletter/subscriber')->subscribe($email);

@@ -57,7 +57,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         $configFields = Mage::getSingleton('adminhtml/config');
 
-
         $sections     = $configFields->getSections($current);
         $section      = $sections->$current;
         $hasChildren  = $configFields->hasChildren($section, $website, $store);
@@ -69,7 +68,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         $this->_setActiveMenu('system/config');
 
-       $this->_addBreadcrumb(Mage::helper('adminhtml')->__('System'), Mage::helper('adminhtml')->__('System'), $this->getUrl('*/system'));
+        $this->_addBreadcrumb(Mage::helper('adminhtml')->__('System'), Mage::helper('adminhtml')->__('System'), $this->getUrl('*/system'));
 
         $this->getLayout()->getBlock('left')
             ->append($this->getLayout()->createBlock('adminhtml/system_config_tabs')->initTabs());
@@ -95,7 +94,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
         /* @var $session Mage_Adminhtml_Model_Session */
 
         $groups = $this->getRequest()->getPost('groups');
-
 
         if (isset($_FILES['groups']['name']) && is_array($_FILES['groups']['name'])) {
             /**
@@ -133,7 +131,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             // reinit configuration
             Mage::getConfig()->reinit();
             Mage::app()->reinitStores();
-
 
             // website and store codes can be used in event implementation, so set them as well
             Mage::dispatchEvent("admin_system_config_changed_section_{$section}",
