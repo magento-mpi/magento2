@@ -32,7 +32,7 @@ $installer->startSetup();
 $installer->getConnection()
     ->addKey(
         $this->getTable('enterprise_catalogpermissions/permission_index_product'),
-        'UNIQUE_PRODUCT_STORE_CATEGORY_AND_CUSTOMERGROUP',
+        'UNQ_PRODUCT_STORE_CATEGORY_AND_CUSTOMERGROUP',
         array('product_id', 'store_id', 'category_id', 'customer_group_id'),
         'unique'
     );
