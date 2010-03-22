@@ -25,22 +25,23 @@
  */
 
 /**
- * PayPal Partner Integration mark
+ * PayPal online logo with additional options
  */
-class Mage_Paypal_Block_Partner_Mark extends Mage_Core_Block_Template
+class Mage_Paypal_Block_Logo extends Mage_Core_Block_Template
 {
     /**
-     * Return Paypal mark image URL
+     * Return Paypal logo image URL
      *
      * @return string
      */
-    public function getMarkImageUrl()
+    public function getLogoImageUrl()
     {
-        return $this->_getConfig()->getPaymentMarkImageUrl(Mage::app()->getLocale()->getLocaleCode(), null, null, $this->getSize());
+        $type = $this->getLogoType() ? $this->getLogoType() : Mage::getStoreConfig('paypal/general/logo');
+        return $this->_getConfig()->getAdditionalOptionsLogoUrl(Mage::app()->getLocale()->getLocaleCode(), $type);
     }
-    
+
     /**
-     * Return Paypal mark image URL
+     * Return URL for Paypal Landing page
      *
      * @return string
      */
@@ -48,7 +49,7 @@ class Mage_Paypal_Block_Partner_Mark extends Mage_Core_Block_Template
     {
         return $this->_getConfig()->getPaymentMarkWhatIsPaypalUrl(Mage::app()->getLocale());
     }
-    
+
     /**
      * Getter for paypal config
      *
