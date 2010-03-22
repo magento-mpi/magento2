@@ -30,6 +30,6 @@
  */
 ?>
 <p class="paypal-checkout">
-    <input type="hidden" id="paypal_rpc" name="redirect_paypal_checkout" value="0" />
-    <a href="<?php echo $this->getCheckoutUrl()?>" title="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" onclick="$('paypal_rpc').value='1';productAddToCartForm.submit();return false;"><img src="<?php echo $this->getImageUrl()?>" alt="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" /></a>
+    <input type="hidden" id="pp_checkout_url" name="return_url" value=""/>
+    <a href="<?php echo $this->getCheckoutUrl()?>" title="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" onclick="$('pp_checkout_url').value=this.href;productAddToCartForm.submit();return false;"><img src="<?php echo $this->getImageUrl()?>" alt="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" /></a>
 </p>

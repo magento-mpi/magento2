@@ -73,7 +73,9 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
      */
     protected function _goBack()
     {
-        if (!Mage::getStoreConfig('checkout/cart/redirect_to_cart')
+        if ($returnUrl = $this->getRequest()->getParam('return_url')) {
+            $this->getResponse()->setRedirect($returnUrl);
+        } elseif (!Mage::getStoreConfig('checkout/cart/redirect_to_cart')
             && !$this->getRequest()->getParam('in_cart')
             && $backUrl = $this->_getRefererUrl()) {
 

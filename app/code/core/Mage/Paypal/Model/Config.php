@@ -61,6 +61,8 @@ class Mage_Paypal_Model_Config
     const PAYMENT_MARK_60x38   = '60x38';
     const PAYMENT_MARK_180x113 = '180x113';
 
+    const DEFAULT_LOGO_TYPE = 'wePrefer_150x60';
+
     /**
      * Payment actions
      * @var string
@@ -423,6 +425,42 @@ class Mage_Paypal_Model_Config
                 break;
         }
         return sprintf('https://www.%s/%s/%si/%s/%s.gif', $domain, $locale, $countryPrefix, $imageType, $imageName);
+    }
+
+    /**
+     * Return supported types for PayPal logo
+     *
+     * @return array
+     */
+    public function getAdditionalOptionsLogoTypes()
+    {
+        return array(
+            'wePrefer_150x60'       => Mage::helper('paypal')->__('We prefer PayPal (150 X 60)'),
+            'wePrefer_150x40'       => Mage::helper('paypal')->__('We prefer PayPal (150 X 40)'),
+            'nowAccepting_150x60'   => Mage::helper('paypal')->__('Now accepting PayPal (150 X 60)'),
+            'nowAccepting_150x40'   => Mage::helper('paypal')->__('Now accepting PayPal (150 X 40)'),
+            'paymentsBy_150x60'     => Mage::helper('paypal')->__('Payments by PayPal (150 X 60)'),
+            'paymentsBy_150x40'     => Mage::helper('paypal')->__('Payments by PayPal (150 X 40)'),
+            'shopNowUsing_150x60'   => Mage::helper('paypal')->__('Shop now using (150 X 60)'),
+            'shopNowUsing_150x40'   => Mage::helper('paypal')->__('Shop now using (150 X 40)'),
+        );
+    }
+
+    /**
+     * Return PayPal logo URL with additional options
+     *
+     * @param string $localeCode Supported locale code
+     * @param string $type One of supported logo types
+     * @return string
+     */
+    public function getAdditionalOptionsLogoUrl($localeCode, $type = false)
+    {
+        $locale = $this->_getSupportedLocaleCode($localeCode);
+        $supportedTypes = array_keys($this->getAdditionalOptionsLogoTypes());
+        if (!in_array($type, $supportedTypes)) {
+            $type = self::DEFAULT_LOGO_TYPE;
+        }
+        return sprintf('https://www.paypalobjects.com/%s/i/bnr/bnr_%s.gif', $locale, $type);
     }
 
     /**
