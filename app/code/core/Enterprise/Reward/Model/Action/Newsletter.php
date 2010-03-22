@@ -68,7 +68,8 @@ class Enterprise_Reward_Model_Action_Newsletter extends Enterprise_Reward_Model_
                 break;
             }
         }
-        return !$found;
+        $exceeded = $this->isRewardLimitExceeded();
+        return !$found && !$exceeded;
     }
 
     /**
