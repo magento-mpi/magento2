@@ -47,6 +47,14 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
                     Mage::throwException($this->__('Please enter a valid email address.'));
                 }
 
+                $owner_id = Mage::getModel('customer/customer')
+                        ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+                        ->loadByEmail($email)
+                        ->getId();
+                if ($owner_id !== null && $owner_id != $session['visitor_data']['customer_id']) {
+                    Mage::throwException($this->__('Sorry, but your can not subscribe email adress assigned to another user'));
+                }
+
                 $status = Mage::getModel('newsletter/subscriber')->subscribe($email);
                 if ($status == Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE) {
                     $session->addSuccess($this->__('Confirmation request has been sent.'));

@@ -288,13 +288,21 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             $this->setSubscriberEmail($email);
         }
 
+        $owner_id = Mage::getModel('customer/customer')
+            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+            ->loadByEmail($email)
+            ->getId();
+        if ($owner_id == $customerSession->getId()) {
+            $this->setStatus(self::STATUS_SUBSCRIBED);
+        }
+
         if ($customerSession->isLoggedIn()) {
             $this->setStoreId($customerSession->getCustomer()->getStoreId());
-            $this->setStatus(self::STATUS_SUBSCRIBED);
+            //$this->setStatus(self::STATUS_SUBSCRIBED);
             $this->setCustomerId($customerSession->getCustomerId());
         } else if ($customer->getId()) {
             $this->setStoreId($customer->getStoreId());
-            $this->setSubscriberStatus(self::STATUS_SUBSCRIBED);
+            //$this->setSubscriberStatus(self::STATUS_SUBSCRIBED);
             $this->setCustomerId($customer->getId());
         } else {
             $this->setStoreId(Mage::app()->getStore()->getId());
@@ -312,7 +320,8 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             }
 
             return $this->getStatus();
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -330,7 +339,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Saving customer cubscription status
+     * Saving customer subscription status
      *
      * @param   Mage_Customer_Model_Customer $customer
      * @return  Mage_Newsletter_Model_Subscriber

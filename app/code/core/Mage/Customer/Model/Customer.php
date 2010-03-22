@@ -97,7 +97,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function getSharingConfig()
     {
         return Mage::getSingleton('customer/config_share');
-
     }
 
     /**
