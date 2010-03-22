@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Complex extends Mage_Admi
                 $comment = $this->getLayout()->createBlock($field->getCommentBlock())->toHtml();
             }
             if ($comment) {
-                $html .= sprintf('<div id="row_%s_comment" class="tooltip" style="display:none;"><span class="tooltip-bg"><span class="tooltip-corner">%s</span></span></div>',
+                $html .= sprintf('<div id="row_%s_comment" class="tool-tip" style="display:none;"><span class="tool-tip-bg"><span class="tool-tip-corner">%s</span></span></div>',
                     $field->getId(), $comment
                 );
             }
@@ -97,24 +97,30 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Complex extends Mage_Admi
                        $$('div.row-comment').invoke('hide');
                        var tr = Event.findElement(event, 'tr')
                        var id = tr.id + '_comment';
-                       tr.addClassName('hover');
                        if ($(id) != undefined) {
                            var trLeft = tr.cumulativeOffset().left;
                            var trTop  = tr.cumulativeOffset().top;
                            var tipOffsetLeft = 5;
                            var tipOffsetTop  = tr.select('label')[0].getDimensions().height + 5;
                            $(id).setStyle({left : trLeft + tipOffsetLeft + 'px', top : trTop + tipOffsetTop + 'px'}).show();
+                           
+                           Event.observe(id, 'mouseover', function() {
+                               this.setStyle({display:'block'});
+                           });
+                           Event.observe(id, 'mouseout', function() {
+                               if(!($(tr.id).hasClassName('hover')))
+                                   this.hide();
+                           });
                        }
                    });
                    Event.observe(tr, 'mouseout', function (event) {
                        var tr = Event.findElement(event, 'tr')
                        var id = tr.id + '_comment';
-                       tr.removeClassName('hover');
                        if ($(id) != undefined) {
                            $(id).hide();
                        }
                    });
-               })";
+               });";
 
         return Mage::helper('adminhtml/js')->getScript($js);
     } 

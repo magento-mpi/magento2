@@ -857,9 +857,13 @@ ul.tabs a.paypal-section:hover span { background:url(images/paypal_section.png) 
 .paypal-config tr.hover { background:#f7f7f7; }
 .paypal-config tr.hover label { cursor:help; }
 
-.tooltip { background:url(images/tooltip_top.gif) no-repeat 0 0; padding:10px 0 0; position:absolute; width:250px; }
-.tooltip-bg { background:url(images/tooltip_bg.gif) repeat-x #d7dbce; border-bottom:1px solid #999; display:block; }
-.tooltip-corner { background:url(images/tooltip_corner.gif) no-repeat top right; border-left:1px solid #999; border-right:1px solid #999; display:block; margin:0 -1px; padding:10px; position:relative; width:230px; }
+.tool-tip { background:url(images/tooltip_top.gif) no-repeat 0 0; cursor:help; padding:10px 0 0; position:absolute; width:250px; }
+.tool-tip-bg { background:url(images/tooltip_bg.gif) repeat-x #d7dbce; border-bottom:1px solid #999; display:block; }
+.tool-tip-corner { background:url(images/tooltip_corner.gif) no-repeat top right; border-left:1px solid #999; border-right:1px solid #999; display:block; margin:0 -1px; padding:10px; position:relative; width:230px; }
+
+.paypal-credentials { border:1px solid #f2f2f2; }
+.paypal-credentials caption { padding:5px; text-align:left; }
+.paypal-credentials .value { color:#ccc; }
 
 /* CATALOG
 *******************************************************************************/
