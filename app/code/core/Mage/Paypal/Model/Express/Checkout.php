@@ -200,9 +200,11 @@ class Mage_Paypal_Model_Express_Checkout
             $this->_quote->getPayment()->save();
         }
         // add line items
-        if ($this->_config->lineItemsEnabled && Mage::helper('paypal')->doLineItemsMatchAmount($this->_quote, $this->_quote->getBaseGrandTotal())) {//For transfering line items order amount must be equal to cart total amount
+        if ($this->_config->lineItemsEnabled) {
             list($items, $totals) = Mage::helper('paypal')->prepareLineItems($this->_quote);
-            $this->_api->setLineItems($items)->setLineItemTotals($totals);
+            if (Mage::helper('paypal')->areCartLineItemsValid($items, $totals, $this->_quote->getBaseGrandTotal())) {
+                $this->_api->setLineItems($items)->setLineItemTotals($totals);
+            }
         }
 
         $this->_config->exportExpressCheckoutStyleSettings($this->_api);

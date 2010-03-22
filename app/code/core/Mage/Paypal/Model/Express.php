@@ -211,9 +211,11 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         ;
 
         // add line items
-        if ($this->_pro->getConfig()->lineItemsEnabled && Mage::helper('paypal')->doLineItemsMatchAmount($order, $amount)) {//For transfering line items order amount must be equal to cart total amount
+        if ($this->_pro->getConfig()->lineItemsEnabled) {
             list($items, $totals) = Mage::helper('paypal')->prepareLineItems($order);
-            $api->setLineItems($items)->setLineItemTotals($totals);
+            if (Mage::helper('paypal')->areCartLineItemsValid($items, $totals, $amount)) {
+                $api->setLineItems($items)->setLineItemTotals($totals);
+            }
         }
 
         // call api and get details from it

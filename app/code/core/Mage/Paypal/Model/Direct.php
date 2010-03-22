@@ -243,9 +243,11 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         }
 
         // add line items
-        if ($this->_pro->getConfig()->lineItemsEnabled && Mage::helper('paypal')->doLineItemsMatchAmount($order, $amount)) {//For transfering line items order amount must be equal to cart total amount
+        if ($this->_pro->getConfig()->lineItemsEnabled) {
             list($items, $totals) = Mage::helper('paypal')->prepareLineItems($order);
-            $api->setLineItems($items)->setLineItemTotals($totals);
+            if (Mage::helper('paypal')->areCartLineItemsValid($items, $totals, $amount)) {
+                $api->setLineItems($items)->setLineItemTotals($totals);
+            }
         }
 
         // call api and import transaction and other payment information

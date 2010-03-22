@@ -51,15 +51,28 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
         }
         $discountAmount = 0; // this amount always includes the shipping discount
         $shippingDescription = '';
-        $discountAmount = abs(1 * $salesEntity->getBaseDiscountAmount());
-        $shippingDescription = $salesEntity->getShippingDescription();
-        $totals = array(
-            'subtotal' => $salesEntity->getBaseSubtotal() - $discountAmount,
-            'tax'      => $salesEntity->getBaseTaxAmount(),
-            'shipping' => $salesEntity->getBaseShippingAmount(),
-            'discount' => $discountAmount,
+        if ($salesEntity instanceof Mage_Sales_Model_Order) {
+            $discountAmount = abs(1 * $salesEntity->getBaseDiscountAmount());
+            $shippingDescription = $salesEntity->getShippingDescription();
+            $totals = array(
+                'subtotal' => $salesEntity->getBaseSubtotal() - $discountAmount,
+                'tax'      => $salesEntity->getBaseTaxAmount(),
+                'shipping' => $salesEntity->getBaseShippingAmount(),
+                'discount' => $discountAmount,
 //                'shipping_discount' => -1 * abs($salesEntity->getBaseShippingDiscountAmount()),
-        );
+            );
+        } else {
+            $address = $salesEntity->getIsVirtual() ? $salesEntity->getBillingAddress() : $salesEntity->getShippingAddress();
+            $discountAmount = abs(1 * $address->getBaseDiscountAmount());
+            $shippingDescription = $address->getShippingDescription();
+            $totals = array (
+                'subtotal' => $salesEntity->getBaseSubtotal() - $discountAmount,
+                'tax'      => $address->getBaseTaxAmount(),
+                'shipping' => $address->getBaseShippingAmount(),
+                'discount' => $discountAmount,
+//                'shipping_discount' => -1 * abs($address->getBaseShippingDiscountAmount()),
+            );
+        }
 
         // discount total as line item (negative)
         if ($discountTotalAsItem && $discountAmount) {
@@ -78,36 +91,38 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
                 'amount' => (float)$totals['shipping'],
             ));
         }
+
         return array($items, $totals, $discountAmount, $totals['shipping']);
     }
 
     /**
-     * Compare order total amount with cart's items cost sum
-     *
-     * @param Mage_Sales_Model_Quote|Mage_Sales_Model_Order $salesEntity
-     * @param float $orderAmount
+     * Check whether cart line items are eligible for exporting to PayPal API
+     * 
+     * Requires data returned by self::prepareLineItems()
+     * 
+     * @param array $items
+     * @param array $totals
+     * @param float $referenceAmount
      * @return bool
+     */
+    public function areCartLineItemsValid($items, $totals, $referenceAmount)
+    {
+        $sum = 0;
+        foreach ($items as $i) {
+            $sum = $sum + $i['qty'] * $i['amount'];
+        }
+        /**
+         * numbers are intentionally converted to strings because of possible comparison error
+         * see http://php.net/float
+         */
+        return sprintf('%.4f', ($sum + $totals['shipping'] + $totals['tax'])) == sprintf('%.4f', $referenceAmount);
+    }
+
+    /**
+     * @deprecated after 1.4.0.1
      */
     public function doLineItemsMatchAmount(Mage_Core_Model_Abstract $salesEntity, $orderAmount)
     {
-        $total = 0;
-        foreach ($salesEntity->getAllItems() as $item) {
-            if ($salesEntity instanceof Mage_Sales_Model_Order) {
-                $qty = $item->getQtyOrdered();
-                $amount = $item->getBasePrice();
-                $shipping = $salesEntity->getBaseShippingAmount();
-            } else {
-                $address = $salesEntity->getIsVirtual() ? $salesEntity->getBillingAddress() : $salesEntity->getShippingAddress();
-                $qty = $item->getTotalQty();
-                $amount = $item->getBaseCalculationPrice();
-                $shipping = $address->getBaseShippingAmount();
-            }
-            $total += (float)$amount*$qty;
-        }
-
-        if ($total == $orderAmount || $total+$shipping == $orderAmount) {
-            return true;
-        }
         return false;
     }
 
