@@ -57,8 +57,8 @@ class Enterprise_Reward_Model_Mysql4_Reward_Rate extends Enterprise_Enterprise_M
             ->where('website_id IN (?, 0)', (int)$websiteId)
             ->where('customer_group_id IN (?, 0)', $customerGroupId)
             ->where('direction = ?', $direction)
-            ->order('website_id DESC')
             ->order('customer_group_id DESC')
+            ->order('website_id DESC')
             ->limit(1);
 
         if ($row = $this->_getReadAdapter()->fetchRow($select)) {
