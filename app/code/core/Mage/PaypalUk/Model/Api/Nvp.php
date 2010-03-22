@@ -234,7 +234,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
         'SHIPTOSTREET'  => 'street',
         'SHIPTOSTREET2' => 'street2',
         'SHIPTOZIP' => 'postcode',
-        'SHIPTOPHONENUM' => 'telephone',
+        'SHIPTOPHONENUM' => 'telephone', // does not supported by PaypalUk 
     );
 
     /**
@@ -251,7 +251,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
         'SALUTATION' => 'prefix',
         'SUFFIX' => 'suffix',
 
-        'COUNTRYCODE' => 'country_id', // iso-3166 two-character code
+        'COUNTRY' => 'country_id', // iso-3166 two-character code
         'STATE'    => 'region',
         'CITY'     => 'city',
         'STREET'   => 'street',

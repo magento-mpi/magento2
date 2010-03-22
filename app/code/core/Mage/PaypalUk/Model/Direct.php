@@ -29,7 +29,7 @@
  */
 class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
 {
-    protected $_code  = 'paypaluk_direct';
+    protected $_code  = Mage_PaypalUk_Model_Config::METHOD_WPP_PE_DIRECT;
 
     /**
      * Website Payments Pro instance type
