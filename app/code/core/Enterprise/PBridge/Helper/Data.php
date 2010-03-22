@@ -118,8 +118,11 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
             if ($encryptParams) {
                 $params = array('data' => $this->encrypt(serialize($params)));
             }
-            $sourceUrl .= '?' . http_build_query($params);
         }
+
+        $params['merchant_code'] = trim(Mage::getStoreConfig('payment/pbridge/merchantcode'));
+
+        $sourceUrl .= '?' . http_build_query($params);
 
         return $sourceUrl;
     }
@@ -146,8 +149,8 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
             }
         }
 
-        $params['merchant_code'] = trim(Mage::getStoreConfig('payment/pbridge/merchantcode'));
         $params['merchant_key']  = trim(Mage::getStoreConfig('payment/pbridge/merchantkey'));
+
         return $params;
     }
 
