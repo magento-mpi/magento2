@@ -98,4 +98,19 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
         $pointsDelta = $this->getReward()->getRateToPoints()->calculateToPoints((float)$monetaryAmount);
         return $pointsDelta;
     }
+    
+    /**
+     * Check whether rewards can be added for action
+     * Checking for the history records is intentionaly omitted
+     *
+     * @return bool
+     *
+     */
+    public function canAddRewardPoints()
+    {
+        $allowed = (bool)(int)Mage::helper('enterprise_reward')
+            ->getPointsConfig('order', $this->getReward()->getWebsiteId());
+        $exceeded = $this->isRewardLimitExceeded();
+        return $allowed && !$exceeded;
+    }
 }
