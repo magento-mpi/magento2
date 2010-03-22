@@ -39,12 +39,16 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('log/visitor');
-        $userAgent = Mage::helper('core/http')->getHttpUserAgent();
-        $ignoreAgents = Mage::getConfig()->getNode('global/ignore_user_agents');
-        if ($ignoreAgents) {
-            $ignoreAgents = $ignoreAgents->asArray();
-            if (in_array($userAgent, $ignoreAgents)) {
-                $this->_skipRequestLogging = true;
+        if (Mage::app()->getRequest()->isStraight()) {
+            $this->_skipRequestLogging = true;
+        } else {
+            $userAgent = Mage::helper('core/http')->getHttpUserAgent();
+            $ignoreAgents = Mage::getConfig()->getNode('global/ignore_user_agents');
+            if ($ignoreAgents) {
+                $ignoreAgents = $ignoreAgents->asArray();
+                if (in_array($userAgent, $ignoreAgents)) {
+                    $this->_skipRequestLogging = true;
+                }
             }
         }
     }

@@ -44,11 +44,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
         parent::__construct();
         $resource = Mage::getSingleton('core/resource');
         $this->setType('catalog_product')
-            ->setConnection(
-                $resource->getConnection('catalog_read'),
-                $resource->getConnection('catalog_write')
-            );
-
+            ->setConnection('catalog_read', 'catalog_write');
         $this->_productWebsiteTable = $resource->getTableName('catalog/product_website');
         $this->_productCategoryTable= $resource->getTableName('catalog/category_product');
     }

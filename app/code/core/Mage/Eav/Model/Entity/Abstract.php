@@ -158,11 +158,11 @@ abstract class Mage_Eav_Model_Entity_Abstract
     /**
      * Set connections for entity operations
      *
-     * @param Zend_Db_Adapter_Abstract $read
-     * @param Zend_Db_Adapter_Abstract $write
+     * @param Zend_Db_Adapter_Abstract|string $read
+     * @param Zend_Db_Adapter_Abstract|string|null $write
      * @return Mage_Eav_Model_Entity_Abstract
      */
-    public function setConnection(Zend_Db_Adapter_Abstract $read, Zend_Db_Adapter_Abstract $write=null)
+    public function setConnection($read, $write=null)
     {
         $this->_read = $read;
         $this->_write = $write ? $write : $read;
@@ -184,6 +184,9 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     protected function _getReadAdapter()
     {
+        if (is_string($this->_read)) {
+            $this->_read = Mage::getSingleton('core/resource')->getConnection($this->_read);
+        }
         return $this->_read;
     }
 
@@ -194,6 +197,9 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     protected function _getWriteAdapter()
     {
+        if (is_string($this->_write)) {
+            $this->_read = Mage::getSingleton('core/resource')->getConnection($this->_write);
+        }
         return $this->_write;
     }
 

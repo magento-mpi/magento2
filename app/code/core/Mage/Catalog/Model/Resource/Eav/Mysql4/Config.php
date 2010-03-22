@@ -85,10 +85,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Config extends Mage_Core_Model_Mysq
     public function getEntityTypeId()
     {
         if (is_null($this->_entityTypeId)) {
-            $select = $this->_getReadAdapter()->select()
-                ->from($this->getTable('eav/entity_type'), 'entity_type_id')
-                ->where('entity_type_code=?', 'catalog_product');
-            $this->_entityTypeId = $this->_getReadAdapter()->fetchOne($select);
+            $this->_entityTypeId = Mage::getSingleton('eav/config')->getEntityType('catalog_product')->getId();
         }
         return $this->_entityTypeId;
     }
