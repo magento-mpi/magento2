@@ -18,19 +18,26 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    design
- * @package     enterprise_default
+ * @category    Enterprise
+ * @package     Enterprise_PBridge
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-?>
-<!--<ul class="form-list" id="payment_form_pbridge" style="display:none;">-->
-<?php $_code=$this->getMethodCode() ?>
-<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
-    <li>
-      <iframe src="<?php echo $this->getSourceUrl() ?>"
-              height="300" width="100%" marginheight="0" marginwidth="0"
-              scrolling="no" id="pbridge-viewport" frameborder="0"
-              style="border:0 none"></iframe>
-  </li>
-</ul>
+
+
+/**
+ * Paypal Direct payment block
+ *
+ * @category    Enterprise
+ * @package     Enterprise_PBridge
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Enterprise_PBridge_Block_Checkout_Payment_Paypal extends Enterprise_PBridge_Block_Checkout_Payment_Abstract
+{
+    /**
+     * Paypal payment code
+     *
+     * @var string
+     */
+    protected $_code = Mage_Paypal_Model_Config::METHOD_WPP_DIRECT;
+}

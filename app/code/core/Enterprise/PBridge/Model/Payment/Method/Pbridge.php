@@ -42,32 +42,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     protected $_code = 'pbridge';
 
     /**
-     * Form block type for the frontend
-     *
-     * @var string
-     */
-    protected $_formBlockType = 'enterprise_pbridge/checkout_payment_pbridge';
-
-    /**
-     * Form block type for the backend
-     *
-     * @var string
-     */
-    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_pbridge';
-
-    /**
      * Payment method instance wrapped by Payment Bridge
      *
      * @var Mage_Payment_Model_Method_Abstract
      */
     protected $_originalMethodInstance = null;
-
-    /**
-     * Cached instances for dependent methods
-     *
-     * @var array
-     */
-    protected $_dependentMethodInstances = array();
 
     /**
      * Code for wrapped payment method
@@ -116,22 +95,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     public function isAvailable($quote = null)
     {
         $storeId = $quote ? $quote->getStoreId() : null;
-        return parent::isAvailable($quote) &&
-            (bool)$this->getConfigData('gatewayurl', $storeId) &&
-            (bool)$this->getConfigData('merchantcode', $storeId) &&
-            (bool)$this->getConfigData('merchantkey', $storeId);
-    }
-
-    /**
-     * Retrieve block type for method form generation
-     *
-     * @return string
-     */
-    public function getFormBlockType()
-    {
-        return Mage::app()->getStore()->isAdmin() ?
-            $this->_backendFormBlockType :
-            $this->_formBlockType;
+        return parent::isAvailable($quote) && Mage::helper('enterprise_pbridge')->isAvailable($storeId);
     }
 
     /**
@@ -213,6 +177,12 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         return $this->getInfoAdditionalData('token');
     }
 
+    public function setOriginalMethodInstance($methodInstance)
+    {
+        $this->_originalMethodInstance = $methodInstance;
+        return $this;
+    }
+
     /**
      * Getter.
      * Retrieve the wrapped payment method instance
@@ -233,207 +203,33 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     }
 
     /**
-     * Check if any of dependent payment methods can use specified feature
+     * Retrieve payment iformation model object
      *
-     * @return bool
+     * @return Mage_Payment_Model_Info
      */
-    protected function _canDependentMethodsUseFeature($featureMethod, $param = null)
+    public function getInfoInstance()
     {
-        $flag = false;
-        foreach (Mage::helper('enterprise_pbridge')->getPbridgeAvailableMethods() as $method) {
-            if (!isset($this->_dependentMethodInstances[$method])) {
-                $this->_dependentMethodInstances[$method] = Mage::helper('payment')->getMethodInstance($method);
-            }
-
-            $featureResult = call_user_func_array(
-                array($this->_dependentMethodInstances[$method], $featureMethod),
-                array($param)
-            );
-
-            if (null !== $this->_dependentMethodInstances[$method] && $featureResult) {
-                Mage::helper('enterprise_pbridge')->setPbridgeMethodUsable($method);
-                $flag = true;
-            } else {
-                Mage::helper('enterprise_pbridge')->unsetPbridgeMethodUsable($method);
-            }
+        $instance = $this->getOriginalMethodInstance()->getData('info_instance');
+        if (!($instance instanceof Mage_Payment_Model_Info)) {
+            Mage::throwException($this->_getHelper()->__('Can not retrieve payment iformation object instance'));
         }
-        return $flag;
-    }
-
-    /**
-     * Get config peyment action url
-     *
-     * @return string
-     */
-    public function getConfigPaymentAction()
-    {
-        if (null === $this->getOriginalMethodInstance()) {
-            return $this->getConfigData('payment_action');
-        } else {
-            return $this->getOriginalMethodInstance()->getConfigPaymentAction();
-        }
-    }
-
-    /**
-     * Check authorise availability
-     *
-     * @return bool
-     */
-    public function canAuthorize()
-    {
-        return $this->getOriginalMethodInstance()->canAuthorize();
-    }
-
-    /**
-     * Check capture availability
-     *
-     * @return bool
-     */
-    public function canCapture()
-    {
-        return $this->getOriginalMethodInstance()->canCapture();
-    }
-
-    /**
-     * Check partial capture availability
-     *
-     * @return bool
-     */
-    public function canCapturePartial()
-    {
-        return $this->getOriginalMethodInstance()->canCapturePartial();
-    }
-
-    /**
-     * Check refund availability
-     *
-     * @return bool
-     */
-    public function canRefund()
-    {
-        return $this->getOriginalMethodInstance()->canRefund();
-    }
-
-    /**
-     * Check partial refund availability for invoice
-     *
-     * @return bool
-     */
-    public function canRefundPartialPerInvoice()
-    {
-        return $this->getOriginalMethodInstance()->canRefundPartialPerInvoice();
-    }
-
-    /**
-     * Check void availability
-     *
-     * @param   Varien_Object $invoicePayment
-     * @return  bool
-     */
-    public function canVoid(Varien_Object $payment)
-    {
-        return $this->getOriginalMethodInstance()->canVoid($payment);
-    }
-
-    /**
-     * Using internal pages for input payment data
-     * Can be used in admin
-     *
-     * @return bool
-     */
-    public function canUseInternal()
-    {
-        if (null === $this->getOriginalMethodInstance()) {
-            return true;
-        } else {
-            return $this->getOriginalMethodInstance()->canUseInternal();
-        }
-    }
-
-    /**
-     * Can be used in regular checkout
-     *
-     * @return bool
-     */
-    public function canUseCheckout()
-    {
-        if (null === $this->getOriginalMethodInstance()) {
-            return $this->_canDependentMethodsUseFeature('canUseCheckout');
-        } else {
-            return $this->getOriginalMethodInstance()->canUseCheckout();
-        }
-    }
-
-    /**
-     * Using for multiple shipping address
-     *
-     * @return bool
-     */
-    public function canUseForMultishipping()
-    {
-        if (null === $this->getOriginalMethodInstance()) {
-            return $this->_canDependentMethodsUseFeature('canUseForMultishipping');
-        } else {
-            return $this->getOriginalMethodInstance()->canUseForMultishipping();
-        }
-    }
-
-    /**
-     * Can be edit order (renew order)
-     *
-     * @return bool
-     */
-    public function canEdit()
-    {
-        if (null === $this->getOriginalMethodInstance()) {
-            return false;
-        } else {
-            return $this->getOriginalMethodInstance()->canEdit();
-        }
+        return $instance;
     }
 
     /**
      * To check billing country is allowed for the payment method
      *
-     * @param string $country
      * @return bool
      */
     public function canUseForCountry($country)
     {
-        if (null === $this->getOriginalMethodInstance()) {
-            return $this->_canDependentMethodsUseFeature('canUseForCountry', $country);
-        } else {
-            return $this->getOriginalMethodInstance()->canUseForCountry($country);
-        }
+        return $this->getOriginalMethodInstance()->canUseForCountry($country);
     }
 
-    /**
-     * Check method for processing with base currency
-     *
-     * @param string $currencyCode
-     * @return boolean
-     */
-    public function canUseForCurrency($currencyCode)
+    public function validate()
     {
-        if (null === $this->getOriginalMethodInstance()) {
-            return $this->_canDependentMethodsUseFeature('canUseForCurrency', $currencyCode);
-        } else {
-            return $this->getOriginalMethodInstance()->canUseForCurrency($currencyCode);
-        }
-    }
-
-    /**
-     * Retrieve payment method title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        if (null === $this->getOriginalMethodInstance()) {
-            return $this->getConfigData('title');
-        } else {
-            return $this->getOriginalMethodInstance()->getTitle();
-        }
+        parent::validate();
+        return $this;
     }
 
     /**
@@ -444,7 +240,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      */
     public function authorize(Varien_Object $payment, $amount)
     {
-        parent::authorize($payment, $amount);
+//        parent::authorize($payment, $amount);
         $order = $payment->getOrder();
         $request = new Varien_Object();
 

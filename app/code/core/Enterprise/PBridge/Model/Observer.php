@@ -35,7 +35,7 @@
 class Enterprise_PBridge_Model_Observer
 {
     /**
-     * Check payment method availability after previously made initialization
+     * Check payment methods availability
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_PBridge_Model_Observer
@@ -43,15 +43,14 @@ class Enterprise_PBridge_Model_Observer
     public function isPaymentMethodAvailable(Varien_Event_Observer $observer)
     {
         $method = $observer->getEvent()->getData('method_instance');
+        /* @var $quote Mage_Sales_Model_Quote */
         $quote = $observer->getEvent()->getData('quote');
         $result = $observer->getEvent()->getData('result');
-//        if ($method->getCode() == 'pbridge') {
-//            $result->isAvailable = $quote->getIsPaymentBridgeInitialized() ? true : false;
-//        }
-        if (Mage::helper('enterprise_pbridge')->isAvailablePbridgeMethod($method->getCode())) {
-            if (Mage::helper('enterprise_pbridge')->isEnabled()) {
-                $result->isAvailable = $quote->getIsPaymentBridgeInitialized() ? true : false;
-            }
+        if ($method->getCode() == 'pbridge') {
+            $result->isAvailable = false;
+        } elseif (((bool)$method->getConfigData('using_pbridge', $quote->getStoreId()) === true)
+            && ((bool)$method->getIsDummy() === false)) {
+            $result->isAvailable = false;
         }
         return $this;
     }
@@ -64,8 +63,8 @@ class Enterprise_PBridge_Model_Observer
      */
     public function initPaymentMethod(Varien_Event_Observer $observer)
     {
-        $quote = $observer->getEvent()->getData('payment')->getQuote();
-        $quote->setIsPaymentBridgeInitialized(true);
+//        $quote = $observer->getEvent()->getData('payment')->getQuote();
+//        $quote->setIsPaymentBridgeInitialized(true);
         return $this;
     }
 }

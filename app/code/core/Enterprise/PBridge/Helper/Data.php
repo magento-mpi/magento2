@@ -35,11 +35,11 @@
 class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
     /**
-     * Payment Bridge action name to fetch Payment Bridge payment gateways
+     * Payment Bridge action name to fetch Payment Bridge gateway form
      *
      * @var string
      */
-    const PAYMENT_GATEWAYS_CHOOSER_ACTION = 'GatewaysChooser';
+    const PAYMENT_GATEWAY_FORM_ACTION = 'GatewayForm';
 
     /**
      * Payment Bridge payment methods available for the current merchant
@@ -68,12 +68,22 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
      *
      * @return boolean
      */
-    public function isEnabled()
+    public function isEnabled($store = null)
     {
-        return (bool)Mage::getStoreConfigFlag('payment/pbridge/active') &&
-            (bool)Mage::getStoreConfig('payment/pbridge/gatewayurl') &&
-            (bool)Mage::getStoreConfig('payment/pbridge/merchantcode') &&
-            (bool)Mage::getStoreConfig('payment/pbridge/merchantkey');
+        return (bool)Mage::getStoreConfigFlag('payment/pbridge/active', $store) && $this->isAvailable($store);
+    }
+
+    /**
+     * Check if enough config paramters to use Pbridge module
+     *
+     * @param Mage_Core_Model_Store | integer $store
+     * @return boolean
+     */
+    public function isAvailable($store = null)
+    {
+        return (bool)Mage::getStoreConfig('payment/pbridge/gatewayurl', $store) &&
+            (bool)Mage::getStoreConfig('payment/pbridge/merchantcode', $store) &&
+            (bool)Mage::getStoreConfig('payment/pbridge/merchantkey', $store);
     }
 
     /**
@@ -142,21 +152,14 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     }
 
     /**
-     * Return payment Bridge request URL to display gateways chooser
+     * Return payment Bridge request URL to display gateway form
      *
      * @param array $params OPTIONAL
      * @param Mage_Sale_Model_Quote $quote
      * @return string
      */
-    public function getGatewaysChooserUrl(array $params = array(), $quote = null)
+    public function getGatewayFormUrl(array $params = array(), $quote = null)
     {
-        $availableMethods = $this->getPbridgeUsableMethods();
-        if ($availableMethods) {
-            $params = array_merge(array(
-                'available_methods' => implode(',', $availableMethods)
-            ), $params);
-        }
-
         $quote = $this->_getQuote($quote);
         $params = array_merge(array(
             'order_id'      => $quote ? $quote->getReservedOrderId() : '',
@@ -165,7 +168,7 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
         ), $params);
 
         $params = $this->getRequestParams($params, $quote);
-        $params['action'] = self::PAYMENT_GATEWAYS_CHOOSER_ACTION;
+        $params['action'] = self::PAYMENT_GATEWAY_FORM_ACTION;
         return $this->_prepareRequestUrl($params, true);
     }
 
@@ -179,100 +182,6 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     public function getRequestUrl()
     {
         return $this->_prepareRequestUrl();
-    }
-
-    /**
-     * Prepare given payment method and return Payment Bridge payment methods
-     * available for the current merchant
-     *
-     * @param string $method
-     * @return array
-     */
-    protected function _preparePbridgeAvailableMethod($method)
-    {
-        if (!in_array($method, $this->_pbridgeAvailableMethods)) {
-            if (Mage::getStoreConfigFlag('payment/' . $method . '/using_pbridge')) {
-                $this->_pbridgeAvailableMethods[] = $method;
-            }
-        }
-        return $this->_pbridgeAvailableMethods;
-    }
-
-    /**
-     * Getter.
-     * Retrieve Payment Bridge payment methods available for the current merchant
-     *
-     * @return array
-     */
-    public function getPbridgeAvailableMethods()
-    {
-        return $this->_pbridgeAvailableMethods;
-    }
-
-    /**
-     * Check if the payment method is within the list of available for current merchant
-     *
-     * @param string $method
-     * @return bool
-     */
-    public function isAvailablePbridgeMethod($method)
-    {
-        return in_array($method, $this->_preparePbridgeAvailableMethod($method));
-    }
-
-    /**
-     * Setter.
-     * Set specified method into the array of usable methods
-     *
-     * @param string $method
-     * @return Enterprise_PBridge_Helper_Data
-     */
-    public function setPbridgeMethodUsable($method)
-    {
-        if (!isset($this->_pbridgeUsableMethods[$method])) {
-            $this->_pbridgeUsableMethods[$method] = true;
-        }
-        return $this;
-    }
-
-    /**
-     * Setter.
-     * Remove specified method from the array of usable methods
-     *
-     * @param string $method
-     */
-    public function unsetPbridgeMethodUsable($method)
-    {
-        $this->_pbridgeUsableMethods[$method] = false;
-        return $this;
-    }
-
-    /**
-     * Check if the payment method is within the list of usable under current conditions
-     *
-     * @param string $method
-     * @return bool
-     */
-    public function isPbridgeMethodUsable($method)
-    {
-        return isset($this->_pbridgeUsableMethods[$method]) && $this->_pbridgeUsableMethods[$method] === true;
-    }
-
-    /**
-     * Getter.
-     * Retrieve Payment Bridge payment methods usable under current conditions
-     *
-     * @return array
-     */
-    public function getPbridgeUsableMethods()
-    {
-        $result = array();
-        foreach ($this->_pbridgeAvailableMethods as $method) {
-            if ($this->isPbridgeMethodUsable($method)) {
-                $result[] = $method;
-            }
-        }
-        return $result;
     }
 
     /**

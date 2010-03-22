@@ -26,21 +26,49 @@
 
 
 /**
- * Pbridge payment block
+ * Abstract payment block
  *
  * @category    Enterprise
  * @package     Enterprise_PBridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_PBridge_Block_Checkout_Payment_Pbridge extends Mage_Payment_Block_Form
+abstract class Enterprise_PBridge_Block_Checkout_Payment_Abstract extends Mage_Payment_Block_Form
 {
     /**
-     * Constructor
+     * Code of payment method
+     *
+     * @var string
      */
-    protected function _construct()
+    protected $_code;
+
+    /**
+     * Default template for payment form block
+     *
+     * @var string
+     */
+    protected $_template = 'pbridge/checkout/payment/pbridge.phtml';
+
+    /**
+     * Return payment method code
+     *
+     *  @return string
+     */
+    public function getCode()
     {
-        parent::_construct();
-        $this->setTemplate('pbridge/checkout/payment/pbridge.phtml');
+        if (!$this->_code) {
+            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Can not retrieve requested gateway code'));
+        }
+        return $this->_code;
+    }
+
+    /**
+     * Return redirect url for Payment Bridge application
+     *
+     * @return string
+     */
+    public function getRedirectUrl()
+    {
+        return $this->getUrl('enterprise_pbridge/pbridge/result', array('_current' => true));
     }
 
     /**
@@ -51,8 +79,9 @@ class Enterprise_PBridge_Block_Checkout_Payment_Pbridge extends Mage_Payment_Blo
      */
     public function getSourceUrl()
     {
-        $sourceUrl = Mage::helper('enterprise_pbridge')->getGatewaysChooserUrl(array(
-            'redirect_url' => $this->getUrl('enterprise_pbridge/pbridge/result', array('_current' => true))
+        $sourceUrl = Mage::helper('enterprise_pbridge')->getGatewayFormUrl(array(
+            'redirect_url' => $this->getRedirectUrl(),
+            'request_gateway_code' => $this->getCode()
         ), Mage::getSingleton('checkout/session')->getQuote());
         return $sourceUrl;
     }
