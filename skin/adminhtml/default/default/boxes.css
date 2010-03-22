@@ -122,7 +122,7 @@
 *******************************************************************************/
 
 /* Grid - General */
-.grid                           { position:relative; border-bottom:0; padding-bottom:.5em; }
+.grid                           { border-bottom:0; padding-bottom:.5em; }
 .grid table                     { width:100%; border:1px solid #cbd3d4; border-bottom:none; }
 .grid table.border              { border:1px solid #cbd3d4; }
 .grid tbody                     { background:#fff; }    /* Zebra odd-row */
