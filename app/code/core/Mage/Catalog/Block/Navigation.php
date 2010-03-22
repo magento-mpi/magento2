@@ -193,7 +193,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
 
         // get all children
         if (Mage::helper('catalog/category_flat')->isEnabled()) {
-            $children = $category->getChildrenNodes();
+            $children = (array)$category->getChildrenNodes();
             $childrenCount = count($children);
         } else {
             $children = $category->getChildren();
