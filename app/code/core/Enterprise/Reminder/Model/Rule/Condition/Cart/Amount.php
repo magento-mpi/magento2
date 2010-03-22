@@ -61,8 +61,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'subtotal'  => Mage::helper('enterprise_customersegment')->__('Subtotal'),
-            'grand_total'  => Mage::helper('enterprise_customersegment')->__('Grand Total')
+            'subtotal'  => Mage::helper('enterprise_reminder')->__('Subtotal'),
+            'grand_total'  => Mage::helper('enterprise_reminder')->__('Grand Total')
         ));
         return $this;
     }
@@ -107,7 +107,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
         }
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
-        $select->where('quote.is_active=1');
+        $select->where('quote.is_active = 1');
         $select->where("{$field} {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'customer_id'));
         $select->limit(1);

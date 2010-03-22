@@ -101,6 +101,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
         $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)));
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
+        $select->where('quote.is_active = 1');
         $select->where("{$inversion}(IFNULL(quote.coupon_code, '') <> '')");
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
         $select->limit(1);

@@ -298,7 +298,7 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
     {
         $this->_getWriteAdapter()->update(
             $this->getTable('enterprise_reminder/coupon'),
-            array('is_active' => '1'),
+            array('is_active' => '0'),
             array('rule_id = ?' => $ruleId)
         );
         return $this;

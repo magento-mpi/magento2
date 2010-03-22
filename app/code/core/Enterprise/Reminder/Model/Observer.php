@@ -83,7 +83,7 @@ class Enterprise_Reminder_Model_Observer
             $rule->afterLoad();
             $this->getResource()->deactiveMatchedCustomers($rule->getId());
 
-            $salesRule = Mage::getModel('salesrule/rule')->load($rule->getSalesruleId());
+            $salesRule = Mage::getSingleton('salesrule/rule')->load($rule->getSalesruleId());
 
             if (!$salesRule || !$salesRule->getId()) {
                 continue;
@@ -127,7 +127,7 @@ class Enterprise_Reminder_Model_Observer
         foreach ($recipients as $recipient) {
 
             /* @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('customer/customer')->load($recipient['customer_id']);
+            $customer = Mage::getSingleton('customer/customer')->load($recipient['customer_id']);
 
             if (!$customer || !$customer->getId()) {
                 continue;
@@ -143,7 +143,7 @@ class Enterprise_Reminder_Model_Observer
             $couponCode = null;
             if ($recipient['coupon_id']) {
                 /* @var $coupon Mage_SalesRule_Model_Coupon */
-                $coupon = Mage::getModel('salesrule/coupon')->load($recipient['coupon_id']);
+                $coupon = Mage::getSingleton('salesrule/coupon')->load($recipient['coupon_id']);
 
                 if ($coupon && $coupon->getId()) {
                     $couponCode = $coupon->getCode();

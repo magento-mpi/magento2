@@ -97,12 +97,13 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
             array()
         );
 
+        $this->_limitByStoreWebsite($select, $website, 'item.store_id');
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
         $select->limit(1);
         return $select;
     }
 
-    public function getConditionsSql1($customer, $website)
+    public function getConditionsSql($customer, $website)
     {
         /**
          * Build base SQL

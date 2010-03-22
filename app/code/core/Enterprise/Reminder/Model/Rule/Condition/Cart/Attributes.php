@@ -61,11 +61,11 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'weight'  => Mage::helper('enterprise_customersegment')->__('Weight'),
-            'row_weight'  => Mage::helper('enterprise_customersegment')->__('Row Weight'),
-            'qty'  => Mage::helper('enterprise_customersegment')->__('Qty'),
-            'price'  => Mage::helper('enterprise_customersegment')->__('Price'),
-            'base_cost'  => Mage::helper('enterprise_customersegment')->__('Cost')
+            'weight'  => Mage::helper('enterprise_reminder')->__('Weight'),
+            'row_weight'  => Mage::helper('enterprise_reminder')->__('Row Weight'),
+            'qty'  => Mage::helper('enterprise_reminder')->__('Qty'),
+            'price'  => Mage::helper('enterprise_reminder')->__('Base Price'),
+            'base_cost'  => Mage::helper('enterprise_reminder')->__('Base Cost')
         ));
         return $this;
     }
@@ -126,6 +126,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
         }
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
+        $select->where('quote.is_active = 1');
         $select->where("{$field} {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
         $select->limit(1);
