@@ -63,7 +63,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
         return $this;
     }
 
-    public function init(Mage_Catalog_Model_Product $product, $attributeName, $imageFile=null)
+    public function init(Mage_Catalog_Model_Abstract $product, $attributeName, $imageFile=null)
     {
         $this->_reset();
         $this->_setModel(Mage::getModel('catalog/product_image'));

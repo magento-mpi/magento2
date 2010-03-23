@@ -505,7 +505,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
 
                     $group = $option->groupFactory($option->getType())
                         ->setOption($option)->setListener(new Varien_Object());
-
+                    
                     if ($optionSku = $group->getOptionSku($quoteItemOption->getValue(), $skuDelimiter)) {
                         $sku .= $skuDelimiter . $optionSku;
                     }
