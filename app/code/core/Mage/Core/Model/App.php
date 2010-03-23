@@ -1194,6 +1194,8 @@ class Mage_Core_Model_App
                 $observer->setData(array('event'=>$event));
                 Varien_Profiler::start('OBSERVER: '.$obsName);
                 switch ($obs['type']) {
+                    case 'disabled':
+                        break;
                     case 'object': case 'model':
                         $method = $obs['method'];
                         $observer->addData($args);
