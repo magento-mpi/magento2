@@ -179,7 +179,12 @@ class Enterprise_Search_Model_Resource_Engine
         switch ($adapterName) {
             case 'solr':
             default:
-                $model = 'enterprise_search/adapter_solr';
+                if (extension_loaded('solr')) {
+                    $model = 'enterprise_search/adapter_solr';
+                }
+                else {
+                    $model = 'enterprise_search/adapter_apacheSolr';
+                }
                 break;
         }
         return Mage::getSingleton($model);

@@ -80,6 +80,7 @@
                         <server_path translate="label">
                             <label>Server Path</label>
                             <frontend_type>text</frontend_type>
+                            <comment>without starting and trailing slashes</comment>
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>

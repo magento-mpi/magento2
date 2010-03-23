@@ -42,9 +42,16 @@ class Enterprise_Search_Model_Adapter_Solr {
     /**
      * Store Solr Client instance
      *
-     * @var SolrClient
+     * @var object
      */
     protected $_client = null;
+
+    /**
+     * Object name used to create solr document object
+     *
+     * @var string
+     */
+    protected $_clientDocObjectName = 'SolrInputDocument';
 
     /**
      * Store last search query number of found results
@@ -149,7 +156,7 @@ class Enterprise_Search_Model_Adapter_Solr {
         }
         $docs = array();
         foreach ($docData as $entityId => $index) {
-            $doc = new SolrInputDocument();
+            $doc = new $this->_clientDocObjectName;
 
             /**
              * Set unique field
@@ -207,7 +214,7 @@ class Enterprise_Search_Model_Adapter_Solr {
         }
 
         foreach ($docs as $doc) {
-            if ($doc instanceof SolrInputDocument) {
+            if ($doc instanceof $this->_clientDocObjectName) {
                $_docs[] = $doc;
             }
         }
@@ -308,35 +315,32 @@ class Enterprise_Search_Model_Adapter_Solr {
     /**
      * Finalizes all add/deletes made to the index
      *
-     * @return SolrUpdateResponse
+     * @return object
      */
     public function commit()
     {
-        $response = $this->_client->commit();
-        return $response->getResponse();
+        return $this->_client->commit();
     }
 
     /**
      * Perform optimize operation
      * Same as commit operation, but also defragment the index for faster search performance
      *
-     * @return SolrUpdateResponse
+     * @return object
      */
     public function optimize()
     {
-        $response = $this->_client->optimize();
-        return $response->getResponse();
+        return $this->_client->optimize();
     }
 
     /**
      * Rollbacks all add/deletes made to the index since the last commit
      *
-     * @return SolrUpdateResponse
+     * @return object
      */
     public function rollback()
     {
-        $response = $this->_client->rollback();
-        return $response->getResponse();
+        return $this->_client->rollback();
     }
 
     /**
@@ -373,7 +377,7 @@ class Enterprise_Search_Model_Adapter_Solr {
      * Connect to Solr Client by specified options that will be merged with default
      *
      * @param array $options
-     * @return object
+     * @return SolrClient
      */
     protected function _connect($options = array())
     {
@@ -388,7 +392,7 @@ class Enterprise_Search_Model_Adapter_Solr {
         );
         $options = array_merge($def_options, $options);
         try {
-        $this->_client = new SolrClient($options);
+            $this->_client = new SolrClient($options);
         }
         catch (Exception $e)
         {
@@ -416,7 +420,7 @@ class Enterprise_Search_Model_Adapter_Solr {
      *                        by whish will be performed search request and sorting
      *
      *
-     * @return SolrQueryResponse
+     * @return array
      */
     protected function _search($query, $params = array())
     {
@@ -497,7 +501,7 @@ class Enterprise_Search_Model_Adapter_Solr {
                     $sortField = $sortField . '_' . $params['lang_code'];
                 }
                 $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
-                 $solrQuery->addSortField($sortField, $sortType);
+                $solrQuery->addSortField($sortField, $sortType);
             }
         }
 
@@ -529,7 +533,7 @@ class Enterprise_Search_Model_Adapter_Solr {
         try {
             $this->_client->ping();
             $response = $this->_client->query($solrQuery);
-            return $this->_prepareQueryResponse($response);
+            return $this->_prepareQueryResponse($response->getResponse());
         }
         catch (Exception $e) {
             Mage::logException($e);
@@ -541,12 +545,12 @@ class Enterprise_Search_Model_Adapter_Solr {
     /**
      * Convert Solr Query Response found documents to an array
      *
-     * @param SolrQueryResponse $response
+     * @param object $response
      * @return array
      */
-    protected function _prepareQueryResponse(SolrQueryResponse $response)
+    protected function _prepareQueryResponse($response)
     {
-        $realResponse = $response->getResponse()->response;
+        $realResponse = $response->response;
         $_docs  = $realResponse->docs;
         if (!$_docs) {
             return array();
