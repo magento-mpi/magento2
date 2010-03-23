@@ -883,7 +883,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     protected function _getLoadRowSelect($object, $rowId)
     {
-        $select = $this->_read->select()
+        $select = $this->_getReadAdapter()->select()
             ->from($this->getEntityTable())
             ->where($this->getEntityIdField()."=?", $rowId);
 
@@ -899,7 +899,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     protected function _getLoadAttributesSelect($object, $table)
     {
-        $select = $this->_read->select()
+        $select = $this->_getReadAdapter()->select()
             ->from($table)
             ->where($this->getEntityIdField() . '=?', $object->getId());
         return $select;
@@ -1348,7 +1348,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
         $whereArr = array();
         foreach ($row as $field => $value) {
-            $whereArr[] = $this->_read->quoteInto("$field=?", $value);
+            $whereArr[] = $this->_getReadAdapter()->quoteInto("$field=?", $value);
         }
         $where = '('.join(') AND (', $whereArr).')';
 
