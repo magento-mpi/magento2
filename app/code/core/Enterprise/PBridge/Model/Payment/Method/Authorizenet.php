@@ -127,16 +127,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      */
     public function isAvailable($quote = null)
     {
-        $storeId = $quote ? $quote->getStoreId() : null;
-        $checkResult = new StdClass;
-        $checkResult->isAvailable = (bool)(int)$this->getConfigData('active', $storeId);
-        Mage::dispatchEvent('payment_method_is_active', array(
-            'result'          => $checkResult,
-            'method_instance' => $this,
-            'quote'           => $quote,
-        ));
-        return $checkResult->isAvailable && Mage::helper('enterprise_pbridge')->isEnabled($storeId)
-            && $this->getConfigData('using_pbridge', $storeId);
+        return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote);
     }
 
     /**

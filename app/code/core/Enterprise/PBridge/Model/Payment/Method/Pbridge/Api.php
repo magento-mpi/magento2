@@ -118,7 +118,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Varien_Object
     protected function _prepareRequestParams($request)
     {
         $request['action'] = 'Payments';
-        $request['token'] = $this->getMethodInstance()->getToken();
+        $request['token'] = $this->getMethodInstance()->getPbridgeResponse('token');
         $request = Mage::helper('enterprise_pbridge')->getRequestParams($request);
         $request = array('data' => Mage::helper('enterprise_pbridge')->encrypt(serialize($request)));
         return http_build_query($request, '', '&');

@@ -132,22 +132,13 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
      * Optinal accept additional params to merge with required
      *
      * @param array $params OPTIONAL
-     * @param Varien_Object $payment OPTIONAL
      * @return array
      */
-    public function getRequestParams(array $params = array(), $quote = null)
+    public function getRequestParams(array $params = array())
     {
         $params = array_merge(array(
             'locale' => Mage::app()->getLocale()->getLocaleCode(),
         ), $params);
-
-        if ($this->_getQuote($quote) && $this->_getQuote($quote)->getId()) {
-            $params['quote_id'] = $this->_getQuote($quote)->getId();
-            $payment = $this->_getQuote($quote)->getPayment();
-            if ($payment && $payment->getMethod() && $payment->getMethodInstance()->getToken()) {
-                $params['token'] = $payment->getMethodInstance()->getToken();
-            }
-        }
 
         $params['merchant_key']  = trim(Mage::getStoreConfig('payment/pbridge/merchantkey'));
 

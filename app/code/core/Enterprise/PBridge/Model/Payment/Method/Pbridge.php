@@ -94,8 +94,27 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      */
     public function isAvailable($quote = null)
     {
+        return false;
+    }
+
+    /**
+     * Check if dummy payment method is available
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return boolean
+     */
+    public function isDummyMethodAvailable($quote = null)
+    {
         $storeId = $quote ? $quote->getStoreId() : null;
-        return parent::isAvailable($quote) && Mage::helper('enterprise_pbridge')->isAvailable($storeId);
+        $checkResult = new StdClass;
+        $checkResult->isAvailable = (bool)(int)$this->getOriginalMethodInstance()->getConfigData('active', $storeId);
+        Mage::dispatchEvent('payment_method_is_active', array(
+            'result'          => $checkResult,
+            'method_instance' => $this->getOriginalMethodInstance(),
+            'quote'           => $quote,
+        ));
+        return $checkResult->isAvailable && Mage::helper('enterprise_pbridge')->isEnabled($storeId)
+            && $this->getOriginalMethodInstance()->getConfigData('using_pbridge', $storeId);
     }
 
     /**
@@ -116,67 +135,57 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             $pbridgeData = $data->getData('pbridge_data');
             $data->unsetData('pbridge_data');
         }
+        $this->getOriginalMethodInstance()->assignData($data);
         parent::assignData($data);
-        $this->setInfoAdditionalData($pbridgeData);
+        $this->setPbridgeResponse($pbridgeData);
         return $this;
     }
 
     /**
-     * Save additional Payment Bridge parameters into the Info instance additional data storage
+     * Save Payment Bridge response into the Info instance additional data storage
      *
      * @param array $data
      * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge
      */
-    public function setInfoAdditionalData($data)
+    public function setPbridgeResponse($data)
     {
         if (empty($data)) {
             return $this;
         }
-        $additionaData = $this->getInfoInstance()->getAdditionalData();
-        if ($additionaData) {
-            $additionalData = array_merge(unserialize($additionaData), array('pbridge_data' => $data));
-        } else {
-            $additionalData = array('pbridge_data' => $data);
+        $data = array('pbridge_data' => $data);
+        $additionaData = unserialize($this->getInfoInstance()->getAdditionalData());
+        if (!$additionalData) {
+            $additionaData = array();
         }
-        $this->getInfoInstance()->setAdditionalData(serialize($additionalData));
+        $additionalData = array_merge($additionaData, $data);
+        $this->getInfoInstance()->setAdditionalData(serialize($additionaData));
         return $this;
     }
 
     /**
-     * Retrieve additional Payment Bridge parameters from the Info instance additional data storage
+     * Retrieve Payment Bridge response from the Info instance additional data storage
      *
      * @param string $param OPTIONAL
      * @return mixed
      */
-    public function getInfoAdditionalData($param = null)
+    public function getPbridgeResponse($key = null)
     {
-        if (!$this->getData('info_instance')) {
+        $additionaData = unserialize($this->getInfoInstance()->getAdditionalData());
+        if (!is_array($additionaData) || !isset($additionaData['pbridge_data'])) {
             return null;
         }
-        $additionaData = $this->getInfoInstance()->getAdditionalData();
-        if (!$additionaData) {
-            return null;
+        if ($key !== null) {
+            return isset($additionaData['pbridge_data'][$key]) ? $additionaData['pbridge_data'][$key] : null;
         }
-        $additionaData = unserialize($additionaData);
-        if (!isset($additionaData['pbridge_data'])) {
-            return null;
-        }
-        if (null === $param) {
-            return $additionaData['pbridge_data'];
-        }
-        return isset($additionaData['pbridge_data'][$param]) ? $additionaData['pbridge_data'][$param] : null;
+        return $additionaData;
     }
 
     /**
-     * Retrieve Payment Bridge token
+     * Setter
      *
-     * @return string
+     * @param Mage_Payment_Model_Method_Abstract $methodInstance
+     * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge
      */
-    public function getToken()
-    {
-        return $this->getInfoAdditionalData('token');
-    }
-
     public function setOriginalMethodInstance($methodInstance)
     {
         $this->_originalMethodInstance = $methodInstance;
@@ -192,7 +201,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     public function getOriginalMethodInstance()
     {
         if (null === $this->_originalMethodInstance) {
-            $this->_originalMethodCode = $this->getInfoAdditionalData('original_payment_method');
+            $this->_originalMethodCode = $this->getPbridgeResponse('original_payment_method');
             if (null === $this->_originalMethodCode) {
                 return null;
             }
@@ -209,11 +218,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      */
     public function getInfoInstance()
     {
-        $instance = $this->getOriginalMethodInstance()->getData('info_instance');
-        if (!($instance instanceof Mage_Payment_Model_Info)) {
-            Mage::throwException($this->_getHelper()->__('Can not retrieve payment iformation object instance'));
-        }
-        return $instance;
+        return $this->getOriginalMethodInstance()->getInfoInstance();
     }
 
     /**
@@ -228,6 +233,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
 
     public function validate()
     {
+        if (!$this->getPbridgeResponse('token')) {
+            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Validation Error (Token)'));
+        }
         parent::validate();
         return $this;
     }

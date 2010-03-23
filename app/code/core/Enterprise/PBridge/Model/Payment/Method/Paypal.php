@@ -130,16 +130,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_D
     }
 
     /**
-     * Retrieve Payment Bridge token
-     *
-     * @return string
-     */
-    public function getToken()
-    {
-        return $this->getPbridgeMethodInstance()->getInfoAdditionalData('token');
-    }
-
-    /**
      * Retrieve information from original payment configuration
      *
      * @param   string $field
@@ -162,16 +152,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_D
      */
     public function isAvailable($quote = null)
     {
-        $storeId = $quote ? $quote->getStoreId() : null;
-        $checkResult = new StdClass;
-        $checkResult->isAvailable = (bool)(int)$this->getConfigData('active', $storeId);
-        Mage::dispatchEvent('payment_method_is_active', array(
-            'result'          => $checkResult,
-            'method_instance' => $this,
-            'quote'           => $quote,
-        ));
-        return $checkResult->isAvailable && Mage::helper('enterprise_pbridge')->isEnabled($storeId)
-            && $this->getConfigData('using_pbridge', $storeId);
+        return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote);
     }
 
     /**
