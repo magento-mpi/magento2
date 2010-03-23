@@ -180,7 +180,7 @@ abstract class Mage_Core_Helper_Abstract
         if (is_array($data)) {
             $result = array();
             foreach ($data as $item) {
-                $result[] = $this->htmlEscape($item);
+                $result[] = $this->escapeHtml($item);
             }
         } else {
             // process single item
@@ -198,6 +198,20 @@ abstract class Mage_Core_Helper_Abstract
             }
         }
         return $result;
+    }
+
+    /**
+     * Wrapper for standart strip_tags() function with extra functionality for html entities
+     *
+     * @param string $data
+     * @param string $allowableTags
+     * @param bool $escape
+     * @return string
+     */
+    public function stripTags($data, $allowableTags = null, $escape = false)
+    {
+        $result = strip_tags($data, $allowableTags);
+        return $escape ? $this->escapeHtml($result) : $result;
     }
 
     /**

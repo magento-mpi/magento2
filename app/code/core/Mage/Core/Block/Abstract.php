@@ -901,6 +901,19 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
+     * Wrapper for standart strip_tags() function with extra functionality for html entities
+     *
+     * @param string $data
+     * @param string $allowableTags
+     * @param bool $allowHtmlEntities
+     * @return string
+     */
+    public function stripTags($data, $allowableTags = null, $allowHtmlEntities = false)
+    {
+        return $this->helper('core')->stripTags($data, $allowableTags, $allowHtmlEntities);
+    }
+
+    /**
      * @deprecated after 1.4.0.0-rc1
      * @see self::escapeUrl()
      */
