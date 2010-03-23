@@ -24,26 +24,40 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_PageCache_Block_Catalog_Product extends Enterprise_Enterprise_Block_Core_Template
+/**
+ * Default placeholder container
+ */
+class Enterprise_PageCache_Model_Container_Viewedproducts extends Enterprise_PageCache_Model_Container_Abstract
 {
     /**
-     * Get currently viewed product id
-     * @return int
+     * Get viewed product ids from cookie
      */
-    public function getProductId()
+    protected function _getProductIds()
     {
-        $product = Mage::registry('current_product');
-        if ($product) {
-            return $product->getId();
+        if (isset($_COOKIE['VIEWED_PRODUCT_IDS'])) {
+            return explode(',', $_COOKIE['VIEWED_PRODUCT_IDS']);
         }
-        return false;
+        return array();
     }
 
-    /**
-     * Get maximu count of products allowed in list
-     */
-    public function getLimit()
+    public function applyWithoutApp(&$content)
     {
-        return Mage::getStoreConfig(Mage_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
+        if ($this->_getProductIds()) {
+//            $this->_applyToContent($content, $_COOKIE['VIEWED_PRODUCT_IDS']);
+            return false;
+        }
+        return true;
+    }
+
+    public function applyInApp(&$content)
+    {
+        $block = $this->_placeholder->getAttribute('block');
+        $template = $this->_placeholder->getAttribute('template');
+        $block = new $block;
+        $block->setTemplate($template);
+        $block->setProductIds($this->_getProductIds());
+        $blockContent = $block->toHtml();
+        $this->_applyToContent($content, $blockContent);
+        return true;
     }
 }

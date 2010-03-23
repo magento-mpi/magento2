@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -19,24 +18,25 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    design
- * @package     enterprise_default
+ * @category    Enterprise
+ * @package     Enterprise_PageCache
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
--->
-<layout>
-    <default>
-        <reference name="right.poll">
-            <action method="setFrameTags">
-                <start>!--[POLL--</start>
-                <end>!--POLL]--</end>
-            </action>
-        </reference>
-    </default>
-    <catalog_product_view>
-        <reference name="content">
-            <block type="enterprise_pagecache/catalog_product" name="pagecache.cookie" template="pagecache/catalog/product.phtml"/>
-        </reference>
-    </catalog_product_view>
-</layout>
+class Enterprise_PageCache_RequestController extends Enterprise_Enterprise_Controller_Core_Front_Action
+{
+    /**
+     * Request processing action
+     */
+    public function processAction()
+    {
+        $content    = Mage::registry('cached_page_content');
+        $containers = Mage::registry('cached_page_containers');
+        if (!empty($containers)) {
+            foreach ($containers as $container) {
+                $container->applyInApp($content);
+            }
+            $this->getResponse()->appendBody($content);
+        }
+    }
+}

@@ -25,8 +25,14 @@
  */
 ?>
 <script type="text/javascript">
-    Mage.Cookies.set('<?php echo Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE; ?>', 1);
-    <?php if ($this->getProductId()):?>
-    Mage.Cookies.set('<?php echo Enterprise_PageCache_Model_Processor::LAST_PRODUCT_COOKIE; ?>', '<?php echo $this->getProductId()?>');
-    <?php endif;?>
+<?php if ($this->getProductId()):?>
+    var viewed_ids = Mage.Cookies.get('VIEWED_PRODUCT_IDS');
+    if (viewed_ids) {
+        viewed_ids = viewed_ids.split(",");
+    } else {
+        viewed_ids = [];
+    }
+    viewed_ids.unshift('<?php echo $this->getProductId()?>');
+    Mage.Cookies.set('VIEWED_PRODUCT_IDS', viewed_ids.uniq().slice(0,<?php echo $this->getLimit();?>).join(','));
+<?php endif;?>
 </script>

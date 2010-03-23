@@ -809,7 +809,7 @@ class Enterprise_Reward_Model_Observer
             return $this;
         }
 
-        $groupId    = $observer->getEvent()->getCustomerSession()->getCustomer()->getGroupId();
+        $groupId    = $observer->getEvent()->getCustomerSession()->getCustomerGroupId();
         $websiteId  = Mage::app()->getStore()->getWebsiteId();
 
         $rate = Mage::getModel('enterprise_reward/reward_rate');

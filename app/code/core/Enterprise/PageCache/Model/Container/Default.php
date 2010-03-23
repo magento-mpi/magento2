@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -19,24 +18,34 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    design
- * @package     enterprise_default
+ * @category    Enterprise
+ * @package     Enterprise_PageCache
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
--->
-<layout>
-    <default>
-        <reference name="right.poll">
-            <action method="setFrameTags">
-                <start>!--[POLL--</start>
-                <end>!--POLL]--</end>
-            </action>
-        </reference>
-    </default>
-    <catalog_product_view>
-        <reference name="content">
-            <block type="enterprise_pagecache/catalog_product" name="pagecache.cookie" template="pagecache/catalog/product.phtml"/>
-        </reference>
-    </catalog_product_view>
-</layout>
+
+/**
+ * Default placeholder container
+ */
+class Enterprise_PageCache_Model_Container_Default
+{
+    protected $_placeholder;
+
+    public function __construct($placeholder)
+    {
+        $this->_placeholder = $placeholder;
+    }
+
+    public function extractContent()
+    {
+        return ' ';
+        //$connection = Mage::getModel('core/resource')->getConnection('core_read');
+        //return 'extract';
+    }
+
+    public function applyToContent($content)
+    {
+        $content = str_replace($this->_placeholder->getReplacer(), 'test', $content);
+        return $content;
+    }
+}

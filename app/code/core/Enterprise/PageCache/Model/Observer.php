@@ -30,6 +30,8 @@ class Enterprise_PageCache_Model_Observer
      * @var Enterprise_PageCache_Model_Processor
      */
     protected $_processor;
+    protected $_config;
+    protected $_isEnabled;
 
     protected $_cacheDisableActions = array(
         'checkout_cart_add',
@@ -42,6 +44,8 @@ class Enterprise_PageCache_Model_Observer
     public function __construct()
     {
         $this->_processor = Mage::getModel('enterprise_pagecache/processor');
+        $this->_config    = Mage::getSingleton('enterprise_pagecache/config');
+        $this->_isEnabled = Mage::app()->useCache('full_page');
     }
 
     /**
@@ -50,7 +54,7 @@ class Enterprise_PageCache_Model_Observer
      */
     public function isCacheEnabled()
     {
-        return Mage::app()->useCache('full_page');
+        return $this->_isEnabled;
     }
 
     /**
@@ -103,29 +107,7 @@ class Enterprise_PageCache_Model_Observer
             Mage::app()->setUseSessionInUrl(false); // disable SID
             Mage::app()->getCacheInstance()->banUse(Mage_Core_Block_Abstract::CACHE_GROUP); // disable blocks cache
         }
-        $this->_checkViewedProducts();
         return $this;
-    }
-
-    /**
-     * Check if last viewed product id should be processed after cached product view
-     */
-    protected function _checkViewedProducts()
-    {
-        $varName = Enterprise_PageCache_Model_Processor::LAST_PRODUCT_COOKIE;
-        $productId = (int) Mage::getSingleton('core/cookie')->get($varName);
-        if ($productId) {
-            $model = Mage::getModel('reports/product_index_viewed');
-            if (!$model->getCount()) {
-                $product = Mage::getModel('catalog/product')->load($productId);
-                if ($product->getId()) {
-                    $model->setProductId($productId)
-                        ->save()
-                        ->calculate();
-                }
-            }
-            Mage::getSingleton('core/cookie')->delete($varName);
-        }
     }
 
     /**
@@ -236,4 +218,43 @@ class Enterprise_PageCache_Model_Observer
         return $this;
     }
 
+    /**
+     * Check cache settings for specific block type and associate block to container if needed
+     * @param Varien_Event_Observer $observer
+     */
+    public function blockCreateAfter(Varien_Event_Observer $observer)
+    {
+        if (!$this->_isEnabled) {
+            return $this;
+        }
+        $block  = $observer->getEvent()->getBlock();
+        $placeholder = $this->_config->getBlockPlaceholder($block);
+        if ($placeholder) {
+            $block->setFrameTags($placeholder->getStartTag(), $placeholder->getEndTag());
+        }
+        return $this;
+    }
+
+
+    /**
+     * Check if last viewed product id should be processed after cached product view
+     * @deprecated after 1.8 - added dynamic block generation
+     */
+    protected function _checkViewedProducts()
+    {
+        $varName = Enterprise_PageCache_Model_Processor::LAST_PRODUCT_COOKIE;
+        $productId = (int) Mage::getSingleton('core/cookie')->get($varName);
+        if ($productId) {
+            $model = Mage::getModel('reports/product_index_viewed');
+            if (!$model->getCount()) {
+                $product = Mage::getModel('catalog/product')->load($productId);
+                if ($product->getId()) {
+                    $model->setProductId($productId)
+                        ->save()
+                        ->calculate();
+                }
+            }
+            Mage::getSingleton('core/cookie')->delete($varName);
+        }
+    }
 }

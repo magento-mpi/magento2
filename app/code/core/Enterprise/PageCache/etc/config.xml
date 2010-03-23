@@ -127,6 +127,15 @@
         </events>
     </adminhtml>
     <frontend>
+        <routers>
+            <enterprise_pagecache>
+                <use>standard</use>
+                <args>
+                    <module>Enterprise_PageCache</module>
+                    <frontName>pagecache</frontName>
+                </args>
+            </enterprise_pagecache>
+        </routers>
         <layout>
             <updates>
                 <enterprise_pagecache>
@@ -175,6 +184,14 @@
                     </enterprise_pagecache>
                 </observers>
             </controller_front_send_response_after>
+            <core_block_abstract_to_html_before>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>blockCreateAfter</method>
+                    </enterprise_pagecache>
+                </observers>
+            </core_block_abstract_to_html_before>
         </events>
         <cache>
             <requests>

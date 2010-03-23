@@ -65,11 +65,21 @@ class Enterprise_PageCache_Model_Processor_Default
      */
     public function prepareContent(Zend_Controller_Response_Http $response)
     {
+        $start = microtime(true);
         $content = $response->getBody();
-        preg_match_all("/<!--\[(.*?)-->/i", $content, $tags, PREG_PATTERN_ORDER);
-        $tags = array_unique($tags[1]);
-        foreach ($tags as $tag) {
-            $content = preg_replace("/<!--\[{$tag}-->(.*?)<!--{$tag}\]-->/ims", '', $content);
+        $containers = array();
+        preg_match_all(
+            Enterprise_PageCache_Model_Container_Placeholder::HTML_NAME_PATTERN,
+            $content,
+            $containers,
+            PREG_PATTERN_ORDER
+        );
+        $containers = array_unique($containers[1]);
+        foreach ($containers as $container) {
+            $placeholder= Mage::getModel('enterprise_pagecache/container_placeholder', $container);
+            $pattern    = $placeholder->getPattern();
+            $replacer   = $placeholder->getReplacer();
+            $content = preg_replace($pattern, $replacer, $content);
         }
         return $content;
     }

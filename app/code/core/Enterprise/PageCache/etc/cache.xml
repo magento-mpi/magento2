@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <placeholders>
+        <last_viewed_products>
+            <block>reports/product_viewed</block>
+            <placeholder>VIEWED_PRODUCTS</placeholder>
+            <container>Enterprise_PageCache_Model_Container_Viewedproducts</container>
+        </last_viewed_products>
+    </placeholders>
+</config>

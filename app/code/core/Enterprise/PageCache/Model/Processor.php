@@ -169,8 +169,52 @@ class Enterprise_PageCache_Model_Processor
     {
         if (!$content && $this->isAllowed()) {
             $content = Mage::app()->loadCache($this->getRequestCacheId());
+            if ($content) {
+                $content = $this->_processContent($content);
+            }
         }
         return $content;
+    }
+
+    /**
+     * Determine and process all defined containers.
+     * Direct request to pagecache/request/process action if necessary for additional processing
+     *
+     * @param string $content
+     * @return string|false
+     */
+    protected function _processContent($content)
+    {
+        $placeholders = array();
+        preg_match_all(
+            Enterprise_PageCache_Model_Container_Placeholder::HTML_NAME_PATTERN,
+            $content, $placeholders, PREG_PATTERN_ORDER
+        );
+        $placeholders = array_unique($placeholders[1]);
+        $containers   = array();
+        foreach ($placeholders as $definition) {
+            $placeholder= new Enterprise_PageCache_Model_Container_Placeholder($definition);
+            $container  = $placeholder->getContainerClass();
+            if (!$container) {
+                continue;
+            }
+            $container  = new $container($placeholder);
+            if (!$container->applyWithoutApp($content)) {
+                $containers[] = $container;
+            }
+        }
+        if (empty($containers)) {
+            return $content;
+        } else {
+            Mage::register('cached_page_content', $content);
+            Mage::register('cached_page_containers', $containers);
+            Mage::app()->getRequest()
+                ->setModuleName('pagecache')
+                ->setControllerName('request')
+                ->setActionName('process')
+                ->isStraight(true);
+            return false;
+        }
     }
 
     /**
