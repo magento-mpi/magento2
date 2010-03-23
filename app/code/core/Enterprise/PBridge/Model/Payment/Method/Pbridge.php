@@ -252,6 +252,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             ->setData('order_id', $order->getIncrementId())
             ->setData('customer_email', $order->getCustomerEmail())
             ->setData('is_virtual', $order->getIsVirtual())
+            ->setData('notify_url', Mage::getUrl('enterprise_pbridge/PbridgeIpn/'))
         ;
 
         $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
@@ -261,13 +262,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
 
         $api = $this->_getApi()->doAuthorize($request);
         $apiResponse = $api->getResponse();
+
         $this->_importResultToPayment($payment, $apiResponse);
 
-        $payment->setIsTransactionPending((isset($apiResponse['is_transaction_pending'])) ?
-            $apiResponse['is_transaction_pending'] : 0);
-        $payment->setIsTransactionClosed(0);
+        return $apiResponse;
 
-        return $this;
     }
 
     /**
@@ -290,12 +289,12 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      */
     public function capture(Varien_Object $payment, $amount)
     {
-        parent::capture($payment, $amount);
+        //parent::capture($payment, $amount);
 
         $authTransactionId = $payment->getParentTransactionId();
 
         if (!$authTransactionId) {
-            return $this->authorize($payment, $amount);
+            return false;//$this->authorize($payment, $amount);
         }
 
         $request = new Varien_Object();
@@ -309,7 +308,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
 
         $api = $this->_getApi()->doCapture($request);
         $this->_importResultToPayment($payment, $api->getResponse());
-        return $this;
+        return $api->getResponse();
     }
 
     /**
@@ -320,7 +319,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      */
     public function refund(Varien_Object $payment, $amount)
     {
-        parent::refund($payment, $amount);
+        //parent::refund($payment, $amount);
 
         $captureTxnId = $payment->getParentTransactionId();
         if ($captureTxnId) {
@@ -341,16 +340,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             $api = $this->_getApi()->doRefund($request);
             $this->_importResultToPayment($payment, $api->getResponse());
 
-            $payment
-                ->setIsTransactionClosed(1)
-                ->setShouldCloseParentTransaction(!$canRefundMore);
-            ;
+            return $api->getResponse();
 
         } else {
             Mage::throwException(Mage::helper('enterprise_pbridge')->__('Impossible to issue a refund transaction, because capture transaction does not exist.'));
         }
-
-        return $this;
     }
 
     /**
@@ -361,7 +355,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      */
     public function void(Varien_Object $payment)
     {
-        parent::void($payment);
+        //parent::void($payment);
 
         if ($authTransactionId = $payment->getParentTransactionId()) {
             $request = new Varien_Object();
@@ -373,7 +367,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         } else {
             Mage::throwException(Mage::helper('enterprise_pbridge')->__('Authorization transaction is required to void.'));
         }
-        return $this;
+        return $this->_getApi()->getResponse();
     }
 
     /**
@@ -443,12 +437,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         if (isset($apiResponse['transaction_id'])) {
             $payment->setTransactionId($apiResponse['transaction_id']);
             unset($apiResponse['transaction_id']);
-        }
-
-        if (is_array($apiResponse)) {
-            foreach ($apiResponse as $key => $value) {
-                $payment->setAdditionalInformation($key, $value);
-            }
         }
     }
 }
