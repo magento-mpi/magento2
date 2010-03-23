@@ -671,6 +671,9 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .block-login label { font-weight:bold; color:#555; }
 .block-login input.input-text { display:block; width:167px; margin:3px 0; }
 .block-login .actions { background:none; padding:0; margin:3px 0 0; }
+
+/* Paypal */
+.sidebar .paypal-logo { display:block; margin:10px 0; text-align:center; }
 /* ======================================================================================= */
 
 

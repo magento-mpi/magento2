@@ -743,15 +743,6 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .sidebar .events-slider .event-ticker span.second { background-position:50% -185px; }
 
 /* Sidebar =============================================================================== */
-/* Lists Decoration */
-/*.sidebar li.odd {}
-.sidebar li.even { background:#fff8de; }
-dt.odd,
-dd.odd {}
-dt.even,
-dd.even { background:#f6f6f6; }*/
-
-.sidebar {}
 .sidebar .callout { display:block; margin:10px 0; }
 
 /* Generic Block */
@@ -910,6 +901,9 @@ dd.even { background:#f6f6f6; }*/
 .block-progress dt { font-weight:bold; }
 .block-progress dt.complete,
 .block-progress dd.complete { background-color:#f6f6f6; }
+
+/* Paypal */
+.sidebar .paypal-logo { display:block; margin:10px 0; text-align:center; }
 /* ======================================================================================= */
 
 
