@@ -95,7 +95,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
      */
     public function getIdBySku($sku)
     {
-         return $this->_read->fetchOne('select entity_id from '.$this->getEntityTable().' where sku=?', $sku);
+         return $this->_getReadAdapter()->fetchOne('select entity_id from '.$this->getEntityTable().' where sku=?', $sku);
     }
 
     /**
