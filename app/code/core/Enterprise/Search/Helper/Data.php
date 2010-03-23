@@ -40,7 +40,7 @@ class Enterprise_Search_Helper_Data extends Enterprise_Enterprise_Helper_Core_Ab
         if(is_object($object)){
             $object = get_object_vars($object);
         }
-        return array_map(array('Enterprise_Search_Helper_Data', 'objectToArray'), $object);
+        return array_map(array($this, 'objectToArray'), $object);
     }
 
     /**
