@@ -40,11 +40,18 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
     const SCOPE_STORES   = 'stores';
 
     /**
-     * Enter description here...
+     * Config data array
+     *
+     * @var array
+     */
+    protected $_configData;
+
+    /**
+     * Adminhtml config data instance
      *
      * @var Mage_Adminhtml_Model_Config_Data
      */
-    protected $_configData;
+    protected $_configDataObject;
 
     /**
      * Enter description here...
@@ -111,11 +118,12 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
     {
         $this->_configRoot = Mage::getConfig()->getNode(null, $this->getScope(), $this->getScopeCode());
 
-        $this->_configData = Mage::getModel('adminhtml/config_data')
+        $this->_configDataObject = Mage::getModel('adminhtml/config_data')
             ->setSection($this->getSectionCode())
             ->setWebsite($this->getWebsiteCode())
-            ->setStore($this->getStoreCode())
-            ->load();
+            ->setStore($this->getStoreCode());
+
+        $this->_configData = $this->_configDataObject->load();
 
         $this->_configFields = Mage::getSingleton('adminhtml/config');
 
@@ -229,6 +237,13 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
      */
     public function initFields($fieldset, $group, $section, $fieldPrefix='', $labelPrefix='')
     {
+        if (!$this->_configDataObject) {
+            $this->_initObjects();
+        }
+
+        // Extends for config data
+        $configDataAdditionalGroups = array();
+
         foreach ($group->fields as $elements) {
 
             $elements = (array)$elements;
@@ -245,7 +260,22 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                 if (!$this->_canShowField($e)) {
                     continue;
                 }
-                $path = $section->getName() . '/' . $group->getName() . '/' . $fieldPrefix . $e->getName();
+
+                /**
+                 * Look for custom defined field path
+                 */
+                $path = (string)$e->config_path;
+                if (empty($path)) {
+                    $path = $section->getName() . '/' . $group->getName() . '/' . $fieldPrefix . $e->getName();
+                } elseif (strrpos($path, '/') > 0) {
+                    // Extend config data with new section group
+                    $groupPath = substr($path, 0, strrpos($path, '/'));
+                    if (!isset($configDataAdditionalGroups[$groupPath])) {
+                        $this->_configData = $this->_configDataObject->extendConfig($groupPath, false, $this->_configData);
+                        $configDataAdditionalGroups[$groupPath] = true;
+                    }
+                }
+
                 $id = $section->getName() . '_' . $group->getName() . '_' . $fieldPrefix . $e->getName();
 
                 if (isset($this->_configData[$path])) {
