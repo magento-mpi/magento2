@@ -198,7 +198,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
     protected function _getWriteAdapter()
     {
         if (is_string($this->_write)) {
-            $this->_read = Mage::getSingleton('core/resource')->getConnection($this->_write);
+            $this->_write = Mage::getSingleton('core/resource')->getConnection($this->_write);
         }
         return $this->_write;
     }
