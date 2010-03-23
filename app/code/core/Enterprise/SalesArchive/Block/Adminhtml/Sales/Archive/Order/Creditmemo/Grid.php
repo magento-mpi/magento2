@@ -34,6 +34,7 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Gri
     public function __construct()
     {
         parent::__construct();
+        $this->setUseAjax(true);
         $this->setId('sales_creditmemo_grid_archive');
     }
 
