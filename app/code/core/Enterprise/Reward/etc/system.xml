@@ -74,6 +74,7 @@
                         <min_points_balance translate="label comment">
                             <label>Minimum Reward Points Balance to be able to Redeem</label>
                             <frontend_type>text</frontend_type>
+                            <backend_model>enterprise_reward/system_config_backend_balance</backend_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -83,6 +84,7 @@
                         <max_points_balance translate="label comment">
                             <label>Cap Reward Points Balance at</label>
                             <frontend_type>text</frontend_type>
+                            <backend_model>enterprise_reward/system_config_backend_balance</backend_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
