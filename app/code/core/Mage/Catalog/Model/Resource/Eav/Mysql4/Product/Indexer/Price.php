@@ -476,7 +476,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
                 array('csg' => $this->getTable('core/store_group')),
                 'cw.default_group_id = csg.group_id',
                 array('store_id' => 'default_store_id'))
-            ->where('cw.website_id != 0');
+            ->where('cw.website_id != 0')
+            ->group('cw.website_id');
 
         $data = array();
         foreach ($write->fetchAll($select) as $item) {
