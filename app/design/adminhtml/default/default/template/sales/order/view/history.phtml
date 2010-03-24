@@ -69,7 +69,7 @@
                 <?php endif; ?>
             </strong></small>
             <?php if ($_item->getComment()): ?>
-                <br/><?php echo $this->htmlEscape($_item->getComment(), array('b','br','strong','i','u')) ?>
+                <br/><?php echo $this->escapeHtml($_item->getComment(), array('b','br','strong','i','u')) ?>
             <?php endif; ?>
         </li>
     <?php endforeach; ?>

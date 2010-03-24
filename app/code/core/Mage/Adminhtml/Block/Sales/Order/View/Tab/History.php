@@ -139,7 +139,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_History
      */
     public function getItemTitle(array $item)
     {
-        return (isset($item['title']) ? $this->htmlEscape($item['title']) : '');
+        return (isset($item['title']) ? $this->escapeHtml($item['title']) : '');
     }
 
     /**
@@ -162,7 +162,8 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_History
      */
     public function getItemComment(array $item)
     {
-        return (isset($item['comment']) ? $this->htmlEscape($item['comment']) : '');
+        $allowedTags = array('b','br','strong','i','u');
+        return (isset($item['comment']) ? $this->escapeHtml($item['comment'], $allowedTags) : '');
     }
 
     /**
