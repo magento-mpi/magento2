@@ -61,8 +61,8 @@ Customer account home dashboard layout
 
     <customer_account_index>
         <!-- Mage_Sales -->
+        <remove name="customer_account_dashboard_top"/>
         <reference name="customer_account_dashboard">
-            <action method="unsetChild"><name>top</name></action>
             <block type="sales/order_recent" name="customer_account_dashboard_top" as="top" template="sales/order/recent.phtml"/>
         </reference>
 

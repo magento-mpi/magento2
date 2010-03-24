@@ -36,6 +36,9 @@ default layout
         <reference name="top.switches">
             <block type="directory/currency" name="currency" before="store_language" template="directory/currency.phtml"/>
         </reference>
+        <reference name="head">
+            <block type="core/template" name="optional_zip_countries" as="optional_zip_countries" template="directory/js/optional_zip_countries.phtml" />
+        </reference>
     </default>
 
     
