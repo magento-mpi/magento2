@@ -29,75 +29,91 @@
    <sections>
         <catalog>
             <groups>
-                <search_engine translate="label">
-                    <label>Catalog Search Engine (Solr)</label>
-                    <frontend_type>text</frontend_type>
-                    <sort_order>1100</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>0</show_in_website>
-                    <show_in_store>0</show_in_store>
+                <search>
                     <fields>
-                        <server_hostname translate="label">
-                            <label>Server Hostname</label>
-                            <frontend_type>text</frontend_type>
+                        <engine translate="label">
+                            <label>Search Engine</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>enterprise_search/adminhtml_system_config_source_engine</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </server_hostname>
-                        <server_port translate="label">
-                            <label>Server Port</label>
+                        </engine>
+                        <solr_server_hostname translate="label">
+                            <label>Solr Server Hostname</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>2</sort_order>
+                            <sort_order>6</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </server_port>
-                        <server_username translate="label">
-                            <label>Server Username</label>
+                            <depends><engine>enterprise_search/engine</engine></depends>
+                        </solr_server_hostname>
+                        <solr_server_port translate="label">
+                            <label>Solr Server Port</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>3</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </server_username>
-                        <server_password translate="label">
-                            <label>Server Password</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>4</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </server_password>
-                        <server_timeout translate="label">
-                            <label>Server Timeout</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>5</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </server_timeout>
-                        <server_path translate="label">
-                            <label>Server Path</label>
-                            <frontend_type>text</frontend_type>
-                            <comment>without starting and trailing slashes</comment>
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </server_path>
-                        <use_language_fields translate="label">
-                            <label>Enable using language fields</label>
-                            <frontend_type>select</frontend_type>
-                            <backend_model>enterprise_search/adminhtml_system_config_backend_language</backend_model>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <depends><engine>enterprise_search/engine</engine></depends>
+                        </solr_server_port>
+                        <solr_server_username translate="label">
+                            <label>Solr Server Username</label>
+                            <frontend_type>text</frontend_type>
                             <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </use_language_fields>
+                            <depends><engine>1</engine></depends>
+                        </solr_server_username>
+                        <solr_server_password translate="label">
+                            <label>Solr Server Password</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><engine>enterprise_search/engine</engine></depends>
+                        </solr_server_password>
+                        <solr_server_timeout translate="label">
+                            <label>Solr Server Timeout</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><engine>enterprise_search/engine</engine></depends>
+                        </solr_server_timeout>
+                        <solr_server_path translate="label">
+                            <label>Solr Server Path</label>
+                            <frontend_type>text</frontend_type>
+                            <comment>without starting and trailing slashes</comment>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><engine>enterprise_search/engine</engine></depends>
+                        </solr_server_path>
+                        <solr_use_language_fields translate="label">
+                            <label>Enable Languge Fields Use in Solr</label>
+                            <frontend_type>select</frontend_type>
+                            <backend_model>enterprise_search/adminhtml_system_config_backend_language</backend_model>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><engine>enterprise_search/engine</engine></depends>
+                        </solr_use_language_fields>
+                        <search_type>
+                            <depends><engine>catalogsearch/fulltext_engine</engine></depends>
+                        </search_type>
+                        <use_layered_navigation_count>
+                            <depends><engine>catalogsearch/fulltext_engine</engine></depends>
+                        </use_layered_navigation_count>
                     </fields>
-                </search_engine>
+                </search>
             </groups>
         </catalog>
     </sections>

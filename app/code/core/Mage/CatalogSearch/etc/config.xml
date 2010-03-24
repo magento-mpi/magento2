@@ -141,9 +141,6 @@
                 </catalogsearch_fulltext>
             </indexer>
         </index>
-        <search>
-            <engine>catalogsearch/fulltext_engine</engine>
-        </search>
     </global>
     <frontend>
         <routers>

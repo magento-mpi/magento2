@@ -25,23 +25,20 @@
  */
 
 /**
- * Solr search engine adapter that perform raw queries to Solr server based on Conduit solr client library
- * and basic solr adapter
+ * Solr search engine adapter
  *
  * @category   Enterprise
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-include_once 'Solr/Service.php';
-
-class Enterprise_Search_Model_Adapter_ApacheSolr extends Enterprise_Search_Model_Adapter_Solr
+class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Model_Adapter_Abstract
 {
     /**
      * Object name used to create solr document object
      *
      * @var string
      */
-    protected $_clientDocObjectName = 'Apache_Solr_Document';
+    protected $_clientDocObjectName = 'SolrInputDocument';
 
     /**
      * Initialize connect to Solr Client
@@ -51,6 +48,9 @@ class Enterprise_Search_Model_Adapter_ApacheSolr extends Enterprise_Search_Model
     public function __construct($options = array())
     {
         try {
+            if (!extension_loaded('solr')) {
+                throw new Exception('Solr extension not enabled!');
+            }
             $this->_connect($options);
         }
         catch (Exception $e){
@@ -63,22 +63,22 @@ class Enterprise_Search_Model_Adapter_ApacheSolr extends Enterprise_Search_Model
      * Connect to Solr Client by specified options that will be merged with default
      *
      * @param array $options
-     * @return Apache_Solr_Service
+     * @return SolrClient
      */
     protected function _connect($options = array())
     {
         $def_options = array
         (
             'hostname' => $this->getConfigData('server_hostname'),
-//            'login'    => $this->getConfigData('server_username'),
-//            'password' => $this->getConfigData('server_password'),
+            'login'    => $this->getConfigData('server_username'),
+            'password' => $this->getConfigData('server_password'),
             'port'     => $this->getConfigData('server_port'),
-//            'timeout'  => $this->getConfigData('server_timeout'),
+            'timeout'  => $this->getConfigData('server_timeout'),
             'path'  => $this->getConfigData('server_path')
         );
         $options = array_merge($def_options, $options);
         try {
-            $this->_client = Mage::getSingleton('enterprise_search/client_solr', $options);
+            $this->_client = new SolrClient($options);
         }
         catch (Exception $e)
         {
@@ -110,6 +110,17 @@ class Enterprise_Search_Model_Adapter_ApacheSolr extends Enterprise_Search_Model
      */
     protected function _search($query, $params = array())
     {
+        /**
+         * Hard code to prevent Solr bug:
+         * Bug #17009 Creating two SolrQuery objects leads to wrong query value
+         * @see http://pecl.php.net/bugs/bug.php?id=17009&edit=1
+         * @see http://svn.php.net/viewvc?view=revision&revision=293379
+         */
+        if ((int)('1' . str_replace('.', '', solr_get_version())) < 1099) {
+            $this->_connect();
+        }
+
+
         $query = $this->_prepareQueryText($query);
         if (!$query) {
             return array();
@@ -125,8 +136,6 @@ class Enterprise_Search_Model_Adapter_ApacheSolr extends Enterprise_Search_Model
             $limit = 100;
         }
 
-        $searchParams = array();
-
         /**
          * Now supported search only in fulltext field
          * By default in Solr  set <defaultSearchField> is "fulltext"
@@ -135,6 +144,9 @@ class Enterprise_Search_Model_Adapter_ApacheSolr extends Enterprise_Search_Model
         if ($this->getIsUseLanguageFields() && $params['lang_code']) {
             $query = 'fulltext_' . $params['lang_code'] . ':' . $query;
         }
+
+        $solrQuery = new SolrQuery($query);
+        $solrQuery->setStart($offset)->setRows($limit);
 
         if (!is_array($_params['fields'])) {
             $_params['fields'] = array($_params['fields']);
@@ -154,7 +166,7 @@ class Enterprise_Search_Model_Adapter_ApacheSolr extends Enterprise_Search_Model
             if ($_params['sort_by'] == 'name') {
                 $_params['sort_by'] = 'alphaNameSort';
             }
-            $_params['sort_by'] = array(array($_params['sort_by'] => 'asc'));
+            $_params['sort_by'] = array(array($_params['sort_by'] => SolrQuery::ORDER_ASC));
         }
 
         /**
@@ -174,8 +186,8 @@ class Enterprise_Search_Model_Adapter_ApacheSolr extends Enterprise_Search_Model
                 if (in_array($sortField, $this->_searchTextFields) && $this->getIsUseLanguageFields() && $params['lang_code']) {
                     $sortField = $sortField . '_' . $params['lang_code'];
                 }
-                $sortType = trim(strtolower($sortType)) == 'desc' ? 'desc' : 'asc';
-                $searchParams['sort'][] = $sortField . ' ' . $sortType;
+                $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
+                $solrQuery->addSortField($sortField, $sortType);
             }
         }
 
@@ -183,7 +195,9 @@ class Enterprise_Search_Model_Adapter_ApacheSolr extends Enterprise_Search_Model
          * Fields to retrieve
          */
         if (!empty($_params['fields'])) {
-            $searchParams['fl'] = implode(',', $_params['fields']);
+            foreach ($_params['fields'] as $field) {
+                $solrQuery->addField($field);
+            }
         }
 
         /**
@@ -191,7 +205,7 @@ class Enterprise_Search_Model_Adapter_ApacheSolr extends Enterprise_Search_Model
          */
         if (!empty($_params['solr_params'])) {
             foreach ($_params['solr_params'] as $name => $value) {
-                $searchParams[$name] = $value;
+                $solrQuery->setParam($name, $value);
             }
         }
 
@@ -199,18 +213,33 @@ class Enterprise_Search_Model_Adapter_ApacheSolr extends Enterprise_Search_Model
          * Store filtering
          */
         if ($_params['store_id'] > 0) {
-            $searchParams['fq'] = 'store_id:' . $_params['store_id'];
+            $solrQuery->addFilterQuery('store_id:' . $_params['store_id']);
         }
 
         try {
             $this->_client->ping();
-            $response = $this->_client->search($query, $offset, $limit, $searchParams);
-            $data = json_decode($response->getRawResponse());
-            return $this->_prepareQueryResponse($data);
+            $response = $this->_client->query($solrQuery);
+            return $this->_prepareQueryResponse($response->getResponse());
         }
         catch (Exception $e) {
             Mage::logException($e);
             Mage::throwException(Mage::helper('enterprise_search')->__('Unable perform search request.'));
         }
+    }
+
+    /**
+     * Checks if Solr server is still up
+     *
+     * @return bool
+     */
+    public function ping()
+    {
+        try {
+            $this->_client->ping();
+        }
+        catch (Exception $e){
+            return false;
+        }
+        return true;
     }
 }

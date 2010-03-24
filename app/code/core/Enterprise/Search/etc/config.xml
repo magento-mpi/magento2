@@ -53,21 +53,18 @@
                 <class>Enterprise_Search_Block</class>
              </enterprise_search>
         </blocks>
-        <search>
-            <engine>enterprise_search/engine</engine>
-        </search>
     </global>
 
     <default>
         <catalog>
-            <search_engine>
-                <server_hostname>localhost</server_hostname>
-                <server_port>8983</server_port>
-                <server_username>admin</server_username>
-                <server_timeout>15</server_timeout>
-                <server_path>solr</server_path>
-                <use_language_fields>0</use_language_fields>
-            </search_engine>
+            <search>
+                <solr_server_hostname>localhost</solr_server_hostname>
+                <solr_server_port>8983</solr_server_port>
+                <solr_server_username>admin</solr_server_username>
+                <solr_server_timeout>15</solr_server_timeout>
+                <solr_server_path>solr</solr_server_path>
+                <solr_use_language_fields>0</solr_use_language_fields>
+            </search>
         </catalog>
     </default>
 </config>

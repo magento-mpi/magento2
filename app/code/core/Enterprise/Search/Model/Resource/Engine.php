@@ -180,13 +180,23 @@ class Enterprise_Search_Model_Resource_Engine
             case 'solr':
             default:
                 if (extension_loaded('solr')) {
-                    $model = 'enterprise_search/adapter_solr';
+                    $model = 'enterprise_search/adapter_phpExtension';
                 }
                 else {
-                    $model = 'enterprise_search/adapter_apacheSolr';
+                    $model = 'enterprise_search/adapter_httpStream';
                 }
                 break;
         }
         return Mage::getSingleton($model);
+    }
+
+    /**
+     * Define if selected adapter is avaliable
+     *
+     * @return bool
+     */
+    public function test()
+    {
+        return $this->_adapter->ping();
     }
 }

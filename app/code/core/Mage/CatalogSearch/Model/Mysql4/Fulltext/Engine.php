@@ -144,4 +144,14 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext_Engine extends Mage_Core_Model_My
     {
         return true;
     }
+
+    /**
+     * Define if engine is avaliable
+     *
+     * @return bool
+     */
+    public function test()
+    {
+        return true;
+    }
 }
