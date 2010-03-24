@@ -41,7 +41,8 @@ class Enterprise_Checkout_Block_Adminhtml_Customer_Edit_Buttons extends Mage_Adm
     public function addButtons()
     {
         if (!Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/view')
-            && !Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update'))
+            && !Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update')
+            || Mage::registry('current_customer')->getStore()->isAdmin())
         {
             return $this;
         }
