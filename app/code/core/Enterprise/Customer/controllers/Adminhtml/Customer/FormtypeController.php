@@ -281,7 +281,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Enterpri
         $formType = $this->_initFormType();
         if ($this->getRequest()->isPost() && $formType->getId()) {
             if ($formType->getIsSystem()) {
-                $message = Mage::helper('enterprise_customer')->__('System form type cannot be deleted'.);
+                $message = Mage::helper('enterprise_customer')->__('System form type cannot be deleted.');
                 $this->_getSession()->addError($message);
             } else {
                 try {
