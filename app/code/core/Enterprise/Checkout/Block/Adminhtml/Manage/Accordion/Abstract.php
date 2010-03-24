@@ -54,6 +54,16 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     }
 
     /**
+     * Workaround for displaying empty grid when no items found
+     *
+     * @return bools
+     */
+    public function getIsCollapsed()
+    {
+        return ($this->getItemsCount() == 0);
+    }
+
+    /**
      * Return items count
      *
      * @return int
@@ -69,11 +79,11 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     /**
      * Return items collection
      *
-     * @return Mage_Core_Model_Mysql4_Collection_Abstract|bool
+     * @return Varien_Data_Collection
      */
     public function getItemsCollection()
     {
-        return false;
+        return new Varien_Data_Collection();
     }
 
     /**
@@ -160,18 +170,5 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     protected function _getStore()
     {
         return Mage::registry('checkout_current_store');
-    }
-
-    /**
-     * Empty html when no items found
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        if ($this->getItemsCount()) {
-            return parent::_toHtml();
-        }
-        return '';
     }
 }

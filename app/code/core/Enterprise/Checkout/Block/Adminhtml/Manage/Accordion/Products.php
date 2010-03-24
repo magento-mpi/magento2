@@ -41,7 +41,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     {
         parent::__construct();
         $this->setId('source_products');
-        $this->setDefaultLimit(10);
         $this->setDefaultSort('entity_id');
         $this->setPagerVisibility(true);
         $this->setFilterVisibility(true);

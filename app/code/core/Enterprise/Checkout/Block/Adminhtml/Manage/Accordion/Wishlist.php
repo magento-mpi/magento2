@@ -69,11 +69,10 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
                 $collection = $wishlist->getProductCollection()
                     ->resetSortOrder()
                     ->addAttributeToSelect('name')
-                    ->addAttributeToSelect('price')
-                    ->addAttributeToSelect('small_image');
+                    ->addAttributeToSelect('price');
                 $collection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($collection);
             } else {
-                $collection = false;
+                $collection = parent::getItemsCollection();
             }
             $this->setData('items_collection', $collection);
         }

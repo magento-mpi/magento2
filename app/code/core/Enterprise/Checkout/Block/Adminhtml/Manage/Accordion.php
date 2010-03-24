@@ -44,8 +44,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion extends Mage_Adminhtm
         foreach ($this->getChild() as $child) {
             $data = array(
                 'title'       => $child->getHeaderText(),
-                'open'        => false,
-                'content'     => $child->toHtml()
+                'open'        => false
             );
             if ($child->hasData('open')) {
                 $data['open'] = $child->getData('open');

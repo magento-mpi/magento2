@@ -83,7 +83,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
             if (isset($order)) {
                 $collection = Mage::helper('adminhtml/sales')->applySalableProductTypesFilter($collection);
             }
-            $this->setData('items_collection', isset($order) ? $collection : false);
+            $this->setData('items_collection', isset($order) ? $collection : parent::getItemsCollection());
         }
         return $this->getData('items_collection');
     }
