@@ -284,7 +284,12 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                         $item->setIsQtyDecimal(1);
                     }
                 }
-                $itemQty = $itemQty > 0 ? $itemQty : 1;
+
+                // remove items with zero and negative quantity
+                if ($itemQty < 0.00001) {
+                    $this->moveQuoteItem($itemId, false);
+                    continue;
+                }
 
                 if (empty($info['action'])) {
                     if ($item) {
@@ -308,7 +313,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
      * @param string $moveTo Destination storage
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function moveQuoteItem($item, $moveTo, $qty)
+    public function moveQuoteItem($item, $moveTo)
     {
         if ($item = $this->_getQuoteItem($item)) {
             switch ($moveTo) {
