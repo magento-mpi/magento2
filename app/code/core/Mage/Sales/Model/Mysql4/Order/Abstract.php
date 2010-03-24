@@ -375,22 +375,6 @@ abstract class Mage_Sales_Model_Mysql4_Order_Abstract extends Mage_Sales_Model_M
         return $this;
     }
 
-
-    /**
-     * Perform actions after object save
-     *
-     * @param Varien_Object $object
-     * @return Mage_Sales_Model_Mysql4_Abstract
-     */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
-    {
-        if (!$object->getForceUpdateGridRecords()) {
-            $this->updateGridRecords($object->getId());
-        }
-        parent::_afterSave($object);
-        return $this;
-    }
-
     /**
      * Update field in table if model have been already saved
      *
