@@ -496,7 +496,7 @@ Element.addMethods({
         if(element.innerText && !Prototype.Browser.Opera) {
             return element.innerText
         }
-        return element.innerHTML.stripScripts().unescapeHTML().replace(/[\n\r\s]+/g, ' ');
+        return element.innerHTML.stripScripts().unescapeHTML().replace(/[\n\r\s]+/g, ' ').strip();
     }
 });
 

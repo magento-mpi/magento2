@@ -404,11 +404,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Enterprise_
         // fill in custom meta_chapter_section field
         $c = count($nodes);
         for ($i = 0; $i < $c; $i++) {
-            if ($nodes[$i]['meta_chapter'] && $nodes[$i]['meta_section']) {
+            if (isset($nodes[$i]['meta_chapter']) && isset($nodes[$i]['meta_section'])
+                && $nodes[$i]['meta_chapter'] && $nodes[$i]['meta_section']) 
+            {
                 $nodes[$i]['meta_chapter_section'] = 'both';
-            } elseif ($nodes[$i]['meta_chapter']) {
+            } elseif (isset($nodes[$i]['meta_chapter']) && $nodes[$i]['meta_chapter']) {
                 $nodes[$i]['meta_chapter_section'] = 'chapter';
-            } elseif ($nodes[$i]['meta_section']) {
+            } elseif (isset($nodes[$i]['meta_section']) && $nodes[$i]['meta_section']) {
                 $nodes[$i]['meta_chapter_section'] = 'section';
             } else {
                 $nodes[$i]['meta_chapter_section'] = '';
