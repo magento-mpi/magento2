@@ -128,7 +128,7 @@ Calendar.getAbsolutePos = function(element) {
         if (element) {
             if (element.tagName.toUpperCase() == 'BODY') break;
             var p = Calendar.getStyle(element, 'position');
-            if (p !== 'static') break;
+            if ((p !== 'static') && (p !== 'relative')) break;
         }
     } while (element);
 
