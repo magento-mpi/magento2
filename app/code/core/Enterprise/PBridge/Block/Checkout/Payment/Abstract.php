@@ -82,7 +82,7 @@ abstract class Enterprise_PBridge_Block_Checkout_Payment_Abstract extends Mage_P
         $sourceUrl = Mage::helper('enterprise_pbridge')->getGatewayFormUrl(array(
             'redirect_url' => $this->getRedirectUrl(),
             'request_gateway_code' => $this->getCode()
-        ), Mage::getSingleton('checkout/session')->getQuote());
+        ));
         return $sourceUrl;
     }
 }
