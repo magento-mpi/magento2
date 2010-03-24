@@ -221,9 +221,9 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 $this->_title($this->__("New Memo"));
             }
 
-            $commentText = Mage::getSingleton('adminhtml/session')->getCommentText(true);
-
-            $creditmemo->addData(array('commentText'=>$commentText));
+            if ($comment = Mage::getSingleton('adminhtml/session')->getCommentText(true)) {
+                $creditmemo->setCommentText($comment);
+            }
 
             $this->loadLayout()
                 ->_setActiveMenu('sales/order')
@@ -265,6 +265,10 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     public function saveAction()
     {
         $data = $this->getRequest()->getPost('creditmemo');
+        if (!empty($data['comment_text'])) {
+            Mage::getSingleton('adminhtml/session')->setCommentText($data['comment_text']);
+        }
+
         try {
             $creditmemo = $this->_initCreditmemo();
             if ($creditmemo) {
@@ -273,8 +277,6 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                         $this->__('Credit memo\'s total must be positive.')
                     );
                 }
-
-                Mage::getSingleton('adminhtml/session')->setCommentText($data['comment_text']);
 
                 $comment = '';
                 if (!empty($data['comment_text'])) {

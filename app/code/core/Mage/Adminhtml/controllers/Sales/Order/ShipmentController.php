@@ -155,6 +155,10 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
         if ($shipment = $this->_initShipment()) {
             $this->_title($this->__('New Shipment'));
 
+            if ($comment = Mage::getSingleton('adminhtml/session')->getCommentText(true)) {
+                $shipment->setCommentText($comment);
+            }
+
             $this->loadLayout()
                 ->_setActiveMenu('sales/order')
                 ->renderLayout();
@@ -170,6 +174,9 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
     public function saveAction()
     {
         $data = $this->getRequest()->getPost('shipment');
+        if (!empty($data['comment_text'])) {
+            Mage::getSingleton('adminhtml/session')->setCommentText($data['comment_text']);
+        }
 
         try {
             if ($shipment = $this->_initShipment()) {
@@ -191,6 +198,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                 $this->_saveShipment($shipment);
                 $shipment->sendEmail(!empty($data['send_email']), $comment);
                 $this->_getSession()->addSuccess($this->__('The shipment has been created.'));
+                Mage::getSingleton('adminhtml/session')->getCommentText(true);
                 $this->_redirect('*/sales_order/view', array('order_id' => $shipment->getOrderId()));
                 return;
             } else {
