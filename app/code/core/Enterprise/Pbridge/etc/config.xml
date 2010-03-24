@@ -20,32 +20,32 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Enterprise
- * @package     Enterprise_PBridge
+ * @package     Enterprise_Pbridge
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 -->
 <config>
     <modules>
-        <Enterprise_PBridge>
+        <Enterprise_Pbridge>
             <version>1.8.0.0.0</version>
-        </Enterprise_PBridge>
+        </Enterprise_Pbridge>
     </modules>
     <global>
         <models>
             <enterprise_pbridge>
-                <class>Enterprise_PBridge_Model</class>
+                <class>Enterprise_Pbridge_Model</class>
                 <!-- <resourceModel>enterprise_pbridge_mysql4</resourceModel> -->
             </enterprise_pbridge>
         </models>
         <blocks>
             <enterprise_pbridge>
-                <class>Enterprise_PBridge_Block</class>
+                <class>Enterprise_Pbridge_Block</class>
             </enterprise_pbridge>
         </blocks>
         <helpers>
             <enterprise_pbridge>
-                <class>Enterprise_PBridge_Helper</class>
+                <class>Enterprise_Pbridge_Helper</class>
             </enterprise_pbridge>
         </helpers>
         <events>
@@ -72,18 +72,18 @@
             <enterprise_pbridge>
                 <use>standard</use>
                 <args>
-                    <module>Enterprise_PBridge</module>
+                    <module>Enterprise_Pbridge</module>
                     <frontName>enterprise_pbridge</frontName>
                 </args>
             </enterprise_pbridge>
         </routers>
         <translate>
             <modules>
-                <Enterprise_PBridge>
+                <Enterprise_Pbridge>
                     <files>
-                        <default>Enterprise_PBridge.csv</default>
+                        <default>Enterprise_Pbridge.csv</default>
                     </files>
-                </Enterprise_PBridge>
+                </Enterprise_Pbridge>
             </modules>
         </translate>
         <layout>
@@ -108,7 +108,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Enterprise_PBridge after="Mage_Adminhtml">Enterprise_PBridge_Adminhtml</Enterprise_PBridge>
+                        <Enterprise_Pbridge after="Mage_Adminhtml">Enterprise_Pbridge_Adminhtml</Enterprise_Pbridge>
                     </modules>
                 </args>
             </adminhtml>

@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Enterprise
- * @package     Enterprise_PBridge
+ * @package     Enterprise_Pbridge
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
@@ -29,10 +29,10 @@
  * Pbridge helper
  *
  * @category    Enterprise
- * @package     Enterprise_PBridge
+ * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
+class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
     /**
      * Payment Bridge action name to fetch Payment Bridge gateway form
@@ -59,7 +59,7 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     /**
      * Encryptor model
      *
-     * @var Enterprise_PBridge_Model_Encryption
+     * @var Enterprise_Pbridge_Model_Encryption
      */
     protected $_encryptor = null;
 
@@ -181,7 +181,7 @@ class Enterprise_PBridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     /**
      * Return a modified encryptor
      *
-     * @return Enterprise_PBridge_Model_Encryption
+     * @return Enterprise_Pbridge_Model_Encryption
      */
     public function getEncryptor()
     {

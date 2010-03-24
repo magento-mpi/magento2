@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_PBridge_Model_Encryption extends Enterprise_Pci_Model_Encryption {
+class Enterprise_Pbridge_Model_Encryption extends Enterprise_Pci_Model_Encryption {
 
     /**
      * Constructor

@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Enterprise
- * @package     Enterprise_PBridge
+ * @package     Enterprise_Pbridge
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
@@ -29,10 +29,10 @@
  * Abstract payment block
  *
  * @category    Enterprise
- * @package     Enterprise_PBridge
+ * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_PBridge_Block_Checkout_Payment_Abstract extends Mage_Payment_Block_Form
+abstract class Enterprise_Pbridge_Block_Checkout_Payment_Abstract extends Mage_Payment_Block_Form
 {
     /**
      * Code of payment method

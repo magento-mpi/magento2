@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Enterprise
- * @package     Enterprise_PBridge
+ * @package     Enterprise_Pbridge
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
@@ -29,7 +29,7 @@
  * Paypal Direct dummy payment method model
  *
  * @category    Enterprise
- * @package     Enterprise_PBridge
+ * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_Direct
