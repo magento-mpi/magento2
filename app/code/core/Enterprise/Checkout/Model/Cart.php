@@ -186,6 +186,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         }
 
         if($product->getStockItem()) {
+            $product->getStockItem()->setCustomerGroupId($this->getCustomer()->getGroupId());
             if (!$product->getStockItem()->getIsQtyDecimal()) {
                 $qty = (int)$qty;
             }
@@ -275,6 +276,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                 $item = $this->getQuote()->getItemById($itemId);
                 $itemQty = (float)$info['qty'];
                 if ($item && $item->getProduct()->getStockItem()) {
+                    $item->getProduct()->getStockItem()->setCustomerGroupId($this->getCustomer()->getGroupId());
                     if (!$item->getProduct()->getStockItem()->getIsQtyDecimal()) {
                         $itemQty = (int)$info['qty'];
                     }

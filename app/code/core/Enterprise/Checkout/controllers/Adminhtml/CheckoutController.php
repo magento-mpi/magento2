@@ -199,10 +199,12 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
                     ->setStore($store)
                     ->setSharedStoreIds($store->getWebsite()->getStoreIds());
                 if ($wishlist->getId()) {
+                    $quoteProductIds = array();
+                    foreach ($cart->getQuote()->getAllItems() as $item) {
+                        $quoteProductIds[] = $item->getProductId();
+                    }
                     foreach ($source['source_wishlist'] as $productId => $qty) {
-                        $product = Mage::getModel('catalog/product')->load($productId);
-                        $quoteItem = $cart->getQuote()->getItemByProduct($product);
-                        if ($quoteItem->getId()) {
+                        if (in_array($productId, $quoteProductIds)) {
                             $wishlistItem = Mage::getModel('wishlist/item')
                                 ->loadByProductWishlist($wishlist->getId(), $productId, $wishlist->getSharedStoreIds());
                             if ($wishlistItem->getId()) {
