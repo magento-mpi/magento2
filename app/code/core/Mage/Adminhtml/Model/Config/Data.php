@@ -93,6 +93,13 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                     }
                 }
             }
+            // set value for group field entry by fieldname 
+            // use extra memory 
+            $fieldsetData = array();
+            foreach ($groupData['fields'] as $field => $fieldData) {
+                $fieldsetData[$field] = (is_array($fieldData) && isset($fieldData['value'])) 
+                    ? $fieldData['value'] : null;
+            }
 
             foreach ($groupData['fields'] as $field => $fieldData) {
 
@@ -127,6 +134,7 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                     ->setScope($scope)
                     ->setScopeId($scopeId)
                     ->setFieldConfig($fieldConfig)
+                    ->setFieldsetData($fieldsetData)
                 ;
 
                 if (!isset($fieldData['value'])) {
