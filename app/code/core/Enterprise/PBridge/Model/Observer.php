@@ -46,9 +46,7 @@ class Enterprise_PBridge_Model_Observer
         /* @var $quote Mage_Sales_Model_Quote */
         $quote = $observer->getEvent()->getData('quote');
         $result = $observer->getEvent()->getData('result');
-        if ($method->getCode() == 'pbridge') {
-            $result->isAvailable = false;
-        } elseif (((bool)$method->getConfigData('using_pbridge', $quote->getStoreId()) === true)
+        if (((bool)$method->getConfigData('using_pbridge', $quote->getStoreId()) === true)
             && ((bool)$method->getIsDummy() === false)) {
             $result->isAvailable = false;
         }

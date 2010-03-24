@@ -177,7 +177,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         if ($key !== null) {
             return isset($additionaData['pbridge_data'][$key]) ? $additionaData['pbridge_data'][$key] : null;
         }
-        return $additionaData;
+        return $additionaData['pbridge_data'];
     }
 
     /**
