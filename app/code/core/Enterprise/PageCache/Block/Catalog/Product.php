@@ -46,4 +46,12 @@ class Enterprise_PageCache_Block_Catalog_Product extends Enterprise_Enterprise_B
     {
         return Mage::getStoreConfig(Mage_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
     }
+
+    /**
+     * get product ids cookie name
+     */
+    public function getCookieName()
+    {
+        return Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME;
+    }
 }

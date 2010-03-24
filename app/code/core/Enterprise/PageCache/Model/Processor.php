@@ -27,13 +27,17 @@
 class Enterprise_PageCache_Model_Processor
 {
     const NO_CACHE_COOKIE               = 'NO_CACHE';
-    const LAST_PRODUCT_COOKIE           = 'LAST_PRODUCT';
     const XML_NODE_ALLOWED_CACHE        = 'frontend/cache/requests';
     const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';
     const XML_PATH_LIFE_TIME            = 'system/page_cache/lifetime';
     const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
     const REQUEST_ID_PREFIX             = 'REQEST_';
     const CACHE_TAG                     = 'FPC';  // Full Page Cache, minimize
+
+    /**
+     * @deprecated after 1.8.0.0 - moved to Enterprise_PageCache_Model_Container_Viewedproducts
+     */
+    const LAST_PRODUCT_COOKIE           = 'LAST_PRODUCT';
 
     /**
      * Request identifier

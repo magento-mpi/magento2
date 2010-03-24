@@ -5,6 +5,7 @@
             <block>reports/product_viewed</block>
             <placeholder>VIEWED_PRODUCTS</placeholder>
             <container>Enterprise_PageCache_Model_Container_Viewedproducts</container>
+            <cache_lifetime>600</cache_lifetime>
         </last_viewed_products>
     </placeholders>
 </config>

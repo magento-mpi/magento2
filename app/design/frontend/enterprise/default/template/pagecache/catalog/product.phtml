@@ -26,13 +26,14 @@
 ?>
 <script type="text/javascript">
 <?php if ($this->getProductId()):?>
-    var viewed_ids = Mage.Cookies.get('VIEWED_PRODUCT_IDS');
+    var cookie_name= '<?php echo $this->getCookieName()?>'
+    var viewed_ids = Mage.Cookies.get(cookie_name);
     if (viewed_ids) {
         viewed_ids = viewed_ids.split(",");
     } else {
         viewed_ids = [];
     }
     viewed_ids.unshift('<?php echo $this->getProductId()?>');
-    Mage.Cookies.set('VIEWED_PRODUCT_IDS', viewed_ids.uniq().slice(0,<?php echo $this->getLimit();?>).join(','));
+    Mage.Cookies.set(cookie_name, viewed_ids.uniq().slice(0,<?php echo $this->getLimit();?>).sort().join(','));
 <?php endif;?>
 </script>

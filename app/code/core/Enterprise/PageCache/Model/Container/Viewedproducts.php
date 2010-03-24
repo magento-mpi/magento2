@@ -29,35 +29,63 @@
  */
 class Enterprise_PageCache_Model_Container_Viewedproducts extends Enterprise_PageCache_Model_Container_Abstract
 {
+    const COOKIE_NAME = 'VIEWED_PRODUCT_IDS';
     /**
      * Get viewed product ids from cookie
      */
     protected function _getProductIds()
     {
-        if (isset($_COOKIE['VIEWED_PRODUCT_IDS'])) {
-            return explode(',', $_COOKIE['VIEWED_PRODUCT_IDS']);
+        if (isset($_COOKIE[self::COOKIE_NAME])) {
+            return explode(',', $_COOKIE[self::COOKIE_NAME]);
         }
         return array();
     }
 
-    public function applyWithoutApp(&$content)
+    /**
+     * Get cache identifier
+     */
+    protected function _getCacheId()
     {
-        if ($this->_getProductIds()) {
-//            $this->_applyToContent($content, $_COOKIE['VIEWED_PRODUCT_IDS']);
-            return false;
+        $id = $this->_placeholder->getAttribute('cache_id');
+        if ($id && $this->_getProductIds()) {
+            $id = 'CONTAINER_'.md5($id . implode('_', $this->_getProductIds()));
+            return $id;
         }
-        return true;
+        return false;
     }
 
+    /**
+     * Generate block content
+     * @param $content
+     */
     public function applyInApp(&$content)
     {
         $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
+        $productIds = $this->_getProductIds();
         $block = new $block;
         $block->setTemplate($template);
-        $block->setProductIds($this->_getProductIds());
+        $block->setProductIds($productIds);
         $blockContent = $block->toHtml();
+        $this->_registerProductsView($productIds);
+        $cacheId = $this->_getCacheId();
+        if ($cacheId) {
+            $this->_saveCache($blockContent, $cacheId);
+        }
         $this->_applyToContent($content, $blockContent);
         return true;
+    }
+
+    /**
+     * Save information about last viewed products
+     * @param array $productIds
+     */
+    protected function _registerProductsView($productIds)
+    {
+        try {
+            Mage::getModel('reports/product_index_viewed')->registerIds($productIds);
+        } catch (Exception $e) {
+            Mage::logException($e);
+        }
     }
 }

@@ -46,6 +46,15 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
     }
 
     /**
+     * Get container individual cache id
+     * @return string | false
+     */
+    protected function _getCacheId()
+    {
+        return false;
+    }
+
+    /**
      * Generate placeholder content before application was initialized and apply to page content if possible
      *
      * @param string $content
@@ -53,13 +62,14 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
      */
     public function applyWithoutApp(&$content)
     {
-        $cacheId = $this->_placeholder->getAttribute('cache_id');
-        if ($cacheId) {
-            $block = Mage::app()->getCache()->load($cacheId);
+        $cacheId = $this->_getCacheId();
+        if ($cacheId !== false) {
+            $block = $this->_loadCache($cacheId);
             if ($block) {
                 $this->_applyToContent($content, $block);
+            } else {
+                return false;
             }
-            return false;
         }
         return true;
     }
@@ -84,5 +94,30 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
     protected function _applyToContent(&$content, $containerContent)
     {
         $content = str_replace($this->_placeholder->getReplacer(), $containerContent, $content);
+    }
+
+    /**
+     * Load cached data by cache id
+     * @param string $id
+     * @return string | false
+     */
+    protected function _loadCache($id)
+    {
+        return Mage::app()->getCache()->load($id);
+    }
+
+    /**
+     * Save data to cache storage
+     * @param string $data
+     * @param string $id
+     * @param array $tags
+     */
+    protected function _saveCache($data, $id, $tags = array())
+    {
+        if ($this->_placeholder->getAttribute('cache_lifetime')) {
+            $tags[] = Enterprise_PageCache_Model_Processor::CACHE_TAG;
+            Mage::app()->getCache()->save($data, $id, $tags, $this->_placeholder->getAttribute('cache_lifetime'));
+        }
+        return $this;
     }
 }

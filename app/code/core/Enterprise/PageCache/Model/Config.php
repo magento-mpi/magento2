@@ -67,8 +67,9 @@ class Enterprise_PageCache_Model_Config extends Varien_Simplexml_Config
             $this->_placeholders = array();
             foreach ($this->getNode('placeholders')->children() as $placeholder) {
                 $this->_placeholders[(string)$placeholder->block] = array(
-                    'container' => (string)$placeholder->container,
-                    'code'      => (string)$placeholder->placeholder,
+                    'container'     => (string)$placeholder->container,
+                    'code'          => (string)$placeholder->placeholder,
+                    'cache_lifetime'=> (int) $placeholder->cache_lifetime
                 );
             }
         }
@@ -88,8 +89,14 @@ class Enterprise_PageCache_Model_Config extends Varien_Simplexml_Config
         if (isset($this->_placeholders[$type])) {
             $placeholder = $this->_placeholders[$type]['code']
                 . ' container="'.$this->_placeholders[$type]['container'].'"'
-                . ' block="' . get_class($block) . '"'
-                . ' template="' . $block->getTemplate() . '"';
+                . ' block="' . get_class($block) . '"';
+            if ($block->getTemplate()) {
+                $placeholder.= ' template="' . $block->getTemplate() . '"';
+            }
+            if ($this->_placeholders[$type]['cache_lifetime'] && $block->getCacheKey()) {
+                $placeholder.= ' cache_id="' . $block->getCacheKey() . '"';
+                $placeholder.= ' cache_lifetime="' . $this->_placeholders[$type]['cache_lifetime'] . '"';
+            }
             $placeholder = Mage::getModel('enterprise_pagecache/container_placeholder', $placeholder);
             return $placeholder;
         }
