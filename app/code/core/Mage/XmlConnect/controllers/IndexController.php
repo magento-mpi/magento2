@@ -25,7 +25,7 @@
  */
 
 /**
- * Poll index controller
+ * XmlConnect index controller
  *
  * @file        IndexController.php
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -33,10 +33,6 @@
 
 class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
 {
-    /**
-     * Level of parent categories
-     */
-    const PARENT_CATEGORIES_LEVEL = 2;
 
     public function indexAction()
     {
@@ -44,8 +40,10 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
         $this->loadLayout(false);
         $this->renderLayout();
         $categoryModel = Mage::getResourceModel('xmlconnect/category_collection');
-        /* Hardcode */
+
+        /* TODO: Hardcoded banner */
         $additionalAttributes['home_banner'] = 'http://kd.varien.com/dev/yuriy.sorokolat/current/media/catalog/category/banner_home.png';
+
         echo $categoryModel->addNameToResult()
                            ->addImageToResult()
                            ->addIsActiveFilter()
@@ -60,25 +58,64 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
         $this->loadLayout(false);
         $this->renderLayout();
         $categoryModel = Mage::getResourceModel('xmlconnect/category_collection');
-        $parentId = $this->getRequest()->getParam('parent_id', null);
-        if (is_null($parentId))
-        {
-            $categoryModel->addLevelExactFilter(self::PARENT_CATEGORIES_LEVEL);
-        }
-
         echo $categoryModel->addNameToResult()
                            ->addImageToResult()
                            ->setStoreId($categoryModel->getDefaultStoreId())
                            ->addIsActiveFilter()
-                           ->addParentIdFilter($parentId)
+                           ->addParentIdFilter($this->getRequest()->getParam('parent_id', null))
                            ->addLimit($this->getRequest()->getParam('offset', 0),
                                       $this->getRequest()->getParam('count', 0))
-                           ->load()
                            ->toXml();
+    }
+
+    public function getCategoryContentAction() {
+        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
+        if ($categoryId = $this->getRequest()->getParam('category_id', null))
+        {
+            $categoryModel = Mage::getModel('catalog/category')->load($categoryId);
+            if (!$categoryModel->hasChildren())
+            {
+                $productCollection = Mage::getResourceModel('xmlconnect/product_collection')
+                                            ->setStoreId($categoryModel->getStoreId())
+                                            ->addCategoryFilter($categoryModel)
+                                            ->addOrdersFromRequest($this->getRequest())
+                                            //->addFiltersFromRequest($this->getRequest())
+                                            ->addLimit($this->getRequest()->getParam('offset', 0),
+                                                       $this->getRequest()->getParam('count', 0));
+                echo $productCollection->toXml();
+                return;
+            }
+        }
+
+        $categoryCollection = Mage::getResourceModel('xmlconnect/category_collection');
+        echo $categoryCollection->addImageToResult()
+                                ->setStoreId($categoryCollection->getDefaultStoreId())
+                                ->addParentIdFilter($categoryId)
+                                ->addLimit($this->getRequest()->getParam('offset', 0),
+                                           $this->getRequest()->getParam('count', 0))
+                                ->toXml();
     }
 
     public function getFiltersAction() {
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
-        echo Mage::getModel('xmlconnect/filter_collection')->toXml();
+        $categoryId = $this->getRequest()->getParam('category_id', null);
+        $categoryModel = Mage::getModel('catalog/category')->load($categoryId);
+
+        $sortOptions = $categoryModel->getAvailableSortByOptions();
+        /* TODO: Here logic for sort options limiting to 3 items should be realized */
+        $sortOptions = array_slice($sortOptions, 0, 3);
+
+        echo Mage::getModel('xmlconnect/filter_collection')
+                   ->setCategoryId($categoryId)
+                   ->toXml(array('orders'=>$sortOptions), true);
+    }
+
+    public function testAction() {
+        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
+        $categoryModel = Mage::getModel('catalog/category')->load($this->getRequest()->getParam('category_id', null));
+        echo Mage::getResourceModel('xmlconnect/product_collection')
+                   ->addCategoryFilter($categoryModel)
+                   ->addFiltersFromRequest($this->getRequest())
+                   ->toXml();
     }
 }

@@ -262,7 +262,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getMaximalPrice($product)
     {
-        return $this->getPrice($product, 'max');
+        return $this->getPrices($product, 'max');
     }
 
     /**

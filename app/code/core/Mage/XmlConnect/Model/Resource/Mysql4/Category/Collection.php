@@ -34,6 +34,20 @@
  */
 class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
 {
+    /**
+     * Level of parent categories
+     */
+    const PARENT_CATEGORIES_LEVEL = 2;
+
+    /**
+     * Image resize parameters
+     */
+    const IMAGE_RESIZE_PARAM = 80;
+
+    /**
+     * To add parent_id node to result flag
+     */
+    protected $_showParentId = false;
 
     /**
      * Adding image attribute to result
@@ -42,9 +56,15 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection extends Mage_Cat
      */
     public function addImageToResult()
     {
-        $this->_showImage = true;
         $this->addAttributeToSelect('image');
         return $this;
+    }
+
+    protected function _beforeLoad()
+    {
+        $this->addNameToResult();
+        $this->addIsActiveFilter();
+        return parent::_beforeLoad();
     }
 
     /**
@@ -60,14 +80,19 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection extends Mage_Cat
 
         foreach ($this as $item)
         {
-            $attributes = array('label', 'background','entity_id');
+            $attributes = array('label', 'background', 'entity_id', 'content_type');
             if (strlen($item->image) > 0)
             {
-                /* Hardcoded size */
-                $item->icon = Mage::helper('catalog/category_image')->init($item, 'image')->resize(80);
+                $item->icon = Mage::helper('catalog/category_image')->init($item, 'image')->resize(self::IMAGE_RESIZE_PARAM);
                 $attributes[] = 'icon';
             }
+            if ($this->_showParentId)
+            {
+                $attributes[] = 'parent_id';
+            }
             $item->label = $item->name;
+            $item->content_type = $item->hasChildren() ? 'categories' : 'products' ;
+
             /* Hardcode */
             $item->background = 'http://kd.varien.com/dev/yuriy.sorokolat/current/media/catalog/category/background_img.png';
 
@@ -76,9 +101,10 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection extends Mage_Cat
         $xml .= '</items>
                 ';
 
+        $xmlModel = new Varien_Simplexml_Element('<node></node>');
         foreach ($additionalAtrributes as $attrKey => $value)
         {
-            $xml .= "<{$attrKey}>{$value}</{$attrKey}>";
+            $xml .= "<{$attrKey}>{$xmlModel->xmlentities($value)}</{$attrKey}>";
         }
 
         $xml .= '</category>';
@@ -102,7 +128,12 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection extends Mage_Cat
     {
         if (!is_null($parentId))
         {
+            $this->_showParentId = true;
             $this->getSelect()->where('e.parent_id = ?', (int)$parentId);
+        }
+        else
+        {
+            $this->addLevelExactFilter(self::PARENT_CATEGORIES_LEVEL);
         }
         return $this;
     }
