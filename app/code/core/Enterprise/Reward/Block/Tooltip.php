@@ -50,9 +50,7 @@ class Enterprise_Reward_Block_Tooltip extends Enterprise_Enterprise_Block_Core_T
     public function initRewardType($action)
     {
         if ($action) {
-            if (!Mage::helper('enterprise_reward')->isEnabledOnFront()
-                || (!Mage::helper('enterprise_reward')->getHasRates()
-                && Mage::getSingleton('customer/session')->isLoggedIn())) {
+            if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
                 return $this;
             }
             $customer = Mage::getSingleton('customer/session')->getCustomer();

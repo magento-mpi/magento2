@@ -45,8 +45,7 @@ class Enterprise_Reward_CustomerController extends Enterprise_Enterprise_Control
         if (!Mage::getSingleton('customer/session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()
-            || !Mage::helper('enterprise_reward')->getHasRates()) {
+        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }

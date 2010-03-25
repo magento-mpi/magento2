@@ -202,7 +202,7 @@ class Enterprise_Reward_Helper_Data extends Enterprise_Enterprise_Helper_Core_Ab
     public function formatReward($points, $amount = null, $storeId = null, $pointsFormat = '%s', $amountFormat = '%s')
     {
         $points = sprintf($pointsFormat, $points);
-        if (null !== $amount) {
+        if ((null !== $amount) && $this->getHasRates()) {
             $amount = sprintf($amountFormat, $this->formatAmount($amount, true, $storeId));
             return $this->__('%s reward points (%s)', $points, $amount);
         }
