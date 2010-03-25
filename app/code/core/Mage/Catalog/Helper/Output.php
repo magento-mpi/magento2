@@ -101,7 +101,7 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
     public function productAttribute($product, $attributeHtml, $attributeName)
     {
         $attribute = Mage::getSingleton('eav/config')->getAttribute('catalog_product', $attributeName);
-        if ($attribute && ($attribute->getFrontendInput() != 'media_image')
+        if ($attribute && $attribute->getId() && ($attribute->getFrontendInput() != 'media_image')
             && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
                 $attributeHtml = $this->htmlEscape($attributeHtml);
                 if ($attribute->getFrontendInput() == 'textarea') {
