@@ -114,11 +114,28 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
     }
 
     /**
+     * Renderer for page title
+     *
+     * @return Mage_Adminhtml_Controller_Action
+     */
+    protected function _initTitle()
+    {
+        $this->_title($this->__('Customers'))
+             ->_title($this->__('Manage Customers'));
+        if ($customer = Mage::registry('checkout_current_customer')) {
+            $this->_title($customer->getName());
+        }
+        $this->_title($this->__('Shopping Cart'));
+        return $this;
+    }
+
+    /**
      * Empty page for final errors occurred
      */
     public function errorAction()
     {
         $this->loadLayout();
+        $this->_initTitle();
         $this->renderLayout();
     }
 
@@ -133,6 +150,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
                 return;
             }
             $this->loadLayout();
+            $this->_initTitle();
             $this->renderLayout();
             return;
         } catch (Mage_Core_Exception $e) {
