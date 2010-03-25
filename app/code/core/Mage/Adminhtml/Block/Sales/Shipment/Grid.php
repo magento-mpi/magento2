@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Widg
         ));
 
         $this->addColumn('shipping_name', array(
-            'header' => Mage::helper('sales')->__('Ship to First Name'),
+            'header' => Mage::helper('sales')->__('Ship to Name'),
             'index' => 'shipping_name',
         ));
 

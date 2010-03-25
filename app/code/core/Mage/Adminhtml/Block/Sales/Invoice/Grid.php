@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('sales')->__('Bill to First name'),
+            'header' => Mage::helper('sales')->__('Bill to Name'),
             'index' => 'billing_name',
         ));
 

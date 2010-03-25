@@ -84,14 +84,9 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
             'type'      => 'datetime',
         ));
 
-        $this->addColumn('billing_firstname', array(
-            'header' => Mage::helper('sales')->__('Bill to First Name'),
-            'index' => 'billing_firstname',
-        ));
-
-        $this->addColumn('billing_lastname', array(
-            'header' => Mage::helper('sales')->__('Bill to Last Name'),
-            'index' => 'billing_lastname',
+        $this->addColumn('billing_name', array(
+            'header' => Mage::helper('sales')->__('Bill to Name'),
+            'index' => 'billing_name',
         ));
 
         $this->addColumn('state', array(
