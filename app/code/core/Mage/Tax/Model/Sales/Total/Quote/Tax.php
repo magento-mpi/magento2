@@ -82,9 +82,6 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         parent::collect($address);
-        $address->setShippingTaxAmount(0);
-        $address->setBaseShippingTaxAmount(0);
-
         $store = $address->getQuote()->getStore();
         $customer = $address->getQuote()->getCustomer();
         if ($customer) {
@@ -202,14 +199,16 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                     $shippingBaseTax= $this->_calculator->calcTaxAmount($baseCalcAmount, $rate, false, false);
                 }
                 $rateKey = (string) $rate;
-                if (isset($this->_roundingDeltas[$rateKey])) {
-                    $shippingTax+= $this->_roundingDeltas[$rateKey];
+                if ($shippingTax>0) {
+                    if (isset($this->_roundingDeltas[$rateKey])) {
+                        $shippingTax+= $this->_roundingDeltas[$rateKey];
+                    }
+                    if (isset($this->_baseRoundingDeltas[$rateKey])) {
+                        $shippingBaseTax+= $this->_baseRoundingDeltas[$rateKey];
+                    }
+                    $shippingTax        = $this->_calculator->round($shippingTax);
+                    $shippingBaseTax    = $this->_calculator->round($shippingBaseTax);
                 }
-                if (isset($this->_baseRoundingDeltas[$rateKey])) {
-                    $shippingBaseTax+= $this->_baseRoundingDeltas[$rateKey];
-                }
-                $shippingTax        = $this->_calculator->round($shippingTax);
-                $shippingBaseTax    = $this->_calculator->round($shippingBaseTax);
 
                 $address->setTotalAmount('shipping', $shippingAmount);
                 $address->setBaseTotalAmount('shipping', $baseShippingAmount);
