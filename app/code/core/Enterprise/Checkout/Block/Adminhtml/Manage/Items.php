@@ -76,9 +76,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
             $address = $this->getQuote()->getShippingAddress();
         }
         if ($this->displayTotalsIncludeTax()) {
-            if ($address->getSubtotalInclTax()) {
-                return $address->getSubtotalInclTax();
-            }
             return $address->getSubtotal()+$address->getTaxAmount();
         } else {
             return $address->getSubtotal();
@@ -127,74 +124,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
     {
         return Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update');
     }
-
-/*
-    protected function _prepareColumns()
-    {
-        $this->addColumn('name', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('Product'),
-            'index'     => 'name',
-            'column_css_class'=> 'name'
-        ));
-
-        $this->addColumn('price', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('Price'),
-            'align'     => 'right',
-            'type'      => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
-            'index'     => 'price'
-        ));
-
-        $this->addColumn('qty', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('Qty'),
-            'align'     => 'right',
-            'type'      => 'input',
-            'renderer'  => 'enterprise_checkout/adminhtml_manage_items_renderer_qty',
-            'inline_css'=> 'qty',
-            'index'     => 'qty',
-            'width' => 30
-        ));
-
-        $this->addColumn('row_total', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('Subtotal'),
-            'align'     => 'center',
-            'type'      => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
-            'index'     => 'row_total'
-        ));
-
-        $this->addColumn('discount', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('Discount'),
-            'align'     => 'right',
-            'type'      => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
-            'index'     => 'discount_amount'
-        ));
-
-
-        $this->addColumn('sku', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('SKU'),
-            'width'     => '80px',
-            'index'     => 'sku',
-            'column_css_class'=> 'sku'
-        ));
-
-        $this->addColumn('action', array(
-            'header'    => Mage::helper('enterprise_checkout')->__('Action'),
-            'type'      => 'select',
-            'sortable' => false,
-            'renderer'  => 'enterprise_checkout/adminhtml_manage_items_renderer_action',
-            'options'   => array(
-                '' => '',
-                'delete' => Mage::helper('enterprise_checkout')->__('Remove'),
-                'wishlist' => Mage::helper('enterprise_checkout')->__('Move to Wishlist')
-            ),
-            'width' => 50
-        ));
-
-        return parent::_prepareColumns();
-    }
-*/
 
     /**
      * Return current quote from regisrty
