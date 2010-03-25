@@ -105,6 +105,18 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
     }
 
     /**
+     * Assign data to info model instance
+     *
+     * @param  mixed $data
+     * @return Mage_Payment_Model_Info
+     */
+    public function assignData($data)
+    {
+        $this->getPbridgeMethodInstance()->assignData($data);
+        return $this;
+    }
+
+    /**
      * Retrieve information from payment configuration
      *
      * @param   string $field
@@ -150,6 +162,12 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
     public function validate()
     {
         $this->getPbridgeMethodInstance()->validate();
+        return $this;
+    }
+
+    public function authorize(Varien_Object $payment, $amount)
+    {
+        $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         return $this;
     }
 }
