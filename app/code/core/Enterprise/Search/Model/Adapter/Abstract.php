@@ -76,6 +76,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         'description',
         'meta_keyword',
         'store_id',
+        'in_stock',
         'fulltext',
         'score' //used to support sorting by this field
     );

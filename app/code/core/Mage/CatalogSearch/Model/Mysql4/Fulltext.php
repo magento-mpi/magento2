@@ -205,6 +205,11 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                 array('website' => $this->getTable('catalog/product_website')),
                 $this->_getWriteAdapter()->quoteInto('website.product_id=e.entity_id AND website.website_id=?', $store->getWebsiteId()),
                 array()
+            )
+            ->join(
+                array('stock_status' => $this->getTable('cataloginventory/stock_status')),
+                $this->_getWriteAdapter()->quoteInto('stock_status.product_id=e.entity_id AND stock_status.website_id=?', $store->getWebsiteId()),
+                array('in_stock' => 'stock_status')
             );
 
         if (!is_null($productIds)) {
@@ -559,6 +564,11 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         if ($data = $typeInstance->getSearchableData($product)) {
             $index['options'] = $data;
         }
+
+        if (isset($productData['in_stock'])) {
+            $index['in_stock'] = $productData['in_stock'];
+        }
+
         if ($this->_engine) {
             return $this->_engine->prepareEntityIndex($index, $this->_separator);
         }

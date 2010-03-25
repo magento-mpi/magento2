@@ -135,6 +135,10 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             $query = 'fulltext_' . $params['lang_code'] . ':' . $query;
         }
 
+        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
+            $query .= ' AND in_stock:true';
+        }
+
         if (!is_array($_params['fields'])) {
             $_params['fields'] = array($_params['fields']);
         }
