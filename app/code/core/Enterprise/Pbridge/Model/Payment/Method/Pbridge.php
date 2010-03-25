@@ -262,7 +262,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         ;
 
         $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
-        $request->setData('shipping_address', $this->_getAddressInfo($order->getShippingAddress()));
+
+        if (!$order->getIsVirtual()) {
+            $request->setData('shipping_address', $this->_getAddressInfo($order->getShippingAddress()));
+        }
 
         $request->setData('cart', $this->_getCart($order));
 

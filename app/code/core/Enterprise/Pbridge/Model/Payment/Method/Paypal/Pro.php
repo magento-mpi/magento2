@@ -18,8 +18,8 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Mage
- * @package     Mage_Paypal
+ * @category    Enterprise
+ * @package     Enterprise_Pbridge
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -127,60 +127,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Mod
     public function cancel(Varien_Object $payment)
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
-            $this->void($payment);
+            $result = $this->getPbridgeMethodInstance()->void($payment);
+            Mage::getModel('paypal/info')->importToPayment(new Varien_Object($result), $payment);
         }
-    }
-
-    /**
-     * Import capture results to payment
-     *
-     * @param Mage_Paypal_Model_Api_Nvp
-     * @param Mage_Sales_Model_Order_Payment
-     */
-    protected function _importCaptureResultToPayment($api, $payment)
-    {
-        $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(false);
-        Mage::getModel('paypal/info')->importToPayment($api, $payment);
-    }
-
-    /**
-     * Import refund results to payment
-     *
-     * @param Mage_Paypal_Model_Api_Nvp
-     * @param Mage_Sales_Model_Order_Payment
-     * @param bool $canRefundMore
-     */
-    protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
-    {
-        $payment->setTransactionId($api->getRefundTransactionId())
-                ->setIsTransactionClosed(1) // refund initiated by merchant
-                ->setShouldCloseParentTransaction(!$canRefundMore)
-            ;
-        Mage::getModel('paypal/info')->importToPayment($api, $payment);
-    }
-
-    /**
-     * Is capture request needed on this transaction
-     *
-     * @return true
-     */
-    protected function _isCaptureNeeded()
-    {
-        $this->_api->callGetTransactionDetails();
-        if ($this->_api->isPaymentComplete()) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Parent transaction id getter
-     *
-     * @param Varien_Object $payment
-     * @return string
-     */
-    protected function _getParentTransactionId(Varien_Object $payment)
-    {
-        return $payment->getParentTransactionId();
     }
 }
