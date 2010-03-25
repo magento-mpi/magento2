@@ -82,6 +82,9 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         parent::collect($address);
+        $address->setShippingTaxAmount(0);
+        $address->setBaseShippingTaxAmount(0);
+
         $store = $address->getQuote()->getStore();
         $customer = $address->getQuote()->getCustomer();
         if ($customer) {
