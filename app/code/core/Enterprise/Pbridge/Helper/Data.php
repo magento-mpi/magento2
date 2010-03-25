@@ -97,7 +97,7 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
         if ($quote && $quote instanceof Mage_Sales_Model_Quote) {
             return $quote;
         }
-        return null;
+        return Mage::getSingleton('checkout/session')->getQuote();
     }
 
     /**

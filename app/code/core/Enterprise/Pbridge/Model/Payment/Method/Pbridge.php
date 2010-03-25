@@ -135,7 +135,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             $pbridgeData = $data->getData('pbridge_data');
             $data->unsetData('pbridge_data');
         }
-        $this->getOriginalMethodInstance()->assignData($data);
         parent::assignData($data);
         $this->setPbridgeResponse($pbridgeData);
         return $this;
@@ -153,12 +152,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             return $this;
         }
         $data = array('pbridge_data' => $data);
-        $additionaData = unserialize($this->getInfoInstance()->getAdditionalData());
-        if (!$additionalData) {
-            $additionaData = array();
+        if (!($additionalData = unserialize($this->getInfoInstance()->getAdditionalData()))) {
+            $additionalData = array();
         }
-        $additionalData = array_merge($additionaData, $data);
-        $this->getInfoInstance()->setAdditionalData(serialize($additionaData));
+        $additionalData = array_merge($additionalData, $data);
+        $this->getInfoInstance()->setAdditionalData(serialize($additionalData));
         return $this;
     }
 
@@ -170,14 +168,14 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      */
     public function getPbridgeResponse($key = null)
     {
-        $additionaData = unserialize($this->getInfoInstance()->getAdditionalData());
-        if (!is_array($additionaData) || !isset($additionaData['pbridge_data'])) {
+        $additionalData = unserialize($this->getInfoInstance()->getAdditionalData());
+        if (!is_array($additionalData) || !isset($additionalData['pbridge_data'])) {
             return null;
         }
         if ($key !== null) {
-            return isset($additionaData['pbridge_data'][$key]) ? $additionaData['pbridge_data'][$key] : null;
+            return isset($additionalData['pbridge_data'][$key]) ? $additionalData['pbridge_data'][$key] : null;
         }
-        return $additionaData['pbridge_data'];
+        return $additionalData['pbridge_data'];
     }
 
     /**
