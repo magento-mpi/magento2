@@ -248,7 +248,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     {
 //        parent::authorize($payment, $amount);
         $order = $payment->getOrder();
-        $request = new Varien_Object();
+        $request = $this->_getApiRequest();
 
         $request
             ->setData('magento_payment_action' , $this->getOriginalMethodInstance()->getConfigPaymentAction())
@@ -303,7 +303,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             return false;//$this->authorize($payment, $amount);
         }
 
-        $request = new Varien_Object();
+        $request = $this->_getApiRequest();
         $request
             ->setData('transaction_id', $authTransactionId)
             ->setData('is_capture_complete', (int)$payment->getShouldCloseParentTransaction())
@@ -331,7 +331,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         if ($captureTxnId) {
             $order = $payment->getOrder();
 
-            $request = new Varien_Object();
+            $request = $this->_getApiRequest();
             $request
                 ->setData('transaction_id', $captureTxnId)
                 ->setData('amount', $amount)
@@ -364,7 +364,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         //parent::void($payment);
 
         if ($authTransactionId = $payment->getParentTransactionId()) {
-            $request = new Varien_Object();
+            $request = $this->_getApiRequest();
             $request
                 ->setData('transaction_id', $authTransactionId);
 
@@ -444,5 +444,17 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             $payment->setTransactionId($apiResponse['transaction_id']);
             unset($apiResponse['transaction_id']);
         }
+    }
+
+    /**
+     * Return Api request object
+     *
+     * @return Varien_Object
+     */
+    protected function _getApiRequest()
+    {
+        $request = new Varien_Object();
+        $request->setCountryCode(Mage::getStoreConfig('general/country/default'));
+        return $request;
     }
 }
