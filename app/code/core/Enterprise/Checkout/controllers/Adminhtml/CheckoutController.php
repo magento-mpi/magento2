@@ -66,7 +66,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
             Mage::throwException(Mage::helper('enterprise_checkout')->__('Customer not found'));
         }
 
-        if ($customer->getStore()->isAdmin()) {
+        if (Mage::app()->getStore()->getWebsiteId() == $customer->getWebsiteId()) {
             $this->_getSession()->addError(
                 Mage::helper('enterprise_checkout')->__('Shopping cart management disabled for this customer.')
             );

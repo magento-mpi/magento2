@@ -42,7 +42,7 @@ class Enterprise_Checkout_Block_Adminhtml_Customer_Edit_Buttons extends Mage_Adm
     {
         if (!Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/view')
             && !Mage::getSingleton('admin/session')->isAllowed('sales/enterprise_checkout/update')
-            || Mage::registry('current_customer')->getStore()->isAdmin())
+            || Mage::app()->getStore()->getWebsiteId() == Mage::registry('current_customer')->getWebsiteId())
         {
             return $this;
         }
