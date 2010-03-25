@@ -431,6 +431,7 @@ button.show-hide span { background-image:url(images/btn_show-hide_icon.gif); pad
 button.add-image span { background-image:url(images/btn_add-image_icon.gif); }
 button.add-widget span { background-image:url(images/btn_add-widget_icon2.gif); padding-left:24px; }
 button.add-variable span { background-image:url(images/btn_add-variable_icon.gif); padding-left:26px; }
+button.go span { background-image:url(images/btn_go.gif); padding-left:16px; }
 button.btn-chooser { display:block; margin:0 0 10px; }
 
 button.disabled,
