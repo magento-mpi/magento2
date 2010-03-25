@@ -92,9 +92,16 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         $this->_quote = Mage::getModel('sales/quote');
 
         if ($this->getCustomer() !== null) {
-            $this->_quote
-                ->setSharedStoreIds($this->getCustomerSharedStoreIds())
-                ->loadByCustomer($this->getCustomer()->getId());
+            if ($this->getStoreId()) {
+                $this->_quote
+                    ->setSharedStoreIds(array($this->getStoreId()))
+                    ->loadByCustomer($this->getCustomer()->getId());
+            }
+            if (!$this->_quote->getId()) {
+                $this->_quote
+                    ->setSharedStoreIds($this->getCustomerSharedStoreIds())
+                    ->loadByCustomer($this->getCustomer()->getId());
+            }
         }
 
         return $this->_quote;

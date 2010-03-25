@@ -96,6 +96,9 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
             } else {
                 Mage::throwException(Mage::helper('enterprise_checkout')->__('Store not found'));
             }
+        } else {
+            // try to find quote for selected store
+            $cart->setStoreId($storeId);
         }
 
         // Assign store to quote when it will be saved
