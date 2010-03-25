@@ -93,11 +93,28 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
 
         if ($this->getCustomer() !== null) {
             $this->_quote
-                ->setSharedStoreIds($this->getCustomer()->getSharedStoreIds())
+                ->setSharedStoreIds($this->getCustomerSharedStoreIds())
                 ->loadByCustomer($this->getCustomer()->getId());
         }
 
         return $this->_quote;
+    }
+
+    /**
+     * Correct getter for customer shared store ids when customer has Admin Store
+     *
+     * @return array
+     */
+    public function getCustomerSharedStoreIds()
+    {
+        if (!$this->getCustomer()) {
+            return array();
+        }
+        if ((bool)$this->getCustomer()->getSharingConfig()->isWebsiteScope()) {
+            return Mage::app()->getWebsite($this->getCustomer()->getWebsiteId())->getStoreIds();
+        } else {
+            return $this->getCustomer()->getSharedStoreIds();
+        }
     }
 
     /**

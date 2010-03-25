@@ -44,9 +44,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Store_Switcher extends Mage_Adm
     public function __construct()
     {
         parent::__construct();
-        if ($this->_getCustomer()->getSharingConfig()->isWebsiteScope()
-            && $this->_getCustomer()->isInStore($this->_getStore()))
-        {
+        if ($this->_getCustomer()->getSharingConfig()->isWebsiteScope()) {
             $this->setWebsiteIds($this->_getCustomer()->getSharedWebsiteIds());
         }
     }
