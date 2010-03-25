@@ -32,7 +32,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Pbridge_Block_Checkout_Payment_Abstract extends Mage_Payment_Block_Form
+abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Mage_Payment_Block_Form
 {
     /**
      * Code of payment method
@@ -72,6 +72,16 @@ abstract class Enterprise_Pbridge_Block_Checkout_Payment_Abstract extends Mage_P
     }
 
     /**
+     * Getter
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    public function getQuote()
+    {
+        return Mage::getSingleton('checkout/session')->getQuote();
+    }
+
+    /**
      * Getter.
      * Return Payment Bridge url with required parameters (such as merchant code, merchant key etc.)
      *
@@ -82,7 +92,7 @@ abstract class Enterprise_Pbridge_Block_Checkout_Payment_Abstract extends Mage_P
         $sourceUrl = Mage::helper('enterprise_pbridge')->getGatewayFormUrl(array(
             'redirect_url' => $this->getRedirectUrl(),
             'request_gateway_code' => $this->getCode()
-        ));
+        ), $this->getQuote());
         return $sourceUrl;
     }
 }

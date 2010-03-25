@@ -26,18 +26,45 @@
 
 
 /**
- * Paypal Direct payment block
+ * Authorize.Net payment block
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Block_Checkout_Payment_Paypal extends Enterprise_Pbridge_Block_Payment_Form_Abstract
+class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Authorizenet extends Enterprise_Pbridge_Block_Payment_Form_Abstract
 {
     /**
      * Paypal payment code
      *
      * @var string
      */
-    protected $_code = Mage_Paypal_Model_Config::METHOD_WPP_DIRECT;
+    protected $_code = 'authorizenet';
+
+    /**
+     * Default template for payment form block
+     *
+     * @var string
+     */
+    protected $_template = 'enterprise/pbridge/sales/order/create/pbridge.phtml';
+
+    /**
+     * Return redirect url for Payment Bridge application
+     *
+     * @return string
+     */
+    public function getRedirectUrl()
+    {
+        return Mage::getModel('adminhtml/url')->getUrl('*/pbridge/result');
+    }
+
+    /**
+     * Getter
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    public function getQuote()
+    {
+        return Mage::getSingleton('adminhtml/session_quote')->getQuote();
+    }
 }

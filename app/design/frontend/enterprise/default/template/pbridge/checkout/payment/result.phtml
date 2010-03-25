@@ -31,8 +31,15 @@
 
     function setPaymentMethod()
     {
-        var checkoutForm = parent.document.getElementById(paymentObj.form ? paymentObj.form : paymentObj.formId);
+        // var checkoutForm = parent.document.getElementById(paymentObj.form ? paymentObj.form : paymentObj.formId);
         var jsonParams = <?php echo $this->getJsonHiddenPbridgeParams() ?>;
+
+        var containerElement = parent.document.getElementById('payment_form_pbridge_' + jsonParams['original_payment_method']);
+        var listElements = containerElement.getElementsByTagName('LI');
+        if (listElements.length) {
+            containerElement = listElements[0];
+        }
+
         var methodParam;
         if (jsonParams.original_payment_method) {
             parent.$H(jsonParams).each(function(param) {
@@ -48,7 +55,7 @@
                         'name':  'payment[pbridge_data][' + param.key + ']',
                         'value': param.value
                     });
-                    checkoutForm.appendChild(methodParam);
+                    containerElement.appendChild(methodParam);
                 }
             });
         }

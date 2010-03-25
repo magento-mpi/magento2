@@ -46,7 +46,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_pbridge';
+    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_authorizenet';
 
     /**
      * Payment Bridge Payment Method Instance

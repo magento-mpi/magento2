@@ -24,9 +24,12 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<ul class="form-list" id="payment_form_pbridge" style="display:none;">
-  <iframe src="<?php echo $this->getSourceUrl() ?>"
-          height="250" width="100%" marginheight="0" marginwidth="0"
-          scrolling="no" id="pbridge-viewport" frameborder="0"
-          style="border:0 none"></iframe>
+<?php $_code = $this->getMethodCode() ?>
+<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
+    <li>
+        <iframe src="<?php echo $this->getSourceUrl() ?>"
+                height="300" width="100%" marginheight="0" marginwidth="0"
+                scrolling="no" id="pbridge-viewport-<?php echo $_code ?>" frameborder="0"
+                style="border:0 none"></iframe>
+    </li>
 </ul>

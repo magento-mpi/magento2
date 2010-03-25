@@ -26,34 +26,50 @@
 
 
 /**
- * Pbridge payment block
+ * Paypal Direct payment block
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Pbridge extends Mage_Payment_Block_Form
+class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Paypal extends Enterprise_Pbridge_Block_Payment_Form_Abstract
 {
-    /**
-     * Constructor
-     */
-    protected function _construct()
+    protected function _getUrlModelClass()
     {
-        parent::_construct();
-        $this->setTemplate('enterprise/pbridge/sales/order/create/pbridge.phtml');
+        return 'adminhtml/url';
     }
 
     /**
-     * Getter.
-     * Return Payment Bridge url with required parameters (such as merchant code, merchant key etc.)
+     * Paypal payment code
+     *
+     * @var string
+     */
+    protected $_code = Mage_Paypal_Model_Config::METHOD_WPP_DIRECT;
+
+    /**
+     * Default template for payment form block
+     *
+     * @var string
+     */
+    protected $_template = 'enterprise/pbridge/sales/order/create/pbridge.phtml';
+
+    /**
+     * Return redirect url for Payment Bridge application
      *
      * @return string
      */
-    public function getSourceUrl()
+    public function getRedirectUrl()
     {
-        $sourceUrl = Mage::helper('enterprise_pbridge')->getGatewayFormUrl(array(
-            'redirect_url' => $this->getUrl('*/pbridge/result', array('_current' => true))
-        ));
-        return $sourceUrl;
+        return Mage::getModel('adminhtml/url')->getUrl('*/pbridge/result');
+    }
+
+    /**
+     * Getter
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    public function getQuote()
+    {
+        return Mage::getSingleton('adminhtml/session_quote')->getQuote();
     }
 }

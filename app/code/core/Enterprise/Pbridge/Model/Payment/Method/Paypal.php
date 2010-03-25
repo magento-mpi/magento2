@@ -46,7 +46,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_D
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_pbridge';
+    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_paypal';
 
     /**
      * Payment Bridge Payment Method Instance
