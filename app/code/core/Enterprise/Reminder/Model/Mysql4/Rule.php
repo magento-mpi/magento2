@@ -308,11 +308,12 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
      * Get matched customers
      *
      * @param string|Zend_Db_Select $select
+     * @param array $bindParams array of binded variables
      * @return Enterprise_Reminder_Model_Mysql4_Rule
      */
-    public function getMatchedCustomers($select)
+    public function getMatchedCustomers($select, $bindParams)
     {
-        return $this->_getReadAdapter()->fetchAll($select);
+        return $this->_getReadAdapter()->fetchAll($select, $bindParams);
     }
 
     /**

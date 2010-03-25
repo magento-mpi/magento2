@@ -30,6 +30,8 @@
 class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
+    protected $_inputType = 'numeric';
+
     /**
      * class constructor
      */
@@ -57,14 +59,37 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
                 'value' => 'enterprise_reminder/rule_condition_wishlist_subselection',
                 'label' => Mage::helper('enterprise_reminder')->__('Wishlist Item Subselection')),
 
-            Mage::getModel($prefix.'abandoned')->getNewChildSelectOptions(),
             Mage::getModel($prefix.'sharing')->getNewChildSelectOptions(),
-            Mage::getModel($prefix.'quantity')->getNewChildSelectOptions(),
-
+            Mage::getModel($prefix.'quantity')->getNewChildSelectOptions()
         ));
         return $result;
     }
 
+    /**
+     * Get input type for attribute value
+     *
+     * @return string
+     */
+    public function getValueElementType()
+    {
+        return 'text';
+    }
+
+    /**
+     * Load value options
+     *
+     * @return Enterprise_Reminder_Model_Rule_Condition_Wishlist
+     */
+    public function loadValueOptions()
+    {
+        return $this;
+    }
+
+    /**
+     * Return required validation
+     *
+     * @return true
+     */
     protected function _getRequiredValidation()
     {
         return true;
@@ -78,15 +103,25 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Wishlist has items and %s of these conditions match:',
+            . Mage::helper('enterprise_reminder')->__('Wishlist has items, abandoned for %s %s days and %s of these conditions match:',
+                $this->getOperatorElementHtml(),
+                $this->getValueElementHtml(),
                 $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 
+     /**
+     * Get condition SQL select
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     protected function _prepareConditionsSql($customer, $website)
     {
         $wishlistTable = $this->getResource()->getTable('wishlist/wishlist');
         $wishlistItemTable = $this->getResource()->getTable('wishlist/item');
+        $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
         $select->from(array('item'=>$wishlistItemTable), array(new Zend_Db_Expr(1)));
@@ -98,16 +133,21 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
         );
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
+        $select->where("UNIX_TIMESTAMP('".now()."' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(list.updated_at)", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
         $select->limit(1);
         return $select;
     }
 
+    /**
+     * Get base SQL select
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     public function getConditionsSql($customer, $website)
     {
-        /**
-         * Build base SQL
-         */
         $select     = $this->_prepareConditionsSql($customer, $website);
         $required   = $this->_getRequiredValidation();
         $aggregator = ($this->getAggregator() == 'all') ? ' AND ' : ' OR ';

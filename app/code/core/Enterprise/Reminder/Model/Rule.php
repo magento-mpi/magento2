@@ -69,13 +69,9 @@ class Enterprise_Reminder_Model_Rule extends Enterprise_Enterprise_Model_Rule_Ru
      */
     protected function _beforeSave()
     {
-        $customer = new Zend_Db_Expr(':customer_id');
-        $website = new Zend_Db_Expr(':website_id');
-
         $this->setConditionSql(
-            $this->getConditions()->getConditionsSql($customer, $website)
+            $this->getConditions()->getConditionsSql(null, new Zend_Db_Expr(':website_id'))
         );
-
         parent::_beforeSave();
     }
 

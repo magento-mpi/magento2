@@ -40,24 +40,6 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
     }
 
     /**
-     * Prepare filter condition by customer
-     *
-     * @param int|array|Mage_Customer_Model_Customer|Zend_Db_Select $customer
-     * @param string $fieldName
-     * @return string
-     */
-    protected function _createCustomerFilter($customer, $fieldName)
-    {
-        if ($customer instanceof Mage_Customer_Model_Customer) {
-            $customer = $customer->getId();
-        } else if ($customer instanceof Zend_Db_Select) {
-            $customer = new Zend_Db_Expr($customer);
-        }
-
-        return $this->getResource()->quoteInto("{$fieldName} IN (?)", $customer);
-    }
-
-    /**
      * Prepare base select with limitation by customer
      *
      * @param   null | array | int | Mage_Customer_Model_Customer $customer
@@ -102,6 +84,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
 
         if (!empty($conditions)) {
             $select->where(implode($aggregator, $conditions));
+        }
+        else {
+            $select->reset();
         }
 
         return $select;

@@ -30,6 +30,8 @@
 class Enterprise_Reminder_Model_Rule_Condition_Cart
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
+    protected $_inputType = 'numeric';
+
     /**
      * class constructor
      */
@@ -37,6 +39,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     {
         parent::__construct();
         $this->setType('enterprise_reminder/rule_condition_cart');
+        $this->setValue(null);
     }
 
     /**
@@ -56,16 +59,40 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
                 'value' => 'enterprise_reminder/rule_condition_cart_subselection',
                 'label' => Mage::helper('enterprise_reminder')->__('Shopping Cart Item Subselection')),
 
-            Mage::getModel($prefix.'abandoned')->getNewChildSelectOptions(),
             Mage::getModel($prefix.'couponcode')->getNewChildSelectOptions(),
             Mage::getModel($prefix.'itemsquantity')->getNewChildSelectOptions(),
             Mage::getModel($prefix.'totalquantity')->getNewChildSelectOptions(),
             Mage::getModel($prefix.'virtual')->getNewChildSelectOptions(),
-            Mage::getModel($prefix.'amount')->getNewChildSelectOptions(),
+            Mage::getModel($prefix.'amount')->getNewChildSelectOptions()
         ));
         return $result;
     }
 
+    /**
+     * Get input type for attribute value
+     *
+     * @return string
+     */
+    public function getValueElementType()
+    {
+        return 'text';
+    }
+
+     /**
+     * Load value options
+     *
+     * @return Enterprise_Reminder_Model_Rule_Condition_Cart
+     */
+    public function loadValueOptions()
+    {
+        return $this;
+    }
+
+    /**
+     * Return required validation
+     *
+     * @return true
+     */
     protected function _getRequiredValidation()
     {
         return true;
@@ -79,19 +106,30 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Shopping Cart has items and %s of these conditions match:',
+            . Mage::helper('enterprise_reminder')->__('Shopping Cart has items, abandoned for %s %s days and %s of these conditions match:',
+                $this->getOperatorElementHtml(),
+                $this->getValueElementHtml(),
                 $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 
+    /**
+     * Get condition SQL select
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     protected function _prepareConditionsSql($customer, $website)
     {
         $table = $this->getResource()->getTable('sales/quote');
+        $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
         $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)));
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
+        $select->where("UNIX_TIMESTAMP('".now()."' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(quote.updated_at)", $this->getValue());
         $select->where('quote.is_active = 1');
         $select->where('quote.items_count > 0');
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
@@ -99,11 +137,15 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         return $select;
     }
 
+    /**
+     * Get base SQL select
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     public function getConditionsSql($customer, $website)
     {
-        /**
-         * Build base SQL
-         */
         $select     = $this->_prepareConditionsSql($customer, $website);
         $required   = $this->_getRequiredValidation();
         $aggregator = ($this->getAggregator() == 'all') ? ' AND ' : ' OR ';

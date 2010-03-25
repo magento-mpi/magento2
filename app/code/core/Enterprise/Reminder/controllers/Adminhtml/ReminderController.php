@@ -227,7 +227,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Enterprise_Enterp
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('promo/reminder') &&
+        return Mage::getSingleton('admin/session')->isAllowed('promo/enterprise_reminder') &&
             Mage::helper('enterprise_reminder')->isEnabled();
     }
 }

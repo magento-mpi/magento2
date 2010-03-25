@@ -39,36 +39,34 @@ class Enterprise_Reminder_Model_System_Config_Backend_Cron extends Mage_Core_Mod
      */
     protected function _afterSave()
     {
-        $enabled     = $this->getData('groups/enterprise_reminder/fields/enabled/value');
-        $time        = $this->getData('groups/enterprise_reminder/fields/time/value');
-        $frequency   = $this->getData('groups/enterprise_reminder/fields/frequency/value');
-        $periodicity = (int)$this->getData('groups/enterprise_reminder/fields/periodicity/value');
+        $cronExprString = '';
 
-        $minutly = Enterprise_Reminder_Model_Observer::CRON_MINUTLY;
-        $hourly  = Enterprise_Reminder_Model_Observer::CRON_HOURLY;
-        $weekly  = Enterprise_Reminder_Model_Observer::CRON_WEEKLY;
-        $monthly = Enterprise_Reminder_Model_Observer::CRON_MONTHLY;
+        if ($this->getFieldsetDataValue('enabled')) {
+            $minutely = Enterprise_Reminder_Model_Observer::CRON_MINUTELY;
+            $hourly   = Enterprise_Reminder_Model_Observer::CRON_HOURLY;
+            $daily    = Enterprise_Reminder_Model_Observer::CRON_DAILY;
 
-        if ($enabled) {
-            if (($frequency == $minutly) && $periodicity < 60) {
+            $frequency  = $this->getFieldsetDataValue('frequency');
+
+            if ($frequency == $minutely) {
+                $periodicity = (int)$this->getFieldsetDataValue('periodicity');
                 $cronExprString = "*/{$periodicity} * * * *";
             }
             elseif ($frequency == $hourly) {
-                $cronExprString = '1 * * * *';
+                $minutes = (int)$this->getFieldsetDataValue('minutes');
+                if ($minutes >= 0 && $minutes <= 59){
+                    $cronExprString = "{$minutes} * * * *";
+                }
+                else {
+                    Mage::throwException(Mage::helper('enterprise_reminder')->__('Please, specify correct minutes of hour.'));
+                }
             }
-            else {
-                $cronExprArray = array(
-                    intval($time[1]),                      # Minute
-                    intval($time[0]),                      # Hour
-                    ($frequency == $monthly) ? '1' : '*',  # Day of the Month
-                    '*',                                   # Month of the Year
-                    ($frequency == $weekly) ? '1' : '*',   # Day of the Week
-                );
-                $cronExprString = join(' ', $cronExprArray);
+            elseif ($frequency == $daily) {
+                $time = $this->getFieldsetDataValue('time');
+                $timeMinutes = intval($time[1]);
+                $timeHours = intval($time[0]);
+                $cronExprString = "{$timeMinutes} {$timeHours} * * *";
             }
-        }
-        else {
-            $cronExprString = '';
         }
 
         try {

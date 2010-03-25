@@ -33,6 +33,6 @@ class Enterprise_Reminder_Helper_Data extends Enterprise_Enterprise_Helper_Core_
      */
     public function isEnabled()
     {
-        return (bool)Mage::getStoreConfig('customer/enterprise_reminder/enabled');
+        return (bool)Mage::getStoreConfig('enterprise_reminder/general/enabled');
     }
 }

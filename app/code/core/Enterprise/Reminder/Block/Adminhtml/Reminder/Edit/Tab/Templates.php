@@ -88,7 +88,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
         ));
 
         $fieldset = $form->addFieldset('labels_fieldset', array(
-            'legend' => Mage::helper('enterprise_reminder')->__('Titles per Store View'),
+            'legend' => Mage::helper('enterprise_reminder')->__('Titles and Descriptions per Store View'),
             'table_class'  => 'form-list stores-tree'
         ));
 
@@ -113,33 +113,8 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
                         'required'  => false,
                         'fieldset_html_class' => 'store'
                     ));
-                }
-            }
-        }
-
-        $fieldset = $form->addFieldset('descriptions_fieldset', array(
-            'legend' => Mage::helper('enterprise_reminder')->__('Descriptions per Store View'),
-            'table_class'  => 'form-list stores-tree'
-        ));
-
-        foreach (Mage::app()->getWebsites() as $website) {
-            $fieldset->addField("website_description_{$website->getId()}", 'note', array(
-                'label'    => $website->getName(),
-                'fieldset_html_class' => 'website',
-            ));
-            foreach ($website->getGroups() as $group) {
-                $stores = $group->getStores();
-                if (count($stores) == 0) {
-                    continue;
-                }
-                $fieldset->addField("group_description_{$group->getId()}", 'note', array(
-                    'label'    => $group->getName(),
-                    'fieldset_html_class' => 'store-group',
-                ));
-                foreach ($stores as $store) {
-                    $fieldset->addField('store_description_'.$store->getId(), 'textarea', array(
+                     $fieldset->addField('store_description_'.$store->getId(), 'textarea', array(
                         'name'      => 'store_descriptions['.$store->getId().']',
-                        'label'     => $store->getName(),
                         'required'  => false,
                         'fieldset_html_class' => 'store',
                         'style' => 'height: 50px;'
