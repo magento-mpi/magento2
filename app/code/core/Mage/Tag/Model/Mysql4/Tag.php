@@ -377,7 +377,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         if ($object->getAddBasePopularity()) {
             $select->joinLeft(
                 array('properties' => $this->getTable('tag/properties')),
-                "properties.tag_id = tag.tag_id AND properties.store_id = {$object->getStoreId()}",
+                "properties.tag_id = {$this->getMainTable()}.tag_id AND properties.store_id = {$object->getStoreId()}",
                 'base_popularity'
             );
         }
