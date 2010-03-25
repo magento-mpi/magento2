@@ -387,6 +387,11 @@ h4.legend { margin:1px 0 5px 0; }
     color:#e96200;
 }
 
+#checkout-review-load { border-right:1px solid #d9dde3; margin-right:0; }
+#checkout-review-load #checkout-review-table thead tr.first th:first-child { border-left:none; }
+.checkout-agreements { border:1px solid #d9dde3; border-left:none; padding:5px; }
+.checkout-agreements .agreement-content { padding:5px; }
+
 /* Centinel */
 .centinel {}
 .centinel .authentication { border:1px solid #ddd; background:#fff; }
