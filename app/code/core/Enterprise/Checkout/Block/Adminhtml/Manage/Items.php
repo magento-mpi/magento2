@@ -38,18 +38,38 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
         return 'checkoutItemsGrid';
     }
 
+    /**
+     * Prepare items collection
+     *
+     * @return Mage_Adminhtml_Block_Template
+     */
     protected function _prepareCollection()
     {
-        $collection = $this->getQuote()->getItemsCollection();
-        $this->setCollection($collection);
+        $this->setCollection($this->getQuote()->getItemsCollection());
         return parent::_prepareCollection();
     }
 
+    /**
+     * Prepare items collection
+     *
+     * @return Mage_Adminhtml_Block_Template
+     */
     protected function getItems()
     {
-        return $this->getQuote()->getItemsCollection();
+        $result = array();
+        foreach ($this->getQuote()->getItemsCollection() as $item) {
+            if(!$item->getParentItemId()) {
+                $result[] = $item;
+            }
+        }
+        return $result;
     }
 
+    /**
+     * Return current customer id
+     *
+     * @return int
+     */
     protected function getCustomerId()
     {
         return $this->getCustomer()->getId();
@@ -67,6 +87,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
         return $res;
     }
 
+    /**
+     * Return quote subtotal
+     *
+     * @return float|bool
+     */
     public function getSubtotal()
     {
         if ($this->getQuote()->isVirtual()) {
@@ -83,6 +108,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
         return false;
     }
 
+    /**
+     * Return quote subtotal with discount applied
+     *
+     * @return float
+     */
     public function getSubtotalWithDiscount()
     {
         $address = $this->getQuote()->getShippingAddress();
@@ -93,16 +123,21 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
         }
     }
 
+    /**
+     * Return quote discount
+     *
+     * @return float
+     */
     public function getDiscountAmount()
     {
         return $this->getQuote()->getShippingAddress()->getDiscountAmount();
     }
 
     /**
-     * Retrieve formated price
+     * Return formatted price
      *
-     * @param   decimal $value
-     * @return  string
+     * @param decimal $value
+     * @return string
      */
     public function formatPrice($value)
     {
@@ -115,10 +150,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterp
     }
 
     /**
-     * Retrieve formated price
+     * ACL limitations
      *
-     * @param   decimal $value
-     * @return  string
+     * @return bool
      */
     public function isAllowedActionColumn()
     {
