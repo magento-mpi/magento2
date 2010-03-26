@@ -268,10 +268,6 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
     public function subscribe($email)
     {
         $this->loadByEmail($email);
-        $customer = Mage::getModel('customer/customer')
-           ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
-           ->loadByEmail($email);
-
         $customerSession = Mage::getSingleton('customer/session');
 
         if(!$this->getId()) {
@@ -280,7 +276,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
 
         $isConfirmNeed = (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) ? true : false;
 
-        if (!$this->getId() || $this->getStatus()==self::STATUS_UNSUBSCRIBED || $this->getStatus()==self::STATUS_NOT_ACTIVE) {
+        if (!$this->getId() || $this->getStatus() == self::STATUS_UNSUBSCRIBED || $this->getStatus() == self::STATUS_NOT_ACTIVE) {
             if ($isConfirmNeed) {
                 $this->setStatus(self::STATUS_NOT_ACTIVE);
             } else {
@@ -291,17 +287,16 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
 
         if ($customerSession->isLoggedIn()) {
             $this->setStoreId($customerSession->getCustomer()->getStoreId());
-//            $this->setStatus(self::STATUS_SUBSCRIBED);
             $this->setCustomerId($customerSession->getCustomerId());
 
             // if user subscribes own login email - confirmation is not needed
-            if ($customer->getId() == $customerSession->getId()) {
+            $ownerId = Mage::getModel('customer/customer')
+                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+                ->loadByEmail($email)
+                ->getId();
+            if ($ownerId == $customerSession->getId()) {
                 $this->setStatus(self::STATUS_SUBSCRIBED);
             }
-        } else if ($customer->getId()) {
-            $this->setStoreId($customer->getStoreId());
-//            $this->setSubscriberStatus(self::STATUS_SUBSCRIBED);
-            $this->setCustomerId($customer->getId());
         } else {
             $this->setStoreId(Mage::app()->getStore()->getId());
             $this->setCustomerId(0);

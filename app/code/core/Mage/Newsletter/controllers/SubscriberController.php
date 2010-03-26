@@ -50,15 +50,20 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
 
                 if (Mage::getStoreConfig(Mage_Newsletter_Model_Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1 && 
                     !$customerSession->isLoggedIn()) {
-                    Mage::throwException($this->__('Sorry, but administrator denied subscription for guests. Please <a href="http://magento.local/index.php/customer/account/create/">register</a>.'));
+                    Mage::throwException($this->__(
+                        'Sorry, but administrator denied subscription for guests.' . 
+                        'Please <a href="http://magento.local/index.php/customer/account/create/">register</a>.'
+                    ));
                 }
 
-                $owner_id = Mage::getModel('customer/customer')
+                $ownerId = Mage::getModel('customer/customer')
                         ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                         ->loadByEmail($email)
                         ->getId();
-                if ($owner_id !== null && $owner_id != $customerSession->getId()) {
-                    Mage::throwException($this->__('Sorry, but your can not subscribe email adress assigned to another user.'));
+                if ($ownerId !== null && $ownerId != $customerSession->getId()) {
+                    Mage::throwException($this->__(
+                        'Sorry, but your can not subscribe email adress assigned to another user.'
+                    ));
                 }
 
                 $status = Mage::getModel('newsletter/subscriber')->subscribe($email);
