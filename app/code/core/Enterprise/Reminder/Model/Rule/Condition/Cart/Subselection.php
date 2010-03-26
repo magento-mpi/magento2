@@ -24,12 +24,12 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Cart items subselection condition
+ */
 class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
-    protected $_inputType = 'select';
-
     public function __construct()
     {
         parent::__construct();
@@ -43,13 +43,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
      */
     public function getNewChildSelectOptions()
     {
-        return array_merge_recursive(
-            parent::getNewChildSelectOptions(), array(
-                Mage::getModel('enterprise_reminder/rule_condition_cart_storeview')->getNewChildSelectOptions(),
-                Mage::getModel('enterprise_reminder/rule_condition_cart_sku')->getNewChildSelectOptions(),
-                Mage::getModel('enterprise_reminder/rule_condition_cart_attributes')->getNewChildSelectOptions()
-            )
-        );
+        return Mage::getModel('enterprise_reminder/rule_condition_cart_subcombine')->getNewChildSelectOptions();
     }
 
     /**
@@ -85,7 +79,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('If Item is %s in shopping cart with %s of these conditions match:',
+            . Mage::helper('enterprise_reminder')->__('If an item is %s in the shopping cart with %s of these conditions match:',
                 $this->getOperatorElementHtml(),
                 $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();

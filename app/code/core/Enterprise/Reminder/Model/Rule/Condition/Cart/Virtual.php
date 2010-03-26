@@ -24,11 +24,12 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Virtual cart condition
+ */
 class Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
-    protected $_inputType = 'select';
-
     public function __construct()
     {
         parent::__construct();
@@ -44,7 +45,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('Virtual Items Only'));
+            'label' => Mage::helper('enterprise_reminder')->__('Virtual Only'));
     }
 
     /**
@@ -55,7 +56,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Shopping Cart %s only virtual items',
+            . Mage::helper('enterprise_reminder')->__('Shopping cart %s only virtual items',
                 $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -73,7 +74,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual
     /**
      * Init list of available values
      *
-     * @return array
+     * @return Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual
      */
     public function loadValueOptions()
     {

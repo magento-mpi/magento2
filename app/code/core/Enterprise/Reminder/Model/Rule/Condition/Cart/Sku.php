@@ -24,7 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Cart items SKU subselection condition
+ */
 class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
@@ -43,7 +45,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('Item SKU'));
+            'label' => Mage::helper('enterprise_reminder')->__('SKU'));
     }
 
     /**
@@ -68,16 +70,6 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
     {
         $this->setValueOption(Mage::getSingleton('adminhtml/system_store')->getStoreOptionHash());
         return $this;
-    }
-
-    /**
-     * Get input type for attribute value.
-     *
-     * @return string
-     */
-    public function getValueElementType()
-    {
-        return 'text';
     }
 
     /**

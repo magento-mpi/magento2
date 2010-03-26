@@ -25,7 +25,7 @@
  */
 
 /**
- * Reminder observer
+ * Reminder rules observer model
  */
 class Enterprise_Reminder_Model_Observer
 {

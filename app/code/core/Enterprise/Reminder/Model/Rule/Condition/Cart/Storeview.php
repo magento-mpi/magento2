@@ -24,7 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Cart items store view subselection condition
+ */
 class Enterprise_Reminder_Model_Rule_Condition_Cart_Storeview
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
@@ -54,7 +56,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Storeview
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Item %s added from store %s ',
+            . Mage::helper('enterprise_reminder')->__('Item was added to shopping cart %s store view %s',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -70,6 +72,11 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Storeview
         return $this;
     }
 
+    /**
+     * Get select options
+     *
+     * @return array
+     */
     public function getValueSelectOptions()
     {
         return $this->getValueOption();
@@ -94,11 +101,12 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Storeview
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('rule')->__('was'),
-            '!='  => Mage::helper('rule')->__('was not')
+            '=='  => Mage::helper('rule')->__('from'),
+            '!='  => Mage::helper('rule')->__('not from')
         ));
         return $this;
     }
+
     /**
      * Get SQL select
      *

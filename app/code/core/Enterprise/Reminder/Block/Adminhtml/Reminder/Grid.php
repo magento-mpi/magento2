@@ -25,7 +25,7 @@
  */
 
 /**
- * Reminder grid
+ * Reminder rules grid block
  */
 class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
 {

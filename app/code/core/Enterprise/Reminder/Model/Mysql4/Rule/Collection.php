@@ -23,6 +23,10 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+
+/**
+ * Reminder rules resource collection
+ */
 class Enterprise_Reminder_Model_Mysql4_Rule_Collection extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
 {
    /**

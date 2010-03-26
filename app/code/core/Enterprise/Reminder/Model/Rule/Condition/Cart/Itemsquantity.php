@@ -24,7 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Cart items quantity condition
+ */
 class Enterprise_Reminder_Model_Rule_Condition_Cart_Itemsquantity
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
@@ -45,7 +47,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Itemsquantity
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('Cart Line Items Quantity'));
+            'label' => Mage::helper('enterprise_reminder')->__('Cart Line Items'));
     }
 
     /**
@@ -56,7 +58,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Itemsquantity
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Number of Shopping Cart Line Items %s %s:',
+            . Mage::helper('enterprise_reminder')->__('Number of shopping cart line items %s %s:',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }

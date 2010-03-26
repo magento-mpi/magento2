@@ -27,13 +27,13 @@
 /**
  * Product attribute value condition
  */
-class Enterprise_Reminder_Model_Rule_Condition_Product_Attributes
+class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
     extends Mage_CatalogRule_Model_Rule_Condition_Product
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_product_attributes');
+        $this->setType('enterprise_reminder/rule_condition_wishlist_attributes');
         $this->setValue(null);
     }
 
@@ -102,7 +102,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Product_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('enterprise_reminder')->__('Product %s', parent::asHtml());
+        return Mage::helper('enterprise_reminder')->__('Product %s', strtolower(parent::asHtml()));
     }
 
     /**

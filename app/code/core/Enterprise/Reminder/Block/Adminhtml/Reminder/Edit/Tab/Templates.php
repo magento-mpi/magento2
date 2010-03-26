@@ -24,6 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Reminder rules edit form email templates and labels fields
+ */
 class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
     extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
 {

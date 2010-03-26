@@ -23,6 +23,10 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+
+/**
+ * Reminder rules processing model
+ */
 class Enterprise_Reminder_Model_Rule extends Enterprise_Enterprise_Model_Rule_Rule
 {
     const XML_PATH_EMAIL_TEMPLATE  = 'enterprise_reminder_email_template';

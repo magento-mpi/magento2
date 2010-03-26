@@ -24,12 +24,12 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Wishlist sharing condition
+ */
 class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
-    protected $_inputType = 'select';
-
     public function __construct()
     {
         parent::__construct();
@@ -74,12 +74,12 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
     /**
      * Init list of available values
      *
-     * @return array
+     * @return Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
      */
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            '1'  => Mage::helper('enterprise_reminder')->__('is'),
+            '1' => Mage::helper('enterprise_reminder')->__('is'),
             '0' => Mage::helper('enterprise_reminder')->__('is not'),
         ));
         return $this;

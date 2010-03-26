@@ -30,8 +30,6 @@
 class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
-    protected $_inputType = 'numeric';
-
     /**
      * class constructor
      */
@@ -63,12 +61,17 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     }
 
     /**
-     * Load value options
+     * Prepare operator select options
      *
      * @return Enterprise_Reminder_Model_Rule_Condition_Wishlist
      */
-    public function loadValueOptions()
+    public function loadOperatorOptions()
     {
+        $this->setOperatorOption(array(
+            '==' => Mage::helper('rule')->__('for'),
+            '>'  => Mage::helper('rule')->__('greater than'),
+            '>=' => Mage::helper('rule')->__('for or greater than')
+        ));
         return $this;
     }
 
@@ -90,7 +93,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Wishlist has items, abandoned for %s %s days and %s of these conditions match:',
+            . Mage::helper('enterprise_reminder')->__('Wishlist is not empty and abandoned %s %s days and %s of these conditions match:',
                 $this->getOperatorElementHtml(),
                 $this->getValueElementHtml(),
                 $this->getAggregatorElement()->getHtml())

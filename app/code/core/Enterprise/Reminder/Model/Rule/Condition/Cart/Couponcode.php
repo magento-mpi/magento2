@@ -24,12 +24,12 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Cart coupon code condition
+ */
 class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
-    protected $_inputType = 'select';
-
     public function __construct()
     {
         parent::__construct();
@@ -45,7 +45,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('Has Coupon Code'));
+            'label' => Mage::helper('enterprise_reminder')->__('Coupon Code'));
     }
 
     /**
@@ -56,7 +56,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Shopping Cart %s coupon code',
+            . Mage::helper('enterprise_reminder')->__('Shopping cart %s a coupon applied',
                 $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -74,7 +74,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
     /**
      * Init list of available values
      *
-     * @return array
+     * @return Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
      */
     public function loadValueOptions()
     {

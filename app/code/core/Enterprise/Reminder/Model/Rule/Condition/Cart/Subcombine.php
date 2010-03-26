@@ -25,9 +25,9 @@
  */
 
 /**
- * Rule conditions container
+ * Rule conditions cart items subselection container
  */
-class Enterprise_Reminder_Model_Rule_Condition_Cart_Combine
+class Enterprise_Reminder_Model_Rule_Condition_Cart_Subcombine
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
     /**
@@ -38,7 +38,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Combine
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_reminder/rule_condition_cart_combine');
+        $this->setType('enterprise_reminder/rule_condition_cart_subcombine');
     }
 
     /**
@@ -53,15 +53,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Combine
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                Mage::getModel("{$prefix}couponcode")->getNewChildSelectOptions(),
-                Mage::getModel("{$prefix}itemsquantity")->getNewChildSelectOptions(),
-                Mage::getModel("{$prefix}totalquantity")->getNewChildSelectOptions(),
-                Mage::getModel("{$prefix}virtual")->getNewChildSelectOptions(),
-                Mage::getModel("{$prefix}amount")->getNewChildSelectOptions(),
-                array( // subselection combo
-                    'value' => 'enterprise_reminder/rule_condition_cart_subselection',
-                    'label' => Mage::helper('enterprise_reminder')->__('Items Subselection')
-                )
+                Mage::getModel("{$prefix}storeview")->getNewChildSelectOptions(),
+                Mage::getModel("{$prefix}sku")->getNewChildSelectOptions(),
+                Mage::getModel("{$prefix}attributes")->getNewChildSelectOptions()
             )
         );
     }

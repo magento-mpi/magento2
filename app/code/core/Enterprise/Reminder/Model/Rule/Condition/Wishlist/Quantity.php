@@ -24,7 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Wishlist items quantity condition
+ */
 class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Quantity
     extends Enterprise_Reminder_Model_Condition_Abstract
 {
@@ -45,7 +47,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Quantity
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('enterprise_reminder')->__('Number of Wishlist Items'));
+            'label' => Mage::helper('enterprise_reminder')->__('Number of Items'));
     }
 
     /**
@@ -56,7 +58,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Quantity
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Number of Wishlist Items %s %s ',
+            . Mage::helper('enterprise_reminder')->__('Number of wishlist items %s %s ',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }

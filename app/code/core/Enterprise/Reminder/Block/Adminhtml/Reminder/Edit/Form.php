@@ -24,6 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Reminder rules edit form block
+ */
 class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Form
     extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
 {

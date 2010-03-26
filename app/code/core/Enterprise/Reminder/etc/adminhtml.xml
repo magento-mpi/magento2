@@ -61,6 +61,11 @@
                     <title>Automated Email Reminder Rules</title>
                     <action>adminhtml/reminder</action>
                     <sort_order>20</sort_order>
+                    <depends>
+                        <module>Enterprise_Reminder</module>
+                        <config>enterprise_reminder/general/enabled</config>
+                    </depends>
+                    <resource>promo/enterprise_reminder</resource>
                 </reminder>
             </children>
         </promo>

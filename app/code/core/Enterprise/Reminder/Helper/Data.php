@@ -24,6 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Reminder rules data helper
+ */
 class Enterprise_Reminder_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
     /**

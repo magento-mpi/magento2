@@ -25,13 +25,11 @@
  */
 
 /**
- * Customer wishlist conditions combine
+ * Customer cart conditions combine
  */
 class Enterprise_Reminder_Model_Rule_Condition_Cart
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
-    protected $_inputType = 'numeric';
-
     /**
      * class constructor
      */
@@ -49,23 +47,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'enterprise_reminder/rule_condition_cart_';
-        $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
-            array( // subconditions combo
-                'value' => 'enterprise_reminder/rule_condition_cart_combine',
-                'label' => Mage::helper('rule')->__('Conditions Combination')),
-
-            array( // subselection combo
-                'value' => 'enterprise_reminder/rule_condition_cart_subselection',
-                'label' => Mage::helper('enterprise_reminder')->__('Shopping Cart Item Subselection')),
-
-            Mage::getModel($prefix.'couponcode')->getNewChildSelectOptions(),
-            Mage::getModel($prefix.'itemsquantity')->getNewChildSelectOptions(),
-            Mage::getModel($prefix.'totalquantity')->getNewChildSelectOptions(),
-            Mage::getModel($prefix.'virtual')->getNewChildSelectOptions(),
-            Mage::getModel($prefix.'amount')->getNewChildSelectOptions()
-        ));
-        return $result;
+        return Mage::getModel('enterprise_reminder/rule_condition_cart_combine')->getNewChildSelectOptions();
     }
 
     /**
@@ -78,13 +60,18 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         return 'text';
     }
 
-     /**
-     * Load value options
+    /**
+     * Prepare operator select options
      *
      * @return Enterprise_Reminder_Model_Rule_Condition_Cart
      */
-    public function loadValueOptions()
+    public function loadOperatorOptions()
     {
+        $this->setOperatorOption(array(
+            '==' => Mage::helper('rule')->__('for'),
+            '>'  => Mage::helper('rule')->__('greater than'),
+            '>=' => Mage::helper('rule')->__('for or greater than')
+        ));
         return $this;
     }
 
@@ -106,7 +93,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Shopping Cart has items, abandoned for %s %s days and %s of these conditions match:',
+            . Mage::helper('enterprise_reminder')->__('Shopping cart is not empty and abandoned %s %s days and %s of these conditions match:',
                 $this->getOperatorElementHtml(),
                 $this->getValueElementHtml(),
                 $this->getAggregatorElement()->getHtml())

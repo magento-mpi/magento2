@@ -25,7 +25,7 @@
  */
 
 /**
- * Shopping cart totals amount condition
+ * Cart items attributes subselection condition
  */
 class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     extends Enterprise_Reminder_Model_Condition_Abstract
@@ -50,7 +50,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label'=>Mage::helper('enterprise_reminder')->__('Shopping Cart Item Attributes'));
+            'label'=>Mage::helper('enterprise_reminder')->__('Numeric Attribute'));
     }
 
     /**
@@ -61,11 +61,11 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'weight'  => Mage::helper('enterprise_reminder')->__('Weight'),
-            'row_weight'  => Mage::helper('enterprise_reminder')->__('Row Weight'),
-            'qty'  => Mage::helper('enterprise_reminder')->__('Qty'),
-            'price'  => Mage::helper('enterprise_reminder')->__('Base Price'),
-            'base_cost'  => Mage::helper('enterprise_reminder')->__('Base Cost')
+            'weight' => Mage::helper('enterprise_reminder')->__('weight'),
+            'row_weight' => Mage::helper('enterprise_reminder')->__('row weight'),
+            'qty' => Mage::helper('enterprise_reminder')->__('quantity'),
+            'price' => Mage::helper('enterprise_reminder')->__('base price'),
+            'base_cost' => Mage::helper('enterprise_reminder')->__('base cost')
         ));
         return $this;
     }
@@ -78,7 +78,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_reminder')->__('Shopping Cart Item %s %s %s:',
+            . Mage::helper('enterprise_reminder')->__('Item %s %s %s:',
                 $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
