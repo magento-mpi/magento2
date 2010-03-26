@@ -41,8 +41,9 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/reminder/newConditionHtml/form/rule_conditions_fieldset'));
         $fieldset = $form->addFieldset('rule_conditions_fieldset', array(
-            'legend'=>Mage::helper('enterprise_reminder')->__('Conditions (leave blank to send instant reminder)'))
-        )->setRenderer($renderer);
+            'legend'  => Mage::helper('enterprise_reminder')->__('Conditions'),
+            'comment' => Mage::helper('enterprise_reminder')->__('Rule will work only if at least one condition is specified.'),
+        ))->setRenderer($renderer);
 
         $fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
@@ -54,5 +55,4 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
 
         return parent::_prepareForm();
     }
-
 }

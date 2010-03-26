@@ -52,11 +52,11 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Combine
         $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array( // subconditions combo
                 'value' => 'enterprise_reminder/rule_condition_cart_combine',
-                'label' => Mage::helper('enterprise_reminder')->__('Conditions Combination')),
+                'label' => Mage::helper('rule')->__('Conditions Combination')),
 
             array( // subselection combo
                 'value' => 'enterprise_reminder/rule_condition_cart_subselection',
-                'label' => Mage::helper('enterprise_reminder')->__('Shopping Cart Item Subselection')),
+                'label' => Mage::helper('enterprise_reminder')->__('Shopping Cart Items Subselection')),
 
             Mage::getModel($prefix.'abandoned')->getNewChildSelectOptions(),
             Mage::getModel($prefix.'couponcode')->getNewChildSelectOptions(),

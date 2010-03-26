@@ -88,7 +88,8 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
         ));
 
         $fieldset = $form->addFieldset('labels_fieldset', array(
-            'legend' => Mage::helper('enterprise_reminder')->__('Titles and Descriptions per Store View'),
+            'legend' => Mage::helper('enterprise_reminder')->__('Titles and Descriptions Per Store View'),
+            'comment' => Mage::helper('enterprise_reminder')->__('Overrides default titles and descriptions. Note that if email an template is not specified for this store view, the respective variable values will be deleted.'),
             'table_class'  => 'form-list stores-tree'
         ));
 
