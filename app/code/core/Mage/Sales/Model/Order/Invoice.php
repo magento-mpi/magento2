@@ -498,6 +498,8 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         if (is_null($state)) {
             $this->setState(self::STATE_OPEN);
         }
+
+        Mage::dispatchEvent('sales_order_invoice_register', array($this->_eventObject=>$this, 'order' => $order));
         return $this;
     }
 

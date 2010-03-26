@@ -137,6 +137,15 @@
                     </enterprise_giftcardaccount_sales_order_invoice_save_after>
                 </observers>
             </sales_order_invoice_save_after>
+            
+            <sales_order_invoice_register>
+                <observers>
+                    <enterprise_giftcardaccount_sales_order_invoice_register>
+                        <class>enterprise_giftcardaccount/observer</class>
+                        <method>increaseOrderGiftCardInvoicedAmount</method>
+                    </enterprise_giftcardaccount_sales_order_invoice_register>
+                </observers>
+            </sales_order_invoice_register>
 
             <enterprise_giftcardaccount_charge_by_code>
                 <observers>
