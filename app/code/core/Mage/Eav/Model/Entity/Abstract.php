@@ -790,11 +790,17 @@ abstract class Mage_Eav_Model_Entity_Abstract
                 ->where('entity_type_id=?', $this->getTypeId())
                 ->where($attribute->getAttributeCode().'=?', $object->getData($attribute->getAttributeCode()));
         } else {
+            $value = $object->getData($attribute->getAttributeCode());
+            if ($attribute->getBackend()->getType() == 'datetime'){
+                $date = new Zend_Date($value);
+                $value = $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+            }
+
             $select = $this->_getWriteAdapter()->select()
                 ->from($attribute->getBackend()->getTable(), $attribute->getBackend()->getEntityIdField())
                 ->where('entity_type_id=?', $this->getTypeId())
                 ->where('attribute_id=?', $attribute->getId())
-                ->where('value=?', $object->getData($attribute->getAttributeCode()));
+                ->where('value=?', $value);
         }
         $data = $this->_getWriteAdapter()->fetchCol($select);
 

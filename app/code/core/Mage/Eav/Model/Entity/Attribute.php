@@ -117,7 +117,7 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
                     $defaultValue = Mage::app()->getLocale()->date($defaultValue, $format, null, false)->toValue();
                     $this->setDefaultValue($defaultValue);
                 } catch (Exception $e) {
-                    throw new Exception("Invalid default date.");
+                    throw new Exception('Invalid default date.');
                 }
             }
         }
