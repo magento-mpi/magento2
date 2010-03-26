@@ -240,7 +240,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
      * @param array $rgbArray
      * @return string
      */
-    private function _rgbToString($rgbArray)
+    protected function _rgbToString($rgbArray)
     {
         $result = array();
         foreach ($rgbArray as $value) {
