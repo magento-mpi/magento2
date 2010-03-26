@@ -181,8 +181,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         $fieldset->addField('rate', 'text',
             array(
                 'name' => "rate",
-                'label' => Mage::helper('tax')->__('Rate'),
-                'title' => Mage::helper('tax')->__('Rate'),
+                'label' => Mage::helper('tax')->__('Rate Percent'),
+                'title' => Mage::helper('tax')->__('Rate Percent'),
                 'value' => number_format($value, 4),
                 'required' => true,
                 'class' => 'validate-not-negative-number'
