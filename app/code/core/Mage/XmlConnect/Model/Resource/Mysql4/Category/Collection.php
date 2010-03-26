@@ -80,12 +80,14 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection extends Mage_Cat
 
         foreach ($this as $item)
         {
-            $attributes = array('label', 'background', 'entity_id', 'content_type');
-            if (strlen($item->image) > 0)
+            $attributes = array('label', 'background', 'entity_id', 'content_type', 'icon');
+            if (strlen($item->image) < 1)
             {
-                $item->icon = Mage::helper('catalog/category_image')->init($item, 'image')->resize(self::IMAGE_RESIZE_PARAM);
-                $attributes[] = 'icon';
+                $item->image = 'no_selection';
             }
+            $item->icon = Mage::helper('catalog/category_image')->init($item, 'image')->resize(self::IMAGE_RESIZE_PARAM);
+
+
             if ($this->_showParentId)
             {
                 $attributes[] = 'parent_id';

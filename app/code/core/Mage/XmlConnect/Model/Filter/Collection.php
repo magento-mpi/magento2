@@ -136,38 +136,42 @@ class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
                 $layer->setCurrentCategory((int)$filter['value']);
             }
         }
-        foreach ($layer->getFilterableAttributes() as $attributeItem)
+        if ($layer->getCurrentCategory()->getIsAnchor())
         {
-            $filterModelName = 'catalog/layer_filter_attribute';
-            switch ($attributeItem->getAttributeCode())
+            foreach ($layer->getFilterableAttributes() as $attributeItem)
             {
-                case 'price':
-                    $filterModelName = 'catalog/layer_filter_price';
-                    break;
-                case 'decimal':
-                    $filterModelName = 'catalog/layer_filter_decimal';
-                    break;
-                default:
-                    $filterModelName = 'catalog/layer_filter_attribute';
-                    break;
-            }
+                $filterModelName = 'catalog/layer_filter_attribute';
+                switch ($attributeItem->getAttributeCode())
+                {
+                    case 'price':
+                        $filterModelName = 'catalog/layer_filter_price';
+                        break;
+                    case 'decimal':
+                        $filterModelName = 'catalog/layer_filter_decimal';
+                        break;
+                    default:
+                        $filterModelName = 'catalog/layer_filter_attribute';
+                        break;
+                }
 
-            $filterModel = Mage::getModel($filterModelName);
-            $filterModel->setLayer($layer)->setAttributeModel($attributeItem);
-            $filterValues = new Varien_Data_Collection;
-            foreach ($filterModel->getItems() as $valueItem)
-            {
-                $valueObject = new Varien_Object();
-                $valueObject->setLabel($valueItem->getLabel());
-                $valueObject->setValueString($valueItem->getValueString());
-                $filterValues->addItem($valueObject);
+                $filterModel = Mage::getModel($filterModelName);
+                $filterModel->setLayer($layer)->setAttributeModel($attributeItem);
+                $filterValues = new Varien_Data_Collection;
+                foreach ($filterModel->getItems() as $valueItem)
+                {
+                    $valueObject = new Varien_Object();
+                    $valueObject->setLabel($valueItem->getLabel());
+                    $valueObject->setValueString($valueItem->getValueString());
+                    $filterValues->addItem($valueObject);
+                }
+                $item = new Varien_Object;
+                $item->setCode($attributeItem->getAttributeCode());
+                $item->setName($filterModel->getName());
+                $item->setValues($filterValues);
+                $this->addItem($item);
             }
-            $item = new Varien_Object;
-            $item->setCode($attributeItem->getAttributeCode());
-            $item->setName($filterModel->getName());
-            $item->setValues($filterValues);
-            $this->addItem($item);
         }
+
         return $this;
     }
 

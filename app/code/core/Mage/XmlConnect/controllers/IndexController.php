@@ -72,16 +72,17 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
         if ($categoryId = $this->getRequest()->getParam('category_id', null))
         {
-            $categoryModel = Mage::getModel('catalog/category')->load($categoryId);
+            $categoryModel = Mage::getModel('xmlconnect/category')->load($categoryId);
             if (!$categoryModel->hasChildren())
             {
-                $productCollection = Mage::getResourceModel('xmlconnect/product_collection')
-                                            ->setStoreId($categoryModel->getStoreId())
-                                            ->addCategoryFilter($categoryModel)
-                                            ->addOrdersFromRequest($this->getRequest())
-                                            //->addFiltersFromRequest($this->getRequest())
-                                            ->addLimit($this->getRequest()->getParam('offset', 0),
-                                                       $this->getRequest()->getParam('count', 0));
+                $productCollection = Mage::getResourceModel('xmlconnect/product_collection');
+                $categoryModel->setProductCollection($productCollection);
+                $productCollection->setStoreId($categoryModel->getStoreId())
+                                  ->addCategoryFilter($categoryModel)
+                                  ->addFiltersFromRequest($this->getRequest(), $categoryModel)
+                                  ->addOrdersFromRequest($this->getRequest())
+                                  ->addLimit($this->getRequest()->getParam('offset', 0),
+                                             $this->getRequest()->getParam('count', 0));
                 echo $productCollection->toXml();
                 return;
             }
@@ -112,10 +113,12 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
 
     public function testAction() {
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
-        $categoryModel = Mage::getModel('catalog/category')->load($this->getRequest()->getParam('category_id', null));
-        echo Mage::getResourceModel('xmlconnect/product_collection')
-                   ->addCategoryFilter($categoryModel)
-                   ->addFiltersFromRequest($this->getRequest())
-                   ->toXml();
+        $productCollection = Mage::getResourceModel('xmlconnect/product_collection');
+        $categoryModel = Mage::getModel('xmlconnect/category')
+                                ->load($this->getRequest()->getParam('category_id', null))
+                                ->setProductCollection($productCollection);
+        echo $productCollection->addCategoryFilter($categoryModel)
+                               ->addFiltersFromRequest($this->getRequest(), $categoryModel)
+                               ->toXml();
     }
 }
