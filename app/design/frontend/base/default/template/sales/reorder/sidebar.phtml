@@ -59,12 +59,12 @@
             </ol>
             <script type="text/javascript">decorateList('cart-sidebar-reorder')</script>
             <div id="cart-sidebar-reorder-advice-container"></div>
-                <div class="actions">
-                    <?php if ($_showAddButtonFlag): ?>
-                        <button type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
-                    <?php endif; ?>
-                    <a href="<?php echo $this->getUrl('customer/account') ?>"><?php echo $this->__('View All'); ?></a>
-                </div>
+            <div class="actions">
+                <?php if ($_showAddButtonFlag): ?>
+                    <button type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                <?php endif; ?>
+                <a href="<?php echo $this->getUrl('customer/account') ?>"><?php echo $this->__('View All'); ?></a>
+            </div>
         </div>
     </form>
 </div>

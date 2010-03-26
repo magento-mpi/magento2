@@ -174,7 +174,6 @@ Compare products page
     </catalog_product_compare_index>
 
     <customer_account_index>
-
         <reference name="right">
             <action method="unsetChild"><name>catalog.compare.sidebar</name></action>
         </reference>
