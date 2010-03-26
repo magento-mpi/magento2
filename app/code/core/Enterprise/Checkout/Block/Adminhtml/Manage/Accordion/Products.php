@@ -44,8 +44,12 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
         $this->setDefaultSort('entity_id');
         $this->setPagerVisibility(true);
         $this->setFilterVisibility(true);
-        $this->setSaveParametersInSession(true);
         $this->setHeaderText(Mage::helper('enterprise_checkout')->__('Products'));
+    }
+
+    public function getJsObjectName()
+    {
+        return 'productsGrid';
     }
 
     /**
@@ -106,6 +110,58 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
         $this->_addControlColumns();
 
         return $this;
+    }
+
+    /**
+     * Custom products grid search callback
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
+    protected function _prepareLayout()
+    {
+        parent::_prepareLayout();
+        $this->getChild('search_button')->setOnclick('checkoutObj.searchProducts()');
+        return $this;
+    }
+
+    /**
+     * Search by selected products
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
+    protected function _addColumnFilterToCollection($column)
+    {
+        // Set custom filter for in product flag
+        if ($column->getId() == 'in_products') {
+            $productIds = $this->_getSelectedProducts();
+            if (!$productIds) {
+                $productIds = 0;
+            }
+            if ($column->getFilter()->getValue()) {
+                $this->getCollection()->addFieldToFilter('entity_id', array('in' => $productIds));
+            } elseif($productIds) {
+                $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
+            }
+        } else {
+            parent::_addColumnFilterToCollection($column);
+        }
+        return $this;
+    }
+
+    /**
+     * Return array of selected product ids from request
+     *
+     * @return array
+     */
+    protected function _getSelectedProducts()
+    {
+        if ($this->getRequest()->getPost('source')) {
+            $source = Mage::helper('core')->jsonDecode($this->getRequest()->getPost('source'));
+            if (isset($source['source_products']) && is_array($source['source_products'])) {
+                return array_keys($source['source_products']);
+            }
+        }
+        return false;
     }
 
     /**

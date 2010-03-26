@@ -83,6 +83,12 @@ AdminCheckout.prototype = {
             });
     },
 
+    searchProducts: function()
+    {
+        productsGrid.reloadParams = {source: this.checkboxes.toJSON()};
+        productsGrid.doFilter();
+    },
+
     addToCart: function()
     {
         new Ajax.Request('<?php echo $this->getActionUrl('addToCart') ?>', {
