@@ -112,46 +112,36 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
             return;
         }
 
-/*        $debugData = array('request' => $this->_ipnFormData);
-
         $sReq = '';
-        $sReqDebug = '';
+
         foreach ($this->_ipnFormData as $k => $v) {
             $sReq .= '&'.$k.'='.urlencode(stripslashes($v));
-            $sReqDebug .= '&'.$k.'=';
         }
         // append ipn command
         $sReq .= "&cmd=_notify-validate";
         $sReq = substr($sReq, 1);
 
+        $url = rtrim(Mage::helper('enterprise_pbridge')->getBridgeBaseUrl(), '/') . '/ipn.php?action=PaypalIpn';
+
         try {
             $http = new Varien_Http_Adapter_Curl();
-            $http->write(Zend_Http_Client::POST, $this->_config->getPaypalUrl(), '1.1', array(), $sReq);
+            $http->write(Zend_Http_Client::POST, $url, '1.1', array(), $sReq);
             $response = $http->read();
-            $debugData['result'] = $response;
-        }
-        catch (Exception $e) {
-            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
-            $this->_debug($debugData);
+        } catch (Exception $e) {
             throw $e;
         }
 
-        // debug postback request & response
-        $this->_debug($debugData);
-
         if ($error = $http->getError()) {
-            $this->_notifyAdmin(Mage::helper('paypal')->__('PayPal IPN postback HTTP error: %s', $error));
+            $this->_notifyAdmin(Mage::helper('enterprise_pbridge')->__('IPN postback HTTP error: %s', $error));
             return;
         }
 
-        $response = preg_split('/^\r?$/m', $response, 2);
-        $response = trim($response[1]);
-        if ($response == 'VERIFIED') {*/
-            $this->processIpnVerified();/*
+        if (false !== preg_match('~VERIFIED~si', $response)) {
+            $this->processIpnVerified();
         } else {
             // TODO: possible PCI compliance issue - the $sReq may contain data that is supposed to be encrypted
-            $this->_notifyAdmin(Mage::helper('paypal')->__('PayPal IPN postback Validation error: %s', $sReq));
-        }*/
+            $this->_notifyAdmin(Mage::helper('enterprise_pbridge')->__('IPN postback Validation error: %s', $sReq));
+        }
     }
 
     /**
@@ -557,27 +547,4 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
         return $was != $payment->getAdditionalInformation();
     }
 
-    /**
-     * Log debug data to file
-     *
-     * @param mixed $debugData
-     */
-    protected function _debug($debugData)
-    {
-        if ($this->getDebugFlag()) {
-            Mage::getModel('core/log_adapter', 'payment_' . $this->_config->getMethodCode() . '.log')
-               ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
-               ->log($debugData);
-        }
-    }
-
-    /**
-     * Define if debugging is enabled
-     *
-     * @return bool
-     */
-    public function getDebugFlag()
-    {
-        $this->_config->debugFlag;
-    }
 }

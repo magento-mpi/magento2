@@ -110,10 +110,8 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
      */
     protected function _prepareRequestUrl($params = array(), $encryptParams = true)
     {
-        $pbridgeUrl = trim(Mage::getStoreConfig('payment/pbridge/gatewayurl'));
-
-        $sourceUrl = rtrim($pbridgeUrl, '/') . '/bridge.php';
-
+        $pbridgeUrl = $this->getBridgeBaseUrl();
+        $sourceUrl =  rtrim($pbridgeUrl, '/') . '/bridge.php';
         if (!empty($params)) {
             if ($encryptParams) {
                 $params = array('data' => $this->encrypt(serialize($params)));
@@ -240,5 +238,15 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     public function prepareCart($order)
     {
         return Mage::helper('paypal')->prepareLineItems($order);
+    }
+
+    /**
+     * Return base bridge URL
+     *
+     * @return string
+     */
+    public function getBridgeBaseUrl()
+    {
+        return trim(Mage::getStoreConfig('payment/pbridge/gatewayurl'));
     }
 }
