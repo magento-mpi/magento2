@@ -81,7 +81,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         } elseif ($item->hasCustomPrice()) {
             $result = $item->getCustomPrice()*1;
         } else {
-            $result = $item->getOriginalPrice()*1;
+            if (Mage::helper('tax')->priceIncludesTax($this->getStore())) {
+                $result = $item->getPriceInclTax()*1;
+            } else {
+                $result = $item->getOriginalPrice()*1;
+            }
         }
         return $result;
     }

@@ -249,10 +249,9 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     {
         $price = $this->_getData('calculation_price');
         if (is_null($price)) {
-            if ($this->hasCustomPrice()) {
-                $price = $this->getCustomPrice();
-            }
-            else {
+            if ($this->hasOriginalCustomPrice()) {
+                $price = $this->getOriginalCustomPrice();
+            } else {
                 $price = $this->getOriginalPrice();
             }
             $this->setData('calculation_price', $price);
@@ -338,7 +337,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      */
     public function setCustomPrice($value)
     {
-        $this->setCalculationPrice(null);
+        $this->setCalculationPrice($value);
         $this->setBaseCalculationPrice(null);
         return $this->setData('custom_price', $value);
     }
