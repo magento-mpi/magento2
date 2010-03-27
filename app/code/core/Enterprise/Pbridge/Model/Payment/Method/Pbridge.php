@@ -148,9 +148,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      */
     public function setPbridgeResponse($data)
     {
-        if (empty($data)) {
-            return $this;
-        }
         $data = array('pbridge_data' => $data);
         if (!($additionalData = unserialize($this->getInfoInstance()->getAdditionalData()))) {
             $additionalData = array();

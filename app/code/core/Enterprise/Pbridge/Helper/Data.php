@@ -147,14 +147,21 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
      * Return payment Bridge request URL to display gateway form
      *
      * @param array $params OPTIONAL
-     * @param Mage_Sale_Model_Quote $quote
+     * @param Mage_Sales_Model_Quote $quote
      * @return string
      */
     public function getGatewayFormUrl(array $params = array(), $quote = null)
     {
         $quote = $this->_getQuote($quote);
+        $reservedOrderId = '';
+        if ($quote) {
+            if (!$quote->getReservedOrderId()) {
+                $quote->reserveOrderId();
+            }
+            $reservedOrderId = $quote->getReservedOrderId();
+        }
         $params = array_merge(array(
-            'order_id'      => $quote ? $quote->getReservedOrderId() : '',
+            'order_id'      => $reservedOrderId,
             'amount'        => $quote ? $quote->getBaseGrandTotal() : '0',
             'currency_code' => $quote ? $quote->getBaseCurrencyCode() : ''
         ), $params);
