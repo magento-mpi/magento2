@@ -1115,21 +1115,21 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
         $this->_allIdsCache = null;
         if (is_string($attribute) && $attribute == 'is_saleable') {
-            $isStockManagedInConfig = (int) Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK); 
+            $isStockManagedInConfig = (int) Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
             $inventoryTable = $this->getTable('cataloginventory_stock_item');
             $this->getSelect()->where(
                 $this->_getConditionSql(
                     "(
                         IF(
                             IF(
-                                $inventoryTable.use_config_manage_stock, 
-                                $isStockManagedInConfig, 
+                                $inventoryTable.use_config_manage_stock,
+                                $isStockManagedInConfig,
                                 $inventoryTable.manage_stock
-                            ), 
-                            $inventoryTable.is_in_stock, 
+                            ),
+                            $inventoryTable.is_in_stock,
                             1
                         )
-                    )", 
+                    )",
                     $condition
                 )
             );
@@ -1474,7 +1474,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             $this->getSelect()->join(
                 array('price_index' => $this->getTable('catalog/product_index_price')),
                 $joinCond,
-                array('price', 'final_price', 'minimal_price'=>$minimalExpr , 'min_price', 'max_price', 'tier_price')
+                array('price', 'tax_class_id', 'final_price', 'minimal_price'=>$minimalExpr , 'min_price', 'max_price', 'tier_price')
             );
         } else {
             $fromPart['price_index']['joinCondition'] = $joinCond;
