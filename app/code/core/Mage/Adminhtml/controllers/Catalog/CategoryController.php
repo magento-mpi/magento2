@@ -177,12 +177,13 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 ->setLastEditedCategory($category->getId());
 //            $this->_initLayoutMessages('adminhtml/session');
             $this->loadLayout();
-            $this->getResponse()->setBody(
-                $this->getLayout()->getMessagesBlock()->getGroupedHtml()
-                . $this->getLayout()->getBlock('category.edit')->getFormHtml()
-                . $this->getLayout()->getBlock('category.tree')
-                    ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs')
-            );
+            $this->getResponse()->setBody(Zend_Json::encode(array(
+                'messages' => $this->getLayout()->getMessagesBlock()->getGroupedHtml(),
+                'content' =>
+                    $this->getLayout()->getBlock('category.edit')->getFormHtml()
+                    . $this->getLayout()->getBlock('category.tree')
+                        ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs')
+            )));
             return;
         }
 
