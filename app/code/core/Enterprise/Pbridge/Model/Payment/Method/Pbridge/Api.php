@@ -150,6 +150,15 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Varien_Object
         }
     }
 
+    public function validateToken($orderId)
+    {
+        $this->_call(array(
+            'client_identifier' => $orderId,
+            'payment_action' => 'validate_token'
+        ));
+        return $this;
+    }
+
     /**
      * Authorize
      *

@@ -43,7 +43,8 @@
         var methodParam;
         if (jsonParams.original_payment_method) {
             parent.$H(jsonParams).each(function(param) {
-                var paramId = 'pbridge-payment-' + param.key;
+
+                var paramId = 'pbridge_' + jsonParams.original_payment_method + '_' + param.key;
                 var methodParam = parent.document.getElementById(paramId);
 
                 if (methodParam) {

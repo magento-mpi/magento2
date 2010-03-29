@@ -156,14 +156,15 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
         $reservedOrderId = '';
         if ($quote) {
             if (!$quote->getReservedOrderId()) {
-                $quote->reserveOrderId();
+                $quote->reserveOrderId()->save();
             }
             $reservedOrderId = $quote->getReservedOrderId();
         }
         $params = array_merge(array(
             'order_id'      => $reservedOrderId,
             'amount'        => $quote ? $quote->getBaseGrandTotal() : '0',
-            'currency_code' => $quote ? $quote->getBaseCurrencyCode() : ''
+            'currency_code' => $quote ? $quote->getBaseCurrencyCode() : '',
+            'client_identifier' => $reservedOrderId
         ), $params);
 
         $params = $this->getRequestParams($params, $quote);
@@ -229,8 +230,7 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
         $data = unserialize($this->decrypt($this->_getRequest()->getParam('data', '')));
         $data = array(
             'original_payment_method' => isset($data['original_payment_method']) ? $data['original_payment_method'] : null,
-            'token'                   => isset($data['token']) ? $data['token'] : '',
-            'quote_id'                => isset($data['quote_id']) ? $data['quote_id'] : '',
+            'token'                   => isset($data['token']) ? $data['token'] : null
         );
 
         return $data;

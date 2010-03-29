@@ -228,10 +228,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
 
     public function validate()
     {
-        if (!$this->getPbridgeResponse('token')) {
-            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Validation Error (Token)'));
-        }
         parent::validate();
+        if (!$this->getPbridgeResponse('token')) {
+            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Payment Bridge authentication data is not present'));
+        }
         return $this;
     }
 
@@ -455,6 +455,28 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     {
         $request = new Varien_Object();
         $request->setCountryCode(Mage::getStoreConfig('general/country/default'));
+        $request->setClientIdentifier($this->_getOrderId());
+
         return $request;
+    }
+
+    /**
+     * Return order id
+     *
+     * @return string
+     */
+    protected function _getOrderId()
+    {
+        $orderId = null;
+        $paymentInfo = $this->getInfoInstance();
+        if ($paymentInfo instanceof Mage_Sales_Model_Order_Payment) {
+            $orderId = $paymentInfo->getOrder()->getIncrementId();
+        } else {
+            if (!$paymentInfo->getQuote()->getReservedOrderId()) {
+                $paymentInfo->getQuote()->reserveOrderId()->save();
+            }
+            $orderId = $paymentInfo->getQuote()->getReservedOrderId();
+        }
+        return $orderId;
     }
 }
