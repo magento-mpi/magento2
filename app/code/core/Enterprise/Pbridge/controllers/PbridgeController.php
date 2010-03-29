@@ -50,17 +50,6 @@ class Enterprise_Pbridge_PbridgeController extends Enterprise_Enterprise_Control
     }
 
     /**
-     * Initialize incoming data required to use Payment Bridge payment method
-     *
-     * @return array
-     */
-    protected function _initIncomingData()
-    {
-        $data = Mage::helper('enterprise_pbridge')->getPbridgeParams();
-        return $data;
-    }
-
-    /**
      * Index Action.
      * Forward to result action
      *
@@ -78,14 +67,7 @@ class Enterprise_Pbridge_PbridgeController extends Enterprise_Enterprise_Control
      */
     public function resultAction()
     {
-        $data = $this->_initIncomingData();
         $this->_initActionLayout();
-
-        $block = $this->getLayout()->getBlock('pbridge.checkout.payment.result');
-        if ($block) {
-            $block->setJsonHiddenPbridgeParams(Mage::helper('core')->jsonEncode($data));
-        }
-
         $this->renderLayout();
     }
 }
