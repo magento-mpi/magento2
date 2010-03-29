@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
 
         $html.= '<td class="value">';
         $html.= $this->_getElementHtml($element);
-        if ($element->getComment()) {
+        if ($element->getComment() && !$element->getUseCustomComment()) {
             $html.= '<p class="note"><span>'.$element->getComment().'</span></p>';
         }
         $html.= '</td>';

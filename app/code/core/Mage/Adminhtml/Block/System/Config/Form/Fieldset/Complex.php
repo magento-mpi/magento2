@@ -41,6 +41,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset_Complex extends Mage_Admi
     {
         foreach ($element->getSortedElements() as $field) {
             $field->setUseContainerId(true);
+            $field->setUseCustomComment(true);
         }
         return parent::render($element);
     }
