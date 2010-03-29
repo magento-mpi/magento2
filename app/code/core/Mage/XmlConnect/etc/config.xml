@@ -20,7 +20,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Rss
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_XmlConnect>
-            <version>0.1.0</version>
+            <version>1.4.1.0</version>
         </Mage_XmlConnect>
     </modules>
     <global>
@@ -44,39 +44,6 @@
         <blocks>
             <rss><class>Mage_XmlConnect_Block</class></rss>
         </blocks>
-    </global>
-
-    <admin>
-        <!--routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Mage_Rss before="Mage_Adminhtml">Mage_Rss</Mage_Rss>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers-->
-    </admin>
-
-    <!--<adminhtml>
-        <translate>
-            <modules>
-                <Mage_Rss>
-                    <files>
-                        <default>Mage_Rss.csv</default>
-                    </files>
-                </Mage_Rss>
-            </modules>
-        </translate>
-        <layout>
-            <updates>
-                <rss>
-                    <file>rss.xml</file>
-                </rss>
-            </updates>
-        </layout>
-    </adminhtml>-->
-    <frontend>
         <resources>
             <xmlconnect_setup>
                 <setup>
@@ -86,17 +53,9 @@
                     <use>core_setup</use>
                 </connection>
             </xmlconnect_setup>
-            <xmlconnect_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </xmlconnect_write>
-            <xmlconnect_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </xmlconnect_read>
         </resources>
+    </global>
+    <frontend>
         <routers>
             <xmlconnect>
                 <use>standard</use>
