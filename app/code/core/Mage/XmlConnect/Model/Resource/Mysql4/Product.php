@@ -24,44 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Catalog category
+ * Product entity resource model
  *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Category extends Mage_Catalog_Model_Category
+class Mage_XmlConnect_Model_Resource_Mysql4_Product extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product
 {
-    /**
-     * Prefix of model events names
-     *
-     * @var string
-     */
-    protected $_productCollection;
-
-
-    /**
-     * Get category products collection
-     *
-     * @return Varien_Data_Collection_Db
-     */
-    public function getProductCollection()
-    {
-        return $this->_productCollection;
-    }
-
-    /**
-     * Set category products collection
-     * @param Varien_Data_Collection_Db $collection
-     * @return Mage_Xmlconnect_Model_Category
-     */
-    public function setProductCollection(Varien_Data_Collection_Db $collection)
-    {
-        $this->_productCollection = $collection;
-        return $this;
-    }
-
-
+    
 }

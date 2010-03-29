@@ -45,8 +45,7 @@ class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
                 <filters>
            ';
 
-        foreach ($this as $item)
-        {
+        foreach ($this as $item) {
             $xml .= $this->itemToXml($item);
         }
         $xml .= '</filters>';
@@ -66,33 +65,26 @@ class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
     {
         $xml = '';
         $xmlModel = new Varien_Simplexml_Element('<node></node>');
-        if (!is_null($nodeName))
-        {
+        if (!is_null($nodeName)) {
             $xml = '<'.$nodeName.'>';
         }
 
-        foreach ($array as $key => $value)
-        {
-            if (is_array($value))
-            {
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
                 $value = $this->_arrayToXml($value, null, true);
             }
-            else
-            {
+            else {
                 $value = $xmlModel->xmlentities($value);
             }
-            if ($useItems)
-            {
+            if ($useItems) {
                 $xml .= "<item><code>{$xmlModel->xmlentities($key)}</code><name>$value</name></item>";
             }
-            else
-            {
+            else {
                 $xml .= "<{$key}>$value</{$key}>";
             }
         }
 
-        if (!is_null($nodeName))
-        {
+        if (!is_null($nodeName)) {
             $xml .= '</'.$nodeName.'>';
         }
         return $xml;
@@ -100,8 +92,7 @@ class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
 
     public function setCategoryId($categoryId)
     {
-        if ((int)$categoryId > 0)
-        {
+        if ((int)$categoryId > 0) {
             $this->addFilter('category_id', $categoryId);
         }
         return $this;
@@ -114,8 +105,7 @@ class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
         $xml .= "<name>{$xmlModel->xmlentities($item->getName())}</name>";
         $xml .= "<code>{$xmlModel->xmlentities($item->getCode())}</code>";
         $valuesXml = '';
-        foreach ($item->getValues() as $value)
-        {
+        foreach ($item->getValues() as $value) {
             $valuesXml .= "<value>
                                 <id>{$xmlModel->xmlentities($value->getValueString())}</id>
                                 <label>{$xmlModel->xmlentities(strip_tags($value->getLabel()))}</label>
@@ -129,20 +119,15 @@ class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
     public function loadData($printQuery = false, $logQuery = false)
     {
         $layer = Mage::getSingleton('catalog/layer');
-        foreach ($this->_filters as $filter)
-        {
-            if ('category_id' == $filter['field'])
-            {
+        foreach ($this->_filters as $filter) {
+            if ('category_id' == $filter['field']) {
                 $layer->setCurrentCategory((int)$filter['value']);
             }
         }
-        if ($layer->getCurrentCategory()->getIsAnchor())
-        {
-            foreach ($layer->getFilterableAttributes() as $attributeItem)
-            {
+        if ($layer->getCurrentCategory()->getIsAnchor()) {
+            foreach ($layer->getFilterableAttributes() as $attributeItem) {
                 $filterModelName = 'catalog/layer_filter_attribute';
-                switch ($attributeItem->getAttributeCode())
-                {
+                switch ($attributeItem->getAttributeCode()) {
                     case 'price':
                         $filterModelName = 'catalog/layer_filter_price';
                         break;
@@ -157,8 +142,7 @@ class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
                 $filterModel = Mage::getModel($filterModelName);
                 $filterModel->setLayer($layer)->setAttributeModel($attributeItem);
                 $filterValues = new Varien_Data_Collection;
-                foreach ($filterModel->getItems() as $valueItem)
-                {
+                foreach ($filterModel->getItems() as $valueItem) {
                     $valueObject = new Varien_Object();
                     $valueObject->setLabel($valueItem->getLabel());
                     $valueObject->setValueString($valueItem->getValueString());
@@ -171,9 +155,6 @@ class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
                 $this->addItem($item);
             }
         }
-
         return $this;
     }
-
-
 }

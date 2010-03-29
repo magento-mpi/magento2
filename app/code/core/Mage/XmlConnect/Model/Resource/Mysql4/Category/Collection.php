@@ -32,7 +32,8 @@
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
+class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection
+    extends Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
 {
     /**
      * Level of parent categories
@@ -81,15 +82,12 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection extends Mage_Cat
         foreach ($this as $item)
         {
             $attributes = array('label', 'background', 'entity_id', 'content_type', 'icon');
-            if (strlen($item->image) < 1)
-            {
+            if (strlen($item->image) < 1) {
                 $item->image = 'no_selection';
             }
             $item->icon = Mage::helper('catalog/category_image')->init($item, 'image')->resize(self::IMAGE_RESIZE_PARAM);
 
-
-            if ($this->_showParentId)
-            {
+            if ($this->_showParentId) {
                 $attributes[] = 'parent_id';
             }
             $item->label = $item->name;
@@ -104,8 +102,7 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection extends Mage_Cat
                 ';
 
         $xmlModel = new Varien_Simplexml_Element('<node></node>');
-        foreach ($additionalAtrributes as $attrKey => $value)
-        {
+        foreach ($additionalAtrributes as $attrKey => $value) {
             $xml .= "<{$attrKey}>{$xmlModel->xmlentities($value)}</{$attrKey}>";
         }
 
@@ -128,16 +125,13 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection extends Mage_Cat
 
     public function addParentIdFilter($parentId)
     {
-        if (!is_null($parentId))
-        {
+        if (!is_null($parentId)) {
             $this->_showParentId = true;
             $this->getSelect()->where('e.parent_id = ?', (int)$parentId);
         }
-        else
-        {
+        else {
             $this->addLevelExactFilter(self::PARENT_CATEGORIES_LEVEL);
         }
         return $this;
     }
-
 }

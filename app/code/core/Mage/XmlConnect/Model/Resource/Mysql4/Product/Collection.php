@@ -32,10 +32,11 @@
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+class Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection
+    extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
 
-    const IMAGE_RESIZE_PARAM = 80;
+    protected $_itemObjectClass = 'Mage_Xmlconnect_Model_Product';
 
     protected function _beforeLoad()
     {
@@ -61,77 +62,47 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection extends Mage_Cata
      * @param bool $safeAdditionalEntities
      * @return string
      */
-    public function toXml(array $additionalAtrributes = array(), $safeAdditionalEntities = true)
-    {
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>
-        <product>
-           ';
-        if (count($this)>0)
-        {
+    public function toXml(array $additionalAtrributes = array(),
+        $safeAdditionalEntities = true,
+        $addOpenTag = true,
+        $parentNodeTitle = 'product',
+        Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection = null
+    ) {
+        if (is_null($collection)) {
+            $collection = $this;
+        }
+        $xml = '';
+        if ($addOpenTag) {
+            $xml .= '<?xml version="1.0" encoding="UTF-8"?>';
+        }
+        $xml .= '<'.$parentNodeTitle.'>';
+        if (count($collection) > 0) {
             $xml .= '<items>';
         }
 
-        $optinalPriceAttributes = array('price', 'final_price', 'minimal_price', 'min_price',
-                                        'max_price', 'tier_price', 'special_price');
-        foreach ($this as $item)
-        {
-            $attributes = array('entity_id', 'name', 'in_stock', 'rating_summary', 'reviews_count', 'icon', 'price');
-            $item->icon = Mage::helper('catalog/image')->init($item, 'image')->resize(self::IMAGE_RESIZE_PARAM);
-            $this->_formPrice($item, $attributes);
-            $item->in_stock = (int)$item->isInStock();
-            $xml .= $item->toXml($attributes, 'item', false, false);
+        foreach ($collection as $item) {
+            if ('Mage_XmlConnect_Model_Product' != get_class($item)) {
+                $xmlModelItem = Mage::getModel('xmlconnect/product');
+                $xmlModelItem->fromArray($item->toArray());
+                $item = $xmlModelItem;
+            }
+            $xml .= $item->toXml(array(), 'item', false, false);
         }
         
-        if (count($this)>0)
-        {
+        if (count($collection) > 0) {
             $xml .= '</items>';
         }
 
         $xmlModel = new Varien_Simplexml_Element('<node></node>');
-        foreach ($additionalAtrributes as $attrKey => $value)
-        {
+        foreach ($additionalAtrributes as $attrKey => $value) {
             $value = $safeAdditionalEntities ? $xmlModel->xmlentities($value) : $value;
             $xml .= "<{$attrKey}>$value</{$attrKey}>";
         }
 
-        $xml .= '</product>';
-
+        $xml .= '</'.$parentNodeTitle.'>';
         return $xml;
     }
 
-    protected function _formPrice(Mage_Catalog_Model_Product $product, &$attributes)
-    {
-        if (strlen($product->special_price))
-        {
-            $attributes[] = 'old_price';
-            $product->old_price = strip_tags(Mage::app()->getStore()->formatPrice($product->price));
-            $product->price = strip_tags(Mage::app()->getStore()->formatPrice($product->special_price));
-        }
-        else if (strlen($product->min_price) && strlen($product->max_price)
-                 && $product->min_price !== $product->max_price && strlen($product->price) )
-        {
-            $product->min_price = strip_tags(Mage::app()->getStore()->formatPrice($product->min_price));
-            $product->max_price = strip_tags(Mage::app()->getStore()->formatPrice($product->max_price));
-            $product->price = Mage::helper('catalog/product')->__('From:').' '. $product->min_price. ' '. Mage::helper('catalog/product')->__('To:').' '. $product->max_price;
-        }
-        else if (strlen($product->min_price) && 0 == strlen($product->price))
-        {
-            $product->min_price = strip_tags(Mage::app()->getStore()->formatPrice($product->min_price));
-            $product->price = Mage::helper('catalog/product')->__('Starting at:').' '. $product->min_price;
-        }
-        else if (strlen($product->tier_price))
-        {
-            $attributes[] = 'aslowas_price';
-            $product->tier_price = strip_tags(Mage::app()->getStore()->formatPrice($product->tier_price));
-            $product->aslowas_price = Mage::helper('catalog/product')->__('As low as:').' '. $product->tier_price;
-            $product->price = strip_tags(Mage::app()->getStore()->formatPrice($product->price));
-        }
-        else
-        {
-            $product->price = strip_tags(Mage::app()->getStore()->formatPrice($product->price));
-        }
-
-    }
 
     /**
      * @param int $offset
@@ -154,18 +125,14 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection extends Mage_Cata
         $layer = Mage::getSingleton('catalog/layer');
         $layer->setData('current_category', $category);
         $attributes = array();
-        foreach ($layer->getFilterableAttributes() as $attributeModel )
-        {
+        foreach ($layer->getFilterableAttributes() as $attributeModel ) {
             $attributes[$attributeModel->getAttributeCode()] = $attributeModel;
         }
 
-        foreach ($reguest->getParams() as $key => $value)
-        {
-            if (0 === strpos($key, $prefix))
-            {
+        foreach ($reguest->getParams() as $key => $value) {
+            if (0 === strpos($key, $prefix)) {
                 $key = str_replace($prefix, '', $key);
-                if (isset($attributes[$key]))
-                {
+                if (isset($attributes[$key])) {
                     $filter = $this->_getFilterByKey($key)
                                    ->setAttributeModel($attributes[$key])
                                    ->setRequestVar($prefix.$key)
@@ -183,13 +150,10 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection extends Mage_Cata
      */
     public function addOrdersFromRequest(Zend_Controller_Request_Abstract $reguest, $prefix = 'order_')
     {
-        foreach ($reguest->getParams() as $key => $value)
-        {
-            if (0 === strpos($key, $prefix))
-            {
+        foreach ($reguest->getParams() as $key => $value) {
+            if (0 === strpos($key, $prefix)) {
                 $key = str_replace($prefix, '', $key);
-                if ($value != 'desc')
-                {
+                if ($value != 'desc') {
                     $value = 'asc';
                 }
                 $this->addAttributeToSort($key, $value);
@@ -201,8 +165,7 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection extends Mage_Cata
     protected function _getFilterByKey($key)
     {
         $filterModelName = 'catalog/layer_filter_attribute';
-        switch ($key)
-        {
+        switch ($key) {
             case 'price':
                 $filterModelName = 'catalog/layer_filter_price';
                 break;
