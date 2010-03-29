@@ -587,7 +587,7 @@ varienGridMassaction.prototype = {
         if(this.currentItem.complete) {
             try {
                 var listener = this.getListener(this.currentItem.complete) || Prototype.emptyFunction;
-                listener(grid, this, transport);
+                listener(this.grid, this, transport);
             } catch (e) {}
        }
     },
