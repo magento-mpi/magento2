@@ -59,6 +59,21 @@ class Mage_Tag_Model_Mysql4_Indexer_Summary extends Mage_Catalog_Model_Resource_
     }
 
     /**
+     * Process tag relation save
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return Mage_Tag_Model_Mysql4_Indexer_Summary
+     */
+    public function tagRelationSave(Mage_Index_Model_Event $event)
+    {
+        $data = $event->getNewData();
+        if (empty($data['tag_reindex_tag_id'])) {
+            return $this;
+        }
+        return $this->aggregate($data['tag_reindex_tag_id']);
+    }
+
+    /**
      * Process product save.
      * Method is responsible for index support when product was saved.
      *

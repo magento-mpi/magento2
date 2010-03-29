@@ -37,6 +37,12 @@ class Mage_Tag_Model_Tag_Relation extends Mage_Core_Model_Abstract
     const STATUS_ACTIVE = 1;
 
     /**
+     * Entity code.
+     * Can be used as part of method name for entity processing
+     */
+    const ENTITY = 'tag_relation';
+
+    /**
      * Initialize resource model
      *
      */
@@ -53,6 +59,20 @@ class Mage_Tag_Model_Tag_Relation extends Mage_Core_Model_Abstract
     protected function _getResource()
     {
         return parent::_getResource();
+    }
+
+    /**
+     * Init indexing process after tag data commit
+     *
+     * @return Mage_Tag_Model_Tag_Relation
+     */
+    public function afterCommitCallback()
+    {
+        parent::afterCommitCallback();
+        Mage::getSingleton('index/indexer')->processEntityAction(
+            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
+        );
+        return $this;
     }
 
     /**

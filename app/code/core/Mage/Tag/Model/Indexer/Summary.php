@@ -45,6 +45,9 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
         ),
         Mage_Tag_Model_Tag::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
+        ),
+        Mage_Tag_Model_Tag_Relation::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
         )
     );
 
@@ -102,6 +105,8 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
             $this->_registerCatalogProduct($event);
         } elseif ($event->getEntity() == Mage_Tag_Model_Tag::ENTITY) {
             $this->_registerTag($event);
+        } elseif ($event->getEntity() == Mage_Tag_Model_Tag_Relation::ENTITY) {
+            $this->_registerTagRelation($event);
         }
     }
 
@@ -200,6 +205,13 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
     {
         if ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
             $event->addNewData('tag_reindex_tag_id', $event->getEntityPk());
+        }
+    }
+
+    protected function _registerTagRelation(Mage_Index_Model_Event $event)
+    {
+        if ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
+            $event->addNewData('tag_reindex_tag_id', $event->getDataObject()->getTagId());
         }
     }
 

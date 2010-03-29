@@ -36,7 +36,9 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
 {
     public function saveAction()
     {
-        if(!Mage::getSingleton('customer/session')->authenticate($this)) {
+        $customerSession = Mage::getSingleton('customer/session');
+
+        if(!$customerSession->authenticate($this)) {
             return;
         }
         $tagName    = (string) $this->getRequest()->getQuery('productTagName');
@@ -50,7 +52,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                 $session->addError(Mage::helper('tag')->__('Unable to save tag(s).'));
             } else {
                 try {
-                    $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+                    $customerId = $customerSession->getCustomerId();
                     $tagNamesArr = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
 
                     foreach( $tagNamesArr as $key => $tagName ) {
@@ -61,6 +63,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                         }
                     }
                     $newCount = 0;
+                    $currentStoreId = Mage::app()->getStore()->getId();
 
                     foreach( $tagNamesArr as $tagName ) {
                         if( $tagName ) {
@@ -76,7 +79,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                                             $productId,
                                             $tagModel->getId(),
                                             $customerId,
-                                            Mage::app()->getStore()->getId()
+                                            $currentStoreId
                                         )
                                       ->getProductIds();
 
@@ -89,20 +92,20 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                             }
                             else {
                                 $tagModel->setFirstCustomerId($customerId)
-                                    ->setFirstStoreId(Mage::app()->getStore()->getId());
+                                    ->setFirstStoreId($currentStoreId);
                                 $status = $tagModel->getPendingStatus();
                                 $newCount++;
                             }
 
                             $tagModel->setName($tagName)
-                                    ->setStoreId(Mage::app()->getStore()->getId())
+                                    ->setStoreId($currentStoreId)
                                     ->setStatus($status)
                                     ->save();
 
                             $tagRelationModel->loadByTagCustomer($productId,
                                 $tagModel->getId(),
                                 $customerId,
-                                Mage::app()->getStore()->getId()
+                                $currentStoreId
                             );
 
                             if( $tagRelationModel->getCustomerId() == $customerId && $tagRelationModel->getActive()) {
@@ -111,7 +114,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                             $tagRelationModel->setTagId($tagModel->getId())
                                 ->setCustomerId($customerId)
                                 ->setProductId($productId)
-                                ->setStoreId(Mage::app()->getStore()->getId())
+                                ->setStoreId($currentStoreId)
                                 ->setCreatedAt( $tagRelationModel->getResource()->formatDate(time()) )
                                 ->setActive(1)
                                 ->save();
