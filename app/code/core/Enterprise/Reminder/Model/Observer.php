@@ -71,32 +71,20 @@ class Enterprise_Reminder_Model_Observer
      *
      * @return Enterprise_Reminder_Model_Observer
      */
-    public function scheduledMatch()
+    public function matchCustomers()
     {
-        if (!Mage::helper('enterprise_reminder')->isEnabled()) {
-            return $this;
-        }
-
         foreach ($this->getRulesCollection() as $rule) {
-            $this->getResource()->deactiveMatchedCustomers($rule->getId());
+            $this->getResource()->deactivateMatchedCustomers($rule->getId());
 
+            /* @var $salesRule Mage_SalesRule_Model_Rule */
             $salesRule = Mage::getSingleton('salesrule/rule')->load($rule->getSalesruleId());
             if (!$salesRule || !$salesRule->getId()) {
                 continue;
             }
 
-            foreach ($rule->getWebsiteIds() as $websiteId) {
-                if ($select = $rule->getConditionSql()) {
-
-                    $customers = $this->getResource()->getMatchedCustomers($select, array('website_id' => $websiteId));
-
-                    foreach ($customers as $customer) {
-                        $coupon = $salesRule->acquireCoupon();
-                        $couponId = ($coupon !== null) ? $coupon->getId() : null;
-                        $customerId = (int)$customer['entity_id'];
-                        $this->getResource()->saveMatchedCustomer($rule->getId(), $customerId, $couponId);
-                    }
-                }
+            $websiteIds = array_intersect($rule->getWebsiteIds(), $salesRule->getWebsiteIds());
+            foreach ($websiteIds as $websiteId) {
+                $this->getResource()->saveMatchedCustomers($rule, $salesRule, $websiteId);
             }
         }
         return $this;
@@ -113,6 +101,8 @@ class Enterprise_Reminder_Model_Observer
             return $this;
         }
 
+        $this->matchCustomers();
+
         $mail = Mage::getModel('core/email_template');
         $translate = Mage::getSingleton('core/translate');
 
@@ -125,39 +115,30 @@ class Enterprise_Reminder_Model_Observer
         foreach ($recipients as $recipient) {
 
             /* @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getSingleton('customer/customer')->load($recipient['customer_id']);
-
+            $customer = Mage::getModel('customer/customer')->load($recipient['customer_id']);
             if (!$customer || !$customer->getId()) {
                 continue;
             }
 
             $storeId = $customer->getStoreId();
-            $storeData = $this->getStoreData($recipient['rule_id'], $storeId);
 
+            $storeData = $this->getStoreData($recipient['rule_id'], $storeId);
             if (!$storeData) {
                 continue;
             }
 
-            $couponCode = null;
-            if ($recipient['coupon_id']) {
-                /* @var $coupon Mage_SalesRule_Model_Coupon */
-                $coupon = Mage::getSingleton('salesrule/coupon')->load($recipient['coupon_id']);
-
-                if ($coupon && $coupon->getId()) {
-                    $couponCode = $coupon->getCode();
-                }
-            }
-
-            $mail->setDesignConfig(array('area'=>'frontend', 'store'=>$storeId));
+            /* @var $coupon Mage_SalesRule_Model_Coupon */
+            $coupon = Mage::getModel('salesrule/coupon')->load($recipient['coupon_id']);
 
             $templateVars = array(
                 'store' => Mage::app()->getStore($storeId),
                 'customer' => $customer,
                 'promotion_name' => $storeData['label'],
                 'promotion_description' => $storeData['description'],
-                'coupon_code' => $couponCode
+                'coupon' => $coupon
             );
 
+            $mail->setDesignConfig(array('area'=>'frontend', 'store'=>$storeId));
             $mail->sendTransactional($storeData['template_id'], $this->getEmailIdentity(),
                 $customer->getEmail(), null, $templateVars, $storeId
             );
@@ -267,7 +248,7 @@ class Enterprise_Reminder_Model_Observer
     {
         if (!isset($this->_storeData[$ruleId][$storeId])) {
             if ($data = $this->getResource()->getStoreTemplateData($ruleId, $storeId)) {
-                if (empty($data['template_id'])){
+                if (empty($data['template_id'])) {
                     $data['template_id'] = Enterprise_Reminder_Model_Rule::XML_PATH_EMAIL_TEMPLATE;
                 }
                 $this->_storeData[$ruleId][$storeId] = $data;

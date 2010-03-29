@@ -294,7 +294,7 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
      * @param int $ruleId
      * @return Enterprise_Reminder_Model_Mysql4_Rule
      */
-    public function deactiveMatchedCustomers($ruleId)
+    public function deactivateMatchedCustomers($ruleId)
     {
         $this->_getWriteAdapter()->update(
             $this->getTable('enterprise_reminder/coupon'),
@@ -305,40 +305,58 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
     }
 
     /**
-     * Get matched customers
-     *
-     * @param string|Zend_Db_Select $select
-     * @param array $bindParams array of binded variables
-     * @return Enterprise_Reminder_Model_Mysql4_Rule
-     */
-    public function getMatchedCustomers($select, $bindParams)
-    {
-        return $this->_getReadAdapter()->fetchAll($select, $bindParams);
-    }
-
-    /**
-     * Try to associate reminder rule with customer.
+     * Try to associate reminder rule with matched customers.
      * If customer was added earlier, update is_active column.
      *
-     * @param int $ruleId
-     * @param int $customerId
-     * @param int $couponId
+     * @param Enterprise_Reminder_Model_Rule $rule
+     * @param Mage_SalesRule_Model_Rule $salesRule
+     * @param int $websiteId
      * @return Enterprise_Reminder_Model_Mysql4_Rule
      */
-    public function saveMatchedCustomer($ruleId, $customerId, $couponId)
+    public function saveMatchedCustomers($rule, $salesRule, $websiteId)
     {
-        $data = array(
-            'rule_id'       => $ruleId,
-            'coupon_id'     => $couponId,
-            'customer_id'   => $customerId,
-            'associated_at' => $this->formatDate(time()),
-            'is_active'     => '1'
-        );
+        $select = $rule->getConditionSql();
 
-        $this->_getWriteAdapter()->insertOnDuplicate(
-            $this->getTable('enterprise_reminder/coupon'), $data, array('is_active')
-        );
+        if (empty($select)) {
+            return $this;
+        }
 
+        $adapter = $this->_getWriteAdapter();
+        $couponTable = $this->getTable('enterprise_reminder/coupon');
+        $ruleId = $rule->getId();
+        $currentDate = $this->formatDate(time());
+
+        $count = 0;
+        $dataToInsert = array();
+        $stmt = $adapter->query($select, array('website_id'=>$websiteId, 'rule_id'=>$ruleId));
+
+        while ($row = $stmt->fetch()) {
+            if (empty($row['coupon_id'])) {
+                $coupon = $salesRule->acquireCoupon();
+                $couponId = ($coupon !== null) ? $coupon->getId() : null;
+            }
+            else {
+                $couponId = $row['coupon_id'];
+            }
+
+            $dataToInsert[] = array(
+                'rule_id'       => $ruleId,
+                'coupon_id'     => $couponId,
+                'customer_id'   => $row['entity_id'],
+                'associated_at' => $currentDate,
+                'is_active'     => '1'
+            );
+            $count++;
+
+            if ($count > 1000) {
+                $adapter->insertOnDuplicate($couponTable, $dataToInsert, array('is_active'));
+                $count = 0;
+                $dataToInsert = array();
+            }
+        }
+        if ($count > 0) {
+            $adapter->insertOnDuplicate($couponTable, $dataToInsert, array('is_active'));
+        }
         return $this;
     }
 
@@ -353,6 +371,8 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
         $couponTable = $this->getTable('enterprise_reminder/coupon');
         $ruleTable = $this->getTable('enterprise_reminder/rule');
         $logTable = $this->getTable('enterprise_reminder/log');
+
+        $currentDate = $this->formatDate(time());
 
         $select = $this->createSelect()->from(
             array('c'=>$couponTable),
@@ -371,9 +391,9 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
             array()
         );
 
-        $select->where('c.is_active=?', '1');
+        $select->where('c.is_active = 1');
         $select->group(array('c.customer_id', 'c.rule_id'));
-        $select->having('(MAX(l.sent_at) IS NULL) OR (FIND_IN_SET(TO_DAYS(NOW()) - TO_DAYS(MIN(l.sent_at)), r.schedule) AND TO_DAYS(NOW()) != TO_DAYS(MAX(l.sent_at)))');
+        $select->having("(MAX(l.sent_at) IS NULL) OR (FIND_IN_SET(TO_DAYS('{$currentDate}') - TO_DAYS(MIN(l.sent_at)), r.schedule) AND TO_DAYS('{$currentDate}') != TO_DAYS(MAX(l.sent_at)))");
 
         if ($limit) {
             $select->limit($limit);

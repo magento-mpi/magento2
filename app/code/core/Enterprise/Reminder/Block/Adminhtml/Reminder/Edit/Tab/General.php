@@ -144,24 +144,6 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
     }
 
     /**
-     * Retrieve array of available shopping cart rules
-     *
-     * @return array
-     */
-    public function getSalesRulesOptionsArray()
-    {
-        $collection = Mage::getResourceModel('salesrule/rule_collection');
-        $options = $collection->toOptionArray();
-
-        array_unshift($options,
-            array('value'=> '',
-                'label'=> Mage::helper('enterprise_reminder')->__('-- Please Select --')
-            )
-        );
-        return $options;
-    }
-
-    /**
      * Get chooser config data
      *
      * @return array

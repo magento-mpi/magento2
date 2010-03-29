@@ -145,10 +145,6 @@
             <send_notification>
                 <run><model>enterprise_reminder/observer::scheduledNotification</model></run>
             </send_notification>
-            <match_customers>
-                <schedule><cron_expr>0 1 * * *</cron_expr></schedule>
-                <run><model>enterprise_reminder/observer::scheduledMatch</model></run>
-            </match_customers>
         </jobs>
     </crontab>
 </config>

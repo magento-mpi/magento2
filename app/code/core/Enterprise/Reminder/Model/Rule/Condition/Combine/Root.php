@@ -49,8 +49,16 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
-        $table = array('root' => $this->getResource()->getTable('customer/entity'));
-        $select->from($table, array('entity_id'));
+        $rootTable = $this->getResource()->getTable('customer/entity');
+        $couponTable = $this->getResource()->getTable('enterprise_reminder/coupon');
+
+        $select->from(array('root'=>$rootTable), array('entity_id'));
+
+        $select->joinLeft(
+            array('c'=>$couponTable),
+            'c.customer_id=root.entity_id AND c.rule_id=:rule_id',
+            array('c.coupon_id')
+        );
 
         if ($customer === null) {
             if (Mage::getSingleton('customer/config_share')->isWebsiteScope()) {

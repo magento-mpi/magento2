@@ -75,7 +75,7 @@
                             <depends><frequency>I</frequency></depends> 
                         </periodicity>
                         <minutes translate="label" module="enterprise_reminder">
-                            <label>Minute of the hour</label>
+                            <label>Minute of the Hour</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
