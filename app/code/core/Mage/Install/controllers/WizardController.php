@@ -31,6 +31,11 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 {
     public function preDispatch()
     {
+        if (Mage::isInstalled()) {
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_redirect('/');
+            return;
+        }
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
         return parent::preDispatch();
     }
