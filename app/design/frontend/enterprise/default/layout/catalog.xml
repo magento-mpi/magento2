@@ -53,14 +53,13 @@ Default layout, loads most of the pages
                 <action method="setBlockId"><block_id>top_callout</block_id></action>
             </block>
         </reference>
-
-        <!--<reference name="left">
-            <block type="core/template" name="left.permanent.callout" template="callouts/callout.phtml">
+        <!--reference name="left">
+            <block type="core/template" name="left.permanent.callout" template="callouts/left_col.phtml">
                 <action method="setImgSrc"><src>images/media/col_left_callout.jpg</src></action>
                 <action method="setImgAlt" translate="alt" module="catalog"><alt>Our customer service is available 24/7. Call us at (555) 555-0123.</alt></action>
                 <action method="setLinkUrl"><url>checkout/cart</url></action>
             </block>
-        </reference>-->
+        </reference-->
         <reference name="right">
             <block type="core/template" name="catalog.compare.sidebar" template="catalog/product/compare/sidebar.phtml"/>
         </reference>
@@ -140,7 +139,7 @@ Category layered navigation layout
                             <action method="addPagerLimit"><mode>grid</mode><limit>3</limit></action>
                             <action method="addPagerLimit"><mode>grid</mode><limit>6</limit></action>
                             <action method="addPagerLimit"><mode>grid</mode><limit>9</limit></action>
-                            <action method="addPagerLimit"><mode>grid</mode><limit>all</limit><label>All</label></action>
+                            <action method="addPagerLimit" translate="label"><mode>grid</mode><limit>all</limit><label>All</label></action>
                         -->
                     </block>
                     <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
@@ -181,13 +180,6 @@ Compare products page
         </reference>
     </catalog_product_compare_index>
 
-    <customer_account_index>
-
-        <reference name="right">
-            <action method="unsetChild"><name>catalog_compare_sidebar</name></action>
-        </reference>
-    </customer_account_index>
-
 <!--
 Product view
 -->
@@ -200,7 +192,6 @@ Product view
         </reference>
         <reference name="head">
             <action method="addJs"><script>varien/product.js</script></action>
-            <!-- <action method="addItem"><type>skin_js</type><name>js/lightbox.js</name></action> -->
             <action method="addItem"><type>skin_js</type><name>js/jqzoom/jquery-1.3.1.min.js</name></action>
             <action method="addItem"><type>skin_js</type><name>js/jqzoom/jquery.jqzoom1.0.1.js</name></action>
             <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
