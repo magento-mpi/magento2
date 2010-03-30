@@ -346,13 +346,15 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                         ->setStore($this->getStore())
                         ->setSharedStoreIds($this->getStore()->getWebsite()->getStoreIds());
                     if ($wishlist->getId()) {
-                        $wishlist->addNewItem($item->getProduct()->getId());
+                        $wishlistItem = $wishlist->addNewItem($item->getProduct()->getId());
+                        if ($wishlistItem->getId()) {
+                            $this->getQuote()->removeItem($item->getId());
+                        }
                     }
                     break;
                 default:
                     break;
             }
-            $this->getQuote()->removeItem($item->getId());
         }
         return $this;
     }
