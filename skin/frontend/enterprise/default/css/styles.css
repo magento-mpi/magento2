@@ -1770,6 +1770,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 
 .checkmo-list li { margin:0 0 4px; }
 .checkmo-list label { padding-top:0; }
+.checkmo-list address { float:left; }
 
 .please-wait { position:absolute; z-index:99; top:50%; left:50%; margin:-34px 0 0 -90px; border:5px solid #f3b66f; font-size:12px; color:#f18200; font-weight:bold; background:#fff; padding:20px; white-space:nowrap; }
 .cvv-what-is-this { cursor:help; margin-left:5px; }
