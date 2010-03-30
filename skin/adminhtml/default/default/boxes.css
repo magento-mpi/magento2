@@ -228,7 +228,7 @@ dl.accordion dt,
 .entry-edit .entry-edit-head { background:#6f8992; padding:2px 10px; }
 dl.accordion dt, div.collapseable { margin-top:1px; }
 dl.accordion dt a, div.collapseable a { background:url(images/entry_edit_head_arrow_down.gif) 100% 50% no-repeat; color:#fff; display:block; font-weight:bold; text-decoration:none; }
-div.disabled {}
+div.disabled { background:#e6e6e6; }
 
 .entry-edit fieldset.collapseable { margin-bottom:10px; }
 
@@ -293,6 +293,7 @@ a.error span,
 .notice-msg { border:1px solid #ffd967 !important; background:#fffbf0 url(images/note_msg_icon.gif) no-repeat 10px 10px !important; color:#3d6611 !important; }
 .warning-msg { border:1px solid #666e73 !important; background:#e6e6e6 url(images/warning_msg_icon.gif) no-repeat 10px 10px !important; color:#000000 !important; }
 .validation-advice { clear:both; min-height:15px; margin:3px 0 0 9px; background:url(images/validation_advice_bg.gif) no-repeat 2px 1px; padding-left:16px; font-size:.95em; font-weight:bold; line-height:1.25em; }
+.staging-datetime-advice .validation-advice { background-position:right center; padding:0 16px 0 0; }
 input.validation-failed, textarea.validation-failed { background:#fef0ed; border:1px dashed #d6340e; }
 
 /* Noscript Notice */
@@ -839,7 +840,7 @@ ul.tabs a.paypal-section:hover span { background:url(images/paypal_section.png) 
 .paypal-global th { background:#e9eef1; border:1px solid #e4eae8; border-bottom:none; padding:0 0 5px; text-align:center; vertical-align:middle; }
 .paypal-global th label { color:#306375; display:block; font-weight:bold; }
 .paypal-global thead .last th { border-top:none; }
-.paypal-global td { border-right:1px solid #ededed; padding:5px; }
+.paypal-global td { border-right:1px solid #ededed; padding:5px; vertical-align:middle; }
 .paypal-global tr.last td { border-bottom:1px solid #ededed; text-align:center; }
 .paypal-global tr.last .pg-empty { border-bottom:none; border-right:1px solid #ededed; }
 .paypal-global tr.last .last { border-right:1px solid #ededed; }
