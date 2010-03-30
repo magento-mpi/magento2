@@ -129,12 +129,6 @@ Shopping cart item renderer (sidebar)
         </reference>
     </default>
 
-    <customer_account>
-        <reference name="cart_sidebar">
-            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
-        </reference>
-    </customer_account>
-
 <!--
 Shopping cart item renderer
 -->
