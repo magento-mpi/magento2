@@ -40,7 +40,7 @@
         <label>Customer My Account Store Credit</label>
         <update handle="customer_account"/>
 
-        <reference name="content">
+        <reference name="my.account.wrapper">
             <block type="core/template" name="customerbalance.wrapper" template="customerbalance/account/wrapper.phtml" translate="label">
                 <label>Store Credit Balance and History Wrapper</label>
                 <block type="enterprise_customerbalance/account_balance" name="balance" template="customerbalance/account/balance.phtml" before="-" />

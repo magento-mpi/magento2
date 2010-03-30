@@ -32,7 +32,7 @@
 
     <enterprise_reward_customer_info>
         <update handle="customer_account"/>
-        <reference name="content">
+        <reference name="my.account.wrapper">
             <block type="enterprise_reward/customer_reward" name="customer.reward" template="reward/customer/reward.phtml">
                 <block type="enterprise_reward/customer_reward_info" name="customer.reward.info" template="reward/customer/reward/info.phtml"/>
                 <block type="enterprise_reward/customer_reward_history" name="customer.reward.history" template="reward/customer/reward/history.phtml"/>

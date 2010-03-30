@@ -31,7 +31,7 @@ img           { border:0; vertical-align:top; }
 
 a             { color:#444; text-decoration:underline; }
 a:hover       { text-decoration:none; }
-:focus        { outline: 0; }
+:focus        { outline:0; }
 
 /* Headings */
 h1            { font-size:18px; font-weight:normal; }
@@ -1839,6 +1839,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 
 
 /* Account Login/Create Pages ============================================================ */
+.my-account {}
+
 .account-login { position:relative; font-size:12px; background:url(../images/bkg_cols.gif) repeat-y 266px 0; min-height:350px; margin-bottom:-20px; }
 
 .login-only { background:none; }

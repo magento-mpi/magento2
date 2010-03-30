@@ -111,7 +111,7 @@ Product reviews page
     <review_customer_index translate="label">
         <label>Customer My Account Product Reviews</label>
         <update handle="customer_account"/>
-        <reference name="content">
+        <reference name="my.account.wrapper">
             <block type="review/customer_list" name="review_customer_list" template="review/customer/list.phtml"/>
         </reference>
     </review_customer_index>
@@ -119,7 +119,7 @@ Product reviews page
     <review_customer_view translate="label">
         <label>Customer My Account Review Details</label>
         <update handle="customer_account"/>
-        <reference name="content">
+        <reference name="my.account.wrapper">
             <block type="review/customer_view" name="customers_review"/>
         </reference>
     </review_customer_view>
