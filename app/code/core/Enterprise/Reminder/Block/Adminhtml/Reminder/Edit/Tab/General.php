@@ -42,7 +42,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => Mage::helper('enterprise_reminder')->__('General Information'),
-            'comment' => Mage::helper('enterprise_reminder')->__('Reminder email may promote a shopping cart price rule with or without coupon. If shopping cart price rule defines an auto-generated coupon, this reminder rule will generate a random coupon code for each customer.'),
+            'comment' => Mage::helper('enterprise_reminder')->__('Reminder emails may promote a shopping cart price rule with or without coupon. If a shopping cart price rule defines an auto-generated coupon, this reminder rule will generate a random coupon code for each customer.'),
         ));
 
         if ($model->getId()) {

@@ -43,7 +43,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
         $fieldset = $form->addFieldset('email_fieldset', array(
             'legend' => Mage::helper('enterprise_reminder')->__('Email Templates'),
             'table_class'  => 'form-list stores-tree',
-            'comment' => Mage::helper('enterprise_reminder')->__('Emails will be sent only for for specified store views. Email store view matches the store view customer was registered on.'),
+            'comment' => Mage::helper('enterprise_reminder')->__('Emails will be sent only for specified store views. Email store view matches the store view customer was registered on.'),
         ));
 
         foreach (Mage::app()->getWebsites() as $website) {
