@@ -129,6 +129,10 @@
                 <model>enterprise_pbridge/payment_method_authorizenet</model>
                 <enabled>1</enabled>
             </pbridge_authorizenet>
+            <pbridge_verisign>
+                <model>enterprise_pbridge/payment_method_payflow_pro</model>
+                <enabled>1</enabled>
+            </pbridge_verisign>
         </payment>
     </default>
 </config>
