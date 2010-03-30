@@ -59,7 +59,7 @@
                         <http_redirect translate="label comment">
                             <sort_order>30</sort_order>
                             <label>Startup Page</label>
-                            <comment>Applicable only in Private Sales mode</comment>
+                            <comment>Applicable only in "Private Sales" mode.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>enterprise_websiterestriction/system_config_source_redirect</source_model>
                             <show_in_default>1</show_in_default>
@@ -78,7 +78,7 @@
                         <http_status translate="label comment">
                             <sort_order>50</sort_order>
                             <label>HTTP Response</label>
-                            <comment>Applicable only if Restriction Mode is Website Closed. Landing Page is rendered as raw HTML.</comment>
+                            <comment>Applicable only if restriction mode is "Website Closed". Landing page is rendered as raw HTML.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>enterprise_websiterestriction/system_config_source_http</source_model>
                             <show_in_default>1</show_in_default>

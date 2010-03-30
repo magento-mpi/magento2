@@ -57,7 +57,7 @@
                         </lister_output>
                         <lister_widget_limit translate="label comment">
                             <label>Number of Events to be Displayed in Event Slider Widget</label>
-                            <comment>Default Value. Override in CMS using limit="x" Variable. If empty, there will be no Limitation.</comment>
+                            <comment>Default value. Override in CMS using limit="x" variable. If empty, there will be no limitation.</comment>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -65,7 +65,7 @@
                         </lister_widget_limit>
                         <lister_widget_scroll translate="label comment">
                             <label>Events to Scroll per Click in Event Slider Widget</label>
-                            <comment>Default Value. Override in CMS using scroll="x" Variable.</comment>
+                            <comment>Default value. Override in CMS using scroll="x" variable.</comment>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

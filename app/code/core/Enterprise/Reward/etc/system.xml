@@ -79,7 +79,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>Empty Value disables this Limitation</comment>
+                            <comment>Empty value disables this limitation.</comment>
                         </min_points_balance>
                         <max_points_balance translate="label comment">
                             <label>Cap Reward Points Balance at</label>
@@ -89,7 +89,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>Empty Value disables this Limitation</comment>
+                            <comment>Empty value disables this limitation.</comment>
                         </max_points_balance>
                         <expiration_days translate="label comment">
                             <label>Reward Points Expire in (days)</label>
@@ -99,7 +99,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>Empty Value disables this Limitation</comment>
+                            <comment>Empty value disables this limitation.</comment>
                         </expiration_days>
                         <expiry_calculation translate="label comment">
                             <label>Reward Points Expiry Calculation</label>
@@ -109,7 +109,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>Static defines Expiry Date at the Moment when Balance increases. Dynamic does not have Expiry Date, but calculates it when Balance is being checked for expiry</comment>
+                            <comment>Static defines expiry date at the moment when balance increases. Dynamic does not have expiry date, but calculates it when balance is being checked for expiry.</comment>
                         </expiry_calculation>
                         <landing_page translate="label comment">
                             <sort_order>70</sort_order>
@@ -155,7 +155,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>Only if Customer and only on First Subscription</comment>
+                            <comment>Only if customer and only on first subscription.</comment>
                         </newsletter>
                         <invitation_customer translate="label comment">
                             <label>Converting Invitation to Customer</label>
@@ -206,7 +206,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>After Approval by Administrator</comment>
+                            <comment>After approval by administrator.</comment>
                         </review>
                         <review_limit translate="label comment">
                             <label>Rewarded Reviews Submission Quantity Limit</label>
@@ -223,7 +223,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>After Approval by Administrator</comment>
+                            <comment>After approval by administrator.</comment>
                         </tag>
                         <tag_limit translate="label comment">
                             <label>Rewarded Tag Submission Quantity Limit</label>
@@ -286,7 +286,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>Empty Value or Value Greater than Expiration Lifetime disables Warning Notification</comment>
+                            <comment>Empty value or value greater than expiration lifetime disables warning notification.</comment>
                         </expiry_day_before>
                     </fields>
                 </notification>

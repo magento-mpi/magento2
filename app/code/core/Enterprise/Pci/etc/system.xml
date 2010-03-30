@@ -35,7 +35,7 @@
                         <lockout_failures translate="label comment">
                             <sort_order>100</sort_order>
                             <label>Maximum Login Failures to Lockout Account</label>
-                            <comment>If empty, the lockout feature will be disabled</comment>
+                            <comment>If empty, this feature will be disabled.</comment>
                             <show_in_default>1</show_in_default>
                         </lockout_failures>
                         <lockout_threshold translate="label">

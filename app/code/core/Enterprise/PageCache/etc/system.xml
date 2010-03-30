@@ -25,7 +25,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Page depth calculated based on page parameters count (category.html - depth 0, category.html?p=2 - depth 1)</comment>
+                            <comment>Page depth calculated based on page parameters count. (category.html - depth 0, category.html?p=2 - depth 1)</comment>
                         </allowed_depth>
                         <multicurrency translate="label">
                             <label>Enable Cache For Not Default Currencies</label>

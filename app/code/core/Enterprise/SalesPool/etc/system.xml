@@ -64,7 +64,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>minutes</comment>
+                            <comment>Minutes.</comment>
                         </flush_period>
                         <allowed_payment_methods_scope translate="label">
                             <label>Queue orders with </label>

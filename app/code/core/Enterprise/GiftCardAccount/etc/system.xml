@@ -73,7 +73,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>Excluding prefix, suffix and separators</comment>
+                            <comment>Excluding prefix, suffix and separators.</comment>
                         </code_length>
                         <code_format translate="label">
                             <label>Code Format</label>
@@ -111,7 +111,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>if empty no separation</comment>
+                            <comment>if empty no separation.</comment>
                         </code_split>
                         <pool_size translate="label comment">
                             <label>New Pool Size</label>
