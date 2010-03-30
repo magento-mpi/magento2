@@ -19,47 +19,18 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Rss
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/**
- * XmlConnect index controller
- *
- * @file        IndexController.php
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
-class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
+class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
 {
-    public function preDispatch()
+    /**
+     * @return string
+     */
+    public function getOpenTag()
     {
-        parent::preDispatch();
-        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
+        return '<?xml version="1.0" encoding="UTF-8"?>';
     }
-
-     public function indexAction()
-    {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
-
-    public function categoryAction()
-    {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
-
-    public function filtersAction()
-    {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
-
-    public function productAction()
-    {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
+    
 }

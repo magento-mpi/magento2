@@ -58,11 +58,11 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection
     }
 
     /**
-     * @param array $additionalAtrributes Additional nodes for xml
+     * @param array|string $additionalAtrributes Additional nodes for xml
      * @param bool $safeAdditionalEntities
      * @return string
      */
-    public function toXml(array $additionalAtrributes = array(),
+    public function toXml($additionalAtrributes = array(),
         $safeAdditionalEntities = true,
         $addOpenTag = true,
         $parentNodeTitle = 'product',
@@ -94,10 +94,16 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection
         }
 
         $xmlModel = new Varien_Simplexml_Element('<node></node>');
-        foreach ($additionalAtrributes as $attrKey => $value) {
-            $value = $safeAdditionalEntities ? $xmlModel->xmlentities($value) : $value;
-            $xml .= "<{$attrKey}>$value</{$attrKey}>";
+
+        if (is_array($additionalAtrributes)) {
+            foreach ($additionalAtrributes as $attrKey => $value) {
+                $value = $safeAdditionalEntities ? $xmlModel->xmlentities($value) : $value;
+                $xml .= "<{$attrKey}>$value</{$attrKey}>";
+            }
+        } else {
+            $xml .= $additionalAtrributes;
         }
+
 
         $xml .= '</'.$parentNodeTitle.'>';
         return $xml;

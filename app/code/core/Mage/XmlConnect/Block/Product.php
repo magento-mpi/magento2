@@ -25,41 +25,39 @@
  */
 
 /**
- * XmlConnect index controller
+ * Review form block
  *
- * @file        IndexController.php
+ * @category   Mage
+ * @package    Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
+class Mage_XmlConnect_Block_Product extends Mage_XmlConnect_Block_Abstract
 {
-    public function preDispatch()
+    /**
+     * @var Mage_XmlConnect_Model_Product
+     */
+    protected $_product;
+
+    protected function _toHtml()
     {
-        parent::preDispatch();
-        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
+        $this->_product = Mage::getModel('xmlconnect/product')
+            ->setStoreId(Mage::app()->getStore()->getId())
+            ->load($this->getRequest()->getParam('id', 0));
+
+        return $this->_product->toXml(array(), 'item', false, true, $this->getChildHtml());
     }
 
-     public function indexAction()
+    public function getProduct()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        if (isset($this->_product)) {
+            return $this->_product;
+        } else {
+            return $this->_product = Mage::getModel('xmlconnect/product')
+                ->setStoreId(Mage::app()->getStore()->getId());
+        }
+
+
     }
 
-    public function categoryAction()
-    {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
-
-    public function filtersAction()
-    {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
-
-    public function productAction()
-    {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
 }

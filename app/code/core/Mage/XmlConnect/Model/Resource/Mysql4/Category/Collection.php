@@ -69,10 +69,10 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection
     }
 
     /**
-     * @param array $additionalAtrributes Additional nodes for xml 
+     * @param array|string $additionalAtrributes Additional nodes for xml
      * @return string
      */
-    public function toXml(array $additionalAtrributes = array())
+    public function toXml($additionalAtrributes = array())
     {
         $xml = '<?xml version="1.0" encoding="UTF-8"?>
         <category>
@@ -102,12 +102,15 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection
                 ';
 
         $xmlModel = new Varien_Simplexml_Element('<node></node>');
-        foreach ($additionalAtrributes as $attrKey => $value) {
-            $xml .= "<{$attrKey}>{$xmlModel->xmlentities($value)}</{$attrKey}>";
+        if (is_array($additionalAtrributes)) {
+            foreach ($additionalAtrributes as $attrKey => $value) {
+                $xml .= "<{$attrKey}>{$xmlModel->xmlentities($value)}</{$attrKey}>";
+            }
+        } else {
+            $xml .= $additionalAtrributes;
         }
 
         $xml .= '</category>';
-
         return $xml;
     }
 

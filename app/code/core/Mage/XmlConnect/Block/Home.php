@@ -25,41 +25,30 @@
  */
 
 /**
- * XmlConnect index controller
+ * Review form block
  *
- * @file        IndexController.php
+ * @category   Mage
+ * @package    Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
+class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Abstract
 {
-    public function preDispatch()
+
+    protected function _toHtml()
     {
-        parent::preDispatch();
-        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
+        $categoryModel = Mage::getResourceModel('xmlconnect/category_collection');
+
+        /* TODO: Hardcoded banner */
+        $additionalAttributes['home_banner'] = 'http://kd.varien.com/dev/yuriy.sorokolat/current/media/catalog/category/banner_home.png';
+        $xml = $categoryModel->addNameToResult()
+            ->addImageToResult()
+            ->addIsActiveFilter()
+            ->addLevelExactFilter(2)
+            ->addLimit(0,6)
+            ->load()
+            ->toXml($additionalAttributes);
+        return $xml;
     }
 
-     public function indexAction()
-    {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
-
-    public function categoryAction()
-    {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
-
-    public function filtersAction()
-    {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
-
-    public function productAction()
-    {
-        $this->loadLayout(false);
-        $this->renderLayout();
-    }
 }

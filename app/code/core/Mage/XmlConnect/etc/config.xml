@@ -42,7 +42,9 @@
             </xmlconnect_mysql4>
         </models>
         <blocks>
-            <rss><class>Mage_XmlConnect_Block</class></rss>
+            <xmlconnect>
+                <class>Mage_XmlConnect_Block</class>
+            </xmlconnect>
         </blocks>
         <resources>
             <xmlconnect_setup>
@@ -65,5 +67,12 @@
                 </args>
             </xmlconnect>
         </routers>
+        <layout>
+            <updates>
+                <xmlconnect>
+                    <file>xmlconnect.xml</file>
+                </xmlconnect>
+            </updates>
+        </layout>
     </frontend>
 </config>
