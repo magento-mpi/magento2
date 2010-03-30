@@ -149,7 +149,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Mage_Adminhtml_Block_Te
         $config    = $this->getConfig();
 
         // add chooser element to fieldset
-        $chooser = $fieldset->addField('chooser' . $element->getId(), 'label', array(
+        $chooser = $fieldset->addField('chooser' . $element->getId(), 'note', array(
             'label'       => $config->getLabel() ? $config->getLabel() : '',
             'value_class' => 'value2',
         ));
