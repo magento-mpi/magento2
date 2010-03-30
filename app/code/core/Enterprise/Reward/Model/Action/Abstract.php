@@ -69,12 +69,16 @@ abstract class Enterprise_Reward_Model_Action_Abstract extends Varien_Object
      */
     public function canAddRewardPoints()
     {
-        $exist = $this->getHistory()->isExistHistoryUpdate(
-            $this->getReward()->getCustomerId(),
-            $this->getAction(),
-            $this->getReward()->getWebsiteId(),
-            $this->getEntity()->getId()
-        );
+        if ($this->getEntity()) {
+            $exist = $this->getHistory()->isExistHistoryUpdate(
+                $this->getReward()->getCustomerId(),
+                $this->getAction(),
+                $this->getReward()->getWebsiteId(),
+                $this->getEntity()->getId()
+            );
+        } else {
+            $exist = false;
+        }
         $exceeded = $this->isRewardLimitExceeded();
         return !$exist && !$exceeded;
     }
