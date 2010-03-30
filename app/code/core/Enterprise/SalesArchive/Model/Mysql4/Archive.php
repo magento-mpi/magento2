@@ -268,12 +268,19 @@ class Enterprise_SalesArchive_Model_Mysql4_Archive extends Mage_Core_Model_Mysql
             array_keys($this->_getWriteAdapter()->describeTable($targetTable)),
             array_keys($this->_getWriteAdapter()->describeTable($sourceTable))
         );
+        $updatedAtIndex = array_search('updated_at', $insertFields);
+        if ($updatedAtIndex !== false) {
+            unset($insertFields[$updatedAtIndex]);
+            $insertFields['updated_at'] = new Zend_Db_Expr("'".$this->formatDate(time())."'");
+        }
 
         $select = $this->_getWriteAdapter()->select()
             ->from($sourceTable, $insertFields);
+
         if (!empty($conditionField)) {
             $select->where($this->_getWriteAdapter()->quoteIdentifier($conditionField) . ' IN(?)', $conditionValue);
         }
+
         $this->_getWriteAdapter()->query($select->insertFromSelect($targetTable, $insertFields, true));
         if ($conditionValue instanceof Zend_Db_Expr) {
             $select->reset()
