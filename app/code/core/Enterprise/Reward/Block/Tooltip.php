@@ -58,7 +58,11 @@ class Enterprise_Reward_Block_Tooltip extends Enterprise_Enterprise_Block_Core_T
                 ->setCustomer($customer)
                 ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
                 ->loadByCustomer();
-            $this->_actionInstance = $this->_rewardInstance->getActionInstance($action, true);
+            $actionInstance = $this->_rewardInstance->getActionInstance($action, true);
+            if (!$actionInstance->canAddRewardPoints()) {
+                return $this;
+            }
+            $this->_actionInstance = $actionInstance;
         }
     }
 
