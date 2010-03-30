@@ -154,7 +154,7 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     {
         $quote = $this->_getQuote($quote);
         $reservedOrderId = '';
-        if ($quote) {
+        if ($quote && $quote->getId()) {
             if (!$quote->getReservedOrderId()) {
                 $quote->reserveOrderId()->save();
             }
