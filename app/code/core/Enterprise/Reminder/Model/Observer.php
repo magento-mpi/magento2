@@ -33,8 +33,8 @@ class Enterprise_Reminder_Model_Observer
     const CRON_HOURLY   = 'H';
     const CRON_DAILY    = 'D';
 
-    const XML_PATH_EMAIL_LIMIT  = 'enterprise_reminder/general/limit';
-    const XML_PATH_EMAIL_IDENTITY  = 'enterprise_reminder/general/identity';
+    const XML_PATH_EMAIL_LIMIT  = 'promo/enterprise_reminder/limit';
+    const XML_PATH_EMAIL_IDENTITY  = 'promo/enterprise_reminder/identity';
 
     /**
      * Contains data defined per store view, will be used in email templates as variables

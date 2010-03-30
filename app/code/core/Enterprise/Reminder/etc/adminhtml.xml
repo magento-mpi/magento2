@@ -63,7 +63,7 @@
                     <sort_order>20</sort_order>
                     <depends>
                         <module>Enterprise_Reminder</module>
-                        <config>enterprise_reminder/general/enabled</config>
+                        <config>promo/enterprise_reminder/enabled</config>
                     </depends>
                     <resource>promo/enterprise_reminder</resource>
                 </reminder>
