@@ -230,7 +230,9 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
         $data = unserialize($this->decrypt($this->_getRequest()->getParam('data', '')));
         $data = array(
             'original_payment_method' => isset($data['original_payment_method']) ? $data['original_payment_method'] : null,
-            'token'                   => isset($data['token']) ? $data['token'] : null
+            'token'                   => isset($data['token']) ? $data['token'] : null,
+            'cc_last4'                => isset($data['cc_last4']) ? $data['cc_last4'] : null,
+            'cc_type'                 => isset($data['cc_type']) ? $data['cc_type'] : null,
         );
 
         return $data;

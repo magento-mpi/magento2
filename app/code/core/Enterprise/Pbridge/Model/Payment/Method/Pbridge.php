@@ -129,12 +129,17 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         if (is_array($data)) {
             if (isset($data['pbridge_data'])) {
                 $pbridgeData = $data['pbridge_data'];
+                $data['cc_last4'] = $pbridgeData['cc_last4'];
+                $data['cc_type'] = $pbridgeData['cc_type'];
                 unset($data['pbridge_data']);
             }
         } else {
             $pbridgeData = $data->getData('pbridge_data');
+            $data->setData('cc_last4',$pbridgeData['cc_last4']);
+            $data->setData('cc_type',$pbridgeData['cc_type']);
             $data->unsetData('pbridge_data');
         }
+
         parent::assignData($data);
         $this->setPbridgeResponse($pbridgeData);
         return $this;
