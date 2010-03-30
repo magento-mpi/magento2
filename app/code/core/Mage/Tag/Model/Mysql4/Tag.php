@@ -374,7 +374,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-        if ($object->getAddBasePopularity()) {
+        if ($object->getAddBasePopularity() && $object->hasStoreId()) {
             $select->joinLeft(
                 array('properties' => $this->getTable('tag/properties')),
                 "properties.tag_id = {$this->getMainTable()}.tag_id AND properties.store_id = {$object->getStoreId()}",
