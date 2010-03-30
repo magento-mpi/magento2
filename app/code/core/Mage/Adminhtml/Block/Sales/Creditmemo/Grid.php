@@ -144,6 +144,10 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
 
     public function getRowUrl($row)
     {
+        if (!Mage::getSingleton('admin/session')->isAllowed('sales/order/creditmemo')) {
+            return false;
+        }
+
         return $this->getUrl('*/sales_creditmemo/view',
             array(
                 'creditmemo_id'=> $row->getId(),

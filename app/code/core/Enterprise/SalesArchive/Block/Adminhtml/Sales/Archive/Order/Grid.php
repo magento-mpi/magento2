@@ -106,4 +106,12 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Grid extends M
 
         return $this;
     }
+
+    public function getRowUrl($row)
+    {
+        if (Mage::getSingleton('admin/session')->isAllowed('sales/archive/orders')) {
+            return $this->getUrl('*/sales_order/view', array('order_id' => $row->getId()));
+        }
+        return false;
+    }
 }
