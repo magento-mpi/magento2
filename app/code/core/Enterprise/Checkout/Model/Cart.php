@@ -323,7 +323,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                     }
                 }
                 else {
-                    $this->moveQuoteItem($itemId, $info['action'], $itemQty);
+                    $this->moveQuoteItem($itemId, $info['action']);
                 }
             }
         }
@@ -353,6 +353,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
                     }
                     break;
                 default:
+                    $this->getQuote()->removeItem($item->getId());
                     break;
             }
         }
