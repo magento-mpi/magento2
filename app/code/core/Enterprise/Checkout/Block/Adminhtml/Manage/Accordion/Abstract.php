@@ -112,7 +112,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
             'header'    => Mage::helper('enterprise_checkout')->__('Price'),
             'align'     => 'right',
             'type'      => 'price',
-            'currency_code' => $this->_getStore()->getBaseCurrency()->getCode(),
+            'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
             'index'     => 'price',
             'sortable'  => false
         ));
