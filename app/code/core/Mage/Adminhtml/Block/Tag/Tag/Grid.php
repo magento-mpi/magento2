@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
-                'header'                => Mage::helper('tag')->__('Visible In'),
+                'header'                => Mage::helper('tag')->__('Store View'),
                 'type'                  => 'store',
                 'skipAllStoresLabel'    => true,
                 'index'                 => 'stores',
