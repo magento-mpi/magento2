@@ -49,6 +49,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
         );
     }
 
+    /**
+     * Return custom object name for js grid 
+     *
+     * @return string
+     */
     public function getJsObjectName()
     {
         return 'wishlistItemsGrid';

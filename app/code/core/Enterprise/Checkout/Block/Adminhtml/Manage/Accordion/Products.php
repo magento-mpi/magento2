@@ -47,6 +47,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
         $this->setHeaderText(Mage::helper('enterprise_checkout')->__('Products'));
     }
 
+    /**
+     * Return custom object name for js grid 
+     *
+     * @return string
+     */
     public function getJsObjectName()
     {
         return 'productsGrid';
