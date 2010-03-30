@@ -169,13 +169,13 @@
 
 
     <default>
-        <reference name="cart_sidebar">
+        <!--reference name="cart_sidebar">
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/checkout_cart_item_renderer</block>
                 <template>checkout/cart/item/default.phtml</template>
             </action>
-        </reference>
+        </reference-->
     </default>
 
     <checkout_onepage_review>
