@@ -138,7 +138,7 @@ class Enterprise_Reminder_Model_Observer
                 'coupon' => $coupon
             );
 
-            $mail->setDesignConfig(array('area'=>'frontend', 'store'=>$storeId));
+            $mail->setDesignConfig(array('area' => 'frontend', 'store' => $storeId));
             $mail->sendTransactional($storeData['template_id'], $this->getEmailIdentity(),
                 $customer->getEmail(), null, $templateVars, $storeId
             );
@@ -195,7 +195,7 @@ class Enterprise_Reminder_Model_Observer
     public function getCronFrequencyTypes()
     {
         return array(
-            self::CRON_MINUTELY => Mage::helper('cron')->__('Minutely'),
+            self::CRON_MINUTELY => Mage::helper('cron')->__('Minute Intervals'),
             self::CRON_HOURLY   => Mage::helper('cron')->__('Hourly'),
             self::CRON_DAILY    => Mage::helper('cron')->__('Daily')
         );

@@ -49,8 +49,8 @@ class Enterprise_Reminder_Model_System_Config_Backend_Cron extends Mage_Core_Mod
             $frequency  = $this->getFieldsetDataValue('frequency');
 
             if ($frequency == $minutely) {
-                $periodicity = (int)$this->getFieldsetDataValue('periodicity');
-                $cronExprString = "*/{$periodicity} * * * *";
+                $interval = (int)$this->getFieldsetDataValue('interval');
+                $cronExprString = "*/{$interval} * * * *";
             }
             elseif ($frequency == $hourly) {
                 $minutes = (int)$this->getFieldsetDataValue('minutes');

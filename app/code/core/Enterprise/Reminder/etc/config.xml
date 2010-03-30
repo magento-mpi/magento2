@@ -128,16 +128,16 @@
     </adminhtml>
 
     <default>
-        <enterprise_reminder>
-            <general>
+        <promo>
+            <enterprise_reminder>
                 <enabled>1</enabled>
-                <frequency>H</frequency>
-                <periodicity>30</periodicity>
-                <minutes>1</minutes>
-                <limit>500</limit>
-                <identity>general</identity>
-            </general>
-        </enterprise_reminder>
+                <frequency>I</frequency>
+                <interval>15</interval>
+                <minutes>0</minutes>
+                <limit>100</limit>
+                <identity>sales</identity>
+            </enterprise_reminder>
+        </promo>
     </default>
 
     <crontab>
