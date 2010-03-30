@@ -80,4 +80,21 @@ class Mage_SalesRule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4
         }
         return $this;
     }
+
+    /**
+     * Init collection select
+     *
+     * @return unknown
+     */
+    public function _initSelect()
+    {
+        $this->getSelect()
+            ->from(array('main_table' => $this->getMainTable()))
+            ->joinInner(
+                array('s_c' => 'salesrule_coupon'),
+                '(main_table.rule_id = s_c.rule_id AND s_c.is_primary = 1)',
+                array('code')
+            );
+        return $this;
+    }
 }
