@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>1.4.0.2</version>
+            <version>1.4.0.3</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -132,7 +132,12 @@
                 <base_shipping_tax_amount><to_order>*</to_order></base_shipping_tax_amount>
                 <base_custbalance_amount><to_order>*</to_order></base_custbalance_amount>
                 <base_grand_total><to_order>*</to_order></base_grand_total>
-
+                
+                <hidden_tax_amount><to_order>*</to_order></hidden_tax_amount>
+                <base_hidden_tax_amount><to_order>*</to_order></base_hidden_tax_amount>
+                <shipping_hidden_tax_amount><to_order>*</to_order></shipping_hidden_tax_amount>
+                <base_shipping_hidden_tax_amount><to_order>*</to_order></base_shipping_hidden_tax_amount>
+                
                 <prefix><to_order_address>*</to_order_address><to_customer_address>*</to_customer_address></prefix>
                 <firstname><to_order_address>*</to_order_address><to_customer_address>*</to_customer_address></firstname>
                 <middlename><to_order_address>*</to_order_address><to_customer_address>*</to_customer_address></middlename>
@@ -199,6 +204,8 @@
                 <base_discount_amount><to_order_item_discount>*</to_order_item_discount></base_discount_amount>
                 <base_cost><to_order_item>*</to_order_item></base_cost>
                 <store_id><to_order_item>*</to_order_item></store_id>
+                <hidden_tax_amount><to_order_item>*</to_order_item></hidden_tax_amount>
+                <base_hidden_tax_amount><to_order_item>*</to_order_item></base_hidden_tax_amount>
             </sales_convert_quote_item>
 
             <sales_convert_order>
