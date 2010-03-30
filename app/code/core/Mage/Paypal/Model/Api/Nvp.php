@@ -46,7 +46,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * @var string
      */
     protected $_captureTypeComplete = 'Complete';
-    protected $_captureTypeNotcomplete = 'Complete';
+    protected $_captureTypeNotcomplete = 'NotComplete';
 
     /**
      * Global public interface map
