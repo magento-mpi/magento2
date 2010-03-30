@@ -278,7 +278,17 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
 
         if (!$this->getId() || $this->getStatus() == self::STATUS_UNSUBSCRIBED || $this->getStatus() == self::STATUS_NOT_ACTIVE) {
             if ($isConfirmNeed) {
-                $this->setStatus(self::STATUS_NOT_ACTIVE);
+                // if user subscribes own login email - confirmation is not needed
+                $ownerId = Mage::getModel('customer/customer')
+                    ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+                    ->loadByEmail($email)
+                    ->getId();
+                if ($customerSession->isLoggedIn() && $ownerId == $customerSession->getId()){
+                    $this->setStatus(self::STATUS_SUBSCRIBED);
+                }
+                else {
+                    $this->setStatus(self::STATUS_NOT_ACTIVE);
+                }
             } else {
                 $this->setStatus(self::STATUS_SUBSCRIBED);
             }
@@ -286,13 +296,6 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
         }
 
         if ($customerSession->isLoggedIn()) {
-            // if user subscribes own login email - confirmation is not needed.
-            // verifying only if email belongs to any user,
-            // because if belongs to not current user - exeption will be generated at controller.
-            if ($this->loadByEmail($email)->getCustomerId()) {
-                $this->setStatus(self::STATUS_SUBSCRIBED);
-            }
-
             $this->setStoreId($customerSession->getCustomer()->getStoreId());
             $this->setCustomerId($customerSession->getCustomerId());
         } else {
