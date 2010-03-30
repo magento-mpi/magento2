@@ -66,14 +66,15 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
      */
     protected function _connect($options = array())
     {
+        $helper = Mage::helper('enterprise_search');
         $def_options = array
         (
-            'hostname' => $this->getConfigData('server_hostname'),
-            'login'    => $this->getConfigData('server_username'),
-            'password' => $this->getConfigData('server_password'),
-            'port'     => $this->getConfigData('server_port'),
-            'timeout'  => $this->getConfigData('server_timeout'),
-            'path'     => $this->getConfigData('server_path')
+            'hostname' => $helper->getSolrConfigData('server_hostname'),
+            'login'    => $helper->getSolrConfigData('server_username'),
+            'password' => $helper->getSolrConfigData('server_password'),
+            'port'     => $helper->getSolrConfigData('server_port'),
+            'timeout'  => $helper->getSolrConfigData('server_timeout'),
+            'path'     => $helper->getSolrConfigData('server_path')
         );
         $options = array_merge($def_options, $options);
         try {
@@ -101,10 +102,10 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
      *        'fields'      - Fields names which are need to be retrieved from found documents
      *        'solr_params' - Key / value pairs for other query parameters (see Solr documentation),
      *                        use arrays for parameter keys used more than once (e.g. facet.field)
-     *        'lang_code'   - Language code, that will be used as suffix for text fields,
-     *                        by whish will be performed search request and sorting
+     *        'locale_code' - Locale code, it used to define what suffix is needed for text fields,
+     *                        by which will be performed search request and sorting
      *
-     *
+     * @see Enterprise_Search_Model_Adapter_HttpStream::_getLanguageCodeByLocaleCode()
      * @return array
      */
     protected function _search($query, $params = array())
@@ -125,19 +126,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         }
 
         $searchParams = array();
-
-        /**
-         * Now supported search only in fulltext field
-         * By default in Solr  set <defaultSearchField> is "fulltext"
-         * When language fields need to be used, then perform search in appropriate field
-         */
-        if ($this->getIsUseLanguageFields() && $params['lang_code']) {
-            $query = 'fulltext_' . $params['lang_code'] . ':' . $query;
-        }
-
-        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
-            $query .= ' AND in_stock:true';
-        }
+        $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
 
         if (!is_array($_params['fields'])) {
             $_params['fields'] = array($_params['fields']);
@@ -174,8 +163,8 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                 if ($sortField == 'name') {
                     $sortField = 'alphaNameSort';
                 }
-                if (in_array($sortField, $this->_searchTextFields) && $this->getIsUseLanguageFields() && $params['lang_code']) {
-                    $sortField = $sortField . '_' . $params['lang_code'];
+                if (in_array($sortField, $this->_searchTextFields) && $languageCode) {
+                    $sortField = $sortField . '_' . $languageCode;
                 }
                 $sortType = trim(strtolower($sortType)) == 'desc' ? 'desc' : 'asc';
                 $searchParams['sort'][] = $sortField . ' ' . $sortType;
@@ -187,6 +176,16 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
          */
         if (!empty($_params['fields'])) {
             $searchParams['fl'] = implode(',', $_params['fields']);
+        }
+
+        /**
+         * Now supported search only in fulltext and name fields based on dismax requestHandler.
+         * Using dismax requestHandler for each language make matches in name field
+         * are much more significant than matches in fulltext field.
+         */
+        $_params['solr_params']['qt'] = 'magento';
+        if ($languageCode) {
+            $_params['solr_params']['qt'] .= '_' . $languageCode;
         }
 
         /**
@@ -203,6 +202,9 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
          */
         if ($_params['store_id'] > 0) {
             $searchParams['fq'] = 'store_id:' . $_params['store_id'];
+        }
+        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
+            $searchParams['fq'] .= ' AND in_stock:true';
         }
 
         try {
@@ -225,5 +227,31 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
     public function ping()
     {
         return $this->_client->ping();
+    }
+
+    /**
+     * Retrieve language code by specified locale code if this locale is supported
+     *
+     * @param string $localeCode
+     * @return false|string
+     */
+    protected function _getLanguageCodeByLocaleCode($localeCode)
+    {
+        $localeCode = (string)$localeCode;
+        if (!$localeCode) {
+            return false;
+        }
+        $languages = Mage::helper('enterprise_search')->getSolrSupportedLanguages();
+        foreach ($languages as $code => $locales) {
+            if (is_array($locales)) {
+                if (in_array($localeCode, $locales)) {
+                    return $code;
+                }
+            }
+            elseif ($localeCode == $locales) {
+                return $code;
+            }
+        }
+        return false;
     }
 }

@@ -1,4 +1,28 @@
 <?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Search
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
 class Enterprise_Search_Model_Resource_Collection
     extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
@@ -65,11 +89,13 @@ class Enterprise_Search_Model_Resource_Collection
      */
     protected function _beforeLoad()
     {
-        $ids = array();
+        $ids = $params = array();
         if ($this->_engine) {
-            $params = array();
-            $params['store_id'] = Mage::app()->getStore()->getId();
-            $params['lang_code'] = Mage::helper('enterprise_search')->getLanguageCode($params['store_id']);
+
+            $store                 = Mage::app()->getStore();
+            $params['store_id']    = $store->getId();
+            $params['locale_code'] = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+
             if ($this->_sortBy) {
                 $params['sort_by'] = $this->_sortBy;
             }
@@ -115,9 +141,12 @@ class Enterprise_Search_Model_Resource_Collection
     {
         $params = array();
         if (is_null($this->_totalRecords)) {
-            $params['store_id'] = Mage::app()->getStore()->getId();
-            $params['lang_code'] = Mage::helper('enterprise_search')->getLanguageCode($params['store_id']);
-            $params['limit'] = 1;
+
+            $store                 = Mage::app()->getStore();
+            $params['store_id']    = $store->getId();
+            $params['locale_code'] = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+            $params['limit']       = 1;
+
             $this->_engine->getIdsByQuery($this->_searchQueryText, $params);
             $this->_totalRecords = $this->_engine->getLastNumFound();
         }

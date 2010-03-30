@@ -95,17 +95,6 @@
                             <show_in_store>0</show_in_store>
                             <depends><engine>enterprise_search/engine</engine></depends>
                         </solr_server_path>
-                        <solr_use_language_fields translate="label">
-                            <label>Enable Languge Fields Use in Solr</label>
-                            <frontend_type>select</frontend_type>
-                            <backend_model>enterprise_search/adminhtml_system_config_backend_language</backend_model>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>57</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <depends><engine>enterprise_search/engine</engine></depends>
-                        </solr_use_language_fields>
                         <search_type>
                             <depends><engine>catalogsearch/fulltext_engine</engine></depends>
                         </search_type>

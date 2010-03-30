@@ -53,6 +53,16 @@
                 <class>Enterprise_Search_Block</class>
              </enterprise_search>
         </blocks>
+        <!--  Example of manual additioan locale code with language code to support new language -->
+        <!--
+        <enterprise_search>
+            <supported_languages>
+                <solr>
+                    <bg_BG>bg</bg_BG>
+                </solr>
+            </supported_languages>
+        </enterprise_search>
+        -->
     </global>
 
     <default>
@@ -63,7 +73,6 @@
                 <solr_server_username>admin</solr_server_username>
                 <solr_server_timeout>15</solr_server_timeout>
                 <solr_server_path>solr</solr_server_path>
-                <solr_use_language_fields>0</solr_use_language_fields>
             </search>
         </catalog>
     </default>

@@ -65,10 +65,10 @@ class Enterprise_Search_Model_Resource_Engine
      */
     public function saveEntityIndex($entityId, $storeId, $index, $entityType = 'product')
     {
-        $languageCode = Mage::helper('enterprise_search')->getLanguageCode($storeId);
+        $store             = Mage::app()->getStore($storeId);
+        $localeCode        = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
         $index['store_id'] = $storeId;
-
-        $docs = $this->_adapter->prepareDocs(array($entityId => $index), $languageCode);
+        $docs = $this->_adapter->prepareDocs(array($entityId => $index), $localeCode);
         $this->_adapter->addDocs($docs);
         return $this;
     }
@@ -83,11 +83,12 @@ class Enterprise_Search_Model_Resource_Engine
      */
     public function saveEntityIndexes($storeId, $entityIndexes, $entityType = 'product')
     {
-        $languageCode = Mage::helper('enterprise_search')->getLanguageCode($storeId);
+        $store             = Mage::app()->getStore($storeId);
+        $localeCode        = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
         foreach ($entityIndexes as $entityId => $indexData) {
             $entityIndexes[$entityId]['store_id'] = $storeId;
         }
-        $docs = $this->_adapter->prepareDocs($entityIndexes, $languageCode);
+        $docs = $this->_adapter->prepareDocs($entityIndexes, $localeCode);
         $this->_adapter->addDocs($docs);
         return $this;
     }

@@ -44,19 +44,102 @@ class Enterprise_Search_Helper_Data extends Enterprise_Enterprise_Helper_Core_Ab
     }
 
     /**
-     * Retrieve language code from store locale code
+     * Retrive supported by Solr languages including locale codes (language codes) that are specified in configuration
+     * Array(
+     *      'language_code1' => 'locale_code',
+     *      'language_code2' => Array('locale_code1', 'locale_code2')
+     * )
      *
-     * @param int|null $storeId
-     * @return string
+     * @return array
      */
-    public function getLanguageCode($storeId = null)
+    public function getSolrSupportedLanguages()
     {
-        $store = Mage::app()->getStore($storeId);
-        $localeCode = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
-        $codeParts = explode('_', $localeCode);
-        if (isset($codeParts[0])) {
-            return strtolower($codeParts[0]);
+        $default = array(
+            /**
+             * SnowBall filter based
+             */
+            //Danish
+            'da' => 'da_DK',
+            //Dutch
+            'nl' => 'nl_NL',
+            //English
+            'en' => array('en_AU', 'en_CA', 'en_NZ', 'en_GB', 'en_US'),
+            //Finnish
+            'fi' => 'fi_FI',
+            //French
+            'fr' => array('fr_CA', 'fr_FR'),
+            //German
+            'de' => array('de_DE','de_DE','de_AT'),
+            //Italian
+            'it' => array('it_IT','it_CH'),
+            //Norwegian
+            'nb' => array('nb_NO', 'nn_NO'),
+            //Portuguese
+            'pt' => array('pt_BR', 'pt_PT'),
+            //Romanian
+            'ro' => 'ro_RO',
+            //Russian
+            'ru' => 'ru_RU',
+            //Spanish
+            'es' => array('es_AR', 'es_CL', 'es_CO', 'es_CR', 'es_ES', 'es_MX', 'es_PA', 'es_PE', 'es_VE'),
+            //Swedish
+            'sv' => 'sv_SE',
+            //Turkish
+            'tr' => 'tr_TR',
+
+            /**
+             * Lucene class based
+             */
+            //Czech
+            'cs' => 'cs_CZ',
+            //Greek
+            'el' => 'el_GR',
+            //Thai
+            'th' => 'th_TH',
+            //Chinese
+            'zh' => array('zh_CN', 'zh_HK', 'zh_TW'),
+            //Japanese
+            'ja' => 'ja_JP',
+            //Korean
+            'ko' => 'ko_KR'
+        );
+
+        /**
+         * Merging languages that specified manualy
+         */
+        $node = Mage::getConfig()->getNode('global/enterprise_search/supported_languages/solr');
+        if ($node && $node->children()) {
+            foreach ($node->children() as $_node) {
+                $localeCode = $_node->getName();
+                $langCode   = $_node . '';
+                if (isset($default[$langCode])) {
+                    if (is_array($default[$langCode])) {
+                        if (!in_array($localeCode, $default[$langCode])) {
+                            $default[$langCode][] = $localeCode;
+                        }
+                    }
+                    elseif ($default[$langCode] != $localeCode) {
+                        $default[$langCode] = array($default[$langCode], $localeCode);
+                    }
+                }
+                else {
+                    $default[$langCode] = $localeCode;
+                }
+            }
         }
-        return null;
+        return $default;
+    }
+
+    /**
+     * Retrieve information from Solr search engine configuration
+     *
+     * @param string $field
+     * @param int $storeId
+     * @return string|int
+     */
+    public function getSolrConfigData($field, $storeId = null)
+    {
+        $path = 'catalog/search/solr_'.$field;
+        return Mage::getStoreConfig($path, $storeId);
     }
 }

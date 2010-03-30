@@ -95,6 +95,18 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     );
 
     /**
+     * Fields which must be are not included in fulltext field
+     *
+     * @var array
+     */
+    protected $_notInFulltextField = array(
+        self::UNIQUE_KEY,
+        'id',
+        'store_id',
+        'in_stock'
+    );
+
+    /**
      * Search query params with their default values
      *
      * @var array
@@ -104,32 +116,19 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         'limit'         => 100,
         'sort_by'       => array(array('score' => 'desc')),
         'store_id'      => null,
-        'lang_code'     => null,
+        'locale_code'   => null,
         'fields'        => array(),
         'solr_params'   => array(),
     );
 
     /**
-     * Retrieve information from Solr search engine configuration
-     *
-     * @param string $field
-     * @param int $storeId
-     * @return string|int
-     */
-    public function getConfigData($field, $storeId = null)
-    {
-        $path = 'catalog/search/solr_'.$field;
-        return Mage::getStoreConfig($path, $storeId);
-    }
-
-    /**
      * Create Solr Input Documents by specified data
      *
      * @param array $docData
-     * @param string|null $languageCode
+     * @param string|null $localeCode
      * @return array
      */
-    public function prepareDocs($docData, $languageCode = null)
+    public function prepareDocs($docData, $localeCode = null)
     {
         if (!is_array($docData)) {
             return array();
@@ -149,16 +148,25 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $index['id'] = $entityId;
 
             /**
-             * Merge all attributes to fulltext field
-             */
-            $index['fulltext'] = $this->_implodeIndexData($index);
-
-            /**
              * Merge name field if it has multimple values
              */
             $index['name'] = $this->_implodeIndexData($index['name']);
 
-            $index = $this->_filterIndexData($index, $languageCode);
+            /**
+             * Merge all attributes to fulltext field
+             */
+            $fulltext = $index;
+            foreach ($this->_notInFulltextField as $field) {
+                if (isset($fulltext[$field])) {
+                    unset($fulltext[$field]);
+                }
+            }
+            $index['fulltext'] = $this->_implodeIndexData($fulltext);
+
+
+
+
+            $index = $this->_filterIndexData($index, $localeCode);
             if (!$index) {
                 continue;
             }
@@ -347,16 +355,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     }
 
     /**
-     * Define if solr need to store and use in search separate fields by languages codes
-     *
-     * @return bool
-     */
-    public function getIsUseLanguageFields()
-    {
-        return (bool)$this->getConfigData('use_language_fields');
-    }
-
-    /**
      * Connect to Search Engine Client by specified options
      *
      * @param array $options
@@ -375,6 +373,13 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      * Checks if Solr server is still up
      */
     abstract public function ping();
+
+    /**
+     * Retrieve language code by specified locale code if this locale is supported
+     *
+     * @param string $localeCode
+     */
+    abstract protected function _getLanguageCodeByLocaleCode($localeCode);
 
     /**
      * Convert Solr Query Response found documents to an array
@@ -420,11 +425,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      * Add language code suffix to text fields
      *
      * @param array $data
-     * @param string|null $languageCode
+     * @param string|null $localeCode
      * @return array
      * @see $this->_usedFields, $this->_searchTextFields
      */
-    protected function _filterIndexData($data, $languageCode = null)
+    protected function _filterIndexData($data, $localeCode = null)
     {
         if (!is_array($data)) {
             return array();
@@ -433,7 +438,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             return array();
         }
         $data = array_intersect_key($data, array_flip($this->_usedFields));
-        if ($this->getIsUseLanguageFields() && $languageCode) {
+        $languageCode = $this->_getLanguageCodeByLocaleCode($localeCode);
+        if ($languageCode) {
             foreach ($data as $key => $value) {
                 if (in_array($key, $this->_searchTextFields)) {
                     $data[$key . '_' . $languageCode] = $value;
