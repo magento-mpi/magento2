@@ -36,7 +36,8 @@
 </form>
 <?php endif;*/ ?>
 </div>
-<script>
+<script type="text/javascript">
+//<![CDATA[
     Event.observe(window, 'load', updateCurrency);
     Event.observe($('_infowebsite_id'), 'change', updateCurrency);
 
@@ -49,4 +50,5 @@
             $('balance_currency').innerHTML = '<b>[' + currencies[val] + ']</b>';
         }
     }
+//]]>
 </script>
