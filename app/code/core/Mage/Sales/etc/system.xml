@@ -176,7 +176,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>Subtotal after discount</comment>
+                            <comment>Subtotal after discount.</comment>
                         </amount>
                         <description translate="label comment">
                             <label>Description Message</label>
@@ -185,7 +185,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>This message will be shown in shopping cart when subtotal after discount less than minimum amount</comment>
+                            <comment>This message will be shown in shopping cart when subtotal after discount less than minimum amount.</comment>
                         </description>
                         <error_message translate="label">
                             <label>Error to Show in Shopping Cart</label>
@@ -211,7 +211,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>If empty, the default description above will be used</comment>
+                            <comment>If empty, the default description above will be used.</comment>
                         </multi_address_description>
                         <multi_address_error_message translate="label comment">
                             <label>Multi-address Error to Show in Shopping Cart</label>
@@ -220,7 +220,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>If empty, the default error above will be used</comment>
+                            <comment>If empty, the default error above will be used.</comment>
                         </multi_address_error_message>
                     </fields>
                 </minimum_order>
@@ -239,7 +239,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>If "Yes", Improve dashboard performance but provide data delay</comment>
+                            <comment>Improves dashboard performance but provides non-realtime data.</comment>
                         </use_aggregated_data>
                     </fields>
                 </dashboard>
@@ -305,7 +305,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>separate by ","</comment>
+                            <comment>Comma-separated.</comment>
                         </copy_to>
                         <copy_method translate="label">
                             <label>Send Order Email Copy Method</label>
@@ -370,7 +370,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>separate by ","</comment>
+                            <comment>Comma-separated.</comment>
                         </copy_to>
                         <copy_method translate="label">
                             <label>Send Order Email Copy Method</label>
@@ -435,7 +435,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>separate by ","</comment>
+                            <comment>Comma-separated.</comment>
                         </copy_to>
                         <copy_method translate="label">
                             <label>Send Order Email Copy Method</label>
@@ -499,7 +499,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>separate by ","</comment>
+                            <comment>Comma-separated.</comment>
                         </copy_to>
                         <copy_method translate="label">
                             <label>Send Order Email Copy Method</label>
@@ -564,7 +564,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>separate by ","</comment>
+                            <comment>Comma-separated.</comment>
                         </copy_to>
                         <copy_method translate="label">
                             <label>Send Order Email Copy Method</label>
@@ -628,7 +628,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>separate by ","</comment>
+                            <comment>Comma-separated.</comment>
                         </copy_to>
                         <copy_method translate="label">
                             <label>Send Order Email Copy Method</label>
@@ -693,7 +693,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>separate by ","</comment>
+                            <comment>Comma-separated.</comment>
                         </copy_to>
                         <copy_method translate="label">
                             <label>Send Order Email Copy Method</label>
@@ -757,7 +757,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>separate by ","</comment>
+                            <comment>Comma-separated.</comment>
                         </copy_to>
                         <copy_method translate="label">
                             <label>Send Order Email Copy Method</label>

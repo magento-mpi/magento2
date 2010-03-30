@@ -72,7 +72,7 @@
                         </merchant_key>
                         <api_url translate="label comment">
                             <label>Secure URL (production)</label>
-                            <comment>Leave empty for default value</comment>
+                            <comment>Leave empty for default value.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
@@ -81,7 +81,7 @@
                         </api_url>
                         <api_test_url translate="label comment">
                             <label>Secure URL (test mode)</label>
-                            <comment>Leave empty for default value</comment>
+                            <comment>Leave empty for default value.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
@@ -99,7 +99,7 @@
                         </test_flag>
                         <description translate="label comment">
                             <label>Transaction Description</label>
-                            <comment>Store name will be used if left empty</comment>
+                            <comment>Store name will be used if left empty.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
@@ -196,7 +196,7 @@
                         </merchant_id>
                         <private_key translate="label comment">
                             <label>Private Key</label>
-                            <comment>Absolute path to private key file</comment>
+                            <comment>Absolute path to private key file.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
@@ -213,7 +213,7 @@
                         </private_keypass>
                         <private_cert translate="label comment">
                             <label>Private Certificate</label>
-                            <comment>Absolute path to private certificate file</comment>
+                            <comment>Absolute path to private certificate file.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
@@ -222,7 +222,7 @@
                         </private_cert>
                         <certificate translate="label comment">
                             <label>iDEAL Certificate</label>
-                            <comment>Absolute path to public payment provider certificate file</comment>
+                            <comment>Absolute path to public payment provider certificate file.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
@@ -240,7 +240,7 @@
                         </test_flag>
                         <description translate="label comment">
                             <label>Transaction Description</label>
-                            <comment>Store name will be used if left empty</comment>
+                            <comment>Store name will be used if left empty.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -258,7 +258,7 @@
                         </expire_period>
                         <cron_start translate="label comment">
                             <label>Check Begin</label>
-                            <comment>Begin to check transaction status if order was made {N} hours ago</comment>
+                            <comment>Begin to check transaction status if order was made {N} hours ago.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>90</sort_order>
                             <show_in_default>1</show_in_default>
@@ -267,7 +267,7 @@
                         </cron_start>
                         <cron_end translate="label comment">
                             <label>Check End</label>
-                            <comment>Don't check transaction status if order older than {N} days</comment>
+                            <comment>Do not check transaction status if order older than {N} days.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>

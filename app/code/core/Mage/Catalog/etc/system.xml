@@ -62,7 +62,7 @@
                         </list_mode>
                         <grid_per_page_values translate="label comment">
                             <label>Products per Page on Grid Allowed Values</label>
-                            <comment>comma separated</comment>
+                            <comment>Comma-separated.</comment>
                             <frontend_type>text</frontend_type>
                             <!--<source_model>adminhtml/system_config_source_catalog_gridPerPage</source_model>-->
                             <sort_order>2</sort_order>
@@ -72,7 +72,7 @@
                         </grid_per_page_values>
                         <grid_per_page translate="label comment">
                             <label>Products per Page on Grid Default Value</label>
-                            <comment>must be in the allowed values list</comment>
+                            <comment>Must be in the allowed values list.</comment>
                             <frontend_type>text</frontend_type>
                             <!--<source_model>adminhtml/system_config_source_catalog_gridPerPage</source_model>-->
                             <sort_order>3</sort_order>
@@ -82,7 +82,7 @@
                         </grid_per_page>
                         <list_per_page_values translate="label comment">
                             <label>Products per Page on List Allowed Values</label>
-                            <comment>comma separated</comment>
+                            <comment>Comma-separated.</comment>
                             <frontend_type>text</frontend_type>
                             <!--<source_model>adminhtml/system_config_source_catalog_gridPerPage</source_model>-->
                             <sort_order>4</sort_order>
@@ -92,7 +92,7 @@
                         </list_per_page_values>
                         <list_per_page translate="label comment">
                             <label>Products per Page on List Default Value</label>
-                            <comment>must be in the allowed values list</comment>
+                            <comment>Must be in the allowed values list.</comment>
                             <frontend_type>text</frontend_type>
                             <!--<source_model>adminhtml/system_config_source_catalog_listPerPage</source_model>-->
                             <sort_order>5</sort_order>
@@ -132,7 +132,7 @@
                         </default_sort_by>
                         <list_allow_all translate="label comment">
                             <label>Allow All Products per Page</label>
-                            <comment>whether to show "All" option in the "Show X Per Page" dropdown</comment>
+                            <comment>Whether to show "All" option in the "Show X Per Page" dropdown.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>6</sort_order>
@@ -207,7 +207,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>cache refresh needed</comment>
+                            <comment>Cache refresh needed.</comment>
                         </category_url_suffix>
                         <product_url_suffix translate="label comment">
                             <label>Product URL Suffix</label>
@@ -216,7 +216,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>cache refresh needed</comment>
+                            <comment>Cache refresh needed.</comment>
                         </product_url_suffix>
                         <product_use_categories translate="label">
                             <label>Use Categories Path for Product URLs</label>
@@ -340,7 +340,7 @@
                         </time_format>
                         <year_range translate="label comment">
                             <label>Year Range</label>
-                            <comment>Please, use four-digit year format</comment>
+                            <comment>Use four-digit year format.</comment>
                             <frontend_type>text</frontend_type>
                             <frontend_model>adminhtml/catalog_form_renderer_config_yearRange</frontend_model>
                             <sort_order>4</sort_order>
@@ -388,7 +388,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Example format 200x300</comment>
+                            <comment>Example format: 200x300.</comment>
                         </size>
                         <imageOpacity translate="label">
                             <label>Watermark Opacity, Percent</label>
@@ -408,7 +408,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Allowed file types (jpeg, gif, png).</comment>
+                            <comment>Allowed file types: jpeg, gif, png.</comment>
                         </image>
                         <position translate="label">
                             <label>Watermark Position</label>

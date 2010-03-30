@@ -31,7 +31,7 @@
             <groups>
                 <chronopay_standard translate="label comment" module="chronopay">
                     <label>ChronoPay Standard</label>
-                    <comment>Please specify Access URL: {STORE_URL}/chronopay/standard/success in the ChronoPay Client Admin.</comment>
+                    <comment>Specify access URL: {STORE_URL}/chronopay/standard/success in the ChronoPay client admin.</comment>
                     <frontend_type>text</frontend_type>
                     <sort_order>251</sort_order>
                     <show_in_default>1</show_in_default>
@@ -73,7 +73,7 @@
                         </product_id>
                         <description translate="label comment">
                             <label>Transaction Description</label>
-                            <comment>Order number will be used if left empty</comment>
+                            <comment>Order number will be used if left empty.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>

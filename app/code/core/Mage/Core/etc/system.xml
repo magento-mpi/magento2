@@ -397,7 +397,7 @@
                     <fields>
                         <pagination_frame translate="label comment">
                             <label>Pagination Frame</label>
-                            <comment>How many Links to display at once</comment>
+                            <comment>How many links to display at once.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
@@ -406,7 +406,7 @@
                         </pagination_frame>
                         <pagination_frame_skip translate="label comment">
                             <label>Pagination Frame Skip</label>
-                            <comment>If the Current Frame Position does not cover Utmost Pages, will render Link to Current Position plus/minus this Value</comment>
+                            <comment>If the current frame position does not cover utmost pages, will render link to current position plus/minus this value.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
@@ -415,7 +415,7 @@
                         </pagination_frame_skip>
                         <anchor_text_for_previous translate="label comment">
                             <label>Anchor Text for Previous</label>
-                            <comment>Alternative text for Previous link in pagination menu. If empty, default arrow image will used</comment>
+                            <comment>Alternative text for previous link in pagination menu. If empty, default arrow image will used.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>9</sort_order>
                             <show_in_default>1</show_in_default>
@@ -424,7 +424,7 @@
                         </anchor_text_for_previous>
                         <anchor_text_for_next translate="label comment">
                             <label>Anchor Text for Next</label>
-                            <comment>Alternative text for Next Link in pagination menu. If empty, default arrow image will used</comment>
+                            <comment>Alternative text for next link in pagination menu. If empty, default arrow image will used.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
@@ -459,7 +459,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Leave empty for access from any location</comment>
+                            <comment>Leave empty for access from any location.</comment>
                         </allow_ips>
                     </fields>
                 </restrict>
@@ -525,7 +525,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>Translate cache should be disabled for both Frontend and Admin inline translations</comment>
+                            <comment>Translate cache should be disabled for both frontend and admin inline translations.</comment>
                         </active_admin>
                     </fields>
                 </translate_inline>
@@ -771,7 +771,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>For Windows Server Only</comment>
+                            <comment>For Windows server only.</comment>
                         </host>
                         <port translate="label">
                             <label>Port (25)</label>
@@ -780,7 +780,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>For Windows Server Only</comment>
+                            <comment>For Windows server only.</comment>
                         </port>
                         <!--
                         <auth translate="label">
@@ -915,7 +915,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment>Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/</comment>
+                            <comment>Make sure that base URL ends with '/' (slash), e.g. http://yourdomain/magento/</comment>
                         </custom>
                     </fields>
                 </url>
@@ -948,7 +948,7 @@
                         </use_case_sensitive_login>
                         <session_cookie_lifetime translate="label comment">
                             <label>Session Lifetime (seconds)</label>
-                            <comment>Values less than 60 are ignored. Please note, that changes will apply after logout.</comment>
+                            <comment>Values less than 60 are ignored. Note that changes will apply after logout.</comment>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -1086,7 +1086,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/</comment>
+                            <comment>Make sure that base URL ends with '/' (slash), e.g. http://yourdomain/magento/</comment>
                         </base_url>
                         <base_link_url translate="label comment">
                             <label>Base Link URL</label>
@@ -1096,7 +1096,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/</comment>
+                            <comment>Make sure that base URL ends with '/' (slash), e.g. http://yourdomain/magento/</comment>
                         </base_link_url>
                         <base_skin_url translate="label">
                             <label>Base Skin URL</label>
@@ -1268,7 +1268,7 @@
                         </use_http_user_agent>
                         <use_frontend_sid translate="label comment">
                             <label>Use SID on Frontend</label>
-                            <comment>Allows Customers to stay logged in when switching between different Stores.</comment>
+                            <comment>Allows customers to stay logged in when switching between different stores.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>50</sort_order>

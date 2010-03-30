@@ -106,7 +106,7 @@
 -->
                         <includes translate="label comment">
                             <label>Miscellaneous Scripts</label>
-                            <comment>This will be included before head closing tag in page HTML</comment>
+                            <comment>This will be included before head closing tag in page HTML.</comment>
                             <frontend_type>textarea</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -176,7 +176,7 @@
                         </copyright>
                         <absolute_footer translate="label comment">
                             <label>Miscellaneous HTML</label>
-                            <comment>This will be displayed just before body closing tag</comment>
+                            <comment>This will be displayed just before body closing tag.</comment>
                             <frontend_type>textarea</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>

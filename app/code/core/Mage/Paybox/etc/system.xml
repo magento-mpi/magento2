@@ -101,7 +101,7 @@
                         </pbx_identifiant>
                         <pbx_output translate="label comment">
                             <label>Management Mode of the Intermediary Page</label>
-                            <comment>Only if you HTML From mode selected</comment>
+                            <comment>Only if the "HTML From" mode selected.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>paybox/source_managementMode</source_model>
                             <sort_order>50</sort_order>
@@ -111,7 +111,7 @@
                         </pbx_output>
                         <pbx_txt translate="label comment">
                             <label>Text on the Intermediary Page</label>
-                            <comment>Only if you HTML From mode selected</comment>
+                            <comment>Only if the "HTML From" mode selected.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -120,7 +120,7 @@
                         </pbx_txt>
                         <pbx_boutpi translate="label comment">
                             <label>Name of the Button on the Intermediary Page</label>
-                            <comment>Only if you HTML From mode selected</comment>
+                            <comment>Only if the "HTML From" mode selected.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -129,7 +129,7 @@
                         </pbx_boutpi>
                         <pbx_bkgd translate="label comment">
                             <label>Screen Background of the Intermediary Page</label>
-                            <comment>Only if you HTML From mode selected</comment>
+                            <comment>Only if the "HTML From" mode selected.</comment>
                             <frontend_type>image</frontend_type>
                             <backend_model>adminhtml/system_config_backend_image</backend_model>
                             <upload_dir config="system/filesystem/media" scope_info="1">payment/paybox/bkgd</upload_dir>
@@ -141,7 +141,7 @@
                         </pbx_bkgd>
                         <pbx_wait translate="label comment">
                             <label>Delay in Displaying the Intermediary Page (in msec)</label>
-                            <comment>Only if you HTML From mode selected</comment>
+                            <comment>Only if the "HTML From" mode selected.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>90</sort_order>
                             <show_in_default>1</show_in_default>
@@ -178,7 +178,7 @@
                         </pbx_typecarte>
                         <pbx_paybox translate="label comment">
                             <label>The URL of the Primary Payment Server</label>
-                            <comment>Specify the URL of the primary payment server if different from default</comment>
+                            <comment>Specify the URL of the primary payment server if different from default.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
@@ -187,7 +187,7 @@
                         </pbx_paybox>
                         <pbx_timeout translate="label comment">
                             <label>Timeout for Checking</label>
-                            <comment>Time-out (in seconds) to check the avalaibility of the primary payment server (Default 8 seconds)</comment>
+                            <comment>Time-out (in seconds) to check the avalaibility of the primary payment server (default 8 seconds).</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>115</sort_order>
                             <show_in_default>1</show_in_default>
@@ -196,7 +196,7 @@
                         </pbx_timeout>
                         <pbx_backup1 translate="label comment">
                             <label>The URL of the Primary Backup Payment Server</label>
-                            <comment>Specify the URL of the primary backup payment server if different from default</comment>
+                            <comment>Specify the URL of the primary backup payment server if different from default.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
@@ -205,7 +205,7 @@
                         </pbx_backup1>
                         <pbx_timeout1 translate="label comment">
                             <label>Timeout for Checking</label>
-                            <comment>Time-out (in seconds) to check the avalaibility of the primary backup payment server (Default 10 seconds)</comment>
+                            <comment>Time-out (in seconds) to check the avalaibility of the primary backup payment server (default 10 seconds).</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>125</sort_order>
                             <show_in_default>1</show_in_default>
@@ -214,7 +214,7 @@
                         </pbx_timeout1>
                         <pbx_backup2 translate="label comment">
                             <label>The URL of the Second Backup Payment Server</label>
-                            <comment>Specify the URL of the second backup payment server if different from default</comment>
+                            <comment>Specify the URL of the second backup payment server if different from default.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
@@ -223,7 +223,7 @@
                         </pbx_backup2>
                         <pbx_timeout2 translate="label comment">
                             <label>Timeout for Checking</label>
-                            <comment>Time-out (in seconds) to check the avalaibility of the second backup payment server (Default 20 seconds)</comment>
+                            <comment>Time-out (in seconds) to check the avalaibility of the second backup payment server (fefault 20 seconds).</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>135</sort_order>
                             <show_in_default>1</show_in_default>
@@ -232,7 +232,7 @@
                         </pbx_timeout2>
                         <pbx_backup3 translate="label comment">
                             <label>The URL of the Third Backup Payment Server</label>
-                            <comment>Specify the URL of the third backup payment server if different from default</comment>
+                            <comment>Specify the URL of the third backup payment server if different from default.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>140</sort_order>
                             <show_in_default>1</show_in_default>
@@ -241,7 +241,7 @@
                         </pbx_backup3>
                         <pbx_timeout3 translate="label comment">
                             <label>Timeout for Checking</label>
-                            <comment>Time-out (in seconds) to check the avalaibility of the third backup payment server (Default 20 seconds)</comment>
+                            <comment>Time-out (in seconds) to check the avalaibility of the third backup payment server (default 20 seconds).</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>145</sort_order>
                             <show_in_default>1</show_in_default>
@@ -250,7 +250,7 @@
                         </pbx_timeout3>
                         <pbx_ping translate="label comment">
                             <label>Ping Flag</label>
-                            <comment>Only with 'Command Line' mode</comment>
+                            <comment>Only with "Command Line" mode.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>160</sort_order>
@@ -260,7 +260,7 @@
                         </pbx_ping>
                         <pbx_port translate="label comment">
                             <label>TCP Port</label>
-                            <comment>TCP Port used to check the availability of a payment server if Ping Flag enabled (Default port is 443)</comment>
+                            <comment>TCP port used to check the availability of a payment server if "Ping Flag" enabled (default port is 443).</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>170</sort_order>
                             <show_in_default>1</show_in_default>

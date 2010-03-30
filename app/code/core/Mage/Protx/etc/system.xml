@@ -65,7 +65,7 @@
                         </title>
                         <description translate="label comment">
                             <label>Transaction Description</label>
-                            <comment>Store name will be used if left empty</comment>
+                            <comment>Store name will be used if left empty.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
@@ -108,7 +108,7 @@
                         </vendor_notification>
                         <vendor_email translate="label comment">
                             <label>Vendor Email</label>
-                            <comment>'General contact' email will be used if left empty</comment>
+                            <comment>General contact email will be used if left empty.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>

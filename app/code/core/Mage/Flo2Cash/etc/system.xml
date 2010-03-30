@@ -72,7 +72,7 @@
                         </password>
                         <payzn_account_id translate="label comment">
                             <label>Account Number</label>
-                            <comment>For Authorize or Capture Transactions only</comment>
+                            <comment>For "Authorize" or "Capture" transactions only.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>31</sort_order>
                             <show_in_default>1</show_in_default>
@@ -81,7 +81,7 @@
                         </payzn_account_id>
                         <payzn_purchase_account_id translate="label comment">
                             <label>Account Number</label>
-                            <comment>For Purchase Transactions only</comment>
+                            <comment>For "Purchase" transactions only.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>32</sort_order>
                             <show_in_default>1</show_in_default>
