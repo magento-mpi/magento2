@@ -85,9 +85,7 @@ class Mage_Tag_Model_Mysql4_Tag_Relation extends Mage_Core_Model_Mysql4_Abstract
             ->from($this->getMainTable(), 'product_id')
             ->where("tag_id=?", $model->getTagId());
 
-        if (is_null($model->getCustomerId())) {
-            $select->where('customer_id IS NULL');
-        } else {
+        if (!is_null($model->getCustomerId())) {
             $select->where('customer_id=?', $model->getCustomerId());
         }
 

@@ -184,14 +184,28 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * getter for self::STATUS_APPROVED
+     */
     public function getApprovedStatus()
     {
         return self::STATUS_APPROVED;
     }
 
+    /**
+     * getter for self::STATUS_PENDING
+     */
     public function getPendingStatus()
     {
         return self::STATUS_PENDING;
+    }
+
+    /**
+     * getter for self::STATUS_DISABLED
+     */
+    public function getDisabledStatus()
+    {
+        return self::STATUS_DISABLED;
     }
 
     public function getEntityCollection()
