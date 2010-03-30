@@ -178,8 +178,8 @@ AdminCheckout.prototype = {
                     element.qty.value = 1;
                 }
                 qty = element.qty.value;
+                this.getContext(element.name).set(element.value, qty);
             }
-            this.getContext(element.name).set(element.value, qty);
         } else {
             if(element.qty){
                 element.qty.disabled = true;
