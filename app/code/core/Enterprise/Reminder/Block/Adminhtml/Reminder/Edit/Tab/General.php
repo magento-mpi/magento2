@@ -63,7 +63,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             'style' => 'width: 98%; height: 100px;',
         ));
 
-        $field = $fieldset->addField('salesrule_id', 'label', array(
+        $field = $fieldset->addField('salesrule_id', 'note', array(
             'name'      => 'salesrule_id',
             'label'     => Mage::helper('enterprise_reminder')->__('Shopping Cart Price Rule'),
             'required'  => true,
