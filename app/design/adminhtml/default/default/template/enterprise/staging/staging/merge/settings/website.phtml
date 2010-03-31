@@ -202,7 +202,7 @@ Validation.addAllThese([
             var mergeDate   = new Date(dateV);
             var currentTime = new Date();
             currentTime.setTime((CalendarDateObject._SERVER_TIMZEONE_SECONDS + currentTime.getTimezoneOffset()*60)*1000);
-            if (v == '' || ((currentTime.getTime()+3600*1000) >= mergeDate.getTime())) {
+            if (v == '' || (currentTime.getTime() >= mergeDate.getTime())) {
                 return false;
             }
         }
