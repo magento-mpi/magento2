@@ -82,6 +82,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         parent::collect($address);
+        $this->_roundingDeltas = array();
+        $this->_baseRoundingDeltas = array();
         $address->setShippingTaxAmount(0);
         $address->setBaseShippingTaxAmount(0);
 
@@ -659,7 +661,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         if (!isset($taxGroups[$rateKey]['totals'])) {
             $taxGroups[$rateKey]['totals'] = array();
         }
-        if (!isset($taxGroups[$rateKey]['totals'])) {
+        if (!isset($taxGroups[$rateKey]['base_totals'])) {
             $taxGroups[$rateKey]['base_totals'] = array();
         }
 
