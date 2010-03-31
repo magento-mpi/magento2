@@ -749,7 +749,7 @@
             </block>
         </reference>
     </adminhtml_report_sales_tax>
-    
+
     <adminhtml_report_sales_shipping>
         <reference name="content">
             <block type="adminhtml/report_sales_shipping" template="report/grid/container.phtml" name="sales.report.grid.container">
@@ -769,7 +769,7 @@
             </block>
         </reference>
     </adminhtml_report_sales_shipping>
-    
+
     <adminhtml_report_sales_invoiced>
         <reference name="content">
             <block type="adminhtml/report_sales_invoiced" template="report/grid/container.phtml" name="sales.report.grid.container">
@@ -789,7 +789,7 @@
             </block>
         </reference>
     </adminhtml_report_sales_invoiced>
-    
+
     <adminhtml_report_sales_refunded>
         <reference name="content">
             <block type="adminhtml/report_sales_refunded" template="report/grid/container.phtml" name="sales.report.grid.container">
@@ -809,7 +809,7 @@
             </block>
         </reference>
     </adminhtml_report_sales_refunded>
-    
+
     <adminhtml_report_sales_coupons>
         <reference name="content">
             <block type="adminhtml/report_sales_coupons" template="report/grid/container.phtml" name="sales.report.grid.container">
@@ -830,9 +830,28 @@
         </reference>
     </adminhtml_report_sales_coupons>
 
-    <adminhtml_report_sales_refreshstatistics>
+    <adminhtml_report_sales_bestsellers>
         <reference name="content">
-            <block type="adminhtml/report_refresh_statistics" template="report/refresh/statistics.phtml" name="sales.report.refreshstatistics" />
+            <block type="adminhtml/report_sales_bestsellers" template="report/grid/container.phtml" name="sales.report.grid.container">
+                <block type="adminhtml/store_switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
+                    <action method="setStoreVarName"><var_name>store_ids</var_name></action>
+                </block>
+                <block type="adminhtml/report_filter_form" name="grid.filter.form">
+                    <action method="addReportTypeOption" translate="value">
+                        <key>created_at_order</key>
+                        <value>Order Created Date</value>
+                    </action>
+                    <action method="setFieldVisibility">
+                        <field>show_order_statuses</field>
+                        <visibility>0</visibility>
+                    </action>
+                    <action method="setFieldVisibility">
+                        <field>order_statuses</field>
+                        <visibility>0</visibility>
+                    </action>
+                </block>
+            </block>
         </reference>
-    </adminhtml_report_sales_refreshstatistics>
+    </adminhtml_report_sales_bestsellers>
+
 </layout>

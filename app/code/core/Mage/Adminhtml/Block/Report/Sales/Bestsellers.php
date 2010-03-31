@@ -19,39 +19,38 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Reports
+ * @package     Mage_Adminhtml
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Products Ordered (Bestsellers) Report collection
+ * Adminhtml sales report page content block
  *
- * @deprecated after 1.4.0.1
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Mysql4_Product_Ordered_Collection extends Mage_Reports_Model_Mysql4_Product_Collection
+
+class Mage_Adminhtml_Block_Report_Sales_Bestsellers extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-    protected function _joinFields($from = '', $to = '')
-    {
-        $this->addAttributeToSelect('*')
-            ->addOrderedQty($from, $to)
-            ->setOrder('ordered_qty', 'desc');
 
-        return $this;
+    public function __construct()
+    {
+        $this->_controller = 'report_sales_bestsellers';
+        $this->_headerText = Mage::helper('sales')->__('Products Bestsellers Report');
+        parent::__construct();
+        $this->setTemplate('report/grid/container.phtml');
+        $this->_removeButton('add');
+        $this->addButton('filter_form_submit', array(
+            'label'     => Mage::helper('reports')->__('Show Report'),
+            'onclick'   => 'filterFormSubmit()'
+        ));
     }
 
-    public function setDateRange($from, $to)
+    public function getFilterUrl()
     {
-        $this->_reset()
-            ->_joinFields($from, $to);
-        return $this;
-    }
-
-    public function setStoreIds($storeIds)
-    {
-        $storeId = array_pop($storeIds);
-        $this->setStoreId($storeId);
-        $this->addStoreFilter($storeId);
-        return $this;
+        $this->getRequest()->setParam('filter', null);
+        return $this->getUrl('*/*/bestsellers', array('_current' => true));
     }
 }

@@ -182,5 +182,21 @@ class Mage_Sales_Model_Observer
         Mage::app()->getLocale()->revert();
         return $this;
     }
+
+    /**
+     * Refresh bestsellers report statistics for last day
+     *
+     * @param Mage_Cron_Model_Schedule $schedule
+     * @return Mage_Sales_Model_Observer
+     */
+    public function aggregateSalesReportBestsellersData($schedule)
+    {
+        Mage::app()->getLocale()->emulate(0);
+        $currentDate = Mage::app()->getLocale()->date();
+        $date = $currentDate->subHour(25);
+        Mage::getResourceModel('sales/report_bestsellers')->aggregate($date);
+        Mage::app()->getLocale()->revert();
+        return $this;
+    }
 }
 

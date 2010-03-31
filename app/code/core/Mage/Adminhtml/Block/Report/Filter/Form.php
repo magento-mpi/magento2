@@ -40,6 +40,37 @@ class Mage_Adminhtml_Block_Report_Filter_Form extends Mage_Adminhtml_Block_Widge
     protected $_reportTypeOptions = array();
 
     /**
+     * Report field visibility
+     */
+    protected $_fieldVisibility = array();
+
+    /**
+     * Set field visibility
+     *
+     * @param string Field id
+     * @param bool Field visibility
+     */
+    public function setFieldVisibility($fieldId, $visibility)
+    {
+        $this->_fieldVisibility[$fieldId] = (bool)$visibility;
+    }
+
+    /**
+     * Get field visibility
+     *
+     * @param string Field id
+     * @param bool Default field visibility
+     * @return bool
+     */
+    public function getFieldVisibility($fieldId, $defaultVisibility = true)
+    {
+        if (!array_key_exists($fieldId, $this->_fieldVisibility)) {
+            return $defaultVisibility;
+        }
+        return $this->_fieldVisibility[$fieldId];
+    }
+
+    /**
      * Add report type option
      *
      * @param string $key
@@ -141,16 +172,25 @@ class Mage_Adminhtml_Block_Report_Filter_Form extends Mage_Adminhtml_Block_Widge
             'title'     => Mage::helper('reports')->__('Empty Rows')
         ));
 
+        // apply field visibility
+        foreach ($fieldset->getElements() as $field) {
+            if (!$this->getFieldVisibility($field->getId())) {
+                $fieldset->removeField($field->getId());
+            }
+        }
+
         $form->addValues($this->getFilterData()->getData());
         $form->setUseContainer(true);
         $this->setForm($form);
 
         // define field dependencies
-        $this->setChild('form_after', $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
-            ->addFieldMap("{$htmlIdPrefix}show_order_statuses", 'show_order_statuses')
-            ->addFieldMap("{$htmlIdPrefix}order_statuses", 'order_statuses')
-            ->addFieldDependence('order_statuses', 'show_order_statuses', '1')
-        );
+        if ($this->getFieldVisibility('show_order_statuses') && $this->getFieldVisibility('order_statuses')) {
+            $this->setChild('form_after', $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
+                ->addFieldMap("{$htmlIdPrefix}show_order_statuses", 'show_order_statuses')
+                ->addFieldMap("{$htmlIdPrefix}order_statuses", 'order_statuses')
+                ->addFieldDependence('order_statuses', 'show_order_statuses', '1')
+            );
+        }
 
         return parent::_prepareForm();
     }
