@@ -63,6 +63,11 @@
         <block type="enterprise_checkout/adminhtml_manage_form_coupon" template="enterprise/checkout/form/coupon.phtml" name="form_coupon" output="toHtml"/>
     </adminhtml_checkout_applycoupon>
 
+    <adminhtml_checkout_coupon>
+        <remove name="root"/>
+        <block type="enterprise_checkout/adminhtml_manage_form_coupon" template="enterprise/checkout/form/coupon.phtml" name="form_coupon" output="toHtml"/>
+    </adminhtml_checkout_coupon>
+
     <adminhtml_checkout_products>
         <remove name="root"/>
         <block type="enterprise_checkout/adminhtml_manage_accordion_products" name="checkout.accordion.products" output="toHtml"/>

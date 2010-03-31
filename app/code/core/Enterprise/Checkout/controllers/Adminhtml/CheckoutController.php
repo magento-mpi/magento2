@@ -299,6 +299,14 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
     }
 
     /**
+     * Coupon code block builder
+     */
+    public function couponAction()
+    {
+        $this->accordionAction();
+    }
+
+    /**
      * Common action for accordion grids, ajax
      */
     public function accordionAction()

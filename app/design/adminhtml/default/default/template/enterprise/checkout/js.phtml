@@ -97,6 +97,9 @@ AdminCheckout.prototype = {
                 try {
                     this.onAjaxSuccess(transport);
                     this.reloadItems();
+                    if ($('cc_info') != undefined) {
+                        this.reloadCoupon();
+                    }
                     if (this.getContext('source_wishlist').keys().size() > 0) {
                         wishlistItemsGrid.reload();
                     }
@@ -118,6 +121,9 @@ AdminCheckout.prototype = {
                 try {
                     this.onAjaxSuccess(transport);
                     this.reloadItems();
+                    if ($('cc_info') != undefined) {
+                        this.reloadCoupon();
+                    }
                     if (params.values().indexOf('wishlist') != -1) {
                         wishlistItemsGrid.reload();
                     }
@@ -148,6 +154,22 @@ AdminCheckout.prototype = {
                     }.bind(this)
                 });
        }
+    },
+
+    reloadCoupon: function()
+    {
+        new Ajax.Request('<?php echo $this->getActionUrl('coupon') ?>',
+            {
+                onSuccess: function(transport) {
+                    try {
+                        this.onAjaxSuccess(transport);
+                        $('coupon_container').update(transport.responseText);
+                    } catch (e) {
+                        var message = e.error ? e.error : e.message;
+                        alert(message);
+                    }
+                }.bind(this)
+            });
     },
 
     gridRowClick: function(grid, event)
