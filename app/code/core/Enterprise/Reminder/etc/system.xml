@@ -27,7 +27,7 @@
 -->
 <config>
     <sections>
-        <promo translate="label">
+        <promo translate="label" module="enterprise_reminder">
             <class>separator-top</class>
             <label>Promotions</label>
             <tab>customer</tab>
@@ -63,7 +63,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </frequency>
-                        <interval translate="label" module="enterprise_reminder">
+                        <interval translate="label comment" module="enterprise_reminder">
                             <label>Interval</label>
                             <frontend_type>select</frontend_type>
                             <source_model>enterprise_reminder/observer::getCronMinutes</source_model>
@@ -74,7 +74,7 @@
                             <comment>Set this value not less than your cron.php launch period.</comment>
                             <depends><frequency>I</frequency></depends> 
                         </interval>
-                        <minutes translate="label" module="enterprise_reminder">
+                        <minutes translate="label comment" module="enterprise_reminder">
                             <label>Minute of the Hour</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>3</sort_order>
