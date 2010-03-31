@@ -793,7 +793,7 @@ Payment.prototype = {
 
         //checkout.setPayment();
     },
- 
+
     initWhatIsCvvListeners: function(){
         $$('.cvv-what-is-this').each(function(element){
             Event.observe(element, 'click', toggleToolTip);

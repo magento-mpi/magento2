@@ -31,7 +31,7 @@
 class Enterprise_Reward_Model_System_Config_Backend_Balance extends Enterprise_Enterprise_Model_Core_Config_Data
 {
     /**
-     * Check if max_points_balance >= than min_points_balance 
+     * Check if max_points_balance >= than min_points_balance
      * (max allowed to RP to gain is more than minimum to redeem)
      *
      * @return Enterprise_Reward_Model_System_Config_Backend_Balance

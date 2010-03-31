@@ -38,4 +38,3 @@ $installer->getConnection()
     );
 
 $installer->endSetup();
-    

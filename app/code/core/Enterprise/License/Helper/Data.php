@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Enterprise
- * @package     Enterprise_Invitation
+ * @package     Enterprise_License
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
@@ -53,5 +53,3 @@ class Enterprise_License_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
         return $this->_isIoncubeLoaded;
     }
 }
-
-?>

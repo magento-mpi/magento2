@@ -99,5 +99,3 @@ class Enterprise_License_Block_Adminhtml_Checker extends Mage_Core_Block_Templat
         return $message;
     }
 }
-
-?>
