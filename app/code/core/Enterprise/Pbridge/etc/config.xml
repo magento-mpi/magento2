@@ -125,6 +125,10 @@
                 <model>enterprise_pbridge/payment_method_paypal</model>
                 <active>1</active>
             </pbridge_paypal_direct>
+            <pbridge_paypaluk_direct>
+                <model>enterprise_pbridge/payment_method_paypaluk</model>
+                <active>1</active>
+            </pbridge_paypaluk_direct>
             <pbridge_authorizenet>
                 <model>enterprise_pbridge/payment_method_authorizenet</model>
                 <enabled>1</enabled>
