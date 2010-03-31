@@ -670,6 +670,7 @@ Payment.prototype = {
             form.style.display = '';
             var elements = form.select('input', 'select', 'textarea');
             for (var i=0; i<elements.length; i++) elements[i].disabled = false;
+            form.fire('payment-method:switched', {method_code : method});
         }
         this.currentMethod = method;
     },
