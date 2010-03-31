@@ -34,6 +34,11 @@
  */
 class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Paypal extends Enterprise_Pbridge_Block_Payment_Form_Abstract
 {
+    /**
+     * Return url model class for adminhtml
+     *
+     *  @return string
+     */
     protected function _getUrlModelClass()
     {
         return 'adminhtml/url';
@@ -47,11 +52,25 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Paypal extends Enter
     protected $_code = Mage_Paypal_Model_Config::METHOD_WPP_DIRECT;
 
     /**
-     * Default template for payment form block
+     * Adminhtml template for payment form block
      *
      * @var string
      */
     protected $_template = 'enterprise/pbridge/sales/order/create/pbridge.phtml';
+
+    /**
+     * Adminhtml Iframe block type
+     *
+     * @var string
+     */
+    protected $_iframeBlockType = 'adminhtml/template';
+
+    /**
+     * Adminhtml iframe template
+     *
+     * @var string
+     */
+    protected $_iframeTemplate = 'enterprise/pbridge/sales/order/create/iframe.phtml';
 
     /**
      * Return redirect url for Payment Bridge application

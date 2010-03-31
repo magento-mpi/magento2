@@ -42,11 +42,25 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Authorizenet extends
     protected $_code = 'authorizenet';
 
     /**
-     * Default template for payment form block
+     * Adminhtml template for payment form block
      *
      * @var string
      */
     protected $_template = 'enterprise/pbridge/sales/order/create/pbridge.phtml';
+
+    /**
+     * Adminhtml Iframe block type
+     *
+     * @var string
+     */
+    protected $_iframeBlockType = 'adminhtml/template';
+
+    /**
+     * Adminhtml iframe template
+     *
+     * @var string
+     */
+    protected $_iframeTemplate = 'enterprise/pbridge/sales/order/create/iframe.phtml';
 
     /**
      * Return redirect url for Payment Bridge application

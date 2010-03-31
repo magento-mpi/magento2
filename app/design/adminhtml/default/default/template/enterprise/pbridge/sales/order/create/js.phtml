@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -20,21 +19,23 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     enterprise_default
+ * @package     default_default
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
--->
-<layout version="0.1.0">
+?>
 
-    <adminhtml_sales_order_create_index>
-        <reference name="js">
-            <block type="adminhtml/template" name="pbridge.js" template="enterprise/pbridge/sales/order/create/js.phtml" />
-        </reference>
-    </adminhtml_sales_order_create_index>
-
-    <adminhtml_pbridge_result>
-        <block type="enterprise_pbridge/adminhtml_sales_order_create_result" name="pbridge.sales.order.create.result" template="enterprise/pbridge/sales/order/create/result.phtml" output="toHtml" />
-    </adminhtml_pbridge_result>
-
-</layout>
+<script type="text/javascript">
+//<![CDATA[
+    function reloadIframe(method) {
+        var iframeContainer = $('payment_form_' + method + '_container');
+        if (iframeContainer) {
+            new Ajax.Updater(
+                iframeContainer,
+                "<?php echo $this->getUrl('*/pbridge/iframe', array('_current' => true)); ?>",
+                {parameters : {method_code : method}}
+            );
+        }
+    }
+//]]>
+</script>

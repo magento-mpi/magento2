@@ -34,4 +34,13 @@
  */
 class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Result extends Enterprise_Enterprise_Block_Adminhtml_Template
 {
+    /**
+     * Return JSON array of Payment Bridge incoming data
+     *
+     * @return string
+     */
+    public function getJsonHiddenPbridgeParams()
+    {
+        return Mage::helper('core')->jsonEncode(Mage::helper('enterprise_pbridge')->getPbridgeParams());
+    }
 }

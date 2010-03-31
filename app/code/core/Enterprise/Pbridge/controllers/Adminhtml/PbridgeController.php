@@ -51,17 +51,6 @@ class Enterprise_Pbridge_Adminhtml_PbridgeController extends Enterprise_Enterpri
     }
 
     /**
-     * Initialize incoming data required to use Payment Bridge payment method
-     *
-     * @return array
-     */
-    protected function _initIncomingData()
-    {
-        $data = Mage::helper('enterprise_pbridge')->getPbridgeParams();
-        return $data;
-    }
-
-    /**
      * Index Action.
      * Forward to result action
      *
@@ -73,20 +62,35 @@ class Enterprise_Pbridge_Adminhtml_PbridgeController extends Enterprise_Enterpri
     }
 
     /**
+     * Iframe Ajax Action
+     *
+     *  @return void
+     */
+    public function iframeAction()
+    {
+        $methodCode = $this->getRequest()->getParam('method_code', null);
+        if ($methodCode) {
+            $methodInstance = Mage::helper('payment')->getMethodInstance($methodCode);
+            if ($methodInstance) {
+                $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
+                $block->setMethod($methodInstance);
+                if ($block) {
+                    $this->getResponse()->setBody($block->getIframeBlock()->toHtml());
+                }
+            }
+        } else {
+            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Payment Method Code is not passed.'));
+        }
+    }
+
+    /**
      * Result Action
      *
      * @return void
      */
     public function resultAction()
     {
-        $data = $this->_initIncomingData();
         $this->_initActionLayout();
-
-        $block = $this->getLayout()->getBlock('pbridge.sales.order.create.result');
-        if ($block) {
-            $block->setJsonHiddenPbridgeParams(Mage::helper('core')->jsonEncode($data));
-        }
-
         $this->renderLayout();
     }
 }

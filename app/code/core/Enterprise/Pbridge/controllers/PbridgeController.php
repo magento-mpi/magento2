@@ -61,6 +61,28 @@ class Enterprise_Pbridge_PbridgeController extends Enterprise_Enterprise_Control
     }
 
     /**
+     * Iframe Ajax Action
+     *
+     *  @return void
+     */
+    public function iframeAction()
+    {
+        $methodCode = $this->getRequest()->getParam('method_code', null);
+        if ($methodCode) {
+            $methodInstance = Mage::helper('payment')->getMethodInstance($methodCode);
+            if ($methodInstance) {
+                $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
+                $block->setMethod($methodInstance);
+                if ($block) {
+                    $this->getResponse()->setBody($block->getIframeBlock()->toHtml());
+                }
+            }
+        } else {
+            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Payment Method Code is not passed.'));
+        }
+    }
+
+    /**
      * Result Action
      *
      * @return void

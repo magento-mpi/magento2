@@ -34,10 +34,4 @@
  */
 class Enterprise_Pbridge_Block_Checkout_Payment_Authorizenet extends Enterprise_Pbridge_Block_Payment_Form_Abstract
 {
-    /**
-     * Paypal payment code
-     *
-     * @var string
-     */
-    protected $_code = 'authorizenet';
 }

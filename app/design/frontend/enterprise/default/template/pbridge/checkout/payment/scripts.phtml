@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -24,17 +23,18 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
--->
-<layout version="0.1.0">
-
-    <adminhtml_sales_order_create_index>
-        <reference name="js">
-            <block type="adminhtml/template" name="pbridge.js" template="enterprise/pbridge/sales/order/create/js.phtml" />
-        </reference>
-    </adminhtml_sales_order_create_index>
-
-    <adminhtml_pbridge_result>
-        <block type="enterprise_pbridge/adminhtml_sales_order_create_result" name="pbridge.sales.order.create.result" template="enterprise/pbridge/sales/order/create/result.phtml" output="toHtml" />
-    </adminhtml_pbridge_result>
-
-</layout>
+?>
+Event.observe(this.document, 'payment-method:switched', function(event){
+  if (event.stopped == null) {
+      var buttonsContainer = $('payment-buttons-container');
+      if (buttonsContainer && buttonsContainer.down('button.button')) {
+          var continueButton = buttonsContainer.down('button.button');
+          if (event.target.hasClassName('pbridge')) {
+              continueButton.setStyle({display:'none'});
+          } else {
+              continueButton.setStyle({display:''});
+          }
+      }
+      Event.stop(event);
+  }
+});

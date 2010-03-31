@@ -35,13 +35,6 @@
 abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Mage_Payment_Block_Form
 {
     /**
-     * Code of payment method
-     *
-     * @var string
-     */
-    protected $_code;
-
-    /**
      * Default template for payment form block
      *
      * @var string
@@ -49,16 +42,27 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Mage_Payme
     protected $_template = 'pbridge/checkout/payment/pbridge.phtml';
 
     /**
-     * Return payment method code
+     * Default iframe block type
+     *
+     * @var string
+     */
+    protected $_iframeBlockType = 'core/template';
+
+    /**
+     * Default iframe template
+     *
+     * @var string
+     */
+    protected $_iframeTemplate = 'pbridge/checkout/payment/iframe.phtml';
+
+    /**
+     * Return original payment method code
      *
      *  @return string
      */
-    public function getCode()
+    public function getOriginalCode()
     {
-        if (!$this->_code) {
-            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Can not retrieve requested gateway code'));
-        }
-        return $this->_code;
+        return $this->getMethod()->getOriginalCode();
     }
 
     /**
@@ -91,8 +95,33 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Mage_Payme
     {
         $sourceUrl = Mage::helper('enterprise_pbridge')->getGatewayFormUrl(array(
             'redirect_url' => $this->getRedirectUrl(),
-            'request_gateway_code' => $this->getCode()
+            'request_gateway_code' => $this->getOriginalCode()
         ), $this->getQuote());
         return $sourceUrl;
+    }
+
+    /**
+     * Create and return iframe block
+     *
+     * @return Mage_Core_Block_Template
+     */
+    public function getIframeBlock()
+    {
+        $iframeBlock = $this->getLayout()->createBlock($this->_iframeBlockType)
+            ->setTemplate($this->_iframeTemplate)
+            ->setMethodCode($this->getMethodCode())
+            ->setSourceUrl($this->getSourceUrl());
+        return $iframeBlock;
+    }
+
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        $this->setChild('pbridge_iframe', $this->getIframeBlock());
+        return parent::_toHtml();
     }
 }
