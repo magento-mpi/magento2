@@ -33,11 +33,11 @@ class Mage_Sales_Model_Mysql4_Order_Shipment_Collection extends Mage_Sales_Model
     protected $_eventPrefix = 'sales_order_shipment_collection';
     protected $_eventObject = 'order_shipment_collection';
     /**
-	 * Order field for setOrderFilter
-	 * 
-	 * @var string
-	 */
-	protected $_orderField = 'order_id';
+     * Order field for setOrderFilter
+     *
+     * @var string
+     */
+    protected $_orderField = 'order_id';
 
     protected function _construct()
     {

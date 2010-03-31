@@ -60,7 +60,7 @@ class Mage_Centinel_IndexController extends Mage_Core_Controller_Front_Action
                 Mage::register('current_centinel_validator', $validator);
             }
         } catch (Exception $e) {
-        	Mage::register('current_centinel_validator', false);
+            Mage::register('current_centinel_validator', false);
         }
         $this->loadLayout()->renderLayout();
     }

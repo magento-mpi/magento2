@@ -92,15 +92,15 @@
                             needUpdate = false;
                         }
                         if (needUpdate){
-	                        if (response.content){
-	                        	$(categoryContainer).update(response.content);
-	                        }
-	                        if (response.messages){
-	                        	$(messagesContainer).update(response.messages);
-	                        }
+                            if (response.content){
+                                $(categoryContainer).update(response.content);
+                            }
+                            if (response.messages){
+                                $(messagesContainer).update(response.messages);
+                            }
                         }
                     } else {
-                    	$(categoryContainer).update(transport.responseText);
+                        $(categoryContainer).update(transport.responseText);
                     }
                 }
                 catch (e) {

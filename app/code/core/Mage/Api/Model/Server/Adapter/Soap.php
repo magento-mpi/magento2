@@ -95,7 +95,7 @@ class Mage_Api_Model_Server_Adapter_Soap
     public function run()
     {
         $apiConfigCharset = Mage::getStoreConfig("api/config/charset");
-        
+
         $urlModel = Mage::getModel('core/url')
             ->setUseSession(false);
         if ($this->getController()->getRequest()->getParam('wsdl') !== null) {
@@ -121,7 +121,7 @@ class Mage_Api_Model_Server_Adapter_Soap
 
             $template->setVariables(array('wsdl'=>$wsdlConfig));
 
-            
+
             $this->getController()->getResponse()
                 ->clearHeaders()
                 ->setHeader('Content-Type','text/xml; charset='.$apiConfigCharset)
@@ -139,11 +139,11 @@ class Mage_Api_Model_Server_Adapter_Soap
                 $this->_soap
                     ->setReturnResponse(true)
                     ->setClass($this->getHandler());
-                
+
                 $this->getController()->getResponse()
                     ->clearHeaders()
                     ->setHeader('Content-Type','text/xml; charset='.$apiConfigCharset)
-                    ->setBody( 
+                    ->setBody(
                             preg_replace(
                                 '/<\?xml version="([^\"]+)"([^\>]+)>/i',
                                 '<?xml version="$1" encoding="'.$apiConfigCharset.'"?>',
@@ -156,7 +156,7 @@ class Mage_Api_Model_Server_Adapter_Soap
                 $this->fault( $e->getCode(), $e->getMessage() );
             }
         }
-        
+
         return $this;
     }
 

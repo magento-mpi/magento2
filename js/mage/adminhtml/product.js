@@ -1021,12 +1021,12 @@ function onCompleteDisableInited() {
 }
 
 function onUrlkeyChanged(urlKey) {
-	urlKey = $(urlKey);
-	var hidden = urlKey.next('input[type=hidden]');
-	var chbx = urlKey.next('input[type=checkbox]');
-	var oldValue = chbx.value;
-	chbx.disabled = (oldValue == urlKey.value);
-	hidden.disabled = chbx.disabled;
+    urlKey = $(urlKey);
+    var hidden = urlKey.next('input[type=hidden]');
+    var chbx = urlKey.next('input[type=checkbox]');
+    var oldValue = chbx.value;
+    chbx.disabled = (oldValue == urlKey.value);
+    hidden.disabled = chbx.disabled;
 }
 
 Event.observe(window, 'load', onCompleteDisableInited);

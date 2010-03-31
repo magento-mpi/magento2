@@ -34,13 +34,13 @@ class Mage_Sales_Model_Mysql4_Order_Creditmemo_Collection extends Mage_Sales_Mod
     protected $_eventObject = 'order_creditmemo_collection';
 
     /**
-	 * Order field for setOrderFilter
-	 * 
-	 * @var string
-	 */
-	protected $_orderField = 'order_id';
-    
-    
+     * Order field for setOrderFilter
+     *
+     * @var string
+     */
+    protected $_orderField = 'order_id';
+
+
     protected function _construct()
     {
         $this->_init('sales/order_creditmemo');

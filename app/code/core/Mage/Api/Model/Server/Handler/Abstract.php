@@ -440,7 +440,7 @@ abstract class Mage_Api_Model_Server_Handler_Abstract
         if (!$this->_getSession()->isLoggedIn($sessionId)) {
             return $this->_fault('session_expired');
         }
-        
+
         $resources = array();
 
         $resourcesAlias = array();
