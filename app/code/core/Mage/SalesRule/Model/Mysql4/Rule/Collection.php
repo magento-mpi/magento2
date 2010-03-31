@@ -90,7 +90,7 @@ class Mage_SalesRule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4
     {
         parent::_initSelect();
         $this->getSelect()
-            ->joinInner(
+            ->joinLeft(
                 array('s_c' => $this->getTable('salesrule/coupon')),
                 '(main_table.rule_id = s_c.rule_id AND s_c.is_primary = 1)',
                 array('code')
