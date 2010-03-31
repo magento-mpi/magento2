@@ -52,6 +52,7 @@ updateLicense(array(
 updateLicense(array(
         'app/design/frontend/base/default/layout',
         'app/design/adminhtml/default/default/layout',
+        '!app/design/adminhtml/default/default/layout/moneybookers.xml',
         'app/design/frontend/default/default/layout',
         'app/design/frontend/default/modern/layout',
         'app/design/frontend/default/blank/layout',
