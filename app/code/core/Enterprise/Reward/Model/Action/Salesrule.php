@@ -33,6 +33,47 @@
  */
 class Enterprise_Reward_Model_Action_Salesrule extends Enterprise_Reward_Model_Action_Abstract
 {
+     /**
+     * Quote instance, required for estimating checkout reward (rule defined static value)
+     *
+     * @var Mage_Sales_Model_Quote
+     */
+    protected $_quote = null;
+
+     /**
+     * Retrieve points delta for action
+     *
+     * @param int $websiteId
+     * @return int
+     */
+    public function getPoints($websiteId) {
+        $pointsDelta = 0;
+        if ($this->_quote) {
+            // known issue: no support for multishipping quote // copied  comment, not checked
+            if ($this->_quote->getAppliedRuleIds()) { 
+                $ruleIds = explode(',', $this->_quote->getAppliedRuleIds());
+                $ruleIds = array_unique($ruleIds);
+                $data = Mage::getResourceModel('enterprise_reward/reward')->getRewardSalesrule($ruleIds);
+                foreach ($data as $rule) {
+                    $pointsDelta += (int)$rule['points_delta'];
+                }
+            }
+        }
+        return $pointsDelta;
+    }
+
+    /**
+     * Quote setter
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return Enterprise_Reward_Model_Action_OrderExtra
+     */
+    public function setQuote(Mage_Sales_Model_Quote $quote)
+    {
+        $this->_quote = $quote;
+        return $this;
+    }
+
     /**
      * Check whether rewards can be added for action
      *
