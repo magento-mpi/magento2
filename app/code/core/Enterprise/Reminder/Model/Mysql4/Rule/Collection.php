@@ -67,6 +67,18 @@ class Enterprise_Reminder_Model_Mysql4_Rule_Collection extends Enterprise_Enterp
     }
 
     /**
+     * Limit rules collection by separate rule
+     *
+     * @param int $value
+     * @return Enterprise_Reminder_Model_Mysql4_Rule_Collection
+     */
+    public function addRuleFilter($value)
+    {
+        $this->getSelect()->where('main_table.rule_id = ?', $value);
+        return $this;
+    }
+
+    /**
      * Redeclare after load method for adding website ids to items
      *
      * @return Enterprise_Reminder_Model_Mysql4_Rule_Collection

@@ -27,14 +27,11 @@
 /**
  * Reminder rules observer model
  */
-class Enterprise_Reminder_Model_Observer
+class Enterprise_Reminder_Model_Observer extends Enterprise_Enterprise_Model_Core_Abstract
 {
     const CRON_MINUTELY = 'I';
     const CRON_HOURLY   = 'H';
     const CRON_DAILY    = 'D';
-
-    const XML_PATH_EMAIL_LIMIT  = 'promo/enterprise_reminder/limit';
-    const XML_PATH_EMAIL_IDENTITY  = 'promo/enterprise_reminder/identity';
 
     /**
      * Contains data defined per store view, will be used in email templates as variables
@@ -63,6 +60,10 @@ class Enterprise_Reminder_Model_Observer
             ->addDateFilter($currentDate)
             ->addIsActiveFilter(1);
 
+        if ($ruleId = $this->getRuleId()) {
+            $collection->addRuleFilter($ruleId);
+        }
+
         return $collection;
     }
 
@@ -71,7 +72,7 @@ class Enterprise_Reminder_Model_Observer
      *
      * @return Enterprise_Reminder_Model_Observer
      */
-    public function matchCustomers()
+    protected function _matchCustomers()
     {
         foreach ($this->getRulesCollection() as $rule) {
             $this->getResource()->deactivateMatchedCustomers($rule->getId());
@@ -101,18 +102,15 @@ class Enterprise_Reminder_Model_Observer
             return $this;
         }
 
-        $this->matchCustomers();
-
         $mail = Mage::getModel('core/email_template');
-        $translate = Mage::getSingleton('core/translate');
 
         /* @var $translate Mage_Core_Model_Translate */
+        $translate = Mage::getSingleton('core/translate');
         $translate->setTranslateInline(false);
 
-        $limit = $this->getOneRunLimit();
-        $recipients = $this->getResource()->getCustomersForNotification($limit);
+        $identity = Mage::helper('enterprise_reminder')->getEmailIdentity();
 
-        foreach ($recipients as $recipient) {
+        foreach ($this->_getCustomersForNotification() as $recipient) {
 
             /* @var $customer Mage_Customer_Model_Customer */
             $customer = Mage::getModel('customer/customer')->load($recipient['customer_id']);
@@ -139,7 +137,7 @@ class Enterprise_Reminder_Model_Observer
             );
 
             $mail->setDesignConfig(array('area' => 'frontend', 'store' => $storeId));
-            $mail->sendTransactional($storeData['template_id'], $this->getEmailIdentity(),
+            $mail->sendTransactional($storeData['template_id'], $identity,
                 $customer->getEmail(), null, $templateVars, $storeId
             );
 
@@ -150,6 +148,24 @@ class Enterprise_Reminder_Model_Observer
 
         $translate->setTranslateInline(true);
         return $this;
+    }
+
+    /**
+     * Get list of customers for notifications
+     *
+     * @return array
+     */
+    protected function _getCustomersForNotification()
+    {
+        $this->_matchCustomers();
+        $limit = Mage::helper('enterprise_reminder')->getOneRunLimit();
+
+        if ($ruleId = $this->getRuleId()) {
+            $recipients = $this->getResource()->getCustomersForImmidiatelyNotification($ruleId, $limit);
+        } else {
+            $recipients = $this->getResource()->getCustomersForCronNotification($limit);
+        }
+        return $recipients;
     }
 
     /**
@@ -215,26 +231,6 @@ class Enterprise_Reminder_Model_Observer
             20 => Mage::helper('cron')->__('20 minutes'),
             30 => Mage::helper('cron')->__('30 minutes')
         );
-    }
-
-    /**
-     * Return maximum letters that can be send per one run
-     *
-     * @return int
-     */
-    public function getOneRunLimit()
-    {
-        return (int)Mage::getStoreConfig(self::XML_PATH_EMAIL_LIMIT);
-    }
-
-    /**
-     * Return email sender information
-     *
-     * @return string
-     */
-    public function getEmailIdentity()
-    {
-        return (string)Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY);
     }
 
     /**

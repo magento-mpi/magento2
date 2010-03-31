@@ -189,7 +189,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Enterprise_Enterp
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setPageData($data);
-                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
+                $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($this->__('Failed to save reminder rule.'));
@@ -205,19 +205,40 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Enterprise_Enterp
     public function deleteAction()
     {
         try {
-            $model = $this->_initRule('id', true);
+            $model = $this->_initRule();
             $model->delete();
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The reminder rule has been deleted.'));
         }
         catch (Mage_Core_Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+            $this->_redirect('*/*/edit', array('id' => $model->getId()));
             return;
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('Failed to delete reminder rule.'));
             Mage::logException($e);
         }
         $this->_redirect('*/*/');
+    }
+
+    /**
+     * Match reminder rule and send emails for matched customers
+     */
+    public function runAction()
+    {
+        try {
+            $model = $this->_initRule();
+            $observer = Mage::getModel('enterprise_reminder/observer');
+            $observer->setRuleId($model->getId());
+            $observer->scheduledNotification();
+
+            Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The reminder rule has been matched.'));
+        } catch (Mage_Core_Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        } catch (Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addException($e, $this->__('Reminder rule matching error.'));
+            Mage::logException($e);
+        }
+        $this->_redirect('*/*/edit', array('id' => $model->getId()));
     }
 
     /**

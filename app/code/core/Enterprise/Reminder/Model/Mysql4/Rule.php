@@ -382,11 +382,12 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
 
     /**
      * Return list of customers for notification process.
+     * This process can be initialized system cron.
      *
      * @param int|null $limit
      * @return array
      */
-    public function getCustomersForNotification($limit=null)
+    public function getCustomersForCronNotification($limit=null)
     {
         $couponTable = $this->getTable('enterprise_reminder/coupon');
         $ruleTable = $this->getTable('enterprise_reminder/rule');
@@ -414,6 +415,33 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
         $select->where('c.is_active = 1');
         $select->group(array('c.customer_id', 'c.rule_id'));
         $select->having("(MAX(l.sent_at) IS NULL) OR (FIND_IN_SET(TO_DAYS('{$currentDate}') - TO_DAYS(MIN(l.sent_at)), r.schedule) AND TO_DAYS('{$currentDate}') != TO_DAYS(MAX(l.sent_at)))");
+
+        if ($limit) {
+            $select->limit($limit);
+        }
+
+        return $this->_getReadAdapter()->fetchAll($select);
+    }
+
+    /**
+     * Return list of customers for immidiately notification process.
+     * This process can be initialized by admin for some rule.
+     *
+     * @param int $ruleId
+     * @param int|null $limit
+     * @return array
+     */
+    public function getCustomersForImmidiatelyNotification($ruleId, $limit=null)
+    {
+        $couponTable = $this->getTable('enterprise_reminder/coupon');
+
+        $select = $this->createSelect()->from(
+            array('c' => $couponTable),
+            array('customer_id', 'coupon_id', 'rule_id')
+        );
+
+        $select->where('c.is_active = 1');
+        $select->where('c.rule_id = ?', $ruleId);
 
         if ($limit) {
             $select->limit($limit);
