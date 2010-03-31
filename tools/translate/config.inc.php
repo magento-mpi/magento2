@@ -381,6 +381,11 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/enterprise/catalogpermissions',
         'app/design/frontend/enterprise/default/layout/catalogpermissions.xml'
     ),
+    'Enterprise_Checkout' => array(
+        'app/code/core/Enterprise/Checkout/',
+        'app/design/adminhtml/default/default/layout/enterprise/checkout.xml',
+        'app/design/adminhtml/default/default/template/enterprise/checkout/'
+    ),
     'Enterprise_Cms' => array(
         'app/code/core/Enterprise/Cms/',
         'app/design/adminhtml/default/default/layout/enterprise/cms.xml',
@@ -423,14 +428,26 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/invitation.xml',
         'app/design/frontend/enterprise/default/template/invitation/'
     ),
+    'Enterprise_License' => array(
+        'app/code/core/Enterprise/License/',
+        'app/design/adminhtml/default/default/layout/enterprise/license.xml',
+        'app/design/adminhtml/default/default/template/enterprise/license/',
+    ),
     'Enterprise_Logging' => array(
         'app/code/core/Enterprise/Logging/',
         'app/design/adminhtml/default/default/layout/enterprise/logging.xml',
         'app/design/adminhtml/default/default/template/enterprise/logging/',
     ),
+    'Enterprise_PageCache' => array(
+        'app/code/core/Enterprise/PageCache/'
+    ),
     'Enterprise_Pci' => array(
         'app/code/core/Enterprise/Pci/',
         'app/design/adminhtml/default/default/layout/enterprise/pci.xml',
+    ),
+    'Enterprise_Reminder' => array(
+        'app/code/core/Enterprise/Reminder/',
+        'app/design/adminhtml/default/default/layout/enterprise/reminder.xml'
     ),
     'Enterprise_Reward' => array(
         'app/code/core/Enterprise/Reward/',
@@ -438,6 +455,13 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/enterprise/reward/',
         'app/design/frontend/enterprise/default/layout/reward.xml',
         'app/design/frontend/enterprise/default/template/reward/'
+    ),
+    'Enterprise_SalesArchive' => array(
+        'app/code/core/Enterprise/SalesArchive/',
+        'app/design/adminhtml/default/default/layout/enterprise/salesarchive.xml'
+    ),
+    'Enterprise_Search' => array(
+        'app/code/core/Enterprise/Search/'
     ),
     'Enterprise_Staging' => array(
         'app/code/core/Enterprise/Staging/',
@@ -528,6 +552,7 @@ $CONFIG['helpers']  = array(
     'enterprise_banner'             => 'Enterprise_Banner',
     'enterprise_catalogevent'       => 'Enterprise_CatalogEvent',
     'enterprise_catalogpermissions' => 'Enterprise_CatalogPermissions',
+    'enterprise_checkout'           => 'Enterprise_Checkout',
     'enterprise_cms'                => 'Enterprise_Cms',
     'enterprise_customerbalance'    => 'Enterprise_CustomerBalance',
     'enterprise_customersegment'    => 'Enterprise_CustomerSegment',
@@ -535,9 +560,14 @@ $CONFIG['helpers']  = array(
     'enterprise_giftcard'           => 'Enterprise_GiftCard',
     'enterprise_giftcardaccount'    => 'Enterprise_GiftCardAccount',
     'enterprise_invitation'         => 'Enterprise_Invitation',
+    'enterprise_license'            => 'Enterprise_License',
     'enterprise_logging'            => 'Enterprise_Logging',
+    'enterprise_pagecache'          => 'Enterprise_PageCache',
     'enterprise_pci'                => 'Enterprise_Pci',
+    'enterprise_reminder'           => 'Enterprise_Reminder',
     'enterprise_reward'             => 'Enterprise_Reward',
+    'enterprise_salesarchive'       => 'Enterprise_SalesArchive',
+    'enterprise_search'             => 'Enterprise_Search',
     'enterprise_staging'            => 'Enterprise_Staging',
     'enterprise_targetrule'         => 'Enterprise_TargetRule',
     'enterprise_websiterestriction' => 'Enterprise_WebsiteRestriction',
