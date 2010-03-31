@@ -56,8 +56,6 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/Bundle/',
         'app/design/frontend/base/default/template/bundle/',
         'app/design/frontend/base/default/layout/bundle.xml',
-        'app/design/frontend/default/modern/template/bundle/',
-        'app/design/frontend/default/modern/layout/bundle.xml',
         'app/design/adminhtml/default/default/template/bundle/',
     ),
     'Mage_Catalog' => array(
@@ -102,9 +100,7 @@ $CONFIG['translates'] = array(
     'Mage_Cms' => array(
         'app/code/core/Mage/Cms/',
         'app/design/frontend/base/default/template/cms/',
-        'app/design/frontend/base/default/layout/cms.xml',
-        'app/design/frontend/default/modern/template/cms/',
-        'app/design/frontend/default/modern/layout/cms.xml',
+        'app/design/frontend/base/default/layout/cms.xml'
     ),
     'Mage_Compiler' => array(
         'app/code/core/Mage/Compiler/',
@@ -115,15 +111,12 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/Contacts/',
         'app/design/frontend/base/default/template/contacts/',
         'app/design/frontend/base/default/layout/contacts.xml',
-        'app/design/frontend/default/modern/template/contacts/',
         'app/design/frontend/default/modern/layout/contacts.xml',
     ),
     'Mage_Core' => array(
         'app/code/core/Mage/Core/',
         'app/design/frontend/base/default/template/core/',
         'app/design/frontend/base/default/layout/core.xml',
-        'app/design/frontend/default/modern/template/core/',
-        'app/design/frontend/default/modern/layout/core.xml',
     ),
     'Mage_Cron' => array(
         'app/code/core/Mage/Cron/',
@@ -132,7 +125,6 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/Customer/',
         'app/design/frontend/base/default/template/customer/',
         'app/design/frontend/base/default/layout/customer.xml',
-        'app/design/frontend/default/modern/template/customer/',
         'app/design/frontend/default/modern/layout/customer.xml',
     ),
     'Mage_Cybermut' => array(
@@ -150,16 +142,12 @@ $CONFIG['translates'] = array(
     'Mage_Directory' => array(
         'app/code/core/Mage/Directory/',
         'app/design/frontend/base/default/template/directory/',
-        'app/design/frontend/base/default/layout/directory.xml',
-        'app/design/frontend/default/modern/template/directory/',
-        'app/design/frontend/default/modern/layout/directory.xml',
+        'app/design/frontend/base/default/layout/directory.xml'
     ),
     'Mage_Downloadable' => array(
         'app/code/core/Mage/Downloadable/',
         'app/design/frontend/base/default/template/downloadable/',
         'app/design/frontend/base/default/layout/downloadable.xml',
-        'app/design/frontend/default/modern/template/downloadable/',
-        'app/design/frontend/default/modern/layout/downloadable.xml',
         'app/design/adminhtml/default/default/template/downloadable/',
     ),
     'Mage_Eav' => array(
@@ -178,13 +166,11 @@ $CONFIG['translates'] = array(
     ),
     'Mage_GiftMessage' => array(
         'app/code/core/Mage/GiftMessage/',
-        'app/design/frontend/base/default/template/giftmessage/',
-        'app/design/frontend/default/modern/template/giftmessage/',
+        'app/design/frontend/base/default/template/giftmessage/'
     ),
     'Mage_GoogleAnalytics' => array(
         'app/code/core/Mage/GoogleAnalytics/',
-        'app/design/frontend/base/default/layout/googleanalytics.xml',
-        'app/design/frontend/default/modern/layout/googleanalytics.xml',
+        'app/design/frontend/base/default/layout/googleanalytics.xml'
     ),
     'Mage_GoogleBase' => array(
         'app/code/core/Mage/GoogleBase/',
@@ -192,13 +178,11 @@ $CONFIG['translates'] = array(
     ),
     'Mage_GoogleCheckout' => array(
         'app/code/core/Mage/GoogleCheckout/',
-        'app/design/frontend/base/default/layout/googlecheckout.xml',
-        'app/design/frontend/default/modern/layout/googlecheckout.xml',
+        'app/design/frontend/base/default/layout/googlecheckout.xml'
     ),
     'Mage_GoogleOptimizer' => array(
         'app/code/core/Mage/GoogleOptimizer/',
         'app/design/frontend/base/default/layout/googleoptimizer.xml',
-        'app/design/frontend/default/modern/layout/googleoptimizer.xml',
         'app/design/adminhtml/default/default/layout/googleoptimizer.xml',
         'app/design/adminhtml/default/default/template/googleoptimizer/',
     ),
@@ -240,8 +224,6 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/Oscommerce/',
         'app/design/frontend/base/default/template/oscommerce/',
         'app/design/frontend/base/default/layout/oscommerce.xml',
-        'app/design/frontend/default/modern/template/oscommerce/',
-        'app/design/frontend/default/modern/layout/oscommerce.xml',
         'app/design/adminhtml/default/default/template/oscommerce/',
     ),
     'Mage_Page' => array(
@@ -262,8 +244,7 @@ $CONFIG['translates'] = array(
     ),
     'Mage_Payment' => array(
         'app/code/core/Mage/Payment/',
-        'app/design/frontend/base/default/template/payment/',
-        'app/design/frontend/default/modern/template/payment/',
+        'app/design/frontend/base/default/template/payment/'
     ),
     'Mage_Paypal' => array(
         'app/code/core/Mage/Paypal/',
@@ -278,17 +259,12 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/Poll/',
         'app/design/frontend/base/default/template/poll/',
         'app/design/frontend/base/default/layout/poll.xml',
-        'app/design/frontend/default/modern/template/poll/',
-        'app/design/frontend/default/modern/layout/poll.xml',
     ),
     'Mage_ProductAlert' => array(
         'app/code/core/Mage/ProductAlert/',
         'app/design/frontend/base/default/template/email/productalert/',
         'app/design/frontend/base/default/template/productalert/',
         'app/design/frontend/base/default/layout/productalert.xml',
-        'app/design/frontend/default/modern/template/email/productalert/',
-        'app/design/frontend/default/modern/template/productalert/',
-        'app/design/frontend/default/modern/layout/productalert.xml',
     ),
     'Mage_Protx' => array(
         'app/code/core/Mage/Protx/',
@@ -298,27 +274,22 @@ $CONFIG['translates'] = array(
     'Mage_Rating' => array(
         'app/code/core/Mage/Rating/',
         'app/design/frontend/base/default/template/rating/',
-        'app/design/frontend/default/modern/template/rating/',
     ),
     'Mage_Reports' => array(
         'app/code/core/Mage/Reports/',
         'app/design/frontend/base/default/template/reports/',
         'app/design/frontend/base/default/layout/reports.xml',
-        'app/design/frontend/default/modern/template/reports/',
-        'app/design/frontend/default/modern/layout/reports.xml',
     ),
     'Mage_Review' => array(
         'app/code/core/Mage/Review/',
         'app/design/frontend/base/default/template/review/',
         'app/design/frontend/base/default/layout/review.xml',
-        'app/design/frontend/default/modern/template/review/',
         'app/design/frontend/default/modern/layout/review.xml',
     ),
     'Mage_Rss' => array(
         'app/code/core/Mage/Rss/',
         'app/design/frontend/base/default/template/rss/',
         'app/design/frontend/base/default/layout/rss.xml',
-        'app/design/frontend/default/modern/template/rss/',
         'app/design/frontend/default/modern/layout/rss.xml',
     ),
     'Mage_Rule' => array(
@@ -329,8 +300,6 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/email/order/',
         'app/design/frontend/base/default/template/sales/',
         'app/design/frontend/base/default/layout/sales.xml',
-        'app/design/frontend/default/modern/template/email/order/',
-        'app/design/frontend/default/modern/template/sales/',
         'app/design/frontend/default/modern/layout/sales.xml',
     ),
     'Mage_SalesRule' => array(
@@ -340,15 +309,12 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/Sendfriend/',
         'app/design/frontend/base/default/template/sendfriend/',
         'app/design/frontend/base/default/layout/sendfriend.xml',
-        'app/design/frontend/default/modern/template/sendfriend/',
         'app/design/frontend/default/modern/layout/sendfriend.xml',
     ),
     'Mage_Shipping' => array(
         'app/code/core/Mage/Shipping/',
         'app/design/frontend/base/default/template/shipping/',
         'app/design/frontend/base/default/layout/shipping.xml',
-        'app/design/frontend/default/modern/template/shipping/',
-        'app/design/frontend/default/modern/layout/shipping.xml',
     ),
     'Mage_Sitemap' => array(
         'app/code/core/Mage/Sitemap/',
@@ -360,7 +326,6 @@ $CONFIG['translates'] = array(
         'app/code/core/Mage/Tag/',
         'app/design/frontend/base/default/template/tag/',
         'app/design/frontend/base/default/layout/tag.xml',
-        'app/design/frontend/default/modern/template/tag/',
         'app/design/frontend/default/modern/layout/tag.xml',
     ),
     'Mage_Tax' => array(
@@ -371,16 +336,12 @@ $CONFIG['translates'] = array(
     ),
     'Mage_Weee' => array(
         'app/code/core/Mage/Weee/',
-        #'app/design/frontend/base/default/template/weee/',
         'app/design/frontend/base/default/layout/weee.xml',
-        #'app/design/frontend/default/modern/template/weee/',
-        #'app/design/frontend/default/modern/layout/weee.xml',
     ),
     'Mage_Wishlist' => array(
         'app/code/core/Mage/Wishlist/',
         'app/design/frontend/base/default/template/wishlist/',
         'app/design/frontend/base/default/layout/wishlist.xml',
-        'app/design/frontend/default/modern/template/wishlist/',
         'app/design/frontend/default/modern/layout/wishlist.xml',
     ),
     'Mage_Widget' => array(
@@ -390,7 +351,6 @@ $CONFIG['translates'] = array(
     ),
     'translate' => array(
         'app/design/frontend/base/default/template/callouts/',
-        'app/design/frontend/default/modern/template/callouts/',
     ),
     'Phoenix_Moneybookers' => array(
         'app/code/community/Phoenix/Moneybookers/',
