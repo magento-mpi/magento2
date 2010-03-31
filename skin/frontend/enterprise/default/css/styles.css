@@ -792,10 +792,12 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .sidebar .block-layered-nav .block-subtitle { display:none; }
 .sidebar .block-layered-nav dt { margin:2px 0 0; font-weight:bold; font-size:12px; color:#222; }
 .sidebar .block-layered-nav dd { margin:0 0 13px; color:#666; }
+.sidebar .block-layered-nav dd.last { margin:0; }
 .sidebar .block-layered-nav dd li { margin:2px 0; }
 .sidebar .block-layered-nav dd a { color:#222; text-decoration:none; }
 .sidebar .block-layered-nav dd a:hover { text-decoration:underline; }
 .sidebar .block-layered-nav .currently { border:1px solid #d1d1d1; border-width:1px 0; padding:10px 10px 10px 17px; margin-bottom:-1px; background:#f4f4f4 url(../images/bkg_currently.gif) repeat-x 0 -20px; }
+.sidebar .block-layered-nav .currently .block-subtitle { display:block; }
 .sidebar .block-layered-nav .currently li { padding:5px 0; color:#444; }
 .sidebar .block-layered-nav .currently .label { font-weight:bold; color:#d33911; font-size:12px; }
 .sidebar .block-layered-nav .actions { text-align:left; padding-right:7px; display:none; }
@@ -877,7 +879,7 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .block-poll input.radio { float:left; margin:1px -18px 0 0; vertical-align:top; }
 .block-poll .label { display:block; margin-left:18px; }
 .block-poll .answer {}
-.block-poll .votes { font-weight:bold; }
+.block-poll .votes { float:right; font-weight:bold; margin-left:10px; }
 
 /* Block: Tags */
 .block-tags ul,
@@ -922,7 +924,8 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .catalogsearch-result-index .note-msg { margin:20px 0; }
 
 .sidebar .category-title { margin:0; }
-.category-image { display:block; margin:0 auto 1px; }
+.category-image { text-align:center; margin:0 0 1px; }
+.category-image img { display:block; margin:0 auto; }
 
 .category-products { padding:25px 0 0; }
 .category-products .price-box { font-size:12px; }
@@ -1537,8 +1540,9 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .search-summary li { margin:2px 0; }
 
 /* Sitemap */
-.sitemap { font-size:12px; }
-.sitemap li { margin:3px 0; }
+.page-sitemap {}
+.page-sitemap .sitemap { font-size:12px; }
+.page-sitemap .sitemap li { margin:3px 0; }
 /* ======================================================================================= */
 
 
@@ -2087,6 +2091,7 @@ address.copyright { margin-top:6px; }
 .gift-item:after,
 .block-content:after,
 .block-list li.item:after,
+.block-poll li:after,
 .currently li:after,
 .order-info:after,
 .top-cart .actions:after,
