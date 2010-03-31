@@ -291,10 +291,12 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
                 break;
 
            case 'massadd':
+           case 'add':
                $acl = 'sales/archive/orders/add';
                 break;
 
            case 'massremove':
+           case 'remove':
                 $acl = 'sales/archive/orders/remove';
                 break;
 
