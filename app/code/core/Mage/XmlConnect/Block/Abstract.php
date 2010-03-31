@@ -36,10 +36,14 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
                                           'reviews_count', 'icon', 'big_icon', 'price');
 
     public function productToXml(Mage_Catalog_Model_Product $product, array $arrAttributes = array(),
-        $rootName = 'item', $addOpenTag=false, $addCdata=false, $safeAdditionalEntities = false, $additionalAtrributes = ''
+        $rootName = 'item', $addOpenTag = false, $addCdata = false, $safeAdditionalEntities = false,
+        $additionalAtrributes = '', $withAdditionalData = false
     ) {
         $arrAttributes = array_merge($this->_productAttributes, $arrAttributes);
         if ($product->getId()) {
+            if ($withAdditionalData) {
+                $this->_addProductAdditionalData($product);
+            }
             $this->_formProductPrice($product, $arrAttributes);
             $this->_formProductIcon($product);
             $product->in_stock = (int)$product->isInStock();
@@ -51,6 +55,18 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
             return $xml;
         }
         return "<$rootName></$rootName>";
+    }
+
+    /**
+     * @param Mage_Catalog_Model_Product $product
+     * @return void
+     */
+    protected function _addProductAdditionalData(Mage_Catalog_Model_Product $product) {
+        $rating = Mage::getModel('rating/rating')->getEntitySummary($product->getId());
+        if ($rating->count > 0) {
+            $product->rating_summary = round($rating->sum / $rating->count);
+            $product->reviews_count = $rating->count;
+        }
     }
 
     protected function _formProductPrice(Mage_Catalog_Model_Product $product, &$attributes = array())
@@ -164,6 +180,7 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
                 }
             }
         }
+        $layer->prepareProductCollection($collection);
         return $collection;
     }
 

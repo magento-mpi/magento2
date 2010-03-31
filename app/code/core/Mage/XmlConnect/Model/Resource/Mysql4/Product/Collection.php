@@ -52,7 +52,7 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection
                          'entity_pk_value=entity_id',
                          array('entity_type'=>1, 'store_id'=> Mage::app()->getStore()->getId()),
                          'left')
-             ->addAttributeToSelect(array('image'));
+             ->addAttributeToSelect(array('image', 'name'));
 
         return parent::_beforeLoad();
     }
@@ -67,5 +67,5 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection
         $this->getSelect()->limit($count, $offset);
         return $this;
     }
-    
+
 }

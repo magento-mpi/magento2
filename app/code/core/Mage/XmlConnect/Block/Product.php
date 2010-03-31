@@ -45,7 +45,7 @@ class Mage_XmlConnect_Block_Product extends Mage_XmlConnect_Block_Abstract
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($this->getRequest()->getParam('id', 0));
         return $this->productToXml($this->_product, array('description', 'type_id'), 'item',
-            false, false, false, $this->getChildHtml());
+            false, false, false, $this->getChildHtml(), true);
     }
 
     public function getProduct()
