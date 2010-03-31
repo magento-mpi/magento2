@@ -220,6 +220,7 @@
                     <element name="is_active" type="xsd:string" minOccurs="0" />
                     <element name="is_customer_notified" type="xsd:string" minOccurs="0" />
                     <element name="status" type="xsd:string" minOccurs="0" />
+                    <element name="comment" type="xsd:string" minOccurs="0" />
                 </all>
             </complexType>
             <complexType name="salesOrderStatusHistoryEntityArray">
