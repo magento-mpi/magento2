@@ -57,6 +57,14 @@
             });
             try {
                 paymentObj.save();
+                var buttonsContainer = parent.document.getElementById('payment-buttons-container');
+                var continueButton = buttonsContainer.getElementsByTagName('BUTTON');
+                if (continueButton.length) {
+                    continueButton = continueButton[0];
+                }
+                if (buttonsContainer && continueButton) {
+                    continueButton.style.display = '';
+                }
             } catch (e) {}
         }
         var message = document.getElementById('payment-method-message');

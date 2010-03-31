@@ -30,6 +30,12 @@
     function reloadIframe(method) {
         var iframeContainer = $('payment_form_' + method + '_container');
         if (iframeContainer) {
+            var hiddenElms = iframeContainer.up('li').select('input');
+            if (hiddenElms) {
+                hiddenElms.each(function(elm){
+                    if (elm) elm.remove();
+                });
+            }
             new Ajax.Updater(
                 iframeContainer,
                 "<?php echo $this->getUrl('enterprise_pbridge/pbridge/iframe', array('_current' => true)); ?>",
