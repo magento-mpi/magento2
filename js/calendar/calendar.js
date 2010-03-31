@@ -1898,8 +1898,8 @@ function CalendarDateObject() {
         dateObj = new this.parent.constructor(arguments[0]);
     } else {
         dateObj = new this.parent.constructor();
-        if (typeof(CalendarDateObject._LOCAL_TIMZEONE_OFFSET_SECONDS) != "undefined") {
-            dateObj.setTime((CalendarDateObject._LOCAL_TIMZEONE_OFFSET_SECONDS + dateObj.getTimezoneOffset()*60)*1000);
+        if (typeof(CalendarDateObject._SERVER_TIMZEONE_SECONDS) != "undefined") {
+            dateObj.setTime((CalendarDateObject._SERVER_TIMZEONE_SECONDS + dateObj.getTimezoneOffset()*60)*1000);
         }
     }
     return dateObj;
