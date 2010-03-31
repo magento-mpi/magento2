@@ -505,7 +505,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
 
                     $group = $option->groupFactory($option->getType())
                         ->setOption($option)->setListener(new Varien_Object());
-                    
+
                     if ($optionSku = $group->getOptionSku($quoteItemOption->getValue(), $skuDelimiter)) {
                         $sku .= $skuDelimiter . $optionSku;
                     }
@@ -674,10 +674,12 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function getSearchableData($product = null)
     {
-        $product = $this->getProduct($product);
-
-        $searchData = Mage::getSingleton('catalog/product_option')
-            ->getSearchableData($product->getId(), $product->getStoreId());
+        $product    = $this->getProduct($product);
+        $searchData = array();
+        if ($product->getHasOptions()){
+            $searchData = Mage::getSingleton('catalog/product_option')
+                ->getSearchableData($product->getId(), $product->getStoreId());
+        }
 
         return $searchData;
     }
