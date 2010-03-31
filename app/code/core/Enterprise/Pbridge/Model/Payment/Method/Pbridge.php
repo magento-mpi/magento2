@@ -460,7 +460,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     {
         $request = new Varien_Object();
         $request->setCountryCode(Mage::getStoreConfig('general/country/default'));
-        $request->setClientIdentifier($this->_getOrderId());
+        $request->setClientIdentifier($this->_getCustomerIdentifier());
 
         return $request;
     }
@@ -483,5 +483,16 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             $orderId = $paymentInfo->getQuote()->getReservedOrderId();
         }
         return $orderId;
+    }
+
+    /**
+     * Return customer identifier
+     *
+     * @return string
+     */
+    protected function _getCustomerIdentifier()
+    {
+        return md5($this->getInfoInstance()->getOrder()->getQuoteId() .
+            $this->getInfoInstance()->getOrder()->getCustomerEmail());
     }
 }
