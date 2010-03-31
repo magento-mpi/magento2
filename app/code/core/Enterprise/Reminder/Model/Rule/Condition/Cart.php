@@ -61,6 +61,16 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     }
 
     /**
+     * Override parent method
+     *
+     * @return Enterprise_Reminder_Model_Rule_Condition_Cart
+     */
+    public function loadValueOptions()
+    {
+        $this->setValueOption(array());
+        return $this;
+    }
+    /**
      * Prepare operator select options
      *
      * @return Enterprise_Reminder_Model_Rule_Condition_Cart
@@ -113,10 +123,10 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)));
+        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)));
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
-        $select->where("UNIX_TIMESTAMP('".now()."' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(quote.updated_at)", $this->getValue());
+        $select->where("UNIX_TIMESTAMP('" . now() . "' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(quote.updated_at)", $this->getValue());
         $select->where('quote.is_active = 1');
         $select->where('quote.items_count > 0');
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));

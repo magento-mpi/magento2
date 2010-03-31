@@ -61,6 +61,17 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     }
 
     /**
+     * Override parent method
+     *
+     * @return Enterprise_Reminder_Model_Rule_Condition_Wishlist
+     */
+    public function loadValueOptions()
+    {
+        $this->setValueOption(array());
+        return $this;
+    }
+
+    /**
      * Prepare operator select options
      *
      * @return Enterprise_Reminder_Model_Rule_Condition_Wishlist
@@ -114,7 +125,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item'=>$wishlistItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $wishlistItemTable), array(new Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('list' => $wishlistTable),
@@ -123,7 +134,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
         );
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
-        $select->where("UNIX_TIMESTAMP('".now()."' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(list.updated_at)", $this->getValue());
+        $select->where("UNIX_TIMESTAMP('" . now() . "' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(list.updated_at)", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
         $select->limit(1);
         return $select;
