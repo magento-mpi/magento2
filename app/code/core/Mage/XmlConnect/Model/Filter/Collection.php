@@ -35,85 +35,12 @@
 class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
 {
 
-    /**
-     * @param array $additionalAtrributes Additional nodes for xml 
-     * @return string
-     */
-    public function toXml(array $additionalAtrributes = array())
-    {
-        $xml = '<items>
-                <filters>
-           ';
-
-        foreach ($this as $item) {
-            $xml .= $this->itemToXml($item);
-        }
-        $xml .= '</filters>';
-        $xml .= $this->_arrayToXml($additionalAtrributes);
-        $xml .= '</items>';
-
-        return $xml;
-    }
-
-    /**
-     * @param array $array
-     * @param string|null $nodeName
-     * @param bool $useItems
-     * @return string
-     */
-    protected function _arrayToXml(array $array, $nodeName = null, $useItems = false)
-    {
-        $xml = '';
-        $xmlModel = new Varien_Simplexml_Element('<node></node>');
-        if (!is_null($nodeName)) {
-            $xml = '<'.$nodeName.'>';
-        }
-
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $value = $this->_arrayToXml($value, null, true);
-            }
-            else {
-                $value = $xmlModel->xmlentities($value);
-            }
-            if ($useItems) {
-                $xml .= "<item><code>{$xmlModel->xmlentities($key)}</code><name>$value</name></item>";
-            }
-            else {
-                $xml .= "<{$key}>$value</{$key}>";
-            }
-        }
-
-        if (!is_null($nodeName)) {
-            $xml .= '</'.$nodeName.'>';
-        }
-        return $xml;
-    }
-
     public function setCategoryId($categoryId)
     {
         if ((int)$categoryId > 0) {
             $this->addFilter('category_id', $categoryId);
         }
         return $this;
-    }
-
-    protected function itemToXml($item)
-    {
-        $xmlModel = new Varien_Simplexml_Element('<node></node>');
-        $xml = '<item>';
-        $xml .= "<name>{$xmlModel->xmlentities($item->getName())}</name>";
-        $xml .= "<code>{$xmlModel->xmlentities($item->getCode())}</code>";
-        $valuesXml = '';
-        foreach ($item->getValues() as $value) {
-            $valuesXml .= "<value>
-                                <id>{$xmlModel->xmlentities($value->getValueString())}</id>
-                                <label>{$xmlModel->xmlentities(strip_tags($value->getLabel()))}</label>
-                          </value>";
-        }
-        $xml .= "<values>$valuesXml</values>";
-        $xml .= '</item>';
-        return $xml;
     }
 
     public function loadData($printQuery = false, $logQuery = false)

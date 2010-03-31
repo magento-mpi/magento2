@@ -40,7 +40,7 @@ class Mage_XmlConnect_Block_Category extends Mage_XmlConnect_Block_Abstract
         $additionalAttributes = $this->getChildHtml();
         if ($categoryId = $this->getRequest()->getParam('category_id', null))
         {
-            $categoryModel = Mage::getModel('catalog/category')->load($categoryId);
+            $categoryModel = Mage::getModel('xmlconnect/category')->load($categoryId);
             if (!$categoryModel->hasChildren())
             {
                 $productCollection = Mage::getResourceModel('xmlconnect/product_collection');

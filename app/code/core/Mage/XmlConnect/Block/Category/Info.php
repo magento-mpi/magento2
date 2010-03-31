@@ -19,19 +19,31 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Catalog
+ * @package     Mage_Rss
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Product entity resource model
+ * Review form block
  *
- * @category    Mage
- * @package     Mage_Catalog
+ * @category   Mage
+ * @package    Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Resource_Mysql4_Product extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product
+
+class Mage_XmlConnect_Block_Category_Info extends Mage_XmlConnect_Block_Abstract
 {
-    
+
+    protected function _toHtml()
+    {
+        if ($categoryId = $this->getRequest()->getParam('category_id', null)) {
+            $categoryModel = Mage::getModel('catalog/category')->load($categoryId);
+            if ($categoryModel->getId()) {
+                $categoryModel->parent_title = $categoryModel->getParentCategory()->name;
+                return $categoryModel->toXml(array('parent_id', 'parent_title'), 'category_info', false, false);
+            }
+        }
+    }
+
 }
