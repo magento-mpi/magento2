@@ -118,7 +118,7 @@ class Mage_Sales_Model_Mysql4_Report_Bestsellers_Collection extends Mage_Sales_M
             $this->_applyDateRangeFilter();
             $this->getSelect()
                 ->group('product_id')
-                ->order('SUM(qty_ordered) DESC')
+                ->order('qty_ordered DESC')
                 ->limit($this->_ratingLimit);
             return $this;
         }
