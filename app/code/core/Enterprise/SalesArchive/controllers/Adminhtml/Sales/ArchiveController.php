@@ -221,9 +221,8 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
         $archivedCount = count($archivedIds);
         if ($archivedCount>0) {
             $this->_getSession()->addSuccess($this->__('%s order(s) have been archived.', $archivedCount));
-        }
-        else {
-            // selected orders is not available for removing from archive
+        } else {
+            $this->_getSession()->addWarning($this->__('Selected order(s) cannot be archived.'));
         }
         $this->_redirect('*/sales_order/');
     }
