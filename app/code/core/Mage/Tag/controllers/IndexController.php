@@ -70,7 +70,8 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
                     foreach ($tagNamesArr as $tagName) {
                         $tagModel->unsetData()
                             ->loadByName($tagName)
-                            ->setStoreId($storeId);
+                            ->setStoreId($storeId)
+                            ->setName($tagName);
 
                         $tagRelationModel->unsetData()
                             ->setStoreId($storeId)
