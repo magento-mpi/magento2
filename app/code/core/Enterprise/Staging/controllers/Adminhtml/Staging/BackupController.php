@@ -156,11 +156,13 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
         $backup         = $this->_initBackup();
         $redirectBack   = false;
 
-        try{
-            $backup->setIsDeleteTables(true);
-            $backup->delete();
-        } catch (Exception $e) {
-            $redirectBack = true;
+        if ($backup) {
+            try{
+                $backup->setIsDeleteTables(true);
+                $backup->delete();
+            } catch (Exception $e) {
+                $redirectBack = true;
+            }
         }
 
         if ($redirectBack) {

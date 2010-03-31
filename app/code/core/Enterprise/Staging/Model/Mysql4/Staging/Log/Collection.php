@@ -48,13 +48,13 @@ class Enterprise_Staging_Model_Mysql4_Staging_Log_Collection extends Enterprise_
     }
 
     /**
-     * Add backuped filter into collection
+     * @deprecated after 1.8.0.0
      *
      * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Log_Collection
      */
     public function addBackupedFilter()
     {
-        $this->addFieldToFilter('main_table.is_backuped', 1);
+//        $this->addFieldToFilter('main_table.is_backuped', 1);
 
         return $this;
     }

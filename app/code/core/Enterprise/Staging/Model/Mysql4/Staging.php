@@ -212,7 +212,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Enterprise_Enterprise_Mode
      */
     public function mergeRun($staging, $event = null)
     {
-        if ($staging->getIsMergeLater() == true) {
+        if ($staging->getIsMergeLater()) {
             return $this;
         }
 

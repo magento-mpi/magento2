@@ -92,9 +92,19 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         return $this->_createMapData;
     }
 
+    /**
+     * Set websites, stores, staging items retrieved from map data
+     *
+     * @param array $mapData
+     * @return Enterprise_Staging_Model_Staging_Mapper_Website
+     */
     public function setMergeMapData($mapData)
     {
         $this->_mergeMapData = $mapData;
+
+        if (isset($mapData['backup'])) {
+            $this->setIsBackup((bool)$mapData['backup']);
+        }
 
         $websitesMap = !empty($mapData['websites']) ? $mapData['websites'] : array();
         $this->addWebsitesMap($websitesMap);

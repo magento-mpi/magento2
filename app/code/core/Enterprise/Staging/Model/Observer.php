@@ -159,11 +159,11 @@ class Enterprise_Staging_Model_Observer
                 if ($currentDate >= $applyDate) {
                     $mapData = $staging->getMergeSchedulingMap();
                     if (!empty($mapData)) {
-                        $staging->getMapperInstance()->unserialize($mapData);
-                        if ($staging->getIsBackuped() == true) {
+                        $mapper = $staging->getMapperInstance()->unserialize($mapData);
+                        if ($mapper->getIsBackup()) {
                             $staging->backup();
                         }
-                        $staging->setIsMegreByCron('true');
+                        $staging->setIsMegreByCron(true);
                         $staging->merge();
                     }
                 }

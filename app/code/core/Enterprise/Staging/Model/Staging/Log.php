@@ -90,11 +90,11 @@ class Enterprise_Staging_Model_Staging_Log extends Enterprise_Enterprise_Model_C
         if ($process == 'update') {
             return $this;
         }
-        if ($onState == 'before' && (($process == 'merge' && $staging->getIsMergeLater() == true) || $process == 'reset' || $process == 'unscheduleMerge')) {
+        if ($onState == 'before' && (($process == 'merge' && $staging->getIsMergeLater()) || $process == 'reset' || $process == 'unscheduleMerge')) {
             return $this;
         }
 
-        if ($staging->getIsMegreByCron() == true) {
+        if ($staging->getIsMegreByCron()) {
             $process = 'cron_merge';
         }
 
@@ -121,7 +121,7 @@ class Enterprise_Staging_Model_Staging_Log extends Enterprise_Enterprise_Model_C
                 $eventAction = Enterprise_Staging_Model_Staging_Config::ACTION_CRON_MERGE;
                 break;
             case 'merge':
-                if ($staging->getIsMergeLater() == true) {
+                if ($staging->getIsMergeLater()) {
                     $eventAction = Enterprise_Staging_Model_Staging_Config::ACTION_SCHEDULE_MERGE;
                     $additionalData['schedule_date'] = $staging->getMergeSchedulingDate();
                 }

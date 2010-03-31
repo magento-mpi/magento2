@@ -355,13 +355,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Enterprise_E
             try {
                 $staging->getMapperInstance()->setMergeMapData($mapData);
 
-                if (!empty($mapData['backup'])) {
-                    $staging->setIsBackuped(1);
-                }
-
                 //scheduling merge
                 if ($isMergeLater && !empty($schedulingDate)) {
-                    $staging->setIsMergeLater('true');
+                    $staging->setIsMergeLater(true);
 
                     //convert to internal time
                     $date = Mage::getModel('core/date')->gmtDate(null, $schedulingDate);
