@@ -50,7 +50,7 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
 
                 if (Mage::getStoreConfig(Mage_Newsletter_Model_Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1 && 
                     !$customerSession->isLoggedIn()) {
-                    Mage::throwException($this->__('Sorry, but administrator denied subscription for guests. Please <a href="customer/account/create">register</a>.'));
+                    Mage::throwException($this->__('Sorry, but administrator denied subscription for guests. Please <a href="'. Mage::getUrl('customer/account/create/') .'">register</a>.'));
                 }
 
                 $ownerId = Mage::getModel('customer/customer')
