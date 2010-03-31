@@ -28,7 +28,7 @@
  * @param {String} id id of ul element with navigation lists
  * @param {Object} settings object with settings
  */
-var mainNav = function(){
+var mainNav = function() {
 
     var main = {
         obj_nav :   $(arguments[0]) || $("nav"),
@@ -40,7 +40,7 @@ var mainNav = function(){
             _ie7            :   /MSIE 7.+Win/.test(navigator.userAgent)
         },
 
-        init :  function(obj, level){
+        init :  function(obj, level) {
             obj.lists = obj.childElements();
             obj.lists.each(function(el,ind){
                 main.handlNavElement(el);
@@ -53,7 +53,7 @@ var mainNav = function(){
             }
         },
 
-        handlNavElement :   function(list){
+        handlNavElement :   function(list) {
             if(list !== undefined){
                 list.onmouseover = function(){
                     main.fireNavEvent(this,true);
@@ -62,19 +62,21 @@ var mainNav = function(){
                     main.fireNavEvent(this,false);
                 };
                 if(list.down("ul")){
-                    sub_nav = list.down("ul");
-                    main.init(sub_nav, true);
+                    main.init(list.down("ul"), true);
                 }
             }
         },
 
-        ieFixZIndex : function(el, i, l){
+        ieFixZIndex : function(el, i, l) {
             if(el.tagName.toString().toLowerCase().indexOf("iframe") == -1){
                 el.style.zIndex = l - i;
+            } else {
+                el.onmouseover = "null";
+                el.onmouseout = "null";
             }
         },
 
-        fireNavEvent :  function(elm,ev){
+        fireNavEvent :  function(elm,ev) {
             if(ev){
                 elm.addClassName("over");
                 elm.down("a").addClassName("over");
@@ -90,7 +92,7 @@ var mainNav = function(){
             }
         },
 
-        show : function (sub_elm){
+        show : function (sub_elm) {
             if (sub_elm.hide_time_id) {
                 clearTimeout(sub_elm.hide_time_id);
             }
@@ -113,10 +115,10 @@ var mainNav = function(){
         }
 
     };
-    if (arguments[1]){
+    if (arguments[1]) {
         main.settings = Object.extend(main.settings, arguments[1]);
     }
-    if (main.obj_nav){
+    if (main.obj_nav) {
         main.init(main.obj_nav, false);
     }
 };
@@ -126,5 +128,5 @@ document.observe("dom:loaded", function() {
     //mainNav();
 
     //run navigation with delays
-    mainNav("nav", {"show_delay":"100","hide_delay":"100"})
+    mainNav("nav", {"show_delay":"100","hide_delay":"100"});
 });
