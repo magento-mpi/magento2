@@ -50,7 +50,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label'=>Mage::helper('enterprise_reminder')->__('Numeric Attribute'));
+            'label' => Mage::helper('enterprise_reminder')->__('Numeric Attribute'));
     }
 
     /**
@@ -97,7 +97,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item'=>$quoteItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $quoteItemTable), array(new Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('quote' => $quoteTable),

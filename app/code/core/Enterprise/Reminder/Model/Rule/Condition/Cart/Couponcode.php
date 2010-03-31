@@ -98,7 +98,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
         $inversion = ((int)$this->getValue() ? '' : '!');
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)));
+        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)));
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');

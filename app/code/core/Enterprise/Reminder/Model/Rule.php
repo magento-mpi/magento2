@@ -60,9 +60,9 @@ class Enterprise_Reminder_Model_Rule extends Enterprise_Enterprise_Model_Rule_Ru
 
         foreach($storeData as $data) {
             $template = (empty($data['template_id'])) ? $defaultTemplate : $data['template_id'];
-            $this->setData('store_template_'.$data['store_id'], $template);
-            $this->setData('store_label_'.$data['store_id'], $data['label']);
-            $this->setData('store_description_'.$data['store_id'], $data['description']);
+            $this->setData('store_template_' . $data['store_id'], $template);
+            $this->setData('store_label_' . $data['store_id'], $data['label']);
+            $this->setData('store_description_' . $data['store_id'], $data['description']);
         }
 
         return $this;

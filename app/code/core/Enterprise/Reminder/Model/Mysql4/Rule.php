@@ -122,7 +122,7 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
     protected function _saveWebsiteIds($rule)
     {
         $adapter = $this->_getWriteAdapter();
-        $adapter->delete($this->_websiteTable, array('rule_id=?'=>$rule->getId()));
+        $adapter->delete($this->_websiteTable, array('rule_id=?' => $rule->getId()));
         foreach ($rule->getWebsiteIds() as $websiteId) {
             $adapter->insert($this->_websiteTable, array(
                 'website_id' => $websiteId,
@@ -161,7 +161,7 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
         $labels = $rule->getStoreLabels();
         $descriptions = $rule->getStoreDescriptions();
 
-        foreach ($rule->getStoreTemplates() as $storeId=>$templateId) {
+        foreach ($rule->getStoreTemplates() as $storeId => $templateId) {
             if (!$templateId) {
                 continue;
             }
@@ -207,14 +207,14 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
         $templateTable = $this->getTable('enterprise_reminder/template');
         $ruleTable = $this->getTable('enterprise_reminder/rule');
 
-        $select = $this->createSelect()->from(array('t'=>$templateTable),
+        $select = $this->createSelect()->from(array('t' => $templateTable),
             't.template_id,
             IF(t.label != \'\', t.label, r.default_label) as label,
             IF(t.description != \'\', t.description, r.default_description) as description'
         );
 
         $select->join(
-            array('r'=>$ruleTable),
+            array('r' => $ruleTable),
             'r.rule_id=t.rule_id',
             array()
         );
@@ -272,17 +272,17 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
                 if (is_array($value)) {
                     if (!empty($value)) {
                         $sqlOperator = ($operator == '{}') ? 'IN' : 'NOT IN';
-                        $condition = $this->quoteInto($field.' '.$sqlOperator.' (?)', $value);
+                        $condition = $this->quoteInto($field . ' ' . $sqlOperator . ' (?)', $value);
                     }
                 } else {
-                    $condition = $this->quoteInto($field.' '.$sqlOperator.' ?', '%'.$value.'%');
+                    $condition = $this->quoteInto($field. ' ' . $sqlOperator . ' ?', '%' . $value . '%');
                 }
                 break;
             case 'between':
-                $condition = $field.' '.sprintf($sqlOperator, $value['start'], $value['end']);
+                $condition = $field . ' ' . sprintf($sqlOperator, $value['start'], $value['end']);
                 break;
             default:
-                $condition = $this->quoteInto($field.' '.$sqlOperator.' ?', $value);
+                $condition = $this->quoteInto($field . ' ' . $sqlOperator . ' ?', $value);
                 break;
         }
         return $condition;
@@ -321,43 +321,63 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
             return $this;
         }
 
+        $i = 0;
         $adapter = $this->_getWriteAdapter();
-        $couponTable = $this->getTable('enterprise_reminder/coupon');
         $ruleId = $rule->getId();
         $currentDate = $this->formatDate(time());
-
-        $count = 0;
         $dataToInsert = array();
-        $stmt = $adapter->query($select, array('website_id'=>$websiteId, 'rule_id'=>$ruleId));
 
-        while ($row = $stmt->fetch()) {
-            if (empty($row['coupon_id'])) {
-                $coupon = $salesRule->acquireCoupon();
-                $couponId = ($coupon !== null) ? $coupon->getId() : null;
-            }
-            else {
-                $couponId = $row['coupon_id'];
-            }
+        $stmt = $adapter->query($select, array('website_id' => $websiteId, 'rule_id' => $ruleId));
 
-            $dataToInsert[] = array(
-                'rule_id'       => $ruleId,
-                'coupon_id'     => $couponId,
-                'customer_id'   => $row['entity_id'],
-                'associated_at' => $currentDate,
-                'is_active'     => '1'
-            );
-            $count++;
+        try {
+            $adapter->beginTransaction();
 
-            if ($count > 1000) {
-                $adapter->insertOnDuplicate($couponTable, $dataToInsert, array('is_active'));
-                $count = 0;
-                $dataToInsert = array();
+            while ($row = $stmt->fetch()) {
+                if (empty($row['coupon_id'])) {
+                    $coupon = $salesRule->acquireCoupon();
+                    $couponId = ($coupon !== null) ? $coupon->getId() : null;
+                }
+                else {
+                    $couponId = $row['coupon_id'];
+                }
+
+                $dataToInsert[] = array(
+                    'rule_id'       => $ruleId,
+                    'coupon_id'     => $couponId,
+                    'customer_id'   => $row['entity_id'],
+                    'associated_at' => $currentDate,
+                    'is_active'     => '1'
+                );
+                $i++;
+
+                if (($i % 1000) == 0) {
+                    $this->_saveMatchedCustomerData($dataToInsert);
+                    $adapter->commit();
+                    $adapter->beginTransaction();
+                    $dataToInsert = array();
+                }
             }
+            $this->_saveMatchedCustomerData($dataToInsert);
+            $adapter->commit();
+
+        } catch (Exception $e) {
+            $adapter->rollBack();
         }
-        if ($count > 0) {
-            $adapter->insertOnDuplicate($couponTable, $dataToInsert, array('is_active'));
-        }
+
         return $this;
+    }
+
+     /**
+     * Save data by matched customer coupons
+     *
+     * @param array $data
+     */
+    protected function _saveMatchedCustomerData($data)
+    {
+        if ($data) {
+            $table = $this->getTable('enterprise_reminder/coupon');
+            $this->_getWriteAdapter()->insertOnDuplicate($table, $data, array('is_active'));
+        }
     }
 
     /**
@@ -375,18 +395,18 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
         $currentDate = $this->formatDate(time());
 
         $select = $this->createSelect()->from(
-            array('c'=>$couponTable),
+            array('c' => $couponTable),
             array('customer_id', 'coupon_id', 'rule_id')
         );
 
         $select->join(
-            array('r'=>$ruleTable),
+            array('r' => $ruleTable),
             'c.rule_id=r.rule_id',
             array('schedule')
         );
 
         $select->joinLeft(
-            array('l'=>$logTable),
+            array('l' => $logTable),
             'c.rule_id=l.rule_id AND c.customer_id=l.customer_id',
             array()
         );

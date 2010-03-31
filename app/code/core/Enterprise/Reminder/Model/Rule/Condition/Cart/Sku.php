@@ -86,7 +86,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item'=>$quoteItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $quoteItemTable), array(new Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('quote' => $quoteTable),

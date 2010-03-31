@@ -76,7 +76,7 @@ class Enterprise_Reminder_Model_Condition_Abstract extends Enterprise_Enterprise
     protected function _limitByStoreWebsite(Zend_Db_Select $select, $website, $storeIdField)
     {
         $storeTable = $this->getResource()->getTable('core/store');
-        $select->join(array('store'=> $storeTable), $storeIdField.'=store.store_id', array())
+        $select->join(array('store' => $storeTable), $storeIdField . '=store.store_id', array())
             ->where('store.website_id=?', $website);
         return $this;
     }

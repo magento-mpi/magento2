@@ -86,7 +86,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
         $conditions = array();
         foreach ($attributes as $code => $label) {
-            $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
+            $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
         }
 
         return array(
@@ -150,16 +150,16 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
 
         $resource = $this->getResource();
         $select = $resource->createSelect();
-        $select->from(array('main'=>$table), array('entity_id'));
+        $select->from(array('main' => $table), array('entity_id'));
 
         if ($attribute->getAttributeCode() == 'category_ids') {
             $condition = $resource->createConditionSql(
                 'cat.category_id', $this->getOperator(), explode(',', $this->getValue())
             );
             $categorySelect = $resource->createSelect();
-            $categorySelect->from(array('cat'=>$resource->getTable('catalog/category_product')), 'product_id')
+            $categorySelect->from(array('cat' => $resource->getTable('catalog/category_product')), 'product_id')
                 ->where($condition);
-            $condition = 'main.entity_id IN ('.$categorySelect.')';
+            $condition = 'main.entity_id IN (' . $categorySelect . ')';
         } elseif ($attribute->isStatic()) {
             $condition = $this->getResource()->createConditionSql(
                 "main.{$attribute->getAttributeCode()}", $this->getOperator(), $this->getValue()
@@ -167,7 +167,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
         } else {
             $select->where('main.attribute_id = ?', $attribute->getId());
             $select->join(
-                    array('store'=> $this->getResource()->getTable('core/store')),
+                    array('store' => $this->getResource()->getTable('core/store')),
                     'main.store_id=store.store_id',
                     array())
                 ->where('store.website_id IN(?)', array(0, $website));

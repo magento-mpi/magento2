@@ -65,8 +65,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Subselection
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('enterprise_reminder')->__('found'),
-            '!='  => Mage::helper('enterprise_reminder')->__('not found')
+            '==' => Mage::helper('enterprise_reminder')->__('found'),
+            '!=' => Mage::helper('enterprise_reminder')->__('not found')
         ));
         return $this;
     }
@@ -98,7 +98,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Subselection
         $wishlistItemTable = $this->getResource()->getTable('wishlist/item');
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item'=>$wishlistItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $wishlistItemTable), array(new Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('list' => $wishlistTable),

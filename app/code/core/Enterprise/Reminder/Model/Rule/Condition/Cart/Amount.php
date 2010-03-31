@@ -50,7 +50,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label'=>Mage::helper('enterprise_reminder')->__('Total Amount'));
+            'label' => Mage::helper('enterprise_reminder')->__('Total Amount'));
     }
 
     /**
@@ -61,8 +61,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'subtotal'  => Mage::helper('enterprise_reminder')->__('subtotal'),
-            'grand_total'  => Mage::helper('enterprise_reminder')->__('grand total')
+            'subtotal' => Mage::helper('enterprise_reminder')->__('subtotal'),
+            'grand_total' => Mage::helper('enterprise_reminder')->__('grand total')
         ));
         return $this;
     }
@@ -93,7 +93,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Amount
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)));
+        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)));
 
         switch ($this->getAttribute()) {
             case 'subtotal':

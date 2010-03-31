@@ -61,8 +61,8 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
                     'fieldset_html_class' => 'store-group',
                 ));
                 foreach ($stores as $store) {
-                    $fieldset->addField('store_template_'.$store->getId(), 'select', array(
-                        'name'      => 'store_templates['.$store->getId().']',
+                    $fieldset->addField('store_template_' . $store->getId(), 'select', array(
+                        'name'      => 'store_templates[' . $store->getId() . ']',
                         'required'  => false,
                         'label'     => $store->getName(),
                         'values'    => $this->getTemplatesOptionsArray(),
@@ -111,14 +111,14 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
                     'fieldset_html_class' => 'store-group',
                 ));
                 foreach ($stores as $store) {
-                    $fieldset->addField('store_label_'.$store->getId(), 'text', array(
-                        'name'      => 'store_labels['.$store->getId().']',
+                    $fieldset->addField('store_label_' . $store->getId(), 'text', array(
+                        'name'      => 'store_labels[' . $store->getId() . ']',
                         'label'     => $store->getName(),
                         'required'  => false,
                         'fieldset_html_class' => 'store'
                     ));
-                     $fieldset->addField('store_description_'.$store->getId(), 'textarea', array(
-                        'name'      => 'store_descriptions['.$store->getId().']',
+                     $fieldset->addField('store_description_' . $store->getId(), 'textarea', array(
+                        'name'      => 'store_descriptions[' . $store->getId() . ']',
                         'required'  => false,
                         'fieldset_html_class' => 'store',
                         'style' => 'height: 50px;'

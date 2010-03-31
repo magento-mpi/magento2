@@ -65,8 +65,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('enterprise_reminder')->__('found'),
-            '!='  => Mage::helper('enterprise_reminder')->__('not found')
+            '==' => Mage::helper('enterprise_reminder')->__('found'),
+            '!=' => Mage::helper('enterprise_reminder')->__('not found')
         ));
         return $this;
     }
@@ -98,7 +98,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
         $quoteTable = $this->getResource()->getTable('sales/quote');
         $quoteItemTable = $this->getResource()->getTable('sales/quote_item');
 
-        $select->from(array('item'=>$quoteItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $quoteItemTable), array(new Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('quote' => $quoteTable),

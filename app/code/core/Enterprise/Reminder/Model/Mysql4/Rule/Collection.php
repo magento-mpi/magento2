@@ -117,7 +117,7 @@ class Enterprise_Reminder_Model_Mysql4_Rule_Collection extends Enterprise_Enterp
         if (!$this->getFlag('is_website_table_joined')) {
             $this->setFlag('is_website_table_joined', true);
             $this->getSelect()->joinInner(
-                array('website'=>$this->getTable('enterprise_reminder/website')),
+                array('website' => $this->getTable('enterprise_reminder/website')),
                 'main_table.rule_id = website.rule_id',
                 array()
             );

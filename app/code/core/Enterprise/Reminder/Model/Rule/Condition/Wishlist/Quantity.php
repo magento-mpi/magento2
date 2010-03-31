@@ -78,7 +78,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Quantity
         $result = "IF (COUNT(*) {$operator} {$this->getValue()}, 1, 0)";
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item'=>$wishlistItemTable), array(new Zend_Db_Expr($result)));
+        $select->from(array('item' => $wishlistItemTable), array(new Zend_Db_Expr($result)));
 
         $select->joinInner(
             array('list' => $wishlistTable),

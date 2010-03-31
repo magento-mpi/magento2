@@ -100,8 +100,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('rule')->__('from'),
-            '!='  => Mage::helper('rule')->__('not from')
+            '==' => Mage::helper('rule')->__('from'),
+            '!=' => Mage::helper('rule')->__('not from')
         ));
         return $this;
     }
@@ -120,7 +120,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item'=>$wishlistItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $wishlistItemTable), array(new Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('list' => $wishlistTable),
