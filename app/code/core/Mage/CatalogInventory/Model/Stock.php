@@ -116,13 +116,25 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Subtract product qtys from stock
      *
-     * @param unknown_type $items
+     * @param array $items
      */
     public function registerProductsSale($items)
     {
         $qtys = $this->_prepareProductQtys($items);
+        $item = Mage::getModel('cataloginventory/stock_item');
+        $this->_getResource()->beginTransaction();
+        $stockInfo = $this->_getResource()->getProductsStock($this, array_keys($qtys), true);
+        foreach ($stockInfo as $itemInfo) {
+            $item->setData($itemInfo);
+            if (!$item->checkQty($qtys[$item->getProductId()])) {
+                $this->_getResource()->commit();
+                Mage::throwException(Mage::helper('cataloginventory')->__('Not all products are available in the requested quantity'));
+            }
+        }
         $this->_getResource()->correctItemsQty($this, $qtys, '-');
+        $this->_getResource()->commit();
         return $this;
     }
 

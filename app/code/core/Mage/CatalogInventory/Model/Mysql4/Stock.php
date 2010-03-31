@@ -49,7 +49,7 @@ class Mage_CatalogInventory_Model_Mysql4_Stock extends Mage_Core_Model_Mysql4_Ab
     public function lockProductItems($stock, $productIds)
     {
         $itemTable = $this->getTable('cataloginventory/stock_item');
-        $select = $this->_getReadAdapter()->select()
+        $select = $this->_getWriteAdapter()->select()
             ->from($itemTable)
             ->where('stock_id=?', $stock->getId())
             ->where('product_id IN(?)', $productIds)
@@ -59,6 +59,24 @@ class Mage_CatalogInventory_Model_Mysql4_Stock extends Mage_Core_Model_Mysql4_Ab
          */
         $this->_getWriteAdapter()->query($select);
         return $this;
+    }
+
+    /**
+     * Get stock items data for requested products
+     *
+     * @param Mage_CatalogInventory_Model_Stock $stock
+     * @param array $productIds
+     * @param bool $lockRows
+     */
+    public function getProductsStock($stock, $productIds, $lockRows = false)
+    {
+        $itemTable = $this->getTable('cataloginventory/stock_item');
+        $select = $this->_getWriteAdapter()->select()
+            ->from($itemTable)
+            ->where('stock_id=?', $stock->getId())
+            ->where('product_id IN(?)', $productIds)
+            ->forUpdate($lockRows);
+        return $this->_getWriteAdapter()->fetchAll($select);
     }
 
     /**
