@@ -120,6 +120,11 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
      */
     protected function _prepareConditionsSql($customer, $website)
     {
+        $conditionValue = (int)$this->getValue();
+        if ($conditionValue < 1) {
+            Mage::throwException(Mage::helper('enterprise_reminder')->__('Root wishlist condition should have days value at least 1.'));
+        }
+
         $wishlistTable = $this->getResource()->getTable('wishlist/wishlist');
         $wishlistItemTable = $this->getResource()->getTable('wishlist/item');
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
@@ -134,7 +139,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
         );
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
-        $select->where("UNIX_TIMESTAMP('" . now() . "' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(list.updated_at)", $this->getValue());
+        $select->where("UNIX_TIMESTAMP('" . now() . "' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(list.updated_at)", $conditionValue);
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
         $select->limit(1);
         return $select;

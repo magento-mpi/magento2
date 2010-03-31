@@ -119,6 +119,11 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
      */
     protected function _prepareConditionsSql($customer, $website)
     {
+        $conditionValue = (int)$this->getValue();
+        if ($conditionValue < 1) {
+            Mage::throwException(Mage::helper('enterprise_reminder')->__('Root shopping cart condition should have days value at least 1.'));
+        }
+
         $table = $this->getResource()->getTable('sales/quote');
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
@@ -126,7 +131,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
         $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)));
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
-        $select->where("UNIX_TIMESTAMP('" . now() . "' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(quote.updated_at)", $this->getValue());
+        $select->where("UNIX_TIMESTAMP('" . now() . "' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(quote.updated_at)", $conditionValue);
         $select->where('quote.is_active = 1');
         $select->where('quote.items_count > 0');
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
