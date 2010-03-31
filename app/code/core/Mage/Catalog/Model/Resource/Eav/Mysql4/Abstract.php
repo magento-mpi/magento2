@@ -95,7 +95,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
         if ($storeId != $this->getDefaultStoreId()) {
             $storeIds[] = $storeId;
         }
-        $select = $this->_read->select()
+        $select = $this->_getReadAdapter()->select()
             ->from(array('attr_table' => $table))
             ->where('attr_table.'.$this->getEntityIdField().'=?', $object->getId())
             ->where('attr_table.store_id IN (?)', $storeIds);
@@ -462,11 +462,11 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
         foreach ($this->getAttributesByTable() as $table=>$attributes) {
             $entityIdField = current($attributes)->getBackend()->getEntityIdField();
 
-            $select = $this->_read->select()
+            $select = $this->_getReadAdapter()->select()
                 ->from($table)
                 ->where($this->getEntityIdField()."=?", $object->getId());
 
-            $where = $this->_read->quoteInto("store_id=?", $storeId);
+            $where = $this->_getReadAdapter()->quoteInto("store_id=?", $storeId);
 
             $globalAttributeIds = array();
             foreach ($attributes as $attrCode=>$attr) {
@@ -475,11 +475,11 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
                 }
             }
             if (!empty($globalAttributeIds)) {
-                $where .= ' or '.$this->_read->quoteInto('attribute_id in (?)', $globalAttributeIds);
+                $where .= ' or '.$this->_getReadAdapter()->quoteInto('attribute_id in (?)', $globalAttributeIds);
             }
             $select->where($where);
 
-            $values = $this->_read->fetchAll($select);
+            $values = $this->_getReadAdapter()->fetchAll($select);
 
             if (empty($values)) {
                 continue;
@@ -568,14 +568,14 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
 
         }
         /* @var $select Zend_Db_Select */
-        $select = $this->_read->select();
+        $select = $this->_getReadAdapter()->select();
         /**
          * Collecting static attributes
          */
         if ($staticAttributes) {
             $select->from($staticTable, $staticAttributes)
                 ->where($this->getEntityIdField() . ' = ?', $entityId);
-            $attributesData = $this->_read->fetchRow($select);
+            $attributesData = $this->_getReadAdapter()->fetchRow($select);
         }
 
         /**
@@ -593,16 +593,16 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
                     ->where('default_value.entity_id = ? ', $entityId)
                     ->where('default_value.store_id = 0');
 
-                $joinCondition = $this->_read->quoteInto('store_value.attribute_id IN (?)', array_keys($_attributes));
-                $joinCondition .= ' AND ' . $this->_read->quoteInto('store_value.entity_type_id = ?', $this->getTypeId());
-                $joinCondition .= ' AND ' . $this->_read->quoteInto('store_value.entity_id = ?', $entityId);
-                $joinCondition .= ' AND ' . $this->_read->quoteInto('store_value.store_id = ?', $store);
+                $joinCondition = $this->_getReadAdapter()->quoteInto('store_value.attribute_id IN (?)', array_keys($_attributes));
+                $joinCondition .= ' AND ' . $this->_getReadAdapter()->quoteInto('store_value.entity_type_id = ?', $this->getTypeId());
+                $joinCondition .= ' AND ' . $this->_getReadAdapter()->quoteInto('store_value.entity_id = ?', $entityId);
+                $joinCondition .= ' AND ' . $this->_getReadAdapter()->quoteInto('store_value.store_id = ?', $store);
 
                 $select->joinLeft(array('store_value' => $table),
                     $joinCondition,
                     array('attr_value' => 'IFNULL(store_value.value, default_value.value)', 'default_value.attribute_id')
                 );
-                $result = $this->_read->fetchAll($select);
+                $result = $this->_getReadAdapter()->fetchAll($select);
                 foreach ($result as $key => $_attribute) {
                     $attributeCode = $typedAttributes[$table][$_attribute['attribute_id']];
                     $attributesData[$attributeCode] = $_attribute['attr_value'];
