@@ -41,13 +41,12 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Abstract
 
         /* TODO: Hardcoded banner */
         $additionalAttributes['home_banner'] = 'http://kd.varien.com/dev/yuriy.sorokolat/current/media/catalog/category/banner_home.png';
-        $xml = $categoryModel->addNameToResult()
+        $categoryModel->addNameToResult()
             ->addImageToResult()
             ->addIsActiveFilter()
             ->addLevelExactFilter(2)
-            ->addLimit(0,6)
-            ->load()
-            ->toXml($additionalAttributes);
+            ->addLimit(0,6);
+        $xml = $this->categoryCollectionToXml($categoryModel, 'category', true, false, false, $additionalAttributes);
         return $xml;
     }
 

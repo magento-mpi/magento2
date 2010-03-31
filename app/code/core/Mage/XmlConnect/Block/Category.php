@@ -40,27 +40,25 @@ class Mage_XmlConnect_Block_Category extends Mage_XmlConnect_Block_Abstract
         $additionalAttributes = $this->getChildHtml();
         if ($categoryId = $this->getRequest()->getParam('category_id', null))
         {
-            $categoryModel = Mage::getModel('xmlconnect/category')->load($categoryId);
+            $categoryModel = Mage::getModel('catalog/category')->load($categoryId);
             if (!$categoryModel->hasChildren())
             {
                 $productCollection = Mage::getResourceModel('xmlconnect/product_collection');
                 $categoryModel->setProductCollection($productCollection);
                 $productCollection->setStoreId($categoryModel->getStoreId())
                     ->addCategoryFilter($categoryModel)
-                    ->addFiltersFromRequest($this->getRequest(), $categoryModel)
-                    ->addOrdersFromRequest($this->getRequest())
                     ->addLimit($this->getRequest()->getParam('offset', 0), $this->getRequest()->getParam('count', 0));
-                return $productCollection->toXml($additionalAttributes);
+                $this->_addFiltersToProductCollection($productCollection, $this->getRequest(), $categoryModel);
+                $this->_addOrdersToProductCollection($productCollection, $this->getRequest());
+                return $this->productCollectionToXml($productCollection, 'product', true, false, false, $additionalAttributes);
             }
         }
-
         $categoryCollection = Mage::getResourceModel('xmlconnect/category_collection');
-
-        $xml = $categoryCollection->addImageToResult()
+        $categoryCollection->addImageToResult()
             ->setStoreId($categoryCollection->getDefaultStoreId())
             ->addParentIdFilter($categoryId)
-            ->addLimit($this->getRequest()->getParam('offset', 0), $this->getRequest()->getParam('count', 0))
-            ->toXml($additionalAttributes);
+            ->addLimit($this->getRequest()->getParam('offset', 0), $this->getRequest()->getParam('count', 0));
+        $xml = $this->categoryCollectionToXml($categoryCollection, 'category', true, false, false, $additionalAttributes);
         return $xml;
     }
 

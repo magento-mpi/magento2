@@ -41,23 +41,20 @@ class Mage_XmlConnect_Block_Product extends Mage_XmlConnect_Block_Abstract
 
     protected function _toHtml()
     {
-        $this->_product = Mage::getModel('xmlconnect/product')
+        $this->_product = Mage::getModel('catalog/product')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($this->getRequest()->getParam('id', 0));
-
-        return $this->_product->toXml(array(), 'item', false, true, $this->getChildHtml());
+        return $this->productToXml($this->_product, array('description', 'type_id'), 'item',
+            false, false, false, $this->getChildHtml());
     }
 
     public function getProduct()
     {
-        if (isset($this->_product)) {
-            return $this->_product;
-        } else {
-            return $this->_product = Mage::getModel('xmlconnect/product')
+        if (!isset($this->_product)) {
+            $this->_product = Mage::getModel('catalog/product')
                 ->setStoreId(Mage::app()->getStore()->getId());
         }
-
-
+        return $this->_product;
     }
 
 }

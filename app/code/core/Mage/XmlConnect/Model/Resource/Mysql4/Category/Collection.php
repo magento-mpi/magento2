@@ -41,14 +41,9 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection
     const PARENT_CATEGORIES_LEVEL = 2;
 
     /**
-     * Image resize parameters
-     */
-    const IMAGE_RESIZE_PARAM = 80;
-
-    /**
      * To add parent_id node to result flag
      */
-    protected $_showParentId = false;
+    public $showParentId = false;
 
     /**
      * Adding image attribute to result
@@ -68,52 +63,6 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection
         return parent::_beforeLoad();
     }
 
-    /**
-     * @param array|string $additionalAtrributes Additional nodes for xml
-     * @return string
-     */
-    public function toXml($additionalAtrributes = array())
-    {
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>
-        <category>
-           <items>
-           ';
-
-        foreach ($this as $item)
-        {
-            $attributes = array('label', 'background', 'entity_id', 'content_type', 'icon');
-            if (strlen($item->image) < 1) {
-                $item->image = 'no_selection';
-            }
-            $item->icon = Mage::helper('catalog/category_image')->init($item, 'image')->resize(self::IMAGE_RESIZE_PARAM);
-
-            if ($this->_showParentId) {
-                $attributes[] = 'parent_id';
-            }
-            $item->label = $item->name;
-            $item->content_type = $item->hasChildren() ? 'categories' : 'products' ;
-
-            /* Hardcode */
-            $item->background = 'http://kd.varien.com/dev/yuriy.sorokolat/current/media/catalog/category/background_img.png';
-
-            $xml .= $item->toXml($attributes, 'item', false, false);
-        }
-        $xml .= '</items>
-                ';
-
-        $xmlModel = new Varien_Simplexml_Element('<node></node>');
-        if (is_array($additionalAtrributes)) {
-            foreach ($additionalAtrributes as $attrKey => $value) {
-                $xml .= "<{$attrKey}>{$xmlModel->xmlentities($value)}</{$attrKey}>";
-            }
-        } else {
-            $xml .= $additionalAtrributes;
-        }
-
-        $xml .= '</category>';
-        return $xml;
-    }
-
     public function addLevelExactFilter($level)
     {
         $this->getSelect()->where('e.level = ?', $level);
@@ -129,7 +78,7 @@ class Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection
     public function addParentIdFilter($parentId)
     {
         if (!is_null($parentId)) {
-            $this->_showParentId = true;
+            $this->showParentId = true;
             $this->getSelect()->where('e.parent_id = ?', (int)$parentId);
         }
         else {

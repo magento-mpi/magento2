@@ -44,8 +44,9 @@ class Mage_XmlConnect_Block_Filters extends Mage_XmlConnect_Block_Abstract
         /* TODO: Here logic for sort options limiting to 3 items should be realized */
         $sortOptions = array_slice($sortOptions, 0, 3);
 
-        $xml = Mage::getModel('xmlconnect/filter_collection')->setCategoryId($categoryId)
-            ->toXml(array('orders'=>$sortOptions), true);
+        $filterCollection = Mage::getModel('xmlconnect/filter_collection')->setCategoryId($categoryId);
+        $xml = $this->filterCollectionToXml($filterCollection, 'items', true, false, false,
+            '<orders>'.$this->_arrayToXml($sortOptions, null, 'item').'</orders>');
 
         return $xml;
     }
