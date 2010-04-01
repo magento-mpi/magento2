@@ -182,7 +182,7 @@ class Enterprise_TargetRule_Model_Mysql4_Index extends Enterprise_Enterprise_Mod
         $rule->afterLoad();
 
         /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
-        $collection = Mage::getResourceSingleton('catalog/product_collection')
+        $collection = Mage::getResourceModel('catalog/product_collection')
             ->setStoreId($object->getStoreId())
             ->addPriceData($object->getCustomerGroupId());
         Mage::getSingleton('catalog/product_visibility')
