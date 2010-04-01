@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
             {
                 $this->_addButton('capture', array( // capture?
                     'label'     => Mage::helper('sales')->__('Credit Memo...'),
-                    'class'     => 'save',
+                    'class'     => 'go',
                     'onclick'   => 'setLocation(\''.$this->getCreditMemoUrl().'\')'
                     )
                 );
