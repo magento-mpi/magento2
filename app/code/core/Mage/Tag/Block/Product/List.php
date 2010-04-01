@@ -62,9 +62,9 @@ class Mage_Tag_Block_Product_List extends Mage_Core_Block_Template
                 ->addPopularity()
                 ->addStatusFilter($model->getApprovedStatus())
                 ->addProductFilter($this->getProductId())
+                ->setFlag('relation', true)
                 ->addStoreFilter(Mage::app()->getStore()->getId())
                 ->setActiveFilter()
-                ->setFlag('relation', true)
                 ->load();
         }
         return $this->_collection;
