@@ -130,7 +130,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser extends Mage_Adminhtml_Block_Wid
             'header'    => Mage::helper('salesrule')->__('Coupon Code'),
             'align'     => 'left',
             'width'     => '150px',
-            'index'     => 'coupon_code',
+            'index'     => 'code',
         ));
 
         $this->addColumn('from_date', array(
