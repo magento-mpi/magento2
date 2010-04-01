@@ -492,7 +492,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      */
     protected function _getCustomerIdentifier()
     {
-        return md5($this->getInfoInstance()->getOrder()->getQuoteId() .
-            $this->getInfoInstance()->getOrder()->getCustomerEmail());
+        return md5($this->getInfoInstance()->getOrder()->getQuoteId());
     }
 }

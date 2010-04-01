@@ -164,7 +164,7 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
             'order_id'      => $reservedOrderId,
             'amount'        => $quote ? $quote->getBaseGrandTotal() : '0',
             'currency_code' => $quote ? $quote->getBaseCurrencyCode() : '',
-            'client_identifier' => md5($quote->getId() . $quote->getCustomerEmail()),
+            'client_identifier' => md5($quote->getId()),
         ), $params);
 
         $params = $this->getRequestParams($params, $quote);
