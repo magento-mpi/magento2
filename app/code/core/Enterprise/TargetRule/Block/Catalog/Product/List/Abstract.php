@@ -291,9 +291,12 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends
                     $collection->setPageSize($count)
                         ->setFlag('do_not_use_category_id', true);
 
+                    $orderedAr = array_flip($productIds);
+
                     foreach ($collection as $item) {
-                        $this->_items[$item->getEntityId()] = $item;
+                        $this->_items[(int)$orderedAr[$item->getEntityId()]] = $item;
                     }
+                    ksort($this->_items);
                 }
             }
         }
