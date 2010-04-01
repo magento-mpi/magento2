@@ -26,15 +26,7 @@
 ?>
 Event.observe(this.document, 'payment-method:switched', function(event){
   if (event.stopped == null) {
-      var buttonsContainer = $('payment-buttons-container');
-      if (buttonsContainer && buttonsContainer.down('button.button')) {
-          var continueButton = buttonsContainer.down('button.button');
-          if (event.target.hasClassName('pbridge')) {
-              continueButton.setStyle({display:'none'});
-          } else {
-              continueButton.setStyle({display:''});
-          }
-      }
+      toggleContinueButton(event.target);
       Event.stop(event);
   }
 });

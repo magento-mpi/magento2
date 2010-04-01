@@ -36,11 +36,23 @@
                     if (elm) elm.remove();
                 });
             }
+            toggleContinueButton(iframeContainer.up('ul'));
             new Ajax.Updater(
                 iframeContainer,
                 "<?php echo $this->getUrl('enterprise_pbridge/pbridge/iframe', array('_current' => true)); ?>",
                 {parameters : {method_code : method}}
             );
+        }
+    }
+    function toggleContinueButton(target) {
+        var buttonsContainer = $('payment-buttons-container');
+        if (buttonsContainer && buttonsContainer.down('button.button')) {
+            var continueButton = buttonsContainer.down('button.button');
+            if (target.hasClassName('pbridge') && !(target.select('input[type="hidden"]')).length) {
+                continueButton.setStyle({display:'none'});
+            } else {
+                continueButton.setStyle({display:''});
+            }
         }
     }
 //]]>
