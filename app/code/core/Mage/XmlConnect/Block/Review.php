@@ -25,36 +25,20 @@
  */
 
 /**
- * Review form block
+ * Review block
  *
  * @category   Mage
  * @package    Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_Block_Product extends Mage_XmlConnect_Block_Abstract
+class Mage_XmlConnect_Block_Review extends Mage_XmlConnect_Block_Abstract
 {
-    /**
-     * @var Mage_XmlConnect_Model_Product
-     */
-    protected $_product;
 
     protected function _toHtml()
     {
-        $this->_product = Mage::getModel('catalog/product')
-            ->setStoreId(Mage::app()->getStore()->getId())
-            ->load($this->getRequest()->getParam('id', 0));
-        return $this->productToXml($this->_product, array('description', 'type_id', 'has_options'), 'item',
-            false, false, false, $this->getChildHtml(), true);
-    }
-
-    public function getProduct()
-    {
-        if (!isset($this->_product)) {
-            $this->_product = Mage::getModel('catalog/product')
-                ->setStoreId(Mage::app()->getStore()->getId());
-        }
-        return $this->_product;
+        $review = Mage::getModel('review/review')->load($this->getRequest()->getParam('review_id', 0));
+        return $this->reviewToXml($review);
     }
 
 }
