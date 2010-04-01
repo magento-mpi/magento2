@@ -189,6 +189,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Mage_Paygate_M
     public function capture(Varien_Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
+        if (!$response) {
+            $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
+        }
         $payment->addData((array)$response);
         return $this;
     }
