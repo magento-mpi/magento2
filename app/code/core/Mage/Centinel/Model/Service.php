@@ -116,7 +116,8 @@ class Mage_Centinel_Model_Service extends Varien_Object
         $params = array(
             '_secure'  => true,
             '_current' => $current,
-            'form_key' => Mage::getSingleton('core/session')->getFormKey()
+            'form_key' => Mage::getSingleton('core/session')->getFormKey(),
+            'isIframe' => true
         );
         if (Mage::app()->getStore()->isAdmin()) {
             return Mage::getSingleton('adminhtml/url')->getUrl('*/centinel_index/' . $suffix, $params);
