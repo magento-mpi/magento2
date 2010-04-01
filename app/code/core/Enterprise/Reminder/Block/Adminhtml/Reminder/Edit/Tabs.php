@@ -52,22 +52,29 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
     protected function _beforeToHtml()
     {
         $this->addTab('general_section', array(
-            'label'     => Mage::helper('enterprise_reminder')->__('Rule Information'),
-            'content'   => $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_general')->toHtml(),
-            'active'    => true
+            'label'   => Mage::helper('enterprise_reminder')->__('Rule Information'),
+            'content' => $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_general')->toHtml(),
         ));
 
         $this->addTab('conditions_section', array(
-            'label'     => Mage::helper('enterprise_reminder')->__('Conditions'),
-            'content'   => $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_conditions')->toHtml(),
+            'label'   => Mage::helper('enterprise_reminder')->__('Conditions'),
+            'content' => $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_conditions')->toHtml()
         ));
 
         $this->addTab('template_section', array(
-            'label'     => Mage::helper('enterprise_reminder')->__('Emails and Labels'),
-            'content'   => $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_templates')->toHtml(),
+            'label'   => Mage::helper('enterprise_reminder')->__('Emails and Labels'),
+            'content' => $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_templates')->toHtml()
         ));
+
+        $rule = Mage::registry('current_reminder_rule');
+        if ($rule && $rule->getId()) {
+            $this->addTab('matched_customers', array(
+                'label' => Mage::helper('enterprise_reminder')->__('Matched Customers'),
+                'url'   => $this->getUrl('*/*/customerGrid', array('rule_id' => $rule->getId())),
+                'class' => 'ajax'
+            ));
+        }
 
         return parent::_beforeToHtml();
     }
-
 }

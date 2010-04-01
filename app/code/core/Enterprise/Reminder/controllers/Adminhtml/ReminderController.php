@@ -238,7 +238,18 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Enterprise_Enterp
             Mage::getSingleton('adminhtml/session')->addException($e, $this->__('Reminder rule matching error.'));
             Mage::logException($e);
         }
-        $this->_redirect('*/*/edit', array('id' => $model->getId()));
+        $this->_redirect('*/*/edit', array('id' => $model->getId(), 'active_tab' => 'matched_customers'));
+    }
+
+    /**
+     *  Customer grid ajax action
+     */
+    public function customerGridAction()
+    {
+        if ($this->_initRule('rule_id')) {
+            $block = $this->getLayout()->createBlock('enterprise_reminder/adminhtml_reminder_edit_tab_customers');
+            $this->getResponse()->setBody($block->toHtml());
+        }
     }
 
     /**
