@@ -33,9 +33,9 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
     <!--Order Information-->
     <div class="entry-edit">
         <?php if ($_order->getEmailSent()):
-            $_email=$this->__('The order confirmation email has been sent.');
+            $_email=$this->__('the order confirmation email was sent');
         else:
-            $_email=$this->__('The order confirmation email has not been sent.');
+            $_email=$this->__('the order confirmation email is not sent');
         endif; ?>
         <div class="entry-edit-head">
         <?php if ($this->getNoUseOrderLink()): ?>

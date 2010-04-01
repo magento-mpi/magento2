@@ -76,13 +76,15 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View extends Mage_Adminhtml_Bloc
     public function getHeaderText()
     {
         if ($this->getShipment()->getEmailSent()) {
-            $emailSent = Mage::helper('sales')->__('Shipment email sent');
+            $emailSent = Mage::helper('sales')->__('the shipment email was sent');
         }
         else {
-            $emailSent = Mage::helper('sales')->__('Shipment email not sent');
+            $emailSent = Mage::helper('sales')->__('the shipment email is not sent');
         }
 
-        $header = Mage::helper('sales')->__('Shipment #%s (%s)', $this->getShipment()->getIncrementId(), $emailSent);
+        $header = Mage::helper('sales')->__('Shipment #%1$s | %3$s (%2$s)', $this->getShipment()->getIncrementId(),
+            $emailSent, $this->formatDate($this->getShipment()->getCreatedAtDate(), 'medium', true)
+        );
         return $header;
     }
 

@@ -114,13 +114,13 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
     public function getHeaderText()
     {
         if ($this->getCreditmemo()->getEmailSent()) {
-            $emailSent = Mage::helper('sales')->__('Credit Memo email sent');
+            $emailSent = Mage::helper('sales')->__('the credit memo email was sent');
         }
         else {
-            $emailSent = Mage::helper('sales')->__('Credit Memo email not sent');
+            $emailSent = Mage::helper('sales')->__('the credit memo email is not sent');
         }
 
-        $header = Mage::helper('sales')->__('Credit Memo #%s | Date %s | Status %s (%s)',
+        $header = Mage::helper('sales')->__('Credit Memo #%1$s | %3$s | %2$s (%4$s)',
             $this->getCreditmemo()->getIncrementId(),
             $this->formatDate($this->getCreditmemo()->getCreatedAtDate(), 'medium', true),
             $this->getCreditmemo()->getStateName(),

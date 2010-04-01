@@ -125,22 +125,18 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
     public function getHeaderText()
     {
         if ($this->getInvoice()->getEmailSent()) {
-            $emailSent = Mage::helper('sales')->__('The invoice email has been sent.');
+            $emailSent = Mage::helper('sales')->__('the invoice email was sent');
         }
         else {
-            $emailSent = Mage::helper('sales')->__('The invoice email has not been sent.');
+            $emailSent = Mage::helper('sales')->__('the invoice email is not sent');
         }
 
-        $header = Mage::helper('sales')->__('Invoice #%s | %s (%s)',
+        $header = Mage::helper('sales')->__('Invoice #%1$s | %2$s | %4$s (%3$s)',
             $this->getInvoice()->getIncrementId(),
             $this->getInvoice()->getStateName(),
-            $emailSent
+            $emailSent,
+            $this->formatDate($this->getInvoice()->getCreatedAtDate(), 'medium', true)
         );
-        /*$header = Mage::helper('sales')->__('Invoice #%s | Order Date: %s | Customer Name: %s',
-            $this->getInvoice()->getIncrementId(),
-            $this->formatDate($this->getInvoice()->getOrder()->getCreatedAt(), 'medium', true),
-            $this->getInvoice()->getOrder()->getCustomerName()
-        );*/
         return $header;
     }
 
