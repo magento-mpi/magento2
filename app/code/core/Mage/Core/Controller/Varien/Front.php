@@ -314,7 +314,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         if ($host && $host != $request->getHttpHost() || $path && strpos($requestUri, $path) === false)
         {
             Mage::app()->getFrontController()->getResponse()
-                ->setRedirect($baseUrl)
+                ->setRedirect($baseUrl, 301)
                 ->sendResponse();
             exit;
         }
