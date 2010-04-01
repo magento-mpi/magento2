@@ -139,9 +139,10 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
              */
             foreach ($creditmemo->getAllItems() as $creditmemoItem) {
                 $orderItem = $creditmemoItem->getOrderItem();
+                $parentId = $orderItem->getParentItemId();
                 if (isset($backToStock[$orderItem->getId()])) {
                     $creditmemoItem->setBackToStock(true);
-                } elseif ($orderItem->getParentItem() && $backToStock[$orderItem->getParentItem()->getId()]) {
+                } elseif ($orderItem->getParentItem() && isset($backToStock[$parentId]) && $backToStock[$parentId]) {
                     $creditmemoItem->setBackToStock(true);
                 } elseif (empty($savedData)) {
                     $creditmemoItem->setBackToStock(Mage::helper('cataloginventory')->isAutoReturnEnabled());
