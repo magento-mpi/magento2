@@ -88,6 +88,20 @@ class Enterprise_Reward_Helper_Data extends Enterprise_Enterprise_Helper_Core_Ab
     }
 
     /**
+     * Check whether reward points can be gained for spending money
+     *
+     * @param integer $websiteId
+     * @return boolean
+     */
+    public function isOrderAllowed($websiteId = null)
+    {
+        if ($websiteId === null) {
+            $websiteId = Mage::app()->getStore()->getWebsiteId();
+        }
+        return $allowed = (bool)(int)Mage::helper('enterprise_reward')->getPointsConfig('order', $websiteId);
+    }
+
+    /**
      * Retrieve value of given field and website from config
      *
      * @param string $section

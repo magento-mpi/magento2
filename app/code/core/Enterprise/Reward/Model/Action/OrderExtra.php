@@ -87,6 +87,9 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
      */
     public function getPoints($websiteId)
     {
+        if (!Mage::helper('enterprise_reward')->isOrderAllowed($this->getReward()->getWebsiteId())) {
+            return 0;
+        }
         if ($this->_quote) {
             $quote = $this->_quote;
             // known issue: no support for multishipping quote
@@ -108,8 +111,7 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
      */
     public function canAddRewardPoints()
     {
-        $allowed = (bool)(int)Mage::helper('enterprise_reward')
-            ->getPointsConfig('order', $this->getReward()->getWebsiteId());
+        $allowed = Mage::helper('enterprise_reward')->isOrderAllowed($this->getReward()->getWebsiteId());
         $exceeded = $this->isRewardLimitExceeded();
         return $allowed && !$exceeded;
     }
