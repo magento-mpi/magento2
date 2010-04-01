@@ -1216,6 +1216,10 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .please-wait img { vertical-align:middle; }
 .cvv-what-is-this { font-size:11px; cursor:help; margin-left:10px; }
 
+/* Payment Bridge */
+.pbridge-reload { display:block; text-align:right; }
+.pbridge-reload a { color:#1e75b4; }
+
 /* Tooltip */
 .tool-tip { border:1px solid #7BA7C9; background:#EAF6FF; padding:15px 20px; position:absolute; z-index:9999; }
 .tool-tip .btn-close { margin:-9px -14px 0; text-align:right; }

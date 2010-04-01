@@ -1780,6 +1780,10 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .please-wait { position:absolute; z-index:99; top:50%; left:50%; margin:-34px 0 0 -90px; border:5px solid #f3b66f; font-size:12px; color:#f18200; font-weight:bold; background:#fff; padding:20px; white-space:nowrap; }
 .cvv-what-is-this { cursor:help; margin-left:5px; }
 
+/* Payment Bridge */
+.pbridge-reload { display:block; text-align:right; }
+.pbridge-reload a { color:#1e75b4; font-size:11px; }
+
 /* Tooltip */
 .tool-tip { border:1px solid #ddd; background-color:#f6f6f6; padding:5px; position:absolute; z-index:9999; }
 .tool-tip .btn-close { text-align:right; }
