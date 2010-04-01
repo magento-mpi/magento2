@@ -31,10 +31,10 @@
  * @see Mage_Checkout_Block_Multishipping_Addresses
  */
 ?>
-<form action="<?php echo $this->getPostActionUrl() ?>" method="post">
+<form id="checkout_multishipping_form" action="<?php echo $this->getPostActionUrl() ?>" method="post">
 <div class="page-title title-buttons">
     <h1><?php echo $this->__('Ship to Multiple Addresses') ?></h1>
-    <button type="submit" class="button" onclick="$('add_new_address_flag').value=1"><span><span><?php echo $this->__('Enter a New Address') ?></span></span></button>
+    <button type="button" title="<?php echo $this->__('Enter a New Address') ?>" class="button" onclick="$('add_new_address_flag').value=1; $('checkout_multishipping_form').submit();"><span><span><?php echo $this->__('Enter a New Address') ?></span></span></button>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <fieldset class="multiple-checkout">
