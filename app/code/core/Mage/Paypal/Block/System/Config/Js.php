@@ -19,34 +19,29 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Paypal
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Renderer for sub-heading in fieldset
- *
+ * Added paypal js helper to included js files
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Config_Form_Field_Heading 
-    extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface
+class Mage_Paypal_Block_System_Config_Js extends Mage_Adminhtml_Block_Abstract
 {
     /**
-     * Render element html
-     *
-     * @param Varien_Data_Form_Element_Abstract $element
-     * @return string
+     * Include JS in head if section is paypal
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    protected function _prepareLayout()
     {
-        $useContainerId = $element->getData('use_container_id');
-        $html = '<tr class="paypal-sub-head"'.($useContainerId ? ' id="row_' . $element->getHtmlId() . '"' : '').'>'
-              . '<td colspan="5">'
-              . '<h4>' . $element->getLabel() . '</h4>'
-              . '</td>'
-              . '</tr>';
-        return $html;
+        $section = $this->getAction()->getRequest()->getParam('section', false);
+        if ($section == 'paypal') {
+            $this->getLayout()
+                ->getBlock('head')
+                ->addJs('mage/adminhtml/paypal.js');
+        }
+        return parent::_prepareLayout();
     }
 }

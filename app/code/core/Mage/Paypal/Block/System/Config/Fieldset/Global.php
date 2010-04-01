@@ -43,6 +43,49 @@ class Mage_Paypal_Block_System_Config_Fieldset_Global
      */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
+        foreach ($element->getSortedElements() as $field) {
+            $this->setChild($field->getHtmlId(), $field);
+        }
         return $this->toHtml();
+    }
+
+    /**
+     * Return child checkbox html with hidden field for correct config values
+     *
+     * @param string $htmlId Element Html Id
+     * @return string
+     */
+    public function isGlobalScope()
+    {
+        return $this->getRequest()->getParam('website') || $this->getRequest()->getParam('store');
+    }
+
+    /**
+     * Return child checkbox html with hidden field for correct config values
+     *
+     * @param string $htmlId Element Html Id
+     * @return string
+     */
+    public function getCheckboxHtml($htmlId)
+    {
+        $checkbox = $this->getChild($htmlId);
+        if (!$checkbox) {
+            return '';
+        }
+        if ($checkbox->getValue()) {
+            $checkbox->setChecked(true);
+        } else {
+            $checkbox->setValue('1');
+        }
+        if ($this->isGlobalScope()) {
+            $checkbox->setDisabled(true);
+        }
+
+        $hidden = new Varien_Data_Form_Element_Hidden(array(
+            'name' => $checkbox->getName(),
+            'value' => '0'
+        ));
+        $hidden->setForm($checkbox->getForm());
+        return $hidden->getElementHtml() . $checkbox->getElementHtml();
     }
 }

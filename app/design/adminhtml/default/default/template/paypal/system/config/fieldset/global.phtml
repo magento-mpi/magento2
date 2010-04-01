@@ -39,15 +39,15 @@
     <thead>
         <tr>
             <th class="pg-empty" rowspan="2">&nbsp;</th>
-            <th><label for="paypal_type_express"><?php echo Mage::helper('paypal')->__('Express Checkout')?></label></th>
+            <th><label for="paypal_global_express_active"><?php echo Mage::helper('paypal')->__('Express Checkout')?></label></th>
             <th class="pg-empty" rowspan="2">&nbsp;</th>
-            <th><label for="paypal_type_standart"><?php echo Mage::helper('paypal')->__('Standard')?></label></th>
-            <th><label for="paypal_type_pro"><?php echo Mage::helper('paypal')->__('Pro')?></label></th>
+            <th><label for="paypal_global_standard_active"><?php echo Mage::helper('paypal')->__('Standard')?></label></th>
+            <th><label for="paypal_global_pro_active"><?php echo Mage::helper('paypal')->__('Pro')?></label></th>
         </tr>
         <tr>
-            <th><input type="checkbox" id="paypal_type_express" /></th>
-            <th><input type="checkbox" id="paypal_type_standart" /></th>
-            <th><input type="checkbox" id="paypal_type_pro" /></th>
+            <th><?php echo $this->getCheckboxHtml('paypal_global_express_active') ?></th>
+            <th><?php echo $this->getCheckboxHtml('paypal_global_standard_active') ?></th>
+            <th><?php echo $this->getCheckboxHtml('paypal_global_pro_active') ?></th>
         </tr>
     </thead>
     <tbody>
