@@ -113,10 +113,10 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
         $pbridgeUrl = $this->getBridgeBaseUrl();
         $sourceUrl =  rtrim($pbridgeUrl, '/') . '/bridge.php';
 
-        $params['store_id'] = $this->_getQuote()->getStoreId();
-
-        if ($encryptParams) {
-            $params = array('data' => $this->encrypt(serialize($params)));
+        if (!empty($params)) {
+            if ($encryptParams) {
+                $params = array('data' => $this->encrypt(serialize($params)));
+            }
         }
 
         $params['merchant_code'] = trim(Mage::getStoreConfig('payment/pbridge/merchantcode'));
@@ -166,6 +166,7 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
             'amount'        => $quote ? $quote->getBaseGrandTotal() : '0',
             'currency_code' => $quote ? $quote->getBaseCurrencyCode() : '',
             'client_identifier' => md5($quote->getId()),
+            'store_id'      => $quote ? $quote->getStoreId() : '0',
         ), $params);
 
         $params = $this->getRequestParams($params, $quote);
