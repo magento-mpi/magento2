@@ -382,6 +382,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function checkQty($qty)
     {
+        if (!$this->getManageStock()) {
+            return true;
+        }
         if ($this->getQty() - $qty < 0) {
             switch ($this->getBackorders()) {
                 case Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NONOTIFY:
