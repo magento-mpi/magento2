@@ -48,6 +48,9 @@ class Mage_XmlConnect_Block_Product extends Mage_XmlConnect_Block_Abstract
             false, false, false, $this->getChildHtml(), true);
     }
 
+    /**
+     * @return Mage_XmlConnect_Model_Product
+     */
     public function getProduct()
     {
         if (!isset($this->_product)) {
