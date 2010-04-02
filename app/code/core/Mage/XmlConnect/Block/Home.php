@@ -35,6 +35,8 @@
 class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Abstract
 {
 
+    const HOME_PAGE_CATEGORIES_COUNT = 6;
+
     protected function _toHtml()
     {
         $categoryModel = Mage::getResourceModel('xmlconnect/category_collection');
@@ -44,8 +46,9 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Abstract
         $categoryModel->addNameToResult()
             ->addImageToResult()
             ->addIsActiveFilter()
+            /* TODO: Hardcoded categories level */
             ->addLevelExactFilter(2)
-            ->addLimit(0,6);
+            ->addLimit(0, self::HOME_PAGE_CATEGORIES_COUNT);
         $xml = $this->categoryCollectionToXml($categoryModel, 'category', true, false, false, $additionalAttributes);
         return $xml;
     }

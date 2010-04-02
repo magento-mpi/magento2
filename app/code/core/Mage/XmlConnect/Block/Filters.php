@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Filters extends Mage_XmlConnect_Block_Abstract
         $categoryModel = Mage::getModel('catalog/category')->load($categoryId);
 
         $sortOptions = $categoryModel->getAvailableSortByOptions();
-        /* TODO: Here logic for sort options limiting to 3 items should be realized */
+        /* TODO: Logic for sort options limiting to 3 items should be realized here */
         $sortOptions = array_slice($sortOptions, 0, 3);
 
         $filterCollection = Mage::getModel('xmlconnect/filter_collection')->setCategoryId($categoryId);

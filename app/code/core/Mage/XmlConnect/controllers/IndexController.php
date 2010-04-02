@@ -68,7 +68,7 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
         $xml = '<?xml version="1.0" encoding="UTF-8"?>
             <options>
                 <option code="option_code1" type="text" label="Text Option" is_qty_editable="0" price="$5.00"/>
-                <option code="option_code1" type="text" label="Text Option" is_qty_editable="0" />
+                <option code="option_code1" type="text" label="Text Option" is_qty_editable="1" />
                 <option code="option_code2" type="select" label="Select Option" is_required="1" is_qty_editable="0">
                     <value code="value_1" label="Value Labe1" price="$7.00"/>
                     <value code="value_2" label="Value Labe2" price="$5.00"/>
@@ -103,9 +103,9 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
                 </option>
                 <option code="option_code5_relative" type="select" label="Size" is_qty_editable="0"/>
 
-                <option code="option_code3" type="checkbox" label="Option with qty" is_qty_editable="1" qty="2" price="$10.00"/>
-                <option code="option_code4" type="checkbox" label="Option with qty" is_qty_editable="1" qty="3" price="$1.00"/>
-                <option code="option_code5" type="checkbox" label="Option with qty" is_qty_editable="1" qty="6" price="$12.00"/>
+                <option code="option_code3" type="product" label="Option with qty" is_qty_editable="1" qty="2" price="$10.00"/>
+                <option code="option_code4" type="product" label="Option with qty" is_qty_editable="1" qty="3" price="$1.00"/>
+                <option code="option_code5" type="product" label="Option with qty" is_qty_editable="1" qty="6" price="$12.00"/>
 
                 <option code="option_code7" type="select" label="Select Option" is_qty_editable="0">
                     <value code="value_code1" label="Value Labe1l" price="+$100.00"/>

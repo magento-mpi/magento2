@@ -46,6 +46,11 @@
                 <class>Mage_XmlConnect_Block</class>
             </xmlconnect>
         </blocks>
+        <helpers>
+            <xmlconnect>
+                <class>Mage_XmlConnect_Helper</class>
+            </xmlconnect>
+        </helpers>
         <resources>
             <xmlconnect_setup>
                 <setup>

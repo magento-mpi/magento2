@@ -51,4 +51,12 @@ Default layout, loads most of the pages
         <block type="xmlconnect/filters" name="xmlconnect.filters" output="toHtml"/>
     </xmlconnect_index_filters>
 
+    <xmlconnect_index_review>
+        <block type="xmlconnect/review" name="xmlconnect.review" output="toHtml"/>
+    </xmlconnect_index_review>
+
+    <xmlconnect_index_reviews>
+        <block type="xmlconnect/review_list" name="xmlconnect.reviews" output="toHtml"/>
+    </xmlconnect_index_reviews>
+
 </layout>

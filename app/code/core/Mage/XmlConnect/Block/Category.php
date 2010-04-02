@@ -41,6 +41,7 @@ class Mage_XmlConnect_Block_Category extends Mage_XmlConnect_Block_Abstract
         if ($categoryId = $this->getRequest()->getParam('category_id', null))
         {
             $categoryModel = Mage::getModel('xmlconnect/category')->load($categoryId);
+            /* Return products list if there are no child categories*/
             if (!$categoryModel->hasChildren())
             {
                 $productCollection = Mage::getResourceModel('xmlconnect/product_collection');

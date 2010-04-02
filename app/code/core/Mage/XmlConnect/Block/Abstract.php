@@ -28,6 +28,7 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
     const PRODUCT_IMAGE_RESIZE_PARAM = 80;
     const CATEGORY_IMAGE_RESIZE_PARAM = 80;
     const PRODUCT_BIG_IMAGE_RESIZE_PARAM = 130;
+    const REVIEW_DETAIL_TRUNCATE_LEN = 200;
 
     /**
      * @var array Product attributes for xml
@@ -35,26 +36,60 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
     protected $_productAttributes = array('entity_id', 'name', 'in_stock', 'rating_summary', 
                                           'reviews_count', 'icon', 'big_icon', 'price');
 
-    public function productToXml(Mage_Catalog_Model_Product $product, array $arrAttributes = array(),
-        $rootName = 'item', $addOpenTag = false, $addCdata = false, $safeAdditionalEntities = false,
-        $additionalAtrributes = '', $withAdditionalData = false
-    ) {
-        $arrAttributes = array_merge($this->_productAttributes, $arrAttributes);
-        if ($product->getId()) {
-            if ($withAdditionalData) {
-                $this->_addProductAdditionalData($product);
-            }
-            $this->_formProductPrice($product, $arrAttributes);
-            $this->_formProductIcon($product);
-            $product->in_stock = (int)$product->isInStock();
-            $product->rating_summary = round((int)$product->rating_summary / 10);
-            $xml = $product->toXml($arrAttributes, $rootName, $addOpenTag, $addCdata);
-            if (strlen($additionalAtrributes)) {
-                $xml = substr_replace($xml, $additionalAtrributes, strrpos($xml, "</$rootName>"), 0);
-            }
-            return $xml;
+    /**
+     * @var array Review attributes for xml
+     */
+    protected $_reviewAttributes = array('review_id', 'created_at', 'title', 'detail', 'nickname', 
+                                          'rating_votes');
+
+    /**
+     * Renders xml document start data
+     *
+     * @param Varien_Data_Collection $collection
+     * @param  $rootName
+     * @param bool $addOpenTag
+     * @param string $itemsName
+     * @return string
+     */
+    protected function _getCollectionXmlStart(Varien_Data_Collection $collection,
+        $rootName, $addOpenTag = true, $itemsName = 'items')
+    {
+        $collection->load();
+        $xml = '';
+        if ($addOpenTag) {
+            $xml .= '<?xml version="1.0" encoding="UTF-8"?>';
         }
-        return "<$rootName></$rootName>";
+        if (strlen($rootName)) {
+            $xml .= "<$rootName>";
+        }
+        if (count($collection) && strlen($itemsName)) {
+            $xml .= "<$itemsName>";
+        }
+        return $xml;
+    }
+
+    /**
+     * Renders xml document end data
+     *
+     * @param Varien_Data_Collection $collection
+     * @param  $rootName
+     * @param bool $safeAdditionalEntities
+     * @param string $additionalAtrributes
+     * @param string $itemsName
+     * @return string
+     */
+    protected function _getCollectionXmlEnd(Varien_Data_Collection $collection,
+        $rootName, $safeAdditionalEntities = false, $additionalAtrributes = '', $itemsName = 'items'
+    ) {
+        $xml = '';
+        if (count($collection) && strlen($itemsName)) {
+            $xml .= "</$itemsName>";
+        }
+        $xml .= $this->_renderAdditionalAttributes($additionalAtrributes, $safeAdditionalEntities);
+        if (strlen($rootName)) {
+            $xml .= "</$rootName>";
+        }
+        return $xml;
     }
 
     /**
@@ -69,8 +104,17 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
         }
     }
 
+    /**
+     * Renders text price for product
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $attributes
+     * @return Mage_Catalog_Model_Product
+     */
     protected function _formProductPrice(Mage_Catalog_Model_Product $product, &$attributes = array())
     {
+        /* TODO: leak of data for grouped products price render if product loaded by load() method.
+           Everything works good when using collection to load products */
         if ('Mage_Bundle_Model_Product_Price' == get_class($product->getPriceModel())
             && !strlen($product->min_price) && !strlen($product->max_price)
         ) {
@@ -109,6 +153,12 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
         return $product;
     }
 
+    /**
+     * Adds resized icons or placeholders to product params
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return void
+     */
     protected function _formProductIcon(Mage_Catalog_Model_Product $product)
     {
         $product->icon = clone Mage::helper('catalog/image')->init($product, 'image')
@@ -117,42 +167,88 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
             ->resize(self::PRODUCT_BIG_IMAGE_RESIZE_PARAM);
     }
 
-    public function productCollectionToXml(Varien_Data_Collection_Db $collection,
-        $rootName = 'product', $addOpenTag = true, $addCdata=false, $safeAdditionalEntities = false,
-        $additionalAtrributes = ''
-    ) {
-        $collection->load();
-
+    /**
+     * Converts additional attributes (string or array) to xml
+     *
+     * @param array|string $additionalAttributes
+     * @param bool $safeAdditionalEntities
+     * @return string Xml string
+     */
+    protected function _renderAdditionalAttributes($additionalAttributes, $safeAdditionalEntities = true)
+    {
         $xml = '';
-        if ($addOpenTag) {
-            $xml .= '<?xml version="1.0" encoding="UTF-8"?>';
-        }
-        if (strlen($rootName)) {
-            $xml .= "<$rootName>";
-        }
-        if (count($collection) > 0) {
-            $xml .= '<items>';
-        }
-
-        foreach ($collection as $item) {
-            $xml .= $this->productToXml($item);
-        }
-
-        if (count($collection) > 0) {
-            $xml .= '</items>';
-        }
-
         $xmlModel = new Varien_Simplexml_Element('<node></node>');
-
-        $xml .= $this->_renderAdditionalAttributes($additionalAtrributes, $safeAdditionalEntities);
-        
-        if (strlen($rootName)) {
-            $xml .= "</$rootName>";
+        if (is_array($additionalAttributes)) {
+            $xml .= $this->_arrayToXml($additionalAttributes);
+        } else {
+            $xml .= $safeAdditionalEntities ? $xmlModel->xmlentities($additionalAttributes) : $additionalAttributes;
         }
         return $xml;
     }
 
     /**
+     * Converts product object to Xml
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $arrAttributes
+     * @param string $rootName
+     * @param bool $addOpenTag
+     * @param bool $addCdata
+     * @param bool $safeAdditionalEntities
+     * @param string $additionalAtrributes
+     * @param bool $withAdditionalData
+     * @return string
+     */
+    public function productToXml(Mage_Catalog_Model_Product $product, array $arrAttributes = array(),
+        $rootName = 'item', $addOpenTag = false, $addCdata = false, $safeAdditionalEntities = false,
+        $additionalAtrributes = '', $withAdditionalData = false
+    ) {
+        $arrAttributes = array_merge($this->_productAttributes, $arrAttributes);
+        if ($product->getId()) {
+            if ($withAdditionalData) {
+                $this->_addProductAdditionalData($product);
+            }
+            $this->_formProductPrice($product, $arrAttributes);
+            $this->_formProductIcon($product);
+            $product->in_stock = (int)$product->isInStock();
+            $product->rating_summary = round((int)$product->rating_summary / 10);
+            $xml = $product->toXml($arrAttributes, $rootName, $addOpenTag, $addCdata);
+            if (strlen($additionalAtrributes)) {
+                $xml = substr_replace($xml, $additionalAtrributes, strrpos($xml, "</$rootName>"), 0);
+            }
+            return $xml;
+        }
+        return "<$rootName></$rootName>";
+    }
+
+    /**
+     * Converts product collection object to Xml
+     *
+     * @param Varien_Data_Collection_Db $collection
+     * @param string $rootName
+     * @param bool $addOpenTag
+     * @param bool $addCdata
+     * @param bool $safeAdditionalEntities
+     * @param string $additionalAtrributes
+     * @return string Xml
+     */
+    public function productCollectionToXml(Varien_Data_Collection_Db $collection,
+        $rootName = 'product', $addOpenTag = true, $addCdata=false, $safeAdditionalEntities = false,
+        $additionalAtrributes = ''
+    ) {
+        $xml = $this->_getCollectionXmlStart($collection, $rootName, $addOpenTag);
+
+        foreach ($collection as $item) {
+            $xml .= $this->productToXml($item);
+        }
+        
+        $xml .= $this->_getCollectionXmlEnd($collection, $rootName, $safeAdditionalEntities, $additionalAtrributes);
+        return $xml;
+    }
+
+    /**
+     * Adds filter params from request to collection
+     *
      * @param Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection $collection
      * @param Zend_Controller_Request_Abstract $reguest
      * @param  $category
@@ -184,6 +280,12 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
         return $collection;
     }
 
+    /**
+     * Creates filter object by key
+     *
+     * @param string $key
+     * @return Mage_Catalog_Model_Layer_Filter_Abstract
+     */
     protected function _getFilterByKey($key)
     {
         $filterModelName = 'catalog/layer_filter_attribute';
@@ -202,6 +304,9 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
     }
 
     /**
+     * Adds sort params from request to collection
+     *
+     * @param Varien_Data_Collection_Db $collection
      * @param Zend_Controller_Request_Abstract $reguest
      * @param string $prefix
      * @return Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection
@@ -222,9 +327,11 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
     }
 
     /**
+     * Converts array to Xml
+     *
      * @param array $array
      * @param string|null $nodeName
-     * @param bool $useItems
+     * @param string|null $itemTag
      * @return string
      */
     protected function _arrayToXml(array $array, $nodeName = null, $itemTag = null)
@@ -256,32 +363,38 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
         return $xml;
     }
 
+    /**
+     * Converts filter collection object to Xml
+     *
+     * @param Mage_XmlConnect_Model_Filter_Collection $collection
+     * @param string $rootName
+     * @param bool $addOpenTag
+     * @param bool $addCdata
+     * @param bool $safeAdditionalEntities
+     * @param string $additionalAtrributes
+     * @return string
+     */
     public function filterCollectionToXml(Mage_XmlConnect_Model_Filter_Collection $collection,
         $rootName = 'product', $addOpenTag = true, $addCdata=false, $safeAdditionalEntities = false,
         $additionalAtrributes = '')
     {
-        $xml = '';
-        if ($addOpenTag) {
-            $xml .= '<?xml version="1.0" encoding="UTF-8"?>';
-        }
-        if (strlen($rootName)) {
-            $xml .= "<{$rootName}>";
-        }
-        $xml .= '<filters>';
+        $xml = $this->_getCollectionXmlStart($collection, $rootName, $addOpenTag, 'filters');
 
         foreach ($collection as $item) {
             $xml .= $this->_filterItemToXml($item);
         }
-        $xml .= '</filters>';
-
-        $xml .= $this->_renderAdditionalAttributes($additionalAtrributes, $safeAdditionalEntities);
-
-        if (strlen($rootName)) {
-            $xml .= "</$rootName>";
-        }
+        
+        $xml .= $this->_getCollectionXmlEnd($collection, $rootName, $safeAdditionalEntities,
+            $additionalAtrributes, 'filters');
         return $xml;
     }
 
+    /**
+     * Converts filter object to Xml
+     *
+     * @param Mage_Catalog_Model_Layer_Filter_Abstract $item
+     * @return string
+     */
     protected function _filterItemToXml($item)
     {
         $xmlModel = new Varien_Simplexml_Element('<node></node>');
@@ -293,6 +406,7 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
             $valuesXml .= "<value>
                                 <id>{$xmlModel->xmlentities($value->getValueString())}</id>
                                 <label>{$xmlModel->xmlentities(strip_tags($value->getLabel()))}</label>
+                                <count>{$xmlModel->xmlentities(strip_tags($value->getProductsCount()))}</count>
                           </value>";
         }
         $xml .= "<values>$valuesXml</values>";
@@ -301,38 +415,21 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
     }
 
     /**
-     * @param array|string $additionalAttributes
-     * @return string Xml string
+     * Converts category collection object to Xml
+     *
+     * @param Varien_Data_Collection_Db $collection
+     * @param string $rootName
+     * @param bool $addOpenTag
+     * @param bool $addCdata
+     * @param bool $safeAdditionalEntities
+     * @param string $additionalAtrributes
+     * @return string
      */
-    protected function _renderAdditionalAttributes($additionalAttributes, $safeAdditionalEntities = true)
-    {
-        $xml = '';
-        $xmlModel = new Varien_Simplexml_Element('<node></node>');
-        if (is_array($additionalAttributes)) {
-            foreach ($additionalAttributes as $attrKey => $value) {
-                $value = $safeAdditionalEntities ? $xmlModel->xmlentities($value) : $value;
-                $xml .= "<{$attrKey}>$value</{$attrKey}>";
-            }
-        } else {
-            $xml .= $safeAdditionalEntities ? $xmlModel->xmlentities($additionalAttributes) : $additionalAttributes;
-        }
-        return $xml;
-    }
-
     public function categoryCollectionToXml(Varien_Data_Collection_Db $collection,
         $rootName = 'category', $addOpenTag = true, $addCdata=false, $safeAdditionalEntities = false,
         $additionalAtrributes = ''
     ) {
-        $collection->load();
-
-        $xml = '';
-        if ($addOpenTag) {
-            $xml .= '<?xml version="1.0" encoding="UTF-8"?>';
-        }
-        if (strlen($rootName)) {
-            $xml .= "<$rootName>";
-        }
-        $xml .= '<items>';
+        $xml = $this->_getCollectionXmlStart($collection, $rootName, $addOpenTag);
 
         foreach ($collection as $item)
         {
@@ -348,15 +445,59 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
             }
             $item->label = $item->name;
             $item->content_type = $item->hasChildren() ? 'categories' : 'products' ;
-
             /* Hardcode */
             $item->background = 'http://kd.varien.com/dev/yuriy.sorokolat/current/media/catalog/category/background_img.png';
-
             $xml .= $item->toXml($attributes, 'item', false, false);
         }
-        $xml .= '</items>';
-        $xml .= $this->_renderAdditionalAttributes($additionalAtrributes, $safeAdditionalEntities);
-        $xml .= "</$rootName>";
+
+        $xml .= $this->_getCollectionXmlEnd($collection, $rootName, $safeAdditionalEntities, $additionalAtrributes);
         return $xml;
     }
+
+    /**
+     * Converts review collection object to Xml
+     *
+     * @param Varien_Data_Collection_Db $collection
+     * @param string $rootName
+     * @param bool $addOpenTag
+     * @param bool $addCdata
+     * @param bool $safeAdditionalEntities
+     * @param string $additionalAtrributes
+     * @return string
+     */
+    public function reviewCollectionToXml(Varien_Data_Collection_Db $collection,
+        $rootName = 'reviews', $addOpenTag = true, $addCdata=false, $safeAdditionalEntities = false,
+        $additionalAtrributes = ''
+    ) {
+        $xml = $this->_getCollectionXmlStart($collection, $rootName, $addOpenTag);
+
+        foreach ($collection as $item) {
+            $remainder = '';
+            $item->detail = Mage::helper('core/string')
+                ->truncate($item->detail, self::REVIEW_DETAIL_TRUNCATE_LEN, '', $remainder, false);
+            $xml .= $this->reviewToXml($item, $addCdata);
+        }
+        
+        $xml .= $this->_getCollectionXmlEnd($collection, $rootName, $safeAdditionalEntities, $additionalAtrributes);
+        return $xml;
+    }
+
+    /**
+     * Converts review object to Xml
+     * 
+     * @param Mage_Review_Model_Review $item
+     * @param bool $addCdata
+     * @return string Xml
+     */
+    public function reviewToXml($item, $addCdata = false)
+    {
+        $summary = Mage::getModel('rating/rating')->getReviewSummary($item->getId());
+        $rating = 0;
+        if ($summary->count > 0) {
+            $rating = round($summary->sum / $summary->count / 10);
+        }
+        $item->setRatingVotes($rating);
+        return $item->toXml($this->_reviewAttributes, 'item', false, $addCdata);
+    }
+
 }
