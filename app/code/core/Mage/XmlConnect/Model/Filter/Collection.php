@@ -45,41 +45,46 @@ class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
 
     public function loadData($printQuery = false, $logQuery = false)
     {
-        $layer = Mage::getSingleton('catalog/layer');
-        foreach ($this->_filters as $filter) {
-            if ('category_id' == $filter['field']) {
-                $layer->setCurrentCategory((int)$filter['value']);
+        if (empty($this->_items)) {   
+            $layer = Mage::getSingleton('catalog/layer');
+            $coll = Mage::getResourceModel('catalog/product_collection');
+            $layer->setProductCollection($coll);
+            foreach ($this->_filters as $filter) {
+                if ('category_id' == $filter['field']) {
+                    $layer->setCurrentCategory((int)$filter['value']);
+                }
             }
-        }
-        if ($layer->getCurrentCategory()->getIsAnchor()) {
-            foreach ($layer->getFilterableAttributes() as $attributeItem) {
-                $filterModelName = 'catalog/layer_filter_attribute';
-                switch ($attributeItem->getAttributeCode()) {
-                    case 'price':
-                        $filterModelName = 'catalog/layer_filter_price';
-                        break;
-                    case 'decimal':
-                        $filterModelName = 'catalog/layer_filter_decimal';
-                        break;
-                    default:
-                        $filterModelName = 'catalog/layer_filter_attribute';
-                        break;
-                }
+            if ($layer->getCurrentCategory()->getIsAnchor()) {
+                foreach ($layer->getFilterableAttributes() as $attributeItem) {
+                    $filterModelName = 'catalog/layer_filter_attribute';
+                    switch ($attributeItem->getAttributeCode()) {
+                        case 'price':
+                            $filterModelName = 'catalog/layer_filter_price';
+                            break;
+                        case 'decimal':
+                            $filterModelName = 'catalog/layer_filter_decimal';
+                            break;
+                        default:
+                            $filterModelName = 'catalog/layer_filter_attribute';
+                            break;
+                    }
 
-                $filterModel = Mage::getModel($filterModelName);
-                $filterModel->setLayer($layer)->setAttributeModel($attributeItem);
-                $filterValues = new Varien_Data_Collection;
-                foreach ($filterModel->getItems() as $valueItem) {
-                    $valueObject = new Varien_Object();
-                    $valueObject->setLabel($valueItem->getLabel());
-                    $valueObject->setValueString($valueItem->getValueString());
-                    $filterValues->addItem($valueObject);
+                    $filterModel = Mage::getModel($filterModelName);
+                    $filterModel->setLayer($layer)->setAttributeModel($attributeItem);
+                    $filterValues = new Varien_Data_Collection;
+                    foreach ($filterModel->getItems() as $valueItem) {
+                        //$filterModel->getResource()->applyFilterToCollection($filterModel, $valueItem);
+                        $valueObject = new Varien_Object();
+                        $valueObject->setLabel($valueItem->getLabel());
+                        $valueObject->setValueString($valueItem->getValueString());
+                        $filterValues->addItem($valueObject);
+                    }
+                    $item = new Varien_Object;
+                    $item->setCode($attributeItem->getAttributeCode());
+                    $item->setName($filterModel->getName());
+                    $item->setValues($filterValues);
+                    $this->addItem($item);
                 }
-                $item = new Varien_Object;
-                $item->setCode($attributeItem->getAttributeCode());
-                $item->setName($filterModel->getName());
-                $item->setValues($filterValues);
-                $this->addItem($item);
             }
         }
         return $this;
