@@ -47,8 +47,6 @@ class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
     {
         if (empty($this->_items)) {   
             $layer = Mage::getSingleton('catalog/layer');
-            $coll = Mage::getResourceModel('catalog/product_collection');
-            $layer->setProductCollection($coll);
             foreach ($this->_filters as $filter) {
                 if ('category_id' == $filter['field']) {
                     $layer->setCurrentCategory((int)$filter['value']);
@@ -73,7 +71,6 @@ class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
                     $filterModel->setLayer($layer)->setAttributeModel($attributeItem);
                     $filterValues = new Varien_Data_Collection;
                     foreach ($filterModel->getItems() as $valueItem) {
-                        //$filterModel->getResource()->applyFilterToCollection($filterModel, $valueItem);
                         $valueObject = new Varien_Object();
                         $valueObject->setLabel($valueItem->getLabel());
                         $valueObject->setValueString($valueItem->getValueString());
