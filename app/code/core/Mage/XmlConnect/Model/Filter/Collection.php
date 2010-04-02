@@ -74,6 +74,7 @@ class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
                         $valueObject = new Varien_Object();
                         $valueObject->setLabel($valueItem->getLabel());
                         $valueObject->setValueString($valueItem->getValueString());
+                        $valueObject->setProductsCount($valueItem->getCount());
                         $filterValues->addItem($valueObject);
                     }
                     $item = new Varien_Object;
