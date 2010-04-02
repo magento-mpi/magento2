@@ -63,7 +63,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
                 $productIds[] = $event->getObjectId();
             }
 
-            $productCollection = false;
+            $productCollection = parent::getItemsCollection();
             if ($productIds) {
                 $productCollection = Mage::getModel('catalog/product')->getCollection()
                     ->setStoreId($this->_getStore()->getId())
