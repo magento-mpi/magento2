@@ -611,4 +611,21 @@ class Enterprise_Logging_Model_Handler_Controllers
         }
         return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('enterprise_logging')->__('Tax Rates Export'));
     }
+
+    /**
+     * Custom handler for sales archive operations
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchSalesArchiveManagement($config, $eventModel)
+    {
+        $request = Mage::app()->getRequest();
+        $ids = $request->getParam('order_id', $request->getParam('order_ids'));
+        if (is_array($ids)) {
+            $ids = implode(', ', $ids);
+        }
+        return $eventModel->setInfo($ids);
+    }
 }
