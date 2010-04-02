@@ -75,20 +75,99 @@ class Mage_Tax_Model_Sales_Total_Quote_Shipping extends Mage_Sales_Model_Quote_A
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         parent::collect($address);
-        $this->_areTaxRequestsSimilar = $this->_calculator->compareRequests(
-            $this->_getStoreTaxRequest($address),
-            $this->_getAddressTaxRequest($address)
+        $calc               = $this->_calculator;
+        $store              = $address->getQuote()->getStore();
+        $storeTaxRequest    = $calc->getRateOriginRequest($store);
+        $addressTaxRequest  = $calc->getRateRequest(
+            $address,
+            $address->getQuote()->getBillingAddress(),
+            $address->getQuote()->getCustomerTaxClassId(),
+            $store
         );
-        if (!$address->getTaxShippingIsProcessed() && $this->_needSubtractShippingTax($address)) {
-            $this->_processShippingAmount($address);
-            $this->_config->setNeedUseShippingExcludeTax(true);
+
+        $this->_areTaxRequestsSimilar = $calc->compareRequests($addressTaxRequest, $storeTaxRequest);
+        $addressTaxRequest->setProductClassId($this->_config->getShippingTaxClass($store));
+
+        $shipping           = $taxShipping = $address->getShippingAmount();
+        $baseShipping       = $baseTaxShipping = $address->getBaseShippingAmount();
+        $rate               = $calc->getRate($addressTaxRequest);
+        if ($this->_config->shippingPriceIncludesTax($store)) {
+            if ($this->_areTaxRequestsSimilar) {
+                $tax            = $this->_round($calc->calcTaxAmount($shipping, $rate, true, false), $rate);
+                $baseTax        = $this->_round($calc->calcTaxAmount($baseShipping, $rate, true, false), $rate, 'base');
+                $taxShipping    = $shipping;
+                $baseTaxShipping= $baseShipping;
+                $shipping       = $shipping - $tax;
+                $baseShipping   = $baseShipping - $baseTax;
+                $taxable        = $taxShipping;
+                $baseTaxable    = $baseTaxShipping;
+                $isPriceInclTax = true;
+            } else {
+                $storeRate      = $calc->getStoreRate($addressTaxRequest, $store);
+                $storeTax       = $calc->calcTaxAmount($shipping, $storeRate, true, false);
+                $baseStoreTax   = $calc->calcTaxAmount($baseShipping, $storeRate, true, false);
+                $shipping       = $calc->round($shipping - $storeTax);
+                $baseShipping   = $calc->round($baseShipping - $baseStoreTax);
+                $tax            = $this->_round($calc->calcTaxAmount($shipping, $rate, false, false), $rate);
+                $baseTax        = $this->_round($calc->calcTaxAmount($baseShipping, $rate, false, false), $rate, 'base');
+                $taxShipping    = $shipping + $tax;
+                $baseTaxShipping= $baseShipping + $baseTax;
+                $taxable        = $shipping;
+                $baseTaxable    = $baseShipping;
+                $isPriceInclTax = false;
+            }
+        } else {
+            $tax            = $this->_round($calc->calcTaxAmount($shipping, $rate, false, false), $rate);
+            $baseTax        = $this->_round($calc->calcTaxAmount($baseShipping, $rate, false, false), $rate, 'base');
+            $taxShipping    = $shipping + $tax;
+            $baseTaxShipping= $baseShipping + $baseTax;
+            $taxable        = $shipping;
+            $baseTaxable    = $baseShipping;
+            $isPriceInclTax = false;
         }
-        $address->setTaxShippingIsProcessed(true);
+        $address->setTotalAmount('shipping', $shipping);
+        $address->setBaseTotalAmount('shipping', $baseShipping);
+        $address->setShippingInclTax($taxShipping);
+        $address->setBaseShippingInclTax($baseTaxShipping);
+        $address->setShippingTaxable($taxable);
+        $address->setBaseShippingTaxable($baseTaxable);
+        $address->setIsShippingInclTax($isPriceInclTax);
+        if ($this->_config->discountTax($store)) {
+            $address->setShippingAmountForDiscount($taxShipping);
+            $address->setBaseShippingAmountForDiscount($baseTaxShipping);
+        }
+        return $this;
     }
+
+    /**
+     * Round price based on tax rounding settings
+     *
+     * @param float $price
+     * @param string $rate
+     * @param string $type
+     * @return float
+     */
+    protected function _round($price, $rate, $type = 'regular')
+    {
+        return $this->_calculator->round($price);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Get request for fetching store tax rate
      *
+     * @deprecated
      * @param   Mage_Sales_Model_Quote_Address $address
      * @return  Varien_Object
      */
@@ -103,6 +182,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Shipping extends Mage_Sales_Model_Quote_A
     /**
      * Get request for fetching address tax rate
      *
+     * @deprecated
      * @param   Mage_Sales_Model_Quote_Address $address
      * @return  Varien_Object
      */
@@ -120,6 +200,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Shipping extends Mage_Sales_Model_Quote_A
     /**
      * Check if we need subtract store tax amount from shipping
      *
+     * @deprecated
      * @param Mage_Sales_Model_Quote_Address $address
      * @return bool
      */
@@ -135,33 +216,11 @@ class Mage_Tax_Model_Sales_Total_Quote_Shipping extends Mage_Sales_Model_Quote_A
     /**
      * Calculate shipping price without store tax
      *
+     * @deprecated
      * @param   Mage_Sales_Model_Quote_Address $address
      * @return  Mage_Tax_Model_Sales_Total_Quote_Subtotal
      */
     protected function _processShippingAmount($address)
     {
-        if ($this->_areTaxRequestsSimilar) {
-            return $this;
-        }
-        $store = $address->getQuote()->getStore();
-        $shippingTaxClass   = $this->_config->getShippingTaxClass($store);
-        $shippingAmount     = $address->getShippingAmount();
-        $baseShippingAmount = $address->getBaseShippingAmount();
-
-        if ($shippingTaxClass) {
-            $request = $this->_getStoreTaxRequest($address);
-            $request->setProductClassId($shippingTaxClass);
-            $rate = $this->_calculator->getRate($request);
-            if ($rate) {
-                $shippingTax         = $this->_calculator->calcTaxAmount($shippingAmount, $rate, true, false);
-                $shippingBaseTax     = $this->_calculator->calcTaxAmount($baseShippingAmount, $rate, true, false);
-                $shippingAmount     -= $shippingTax;
-                $baseShippingAmount -= $shippingBaseTax;
-                $address->setTotalAmount('shipping', $this->_calculator->round($shippingAmount));
-                $address->setBaseTotalAmount('shipping', $this->_calculator->round($baseShippingAmount));
-            }
-        }
-        return $this;
     }
-
 }

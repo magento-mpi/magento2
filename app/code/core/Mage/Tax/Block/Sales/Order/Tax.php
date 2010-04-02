@@ -189,10 +189,10 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
         }
 
         if ($this->_config->displaySalesShippingBoth($store)) {
-            $shipping       = (float) $this->_source->getShippingAmount();
-            $baseShipping   = (float) $this->_source->getBaseShippingAmount();
-            $shippingIncl   = $shipping + (float) $this->_source->getShippingTaxAmount();
-            $baseShippingIncl = $baseShipping + (float) $this->_source->getBaseShippingTaxAmount();
+            $shipping           = (float) $this->_source->getShippingAmount();
+            $baseShipping       = (float) $this->_source->getBaseShippingAmount();
+            $shippingIncl       = (float) $this->_source->getShippingInclTax();
+            $baseShippingIncl   = (float) $this->_source->getBaseShippingInclTax();
 
             $totalExcl = new Varien_Object(array(
                 'code'      => 'shipping',
@@ -209,10 +209,8 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
             $parent->addTotal($totalExcl, 'shipping');
             $parent->addTotal($totalIncl, 'shipping');
         } elseif ($this->_config->displaySalesShippingInclTax($store)) {
-            $shippingIncl = $this->_source->getShippingAmount()
-                + $this->_source->getShippingTaxAmount();
-            $baseShippingIncl = $this->_source->getBaseShippingAmount()
-                + $this->_source->getBaseShippingTaxAmount();
+            $shippingIncl       = $this->_source->getShippingInclTax();
+            $baseShippingIncl   = $this->_source->getBaseShippingInclTax();
             $total = $parent->getTotal('shipping');
             if ($total) {
                 $total->setValue($shippingIncl);
