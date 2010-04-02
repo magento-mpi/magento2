@@ -187,6 +187,8 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
 
                 'Your session has been expired, you will be relogged in now.' => $this->__('Your session has been expired, you will be relogged in now.'),
                 'Incorrect credit card expiration date' => $this->__('Incorrect credit card expiration date'),
+            // Date
+                'This date is a required value.' => $this->__('This date is a required value.'),
             );
             foreach ($this->_translateData as $key=>$value) {
                 if ($key == $value) {
