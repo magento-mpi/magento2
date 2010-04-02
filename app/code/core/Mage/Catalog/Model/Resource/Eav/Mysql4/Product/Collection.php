@@ -1485,12 +1485,31 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     }
 
     /**
+     * Apply front-end price limitation filters to the collection
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     *
+     */
+    public function applyFrontendPriceLimitations()
+    {
+        $this->_productLimitationFilters['use_price_index'] = true;
+        if (!isset($this->_productLimitationFilters['customer_group_id'])) {
+            $this->_productLimitationFilters['customer_group_id'] = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        }
+        if (!isset($this->_productLimitationFilters['website_id'])) {
+            $this->_productLimitationFilters['website_id'] = Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+        }
+        $this->_applyProductLimitations();
+        return $this;
+    }
+
+    /**
      * Apply limitation filters to collection
      *
-     * Method allow use one time category product index table (or product website table)
+     * Method allows using one time category product index table (or product website table)
      * for different combinations of store_id/category_id/visibility filter states
      *
-     * Mehod support multiple changes in one collection object for this parameters
+     * Method supports multiple changes in one collection object for this parameters
      *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
@@ -1542,4 +1561,5 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
         return $this;
     }
+
 }
