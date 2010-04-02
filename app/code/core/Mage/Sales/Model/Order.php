@@ -207,6 +207,17 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             return false;
         }
 
+        $allInvoiced = true;
+        foreach ($this->getAllItems() as $item) {
+            if ($item->getQtyToInvoice()) {
+                $allInvoiced = false;
+                break;
+            }
+        }
+        if ($allInvoiced) {
+            return false;
+        }
+
         if ($this->isCanceled() ||
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED) {
@@ -716,8 +727,12 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         if ($this->canCancel()) {
             $cancelState = self::STATE_CANCELED;
             foreach ($this->getAllItems() as $item) {
-                if ($item->getQtyInvoiced()>$item->getQtyRefunded()) {
-                    $cancelState = self::STATE_COMPLETE;
+                if ($cancelState != self::STATE_PROCESSING && $item->getQtyToRefund()) {
+                    if ($item->getQtyToShip() > $item->getQtyToCancel()) {
+                        $cancelState = self::STATE_PROCESSING;
+                    } else {
+                        $cancelState = self::STATE_COMPLETE;
+                    }
                 }
                 $item->cancel();
             }
