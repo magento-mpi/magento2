@@ -288,7 +288,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $this->_generateTransactionId(Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE,
             $this->getAuthorizationTransaction()
         );
-        $this->_avoidDoubleTransactionProcessing();
+        if ($this->_isTransactionExists()) {
+            return $this;
+        }
         $order   = $this->getOrder();
         $invoice = null;
         $amount  = (float)$amount;
@@ -326,8 +328,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      */
     public function registerAuthorizationNotification($amount)
     {
-        $this->_avoidDoubleTransactionProcessing();
-        return $this->_authorize(false, $amount);
+        return ($this->_isTransactionExists()) ? $this : $this->_authorize(false, $amount);
     }
 
     /**
@@ -516,7 +517,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $this->_generateTransactionId(Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND,
             $this->_lookupTransaction($this->getParentTransactionId())
         );
-        $this->_avoidDoubleTransactionProcessing();
+        if ($this->_isTransactionExists()) {
+            return $this;
+        }
         $order = $this->getOrder();
 
         // create an offline creditmemo (from order), if the entire grand total of order is covered by this refund
@@ -582,7 +585,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 : Mage::helper('sales')->__('Canceled order offline.')
             );
         }
-        $this->_void($isOnline, null, 'cancel');
+
+        if ($isOnline) {
+            $this->_void($isOnline, null, 'cancel');
+        }
 
         Mage::dispatchEvent('sales_order_payment_cancel', array('payment' => $this));
 
@@ -664,8 +670,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         // attempt to void
         if ($isOnline) {
             $this->getMethodInstance()->setStore($order->getStoreId())->$gatewayCallback($this);
-        } else {
-            $this->_avoidDoubleTransactionProcessing();
+        }
+        if ($this->_isTransactionExists()) {
+            return $this;
         }
 
         // if the authorization was untouched, we may assume voided amount = order grand total
@@ -804,10 +811,26 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      * Prevent double processing of the same transaction by a payment notification
      * Uses either specified txn_id or the transaction id that was set before
      *
+     * @deprecated after 1.4.0.1
      * @param string $txnId
      * @throws Mage_Core_Exception
      */
     protected function _avoidDoubleTransactionProcessing($txnId = null)
+    {
+        if ($this->_isTransactionExists($txnId)) {
+            Mage::throwException(
+                Mage::helper('sales')->__('Transaction "%s" was already processed.', $txnId)
+            );
+        }
+    }
+
+    /**
+     * Check transaction existence by specified transaction id
+     *
+     * @param string $txnId
+     * @return boolean
+     */
+    protected function _isTransactionExists($txnId = null)
     {
         if (null === $txnId) {
             $txnId = $this->getTransactionId();
@@ -816,12 +839,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $transaction = Mage::getModel('sales/order_payment_transaction')
                 ->setOrderPaymentObject($this)
                 ->loadByTxnId($txnId);
-            if ($transaction->getId()) {
-                Mage::throwException(
-                    Mage::helper('sales')->__('Transaction "%s" was already processed.', $transaction->getTxnId())
-                );
-            }
+            return (bool)$transaction->getId();
         }
+        return false;
     }
 
     /**
