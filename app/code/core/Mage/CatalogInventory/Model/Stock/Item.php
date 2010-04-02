@@ -264,25 +264,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if (!array_key_exists($customerGroupId, $this->_minSaleQtyCache)) {
             $minSaleQty = null;
             if ($this->getUseConfigMinSaleQty()) {
-                $backendModel = Mage::getSingleton('cataloginventory/system_config_backend_minsaleqty');
-                $backendModel->loadByValue(Mage::getStoreConfig(self::XML_PATH_MIN_SALE_QTY));
-                $minSaleQtyItems = $backendModel->getValue();
-                if ($minSaleQtyItems && is_array($minSaleQtyItems)) {
-                    foreach ($minSaleQtyItems as $_id => $item) {
-                        if ($item['customer_group_id'] == $customerGroupId) {
-                            $minSaleQty = $item['min_sale_qty'];
-                            break;
-                        } else if ($item['customer_group_id'] == Mage_Customer_Model_Group::CUST_GROUP_ALL) {
-                            $minSaleQty = $item['min_sale_qty'];
-                        }
-                    }
-                }
+                $minSaleQty = Mage::helper('cataloginventory/minsaleqty')->getConfigValue($customerGroupId);
             } else {
                 $minSaleQty = $this->getData('min_sale_qty');
             }
-            if ($minSaleQty !== null) {
-                $minSaleQty = (float)$minSaleQty;
-            }
+            $minSaleQty = (!empty($minSaleQty) ? (float)$minSaleQty : null);
             $this->_minSaleQtyCache[$customerGroupId] = $minSaleQty;
         }
         return $this->_minSaleQtyCache[$customerGroupId];
