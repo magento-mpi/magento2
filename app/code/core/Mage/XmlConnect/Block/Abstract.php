@@ -381,7 +381,9 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
         $xml = $this->_getCollectionXmlStart($collection, $rootName, $addOpenTag, 'filters');
 
         foreach ($collection as $item) {
-            $xml .= $this->_filterItemToXml($item);
+            if (count($item->getValues())) {
+                $xml .= $this->_filterItemToXml($item);
+            }
         }
         
         $xml .= $this->_getCollectionXmlEnd($collection, $rootName, $safeAdditionalEntities,
