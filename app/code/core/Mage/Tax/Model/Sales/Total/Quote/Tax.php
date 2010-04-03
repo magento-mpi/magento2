@@ -203,7 +203,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         $address->addTotalAmount('shipping_hidden_tax', $hiddenTax);
         $address->addBaseTotalAmount('shipping_hidden_tax', $baseHiddenTax);
         $applied = $this->_calculator->getAppliedRates($taxRateRequest);
-        $this->_saveAppliedTaxes($address, $applied, $shipping, $baseShipping, $rate);
+        $this->_saveAppliedTaxes($address, $applied, $tax, $baseTax, $rate);
         return $this;
     }
 
