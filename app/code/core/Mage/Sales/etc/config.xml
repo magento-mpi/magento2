@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>1.4.0.4</version>
+            <version>1.4.0.5</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -121,6 +121,7 @@
                 <tax_string><to_order>*</to_order></tax_string>
                 <discount_amount><to_order>*</to_order></discount_amount>
                 <shipping_amount><to_order>*</to_order></shipping_amount>
+                <shipping_incl_tax><to_order>*</to_order></shipping_incl_tax>
                 <shipping_tax_amount><to_order>*</to_order></shipping_tax_amount>
                 <custbalance_amount><to_order>*</to_order></custbalance_amount>
                 <grand_total><to_order>*</to_order></grand_total>
@@ -129,6 +130,7 @@
                 <base_tax_amount><to_order>*</to_order></base_tax_amount>
                 <base_discount_amount><to_order>*</to_order></base_discount_amount>
                 <base_shipping_amount><to_order>*</to_order></base_shipping_amount>
+                <base_shipping_incl_tax><to_order>*</to_order></base_shipping_incl_tax>
                 <base_shipping_tax_amount><to_order>*</to_order></base_shipping_tax_amount>
                 <base_custbalance_amount><to_order>*</to_order></base_custbalance_amount>
                 <base_grand_total><to_order>*</to_order></base_grand_total>
@@ -244,12 +246,14 @@
                 <tax_string><to_quote_address_shipping>*</to_quote_address_shipping></tax_string>
                 <discount_amount><to_quote_address_shipping>*</to_quote_address_shipping></discount_amount>
                 <shipping_amount><to_quote_address_shipping>*</to_quote_address_shipping></shipping_amount>
+                <shipping_incl_tax><to_quote_address_shipping>*</to_quote_address_shipping></shipping_incl_tax>
                 <custbalance_amount><to_quote_address_shipping>*</to_quote_address_shipping></custbalance_amount>
 
                 <base_subtotal><to_quote_address_shipping>*</to_quote_address_shipping></base_subtotal>
                 <base_tax_amount><to_quote_address_shipping>*</to_quote_address_shipping></base_tax_amount>
                 <base_discount_amount><to_quote_address_shipping>*</to_quote_address_shipping></base_discount_amount>
                 <base_shipping_amount><to_quote_address_shipping>*</to_quote_address_shipping></base_shipping_amount>
+                <base_shipping_incl_tax><to_quote_address_shipping>*</to_quote_address_shipping></base_shipping_incl_tax>
                 <base_custbalance_amount><to_quote_address_shipping>*</to_quote_address_shipping></base_custbalance_amount>
 
                 <shipping_tax_amount><to_cm>*</to_cm></shipping_tax_amount>

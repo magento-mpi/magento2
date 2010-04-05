@@ -100,14 +100,13 @@ class Mage_Adminhtml_Block_Sales_Order_Abstract extends Mage_Adminhtml_Block_Wid
      */
     public function displayShippingPriceInclTax($order)
     {
-        $baseTax = $order->getBaseShippingTaxAmount();
-        $tax = $order->getShippingTaxAmount();
-
-        return $this->displayPrices(
-            $order->getBaseShippingAmount()+$baseTax,
-            $order->getShippingAmount()+$tax,
-            false,
-            ' '
-        );
+        $shipping = $order->getShippingInclTax();
+        if ($shipping) {
+            $baseShipping = $order->getBaseShippingInclTax();
+        } else {
+            $shipping       = $order->getShippingAmount()+$order->getShippingTaxAmount();
+            $baseShipping   = $order->getBaseShippingAmount()+$order->getBaseShippingTaxAmount();
+        }
+        return $this->displayPrices($baseShipping, $shipping, false, ' ');
     }
 }
