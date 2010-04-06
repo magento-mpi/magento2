@@ -38,20 +38,27 @@ class Mage_SalesRule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4
             $now = Mage::getModel('core/date')->date('Y-m-d');
         }
 
-        $this->addBindParam('coupon_code', $couponCode);
         $this->getSelect()->where('is_active=1');
         $this->getSelect()->where('find_in_set(?, website_ids)', (int)$websiteId);
         $this->getSelect()->where('find_in_set(?, customer_group_ids)', (int)$customerGroupId);
 
-        $this->getSelect()->joinLeft(
-            array('coupon' => $this->getTable('salesrule/coupon')),
-            'coupon.rule_id = main_table.rule_id',
-            array()
-        );
-        $this->getSelect()->group('main_table.rule_id');
-        $this->getSelect()->having('COUNT(coupon.coupon_id) = 0');
         if ($couponCode) {
-            $this->getSelect()->orHaving('FIND_IN_SET(:coupon_code, GROUP_CONCAT(coupon.code))');
+            $this->getSelect()->joinLeft(
+                array('extra_coupon' => $this->getTable('salesrule/coupon')),
+                'extra_coupon.rule_id = main_table.rule_id AND extra_coupon.is_primary IS NULL',
+                array()
+            );
+            $this->getSelect()->group('main_table.rule_id');
+            $this->getSelect()->where(''
+                . $this->getSelect()->getAdapter()->quoteInto(' main_table.coupon_type <> ?', Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
+                . $this->getSelect()->getAdapter()->quoteInto(' OR primary_coupon.code = ?', $couponCode)
+            );
+            $this->getSelect()->having(''
+                . $this->getSelect()->getAdapter()->quoteInto(' main_table.coupon_type <> ?', Mage_SalesRule_Model_Rule::COUPON_TYPE_AUTO)
+                . $this->getSelect()->getAdapter()->quoteInto(' OR FIND_IN_SET(?, GROUP_CONCAT(extra_coupon.code))', $couponCode)
+            );
+        } else {
+            $this->getSelect()->where('main_table.coupon_type = ?', Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON);
         }
         $this->getSelect()->where('from_date is null or from_date<=?', $now);
         $this->getSelect()->where('to_date is null or to_date>=?', $now);
@@ -91,8 +98,8 @@ class Mage_SalesRule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4
         parent::_initSelect();
         $this->getSelect()
             ->joinLeft(
-                array('s_c' => $this->getTable('salesrule/coupon')),
-                '(main_table.rule_id = s_c.rule_id AND s_c.is_primary = 1)',
+                array('primary_coupon' => $this->getTable('salesrule/coupon')),
+                'main_table.rule_id = primary_coupon.rule_id AND primary_coupon.is_primary = 1',
                 array('code')
             );
         return $this;
