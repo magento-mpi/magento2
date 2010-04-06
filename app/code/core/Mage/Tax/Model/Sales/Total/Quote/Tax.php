@@ -183,8 +183,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         }
 
         if ($this->_config->getAlgorithm($this->_store) == Mage_Tax_Model_Calculation::CALC_TOTAL_BASE) {
-            $tax        = $this->_deltaRound($tax, $rate);
-            $baseTax    = $this->_deltaRound($baseTax, $rate, 'base');
+            $tax        = $this->_deltaRound($tax, $rate, $inclTax);
+            $baseTax    = $this->_deltaRound($baseTax, $rate, $inclTax, 'base');
         } else {
             $tax        = $this->_calculator->round($tax);
             $baseTax    = $this->_calculator->round($baseTax);
@@ -471,8 +471,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                 break;
         }
 
-        $rowTax     = $this->_deltaRound($rowTax, $rateKey);
-        $baseRowTax = $this->_deltaRound($baseRowTax, $rateKey, 'base');
+        $rowTax     = $this->_deltaRound($rowTax, $rateKey, $inclTax);
+        $baseRowTax = $this->_deltaRound($baseRowTax, $rateKey, $inclTax, 'base');
         if ($inclTax && !empty($discount)) {
             $hiddenTax      = $item->getRowTotalInclTax() - $item->getRowTotal() - $rowTax;
             $baseHiddenTax  = $item->getBaseRowTotalInclTax() - $item->getBaseRowTotal() - $baseRowTax;
@@ -493,13 +493,15 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
      *
      * @param float $price
      * @param string $rate
+     * @param bool $direction price including or excluding tax
      * @param string $type
      * @return float
      */
-    protected function _deltaRound($price, $rate, $type='regular')
+    protected function _deltaRound($price, $rate, $direction, $type='regular')
     {
         if ($price) {
             $rate   = (string) $rate;
+            $type   = $type.$direction;
             $delta  = isset($this->_roundingDeltas[$type][$rate]) ? $this->_roundingDeltas[$type][$rate] : 0;
             $price  += $delta;
             $this->_roundingDeltas[$type][$rate] = $price - $this->_calculator->round($price);

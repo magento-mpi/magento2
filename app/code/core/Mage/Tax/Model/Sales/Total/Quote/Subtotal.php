@@ -368,7 +368,11 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
         if ($this->_config->discountTax($this->_store)) {
             $item->setDiscountCalculationPrice($taxPrice);
             $item->setBaseDiscountCalculationPrice($baseTaxPrice);
+        } elseif ($isPriceInclTax) {
+            $item->setDiscountCalculationPrice($subtotal/$qty);
+            $item->setBaseDiscountCalculationPrice($baseSubtotal/$qty);
         }
+
         return $this;
     }
 
@@ -476,6 +480,9 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
         if ($this->_config->discountTax($this->_store)) {
             $item->setDiscountCalculationPrice($taxPrice);
             $item->setBaseDiscountCalculationPrice($baseTaxPrice);
+        } elseif ($isPriceInclTax) {
+            $item->setDiscountCalculationPrice($subtotal/$qty);
+            $item->setBaseDiscountCalculationPrice($baseSubtotal/$qty);
         }
         return $this;
     }
