@@ -171,12 +171,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         } else {
             $_extOrderId = '';
         }
-        $text = Mage::helper('sales')->__('Order # %s %s | %s',
-            $this->getOrder()->getRealOrderId(),
-            $_extOrderId,
-            $this->formatDate($this->getOrder()->getCreatedAtDate(), 'medium', true)
-        );
-        return $text;
+        return Mage::helper('sales')->__('Order # %s %s | %s', $this->getOrder()->getRealOrderId(), $_extOrderId, $this->formatDate($this->getOrder()->getCreatedAtDate(), 'medium', true));
     }
 
     public function getUrl($params='', $params2=array())

@@ -81,11 +81,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_View extends Mage_Adminhtml_Bloc
         else {
             $emailSent = Mage::helper('sales')->__('the shipment email is not sent');
         }
-
-        $header = Mage::helper('sales')->__('Shipment #%1$s | %3$s (%2$s)', $this->getShipment()->getIncrementId(),
-            $emailSent, $this->formatDate($this->getShipment()->getCreatedAtDate(), 'medium', true)
-        );
-        return $header;
+        return Mage::helper('sales')->__('Shipment #%1$s | %3$s (%2$s)', $this->getShipment()->getIncrementId(), $emailSent, $this->formatDate($this->getShipment()->getCreatedAtDate(), 'medium', true));
     }
 
     public function getBackUrl()
