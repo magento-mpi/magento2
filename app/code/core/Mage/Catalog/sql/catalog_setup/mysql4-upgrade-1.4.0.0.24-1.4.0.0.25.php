@@ -29,7 +29,7 @@ $installer = $this;
 
 $installer->getConnection()->modifyColumn(
     $installer->getTable('catalog/eav_attribute'), 'is_used_for_price_rules',
-    "TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'deprecated since 1.4.0.1'"
+    "TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'deprecated after 1.4.0.1'"
 );
 
 $installer->getConnection()->addColumn(
