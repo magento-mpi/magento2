@@ -29,7 +29,7 @@ $installer = $this;
 
 $installer->getConnection()->dropForeignKey(
     $this->getTable('enterprise_reminder/rule'),
-    'FK_IDX_EE_REMINDER_SALESRULE'
+    'FK_EE_REMINDER_SALESRULE'
 );
 
 $installer->getConnection()->changeColumn(
@@ -40,7 +40,7 @@ $installer->getConnection()->changeColumn(
 );
 
 $installer->getConnection()->addConstraint(
-    'IDX_EE_REMINDER_SALESRULE',
+    'FK_EE_REMINDER_SALESRULE',
     $this->getTable('enterprise_reminder/rule'),
     'salesrule_id',
     $this->getTable('salesrule'),

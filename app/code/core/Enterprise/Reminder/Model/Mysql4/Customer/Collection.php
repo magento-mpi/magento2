@@ -42,18 +42,11 @@ class Enterprise_Reminder_Model_Mysql4_Customer_Collection
 
         $customerTable = $this->getTable('customer/entity');
         $couponTable = $this->getTable('enterprise_reminder/coupon');
-        $ruleTable = $this->getTable('enterprise_reminder/rule');
         $logTable = $this->getTable('enterprise_reminder/log');
         $salesRuleCouponTable = $this->getTable('salesrule/coupon');
 
-        $select->from(array('r' => $ruleTable), array('is_active'));
-        $select->where('r.rule_id = ?', $rule->getId());
-
-        $select->joinInner(
-            array('c' => $couponTable),
-            'c.rule_id = r.rule_id AND c.is_active = 1',
-            array('associated_at', 'emails_failed')
-        );
+        $select->from(array('c' => $couponTable), array('associated_at', 'emails_failed', 'is_active'));
+        $select->where('c.rule_id = ?', $rule->getId());
 
         $select->joinInner(
             array('e' => $customerTable),
@@ -86,7 +79,7 @@ class Enterprise_Reminder_Model_Mysql4_Customer_Collection
 
         $this->_joinFields['associated_at'] = array('table'=>'c', 'field' => 'associated_at');
         $this->_joinFields['emails_failed'] = array('table'=>'c', 'field' => 'emails_failed');
-        $this->_joinFields['is_active'] = array('table'=>'r', 'field' => 'is_active');
+        $this->_joinFields['is_active'] = array('table'=>'c', 'field' => 'is_active');
         $this->_joinFields['code'] = array('table'=>'sc', 'field' => 'code');
         $this->_joinFields['usage_limit'] = array('table'=>'sc', 'field' => 'usage_limit');
         $this->_joinFields['usage_per_customer'] = array('table'=>'sc', 'field' => 'usage_per_customer');

@@ -62,7 +62,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends En
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('entity_id', array(
+        $this->addColumn('grid_entity_id', array(
             'header'   => Mage::helper('enterprise_reminder')->__('ID'),
             'align'    => 'center',
             'width'    => 50,
@@ -70,7 +70,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends En
             'renderer' => 'enterprise_reminder/adminhtml_widget_grid_column_renderer_id'
         ));
 
-        $this->addColumn('email', array(
+        $this->addColumn('grid_email', array(
             'header'   => Mage::helper('enterprise_reminder')->__('Email'),
             'type'     => 'text',
             'align'    => 'left',
@@ -78,7 +78,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends En
             'renderer' => 'enterprise_reminder/adminhtml_widget_grid_column_renderer_email'
         ));
 
-        $this->addColumn('associated_at', array(
+        $this->addColumn('grid_associated_at', array(
             'header'   => Mage::helper('enterprise_reminder')->__('Matched At'),
             'align'    => 'left',
             'width'    => 150,
@@ -87,7 +87,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends En
             'index'    => 'associated_at'
         ));
 
-        $this->addColumn('is_active', array(
+        $this->addColumn('grid_is_active', array(
             'header'   => Mage::helper('enterprise_reminder')->__('Thread Active'),
             'align'    => 'left',
             'type'     => 'options',
@@ -98,41 +98,41 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends En
             )
         ));
 
-        $this->addColumn('code', array(
+        $this->addColumn('grid_code', array(
             'header'   => Mage::helper('enterprise_reminder')->__('Coupon'),
             'align'    => 'left',
             'default'  => Mage::helper('enterprise_reminder')->__('N/A'),
             'index'    => 'code'
         ));
 
-        $this->addColumn('usage_limit', array(
+        $this->addColumn('grid_usage_limit', array(
             'header'   => Mage::helper('enterprise_reminder')->__('Coupon Usage Limit'),
             'align'    => 'left',
             'default'  => '0',
             'index'    => 'usage_limit'
         ));
 
-        $this->addColumn('usage_per_customer', array(
+        $this->addColumn('grid_usage_per_customer', array(
             'header'   => Mage::helper('enterprise_reminder')->__('Coupon Usage per Customer'),
             'align'    => 'left',
             'default'  => '0',
             'index'    => 'usage_per_customer'
         ));
 
-        $this->addColumn('emails_sent', array(
+        $this->addColumn('grid_emails_sent', array(
             'header'   => Mage::helper('enterprise_reminder')->__('Emails Sent'),
             'align'    => 'left',
             'default'  => '0',
             'index'    => 'emails_sent'
         ));
 
-        $this->addColumn('emails_failed', array(
+        $this->addColumn('grid_emails_failed', array(
             'header'   => Mage::helper('enterprise_reminder')->__('Emails Failed'),
             'align'    => 'left',
             'index'    => 'emails_failed'
         ));
 
-        $this->addColumn('last_sent', array(
+        $this->addColumn('grid_last_sent', array(
             'header'   => Mage::helper('enterprise_reminder')->__('Last Sent At'),
             'align'    => 'left',
             'width'    => 150,

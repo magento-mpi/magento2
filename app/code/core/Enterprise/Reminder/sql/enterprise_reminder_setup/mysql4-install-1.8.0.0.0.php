@@ -88,7 +88,7 @@ CREATE TABLE `{$this->getTable('enterprise_reminder/log')}` (
 ");
 
 $installer->getConnection()->addConstraint(
-    'IDX_EE_REMINDER_RULE',
+    'FK_EE_REMINDER_RULE',
     $this->getTable('enterprise_reminder/website'),
     'rule_id',
     $this->getTable('enterprise_reminder/rule'),
@@ -96,7 +96,7 @@ $installer->getConnection()->addConstraint(
 );
 
 $installer->getConnection()->addConstraint(
-    'IDX_EE_REMINDER_SALESRULE',
+    'FK_EE_REMINDER_SALESRULE',
     $this->getTable('enterprise_reminder/rule'),
     'salesrule_id',
     $this->getTable('salesrule'),
@@ -104,7 +104,7 @@ $installer->getConnection()->addConstraint(
 );
 
 $installer->getConnection()->addConstraint(
-    'IDX_EE_REMINDER_TEMPLATE_RULE',
+    'FK_EE_REMINDER_TEMPLATE_RULE',
     $this->getTable('enterprise_reminder/template'),
     'rule_id',
     $this->getTable('enterprise_reminder/rule'),
@@ -112,7 +112,7 @@ $installer->getConnection()->addConstraint(
 );
 
 $installer->getConnection()->addConstraint(
-    'IDX_EE_REMINDER_TEMPLATE',
+    'FK_EE_REMINDER_TEMPLATE',
     $this->getTable('enterprise_reminder/template'),
     'template_id',
     $this->getTable('core_email_template'),
@@ -121,7 +121,7 @@ $installer->getConnection()->addConstraint(
 );
 
 $installer->getConnection()->addConstraint(
-    'IDX_EE_REMINDER_RULE_COUPON',
+    'FK_EE_REMINDER_RULE_COUPON',
     $this->getTable('enterprise_reminder/coupon'),
     'rule_id',
     $this->getTable('enterprise_reminder/rule'),
@@ -129,7 +129,7 @@ $installer->getConnection()->addConstraint(
 );
 
 $installer->getConnection()->addConstraint(
-    'IDX_EE_REMINDER_LOG_RULE',
+    'FK_EE_REMINDER_LOG_RULE',
     $this->getTable('enterprise_reminder/log'),
     'rule_id',
     $this->getTable('enterprise_reminder/rule'),
