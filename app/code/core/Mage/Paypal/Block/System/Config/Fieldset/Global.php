@@ -77,9 +77,6 @@ class Mage_Paypal_Block_System_Config_Fieldset_Global
         } else {
             $checkbox->setValue('1');
         }
-        if ($this->isGlobalScope()) {
-            $checkbox->setDisabled(true);
-        }
 
         $hidden = new Varien_Data_Form_Element_Hidden(array(
             'name' => $checkbox->getName(),
@@ -87,5 +84,61 @@ class Mage_Paypal_Block_System_Config_Fieldset_Global
         ));
         $hidden->setForm($checkbox->getForm());
         return $hidden->getElementHtml() . $checkbox->getElementHtml();
+    }
+
+    /**
+     * Return "Use default" checkbox html
+     *
+     * @param string $checkboxId
+     * @return string
+     */
+    public function getInheritCheckboxHtml($checkboxId)
+    {
+        $checkbox = $this->getChild($checkboxId);
+
+        $inheritCheckbox = new Varien_Data_Form_Element_Checkbox(array(
+            'html_id' => $checkboxId . '_inherit',
+            'name' => preg_replace('/\[value\](\[\])?$/', '[inherit]', $checkbox->getName()),
+            'value' => '1',
+            'class' => 'checkbox config-inherit',
+            'onclick' => 'toggleValueElements(this, $(\''.$checkboxId.'\').up())'
+        ));
+        if ($checkbox->getInherit() == 1) {
+            $inheritCheckbox->setChecked(true);
+            $checkbox->setDisabled(true);
+        }
+
+        $inheritCheckbox->setForm($checkbox->getForm());
+        return $inheritCheckbox->getElementHtml();
+    }
+
+    /**
+     * Return label for "Use default" checkbox
+     *
+     * @param string $checkboxId
+     * @return string
+     */
+    public function getInheritCheckboxLabelHtml($checkboxId)
+    {
+        $checkbox = $this->getChild($checkboxId);
+        return sprintf('<label for="%s" class="inherit" title="%s">%s</label>',
+            $checkboxId . '_inherit',
+            $checkbox->getDefaultValue(),
+            Mage::helper('adminhtml')->__('Use Default')
+        );
+    }
+
+    /**
+     *
+     *
+     * @return string
+     */
+    public function canUseInherit($checkboxId)
+    {
+        $checkbox = $this->getChild($checkboxId);
+        if ($checkbox && $checkbox->getCanUseDefaultValue()) {
+            return true;
+        }
+        return false;
     }
 }

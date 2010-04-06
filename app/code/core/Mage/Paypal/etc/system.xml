@@ -368,7 +368,7 @@
                     <sort_order>0</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
+                    <show_in_store>0</show_in_store>
                     <fields>
                         <express_active translate="label">
                             <label>Express Checkout</label>
@@ -377,7 +377,7 @@
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </express_active>
                         <standard_active translate="label">
                             <label>Standard</label>
@@ -386,7 +386,7 @@
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </standard_active>
                         <pro_active translate="label">
                             <label>Pro</label>
@@ -395,7 +395,7 @@
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
+                            <show_in_store>0</show_in_store>
                         </pro_active>
                     </fields>
                 </global>
@@ -417,14 +417,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </heading_account>
-                        <primary_email translate='label'>
+                        <merchant_email translate='label'>
                             <label>Email address to accociate with PayPal</label>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </primary_email>
-                        <country translate="label">
+                        </merchant_email>
+                        <merchant_country translate="label">
                             <label>PayPal Merchant Country</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_country</source_model>
@@ -432,7 +432,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </country>
+                        </merchant_country>
                         <use_payflow translate="label">
                             <label>Use PayFlow Edition</label>
                             <frontend_type>select</frontend_type>
