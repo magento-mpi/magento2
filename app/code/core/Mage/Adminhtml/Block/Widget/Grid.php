@@ -1571,4 +1571,17 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         $this->_emptyCellLabel = $label;
         return $this;
     }
+
+    /**
+     * Return row url for js event handlers
+     *
+     * @param Mage_Catalog_Model_Product|Varien_Object
+     * @return string
+     */
+    public function getRowUrl($item)
+    {
+        $res = parent::getRowUrl($item);
+        return ($res ? $res : '#');
+    }
+
 }
