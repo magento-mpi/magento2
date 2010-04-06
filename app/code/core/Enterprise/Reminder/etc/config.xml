@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Reminder>
-             <version>1.8.0.0.0</version>
+             <version>1.8.0.0.1</version>
         </Enterprise_Reminder>
     </modules>
     <global>
@@ -135,7 +135,8 @@
                 <interval>15</interval>
                 <minutes>0</minutes>
                 <limit>100</limit>
-                <identity>sales</identity>
+                <threshold>1</threshold>
+                <identity>general</identity>
             </enterprise_reminder>
         </promo>
     </default>

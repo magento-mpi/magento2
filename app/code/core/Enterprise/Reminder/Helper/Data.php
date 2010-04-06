@@ -29,9 +29,10 @@
  */
 class Enterprise_Reminder_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
-    const XML_PATH_ENABLED  = 'promo/enterprise_reminder/enabled';
-    const XML_PATH_SEND_LIMIT  = 'promo/enterprise_reminder/limit';
-    const XML_PATH_EMAIL_IDENTITY  = 'promo/enterprise_reminder/identity';
+    const XML_PATH_ENABLED = 'promo/enterprise_reminder/enabled';
+    const XML_PATH_SEND_LIMIT = 'promo/enterprise_reminder/limit';
+    const XML_PATH_EMAIL_IDENTITY = 'promo/enterprise_reminder/identity';
+    const XML_PATH_EMAIL_THRESHOLD = 'promo/enterprise_reminder/threshold';
 
     /**
      * Check whether reminder rules should be enabled
@@ -61,5 +62,15 @@ class Enterprise_Reminder_Helper_Data extends Enterprise_Enterprise_Helper_Core_
     public function getEmailIdentity()
     {
         return (string)Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY);
+    }
+
+    /**
+     * Return email send failure threshold
+     *
+     * @return int
+     */
+    public function getSendFailureThreshold()
+    {
+        return (int)Mage::getStoreConfig(self::XML_PATH_EMAIL_THRESHOLD);
     }
 }

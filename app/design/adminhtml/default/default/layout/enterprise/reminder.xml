@@ -40,4 +40,9 @@
             <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
          </reference>
     </adminhtml_reminder_edit>
+    <adminhtml_promo_quote_edit>
+        <reference name="content">
+            <block type="enterprise_reminder/adminhtml_promo_notice" name="promo_edit_notice"/>
+        </reference>
+    </adminhtml_promo_quote_edit>
 </layout>

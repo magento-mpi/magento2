@@ -41,7 +41,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
         $model = Mage::registry('current_reminder_rule');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => Mage::helper('enterprise_reminder')->__('General Information'),
+            'legend'  => Mage::helper('enterprise_reminder')->__('General Information'),
             'comment' => Mage::helper('enterprise_reminder')->__('Reminder emails may promote a shopping cart price rule with or without coupon. If a shopping cart price rule defines an auto-generated coupon, this reminder rule will generate a random coupon code for each customer.'),
         ));
 
@@ -52,24 +52,23 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
         }
 
         $fieldset->addField('name', 'text', array(
-            'name' => 'name',
-            'label' => Mage::helper('enterprise_reminder')->__('Rule Name'),
+            'name'     => 'name',
+            'label'    => Mage::helper('enterprise_reminder')->__('Rule Name'),
             'required' => true,
         ));
 
         $fieldset->addField('description', 'textarea', array(
-            'name' => 'description',
+            'name'  => 'description',
             'label' => Mage::helper('enterprise_reminder')->__('Description'),
             'style' => 'width: 98%; height: 100px;',
         ));
 
         $field = $fieldset->addField('salesrule_id', 'note', array(
-            'name'      => 'salesrule_id',
-            'label'     => Mage::helper('enterprise_reminder')->__('Shopping Cart Price Rule'),
-            'required'  => true,
-            'class'     => 'widget-option',
-            'value'     => $model->getSalesruleId(),
-            'note'      => Mage::helper('enterprise_reminder')->__('Promotion rule this reminder will advertise.'),
+            'name'  => 'salesrule_id',
+            'label' => Mage::helper('enterprise_reminder')->__('Shopping Cart Price Rule'),
+            'class' => 'widget-option',
+            'value' => $model->getSalesruleId(),
+            'note'  => Mage::helper('enterprise_reminder')->__('Promotion rule this reminder will advertise.'),
         ));
 
         $model->unsSalesruleId();

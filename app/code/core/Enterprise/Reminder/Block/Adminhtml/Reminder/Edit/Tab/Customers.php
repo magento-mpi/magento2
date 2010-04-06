@@ -65,7 +65,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends En
         $this->addColumn('entity_id', array(
             'header'   => Mage::helper('enterprise_reminder')->__('ID'),
             'align'    => 'center',
-            'width'    => '50px',
+            'width'    => 50,
             'index'    => 'entity_id',
             'renderer' => 'enterprise_reminder/adminhtml_widget_grid_column_renderer_id'
         ));
@@ -81,19 +81,17 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends En
         $this->addColumn('associated_at', array(
             'header'   => Mage::helper('enterprise_reminder')->__('Matched At'),
             'align'    => 'left',
-            'width'    => '150px',
+            'width'    => 150,
             'type'     => 'datetime',
             'default'  => '--',
             'index'    => 'associated_at'
         ));
 
-        $this->addColumn('schedule', array(
-            'header'   => Mage::helper('enterprise_reminder')->__('Schedule Active'),
+        $this->addColumn('is_active', array(
+            'header'   => Mage::helper('enterprise_reminder')->__('Thread Active'),
             'align'    => 'left',
             'type'     => 'options',
-            'index'    => 'schedule',
-            'filter'   => false,
-            'sortable' => false,
+            'index'    => 'is_active',
             'options'  => array(
                 '0' => Mage::helper('enterprise_reminder')->__('No'),
                 '1' => Mage::helper('enterprise_reminder')->__('Yes')
@@ -128,10 +126,16 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends En
             'index'    => 'emails_sent'
         ));
 
+        $this->addColumn('emails_failed', array(
+            'header'   => Mage::helper('enterprise_reminder')->__('Emails Failed'),
+            'align'    => 'left',
+            'index'    => 'emails_failed'
+        ));
+
         $this->addColumn('last_sent', array(
             'header'   => Mage::helper('enterprise_reminder')->__('Last Sent At'),
             'align'    => 'left',
-            'width'    => '150px',
+            'width'    => 150,
             'type'     => 'datetime',
             'default'  => '--',
             'index'    => 'last_sent'

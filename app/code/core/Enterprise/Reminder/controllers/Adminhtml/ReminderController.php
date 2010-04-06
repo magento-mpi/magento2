@@ -227,10 +227,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Enterprise_Enterp
     {
         try {
             $model = $this->_initRule();
-            $observer = Mage::getModel('enterprise_reminder/observer');
-            $observer->setRuleId($model->getId());
-            $observer->scheduledNotification();
-
+            $model->sendReminderEmails();
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The reminder rule has been matched.'));
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

@@ -313,27 +313,33 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
      * @param int $websiteId
      * @return Enterprise_Reminder_Model_Mysql4_Rule
      */
-    public function saveMatchedCustomers($rule, $salesRule, $websiteId)
+    public function saveMatchedCustomers($rule, $salesRule, $websiteId, $threshold=null)
     {
-        $select = $rule->getConditionSql();
+        $rule->afterLoad();
+        $select = $rule->getConditions()->getConditionsSql(null, $websiteId);
 
-        if (empty($select)) {
+        if (!$rule->getConditionSql()) {
             return $this;
         }
 
+        if ($threshold) {
+            $select->where('c.emails_failed IS NULL');
+            $select->orWhere('c.emails_failed < ? ', $threshold);
+        }
+
         $i = 0;
-        $adapter = $this->_getWriteAdapter();
         $ruleId = $rule->getId();
+        $adapter = $this->_getWriteAdapter();
         $currentDate = $this->formatDate(time());
         $dataToInsert = array();
 
-        $stmt = $adapter->query($select, array('website_id' => $websiteId, 'rule_id' => $ruleId));
+        $stmt = $adapter->query($select, array('rule_id' => $ruleId));
 
         try {
             $adapter->beginTransaction();
 
             while ($row = $stmt->fetch()) {
-                if (empty($row['coupon_id'])) {
+                if (empty($row['coupon_id']) && $salesRule) {
                     $coupon = $salesRule->acquireCoupon();
                     $couponId = ($coupon !== null) ? $coupon->getId() : null;
                 }
@@ -382,12 +388,13 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
 
     /**
      * Return list of customers for notification process.
-     * This process can be initialized system cron.
+     * This process can be initialized system cron or by admin for some rule
      *
      * @param int|null $limit
+     * @param int|null $ruleId
      * @return array
      */
-    public function getCustomersForCronNotification($limit=null)
+    public function getCustomersForNotification($limit=null, $ruleId=null)
     {
         $couponTable = $this->getTable('enterprise_reminder/coupon');
         $ruleTable = $this->getTable('enterprise_reminder/rule');
@@ -412,36 +419,13 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
             array()
         );
 
+        if ($ruleId) {
+            $select->where('c.rule_id = ?', $ruleId);
+        }
+
         $select->where('c.is_active = 1');
         $select->group(array('c.customer_id', 'c.rule_id'));
         $select->having("(MAX(l.sent_at) IS NULL) OR (FIND_IN_SET(TO_DAYS('{$currentDate}') - TO_DAYS(MIN(l.sent_at)), r.schedule) AND TO_DAYS('{$currentDate}') != TO_DAYS(MAX(l.sent_at)))");
-
-        if ($limit) {
-            $select->limit($limit);
-        }
-
-        return $this->_getReadAdapter()->fetchAll($select);
-    }
-
-    /**
-     * Return list of customers for immidiately notification process.
-     * This process can be initialized by admin for some rule.
-     *
-     * @param int $ruleId
-     * @param int|null $limit
-     * @return array
-     */
-    public function getCustomersForImmidiatelyNotification($ruleId, $limit=null)
-    {
-        $couponTable = $this->getTable('enterprise_reminder/coupon');
-
-        $select = $this->createSelect()->from(
-            array('c' => $couponTable),
-            array('customer_id', 'coupon_id', 'rule_id')
-        );
-
-        $select->where('c.is_active = 1');
-        $select->where('c.rule_id = ?', $ruleId);
 
         if ($limit) {
             $select->limit($limit);
@@ -467,5 +451,37 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
 
         $this->_getWriteAdapter()->insert($this->getTable('enterprise_reminder/log'), $data);
         return $this;
+    }
+
+    /**
+     * Update failed email counter.
+     *
+     * @param int $ruleId
+     * @param int $customerId
+     * @return Enterprise_Reminder_Model_Mysql4_Rule
+     */
+    public function updateFailedEmailsCounter($ruleId, $customerId)
+    {
+        $this->_getWriteAdapter()->update($this->getTable('enterprise_reminder/coupon'),
+            array('emails_failed' => new Zend_Db_Expr('emails_failed + 1')),
+            array('rule_id = ?'   => $ruleId, 'customer_id = ?' => $customerId)
+        );
+        return $this;
+    }
+
+    /**
+     * Return count of reminder rules assigned to specified sales rule.
+     *
+     * @param int $salesruleId
+     * @return int
+     */
+    public function getAssignedRulesCount($salesruleId)
+    {
+        $select = $this->createSelect()->from(
+            array('r' => $this->getTable('enterprise_reminder/rule')),
+            array(new Zend_Db_Expr('count(*)'))
+        );
+        $select->where('r.salesrule_id = ?', $salesruleId);
+        return $this->_getReadAdapter()->fetchOne($select);
     }
 }

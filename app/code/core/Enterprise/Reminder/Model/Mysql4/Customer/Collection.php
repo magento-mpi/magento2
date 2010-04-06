@@ -37,64 +37,62 @@ class Enterprise_Reminder_Model_Mysql4_Customer_Collection
      */
     protected function _initSelect()
     {
-        parent::_initSelect();
-
         $rule = Mage::registry('current_reminder_rule');
         $select = $this->getSelect();
 
+        $customerTable = $this->getTable('customer/entity');
         $couponTable = $this->getTable('enterprise_reminder/coupon');
         $ruleTable = $this->getTable('enterprise_reminder/rule');
         $logTable = $this->getTable('enterprise_reminder/log');
         $salesRuleCouponTable = $this->getTable('salesrule/coupon');
 
+        $select->from(array('r' => $ruleTable), array('is_active'));
+        $select->where('r.rule_id = ?', $rule->getId());
+
         $select->joinInner(
             array('c' => $couponTable),
-            'e.entity_id=c.customer_id AND c.is_active=1',
-            array('associated_at')
+            'c.rule_id = r.rule_id AND c.is_active = 1',
+            array('associated_at', 'emails_failed')
         );
 
         $select->joinInner(
-            array('r' => $ruleTable),
-            'c.rule_id=r.rule_id AND c.rule_id=' . $rule->getId(),
-            array('schedule' => new Zend_Db_Expr('IF(r.schedule != \'\', 1, 0)'))
+            array('e' => $customerTable),
+            'e.entity_id = c.customer_id',
+            array('entity_id', 'email')
+        );
+
+        $subSelect = $this->getConnection()->select();
+        $subSelect->from(array('g' => $logTable), array(
+            'customer_id',
+            'rule_id',
+            'emails_sent' => new Zend_Db_Expr('COUNT(log_id)'),
+            'last_sent' => new Zend_Db_Expr('MAX(sent_at)')
+        ));
+
+        $subSelect->where('rule_id = ?', $rule->getId());
+        $subSelect->group(array('customer_id', 'rule_id'));
+
+        $select->joinLeft(
+            array('l' => $subSelect),
+            'l.rule_id = c.rule_id AND l.customer_id = c.customer_id',
+            array('l.emails_sent', 'l.last_sent')
         );
 
         $select->joinLeft(
             array('sc' => $salesRuleCouponTable),
-            'c.coupon_id=sc.coupon_id',
+            'sc.coupon_id = c.coupon_id',
             array('code', 'usage_limit', 'usage_per_customer')
         );
 
-        $select->joinLeft(
-            array('l' => $logTable),
-            'l.rule_id=c.rule_id AND l.customer_id=e.entity_id',
-            array(
-                'emails_sent' => new Zend_Db_Expr('COUNT(l.log_id)'),
-                'last_sent' => new Zend_Db_Expr('MAX(l.sent_at)')
-            )
-        );
-
-        $select->group('e.entity_id');
-
         $this->_joinFields['associated_at'] = array('table'=>'c', 'field' => 'associated_at');
-        $this->_joinFields['schedule'] = array('table'=>'r', 'field' => 'schedule');
+        $this->_joinFields['emails_failed'] = array('table'=>'c', 'field' => 'emails_failed');
+        $this->_joinFields['is_active'] = array('table'=>'r', 'field' => 'is_active');
         $this->_joinFields['code'] = array('table'=>'sc', 'field' => 'code');
         $this->_joinFields['usage_limit'] = array('table'=>'sc', 'field' => 'usage_limit');
         $this->_joinFields['usage_per_customer'] = array('table'=>'sc', 'field' => 'usage_per_customer');
-        $this->_joinFields['emails_sent'] = array('table'=>'', 'field' => 'emails_sent');
-        $this->_joinFields['last_sent'] = array('table'=>'', 'field' => 'last_sent');
+        $this->_joinFields['emails_sent'] = array('table'=>'l', 'field' => 'emails_sent');
+        $this->_joinFields['last_sent'] = array('table'=>'l', 'field' => 'last_sent');
 
         return $this;
-    }
-
-    /**
-     * Get SQL for get record count
-     *
-     * @return Varien_Db_Select
-     */
-    public function getSelectCountSql()
-    {
-        $countSelect = parent::getSelectCountSql();
-        return $countSelect->reset(Zend_Db_Select::GROUP);
     }
 }

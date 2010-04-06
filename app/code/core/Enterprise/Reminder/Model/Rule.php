@@ -32,6 +32,11 @@ class Enterprise_Reminder_Model_Rule extends Enterprise_Enterprise_Model_Rule_Ru
     const XML_PATH_EMAIL_TEMPLATE  = 'enterprise_reminder_email_template';
 
     /**
+     * Contains data defined per store view, will be used in email templates as variables
+     */
+    protected $_storeData = array();
+
+    /**
      * Intialize model
      *
      * @return void
@@ -76,6 +81,10 @@ class Enterprise_Reminder_Model_Rule extends Enterprise_Enterprise_Model_Rule_Ru
         $this->setConditionSql(
             $this->getConditions()->getConditionsSql(null, new Zend_Db_Expr(':website_id'))
         );
+
+        if (!$this->getSalesruleId()) {
+            $this->setSalesruleId(null);
+        }
         parent::_beforeSave();
     }
 
@@ -110,5 +119,126 @@ class Enterprise_Reminder_Model_Rule extends Enterprise_Enterprise_Model_Rule_Ru
             $this->setData('website_ids', $this->_getResource()->getWebsiteIds($this->getId()));
         }
         return $this->_getData('website_ids');
+    }
+
+    /**
+     * Send reminder emails
+     *
+     * @return Enterprise_Reminder_Model_Rule
+     */
+    public function sendReminderEmails()
+    {
+        $mail = Mage::getModel('core/email_template');
+
+        /* @var $translate Mage_Core_Model_Translate */
+        $translate = Mage::getSingleton('core/translate');
+        $translate->setTranslateInline(false);
+
+        $identity = Mage::helper('enterprise_reminder')->getEmailIdentity();
+
+        $this->_matchCustomers();
+        $limit = Mage::helper('enterprise_reminder')->getOneRunLimit();
+
+        $recipients = $this->_getResource()->getCustomersForNotification($limit, $this->getRuleId());
+
+        foreach ($recipients as $recipient) {
+
+            /* @var $customer Mage_Customer_Model_Customer */
+            $customer = Mage::getModel('customer/customer')->load($recipient['customer_id']);
+            if (!$customer || !$customer->getId()) {
+                continue;
+            }
+
+            $storeId = $customer->getStoreId();
+
+            $storeData = $this->getStoreData($recipient['rule_id'], $storeId);
+            if (!$storeData) {
+                continue;
+            }
+
+            /* @var $coupon Mage_SalesRule_Model_Coupon */
+            $coupon = Mage::getModel('salesrule/coupon')->load($recipient['coupon_id']);
+
+            $templateVars = array(
+                'store' => Mage::app()->getStore($storeId),
+                'customer' => $customer,
+                'promotion_name' => $storeData['label'],
+                'promotion_description' => $storeData['description'],
+                'coupon' => $coupon
+            );
+
+            $mail->setDesignConfig(array('area' => 'frontend', 'store' => $storeId));
+            $mail->sendTransactional($storeData['template_id'], $identity,
+                $customer->getEmail(), null, $templateVars, $storeId
+            );
+
+            if ($mail->getSentSuccess()) {
+                $this->_getResource()->addNotificationLog($recipient['rule_id'], $customer->getId());
+            } else {
+                $this->_getResource()->updateFailedEmailsCounter($recipient['rule_id'], $customer->getId());
+            }
+        }
+
+        $translate->setTranslateInline(true);
+        return $this;
+    }
+
+    /**
+     * Match customers and assign coupons
+     *
+     * @return Enterprise_Reminder_Model_Observer
+     */
+    protected function _matchCustomers()
+    {
+        $threshold = Mage::helper('enterprise_reminder')->getSendFailureThreshold();
+
+        $currentDate = Mage::getModel('core/date')->date('Y-m-d');
+        $rules = $this->getCollection()->addDateFilter($currentDate)
+            ->addIsActiveFilter(1);
+
+        if ($ruleId = $this->getRuleId()) {
+            $rules->addRuleFilter($ruleId);
+        }
+
+        foreach ($rules as $rule) {
+            $this->_getResource()->deactivateMatchedCustomers($rule->getId());
+
+            if ($rule->getSalesruleId()) {
+                /* @var $salesRule Mage_SalesRule_Model_Rule */
+                $salesRule = Mage::getSingleton('salesrule/rule')->load($rule->getSalesruleId());
+                $websiteIds = array_intersect($rule->getWebsiteIds(), $salesRule->getWebsiteIds());
+            } else {
+                $salesRule = null;
+                $websiteIds = $rule->getWebsiteIds();
+            }
+
+            foreach ($websiteIds as $websiteId) {
+                $this->_getResource()->saveMatchedCustomers($rule, $salesRule, $websiteId, $threshold);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Return store data
+     *
+     * @param int $ruleId
+     * @param int $storeId
+     * @return array|false
+     */
+    public function getStoreData($ruleId, $storeId)
+    {
+        if (!isset($this->_storeData[$ruleId][$storeId])) {
+            if ($data = $this->_getResource()->getStoreTemplateData($ruleId, $storeId)) {
+                if (empty($data['template_id'])) {
+                    $data['template_id'] = self::XML_PATH_EMAIL_TEMPLATE;
+                }
+                $this->_storeData[$ruleId][$storeId] = $data;
+            }
+            else {
+                return false;
+            }
+        }
+        return $this->_storeData[$ruleId][$storeId];
     }
 }

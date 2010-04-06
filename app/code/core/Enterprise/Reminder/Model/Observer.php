@@ -27,146 +27,11 @@
 /**
  * Reminder rules observer model
  */
-class Enterprise_Reminder_Model_Observer extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_Reminder_Model_Observer
 {
     const CRON_MINUTELY = 'I';
     const CRON_HOURLY   = 'H';
     const CRON_DAILY    = 'D';
-
-    /**
-     * Contains data defined per store view, will be used in email templates as variables
-     */
-    protected $_storeData = array();
-
-    /**
-     * Get reminder rule resource model
-     *
-     * @return Enterprise_Reminder_Model_Mysql4_Rule
-     */
-    public function getResource()
-    {
-        return Mage::getResourceSingleton('enterprise_reminder/rule');
-    }
-
-    /**
-     * Get reminder rules collection
-     *
-     * @return Enterprise_Reminder_Model_Mysql4_Rule_Collection
-     */
-    public function getRulesCollection()
-    {
-        $currentDate = Mage::getModel('core/date')->date('Y-m-d');
-        $collection = Mage::getResourceModel('enterprise_reminder/rule_collection')
-            ->addDateFilter($currentDate)
-            ->addIsActiveFilter(1);
-
-        if ($ruleId = $this->getRuleId()) {
-            $collection->addRuleFilter($ruleId);
-        }
-
-        return $collection;
-    }
-
-    /**
-     * Match customers and assign coupons
-     *
-     * @return Enterprise_Reminder_Model_Observer
-     */
-    protected function _matchCustomers()
-    {
-        foreach ($this->getRulesCollection() as $rule) {
-            $this->getResource()->deactivateMatchedCustomers($rule->getId());
-
-            /* @var $salesRule Mage_SalesRule_Model_Rule */
-            $salesRule = Mage::getSingleton('salesrule/rule')->load($rule->getSalesruleId());
-            if (!$salesRule || !$salesRule->getId()) {
-                continue;
-            }
-
-            $websiteIds = array_intersect($rule->getWebsiteIds(), $salesRule->getWebsiteIds());
-            foreach ($websiteIds as $websiteId) {
-                $this->getResource()->saveMatchedCustomers($rule, $salesRule, $websiteId);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Send scheduled notifications
-     *
-     * @return Enterprise_Reminder_Model_Observer
-     */
-    public function scheduledNotification()
-    {
-        if (!Mage::helper('enterprise_reminder')->isEnabled()) {
-            return $this;
-        }
-
-        $mail = Mage::getModel('core/email_template');
-
-        /* @var $translate Mage_Core_Model_Translate */
-        $translate = Mage::getSingleton('core/translate');
-        $translate->setTranslateInline(false);
-
-        $identity = Mage::helper('enterprise_reminder')->getEmailIdentity();
-
-        foreach ($this->_getCustomersForNotification() as $recipient) {
-
-            /* @var $customer Mage_Customer_Model_Customer */
-            $customer = Mage::getModel('customer/customer')->load($recipient['customer_id']);
-            if (!$customer || !$customer->getId()) {
-                continue;
-            }
-
-            $storeId = $customer->getStoreId();
-
-            $storeData = $this->getStoreData($recipient['rule_id'], $storeId);
-            if (!$storeData) {
-                continue;
-            }
-
-            /* @var $coupon Mage_SalesRule_Model_Coupon */
-            $coupon = Mage::getModel('salesrule/coupon')->load($recipient['coupon_id']);
-
-            $templateVars = array(
-                'store' => Mage::app()->getStore($storeId),
-                'customer' => $customer,
-                'promotion_name' => $storeData['label'],
-                'promotion_description' => $storeData['description'],
-                'coupon' => $coupon
-            );
-
-            $mail->setDesignConfig(array('area' => 'frontend', 'store' => $storeId));
-            $mail->sendTransactional($storeData['template_id'], $identity,
-                $customer->getEmail(), null, $templateVars, $storeId
-            );
-
-            if ($mail->getSentSuccess()) {
-                $this->getResource()->addNotificationLog($recipient['rule_id'], $customer->getId());
-            }
-        }
-
-        $translate->setTranslateInline(true);
-        return $this;
-    }
-
-    /**
-     * Get list of customers for notifications
-     *
-     * @return array
-     */
-    protected function _getCustomersForNotification()
-    {
-        $this->_matchCustomers();
-        $limit = Mage::helper('enterprise_reminder')->getOneRunLimit();
-
-        if ($ruleId = $this->getRuleId()) {
-            $recipients = $this->getResource()->getCustomersForImmidiatelyNotification($ruleId, $limit);
-        } else {
-            $recipients = $this->getResource()->getCustomersForCronNotification($limit);
-        }
-        return $recipients;
-    }
 
     /**
      * Include auto coupon type
@@ -234,25 +99,15 @@ class Enterprise_Reminder_Model_Observer extends Enterprise_Enterprise_Model_Cor
     }
 
     /**
-     * Return store data
+     * Send scheduled notifications
      *
-     * @param int $ruleId
-     * @param int $storeId
-     * @return array|false
+     * @return Enterprise_Reminder_Model_Observer
      */
-    public function getStoreData($ruleId, $storeId)
+    public function scheduledNotification()
     {
-        if (!isset($this->_storeData[$ruleId][$storeId])) {
-            if ($data = $this->getResource()->getStoreTemplateData($ruleId, $storeId)) {
-                if (empty($data['template_id'])) {
-                    $data['template_id'] = Enterprise_Reminder_Model_Rule::XML_PATH_EMAIL_TEMPLATE;
-                }
-                $this->_storeData[$ruleId][$storeId] = $data;
-            }
-            else {
-                return false;
-            }
+        if (Mage::helper('enterprise_reminder')->isEnabled()) {
+            Mage::getModel('enterprise_reminder/rule')->sendReminderEmails();
+            return $this;
         }
-        return $this->_storeData[$ruleId][$storeId];
     }
 }
