@@ -458,6 +458,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         try {
             $productData = $this->getRequest()->getPost('product');
+
             if ($productData && !isset($productData['stock_data']['use_config_manage_stock'])) {
                 $productData['stock_data']['use_config_manage_stock'] = 0;
             }
@@ -475,6 +476,18 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             if ($productId = $this->getRequest()->getParam('id')) {
                 $product->load($productId);
             }
+
+            $dateFields = array();
+            $attributes = $product->getAttributes();
+            foreach ($attributes as $attrKey => $attribute) {
+                if ($attribute->getBackend()->getType() == 'datetime') {
+                    if (array_key_exists($attrKey, $productData) && $productData[$attrKey] != ''){
+                        $dateFields[] = $attrKey;
+                    }
+                }
+            }
+            $productData = $this->_filterDates($productData, $dateFields);
+
             $product
                 ->addData($productData)
                 ->validate();

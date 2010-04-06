@@ -791,8 +791,8 @@ abstract class Mage_Eav_Model_Entity_Abstract
                 ->where($attribute->getAttributeCode().'=?', $object->getData($attribute->getAttributeCode()));
         } else {
             $value = $object->getData($attribute->getAttributeCode());
-            if ($attribute->getBackend()->getType() == 'datetime'){
-                $date = new Zend_Date($value);
+            if ($attribute->getBackend()->getType() == 'datetime') {
+                $date = new Zend_Date($value, Varien_Date::DATE_INTERNAL_FORMAT);
                 $value = $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
             }
 
