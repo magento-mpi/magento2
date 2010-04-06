@@ -92,14 +92,23 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
             ));
         }
 
+        $hiddenTax = $salesEntity->getBaseHiddenTaxAmount();
+        if ($hiddenTax) {
+            $items[] = new Varien_Object(array(
+                'name'   => Mage::helper('paypal')->__('Discount Tax'),
+                'qty'    => 1,
+                'amount' => (float)$hiddenTax,
+            ));
+        }
+
         return array($items, $totals, $discountAmount, $totals['shipping']);
     }
 
     /**
      * Check whether cart line items are eligible for exporting to PayPal API
-     * 
+     *
      * Requires data returned by self::prepareLineItems()
-     * 
+     *
      * @param array $items
      * @param array $totals
      * @param float $referenceAmount
