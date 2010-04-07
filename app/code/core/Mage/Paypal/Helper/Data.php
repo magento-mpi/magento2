@@ -92,7 +92,7 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
             ));
         }
 
-        $hiddenTax = $salesEntity->getBaseHiddenTaxAmount();
+        $hiddenTax = (float) $salesEntity->getBaseHiddenTaxAmount();
         if ($hiddenTax) {
             $items[] = new Varien_Object(array(
                 'name'   => Mage::helper('paypal')->__('Discount Tax'),

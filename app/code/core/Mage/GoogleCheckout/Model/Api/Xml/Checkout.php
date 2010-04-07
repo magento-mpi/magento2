@@ -125,6 +125,23 @@ EOT;
 
 EOT;
         }
+        $hiddenTax = $this->getQuote()->getShippingAddress()->getBaseHiddenTaxAmount()
+            + $this->getQuote()->getBillingAddress()->getBaseHiddenTaxAmount();
+        if ($hiddenTax) {
+            $xml .= <<<EOT
+            <item>
+                <merchant-item-id>_INTERNAL_TAX_</merchant-item-id>
+                <item-name>{$this->__('Discount Tax')}</item-name>
+                <item-description>{$this->__('A virtual item to reflect the tax total')}</item-description>
+                <unit-price currency="{$this->getCurrency()}">{$hiddenTax}</unit-price>
+                <quantity>1</quantity>
+                <item-weight unit="{$weightUnit}" value="0.00" />
+                <tax-table-selector>none</tax-table-selector>
+                {$this->_getDigitalContentXml($this->getQuote()->isVirtual())}
+            </item>
+
+EOT;
+        }
         $xml .= <<<EOT
         </items>
 EOT;
