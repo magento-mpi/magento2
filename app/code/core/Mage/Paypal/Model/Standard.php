@@ -186,6 +186,30 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
+     * Custom getter for payment configuration
+     *
+     * @param string $field
+     * @param int $storeId
+     * @return mixed
+     */
+    public function getConfigData($field, $storeId = null)
+    {
+         if (null === $storeId) {
+            $storeId = $this->getStore();
+        }
+        switch ($field)
+        {
+            case 'allowspecific':
+            case 'specificcountry':
+            case 'line_items_enabled':
+            case 'line_items_summary':
+                return Mage::getStoreConfig("paypal/general/{$field}", $storeId);
+            default:
+                return parent::getConfigData($field, $storeId);
+        }
+    }
+
+    /**
      * Aggregated cart summary label getter
      *
      * @return string

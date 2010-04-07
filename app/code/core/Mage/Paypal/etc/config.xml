@@ -120,16 +120,17 @@
     <default>
         <paypal>
             <wpp>
-                <business_account backend_model="adminhtml/system_config_backend_encrypted"/>
                 <api_password backend_model="adminhtml/system_config_backend_encrypted"/>
                 <api_signature backend_model="adminhtml/system_config_backend_encrypted"/>
                 <api_username backend_model="adminhtml/system_config_backend_encrypted"/>
-                <button_flavor>dynamic</button_flavor>
                 <button_type>ec-shortcut</button_type>
             </wpp>
-            <wps>
+            <general>
                 <business_account backend_model="adminhtml/system_config_backend_encrypted"/>
-            </wps>
+            </general>
+            <style>
+                <button_flavor>dynamic</button_flavor>
+            </style>
             <merchant_country_codes>AE,AR,AT,AU,BE,BG,BR,CA,CH,CL,CR,CY,CZ,DE,DK,DO,EC,EE,ES,FI,FR,GB,GF,GI,GP,GR,HK,HU,ID,IE,IL,IN,IS,IT,JM,JP,KR,LI,LT,LU,LV,MQ,MT,MX,MY,NL,NO,NZ,PH,PL,PT,RE,RO,SE,SG,SI,SK,SM,TH,TR,TW,US,UY,VE,VN,ZA</merchant_country_codes>
         </paypal>
         <payment>

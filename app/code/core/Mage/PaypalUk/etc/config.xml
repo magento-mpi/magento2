@@ -110,20 +110,5 @@
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
             </wpuk>
         </paypal>
-        <payment>
-            <paypaluk_express>
-                <payment_action>authorize</payment_action>
-                <model>paypaluk/express</model>
-                <title>PayPal</title>
-                <allowspecific>0</allowspecific>
-            </paypaluk_express>
-            <paypaluk_direct>
-                <payment_action>authorize</payment_action>
-                <model>paypaluk/direct</model>
-                <title>Debit or Credit Card</title>
-                <cctypes>AE,VI,MC,DI</cctypes>
-                <allowspecific>0</allowspecific>
-            </paypaluk_direct>
-        </payment>
     </default>
 </config>

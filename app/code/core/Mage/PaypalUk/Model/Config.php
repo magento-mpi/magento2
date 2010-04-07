@@ -76,36 +76,9 @@ class Mage_PaypalUk_Model_Config extends Mage_Paypal_Model_Config
             $path = $this->_mapWpukFieldset($fieldName);
         }
         if (!$path) {
-            $path = $this->_mapWppStyleFieldset($fieldName);
+            $path = $this->_mapGenericStyleFieldset($fieldName);
         }
         return $path;
-    }
-
-    /**
-     * Map PayPal Direct (Payflow Edition) config fields
-     *
-     * @param string $fieldName
-     * @return string|null
-     */
-    protected function _mapDirectFieldset($fieldName)
-    {
-        switch ($fieldName)
-        {
-            case 'active':
-            case 'allowspecific':
-            case 'cctypes':
-            case 'centinel':
-            case 'centinel_is_mode_strict':
-            case 'centinel_api_url':
-            case 'fraud_filter':
-            case 'line_items_enabled':
-            case 'order_status':
-            case 'payment_action':
-            case 'sort_order':
-            case 'specificcountry':
-            case 'title':
-                return 'payment/' . self::METHOD_WPP_PE_DIRECT . "/{$fieldName}";
-        }
     }
 
     /**
@@ -164,35 +137,10 @@ class Mage_PaypalUk_Model_Config extends Mage_Paypal_Model_Config
             case 'user':
             case 'vendor':
             case 'pwd':
+                return "paypal/wpuk/{$fieldName}";
             case 'debug_flag':
             case 'sandbox_flag':
-                return "paypal/wpuk/{$fieldName}";
-        }
-    }
-
-    /**
-     * Map PayPal Express config fields
-     *
-     * @param string $fieldName
-     * @return string|null
-     */
-    protected function _mapExpressFieldset($fieldName)
-    {
-        switch ($fieldName)
-        {
-            case 'active':
-            case 'allowspecific':
-            case 'fraud_filter':
-            case 'invoice_email_copy':
-            case 'line_items_enabled':
-            case 'order_status':
-            case 'payment_action':
-            case 'solution_type':
-            case 'sort_order':
-            case 'specificcountry':
-            case 'title':
-            case 'visible_on_cart':
-                return 'payment/' . self::METHOD_WPP_PE_EXPRESS . "/{$fieldName}";
+                return "paypal/wpp/{$fieldName}";
         }
     }
 }

@@ -230,6 +230,16 @@ class Mage_Paypal_Model_Config
     }
 
     /**
+     * Return merchant country codes supported by PayPal
+     *
+     * @return array
+     */
+    public function getSupportedMerchantCountryCodes()
+    {
+        return explode(',', Mage::getStoreConfig('paypal/merchant_country_codes'));
+    }
+
+    /**
      * Get url for dispatching customer to express checkout start
      * @param string $token
      * @return string
@@ -658,7 +668,7 @@ class Mage_Paypal_Model_Config
                 $path = $this->_mapWppFieldset($fieldName);
             }
             if (!$path) {
-                $path = $this->_mapWppStyleFieldset($fieldName);
+                $path = $this->_mapGenericStyleFieldset($fieldName);
             }
             return $path;
         }
@@ -675,38 +685,19 @@ class Mage_Paypal_Model_Config
         switch ($fieldName)
         {
             case 'business_account':
+            case 'allowspecific':
+            case 'specificcountry':
+            case 'line_items_enabled':
+            case 'line_items_summary':
+                return "paypal/general/{$fieldName}";
             case 'debug_flag':
             case 'sandbox_flag':
                 return "paypal/wps/{$fieldName}";
             case 'active':
             case 'title':
             case 'payment_action':
-            case 'types':
-            case 'order_status':
-            case 'transaction_type':
             case 'sort_order':
-            case 'allowspecific':
-            case 'specificcountry':
-            case 'line_items_enabled':
-            case 'line_items_summary':
                 return 'payment/' . self::METHOD_WPS . "/{$fieldName}";
-            default:
-                return $this->_mapGenericStyleFieldset($fieldName);
-        }
-    }
-
-    /**
-     * Map PayPal Website Payments Pro common style config fields
-     *
-     * @param string $fieldName
-     * @return string|null
-     */
-    protected function _mapWppStyleFieldset($fieldName)
-    {
-        switch ($fieldName)
-        {
-            case 'button_flavor':
-                return "paypal/style/{$fieldName}";
             default:
                 return $this->_mapGenericStyleFieldset($fieldName);
         }
@@ -738,11 +729,13 @@ class Mage_Paypal_Model_Config
     protected function _mapGenericStyleFieldset($fieldName)
     {
         switch ($fieldName) {
+            case 'logo':
             case 'page_style':
             case 'paypal_hdrimg':
             case 'paypal_hdrbackcolor':
             case 'paypal_hdrbordercolor':
             case 'paypal_payflowcolor':
+            case 'button_flavor':
                 return "paypal/style/{$fieldName}";
         }
     }
@@ -757,10 +750,11 @@ class Mage_Paypal_Model_Config
     {
         switch ($fieldName)
         {
+            case 'business_account':
+                return "paypal/general/{$fieldName}";
             case 'api_password':
             case 'api_signature':
             case 'api_username':
-            case 'business_account':
             case 'debug_flag':
             case 'paypal_url':
             case 'proxy_host':
@@ -781,17 +775,19 @@ class Mage_Paypal_Model_Config
     {
         switch ($fieldName)
         {
-            case 'active':
             case 'allowspecific':
-            case 'fraud_filter':
+            case 'specificcountry':
             case 'line_items_enabled':
-            case 'order_status':
+                return "paypal/general/{$fieldName}";
+            case 'active':
+            case 'fraud_filter':
             case 'payment_action':
             case 'solution_type':
             case 'sort_order':
-            case 'specificcountry':
             case 'title':
             case 'visible_on_cart':
+            case 'sandbox_flag':
+            case 'debug_flag':
                 return 'payment/' . self::METHOD_WPP_EXPRESS . "/{$fieldName}";
         }
     }
@@ -806,18 +802,18 @@ class Mage_Paypal_Model_Config
     {
         switch ($fieldName)
         {
-            case 'active':
             case 'allowspecific':
+            case 'specificcountry':
+            case 'line_items_enabled':
+                return "paypal/general/{$fieldName}";
+            case 'active':
             case 'cctypes':
             case 'centinel':
             case 'centinel_is_mode_strict':
             case 'centinel_api_url':
             case 'fraud_filter':
-            case 'line_items_enabled':
-            case 'order_status':
             case 'payment_action':
             case 'sort_order':
-            case 'specificcountry':
             case 'title':
                 return 'payment/' . self::METHOD_WPP_DIRECT . "/{$fieldName}";
         }

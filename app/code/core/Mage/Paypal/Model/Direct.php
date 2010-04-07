@@ -125,6 +125,29 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     }
 
     /**
+     * Custom getter for payment configuration
+     *
+     * @param string $field
+     * @param int $storeId
+     * @return mixed
+     */
+    public function getConfigData($field, $storeId = null)
+    {
+         if (null === $storeId) {
+            $storeId = $this->getStore();
+        }
+        switch ($field)
+        {
+            case 'allowspecific':
+            case 'specificcountry':
+            case 'line_items_enabled':
+                return Mage::getStoreConfig("paypal/general/{$field}", $storeId);
+            default:
+                return parent::getConfigData($field, $storeId);
+        }
+    }
+
+    /**
      * Authorize payment
      *
      * @param Mage_Sales_Model_Order_Payment $payment
@@ -268,7 +291,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     {
         return sprintf('%02d%02d', $month, $year);
     }
-    
+
     /**
      * Import direct payment results to payment
      *

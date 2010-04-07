@@ -77,8 +77,12 @@ class Mage_Paypal_Block_System_Config_Fieldset_Global
         } else {
             $checkbox->setValue('1');
         }
+        if ($checkbox->getInherit()) {
+            $checkbox->setDisabled(true);
+        }
 
         $hidden = new Varien_Data_Form_Element_Hidden(array(
+            'html_id' => $checkbox->getHtmlId() . '_blank',
             'name' => $checkbox->getName(),
             'value' => '0'
         ));
@@ -103,9 +107,8 @@ class Mage_Paypal_Block_System_Config_Fieldset_Global
             'class' => 'checkbox config-inherit',
             'onclick' => 'toggleValueElements(this, $(\''.$checkboxId.'\').up())'
         ));
-        if ($checkbox->getInherit() == 1) {
+        if ($checkbox->getInherit()) {
             $inheritCheckbox->setChecked(true);
-            $checkbox->setDisabled(true);
         }
 
         $inheritCheckbox->setForm($checkbox->getForm());
