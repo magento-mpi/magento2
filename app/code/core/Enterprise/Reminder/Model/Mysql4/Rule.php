@@ -315,6 +315,7 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
      */
     public function saveMatchedCustomers($rule, $salesRule, $websiteId, $threshold=null)
     {
+        $rule->setConditions(null);
         $rule->afterLoad();
         $select = $rule->getConditions()->getConditionsSql(null, $websiteId);
 
@@ -323,8 +324,7 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
         }
 
         if ($threshold) {
-            $select->where('c.emails_failed IS NULL');
-            $select->orWhere('c.emails_failed < ? ', $threshold);
+            $select->where('c.emails_failed IS NULL OR c.emails_failed < ? ', $threshold);
         }
 
         $i = 0;
@@ -368,6 +368,7 @@ class Enterprise_Reminder_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_
 
         } catch (Exception $e) {
             $adapter->rollBack();
+            throw $e;
         }
 
         return $this;

@@ -27,7 +27,7 @@
 /**
  * Reminder adminhtml promo rules notice block
  */
-class Enterprise_Reminder_Block_Adminhtml_Promo_Notice extends Mage_Adminhtml_Block_Abstract
+class Enterprise_Reminder_Block_Adminhtml_Promo_Notice extends Enterprise_Enterprise_Block_Adminhtml_Template
 {
     /**
      * Preparing block layout
@@ -41,7 +41,9 @@ class Enterprise_Reminder_Block_Adminhtml_Promo_Notice extends Mage_Adminhtml_Bl
             if ($count = $resource->getAssignedRulesCount($salesRule->getId())) {
                 $confirm = Mage::helper('enterprise_reminder')->__('This rule is assigned to %s automated reminder rule(s). Deleting this rule will automatically unassign it.', $count);
                 $block = $this->getLayout()->getBlock('promo_quote_edit');
-                $block->updateButton('delete', 'onclick', 'deleteConfirm(\'' . $confirm . '\', \'' . $block->getDeleteUrl() . '\')');
+                if ($block instanceof Mage_Adminhtml_Block_Promo_Quote_Edit) {
+                    $block->updateButton('delete', 'onclick', 'deleteConfirm(\'' . $confirm . '\', \'' . $block->getDeleteUrl() . '\')');
+                }
             }
         }
         return $this;

@@ -36,7 +36,7 @@ CREATE TABLE `{$this->getTable('enterprise_reminder/rule')}` (
     `conditions_serialized` mediumtext NOT NULL,
     `condition_sql` mediumtext,
     `is_active` tinyint(1) unsigned NOT NULL default '0',
-    `salesrule_id` INT(10) UNSIGNED NOT NULL,
+    `salesrule_id` int(10) unsigned default NULL,
     `schedule` varchar(255) NOT NULL DEFAULT '',
     `default_label` varchar(255) NOT NULL default '',
     `default_description` text NOT NULL,
@@ -54,36 +54,37 @@ CREATE TABLE `{$this->getTable('enterprise_reminder/website')}` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `{$this->getTable('enterprise_reminder/template')}` (
-  `rule_id` int(10) unsigned NOT NULL,
-  `store_id` smallint(5) NOT NULL,
-  `template_id` int(10) unsigned DEFAULT NULL,
-  `label` varchar(255) NOT NULL default '',
-  `description` text NOT NULL,
-  PRIMARY KEY (`rule_id`,`store_id`),
-  KEY `IDX_EE_REMINDER_TEMPLATE_RULE` (`rule_id`),
-  KEY `IDX_EE_REMINDER_TEMPLATE` (`template_id`)
+    `rule_id` int(10) unsigned NOT NULL,
+    `store_id` smallint(5) NOT NULL,
+    `template_id` int(10) unsigned DEFAULT NULL,
+    `label` varchar(255) NOT NULL default '',
+    `description` text NOT NULL,
+    PRIMARY KEY (`rule_id`,`store_id`),
+    KEY `IDX_EE_REMINDER_TEMPLATE_RULE` (`rule_id`),
+    KEY `IDX_EE_REMINDER_TEMPLATE` (`template_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `{$this->getTable('enterprise_reminder/coupon')}` (
-  `rule_id` int(10) unsigned NOT NULL,
-  `coupon_id` int(10) unsigned DEFAULT NULL,
-  `customer_id` int(10) unsigned NOT NULL,
-  `associated_at` datetime NOT NULL,
-  `is_active` tinyint(1) unsigned NOT NULL default '1',
-  PRIMARY KEY (`rule_id`,`customer_id`),
-  KEY `IDX_EE_REMINDER_RULE_COUPON` (`rule_id`)
+    `rule_id` int(10) unsigned NOT NULL,
+    `coupon_id` int(10) unsigned DEFAULT NULL,
+    `customer_id` int(10) unsigned NOT NULL,
+    `associated_at` datetime NOT NULL,
+    `emails_failed` smallint(5) unsigned NOT NULL default '0',
+    `is_active` tinyint(1) unsigned NOT NULL default '1',
+    PRIMARY KEY (`rule_id`,`customer_id`),
+    KEY `IDX_EE_REMINDER_RULE_COUPON` (`rule_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ");
 
 $installer->run("
 CREATE TABLE `{$this->getTable('enterprise_reminder/log')}` (
-  `log_id` int(10) unsigned NOT NULL auto_increment,
-  `rule_id` int(10) unsigned NOT NULL,
-  `customer_id` int(10) unsigned NOT NULL,
-  `sent_at` datetime NOT NULL,
-  PRIMARY KEY (`log_id`),
-  KEY `IDX_EE_REMINDER_LOG_RULE` (`rule_id`),
-  KEY `IDX_EE_REMINDER_LOG_CUSTOMER` (`customer_id`)
+    `log_id` int(10) unsigned NOT NULL auto_increment,
+    `rule_id` int(10) unsigned NOT NULL,
+    `customer_id` int(10) unsigned NOT NULL,
+    `sent_at` datetime NOT NULL,
+    PRIMARY KEY (`log_id`),
+    KEY `IDX_EE_REMINDER_LOG_RULE` (`rule_id`),
+    KEY `IDX_EE_REMINDER_LOG_CUSTOMER` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ");
 
@@ -100,7 +101,8 @@ $installer->getConnection()->addConstraint(
     $this->getTable('enterprise_reminder/rule'),
     'salesrule_id',
     $this->getTable('salesrule'),
-    'rule_id'
+    'rule_id',
+    'SET NULL'
 );
 
 $installer->getConnection()->addConstraint(
