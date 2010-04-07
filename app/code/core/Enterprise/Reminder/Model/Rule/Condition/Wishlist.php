@@ -80,7 +80,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     {
         $this->setOperatorOption(array(
             '==' => Mage::helper('rule')->__('for'),
-            '>'  => Mage::helper('rule')->__('greater than'),
+            '>'  => Mage::helper('rule')->__('for greater than'),
             '>=' => Mage::helper('rule')->__('for or greater than')
         ));
         return $this;
