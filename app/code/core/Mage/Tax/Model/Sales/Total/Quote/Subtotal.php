@@ -127,6 +127,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
             }
             $this->_addSubtotalAmount($address, $item);
         }
+        $address->setRoundingDeltas($this->_roundingDeltas);
         return $this;
     }
 
@@ -401,8 +402,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
         $item->setTaxPercent($rate);
         if ($this->_config->priceIncludesTax($this->_store)) {
             if ($this->_areTaxRequestsSimilar) {
-                $rowTax         = $this->_deltaRound($calc->calcTaxAmount($subtotal, $rate, true, false), $rate);
-                $baseRowTax     = $this->_deltaRound($calc->calcTaxAmount($baseSubtotal, $rate, true, false), $rate, 'base');
+                $rowTax         = $this->_deltaRound($calc->calcTaxAmount($subtotal, $rate, true, false), $rate, true);
+                $baseRowTax     = $this->_deltaRound($calc->calcTaxAmount($baseSubtotal, $rate, true, false), $rate, true, 'base');
                 $taxPrice       = $price;
                 $baseTaxPrice   = $basePrice;
                 $taxSubtotal    = $subtotal;
@@ -428,8 +429,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
                 $price          = $calc->round($subtotal/$qty);
                 $basePrice      = $calc->round($baseSubtotal/$qty);
 
-                $rowTax         = $this->_deltaRound($calc->calcTaxAmount($subtotal, $rate, false, false), $rate);
-                $baseRowTax     = $this->_deltaRound($calc->calcTaxAmount($baseSubtotal, $rate, false, false), $rate, 'base');
+                $rowTax         = $this->_deltaRound($calc->calcTaxAmount($subtotal, $rate, false, false), $rate, true);
+                $baseRowTax     = $this->_deltaRound($calc->calcTaxAmount($baseSubtotal, $rate, false, false), $rate, true, 'base');
                 $taxSubtotal    = $subtotal + $rowTax;
                 $baseTaxSubtotal= $baseSubtotal + $baseRowTax;
                 $taxPrice       = $calc->round($taxSubtotal/$qty);
@@ -444,8 +445,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
                 $isPriceInclTax = false;
             }
         } else {
-            $rowTax         = $this->_deltaRound($calc->calcTaxAmount($subtotal, $rate, false, false), $rate);
-            $baseRowTax     = $this->_deltaRound($calc->calcTaxAmount($baseSubtotal, $rate, false, false), $rate, 'base');
+            $rowTax         = $this->_deltaRound($calc->calcTaxAmount($subtotal, $rate, false, false), $rate, true);
+            $baseRowTax     = $this->_deltaRound($calc->calcTaxAmount($baseSubtotal, $rate, false, false), $rate, true, 'base');
             $taxSubtotal    = $subtotal + $rowTax;
             $baseTaxSubtotal= $baseSubtotal + $baseRowTax;
             $taxPrice       = $calc->round($taxSubtotal/$qty);
@@ -492,13 +493,15 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      *
      * @param float $price
      * @param string $rate
+     * @param bool $direction
      * @param string $type
      * @return float
      */
-    protected function _deltaRound($price, $rate, $type='regular')
+    protected function _deltaRound($price, $rate, $direction, $type='regular')
     {
         if ($price) {
             $rate   = (string) $rate;
+            $type   = $type.$direction;
             $delta  = isset($this->_roundingDeltas[$type][$rate]) ? $this->_roundingDeltas[$type][$rate] : 0;
             $price  += $delta;
             $this->_roundingDeltas[$type][$rate] = $price - $this->_calculator->round($price);
