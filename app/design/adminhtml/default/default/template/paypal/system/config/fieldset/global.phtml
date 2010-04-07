@@ -124,6 +124,73 @@
     </tbody>
 </table>
 <p class="pg-options"><a href="#">Print</a>&nbsp;|&nbsp;<a href="#">Email</a> this table</p>
+
 <script type="text/javascript">
-    decorateTable('paypal_checkout');
+decorateTable('paypal_checkout');
+
+Event.observe(window, 'load', function() {
+    var pConfig = new PaypalConfig;
+    Element.observe('paypal_general_merchant_country', 'change', pConfig.trackPayflowEnabled.bind(pConfig));
+    Element.observe('paypal_general_use_payflow', 'change', pConfig.trackPayflowEnabled.bind(pConfig));
+    pConfig.trackPayflowEnabled();
+});
+
+PaypalConfig = Class.create();
+PaypalConfig.prototype = {
+    initialize: function(){},
+
+    trackPayflowEnabled: function()
+    {
+        var usePayflow = $('paypal_general_merchant_country') != undefined
+            && $('paypal_general_merchant_country').value == 'GB'
+            && $('paypal_general_use_payflow') != undefined
+            && $('paypal_general_use_payflow').value == '1';
+        var payflowRows = [
+            'row_paypal_pro_heading_payflow',
+            'row_paypal_pro_partner',
+            'row_paypal_pro_user',
+            'row_paypal_pro_vendor',
+            'row_paypal_pro_pwd'
+        ];
+        var notPayflowRows = [
+            'row_paypal_general_heading_api',
+            'row_paypal_general_api_username',
+            'row_paypal_general_api_password',
+            'row_paypal_general_api_signature',
+            'row_paypal_general_use_proxy'
+        ];
+        console.log(usePayflow);
+        if (usePayflow) {
+            payflowRows.each(function(e) {
+                this.enableRow(e);
+            }.bind(this));
+            notPayflowRows.each(function(e) {
+                this.disableRow(e);
+            }.bind(this));
+        } else {
+            payflowRows.each(function(e) {
+                this.disableRow(e);
+            }.bind(this));
+            notPayflowRows.each(function(e) {
+                this.enableRow(e);
+            }.bind(this));
+        }
+    },
+
+    enableRow: function(rowId)
+    {
+        $(rowId).select('input','select').each(function(e) {
+            e.disabled = false;
+        });
+        $(rowId).show();
+    },
+
+    disableRow: function(rowId)
+    {
+        $(rowId).select('input','select').each(function(e) {
+            e.disabled = true;
+        });
+        $(rowId).hide();
+    }
+}
 </script>
