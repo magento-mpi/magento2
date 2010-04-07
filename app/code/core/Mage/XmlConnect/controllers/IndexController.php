@@ -62,74 +62,11 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
         $this->loadLayout(false);
         $this->renderLayout();
     }
-    
+
     public function optionsAction()
     {
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>
-            <options>
-                <option code="option_code1" type="text" label="Text Option" is_qty_editable="0" price="$5.00"/>
-                <option code="option_code1" type="text" label="Text Option" is_qty_editable="1" />
-                <option code="option_code2" type="select" label="Select Option" is_required="1" is_qty_editable="0">
-                    <value code="value_1" label="Value Labe1" price="$7.00"/>
-                    <value code="value_2" label="Value Labe2" price="$5.00"/>
-                    <value code="value_3" label="Value Labe3" price="$1.00"/>
-                </option>
-                <option code="option_code3" type="checkbox" label="CheckBox Option" is_qty_editable="0" price="$10.00">
-                    <value code="value_code1" label="Value Labe1l"/>
-                    <value code="value_code2" label="Value Label2"/>
-                    <value code="value_code3" label="Value Label3"/>
-                </option>
-                
-                <option code="option_code4_related" type="select" label="Color" is_qty_editable="0">
-                    <value code="value_red_code" label="Red" price="+$5.00">
-                        <relation to="option_code5_relative">
-                            <value code="small" label="Small"/>
-                            <value code="big" label="Big"/>
-                        </relation>
-                    </value>
-                    <value code="value_green_code" label="Green">
-                        <relation to="option_code5_relative">
-                            <value code="middle" label="Middle"/>
-                            <value code="big" label="Big"/>
-                        </relation>
-                    </value>
-                    <value code="value_black_code" label="Black">
-                        <relation to="option_code5_relative">
-                            <value code="middle" label="Middle"/>
-                            <value code="small" label="Small"/>
-                            <value code="big" label="Big"/>
-                        </relation>
-                    </value>
-                </option>
-                <option code="option_code5_relative" type="select" label="Size" is_qty_editable="0"/>
-
-                <option code="option_code3" type="product" label="Option with qty" is_qty_editable="1" qty="2" price="$10.00"/>
-                <option code="option_code4" type="product" label="Option with qty" is_qty_editable="1" qty="3" price="$1.00"/>
-                <option code="option_code5" type="product" label="Option with qty" is_qty_editable="1" qty="6" price="$12.00"/>
-
-                <option code="option_code7" type="select" label="Select Option" is_qty_editable="0">
-                    <value code="value_code1" label="Value Labe1l" price="+$100.00"/>
-                    <value code="value_code2" label="Value Label2" price="+$50.00"/>
-                    <value code="value_code3" label="Value Label3" price="+$10.00"/>
-                </option>
-                <option code="option_code8" type="select" label="Select Option+qty" is_qty_editable="1">
-                    <value code="value_code1" label="Value Labe1l with qty" price="+$100.00"/>
-                    <value code="value_code2" label="Value Label2 with qty" price="+$50.00"/>
-                    <value code="value_code3" label="Value Label3 with qty" price="+$10.00"/>
-                </option>
-                <option code="option_code9" type="checkbox" label="Checkbox Option" is_qty_editable="1">
-                    <value code="value_code1" label="Value Labe1l with qty" price="+$100.00"/>
-                    <value code="value_code2" label="Value Label2 with qty" price="+$50.00"/>
-                    <value code="value_code3" label="Value Label3 with qty" price="+$10.00"/>
-                </option>
-                <option code="option_code10" type="checkbox" label="Checkbox Option" is_qty_editable="0">
-                    <value code="value_code1" label="Value Labe1l" price="+$100.00"/>
-                    <value code="value_code2" label="Value Label2" price="+$50.00"/>
-                    <value code="value_code3" label="Value Label3" price="+$10.00"/>
-                </option>
-            </options>
-        ';
-        $this->getResponse()->setBody($xml);
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     public function reviewsAction()
@@ -144,4 +81,9 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
         $this->renderLayout();
     }
 
+    public function galleryAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
 }

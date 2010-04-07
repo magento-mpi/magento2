@@ -47,6 +47,15 @@ Default layout, loads most of the pages
         </block>
     </xmlconnect_index_product>
 
+    <xmlconnect_index_options>
+        <block type="xmlconnect/product_options" name="xmlconnect.product.options" output="toHtml"/>
+        <action method="addRenderer"><type>default</type><renderer>xmlconnect/product_options_default</renderer></action>
+        <action method="addRenderer"><type>configurable</type><renderer>xmlconnect/product_options_configurable</renderer></action>
+        <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/product_options_bundle</renderer></action>
+        <action method="addRenderer"><type>grouped</type><renderer>xmlconnect/product_options_grouped</renderer></action>
+        <action method="addRenderer"><type>giftcard</type><renderer>xmlconnect/product_options_giftcard</renderer></action>
+    </xmlconnect_index_options>
+
     <xmlconnect_index_filters>
         <block type="xmlconnect/filters" name="xmlconnect.filters" output="toHtml"/>
     </xmlconnect_index_filters>
@@ -58,5 +67,9 @@ Default layout, loads most of the pages
     <xmlconnect_index_reviews>
         <block type="xmlconnect/review_list" name="xmlconnect.reviews" output="toHtml"/>
     </xmlconnect_index_reviews>
+
+    <xmlconnect_index_gallery>
+        <block type="xmlconnect/product_gallery" name="gallery" output="toHtml"/>
+    </xmlconnect_index_gallery>
 
 </layout>
