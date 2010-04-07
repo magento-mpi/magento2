@@ -30,13 +30,13 @@
  */
 abstract class Mage_Sales_Model_Mysql4_Collection_Abstract extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    protected $_eventPrefix  = '';
-    protected $_eventObject  = '';
+    protected $_eventPrefix = '';
+    protected $_eventObject = '';
 
     /**
      * Check if $attribute is Mage_Eav_Model_Entity_Attribute and convert to string field name
      *
-     * @param mixed $attribute
+     * @param string|Mage_Eav_Model_Entity_Attribute $attribute
      * @return string
      */
     protected function _attributeToField($attribute)
@@ -70,8 +70,8 @@ abstract class Mage_Sales_Model_Mysql4_Collection_Abstract extends Mage_Core_Mod
      * Specify collection select filter by attribute value
      * Backward compatibility with EAV collection
      *
-     * @param string $attribute
-     * @param array|int|string|null $condition
+     * @param string|Mage_Eav_Model_Entity_Attribute $attribute
+     * @param array|integer|string|null $condition
      * @return Mage_Sales_Model_Mysql4_Collection_Abstract
      */
     public function addAttributeToFilter($attribute, $condition = null)

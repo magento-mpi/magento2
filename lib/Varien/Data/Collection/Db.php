@@ -412,9 +412,9 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
             foreach ($fieldName as $f) {
                 $orSql = array();
                 foreach ($condition as $orCondition) {
-                    $orSql[] = "(".$this->_getConditionSql($f[0], $f[1]).")";
+                    $orSql[] = '('.$this->_getConditionSql($f[0], $f[1]).')';
                 }
-                $sql = "(".join(" or ", $orSql).")";
+                $sql = '('. join(' or ', $orSql) .')';
             }
             return $sql;
         }
