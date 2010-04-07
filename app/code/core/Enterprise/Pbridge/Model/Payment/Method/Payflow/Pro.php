@@ -222,5 +222,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Mage_Paygate_M
         $payment->addData((array)$response);
         return $this;
     }
-
+    /**
+     * Disable magento centinel validation for pbridge payment methods
+     */
+    public function getIsCentinelValidationEnabled()
+    {
+        return false;
+    }
 }

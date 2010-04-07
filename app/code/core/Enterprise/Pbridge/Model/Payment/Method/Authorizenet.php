@@ -170,7 +170,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
      *
      * @param Varien_Object $payment
      * @param float $amount
-     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet 
+     * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
      */
     public function authorize(Varien_Object $payment, $amount)
     {
@@ -221,5 +221,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Paygate_
         $response = $this->getPbridgeMethodInstance()->void($payment);
         $payment->addData((array)$response);
         return $this;
+    }
+    public function getIsCentinelValidationEnabled()
+    {
+        return false;
     }
 }

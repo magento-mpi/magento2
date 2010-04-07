@@ -265,4 +265,12 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
         ));
         Mage::getModel($this->_infoType)->importToPayment($api, $payment);
     }
+
+    /**
+     * Disable magento centinel validation for pbridge payment methods
+     */
+    public function getIsCentinelValidationEnabled()
+    {
+        return false;
+    }
 }

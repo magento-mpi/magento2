@@ -221,4 +221,12 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_D
         $this->_pro->void($payment);
         return $this;
     }
+
+    /**
+     * Disable magento centinel validation for pbridge payment methods
+     */
+    public function getIsCentinelValidationEnabled()
+    {
+        return false;
+    }
 }
