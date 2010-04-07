@@ -290,7 +290,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 //            $quoteItem = $quoteItems->getItemById($item['merchant-private-item-data']['quote-item-id']['VALUE']);
 //            $quoteItem->setQty($item['quantity']['VALUE']);
 //        }
-
+        $quote->reserveOrderId();
         $billing = $this->_importGoogleAddress($this->getData('root/buyer-billing-address'));
         $quote->setBillingAddress($billing);
 
