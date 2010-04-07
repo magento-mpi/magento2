@@ -39,31 +39,28 @@
     <thead>
         <tr>
             <th class="pg-empty" rowspan="2">&nbsp;</th>
-            <th><label for="paypal_global_express_active"><?php echo Mage::helper('paypal')->__('Express Checkout')?></label><br><?php echo Mage::helper('adminhtml')->__('[WEBSITE]')?></th>
+            <th><label for="paypal_global_express_active"><?php echo Mage::helper('paypal')->__('Express Checkout')?></label></th>
             <th class="pg-empty" rowspan="2">&nbsp;</th>
-            <th><label for="paypal_global_standard_active"><?php echo Mage::helper('paypal')->__('Standard')?></label><br><?php echo Mage::helper('adminhtml')->__('[WEBSITE]')?></th>
-            <th><label for="paypal_global_pro_active"><?php echo Mage::helper('paypal')->__('Pro')?></label><br><?php echo Mage::helper('adminhtml')->__('[WEBSITE]')?></th>
+            <th><label for="paypal_global_standard_active"><?php echo Mage::helper('paypal')->__('Standard')?></label></th>
+            <th><label for="paypal_global_pro_active"><?php echo Mage::helper('paypal')->__('Pro')?></label></th>
         </tr>
         <tr>
             <th>
                 <?php echo $this->getCheckboxHtml('paypal_global_express_active') ?>
                 <?php if ($this->canUseInherit('paypal_global_express_active')): ?>
-                    <?php echo $this->getInheritCheckboxHtml('paypal_global_express_active') ?>
-                    <?php echo $this->getInheritCheckboxLabelHtml('paypal_global_express_active') ?>
+                    <span><?php echo $this->getInheritCheckboxHtml('paypal_global_express_active') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_express_active') ?></span>
                 <?php endif; ?>
             </th>
             <th>
                 <?php echo $this->getCheckboxHtml('paypal_global_standard_active') ?>
                 <?php if ($this->canUseInherit('paypal_global_standard_active')): ?>
-                    <?php echo $this->getInheritCheckboxHtml('paypal_global_standard_active') ?>
-                    <?php echo $this->getInheritCheckboxLabelHtml('paypal_global_standard_active') ?>
+                    <span><?php echo $this->getInheritCheckboxHtml('paypal_global_standard_active') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_standard_active') ?></span>
                 <?php endif; ?>
             </th>
             <th>
                 <?php echo $this->getCheckboxHtml('paypal_global_pro_active') ?>
                 <?php if ($this->canUseInherit('paypal_global_pro_active')): ?>
-                    <?php echo $this->getInheritCheckboxHtml('paypal_global_pro_active') ?>
-                    <?php echo $this->getInheritCheckboxLabelHtml('paypal_global_pro_active') ?>
+                    <span><?php echo $this->getInheritCheckboxHtml('paypal_global_pro_active') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_pro_active') ?></span>
                 <?php endif; ?>
             </th>
         </tr>

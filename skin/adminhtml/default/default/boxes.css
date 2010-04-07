@@ -840,6 +840,9 @@ ul.tabs a.paypal-section:hover span { background:url(images/paypal_section.png) 
 .paypal-global th { background:#e9eef1; border:1px solid #e4eae8; border-bottom:none; padding:0 0 5px; text-align:center; vertical-align:middle; }
 .paypal-global th label { color:#306375; display:block; font-weight:bold; }
 .paypal-global thead .last th { border-top:none; }
+.paypal-global thead .last th span { display:block; margin:20px 0 0; }
+.paypal-global thead .last th input { margin:0; width:15px; }
+.paypal-global thead .last label { display:inline; }
 .paypal-global td { border-right:1px solid #ededed; padding:5px; vertical-align:middle; }
 .paypal-global tr.last td { border-bottom:1px solid #ededed; text-align:center; }
 .paypal-global tr.last .pg-empty { border-bottom:none; border-right:1px solid #ededed; }
@@ -1228,6 +1231,12 @@ ul.super-product-attributes { padding-left:15px; }
     }
 #page-help-link:link, #page-help-link:visited { text-decoration:none; }
 #page-help-link:hover { color:white; }
+
+/* Magento Connect Package Extensions */
+.table-editable { border:solid 1px #ccc; background:#fafafa; padding:5px; margin-bottom:5px; }
+.table-editable th { border-bottom:solid 1px #ccc; text-align:center; }
+.table-editable th, .table-editable td { padding:1px 3px; vertical-align:middle; }
+.table-editable select { height:19px; }
 
 
 /* CMS
