@@ -480,7 +480,8 @@ abstract class Mage_Eav_Model_Entity_Abstract
             } else {
                 $attribute = Mage::getModel($this->getEntityType()->getAttributeModel());
                 $attribute->setAttributeCode($attributeCode)
-                    ->setBackendType('static')
+                    ->setBackendType(Mage_Eav_Model_Entity_Attribute_Abstract::TYPE_STATIC)
+                    ->setIsGlobal(1)
                     ->setEntityType($this->getEntityType())
                     ->setEntityTypeId($this->getEntityType()->getId());
                 $this->addAttribute($attribute);
