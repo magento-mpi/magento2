@@ -461,10 +461,15 @@ class Mage_Paypal_Model_Config
      *
      * @param string $localeCode Supported locale code
      * @param string $type One of supported logo types
-     * @return string
+     * @return string|bool Logo Image URL or false if logo disabled in configuration
      */
     public function getAdditionalOptionsLogoUrl($localeCode, $type = false)
     {
+        $configType = Mage::getStoreConfig($this->_mapGenericStyleFieldset('logo'), $this->_storeId);
+        if (!$configType) {
+            return false;
+        }
+        $type = $type ? $type : $configType;
         $locale = $this->_getSupportedLocaleCode($localeCode);
         $supportedTypes = array_keys($this->getAdditionalOptionsLogoTypes());
         if (!in_array($type, $supportedTypes)) {

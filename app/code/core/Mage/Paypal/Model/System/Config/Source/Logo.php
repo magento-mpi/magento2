@@ -25,43 +25,14 @@
  */
 
 /**
- * PayPal online logo with additional options
+ * Source model for available logo types
  */
-class Mage_Paypal_Block_Logo extends Mage_Core_Block_Template
+class Mage_Paypal_Model_System_Config_Source_Logo
 {
-    /**
-     * Return URL for Paypal Landing page
-     *
-     * @return string
-     */
-    public function getAboutPaypalPageUrl()
+    public function toOptionArray()
     {
-        return $this->_getConfig()->getPaymentMarkWhatIsPaypalUrl(Mage::app()->getLocale());
-    }
-
-    /**
-     * Getter for paypal config
-     *
-     * @return Mage_Paypal_Model_Config
-     */
-    protected function _getConfig()
-    {
-        return Mage::getSingleton('paypal/config');
-    }
-
-    /**
-     * Disable block output if logo turned off
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        $type = $this->getLogoType(); // assigned in layout etc.
-        $logoUrl = $this->_getConfig()->getAdditionalOptionsLogoUrl(Mage::app()->getLocale()->getLocaleCode(), $type);
-        if (!$logoUrl) {
-            return '';
-        }
-        $this->setLogoImageUrl($logoUrl);
-        return parent::_toHtml();
+        $result = array('' => Mage::helper('paypal')->__('No Logo'));
+        $result += Mage::getModel('paypal/config')->getAdditionalOptionsLogoTypes();
+        return $result;
     }
 }

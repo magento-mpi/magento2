@@ -127,6 +127,7 @@
             </wpp>
             <general>
                 <business_account backend_model="adminhtml/system_config_backend_encrypted"/>
+                <merchant_country>US</merchant_country>
             </general>
             <style>
                 <button_flavor>dynamic</button_flavor>
