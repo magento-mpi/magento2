@@ -231,7 +231,7 @@ dl.accordion dt,
 dl.accordion dt, div.collapseable { margin-top:1px; }
 dl.accordion dt a, div.collapseable a { background:url(images/entry_edit_head_arrow_down.gif) 100% 50% no-repeat; color:#fff; display:block; font-weight:bold; text-decoration:none; }
 div.disabled { background:#c6cbc9 !important; }
-div.disabled a { background-image:url(images/entry_edit_head_arrow_down2.gif); color:#fff !important; }
+div.disabled a { background-image:url(images/entry_edit_head_arrow_down2.gif) !important; color:#fff !important; }
 
 .entry-edit fieldset.collapseable { margin-bottom:10px; }
 
