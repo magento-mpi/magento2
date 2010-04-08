@@ -296,7 +296,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         if (!Mage::isInstalled() || $request->getPost()) {
             return;
         }
-        if (!Mage::getStoreConfigFlag('web/url/redirect_to_base')) {
+        if (!Mage::getStoreConfig('web/url/redirect_to_base')) {
             return;
         }
 
@@ -304,6 +304,11 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
         if (!$baseUrl) {
             return;
+        }
+
+        $redirectCode = 302;
+        if (Mage::getStoreConfig('web/url/redirect_to_base')==301) {
+            $redirectCode = 301;
         }
 
         $uri = @parse_url($baseUrl);
@@ -314,7 +319,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         if ($host && $host != $request->getHttpHost() || $path && strpos($requestUri, $path) === false)
         {
             Mage::app()->getFrontController()->getResponse()
-                ->setRedirect($baseUrl, 301)
+                ->setRedirect($baseUrl, $redirectCode)
                 ->sendResponse();
             exit;
         }
