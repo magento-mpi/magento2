@@ -213,6 +213,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
     {
         if ($quote->getQuoteCurrencyCode() != $quote->getBaseCurrencyCode()) {
             $amount = $amount * $quote->getStoreToQuoteRate();
+            $amount = Mage::app()->getStore()->roundPrice($amount);
         }
         return $amount;
     }
