@@ -101,6 +101,20 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
             Mage::throwException(Mage::helper('eav')->__('The attribute code \'%s\' is reserved by system. Please try another attribute code.', $this->_data['attribute_code']));
         }
 
+        if ($this->getBackendType() == 'decimal') {
+            if (!Zend_Locale_Format::isNumber($this->getDefaultValue(), array('locale' => Mage::app()->getLocale()->getLocaleCode()))) {
+                throw new Exception('Invalid default decimal value.');
+            }
+            try {
+                $filter = new Zend_Filter_LocalizedToNormalized(
+                    array('locale' => Mage::app()->getLocale()->getLocaleCode())
+                );
+                $this->setDefaultValue($filter->filter($this->getDefaultValue()));
+            } catch (Exception $e) {
+                throw new Exception('Invalid default decimal value.');
+            }
+        }
+
         if ($this->getBackendType() == 'datetime') {
             if (!$this->getBackendModel()) {
                 $this->setBackendModel('eav/entity_attribute_backend_datetime');
