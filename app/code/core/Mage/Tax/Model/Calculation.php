@@ -336,20 +336,12 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
      */
     public function compareRequests($first, $second)
     {
-//        var_dump($first->getCountryId() , $second->getCountryId()); echo '<br>';
-//        var_dump($first->getRegionId(), $second->getRegionId());echo '<br>';
         $country = $first->getCountryId() == $second->getCountryId();
         /**
          * "0" support for admin dropdown with --please select--
          */
-        $region  = (int)$first->getRegionId() == (int)$second->getRegionId()
-            || $first->getRegionId() == '*'
-            || $second->getRegionId() == '*'
-            || $first->getRegionId() == '0'
-            || $second->getRegionId() == '0';
-            $postcode= $first->getPostcode() == $second->getPostcode()
-            || $first->getPostcode() == '*'
-            || $second->getPostcode() == '*';
+        $region  = (int)$first->getRegionId() == (int)$second->getRegionId();
+        $postcode= $first->getPostcode() == $second->getPostcode();
         $taxClass= $first->getCustomerClassId() == $second->getCustomerClassId();
 
         if ($country && $region && $postcode && $taxClass) {
