@@ -133,6 +133,19 @@ Event.observe(window, 'load', function() {
     Element.observe('paypal_general_merchant_country', 'change', pConfig.trackPayflowEnabled.bind(pConfig));
     Element.observe('paypal_general_use_payflow', 'change', pConfig.trackPayflowEnabled.bind(pConfig));
     pConfig.trackPayflowEnabled();
+
+    Element.observe('paypal_global_express_active', 'click', pConfig.toggleFieldset.bind(pConfig, 'paypal_express', 'paypal_global_express_active'));
+    Element.observe('paypal_global_standard_active', 'click', pConfig.toggleFieldset.bind(pConfig, 'paypal_standard', 'paypal_global_standard_active'));
+    Element.observe('paypal_global_pro_active', 'click', pConfig.toggleFieldset.bind(pConfig, 'paypal_pro', 'paypal_global_pro_active'));
+    if (!$('paypal_global_express_active').checked) {
+        pConfig.toggleFieldset('paypal_express', 'paypal_global_express_active');
+    }
+    if (!$('paypal_global_standard_active').checked) {
+        pConfig.toggleFieldset('paypal_standard', 'paypal_global_standard_active');
+    }
+    if (!$('paypal_global_pro_active').checked) {
+        pConfig.toggleFieldset('paypal_pro', 'paypal_global_pro_active');
+    }
 });
 
 PaypalConfig = Class.create();
@@ -190,6 +203,25 @@ PaypalConfig.prototype = {
             e.disabled = true;
         });
         $(rowId).hide();
+    },
+
+    toggleFieldset: function(fieldset, checkbox)
+    {
+        var isHidden = !$(checkbox).checked;
+        toggleValueElements(checkbox, fieldset, [], isHidden);
+        isHidden ? $(fieldset).hide() : $(fieldset).show();
+        var heading = $(fieldset).previous('div');
+        var headingLink = heading.down('a');
+        isHidden ? heading.addClassName('disabled') : heading.removeClassName('disabled');
+        if (isHidden) {
+            headingLink.oldHref = headingLink.href;
+            headingLink.oldOnclick = headingLink.onclick;
+            headingLink.onclick = "return false;";
+            headingLink.href = "javascript:void(0)";
+        } else {
+            headingLink.onclick = headingLink.oldOnclick;
+            headingLink.href = headingLink.oldHref;
+        }
     }
 }
 </script>

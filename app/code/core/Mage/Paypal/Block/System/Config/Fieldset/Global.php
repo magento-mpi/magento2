@@ -55,24 +55,14 @@ class Mage_Paypal_Block_System_Config_Fieldset_Global
      * @param string $htmlId Element Html Id
      * @return string
      */
-    public function isGlobalScope()
-    {
-        return $this->getRequest()->getParam('website') || $this->getRequest()->getParam('store');
-    }
-
-    /**
-     * Return child checkbox html with hidden field for correct config values
-     *
-     * @param string $htmlId Element Html Id
-     * @return string
-     */
     public function getCheckboxHtml($htmlId)
     {
         $checkbox = $this->getChild($htmlId);
         if (!$checkbox) {
             return '';
         }
-        if ($checkbox->getValue()) {
+        $configValue = (string)$checkbox->getValue();
+        if ($configValue) {
             $checkbox->setChecked(true);
         } else {
             $checkbox->setValue('1');
@@ -132,8 +122,9 @@ class Mage_Paypal_Block_System_Config_Fieldset_Global
     }
 
     /**
+     * Check whether checkbox has "Use default" option or not
      *
-     *
+     * @param string $checkboxId
      * @return string
      */
     public function canUseInherit($checkboxId)
