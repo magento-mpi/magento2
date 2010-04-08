@@ -117,6 +117,13 @@
                 <template>giftcard/catalog/product/price.phtml</template>
             </action>
         </reference>
+        <reference name="catalog_product_price_template">
+            <action method="addPriceBlockType">
+                <type>giftcard</type>
+                <block>enterprise_giftcard/catalog_product_price</block>
+                <template>giftcard/catalog/product/price.phtml</template>
+            </action>
+        </reference>
     </default>
 
     <wishlist_index_index>
