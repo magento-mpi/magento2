@@ -377,6 +377,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             }
             $creditmemo = $this->_initCreditmemo();
             $creditmemo->addComment($data['comment'], isset($data['is_customer_notified']));
+            $creditmemo->_hasDataChanges = true;
             $creditmemo->save();
             $creditmemo->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
 

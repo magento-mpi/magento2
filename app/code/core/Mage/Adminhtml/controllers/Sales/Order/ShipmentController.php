@@ -382,6 +382,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
             $shipment = $this->_initShipment();
             $shipment->addComment($data['comment'], isset($data['is_customer_notified']));
             $shipment->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
+            $shipment->_hasDataChanges = true;
             $shipment->save();
 
             $this->loadLayout();

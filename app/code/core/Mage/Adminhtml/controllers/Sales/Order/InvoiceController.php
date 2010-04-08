@@ -373,6 +373,7 @@ class Mage_Adminhtml_Sales_Order_InvoiceController extends Mage_Adminhtml_Contro
             $invoice = $this->_initInvoice();
             $invoice->addComment($data['comment'], isset($data['is_customer_notified']));
             $invoice->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
+            $invoice->_hasDataChanges = true;
             $invoice->save();
 
             $this->loadLayout();
