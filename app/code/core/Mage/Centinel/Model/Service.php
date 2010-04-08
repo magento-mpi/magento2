@@ -301,6 +301,18 @@ class Mage_Centinel_Model_Service extends Varien_Object
     }
 
     /**
+     * Reset validation state and drop api object
+     * 
+     * @return Mage_Centinel_Model_Service
+     */
+    public function reset()
+    {
+        $this->_resetValidationState();
+        $this->_api = null;
+        return $this;
+    }
+
+    /**
      * Return URL for authentication
      *
      * @return string
