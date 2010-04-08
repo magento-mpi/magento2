@@ -434,7 +434,8 @@ class Mage_Eav_Model_Config
         }
 
         if ($attribute) {
-            if (in_array($attribute->getAttributeCode(), $entityType->getEntity()->getDefaultAttributes())) {
+            $entity = $entityType->getEntity();
+            if ($entity && in_array($attribute->getAttributeCode(), $entity->getDefaultAttributes())) {
                 $attribute->setBackendType(Mage_Eav_Model_Entity_Attribute_Abstract::TYPE_STATIC)
                     ->setIsGlobal(1);
             }
