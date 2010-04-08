@@ -150,14 +150,21 @@ class Mage_Centinel_Model_Api extends Varien_Object
             'TransactionType' => $this->_getTransactionType(),
         ), $data);
 
-        $this->_debug(array('request' => $request));
+        $debugData = array('request' => $request);
 
-        foreach($request as $key => $val) {
-            $client->add($key, $val);
+        try {
+            foreach($request as $key => $val) {
+                $client->add($key, $val);
+            }
+            $client->sendHttp($this->_getApiEndpointUrl(), $this->_getTimeoutConnect(), $this->_getTimeoutRead());
+        } catch (Exception $e) {
+            $debugData['response'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+            $this->_debug($debugData);
+            throw $e;
         }
-        $client->sendHttp($this->_getApiEndpointUrl(), $this->_getTimeoutConnect(), $this->_getTimeoutRead());
 
-        $this->_debug(array('response' => $client->response));
+        $debugData['response'] = $client->response;
+        $this->_debug($debugData);
 
         return $client;
     }
