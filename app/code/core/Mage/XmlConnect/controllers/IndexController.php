@@ -93,7 +93,7 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
                         <value code="value_code2" label="Value Label2"/>
                         <value code="value_code3" label="Value Label3"/>
                     </option>
-                    <option code="option_code41" type="radio" label="Radio Option With Specific Prices Per Option And Is Required" is_qty_editable="0" is_required="1">
+                    <option code="option_code41" type="select" label="Radio Option With Specific Prices Per Option And Is Required" is_qty_editable="0" is_required="1">
                         <value code="value_code1" label="Value Labe1l" price="+$10.00"/>
                         <value code="value_code2" label="Value Label2" price="-$50.00"/>
                         <value code="value_code3" label="Value Label3" price="+$50.00"/>
@@ -240,7 +240,7 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
                         <value code="value_2" label="Value Labe2" price="$5.00"/>
                         <value code="value_3" label="Value Labe3" price="$1.00"/>
                     </option>
-                    <option code="option_code91" type="radio" label="Radio Option With One Price For Any Options And Is Required" is_qty_editable="0" price="$14.00" is_required="1">
+                    <option code="option_code91" type="select" label="Radio Option With One Price For Any Options And Is Required" is_qty_editable="0" price="$14.00" is_required="1">
                         <value code="value_code1" label="Value Labe1l"/>
                         <value code="value_code2" label="Value Label2"/>
                         <value code="value_code3" label="Value Label3"/>
@@ -257,11 +257,11 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
                     <option code="option_code14" type="select" lable="Select Option" is_qty_editable="0" qty="2">
                         <value code="value_code" label="Value Label" price="$7"/>
                     </option>
-                    <option code="option_code15" type="radio" lable="Radio Option" is_qty_editable="1" qty="2" price="-$10">
+                    <option code="option_code15" type="select" lable="Radio Option" is_qty_editable="1" qty="2" price="-$10">
                         <value code="value_code1" label="Value Labe1l"/>
                         <value code="value_code2" label="Value Label2"/>
                     </option>
-                    <option code="option_code16" type="radio" lable="Radio Option 2" is_qty_editable="1" is_required="1">
+                    <option code="option_code16" type="select" lable="Radio Option 2" is_qty_editable="1" is_required="1">
                         <value code="value_code1" label="Value Labe1l" price="+$3.00"/>
                         <value code="value_code2" label="Value Label2" price="+$8.00"/>
                     </option>
