@@ -35,14 +35,54 @@
 class Mage_XmlConnect_Block_Search extends Mage_XmlConnect_Block_Abstract
 {
 
+
     protected function _toHtml()
     {
-        $xmlModel = new Varien_Simplexml_Element('<search></search>');
-        $xmlModel->addChild('filters');
-        $xmlModel->addChild('orders');
-        $xmlModel->addChild('products');
 
-        return $xmlModel->asXML();
+        /**
+         * Sorting options
+         */
+        $sortOptions = Mage::getModel('catalog/category')->getAvailableSortByOptions();
+        $sortOptions = array_slice($sortOptions, 0, 3);
+        $sortingXml = '<orders>' . $this->_arrayToXml($sortOptions, null, 'item') . '</orders>';
+
+        /**
+         * Products
+         */
+        $engine = Mage::helper('catalogsearch')->getEngine();
+        $collection = $engine->getResultCollection();
+
+        $collection->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            ->addSearchFilter(Mage::helper('catalogsearch')->getQuery()->getQueryText())
+            ->setStore(Mage::app()->getStore());
+
+        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
+        Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($collection);
+
+
+        $this->_addFiltersToProductCollection($collection, $this->getRequest());
+        $this->_addOrdersToProductCollection($collection, $this->getRequest());
+
+        $offset = $this->getRequest()->getParam('offset', 0);
+        if ($offset <= 0) {
+            $page = 1;
+        }
+        else {
+            $page = ceil(($collection->getSize() + $offset) / $collection->getSize());
+        }
+
+        $collection->setPageSize($this->getRequest()->getParam('count', 0))
+            ->setCurPage($page);
+
+        $productsXml = $this->productCollectionToXml($collection, 'products', false, false, false, null, null);
+
+        $searchXmlObject    = new Varien_Simplexml_Element('<search></search>');
+        $xmlObject          = new Varien_Simplexml_Element($sortingXml);
+        $searchXmlObject->appendChild($xmlObject);
+        $xmlObject          = new Varien_Simplexml_Element($productsXml);
+        $searchXmlObject->appendChild($xmlObject);
+
+        return $searchXmlObject->asXML();
     }
 
 }

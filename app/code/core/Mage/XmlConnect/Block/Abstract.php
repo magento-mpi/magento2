@@ -238,15 +238,15 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
      */
     public function productCollectionToXml(Varien_Data_Collection_Db $collection,
         $rootName = 'product', $addOpenTag = true, $addCdata=false, $safeAdditionalEntities = false,
-        $additionalAtrributes = ''
+        $additionalAtrributes = '', $itemsName = 'items'
     ) {
-        $xml = $this->_getCollectionXmlStart($collection, $rootName, $addOpenTag);
+        $xml = $this->_getCollectionXmlStart($collection, $rootName, $addOpenTag, $itemsName);
 
         foreach ($collection as $item) {
             $xml .= $this->productToXml($item);
         }
 
-        $xml .= $this->_getCollectionXmlEnd($collection, $rootName, $safeAdditionalEntities, $additionalAtrributes);
+        $xml .= $this->_getCollectionXmlEnd($collection, $rootName, $safeAdditionalEntities, $additionalAtrributes, $itemsName);
         return $xml;
     }
 
@@ -260,10 +260,12 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
      * @return Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection
      */
     protected function _addFiltersToProductCollection(Varien_Data_Collection_Db $collection,
-        Zend_Controller_Request_Abstract $reguest, $category, $prefix = 'filter_'
+        Zend_Controller_Request_Abstract $reguest, $category = null, $prefix = 'filter_'
     ) {
         $layer = Mage::getSingleton('catalog/layer');
-        $layer->setData('current_category', $category);
+        if ($category && $category->getId()) {
+        	$layer->setData('current_category', $category);
+        }
         $attributes = array();
         foreach ($layer->getFilterableAttributes() as $attributeModel ) {
             $attributes[$attributeModel->getAttributeCode()] = $attributeModel;
