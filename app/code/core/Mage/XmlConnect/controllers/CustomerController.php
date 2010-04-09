@@ -49,7 +49,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     {
         if ($this->_getSession()->isLoggedIn()) {
             $this->_message($this->__('You are already logged in.'), self::MESSAGE_STATUS_ERROR);
-            return $this;
+            return;
         }
 
         if ($this->getRequest()->getPost()) {
@@ -78,6 +78,29 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             }
         } else {
             $this->_message($this->__('Login and password are required.'), self::MESSAGE_STATUS_ERROR);
+        }
+    }
+
+    /**
+     * Customer logout
+     *
+     */
+    public function logoutAction()
+    {
+        try {
+            if ($this->_getSession()->isLoggedIn()) {
+                $this->_getSession()->logout();
+                $this->_message($this->__('Logout complete.'), self::MESSAGE_STATUS_SUCCESS);
+            }
+            else {
+                $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            }
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_message($message, self::MESSAGE_STATUS_ERROR);
+        }
+        catch (Exception $e) {
+            $this->_message($this->__('Customer logout problem.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
