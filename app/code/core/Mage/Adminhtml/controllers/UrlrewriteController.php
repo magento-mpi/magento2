@@ -160,7 +160,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                             Mage::throwException('Chosen product does not associate to the Chosetn store');
                         }
                         if($rewrite->getId() && $rewrite->getId() != $model->getId()) {
-                            $model->setIdPath($catalogUrlModel->generateUniqueIdPath());
+                            $model->setIdPath($idPath);
                             $model->setTargetPath($rewrite->getRequestPath());
                             $found = true;
                         }
