@@ -40,6 +40,7 @@ class Enterprise_Reward_Helper_Data extends Enterprise_Enterprise_Helper_Core_Ab
 
     protected $_expiryConfig;
     protected $_hasRates = true;
+    protected $_ratesArray = null;
 
     /**
      * Setter for hasRates flag
@@ -283,5 +284,54 @@ class Enterprise_Reward_Helper_Data extends Enterprise_Enterprise_Helper_Core_Ab
             $amountFormatted = Mage::app()->getLocale()->currency($currencyCode)->toCurrency((float)$amount);
         }
         return sprintf($format, $points, $amountFormatted);
+    }
+
+    /**
+     * Loading history collection data
+     * and Setting up rate to currency array
+     *
+     * @return array 
+     */
+    protected function _loadRatesArray()
+    {
+        $ratesArray = array();
+        $collection = Mage::getModel('enterprise_reward/reward_rate')->getCollection()
+            ->addFieldToFilter('direction', Enterprise_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY);
+        foreach ($collection as $rate) {
+            $ratesArray[$rate->getCustomerGroupId()][$rate->getWebsiteId()] = $rate;
+        }
+        return $ratesArray;
+    }
+
+    /**
+     * Fetch rate for given website_id and group_id from index_array
+     * @param int $points
+     * @param int $websiteId
+     * @param int $customerGroupId
+     * return string|null
+     */
+    public function getRateFromRatesArray($points, $websiteId, $customerGroupId)
+    {
+        if (!$this->_ratesArray) {
+            $this->_ratesArray = $this->_loadRatesArray();
+        }
+        $rate = null;
+        if (isset($this->_ratesArray[$customerGroupId])) {
+            if (isset($this->_ratesArray[$customerGroupId][$websiteId])) {
+                $rate = $this->_ratesArray[$customerGroupId][$websiteId];
+            } else if (isset($this->_ratesArray[$customerGroupId][0])){
+                $rate = $this->_ratesArray[$customerGroupId][0];
+            }
+        } else if (isset($this->_ratesArray[0])) {
+            if (isset($this->_ratesArray[0][$websiteId])) {
+                $rate = isset($this->_ratesArray[0][$websiteId]);
+            } else if (isset($this->_ratesArray[0][0])) {
+                $rate = isset($this->_ratesArray[0][0]);
+            }
+        }
+        if ($rate !== null) {
+            return $rate->calculateToCurrency($points);
+        }
+        return null;
     }
 }

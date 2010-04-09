@@ -579,7 +579,7 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
         if ($delta == 0) {
             return $this;
         }
-
+        $history = $this->getHistory();
         $store = Mage::app()->getStore($this->getStore());
         $mail  = Mage::getModel('core/email_template');
         /* @var $mail Mage_Core_Model_Email_Template */
@@ -589,7 +589,17 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
             'customer' => $this->getCustomer(),
             'unsubscription_url' => Mage::helper('enterprise_reward/customer')
                 ->getUnsubscribeUrl('update', $store->getId()),
-            'points_balance' => $this->getPointsBalance()
+            'points_balance' => $this->getPointsBalance(),
+            'reward_amount_was' => Mage::helper('enterprise_reward')->formatAmount(
+                $this->getCurrencyAmount() - $history->getCurrencyDelta()
+                , true, $store->getStoreId()),
+            'reward_amount_now' => Mage::helper('enterprise_reward')->formatAmount(
+                $this->getCurrencyAmount()
+                , true, $store->getStoreId()), 
+            'reward_pts_was' => ($this->getPointsBalance() - $delta),
+            'reward_pts_change' => $delta,
+            'update_message' => $this->getHistory()->getMessage(),
+            'update_comment' => $history->getComment()
         );
         $mail->sendTransactional(
             $store->getConfig(self::XML_PATH_BALANCE_UPDATE_TEMPLATE),
@@ -612,19 +622,24 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
      * @return Enterprise_Reward_Model_Reward
      * @see Enterprise_Reward_Model_Mysql4_Reward_History_Collection::loadExpiredSoonPoints()
      */
-    public function sendBalanceWarningNotification($item)
+    public function sendBalanceWarningNotification($item, $websiteId)
     {
         $mail  = Mage::getModel('core/email_template');
         /* @var $mail Mage_Core_Model_Email_Template */
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $item->getStoreId()));
         $store = Mage::app()->getStore($item->getStoreId());
+        $amount = Mage::helper('enterprise_reward')
+            ->getRateFromRatesArray($item->getPointsBalanceTotal(),$websiteId, $item->getCustomerGroupId());
+        $action = Mage::getSingleton('enterprise_reward/reward')->getActionInstance($item->getAction());
         $templateVars = array(
             'store' => $store,
             'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),
             'unsubscription_url' => Mage::helper('enterprise_reward/customer')->getUnsubscribeUrl('warning'),
             'remaining_days' => $store->getConfig('enterprise_reward/notification/expiry_day_before'),
             'points_balance' => $item->getPointsBalanceTotal(),
-            'points_expiring' => $item->getTotalExpired()
+            'points_expiring' => $item->getTotalExpired(),
+            'reward_amount_now' => Mage::helper('enterprise_reward')->formatAmount($amount, true, $item->getStoreId()),
+            'update_message' => ($action !== null ? $action->getHistoryMessage($item->getAdditionalData()) : '')
         );
         $mail->sendTransactional(
             $store->getConfig(self::XML_PATH_BALANCE_WARNING_TEMPLATE),

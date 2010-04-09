@@ -45,10 +45,10 @@ class Enterprise_Reward_Model_Observer
         if (!Mage::helper('enterprise_reward')->isEnabled()) {
             return;
         }
+
         $request = $observer->getEvent()->getRequest();
         $customer = $observer->getEvent()->getCustomer();
         $data = $request->getPost('reward');
-
         if ($data) {
             if (!isset($data['store_id'])) {
                 if ($customer->getStoreId() == 0) {
@@ -640,6 +640,7 @@ class Enterprise_Reward_Model_Observer
         if (!Mage::helper('enterprise_reward')->isEnabled()) {
             return $this;
         }
+
         foreach (Mage::app()->getWebsites() as $website) {
             if (!Mage::helper('enterprise_reward')->isEnabledOnFront($website->getId())) {
                 continue;
@@ -658,7 +659,7 @@ class Enterprise_Reward_Model_Observer
                 ->load();
 
             foreach ($collection as $item) {
-                Mage::getSingleton('enterprise_reward/reward')->sendBalanceWarningNotification($item);
+                Mage::getSingleton('enterprise_reward/reward')->sendBalanceWarningNotification($item, $website->getId());
             }
 
             // mark records as sent

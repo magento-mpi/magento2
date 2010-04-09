@@ -158,6 +158,11 @@ class Enterprise_Reward_Model_Mysql4_Reward_History_Collection extends Enterpris
                 'ce.entity_id=reward_table.customer_id',
                 array('customer_email' => 'email')
              )
+            ->joinInner(
+                array('cg' => $customer->getAttribute('group_id')->getBackend()->getTable()),
+                'cg.entity_id=reward_table.customer_id',
+                array('customer_group_id' => 'group_id')
+             )
             ->joinLeft(
                 array('clt' => $lastname->getBackend()->getTable()),
                 $connection->quoteInto('clt.entity_id=reward_table.customer_id AND clt.attribute_id = ?', $lastname->getAttributeId()),
