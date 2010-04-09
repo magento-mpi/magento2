@@ -36,7 +36,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging extends Enterprise_Enterprise_B
         $this->_blockGroup = 'enterprise_staging';
         $this->_controller = 'adminhtml_staging';
         $this->_headerText = Mage::helper('enterprise_staging')->__('Staging Websites');
-        $this->_addButtonLabel = Mage::helper('enterprise_giftcardaccount')->__('Add Staging Website');
+        $this->_addButtonLabel = Mage::helper('enterprise_staging')->__('Add Staging Website');
         parent::__construct();
     }
 
