@@ -34,13 +34,16 @@
 class Mage_SalesRule_Model_Mysql4_Report_Updatedat_Collection extends Mage_Sales_Model_Mysql4_Report_Order_Updatedat_Collection
 {
     protected $_selectedColumns = array(
-        'store_id'          => 'e.store_id',
-        'order_status'      => 'e.status',
-        'coupon_code'       => 'e.coupon_code',
-        'coupon_uses'       => 'COUNT(e.`entity_id`)',
-        'subtotal_amount'   => 'SUM(e.`base_subtotal` * e.`base_to_global_rate`)',
-        'discount_amount'   => 'SUM(e.`base_discount_amount` * e.`base_to_global_rate`)',
-        'total_amount'      => 'SUM((e.`base_subtotal` - e.`base_discount_amount`) * e.`base_to_global_rate`)'
+        'store_id'                => 'e.store_id',
+        'order_status'            => 'e.status',
+        'coupon_code'             => 'e.coupon_code',
+        'coupon_uses'             => 'COUNT(e.`entity_id`)',
+        'subtotal_amount'         => 'SUM(e.`base_subtotal` * e.`base_to_global_rate`)',
+        'discount_amount'         => 'SUM((e.`base_discount_amount` - IFNULL(e.`base_discount_canceled`, 0)) * e.`base_to_global_rate`)',
+        'total_amount'            => 'SUM((e.`base_subtotal` - IFNULL(e.`base_discount_amount` - IFNULL(e.`base_discount_canceled`, 0), 0)) * e.`base_to_global_rate`)',
+        'subtotal_amount_actual'  => 'SUM((e.`base_subtotal` - IFNULL(e.`base_subtotal_canceled`, 0)) * e.`base_to_global_rate`)',
+        'discount_amount_actual'  => 'SUM((e.`base_discount_invoiced` - IFNULL(e.`base_discount_refunded`, 0)) * e.`base_to_global_rate`)',
+        'total_amount_actual'     => 'SUM((e.`base_subtotal` - IFNULL(e.`base_subtotal_canceled`, 0) - IFNULL(e.`base_discount_invoiced` - IFNULL(e.`base_discount_refunded`, 0), 0)) * e.`base_to_global_rate`)',
     );
 
     /**
@@ -55,26 +58,34 @@ class Mage_SalesRule_Model_Mysql4_Report_Updatedat_Collection extends Mage_Sales
         }
 
         $columns = $this->_getSelectedColumns();
+        if ($this->isTotals() || $this->isSubTotals()) {
+            unset($columns['coupon_code']);
+        }
 
-        $mainTable = $this->getResource()->getMainTable();
-
-        $select = $this->getSelect()
-            ->from(array('e' => $mainTable), $columns);
+        $this->getSelect()
+            ->from(array('e' => $this->getResource()->getMainTable()), $columns)
+            ->where('e.coupon_code <> ?', '');
 
         $this->_applyStoresFilter();
         $this->_applyOrderStatusFilter();
 
         if ($this->_to !== null) {
-            $select->where('DATE(e.updated_at) <= DATE(?)', $this->_to);
+            $this->getSelect()->where('DATE(e.updated_at) <= DATE(?)', $this->_to);
         }
-
         if ($this->_from !== null) {
-            $select->where('DATE(e.updated_at) >= DATE(?)', $this->_from);
+            $this->getSelect()->where('DATE(e.updated_at) >= DATE(?)', $this->_from);
         }
 
-        if (!$this->isTotals()) {
-            $select->group($this->_periodFormat);
+        if ($this->isSubTotals()) {
+            $this->getSelect()->group($this->_periodFormat);
+        } else if (!$this->isTotals()) {
+            $this->getSelect()->group(array(
+                $this->_periodFormat,
+                'coupon_code'
+            ));
         }
+
+        $this->getSelect()->having('coupon_uses > 0');
 
         $this->_inited = true;
         return $this;

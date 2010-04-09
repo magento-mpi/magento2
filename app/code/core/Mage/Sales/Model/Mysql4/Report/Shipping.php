@@ -75,12 +75,13 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Sales_Model_Mysql4_Re
 
             $columns = array(
                 // convert dates from UTC to current admin timezone
-                'period'                => 'DATE(CONVERT_TZ(created_at, "+00:00", "' . $this->_getStoreTimezoneUtcOffset() . '"))',
+                'period'                => "DATE(CONVERT_TZ(created_at, '+00:00', '" . $this->_getStoreTimezoneUtcOffset() . "'))",
                 'store_id'              => 'store_id',
                 'order_status'          => 'status',
                 'shipping_description'  => 'shipping_description',
                 'orders_count'          => 'COUNT(entity_id)',
-                'total_shipping'        => 'SUM(`base_shipping_amount` * `base_to_global_rate`)'
+                'total_shipping'        => 'SUM((`base_shipping_amount` - IFNULL(`base_shipping_canceled`, 0)) * `base_to_global_rate`)',
+                'total_shipping_actual' => 'SUM((`base_shipping_invoiced` - IFNULL(`base_shipping_refunded`, 0)) * `base_to_global_rate`)',
             );
 
             $select = $this->_getWriteAdapter()->select();
@@ -114,7 +115,8 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Sales_Model_Mysql4_Re
                 'order_status'          => 'order_status',
                 'shipping_description'  => 'shipping_description',
                 'orders_count'          => 'SUM(orders_count)',
-                'total_shipping'        => 'SUM(total_shipping)'
+                'total_shipping'        => 'SUM(total_shipping)',
+                'total_shipping_actual' => 'SUM(total_shipping_actual)',
             );
 
             $select
@@ -151,7 +153,7 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Sales_Model_Mysql4_Re
     protected function _aggregateByShippingCreatedAt($from, $to)
     {
         $table = $this->getTable('sales/shipping_aggregated');
-        $sourceTable = $this->getTable('sales/shipment');
+        $sourceTable = $this->getTable('sales/invoice');
         $orderTable = $this->getTable('sales/order');
         $this->_getWriteAdapter()->beginTransaction();
 
@@ -169,12 +171,13 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Sales_Model_Mysql4_Re
 
             $columns = array(
                 // convert dates from UTC to current admin timezone
-                'period'                => 'DATE(CONVERT_TZ(source_table.created_at, "+00:00", "' . $this->_getStoreTimezoneUtcOffset() . '"))',
+                'period'                => "DATE(CONVERT_TZ(source_table.created_at, '+00:00', '" . $this->_getStoreTimezoneUtcOffset() . "'))",
                 'store_id'              => 'order_table.store_id',
                 'order_status'          => 'order_table.status',
                 'shipping_description'  => 'order_table.shipping_description',
                 'orders_count'          => 'COUNT(order_table.entity_id)',
-                'total_shipping'        => 'SUM(order_table.`base_shipping_amount` * order_table.`base_to_global_rate`)'
+                'total_shipping'        => 'SUM((order_table.`base_shipping_amount` - IFNULL(order_table.`base_shipping_canceled`, 0)) * order_table.`base_to_global_rate`)',
+                'total_shipping_actual' => 'SUM((order_table.`base_shipping_invoiced` - IFNULL(order_table.`base_shipping_refunded`, 0)) * order_table.`base_to_global_rate`)',
             );
 
             $select = $this->_getWriteAdapter()->select();
@@ -185,10 +188,11 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Sales_Model_Mysql4_Re
                         'source_table.order_id = order_table.entity_id AND order_table.state <> ?',
                         Mage_Sales_Model_Order::STATE_CANCELED),
                     array()
-                );
+                )
+                ->useStraightJoin();
 
             $filterSubSelect = $this->_getWriteAdapter()->select();
-            $filterSubSelect->from(array('filter_source_table' => $sourceTable), 'MAX(filter_source_table.entity_id)')
+            $filterSubSelect->from(array('filter_source_table' => $sourceTable), 'MIN(filter_source_table.entity_id)')
                 ->where('filter_source_table.order_id = source_table.order_id');
 
             if ($subSelect !== null) {
@@ -215,12 +219,13 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Sales_Model_Mysql4_Re
                 'order_status'          => 'order_status',
                 'shipping_description'  => 'shipping_description',
                 'orders_count'          => 'SUM(orders_count)',
-                'total_shipping'        => 'SUM(total_shipping)'
+                'total_shipping'        => 'SUM(total_shipping)',
+                'total_shipping_actual' => 'SUM(total_shipping_actual)',
             );
 
             $select
                 ->from($table, $columns)
-                ->where("store_id <> 0");
+                ->where('store_id <> 0');
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));

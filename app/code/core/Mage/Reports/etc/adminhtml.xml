@@ -35,23 +35,23 @@
                     <title>Sales</title>
                     <children>
                         <sales translate="title" module="reports">
-                            <title>Sales</title>
+                            <title>Orders</title>
                             <action>adminhtml/report_sales/sales</action>
                         </sales>
                         <tax translate="title" module="reports">
                             <title>Tax</title>
                             <action>adminhtml/report_sales/tax</action>
                         </tax>
+                        <invoiced translate="title" module="reports">
+                            <title>Invoiced</title>
+                            <action>adminhtml/report_sales/invoiced</action>
+                        </invoiced>
                         <shipping translate="title" module="reports">
                             <title>Shipping</title>
                             <action>adminhtml/report_sales/shipping</action>
                         </shipping>
-                        <invoiced translate="title" module="reports">
-                            <title>Total Invoiced</title>
-                            <action>adminhtml/report_sales/invoiced</action>
-                        </invoiced>
                         <refunded translate="title" module="reports">
-                            <title>Total Refunded</title>
+                            <title>Refunds</title>
                             <action>adminhtml/report_sales/refunded</action>
                         </refunded>
                          <coupons translate="title" module="reports">

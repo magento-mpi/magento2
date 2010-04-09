@@ -725,6 +725,10 @@
                         <key>updated_at_order</key>
                         <value>Order Updated Date</value>
                     </action>
+                    <action method="setFieldVisibility">
+                        <field>show_actual_columns</field>
+                        <visibility>1</visibility>
+                    </action>
                 </block>
             </block>
         </reference>
@@ -763,7 +767,7 @@
                     </action>
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_shipment</key>
-                        <value>Shipment Created Date</value>
+                        <value>First Invoice Created Date</value>
                     </action>
                 </block>
             </block>

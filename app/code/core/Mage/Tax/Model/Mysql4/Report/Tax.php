@@ -41,6 +41,10 @@ class Mage_Tax_Model_Mysql4_Report_Tax extends Mage_Reports_Model_Mysql4_Report_
      */
     public function aggregate($from = null, $to = null)
     {
+        // convert input dates to UTC to be comparable with DATETIME fields in DB
+        $from = $this->_dateToUtc($from);
+        $to = $this->_dateToUtc($to);
+
         $this->_checkDates($from, $to);
         $writeAdapter = $this->_getWriteAdapter();
         $writeAdapter->beginTransaction();
@@ -58,7 +62,7 @@ class Mage_Tax_Model_Mysql4_Report_Tax extends Mage_Reports_Model_Mysql4_Report_
             $this->_clearTableByDateRange($this->getMainTable(), $from, $to, $subSelect);
 
             $columns = array(
-                'period'                => 'DATE(created_at)',
+                'period'                => "DATE(CONVERT_TZ(e.created_at, '+00:00', '" . $this->_getStoreTimezoneUtcOffset() . "'))",
                 'store_id'              => 'store_id',
                 'code'                  => 'tax.code',
                 'order_status'          => 'e.status',
@@ -68,14 +72,20 @@ class Mage_Tax_Model_Mysql4_Report_Tax extends Mage_Reports_Model_Mysql4_Report_
             );
 
             $select = $writeAdapter->select();
-            $select->from(array('e' => $this->getTable('sales/order')), $columns)
-                ->joinInner(array('tax' => $this->getTable('tax/sales_order_tax')), 'e.entity_id = tax.order_id', array());
+            $select->from(array('tax' => $this->getTable('tax/sales_order_tax')), $columns)
+                ->joinInner(array('e' => $this->getTable('sales/order')), 'e.entity_id = tax.order_id', array())
+                ->useStraightJoin();
 
             if ($subSelect !== null) {
-                $select->where("DATE(e.created_at) IN(?)", new Zend_Db_Expr($subSelect));
+                $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'e.created_at'));
             }
 
-            $select->group(new Zend_Db_Expr('1,2,3'));
+            $select->group(array(
+                'period',
+                'store_id',
+                'code',
+                'order_status'
+            ));
 
             $writeAdapter->query($select->insertFromSelect($this->getMainTable(), array_keys($columns)));
 
@@ -93,10 +103,10 @@ class Mage_Tax_Model_Mysql4_Report_Tax extends Mage_Reports_Model_Mysql4_Report_
 
             $select
                 ->from($this->getMainTable(), $columns)
-                ->where("store_id <> 0");
+                ->where('store_id <> 0');
 
             if ($subSelect !== null) {
-                $select->where("DATE(period) IN(?)", new Zend_Db_Expr($subSelect));
+                $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
             $select->group(array(

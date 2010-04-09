@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml
         $data = array(
             array(
                 'id'            => 'sales',
-                'report'        => Mage::helper('sales')->__('Sales'),
+                'report'        => Mage::helper('sales')->__('Orders'),
                 'comment'       => Mage::helper('sales')->__('Total Ordered Report'),
                 'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE)
             ),

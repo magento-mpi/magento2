@@ -69,88 +69,71 @@ class Mage_Sales_Model_Mysql4_Report_Order extends Mage_Sales_Model_Mysql4_Repor
 
             $columns = array(
                 // convert dates from UTC to current admin timezone
-                'period'                         => 'DATE(CONVERT_TZ(source_table.created_at, "+00:00", "' . $this->_getStoreTimezoneUtcOffset() . '"))',
-                'store_id'                       => 'source_table.store_id',
-                'order_status'                   => 'source_table.status',
-                'orders_count'                   => 'COUNT(source_table.entity_id)',
-                'total_qty_ordered'              => 'SUM(source_table.total_qty_ordered)',
-                'base_profit_amount'             => 'SUM(IFNULL(source_table.base_subtotal_invoiced, 0) * source_table.base_to_global_rate) + SUM(IFNULL(source_table.base_discount_refunded, 0) * source_table.base_to_global_rate) - SUM(IFNULL(source_table.base_subtotal_refunded, 0) * source_table.base_to_global_rate) - SUM(IFNULL(source_table.base_discount_invoiced, 0) * source_table.base_to_global_rate) - SUM(IFNULL(source_table.base_total_invoiced_cost, 0) * source_table.base_to_global_rate)',
-                'base_subtotal_amount'           => 'SUM(source_table.base_subtotal * source_table.base_to_global_rate)',
-                'base_subtotal_invoiced_amount'  => 'SUM(IFNULL(source_table.base_subtotal_invoiced, 0) * source_table.base_to_global_rate)',
-                'base_subtotal_canceled_amount'  => 'SUM(IFNULL(source_table.base_subtotal_canceled, 0) * source_table.base_to_global_rate)',
-                'base_subtotal_refunded_amount'  => 'SUM(IFNULL(source_table.base_subtotal_refunded, 0) * source_table.base_to_global_rate)',
-                'base_tax_amount'                => 'SUM(source_table.base_tax_amount * source_table.base_to_global_rate)',
-                'base_tax_invoiced_amount'       => 'SUM(IFNULL(source_table.base_tax_invoiced, 0) * source_table.base_to_global_rate)',
-                'base_tax_canceled_amount'       => 'SUM(IFNULL(source_table.base_tax_canceled, 0) * source_table.base_to_global_rate)',
-                'base_tax_refunded_amount'       => 'SUM(IFNULL(source_table.base_tax_refunded, 0) * source_table.base_to_global_rate)',
-                'base_shipping_amount'           => 'SUM(source_table.base_shipping_amount * source_table.base_to_global_rate)',
-                'base_shipping_invoiced_amount'  => 'SUM(IFNULL(source_table.base_shipping_invoiced, 0) * source_table.base_to_global_rate)',
-                'base_shipping_canceled_amount'  => 'SUM(IFNULL(source_table.base_shipping_canceled, 0) * source_table.base_to_global_rate)',
-                'base_shipping_refunded_amount'  => 'SUM(IFNULL(source_table.base_shipping_refunded, 0) * source_table.base_to_global_rate)',
-                'base_shipping_tax_amount'       => 'SUM(IFNULL(source_table.base_shipping_tax_amount, 0) * source_table.base_to_global_rate)',
-                'base_shipping_tax_refunded_amount' => 'SUM(IFNULL(source_table.base_shipping_tax_refunded, 0) * source_table.base_to_global_rate)',
-                'base_shipping_discount_amount'  => 'SUM(IFNULL(source_table.base_shipping_discount_amount, 0) * source_table.base_to_global_rate)',
-                'base_discount_amount'           => 'SUM(source_table.base_discount_amount * source_table.base_to_global_rate)',
-                'base_discount_invoiced_amount'  => 'SUM(IFNULL(source_table.base_discount_invoiced, 0) * source_table.base_to_global_rate)',
-                'base_discount_canceled_amount'  => 'SUM(IFNULL(source_table.base_discount_canceled, 0) * source_table.base_to_global_rate)',
-                'base_discount_refunded_amount'  => 'SUM(IFNULL(source_table.base_discount_refunded, 0) * source_table.base_to_global_rate)',
-                'base_grand_total_amount'        => 'SUM(source_table.base_grand_total * source_table.base_to_global_rate)',
-                'base_invoiced_amount'           => 'SUM(source_table.base_total_paid * source_table.base_to_global_rate)',
-                'base_refunded_amount'           => 'SUM(source_table.base_total_refunded * source_table.base_to_global_rate)',
-                'base_canceled_amount'           => 'SUM(IFNULL(source_table.subtotal_canceled, 0) * source_table.base_to_global_rate)'
+                'period'                         => "DATE(CONVERT_TZ(o.created_at, '+00:00', '" . $this->_getStoreTimezoneUtcOffset() . "'))",
+                'store_id'                       => 'o.store_id',
+                'order_status'                   => 'o.status',
+                'orders_count'                   => 'COUNT(o.entity_id)',
+                'total_qty_ordered'              => 'SUM(oi.total_qty_ordered)',
+                'total_qty_invoiced'             => 'SUM(oi.total_qty_invoiced)',
+                'total_income_amount'            => 'SUM((o.base_grand_total - IFNULL(o.base_total_canceled, 0)) * o.base_to_global_rate)',
+                'total_revenue_amount'           => 'SUM((o.base_total_paid - IFNULL(o.base_total_refunded, 0)) * o.base_to_global_rate)',
+                'total_profit_amount'            => 'SUM((o.base_total_paid - IFNULL(o.base_total_refunded, 0) - IFNULL(o.base_tax_invoiced, 0) - IFNULL(o.base_shipping_invoiced, 0) - IFNULL(o.base_total_invoiced_cost, 0)) * o.base_to_global_rate)',
+                'total_invoiced_amount'          => 'SUM(o.base_total_invoiced * o.base_to_global_rate)',
+                'total_canceled_amount'          => 'SUM(o.base_total_canceled * o.base_to_global_rate)',
+                'total_paid_amount'              => 'SUM(o.base_total_paid * o.base_to_global_rate)',
+                'total_refunded_amount'          => 'SUM(o.base_total_refunded * o.base_to_global_rate)',
+                'total_tax_amount'               => 'SUM((o.base_tax_amount - IFNULL(o.base_tax_canceled, 0)) * o.base_to_global_rate)',
+                'total_tax_amount_actual'        => 'SUM((o.base_tax_invoiced - IFNULL(o.base_tax_refunded, 0)) * o.base_to_global_rate)',
+                'total_shipping_amount'          => 'SUM((o.base_shipping_amount - IFNULL(o.base_shipping_canceled, 0)) * o.base_to_global_rate)',
+                'total_shipping_amount_actual'   => 'SUM((o.base_shipping_invoiced - IFNULL(o.base_shipping_refunded, 0)) * o.base_to_global_rate)',
+                'total_discount_amount'          => 'SUM((o.base_discount_amount - IFNULL(o.base_discount_canceled, 0)) * o.base_to_global_rate)',
+                'total_discount_amount_actual'   => 'SUM((o.base_discount_invoiced - IFNULL(o.base_discount_refunded, 0)) * o.base_to_global_rate)',
             );
 
             $select = $this->_getWriteAdapter()->select();
+            $selectOrderItem = $this->_getWriteAdapter()->select();
 
-            $select->from(array('source_table' => $this->getTable('sales/order')), $columns)
-                ->where('source_table.state NOT IN (?)', array(
+            $cols = array(
+                'order_id'           => 'order_id',
+                'total_qty_ordered'  => 'SUM(qty_ordered - IFNULL(qty_canceled, 0))',
+                'total_qty_invoiced' => 'SUM(qty_invoiced)',
+            );
+            $selectOrderItem->from($this->getTable('sales/order_item'), $cols)
+                ->group('order_id');
+            if ($subSelect !== null) {
+                //$selectOrderItem->where($this->_makeConditionFromDateRangeSelect($subSelect, 'created_at'));
+            }
+
+            $select->from(array('o' => $this->getTable('sales/order')), $columns)
+                ->join(array('oi' => $selectOrderItem), 'oi.order_id = o.entity_id', array())
+                ->where('o.state NOT IN (?)', array(
                     Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
                     Mage_Sales_Model_Order::STATE_NEW
                 ));
 
             if ($subSelect !== null) {
-                $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'source_table.created_at'));
+                $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'o.created_at'));
             }
 
-            $select->group(new Zend_Db_Expr('1,2,3'));
+            $select->group(array(
+                'period',
+                'store_id',
+                'order_status',
+            ));
 
             $this->_getWriteAdapter()->query($select->insertFromSelect($this->getMainTable(), array_keys($columns)));
 
-            $columns = array(
-                'period'                         => 'period',
-                'store_id'                       => new Zend_Db_Expr('0'),
-                'order_status'                   => 'order_status',
-                'orders_count'                   => 'SUM(orders_count)',
-                'total_qty_ordered'              => 'SUM(total_qty_ordered)',
-                'base_profit_amount'             => 'SUM(base_profit_amount)',
-                'base_subtotal_amount'           => 'SUM(base_subtotal_amount)',
-                'base_subtotal_invoiced_amount'  => 'SUM(base_subtotal_invoiced_amount)',
-                'base_subtotal_canceled_amount'  => 'SUM(base_subtotal_canceled_amount)',
-                'base_subtotal_refunded_amount'  => 'SUM(base_subtotal_refunded_amount)',
-                'base_tax_amount'                => 'SUM(base_tax_amount)',
-                'base_tax_invoiced_amount'       => 'SUM(base_tax_invoiced_amount)',
-                'base_tax_canceled_amount'       => 'SUM(base_tax_canceled_amount)',
-                'base_tax_refunded_amount'       => 'SUM(base_tax_refunded_amount)',
-                'base_shipping_amount'           => 'SUM(base_shipping_amount)',
-                'base_shipping_invoiced_amount'  => 'SUM(base_shipping_invoiced_amount)',
-                'base_shipping_canceled_amount'  => 'SUM(base_shipping_canceled_amount)',
-                'base_shipping_refunded_amount'  => 'SUM(base_shipping_refunded_amount)',
-                'base_shipping_tax_amount'       => 'SUM(base_shipping_tax_amount)',
-                'base_shipping_tax_refunded_amount' => 'SUM(base_shipping_tax_refunded_amount)',
-                'base_shipping_discount_amount'  => 'SUM(base_shipping_discount_amount)',
-                'base_discount_amount'           => 'SUM(base_discount_amount)',
-                'base_discount_invoiced_amount'  => 'SUM(base_discount_invoiced_amount)',
-                'base_discount_canceled_amount'  => 'SUM(base_discount_canceled_amount)',
-                'base_discount_refunded_amount'  => 'SUM(base_discount_refunded_amount)',
-                'base_grand_total_amount'        => 'SUM(base_grand_total_amount)',
-                'base_invoiced_amount'           => 'SUM(base_invoiced_amount)',
-                'base_refunded_amount'           => 'SUM(base_refunded_amount)',
-                'base_canceled_amount'           => 'SUM(base_canceled_amount)'
-            );
+            // setup all columns to select SUM() except period, store_id and order_status
+            foreach ($columns as $k => $v) {
+                $columns[$k] = 'SUM(' . $k . ')';
+            }
+            $columns['period']         = 'period';
+            $columns['store_id']       = new Zend_Db_Expr('0');
+            $columns['order_status']   = 'order_status';
 
             $select->reset();
             $select->from($this->getMainTable(), $columns)
-                ->where("store_id <> 0");
+                ->where('store_id <> 0');
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));

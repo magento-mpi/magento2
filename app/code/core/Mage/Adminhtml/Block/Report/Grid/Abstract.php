@@ -72,6 +72,37 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
         return $this->_aggregatedColumns;
     }
 
+    /**
+     * Add column to grid
+     *
+     * @param   string $columnId
+     * @param   array $column
+     * @return  Mage_Adminhtml_Block_Report_Grid_Abstract
+     */
+    public function addColumn($columnId, $column)
+    {
+        if (is_array($column) && array_key_exists('visibility_filter', $column)) {
+            $filterData = $this->getFilterData();
+            $visibilityFilter = $column['visibility_filter'];
+            if (!is_array($visibilityFilter)) {
+                $visibilityFilter = array($visibilityFilter);
+            }
+            foreach ($visibilityFilter as $k => $v) {
+                if (is_int($k)) {
+                    $filterFieldId = $v;
+                    $filterFieldValue = true;
+                } else {
+                    $filterFieldId = $k;
+                    $filterFieldValue = $v;
+                }
+                if (!$filterData->hasData($filterFieldId) || $filterData->getData($filterFieldId) != $filterFieldValue) {
+                    return $this;  // don't add column
+                }
+            }
+        }
+        return parent::addColumn($columnId, $column);
+    }
+
     protected function _prepareCollection()
     {
         $filterData = $this->getFilterData();

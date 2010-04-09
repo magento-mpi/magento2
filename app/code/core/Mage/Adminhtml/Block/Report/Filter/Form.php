@@ -45,6 +45,15 @@ class Mage_Adminhtml_Block_Report_Filter_Form extends Mage_Adminhtml_Block_Widge
     protected $_fieldVisibility = array();
 
     /**
+     * Constructor
+     */
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->setFieldVisibility('show_actual_columns', false);
+    }
+
+    /**
      * Set field visibility
      *
      * @param string Field id
@@ -170,6 +179,16 @@ class Mage_Adminhtml_Block_Report_Filter_Form extends Mage_Adminhtml_Block_Widge
             ),
             'label'     => Mage::helper('reports')->__('Empty Rows'),
             'title'     => Mage::helper('reports')->__('Empty Rows')
+        ));
+
+        $fieldset->addField('show_actual_columns', 'select', array(
+            'name'      => 'show_actual_columns',
+            'options'   => array(
+                '1' => 'Yes',
+                '0' => 'No'
+            ),
+            'label'     => Mage::helper('reports')->__('Actual Columns'),
+            'title'     => Mage::helper('reports')->__('Actual Columns')
         ));
 
         // apply field visibility

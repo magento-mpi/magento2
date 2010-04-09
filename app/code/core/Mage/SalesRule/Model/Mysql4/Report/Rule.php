@@ -46,6 +46,10 @@ class Mage_SalesRule_Model_Mysql4_Report_Rule extends Mage_Reports_Model_Mysql4_
      */
     public function aggregate($from = null, $to = null)
     {
+        // convert input dates to UTC to be comparable with DATETIME fields in DB
+        $from = $this->_dateToUtc($from);
+        $to = $this->_dateToUtc($to);
+
         $this->_checkDates($from, $to);
         $this->_aggregateByOrderCreatedAt($from, $to);
         $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE);
@@ -75,14 +79,18 @@ class Mage_SalesRule_Model_Mysql4_Report_Rule extends Mage_Reports_Model_Mysql4_
             $this->_clearTableByDateRange($table, $from, $to, $subSelect);
 
             $columns = array(
-                'period'            => 'DATE(created_at)',
-                'store_id'          => 'store_id',
-                'order_status'      => 'status',
-                'coupon_code'       => 'coupon_code',
-                'coupon_uses'       => 'COUNT(`entity_id`)',
-                'subtotal_amount'   => 'SUM(`base_subtotal` * `base_to_global_rate`)',
-                'discount_amount'   => 'SUM(`base_discount_amount` * `base_to_global_rate`)',
-                'total_amount'      => 'SUM((`base_subtotal` - `base_discount_amount`) * `base_to_global_rate`)'
+                // convert dates from UTC to current admin timezone
+                'period'                  => "DATE(CONVERT_TZ(created_at, '+00:00', '" . $this->_getStoreTimezoneUtcOffset() . "'))",
+                'store_id'                => 'store_id',
+                'order_status'            => 'status',
+                'coupon_code'             => 'coupon_code',
+                'coupon_uses'             => 'COUNT(`entity_id`)',
+                'subtotal_amount'         => 'SUM(`base_subtotal` * `base_to_global_rate`)',
+                'discount_amount'         => 'SUM((`base_discount_amount` - IFNULL(`base_discount_canceled`, 0)) * `base_to_global_rate`)',
+                'total_amount'            => 'SUM((`base_subtotal` - IFNULL(`base_discount_amount` - IFNULL(`base_discount_canceled`, 0), 0)) * `base_to_global_rate`)',
+                'subtotal_amount_actual'  => 'SUM((`base_subtotal` - IFNULL(`base_subtotal_canceled`, 0)) * `base_to_global_rate`)',
+                'discount_amount_actual'  => 'SUM((`base_discount_invoiced` - IFNULL(`base_discount_refunded`, 0)) * `base_to_global_rate`)',
+                'total_amount_actual'     => 'SUM((`base_subtotal` - IFNULL(`base_subtotal_canceled`, 0) - IFNULL(`base_discount_invoiced` - IFNULL(`base_discount_refunded`, 0), 0)) * `base_to_global_rate`)',
             );
 
             $select = $this->_getWriteAdapter()->select();
@@ -90,13 +98,13 @@ class Mage_SalesRule_Model_Mysql4_Report_Rule extends Mage_Reports_Model_Mysql4_
                  ->where('coupon_code <> ?', '');
 
             if ($subSelect !== null) {
-                $select->where('DATE(created_at) IN(?)', new Zend_Db_Expr($subSelect));
+                $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'created_at'));
             }
 
             $select->group(array(
-                'DATE(created_at)',
+                'period',
                 'store_id',
-                'status',
+                'order_status',
                 'coupon_code'
             ));
 
@@ -107,22 +115,25 @@ class Mage_SalesRule_Model_Mysql4_Report_Rule extends Mage_Reports_Model_Mysql4_
             $select->reset();
 
             $columns = array(
-                'period'            => 'period',
-                'store_id'          => new Zend_Db_Expr('0'),
-                'order_status'      => 'order_status',
-                'coupon_code'       => 'coupon_code',
-                'coupon_uses'       => 'SUM(`coupon_uses`)',
-                'subtotal_amount'   => 'SUM(`subtotal_amount`)',
-                'discount_amount'   => 'SUM(`discount_amount`)',
-                'total_amount'      => 'SUM(`total_amount`)'
+                'period'                  => 'period',
+                'store_id'                => new Zend_Db_Expr('0'),
+                'order_status'            => 'order_status',
+                'coupon_code'             => 'coupon_code',
+                'coupon_uses'             => 'SUM(`coupon_uses`)',
+                'subtotal_amount'         => 'SUM(`subtotal_amount`)',
+                'discount_amount'         => 'SUM(`discount_amount`)',
+                'total_amount'            => 'SUM(`total_amount`)',
+                'subtotal_amount_actual'  => 'SUM(`subtotal_amount_actual`)',
+                'discount_amount_actual'  => 'SUM(`discount_amount_actual`)',
+                'total_amount_actual'     => 'SUM(`total_amount_actual`)',
             );
 
             $select
                 ->from($table, $columns)
-                ->where("store_id <> 0");
+                ->where('store_id <> 0');
 
             if ($subSelect !== null) {
-                $select->where("DATE(period) IN(?)", new Zend_Db_Expr($subSelect));
+                $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
             $select->group(array(

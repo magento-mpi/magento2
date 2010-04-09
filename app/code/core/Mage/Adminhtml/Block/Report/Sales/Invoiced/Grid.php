@@ -91,7 +91,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('invoiced_captured', array(
-            'header'        => Mage::helper('reports')->__('Total Invoiced Captured'),
+            'header'        => Mage::helper('reports')->__('Total Invoiced Paid'),
             'type'          => 'currency',
             'currency_code' => $currency_code,
             'index'         => 'invoiced_captured',
@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('invoiced_not_captured', array(
-            'header'        => Mage::helper('reports')->__('Total Invoiced not Captured'),
+            'header'        => Mage::helper('reports')->__('Total Invoiced not Paid'),
             'type'          => 'currency',
             'currency_code' => $currency_code,
             'index'         => 'invoiced_not_captured',

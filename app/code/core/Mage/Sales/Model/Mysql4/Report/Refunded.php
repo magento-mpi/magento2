@@ -76,7 +76,7 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Sales_Model_Mysql4_Re
 
             $columns = array(
                 // convert dates from UTC to current admin timezone
-                'period'            => 'DATE(CONVERT_TZ(created_at, "+00:00", "' . $this->_getStoreTimezoneUtcOffset() . '"))',
+                'period'            => "DATE(CONVERT_TZ(created_at, '+00:00', '" . $this->_getStoreTimezoneUtcOffset() . "'))",
                 'store_id'          => 'store_id',
                 'order_status'      => 'status',
                 'orders_count'      => 'COUNT(`total_refunded`)',
@@ -118,7 +118,7 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Sales_Model_Mysql4_Re
 
             $select
                 ->from($table, $columns)
-                ->where("store_id <> 0");
+                ->where('store_id <> 0');
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
@@ -167,7 +167,7 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Sales_Model_Mysql4_Re
 
             $columns = array(
                 // convert dates from UTC to current admin timezone
-                'period'            => 'DATE(CONVERT_TZ(source_table.created_at, "+00:00", "' . $this->_getStoreTimezoneUtcOffset() . '"))',
+                'period'            => "DATE(CONVERT_TZ(source_table.created_at, '+00:00', '" . $this->_getStoreTimezoneUtcOffset() . "'))",
                 'store_id'          => 'order_table.store_id',
                 'order_status'      => 'order_table.status',
                 'orders_count'      => 'COUNT(order_table.`entity_id`)',
@@ -221,7 +221,7 @@ class Mage_Sales_Model_Mysql4_Report_Refunded extends Mage_Sales_Model_Mysql4_Re
 
             $select
                 ->from($table, $columns)
-                ->where("store_id <> 0");
+                ->where('store_id <> 0');
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
