@@ -63,7 +63,7 @@ class Mage_XmlConnect_Block_Product_Options_Grouped extends Mage_XmlConnect_Bloc
             if (!$_item->isSaleable()) {
                 continue;
             }
-            $optionNode = $xmlModel->addChild('option');
+            $optionNode = $optionsNode->addChild('option');
 
             $optionNode->addAttribute('code', 'super_group[' . $_item->getId() . ']');
             $optionNode->addAttribute('type', 'product');
