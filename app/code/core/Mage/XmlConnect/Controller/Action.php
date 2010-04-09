@@ -29,7 +29,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
 {
     const MESSAGE_STATUS_ERROR      = 'error';
     const MESSAGE_STATUS_WARNING    = 'warning';
-    const MESSAGE_STATUS_SUCCESS    = 'succes';
+    const MESSAGE_STATUS_SUCCESS    = 'success';
 
     const MESSAGE_TYPE_ALERT        = 'alert';
     const MESSAGE_TYPE_PROMPT       = 'prompt';
