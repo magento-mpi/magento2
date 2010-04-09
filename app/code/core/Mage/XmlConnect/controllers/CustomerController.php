@@ -25,7 +25,7 @@
  */
 
 /**
- * XmlConnect index controller
+ * XmlConnect customer controller
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */

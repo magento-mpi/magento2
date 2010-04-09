@@ -25,28 +25,23 @@
  */
 
 /**
- * Related products block
+ * Simple product options xml renderer
  *
  * @category   Mage
  * @package    Mage_XmlConnect
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_Block_Product_Related extends Mage_XmlConnect_Block_Abstract
+class Mage_XmlConnect_Block_Product_Options_Simple extends Mage_XmlConnect_Block_Product_Options
 {
-
     /**
-     * Generate related products xml
+     * Generate simple product options xml
      *
+     * @param Mage_Catalog_Model_Product $product
      * @return string
      */
-    protected function _toHtml()
+    public function getProductOptionsXml(Mage_Catalog_Model_Product $product)
     {
-        if ($this->getParentBlock()->getProduct()->getId() > 0) {
-            $collection = $this->getParentBlock()->getProduct()->getRelatedProductCollection();
-            $layer = Mage::getSingleton('catalog/layer')->prepareProductCollection($collection);
-            return $this->productCollectionToXml($collection, 'related_products', false);
-        }
+        return $this->getProductCustomOptionsXmlObject($product)->asXML();
     }
-
 }

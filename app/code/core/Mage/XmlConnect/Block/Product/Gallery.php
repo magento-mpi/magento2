@@ -46,6 +46,35 @@ class Mage_XmlConnect_Block_Product_Gallery extends Mage_XmlConnect_Block_Abstra
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($productId);
         $collection = $product->getMediaGalleryImages();
-        return $this->productImagesCollectionToXml($collection, $product);
+
+        $xmlModel = new Varien_Simplexml_Element('<product></product>');
+        $xmlModel->addAttribute('id', $product->getId());
+        $imagesNode = $xmlModel->addChild('images');
+        $helper = $this->helper('catalog/image');
+
+        foreach ($collection as $item) {
+            $imageNode = $imagesNode->addChild('image');
+
+            /**
+             * Big image
+             */
+            $bigImage = $helper->init($product, 'thumbnail', $item->getFile())
+                ->resize(self::PRODUCT_GALLERY_BIG_IMAGE_SIZE_PARAM);
+
+            $fileNode = $imageNode->addChild('file');
+            $fileNode->addAttribute('type', 'big');
+            $fileNode->addAttribute('url', $bigImage);
+
+            /**
+             * Small image
+             */
+            $smallImage = $helper->init($product, 'thumbnail', $item->getFile())
+                ->resize(self::PRODUCT_GALLERY_SMALL_IMAGE_SIZE_PARAM);
+
+            $fileNode = $imageNode->addChild('file');
+            $fileNode->addAttribute('type', 'small');
+            $fileNode->addAttribute('url', $smallImage);
+        }
+        return $xmlModel->asXML();
     }
 }

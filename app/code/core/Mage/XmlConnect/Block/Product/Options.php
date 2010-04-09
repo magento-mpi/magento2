@@ -25,33 +25,173 @@
  */
 
 /**
- * Review form block
+ * Product Options xml renderer
  *
  * @category   Mage
  * @package    Mage_XmlConnect
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 class Mage_XmlConnect_Block_Product_Options extends Mage_XmlConnect_Block_Abstract
 {
 
+    const OPTION_TYPE_SELECT    = 'select';
+    const OPTION_TYPE_CHECKBOX  = 'checkbox';
+    const OPTION_TYPE_TEXT      = 'text';
+
+    /**
+     * Store supported product options xml renderers based on product types
+     *
+     * @var array
+     */
     protected $_renderers = array();
 
-
-    protected function _toHtml()
-    {
-        $productId = $this->getRequest()->getParam('product_id', null);
-        $product = Mage::getModel('catalog/product')
-            ->setStoreId(Mage::app()->getStore()->getId())
-            ->load($productId);
-        $collection = Mage::getModel('catalog/product_option')->getProductOptionCollection($product);
-        return $this->productOptionsCollectionToXml($collection, 'product', false);
-    }
-
+    /**
+     * Add new product options renderer
+     *
+     * @param string $type
+     * @param string $renderer
+     * @return Mage_XmlConnect_Block_Product_Options
+     */
     public function addRenderer($type, $renderer){
         if (!isset($this->_renderers[$type])) {
             $this->_renderers[$type] = $renderer;
         }
         return $this;
+    }
+
+    /**
+     * Create produc custom options Varien_Simplexml_Element object
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return Varien_Simplexml_Element
+     */
+    public function getProductCustomOptionsXmlObject(Mage_Catalog_Model_Product $product)
+    {
+        $xmlModel = new Varien_Simplexml_Element('<product></product>');
+        $optionsNode = $xmlModel->addChild('options');
+
+        if (!$product->getId()) {
+            return $xmlModel;
+        }
+        $xmlModel->addAttribute('id', $product->getId());
+        if (!$product->isSaleable() || !sizeof($product->getOptions())){
+            return $xmlModel;
+        }
+
+
+        foreach ($product->getOptions() as $option) {
+            $optionNode = $optionsNode->addChild('option');
+            $type = $this->_getOptionTypeForXmlByRealType($option->getType());
+            $code = 'options[' . $option->getId() . ']';
+            if ($type == self::OPTION_TYPE_CHECKBOX) {
+                $code .= '[]';
+            }
+            $optionNode->addAttribute('code', $code);
+            $optionNode->addAttribute('type', $type);
+            $optionNode->addAttribute('label', $option->getTitle());
+            if ($option->getIsRequire()) {
+                $optionNode->addAttribute('is_require', 1);
+            }
+
+            /**
+             * Process option price
+             */
+            if ($option->getPrice() > 0.00) {
+                $price = sprintf('%01.2f', $option->getPrice());
+                $optionNode->addAttribute('price', $price);
+                $formatedPrice = Mage::app()->getStore($product->getStoreId())->formatPrice($price, false);
+                $optionNode->addAttribute('formated_price', $formatedPrice);
+            }
+            if ($type == self::OPTION_TYPE_CHECKBOX ||
+                $type == self::OPTION_TYPE_SELECT) {
+                foreach ($option->getValues() as $value) {
+                    $valueNode = $optionNode->addChild('value');
+                    $valueNode->addAttribute('code', $value->getId());
+                    $valueNode->addAttribute('label', $value->getTitle());
+
+                    if ($value->getPrice() > 0.00) {
+                        $price = sprintf('%01.2f', $value->getPrice());
+                        $valueNode->addAttribute('price', $price);
+                        $formatedPrice = $this->_formatPriceString($price, $product);
+                        $valueNode->addAttribute('formated_price', $formatedPrice);
+                    }
+                }
+            }
+        }
+        return $xmlModel;
+    }
+
+    /**
+     * Format price with currency code and taxes
+     *
+     * @param string|int|float $price
+     * @param Mage_Catalog_Model_Product $product
+     * @return string
+     */
+    protected function _formatPriceString($price, $product)
+    {
+        $priceTax = Mage::helper('tax')->getPrice($product, $price);
+        $priceIncTax = Mage::helper('tax')->getPrice($product, $price, true);
+
+        if (Mage::helper('tax')->displayBothPrices() && $priceTax != $priceIncTax) {
+            $formated = Mage::helper('core')->currency($priceTax, true, false);
+            $formated .= ' (+'.Mage::helper('core')->currency($priceIncTax, true, false) . ' ' . Mage::helper('tax')->__('Incl. Tax').')';
+        } else {
+            $formated = $this->helper('core')->currency($priceTax, true, false);
+        }
+
+        return $formated;
+    }
+
+    /**
+     * Retrieve option type name by specified option real type name
+     *
+     * @param string $realType
+     * @return string
+     */
+    protected function _getOptionTypeForXmlByRealType($realType)
+    {
+        switch ($realType) {
+            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN:
+            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO:
+               $type = self::OPTION_TYPE_SELECT;
+               break;
+            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE:
+            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
+               $type = self::OPTION_TYPE_CHECKBOX;
+               break;
+            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_FIELD:
+            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_AREA:
+            default:
+                $type = self::OPTION_TYPE_TEXT;
+                break;
+        }
+        return $type;
+    }
+
+    /**
+     * Generate product options xml
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        $productId = $this->getRequest()->getParam('product_id', null);
+        $product = Mage::getModel('catalog/product')->setStoreId(Mage::app()->getStore()->getId());
+        if ($productId) {
+            $product->load($productId);
+        }
+
+        if ($product->getId()) {
+            $type = $product->getTypeId();
+            if (isset($this->_renderers[$type])) {
+                $renderer = $this->getLayout()->createBlock($this->_renderers[$type]);
+                if ($renderer) {
+                    return $renderer->getProductOptionsXml($product);
+                }
+            }
+        }
+        return '<?xml version="1.0" encoding="UTF-8"?>';
     }
 }
