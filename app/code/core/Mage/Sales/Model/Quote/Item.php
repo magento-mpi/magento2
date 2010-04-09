@@ -355,6 +355,9 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             return false;
         }
         foreach ($this->getOptions() as $option) {
+            if (in_array($option->getCode(), $this->_notRepresentOptions)) {
+                continue;
+            }
             if ($itemOption = $item->getOptionByCode($option->getCode())) {
                 $itemOptionValue = $itemOption->getValue();
                 $optionValue     = $option->getValue();
