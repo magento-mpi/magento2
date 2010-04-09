@@ -57,7 +57,7 @@ Default layout, loads most of the pages
     </xmlconnect_index_options>
 
     <xmlconnect_index_gallery>
-        <block type="xmlconnect/product_gallery" name="gallery" output="toHtml"/>
+        <block type="xmlconnect/product_gallery" name="xmlconnect.gallery" output="toHtml"/>
     </xmlconnect_index_gallery>
 
     <xmlconnect_index_filters>
@@ -71,5 +71,9 @@ Default layout, loads most of the pages
     <xmlconnect_index_reviews>
         <block type="xmlconnect/review_list" name="xmlconnect.reviews" output="toHtml"/>
     </xmlconnect_index_reviews>
+
+    <xmlconnect_search_index>
+        <block type="xmlconnect/search" name="xmlconnect.seacrh" output="toHtml"/>
+    </xmlconnect_search_index>
 
 </layout>

@@ -25,30 +25,24 @@
  */
 
 /**
- * Filters xml renderer
+ * Product search results renderer
  *
  * @category   Mage
  * @package    Mage_XmlConnect
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_Block_Filters extends Mage_XmlConnect_Block_Abstract
+class Mage_XmlConnect_Block_Search extends Mage_XmlConnect_Block_Abstract
 {
 
     protected function _toHtml()
     {
-        $categoryId = $this->getRequest()->getParam('category_id', null);
-        $categoryModel = Mage::getModel('catalog/category')->load($categoryId);
+        $xmlModel = new Varien_Simplexml_Element('<search></search>');
+        $xmlModel->addChild('filters');
+        $xmlModel->addChild('orders');
+        $xmlModel->addChild('products');
 
-        $sortOptions = $categoryModel->getAvailableSortByOptions();
-        /* TODO: Logic for sort options limiting to 3 items should be realized here */
-        $sortOptions = array_slice($sortOptions, 0, 3);
-
-        $filterCollection = Mage::getModel('xmlconnect/filter_collection')->setCategoryId($categoryId);
-        $xml = $this->filterCollectionToXml($filterCollection, 'items', true, false, false,
-            '<orders>'.$this->_arrayToXml($sortOptions, null, 'item').'</orders>');
-
-        return $xml;
+        return $xmlModel->asXML();
     }
 
 }
