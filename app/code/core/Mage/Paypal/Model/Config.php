@@ -567,6 +567,20 @@ class Mage_Paypal_Model_Config
     }
 
     /**
+     * Check whether only Unilateral payments (Accelerated Boarding) possible for Express method or not
+     *
+     * @return bool
+     */
+    public function shouldUseUnilateralPayments()
+    {
+        $email = Mage::getStoreConfig($this->_mapWppFieldset('business_account'), $this->_storeId);
+        $apiUser = Mage::getStoreConfig($this->_mapWppFieldset('api_username'), $this->_storeId);
+        $apiPassword = Mage::getStoreConfig($this->_mapWppFieldset('api_password'), $this->_storeId);
+        $apiSignature = Mage::getStoreConfig($this->_mapWppFieldset('api_signature'), $this->_storeId);
+        return $email && (!$apiUser || !$apiPassword || !$apiSignature);
+    }
+
+    /**
      * Payment data delivery methods getter for PayPal Standard
      * @return array
      */

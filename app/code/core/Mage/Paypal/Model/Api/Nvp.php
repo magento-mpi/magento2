@@ -59,6 +59,10 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'PWD'          => 'api_password',
         'SIGNATURE'    => 'api_signature',
         'BUTTONSOURCE' => 'build_notation_code',
+
+        // for Unilateral payments
+        'SUBJECT'      => 'business_account',
+
         // commands
         'PAYMENTACTION' => 'payment_action',
         'RETURNURL'     => 'return_url',
@@ -153,7 +157,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * @var array
      */
     protected $_setExpressCheckoutRequest = array(
-        'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'RETURNURL', 'CANCELURL', 'INVNUM', 'SOLUTIONTYPE',
+        'SUBJECT', 'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'RETURNURL', 'CANCELURL', 'INVNUM', 'SOLUTIONTYPE',
         'GIROPAYCANCELURL', 'GIROPAYSUCCESSURL', 'BANKTXNPENDINGURL',
         'PAGESTYLE', 'HDRIMG', 'HDRBORDERCOLOR', 'HDRBACKCOLOR', 'PAYFLOWCOLOR', 'LOCALECODE',
     );
@@ -163,14 +167,14 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * GetExpressCheckoutDetails request/response map
      * @var array
      */
-    protected $_getExpressCheckoutDetailsRequest = array('TOKEN');
+    protected $_getExpressCheckoutDetailsRequest = array('TOKEN', 'SUBJECT');
 
     /**
      * DoExpressCheckoutPayment request/response map
      * @var array
      */
     protected $_doExpressCheckoutPaymentRequest = array(
-        'TOKEN', 'PAYERID', 'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'IPADDRESS', 'BUTTONSOURCE', 'NOTIFYURL',
+        'SUBJECT', 'TOKEN', 'PAYERID', 'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'IPADDRESS', 'BUTTONSOURCE', 'NOTIFYURL',
     );
     protected $_doExpressCheckoutPaymentResponse = array(
         'TRANSACTIONID', 'AMT', 'PAYMENTSTATUS', 'REDIRECTREQUIRED', 'SUCCESSPAGEREDIRECTREQUESTED',
@@ -353,7 +357,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function callSetExpressCheckout()
     {
-        $request = $this->_exportToRequest($this->_setExpressCheckoutRequest);
+        $request = $this->_prepareExpressCheckoutCallRequest($this->_setExpressCheckoutRequest);
+        $request = $this->_exportToRequest($request);
         $this->_exportLineItems($request);
 
         // import/suppress shipping address, if any
@@ -375,7 +380,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     function callGetExpressCheckoutDetails()
     {
-        $request = $this->_exportToRequest($this->_getExpressCheckoutDetailsRequest);
+        $request = $this->_prepareExpressCheckoutCallRequest($this->_getExpressCheckoutDetailsRequest);
+        $request = $this->_exportToRequest($request);
         $response = $this->call(self::GET_EXPRESS_CHECKOUT_DETAILS, $request);
         $this->_importFromResponse($this->_paymentInformationResponse, $response);
         $this->_exportAddressses($response);
@@ -387,7 +393,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function callDoExpressCheckoutPayment()
     {
-        $request = $this->_exportToRequest($this->_doExpressCheckoutPaymentRequest);
+        $request = $this->_prepareExpressCheckoutCallRequest($this->_doExpressCheckoutPaymentRequest);
+        $request = $this->_exportToRequest($request);
         $this->_exportLineItems($request);
 
         $response = $this->call(self::DO_EXPRESS_CHECKOUT_PAYMENT, $request);
@@ -515,7 +522,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     public function call($methodName, array $request)
     {
         $request = $this->_addMethodToRequest($methodName, $request);
-        $request = $this->_exportToRequest($this->_eachCallRequest, $request);
+        $eachCallRequest = $this->_prepareEachCallRequest($methodName);
+        $request = $this->_exportToRequest($eachCallRequest, $request);
 
         $debugData = array('request' => $request);
 
@@ -781,5 +789,37 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         return ($this->getIsCaptureComplete())
                 ? $this->_captureTypeComplete
                 : $this->_captureTypeNotcomplete;
+    }
+
+    /**
+     * Return each call request without unused fields in case of Express Checkout Unilateral payments
+     *
+     * @param string $methodName Current method name
+     * @return array
+     */
+    protected function _prepareEachCallRequest($methodName)
+    {
+        $expressCheckooutMetods = array(
+            self::SET_EXPRESS_CHECKOUT, self::GET_EXPRESS_CHECKOUT_DETAILS, self::DO_EXPRESS_CHECKOUT_PAYMENT
+        );
+        if (!in_array($methodName, $expressCheckooutMetods) || !$this->_config->shouldUseUnilateralPayments()) {
+            return $this->_eachCallRequest;
+        }
+        return array_diff($this->_eachCallRequest, array('USER', 'PWD', 'SIGNATURE'));
+    }
+
+    /**
+     * Supplement EC call request fields with additional values if needed
+     *
+     * @param array $requestFields Standard set of values
+     * @return array New set of fields with additional values
+     */
+    protected function _prepareExpressCheckoutCallRequest($requestFields)
+    {
+        if ($this->_config->shouldUseUnilateralPayments()) {
+            array_push($requestFields, 'SUBJECT');
+            return $requestFields;
+        }
+        return $requestFields;
     }
 }

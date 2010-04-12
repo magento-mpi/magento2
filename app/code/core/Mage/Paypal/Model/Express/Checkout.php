@@ -207,6 +207,8 @@ class Mage_Paypal_Model_Express_Checkout
             }
         }
 
+        $this->_api->setBusinessAccount($this->_config->businessAccount);
+
         $this->_config->exportExpressCheckoutStyleSettings($this->_api);
 
         // call API and redirect with token
@@ -223,7 +225,9 @@ class Mage_Paypal_Model_Express_Checkout
     public function returnFromPaypal($token)
     {
         $this->_getApi();
-        $this->_api->setToken($token)->callGetExpressCheckoutDetails();
+        $this->_api->setToken($token)
+            ->setBusinessAccount($this->_config->businessAccount)
+            ->callGetExpressCheckoutDetails();
 
         // import addresses
         $billingAddress = $this->_quote->getBillingAddress();

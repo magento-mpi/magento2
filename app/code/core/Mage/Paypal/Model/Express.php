@@ -132,6 +132,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             case 'allowspecific':
             case 'specificcountry':
             case 'line_items_enabled':
+            case 'business_account':
                 return Mage::getStoreConfig("paypal/general/{$field}", $storeId);
             default:
                 return parent::getConfigData($field, $storeId);
@@ -231,6 +232,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             ->setNotifyUrl(Mage::getUrl($this->_ipnAction))
             ->setInvNum($order->getIncrementId())
             ->setCurrencyCode($order->getBaseCurrencyCode())
+            ->setBusinessAccount($this->_pro->getConfig()->businessAccount);
         ;
 
         // add line items
