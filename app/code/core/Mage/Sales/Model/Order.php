@@ -1203,7 +1203,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Return collection of order status history items.
      *
      * @return array
      */
@@ -1219,7 +1219,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     }
 
     /**
-     * Enter description here...
+     * Return collection of visible on frontend order status history items.
      *
      * @return array
      */
@@ -1227,7 +1227,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     {
         $history = array();
         foreach ($this->getStatusHistoryCollection() as $status) {
-            if (!$status->isDeleted() && $status->getComment() && $status->getIsCustomerNotified()) {
+            if (!$status->isDeleted() && $status->getComment() && $status->getIsVisibleOnFront()) {
                 $history[] =  $status;
             }
         }

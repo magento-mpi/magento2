@@ -218,7 +218,12 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 $response = false;
                 $data = $this->getRequest()->getPost('history');
                 $notify = isset($data['is_customer_notified']) ? $data['is_customer_notified'] : false;
-                $order->addStatusToHistory($data['status'], $data['comment'], $notify);
+                $visible = isset($data['is_visible_on_front']) ? $data['is_visible_on_front'] : false;
+
+                $order->addStatusHistoryComment($data['comment'], $data['status'])
+                    ->setIsVisibleOnFront($visible)
+                    ->setIsCustomerNotified($notify);
+
                 $comment = trim(strip_tags($data['comment']));
 
                 $order->save();
