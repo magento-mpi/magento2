@@ -1026,7 +1026,7 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .product-view .product-img-box .more-views { margin:10px 0 0; padding:0 0 0; }
 .product-view .product-img-box .more-views h2 { display:none; }
 .product-view .product-img-box .more-views ul {}
-.product-view .product-img-box .more-views li { float:left; padding:1px; background-color:#ddd; margin:0 6px 6px 0; }
+.product-view .product-img-box .more-views li { float:left; border:1px solid #ddd; margin:0 6px 6px 0; }
 
 .product-image-popup { margin:0 auto; }
 .product-image-popup .buttons-set { clear:none; line-height:28px; margin:0 0 10px; float:right; width:150px; text-align:right; }
