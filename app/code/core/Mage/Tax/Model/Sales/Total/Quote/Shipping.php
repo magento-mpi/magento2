@@ -85,8 +85,9 @@ class Mage_Tax_Model_Sales_Total_Quote_Shipping extends Mage_Sales_Model_Quote_A
             $store
         );
 
-        $this->_areTaxRequestsSimilar = $calc->compareRequests($addressTaxRequest, $storeTaxRequest);
+        $storeTaxRequest->setProductClassId($this->_config->getShippingTaxClass($store));
         $addressTaxRequest->setProductClassId($this->_config->getShippingTaxClass($store));
+        $this->_areTaxRequestsSimilar = $calc->compareRequests($addressTaxRequest, $storeTaxRequest);
 
         $shipping           = $taxShipping = $address->getShippingAmount();
         $baseShipping       = $baseTaxShipping = $address->getBaseShippingAmount();
