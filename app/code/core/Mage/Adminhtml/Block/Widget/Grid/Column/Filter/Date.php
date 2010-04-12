@@ -74,6 +74,16 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date extends Mage_Adminhtml
                 align : "Bl",
                 singleClick : true
             });
+
+            $("'.$htmlId.'_to_trig").observe("click", showCalendar);
+            $("'.$htmlId.'_from_trig").observe("click", showCalendar);
+
+            function showCalendar(){
+                var index = $("widget-chooser").getStyle("zIndex");
+                $$("div.calendar").each(function(item){
+                    $(item).setStyle({"zIndex" : index + 1});
+                });
+            };
         </script>';
         return $html;
     }
