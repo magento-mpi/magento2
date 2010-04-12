@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
             'period_type'       => $this->getPeriodType(),
             'renderer'          => 'adminhtml/report_sales_grid_column_renderer_date',
             'totals_label'      => Mage::helper('adminhtml')->__('Total'),
-            'subtotals_label'   => Mage::helper('adminhtml')->__('SubTotal')
+            'subtotals_label'   => Mage::helper('adminhtml')->__('Subtotal')
         ));
 
         $this->addColumn('coupon_code', array(
