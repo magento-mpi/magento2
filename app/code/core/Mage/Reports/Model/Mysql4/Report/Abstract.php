@@ -69,6 +69,9 @@ abstract class Mage_Reports_Model_Mysql4_Report_Abstract extends Mage_Core_Model
             $this->_getFlag()->setFlagData($value);
         }
 
+        // touch last_update
+        $this->_getFlag()->setLastUpdate($this->formatDate(time()));
+
         $this->_getFlag()->save();
 
         return $this;
