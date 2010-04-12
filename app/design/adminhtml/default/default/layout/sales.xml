@@ -841,9 +841,9 @@
                     <action method="setStoreVarName"><var_name>store_ids</var_name></action>
                 </block>
                 <block type="adminhtml/report_filter_form" name="grid.filter.form">
-                    <action method="addReportTypeOption" translate="value">
-                        <key>created_at_order</key>
-                        <value>Order Created Date</value>
+                    <action method="setFieldVisibility">
+                        <field>report_type</field>
+                        <visibility>0</visibility>
                     </action>
                     <action method="setFieldVisibility">
                         <field>show_order_statuses</field>
