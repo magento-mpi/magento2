@@ -34,5 +34,5 @@ $installer->getConnection()->addColumn(
     "tinyint(1) UNSIGNED NOT NULL default '0' after `is_customer_notified`"
 );
 $installer->run("UPDATE {$orderHistoryTable} SET
-    is_visible_on_front = (is_customer_notified = 1 AND comment IS NOT NULL);"
+    is_visible_on_front = (is_customer_notified = 1 AND comment IS NOT NULL AND comment <> '');"
 );
