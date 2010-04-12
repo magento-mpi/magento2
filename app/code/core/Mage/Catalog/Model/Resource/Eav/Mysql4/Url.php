@@ -631,7 +631,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
 
         $rowSet = $this->_getWriteAdapter()->fetchAll($select);
         foreach ($rowSet as $row) {
-            if (!is_null($storeId) && substr($row['path'], 0, $rootCategoryPathLength) != $rootCategoryPath) {
+            if (!is_null($storeId) && (strlen($row['path']) > $rootCategoryPathLength) && substr($row['path'], $rootCategoryPathLength, 1) != '/') {
                 continue;
             }
 
