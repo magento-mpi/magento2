@@ -85,12 +85,12 @@ class Mage_SalesRule_Model_Mysql4_Report_Rule extends Mage_Reports_Model_Mysql4_
                 'order_status'            => 'status',
                 'coupon_code'             => 'coupon_code',
                 'coupon_uses'             => 'COUNT(`entity_id`)',
-                'subtotal_amount'         => 'SUM(`base_subtotal` * `base_to_global_rate`)',
+                'subtotal_amount'         => 'SUM((`base_subtotal` - IFNULL(`base_subtotal_canceled`, 0)) * `base_to_global_rate`)',
                 'discount_amount'         => 'SUM((`base_discount_amount` - IFNULL(`base_discount_canceled`, 0)) * `base_to_global_rate`)',
-                'total_amount'            => 'SUM((`base_subtotal` - IFNULL(`base_discount_amount` - IFNULL(`base_discount_canceled`, 0), 0)) * `base_to_global_rate`)',
-                'subtotal_amount_actual'  => 'SUM((`base_subtotal` - IFNULL(`base_subtotal_canceled`, 0)) * `base_to_global_rate`)',
+                'total_amount'            => 'SUM((`base_subtotal` - IFNULL(`base_subtotal_canceled`, 0) - IFNULL(`base_discount_amount` - IFNULL(`base_discount_canceled`, 0), 0)) * `base_to_global_rate`)',
+                'subtotal_amount_actual'  => 'SUM((`base_subtotal_invoiced` - IFNULL(`base_subtotal_refunded`, 0)) * `base_to_global_rate`)',
                 'discount_amount_actual'  => 'SUM((`base_discount_invoiced` - IFNULL(`base_discount_refunded`, 0)) * `base_to_global_rate`)',
-                'total_amount_actual'     => 'SUM((`base_subtotal` - IFNULL(`base_subtotal_canceled`, 0) - IFNULL(`base_discount_invoiced` - IFNULL(`base_discount_refunded`, 0), 0)) * `base_to_global_rate`)',
+                'total_amount_actual'     => 'SUM((`base_subtotal_invoiced` - IFNULL(`base_subtotal_refunded`, 0) - IFNULL(`base_discount_invoiced` - IFNULL(`base_discount_refunded`, 0), 0)) * `base_to_global_rate`)',
             );
 
             $select = $this->_getWriteAdapter()->select();
