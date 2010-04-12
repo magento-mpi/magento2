@@ -525,7 +525,7 @@ EOT;
 EOT;
                             }
                         } else {
-                            if (!empty($rate['postcode'])) {
+                            if (!empty($rate['country'])) {
                                 $xml .= <<<EOT
                                             <postal-area>
                                                 <country-code>{$rate['country']}</country-code>
