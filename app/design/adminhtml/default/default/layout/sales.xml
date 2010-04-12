@@ -787,7 +787,7 @@
                     </action>
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_invoice</key>
-                        <value>Invoice Created Date</value>
+                        <value>Last Invoice Created Date</value>
                     </action>
                 </block>
             </block>
@@ -807,7 +807,7 @@
                     </action>
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_refunded</key>
-                        <value>Credit Memo Created Date</value>
+                        <value>Last Credit Memo Created Date</value>
                     </action>
                 </block>
             </block>
