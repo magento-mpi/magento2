@@ -110,5 +110,14 @@
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
             </wpuk>
         </paypal>
+        <payment>
+            <paypaluk_express>
+                <model>paypaluk/express</model>
+                <title>PayPal</title>
+            </paypaluk_express>
+            <paypaluk_direct>
+                <model>paypaluk/direct</model>
+            </paypaluk_direct>
+        </payment>
     </default>
 </config>
