@@ -215,6 +215,11 @@ function modifyParentClass($fileToModify, $oldParent, $newParent)
  */
 function createProtectorLayer($protectorFile, $protectorClass, $parentClass)
 {
+    if ($protectorClass=='Enterprise_Enterprise_Model_Observer' ||
+        $protectorClass=='Enterprise_Enterprise_Model_Observer_Install') {
+        // special case, do not touch these files
+        return;
+    }
     $dir = dirname($protectorFile);
     if (!is_dir($dir)) {
         mkdir(dirname($protectorFile), 0755, TRUE);
