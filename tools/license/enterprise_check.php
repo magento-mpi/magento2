@@ -98,14 +98,23 @@ function checkEnterpriseProtection($sourceFiles, $tree, $parentClass='StdClass')
 {
     if( count($tree) ) {
         $isParentCommunity = preg_match('/^Mage_/', $parentClass);
+        $isParentController = FALSE;
+        if (isset($sourceFiles[$parentClass])) {
+            $isParentController = preg_match('=/controllers/=', $sourceFiles[$parentClass]);
+        }
         foreach ($tree as $class=>$subtree) {
             $isClassEnterprise = preg_match('/^Enterprise_/', $class);
             $isClassProtector = preg_match('/^Enterprise_(Enterprise|License)_/', $class);
             if ($isClassEnterprise && $isParentCommunity && !$isClassProtector) {
                 echo "Correction: $class extends $parentClass\n";
                 $protectorClass = getProtectorName($parentClass);
+                $protectorFile = getClassFile($protectorClass, $isParentController);
                 modifyParentClass($sourceFiles[$class], $parentClass, $protectorClass);
-                createProtectorLayer($protectorClass, $parentClass);
+                createProtectorLayer($protectorFile, $protectorClass, $parentClass);
+            }
+            if ($isClassProtector) {
+                $protectorFile = getClassFile($class, $isParentController);
+                createProtectorLayer($protectorFile, $class, $parentClass); // overwrite
             }
             checkEnterpriseProtection($sourceFiles, $subtree, $class);
         }
@@ -127,18 +136,21 @@ function getProtectorName($communityClass)
 }
 
 /**
- * Convert Enterprise_Enterprise_Y_X_Foobar to Mage_X_Y_Foobar
+ * Get file name for class
  *
- * @param string $enterpriseClass
+ * @param string $className
+ * @param bool $isController
  * @return string
  */
-function getUnprotectedName($enterpriseClass)
+function getClassFile($class, $isController=FALSE)
 {
-    $tmp = explode('_', $enterpriseClass);
-    $tmp[1] = $tmp[3];
-    unset($tmp[0]);
-    unset($tmp[3]);
-    return 'Mage_'.join('_', $tmp);
+    if ($isController) {
+        $regex = '/^(Mage_|Enterprise_Enterprise_)/';
+        $replace = '$1controllers_';
+        $class = preg_replace($regex, $replace, $class);
+    }
+    $name = strtr($class, '_', '/');
+    return BP.'/app/code/core/'.$name.'.php';
 }
 
 /**
@@ -160,17 +172,12 @@ function modifyParentClass($fileToModify, $oldParent, $newParent)
 /**
  * Create Enterprise_Enterprise_Foobar file
  *
+ * @param string $protectorFile
  * @param string $protectorClass
  * @param string $parentClass
  */
-function createProtectorLayer($protectorClass, $parentClass)
+function createProtectorLayer($protectorFile, $protectorClass, $parentClass)
 {
-    $protectorFile = BP.'/app/code/core/'.strtr($protectorClass, '_', '/').'.php';
-    if (is_file($protectorFile)) {
-        // Do not modify any of existing Enterprise_Enterprise classes
-        // To update them, just remove old files before running this script
-        return FALSE;
-    }
     $dir = dirname($protectorFile);
     if (!is_dir($dir)) {
         mkdir(dirname($protectorFile), 0755, TRUE);
@@ -181,32 +188,13 @@ function createProtectorLayer($protectorClass, $parentClass)
     file_put_contents($protectorFile, $protectorCode);
 }
 
-/**
- * Check for missing Enterprise_Enterprise_Foobar classes
- *
- * @param array $classes
- */
-function updateProtectorLayer($classes)
-{
-    foreach ($classes as $childClass=>$parentClass) {
-        if (preg_match('/^Enterprise_Enterprise_/', $parentClass)) {
-            if (!isset($classes[$parentClass])) {
-                echo "Class missing: $parentClass\n";
-                $communityParentClass = getUnprotectedName($parentClass);
-                createProtectorLayer($parentClass, $communityParentClass);
-            }
-        }
-    }
-}
-
 // Void main
-// error_reporting(E_ALL);
-// ini_set('display_errors', TRUE);
+error_reporting(E_ALL);
+ini_set('display_errors', TRUE);
 if (isset($_SERVER['REQUEST_METHOD'])) {
     echo '<pre>';
 }
-list($classes, $sourceFiles) = scanClasses(BP . '/app/code/core/Enterprise');
+list($classes, $sourceFiles) = scanClasses(BP . '/app/code/core');
 $tree = classesToTree($classes);
 checkEnterpriseProtection($sourceFiles, $tree);
-updateProtectorLayer($classes);
 echo "Done.\n";
