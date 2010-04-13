@@ -71,11 +71,11 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
                 $ruleIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('rule_id', array('in'=>$ruleIds));
+                $this->getCollection()->addFieldToFilter('main_table.rule_id', array('in'=>$ruleIds));
             }
             else {
                 if($ruleIds) {
-                    $this->getCollection()->addFieldToFilter('rule_id', array('nin'=>$ruleIds));
+                    $this->getCollection()->addFieldToFilter('main_table.rule_id', array('nin'=>$ruleIds));
                 }
             }
         }
