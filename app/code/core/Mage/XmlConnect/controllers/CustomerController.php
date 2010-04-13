@@ -97,7 +97,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             }
         }
         catch (Mage_Core_Exception $e) {
-            $this->_message($message, self::MESSAGE_STATUS_ERROR);
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         }
         catch (Exception $e) {
             $this->_message($this->__('Customer logout problem.'), self::MESSAGE_STATUS_ERROR);
@@ -109,7 +109,40 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
      */
     public function formAction()
     {
-
+//        $this->loadLayout(false);
+//        $this->renderLayout();
+        $xml = <<<EOT
+<?xml version="1.0"?>
+<form name="account_form" method="post">
+    <fieldset>
+        <field name="firstname" type="text" label="First Name" required="true">
+            <validators>
+                <validator type="regexp" message="Letters only">/^[a-z]/i</validator>
+            </validators>
+        </field>
+        <field name="lastname" type="text" label="Last Name" required="true">
+            <validators>
+                <validator type="regexp" message="Letters only">/^[a-z]/i</validator>
+            </validators>
+        </field>
+        <field name="email" type="text" label="Email" required="true">
+            <validators>
+                <validator type="email" message="Wrong email format"/>
+            </validators>
+        </field>
+        <field name="password" type="password" label="Password" required="true"/>
+        <field name="password_confirm" type="password" label="Confirm" required="true">
+            <validators>
+                <validator type="confirmation" message="....">password</validator>
+            </validators>
+        </field>
+    </fieldset>
+    <fieldset legend="Receive Email Notifications">
+        <field name="newslatter" type="checkbox" label="Promos and News"/>
+    </fieldset>
+</form>
+EOT;
+        $this->getResponse()->setBody($xml);
     }
 
     /**
