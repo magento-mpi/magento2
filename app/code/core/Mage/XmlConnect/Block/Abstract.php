@@ -25,26 +25,67 @@
  */
 class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
 {
-    const PRODUCT_IMAGE_RESIZE_PARAM = 80;
-    const CATEGORY_IMAGE_RESIZE_PARAM = 80;
+    /**
+     * Product view small image size
+     */
+    const PRODUCT_IMAGE_RESIZE_PARAM     = 80;
+
+    /**
+     * Product view big image size
+     */
     const PRODUCT_BIG_IMAGE_RESIZE_PARAM = 130;
 
-    const PRODUCT_GALLERY_BIG_IMAGE_SIZE_PARAM = 280;
+    /**
+     * Category list image size
+     */
+    const CATEGORY_IMAGE_RESIZE_PARAM    = 80;
+
+    /**
+     * Product gallery image sizes
+     */
+    const PRODUCT_GALLERY_BIG_IMAGE_SIZE_PARAM   = 280;
     const PRODUCT_GALLERY_SMALL_IMAGE_SIZE_PARAM = 40;
 
+    /**
+     * Limit to product review text length
+     */
     const REVIEW_DETAIL_TRUNCATE_LEN = 200;
 
     /**
-     * @var array Product attributes for xml
+     * Limit for product sorting fields to return
      */
-    protected $_productAttributes = array('entity_id', 'name', 'in_stock', 'rating_summary',
-                                          'reviews_count', 'icon', 'big_icon', 'price');
+    const PRODUCT_SORT_FIELDS_NUMBER = 3;
 
     /**
-     * @var array Review attributes for xml
+     * Store product attributes names for xml
+     *
+     * @var array
      */
-    protected $_reviewAttributes = array('review_id', 'created_at', 'title', 'detail', 'nickname',
-                                          'rating_votes');
+    protected $_productAttributes = array(
+        'entity_id',
+        'name',
+        'in_stock',
+        'rating_summary',
+        'reviews_count',
+        'icon',
+        'big_icon',
+        'price',
+        'has_gallery'
+    );
+
+    /**
+     * Review attributes names for xml
+     *
+     * @var array
+     */
+    protected $_reviewAttributes = array(
+        'review_id',
+        'created_at',
+        'title',
+        'detail',
+        'nickname',
+        'rating_votes'
+    );
 
     /**
      * Renders xml document start data
@@ -215,7 +256,20 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
             $this->_formProductPrice($product, $arrAttributes);
             $this->_formProductIcon($product);
             $product->in_stock = (int)$product->isInStock();
+            /**
+             * By default all products has gallery (because of collection not load gallery attribute)
+             */
+            $product->has_gallery = 1;
+            if ($product->getMediaGalleryImages()) {
+                $product->has_gallery = sizeof($product->getMediaGalleryImages()) > 0 ? 1 : 0;
+            }
             $product->rating_summary = round((int)$product->rating_summary / 10);
+            /**
+             * If product type is grouped than it has options as its grouped items
+             */
+            if ($product->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) {
+                $product->setHasOptions(true);
+            }
             $xml = $product->toXml($arrAttributes, $rootName, $addOpenTag, $addCdata);
             if (strlen($additionalAtrributes)) {
                 $xml = substr_replace($xml, $additionalAtrributes, strrpos($xml, "</$rootName>"), 0);
@@ -241,7 +295,6 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
         $additionalAtrributes = '', $itemsName = 'items'
     ) {
         $xml = $this->_getCollectionXmlStart($collection, $rootName, $addOpenTag, $itemsName);
-
         foreach ($collection as $item) {
             $xml .= $this->productToXml($item);
         }
@@ -260,11 +313,11 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
      * @return Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection
      */
     protected function _addFiltersToProductCollection(Varien_Data_Collection_Db $collection,
-        Zend_Controller_Request_Abstract $reguest, $category = null, $prefix = 'filter_'
+        Zend_Controller_Request_Abstract $reguest, $category = null
     ) {
         $layer = Mage::getSingleton('catalog/layer');
         if ($category && $category->getId()) {
-        	$layer->setData('current_category', $category);
+            $layer->setData('current_category', $category);
         }
         $attributes = array();
         foreach ($layer->getFilterableAttributes() as $attributeModel ) {
@@ -272,22 +325,23 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
         }
 
         foreach ($reguest->getParams() as $key => $value) {
-            if (0 === strpos($key, $prefix)) {
-                $key = str_replace($prefix, '', $key);
+            if (0 === strpos($key, Mage_XmlConnect_Block_Filters::REQUEST_FILTER_PARAM_REFIX)) {
+                $key = str_replace(Mage_XmlConnect_Block_Filters::REQUEST_FILTER_PARAM_REFIX, '', $key);
                 if (isset($attributes[$key])) {
                     $filter = $this->_getFilterByKey($key)
                         ->setAttributeModel($attributes[$key])
-                        ->setRequestVar($prefix.$key)
+                        ->setRequestVar(Mage_XmlConnect_Block_Filters::REQUEST_FILTER_PARAM_REFIX . $key)
                         ->apply($reguest, null);
                 }
             }
         }
+
         $layer->prepareProductCollection($collection);
         return $collection;
     }
 
     /**
-     * Creates filter object by key
+     * Create filter object by key
      *
      * @param string $key
      * @return Mage_Catalog_Model_Layer_Filter_Abstract
@@ -302,6 +356,9 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
             case 'decimal':
                 $filterModelName = 'catalog/layer_filter_decimal';
                 break;
+            case 'category':
+                $filterModelName = 'catalog/layer_filter_category';
+                break;
             default:
                 $filterModelName = 'catalog/layer_filter_attribute';
                 break;
@@ -310,11 +367,11 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
     }
 
     /**
-     * Adds sort params from request to collection
+     * Adds sort params from request to product collection
      *
      * @param Varien_Data_Collection_Db $collection
      * @param Zend_Controller_Request_Abstract $reguest
-     * @param string $prefix
+     * @param string $prefix request order field param prefix
      * @return Mage_XmlConnect_Model_Resource_Mysql4_Product_Collection
      */
     protected function _addOrdersToProductCollection(Varien_Data_Collection_Db $collection,
@@ -506,5 +563,24 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
         }
         $item->setRatingVotes($rating);
         return $item->toXml($this->_reviewAttributes, 'item', false, $addCdata);
+    }
+
+    /**
+     * Retrieve product sort fields as xml object
+     *
+     * @return Varien_Simplexml_Element
+     */
+    public function getProductSortFeildsXmlObject()
+    {
+        $ordersXmlObject  = new Varien_Simplexml_Element('<orders></orders>');
+        $sortOptions      = Mage::getModel('catalog/category')->getAvailableSortByOptions();
+        $sortOptions      = array_slice($sortOptions, 0, self::PRODUCT_SORT_FIELDS_NUMBER);
+        foreach ($sortOptions as $code => $name) {
+            $item = $ordersXmlObject->addChild('item');
+            $item->addChild('code', $code);
+            $item->addChild('name', strip_tags($name));
+        }
+
+        return $ordersXmlObject;
     }
 }

@@ -42,6 +42,6 @@ class Mage_XmlConnect_Block_Product_Options_Simple extends Mage_XmlConnect_Block
      */
     public function getProductOptionsXml(Mage_Catalog_Model_Product $product)
     {
-        return $this->getProductCustomOptionsXmlObject($product)->asXML();
+        return $this->getProductCustomOptionsXmlObject($product)->asNiceXml();
     }
 }

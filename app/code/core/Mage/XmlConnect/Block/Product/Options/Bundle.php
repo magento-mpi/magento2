@@ -45,7 +45,7 @@ class Mage_XmlConnect_Block_Product_Options_Bundle extends Mage_XmlConnect_Block
         $optionsXmlObj = $this->getProductCustomOptionsXmlObject($product)->options;
 
         if (!$product->isSaleable()){
-            return $optionsXmlObj->asXML();
+            return $optionsXmlObj->asNiceXml();
         }
 
         /**
@@ -59,7 +59,7 @@ class Mage_XmlConnect_Block_Product_Options_Bundle extends Mage_XmlConnect_Block
         );
         $bundleOptions = $optionCollection->appendSelections($selectionCollection, false, false);
         if (!sizeof($bundleOptions)) {
-            return $optionsXmlObj->asXML();
+            return $optionsXmlObj->asNiceXml();
         }
 
         foreach ($bundleOptions as $_option) {
@@ -111,6 +111,6 @@ class Mage_XmlConnect_Block_Product_Options_Bundle extends Mage_XmlConnect_Block
             }
         }
 
-        return $optionsXmlObj->asXML();
+        return $optionsXmlObj->asNiceXml();
     }
 }

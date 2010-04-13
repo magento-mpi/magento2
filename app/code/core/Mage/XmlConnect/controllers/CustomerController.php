@@ -168,4 +168,44 @@ EOT;
     {
 
     }
+
+    /**
+     * Send new password to customer by specified email
+     */
+    public function forgotPasswordAction()
+    {
+        $email = $this->getRequest()->getPost('email');
+        if ($email) {
+            if (!Zend_Validate::is($email, 'EmailAddress')) {
+                $this->_message($this->__('Invalid email address.'), self::MESSAGE_STATUS_ERROR);
+                return;
+            }
+            $customer = Mage::getModel('customer/customer')
+                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+                ->loadByEmail($email);
+
+            if ($customer->getId()) {
+                try {
+                    $newPassword = $customer->generatePassword();
+                    $customer->changePassword($newPassword, false);
+                    $customer->sendPasswordReminderEmail();
+                    $this->_message($this->__('A new password has been sent.'), self::MESSAGE_STATUS_SUCCESS);
+
+                    return;
+                }
+                catch (Mage_Core_Exception $e) {
+                    $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+                }
+                catch (Exception $e) {
+                    $this->_message($this->__('Sending/Changing new password problem.'), self::MESSAGE_STATUS_ERROR);
+                }
+            }
+            else {
+                $this->_message($this->__('This email address was not found in our records.'), self::MESSAGE_STATUS_ERROR);
+            }
+        }
+        else {
+            $this->_message($this->__('Customer email not specified.'), self::MESSAGE_STATUS_ERROR);
+        }
+    }
 }

@@ -46,18 +46,18 @@ class Mage_XmlConnect_Block_Product_Options_Grouped extends Mage_XmlConnect_Bloc
         $optionsNode = $xmlModel->addChild('options');
 
         if (!$product->getId()) {
-            return $xmlModel->asXML();
+            return $xmlModel->asNiceXml();
         }
         $xmlModel->addAttribute('id', $product->getId());
         if (!$product->isSaleable()){
-            return $xmlModel->asXML();
+            return $xmlModel->asNiceXml();
         }
         /**
          * Grouped (associated) products
          */
         $_associatedProducts = $product->getTypeInstance(true)->getAssociatedProducts($product);
         if (!sizeof($_associatedProducts)) {
-            return $xmlModel->asXML();
+            return $xmlModel->asNiceXml();
         }
         foreach ($_associatedProducts as $_item){
             if (!$_item->isSaleable()) {
@@ -87,6 +87,6 @@ class Mage_XmlConnect_Block_Product_Options_Grouped extends Mage_XmlConnect_Bloc
 
         }
 
-        return $xmlModel->asXML();
+        return $xmlModel->asNiceXml();
     }
 }

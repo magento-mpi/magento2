@@ -34,19 +34,19 @@
 
 class Mage_XmlConnect_Block_Filters extends Mage_XmlConnect_Block_Abstract
 {
+    /**
+     * Prefix that used in specifing filters on request
+     *
+     */
+    const REQUEST_FILTER_PARAM_REFIX = 'filter_';
 
     protected function _toHtml()
     {
         $categoryId = $this->getRequest()->getParam('category_id', null);
-        $categoryModel = Mage::getModel('catalog/category')->load($categoryId);
-
-        $sortOptions = $categoryModel->getAvailableSortByOptions();
-        /* TODO: Logic for sort options limiting to 3 items should be realized here */
-        $sortOptions = array_slice($sortOptions, 0, 3);
-
         $filterCollection = Mage::getModel('xmlconnect/filter_collection')->setCategoryId($categoryId);
+
         $xml = $this->filterCollectionToXml($filterCollection, 'items', true, false, false,
-            '<orders>'.$this->_arrayToXml($sortOptions, null, 'item').'</orders>');
+            $this->getProductSortFeildsXmlObject()->asNiceXml());
 
         return $xml;
     }

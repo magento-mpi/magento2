@@ -121,4 +121,155 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
         $this->loadLayout(false);
         $this->renderLayout();
     }
+
+    /**
+     * Shopping cart display action
+     */
+    public function shoppingCartAction()
+    {
+        $messages = array();
+        $cart = $this->_getCart();
+        if ($cart->getQuote()->getItemsCount()) {
+            $cart->init();
+            $cart->save();
+
+            if (!$this->_getQuote()->validateMinimumAmount()) {
+                $warning = Mage::getStoreConfig('sales/minimum_order/description');
+                $messages[Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_WARNING][] = $warning;
+            }
+        }
+
+        foreach ($cart->getQuote()->getMessages() as $message) {
+            if ($message) {
+                $messages[Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_SUCCESS][] = $message;
+            }
+        }
+
+        /**
+         * if customer enteres shopping cart we should mark quote
+         * as modified bc he can has checkout page in another window.
+         */
+        $this->_getSession()->setCartWasUpdated(true);
+
+        $this->loadLayout(false)->getLayout()->getBlock('xmlconnect.cart')->setMessages($messages);
+        $this->renderLayout();
+    }
+
+    /**
+     * Delete item from shopping cart action
+     *
+     */
+    public function deleteFromCart()
+    {
+
+    }
+
+    /**
+     * Add product to shopping cart action
+     */
+    public function addToCartAction()
+    {
+        $cart   = $this->_getCart();
+        $params = $this->getRequest()->getParams();
+        try {
+            if (isset($params['qty'])) {
+                $filter = new Zend_Filter_LocalizedToNormalized(
+                    array('locale' => Mage::app()->getLocale()->getLocaleCode())
+                );
+                $params['qty'] = $filter->filter($params['qty']);
+            }
+
+            $product = null;
+            $productId = (int) $this->getRequest()->getParam('product');
+            if ($productId) {
+                $_product = Mage::getModel('catalog/product')
+                    ->setStoreId(Mage::app()->getStore()->getId())
+                    ->load($productId);
+                if ($_product->getId()) {
+                    $product = $_product;
+                }
+            }
+            $related = $this->getRequest()->getParam('related_product');
+
+            /**
+             * Check product availability
+             */
+            if (!$product) {
+                $this->_message($this->__('This product is unavailable.'), Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR);
+                return;
+            }
+
+            $cart->addProduct($product, $params);
+            if (!empty($related)) {
+                $cart->addProductsByIds(explode(',', $related));
+            }
+
+            $cart->save();
+
+            $this->_getSession()->setCartWasUpdated(true);
+
+            /**
+             * @todo remove wishlist observer processAddToCart
+             */
+            Mage::dispatchEvent('checkout_cart_add_product_complete',
+                array('product' => $product, 'request' => $this->getRequest(), 'response' => $this->getResponse())
+            );
+
+            if (!$this->_getSession()->getNoCartRedirect(true)) {
+                if (!$cart->getQuote()->getHasError()){
+                    $message = $this->__('%s was added to your shopping cart.', Mage::helper('core')->htmlEscape($product->getName()));
+                     $this->_message($message, Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_SUCCESS);
+                }
+            }
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR);
+        }
+        catch (Exception $e) {
+            $this->_message($this->__('Cannot add the item to shopping cart.'), self::MESSAGE_STATUS_ERROR);
+        }
+    }
+
+    /**
+     * Retrieve shopping cart model object
+     *
+     * @return Mage_Checkout_Model_Cart
+     */
+    protected function _getCart()
+    {
+        return Mage::getSingleton('checkout/cart');
+    }
+
+    /**
+     * Get checkout session model instance
+     *
+     * @return Mage_Checkout_Model_Session
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('checkout/session');
+    }
+
+    /**
+     * Get current active quote instance
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    protected function _getQuote()
+    {
+        return $this->_getCart()->getQuote();
+    }
+
+    /**
+     * Generate message xml and set it to response body
+     * @param string $text
+     * @param string $status
+     */
+    protected function _message($text, $status, $type='', $action='')
+    {
+        $message = new Varien_Simplexml_Element('<message></message>');
+        $message->addChild('status', $status);
+        $message->addChild('text', $text);
+        $this->getResponse()->setBody($message->asXml());
+    }
 }

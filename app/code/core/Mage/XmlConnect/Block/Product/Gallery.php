@@ -75,6 +75,6 @@ class Mage_XmlConnect_Block_Product_Gallery extends Mage_XmlConnect_Block_Abstra
             $fileNode->addAttribute('type', 'small');
             $fileNode->addAttribute('url', $smallImage);
         }
-        return $xmlModel->asXML();
+        return $xmlModel->asNiceXml();
     }
 }

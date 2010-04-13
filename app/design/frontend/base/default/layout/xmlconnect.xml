@@ -76,4 +76,13 @@ Default layout, loads most of the pages
         <block type="xmlconnect/search" name="xmlconnect.seacrh" output="toHtml"/>
     </xmlconnect_search_index>
 
+    <xmlconnect_index_shoppingcart>
+        <block type="xmlconnect/cart" name="xmlconnect.cart" output="toHtml">
+            <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/item/default.phtml</template></action>
+        </block>
+    </xmlconnect_index_shoppingcart>
+
 </layout>
