@@ -151,13 +151,18 @@ function modifyParentClass($fileToModify, $oldParent, $newParent)
 function createProtectorLayer($protectorClass, $parentClass)
 {
     $protectorFile = BP.'/app/code/core/'.strtr($protectorClass, '_', '/').'.php';
+    if (is_file($protectorFile)) {
+        // Do not modify any of existing Enterprise_Enterprise classes
+        // To update them, just remove old files before running this script
+        return FALSE;
+    }
     $dir = dirname($protectorFile);
     if (!is_dir($dir)) {
         mkdir(dirname($protectorFile), 0755, TRUE);
     }
-    $protectorCode = "<?php\n";
-    $protectorCode .= NOTICE_EE;
-    $protectorCode .= "\n\nabstract class $protectorClass extends $parentClass\n{\n}\n";
+    $protectorCode = file_get_contents(dirname(__FILE__).'/enterprise_template.php');
+    $protectorCode = str_replace('__ProtectorClass__', $protectorClass, $protectorCode);
+    $protectorCode = str_replace('__ParentClass__', $parentClass, $protectorCode);
     file_put_contents($protectorFile, $protectorCode);
 }
 
