@@ -63,7 +63,7 @@ class Mage_Tax_Model_Mysql4_Report_Tax extends Mage_Reports_Model_Mysql4_Report_
 
             $columns = array(
                 'period'                => "DATE(CONVERT_TZ(e.created_at, '+00:00', '" . $this->_getStoreTimezoneUtcOffset() . "'))",
-                'store_id'              => 'store_id',
+                'store_id'              => 'e.store_id',
                 'code'                  => 'tax.code',
                 'order_status'          => 'e.status',
                 'percent'               => 'tax.percent',

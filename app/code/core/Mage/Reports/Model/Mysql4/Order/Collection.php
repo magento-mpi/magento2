@@ -125,7 +125,7 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Mysql4
     {
         $this->setMainTable('sales/order_aggregated_created');
         $this->getSelect()->columns(array(
-            'revenue' => 'SUM(main_table.base_grand_total_amount)',
+            'revenue' => 'SUM(main_table.total_revenue_amount)',
             'quantity' => 'SUM(main_table.orders_count)',
             'range' => $this->_getRangeExpressionForAttribute($range, 'main_table.period'),
         ))->order('range', 'asc')
@@ -318,9 +318,9 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Mysql4
         $this->removeAllFieldsFromSelect();
 
         $this->getSelect()->columns(array(
-            'revenue' => 'SUM(main_table.base_subtotal_amount-main_table.base_subtotal_refunded_amount-main_table.base_subtotal_canceled_amount-main_table.base_discount_amount+main_table.base_discount_refunded_amount)',
-            'tax' => 'SUM(main_table.base_tax_amount-main_table.base_tax_refunded_amount-main_table.base_tax_canceled_amount)',
-            'shipping' => 'SUM(main_table.base_shipping_amount-main_table.base_shipping_refunded_amount-main_table.base_shipping_canceled_amount)',
+            'revenue' => 'SUM(main_table.total_revenue_amount)',
+            'tax' => 'SUM(main_table.total_tax_amount_actual)',
+            'shipping' => 'SUM(main_table.total_shipping_amount_actual)',
             'quantity' => 'SUM(orders_count)',
         ));
 
@@ -354,11 +354,10 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Mysql4
         if (Mage::getStoreConfig('sales/dashboard/use_aggregated_data')) {
             $this->setMainTable('sales/order_aggregated_created');
             $this->removeAllFieldsFromSelect();
-            $expr = 'main_table.base_subtotal_amount-main_table.base_subtotal_refunded_amount-main_table.base_subtotal_canceled_amount-main_table.base_discount_amount+main_table.base_discount_refunded_amount';
 
             $this->getSelect()->columns(array(
-                'lifetime' => "SUM({$expr})",
-                'average'  => "IF(SUM(main_table.orders_count) > 0, SUM({$expr})/SUM(main_table.orders_count), 0)"
+                'lifetime' => 'SUM(main_table.total_revenue_amount)',
+                'average'  => "IF(SUM(main_table.orders_count) > 0, SUM(main_table.total_revenue_amount)/SUM(main_table.orders_count), 0)"
             ));
 
             if (!$isFilter) {

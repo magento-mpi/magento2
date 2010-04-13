@@ -187,8 +187,7 @@ class Mage_Adminhtml_Block_Report_Filter_Form extends Mage_Adminhtml_Block_Widge
                 '1' => 'Yes',
                 '0' => 'No'
             ),
-            'label'     => Mage::helper('reports')->__('Actual Columns'),
-            'title'     => Mage::helper('reports')->__('Actual Columns')
+            'label'     => Mage::helper('reports')->__('Show Actual Values'),
         ));
 
         // apply field visibility

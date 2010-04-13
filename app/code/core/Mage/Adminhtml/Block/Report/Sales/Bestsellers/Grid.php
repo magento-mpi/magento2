@@ -55,7 +55,8 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Mage_Adminhtml_
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
             'renderer'      => 'adminhtml/report_sales_grid_column_renderer_date',
-            'totals_label'  => Mage::helper('adminhtml')->__('Total')
+            'totals_label'  => Mage::helper('adminhtml')->__('Total'),
+            'html_decorators' => array('nobr'),
         ));
 
         $this->addColumn('product_name', array(
@@ -68,12 +69,12 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Mage_Adminhtml_
         if ($this->getFilterData()->getStoreIds()) {
             $this->setStoreIds(explode(',', $this->getFilterData()->getStoreIds()));
         }
-        $currency_code = $this->getCurrentCurrencyCode();
+        $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('product_price', array(
             'header'        => Mage::helper('sales')->__('Price'),
             'type'          => 'currency',
-            'currency_code' => $currency_code,
+            'currency_code' => $currencyCode,
             'index'         => 'product_price',
             'sortable'      => false
         ));
@@ -87,8 +88,8 @@ class Mage_Adminhtml_Block_Report_Sales_Bestsellers_Grid extends Mage_Adminhtml_
         ));
 
 
-        $this->addExportType('*/*/exportBestsellersCsv', Mage::helper('reports')->__('CSV'));
-        $this->addExportType('*/*/exportBestsellersExcel', Mage::helper('reports')->__('Excel'));
+        $this->addExportType('*/*/exportBestsellersCsv', Mage::helper('adminhtml')->__('CSV'));
+        $this->addExportType('*/*/exportBestsellersExcel', Mage::helper('adminhtml')->__('Excel'));
 
         return parent::_prepareColumns();
     }
