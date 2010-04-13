@@ -92,7 +92,9 @@ function classesToTree($classParents)
 /**
  * Check class tree for Enterprise_Enterprise protection layer
  *
+ * @param array $sourceFiles
  * @param array $tree
+ * @param string $parentClass
  */
 function checkEnterpriseProtection($sourceFiles, $tree, $parentClass='StdClass')
 {
@@ -112,11 +114,38 @@ function checkEnterpriseProtection($sourceFiles, $tree, $parentClass='StdClass')
                 modifyParentClass($sourceFiles[$class], $parentClass, $protectorClass);
                 createProtectorLayer($protectorFile, $protectorClass, $parentClass);
             }
-            if ($isClassProtector) {
-                $protectorFile = getClassFile($class, $isParentController);
-                createProtectorLayer($protectorFile, $class, $parentClass); // overwrite
-            }
             checkEnterpriseProtection($sourceFiles, $subtree, $class);
+        }
+    }
+}
+
+/**
+ * Update Enterprise_Enterprise protection layer
+ *
+ * @param array $sourceFiles
+ * @param array $tree
+ * @param string $parentClass
+ */
+function updateEnterpriseProtection($sourceFiles, $tree, $parentClass='StdClass')
+{
+    if( count($tree) ) {
+        $isParentCommunity = preg_match('/^Mage_/', $parentClass);
+        $isParentController = FALSE;
+        if (isset($sourceFiles[$parentClass])) {
+            $isParentController = preg_match('=/controllers/=', $sourceFiles[$parentClass]);
+        }
+        foreach ($tree as $class=>$subtree) {
+            $isClassEnterprise = preg_match('/^Enterprise_/', $class);
+            $isClassProtector = preg_match('/^Enterprise_(Enterprise|License)_/', $class);
+            if ($isClassProtector) {
+                $oldFile = file_get_contents($sourceFiles[$class]);
+                createProtectorLayer($sourceFiles[$class], $class, $parentClass); // overwrite
+                $newFile = file_get_contents($sourceFiles[$class]);
+                if ($oldFile!=$newFile) {
+                    echo "Updating $class\n";
+                }
+            }
+            updateEnterpriseProtection($sourceFiles, $subtree, $class);
         }
     }
 }
@@ -197,4 +226,5 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 list($classes, $sourceFiles) = scanClasses(BP . '/app/code/core');
 $tree = classesToTree($classes);
 checkEnterpriseProtection($sourceFiles, $tree);
+updateEnterpriseProtection($sourceFiles, $tree);
 echo "Done.\n";
