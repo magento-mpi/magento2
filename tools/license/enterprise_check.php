@@ -109,7 +109,7 @@ function checkEnterpriseProtection($sourceFiles, $tree, $parentClass='StdClass')
             $isClassProtector = preg_match('/^Enterprise_(Enterprise|License)_/', $class);
             if ($isClassEnterprise && $isParentCommunity && !$isClassProtector) {
                 echo "Correction: $class extends $parentClass\n";
-                $protectorClass = getProtectorName($parentClass);
+                $protectorClass = getProtectorName($parentClass, $isParentController);
                 $protectorFile = getClassFile($protectorClass, $isParentController);
                 modifyParentClass($sourceFiles[$class], $parentClass, $protectorClass);
                 createProtectorLayer($protectorFile, $protectorClass, $parentClass);
@@ -138,10 +138,14 @@ function updateEnterpriseProtection($sourceFiles, $tree, $parentClass='StdClass'
             $isClassEnterprise = preg_match('/^Enterprise_/', $class);
             $isClassProtector = preg_match('/^Enterprise_(Enterprise|License)_/', $class);
             if ($isClassProtector) {
-                $oldFile = file_get_contents($sourceFiles[$class]);
-                createProtectorLayer($sourceFiles[$class], $class, $parentClass); // overwrite
-                $newFile = file_get_contents($sourceFiles[$class]);
-                if ($oldFile!=$newFile) {
+                if (!isset($sourceFiles[$class])) {
+                    die("Error: class $class undefined!\n");
+                }
+                $filename = $sourceFiles[$class];
+                $oldFile = file_get_contents($filename);
+                createProtectorLayer($filename, $class, $parentClass); // overwrite
+                $newFile = file_get_contents($filename);
+                if ($oldFile!==$newFile) {
                     echo "Updating $class\n";
                 }
             }
@@ -156,11 +160,15 @@ function updateEnterpriseProtection($sourceFiles, $tree, $parentClass='StdClass'
  * @param string $communityClass
  * @return string
  */
-function getProtectorName($communityClass)
+function getProtectorName($communityClass, $isController=FALSE)
 {
     $tmp = explode('_', $communityClass);
-    $tmp[0] = $tmp[2];
-    unset($tmp[2]);
+    if ($isController) {
+        unset($tmp[0]);
+    } else {
+        $tmp[0] = $tmp[2];
+        unset($tmp[2]);
+    }
     return 'Enterprise_Enterprise_'.join('_', $tmp);
 }
 
@@ -220,6 +228,7 @@ function createProtectorLayer($protectorFile, $protectorClass, $parentClass)
 // Void main
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
+
 if (isset($_SERVER['REQUEST_METHOD'])) {
     echo '<pre>';
 }
@@ -228,3 +237,5 @@ $tree = classesToTree($classes);
 checkEnterpriseProtection($sourceFiles, $tree);
 updateEnterpriseProtection($sourceFiles, $tree);
 echo "Done.\n";
+
+//var_dump(getProtectorName('Mage_Customer_AccountController'));
