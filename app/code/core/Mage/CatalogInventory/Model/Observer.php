@@ -395,11 +395,11 @@ class Mage_CatalogInventory_Model_Observer
                         $childStockItem = $childItem->getProduct()->getStockItem();
                     }
                     if (isset($item[$childProductId])) {
-                        $items[$childProductId]['qty'] += $childItem->getQty();
+                        $items[$childProductId]['qty'] += $childItem->getTotalQty();
                     } else {
                         $items[$childProductId] = array(
                             'item'=> $childStockItem,
-                            'qty' => $childItem->getQty()
+                            'qty' => $childItem->getTotalQty()
                         );
                     }
                 }
@@ -409,11 +409,11 @@ class Mage_CatalogInventory_Model_Observer
                     $stockItem = $item->getProduct()->getStockItem();
                 }
                 if (isset($item[$productId])) {
-                    $items[$productId]['qty'] += $item->getQty();
+                    $items[$productId]['qty'] += $item->getTotalQty();
                 } else {
                     $items[$productId] = array(
                         'item'=> $stockItem,
-                        'qty' => $item->getQty()
+                        'qty' => $item->getTotalQty()
                     );
                 }
             }
