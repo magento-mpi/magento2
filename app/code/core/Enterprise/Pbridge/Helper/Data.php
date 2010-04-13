@@ -110,7 +110,8 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
      */
     protected function _prepareRequestUrl($params = array(), $encryptParams = true)
     {
-        $pbridgeUrl = $this->getBridgeBaseUrl();
+        $storeId = (isset($params['store_id'])) ? $params['store_id']: 0;
+        $pbridgeUrl = $this->getBridgeBaseUrl($storeId);
         $sourceUrl =  rtrim($pbridgeUrl, '/') . '/bridge.php';
 
         if (!empty($params)) {
@@ -119,7 +120,7 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
             }
         }
 
-        $params['merchant_code'] = trim(Mage::getStoreConfig('payment/pbridge/merchantcode'));
+        $params['merchant_code'] = trim(Mage::getStoreConfig('payment/pbridge/merchantcode', $storeId));
 
         $sourceUrl .= '?' . http_build_query($params);
 
@@ -138,8 +139,9 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
         $params = array_merge(array(
             'locale' => Mage::app()->getLocale()->getLocaleCode(),
         ), $params);
+        $storeId = (isset($params['store_id'])) ? $params['store_id']: 0;
 
-        $params['merchant_key']  = trim(Mage::getStoreConfig('payment/pbridge/merchantkey'));
+        $params['merchant_key']  = trim(Mage::getStoreConfig('payment/pbridge/merchantkey', $storeId));
 
         return $params;
     }
@@ -254,10 +256,11 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     /**
      * Return base bridge URL
      *
+     * @param int $storeId
      * @return string
      */
-    public function getBridgeBaseUrl()
+    public function getBridgeBaseUrl($storeId = 0)
     {
-        return trim(Mage::getStoreConfig('payment/pbridge/gatewayurl'));
+        return trim(Mage::getStoreConfig('payment/pbridge/gatewayurl', $storeId));
     }
 }
