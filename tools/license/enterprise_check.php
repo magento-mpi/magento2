@@ -116,7 +116,7 @@ function checkEnterpriseProtection($sourceFiles, $tree, $parentClass='StdClass')
  * Convert Mage_X_Y_Foobar to Enterprise_Enterprise_Y_X_Foobar
  *
  * @param string $communityClass
- * @return array
+ * @return string
  */
 function getProtectorName($communityClass)
 {
@@ -124,6 +124,21 @@ function getProtectorName($communityClass)
     $tmp[0] = $tmp[2];
     unset($tmp[2]);
     return 'Enterprise_Enterprise_'.join('_', $tmp);
+}
+
+/**
+ * Convert Enterprise_Enterprise_Y_X_Foobar to Mage_X_Y_Foobar
+ *
+ * @param string $enterpriseClass
+ * @return string
+ */
+function getUnprotectedName($enterpriseClass)
+{
+    $tmp = explode('_', $enterpriseClass);
+    $tmp[1] = $tmp[3];
+    unset($tmp[0]);
+    unset($tmp[3]);
+    return 'Mage_'.join('_', $tmp);
 }
 
 /**
@@ -166,6 +181,24 @@ function createProtectorLayer($protectorClass, $parentClass)
     file_put_contents($protectorFile, $protectorCode);
 }
 
+/**
+ * Check for missing Enterprise_Enterprise_Foobar classes
+ *
+ * @param array $classes
+ */
+function updateProtectorLayer($classes)
+{
+    foreach ($classes as $childClass=>$parentClass) {
+        if (preg_match('/^Enterprise_Enterprise_/', $parentClass)) {
+            if (!isset($classes[$parentClass])) {
+                echo "Class missing: $parentClass\n";
+                $communityParentClass = getUnprotectedName($parentClass);
+                createProtectorLayer($parentClass, $communityParentClass);
+            }
+        }
+    }
+}
+
 // Void main
 // error_reporting(E_ALL);
 // ini_set('display_errors', TRUE);
@@ -175,4 +208,5 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 list($classes, $sourceFiles) = scanClasses(BP . '/app/code/core/Enterprise');
 $tree = classesToTree($classes);
 checkEnterpriseProtection($sourceFiles, $tree);
+updateProtectorLayer($classes);
 echo "Done.\n";
