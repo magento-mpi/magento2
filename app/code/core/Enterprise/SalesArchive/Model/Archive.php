@@ -104,7 +104,8 @@ class Enterprise_SalesArchive_Model_Archive
     {
         foreach ($this->_entities as $archiveEntity => $entityModel) {
             $className = Mage::getConfig()->getModelClassName($entityModel);
-            if ($object instanceof $className) {
+            $resourceClassName = Mage::getConfig()->getResourceModelClassName($entityModel);
+            if ($object instanceof $className || $object instanceof $resourceClassName) {
                 return $archiveEntity;
             }
         }

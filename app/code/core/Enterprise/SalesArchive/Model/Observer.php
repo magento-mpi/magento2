@@ -70,6 +70,9 @@ class Enterprise_SalesArchive_Model_Observer
      */
     public function salesObjectAfterLoad(Varien_Event_Observer $observer)
     {
+        if (!$this->_config->isArchiveActive()) {
+            return $this;
+        }
         $object = $observer->getEvent()->getDataObject();
         $archiveEntity = $this->_archive->detectArchiveEntity($object);
 
@@ -99,6 +102,10 @@ class Enterprise_SalesArchive_Model_Observer
      */
     public function salesUpdateGridRecords(Varien_Event_Observer $observer)
     {
+        if (!$this->_config->isArchiveActive()) {
+            return $this;
+        }
+
         $proxy = $observer->getEvent()->getProxy();
 
         $archiveEntity = $this->_archive->detectArchiveEntity($proxy->getResource());
