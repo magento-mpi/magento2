@@ -147,17 +147,18 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
             'options'  => Mage::getModel('enterprise_reward/source_website')->toOptionArray(false),
             'index'    => 'website_id',
             'header'   => Mage::helper('enterprise_reward')->__('Website'),
-            'sortable' => false
+            'sortable' => false,
         ));
 
 // TODO: custom renderer for reason, which includes comments
         $this->addColumn('message', array(
             'index'    => 'message',
+            'type'     => 'text',
             'getter'   => 'getMessage',
             'header'   => Mage::helper('enterprise_reward')->__('Reason'),
             'sortable' => false,
             'filter'   => false,
-            'align'    => 'left',
+            'renderer' => 'enterprise_reward/adminhtml_customer_edit_tab_reward_history_grid_column_renderer_reason',
         ));
 
         $this->addColumn('created_at', array(
