@@ -94,16 +94,19 @@ function classesToTree($classParents)
  *
  * @param array $sourceFiles
  * @param string $sourceDir
+ * @param string $template
  * @param array $tree
  * @param string $parentClass
  */
-function checkEnterpriseProtection($sourceFiles, $sourceDir, $tree, $parentClass='StdClass')
+function checkEnterpriseProtection($sourceFiles, $sourceDir, $template, $tree, $parentClass='StdClass')
 {
     if( count($tree) ) {
         $isParentCommunity = preg_match('/^Mage_/', $parentClass);
         $isParentController = FALSE;
+        $parentFile = NULL;
         if (isset($sourceFiles[$parentClass])) {
             $isParentController = preg_match('=/controllers/=', $sourceFiles[$parentClass]);
+            $parentFile = substr($sourceFiles[$parentClass], strlen($sourceDir));
         }
         foreach ($tree as $class=>$subtree) {
             $isClassEnterprise = preg_match('/^Enterprise_/', $class);
@@ -117,9 +120,9 @@ function checkEnterpriseProtection($sourceFiles, $sourceDir, $tree, $parentClass
                     $protectorRequireFile = substr($protectorFile, strlen($sourceDir));
                 }
                 modifyParentClass($sourceFiles[$class], $parentClass, $protectorClass, $protectorRequireFile);
-                createProtectorLayer($protectorFile, $protectorClass, $parentClass);
+                createProtectorLayer($template, $protectorFile, $protectorClass, $parentClass, $parentFile);
             }
-            checkEnterpriseProtection($sourceFiles, $sourceDir, $subtree, $class);
+            checkEnterpriseProtection($sourceFiles, $sourceDir, $template, $subtree, $class);
         }
     }
 }
@@ -266,7 +269,7 @@ if (isset($_SERVER['argv'][1])) {
 
 list($classes, $sourceFiles) = scanClasses(BP.'/app/code/core');
 $tree = classesToTree($classes);
-checkEnterpriseProtection($sourceFiles, BP.'/app/code/core/', $tree);
+checkEnterpriseProtection($sourceFiles, BP.'/app/code/core/', $template, $tree);
 updateEnterpriseProtection($sourceFiles, BP.'/app/code/core/', $template, $tree);
 echo "Done.\n";
 
