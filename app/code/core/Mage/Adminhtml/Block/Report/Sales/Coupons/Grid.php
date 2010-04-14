@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Report_Sales_Coupons_Grid extends Mage_Adminhtml_Bloc
         ));
 
         $this->addColumn('discount_amount_actual', array(
-            'header'        => Mage::helper('sales')->__('Discount Amount'),
+            'header'        => Mage::helper('salesrule')->__('Discount Amount'),
             'sortable'      => false,
             'type'          => 'currency',
             'currency_code' => $currencyCode,

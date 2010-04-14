@@ -86,7 +86,7 @@ class Mage_Sales_Model_Mysql4_Report_Order extends Mage_Sales_Model_Mysql4_Repor
                 'total_tax_amount_actual'        => 'SUM((o.base_tax_invoiced - IFNULL(o.base_tax_refunded, 0)) * o.base_to_global_rate)',
                 'total_shipping_amount'          => 'SUM((o.base_shipping_amount - IFNULL(o.base_shipping_canceled, 0)) * o.base_to_global_rate)',
                 'total_shipping_amount_actual'   => 'SUM((o.base_shipping_invoiced - IFNULL(o.base_shipping_refunded, 0)) * o.base_to_global_rate)',
-                'total_discount_amount'          => 'SUM((o.base_discount_amount - IFNULL(o.base_discount_canceled, 0)) * o.base_to_global_rate)',
+                'total_discount_amount'          => 'SUM((ABS(o.base_discount_amount) - IFNULL(o.base_discount_canceled, 0)) * o.base_to_global_rate)',
                 'total_discount_amount_actual'   => 'SUM((o.base_discount_invoiced - IFNULL(o.base_discount_refunded, 0)) * o.base_to_global_rate)',
             );
 
@@ -108,7 +108,8 @@ class Mage_Sales_Model_Mysql4_Report_Order extends Mage_Sales_Model_Mysql4_Repor
                 ->join(array('oi' => $selectOrderItem), 'oi.order_id = o.entity_id', array())
                 ->where('o.state NOT IN (?)', array(
                     Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
-                    Mage_Sales_Model_Order::STATE_NEW
+                    Mage_Sales_Model_Order::STATE_NEW,
+                    Mage_Sales_Model_Order::STATE_CANCELED,
                 ));
 
             if ($subSelect !== null) {

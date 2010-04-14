@@ -710,13 +710,22 @@
         </reference>
     </adminhtml_sales_order_create_load_block_sidebar_pcompared>
 
+    <report_sales>
+        <reference name="messages">
+            <action method="addNotice" translate="message">
+                <message>This report depends on timezone configuration. Once timezone is changed, the lifetime statistics need to be refreshed.</message>
+            </action>
+        </reference>
+    </report_sales>
+
     <adminhtml_report_sales_sales>
+        <update handle="report_sales"/>
         <reference name="content">
             <block type="adminhtml/report_sales_sales" template="report/grid/container.phtml" name="sales.report.grid.container">
                 <block type="adminhtml/store_switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName"><var_name>store_ids</var_name></action>
                 </block>
-                <block type="adminhtml/report_filter_form" name="grid.filter.form">
+                <block type="sales/adminhtml_report_filter_form_order" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_order</key>
                         <value>Order Created Date</value>
@@ -725,9 +734,10 @@
                         <key>updated_at_order</key>
                         <value>Order Updated Date</value>
                     </action>
-                    <action method="setFieldVisibility">
-                        <field>show_actual_columns</field>
-                        <visibility>1</visibility>
+                    <action method="setFieldOption" translate="value">
+                        <field>report_type</field>
+                        <option>note</option>
+                        <value>Order Updated Date report is real-time, does not need statistics refreshing.</value>
                     </action>
                 </block>
             </block>
@@ -735,12 +745,13 @@
     </adminhtml_report_sales_sales>
 
     <adminhtml_report_sales_tax>
+        <update handle="report_sales"/>
         <reference name="content">
             <block type="adminhtml/report_sales_tax" template="report/grid/container.phtml" name="sales.report.grid.container">
                 <block type="adminhtml/store_switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName"><var_name>store_ids</var_name></action>
                 </block>
-                <block type="adminhtml/report_filter_form" name="grid.filter.form">
+                <block type="sales/adminhtml_report_filter_form" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_order</key>
                         <value>Order Created Date</value>
@@ -749,18 +760,24 @@
                         <key>updated_at_order</key>
                         <value>Order Updated Date</value>
                     </action>
+                    <action method="setFieldOption" translate="value">
+                        <field>report_type</field>
+                        <option>note</option>
+                        <value>Order Updated Date report is real-time, does not need statistics refreshing.</value>
+                    </action>
                 </block>
             </block>
         </reference>
     </adminhtml_report_sales_tax>
 
     <adminhtml_report_sales_shipping>
+        <update handle="report_sales"/>
         <reference name="content">
             <block type="adminhtml/report_sales_shipping" template="report/grid/container.phtml" name="sales.report.grid.container">
                 <block type="adminhtml/store_switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName"><var_name>store_ids</var_name></action>
                 </block>
-                <block type="adminhtml/report_filter_form" name="grid.filter.form">
+                <block type="sales/adminhtml_report_filter_form" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_order</key>
                         <value>Order Created Date</value>
@@ -775,12 +792,13 @@
     </adminhtml_report_sales_shipping>
 
     <adminhtml_report_sales_invoiced>
+        <update handle="report_sales"/>
         <reference name="content">
             <block type="adminhtml/report_sales_invoiced" template="report/grid/container.phtml" name="sales.report.grid.container">
                 <block type="adminhtml/store_switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName"><var_name>store_ids</var_name></action>
                 </block>
-                <block type="adminhtml/report_filter_form" name="grid.filter.form">
+                <block type="sales/adminhtml_report_filter_form" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_order</key>
                         <value>Order Created Date</value>
@@ -795,12 +813,13 @@
     </adminhtml_report_sales_invoiced>
 
     <adminhtml_report_sales_refunded>
+        <update handle="report_sales"/>
         <reference name="content">
             <block type="adminhtml/report_sales_refunded" template="report/grid/container.phtml" name="sales.report.grid.container">
                 <block type="adminhtml/store_switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName"><var_name>store_ids</var_name></action>
                 </block>
-                <block type="adminhtml/report_filter_form" name="grid.filter.form">
+                <block type="sales/adminhtml_report_filter_form" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_order</key>
                         <value>Order Created Date</value>
@@ -815,12 +834,13 @@
     </adminhtml_report_sales_refunded>
 
     <adminhtml_report_sales_coupons>
+        <update handle="report_sales"/>
         <reference name="content">
             <block type="adminhtml/report_sales_coupons" template="report/grid/container.phtml" name="sales.report.grid.container">
                 <block type="adminhtml/store_switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName"><var_name>store_ids</var_name></action>
                 </block>
-                <block type="adminhtml/report_filter_form" name="grid.filter.form">
+                <block type="sales/adminhtml_report_filter_form" name="grid.filter.form">
                     <action method="addReportTypeOption" translate="value">
                         <key>created_at_order</key>
                         <value>Order Created Date</value>
@@ -829,18 +849,24 @@
                         <key>updated_at_order</key>
                         <value>Order Updated Date</value>
                     </action>
+                    <action method="setFieldOption" translate="value">
+                        <field>report_type</field>
+                        <option>note</option>
+                        <value>Order Updated Date report is real-time, does not need statistics refreshing.</value>
+                    </action>
                 </block>
             </block>
         </reference>
     </adminhtml_report_sales_coupons>
 
     <adminhtml_report_sales_bestsellers>
+        <update handle="report_sales"/>
         <reference name="content">
             <block type="adminhtml/report_sales_bestsellers" template="report/grid/container.phtml" name="sales.report.grid.container">
                 <block type="adminhtml/store_switcher" template="report/store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName"><var_name>store_ids</var_name></action>
                 </block>
-                <block type="adminhtml/report_filter_form" name="grid.filter.form">
+                <block type="sales/adminhtml_report_filter_form" name="grid.filter.form">
                     <action method="setFieldVisibility">
                         <field>report_type</field>
                         <visibility>0</visibility>
