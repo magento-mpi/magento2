@@ -43,7 +43,8 @@ class Enterprise_Reward_Model_System_Config_Backend_Balance extends Enterprise_E
             return $this;
         }
 
-        if ($this->getFieldsetDataValue('min_points_balance') > $this->getFieldsetDataValue('max_points_balance')) {
+        if ($this->getFieldsetDataValue('max_points_balance') &&
+            ($this->getFieldsetDataValue('min_points_balance') > $this->getFieldsetDataValue('max_points_balance'))) {
             Mage::throwException(Mage::helper('enterprise_reward')->__('"Minimum Reward Points Balance" should be less or equal to "Cap Reward Points Balance".'));
         }
         return $this;
