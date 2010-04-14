@@ -797,6 +797,7 @@ class Mage_Paypal_Model_Config
             case 'allowspecific':
             case 'specificcountry':
             case 'line_items_enabled':
+            case 'use_payflow':
                 return "paypal/general/{$fieldName}";
             case 'active':
             case 'fraud_filter':
@@ -824,6 +825,7 @@ class Mage_Paypal_Model_Config
             case 'allowspecific':
             case 'specificcountry':
             case 'line_items_enabled':
+            case 'use_payflow':
                 return "paypal/general/{$fieldName}";
             case 'active':
             case 'cctypes':

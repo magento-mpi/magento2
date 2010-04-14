@@ -81,6 +81,27 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
+     * Check whether payment method is available in checkout
+     * Return false if PayFlow edition enabled
+     *
+     * TODO?
+     * Also check obligatory data such as Credentials API or Merchant email
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return bool
+     */
+    public function isAvailable($quote = null)
+    {
+        if (!parent::isAvailable($quote)) {
+            return false;
+        }
+        if ($this->_pro->getConfig()->usePayflow) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Store setter
      * Also updates store ID in config object
      *
@@ -133,10 +154,11 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             case 'specificcountry':
             case 'line_items_enabled':
             case 'business_account':
-                return Mage::getStoreConfig("paypal/general/{$field}", $storeId);
+                $path = 'paypal/general/' . $field;
             default:
-                return parent::getConfigData($field, $storeId);
+                $path = 'payment/' . Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS . '/' . $field;
         }
+        return Mage::getStoreConfig($path, $storeId);
     }
 
     /**

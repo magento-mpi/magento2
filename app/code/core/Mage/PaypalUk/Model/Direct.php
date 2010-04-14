@@ -46,6 +46,25 @@ class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
     protected $_notifyAction = 'paypaluk/ipn/direct';
 
     /**
+     * Check whether payment method is available in checkout
+     * Return false if PayFlow edition disabled
+     *
+     * TODO?
+     * Also check obligatory data such as Credentials API or Merchant email
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return bool
+     */
+    public function isAvailable($quote = null)
+    {
+        parent::isAvailable($quote); // perform parent logic
+        if ($this->getConfigData('active') && $this->_pro->getConfig()->usePayflow) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Import direct payment results to payment
      *
      * @param Mage_Paypal_Model_Api_Nvp
