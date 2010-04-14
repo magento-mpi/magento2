@@ -110,8 +110,9 @@ function checkEnterpriseProtection($sourceFiles, $sourceDir, $template, $tree, $
         }
         foreach ($tree as $class=>$subtree) {
             $isClassEnterprise = preg_match('/^Enterprise_/', $class);
-            $isClassProtector = preg_match('/^Enterprise_(Enterprise|License)_/', $class);
-            if ($isClassEnterprise && $isParentCommunity && !$isClassProtector) {
+            $isClassProtector = preg_match('/^Enterprise_Enterprise_/', $class);
+            $isClassLicense = preg_match('/^Enterprise_License_/', $class);
+            if ($isClassEnterprise && $isParentCommunity && !$isClassProtector && !$isClassLicense) {
                 echo "Correction: $class extends $parentClass\n";
                 $protectorClass = getProtectorName($parentClass, $isParentController);
                 $protectorFile = getClassFile($protectorClass, $isParentController);
@@ -148,7 +149,8 @@ function updateEnterpriseProtection($sourceFiles, $sourceDir, $template, $tree, 
         }
         foreach ($tree as $class=>$subtree) {
             $isClassEnterprise = preg_match('/^Enterprise_/', $class);
-            $isClassProtector = preg_match('/^Enterprise_(Enterprise|License)_/', $class);
+            $isClassProtector = preg_match('/^Enterprise_Enterprise_/', $class);
+            $isClassLicense = preg_match('/^Enterprise_License_/', $class);
             if ($isClassProtector) {
                 if (!isset($sourceFiles[$class])) {
                     die("Error: class $class undefined!\n");
