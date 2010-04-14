@@ -129,10 +129,11 @@ function checkEnterpriseProtection($sourceFiles, $sourceDir, $tree, $parentClass
  *
  * @param array $sourceFiles
  * @param string $sourceDir
+ * @param string $template
  * @param array $tree
  * @param string $parentClass
  */
-function updateEnterpriseProtection($sourceFiles, $sourceDir, $tree, $parentClass='StdClass')
+function updateEnterpriseProtection($sourceFiles, $sourceDir, $template, $tree, $parentClass='StdClass')
 {
     if( count($tree) ) {
         $isParentCommunity = preg_match('/^Mage_/', $parentClass);
@@ -151,13 +152,13 @@ function updateEnterpriseProtection($sourceFiles, $sourceDir, $tree, $parentClas
                 }
                 $filename = $sourceFiles[$class];
                 $oldFile = file_get_contents($filename);
-                createProtectorLayer($filename, $class, $parentClass, $parentFile); // overwrite
+                createProtectorLayer($template, $filename, $class, $parentClass, $parentFile); // overwrite
                 $newFile = file_get_contents($filename);
                 if ($oldFile!==$newFile) {
                     echo "Updating $class\n";
                 }
             }
-            updateEnterpriseProtection($sourceFiles, $sourceDir, $subtree, $class);
+            updateEnterpriseProtection($sourceFiles, $sourceDir, $template, $subtree, $class);
         }
     }
 }
@@ -222,11 +223,12 @@ function modifyParentClass($fileToModify, $oldParent, $newParent, $requireFile=N
 /**
  * Create Enterprise_Enterprise_Foobar file
  *
+ * @param string $protectorCode
  * @param string $protectorFile
  * @param string $protectorClass
  * @param string $parentClass
  */
-function createProtectorLayer($protectorFile, $protectorClass, $parentClass, $parentFile=NULL)
+function createProtectorLayer($protectorCode, $protectorFile, $protectorClass, $parentClass, $parentFile=NULL)
 {
     if ($protectorClass=='Enterprise_Enterprise_Model_Observer' ||
         $protectorClass=='Enterprise_Enterprise_Model_Observer_Install') {
@@ -237,7 +239,6 @@ function createProtectorLayer($protectorFile, $protectorClass, $parentClass, $pa
     if (!is_dir($dir)) {
         mkdir(dirname($protectorFile), 0755, TRUE);
     }
-    $protectorCode = file_get_contents(dirname(__FILE__).'/enterprise_template.php');
     $protectorCode = str_replace('__ProtectorClass__', $protectorClass, $protectorCode);
     $protectorCode = str_replace('__ParentClass__', $parentClass, $protectorCode);
     if (is_null($parentFile)) {
@@ -255,10 +256,18 @@ ini_set('display_errors', TRUE);
 if (isset($_SERVER['REQUEST_METHOD'])) {
     echo '<pre>';
 }
+
+$template = file_get_contents(dirname(__FILE__).'/enterprise_template.php');
+if (isset($_SERVER['argv'][1])) {
+    if (($_SERVER['argv'][1]=='clean')) {
+        $template = file_get_contents(dirname(__FILE__).'/enterprise_template_clean.php');
+    }
+}
+
 list($classes, $sourceFiles) = scanClasses(BP.'/app/code/core');
 $tree = classesToTree($classes);
 checkEnterpriseProtection($sourceFiles, BP.'/app/code/core/', $tree);
-updateEnterpriseProtection($sourceFiles, BP.'/app/code/core/', $tree);
+updateEnterpriseProtection($sourceFiles, BP.'/app/code/core/', $template, $tree);
 echo "Done.\n";
 
 //var_dump(getProtectorName('Mage_Customer_AccountController'));
