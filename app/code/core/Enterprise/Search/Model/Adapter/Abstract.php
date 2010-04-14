@@ -221,7 +221,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         catch (Exception $e) {
             $this->rollback();
             Mage::logException($e);
-            Mage::throwException(Mage::helper('enterprise_search')->__('Unable to add documents to search engine index.'));
         }
         $this->optimize();
         return $this;
@@ -264,7 +263,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             catch (Exception $e) {
                 $this->rollback();
                 Mage::logException($e);
-                Mage::throwException(Mage::helper('enterprise_search')->__('Unable to delete documents from search engine index.'));
             }
             $this->optimize();
 

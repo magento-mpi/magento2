@@ -54,7 +54,6 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         }
         catch (Exception $e){
             Mage::logException($e);
-            Mage::throwException(Mage::helper('enterprise_search')->__('Unable to perform search because of search engine missed configuration.'));
         }
     }
 
@@ -83,7 +82,6 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         catch (Exception $e)
         {
             Mage::logException($e);
-            Mage::throwException(Mage::helper('enterprise_search')->__('Unable to connect to the search client.'));
         }
         return $this->_client;
     }
@@ -215,7 +213,6 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         }
         catch (Exception $e) {
             Mage::logException($e);
-            Mage::throwException(Mage::helper('enterprise_search')->__('Unable perform search request.'));
         }
     }
 

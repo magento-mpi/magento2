@@ -84,7 +84,6 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         catch (Exception $e)
         {
             Mage::logException($e);
-            Mage::throwException(Mage::helper('enterprise_search')->__('Unable to connect to the search client.'));
         }
         return $this->_client;
     }
@@ -235,7 +234,6 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         }
         catch (Exception $e) {
             Mage::logException($e);
-            Mage::throwException(Mage::helper('enterprise_search')->__('Unable perform search request.'));
         }
     }
 
