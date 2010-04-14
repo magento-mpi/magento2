@@ -93,10 +93,11 @@ function classesToTree($classParents)
  * Check class tree for Enterprise_Enterprise protection layer
  *
  * @param array $sourceFiles
+ * @param string $sourceDir
  * @param array $tree
  * @param string $parentClass
  */
-function checkEnterpriseProtection($sourceFiles, $tree, $parentClass='StdClass')
+function checkEnterpriseProtection($sourceFiles, $sourceDir, $tree, $parentClass='StdClass')
 {
     if( count($tree) ) {
         $isParentCommunity = preg_match('/^Mage_/', $parentClass);
@@ -111,10 +112,14 @@ function checkEnterpriseProtection($sourceFiles, $tree, $parentClass='StdClass')
                 echo "Correction: $class extends $parentClass\n";
                 $protectorClass = getProtectorName($parentClass, $isParentController);
                 $protectorFile = getClassFile($protectorClass, $isParentController);
-                modifyParentClass($sourceFiles[$class], $parentClass, $protectorClass);
+                $protectorRequireFile = NULL;
+                if ($isParentController) {
+                    $protectorRequireFile = substr($protectorFile, strlen($sourceDir));
+                }
+                modifyParentClass($sourceFiles[$class], $parentClass, $protectorClass, $protectorRequireFile);
                 createProtectorLayer($protectorFile, $protectorClass, $parentClass);
             }
-            checkEnterpriseProtection($sourceFiles, $subtree, $class);
+            checkEnterpriseProtection($sourceFiles, $sourceDir, $subtree, $class);
         }
     }
 }
@@ -123,16 +128,19 @@ function checkEnterpriseProtection($sourceFiles, $tree, $parentClass='StdClass')
  * Update Enterprise_Enterprise protection layer
  *
  * @param array $sourceFiles
+ * @param string $sourceDir
  * @param array $tree
  * @param string $parentClass
  */
-function updateEnterpriseProtection($sourceFiles, $tree, $parentClass='StdClass')
+function updateEnterpriseProtection($sourceFiles, $sourceDir, $tree, $parentClass='StdClass')
 {
     if( count($tree) ) {
         $isParentCommunity = preg_match('/^Mage_/', $parentClass);
         $isParentController = FALSE;
+        $parentFile = NULL;
         if (isset($sourceFiles[$parentClass])) {
             $isParentController = preg_match('=/controllers/=', $sourceFiles[$parentClass]);
+            $parentFile = substr($sourceFiles[$parentClass], strlen($sourceDir));
         }
         foreach ($tree as $class=>$subtree) {
             $isClassEnterprise = preg_match('/^Enterprise_/', $class);
@@ -143,13 +151,13 @@ function updateEnterpriseProtection($sourceFiles, $tree, $parentClass='StdClass'
                 }
                 $filename = $sourceFiles[$class];
                 $oldFile = file_get_contents($filename);
-                createProtectorLayer($filename, $class, $parentClass); // overwrite
+                createProtectorLayer($filename, $class, $parentClass, $parentFile); // overwrite
                 $newFile = file_get_contents($filename);
                 if ($oldFile!==$newFile) {
                     echo "Updating $class\n";
                 }
             }
-            updateEnterpriseProtection($sourceFiles, $subtree, $class);
+            updateEnterpriseProtection($sourceFiles, $sourceDir, $subtree, $class);
         }
     }
 }
@@ -197,12 +205,17 @@ function getClassFile($class, $isController=FALSE)
  * @param string $oldParent
  * @param string $newParent
  */
-function modifyParentClass($fileToModify, $oldParent, $newParent)
+function modifyParentClass($fileToModify, $oldParent, $newParent, $requireFile=NULL)
 {
+    $codeToModify = file_get_contents($fileToModify);
     $regex = '/extends\s+'.$oldParent.'/';
     $replace = 'extends '.$newParent;
-    $codeToModify = file_get_contents($fileToModify);
     $codeToModify = preg_replace($regex, $replace, $codeToModify);
+    if (!is_null($requireFile)) {
+        $regex = '/((include|require)(_once)?\s)+[\'"]Mage\/.+?[\^\'"]+/';
+        $replace = "$1 '$requireFile'";
+        $codeToModify = preg_replace($regex, $replace, $codeToModify);
+    }
     file_put_contents($fileToModify, $codeToModify);
 }
 
@@ -213,7 +226,7 @@ function modifyParentClass($fileToModify, $oldParent, $newParent)
  * @param string $protectorClass
  * @param string $parentClass
  */
-function createProtectorLayer($protectorFile, $protectorClass, $parentClass)
+function createProtectorLayer($protectorFile, $protectorClass, $parentClass, $parentFile=NULL)
 {
     if ($protectorClass=='Enterprise_Enterprise_Model_Observer' ||
         $protectorClass=='Enterprise_Enterprise_Model_Observer_Install') {
@@ -227,6 +240,11 @@ function createProtectorLayer($protectorFile, $protectorClass, $parentClass)
     $protectorCode = file_get_contents(dirname(__FILE__).'/enterprise_template.php');
     $protectorCode = str_replace('__ProtectorClass__', $protectorClass, $protectorCode);
     $protectorCode = str_replace('__ParentClass__', $parentClass, $protectorCode);
+    if (is_null($parentFile)) {
+        $protectorCode = preg_replace('/^.+__require__.+$/m', '', $protectorCode);
+    } else {
+        $protectorCode = str_replace('// __require__', "require_once '$parentFile';", $protectorCode);
+    }
     file_put_contents($protectorFile, $protectorCode);
 }
 
@@ -237,10 +255,15 @@ ini_set('display_errors', TRUE);
 if (isset($_SERVER['REQUEST_METHOD'])) {
     echo '<pre>';
 }
-list($classes, $sourceFiles) = scanClasses(BP . '/app/code/core');
+list($classes, $sourceFiles) = scanClasses(BP.'/app/code/core');
 $tree = classesToTree($classes);
-checkEnterpriseProtection($sourceFiles, $tree);
-updateEnterpriseProtection($sourceFiles, $tree);
+checkEnterpriseProtection($sourceFiles, BP.'/app/code/core/', $tree);
+updateEnterpriseProtection($sourceFiles, BP.'/app/code/core/', $tree);
 echo "Done.\n";
 
 //var_dump(getProtectorName('Mage_Customer_AccountController'));
+
+//modifyParentClass(
+//    '/home/gray/work/app/code/core/Enterprise/SalesArchive/controllers/Adminhtml/Sales/OrderController.php',
+//    'Mage_Adminhtml_Sales_OrderController',
+//    'Enterprise_Enterprise_Adminhtml_Sales_OrderController');

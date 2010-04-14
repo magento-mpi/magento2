@@ -121,6 +121,7 @@ if($licenseNotValid){
     /**
      * Ancestor class
      */
+    // __require__
     abstract class __ProtectorClass__ extends __ParentClass__
     {
     }
