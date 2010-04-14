@@ -24,6 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
+<?php if ($this->getAllowWriteReviewFlag()): ?>
 <form action="<?php echo $this->getAction() ?>" method="post" id="review-form">
     <div class="box-title">
         <h2><?php echo $this->__('Write Your Own Review') ?></h2>
@@ -31,7 +32,7 @@
     <?php echo $this->getChildHtml('form_fields_before')?>
     <div class="box-content">
         <h3 class="product-name"><?php echo $this->__("You're reviewing:"); ?> <span><?php echo $this->htmlEscape($this->getProductInfo()->getName()) ?></span></h3>
-        <?php if( $this->getRatings() && $this->getRatings()->getSize()): ?>
+        <?php if ($this->getRatings() && $this->getRatings()->getSize()): ?>
             <span id="input-message-box"></span>
             <ul class="form-list">
                 <li>
@@ -125,3 +126,8 @@
     );
 //]]>
 </script>
+<?php else: ?>
+<p class="required">
+    <?php echo $this->__('Only registered users can write reviews. Please, <a href="%s">log in</a> or <a href="%s">register</a>', $this->getLoginLink(), Mage::helper('customer')->getRegisterUrl()) ?>
+</p>
+<?php endif ?>

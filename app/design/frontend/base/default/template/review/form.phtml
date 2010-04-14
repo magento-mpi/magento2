@@ -24,6 +24,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<?php if ($this->getAllowWriteReviewFlag()): ?>
 <form action="<?php echo $this->getAction() ?>" method="post" id="review-form">
     <div class="form-add">
         <h2><?php echo $this->__('Write Your Own Review') ?></h2>
@@ -122,3 +123,8 @@
     );
 //]]>
 </script>
+<?php else: ?>
+<p class="required">
+    <?php echo $this->__('Only registered users can write reviews. Please, <a href="%s">log in</a> or <a href="%s">register</a>', $this->getLoginLink(), Mage::helper('customer')->getRegisterUrl()) ?>
+</p>
+<?php endif ?>
