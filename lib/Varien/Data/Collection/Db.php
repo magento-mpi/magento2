@@ -341,14 +341,8 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     /**
      * Add field filter to collection
      *
-     * If $attribute is an array will add OR condition with following format:
-     * array(
-     *     array('attribute'=>'firstname', 'like'=>'test%'),
-     *     array('attribute'=>'lastname', 'like'=>'test%'),
-     * )
-     *
      * @see self::_getConditionSql for $condition
-     * @param string|array $attribute
+     * @param string $field
      * @param null|string|array $condition
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */

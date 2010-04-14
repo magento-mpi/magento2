@@ -83,8 +83,8 @@ class Mage_Sales_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Mysql4_C
 
 
     /**
-     * Joins table sales_flat_order_address to select for billing and shipping orders addresses.
-     * Creates corillation map
+     * Join table sales_flat_order_address to select for billing and shipping order addresses.
+     * Create corillation map
      * 
      * @return Mage_Sales_Model_Mysql4_Collection_Abstract
      */
@@ -133,25 +133,39 @@ class Mage_Sales_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Mysql4_C
     }
 
     /**
+     * Add field search filter to collection as OR condition
+     *
+     * @see self::_getConditionSql for $condition
+     * @param string $field
+     * @param null|string|array $condition
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function addFieldToSearchFilter($field, $condition = null)
+    {
+        $field = $this->_getMappedField($field);
+        $this->_select->orWhere($this->_getConditionSql($field, $condition));
+        return $this;
+    }
+
+    /**
      * Specify collection select filter by attribute value
      *
      * @param array|string|Mage_Eav_Model_Entity_Attribute $attribute
      * @param array|integer|string|null $condition
      * @return Mage_Sales_Model_Mysql4_Collection_Abstract
      */
-    public function addAttributeToFilter($attributes, $condition = null)
+    public function addAttributeToSearchFilter($attributes, $condition = null)
     {
-        if (is_array($attributes)){
-            if (!empty($attributes)){
-                $this->_addAddressFields();
+        if (is_array($attributes) && !empty($attributes)){
+            $this->_addAddressFields();
 
-                foreach ($attributes as $attribute) {
-                    parent::addAttributeToFilter($attribute['attribute'], $attribute);
-                }
+            $toFilterData = array();
+            foreach ($attributes as $attribute) {
+                $this->addFieldToSearchFilter($this->_attributeToField($attribute['attribute']), $attribute);
             }
         }
         else {
-            return parent::addAttributeToFilter($attributes, $condition);
+            $this->addAttributeToFilter($attributes, $condition);
         }
 
         return $this;
