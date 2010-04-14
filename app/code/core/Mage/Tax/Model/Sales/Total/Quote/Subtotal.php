@@ -111,7 +111,21 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
         $addressRequest = $this->_getAddressTaxRequest($address);
         $storeRequest   = $this->_getStoreTaxRequest($address);
         $this->_calculator->setCustomer($address->getQuote()->getCustomer());
-        $this->_areTaxRequestsSimilar = $this->_calculator->compareRequests($storeRequest, $addressRequest);
+        if ($this->_config->priceIncludesTax($this->_store)) {
+            $classIds = array();
+            foreach ($items as $item) {
+                $classIds[] = $item->getProduct()->getTaxClassId();
+                if ($item->getHasChildren()) {
+                    foreach ($item->getChildren() as $child) {
+                        $classIds[] = $child->getProduct()->getTaxClassId();
+                    }
+                }
+            }
+            $classIds = array_unique($classIds);
+            $storeRequest->setProductClassId($classIds);
+            $addressRequest->setProductClassId($classIds);
+            $this->_areTaxRequestsSimilar = $this->_calculator->compareRequests($storeRequest, $addressRequest);
+        }
 
         foreach ($items as $item) {
             if ($item->getParentItemId()) {

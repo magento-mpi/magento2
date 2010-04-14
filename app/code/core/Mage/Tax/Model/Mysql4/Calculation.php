@@ -194,7 +194,7 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
             ->from(array('main_table'=>$this->getMainTable()))
             ->where('customer_tax_class_id = ?', $request->getCustomerClassId());
         if ($request->getProductClassId()) {
-            $select->where('product_tax_class_id = ?', $request->getProductClassId());
+            $select->where('product_tax_class_id IN (?)', $request->getProductClassId());
         }
 
         $select->join(
