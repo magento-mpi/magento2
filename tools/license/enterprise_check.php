@@ -106,7 +106,9 @@ function checkEnterpriseProtection($sourceFiles, $sourceDir, $template, $tree, $
         $parentFile = NULL;
         if (isset($sourceFiles[$parentClass])) {
             $isParentController = preg_match('=/controllers/=', $sourceFiles[$parentClass]);
-            $parentFile = substr($sourceFiles[$parentClass], strlen($sourceDir));
+            if ($isParentController) {
+                $parentFile = substr($sourceFiles[$parentClass], strlen($sourceDir));
+            }
         }
         foreach ($tree as $class=>$subtree) {
             $isClassEnterprise = preg_match('/^Enterprise_/', $class);
@@ -145,7 +147,9 @@ function updateEnterpriseProtection($sourceFiles, $sourceDir, $template, $tree, 
         $parentFile = NULL;
         if (isset($sourceFiles[$parentClass])) {
             $isParentController = preg_match('=/controllers/=', $sourceFiles[$parentClass]);
-            $parentFile = substr($sourceFiles[$parentClass], strlen($sourceDir));
+            if ($isParentController) {
+                $parentFile = substr($sourceFiles[$parentClass], strlen($sourceDir));
+            }
         }
         foreach ($tree as $class=>$subtree) {
             $isClassEnterprise = preg_match('/^Enterprise_/', $class);
