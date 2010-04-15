@@ -272,6 +272,7 @@ if (isset($_SERVER['argv'][1])) {
         $template = file_get_contents(dirname(__FILE__).'/enterprise_template_clean.php');
     }
 }
+$template = str_replace("\r", '', $template);
 
 list($classes, $sourceFiles) = scanClasses(BP.'/app/code/core');
 $tree = classesToTree($classes);
