@@ -25,7 +25,7 @@
  */
 
 class Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Creditmemo_Controls
- extends Mage_Core_Block_Template
+ extends Enterprise_Enterprise_Block_Core_Template
 {
     public function canRefundToCustomerBalance()
     {

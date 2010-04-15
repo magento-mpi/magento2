@@ -28,7 +28,7 @@
  * Sales order pool controller for viewing pool orders grid
  *
  */
-class Enterprise_SalesPool_Adminhtml_Sales_Order_PoolController extends Mage_Adminhtml_Controller_Action
+class Enterprise_SalesPool_Adminhtml_Sales_Order_PoolController extends Enterprise_Enterprise_Controller_Adminhtml_Action
 {
     /**
      * Pool grid action

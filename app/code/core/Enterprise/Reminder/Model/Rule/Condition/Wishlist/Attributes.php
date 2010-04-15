@@ -28,7 +28,7 @@
  * Product attribute value condition
  */
 class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
-    extends Mage_CatalogRule_Model_Rule_Condition_Product
+    extends Enterprise_Enterprise_Model_CatalogRule_Rule_Condition_Product
 {
     public function __construct()
     {

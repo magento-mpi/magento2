@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Block_Adminhtml_Cms_Page_Edit extends Mage_Adminhtml_Block_Cms_Page_Edit
 {
 }

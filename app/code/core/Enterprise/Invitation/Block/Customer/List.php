@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Customer_List extends Mage_Customer_Block_Account_Dashboard
+class Enterprise_Invitation_Block_Customer_List extends Enterprise_Enterprise_Block_Customer_Account_Dashboard
 {
     /**
      * Return list of invitations

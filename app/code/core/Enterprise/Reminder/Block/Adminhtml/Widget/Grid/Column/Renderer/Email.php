@@ -28,7 +28,7 @@
  * Column renderer for customer email
  */
 class Enterprise_Reminder_Block_Adminhtml_Widget_Grid_Column_Renderer_Email
-    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Render customer email as mailto link

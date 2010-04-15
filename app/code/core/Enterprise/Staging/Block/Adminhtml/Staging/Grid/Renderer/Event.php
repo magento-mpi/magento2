@@ -32,7 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Staging_Block_Adminhtml_Staging_Grid_Renderer_Event extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Options
+class Enterprise_Staging_Block_Adminhtml_Staging_Grid_Renderer_Event extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Column_Renderer_Options
 {
     /**
      * Render a link to staging log entry

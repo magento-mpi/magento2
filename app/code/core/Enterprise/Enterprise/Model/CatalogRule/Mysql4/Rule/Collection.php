@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Model_CatalogRule_Mysql4_Rule_Collection extends Mage_CatalogRule_Model_Mysql4_Rule_Collection
 {
 }

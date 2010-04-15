@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Block_Core_Template extends Mage_Core_Block_Template
 {
 }

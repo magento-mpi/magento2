@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management
-    extends Mage_Adminhtml_Block_Template
+    extends Enterprise_Enterprise_Block_Adminhtml_Template
 {
     /**
      * Internal constructor

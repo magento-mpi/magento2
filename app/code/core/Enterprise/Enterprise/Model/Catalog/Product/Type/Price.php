@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Model_Catalog_Product_Type_Price extends Mage_Catalog_Model_Product_Type_Price
 {
 }

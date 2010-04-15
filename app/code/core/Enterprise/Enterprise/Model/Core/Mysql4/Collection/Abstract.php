@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
 }

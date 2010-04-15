@@ -30,7 +30,7 @@
  */
 
 class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Creditmemos
-     extends Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
+     extends Enterprise_Enterprise_Block_Adminhtml_Sales_Order_View_Tab_Creditmemos
 {
     /**
      * Retrieve collection class

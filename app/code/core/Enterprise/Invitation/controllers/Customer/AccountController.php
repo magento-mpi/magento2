@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-require_once 'Mage/Customer/controllers/AccountController.php';
+require_once  'Enterprise/Enterprise/controllers/Customer/AccountController.php';
 
 /**
  * Invitation customer account frontend controller
@@ -32,7 +32,7 @@ require_once 'Mage/Customer/controllers/AccountController.php';
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_AccountController
+class Enterprise_Invitation_Customer_AccountController extends Enterprise_Enterprise_Customer_AccountController
 {
     /**
      * Action list where need check enabled cookie

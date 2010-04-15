@@ -28,7 +28,7 @@
  * PayPal UK Website Payments Pro implementation for payment method instaces
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
-class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk_Model_Pro
+class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Enterprise_Enterprise_Model_PaypalUk_Pro
 {
 
     /**

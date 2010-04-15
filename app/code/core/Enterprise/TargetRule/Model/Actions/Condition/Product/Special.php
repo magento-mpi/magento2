@@ -32,7 +32,7 @@
  * @package    Enterprise_TargetRule
  */
 class Enterprise_TargetRule_Model_Actions_Condition_Product_Special
-    extends Mage_CatalogRule_Model_Rule_Condition_Product
+    extends Enterprise_Enterprise_Model_CatalogRule_Rule_Condition_Product
 {
     /**
      * Set condition type and value

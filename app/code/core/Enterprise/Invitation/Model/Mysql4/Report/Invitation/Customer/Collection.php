@@ -32,7 +32,7 @@
  * @package    Enterprise_Invitation
  */
 class Enterprise_Invitation_Model_Mysql4_Report_Invitation_Customer_Collection
-    extends Mage_Reports_Model_Mysql4_Customer_Collection
+    extends Enterprise_Enterprise_Model_Reports_Mysql4_Customer_Collection
 {
     /**
      * Joins Invitation report data, and filter by date

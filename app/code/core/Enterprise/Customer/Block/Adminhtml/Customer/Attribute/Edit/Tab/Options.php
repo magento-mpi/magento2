@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options extends Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract
+class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options extends Enterprise_Enterprise_Block_Eav_Adminhtml_Attribute_Edit_Options_Abstract
 {
 
 }

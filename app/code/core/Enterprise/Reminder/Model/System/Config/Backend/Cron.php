@@ -27,7 +27,7 @@
 /**
  * Reminder Cron Backend Model
  */
-class Enterprise_Reminder_Model_System_Config_Backend_Cron extends Mage_Core_Model_Config_Data
+class Enterprise_Reminder_Model_System_Config_Backend_Cron extends Enterprise_Enterprise_Model_Core_Config_Data
 {
     const CRON_STRING_PATH  = 'crontab/jobs/send_notification/schedule/cron_expr';
     const CRON_MODEL_PATH   = 'crontab/jobs/send_notification/run/model';

@@ -28,7 +28,7 @@
  * Controller exception for admin area
  *
  */
-class Enterprise_AdminGws_Controller_Exception extends Mage_Core_Controller_Varien_Exception
+class Enterprise_AdminGws_Controller_Exception extends Enterprise_Enterprise_Controller_Core_Varien_Exception
 {
     protected $_defaultActionName = 'denied';
 }

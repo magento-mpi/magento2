@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Model_Sales_Quote_Address_Total_Abstract extends Mage_Sales_Model_Quote_Address_Total_Abstract
 {
 }

@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Model_SalesRule_Mysql4_Rule_Collection extends Mage_SalesRule_Model_Mysql4_Rule_Collection
 {
 }

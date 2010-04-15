@@ -28,7 +28,7 @@
  * Sales pool order view tabs replacer for orders in pool
  *
  */
-class Enterprise_SalesPool_Block_Adminhtml_Sales_Order_View_Replacer extends Mage_Adminhtml_Block_Sales_Order_Abstract
+class Enterprise_SalesPool_Block_Adminhtml_Sales_Order_View_Replacer extends Enterprise_Enterprise_Block_Adminhtml_Sales_Order_Abstract
 {
     /**
      * Disable shipments,invoices and creditmemos tabs for orders which are currently in orders pool

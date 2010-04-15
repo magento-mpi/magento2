@@ -32,7 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
-    extends Mage_Adminhtml_Block_Widget_Grid_Container
+    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Container
 {
     /**
      * Constructor

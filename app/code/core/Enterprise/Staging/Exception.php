@@ -29,7 +29,7 @@
  * Magento Enterprise Staging Exception
  *
  */
-class Enterprise_Staging_Exception extends Mage_Core_Exception
+class Enterprise_Staging_Exception extends Enterprise_Enterprise_Exception_Core
 {
 
 }

@@ -31,7 +31,7 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Customer_Edit_Buttons extends Mage_Adminhtml_Block_Customer_Edit
+class Enterprise_Checkout_Block_Adminhtml_Customer_Edit_Buttons extends Enterprise_Enterprise_Block_Adminhtml_Customer_Edit
 {
     /**
      * Add button to Shopping Cart Management etc.

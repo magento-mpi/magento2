@@ -31,7 +31,7 @@
  * @package    Enterprise_Invitation
  */
 class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_History
-    extends Mage_Adminhtml_Block_Template
+    extends Enterprise_Enterprise_Block_Adminhtml_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     protected function _construct()

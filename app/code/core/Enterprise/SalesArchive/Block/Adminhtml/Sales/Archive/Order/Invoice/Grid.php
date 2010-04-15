@@ -29,7 +29,7 @@
  *
  */
 
-class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid extends Mage_Adminhtml_Block_Sales_Invoice_Grid
+class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid extends Enterprise_Enterprise_Block_Adminhtml_Sales_Invoice_Grid
 {
     public function __construct()
     {

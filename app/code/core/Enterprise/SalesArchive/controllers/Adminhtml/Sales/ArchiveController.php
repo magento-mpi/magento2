@@ -28,7 +28,7 @@
  * Archive controller
  *
  */
-class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adminhtml_Controller_Action
+class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Enterprise_Enterprise_Controller_Adminhtml_Action
 {
     /**
      * Render archive grid

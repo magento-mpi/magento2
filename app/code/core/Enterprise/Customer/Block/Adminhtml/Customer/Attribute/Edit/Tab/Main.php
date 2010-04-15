@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main extends Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main extends Enterprise_Enterprise_Block_Eav_Adminhtml_Attribute_Edit_Main_Abstract
 {
     /**
      * Adding customer form elements for edit form

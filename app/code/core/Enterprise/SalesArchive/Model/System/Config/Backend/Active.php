@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 class Enterprise_SalesArchive_Model_System_Config_Backend_Active
-    extends Mage_Adminhtml_Model_System_Config_Backend_Cache
+    extends Enterprise_Enterprise_Model_Adminhtml_System_Config_Backend_Cache
 {
     /**
      * Cache tags to clean

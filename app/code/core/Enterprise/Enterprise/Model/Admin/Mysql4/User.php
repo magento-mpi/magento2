@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Model_Admin_Mysql4_User extends Mage_Admin_Model_Mysql4_User
 {
 }

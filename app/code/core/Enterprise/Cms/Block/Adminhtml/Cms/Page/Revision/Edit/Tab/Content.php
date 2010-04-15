@@ -34,7 +34,7 @@
  */
 
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
-    extends Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
+    extends Enterprise_Enterprise_Block_Adminhtml_Cms_Page_Edit_Tab_Content
 {
     /**
      * Preparing form by adding extra fields.

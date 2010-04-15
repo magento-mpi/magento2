@@ -28,7 +28,7 @@
  * Sales archive order view replacer for archive
  *
  */
-class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer extends Mage_Adminhtml_Block_Sales_Order_Abstract
+class Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer extends Enterprise_Enterprise_Block_Adminhtml_Sales_Order_Abstract
 {
     protected function _prepareLayout()
     {

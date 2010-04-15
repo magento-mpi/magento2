@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Model_Sales_Order_Creditmemo_Total_Abstract extends Mage_Sales_Model_Order_Creditmemo_Total_Abstract
 {
 }

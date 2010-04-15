@@ -32,7 +32,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model_Method_Abstract
+class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Enterprise_Enterprise_Model_Payment_Method_Abstract
 {
     /**
      * Payment code name

@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Block_Cms_Page extends Mage_Cms_Block_Page
 {
 }

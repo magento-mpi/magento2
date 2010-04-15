@@ -29,7 +29,7 @@
  *
  */
 
-class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid extends Mage_Adminhtml_Block_Sales_Creditmemo_Grid
+class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid extends Enterprise_Enterprise_Block_Adminhtml_Sales_Creditmemo_Grid
 {
     public function __construct()
     {

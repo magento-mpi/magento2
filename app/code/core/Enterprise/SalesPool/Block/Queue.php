@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_SalesPool_Block_Queue extends Mage_Core_Block_Template
+class Enterprise_SalesPool_Block_Queue extends Enterprise_Enterprise_Block_Core_Template
 {
     /**
      * Get order count in orders pool for current customer session

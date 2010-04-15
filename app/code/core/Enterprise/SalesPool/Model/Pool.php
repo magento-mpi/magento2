@@ -28,7 +28,7 @@
  * Pool model
  *
  */
-class Enterprise_SalesPool_Model_Pool extends Mage_Core_Model_Abstract
+class Enterprise_SalesPool_Model_Pool extends Enterprise_Enterprise_Model_Core_Abstract
 {
      /**
      * Prefix of model events names

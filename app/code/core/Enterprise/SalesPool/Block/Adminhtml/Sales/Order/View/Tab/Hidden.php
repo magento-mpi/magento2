@@ -28,7 +28,7 @@
  * Sales pool order view hidden tab
  *
  */
-class Enterprise_SalesPool_Block_Adminhtml_Sales_Order_View_Tab_Hidden extends Mage_Core_Block_Abstract implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_SalesPool_Block_Adminhtml_Sales_Order_View_Tab_Hidden extends Enterprise_Enterprise_Block_Core_Abstract implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Retrieve tab label

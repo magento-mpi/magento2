@@ -28,7 +28,7 @@
  * Pool resource model
  *
  */
-class Enterprise_SalesPool_Model_Mysql4_Pool extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_SalesPool_Model_Mysql4_Pool extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
 {
     const POOL_TABLE_PREFIX = 'enterprise_salespool/';
     const POOL_TABLE_SUFIX = '';

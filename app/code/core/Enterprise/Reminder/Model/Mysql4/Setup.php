@@ -27,7 +27,7 @@
 /**
  * Reminder resource setup
  */
-class Enterprise_Reminder_Model_Mysql4_Setup extends Mage_Core_Model_Resource_Setup
+class Enterprise_Reminder_Model_Mysql4_Setup extends Enterprise_Enterprise_Model_Core_Resource_Setup
 {
 
 }

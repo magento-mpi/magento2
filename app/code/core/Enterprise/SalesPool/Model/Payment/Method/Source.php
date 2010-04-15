@@ -28,7 +28,7 @@
  * Payment methods source
  *
  */
-class Enterprise_SalesPool_Model_Payment_Method_Source extends Mage_Adminhtml_Model_System_Config_Source_Payment_Allowedmethods
+class Enterprise_SalesPool_Model_Payment_Method_Source extends Enterprise_Enterprise_Model_Adminhtml_System_Config_Source_Payment_Allowedmethods
 {
     /**
      * Removes empty option from paymentmethods option array

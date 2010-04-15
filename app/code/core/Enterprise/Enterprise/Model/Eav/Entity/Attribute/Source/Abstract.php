@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Model_Eav_Entity_Attribute_Source_Abstract extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
 }

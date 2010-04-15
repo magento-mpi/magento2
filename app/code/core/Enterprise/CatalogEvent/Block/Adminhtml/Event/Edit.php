@@ -32,7 +32,7 @@
  * @package    Enterprise_CatalogEvent
  */
 class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
-    extends Mage_Adminhtml_Block_Widget_Form_Container
+    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form_Container
 {
     protected $_objectId = 'id';
     protected $_blockGroup = 'enterprise_catalogevent';

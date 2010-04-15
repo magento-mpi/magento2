@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Model_Rule_Rule extends Mage_Rule_Model_Rule
 {
 }

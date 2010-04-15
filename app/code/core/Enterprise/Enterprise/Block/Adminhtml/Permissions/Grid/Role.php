@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Block_Adminhtml_Permissions_Grid_Role extends Mage_Adminhtml_Block_Permissions_Grid_Role
 {
 }

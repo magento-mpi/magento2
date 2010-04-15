@@ -32,7 +32,7 @@
  * @package    Enterprise_Invitation
  */
 class Enterprise_Invitation_Model_Adminhtml_System_Config_Backend_Limited
-    extends Mage_Core_Model_Config_Data
+    extends Enterprise_Enterprise_Model_Core_Config_Data
 {
 
     /**

@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Model_Core_Config_Data extends Mage_Core_Model_Config_Data
 {
 }

@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Model_Rule_Condition_Combine extends Mage_Rule_Model_Condition_Combine
 {
 }

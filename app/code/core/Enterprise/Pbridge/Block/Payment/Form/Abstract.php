@@ -32,7 +32,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Mage_Payment_Block_Form
+abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Enterprise_Enterprise_Block_Payment_Form
 {
     /**
      * Default template for payment form block

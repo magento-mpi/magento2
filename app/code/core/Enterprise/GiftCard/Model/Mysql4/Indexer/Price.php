@@ -32,7 +32,7 @@
  * @package    Enterprise_GiftCard
  */
 class Enterprise_GiftCard_Model_Mysql4_Indexer_Price
-    extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
+    extends Enterprise_Enterprise_Model_Catalog_Resource_Eav_Mysql4_Product_Indexer_Price_Default
 {
     /**
      * Register data required by product type process in event object

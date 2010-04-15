@@ -28,7 +28,7 @@
  * Order archive model
  *
  */
- class Enterprise_SalesArchive_Model_Order_Status_Source extends Mage_Adminhtml_Model_System_Config_Source_Order_Status
+ class Enterprise_SalesArchive_Model_Order_Status_Source extends Enterprise_Enterprise_Model_Adminhtml_System_Config_Source_Order_Status
  {
      /**
       * Retrive order statuses as options for select

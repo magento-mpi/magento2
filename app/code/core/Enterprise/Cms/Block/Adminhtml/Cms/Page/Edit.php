@@ -33,7 +33,7 @@
  */
 
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
-    extends Mage_Adminhtml_Block_Template
+    extends Enterprise_Enterprise_Block_Adminhtml_Template
 {
     /**
      * Adding js to CE blocks to implement special functionality which

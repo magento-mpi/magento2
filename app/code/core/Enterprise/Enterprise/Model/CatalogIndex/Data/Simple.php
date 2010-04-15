@@ -27,6 +27,7 @@
 /**
  * Ancestor class
  */
+
 abstract class Enterprise_Enterprise_Model_CatalogIndex_Data_Simple extends Mage_CatalogIndex_Model_Data_Simple
 {
 }
