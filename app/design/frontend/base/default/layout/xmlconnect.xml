@@ -73,8 +73,12 @@ Default layout, loads most of the pages
     </xmlconnect_index_reviews>
 
     <xmlconnect_search_index>
-        <block type="xmlconnect/search" name="xmlconnect.seacrh" output="toHtml"/>
+        <block type="xmlconnect/search" name="xmlconnect.search" output="toHtml"/>
     </xmlconnect_search_index>
+
+     <xmlconnect_search_suggest>
+        <block type="xmlconnect/search_suggest" name="xmlconnect.search.suggest" output="toHtml"/>
+    </xmlconnect_search_suggest>
 
     <xmlconnect_index_shoppingcart>
         <block type="xmlconnect/cart" name="xmlconnect.cart" output="toHtml">

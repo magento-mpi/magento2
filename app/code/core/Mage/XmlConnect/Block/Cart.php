@@ -118,8 +118,8 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                 foreach ($_options as $_option){
                     $_formatedOptionValue = $renderer->getFormatedOptionValue($_option);
                     $optionXml = $itemOptionsXml->addChild('option');
-                    $optionXml->addAttribute('label', strip_tags($_option['label']));
-                    $optionXml->addAttribute('text', strip_tags($_formatedOptionValue['value']));
+                    $optionXml->addAttribute('label', $xmlObject->xmlentities(strip_tags($_option['label'])));
+                    $optionXml->addAttribute('text', $xmlObject->xmlentities(strip_tags($_formatedOptionValue['value'])));
 //                    if (isset($_formatedOptionValue['full_view'])){
 //                        $label = strip_tags($_option['label']);
 //                        $value = strip_tags($_formatedOptionValue['full_view']);
@@ -135,7 +135,7 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                 foreach ($messages as $message){
                     $messageXml = $itemMessagesXml->addChild('option');
                     $messageXml->addChild('type', $message['type']);
-                    $messageXml->addChild('text', strip_tags($message['text']));
+                    $messageXml->addChild('text', $xmlObject->xmlentities(strip_tags($message['text'])));
                 }
             }
         }

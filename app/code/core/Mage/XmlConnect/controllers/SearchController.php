@@ -44,7 +44,6 @@ class Mage_XmlConnect_SearchController extends Mage_XmlConnect_Controller_Action
 
     /**
      * Perform search products
-     *
      */
     public function indexAction()
     {
@@ -87,6 +86,16 @@ class Mage_XmlConnect_SearchController extends Mage_XmlConnect_Controller_Action
             }
         }
 
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
+
+    /**
+     * Retrive suggestions based on search query
+     */
+    public function suggestAction()
+    {
+        $this->getRequest()->setParam('q', $this->getRequest()->getParam('query'));
         $this->loadLayout(false);
         $this->renderLayout();
     }
