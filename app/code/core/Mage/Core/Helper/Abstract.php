@@ -130,7 +130,6 @@ abstract class Mage_Core_Helper_Abstract
 
     /**
      * Check whether or not the module output is enabled in Configuration
-     * TODO: add checking if module exists
      *
      * @param string $moduleName Full module name
      * @return boolean
@@ -140,7 +139,35 @@ abstract class Mage_Core_Helper_Abstract
         if ($moduleName === null) {
             $moduleName = $this->_getModuleName();
         }
+
+        if (!$this->isModuleEnabled($moduleName)) {
+            return false;
+        }
+
         if (Mage::getStoreConfigFlag('advanced/modules_disable_output/' . $moduleName)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check is module exists and enabled in global config.
+     *
+     * @param string $moduleName the full module name, example Mage_Core
+     * @return boolean
+     */
+    public function isModuleEnabled($moduleName = null)
+    {
+        if ($moduleName === null) {
+            $moduleName = $this->_getModuleName();
+        }
+
+        if (!Mage::getConfig()->getNode('modules/' . $moduleName)) {
+            return false;
+        }
+
+        $isActive = Mage::getConfig()->getNode('modules/' . $moduleName . '/active');
+        if (!$isActive || !in_array((string)$isActive, array('true', '1'))) {
             return false;
         }
         return true;
