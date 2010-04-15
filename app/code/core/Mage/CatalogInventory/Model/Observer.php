@@ -122,16 +122,28 @@ class Mage_CatalogInventory_Model_Observer
      */
     public function copyInventoryData($observer)
     {
+        /** @var Mage_Catalog_Model_Product $currentProduct */
+        $currentProduct = $observer->getEvent()->getCurrentProduct();
+        /** @var Mage_Catalog_Model_Product $newProduct */
         $newProduct = $observer->getEvent()->getNewProduct();
 
         $newProduct->unsStockItem();
-        $newProduct->setStockData(array(
+        $stockData = array(
             'use_config_min_qty'        => 1,
             'use_config_min_sale_qty'   => 1,
             'use_config_max_sale_qty'   => 1,
             'use_config_backorders'     => 1,
             'use_config_notify_stock_qty'=> 1
-        ));
+        );
+        if ($currentStockItem = $currentProduct->getStockItem()) {
+            $stockData += array(
+                'use_config_enable_qty_increments'  => $currentStockItem->getData('use_config_enable_qty_increments'),
+                'enable_qty_increments'             => $currentStockItem->getData('enable_qty_increments'),
+                'use_config_qty_increments'         => $currentStockItem->getData('use_config_qty_increments'),
+                'qty_increments'                    => $currentStockItem->getData('qty_increments'),
+            );
+        }
+        $newProduct->setStockData($stockData);
 
         return $this;
     }
