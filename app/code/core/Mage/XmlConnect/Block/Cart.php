@@ -52,8 +52,9 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
 
             $itemXml = $products->addChild('item');
             $itemXml->addChild('entity_id', $item->getProduct()->getId());
-            $itemXml->addChild('name', strip_tags($renderer->getProductName()));
+            $itemXml->addChild('name', $xmlObject->xmlentities(strip_tags($renderer->getProductName())));
             $itemXml->addChild('qty', $renderer->getQty());
+            $itemXml->addChild('icon', $renderer->getProductThumbnail()->resize(Mage_XmlConnect_Block_Abstract::PRODUCT_IMAGE_RESIZE_PARAM));
 
             /**
              * Price
@@ -146,7 +147,7 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
             foreach ($cartMessages as $status => $message) {
                 $messageXml = $messagesXml->addChild('message');
                 $messageXml->addChild('status', $status);
-                $messageXml->addChild('text', $message);
+                $messageXml->addChild('text', strip_tags($message));
             }
         }
 

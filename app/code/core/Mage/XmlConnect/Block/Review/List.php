@@ -43,9 +43,9 @@ class Mage_XmlConnect_Block_Review_List extends Mage_XmlConnect_Block_Abstract
                 ->addEntityFilter('product', $product->getId());
             $reviewCollection->getSelect()
                 ->limit($this->getRequest()->getParam('count', 0), $this->getRequest()->getParam('offset', 0));
-            return $this->reviewCollectionToXml($reviewCollection, 'reviews', true, false,
-                false/*, array('product' => $this->productToXml($product, array(), ''))*/);
+            return $this->reviewCollectionToXml($reviewCollection, 'reviews', true, false, false);
         }
+        return '<?xml version="1.0" encoding="UTF-8"?><reviews/>';
     }
 
 }

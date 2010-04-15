@@ -40,18 +40,77 @@ class Mage_XmlConnect_Block_Category extends Mage_XmlConnect_Block_Abstract
         $additionalAttributes = $this->getChildHtml();
         if ($categoryId = $this->getRequest()->getParam('category_id', null))
         {
-            $categoryModel = Mage::getModel('xmlconnect/category')->load($categoryId);
+            $categoryModel = Mage::getModel('catalog/category')->load($categoryId);
             /* Return products list if there are no child categories*/
             if (!$categoryModel->hasChildren())
             {
-                $productCollection = Mage::getResourceModel('xmlconnect/product_collection');
-                $categoryModel->setProductCollection($productCollection);
-                $productCollection->setStoreId($categoryModel->getStoreId())
-                    ->addCategoryFilter($categoryModel)
-                    ->addLimit($this->getRequest()->getParam('offset', 0), $this->getRequest()->getParam('count', 0));
-                $this->_addFiltersToProductCollection($productCollection, $this->getRequest(), $categoryModel);
-                $this->_addOrdersToProductCollection($productCollection, $this->getRequest());
-                return $this->productCollectionToXml($productCollection, 'product', true, false, false, $additionalAttributes);
+                $request        = $this->getRequest();
+                $requestParams  = $request->getParams();
+                $layer          = Mage::getSingleton('catalog/layer');
+                $layer->setCurrentCategory($categoryModel);
+                $attributes     = $layer->getFilterableAttributes();
+
+                /**
+                 * Apply and save filters
+                 */
+                foreach ($attributes as $attributeItem) {
+                    $attributeCode  = $attributeItem->getAttributeCode();
+                    $filterModel    = $this->_getFilterByKey($attributeCode);
+
+                    $filterModel->setLayer($layer)
+                        ->setAttributeModel($attributeItem);
+
+                    $filterParam = Mage_XmlConnect_Block_Filters::REQUEST_FILTER_PARAM_REFIX . $attributeCode;
+                    /**
+                     * Set new request var
+                     */
+                    if (isset($requestParams[$filterParam])) {
+                        $filterModel->setRequestVar($filterParam);
+                    }
+                    $filterModel->apply($request, null);
+                }
+
+                /**
+                 * Separately apply and save category filter
+                 */
+                $categoryFilter = $this->_getFilterByKey('category');
+                $filterParam    = Mage_XmlConnect_Block_Filters::REQUEST_FILTER_PARAM_REFIX . $categoryFilter->getRequestVar();
+                $categoryFilter->setLayer($layer)
+                    ->setRequestVar($filterParam)
+                    ->apply($this->getRequest(), null);
+
+                /**
+                 * Products
+                 */
+                $layer      = Mage::getSingleton('catalog/layer');
+                $collection = $layer->getProductCollection();
+
+                /**
+                 * Add rating and review summary, image attribute
+                 */
+                $this->_prepareCollection($collection);
+
+                /**
+                 * Apply sort order
+                 */
+                $this->_addOrdersToProductCollection($collection, $request);
+
+                /**
+                 * Apply offset and count
+                 */
+                $offset = $request->getParam('offset', 0);
+                if ($offset <= 0) {
+                    $page = 1;
+                }
+                else {
+                    $size = $collection->getSize();
+                    $size = $size >= 1 ? $size : 1;
+                    $page = ceil(($size + $offset) / $size);
+                }
+                $collection->setPageSize($request->getParam('count', 0))
+                    ->setCurPage($page);
+
+                return $this->productCollectionToXml($collection, 'category', true, false, false, $additionalAttributes, 'products');
             }
         }
         $categoryCollection = Mage::getResourceModel('xmlconnect/category_collection');
@@ -63,4 +122,46 @@ class Mage_XmlConnect_Block_Category extends Mage_XmlConnect_Block_Abstract
         return $xml;
     }
 
+    /**
+     * Check if items of specified filter have values
+     *
+     * @param object $filter filter model
+     * @return bool
+     */
+    protected function _isFilterItemsHasValues($filter)
+    {
+        if (!$filter->getItemsCount()) {
+            return false;
+        }
+        foreach ($filter->getItems() as $valueItem) {
+            if ((int)$valueItem->getCount()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Add ratting ans review summary, image attribute to product collection
+     *
+     * @param Varien_Data_Collection_Db $collection
+     * @return Mage_XmlConnect_Block_Search
+     */
+    protected function _prepareCollection($collection)
+    {
+        $collection->joinField('rating_summary',
+                         'review_entity_summary',
+                         'rating_summary',
+                         'entity_pk_value=entity_id',
+                         array('entity_type'=>1, 'store_id'=> Mage::app()->getStore()->getId()),
+                         'left')
+            ->joinField('reviews_count',
+                         'review_entity_summary',
+                         'reviews_count',
+                         'entity_pk_value=entity_id',
+                         array('entity_type'=>1, 'store_id'=> Mage::app()->getStore()->getId()),
+                         'left')
+            ->addAttributeToSelect(array('image', 'name'));
+        return $this;
+    }
 }

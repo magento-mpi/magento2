@@ -79,7 +79,7 @@ class Mage_XmlConnect_Block_Product_Options_Bundle extends Mage_XmlConnect_Block
             }
             $optionNode->addAttribute('code', $code);
             $optionNode->addAttribute('type', $type);
-            $optionNode->addAttribute('label', $_option->getTitle());
+            $optionNode->addAttribute('label', $optionsXmlObj->xmlentities(strip_tags($_option->getTitle())));
             if ($_option->getRequired()) {
                 $optionNode->addAttribute('is_require', 1);
             }
@@ -94,7 +94,7 @@ class Mage_XmlConnect_Block_Product_Options_Bundle extends Mage_XmlConnect_Block
 
                 $valueNode = $optionNode->addChild('value');
                 $valueNode->addAttribute('code', $_selection->getSelectionId());
-                $valueNode->addAttribute('label', $_selection->getName());
+                $valueNode->addAttribute('label', $optionsXmlObj->xmlentities(strip_tags($_selection->getName())));
                 if (!$_option->isMultiSelection()) {
                     if ($_selection->getSelectionCanChangeQty()) {
                         $valueNode->addAttribute('is_qty_editable', 1);

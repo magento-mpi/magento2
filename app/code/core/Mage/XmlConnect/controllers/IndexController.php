@@ -218,7 +218,7 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
                     $message = $this->__('%s was added to your shopping cart.', Mage::helper('core')->htmlEscape($product->getName()));
-                     $this->_message($message, Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_SUCCESS);
+                    $this->_message($message, Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_SUCCESS);
                 }
             }
         }
@@ -227,6 +227,26 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
         }
         catch (Exception $e) {
             $this->_message($this->__('Cannot add the item to shopping cart.'), self::MESSAGE_STATUS_ERROR);
+        }
+    }
+
+    /**
+     * Delete shoping cart item action
+     */
+    public function deleteFromCartAction()
+    {
+        $id = (int) $this->getRequest()->getParam('id');
+        if ($id) {
+            try {
+                $this->_getCart()->removeItem($id)->save();
+                $this->_message('Item was successfully deleted from shopping cart.', Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_SUCCESS);
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_message($e->getMessage(), Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR);
+            }
+            catch (Exception $e) {
+                $this->_message($this->__('Cannot remove the item.'), self::MESSAGE_STATUS_ERROR);
+            }
         }
     }
 
@@ -270,6 +290,6 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
         $message = new Varien_Simplexml_Element('<message></message>');
         $message->addChild('status', $status);
         $message->addChild('text', $text);
-        $this->getResponse()->setBody($message->asXml());
+        $this->getResponse()->setBody($message->asNiceXml());
     }
 }

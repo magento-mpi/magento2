@@ -124,13 +124,13 @@ class Mage_XmlConnect_Block_Product_Options_Configurable extends Mage_XmlConnect
             $optionNode = $optionsXmlObj->addChild('option');
             $optionNode->addAttribute('code', 'super_attribute[' . $id . ']');
             $optionNode->addAttribute('type', 'select');
-            $optionNode->addAttribute('label', $attribute['label']);
+            $optionNode->addAttribute('label', strip_tags($attribute['label']));
             $optionNode->addAttribute('is_required', 1);
             if ($isFirst) {
                 foreach ($attribute['options'] as $option) {
                     $valueNode = $optionNode->addChild('value');
                     $valueNode->addAttribute('code', $option['id']);
-                    $valueNode->addAttribute('label', $option['label']);
+                    $valueNode->addAttribute('label', $optionsXmlObj->xmlentities(strip_tags($option['label'])));
                     $valueNode->addAttribute('price', $option['price']);
                     $valueNode->addAttribute('formated_price', $option['formated_price']);
                     $this->_prepareRecursivelyRelatedValues($valueNode, $_attributes, $option['products'], 1);
@@ -176,7 +176,7 @@ class Mage_XmlConnect_Block_Product_Options_Configurable extends Mage_XmlConnect
 
             $_valueNode = $relatedNode->addChild('value');
             $_valueNode->addAttribute('code', $option['id']);
-            $_valueNode->addAttribute('label', $option['label']);
+            $_valueNode->addAttribute('label', $_valueNode->xmlentities(strip_tags($option['label'])));
             $_valueNode->addAttribute('price', $option['price']);
             $_valueNode->addAttribute('formated_price', $option['formated_price']);
 

@@ -38,7 +38,7 @@ class Mage_XmlConnect_Block_Review extends Mage_XmlConnect_Block_Abstract
     protected function _toHtml()
     {
         $review = Mage::getModel('review/review')->load($this->getRequest()->getParam('review_id', 0));
-        return $this->reviewToXml($review);
+        return $this->reviewToXml($review, false, 'review');
     }
 
 }

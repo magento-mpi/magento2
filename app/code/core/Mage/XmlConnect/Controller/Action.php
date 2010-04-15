@@ -68,6 +68,6 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
         $message = new Varien_Simplexml_Element('<message></message>');
         $message->addChild('status', $status);
         $message->addChild('text', $text);
-        $this->getResponse()->setBody($message->asXml());
+        $this->getResponse()->setBody($message->asNiceXml());
     }
 }

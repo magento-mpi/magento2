@@ -89,7 +89,7 @@ class Mage_XmlConnect_Block_Product_Options extends Mage_XmlConnect_Block_Abstra
             }
             $optionNode->addAttribute('code', $code);
             $optionNode->addAttribute('type', $type);
-            $optionNode->addAttribute('label', $option->getTitle());
+            $optionNode->addAttribute('label', $xmlModel->xmlentities(strip_tags($option->getTitle())));
             if ($option->getIsRequire()) {
                 $optionNode->addAttribute('is_require', 1);
             }
@@ -108,7 +108,7 @@ class Mage_XmlConnect_Block_Product_Options extends Mage_XmlConnect_Block_Abstra
                 foreach ($option->getValues() as $value) {
                     $valueNode = $optionNode->addChild('value');
                     $valueNode->addAttribute('code', $value->getId());
-                    $valueNode->addAttribute('label', $value->getTitle());
+                    $valueNode->addAttribute('label', $xmlModel->xmlentities(strip_tags($value->getTitle())));
 
                     if ($value->getPrice() > 0.00) {
                         $price = sprintf('%01.2f', $value->getPrice());
@@ -192,6 +192,6 @@ class Mage_XmlConnect_Block_Product_Options extends Mage_XmlConnect_Block_Abstra
                 }
             }
         }
-        return '<?xml version="1.0" encoding="UTF-8"?>';
+        return '<?xml version="1.0" encoding="UTF-8"?><options/>';
     }
 }

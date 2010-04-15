@@ -47,9 +47,7 @@ class Mage_XmlConnect_Block_Product_Gallery extends Mage_XmlConnect_Block_Abstra
             ->load($productId);
         $collection = $product->getMediaGalleryImages();
 
-        $xmlModel = new Varien_Simplexml_Element('<product></product>');
-        $xmlModel->addAttribute('id', $product->getId());
-        $imagesNode = $xmlModel->addChild('images');
+        $imagesNode = new Varien_Simplexml_Element('<images></images>');
         $helper = $this->helper('catalog/image');
 
         foreach ($collection as $item) {
@@ -75,6 +73,6 @@ class Mage_XmlConnect_Block_Product_Gallery extends Mage_XmlConnect_Block_Abstra
             $fileNode->addAttribute('type', 'small');
             $fileNode->addAttribute('url', $smallImage);
         }
-        return $xmlModel->asNiceXml();
+        return $imagesNode->asNiceXml();
     }
 }

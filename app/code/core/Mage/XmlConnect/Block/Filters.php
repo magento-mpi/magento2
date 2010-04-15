@@ -45,10 +45,11 @@ class Mage_XmlConnect_Block_Filters extends Mage_XmlConnect_Block_Abstract
         $categoryId = $this->getRequest()->getParam('category_id', null);
         $filterCollection = Mage::getModel('xmlconnect/filter_collection')->setCategoryId($categoryId);
 
-        $xml = $this->filterCollectionToXml($filterCollection, 'items', true, false, false,
-            $this->getProductSortFeildsXmlObject()->asNiceXml());
+        $categoryXml = $this->filterCollectionToXml($filterCollection, 'category', true, false, false);
+        $categoryXmlObject = new Varien_Simplexml_Element($categoryXml);
+        $categoryXmlObject->appendChild($this->getProductSortFeildsXmlObject());
 
-        return $xml;
+        return $categoryXmlObject->asNiceXml();
     }
 
 }

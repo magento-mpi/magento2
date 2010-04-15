@@ -42,14 +42,11 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Abstract
         $categoryModel = Mage::getResourceModel('xmlconnect/category_collection');
 
         /* TODO: Hardcoded banner */
-        $additionalAttributes['home_banner'] = 'http://kd.varien.com/dev/yuriy.sorokolat/current/media/catalog/category/banner_home.png';
-        $categoryModel->addNameToResult()
-            ->addImageToResult()
-            ->addIsActiveFilter()
-            /* TODO: Hardcoded categories level */
-            ->addLevelExactFilter(2)
+        $additionalAttributes['home_banner'] = '';
+        $categoryModel->addImageToResult()
+            ->addParentIdFilter(null)
             ->addLimit(0, self::HOME_PAGE_CATEGORIES_COUNT);
-        $xml = $this->categoryCollectionToXml($categoryModel, 'category', true, false, false, $additionalAttributes);
+        $xml = $this->categoryCollectionToXml($categoryModel, 'home', true, false, false, $additionalAttributes);
         return $xml;
     }
 

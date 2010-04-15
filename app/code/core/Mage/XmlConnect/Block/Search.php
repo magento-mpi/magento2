@@ -99,7 +99,7 @@ class Mage_XmlConnect_Block_Search extends Mage_XmlConnect_Block_Abstract
                     continue;
                 }
                 $item = $filtersXmlObject->addChild('item');
-                $item->addChild('name', $filter->getName());
+                $item->addChild('name', $searchXmlObject->xmlentities($filter->getName()));
                 $item->addChild('code', $filter->getRequestVar());
                 $values = $item->addChild('values');
 
@@ -110,7 +110,7 @@ class Mage_XmlConnect_Block_Search extends Mage_XmlConnect_Block_Abstract
                     }
                     $value = $values->addChild('value');
                     $value->addChild('id', $valueItem->getValueString());
-                    $value->addChild('label', strip_tags($valueItem->getLabel()));
+                    $value->addChild('label', $searchXmlObject->xmlentities(strip_tags($valueItem->getLabel())));
                     $value->addChild('count', $count);
                 }
             }
@@ -130,12 +130,12 @@ class Mage_XmlConnect_Block_Search extends Mage_XmlConnect_Block_Abstract
         /**
          * Apply sort order
          */
-        $this->_addOrdersToProductCollection($collection, $this->getRequest());
+        $this->_addOrdersToProductCollection($collection, $request);
 
         /**
          * Apply offset and count
          */
-        $offset = $this->getRequest()->getParam('offset', 0);
+        $offset = $request->getParam('offset', 0);
         if ($offset <= 0) {
             $page = 1;
         }
@@ -144,7 +144,7 @@ class Mage_XmlConnect_Block_Search extends Mage_XmlConnect_Block_Abstract
             $size = $size >= 1 ? $size : 1;
             $page = ceil(($size + $offset) / $size);
         }
-        $collection->setPageSize($this->getRequest()->getParam('count', 0))
+        $collection->setPageSize($request->getParam('count', 0))
             ->setCurPage($page);
 
         $productsXml = $this->productCollectionToXml($collection, 'products', false, false, false, null, null);

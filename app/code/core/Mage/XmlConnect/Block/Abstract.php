@@ -494,7 +494,7 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
         $rootName = 'category', $addOpenTag = true, $addCdata=false, $safeAdditionalEntities = false,
         $additionalAtrributes = ''
     ) {
-        $xml = $this->_getCollectionXmlStart($collection, $rootName, $addOpenTag);
+        $xml = $this->_getCollectionXmlStart($collection, $rootName, $addOpenTag, 'categories');
 
         foreach ($collection as $item)
         {
@@ -509,13 +509,11 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
                 $attributes[] = 'parent_id';
             }
             $item->label = $item->name;
-            $item->content_type = $item->hasChildren() ? 'categories' : 'products' ;
-            /* Hardcode */
-            $item->background = 'http://kd.varien.com/dev/yuriy.sorokolat/current/media/catalog/category/background_img.png';
+            $item->content_type = $item->hasChildren() ? 'categories' : 'products';
             $xml .= $item->toXml($attributes, 'item', false, false);
         }
 
-        $xml .= $this->_getCollectionXmlEnd($collection, $rootName, $safeAdditionalEntities, $additionalAtrributes);
+        $xml .= $this->_getCollectionXmlEnd($collection, $rootName, $safeAdditionalEntities, $additionalAtrributes, 'categories');
         return $xml;
     }
 
@@ -534,7 +532,7 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
         $rootName = 'reviews', $addOpenTag = true, $addCdata=false, $safeAdditionalEntities = false,
         $additionalAtrributes = ''
     ) {
-        $xml = $this->_getCollectionXmlStart($collection, $rootName, $addOpenTag);
+        $xml = $this->_getCollectionXmlStart($collection, $rootName, $addOpenTag, null);
 
         foreach ($collection as $item) {
             $remainder = '';
@@ -543,7 +541,7 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
             $xml .= $this->reviewToXml($item, $addCdata);
         }
 
-        $xml .= $this->_getCollectionXmlEnd($collection, $rootName, $safeAdditionalEntities, $additionalAtrributes);
+        $xml .= $this->_getCollectionXmlEnd($collection, $rootName, $safeAdditionalEntities, $additionalAtrributes, null);
         return $xml;
     }
 
@@ -554,7 +552,7 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
      * @param bool $addCdata
      * @return string Xml
      */
-    public function reviewToXml($item, $addCdata = false)
+    public function reviewToXml($item, $addCdata = false, $rootName = 'item')
     {
         $summary = Mage::getModel('rating/rating')->getReviewSummary($item->getId());
         $rating = 0;
@@ -562,7 +560,7 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
             $rating = round($summary->sum / $summary->count / 10);
         }
         $item->setRatingVotes($rating);
-        return $item->toXml($this->_reviewAttributes, 'item', false, $addCdata);
+        return $item->toXml($this->_reviewAttributes, $rootName, false, $addCdata);
     }
 
     /**
@@ -578,7 +576,7 @@ class Mage_XmlConnect_Block_Abstract extends Mage_Core_Block_Template
         foreach ($sortOptions as $code => $name) {
             $item = $ordersXmlObject->addChild('item');
             $item->addChild('code', $code);
-            $item->addChild('name', strip_tags($name));
+            $item->addChild('name', $ordersXmlObject->xmlentities(strip_tags($name)));
         }
 
         return $ordersXmlObject;
