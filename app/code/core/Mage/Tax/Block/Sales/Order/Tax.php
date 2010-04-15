@@ -139,7 +139,8 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
                 $baseSubtotalIncl = $baseSubtotal + $this->_source->getBaseTaxAmount()
                     - $this->_source->getBaseShippingTaxAmount();
             }
-
+            $subtotalIncl = max(0, $subtotalIncl);
+            $baseSubtotalIncl = max(0, $baseSubtotalIncl);
             $totalExcl = new Varien_Object(array(
                 'code'      => 'subtotal_excl',
                 'value'     => $subtotal,
