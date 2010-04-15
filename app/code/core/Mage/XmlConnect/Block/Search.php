@@ -135,17 +135,7 @@ class Mage_XmlConnect_Block_Search extends Mage_XmlConnect_Block_Abstract
         /**
          * Apply offset and count
          */
-        $offset = $request->getParam('offset', 0);
-        if ($offset <= 0) {
-            $page = 1;
-        }
-        else {
-            $size = $collection->getSize();
-            $size = $size >= 1 ? $size : 1;
-            $page = ceil(($size + $offset) / $size);
-        }
-        $collection->setPageSize($request->getParam('count', 0))
-            ->setCurPage($page);
+        $collection->getSelect()->limit($request->getParam('count', 0), $request->getParam('offset', 0));
 
         $productsXml = $this->productCollectionToXml($collection, 'products', false, false, false, null, null);
 
