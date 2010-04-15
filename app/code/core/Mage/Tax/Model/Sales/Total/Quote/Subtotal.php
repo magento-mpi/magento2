@@ -216,8 +216,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
                 $isPriceInclTax = true;
             } else {
                 $storeRate      = $this->_calculator->getStoreRate($request, $this->_store);
-                $storeTax       = $this->_calculator->calcTaxAmount($subtotal, $storeRate, true);
-                $baseStoreTax   = $this->_calculator->calcTaxAmount($baseSubtotal, $storeRate, true);
+                $storeTax       = $this->_calculator->calcTaxAmount($price, $storeRate, true);
+                $baseStoreTax   = $this->_calculator->calcTaxAmount($basePrice, $storeRate, true);
                 $price          = $price - $storeTax;
                 $basePrice      = $basePrice - $baseStoreTax;
                 $subtotal       = $price * $qty;
