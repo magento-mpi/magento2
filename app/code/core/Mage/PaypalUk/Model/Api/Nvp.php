@@ -482,4 +482,26 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
         }
         $this->setIsPaymentPending(true);
     }
+
+    /**
+     * Return each call request fields (PayFlow edition doesn't support Unilateral payments)
+     *
+     * @param string $methodName Current method name
+     * @return array
+     */
+    protected function _prepareEachCallRequest($methodName)
+    {
+        return $this->_eachCallRequest;
+    }
+
+    /**
+     * Overwrite parent logic, simply return input data (PayFlow edition doesn't support Unilateral payments)
+     *
+     * @param array $requestFields Standard set of values
+     * @return array
+     */
+    protected function _prepareExpressCheckoutCallRequest($requestFields)
+    {
+        return $requestFields;
+    }
 }
