@@ -47,21 +47,28 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
      */
     public function loginAction()
     {
-        if ($this->_getSession()->isLoggedIn()) {
+        $session = $this->_getSession();
+        $request = $this->getRequest();
+        if ($session->isLoggedIn()) {
             $this->_message($this->__('You are already logged in.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
 
-        if ($this->getRequest()->getPost()) {
-            $user = $this->getRequest()->getParam('username');
-            $pass = $this->getRequest()->getParam('password');
+        if ($request->isPost()) {
+            $user = $request->getParam('username');
+            $pass = $request->getParam('password');
             try {
-                if ($this->_getSession()->login($user, $pass)) {
+                if ($session->login($user, $pass)) {
+                    if ($session->getCustomer()->getIsJustConfirmed()) {
+                        $session->getCustomer()->sendNewAccountEmail('confirmed');
+                    }
                     $this->_message($this->__('Authentification complete.'), self::MESSAGE_STATUS_SUCCESS);
-                } else {
+                }
+                else {
                     $this->_message($this->__('Invalid login or password.'), self::MESSAGE_STATUS_ERROR);
                 }
-            } catch (Mage_Core_Exception $e) {
+            }
+            catch (Mage_Core_Exception $e) {
                 switch ($e->getCode()) {
                     case Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
                         // TODO: resend configmation email message with action
@@ -73,10 +80,12 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                         $message = $e->getMessage();
                 }
                 $this->_message($message, self::MESSAGE_STATUS_ERROR);
-            } catch (Exception $e) {
+            }
+            catch (Exception $e) {
                 $this->_message($this->__('Customer authentification problem.'), self::MESSAGE_STATUS_ERROR);
             }
-        } else {
+        }
+        else {
             $this->_message($this->__('Login and password are required.'), self::MESSAGE_STATUS_ERROR);
         }
     }
@@ -131,14 +140,14 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             </validators>
         </field>
         <field name="password" type="password" label="Password" required="true"/>
-        <field name="password_confirm" type="password" label="Confirm" required="true">
+        <field name="confirmation" type="password" label="Confirm" required="true">
             <validators>
                 <validator type="confirmation" message="....">password</validator>
             </validators>
         </field>
     </fieldset>
     <fieldset legend="Receive Email Notifications">
-        <field name="newslatter" type="checkbox" label="Promos and News"/>
+        <field name="is_subscribed" type="checkbox" label="Promos and News"/>
     </fieldset>
 </form>
 EOT;
@@ -150,7 +159,107 @@ EOT;
      */
     public function saveAction()
     {
+        $session = $this->_getSession();
+        $request = $this->getRequest();
+        if ($session->isLoggedIn()) {
+            $this->_message($this->__('You are already logged in.'), self::MESSAGE_STATUS_ERROR);
+            return;
+        }
 
+        $session->setEscapeMessages(true); // prevent XSS injection in user input
+        if ($request->isPost() || true) {
+            $errors = array();
+
+            if (!$customer = Mage::registry('current_customer')) {
+                $customer = Mage::getModel('customer/customer')->setId(null);
+            }
+
+            $data = $this->_filterPostData($request->getParams());
+
+            foreach (Mage::getConfig()->getFieldset('customer_account') as $code=>$node) {
+                if ($node->is('create') && isset($data[$code])) {
+                    if ($code == 'email') {
+                        $data[$code] = trim($data[$code]);
+                    }
+                    $customer->setData($code, $data[$code]);
+                }
+            }
+
+            if ($request->getParam('is_subscribed', false)) {
+                $customer->setIsSubscribed(1);
+            }
+
+            /**
+             * Initialize customer group id
+             */
+            $customer->getGroupId();
+
+//            if ($request->getPost('create_address')) {
+//                $address = Mage::getModel('customer/address')
+//                    ->setData($request->getPost())
+//                    ->setIsDefaultBilling($request->getParam('default_billing', false))
+//                    ->setIsDefaultShipping($request->getParam('default_shipping', false))
+//                    ->setId(null);
+//                $customer->addAddress($address);
+//
+//                $errors = $address->validate();
+//                if (!is_array($errors)) {
+//                    $errors = array();
+//                }
+//            }
+
+            try {
+                $validationCustomer = $customer->validate();
+                if (is_array($validationCustomer)) {
+                    $errors = array_merge($validationCustomer, $errors);
+                }
+                $validationResult = count($errors) == 0;
+
+                if (true === $validationResult) {
+                    $customer->save();
+
+                    if ($customer->isConfirmationRequired()) {
+                        $customer->sendNewAccountEmail('confirmation', $session->getBeforeAuthUrl());
+                        $message = $this->__('Account confirmation is required. Please, check your email for the confirmation link.');
+                        $messageXmlObj = new Varien_Simplexml_Element('<message></message>');
+                        $messageXmlObj->addChild('status', self::MESSAGE_STATUS_SUCCESS);
+                        $messageXmlObj->addChild('text', $message);
+                        $messageXmlObj->addChild('confirmation', 1);
+                        $this->getResponse()->setBody($messageXmlObj->asNiceXml());
+                        return;
+                    }
+                    else {
+                        $session->setCustomerAsLoggedIn($customer);
+                        $customer->sendNewAccountEmail('registered');
+                        $this->_message($this->__('Register and Authentification complete.'), self::MESSAGE_STATUS_SUCCESS);
+                        return;
+                    }
+                }
+                else {
+                    if (is_array($errors)) {
+                        $message = implode("\n", $errors);
+                    }
+                    else {
+                        $message = $this->__('Invalid customer data.');
+                    }
+                    $this->_message($message, self::MESSAGE_STATUS_ERROR);
+                    return ;
+                }
+            }
+            catch (Mage_Core_Exception $e) {
+                if ($e->getCode() === Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS) {
+                    $message = $this->__('There is already an account with this email address.');
+                    $session->setEscapeMessages(false);
+                }
+                else {
+                    $message = $e->getMessage();
+                }
+                $this->_message($message, self::MESSAGE_STATUS_ERROR);
+            }
+            catch (Exception $e) {
+                $this->_message($this->__('Cannot save the customer.'), self::MESSAGE_STATUS_ERROR);
+            }
+        }
     }
 
     /**
@@ -207,5 +316,17 @@ EOT;
         else {
             $this->_message($this->__('Customer email not specified.'), self::MESSAGE_STATUS_ERROR);
         }
+    }
+
+    /**
+     * Filtering posted data. Converting localized data if needed
+     *
+     * @param array
+     * @return array
+     */
+    protected function _filterPostData($data)
+    {
+        $data = $this->_filterDates($data, array('dob'));
+        return $data;
     }
 }
