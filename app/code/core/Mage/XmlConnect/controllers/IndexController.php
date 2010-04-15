@@ -141,7 +141,7 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
 
         foreach ($cart->getQuote()->getMessages() as $message) {
             if ($message) {
-                $messages[Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_SUCCESS][] = $message;
+                $messages[$message->getType()][] = $message->getText();
             }
         }
 
@@ -156,12 +156,37 @@ class Mage_XmlConnect_IndexController extends Mage_Core_Controller_Front_Action
     }
 
     /**
-     * Delete item from shopping cart action
-     *
+     * Update shoping cart data action
      */
-    public function deleteFromCart()
+    public function updateCartAction()
     {
-
+        try {
+            $cartData = $this->getRequest()->getParam('cart');
+            if (is_array($cartData)) {
+                $filter = new Zend_Filter_LocalizedToNormalized(
+                    array('locale' => Mage::app()->getLocale()->getLocaleCode())
+                );
+                foreach ($cartData as $index => $data) {
+                    if (isset($data['qty'])) {
+                        $cartData[$index]['qty'] = $filter->filter($data['qty']);
+                    }
+                }
+                $cart = $this->_getCart();
+                if (! $cart->getCustomerSession()->getCustomer()->getId() && $cart->getQuote()->getCustomerId()) {
+                    $cart->getQuote()->setCustomerId(null);
+                }
+                $cart->updateItems($cartData)
+                    ->save();
+            }
+            $this->_getSession()->setCartWasUpdated(true);
+            $this->_message($this->__('Cart was successfully updated.'), Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_SUCCESS);
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        }
+        catch (Exception $e) {
+            $this->_message($this->__('Cannot update shopping cart.'), self::MESSAGE_STATUS_ERROR);
+        }
     }
 
     /**
