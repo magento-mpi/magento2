@@ -468,7 +468,7 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
                     $regexChars = array(0 => '/^[a-z0-9\x2d]{1,63}$/i');
                     if ($this->_validateIdn &&  isset($this->_validIdns[strtoupper($this->_tld)])) {
                         if (is_string($this->_validIdns[strtoupper($this->_tld)])) {
-                            $regexChars += include($this->_validIdns[strtoupper($this->_tld)]);
+                            $regexChars += include('Zend/Validate/'.$this->_validIdns[strtoupper($this->_tld)]);
                         } else {
                             $regexChars += $this->_validIdns[strtoupper($this->_tld)];
                         }
