@@ -35,24 +35,6 @@ $page = $installer->getConnection()->fetchRow($installer->getConnection()->selec
     ->where('identifier = ?', 'home')
     ->limit(1));
 if ($page) {
-
-    // but first create a few banners
-    $banners = array(
-        array('top.container', 'Free Shipping on All Handbags', '<a href="{{store direct_url="apparel/women/handbags"}}"> <img class="callout" title="Get Free Shipping on All Items under Handbags" src="{{skin url="images/callouts/home/free_shipping_all_handbags.jpg"}}" alt="Free Shipping on All Handbags" /></a>'),
-        array('footer.before', '15% off Our New Evening Dresses', '<a href="{{store direct_url="apparel/women/evening-dresses"}}"> <img class="callout" title="15% off Our New Evening Dresses" src="{{skin url="images/callouts/home/15_off_new_evening_dresses.jpg"}}" alt="15% off Our New Evening Dresses" /></a>'),
-    );
-    $createdBanners = array();
-    foreach ($banners as $bannerData) {
-        list($reference, $title, $content) = $bannerData;
-        $banner = Mage::getModel('enterprise_banner/banner')
-            ->setName($title)
-            ->setIsEnabled(1)
-            ->setStoreContents(array(0 => $content))
-            ->save()
-        ;
-        $createdBanners[] = array($banner->getId(), $title, $reference);
-    }
-
     // and static blocks
     $blocks = array(
         array('Flaunt yourself', 'flaunt_yourself', '<img src="{{skin url="images/callouts/home/flaunt_yourself.jpg"}}" alt="Flaunt yourself" />'),
@@ -85,39 +67,6 @@ if ($page) {
 </div>
     ' . "\n\n\n\n<div style=\"display:none\"><!-- your previous content backup comes below -->\n\n\n " . $page['content'] . "\n\n\n</div>";
     $installer->getConnection()->update($tablePage, array('content' => $content, 'root_template' => 'one_column'), "page_id = {$page['page_id']}");
-
-    // also add widget instances to home page
-    foreach ($createdBanners as $i => $b) {
-        list($bannerId, $title, $reference) = $b;
-        $widgetInstance = Mage::getModel('widget/widget_instance')
-            ->setData('page_groups', array(
-                array(
-                    'page_group' => 'pages',
-                    'pages'      => array(
-                        'page_id'       => 0,
-                        'for'           => 'all',
-                        'layout_handle' => 'cms_index_index',
-                        'block'         => $reference,
-                        'template'      => 'banner/widget/block.phtml',
-                ))
-            ))
-            ->setData('store_ids', '0')
-            ->setData('widget_parameters', array(
-                'display_mode' => 'fixed',
-                'types'        => array(''),
-                'rotate'       => '',
-                'banner_ids'   => $bannerId,
-                'unique_id'    => Mage::helper('core')->uniqHash(),
-            ))
-            ->addData(array(
-                'type'          => 'enterprise_banner/widget_banner',
-                'package_theme' => 'enterprise/default',
-                'title'         => $title,
-                'sort_order'    => $i,
-            ))
-            ->save()
-        ;
-    }
 }
 
 // add fancy 404 page content
