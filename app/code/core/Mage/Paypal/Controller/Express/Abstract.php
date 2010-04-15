@@ -40,6 +40,11 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     protected $_config = null;
 
     /**
+     * @var Mage_Sales_Model_Quote
+     */
+    protected $_quote = false;
+
+    /**
      * Instantiate config
      */
     protected function _construct()
@@ -73,6 +78,24 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             Mage::logException($e);
         }
         $this->_redirect('checkout/cart');
+    }
+
+    /**
+     * Return shipping options items for shipping address from request
+     */
+    public function callbackShippingOptionsAction()
+    {
+        try {
+            $quoteId = $this->getRequest()->getParam('quote_id');
+            $this->_quote = Mage::getModel('sales/quote')->load($quoteId);
+            $this->_initCheckout();
+            $response = $this->_checkout->getCallbackShippingoptionsResponse($this->getRequest()->getParams());
+            $this->getResponse()->setBody($response);
+            return;
+        }
+        catch (Exception $e) {
+            Mage::logException($e);
+        }
     }
 
     /**
@@ -310,6 +333,9 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
      */
     private function _getQuote()
     {
-        return $this->_getCheckoutSession()->getQuote();
+        if (!$this->_quote) {
+            $this->_quote = $this->_getCheckoutSession()->getQuote();
+        }
+        return $this->_quote;
     }
 }

@@ -207,6 +207,17 @@ class Mage_Paypal_Model_Express_Checkout
             }
         }
 
+        // add shipping options
+        if ($this->_config->lineItemsEnabled && $this->_config->transferShippingOptions) {
+            $options = Mage::helper('paypal')->prepareShippingOptions($address);
+            if (!empty($options)) { // PayPal must fix bug with empty shipping rates
+                $url = Mage::getUrl('*/*/callbackshippingoptions', array('quote_id' => $this->_quote->getId()));
+                $this->_api
+                    ->setCallbackUrl($url)
+                    ->setShippingOptions($options);
+            }
+        }
+
         $this->_api->setBusinessAccount($this->_config->businessAccount);
 
         $this->_config->exportExpressCheckoutStyleSettings($this->_api);
@@ -245,6 +256,13 @@ class Mage_Paypal_Model_Express_Checkout
         }
         $this->_ignoreAddressValidation();
 
+        // import shipping rate
+        if ((!$this->_quote->getIsVirtual()) && $rateCode = $this->_api->getShippingRateCode()
+            && $shippingAddress = $this->_quote->getShippingAddress()) {
+            // $rateCode is not correct. Paypal must fix bug.
+            // $shippingAddress->setShippingMethod($rateCode);
+        }
+
         // import payment info
         $payment = $this->_quote->getPayment();
         $payment->setMethod($this->_methodType);
@@ -269,6 +287,34 @@ class Mage_Paypal_Model_Express_Checkout
         }
         $this->_ignoreAddressValidation();
         $this->_quote->collectTotals()->save();
+    }
+
+    /**
+     * Return callback response with shipping options
+     *
+     * @param array $request
+     * @return string
+     */
+    public function getCallbackShippingOptionsResponse($request)
+    {
+        $this->_getApi()->importCallbackRequest($request);
+        $callbackRequestShippingAddress = $this->_getApi()->getCallbackRequestShippingAddress();
+        $quoteShippingAddress = $this->_quote->getShippingAddress();
+
+        if ((!$this->_quote->getIsVirtual()) && $callbackRequestShippingAddress && $quoteShippingAddress) {
+            foreach ($callbackRequestShippingAddress->getExportedKeys() as $key) {
+                $quoteShippingAddress->setDataUsingMethod($key, $callbackRequestShippingAddress->getData($key));
+            }
+            $quoteShippingAddress->setCollectShippingRates(true);
+            $quoteShippingAddress->collectShippingRates();
+        }
+
+        $options = Mage::helper('paypal')->prepareShippingOptions($quoteShippingAddress);
+
+        $response = $this->_getApi()
+            ->setShippingOptions($options)
+            ->getCallbackResponse();
+        return $response;
     }
 
     /**

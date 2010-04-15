@@ -105,6 +105,9 @@
                 </paypal>
             </updates>
         </layout>
+        <secure_url>
+            <paypal_express_callbackshippingoptions>paypal/express/callbackshippingoptions</paypal_express_callbackshippingoptions>
+        </secure_url>
     </frontend>
     <adminhtml>
         <translate>

@@ -65,6 +65,12 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     protected $_lineItemExportItemsFormat = array();
     protected $_lineItemExportItemsFilters = array();
 
+    /**
+     * Shipping options export to request mapping settings
+     * @var array
+     */
+    protected $_shippingOptionsExportItemsFormat = array();
+
    /**
      * Fields that should be replaced in debug with '***'
      *
@@ -378,6 +384,33 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     * Prepare shipping options request
+     *
+     * @param array &$request
+     * @param int $i
+     */
+    protected function _exportShippingOptions(array &$request, $i = 0)
+    {
+        $options = $this->getShippingOptions();
+        if (empty($options)) {
+            return;
+        }
+        foreach ($options as $option) {
+            foreach ($this->_shippingOptionsExportItemsFormat as $publicKey => $privateFormat) {
+                $value = $option->getDataUsingMethod($publicKey);
+                if (is_float($value)) {
+                    $value = $this->_filterAmount($value);
+                }
+                if (is_bool($value)) {
+                    $value = $this->_filterBool($value);
+                }
+                $request[sprintf($privateFormat, $i)] = $value;
+            }
+            $i++;
+        }
+    }
+
+    /**
      * Filter amounts in API calls
      * @param float|string $value
      * @return string
@@ -385,6 +418,17 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     protected function _filterAmount($value)
     {
         return sprintf('%.2F', $value);
+    }
+
+    /**
+     * Filter bool in API calls
+     *
+     * @param bool $value
+     * @return string
+     */
+    protected function _filterBool($value)
+    {
+        return ($value) ? 'true' : 'false';
     }
 
     /**

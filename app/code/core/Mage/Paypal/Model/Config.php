@@ -800,6 +800,7 @@ class Mage_Paypal_Model_Config
             case 'use_payflow':
                 return "paypal/general/{$fieldName}";
             case 'active':
+            case 'transfer_shipping_options':
             case 'fraud_filter':
             case 'payment_action':
             case 'solution_type':

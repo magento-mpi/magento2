@@ -349,6 +349,16 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </visible_on_cart>
+                        <transfer_shipping_options>
+                            <label>Transfer Shipping Options</label>
+                            <config_path>payment/paypal_express/transfer_shipping_options</config_path>
+                            <comment>If this option is enabled customer can change shipping address and shipping method on paypal page. Transfer Cart Line Items must be enabled. If Sandbox Mode is disabled Use Secure URLs in Frontend must be enabled.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </transfer_shipping_options>
                         <solution_type translate="label">
                             <label>Enable PayPal Guest Checkout</label>
                             <config_path>payment/paypal_express/solution_type</config_path>

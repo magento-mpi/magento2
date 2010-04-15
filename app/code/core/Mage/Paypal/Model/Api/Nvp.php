@@ -40,6 +40,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     const SET_EXPRESS_CHECKOUT = 'SetExpressCheckout';
     const GET_EXPRESS_CHECKOUT_DETAILS = 'GetExpressCheckoutDetails';
     const DO_EXPRESS_CHECKOUT_PAYMENT = 'DoExpressCheckoutPayment';
+    const CALLBACK_RESPONSE = 'CallbackResponse';
 
     /**
      * Capture types (make authorization close or remain open)
@@ -112,6 +113,10 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             // backwards compatibility
             'FIRSTNAME'     => 'firstname',
             'LASTNAME'      => 'lastname',
+
+        // shipping rate
+        'SHIPPINGOPTIONNAME' => 'shipping_rate_code',
+
         // paypal direct credit card information
         'CREDITCARDTYPE' => 'credit_card_type',
         'ACCT'           => 'credit_card_number',
@@ -283,12 +288,25 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     );
 
     /**
+     * Map for callback request
+     * @var array
+     */
+    protected $_callbackRequestMap = array(
+        'SHIPTOCOUNTRY' => 'country_id',
+        'SHIPTOSTATE' => 'region',
+        'SHIPTOCITY'    => 'city',
+        'SHIPTOSTREET'  => 'street',
+        'SHIPTOSTREET2' => 'street2',
+        'SHIPTOZIP' => 'postcode'
+    );
+
+    /**
      * Payment information response specifically to be collected after some requests
      * @var array
      */
     protected $_paymentInformationResponse = array(
         'PAYERID', 'PAYERSTATUS', 'CORRELATIONID', 'ADDRESSID', 'ADDRESSSTATUS',
-        'PAYMENTSTATUS', 'PENDINGREASON', 'PROTECTIONELIGIBILITY', 'EMAIL',
+        'PAYMENTSTATUS', 'PENDINGREASON', 'PROTECTIONELIGIBILITY', 'EMAIL', 'SHIPPINGOPTIONNAME'
     );
 
     /**
@@ -306,6 +324,17 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'name'   => 'L_NAME%d',
         'qty'    => 'L_QTY%d',
         'amount' => 'L_AMT%d',
+    );
+
+    /**
+     * Shipping options export to request mapping settings
+     * @var array
+     */
+    protected $_shippingOptionsExportItemsFormat = array(
+        'is_default' => 'L_SHIPPINGOPTIONISDEFAULT%d',
+        'name'       => 'L_SHIPPINGOPTIONNAME%d',
+        'label'      => 'L_SHIPPINGOPTIONLABEL%d',
+        'amount'     => 'L_SHIPPINGOPTIONAMOUNT%d',
     );
 
     /**
@@ -351,6 +380,16 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
+     * Return Paypal callback request timeout
+     *
+     * @return int
+     */
+    public function getCallbackTimeout()
+    {
+        return 6;
+    }
+
+    /**
      * SetExpressCheckout call
      * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_SetExpressCheckout
      * TODO: put together style and giropay settings
@@ -364,10 +403,21 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         // import/suppress shipping address, if any
         if ($address = $this->getAddress()) {
             $request = $this->_importAddress($address, $request);
-            $request['ADDROVERRIDE'] = 1;
+            if (!$this->getShippingOptions()) {
+                $request['ADDROVERRIDE'] = 1;
+            }
         }
         if ($this->getSuppressShipping()) {
             $request['NOSHIPPING'] = 1;
+        }
+
+        if ($this->getShippingOptions()) {
+            $request['CALLBACK'] = $this->getCallbackUrl();
+            $request['CALLBACKTIMEOUT'] = $this->getCallbackTimeout();
+            //Paypal must fix behavior with parameter 'MAXAMT' 
+            $request['MAXAMT'] = $this->_filterAmount((float)$request['AMT'] * 2);
+            // end fix
+            $this->_exportShippingOptions($request);
         }
 
         $response = $this->call(self::SET_EXPRESS_CHECKOUT, $request);
@@ -499,7 +549,36 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
-     *Add method to request array
+     * Import callback request array into $this public data
+     *
+     * @param array $request
+     * @return Mage_Paypal_Model_Api_Nvp
+     */
+    public function importCallbackRequest($request)
+    {
+        $shippingAddress = new Varien_Object();
+        Varien_Object_Mapper::accumulateByMap($request, $shippingAddress, $this->_callbackRequestMap);
+        $shippingAddress->setExportedKeys(array_values($this->_callbackRequestMap));
+        $this->_applyStreetAndRegionWorkarounds($shippingAddress);
+        $this->setCallbackRequestShippingAddress($shippingAddress);
+        return $this;
+    }
+
+    /**
+     * Return callback response
+     *
+     * @return string
+     */
+    public function getCallbackResponse()
+    {
+        $response = array();
+        $response = $this->_addMethodToRequest(self::CALLBACK_RESPONSE, $response);
+        $this->_exportShippingOptions($response);
+        return $this->_buildQuery($response);
+    }
+
+    /**
+     * Add method to request array
      *
      * @param string $methodName
      * @param array $request
@@ -509,6 +588,19 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     {
         $request['method'] = $methodName;
         return $request;
+    }
+
+    /**
+     * Add method to response array
+     *
+     * @param string $methodName
+     * @param array $response
+     * @return array
+     */
+    protected function _addMethodToResponse($methodName, $response)
+    {
+        $response['method'] = $methodName;
+        return $response;
     }
 
     /**
@@ -655,7 +747,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $address->setExportedKeys(array_values($this->_billingAddressMap));
         $this->_applyStreetAndRegionWorkarounds($address);
         $this->setExportedBillingAddress($address);
-
         // assume there is shipping address if there is at least one field specific to shipping
         if (isset($data['SHIPTONAME'])) {
             $shippingAddress = clone $address;

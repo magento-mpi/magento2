@@ -105,6 +105,29 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get shipping options from shipping address
+     * 
+     * @param Mage_Sales_Model_Quote_Address $address
+     * @return array
+     */
+    public function prepareShippingOptions($address)
+    {
+        $options = array();
+        foreach ($address->getGroupedAllShippingRates() as $_group) {
+            foreach ($_group as $_rate) {
+                $data = array(
+                    'is_default' => $address->getShippingMethod() === $_rate->getCode(),
+                    'name'       => $_rate->getCode(),
+                    'label'      => $_rate->getMethodTitle(),
+                    'amount'     => (float)$_rate->getPrice()
+                );
+                $options[] = new Varien_Object($data);
+            }
+        }
+        return $options;
+    }
+
+    /**
      * Check whether cart line items are eligible for exporting to PayPal API
      *
      * Requires data returned by self::prepareLineItems()
