@@ -483,8 +483,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         $item->setHiddenTaxAmount(max(0, $hiddenTax));
         $item->setBaseHiddenTaxAmount(max(0, $baseHiddenTax));
 
-        $taxGroups[$rateKey]['totals'][]        = $subtotal;
-        $taxGroups[$rateKey]['base_totals'][]   = $baseSubtotal;
+        $taxGroups[$rateKey]['totals'][]        = max(0, $subtotal);
+        $taxGroups[$rateKey]['base_totals'][]   = max(0, $baseSubtotal);
         return $this;
     }
 
