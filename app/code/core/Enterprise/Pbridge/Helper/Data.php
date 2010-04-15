@@ -64,6 +64,13 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     protected $_encryptor = null;
 
     /**
+     * Store id
+     *
+     * @var unknown_type
+     */
+    protected $_storeId = null;
+
+    /**
      * Check if Payment Bridge Magento Module is enabled in configuration
      *
      * @return boolean
@@ -110,7 +117,7 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
      */
     protected function _prepareRequestUrl($params = array(), $encryptParams = true)
     {
-        $storeId = (isset($params['store_id'])) ? $params['store_id']: 0;
+        $storeId = (isset($params['store_id'])) ? $params['store_id']: $this->_storeId;
         $pbridgeUrl = $this->getBridgeBaseUrl($storeId);
         $sourceUrl =  rtrim($pbridgeUrl, '/') . '/bridge.php';
 
@@ -139,7 +146,7 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
         $params = array_merge(array(
             'locale' => Mage::app()->getLocale()->getLocaleCode(),
         ), $params);
-        $storeId = (isset($params['store_id'])) ? $params['store_id']: 0;
+        $storeId = (isset($params['store_id'])) ? $params['store_id']: $this->_storeId;
 
         $params['merchant_key']  = trim(Mage::getStoreConfig('payment/pbridge/merchantkey', $storeId));
 
@@ -196,7 +203,8 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     public function getEncryptor()
     {
         if ($this->_encryptor === null) {
-            $this->_encryptor = Mage::getModel('enterprise_pbridge/encryption');
+            $key = trim((string)$pbridgeUrl = Mage::getStoreConfig('payment/pbridge/transferkey', $this->_storeId));
+            $this->_encryptor = Mage::getModel('enterprise_pbridge/encryption', $key);
             $this->_encryptor->setHelper($this);
         }
         return $this->_encryptor;
@@ -262,5 +270,15 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     public function getBridgeBaseUrl($storeId = 0)
     {
         return trim(Mage::getStoreConfig('payment/pbridge/gatewayurl', $storeId));
+    }
+
+    /**
+     * Store id setter
+     *
+     * @param int $storeId
+     */
+    public function setStoreId($storeId)
+    {
+        $this->_storeId = $storeId;
     }
 }

@@ -86,6 +86,12 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
         return $this->_api;
     }
 
+    public function setStore($store)
+    {
+        $this->setData('store', $store);
+        Mage::helper('enterprise_pbridge')->setStoreId(is_object($store) ? $store->getId() : $store);
+    }
+
     /**
      * Check whether payment method can be used
      *

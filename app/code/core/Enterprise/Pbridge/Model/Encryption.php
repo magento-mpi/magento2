@@ -28,14 +28,15 @@ class Enterprise_Pbridge_Model_Encryption extends Enterprise_Pci_Model_Encryptio
 
     /**
      * Constructor
+     *
+     * @param string $key
      */
-    public function __construct()
+    public function __construct($key)
     {
-        // load a secure key from config
-        $this->_keys = array(trim((string)$pbridgeUrl = Mage::getStoreConfig('payment/pbridge/transferkey')));
+        $this->_keys = array($key);
         $this->_keyVersion = 0;
     }
-    
+
     /**
      * Look for key and crypt versions in encrypted data before decrypting
      *
