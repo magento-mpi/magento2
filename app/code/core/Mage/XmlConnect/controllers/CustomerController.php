@@ -167,14 +167,14 @@ EOT;
         }
 
         $session->setEscapeMessages(true); // prevent XSS injection in user input
-        if ($request->isPost() || true) {
+        if ($request->isPost()) {
             $errors = array();
 
             if (!$customer = Mage::registry('current_customer')) {
                 $customer = Mage::getModel('customer/customer')->setId(null);
             }
 
-            $data = $this->_filterPostData($request->getParams());
+            $data = $this->_filterPostData($request->getPost());
 
             foreach (Mage::getConfig()->getFieldset('customer_account') as $code=>$node) {
                 if ($node->is('create') && isset($data[$code])) {
