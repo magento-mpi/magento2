@@ -224,7 +224,7 @@ Layout handle for configurable products
             <block name="category.edit"  type="adminhtml/catalog_category_edit" template="catalog/category/edit.phtml" />
         </reference>
         <reference name="js">
-            <block type="core/template" template="catalog/wysiwyg/js.phtml"/>
+            <block type="core/template" template="catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js" />
         </reference>
     </adminhtml_catalog_category_edit>
 

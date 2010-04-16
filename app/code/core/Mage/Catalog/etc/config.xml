@@ -594,6 +594,16 @@
                 </Mage_Catalog>
             </modules>
         </translate>
+        <events>
+            <catalog_is_using_static_urls_allowed>
+                <observers>
+                    <catalog_wysiwyg>
+                        <class>catalog/observer</class>
+                        <method>catalogCheckIsUsingStaticUrlsAllowed</method>
+                    </catalog_wysiwyg>
+                </observers>
+            </catalog_is_using_static_urls_allowed>
+        </events>
     </adminhtml>
 
     <frontend>
@@ -707,6 +717,7 @@
                 <list_per_page>10</list_per_page>
                 <flat_catalog_category>0</flat_catalog_category>
                 <default_sort_by>position</default_sort_by>
+                <parse_url_directives>1</parse_url_directives>
             </frontend>
             <sitemap>
                 <tree_mode>0</tree_mode>
@@ -739,6 +750,9 @@
                 <configurable_children>1</configurable_children>
             </layer>
 -->
+            <wysiwyg>
+                <use_static_urls_in_catalog>0</use_static_urls_in_catalog>
+            </wysiwyg>
         </catalog>
     </default>
 

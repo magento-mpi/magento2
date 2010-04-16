@@ -195,6 +195,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $this->_addBreadcrumb(Mage::helper('catalog')->__('Manage Catalog Categories'),
              Mage::helper('catalog')->__('Manage Categories')
         );
+
+        $block = $this->getLayout()->getBlock('catalog.wysiwyg.js');
+        if ($block) {
+            $block->setStoreId($storeId);
+        }
+
         $this->renderLayout();
     }
 
@@ -205,9 +211,15 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     public function wysiwygAction()
     {
         $elementId = $this->getRequest()->getParam('element_id', md5(microtime()));
+        $storeId = $this->getRequest()->getParam('store_id', 0);
+        $storeMediaUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+
         $content = $this->getLayout()->createBlock('adminhtml/catalog_helper_form_wysiwyg_content', '', array(
-            'editor_element_id' => $elementId
+            'editor_element_id' => $elementId,
+            'store_id'          => $storeId,
+            'store_media_url'   => $storeMediaUrl,
         ));
+
         $this->getResponse()->setBody($content->toHtml());
     }
 
