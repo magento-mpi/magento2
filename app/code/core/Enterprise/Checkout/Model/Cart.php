@@ -173,7 +173,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         } elseif ($customer !== null && $customer->getStoreId() && !$customer->getStore()->isAdmin()) {
             $storeId = $customer->getStoreId();
         } else {
-            $customerStoreIds = $customer->getSharedStoreIds();
+            $customerStoreIds = $this->getQuoteSharedStoreIds(); //$customer->getSharedStoreIds();
             $storeId = array_shift($customerStoreIds);
             if (Mage::app()->getStore($storeId)->isAdmin()) {
                 $defaultStore = Mage::app()->getAnyStoreView();
