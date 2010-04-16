@@ -110,7 +110,7 @@ class Mage_Centinel_Model_Observer extends Varien_Object
      */
     public function salesOrderPaymentPlaceEnd($observer)
     {
-        $payment = $observer->getPayment();
+        $payment = $observer->getEvent()->getPayment();
         $method = $payment->getMethodInstance();
         if ($method && $method->getIsCentinelValidationEnabled()) {
             $method->getCentinelValidator()->reset();
