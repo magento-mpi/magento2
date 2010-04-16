@@ -86,6 +86,8 @@ Default layout, loads most of the pages
             <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/item/default.phtml</template></action>
             <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
             <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/item/default.phtml</template></action>
+
+            <block type="xmlconnect/cart_crosssell" name="xmlconnect.cart.crosssell" as="crosssell"/>
         </block>
     </xmlconnect_index_shoppingcart>
 

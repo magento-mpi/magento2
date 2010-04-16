@@ -52,6 +52,7 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
 
             $itemXml = $products->addChild('item');
             $itemXml->addChild('entity_id', $item->getProduct()->getId());
+            $itemXml->addChild('item_id', $item->getId());
             $itemXml->addChild('name', $xmlObject->xmlentities(strip_tags($renderer->getProductName())));
             $itemXml->addChild('code', 'cart[' . $item->getId() . '][qty]');
             $itemXml->addChild('qty', $renderer->getQty());
@@ -153,6 +154,12 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                 }
             }
         }
+
+        /**
+         * Cross Sell Products
+         */
+        $crossSellXmlObj = new Varien_Simplexml_Element($this->getChildHtml('crosssell'));
+        $xmlObject->appendChild($crossSellXmlObj);
 
         return $xmlObject->asNiceXml();
     }
