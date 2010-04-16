@@ -29,11 +29,11 @@
 <layout version="0.1.0">
     <checkout_cart_index>
         <reference name="checkout.cart.top_methods">
-            <block type="paypal/express_shortcut" name="checkout.cart.methods.paypal_express.top" template="paypal/express/shortcut.phtml"/>
+            <block type="paypal/express_shortcut" name="checkout.cart.methods.paypal_express.top" before="-" template="paypal/express/shortcut.phtml"/>
         </reference>
 
         <reference name="checkout.cart.methods">
-            <block type="paypal/express_shortcut" name="checkout.cart.methods.paypal_express.bottom" template="paypal/express/shortcut.phtml"/>
+            <block type="paypal/express_shortcut" name="checkout.cart.methods.paypal_express.bottom" before="-" template="paypal/express/shortcut.phtml"/>
         </reference>
     </checkout_cart_index>
 

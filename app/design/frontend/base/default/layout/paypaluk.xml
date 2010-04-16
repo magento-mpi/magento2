@@ -29,7 +29,7 @@
 <layout version="0.1.0">
     <checkout_cart_index>
         <reference name="checkout.cart.top_methods">
-            <block type="paypal/express_shortcut" name="checkout.cart.methods.paypaluk_express.top" template="paypal/express/shortcut.phtml">
+            <block type="paypal/express_shortcut" name="checkout.cart.methods.paypaluk_express.top" before="-" template="paypal/express/shortcut.phtml">
                 <action method="setPaymentModelType"><type>paypaluk/express</type></action>
                 <action method="setProModelType"><type>paypaluk/pro</type></action>
                 <action method="setPaymentMethod"><type>paypaluk_express</type></action>
@@ -37,7 +37,7 @@
             </block>
         </reference>
         <reference name="checkout.cart.methods">
-            <block type="paypal/express_shortcut" name="checkout.cart.methods.paypaluk_express.bottom" template="paypal/express/shortcut.phtml">
+            <block type="paypal/express_shortcut" name="checkout.cart.methods.paypaluk_express.bottom" before="-" template="paypal/express/shortcut.phtml">
                 <action method="setPaymentModelType"><type>paypaluk/express</type></action>
                 <action method="setProModelType"><type>paypaluk/pro</type></action>
                 <action method="setPaymentMethod"><type>paypaluk_express</type></action>
