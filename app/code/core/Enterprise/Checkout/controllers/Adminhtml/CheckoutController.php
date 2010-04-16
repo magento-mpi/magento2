@@ -101,12 +101,22 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterp
             $cart->setStoreId($storeId);
         }
 
-        // Assign store to quote when it will be saved
-        if(!$cart->getQuote()->getId()) {
-            $cart->getQuote()->setStore(Mage::app()->getStore($storeId));
+        $quote = $cart->getQuote();
+
+        // Currency init
+        if($quote->getId()) {
+            $quoteCurrencyCode = $quote->getData('quote_currency_code');
+            if ($quoteCurrencyCode != Mage::app()->getStore($storeId)->getCurrentCurrencyCode()) {
+                $quoteCurrency = Mage::getModel('directory/currency')->load($quoteCurrencyCode);
+                $quote->setForcedCurrency($quoteCurrency);
+                Mage::app()->getStore($storeId)->setCurrentCurrencyCode($quoteCurrency->getCode());
+            }
+        } else {
+            // Assign store to quote when it will be saved
+            $quote->setStore(Mage::app()->getStore($storeId));
         }
 
-        Mage::register('checkout_current_quote', $cart->getQuote());
+        Mage::register('checkout_current_quote', $quote);
         Mage::register('checkout_current_customer', $customer);
         Mage::register('checkout_current_store', Mage::app()->getStore($storeId));
 

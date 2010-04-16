@@ -360,7 +360,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
     }
 
     /**
-     * Create duplicate of quote preesrving all data (items, addresses, payment etc.)
+     * Create duplicate of quote preserving all data (items, addresses, payment etc.)
      *
      * @param Mage_Sales_Model_Quote $quote Original Quote
      * @param bool $active Create active quote or not

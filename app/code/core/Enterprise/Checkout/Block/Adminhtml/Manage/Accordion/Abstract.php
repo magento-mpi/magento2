@@ -111,8 +111,9 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
         $this->addColumn('price', array(
             'header'    => Mage::helper('enterprise_checkout')->__('Price'),
             'align'     => 'right',
-            'type'      => 'price',
+            'type'      => 'currency',
             'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
+            'rate'      => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
             'sortable'  => false
         ));
