@@ -90,6 +90,9 @@ class Enterprise_Pbridge_Adminhtml_PbridgeController extends Enterprise_Enterpri
      */
     public function resultAction()
     {
+        if ($this->getRequest()->getParam('store')) {
+            Mage::helper('enterprise_pbridge')->setStoreId($this->getRequest()->getParam('store'));
+        }
         $this->_initActionLayout();
         $this->renderLayout();
     }

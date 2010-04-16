@@ -32,7 +32,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Paypal extends Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
+class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract extends Enterprise_Pbridge_Block_Payment_Form_Abstract
 {
     /**
      * Return url model class for adminhtml
@@ -51,4 +51,44 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Paypal extends Enter
      */
     protected $_code = Mage_Paypal_Model_Config::METHOD_WPP_DIRECT;
 
+    /**
+     * Adminhtml template for payment form block
+     *
+     * @var string
+     */
+    protected $_template = 'enterprise/pbridge/sales/order/create/pbridge.phtml';
+
+    /**
+     * Adminhtml Iframe block type
+     *
+     * @var string
+     */
+    protected $_iframeBlockType = 'adminhtml/template';
+
+    /**
+     * Adminhtml iframe template
+     *
+     * @var string
+     */
+    protected $_iframeTemplate = 'enterprise/pbridge/sales/order/create/iframe.phtml';
+
+    /**
+     * Return redirect url for Payment Bridge application
+     *
+     * @return string
+     */
+    public function getRedirectUrl($quote)
+    {
+        return Mage::getModel('adminhtml/url')->getUrl('*/pbridge/result', array('store' => $quote->getStoreId()));
+    }
+
+    /**
+     * Getter
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    public function getQuote()
+    {
+        return Mage::getSingleton('adminhtml/session_quote')->getQuote();
+    }
 }

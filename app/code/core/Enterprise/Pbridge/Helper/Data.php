@@ -146,9 +146,8 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
         $params = array_merge(array(
             'locale' => Mage::app()->getLocale()->getLocaleCode(),
         ), $params);
-        $storeId = (isset($params['store_id'])) ? $params['store_id']: $this->_storeId;
 
-        $params['merchant_key']  = trim(Mage::getStoreConfig('payment/pbridge/merchantkey', $storeId));
+        $params['merchant_key']  = trim(Mage::getStoreConfig('payment/pbridge/merchantkey', $this->_storeId));
 
         return $params;
     }
@@ -178,6 +177,10 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
             'store_id'      => $quote ? $quote->getStoreId() : '0',
         ), $params);
 
+        if ($quote->getStoreId()) {
+            $this->setStoreId($quote->getStoreId());
+        }
+
         $params = $this->getRequestParams($params, $quote);
         $params['action'] = self::PAYMENT_GATEWAY_FORM_ACTION;
         return $this->_prepareRequestUrl($params, true);
@@ -203,7 +206,7 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
     public function getEncryptor()
     {
         if ($this->_encryptor === null) {
-            $key = trim((string)$pbridgeUrl = Mage::getStoreConfig('payment/pbridge/transferkey', $this->_storeId));
+            $key = trim((string)Mage::getStoreConfig('payment/pbridge/transferkey', $this->_storeId));
             $this->_encryptor = Mage::getModel('enterprise_pbridge/encryption', $key);
             $this->_encryptor->setHelper($this);
         }
@@ -267,9 +270,9 @@ class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_A
      * @param int $storeId
      * @return string
      */
-    public function getBridgeBaseUrl($storeId = 0)
+    public function getBridgeBaseUrl()
     {
-        return trim(Mage::getStoreConfig('payment/pbridge/gatewayurl', $storeId));
+        return trim(Mage::getStoreConfig('payment/pbridge/gatewayurl', $this->_storeId));
     }
 
     /**

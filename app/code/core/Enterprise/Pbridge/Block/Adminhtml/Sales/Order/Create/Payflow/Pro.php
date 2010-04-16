@@ -32,46 +32,12 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Payflow_Pro extends Enterprise_Pbridge_Block_Payment_Form_Abstract
+class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Payflow_Pro extends Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
 {
     /**
-     * Default template for payment form block
+     * Verisign payment code
      *
      * @var string
      */
-    protected $_template = 'enterprise/pbridge/sales/order/create/pbridge.phtml';
-
-    /**
-     * Adminhtml Iframe block type
-     *
-     * @var string
-     */
-    protected $_iframeBlockType = 'adminhtml/template';
-
-    /**
-     * Adminhtml iframe template
-     *
-     * @var string
-     */
-    protected $_iframeTemplate = 'enterprise/pbridge/sales/order/create/iframe.phtml';
-
-    /**
-     * Return redirect url for Payment Bridge application
-     *
-     * @return string
-     */
-    public function getRedirectUrl()
-    {
-        return Mage::getModel('adminhtml/url')->getUrl('*/pbridge/result');
-    }
-
-    /**
-     * Getter
-     *
-     * @return Mage_Sales_Model_Quote
-     */
-    public function getQuote()
-    {
-        return Mage::getSingleton('adminhtml/session_quote')->getQuote();
-    }
+    protected $_code = 'verisign';
 }

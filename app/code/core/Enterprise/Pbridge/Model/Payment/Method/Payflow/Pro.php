@@ -229,4 +229,16 @@ class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Enterprise_Ent
     {
         return false;
     }
+
+    /**
+     * Store id setter, also set storeId to helper
+     *
+     * @param int $store
+     */
+    public function setStore($store)
+    {
+        $this->setData('store', $store);
+        Mage::helper('enterprise_pbridge')->setStoreId(is_object($store) ? $store->getId() : $store);
+        return $this;
+    }
 }

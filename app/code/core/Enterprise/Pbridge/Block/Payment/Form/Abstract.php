@@ -94,7 +94,7 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Enterprise
     public function getSourceUrl()
     {
         $sourceUrl = Mage::helper('enterprise_pbridge')->getGatewayFormUrl(array(
-            'redirect_url' => $this->getRedirectUrl(),
+            'redirect_url' => $this->getRedirectUrl($this->getQuote()),
             'request_gateway_code' => $this->getOriginalCode()
         ), $this->getQuote());
         return $sourceUrl;
