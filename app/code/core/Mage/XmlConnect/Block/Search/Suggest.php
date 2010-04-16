@@ -34,6 +34,8 @@
 
 class Mage_XmlConnect_Block_Search_Suggest extends Mage_CatalogSearch_Block_Autocomplete
 {
+    const SUGGEST_ITEM_SEPARATOR = '::sep::';
+
     /**
      * Search suggestions xml renderer
      *
@@ -41,7 +43,7 @@ class Mage_XmlConnect_Block_Search_Suggest extends Mage_CatalogSearch_Block_Auto
      */
     protected function _toHtml()
     {
-        $suggesXmlObj = new Varien_Simplexml_Element('<suggestions></suggestions>');
+        $xmlObj = new Varien_Simplexml_Element('<node></node>');
 
         if (!$this->getRequest()->getParam('q', false)) {
        	    return $suggesXmlObj->asNiceXml();
@@ -52,11 +54,18 @@ class Mage_XmlConnect_Block_Search_Suggest extends Mage_CatalogSearch_Block_Auto
             return $suggesXmlObj->asNiceXml();
         }
 
+        $items = '';
         foreach ($suggestData as $index => $item) {
-            $itemXmlObj = $suggesXmlObj->addChild('item');
-            $itemXmlObj->addChild('title', $suggesXmlObj->xmlentities(strip_tags($item['title'])));
-            $itemXmlObj->addChild('count', (int)$item['num_of_results']);
+            $items .= $xmlObj->xmlentities(strip_tags($item['title']))
+                   . self::SUGGEST_ITEM_SEPARATOR
+                   . (int)$item['num_of_results']
+                   . self::SUGGEST_ITEM_SEPARATOR;
+//            $itemXmlObj = $suggesXmlObj->addChild('item');
+//            $itemXmlObj->addChild('title', $suggesXmlObj->xmlentities(strip_tags($item['title'])));
+//            $itemXmlObj->addChild('count', (int)$item['num_of_results']);
         }
+
+        $suggesXmlObj = new Varien_Simplexml_Element('<suggestions>' . $items . '</suggestions>');
 
         return $suggesXmlObj->asNiceXml();
     }
