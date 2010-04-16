@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_XmlConnect>
-            <version>1.4.1.0</version>
+            <version>1.4.0.0</version>
         </Mage_XmlConnect>
     </modules>
     <global>
@@ -38,7 +38,11 @@
                 <resourceModel>xmlconnect_mysql4</resourceModel>
             </xmlconnect>
             <xmlconnect_mysql4>
-                <class>Mage_XmlConnect_Model_Resource_Mysql4</class>
+                <class>Mage_XmlConnect_Model_Mysql4</class>
+                <entities>
+                    <application><table>xmlconnect_application</table></application>
+                    <application_design><table>xmlconnect_application</table></application_design>
+                </entities>
             </xmlconnect_mysql4>
         </models>
         <blocks>
@@ -54,7 +58,7 @@
         <resources>
             <xmlconnect_setup>
                 <setup>
-                    <module>Core_XmlConnect</module>
+                    <module>Mage_XmlConnect</module>
                 </setup>
                 <connection>
                     <use>core_setup</use>
@@ -62,6 +66,35 @@
             </xmlconnect_setup>
         </resources>
     </global>
+    <admin>
+         <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <enterprise_banner before="Mage_Adminhtml">Mage_XmlConnect_Adminhtml</enterprise_banner>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <mage_xmlconnect>
+                    <file>xmlconnect.xml</file>
+                </mage_xmlconnect>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Mage_XmlConnect>
+                    <files>
+                        <default>Mage_XmlConnect.csv</default>
+                    </files>
+                </Mage_XmlConnect>
+            </modules>
+        </translate>
+    </adminhtml>    
     <frontend>
         <routers>
             <xmlconnect>
@@ -79,5 +112,14 @@
                 </xmlconnect>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Mage_XmlConnect>
+                    <files>
+                        <default>Mage_XmlConnect.csv</default>
+                    </files>
+                </Mage_XmlConnect>
+            </modules>
+        </translate>
     </frontend>
 </config>
