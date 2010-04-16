@@ -579,6 +579,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* Paypal */
 .sidebar .paypal-logo { display:block; margin:10px 0; text-align:center; }
+.sidebar .paypal-logo a { float:none; }
 /* ======================================================================================= */
 
 
