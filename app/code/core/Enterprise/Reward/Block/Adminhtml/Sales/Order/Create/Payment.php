@@ -62,7 +62,9 @@ class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Enter
     public function canUseRewardPoints()
     {
         $websiteId = Mage::app()->getStore($this->getQuote()->getStoreId())->getWebsiteId();
-        return (float)$this->getCurrencyAmount() && Mage::helper('enterprise_reward')->isEnabledOnFront($websiteId);
+        return Mage::helper('enterprise_reward')->isEnabledOnFront($websiteId)
+            && Mage::getSingleton('admin/session')->isAllowed('enterprise_reward/affect')
+            && (float)$this->getCurrencyAmount();
     }
 
     /**

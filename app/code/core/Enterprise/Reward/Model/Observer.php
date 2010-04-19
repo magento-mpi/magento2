@@ -477,7 +477,10 @@ class Enterprise_Reward_Model_Observer
      */
     public function processOrderPlace(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()) {
+        if (!Mage::helper('enterprise_reward')->isEnabledOnFront()
+            || (Mage::app()->getStore()->isAdmin()
+                && !Mage::getSingleton('admin/session')->isAllowed('enterprise_reward/affect'))
+            ) {
             return $this;
         }
         /* @var $order Mage_Sales_Model_Order */
