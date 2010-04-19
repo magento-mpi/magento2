@@ -83,7 +83,7 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Enterprise_Enterprise_M
                 $address->setGrandTotal(0);
                 $address->setBaseGrandTotal(0);
             } else {
-                $pointsBalanceUsed = $pointsLeft;
+                $pointsBalanceUsed = $reward->getPointsEquivalent($baseRewardCurrencyAmountLeft);
                 $pointsCurrencyAmountUsed = $rewardCurrencyAmountLeft;
                 $basePointsCurrencyAmountUsed = $baseRewardCurrencyAmountLeft;
 
