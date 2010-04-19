@@ -257,10 +257,9 @@ class Mage_Paypal_Model_Express_Checkout
         $this->_ignoreAddressValidation();
 
         // import shipping rate
-        if ((!$this->_quote->getIsVirtual()) && $rateCode = $this->_api->getShippingRateCode()
-            && $shippingAddress = $this->_quote->getShippingAddress()) {
-            // $rateCode is not correct. Paypal must fix bug.
-            // $shippingAddress->setShippingMethod($rateCode);
+        if ((!$this->_quote->getIsVirtual()) && $this->_api->getShippingRateCode() && 
+            $this->_quote->getShippingAddress()) {
+                $this->_quote->getShippingAddress()->setShippingMethod($this->_api->getShippingRateCode());
         }
 
         // import payment info

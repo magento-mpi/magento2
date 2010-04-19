@@ -118,7 +118,6 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
                 $data = array(
                     'is_default' => $address->getShippingMethod() === $_rate->getCode(),
                     'name'       => $_rate->getCode(),
-                    'label'      => $_rate->getMethodTitle(),
                     'amount'     => (float)$_rate->getPrice()
                 );
                 $options[] = new Varien_Object($data);

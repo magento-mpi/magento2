@@ -333,7 +333,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     protected $_shippingOptionsExportItemsFormat = array(
         'is_default' => 'L_SHIPPINGOPTIONISDEFAULT%d',
         'name'       => 'L_SHIPPINGOPTIONNAME%d',
-        'label'      => 'L_SHIPPINGOPTIONLABEL%d',
         'amount'     => 'L_SHIPPINGOPTIONAMOUNT%d',
     );
 
@@ -572,8 +571,11 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     public function getCallbackResponse()
     {
         $response = array();
-        $response = $this->_addMethodToRequest(self::CALLBACK_RESPONSE, $response);
         $this->_exportShippingOptions($response);
+        if (empty($response)) {
+            $response['NO_SHIPPING_OPTION_DETAILS'] = '1'; 
+        }
+        $response = $this->_addMethodToRequest(self::CALLBACK_RESPONSE, $response);
         return $this->_buildQuery($response);
     }
 
