@@ -25,27 +25,88 @@
  */
 
 /**
- * XmlConnect search controller
+ * XmlConnect catalog controller
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_SearchController extends Mage_XmlConnect_Controller_Action
+class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Action
 {
+    /**
+     * Category list
+     *
+     */
+    public function categoryAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
 
     /**
-     * Declare content type header
+     * Filter product list
+     *
      */
-    public function preDispatch()
+    public function filtersAction()
     {
-        parent::preDispatch();
-        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
+
+    /**
+     * Product information
+     *
+     */
+    public function productAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
+
+    /**
+     * Product options list
+     *
+     */
+    public function productOptionsAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
+
+
+    /**
+     * Product gallery images list
+     *
+     */
+    public function productGalleryAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
+
+    /**
+     * Product reviews list
+     *
+     */
+    public function productReviewsAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
+
+    /**
+     * Add new review
+     *
+     */
+    public function productReviewAction()
+    {
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     /**
      * Perform search products
      */
-    public function indexAction()
+    public function searchAction()
     {
         $_helper = Mage::helper('catalogsearch');
         $this->getRequest()->setParam($_helper->getQueryParamName(), $this->getRequest()->getParam('query'));
@@ -93,7 +154,7 @@ class Mage_XmlConnect_SearchController extends Mage_XmlConnect_Controller_Action
     /**
      * Retrive suggestions based on search query
      */
-    public function suggestAction()
+    public function searchSuggestAction()
     {
         $this->getRequest()->setParam('q', $this->getRequest()->getParam('query'));
         $this->loadLayout(false);

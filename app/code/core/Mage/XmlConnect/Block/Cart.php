@@ -41,9 +41,10 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
     protected function _toHtml()
     {
         $cartMessages   = $this->getMessages();
-        $xmlObject  = new Varien_Simplexml_Element('<cart></cart>');
+        $quote          = $this->getQuote();
+        $xmlObject      = new Varien_Simplexml_Element('<cart></cart>');
         $xmlObject->addAttribute('is_virtual', (int)$this->helper('checkout/cart')->getIsVirtualQuote());
-        $xmlObject->addAttribute('summary_qty', (int)$this->getQuote()->getItemsSummaryQty());
+        $xmlObject->addAttribute('summary_qty', (int)$quote->getItemsSummaryQty());
         $products = $xmlObject->addChild('products');
 
         /* @var $item Mage_Sales_Model_Quote_Item */
@@ -80,7 +81,7 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                 }
             }
             $price = sprintf('%01.2f', $price);
-            $formatedPrice = $this->getQuote()->getStore()->formatPrice($price, false);
+            $formatedPrice = $quote->getStore()->formatPrice($price, false);
 
             $itemXml->addChild('price', $price);
             $itemXml->addChild('formated_price', $formatedPrice);
@@ -107,7 +108,7 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                 }
             }
             $price = sprintf('%01.2f', $price);
-            $formatedPrice = $this->getQuote()->getStore()->formatPrice($price, false);
+            $formatedPrice = $quote->getStore()->formatPrice($price, false);
             $itemXml->addChild('subtotal', $price);
             $itemXml->addChild('formated_subtotal', $formatedPrice);
 

@@ -25,25 +25,23 @@
  */
 
 /**
- * Review form block
+ * Simple product options xml renderer
  *
  * @category   Mage
  * @package    Mage_XmlConnect
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_Block_Category_Info extends Mage_XmlConnect_Block_Abstract
+class Mage_XmlConnect_Block_Catalog_Product_Options_Simple extends Mage_XmlConnect_Block_Catalog_Product_Options
 {
-
-    protected function _toHtml()
+    /**
+     * Generate simple product options xml
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return string
+     */
+    public function getProductOptionsXml(Mage_Catalog_Model_Product $product)
     {
-        if ($categoryId = $this->getRequest()->getParam('category_id', null)) {
-            $categoryModel = Mage::getModel('catalog/category')->load($categoryId);
-            if ($categoryModel->getId()) {
-                $categoryModel->parent_title = $categoryModel->getParentCategory()->name;
-                return $categoryModel->toXml(array('parent_id', 'parent_title'), 'category_info', false, false);
-            }
-        }
+        return $this->getProductCustomOptionsXmlObject($product)->asNiceXml();
     }
-
 }

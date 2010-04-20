@@ -1,0 +1,168 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_XmlConnect
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+class Mage_XmlConnect_Block_Catalog_Product_List extends Mage_XmlConnect_Block_Catalog_Product
+{
+
+    /**
+     * Store product collection
+     *
+     * @var Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    protected $_productCollection = null;
+
+    /**
+     * Produce products list xml object
+     *
+     * @return Varien_Simplexml_Element
+     */
+    public function getProductsXmlObject()
+    {
+        $productsXmlObj = new Varien_Simplexml_Element('<products></products>');
+        $collection     = $this->_getProductCollection();
+
+        if (!$collection) {
+            return $productsXmlObj;
+        }
+        foreach ($collection->getItems() as $product) {
+            $productXmlObj = $this->productToXmlObject($product);
+            if ($productXmlObj) {
+                $productsXmlObj->appendChild($productXmlObj);
+            }
+        }
+
+        return $productsXmlObj;
+    }
+
+    /**
+     * Retrieve product collection with all prepared data and limitations
+     *
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    protected function _getProductCollection()
+    {
+        if (is_null($this->_productCollection)) {
+            $request        = $this->getRequest();
+            $requestParams  = $request->getParams();
+            $layer          = $this->getLayer();
+            if (!$layer) {
+                return null;
+            }
+            $category       = $this->getCategory();
+            if ($category && is_object($category) && $category->getId()) {
+                $layer->setCurrentCategory($category);
+            }
+
+            $attributes     = $layer->getFilterableAttributes();
+
+            /**
+             * Apply filters
+             */
+            foreach ($attributes as $attributeItem) {
+                $attributeCode  = $attributeItem->getAttributeCode();
+                $filterModel    = $this->helper('xmlconnect')->getFilterByKey($attributeCode);
+
+                $filterModel->setLayer($layer)
+                    ->setAttributeModel($attributeItem);
+
+                $filterParam = parent::REQUEST_FILTER_PARAM_REFIX . $attributeCode;
+                /**
+                 * Set new request var
+                 */
+                if (isset($requestParams[$filterParam])) {
+                    $filterModel->setRequestVar($filterParam);
+                }
+                $filterModel->apply($request, null);
+            }
+
+            /**
+             * Separately apply and save category filter
+             */
+            $categoryFilter = $this->helper('xmlconnect')->getFilterByKey('category');
+            $filterParam    = parent::REQUEST_FILTER_PARAM_REFIX . $categoryFilter->getRequestVar();
+            $categoryFilter->setLayer($layer)
+                ->setRequestVar($filterParam)
+                ->apply($this->getRequest(), null);
+
+            /**
+             * Products
+             */
+            $layer      = $this->getLayer();
+            $collection = $layer->getProductCollection();
+
+            /**
+             * Add rating and review summary, image attribute, apply sort params
+             */
+            $this->_prepareCollection($collection);
+
+            /**
+             * Apply offset and count
+             */
+            $offset = (int)$request->getParam('offset', 0);
+            $count  = (int)$request->getParam('count', 0);
+            $count  = $count <= 0 ? 1 : $count;
+            $collection->getSelect()->limit($count, $offset);
+
+            $this->_productCollection = $collection;
+        }
+        return $this->_productCollection;
+    }
+
+    /**
+     * Add image attribute and apply sort fields to product collection
+     *
+     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
+     * @return Mage_XmlConnect_Block_Catalog_Product_List
+     */
+    protected function _prepareCollection($collection)
+    {
+        /**
+         * Apply sort params
+         */
+        $reguest = $this->getRequest();
+        foreach ($reguest->getParams() as $key => $value) {
+            if (0 === strpos($key, parent::REQUEST_SORT_ORDER_PARAM_REFIX)) {
+                $key = str_replace(parent::REQUEST_SORT_ORDER_PARAM_REFIX, '', $key);
+                if ($value != 'desc') {
+                    $value = 'asc';
+                }
+                $collection->addAttributeToSort($key, $value);
+            }
+        }
+        $collection->addAttributeToSelect(array('image', 'name', 'description'));
+
+        return $this;
+    }
+
+    /**
+     * Render products list xml
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        return $this->getProductsXmlObject()->asNiceXml();
+    }
+}

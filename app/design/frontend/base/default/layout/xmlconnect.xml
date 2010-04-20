@@ -28,59 +28,69 @@
 <layout version="0.1.0">
     <default>
     </default>
-<!--
-Default layout, loads most of the pages
--->
+
+    <!-- Home -->
     <xmlconnect_index_index>
         <block type="xmlconnect/home" name="xmlconnect.home" output="toHtml"/>
     </xmlconnect_index_index>
 
-    <xmlconnect_index_category>
-        <block type="xmlconnect/category" name="xmlconnect.category" output="toHtml">
-            <block type="xmlconnect/category_info" name="xmlconnect_categoryinfo" output=""/>
+    <!-- Catalog -->
+
+    <xmlconnect_catalog_filters>
+        <block type="xmlconnect/catalog_filters" name="xmlconnect.catalog.filters" output="toHtml"/>
+    </xmlconnect_catalog_filters>
+
+    <!-- Category -->
+    <xmlconnect_catalog_category>
+        <block type="xmlconnect/catalog_category" name="xmlconnect.catalog.category" output="toHtml">
+            <block type="xmlconnect/catalog_product_list" name="xmlconnect.catalog.product.list" as="product_list" output=""/>
+            <block type="xmlconnect/catalog_category_info" name="xmlconnect.catalog.category.nfo" as="category_info" output=""/>
         </block>
-    </xmlconnect_index_category>
+    </xmlconnect_catalog_category>
 
-    <xmlconnect_index_product>
-        <block type="xmlconnect/product" name="xmlconnect.product" output="toHtml">
-            <block type="xmlconnect/product_related" name="xmlconnect_productrelated" output=""/>
+    <!-- Product -->
+
+    <xmlconnect_catalog_product>
+        <block type="xmlconnect/catalog_product" name="xmlconnect.catalog.product" output="toHtml">
+            <block type="xmlconnect/catalog_product_related" name="xmlconnect.product.related" as="related_products" output=""/>
         </block>
-    </xmlconnect_index_product>
+    </xmlconnect_catalog_product>
 
-    <xmlconnect_index_options>
-        <block type="xmlconnect/product_options" name="xmlconnect.product.options" output="toHtml">
-            <action method="addRenderer"><type>simple</type><renderer>xmlconnect/product_options_simple</renderer></action>
-            <action method="addRenderer"><type>configurable</type><renderer>xmlconnect/product_options_configurable</renderer></action>
-            <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/product_options_bundle</renderer></action>
-            <action method="addRenderer"><type>grouped</type><renderer>xmlconnect/product_options_grouped</renderer></action>
+    <xmlconnect_catalog_productoptions>
+        <block type="xmlconnect/catalog_product_options" name="xmlconnect.catalog.product.options" output="toHtml">
+            <action method="addRenderer"><type>simple</type><renderer>xmlconnect/catalog_product_options_simple</renderer></action>
+            <action method="addRenderer"><type>configurable</type><renderer>xmlconnect/catalog_product_options_configurable</renderer></action>
+            <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_options_bundle</renderer></action>
+            <action method="addRenderer"><type>grouped</type><renderer>xmlconnect/catalog_product_options_grouped</renderer></action>
         </block>
-    </xmlconnect_index_options>
+    </xmlconnect_catalog_productoptions>
 
-    <xmlconnect_index_gallery>
-        <block type="xmlconnect/product_gallery" name="xmlconnect.gallery" output="toHtml"/>
-    </xmlconnect_index_gallery>
+    <xmlconnect_catalog_productgallery>
+        <block type="xmlconnect/catalog_product_gallery" name="xmlconnect.catalog.product.gallery" output="toHtml"/>
+    </xmlconnect_catalog_productgallery>
 
-    <xmlconnect_index_filters>
-        <block type="xmlconnect/filters" name="xmlconnect.filters" output="toHtml"/>
-    </xmlconnect_index_filters>
+    <xmlconnect_catalog_productreview>
+        <block type="xmlconnect/catalog_product_review" name="xmlconnect.catalog.product.review" output="toHtml"/>
+    </xmlconnect_catalog_productreview>
 
-    <xmlconnect_index_review>
-        <block type="xmlconnect/review" name="xmlconnect.review" output="toHtml"/>
-    </xmlconnect_index_review>
+    <xmlconnect_catalog_productreviews>
+        <block type="xmlconnect/catalog_product_review_list" name="xmlconnect.catalog.product.reviews" output="toHtml"/>
+    </xmlconnect_catalog_productreviews>
 
-    <xmlconnect_index_reviews>
-        <block type="xmlconnect/review_list" name="xmlconnect.reviews" output="toHtml"/>
-    </xmlconnect_index_reviews>
+    <!-- Search -->
 
-    <xmlconnect_search_index>
-        <block type="xmlconnect/search" name="xmlconnect.search" output="toHtml"/>
-    </xmlconnect_search_index>
+    <xmlconnect_catalog_search>
+        <block type="xmlconnect/catalog_search" name="xmlconnect.catalog.search" output="toHtml">
+            <block type="xmlconnect/catalog_product_list" name="xmlconnect.catalog.product.list" as="product_list" output=""/>
+        </block>
+    </xmlconnect_catalog_search>
 
-     <xmlconnect_search_suggest>
-        <block type="xmlconnect/search_suggest" name="xmlconnect.search.suggest" output="toHtml"/>
-    </xmlconnect_search_suggest>
+     <xmlconnect_catalog_searchsuggest>
+        <block type="xmlconnect/catalog_search_suggest" name="xmlconnect.catalog.search.suggest" output="toHtml"/>
+    </xmlconnect_catalog_searchsuggest>
 
-    <xmlconnect_index_shoppingcart>
+    <!-- Shopping Cart -->
+    <xmlconnect_cart_index>
         <block type="xmlconnect/cart" name="xmlconnect.cart" output="toHtml">
             <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
             <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/item/default.phtml</template></action>
@@ -89,6 +99,10 @@ Default layout, loads most of the pages
 
             <block type="xmlconnect/cart_crosssell" name="xmlconnect.cart.crosssell" as="crosssell"/>
         </block>
-    </xmlconnect_index_shoppingcart>
+    </xmlconnect_cart_index>
+
+    <xmlconnect_cart_info>
+        <block type="xmlconnect/cart_info" name="xmlconnect.cart.info" as="cart_info" output="toHtml"/>
+    </xmlconnect_cart_info>
 
 </layout>

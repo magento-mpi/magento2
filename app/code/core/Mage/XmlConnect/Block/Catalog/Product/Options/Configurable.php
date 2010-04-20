@@ -32,7 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_Block_Product_Options_Configurable extends Mage_XmlConnect_Block_Product_Options
+class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_XmlConnect_Block_Catalog_Product_Options
 {
     /**
      * Generate bundle product options xml

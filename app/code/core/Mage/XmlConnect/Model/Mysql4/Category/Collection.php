@@ -40,22 +40,6 @@ class Mage_XmlConnect_Model_Mysql4_Category_Collection
      */
     const PARENT_CATEGORIES_LEVEL = 2;
 
-    /**
-     * To add parent_id node to result flag
-     */
-    public $showParentId = false;
-
-    /**
-     * Adding image attribute to result
-     *
-     * @return Mage_XmlConnect_Model_Resource_Mysql4_Category_Collection
-     */
-    public function addImageToResult()
-    {
-        $this->addAttributeToSelect('image');
-        return $this;
-    }
-
     protected function _beforeLoad()
     {
         $this->addNameToResult();
@@ -69,7 +53,7 @@ class Mage_XmlConnect_Model_Mysql4_Category_Collection
         return $this;
     }
 
-    public function addLimit($offset, $count)
+    public function setLimit($offset, $count)
     {
         $this->getSelect()->limit($count, $offset);
         return $this;
@@ -78,7 +62,6 @@ class Mage_XmlConnect_Model_Mysql4_Category_Collection
     public function addParentIdFilter($parentId)
     {
         if (!is_null($parentId)) {
-            $this->showParentId = true;
             $this->getSelect()->where('e.parent_id = ?', (int)$parentId);
         }
         else {

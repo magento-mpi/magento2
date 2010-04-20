@@ -32,7 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_Block_Search extends Mage_XmlConnect_Block_Abstract
+class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
 {
     /**
      * Search results xml renderer
@@ -63,12 +63,12 @@ class Mage_XmlConnect_Block_Search extends Mage_XmlConnect_Block_Abstract
              */
             foreach ($attributes as $attributeItem) {
                 $attributeCode  = $attributeItem->getAttributeCode();
-                $filterModel    = $this->_getFilterByKey($attributeCode);
+                $filterModel    = $this->helper('xmlconnect')->getFilterByKey($attributeCode);
 
                 $filterModel->setLayer($layer)
                     ->setAttributeModel($attributeItem);
 
-                $filterParam = Mage_XmlConnect_Block_Filters::REQUEST_FILTER_PARAM_REFIX . $attributeCode;
+                $filterParam = self::REQUEST_FILTER_PARAM_REFIX . $attributeCode;
                 /**
                  * Set new request var
                  */
@@ -83,8 +83,8 @@ class Mage_XmlConnect_Block_Search extends Mage_XmlConnect_Block_Abstract
             /**
              * Separately apply and save category filter
              */
-            $categoryFilter = $this->_getFilterByKey('category');
-            $filterParam    = Mage_XmlConnect_Block_Filters::REQUEST_FILTER_PARAM_REFIX . $categoryFilter->getRequestVar();
+            $categoryFilter = $this->helper('xmlconnect')->getFilterByKey('category');
+            $filterParam    = self::REQUEST_FILTER_PARAM_REFIX . $categoryFilter->getRequestVar();
             $categoryFilter->setLayer($layer)
                 ->setRequestVar($filterParam)
                 ->apply($this->getRequest(), null);
@@ -130,7 +130,7 @@ class Mage_XmlConnect_Block_Search extends Mage_XmlConnect_Block_Abstract
         /**
          * Apply sort order
          */
-        $this->_addOrdersToProductCollection($collection, $request);
+//        $this->_addOrdersToProductCollection($collection, $request);
 
         /**
          * Apply offset and count

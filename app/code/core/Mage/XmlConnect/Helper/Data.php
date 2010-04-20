@@ -26,4 +26,29 @@
 
 class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Create filter object by key
+     *
+     * @param string $key
+     * @return Mage_Catalog_Model_Layer_Filter_Abstract
+     */
+    public function getFilterByKey($key)
+    {
+        $filterModelName = 'catalog/layer_filter_attribute';
+        switch ($key) {
+            case 'price':
+                $filterModelName = 'catalog/layer_filter_price';
+                break;
+            case 'decimal':
+                $filterModelName = 'catalog/layer_filter_decimal';
+                break;
+            case 'category':
+                $filterModelName = 'catalog/layer_filter_category';
+                break;
+            default:
+                $filterModelName = 'catalog/layer_filter_attribute';
+                break;
+        }
+        return Mage::getModel($filterModelName);
+    }
 }

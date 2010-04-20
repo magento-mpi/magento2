@@ -32,7 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_Block_Search_Suggest extends Mage_CatalogSearch_Block_Autocomplete
+class Mage_XmlConnect_Block_Catalog_Search_Suggest extends Mage_CatalogSearch_Block_Autocomplete
 {
     const SUGGEST_ITEM_SEPARATOR = '::sep::';
 

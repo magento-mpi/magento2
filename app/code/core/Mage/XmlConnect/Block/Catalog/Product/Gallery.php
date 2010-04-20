@@ -32,8 +32,15 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_Block_Product_Gallery extends Mage_XmlConnect_Block_Abstract
+class Mage_XmlConnect_Block_Catalog_Product_Gallery extends Mage_XmlConnect_Block_Catalog
 {
+
+    /**
+     * Product gallery image sizes
+     */
+    const PRODUCT_GALLERY_BIG_IMAGE_SIZE_PARAM   = 280;
+    const PRODUCT_GALLERY_SMALL_IMAGE_SIZE_PARAM = 40;
+
     /**
      * Generate images gallery xml
      *
@@ -41,7 +48,7 @@ class Mage_XmlConnect_Block_Product_Gallery extends Mage_XmlConnect_Block_Abstra
      */
     protected function _toHtml()
     {
-        $productId = $this->getRequest()->getParam('product_id', null);
+        $productId = $this->getRequest()->getParam('id', null);
         $product = Mage::getModel('catalog/product')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($productId);

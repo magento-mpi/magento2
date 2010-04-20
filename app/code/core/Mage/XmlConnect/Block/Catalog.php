@@ -19,37 +19,47 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Rss
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-/**
- * Filters xml renderer
- *
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
-class Mage_XmlConnect_Block_Filters extends Mage_XmlConnect_Block_Abstract
+class Mage_XmlConnect_Block_Catalog extends Mage_Core_Block_Template
 {
+    /**
+     * Limit for product sorting fields to return
+     */
+    const PRODUCT_SORT_FIELDS_NUMBER = 3;
+
     /**
      * Prefix that used in specifing filters on request
      *
      */
     const REQUEST_FILTER_PARAM_REFIX = 'filter_';
 
-    protected function _toHtml()
+    /**
+     * Prefix that used in specifing sort order params on request
+     *
+     */
+    const REQUEST_SORT_ORDER_PARAM_REFIX = 'order_';
+
+
+    /**
+     * Retrieve product sort fields as xml object
+     *
+     * @return Varien_Simplexml_Element
+     */
+    public function getProductSortFeildsXmlObject()
     {
-        $categoryId = $this->getRequest()->getParam('category_id', null);
-        $filterCollection = Mage::getModel('xmlconnect/filter_collection')->setCategoryId($categoryId);
+        $ordersXmlObject  = new Varien_Simplexml_Element('<orders></orders>');
+        $sortOptions      = Mage::getModel('catalog/category')->getAvailableSortByOptions();
+        $sortOptions      = array_slice($sortOptions, 0, self::PRODUCT_SORT_FIELDS_NUMBER);
+        foreach ($sortOptions as $code => $name) {
+            $item = $ordersXmlObject->addChild('item');
+            $item->addChild('code', $code);
+            $item->addChild('name', $ordersXmlObject->xmlentities(strip_tags($name)));
+        }
 
-        $categoryXml = $this->filterCollectionToXml($filterCollection, 'category', true, false, false);
-        $categoryXmlObject = new Varien_Simplexml_Element($categoryXml);
-        $categoryXmlObject->appendChild($this->getProductSortFeildsXmlObject());
-
-        return $categoryXmlObject->asNiceXml();
+        return $ordersXmlObject;
     }
 
 }

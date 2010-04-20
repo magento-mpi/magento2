@@ -25,28 +25,40 @@
  */
 
 /**
- * Related products block
+ * Category info xml renderer
  *
  * @category   Mage
  * @package    Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_Block_Product_Related extends Mage_XmlConnect_Block_Abstract
+class Mage_XmlConnect_Block_Catalog_Category_Info extends Mage_XmlConnect_Block_Abstract
 {
 
     /**
-     * Generate related products xml
+     * Produce category info xml object
+     *
+     * @return Varien_Simplexml_Element
+     */
+    public function getCategoryInfoXmlObject()
+    {
+        $infoXmlObj = new Varien_Simplexml_Element('<category_info></category_info>');
+        $category   = $this->getCategory();
+        if ($category && is_object($category) && $category->getId()) {
+            $infoXmlObj->addChild('parent_title', $infoXmlObj->xmlentities(strip_tags($category->getParentCategory()->getName())));
+            $infoXmlObj->addChild('parent_id', $category->getParentId());
+        }
+
+        return $infoXmlObj;
+    }
+
+    /**
+     * Render category info xml
      *
      * @return string
      */
     protected function _toHtml()
     {
-        if ($this->getParentBlock()->getProduct()->getId() > 0) {
-            $collection = $this->getParentBlock()->getProduct()->getRelatedProductCollection();
-            $layer = Mage::getSingleton('catalog/layer')->prepareProductCollection($collection);
-            return $this->productCollectionToXml($collection, 'related_products', false);
-        }
+        return $this->getCategoryInfoXmlObject()->asNiceXml();
     }
-
 }

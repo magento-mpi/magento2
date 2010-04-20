@@ -19,29 +19,18 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Rss
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Simple product options xml renderer
+ * XmlConnect checkout controller
  *
- * @category   Mage
- * @package    Mage_XmlConnect
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_Block_Product_Options_Simple extends Mage_XmlConnect_Block_Product_Options
+class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Action
 {
-    /**
-     * Generate simple product options xml
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @return string
-     */
-    public function getProductOptionsXml(Mage_Catalog_Model_Product $product)
-    {
-        return $this->getProductCustomOptionsXmlObject($product)->asNiceXml();
-    }
+
 }
