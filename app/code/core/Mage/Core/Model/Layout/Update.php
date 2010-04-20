@@ -216,12 +216,12 @@ class Mage_Core_Model_Layout_Update
             $this->addHandle($handle);
         }
 
-        if ($this->loadCache()) {
-            return $this;
-        }
-
         foreach ($this->getHandles() as $handle) {
             $this->merge($handle);
+        }
+
+        if ($this->loadCache()) {
+            return $this;
         }
 
         $this->saveCache();
@@ -231,7 +231,7 @@ class Mage_Core_Model_Layout_Update
     public function asSimplexml()
     {
         $updates = trim($this->asString());
-        $updates = '<'.'?xml version="1.0"?'.'><layout>'.$updates.'</layout>';
+        $updates = '<?xml version="1.0"?><layout>'. $updates .'</layout>';
         return simplexml_load_string($updates, $this->getElementClass());
     }
 
