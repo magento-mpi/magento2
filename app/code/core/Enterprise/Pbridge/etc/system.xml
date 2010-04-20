@@ -101,6 +101,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </using_pbridge>
+                        <cctypes>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </cctypes>
+                        <centinel>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </centinel>
+                        <line_items_enabled>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </line_items_enabled>
                     </fields>
                 </paypal_direct>
                 <paypaluk_direct>
@@ -115,6 +124,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </using_pbridge>
+                        <cctypes>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </cctypes>
+                        <centinel>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </centinel>
+                        <line_items_enabled>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </line_items_enabled>
                     </fields>
                 </paypaluk_direct>
                 <authorizenet>
@@ -129,6 +147,30 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </using_pbridge>
+                        <cctypes>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </cctypes>
+                        <useccv>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </useccv>
+                        <email_customer>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </email_customer>
+                        <login>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </login>
+                        <merchant_email>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </merchant_email>
+                        <test>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </test>
+                        <trans_key>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </trans_key>
+                        <cgi_url>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </cgi_url>
                     </fields>
                 </authorizenet>
                 <verisign>
@@ -143,6 +185,48 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </using_pbridge>
+                        <cctypes>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </cctypes>
+                        <useccv>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </useccv>
+                        <centinel>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </centinel>
+                        <centinel_is_mode_strict>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </centinel_is_mode_strict>
+                        <centinel_api_url>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </centinel_api_url>
+                        <partner>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </partner>
+                        <pwd>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </pwd>
+                        <use_proxy>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </use_proxy>
+                        <proxy_host>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </proxy_host>
+                        <proxy_port>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </proxy_port>
+                        <tender>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </tender>
+                        <url>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </url>
+                        <user>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </user>
+                        <vendor>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </vendor>
                     </fields>
                 </verisign>
             </groups>
