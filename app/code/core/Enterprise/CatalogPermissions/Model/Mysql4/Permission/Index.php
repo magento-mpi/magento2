@@ -923,7 +923,8 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Enterp
             )
             ->where('product_id IN(?)', $productId)
             ->where('customer_group_id = ?', $customerGroupId)
-            ->where('store_id = ?', $storeId);
+            ->where('store_id = ?', $storeId)
+            ->where('category_id IS NULL');
 
         return $this->_getReadAdapter()->fetchAssoc($select);
     }
