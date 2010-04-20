@@ -47,7 +47,7 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
         $count  = (int)$request->getParam('count', 0);
         $count  = $count <= 0 ? 1 : $count;
         $categoryXmlObj = new Varien_Simplexml_Element('<category></category>');
-        $categoryId     = (int)$this->getRequest()->getParam('id');
+        $categoryId     = $this->getRequest()->getParam('id', null);
         $categoryModel  = Mage::getModel('catalog/category')->load($categoryId);
         if ($categoryModel->getId()) {
             $infoBlock = $this->getChild('category_info');
@@ -73,8 +73,7 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
 
         $categoryCollection = Mage::getResourceModel('xmlconnect/category_collection');
         $categoryCollection->setStoreId($categoryCollection->getDefaultStoreId())
-            ->addParentIdFilter($categoryId)
-            ->setLimit($offset, $count);
+            ->addParentIdFilter($categoryId);
 
         if (sizeof($categoryCollection)) {
             $itemsXmlObj = $categoryXmlObj->addChild('items');
