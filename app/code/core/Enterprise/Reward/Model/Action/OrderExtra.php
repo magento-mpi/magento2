@@ -111,8 +111,7 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
      */
     public function canAddRewardPoints()
     {
-        $allowed = Mage::helper('enterprise_reward')->isOrderAllowed($this->getReward()->getWebsiteId());
-        $exceeded = $this->isRewardLimitExceeded();
-        return $allowed && !$exceeded;
+        return parent::canAddRewardPoints()
+            && Mage::helper('enterprise_reward')->isOrderAllowed($this->getReward()->getWebsiteId());
     }
 }
