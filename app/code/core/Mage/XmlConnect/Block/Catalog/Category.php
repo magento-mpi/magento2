@@ -25,7 +25,7 @@
  */
 
 /**
- * Review form block
+ * Category list xml renderer
  *
  * @category   Mage
  * @package    Mage_XmlConnect

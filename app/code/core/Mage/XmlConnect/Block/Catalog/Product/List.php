@@ -34,6 +34,13 @@ class Mage_XmlConnect_Block_Catalog_Product_List extends Mage_XmlConnect_Block_C
     protected $_productCollection = null;
 
     /**
+     * Store collected layered navigation filters whike applying them
+     *
+     * @var array
+     */
+    protected $_collectedFilters = array();
+
+    /**
      * Produce products list xml object
      *
      * @return Varien_Simplexml_Element
@@ -57,6 +64,16 @@ class Mage_XmlConnect_Block_Catalog_Product_List extends Mage_XmlConnect_Block_C
     }
 
     /**
+     * Getter for collected layered navigation filters
+     *
+     * @return array
+     */
+    public function getCollectedFilters()
+    {
+        return $this->_collectedFilters;
+    }
+
+    /**
      * Retrieve product collection with all prepared data and limitations
      *
      * @return Mage_Eav_Model_Entity_Collection_Abstract
@@ -64,6 +81,7 @@ class Mage_XmlConnect_Block_Catalog_Product_List extends Mage_XmlConnect_Block_C
     protected function _getProductCollection()
     {
         if (is_null($this->_productCollection)) {
+            $filters        = array();
             $request        = $this->getRequest();
             $requestParams  = $request->getParams();
             $layer          = $this->getLayer();
@@ -75,36 +93,41 @@ class Mage_XmlConnect_Block_Catalog_Product_List extends Mage_XmlConnect_Block_C
                 $layer->setCurrentCategory($category);
             }
 
-            $attributes     = $layer->getFilterableAttributes();
-
-            /**
-             * Apply filters
-             */
-            foreach ($attributes as $attributeItem) {
-                $attributeCode  = $attributeItem->getAttributeCode();
-                $filterModel    = $this->helper('xmlconnect')->getFilterByKey($attributeCode);
-
-                $filterModel->setLayer($layer)
-                    ->setAttributeModel($attributeItem);
-
-                $filterParam = parent::REQUEST_FILTER_PARAM_REFIX . $attributeCode;
+            if (!$this->getNeedBlockApplyingFilters()) {
+                $attributes     = $layer->getFilterableAttributes();
                 /**
-                 * Set new request var
+                 * Apply filters
                  */
-                if (isset($requestParams[$filterParam])) {
-                    $filterModel->setRequestVar($filterParam);
-                }
-                $filterModel->apply($request, null);
-            }
+                foreach ($attributes as $attributeItem) {
+                    $attributeCode  = $attributeItem->getAttributeCode();
+                    $filterModel    = $this->helper('xmlconnect')->getFilterByKey($attributeCode);
 
-            /**
-             * Separately apply and save category filter
-             */
-            $categoryFilter = $this->helper('xmlconnect')->getFilterByKey('category');
-            $filterParam    = parent::REQUEST_FILTER_PARAM_REFIX . $categoryFilter->getRequestVar();
-            $categoryFilter->setLayer($layer)
-                ->setRequestVar($filterParam)
-                ->apply($this->getRequest(), null);
+                    $filterModel->setLayer($layer)
+                        ->setAttributeModel($attributeItem);
+
+                    $filterParam = parent::REQUEST_FILTER_PARAM_REFIX . $attributeCode;
+                    /**
+                     * Set new request var
+                     */
+                    if (isset($requestParams[$filterParam])) {
+                        $filterModel->setRequestVar($filterParam);
+                    }
+                    $filterModel->apply($request, null);
+                    $filters[] = $filterModel;
+                }
+
+                /**
+                 * Separately apply and save category filter
+                 */
+                $categoryFilter = $this->helper('xmlconnect')->getFilterByKey('category');
+                $filterParam    = parent::REQUEST_FILTER_PARAM_REFIX . $categoryFilter->getRequestVar();
+                $categoryFilter->setLayer($layer)
+                    ->setRequestVar($filterParam)
+                    ->apply($this->getRequest(), null);
+                $filters[] = $categoryFilter;
+
+                $this->_collectedFilters = $filters;
+            }
 
             /**
              * Products

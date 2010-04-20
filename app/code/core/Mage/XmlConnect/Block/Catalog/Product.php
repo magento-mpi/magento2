@@ -25,7 +25,7 @@
  */
 
 /**
- * Review form block
+ * Product data xml renderer
  *
  * @category   Mage
  * @package    Mage_XmlConnect

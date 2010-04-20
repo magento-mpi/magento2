@@ -25,29 +25,57 @@
  */
 
 /**
- * Review form block
+ * Home categories list renderer
  *
  * @category   Mage
  * @package    Mage_XmlConnect
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Abstract
+class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
 {
 
+    /**
+     * Category list image size
+     */
+    const CATEGORY_IMAGE_RESIZE_PARAM = 80;
+
+    /**
+     * Category list limitation
+     */
     const HOME_PAGE_CATEGORIES_COUNT = 6;
 
+    /**
+     * Render home category list xml
+     *
+     * @return string
+     */
     protected function _toHtml()
     {
-        $categoryModel = Mage::getResourceModel('xmlconnect/category_collection');
+        $homeXmlObj = new Varien_Simplexml_Element('<home></home>');
 
-        /* TODO: Hardcoded banner */
-        $additionalAttributes['home_banner'] = '';
-        $categoryModel->addImageToResult()
+        $categoryCollection = Mage::getResourceModel('xmlconnect/category_collection');
+        $categoryCollection->setStoreId($categoryCollection->getDefaultStoreId())
             ->addParentIdFilter(null)
-            ->addLimit(0, self::HOME_PAGE_CATEGORIES_COUNT);
-        $xml = $this->categoryCollectionToXml($categoryModel, 'home', true, false, false, $additionalAttributes);
-        return $xml;
+            ->setLimit(0, self::HOME_PAGE_CATEGORIES_COUNT);
+
+        if (sizeof($categoryCollection)) {
+            $itemsXmlObj = $homeXmlObj->addChild('categories');
+        }
+
+        foreach ($categoryCollection->getItems() as $item){
+            $itemXmlObj = $itemsXmlObj->addChild('item');
+            $itemXmlObj->addChild('label', $homeXmlObj->xmlentities(strip_tags($item->getName())));
+            $itemXmlObj->addChild('entity_id', $item->getEntityId());
+            $itemXmlObj->addChild('content_type', $item->hasChildren() ? 'categories' : 'products');
+            $icon = Mage::helper('catalog/category_image')->init($item, 'image')
+                ->resize(self::CATEGORY_IMAGE_RESIZE_PARAM);
+            $itemXmlObj->addChild('icon', $icon);
+        }
+
+        $homeXmlObj->addChild('home_banner', '/current/media/catalog/category/banner_home.png');
+
+        return $homeXmlObj->asNiceXml();
     }
 
 }

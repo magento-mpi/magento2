@@ -32,7 +32,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_Block_Catalog_Category_Info extends Mage_XmlConnect_Block_Abstract
+class Mage_XmlConnect_Block_Catalog_Category_Info extends Mage_XmlConnect_Block_Catalog
 {
 
     /**

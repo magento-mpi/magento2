@@ -46,51 +46,27 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
         $searchXmlObject  = new Varien_Simplexml_Element('<search></search>');
         $filtersXmlObject = new Varien_Simplexml_Element('<filters></filters>');
 
-        /**
-         * Filters apply and retrieving them
-         */
         $searchEngine   = Mage::helper('catalogsearch')->getEngine();
         $request        = $this->getRequest();
         $requestParams  = $request->getParams();
 
-        if ($searchEngine->isLeyeredNavigationAllowed()) {
-            $filters    = array();
-            $layer      = Mage::getSingleton('catalogsearch/layer');
-            $attributes = $layer->getFilterableAttributes();
+        /**
+         * Products
+         */
+        $productListBlock = $this->getChild('product_list');
+        if ($productListBlock) {
+            $layer = Mage::getSingleton('catalogsearch/layer');
+            $productsXmlObj = $productListBlock->setLayer($layer)
+                ->setNeedBlockApplyingFilters(!$searchEngine->isLeyeredNavigationAllowed())
+                ->getProductsXmlObject();
+            $searchXmlObject->appendChild($productsXmlObj);
+        }
 
-            /**
-             * Apply and save filters
-             */
-            foreach ($attributes as $attributeItem) {
-                $attributeCode  = $attributeItem->getAttributeCode();
-                $filterModel    = $this->helper('xmlconnect')->getFilterByKey($attributeCode);
-
-                $filterModel->setLayer($layer)
-                    ->setAttributeModel($attributeItem);
-
-                $filterParam = self::REQUEST_FILTER_PARAM_REFIX . $attributeCode;
-                /**
-                 * Set new request var
-                 */
-                if (isset($requestParams[$filterParam])) {
-                    $filterModel->setRequestVar($filterParam);
-                }
-                $filterModel->apply($request, null);
-
-                $filters[] = $filterModel;
-            }
-
-            /**
-             * Separately apply and save category filter
-             */
-            $categoryFilter = $this->helper('xmlconnect')->getFilterByKey('category');
-            $filterParam    = self::REQUEST_FILTER_PARAM_REFIX . $categoryFilter->getRequestVar();
-            $categoryFilter->setLayer($layer)
-                ->setRequestVar($filterParam)
-                ->apply($this->getRequest(), null);
-
-            $filters[] = $categoryFilter;
-
+        /**
+         * Filters
+         */
+        if ($searchEngine->isLeyeredNavigationAllowed() && $productListBlock) {
+            $filters = $productListBlock->getCollectedFilters();
             /**
              * Render filters xml
              */
@@ -115,38 +91,12 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
                 }
             }
         }
-
-        /**
-         * Products
-         */
-        $layer      = Mage::getSingleton('catalogsearch/layer');
-        $collection = $layer->getProductCollection();
-
-        /**
-         * Add rating and review summary, image attribute
-         */
-        $this->_prepareCollection($collection);
-
-        /**
-         * Apply sort order
-         */
-//        $this->_addOrdersToProductCollection($collection, $request);
-
-        /**
-         * Apply offset and count
-         */
-        $collection->getSelect()->limit($request->getParam('count', 0), $request->getParam('offset', 0));
-
-        $productsXml = $this->productCollectionToXml($collection, 'products', false, false, false, null, null);
-
         $searchXmlObject->appendChild($filtersXmlObject);
+
         /**
-         * Sorting options
+         * Sort fields
          */
-        $xmlObject   = $this->getProductSortFeildsXmlObject();
-        $searchXmlObject->appendChild($xmlObject);
-        $xmlObject   = new Varien_Simplexml_Element($productsXml);
-        $searchXmlObject->appendChild($xmlObject);
+        $searchXmlObject->appendChild($this->getProductSortFeildsXmlObject());
 
         return $searchXmlObject->asNiceXml();
     }
@@ -168,29 +118,5 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
             }
         }
         return false;
-    }
-
-    /**
-     * Add ratting ans review summary, image attribute to product collection
-     *
-     * @param Varien_Data_Collection_Db $collection
-     * @return Mage_XmlConnect_Block_Search
-     */
-    protected function _prepareCollection($collection)
-    {
-        $collection->joinField('rating_summary',
-                         'review_entity_summary',
-                         'rating_summary',
-                         'entity_pk_value=entity_id',
-                         array('entity_type'=>1, 'store_id'=> Mage::app()->getStore()->getId()),
-                         'left')
-            ->joinField('reviews_count',
-                         'review_entity_summary',
-                         'reviews_count',
-                         'entity_pk_value=entity_id',
-                         array('entity_type'=>1, 'store_id'=> Mage::app()->getStore()->getId()),
-                         'left')
-            ->addAttributeToSelect(array('image', 'name'));
-        return $this;
     }
 }
