@@ -54,9 +54,20 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         if (null !== $website) {
             try {
                 $website = Mage::app()->getWebsite($website);
-                foreach ($website->getStores() as $store) {
-                    /* @var $store Mage_Core_Model_Store */
-                    $ids[] = $store->getRootCategoryId();
+                if (null === $store) {
+                    if (null === categoryId) {
+                        foreach ($website->getStores() as $store) {
+                            /* @var $store Mage_Core_Model_Store */
+                            $ids[] = $store->getRootCategoryId();
+                        }
+                    } else {
+                        $ids = $categoryId;
+                    }
+                } elseif (in_array($store, $website->getStoreIds())) {
+                    $storeId = Mage::app()->getStore($store)->getId();
+                    $ids = (null === $categoryId)? $store->getRootCategoryId() : $categoryId;
+                } else {
+                    $this->_fault('store_not_exists');
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_fault('website_not_exists', $e->getMessage());
@@ -81,7 +92,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         }
         // load all root categories
         else {
-            $ids = Mage_Catalog_Model_Category::TREE_ROOT_ID;
+            $ids = (null === $categoryId)? Mage_Catalog_Model_Category::TREE_ROOT_ID : $categoryId;
         }
 
         $collection = Mage::getModel('catalog/category')->getCollection()
