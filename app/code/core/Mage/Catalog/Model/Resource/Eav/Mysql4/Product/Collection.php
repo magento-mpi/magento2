@@ -525,7 +525,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             $this->_productLimitationFilters['category_is_anchor'] = 1;
         }
 
-        $this->_applyProductLimitations();
+        ($this->getStoreId() == 0)? $this->_applyZeroStoreProductLimitations() : $this->_applyProductLimitations();
 
         return $this;
     }
@@ -1562,4 +1562,37 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         return $this;
     }
 
+    /**
+     * Apply limitation filters to collection base on API
+     *
+     * Method allows using one time category product table
+     * for combinations of category_id filter states
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    protected function _applyZeroStoreProductLimitations()
+    {
+        $filters = $this->_productLimitationFilters;
+        
+        $conditions = array(
+            'cat_pro.product_id=e.entity_id',
+            $this->getConnection()->quoteInto('cat_pro.category_id=?', $filters['category_id'])
+        );
+        $joinCond = join(' AND ', $conditions);
+
+        $fromPart = $this->getSelect()->getPart(Zend_Db_Select::FROM);
+        if (isset($fromPart['cat_pro'])) {
+            $fromPart['cat_pro']['joinCondition'] = $joinCond;
+            $this->getSelect()->setPart(Zend_Db_Select::FROM, $fromPart);
+        }
+        else {
+            $this->getSelect()->join(
+                array('cat_pro' => $this->getTable('catalog/category_product')),
+                $joinCond,
+                array('cat_index_position' => 'position')
+            );
+        }
+
+        return $this;
+    }
 }
