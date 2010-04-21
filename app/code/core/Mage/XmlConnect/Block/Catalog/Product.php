@@ -88,7 +88,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
                    ->getEntitySummary($product, Mage::app()->getStore()->getId());
             }
 
-            $item->addChild('rating_summary', $product->getRatingSummary()->getRatingSummary());
+            $item->addChild('rating_summary', round((int)$product->getRatingSummary()->getRatingSummary() / 10));
             $item->addChild('reviews_count', $product->getRatingSummary()->getReviewsCount());
 
             $this->_collectProductPrices($product, $item);

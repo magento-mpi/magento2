@@ -105,4 +105,10 @@
         <block type="xmlconnect/cart_info" name="xmlconnect.cart.info" as="cart_info" output="toHtml"/>
     </xmlconnect_cart_info>
 
+    <!-- Customer -->
+
+    <xmlconnect_customer_wishlist>
+        <block type="xmlconnect/customer_wishlist" name="xmlconnect.customer.wishlist" output="toHtml"/>
+    </xmlconnect_customer_wishlist>
+
 </layout>

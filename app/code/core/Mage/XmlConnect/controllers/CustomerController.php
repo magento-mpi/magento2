@@ -118,20 +118,18 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
      */
     public function formAction()
     {
-//        $this->loadLayout(false);
-//        $this->renderLayout();
         $xml = <<<EOT
 <?xml version="1.0"?>
 <form name="account_form" method="post">
     <fieldset>
         <field name="firstname" type="text" label="First Name" required="true">
             <validators>
-                <validator type="regexp" message="Letters only">/^[a-z]/i</validator>
+                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
             </validators>
         </field>
         <field name="lastname" type="text" label="Last Name" required="true">
             <validators>
-                <validator type="regexp" message="Letters only">/^[a-z]/i</validator>
+                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
             </validators>
         </field>
         <field name="email" type="text" label="Email" required="true">
@@ -152,6 +150,141 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 </form>
 EOT;
         $this->getResponse()->setBody($xml);
+    }
+
+    /**
+     * Customer account edit form
+     */
+    public function editFormAction()
+    {
+        if (!$this->_getSession()->isLoggedIn()) {
+            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            return ;
+        }
+
+        $customer  = $this->_getSession()->getCustomer();
+        $xmlModel  = new Varien_Simplexml_Element('<node></node>');
+        $firstname = $xmlModel->xmlentities(strip_tags($customer->getFirstname()));
+        $lastname  = $xmlModel->xmlentities(strip_tags($customer->getLastname()));
+        $email     = $xmlModel->xmlentities(strip_tags($customer->getEmail()));
+
+        $xml = <<<EOT
+<?xml version="1.0"?>
+<form name="account_form" method="post">
+    <fieldset>
+        <field name="firstname" type="text" label="First Name" required="true" value="$firstname">
+            <validators>
+                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+            </validators>
+        </field>
+        <field name="lastname" type="text" label="Last Name" required="true" value="$lastname">
+            <validators>
+                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+            </validators>
+        </field>
+        <field name="email" type="text" label="Email" required="true" value="$email">
+            <validators>
+                <validator type="email" message="Wrong email format"/>
+            </validators>
+        </field>
+        <field name="change_password" type="checkbox" label="Change Password"/>
+    </fieldset>
+    <fieldset>
+        <field name="current_password" type="password" label="Current Password"/>
+        <field name="password" type="password" label="New Password"/>
+        <field name="confirmation" type="password" label="Confirm New Password">
+            <validators>
+                <validator type="confirmation" message="....">password</validator>
+            </validators>
+        </field>
+    </fieldset>
+</form>
+EOT;
+        $this->getResponse()->setBody($xml);
+    }
+
+    /**
+     * Change customer password action
+     */
+    public function editAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $customer = Mage::getModel('customer/customer')
+                ->setId($this->_getSession()->getCustomerId())
+                ->setWebsiteId($this->_getSession()->getCustomer()->getWebsiteId());
+
+            $fields = Mage::getConfig()->getFieldset('customer_account');
+            $data = $this->_filterPostData($this->getRequest()->getPost());
+
+            foreach ($fields as $code=>$node) {
+                if ($node->is('update') && isset($data[$code])) {
+                    $customer->setData($code, $data[$code]);
+                }
+            }
+
+            $errors = $customer->validate();
+            if (!is_array($errors)) {
+                $errors = array();
+            }
+
+            /**
+             * we would like to preserver the existing group id
+             */
+            if ($this->_getSession()->getCustomerGroupId()) {
+                $customer->setGroupId($this->_getSession()->getCustomerGroupId());
+            }
+
+            if ($this->getRequest()->getParam('change_password')) {
+                $currPass = $this->getRequest()->getPost('current_password');
+                $newPass  = $this->getRequest()->getPost('password');
+                $confPass  = $this->getRequest()->getPost('confirmation');
+
+                if (empty($currPass) || empty($newPass) || empty($confPass)) {
+                    $errors[] = $this->__('The password fields cannot be empty.');
+                }
+
+                if ($newPass != $confPass) {
+                    $errors[] = $this->__('Please make sure your passwords match.');
+                }
+
+                $oldPass = $this->_getSession()->getCustomer()->getPasswordHash();
+                if (strpos($oldPass, ':')) {
+                    list($_salt, $salt) = explode(':', $oldPass);
+                } else {
+                    $salt = false;
+                }
+
+                if ($customer->hashPassword($currPass, $salt) == $oldPass) {
+                    $customer->setPassword($newPass);
+                } else {
+                    $errors[] = $this->__('Invalid current password.');
+                }
+            }
+
+            if (!empty($errors)) {
+                $message = new Varien_Simplexml_Element('<message></message>');
+                $message->addChild('status', self::MESSAGE_STATUS_ERROR);
+                $message->addChild('text', implode(' ', $errors));
+                $this->getResponse()->setBody($message->asNiceXml());
+                return;
+            }
+
+            try {
+                $customer->save();
+                $this->_getSession()->setCustomer($customer);
+                $this->_message($this->__('The account information has been saved.'), self::MESSAGE_STATUS_SUCCESS);
+                return;
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+            }
+            catch (Exception $e) {
+                $this->_message($this->__('Cannot save the customer.'), self::MESSAGE_STATUS_ERROR);
+            }
+        }
+        else {
+            $this->_message($this->__('POST data is not valid.'), self::MESSAGE_STATUS_ERROR);
+        }
     }
 
     /**
