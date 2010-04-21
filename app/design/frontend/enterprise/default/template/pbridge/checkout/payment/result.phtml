@@ -27,8 +27,6 @@
 <script type="text/javascript">
 //<![CDATA[
     var paymentObj = parent.payment;
-    var parentElementObj = parent.Element;
-
     function setPaymentMethod()
     {
         var jsonParams = <?php echo $this->getJsonHiddenPbridgeParams() ?>;
@@ -46,12 +44,14 @@
                 if (methodParam) {
                     methodParam.setAttribute('value', param.value);
                 } else {
-                    methodParam = new parentElementObj('input', {
+                    methodParam = document.createElement('input');
+                    var attributes = {
                         'id':    paramId,
                         'type':  'hidden',
                         'name':  'payment[pbridge_data][' + param.key + ']',
                         'value': param.value
-                    });
+                    }
+                    for(var name in attributes) methodParam.setAttribute(name, attributes[name]);
                     containerElement.appendChild(methodParam);
                 }
             });
