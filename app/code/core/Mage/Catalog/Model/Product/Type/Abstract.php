@@ -495,8 +495,26 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function getSku($product = null)
     {
-        $skuDelimiter = '-';
         $sku = $this->getProduct($product)->getData('sku');
+        if ($this->getProduct($product)->getCustomOption('option_ids')) {
+            $sku = $this->getOptionSku($product,$sku);
+        }
+        return $sku;
+    }
+
+    /**
+     * Default action to get sku of product with option
+     *
+     * @param Mage_Catalog_Model_Product $product Product with Custom Options
+     * @param string $sku Product SKU without option
+     * @return string
+     */
+    public function getOptionSku($product = null, $sku='')
+    {
+        $skuDelimiter = '-';
+        if(empty($sku)){
+            $sku = $this->getProduct($product)->getData('sku');
+        }
         if ($optionIds = $this->getProduct($product)->getCustomOption('option_ids')) {
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 if ($option = $this->getProduct($product)->getOptionById($optionId)) {
@@ -523,7 +541,6 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         }
         return $sku;
     }
-
     /**
      * Default action to get weight of product
      *
