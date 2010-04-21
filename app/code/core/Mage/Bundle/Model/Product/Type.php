@@ -367,6 +367,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 ->setFlag('product_children', true)
                 ->setPositionOrder()
                 ->addStoreFilter($this->getStoreFilter($product))
+                ->setStoreId($this->getProduct($product)->getStoreId())
                 ->addFilterByRequiredOptions()
                 ->setOptionIdsFilter($optionIds);
 
@@ -683,6 +684,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 ->addAttributeToSelect('*')
                 ->setFlag('require_stock_items', true)
                 ->addStoreFilter($this->getStoreFilter($product))
+                ->setStoreId($this->getProduct($product)->getStoreId())
                 ->setPositionOrder()
                 ->addFilterByRequiredOptions()
                 ->setSelectionIdsFilter($selectionIds);

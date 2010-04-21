@@ -377,10 +377,27 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object
         $newQuote->save();
 
         // copy items with their options
+        $newParentItemIds = array();
         foreach ($quote->getItemsCollection() as $item) {
+            // save child items later
+            if ($item->getParentItem()) {
+                continue;
+            }
+            $oldItemId = $item->getId();
             $newItem = clone $item;
             $newItem->setQuote($newQuote);
-            $newItem->setId(null);
+            $newItem->save();
+            $newParentItemIds[$oldItemId] = $newItem->getId();
+        }
+
+        // save childs with new parent id
+        foreach ($quote->getItemsCollection() as $item) {
+            if (!$item->getParentItem() || !isset($newParentItemIds[$item->getParentItemId()])) {
+                continue;
+            }
+            $newItem = clone $item;
+            $newItem->setQuote($newQuote);
+            $newItem->setParentItemId($newParentItemIds[$item->getParentItemId()]);
             $newItem->save();
         }
 
