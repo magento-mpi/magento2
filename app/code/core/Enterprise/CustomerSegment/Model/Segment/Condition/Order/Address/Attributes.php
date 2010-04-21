@@ -76,20 +76,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('sales/order_address')
-            ->loadAllAttributes()
-            ->getAttributesByCode();
-
-        $attributes = array();
-        foreach ($productAttributes as $attribute) {
-            if ($attribute->getFrontendLabel()) {
-                $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
-            }
-        }
-
-        asort($attributes);
+        $attributes = Mage::getResourceSingleton('sales/order_address')->getAllAttributes();
         $this->setAttributeOption($attributes);
-
         return $this;
     }
 
