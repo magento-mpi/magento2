@@ -83,7 +83,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Review extends Mage_XmlConnect_Block
     protected function _toHtml()
     {
         $review = Mage::getModel('review/review')->load((int)$this->getRequest()->getParam('id', 0));
-        return $this->getReviewXmlObject($review, 'review')->asNiceXml();
+        return $this->reviewToXmlObject($review, 'review')->asNiceXml();
     }
 
 }
