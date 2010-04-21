@@ -511,7 +511,7 @@ class Mage_Checkout_Model_Type_Onepage
             $customer->addAddress($customerShipping);
             $shipping->setCustomerAddress($customerShipping);
             $customerShipping->setIsDefaultShipping(true);
-        } elseif ($shipping) {
+        } else {
             $customerBilling->setIsDefaultShipping(true);
         }
         /**
