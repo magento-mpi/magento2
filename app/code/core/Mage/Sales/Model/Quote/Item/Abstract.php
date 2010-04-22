@@ -267,8 +267,8 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     public function getBaseCalculationPrice()
     {
         if (!$this->hasBaseCalculationPrice()) {
-            if ($this->hasCustomPrice()) {
-                $price = (float) $this->getCustomPrice();
+            if ($this->hasOriginalCustomPrice()) {
+                $price = (float) $this->getOriginalCustomPrice();
                 if ($price) {
                     $rate = $this->getStore()->convertPrice($price) / $price;
                     $price = $price / $rate;
