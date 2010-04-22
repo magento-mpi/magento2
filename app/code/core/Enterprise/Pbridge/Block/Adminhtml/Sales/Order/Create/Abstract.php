@@ -77,9 +77,9 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract extends Ent
      *
      * @return string
      */
-    public function getRedirectUrl($quote)
+    public function getRedirectUrl()
     {
-        return Mage::getModel('adminhtml/url')->getUrl('*/pbridge/result', array('store' => $quote->getStoreId()));
+        return Mage::getModel('adminhtml/url')->getUrl('*/pbridge/result', array('store' => $this->getQuote()->getStoreId()));
     }
 
     /**
