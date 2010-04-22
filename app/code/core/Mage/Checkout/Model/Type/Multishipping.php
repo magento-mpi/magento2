@@ -406,7 +406,11 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         } else {
             $order->setShippingAddress($convertQuote->addressToOrderAddress($address));
         }
+
         $order->setPayment($convertQuote->paymentToOrderPayment($quote->getPayment()));
+        if (Mage::app()->getStore()->roundPrice($address->getGrandTotal()) == 0) {
+            $order->getPayment()->setMethod('free');
+        }
 
         foreach ($address->getAllItems() as $item) {
             if (! $item->getQuoteItem()) {
