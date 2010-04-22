@@ -45,22 +45,20 @@ class Mage_XmlConnect_Block_Cart_Info extends Mage_XmlConnect_Block_Cart
         $xmlObject->addChild('is_virtual', (int)$this->helper('checkout/cart')->getIsVirtualQuote());
         $xmlObject->addChild('summary_qty', (int)$quote->getItemsSummaryQty());
         $xmlObject->addChild('virtual_qty', (int)$quote->getItemVirtualQty());
-
-        $price = sprintf('%01.2f', $quote->getSubtotal());
-        $formatedPrice = $quote->getStore()->formatPrice($price, false);
-        $xmlObject->addChild('subtotal', $price);
-        $xmlObject->addChild('formated_subtotal', $formatedPrice);
-
-        $price = sprintf('%01.2f', $quote->getSubtotalWithDiscount());
-        $formatedPrice = $quote->getStore()->formatPrice($price, false);
-        $xmlObject->addChild('subtotal_with_discount', $price);
-        $xmlObject->addChild('formated_subtotal_with_discount', $formatedPrice);
-
-        $price = sprintf('%01.2f', $quote->getGrandTotal());
-        $formatedPrice = $quote->getStore()->formatPrice($price, false);
-        $xmlObject->addChild('grandtotal', $price);
-        $xmlObject->addChild('formated_grandtotal', $formatedPrice);
-
+        if (strlen($quote->getCouponCode())) {
+            $xmlObject->addChild('has_coupon_code', 1);
+        }
+        $totalsXmlObj = $xmlObject->addChild('totals');
+        foreach ($quote->getTotals() as $total) {
+            $value = sprintf('%01.2f', $total->getValue());
+            if ($value != 0.00 || $total->getCode() == 'subtotal' || $total->getCode() == 'grand_total') {
+                $totalXmlObj = $totalsXmlObj->addChild($total->getCode());
+                $totalXmlObj->addChild('title', $xmlObject->xmlentities(strip_tags($total->getTitle())));
+                $formatedValue = $quote->getStore()->formatPrice($value, false);
+                $totalXmlObj->addChild('value', $value);
+                $totalXmlObj->addChild('formated_value', $formatedValue);
+            }
+        }
 
         return $xmlObject->asNiceXml();
     }

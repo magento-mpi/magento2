@@ -217,10 +217,10 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
 
             if ($couponCode) {
                 if ($couponCode == $this->_getQuote()->getCouponCode()) {
-                    $this->_message($this->__('Coupon code "%s" was applied.', Mage::helper('core')->htmlEscape($couponCode)), parent::MESSAGE_STATUS_SUCCESS);
+                    $this->_message($this->__('Coupon code %s was applied.', strip_tags($couponCode)), parent::MESSAGE_STATUS_SUCCESS);
                 }
                 else {
-                    $this->_message($this->__('Coupon code "%s" is not valid.', Mage::helper('core')->htmlEscape($couponCode)), self::MESSAGE_STATUS_ERROR);
+                    $this->_message($this->__('Coupon code %s is not valid.', strip_tags($couponCode)), self::MESSAGE_STATUS_ERROR);
                 }
             } else {
                 $this->_message($this->__('Coupon code was canceled.'), parent::MESSAGE_STATUS_SUCCESS);

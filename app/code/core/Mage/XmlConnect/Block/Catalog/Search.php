@@ -65,7 +65,16 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
         /**
          * Filters
          */
-        if ($searchEngine->isLeyeredNavigationAllowed() && $productListBlock) {
+        $showFiltersAndOrders = true;
+        $reguest = $this->getRequest();
+        foreach ($reguest->getParams() as $key => $value) {
+            if (0 === strpos($key, parent::REQUEST_SORT_ORDER_PARAM_REFIX) ||
+                0 === strpos($key, parent::REQUEST_FILTER_PARAM_REFIX)) {
+                $showFiltersAndOrders = false;
+                break;
+            }
+        }
+        if ($searchEngine->isLeyeredNavigationAllowed() && $productListBlock && $showFiltersAndOrders) {
             $filters = $productListBlock->getCollectedFilters();
             /**
              * Render filters xml
@@ -90,13 +99,15 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
                     $value->addChild('count', $count);
                 }
             }
+            $searchXmlObject->appendChild($filtersXmlObject);
         }
-        $searchXmlObject->appendChild($filtersXmlObject);
 
         /**
          * Sort fields
          */
-        $searchXmlObject->appendChild($this->getProductSortFeildsXmlObject());
+        if ($showFiltersAndOrders) {
+        	$searchXmlObject->appendChild($this->getProductSortFeildsXmlObject());
+        }
 
         return $searchXmlObject->asNiceXml();
     }

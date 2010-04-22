@@ -97,8 +97,8 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
             /**
              * Process option price
              */
-            if ($option->getPrice() > 0.00) {
-                $price = sprintf('%01.2f', $option->getPrice());
+            $price = sprintf('%01.2f', $option->getPrice());
+            if ($price > 0.00) {
                 $optionNode->addAttribute('price', $price);
                 $formatedPrice = Mage::app()->getStore($product->getStoreId())->formatPrice($price, false);
                 $optionNode->addAttribute('formated_price', $formatedPrice);
@@ -110,8 +110,8 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
                     $valueNode->addAttribute('code', $value->getId());
                     $valueNode->addAttribute('label', $xmlModel->xmlentities(strip_tags($value->getTitle())));
 
-                    if ($value->getPrice() > 0.00) {
-                        $price = sprintf('%01.2f', $value->getPrice());
+                    $price = sprintf('%01.2f', $value->getPrice());
+                    if ($price > 0.00) {
                         $valueNode->addAttribute('price', $price);
                         $formatedPrice = $this->_formatPriceString($price, $product);
                         $valueNode->addAttribute('formated_price', $formatedPrice);

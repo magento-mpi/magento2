@@ -82,9 +82,10 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Grouped extends Mage_XmlConn
                 $productPrice = $_item->getPrice();
             }
             $productPrice = sprintf('%01.2f', $productPrice);
-            $optionNode->addAttribute('price', $productPrice);
-            $optionNode->addAttribute('formated_price', $this->_formatPriceString($productPrice, $product));
-
+            if ($productPrice > 0.00) {
+                $optionNode->addAttribute('price', $productPrice);
+                $optionNode->addAttribute('formated_price', $this->_formatPriceString($productPrice, $product));
+            }
         }
 
         return $xmlModel->asNiceXml();

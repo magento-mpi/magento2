@@ -45,6 +45,9 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         $xmlObject      = new Varien_Simplexml_Element('<cart></cart>');
         $xmlObject->addAttribute('is_virtual', (int)$this->helper('checkout/cart')->getIsVirtualQuote());
         $xmlObject->addAttribute('summary_qty', (int)$quote->getItemsSummaryQty());
+        if (strlen($quote->getCouponCode())) {
+            $xmlObject->addAttribute('has_coupon_code', 1);
+        }
         $products = $xmlObject->addChild('products');
 
         /* @var $item Mage_Sales_Model_Quote_Item */

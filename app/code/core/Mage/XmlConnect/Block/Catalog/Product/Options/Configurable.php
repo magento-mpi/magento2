@@ -131,8 +131,10 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
                     $valueNode = $optionNode->addChild('value');
                     $valueNode->addAttribute('code', $option['id']);
                     $valueNode->addAttribute('label', $optionsXmlObj->xmlentities(strip_tags($option['label'])));
-                    $valueNode->addAttribute('price', $option['price']);
-                    $valueNode->addAttribute('formated_price', $option['formated_price']);
+                    if ($option['price'] > 0.00) {
+                        $valueNode->addAttribute('price', $option['price']);
+                        $valueNode->addAttribute('formated_price', $option['formated_price']);
+                    }
                     $this->_prepareRecursivelyRelatedValues($valueNode, $_attributes, $option['products'], 1);
                 }
                    $isFirst = false;
@@ -177,8 +179,10 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
             $_valueNode = $relatedNode->addChild('value');
             $_valueNode->addAttribute('code', $option['id']);
             $_valueNode->addAttribute('label', $_valueNode->xmlentities(strip_tags($option['label'])));
-            $_valueNode->addAttribute('price', $option['price']);
-            $_valueNode->addAttribute('formated_price', $option['formated_price']);
+            if ($option['price'] > 0.00) {
+                $_valueNode->addAttribute('price', $option['price']);
+                $_valueNode->addAttribute('formated_price', $option['formated_price']);
+            }
 
             /**
              * Recursive relation adding
