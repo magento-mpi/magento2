@@ -19,30 +19,31 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_XmlConnect
+ * @package     Mage_Rss
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$installer = $this;
-/* @var $installer Mage_Core_Model_Resource_Setup */
+/**
+ * Application configuration renderer
+ *
+ * @category   Mage
+ * @package    Mage_XmlConnect
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 
-// alter table `xmlconnect_application` add column `configuration` blob default null;
-
-$installer->run("
-CREATE TABLE `{$installer->getTable('xmlconnect_application')}` (
-  `application_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `code` varchar(32) NOT NULL,
-  `type` varchar(32) DEFAULT NULL,
-  `store_id` smallint(5) unsigned DEFAULT NULL,
-  `active_from` date DEFAULT NULL,
-  `active_to` date DEFAULT NULL,
-  `configuration` blob DEFAULT NULL,
-  PRIMARY KEY (`application_id`),
-  KEY `FK_XMLCONNECT_APPLICAION_STORE` (`store_id`),
-  CONSTRAINT `FK_XMLCONNECT_APPLICAION_STORE` FOREIGN KEY (`store_id`) REFERENCES `{$installer->getTable('core_store')}` (`store_id`)
-    ON DELETE SET NULL ON UPDATE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
-
-");
+class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
+{
+    protected function _toHtml()
+    {
+        $app = Mage::registry('current_app');
+        $xml = new Varien_Simplexml_Element('<configuration></configuration>');
+        if ($app) {
+            $conf = $app->prepareConfiguration();
+            foreach ($conf as $key=>$value) {
+                $xml->addChild($key, $value);
+            }
+        }
+        return $xml->asNiceXml();
+    }
+}

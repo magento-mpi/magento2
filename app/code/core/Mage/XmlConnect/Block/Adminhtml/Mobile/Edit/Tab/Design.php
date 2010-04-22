@@ -36,9 +36,92 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
     {
         $form = new Varien_Data_Form();
 
-        $form->setHtmlIdPrefix('design_');
+        /**
+         * Fieldset
+         */
+
+        $fieldset = $form->addFieldset('images', array('legend' => $this->__('Image files')));
+
+        $fieldset->addField('conf_logo_company_small', 'text', array(
+            'name'      => 'conf_logo_company_small',
+            'label'     => $this->__('Logo above the header'),
+            'title'     => $this->__('Small logo appear above header text'),
+        ));
+
+        $fieldset->addField('conf_logo_company_left', 'text', array(
+            'name'      => 'conf_logo_company_left',
+            'label'     => $this->__('Logo on the left'),
+            'title'     => $this->__('Logo appear to the left of header text'),
+        ));
+
+        $fieldset->addField('conf_logo_aboutus', 'text', array(
+            'name'      => 'conf_logo_aboutus',
+            'label'     => $this->__('Logo for ‘about us’ page'),
+        ));
+
+        $fieldset->addField('conf_background_subcategory', 'text', array(
+            'name'      => 'conf_background_subcategory',
+            'label'     => $this->__('Subcategory background'),
+            'title'     => $this->__('Background image for subcategory pages'),
+        ));
+
+        $fieldset->addField('conf_background_header', 'text', array(
+            'name'      => 'conf_background_header',
+            'label'     => $this->__('Header background'),
+            'title'     => $this->__('Header background image'),
+        ));
+
+        /**
+         * Fieldset
+         */
+
+        $fieldset = $form->addFieldset('sounds', array('legend' => $this->__('Sound files')));
+
+        $fieldset->addField('conf_sound_startup', 'text', array(
+            'name'      => 'conf_sound_startup',
+            'label'     => $this->__('Startup sound'),
+            'title'     => $this->__('Sound file that chimes upon app startups'),
+        ));
+
+        /**
+         * Fieldset
+         */
+
+        $fieldset = $form->addFieldset('colors', array('legend' => $this->__('Colors')));
+
+        $fieldset->addField('conf_color_header_bg', 'text', array(
+            'name'      => 'conf_color_header_bg',
+            'label'     => $this->__('Header background color')
+        ));
+
+        $fieldset->addField('conf_color_header', 'text', array(
+            'name'      => 'conf_color_header',
+            'label'     => $this->__('Header text color')
+        ));
+
+        $fieldset->addField('conf_color_primary', 'text', array(
+            'name'      => 'conf_color_primary',
+            'label'     => $this->__('Primary color')
+        ));
+
+        $fieldset->addField('conf_color_secondary', 'text', array(
+            'name'      => 'conf_color_secondary',
+            'label'     => $this->__('Secondary color')
+        ));
+
+        $fieldset->addField('conf_color_text', 'text', array(
+            'name'      => 'conf_color_text',
+            'label'     => $this->__('Text color')
+        ));
+
+        $fieldset->addField('conf_color_price', 'text', array(
+            'name'      => 'conf_color_price',
+            'label'     => $this->__('Price color')
+        ));
 
         $model = Mage::registry('current_app');
+        $form->setValues($model->getData());
+        $this->setForm($form);
         return parent::_prepareForm();
     }
 

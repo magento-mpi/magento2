@@ -111,4 +111,10 @@
         <block type="xmlconnect/customer_wishlist" name="xmlconnect.customer.wishlist" output="toHtml"/>
     </xmlconnect_customer_wishlist>
 
+    <!-- Configuration -->
+
+    <xmlconnect_configuration_index>
+        <block type="xmlconnect/configuration" name="xmlconnect.configuration" output="toHtml"/>
+    </xmlconnect_configuration_index>
+
 </layout>

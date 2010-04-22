@@ -29,4 +29,50 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     {
         $this->_init('xmlconnect/application');
     }
+
+    /**
+     * Load application configuration
+     *
+     * @return array
+     */
+    public function prepareConfiguration()
+    {
+        $conf = array();
+        $keys = array_keys($this->_data);
+        foreach ($keys as $key) {
+            if (substr($key, 0, 5) == 'conf_') {
+                $conf[substr($key, 5)] = $this->_data[$key];
+            }
+        }
+        return $conf;
+    }
+
+    /**
+     * Processing object before save data
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _beforeSave()
+    {
+        $this->_data['configuration'] = serialize($this->prepareConfiguration());
+        return $this;
+    }
+
+    /**
+     * Processing object after load data
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _afterLoad()
+    {
+        if (!empty($this->_data['configuration'])) {
+            $conf = unserialize($this->_data['configuration']);
+            if (is_array($conf)) {
+                foreach($conf as $key=>$value) {
+                    $this->_data['conf_'.$key] = $value;
+                }
+            }
+        }
+        return $this;
+    }
 }

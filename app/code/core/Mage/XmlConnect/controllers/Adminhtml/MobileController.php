@@ -38,7 +38,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Enterprise_Enterprise_C
         if ($id) {
             $app->load($id);
             if (!$app->getId()) {
-                Mage::throwException($this->__('Aplication with is "%s" no longer exists.', $id));
+                Mage::throwException($this->__('Aplication with id "%s" no longer exists.', $id));
             }
         }
         Mage::register('current_app', $app);
