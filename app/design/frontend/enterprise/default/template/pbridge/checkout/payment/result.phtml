@@ -44,14 +44,15 @@
                 if (methodParam) {
                     methodParam.setAttribute('value', param.value);
                 } else {
-                    methodParam = document.createElement('input');
-                    var attributes = {
+                    methodParam = parent.document.createElement('input');
+                    methodParam = parent.$(methodParam);
+                    var attrs = {
                         'id':    paramId,
                         'type':  'hidden',
                         'name':  'payment[pbridge_data][' + param.key + ']',
                         'value': param.value
-                    }
-                    for(var name in attributes) methodParam.setAttribute(name, attributes[name]);
+                    };
+                    for (var name in attrs) methodParam.setAttribute(name, attrs[name]);
                     containerElement.appendChild(methodParam);
                 }
             });
