@@ -628,7 +628,7 @@ XML;
                 } else {
                     $targetMtime = filemtime($targetFile);
                     foreach ($srcFiles as $file) {
-                        if (filemtime($file) > $targetMtime) {
+                        if (!file_exists($file) || @filemtime($file) > $targetMtime) {
                             $shouldMerge = true;
                             break;
                         }
