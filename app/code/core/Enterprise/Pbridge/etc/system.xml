@@ -107,6 +107,12 @@
                         <centinel>
                             <depends><using_pbridge>0</using_pbridge></depends>
                         </centinel>
+                        <centinel_is_mode_strict>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </centinel_is_mode_strict>
+                        <centinel_api_url>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </centinel_api_url>
                         <line_items_enabled>
                             <depends><using_pbridge>0</using_pbridge></depends>
                         </line_items_enabled>
@@ -130,6 +136,12 @@
                         <centinel>
                             <depends><using_pbridge>0</using_pbridge></depends>
                         </centinel>
+                        <centinel_is_mode_strict>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </centinel_is_mode_strict>
+                        <centinel_api_url>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </centinel_api_url>
                         <line_items_enabled>
                             <depends><using_pbridge>0</using_pbridge></depends>
                         </line_items_enabled>
@@ -191,6 +203,9 @@
                         <useccv>
                             <depends><using_pbridge>0</using_pbridge></depends>
                         </useccv>
+                        <verbosity>
+                            <depends><using_pbridge>0</using_pbridge></depends>
+                        </verbosity>
                         <centinel>
                             <depends><using_pbridge>0</using_pbridge></depends>
                         </centinel>
