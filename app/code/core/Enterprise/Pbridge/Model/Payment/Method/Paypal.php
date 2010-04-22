@@ -239,6 +239,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Enterprise_Enterpri
     {
         $this->setData('store', $store);
         Mage::helper('enterprise_pbridge')->setStoreId(is_object($store) ? $store->getId() : $store);
+        parent::setStore($store);
         return $this;
     }
 }

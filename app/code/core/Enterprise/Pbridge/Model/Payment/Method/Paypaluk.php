@@ -283,6 +283,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Enterprise_Enterp
     {
         $this->setData('store', $store);
         Mage::helper('enterprise_pbridge')->setStoreId(is_object($store) ? $store->getId() : $store);
+        parent::setStore($store);
         return $this;
     }
 }
