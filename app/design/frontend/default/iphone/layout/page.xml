@@ -109,7 +109,7 @@ Default layout, loads most of the pages
             <action method="setTemplate"><template>page/one-column.phtml</template></action>
             <!-- Mark root page block that template is applied -->
             <action method="setIsHandle"><applied>1</applied></action>
-            <action method="setLayoutName"><name>empty</name></action>
+            <action method="setLayoutCode"><name>empty</name></action>
         </reference>
     </page_empty>
 
@@ -118,7 +118,7 @@ Default layout, loads most of the pages
             <action method="setTemplate"><template>page/1column.phtml</template></action>
             <!-- Mark root page block that template is applied -->
             <action method="setIsHandle"><applied>1</applied></action>
-            <action method="setLayoutName"><name>one_column</name></action>
+            <action method="setLayoutCode"><name>one_column</name></action>
         </reference>
     </page_one_column>
 
@@ -127,7 +127,7 @@ Default layout, loads most of the pages
             <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
             <!-- Mark root page block that template is applied -->
             <action method="setIsHandle"><applied>1</applied></action>
-            <action method="setLayoutName"><name>two_columns_left</name></action>
+            <action method="setLayoutCode"><name>two_columns_left</name></action>
         </reference>
     </page_two_columns_left>
 
@@ -136,7 +136,7 @@ Default layout, loads most of the pages
             <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
             <!-- Mark root page block that template is applied -->
             <action method="setIsHandle"><applied>1</applied></action>
-            <action method="setLayoutName"><name>two_columns_right</name></action>
+            <action method="setLayoutCode"><name>two_columns_right</name></action>
         </reference>
     </page_two_columns_right>
 
@@ -145,7 +145,7 @@ Default layout, loads most of the pages
             <action method="setTemplate"><template>page/3columns.phtml</template></action>
             <!-- Mark root page block that template is applied -->
             <action method="setIsHandle"><applied>1</applied></action>
-            <action method="setLayoutName"><name>three_columns</name></action>
+            <action method="setLayoutCode"><name>three_columns</name></action>
         </reference>
     </page_three_columns>
 </layout>
