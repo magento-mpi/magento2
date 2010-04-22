@@ -256,6 +256,10 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
         }
 
         if ($item->hasCustomPrice()) {
+            /**
+             * Initialize item original price before declaring custom price
+             */
+            $item->getOriginalPrice();
             $item->setCustomPrice($price);
             $item->setBaseCustomPrice($basePrice);
         } else {
@@ -364,6 +368,10 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
         }
 
         if ($item->hasCustomPrice()) {
+            /**
+             * Initialize item original price before declaring custom price
+             */
+            $item->getOriginalPrice();
             $item->setCustomPrice($price);
             $item->setBaseCustomPrice($basePrice);
         } else {
@@ -476,6 +484,10 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
         }
 
         if ($item->hasCustomPrice()) {
+            /**
+             * Initialize item original price before declaring custom price
+             */
+            $item->getOriginalPrice();
             $item->setCustomPrice($price);
             $item->setBaseCustomPrice($basePrice);
         } else {
