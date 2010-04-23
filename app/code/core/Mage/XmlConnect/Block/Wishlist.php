@@ -32,7 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_Block_Customer_Wishlist extends Mage_Wishlist_Block_Customer_Wishlist
+class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishlist
 {
     /**
      * Render customer wishlist xml
@@ -42,7 +42,16 @@ class Mage_XmlConnect_Block_Customer_Wishlist extends Mage_Wishlist_Block_Custom
     protected function _toHtml()
     {
         $wishlistXmlObj = new Varien_Simplexml_Element('<wishlist></wishlist>');
+        $wishlistXmlObj->addAttribute('items_count', $this->getWishlistItemsCount());
         if ($this->hasWishlistItems()) {
+            /**
+             * @var Mage_XmlConnect_Block_Catalog_Product
+             */
+            $productBlock = $this->getLayout()->createBlock('xmlconnect/catalog_product');
+
+            /**
+             * @var Mage_Wishlist_Model_Mysql4_Product_Collection
+             */
             foreach($this->getWishlist() as $item){
                 $itemXmlObj = $wishlistXmlObj->addChild('item');
                 $itemXmlObj->addChild('item_id', $item->getWishlistItemId());
@@ -52,11 +61,13 @@ class Mage_XmlConnect_Block_Customer_Wishlist extends Mage_Wishlist_Block_Custom
                 $icon = $this->helper('catalog/image')->init($item, 'small_image')
                     ->resize(Mage_XmlConnect_Block_Catalog_Product::PRODUCT_IMAGE_SMALL_RESIZE_PARAM);
                 $itemXmlObj->addChild('icon', $icon);
-                $itemXmlObj->addChild('comment', $wishlistXmlObj->xmlentities(strip_tags($item->getWishlistItemDescription())));
+                $itemXmlObj->addChild('description', $wishlistXmlObj->xmlentities(strip_tags($item->getWishlistItemDescription())));
                 $itemXmlObj->addChild('added_date', $wishlistXmlObj->xmlentities($this->getFormatedDate($item->getAddedAt())));
-                $itemXmlObj->addChild('in_strock', (int)$item->isInStock());
-                $itemXmlObj->addChild('has_options', (int)$item->getHasOptions());
-                $itemXmlObj->addChild('is_salable', (int)$item->isSaleable());
+
+                if ($productBlock) {
+                    $productBlock->collectProductPrices($item, $itemXmlObj);
+                }
+
                 if (!$item->getRatingSummary()) {
                     Mage::getModel('review/review')
                        ->getEntitySummary($item, Mage::app()->getStore()->getId());

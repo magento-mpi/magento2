@@ -91,7 +91,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             $item->addChild('rating_summary', round((int)$product->getRatingSummary()->getRatingSummary() / 10));
             $item->addChild('reviews_count', $product->getRatingSummary()->getReviewsCount());
 
-            $this->_collectProductPrices($product, $item);
+            $this->collectProductPrices($product, $item);
         }
 
         return $item;
@@ -104,7 +104,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
      * @param Mage_Catalog_Model_Product $product
      * @param Varien_Simplexml_Element $item
      */
-    protected function _collectProductPrices(Mage_Catalog_Model_Product $product, Varien_Simplexml_Element $item)
+    public function collectProductPrices(Mage_Catalog_Model_Product $product, Varien_Simplexml_Element $item)
     {
         $store = Mage::app()->getStore($product->getStoreId());
         /* TODO: leak of data for grouped products price render if product loaded by load() method.

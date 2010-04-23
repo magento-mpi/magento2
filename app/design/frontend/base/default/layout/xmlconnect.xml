@@ -107,9 +107,9 @@
 
     <!-- Customer -->
 
-    <xmlconnect_customer_wishlist>
-        <block type="xmlconnect/customer_wishlist" name="xmlconnect.customer.wishlist" output="toHtml"/>
-    </xmlconnect_customer_wishlist>
+    <xmlconnect_wishlist_index>
+        <block type="xmlconnect/wishlist" name="xmlconnect.wishlist" output="toHtml"/>
+    </xmlconnect_wishlist_index>
 
     <!-- Configuration -->
 
