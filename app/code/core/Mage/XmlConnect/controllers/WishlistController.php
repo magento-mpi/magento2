@@ -164,4 +164,121 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
 
         Mage::helper('wishlist')->calculate();
     }
+
+    /**
+     * Update wishlist item comments
+     */
+    public function updateAction()
+    {
+        $post = $this->getRequest()->getPost();
+        if($post && isset($post['description']) && is_array($post['description'])) {
+            $wishlist = $this->_getWishlist();
+            if (!$wishlist) {
+                return;
+            }
+            $updatedItems = 0;
+            $problemsFlag = false;
+
+            foreach ($post['description'] as $itemId => $description) {
+                $item = Mage::getModel('wishlist/item')->load($itemId);
+                $description = (string) $description;
+                if(!strlen($description) || $item->getWishlistId() != $wishlist->getId()) {
+                    continue;
+                }
+                try {
+                    $item->setDescription($description)
+                        ->save();
+                    $updatedItems++;
+                }
+                catch (Exception $e) {
+                    $problemsFlag = true;
+                }
+            }
+
+            // save wishlist model for setting date of last update
+            if ($updatedItems) {
+                try {
+                    $wishlist->save();
+                    if ($problemsFlag) {
+                        $message = $this->__('Wishist was successfully updated. But there are accrued some errors while updating some items.');
+                    }
+                    else {
+                        $message = $this->__('Wishist was successfully updated.');
+                    }
+                    $this->_message($message, self::MESSAGE_STATUS_SUCCESS);
+                }
+                catch (Exception $e) {
+                    $this->_message($this->__('Items were updated. But can\'t update wishlist.'), self::MESSAGE_STATUS_SUCCESS);
+                }
+            }
+            else {
+                $this->_message($this->__('No one items were updated.'), self::MESSAGE_STATUS_ERROR);
+            }
+        }
+        else {
+            $this->_message($this->__('No items were specifed to update.'), self::MESSAGE_STATUS_ERROR);
+        }
+    }
+
+    /**
+     * Add wishlist item to shopping cart and remove from wishlist
+     *
+     * If Product has required options - item removed from wishlist and redirect
+     * to product view page with message about needed defined required options
+     *
+     */
+    public function cartAction()
+    {
+        $wishlist   = $this->_getWishlist();
+        if (!$wishlist) {
+            return;
+        }
+        $itemId     = (int)$this->getRequest()->getParam('item');
+
+        /* @var $item Mage_Wishlist_Model_Item */
+        $item       = Mage::getModel('wishlist/item')->load($itemId);
+
+        if (!$item->getId() || $item->getWishlistId() != $wishlist->getId()) {
+            $this->_message($this->__('Ivalid item or wishlist.'), self::MESSAGE_STATUS_ERROR);
+            return;
+        }
+
+        /* @var $session Mage_Wishlist_Model_Session */
+        $session    = Mage::getSingleton('wishlist/session');
+        $cart       = Mage::getSingleton('checkout/cart');
+
+        try {
+            $item->addToCart($cart, true);
+            $cart->save()->getQuote()->collectTotals();
+            $wishlist->save();
+
+            Mage::helper('wishlist')->calculate();
+
+            $this->_message($this->__('Item was successfully added to cart.'), self::MESSAGE_STATUS_SUCCESS);
+        }
+        catch (Mage_Core_Exception $e) {
+            if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
+                $this->_message($this->__('This product(s) is currently out of stock.'), self::MESSAGE_STATUS_ERROR);
+            }
+            else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS ||
+                     $e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_IS_GROUPED_PRODUCT) {
+                $item->delete();
+
+                $message = new Varien_Simplexml_Element('<message></message>');
+                $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
+                $message->addChild('has_required_options', 1);
+                $message->addChild('product_id', $item->getProductId());
+                $this->getResponse()->setBody($message->asNiceXml());
+            }
+            else {
+                $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+            }
+        }
+        catch (Exception $e) {
+            $this->_message($this->__('Cannot add item to shopping cart.'), self::MESSAGE_STATUS_ERROR);
+        }
+
+        Mage::helper('wishlist')->calculate();
+    }
+
 }
