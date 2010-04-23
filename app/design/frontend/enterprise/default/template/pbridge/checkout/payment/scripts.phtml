@@ -30,3 +30,9 @@ Event.observe(this.document, 'payment-method:switched', function(event){
       Event.stop(event);
   }
 });
+if (typeof eventsObserved == 'undefined' && $('use_customer_balance')) {
+    Event.observe($('use_customer_balance'), 'click', function(event){
+        toggleContinueButton(event.target);
+    });
+    eventsObserved = true;
+}
