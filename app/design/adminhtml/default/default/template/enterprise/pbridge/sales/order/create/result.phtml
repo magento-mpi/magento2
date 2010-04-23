@@ -27,11 +27,8 @@
 <script type="text/javascript">
 //<![CDATA[
     var paymentObj = parent.payment;
-    var parentElementObj = parent.Element;
-
     function setPaymentMethod()
     {
-        // var checkoutForm = parent.document.getElementById('edit_form');
         var jsonParams = <?php echo $this->getJsonHiddenPbridgeParams() ?>;
         if (jsonParams.original_payment_method) {
             var containerElement = parent.document.getElementById('payment_form_pbridge_' + jsonParams.original_payment_method);
@@ -39,7 +36,6 @@
             if (listElements.length) {
                 containerElement = listElements[0];
             }
-
             var methodParam;
             parent.$H(jsonParams).each(function(param) {
                 var paramId = 'pbridge_' + jsonParams.original_payment_method + '_' + param.key;
@@ -48,12 +44,15 @@
                 if (methodParam) {
                     methodParam.setAttribute('value', param.value);
                 } else {
-                    methodParam = new parentElementObj('input', {
+                    methodParam = parent.document.createElement('input');
+                    methodParam = parent.$(methodParam);
+                    var attrs = {
                         'id':    paramId,
                         'type':  'hidden',
                         'name':  'payment[pbridge_data][' + param.key + ']',
                         'value': param.value
-                    });
+                    };
+                    for (var name in attrs) methodParam.setAttribute(name, attrs[name]);
                     containerElement.appendChild(methodParam);
                 }
             });
