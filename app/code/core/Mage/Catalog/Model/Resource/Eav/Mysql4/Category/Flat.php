@@ -1015,6 +1015,19 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     }
 
     /**
+     * Retrieve attribute instance
+     * Special for non static flat table
+     *
+     * @param mixed $attribute
+     * @return Mage_Eav_Model_Entity_Attribute_Abstract
+     */
+    public function getAttribute($attribute)
+    {
+        return Mage::getSingleton('catalog/config')
+            ->getAttribute('catalog_category', $attribute);
+    }
+
+    /**
      * Get count of active/not active children categories
      *
      * @param   Mage_Catalog_Model_Category $category
