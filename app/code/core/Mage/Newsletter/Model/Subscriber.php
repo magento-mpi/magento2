@@ -36,6 +36,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
     const STATUS_SUBSCRIBED     = 1;
     const STATUS_NOT_ACTIVE     = 2;
     const STATUS_UNSUBSCRIBED   = 3;
+    const STATUS_UNCONFIRMED = 4;
 
     const XML_PATH_CONFIRM_EMAIL_TEMPLATE       = 'newsletter/subscription/confirm_email_template';
     const XML_PATH_CONFIRM_EMAIL_IDENTITY       = 'newsletter/subscription/confirm_email_identity';
@@ -347,8 +348,8 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
         }
 
         if (!$customer->getIsSubscribed() && !$this->getId()) {
-            // If subscription flag not seted or customer not subscriber
-            // and no subscribe bellow
+            // If subscription flag not set or customer is not a subscriber
+            // and no subscribe below
             return $this;
         }
 
@@ -356,8 +357,12 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             $this->setSubscriberConfirmCode($this->randomSequence());
         }
 
+        $subscribed_on_confirm = false;
         if($customer->hasIsSubscribed()) {
-            $status = $customer->getIsSubscribed() ? self::STATUS_SUBSCRIBED : self::STATUS_UNSUBSCRIBED;
+            $status = $customer->getIsSubscribed() ? (!is_null($customer->getConfirmation()) ? self::STATUS_UNCONFIRMED : self::STATUS_SUBSCRIBED) : self::STATUS_UNSUBSCRIBED;
+        } elseif (($this->getStatus() == self::STATUS_UNCONFIRMED) && (is_null($customer->getConfirmation()))) {
+            $status = self::STATUS_SUBSCRIBED;
+            $subscribed_on_confirm = true;
         } else {
             $status = ($this->getStatus() == self::STATUS_NOT_ACTIVE ? self::STATUS_UNSUBSCRIBED : $this->getStatus());
         }
@@ -380,7 +385,7 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
         }
 
         $this->save();
-        $sendSubscription = $customer->getData('sendSubscription');
+        $sendSubscription = $customer->getData('sendSubscription') || $subscribed_on_confirm;
         if (is_null($sendSubscription) xor $sendSubscription) {
             if ($this->getIsStatusChanged() && $status == self::STATUS_UNSUBSCRIBED) {
                 $this->sendUnsubscriptionEmail();
