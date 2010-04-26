@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
         $id = $element->getHtmlId();
 
         $useContainerId = $element->getData('use_container_id');
-        $html = '<tr'.($useContainerId ? ' id="row_' . $id . '"' : '').'>'
+        $html = '<tr id="row_' . $id . '">'
               . '<td class="label"><label for="'.$id.'">'.$element->getLabel().'</label></td>';
 
         //$isDefault = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
 
         $html.= '<td class="value">';
         $html.= $this->_getElementHtml($element);
-        if ($element->getComment() && !$element->getUseCustomComment()) {
+        if ($element->getComment()) {
             $html.= '<p class="note"><span>'.$element->getComment().'</span></p>';
         }
         $html.= '</td>';

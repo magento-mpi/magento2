@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Heading
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $useContainerId = $element->getData('use_container_id');
-        $html = '<tr class="paypal-sub-head"'.($useContainerId ? ' id="row_' . $element->getHtmlId() . '"' : '').'>'
+        $html = '<tr class="paypal-sub-head" id="row_' . $element->getHtmlId() . '">'
               . '<td colspan="5">'
               . '<h4>' . $element->getLabel() . '</h4>'
               . '</td>'

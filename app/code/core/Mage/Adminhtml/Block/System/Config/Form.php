@@ -310,6 +310,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                 }
 
                 $comment    = $this->_prepareFieldComment($e, $helperName, $data);
+                $tooltip    = $this->_prepareFieldTooltip($e, $helperName);
 
                 if ($e->depends) {
                     foreach ($e->depends->children() as $dependent) {
@@ -326,6 +327,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     'name'                  => $name,
                     'label'                 => $label,
                     'comment'               => $comment,
+                    'tooltip'               => $tooltip,
                     'hint'                  => $hint,
                     'value'                 => $data,
                     'inherit'               => $inherit,
@@ -404,6 +406,23 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
             }
         }
         return $comment;
+    }
+
+    /**
+     * Prepare additional comment for field like tooltip
+     *
+     * @param Mage_Core_Model_Config_Element $element
+     * @param string $helper
+     * @return string
+     */
+    protected function _prepareFieldTooltip($element, $helper)
+    {
+        if ($element->tooltip) {
+            return Mage::helper($helper)->__((string)$element->tooltip);
+        } elseif ($element->tooltip_block) {
+            return $this->getLayout()->createBlock((string)$element->tooltip_block)->toHtml();
+        }
+        return '';
     }
 
     /**

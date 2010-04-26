@@ -30,7 +30,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_System_Config_Form_Fieldset
     extends Mage_Adminhtml_Block_Abstract
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
     }
 
     /**
-     * Enter description here...
+     * Return header html for fieldset
      *
      * @param Varien_Data_Form_Element_Abstract $element
      * @return string
@@ -96,17 +96,81 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
     }
 
     /**
-     * Enter description here...
+     * Return footer html for fieldset
+     * Add extra tooltip comments to elements
      *
      * @param Varien_Data_Form_Element_Abstract $element
      * @return string
      */
     protected function _getFooterHtml($element)
     {
-        $html = '</tbody></table></fieldset>' . Mage::helper('adminhtml/js')->getScript("Fieldset.applyCollapse('{$element->getHtmlId()}')");
+        $tooltipsExist = false;
+        $html = '</tbody></table>';
+        foreach ($element->getSortedElements() as $field) {
+            if ($field->getTooltip()) {
+                $tooltipsExist = true;
+                $html .= sprintf('<div id="row_%s_comment" class="tool-tip" style="display:none;"><span class="tool-tip-bg"><span class="tool-tip-corner">%s</span></span></div>',
+                    $field->getId(), $field->getTooltip()
+                );
+            }
+        }
+        $html .= '</fieldset>' . $this->_getExtraJs($element, $tooltipsExist);
         return $html;
     }
 
+    /**
+     * Return js code for fieldset:
+     * - observe fieldset rows;
+     * - apply collapse;
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @param bool $tooltipsExist Init tooltips observer or not
+     * @return string
+     */
+    protected function _getExtraJs($element, $tooltipsExist = false)
+    {
+        $id = $element->getHtmlId();
+        $js = "Fieldset.applyCollapse('{$id}');";
+        if ($tooltipsExist) {
+            $js.= "$$('#{$id} table tbody tr').each(function(tr) {
+                       Event.observe(tr, 'mouseover', function (event) {
+                           $$('div.row-comment').invoke('hide');
+                           var tr = Event.findElement(event, 'tr')
+                           var id = tr.id + '_comment';
+                           if ($(id) != undefined) {
+                               var trLeft = tr.cumulativeOffset().left;
+                               var trTop  = tr.cumulativeOffset().top;
+                               var tipOffsetLeft = 5;
+                               var tipOffsetTop  = tr.select('label')[0].getDimensions().height + 5;
+                               $(id).setStyle({left : trLeft + tipOffsetLeft + 'px', top : trTop + tipOffsetTop + 'px'}).show();
+                               Event.observe(id, 'mouseover', function() {
+                                   this.setStyle({display:'block'});
+                               });
+                               Event.observe(id, 'mouseout', function() {
+                                  if(!$(tr.id).hasClassName('hover')) {
+                                      this.hide();
+                                  }
+                               });
+                           }
+                       });
+                       Event.observe(tr, 'mouseout', function (event) {
+                           var tr = Event.findElement(event, 'tr')
+                           var id = tr.id + '_comment';
+                           if ($(id) != undefined) {
+                               $(id).hide();
+                           }
+                       });
+                   });";
+        }
+        return Mage::helper('adminhtml/js')->getScript($js);
+    }
+
+    /**
+     * Collapsed or expanded fieldset when page loaded?
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return bool
+     */
     protected function _getCollapseState($element)
     {
         $extra = Mage::getSingleton('admin/session')->getUser()->getExtra();
