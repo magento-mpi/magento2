@@ -782,4 +782,18 @@ EOT;
         $data = $this->_filterDates($data, array('dob'));
         return $data;
     }
+
+    /**
+     * Customer orders list
+     */
+    public function orderListAction()
+    {
+        if (!$this->_getSession()->isLoggedIn()) {
+            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            return ;
+        }
+
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
 }

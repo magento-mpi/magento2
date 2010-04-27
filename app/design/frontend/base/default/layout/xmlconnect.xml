@@ -115,6 +115,10 @@
         <block type="xmlconnect/customer_address_list" name="xmlconnect.customer.address.list" output="toHtml"/>
     </xmlconnect_customer_address>
 
+    <xmlconnect_customer_orderlist>
+        <block type="xmlconnect/customer_order_list" name="xmlconnect.customer.order.list" output="toHtml"/>
+    </xmlconnect_customer_orderlist>
+
     <!-- Configuration -->
 
     <xmlconnect_configuration_index>
