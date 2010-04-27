@@ -237,16 +237,6 @@
                             <show_in_store>1</show_in_store>
                             <tooltip>The background color for the checkout page around the header and payment form.</tooltip>
                         </paypal_payflowcolor>
-                        <button_flavor translate="label comment">
-                            <label>Buttons Flavor (Website Payments Pro)</label>
-                            <config_path>paypal/style/button_flavor</config_path>
-                            <sort_order>75</sort_order>
-                            <frontend_type>select</frontend_type>
-                            <source_model>paypal/config::getExpressCheckoutButtonFlavors</source_model>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </button_flavor>
                         <logo translate="label">
                             <label>Additional Option Logo</label>
                             <config_path>paypal/style/logo</config_path>
@@ -366,6 +356,16 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </visible_on_product>
+                        <button_flavor translate="label comment">
+                            <label>Buttons Flavor</label>
+                            <config_path>paypal/style/button_flavor</config_path>
+                            <sort_order>34</sort_order>
+                            <frontend_type>select</frontend_type>
+                            <source_model>paypal/config::getExpressCheckoutButtonFlavors</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </button_flavor>
                         <transfer_shipping_options translate="label tooltip">
                             <label>Transfer Shipping Options</label>
                             <config_path>payment/paypal_express/transfer_shipping_options</config_path>
