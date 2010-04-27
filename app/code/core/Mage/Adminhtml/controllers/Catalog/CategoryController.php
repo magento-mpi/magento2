@@ -312,8 +312,30 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 'category' => $category,
                 'request' => $this->getRequest()
             ));
-
+            
+            /**
+             * Proceed with $_POST['use_config']
+             * set into category model for proccessing through validation
+             */
+            $category->setData("use_post_data_config", $this->getRequest()->getPost('use_config'));
+            
             try {
+                $validate = $category->validate();
+                if ($validate !== true) {
+                    foreach ($validate as $code => $error) {
+                        if ($error === true) {
+                            Mage::throwException(Mage::helper('catalog')->__('Attribute "%s" is required.', $category->getResource()->getAttribute($code)->getFrontend()->getLabel()));
+                        }
+                        else {
+                            Mage::throwException($error);
+                        }
+                    }
+                }
+                /**
+                 * Unset $_POST['use_config'] before save
+                 */
+                $category->unsetData('use_post_data_config');
+
                 $category->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('The category has been saved.'));
                 $refreshTree = 'true';
@@ -323,7 +345,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                     ->setCategoryData($data);
                 $refreshTree = 'false';
             }
-        }
+        }      
         $url = $this->getUrl('*/*/edit', array('_current' => true, 'id' => $category->getId()));
         $this->getResponse()->setBody(
             '<script type="text/javascript">parent.updateContent("' . $url . '", {}, '.$refreshTree.');</script>'
