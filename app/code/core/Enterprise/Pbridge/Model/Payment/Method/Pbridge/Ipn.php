@@ -287,7 +287,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
         $payment = $order->getPayment();
         $payment->setTransactionId($this->getIpnFormData('transaction_id'))
             ->setPreparedMessage($this->_createIpnComment('', false))
-            ->setParentTransactionId($this->getIpnFormData('parent_transaction_id'))
+            ->setParentTransactionId($this->getIpnFormData('parent_txn_id'))
             ->setShouldCloseParentTransaction(self::AUTH_STATUS_COMPLETED === $this->getIpnFormData('auth_status'))
             ->setIsTransactionClosed(0)
             ->registerCaptureNotification($this->getIpnFormData('mc_gross'));

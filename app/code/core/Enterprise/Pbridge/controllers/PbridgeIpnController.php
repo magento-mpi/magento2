@@ -47,8 +47,6 @@ class Enterprise_Pbridge_PbridgeIpnController extends Enterprise_Enterprise_Cont
         $ipn->setIpnFormData($this->getRequest()->getPost())
             ->processIpnRequest();
         exit;
-        $ipnController = new
-        $this->_forward('result');
     }
 
 }
