@@ -19,30 +19,20 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Paygate
+ * @package     Mage_Paypal
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
+ * Payflow Pro Request Model
  *
- * Payflow Payment Action Dropdown source
- *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Paypal
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paygate_Model_Payflow_Source_PaymentAction
+
+class Mage_Paypal_Model_Payflow_Pro_Request extends Varien_Object
 {
-    public function toOptionArray()
-    {
-        return array(
-            array(
-                'value' => Mage_Paygate_Model_Payflow_Pro::ACTION_AUTHORIZE, 
-                'label' => Mage::helper('paygate')->__('Authorize Only')
-            ),
-            array(
-                'value' => Mage_Paygate_Model_Payflow_Pro::ACTION_AUTHORIZE_CAPTURE, 
-                'label' => Mage::helper('paypal')->__('Authorize and Capture')
-            ),
-        );
-    }
+
 }

@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Paygate
+ * @package     Mage_Paypal
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,11 +28,11 @@
  * Payflow Pro Result Model
  *
  * @category   Mage
- * @package    Mage_Paygate
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Paypal
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Paygate_Model_Payflow_Pro_Result extends Varien_Object
+class Mage_Paypal_Model_Payflow_Pro_Result extends Varien_Object
 {
 
 }

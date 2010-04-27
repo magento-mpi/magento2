@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Paygate
+ * @package     Mage_Paypal
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -28,11 +28,11 @@
  * Payflow Pro payment gateway model
  *
  * @category    Mage
- * @package     Mage_Paygate
+ * @package     Mage_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
+class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 {
     const TRXTYPE_AUTH_ONLY         = 'A';
     const TRXTYPE_SALE              = 'S';
@@ -131,12 +131,12 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                         $error = $result->getRespmsg();
                     }
                     else {
-                        $error = Mage::helper('paygate')->__('Error in authorizing the payment.');
+                        $error = Mage::helper('paypal')->__('Error in authorizing the payment.');
                     }
                 break;
             }
         }else{
-            $error = Mage::helper('paygate')->__('Invalid amount for authorization.');
+            $error = Mage::helper('paypal')->__('Invalid amount for authorization.');
         }
 
         if ($error !== false) {
@@ -183,7 +183,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                 if ($result->getRespmsg()) {
                     $error = $result->getRespmsg();
                 } else {
-                    $error = Mage::helper('paygate')->__('Error in capturing the payment.');
+                    $error = Mage::helper('paypal')->__('Error in capturing the payment.');
                 }
             break;
         }
@@ -212,7 +212,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             if($result->getResultCode()==self::RESPONSE_CODE_APPROVED){
                 if($result->getTransstate()>1000){
                     $payment->setStatus(self::STATUS_ERROR);
-                    $payment->setStatusDescription(Mage::helper('paygate')->__('Voided transaction.'));
+                    $payment->setStatusDescription(Mage::helper('paypal')->__('Voided transaction.'));
                 }elseif(in_array($result->getTransstate(),$this->_validVoidTransState)){
                      $payment->setStatus(self::STATUS_VOID);
                 }
@@ -220,11 +220,11 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                 $payment->setStatus(self::STATUS_ERROR);
                 $payment->setStatusDescription($result->getRespmsg()?
                     $result->getRespmsg():
-                    Mage::helper('paygate')->__('Error in retrieving the transaction.'));
+                    Mage::helper('paypal')->__('Error in retrieving the transaction.'));
             }
         }else{
             $payment->setStatus(self::STATUS_ERROR);
-            $payment->setStatusDescription(Mage::helper('paygate')->__('Invalid transaction ID.'));
+            $payment->setStatusDescription(Mage::helper('paypal')->__('Invalid transaction ID.'));
         }
 
         return $this;
@@ -256,7 +256,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             }
          }else{
             $payment->setStatus(self::STATUS_ERROR);
-            $error = Mage::helper('paygate')->__('Invalid transaction ID.');
+            $error = Mage::helper('paypal')->__('Invalid transaction ID.');
         }
 
         if ($error !== false) {
@@ -293,11 +293,11 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             }else{
                 $error = ($result->getRespmsg()?
                     $result->getRespmsg():
-                    Mage::helper('paygate')->__('Error in refunding the payment.'));
+                    Mage::helper('paypal')->__('Error in refunding the payment.'));
 
             }
         }else{
-            $error = Mage::helper('paygate')->__('Error in refunding the payment.');
+            $error = Mage::helper('paypal')->__('Error in refunding the payment.');
         }
 
         if ($error !== false) {
@@ -312,7 +312,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         $debugData = array('request' => $request->getData());
 
         $client = new Varien_Http_Client();
-        $result = Mage::getModel('paygate/payflow_pro_result');
+        $result = Mage::getModel('paypal/payflow_pro_result');
 
         $_config = array(
                         'maxredirects'=>5,
@@ -381,7 +381,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             $payment->setTender(self::TENDER_CC);
         }
 
-        $request = Mage::getModel('paygate/payflow_pro_request')
+        $request = Mage::getModel('paypal/payflow_pro_request')
             ->setUser($this->getConfigData('user'))
             ->setVendor($this->getConfigData('vendor'))
             ->setPartner($this->getConfigData('partner'))
@@ -459,7 +459,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             $payment->setTender(self::TENDER_CC);
         }
 
-        $request = Mage::getModel('paygate/payflow_pro_request')
+        $request = Mage::getModel('paypal/payflow_pro_request')
             ->setUser($this->getConfigData('user'))
             ->setVendor($this->getConfigData('vendor'))
             ->setPartner($this->getConfigData('partner'))
