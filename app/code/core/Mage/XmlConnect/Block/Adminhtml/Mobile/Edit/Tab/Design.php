@@ -42,6 +42,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
          */
 
         $fieldset = $form->addFieldset('navigationBar', array('legend' => $this->__('Navigation Bar')));
+        $this->_addElementTypes($fieldset);
 
         $fieldset->addField('conf/navigationBar/tintColor', 'text', array(
             'name'      => 'conf/navigationBar/tintColor',
@@ -53,7 +54,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
             'label'     => $this->__('Background Color'),
         ));
 
-        $fieldset->addField('conf/navigationBar/icon', 'text', array(
+        $fieldset->addField('conf/navigationBar/icon', 'image', array(
             'name'      => 'conf/navigationBar/icon',
             'label'     => $this->__('Icon'),
         ));
@@ -79,6 +80,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
          */
 
         $fieldset = $form->addFieldset('tabBar', array('legend' => $this->__('Tab Bar')));
+        $this->_addElementTypes($fieldset);
 
         $fieldset->addField('conf/tabBar/backgroundColor', 'text', array(
             'name'      => 'conf/tabBar/backgroundColor',
@@ -91,7 +93,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
             'values'    => Mage::helper('xmlconnect')->getFontList(),
         ));
 
-        $fieldset->addField('conf/tabBar/home/icon', 'text', array(
+        $fieldset->addField('conf/tabBar/home/icon', 'image', array(
             'name'      => 'conf/tabBar/home/icon',
             'label'     => $this->__('Home Tab Icon'),
         ));
@@ -101,7 +103,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
             'label'     => $this->__('Home Tab Title'),
         ));
 
-        $fieldset->addField('conf/tabBar/shop/icon', 'text', array(
+        $fieldset->addField('conf/tabBar/shop/icon', 'image', array(
             'name'      => 'conf/tabBar/shop/icon',
             'label'     => $this->__('Shop Tab Icon'),
         ));
@@ -111,7 +113,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
             'label'     => $this->__('Shop Tab Title'),
         ));
 
-        $fieldset->addField('conf/tabBar/cart/icon', 'text', array(
+        $fieldset->addField('conf/tabBar/cart/icon', 'image', array(
             'name'      => 'conf/tabBar/cart/icon',
             'label'     => $this->__('Cart Tab Icon'),
         ));
@@ -121,7 +123,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
             'label'     => $this->__('Cart Tab Title'),
         ));
 
-        $fieldset->addField('conf/tabBar/search/icon', 'text', array(
+        $fieldset->addField('conf/tabBar/search/icon', 'image', array(
             'name'      => 'conf/tabBar/search/icon',
             'label'     => $this->__('Search Tab Icon'),
         ));
@@ -131,7 +133,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
             'label'     => $this->__('Search Tab Title'),
         ));
 
-        $fieldset->addField('conf/tabBar/more/icon', 'text', array(
+        $fieldset->addField('conf/tabBar/more/icon', 'image', array(
             'name'      => 'conf/tabBar/more/icon',
             'label'     => $this->__('More Tab Icon'),
         ));
@@ -146,6 +148,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
          */
 
         $fieldset = $form->addFieldset('bodyPart', array('legend' => $this->__('Body')));
+        $this->_addElementTypes($fieldset);
 
         $fieldset->addField('conf/body/backgroundColor', 'text', array(
             'name'      => 'conf/body/backgroundColor',
@@ -157,7 +160,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
             'label'     => $this->__('Scroll Background Color'),
         ));
 
-        $fieldset->addField('conf/body/itemBackgroundIcon', 'text', array(
+        $fieldset->addField('conf/body/itemBackgroundIcon', 'image', array(
             'name'      => 'conf/body/itemBackgroundIcon',
             'label'     => $this->__('Item Background'),
         ));
@@ -206,5 +209,12 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
     public function isHidden()
     {
         return false;
+    }
+
+    protected function _getAdditionalElementTypes()
+    {
+        return array(
+            'image' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_image'),
+        );
     }
 }

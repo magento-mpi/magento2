@@ -100,4 +100,12 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+    
+    public function handleUpload($field) {
+        $uploader = new Varien_File_Uploader($field);
+        $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
+        $uploader->setAllowRenameFiles(true);
+        $uploader->save(Mage::getBaseDir('media').DS.'xmlconnect');
+        $this->_data[$field] = $uploader->getUploadedFileName();
+    }
 }

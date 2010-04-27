@@ -49,6 +49,13 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
     }
 
     protected function _getConf($path) {
+        if( substr($path, -5) == '/icon' ) {
+            $url = $this->_app['conf/'.$path];
+            if (strpos($url, '://') === FALSE ) {
+                $url = Mage::getBaseUrl('media').'xmlconnect/'.$url;
+            }
+            return $url;
+        }
         return $this->_app['conf/'.$path];
     }
 

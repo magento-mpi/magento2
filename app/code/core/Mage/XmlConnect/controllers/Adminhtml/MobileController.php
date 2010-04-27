@@ -103,7 +103,14 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Enterprise_Enterprise_C
         if ($data) {
             try {
                 $app = $this->_initApp();
-                $app->setData($data);
+                $app->addData($data);
+                if (!empty($_FILES)) {
+                    foreach ($_FILES as $field=>$file) {
+                        if (!empty($file['name'])) {
+                            $app->handleUpload($field);
+                        }
+                    }
+                }
                 $app->save();
                 $this->_getSession()->addSuccess($this->__('Application has been saved.'));
             } catch (Mage_Core_Exception $e) {
