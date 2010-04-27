@@ -32,6 +32,220 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
         $this->setShowGlobalIcon(true);
     }
 
+    protected function _fontList()
+    {
+        return array(
+            array(
+                'value' => 'HiraKakuProN-W3',
+                'label' => 'HiraKakuProN-W3',
+            ),
+            array(
+                'value' => 'Courier',
+                'label' => 'Courier',
+            ),
+            array(
+                'value' => 'Courier-BoldOblique',
+                'label' => 'Courier-BoldOblique',
+            ),
+            array(
+                'value' => 'Courier-Oblique',
+                'label' => 'Courier-Oblique',
+            ),
+            array(
+                'value' => 'Courier-Bold',
+                'label' => 'Courier-Bold',
+            ),
+            array(
+                'value' => 'ArialMT',
+                'label' => 'ArialMT',
+            ),
+            array(
+                'value' => 'Arial-BoldMT',
+                'label' => 'Arial-BoldMT',
+            ),
+            array(
+                'value' => 'Arial-BoldItalicMT',
+                'label' => 'Arial-BoldItalicMT',
+            ),
+            array(
+                'value' => 'Arial-ItalicMT',
+                'label' => 'Arial-ItalicMT',
+            ),
+            array(
+                'value' => 'STHeitiTC-Light',
+                'label' => 'STHeitiTC-Light',
+            ),
+            array(
+                'value' => 'STHeitiTC-Medium',
+                'label' => 'STHeitiTC-Medium',
+            ),
+            array(
+                'value' => 'AppleGothic',
+                'label' => 'AppleGothic',
+            ),
+            array(
+                'value' => 'CourierNewPS-BoldMT',
+                'label' => 'CourierNewPS-BoldMT',
+            ),
+            array(
+                'value' => 'CourierNewPS-ItalicMT',
+                'label' => 'CourierNewPS-ItalicMT',
+            ),
+            array(
+                'value' => 'CourierNewPS-BoldItalicMT',
+                'label' => 'CourierNewPS-BoldItalicMT',
+            ),
+            array(
+                'value' => 'CourierNewPSMT',
+                'label' => 'CourierNewPSMT',
+            ),
+            array(
+                'value' => 'Zapfino',
+                'label' => 'Zapfino',
+            ),
+            array(
+                'value' => 'HiraKakuProN-W6',
+                'label' => 'HiraKakuProN-W6',
+            ),
+            array(
+                'value' => 'ArialUnicodeMS',
+                'label' => 'ArialUnicodeMS',
+            ),
+            array(
+                'value' => 'STHeitiSC-Medium',
+                'label' => 'STHeitiSC-Medium',
+            ),
+            array(
+                'value' => 'STHeitiSC-Light',
+                'label' => 'STHeitiSC-Light',
+            ),
+            array(
+                'value' => 'AmericanTypewriter',
+                'label' => 'AmericanTypewriter',
+            ),
+            array(
+                'value' => 'AmericanTypewriter-Bold',
+                'label' => 'AmericanTypewriter-Bold',
+            ),
+            array(
+                'value' => 'Helvetica-Oblique',
+                'label' => 'Helvetica-Oblique',
+            ),
+            array(
+                'value' => 'Helvetica-BoldOblique',
+                'label' => 'Helvetica-BoldOblique',
+            ),
+            array(
+                'value' => 'Helvetica',
+                'label' => 'Helvetica',
+            ),
+            array(
+                'value' => 'Helvetica-Bold',
+                'label' => 'Helvetica-Bold',
+            ),
+            array(
+                'value' => 'MarkerFelt-Thin',
+                'label' => 'MarkerFelt-Thin',
+            ),
+            array(
+                'value' => 'HelveticaNeue',
+                'label' => 'HelveticaNeue',
+            ),
+            array(
+                'value' => 'HelveticaNeue-Bold',
+                'label' => 'HelveticaNeue-Bold',
+            ),
+            array(
+                'value' => 'DBLCDTempBlack',
+                'label' => 'DBLCDTempBlack',
+            ),
+            array(
+                'value' => 'Verdana-Bold',
+                'label' => 'Verdana-Bold',
+            ),
+            array(
+                'value' => 'Verdana-BoldItalic',
+                'label' => 'Verdana-BoldItalic',
+            ),
+            array(
+                'value' => 'Verdana',
+                'label' => 'Verdana',
+            ),
+            array(
+                'value' => 'Verdana-Italic',
+                'label' => 'Verdana-Italic',
+            ),
+            array(
+                'value' => 'TimesNewRomanPSMT',
+                'label' => 'TimesNewRomanPSMT',
+            ),
+            array(
+                'value' => 'TimesNewRomanPS-BoldMT',
+                'label' => 'TimesNewRomanPS-BoldMT',
+            ),
+            array(
+                'value' => 'TimesNewRomanPS-BoldItalicMT',
+                'label' => 'TimesNewRomanPS-BoldItalicMT',
+            ),
+            array(
+                'value' => 'TimesNewRomanPS-ItalicMT',
+                'label' => 'TimesNewRomanPS-ItalicMT',
+            ),
+            array(
+                'value' => 'Georgia-Bold',
+                'label' => 'Georgia-Bold',
+            ),
+            array(
+                'value' => 'Georgia',
+                'label' => 'Georgia',
+            ),
+            array(
+                'value' => 'Georgia-BoldItalic',
+                'label' => 'Georgia-BoldItalic',
+            ),
+            array(
+                'value' => 'Georgia-Italic',
+                'label' => 'Georgia-Italic',
+            ),
+            array(
+                'value' => 'STHeitiJ-Medium',
+                'label' => 'STHeitiJ-Medium',
+            ),
+            array(
+                'value' => 'STHeitiJ-Light',
+                'label' => 'STHeitiJ-Light',
+            ),
+            array(
+                'value' => 'ArialRoundedMTBold',
+                'label' => 'ArialRoundedMTBold',
+            ),
+            array(
+                'value' => 'TrebuchetMS-Italic',
+                'label' => 'TrebuchetMS-Italic',
+            ),
+            array(
+                'value' => 'TrebuchetMS',
+                'label' => 'TrebuchetMS',
+            ),
+            array(
+                'value' => 'Trebuchet-BoldItalic',
+                'label' => 'Trebuchet-BoldItalic',
+            ),
+            array(
+                'value' => 'TrebuchetMS-Bold',
+                'label' => 'TrebuchetMS-Bold',
+            ),
+            array(
+                'value' => 'STHeitiK-Medium',
+                'label' => 'STHeitiK-Medium',
+            ),
+            array(
+                'value' => 'STHeitiK-Light',
+                'label' => 'STHeitiK-Light',
+            ),
+        );
+    }
+
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
@@ -104,6 +318,84 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
          */
 
         $fieldset = $form->addFieldset('tabs', array('legend' => $this->__('Tabs')));
+
+        //$fieldset->addField('conf_tab_home_label', 'text', array(
+        //    'name'      => 'conf_tab_home_label',
+        //    'label'     => $this->__('Home Tab Label'),
+        //));
+
+        $fieldset->addField('conf_tab_home_icon', 'text', array(
+            'name'      => 'conf_tab_home_icon',
+            'label'     => $this->__('Home Tab Icon'),
+        ));
+
+        //$fieldset->addField('conf_tab_shop_label', 'text', array(
+        //    'name'      => 'conf_tab_shop_label',
+        //    'label'     => $this->__('Shop Tab Label'),
+        //));
+
+        $fieldset->addField('conf_tab_shop_icon', 'text', array(
+            'name'      => 'conf_tab_shop_icon',
+            'label'     => $this->__('Shop Tab Icon'),
+        ));
+
+        //$fieldset->addField('conf_tab_search_label', 'text', array(
+        //    'name'      => 'conf_tab_search_label',
+        //    'label'     => $this->__('Search Tab Label'),
+        //));
+
+        $fieldset->addField('conf_tab_search_icon', 'text', array(
+            'name'      => 'conf_tab_search_icon',
+            'label'     => $this->__('Search Tab Icon'),
+        ));
+
+        //$fieldset->addField('conf_tab_cart_label', 'text', array(
+        //    'name'      => 'conf_tab_cart_label',
+        //    'label'     => $this->__('Cart Tab Label'),
+        //));
+
+        $fieldset->addField('conf_tab_cart_icon', 'text', array(
+            'name'      => 'conf_tab_cart_icon',
+            'label'     => $this->__('Cart Tab Icon'),
+        ));
+
+        //$fieldset->addField('conf_tab_more_label', 'text', array(
+        //    'name'      => 'conf_tab_more_label',
+        //    'label'     => $this->__('More Tab Label'),
+        //));
+
+        $fieldset->addField('conf_tab_more_icon', 'text', array(
+            'name'      => 'conf_tab_more_icon',
+            'label'     => $this->__('More Tab Icon'),
+        ));
+
+        /**
+         * Fieldset
+         */
+
+        $fieldset = $form->addFieldset('fonts', array('legend' => $this->__('Fonts')));
+
+        $fieldset->addField('conf_font_header', 'select', array(
+            'name'      => 'conf_font_header',
+            'label'     => $this->__('Header Font'),
+            'values'    => $this->_fontList(),
+        ));
+
+        $fieldset->addField('conf_font_header_size', 'text', array(
+            'name'      => 'conf_font_header_size',
+            'label'     => $this->__('Header Font Size'),
+        ));
+
+        $fieldset->addField('conf_font_tabbar', 'select', array(
+            'name'      => 'conf_font_tabbar',
+            'label'     => $this->__('Tabs Font'),
+            'values'    => $this->_fontList(),
+        ));
+
+        $fieldset->addField('conf_font_tabbar_size', 'text', array(
+            'name'      => 'conf_font_tabbar_size',
+            'label'     => $this->__('Tabs Font Size'),
+        ));
 
         $model = Mage::registry('current_app');
         $form->setValues($model->getData());

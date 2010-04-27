@@ -34,50 +34,63 @@
 
 class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
 {
-    protected function _toHtml()
+    protected $_conf = array();
+
+    protected function _beforeToHtml()
     {
         $app = Mage::registry('current_app');
-        $conf = array();
         if ($app) {
-            $conf = $app->prepareConfiguration();
+            $this->_conf = $app->prepareConfiguration();
         }
+        //var_dump($this->_conf); die();
+        return $this;
+    }
 
+    protected function _getConf($name, $defaultValue='') {
+        if (isset($this->_conf[$name])) {
+            return $this->_conf[$name];
+        }
+        return $defaultValue;
+    }
+
+    protected function _toHtml()
+    {
         $xml = new Varien_Simplexml_Element('<content></content>');
 
         $section = $xml->addChild('navigationBar');
         $section->addChild('tintColor', '#rrggbbaa'); // FIXME
-        $section->addChild('backgroundColor', '#rrggbbaa'); // FIXME
-        $section->addChild('icon', 'http://blah-blah/smallIcon.png'); // FIXME
+        $section->addChild('backgroundColor', $this->_getConf('color_header_background'));
+        $section->addChild('icon', $this->_getConf('logo_header_image'));
         $font = $section->addChild('font');
-            $font->addAttribute('name', 'Arial'); // FIXME
-            $font->addAttribute('size', '12.0'); // FIXME
-            $font->addAttribute('color', '#rrggbbaa'); // FIXME
+            $font->addAttribute('name', $this->_getConf('font_header', 'ArialMT'));
+            $font->addAttribute('size', $this->_getConf('font_header_size', '12.0'));
+            $font->addAttribute('color', $this->_getConf('color_header'));
 
         $section = $xml->addChild('tabBar');
         $section->addChild('tintColor', '#rrggbbaa'); // FIXME
         $section->addChild('backgroundColor', '#rrggbbaa'); // FIXME
         $font = $section->addChild('font');
-            $font->addAttribute('name', 'Arial'); // FIXME
-            $font->addAttribute('size', '12.0'); // FIXME
+            $font->addAttribute('name', $this->_getConf('font_tabbar', 'ArialMT'));
+            $font->addAttribute('size', $this->_getConf('font_tabbar_size', '12.0'));
             $font->addAttribute('color', '#rrggbbaa'); // FIXME
         $tab = $section->addChild('home');
-            $tab->addAttribute('icon', 'http://blah-blah/home.png'); // FIXME
-            $tab->addAttribute('title', 'Home'); // FIXME
+            $tab->addAttribute('icon', $this->_getConf('tab_home_icon'));
+            $tab->addAttribute('title', $this->_getConf('tab_home_label', 'Home'));
         $tab = $section->addChild('shop');
-            $tab->addAttribute('icon', 'http://blah-blah/browse.png'); // FIXME
-            $tab->addAttribute('title', 'Shop'); // FIXME
+            $tab->addAttribute('icon', $this->_getConf('tab_shop_icon'));
+            $tab->addAttribute('title', $this->_getConf('tab_shop_label', 'Shop'));
         $tab = $section->addChild('search');
-            $tab->addAttribute('icon', 'http://blah-blah/search.png'); // FIXME
-            $tab->addAttribute('title', 'Search'); // FIXME
+            $tab->addAttribute('icon', $this->_getConf('tab_search_icon'));
+            $tab->addAttribute('title', $this->_getConf('tab_search_label', 'Search'));
         $tab = $section->addChild('cart');
-            $tab->addAttribute('icon', 'http://blah-blah/cart.png'); // FIXME
-            $tab->addAttribute('title', 'Cart'); // FIXME
+            $tab->addAttribute('icon', $this->_getConf('tab_cart_icon'));
+            $tab->addAttribute('title', $this->_getConf('tab_cart_label', 'Cart'));
         $tab = $section->addChild('more');
-            $tab->addAttribute('icon', 'http://blah-blah/more.png'); // FIXME
-            $tab->addAttribute('title', 'More'); // FIXME
+            $tab->addAttribute('icon', $this->_getConf('tab_more_icon'));
+            $tab->addAttribute('title', $this->_getConf('tab_more_label', 'More'));
 
         $section = $xml->addChild('body');
-        $section->addChild('backgroundColor', '#rrggbbaa'); // FIXME
+        $section->addChild('backgroundColor', $this->_getConf('color_body'));
         $section->addChild('scrollBackgroundColor', '#rrggbbaa'); // FIXME
         $section->addChild('itemBackgroundIcon', 'http://blah-blah/catBG.png'); // FIXME
 
