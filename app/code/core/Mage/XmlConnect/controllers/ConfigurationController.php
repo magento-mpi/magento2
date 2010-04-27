@@ -59,15 +59,12 @@ class Mage_XmlConnect_ConfigurationController extends Mage_XmlConnect_Controller
      */
     public function indexAction()
     {
-        try { 
+        try {
             $app = $this->_initApp();
             $this->loadLayout(false);
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
-            //$this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-            // FIXME
-            $this->loadLayout(false);
-            $this->renderLayout();
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         } catch (Exception $e) {
             $this->_message($this->__('Cannot show configuration.'), self::MESSAGE_STATUS_ERROR);
         }

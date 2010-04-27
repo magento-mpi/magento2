@@ -40,11 +40,36 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $conf = array();
         $keys = array_keys($this->_data);
         foreach ($keys as $key) {
-            if (substr($key, 0, 5) == 'conf_') {
+            if (substr($key, 0, 5) == 'conf/') {
                 $conf[substr($key, 5)] = $this->_data[$key];
             }
         }
         return $conf;
+    }
+
+    /**
+     * Load pre-set application configuration
+     *
+     * @return array
+     */
+    public function loadDefaultConfiguration()
+    {
+        $conf = Mage::getStoreConfig('defaultConfiguration');
+        $conf = $this->_getFlatConfig($conf, 'conf/');
+        $this->_data += $conf;
+        return TRUE;
+    }
+
+    private function _getFlatConfig($config, $prefix='') {
+        $result = array();
+        foreach ($config as $key=>$value) {
+            if (is_scalar($value)) {
+                $result[$prefix.$key] = $value;
+            } else {
+                $result += $this->_getFlatConfig($value, $prefix.$key.'/');
+            }
+        }
+        return $result;
     }
 
     /**
@@ -69,7 +94,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $conf = unserialize($this->_data['configuration']);
             if (is_array($conf)) {
                 foreach($conf as $key=>$value) {
-                    $this->_data['conf_'.$key] = $value;
+                    $this->_data['conf/'.$key] = $value;
                 }
             }
         }

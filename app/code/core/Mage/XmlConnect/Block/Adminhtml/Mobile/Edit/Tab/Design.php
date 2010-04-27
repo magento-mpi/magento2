@@ -32,219 +32,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
         $this->setShowGlobalIcon(true);
     }
 
-    protected function _fontList()
-    {
-        return array(
-            array(
-                'value' => 'HiraKakuProN-W3',
-                'label' => 'HiraKakuProN-W3',
-            ),
-            array(
-                'value' => 'Courier',
-                'label' => 'Courier',
-            ),
-            array(
-                'value' => 'Courier-BoldOblique',
-                'label' => 'Courier-BoldOblique',
-            ),
-            array(
-                'value' => 'Courier-Oblique',
-                'label' => 'Courier-Oblique',
-            ),
-            array(
-                'value' => 'Courier-Bold',
-                'label' => 'Courier-Bold',
-            ),
-            array(
-                'value' => 'ArialMT',
-                'label' => 'ArialMT',
-            ),
-            array(
-                'value' => 'Arial-BoldMT',
-                'label' => 'Arial-BoldMT',
-            ),
-            array(
-                'value' => 'Arial-BoldItalicMT',
-                'label' => 'Arial-BoldItalicMT',
-            ),
-            array(
-                'value' => 'Arial-ItalicMT',
-                'label' => 'Arial-ItalicMT',
-            ),
-            array(
-                'value' => 'STHeitiTC-Light',
-                'label' => 'STHeitiTC-Light',
-            ),
-            array(
-                'value' => 'STHeitiTC-Medium',
-                'label' => 'STHeitiTC-Medium',
-            ),
-            array(
-                'value' => 'AppleGothic',
-                'label' => 'AppleGothic',
-            ),
-            array(
-                'value' => 'CourierNewPS-BoldMT',
-                'label' => 'CourierNewPS-BoldMT',
-            ),
-            array(
-                'value' => 'CourierNewPS-ItalicMT',
-                'label' => 'CourierNewPS-ItalicMT',
-            ),
-            array(
-                'value' => 'CourierNewPS-BoldItalicMT',
-                'label' => 'CourierNewPS-BoldItalicMT',
-            ),
-            array(
-                'value' => 'CourierNewPSMT',
-                'label' => 'CourierNewPSMT',
-            ),
-            array(
-                'value' => 'Zapfino',
-                'label' => 'Zapfino',
-            ),
-            array(
-                'value' => 'HiraKakuProN-W6',
-                'label' => 'HiraKakuProN-W6',
-            ),
-            array(
-                'value' => 'ArialUnicodeMS',
-                'label' => 'ArialUnicodeMS',
-            ),
-            array(
-                'value' => 'STHeitiSC-Medium',
-                'label' => 'STHeitiSC-Medium',
-            ),
-            array(
-                'value' => 'STHeitiSC-Light',
-                'label' => 'STHeitiSC-Light',
-            ),
-            array(
-                'value' => 'AmericanTypewriter',
-                'label' => 'AmericanTypewriter',
-            ),
-            array(
-                'value' => 'AmericanTypewriter-Bold',
-                'label' => 'AmericanTypewriter-Bold',
-            ),
-            array(
-                'value' => 'Helvetica-Oblique',
-                'label' => 'Helvetica-Oblique',
-            ),
-            array(
-                'value' => 'Helvetica-BoldOblique',
-                'label' => 'Helvetica-BoldOblique',
-            ),
-            array(
-                'value' => 'Helvetica',
-                'label' => 'Helvetica',
-            ),
-            array(
-                'value' => 'Helvetica-Bold',
-                'label' => 'Helvetica-Bold',
-            ),
-            array(
-                'value' => 'MarkerFelt-Thin',
-                'label' => 'MarkerFelt-Thin',
-            ),
-            array(
-                'value' => 'HelveticaNeue',
-                'label' => 'HelveticaNeue',
-            ),
-            array(
-                'value' => 'HelveticaNeue-Bold',
-                'label' => 'HelveticaNeue-Bold',
-            ),
-            array(
-                'value' => 'DBLCDTempBlack',
-                'label' => 'DBLCDTempBlack',
-            ),
-            array(
-                'value' => 'Verdana-Bold',
-                'label' => 'Verdana-Bold',
-            ),
-            array(
-                'value' => 'Verdana-BoldItalic',
-                'label' => 'Verdana-BoldItalic',
-            ),
-            array(
-                'value' => 'Verdana',
-                'label' => 'Verdana',
-            ),
-            array(
-                'value' => 'Verdana-Italic',
-                'label' => 'Verdana-Italic',
-            ),
-            array(
-                'value' => 'TimesNewRomanPSMT',
-                'label' => 'TimesNewRomanPSMT',
-            ),
-            array(
-                'value' => 'TimesNewRomanPS-BoldMT',
-                'label' => 'TimesNewRomanPS-BoldMT',
-            ),
-            array(
-                'value' => 'TimesNewRomanPS-BoldItalicMT',
-                'label' => 'TimesNewRomanPS-BoldItalicMT',
-            ),
-            array(
-                'value' => 'TimesNewRomanPS-ItalicMT',
-                'label' => 'TimesNewRomanPS-ItalicMT',
-            ),
-            array(
-                'value' => 'Georgia-Bold',
-                'label' => 'Georgia-Bold',
-            ),
-            array(
-                'value' => 'Georgia',
-                'label' => 'Georgia',
-            ),
-            array(
-                'value' => 'Georgia-BoldItalic',
-                'label' => 'Georgia-BoldItalic',
-            ),
-            array(
-                'value' => 'Georgia-Italic',
-                'label' => 'Georgia-Italic',
-            ),
-            array(
-                'value' => 'STHeitiJ-Medium',
-                'label' => 'STHeitiJ-Medium',
-            ),
-            array(
-                'value' => 'STHeitiJ-Light',
-                'label' => 'STHeitiJ-Light',
-            ),
-            array(
-                'value' => 'ArialRoundedMTBold',
-                'label' => 'ArialRoundedMTBold',
-            ),
-            array(
-                'value' => 'TrebuchetMS-Italic',
-                'label' => 'TrebuchetMS-Italic',
-            ),
-            array(
-                'value' => 'TrebuchetMS',
-                'label' => 'TrebuchetMS',
-            ),
-            array(
-                'value' => 'Trebuchet-BoldItalic',
-                'label' => 'Trebuchet-BoldItalic',
-            ),
-            array(
-                'value' => 'TrebuchetMS-Bold',
-                'label' => 'TrebuchetMS-Bold',
-            ),
-            array(
-                'value' => 'STHeitiK-Medium',
-                'label' => 'STHeitiK-Medium',
-            ),
-            array(
-                'value' => 'STHeitiK-Light',
-                'label' => 'STHeitiK-Light',
-            ),
-        );
-    }
 
     protected function _prepareForm()
     {
@@ -254,147 +41,125 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
          * Fieldset
          */
 
-        $fieldset = $form->addFieldset('logo', array('legend' => $this->__('Logo')));
+        $fieldset = $form->addFieldset('navigationBar', array('legend' => $this->__('Navigation Bar')));
 
-        $fieldset->addField('conf_logo_header_image', 'text', array(
-            'name'      => 'conf_logo_header_image',
-            'label'     => $this->__('Header Logo Image'),
+        $fieldset->addField('conf/navigationBar/tintColor', 'text', array(
+            'name'      => 'conf/navigationBar/tintColor',
+            'label'     => $this->__('Tint Color'),
         ));
 
-        $fieldset->addField('conf_logo_header_position', 'select', array(
-            'name'      => 'conf_logo_header_position',
-            'label'     => $this->__('Header Logo Position'),
-            'values'    => array(
-                array(
-                    'value' => 'above',
-                    'label' => $this->__('Above screen title'),
-                ),
-            ),
+        $fieldset->addField('conf/navigationBar/backgroundColor', 'text', array(
+            'name'      => 'conf/navigationBar/backgroundColor',
+            'label'     => $this->__('Background Color'),
         ));
 
-        $fieldset->addField('conf_logo_body_image', 'text', array(
-            'name'      => 'conf_logo_body_image',
-            'label'     => $this->__('Body Logo Image'),
+        $fieldset->addField('conf/navigationBar/icon', 'text', array(
+            'name'      => 'conf/navigationBar/icon',
+            'label'     => $this->__('Icon'),
         ));
 
-        /**
-         * Fieldset
-         */
-
-        $fieldset = $form->addFieldset('color', array('legend' => $this->__('Color Themes')));
-
-        $fieldset->addField('conf_color_header_background', 'text', array(
-            'name'      => 'conf_color_header_background',
-            'label'     => $this->__('Header Background Color'),
+        $fieldset->addField('conf/navigationBar/font/name', 'select', array(
+            'name'      => 'conf/navigationBar/font/name',
+            'label'     => $this->__('Font Name'),
+            'values'    => Mage::helper('xmlconnect')->getFontList(),
         ));
 
-        $fieldset->addField('conf_color_header', 'text', array(
-            'name'      => 'conf_color_header',
-            'label'     => $this->__('Header Text'),
+        $fieldset->addField('conf/navigationBar/font/size', 'text', array(
+            'name'      => 'conf/navigationBar/font/size',
+            'label'     => $this->__('Font Size'),
         ));
 
-        $fieldset->addField('conf_color_primary', 'text', array(
-            'name'      => 'conf_color_primary',
-            'label'     => $this->__('Primary'),
-        ));
-
-        $fieldset->addField('conf_color_secondary', 'text', array(
-            'name'      => 'conf_color_secondary',
-            'label'     => $this->__('Secondary'),
-        ));
-
-        $fieldset->addField('conf_color_body', 'text', array(
-            'name'      => 'conf_color_body',
-            'label'     => $this->__('Body Text'),
-        ));
-
-        $fieldset->addField('conf_color_price', 'text', array(
-            'name'      => 'conf_color_price',
-            'label'     => $this->__('Price Text'),
+        $fieldset->addField('conf/navigationBar/font/color', 'text', array(
+            'name'      => 'conf/navigationBar/font/color',
+            'label'     => $this->__('Font Color'),
         ));
 
         /**
          * Fieldset
          */
 
-        $fieldset = $form->addFieldset('tabs', array('legend' => $this->__('Tabs')));
+        $fieldset = $form->addFieldset('tabBar', array('legend' => $this->__('Tab Bar')));
 
-        //$fieldset->addField('conf_tab_home_label', 'text', array(
-        //    'name'      => 'conf_tab_home_label',
-        //    'label'     => $this->__('Home Tab Label'),
-        //));
+        $fieldset->addField('conf/tabBar/backgroundColor', 'text', array(
+            'name'      => 'conf/tabBar/backgroundColor',
+            'label'     => $this->__('Background Color'),
+        ));
 
-        $fieldset->addField('conf_tab_home_icon', 'text', array(
-            'name'      => 'conf_tab_home_icon',
+        $fieldset->addField('conf/tabBar/font/name', 'select', array(
+            'name'      => 'conf/tabBar/font/name',
+            'label'     => $this->__('Font Name'),
+            'values'    => Mage::helper('xmlconnect')->getFontList(),
+        ));
+
+        $fieldset->addField('conf/tabBar/home/icon', 'text', array(
+            'name'      => 'conf/tabBar/home/icon',
             'label'     => $this->__('Home Tab Icon'),
         ));
 
-        //$fieldset->addField('conf_tab_shop_label', 'text', array(
-        //    'name'      => 'conf_tab_shop_label',
-        //    'label'     => $this->__('Shop Tab Label'),
-        //));
+        $fieldset->addField('conf/tabBar/home/title', 'text', array(
+            'name'      => 'conf/tabBar/home/title',
+            'label'     => $this->__('Home Tab Title'),
+        ));
 
-        $fieldset->addField('conf_tab_shop_icon', 'text', array(
-            'name'      => 'conf_tab_shop_icon',
+        $fieldset->addField('conf/tabBar/shop/icon', 'text', array(
+            'name'      => 'conf/tabBar/shop/icon',
             'label'     => $this->__('Shop Tab Icon'),
         ));
 
-        //$fieldset->addField('conf_tab_search_label', 'text', array(
-        //    'name'      => 'conf_tab_search_label',
-        //    'label'     => $this->__('Search Tab Label'),
-        //));
-
-        $fieldset->addField('conf_tab_search_icon', 'text', array(
-            'name'      => 'conf_tab_search_icon',
-            'label'     => $this->__('Search Tab Icon'),
+        $fieldset->addField('conf/tabBar/shop/title', 'text', array(
+            'name'      => 'conf/tabBar/shop/title',
+            'label'     => $this->__('Shop Tab Title'),
         ));
 
-        //$fieldset->addField('conf_tab_cart_label', 'text', array(
-        //    'name'      => 'conf_tab_cart_label',
-        //    'label'     => $this->__('Cart Tab Label'),
-        //));
-
-        $fieldset->addField('conf_tab_cart_icon', 'text', array(
-            'name'      => 'conf_tab_cart_icon',
+        $fieldset->addField('conf/tabBar/cart/icon', 'text', array(
+            'name'      => 'conf/tabBar/cart/icon',
             'label'     => $this->__('Cart Tab Icon'),
         ));
 
-        //$fieldset->addField('conf_tab_more_label', 'text', array(
-        //    'name'      => 'conf_tab_more_label',
-        //    'label'     => $this->__('More Tab Label'),
-        //));
+        $fieldset->addField('conf/tabBar/cart/title', 'text', array(
+            'name'      => 'conf/tabBar/cart/title',
+            'label'     => $this->__('Cart Tab Title'),
+        ));
 
-        $fieldset->addField('conf_tab_more_icon', 'text', array(
-            'name'      => 'conf_tab_more_icon',
+        $fieldset->addField('conf/tabBar/search/icon', 'text', array(
+            'name'      => 'conf/tabBar/search/icon',
+            'label'     => $this->__('Search Tab Icon'),
+        ));
+
+        $fieldset->addField('conf/tabBar/search/title', 'text', array(
+            'name'      => 'conf/tabBar/search/title',
+            'label'     => $this->__('Search Tab Title'),
+        ));
+
+        $fieldset->addField('conf/tabBar/more/icon', 'text', array(
+            'name'      => 'conf/tabBar/more/icon',
             'label'     => $this->__('More Tab Icon'),
+        ));
+
+        $fieldset->addField('conf/tabBar/more/title', 'text', array(
+            'name'      => 'conf/tabBar/more/title',
+            'label'     => $this->__('More Tab Title'),
         ));
 
         /**
          * Fieldset
          */
 
-        $fieldset = $form->addFieldset('fonts', array('legend' => $this->__('Fonts')));
+        $fieldset = $form->addFieldset('bodyPart', array('legend' => $this->__('Body')));
 
-        $fieldset->addField('conf_font_header', 'select', array(
-            'name'      => 'conf_font_header',
-            'label'     => $this->__('Header Font'),
-            'values'    => $this->_fontList(),
+        $fieldset->addField('conf/body/backgroundColor', 'text', array(
+            'name'      => 'conf/body/backgroundColor',
+            'label'     => $this->__('Background Color'),
         ));
 
-        $fieldset->addField('conf_font_header_size', 'text', array(
-            'name'      => 'conf_font_header_size',
-            'label'     => $this->__('Header Font Size'),
+        $fieldset->addField('conf/body/scrollBackgroundColor', 'text', array(
+            'name'      => 'conf/body/scrollBackgroundColor',
+            'label'     => $this->__('Scroll Background Color'),
         ));
 
-        $fieldset->addField('conf_font_tabbar', 'select', array(
-            'name'      => 'conf_font_tabbar',
-            'label'     => $this->__('Tabs Font'),
-            'values'    => $this->_fontList(),
-        ));
-
-        $fieldset->addField('conf_font_tabbar_size', 'text', array(
-            'name'      => 'conf_font_tabbar_size',
-            'label'     => $this->__('Tabs Font Size'),
+        $fieldset->addField('conf/body/itemBackgroundIcon', 'text', array(
+            'name'      => 'conf/body/itemBackgroundIcon',
+            'label'     => $this->__('Item Background'),
         ));
 
         $model = Mage::registry('current_app');

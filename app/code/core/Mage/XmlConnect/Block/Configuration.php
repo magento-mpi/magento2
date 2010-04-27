@@ -34,66 +34,56 @@
 
 class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
 {
-    protected $_conf = array();
+    protected $_app;
 
     protected function _beforeToHtml()
     {
         $app = Mage::registry('current_app');
         if ($app) {
-            $this->_conf = $app->prepareConfiguration();
+            $this->_app = $app;
+        } else {
+            $this->_app = Mage::getModel('xmlconnect/application');
+            $this->_app->loadDefaultConfiguration();
         }
-        //var_dump($this->_conf); die();
         return $this;
     }
 
-    protected function _getConf($name, $defaultValue='') {
-        if (isset($this->_conf[$name])) {
-            return $this->_conf[$name];
-        }
-        return $defaultValue;
+    protected function _getConf($path) {
+        return $this->_app['conf/'.$path];
     }
 
     protected function _toHtml()
     {
         $xml = new Varien_Simplexml_Element('<configuration></configuration>');
-
-        $section = $xml->addChild('navigationBar');
-        $section->addChild('tintColor', '#363d40'); // FIXME
-        $section->addChild('backgroundColor', $this->_getConf('color_header_background', '#000000'));
-        $section->addChild('icon', $this->_getConf('logo_header_image', 'http://kse.org.ua/1/smallIcon.png'));
-        $font = $section->addChild('font');
-            $font->addAttribute('name', $this->_getConf('font_header', 'Arial-BoldMT'));
-            $font->addAttribute('size', $this->_getConf('font_header_size', '12'));
-            $font->addAttribute('color', $this->_getConf('color_header', '#f3f3f3ff'));
-
-        $section = $xml->addChild('tabBar');
-        $section->addChild('tintColor', '#363d40'); // FIXME
-        $section->addChild('backgroundColor', '#000000'); // FIXME
-        $font = $section->addChild('font');
-            $font->addAttribute('name', $this->_getConf('font_tabbar', 'ArialMT'));
-            $font->addAttribute('size', $this->_getConf('font_tabbar_size', '9'));
-            $font->addAttribute('color', '#ffffff'); // FIXME
-        $tab = $section->addChild('home');
-            $tab->addAttribute('icon', $this->_getConf('tab_home_icon', 'http://kse.org.ua/1/home.png'));
-            $tab->addAttribute('title', $this->_getConf('tab_home_label', 'Home'));
-        $tab = $section->addChild('shop');
-            $tab->addAttribute('icon', $this->_getConf('tab_shop_icon', 'http://kse.org.ua/1/browse.png'));
-            $tab->addAttribute('title', $this->_getConf('tab_shop_label', 'Shop'));
-        $tab = $section->addChild('search');
-            $tab->addAttribute('icon', $this->_getConf('tab_search_icon', 'http://kse.org.ua/1/search.png'));
-            $tab->addAttribute('title', $this->_getConf('tab_search_label', 'Search'));
-        $tab = $section->addChild('cart');
-            $tab->addAttribute('icon', $this->_getConf('tab_cart_icon', 'http://kse.org.ua/1/cart.png'));
-            $tab->addAttribute('title', $this->_getConf('tab_cart_label', 'Cart'));
-        $tab = $section->addChild('more');
-            $tab->addAttribute('icon', $this->_getConf('tab_more_icon', 'http://kse.org.ua/1/more.png'));
-            $tab->addAttribute('title', $this->_getConf('tab_more_label', 'More'));
-
-        $section = $xml->addChild('body');
-        $section->addChild('backgroundColor', $this->_getConf('color_body', '#777777'));
-        $section->addChild('scrollBackgroundColor', '#dddddd'); // FIXME
-        $section->addChild('itemBackgroundIcon', 'http://kse.org.ua/1/catBG.png'); // FIXME
-
+            $section = $xml->addChild('navigationBar');
+                $section->addChild('tintColor', $this->_getConf('navigationBar/tintColor'));
+                $section->addChild('backgroundColor', $this->_getConf('navigationBar/backgroundColor'));
+                $section->addChild('icon', $this->_getConf('navigationBar/icon'));
+                $font = $section->addChild('font');
+                    $font->addAttribute('name', $this->_getConf('navigationBar/font/name'));
+                    $font->addAttribute('size', $this->_getConf('navigationBar/font/size'));
+                    $font->addAttribute('color', $this->_getConf('navigationBar/font/color'));
+            $section = $xml->addChild('tabBar');
+                $section->addChild('backgroundColor', $this->_getConf('tabBar/backgroundColor'));
+                $tab = $section->addChild('home');
+                    $tab->addAttribute('icon', $this->_getConf('tabBar/home/icon'));
+                    $tab->addAttribute('title', $this->_getConf('tabBar/home/title'));
+                $tab = $section->addChild('shop');
+                    $tab->addAttribute('icon', $this->_getConf('tabBar/shop/icon'));
+                    $tab->addAttribute('title', $this->_getConf('tabBar/shop/title'));
+                $tab = $section->addChild('cart');
+                    $tab->addAttribute('icon', $this->_getConf('tabBar/cart/icon'));
+                    $tab->addAttribute('title', $this->_getConf('tabBar/cart/title'));
+                $tab = $section->addChild('search');
+                    $tab->addAttribute('icon', $this->_getConf('tabBar/search/icon'));
+                    $tab->addAttribute('title', $this->_getConf('tabBar/search/title'));
+                $tab = $section->addChild('more');
+                    $tab->addAttribute('icon', $this->_getConf('tabBar/more/icon'));
+                    $tab->addAttribute('title', $this->_getConf('tabBar/more/title'));
+            $section = $xml->addChild('body');
+                $section->addChild('backgroundColor', $this->_getConf('body/backgroundColor'));
+                $section->addChild('scrollBackgroundColor', $this->_getConf('body/scrollBackgroundColor'));
+                $section->addChild('itemBackgroundIcon', $this->_getConf('body/itemBackgroundIcon'));
         return $xml->asNiceXml();
     }
 }

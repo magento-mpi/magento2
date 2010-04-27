@@ -94,7 +94,7 @@
                 </Mage_XmlConnect>
             </modules>
         </translate>
-    </adminhtml>    
+    </adminhtml>
     <frontend>
         <routers>
             <xmlconnect>
@@ -122,4 +122,46 @@
             </modules>
         </translate>
     </frontend>
+    <default>
+        <defaultConfiguration>
+            <navigationBar>
+                <tintColor>#363d40</tintColor>
+                <backgroundColor>#000000</backgroundColor>
+                <icon>http://kse.org.ua/1/smallIcon.png</icon>
+                <font>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </font>
+            </navigationBar>
+            <tabBar>
+                <backgroundColor>#000000</backgroundColor>
+                <home>
+                    <icon>http://kse.org.ua/1/home.png</icon>
+                    <title>Home</title>
+                </home>
+                <shop>
+                    <icon>http://kse.org.ua/1/browse.png</icon>
+                    <title>Shop</title>
+                </shop>
+                <cart>
+                    <icon>http://kse.org.ua/1/cart.png</icon>
+                    <title>Cart</title>
+                </cart>
+                <search>
+                    <icon>http://kse.org.ua/1/search.png</icon>
+                    <title>Search</title>
+                </search>
+                <more>
+                    <icon>http://kse.org.ua/1/more.png</icon>
+                    <title>More</title>
+                </more>
+            </tabBar>
+            <body>
+                <backgroundColor>#777777</backgroundColor>
+                <scrollBackgroundColor>#dddddd</scrollBackgroundColor>
+                <itemBackgroundIcon>http://kse.org.ua/1/catBG.png</itemBackgroundIcon>
+            </body>
+        </defaultConfiguration>
+    </default>
 </config>
