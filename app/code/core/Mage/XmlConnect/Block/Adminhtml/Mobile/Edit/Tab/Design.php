@@ -87,12 +87,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
             'label'     => $this->__('Background Color'),
         ));
 
-        $fieldset->addField('conf/tabBar/font/name', 'select', array(
-            'name'      => 'conf/tabBar/font/name',
-            'label'     => $this->__('Font Name'),
-            'values'    => Mage::helper('xmlconnect')->getFontList(),
-        ));
-
         $fieldset->addField('conf/tabBar/home/icon', 'image', array(
             'name'      => 'conf/tabBar/home/icon',
             'label'     => $this->__('Home Tab Icon'),
