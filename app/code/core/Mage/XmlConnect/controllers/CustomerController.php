@@ -396,22 +396,6 @@ EOT;
     }
 
     /**
-     * Create customer address form
-     */
-    public function addressFormAction()
-    {
-
-    }
-
-    /**
-     * Save customer address
-     */
-    public function addressSaveAction()
-    {
-
-    }
-
-    /**
      * Send new password to customer by specified email
      */
     public function forgotPasswordAction()
@@ -448,6 +432,342 @@ EOT;
         }
         else {
             $this->_message($this->__('Customer email not specified.'), self::MESSAGE_STATUS_ERROR);
+        }
+    }
+
+    /**
+     * Customer addresses list
+     */
+    public function addressAction()
+    {
+        if (!$this->_getSession()->isLoggedIn()) {
+            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            return ;
+        }
+
+        if (count($this->_getSession()->getCustomer()->getAddresses())) {
+            $this->loadLayout(false);
+            $this->renderLayout();
+        }
+        else {
+            $message = new Varien_Simplexml_Element('<message></message>');
+            $message->addChild('status', self::MESSAGE_STATUS_ERROR);
+            $message->addChild('is_empty_address_book', 1);
+            $this->getResponse()->setBody($message->asNiceXml());
+        }
+    }
+
+    /**
+     * Retrieve regions by country
+     *
+     * @param string $countryId
+     * @return array
+     */
+    protected function _getRegionOptions($countryId)
+    {
+        $cacheKey = 'DIRECTORY_REGION_SELECT_STORE'.Mage::app()->getStore()->getId();
+        if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
+            $options = unserialize($cache);
+        }
+        else {
+            $collection = Mage::getModel('directory/region')->getResourceCollection()
+                ->addCountryFilter($countryId)
+                ->load();
+            $options = $collection->toOptionArray();
+            if (Mage::app()->useCache('config')) {
+                Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
+            }
+        }
+        return $options;
+    }
+
+    /**
+     * Retrieve countries
+     *
+     * @return array
+     */
+    protected function _getCountryOptions()
+    {
+        $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_'.Mage::app()->getStore()->getCode();
+        if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
+            $options = unserialize($cache);
+        }
+        else {
+            $collection = Mage::getModel('directory/country')->getResourceCollection()
+                ->loadByStore();
+            $options = $collection->toOptionArray();
+            if (Mage::app()->useCache('config')) {
+                Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
+            }
+        }
+        return $options;
+    }
+
+    /**
+     * Customer add address form
+     */
+    public function addressFormAction()
+    {
+        if (!$this->_getSession()->isLoggedIn()) {
+            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            return ;
+        }
+
+        $xmlModel   = new Varien_Simplexml_Element('<node></node>');
+        $countryId = Mage::getStoreConfig('general/country/default');
+        $countries = $this->_getCountryOptions();
+
+        $regions = array();
+        $countryOptionsXml = '<values>';
+        if (is_array($countries)) {
+            foreach ($countries as $key => $data) {
+                if ($data['value']) {
+                    $regions = $this->_getRegionOptions($data['value']);
+                }
+                $countryOptionsXml .= '
+                <item relation="' . (is_array($regions) && !empty($regions) ? 'region_id' : 'region') . '"' . ($countryId == $data['value'] ? ' selected="1"' : '') . '>
+                    <label>' . $xmlModel->xmlentities((string)$data['label']) . '</label>
+                    <value>' . $xmlModel->xmlentities($data['value']) . '</value>';
+                if (is_array($regions) && !empty($regions)) {
+                    $countryOptionsXml .= '<regions>';
+                    foreach ($regions as $_key => $_data){
+                        $countryOptionsXml .= '<region_item>';
+                        $countryOptionsXml .=
+                            '<label>' . $xmlModel->xmlentities((string)$_data['label']) . '</label>
+                             <value>' . $xmlModel->xmlentities($_data['value']) . '</value>';
+                        $countryOptionsXml .= '</region_item>';
+                    }
+                    $countryOptionsXml .= '</regions>';
+                }
+                $countryOptionsXml .= '</item>';
+            }
+        }
+        $countryOptionsXml .= '</values>';
+
+        $xml = <<<EOT
+<?xml version="1.0"?>
+<form name="address_form" method="post">
+    <fieldset legend="Contact Information">
+        <field name="firstname" type="text" label="First Name" required="true">
+            <validators>
+                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+            </validators>
+        </field>
+        <field name="lastname" type="text" label="Last Name" required="true">
+            <validators>
+                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+            </validators>
+        </field>
+        <field name="company" type="text" label="Company" />
+        <field name="telephone" type="text" label="Telephone" required="true" />
+        <field name="fax" type="text" label="Fax" />
+    </fieldset>
+    <fieldset legend="Address">
+        <field name="street[]" type="text" label="Street Address" required="true" />
+        <field name="street[]" type="text" />
+        <field name="city" type="text" label="City" required="true" />
+        <field name="region" type="text" label="State/Province" />
+        <field name="region_id" type="select" label="State/Province" required="true" />
+        <field name="postcode" type="text" label="Zip/Postal Code" required="true" />
+        <field name="country_id" type="select" label="Country" required="true">
+            $countryOptionsXml
+        </field>
+        <field name="default_billing" type="checkbox" label="Use as my default billing address"/>
+        <field name="default_shipping" type="checkbox" label="Use as my default shipping address"/>
+    </fieldset>
+</form>
+EOT;
+        $this->getResponse()->setBody($xml);
+    }
+
+    /**
+     * Customer edit address form
+     */
+    public function editAddressAction()
+    {
+        if (!$this->_getSession()->isLoggedIn()) {
+            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            return ;
+        }
+
+        $address = Mage::getModel('customer/address');
+        // Init address object
+        if ($id = $this->getRequest()->getParam('id')) {
+            $address->load($id);
+            if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {
+                $this->_message($this->__('Specified address does not exist.'), self::MESSAGE_STATUS_ERROR);
+                return ;
+            }
+        }
+
+        $collection = Mage::getModel('directory/country')->getResourceCollection()
+            ->loadByStore();
+
+        $xmlModel   = new Varien_Simplexml_Element('<node></node>');
+        $firstname  = $xmlModel->xmlentities(strip_tags($address->getFirstname()));
+        $lastname   = $xmlModel->xmlentities(strip_tags($address->getLastname()));
+        $company    = $xmlModel->xmlentities(strip_tags($address->getCompany()));
+        $street1    = $xmlModel->xmlentities(strip_tags($address->getStreet(1)));
+        $street2    = $xmlModel->xmlentities(strip_tags($address->getStreet(2)));
+        $city       = $xmlModel->xmlentities(strip_tags($address->getCity()));
+        $regionId   = $xmlModel->xmlentities($address->getRegionId());
+        $region     = $xmlModel->xmlentities(strip_tags(Mage::getModel('directory/region')->load($regionId)->getName()));
+        $postcode   = $xmlModel->xmlentities(strip_tags($address->getPostcode()));
+        $countryId    = $xmlModel->xmlentities($address->getCountryId());
+        $fax        = $xmlModel->xmlentities(strip_tags($address->getTelephone()));
+        $telephone  = $xmlModel->xmlentities(strip_tags($address->getFax()));
+
+        $countries = $this->_getCountryOptions();
+
+        $regions = array();
+        $countryOptionsXml = '<values>';
+        if (is_array($countries)) {
+            foreach ($countries as $key => $data) {
+                if ($data['value']) {
+                    $regions = $this->_getRegionOptions($data['value']);
+                }
+                $countryOptionsXml .= '
+                <item relation="' . (is_array($regions) && !empty($regions) ? 'region_id' : 'region') . '"' . ($countryId == $data['value'] ? ' selected="1"' : '') . '>
+                    <label>' . $xmlModel->xmlentities((string)$data['label']) . '</label>
+                    <value>' . $xmlModel->xmlentities($data['value']) . '</value>';
+                if (is_array($regions) && !empty($regions)) {
+                    $countryOptionsXml .= '<regions>';
+                    foreach ($regions as $_key => $_data){
+                        $countryOptionsXml .= '<region_item' . ($regionId == $_data['value'] ? ' selected="1"' : '') . '>';
+                        $countryOptionsXml .=
+                            '<label>' . $xmlModel->xmlentities((string)$_data['label']) . '</label>
+                             <value>' . $xmlModel->xmlentities($_data['value']) . '</value>';
+                        $countryOptionsXml .= '</region_item>';
+                    }
+                    $countryOptionsXml .= '</regions>';
+                }
+                $countryOptionsXml .= '</item>';
+            }
+        }
+        $countryOptionsXml .= '</values>';
+
+        $xml = <<<EOT
+<?xml version="1.0"?>
+<form name="address_form" method="post">
+    <fieldset legend="Contact Information">
+        <field name="firstname" type="text" label="First Name" required="true" value="$firstname">
+            <validators>
+                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+            </validators>
+        </field>
+        <field name="lastname" type="text" label="Last Name" required="true" value="$lastname">
+            <validators>
+                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+            </validators>
+        </field>
+        <field name="company" type="text" label="Company" value="$company" />
+        <field name="telephone" type="text" label="Telephone" required="true" value="$telephone" />
+        <field name="fax" type="text" label="Fax" value="$fax" />
+    </fieldset>
+    <fieldset legend="Address">
+        <field name="street[]" type="text" label="Street Address" required="true" value="$street1" />
+        <field name="street[]" type="text" value="$street2" />
+        <field name="city" type="text" label="City" required="true" value="$city" />
+        <field name="region" type="text" label="State/Province" value="$region" />
+        <field name="region_id" type="select" label="State/Province" required="true" />
+        <field name="postcode" type="text" label="Zip/Postal Code" required="true" value="$postcode" />
+        <field name="country_id" type="select" label="Country" required="true">
+            $countryOptionsXml
+        </field>
+        <field name="default_billing" type="checkbox" label="Use as my default billing address"/>
+        <field name="default_shipping" type="checkbox" label="Use as my default shipping address"/>
+    </fieldset>
+</form>
+EOT;
+        $this->getResponse()->setBody($xml);
+    }
+
+    /**
+     * Remove customer address
+     */
+    public function deleteAddressAction()
+    {
+        if (!$this->_getSession()->isLoggedIn()) {
+            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            return ;
+        }
+
+        $addressId = $this->getRequest()->getParam('id', false);
+
+        if ($addressId) {
+            $address = Mage::getModel('customer/address')->load($addressId);
+
+            // Validate address_id <=> customer_id
+            if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {
+                $this->_message($this->__('The address does not belong to this customer.'), self::MESSAGE_STATUS_ERROR);
+                return;
+            }
+
+            try {
+                $address->delete();
+                $this->_message($this->__('The address has been deleted.'), self::MESSAGE_STATUS_SUCCESS);
+            }
+            catch (Exception $e){
+                $this->_message($this->__('An error occurred while deleting the address.'), self::MESSAGE_STATUS_ERROR);
+            }
+        }
+    }
+
+    /**
+     * Add/Save customer address
+     */
+    public function saveAddressAction()
+    {
+        if (!$this->_getSession()->isLoggedIn()) {
+            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            return ;
+        }
+
+        // Save data
+        if ($this->getRequest()->isPost()) {
+            $address = Mage::getModel('customer/address')
+                ->setData($this->getRequest()->getPost())
+                ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
+                ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
+            $addressId = $this->getRequest()->getParam('id');
+            if ($addressId) {
+                $customerAddress = $this->_getSession()->getCustomer()->getAddressById($addressId);
+                if ($customerAddress->getId() && $customerAddress->getCustomerId() == $this->_getSession()->getCustomerId()) {
+                    $address->setId($addressId);
+                }
+                else {
+                    $address->setId(null);
+                }
+            }
+            else {
+                $address->setId(null);
+            }
+            try {
+                $accressValidation = $address->validate();
+                if (true === $accressValidation) {
+                    $address->save();
+                    $this->_message($this->__('The address has been saved.'), self::MESSAGE_STATUS_SUCCESS);
+                    return;
+                }
+                else {
+                    if (is_array($accressValidation)) {
+                        $this->_message(implode('. ', $accressValidation), self::MESSAGE_STATUS_ERROR);
+                    }
+                    else {
+                        $this->_message($this->__('Cannot save address.'), self::MESSAGE_STATUS_ERROR);
+                    }
+                }
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+            }
+            catch (Exception $e) {
+                $this->_message($this->__('Cannot save address.'), self::MESSAGE_STATUS_ERROR);
+            }
+        }
+        else {
+            $this->_message($this->__('Adddress data not specified.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 

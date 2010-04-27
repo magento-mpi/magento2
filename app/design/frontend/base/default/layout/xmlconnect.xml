@@ -111,6 +111,10 @@
         <block type="xmlconnect/wishlist" name="xmlconnect.wishlist" output="toHtml"/>
     </xmlconnect_wishlist_index>
 
+    <xmlconnect_customer_address>
+        <block type="xmlconnect/customer_address_list" name="xmlconnect.customer.address.list" output="toHtml"/>
+    </xmlconnect_customer_address>
+
     <!-- Configuration -->
 
     <xmlconnect_configuration_index>

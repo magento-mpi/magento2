@@ -43,6 +43,7 @@ class Mage_XmlConnect_Model_Mysql4_Category_Collection
     protected function _beforeLoad()
     {
         $this->addNameToResult();
+        $this->addAttributeToSelect('image');
         $this->addIsActiveFilter();
         return parent::_beforeLoad();
     }
