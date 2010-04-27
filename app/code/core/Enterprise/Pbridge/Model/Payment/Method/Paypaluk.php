@@ -207,6 +207,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Enterprise_Enterp
     public function authorize(Varien_Object $payment, $amount)
     {
         $result = new Varien_Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
+        $order = $payment->getOrder();
+        $result->setEmail($order->getCustomerEmail());
         $this->_importResultToPayment($result, $payment);
         return $this;
     }
@@ -252,7 +254,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Enterprise_Enterp
     /**
      * Import direct payment results to payment
      *
-     * @param Mage_Paypal_Model_Api_Nvp
+     * @param Varien_Object
      * @param Mage_Sales_Model_Order_Payment
      */
     protected function _importResultToPayment($api, $payment)
@@ -263,6 +265,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Enterprise_Enterp
             'Payflow PNREF: #%s.',
             $api->getData(Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro::TRANSPORT_PAYFLOW_TXN_ID)
         ));
+
         Mage::getModel($this->_infoType)->importToPayment($api, $payment);
     }
 

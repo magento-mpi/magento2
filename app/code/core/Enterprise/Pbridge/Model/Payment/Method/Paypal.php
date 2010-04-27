@@ -198,6 +198,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Enterprise_Enterpri
     public function authorize(Varien_Object $payment, $amount)
     {
         $result = new Varien_Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
+        $order = $payment->getOrder();
+        $result->setEmail($order->getCustomerEmail());
         $this->_importResultToPayment($result, $payment);
         return $this;
     }
