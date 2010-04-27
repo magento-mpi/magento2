@@ -51,6 +51,9 @@ class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
     const RESPONSE_DELIM_CHAR = ',';
 
+    const TRANSACTION_URL = 'https://payflowpro.paypal.com/transaction';
+    const TRANSACTION_URL_TEST_MODE = 'https://pilot-payflowpro.paypal.com/transaction';
+
     protected $_clientTimeout = 45;
 
     const RESPONSE_CODE_APPROVED = 0;
@@ -117,6 +120,8 @@ class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         }
         switch ($field)
         {
+            case 'url':
+                return $this->getTransactionUrl();
             case 'allowspecific':
             case 'specificcountry':
             case 'cctypes':
@@ -125,6 +130,21 @@ class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
                 $path = 'payment/' . $this->getCode() . '/' . $field;
         }
         return Mage::getStoreConfig($path, $storeId);
+    }
+
+    /**
+     * Getter for URL to perform Payflow requests, based on test mode by default
+     *
+     * @param bool $testMode Ability to specify test mode using
+     * @return string
+     */
+    public function getTransactionUrl($testMode = null)
+    {
+        $testMode = is_null($testMode) ? $this->getConfigData('test_mode') : (bool)$testMode;
+        if ($testMode) {
+            return self::TRANSACTION_URL_TEST_MODE;
+        }
+        return self::TRANSACTION_URL;
     }
 
     public function authorize(Varien_Object $payment, $amount)
