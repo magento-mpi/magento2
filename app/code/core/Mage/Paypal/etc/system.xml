@@ -376,8 +376,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </transfer_shipping_options>
-                        <solution_type translate="label">
+                        <solution_type translate="label comment">
                             <label>Enable PayPal Guest Checkout</label>
+                            <comment>Ability for Buyer to Purchase Without PayPal Account</comment>
                             <config_path>payment/paypal_express/solution_type</config_path>
                             <frontend_type>select</frontend_type>
                             <source_model>paypal/config::getExpressCheckoutSolutionTypes</source_model>
