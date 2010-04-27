@@ -807,6 +807,7 @@ class Mage_Paypal_Model_Config
             case 'sort_order':
             case 'title':
             case 'visible_on_cart':
+            case 'visible_on_product':
             case 'sandbox_flag':
             case 'debug_flag':
                 return 'payment/' . self::METHOD_WPP_EXPRESS . "/{$fieldName}";

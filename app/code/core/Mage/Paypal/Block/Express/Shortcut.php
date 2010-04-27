@@ -146,7 +146,8 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
      */
     protected function _toHtml()
     {
-        if (!$this->_getProInstance()->getConfig()->visibleOnCart) {
+        $context = ($this->getContext() ? $this->getContext() : 'visibleOnCart');
+        if (!$this->_getProInstance()->getConfig()->$context) {
             return '';
         }
         $quote = Mage::getSingleton('checkout/session')->getQuote();
