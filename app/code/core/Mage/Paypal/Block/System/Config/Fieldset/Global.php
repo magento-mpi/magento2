@@ -135,4 +135,107 @@ class Mage_Paypal_Block_System_Config_Fieldset_Global
         }
         return false;
     }
+
+    /**
+     * Check whether checkbox has "Use default" option or not
+     *
+     * @param string $checkboxId
+     * @return string
+     */
+    public function getItems()
+    {
+        $checkbox = $this->getChild($checkboxId);
+        if ($checkbox && $checkbox->getCanUseDefaultValue()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Return list of available features for payment methods
+     *
+     * @return array
+     */
+    public function getFeatures()
+    {
+        $features = array(
+            'any_payment' => array(
+                'label'   => Mage::helper('paypal')->__('Compliments any payment solution'),
+                'comment' => Mage::helper('paypal')->__('PayPal Pro, Authorize.net, FirstData, etc.')
+            ),
+            'sell_now' => array(
+                'label'   => Mage::helper('paypal')->__('Sell now, set up a PayPal account later')
+            ),
+            'accept_paypal' => array(
+                'label'   => Mage::helper('paypal')->__('Accept PayPal payments')
+            ),
+            'accept_cc' => array(
+                'label'   => Mage::helper('paypal')->__('Accept credit cards online')
+            ),
+            'merchant_site_payments' => array(
+                'label'   => Mage::helper('paypal')->__('Customers make payments on YOUR site'),
+                'comment' => Mage::helper('paypal')->__('Otherwise payments are made on PayPal.com')
+            ),
+            'credit_required' => array(
+                'label'   => Mage::helper('paypal')->__('Credit application required')
+            ),
+            'account_required' => array(
+                'label'   => Mage::helper('paypal')->__('Internet merchant account required')
+            ),
+        );
+        return $features;
+    }
+
+    /**
+     * Return flag for specified method and feature
+     *
+     * @param string $method
+     * @param string $feature
+     * @return bool
+     */
+    public function getMethodFeature($method, $feature)
+    {
+        $methodFeatures = array(
+            'express' => array(
+                'any_payment'            => 1,
+                'sell_now'               => 1,
+                'accept_paypal'          => 1,
+                'accept_cc'              => 0,
+                'merchant_site_payments' => 0,
+                'credit_required'        => 0,
+                'account_required'       => 0,
+            ),
+            'standard' => array(
+                'any_payment'            => 0,
+                'sell_now'               => 1,
+                'accept_paypal'          => 1,
+                'accept_cc'              => 1,
+                'merchant_site_payments' => 0,
+                'credit_required'        => 0,
+                'account_required'       => 0,
+            ),
+            'pro' => array(
+                'any_payment'            => 0,
+                'sell_now'               => 0,
+                'accept_paypal'          => 1,
+                'accept_cc'              => 1,
+                'merchant_site_payments' => 1,
+                'credit_required'        => 1,
+                'account_required'       => 0,
+            ),
+            'gateway' => array(
+                'any_payment'            => 0,
+                'sell_now'               => 0,
+                'accept_paypal'          => 1,
+                'accept_cc'              => 1,
+                'merchant_site_payments' => 1,
+                'credit_required'        => 1,
+                'account_required'       => 1,
+            )
+        );
+        if (isset($methodFeatures[$method][$feature])) {
+            return (bool)$methodFeatures[$method][$feature];
+        }
+        return false;
+    }
 }

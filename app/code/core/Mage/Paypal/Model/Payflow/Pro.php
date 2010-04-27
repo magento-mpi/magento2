@@ -103,6 +103,30 @@ class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         'centinel_xid'           => 'XID',
     );
 
+    /**
+     * Custom getter for payment configuration
+     *
+     * @param string $field
+     * @param int $storeId
+     * @return mixed
+     */
+    public function getConfigData($field, $storeId = null)
+    {
+         if (null === $storeId) {
+            $storeId = $this->getStore();
+        }
+        switch ($field)
+        {
+            case 'allowspecific':
+            case 'specificcountry':
+            case 'cctypes':
+                $path = 'paypal/general/' . $field;
+            default:
+                $path = 'payment/' . $this->getCode() . '/' . $field;
+        }
+        return Mage::getStoreConfig($path, $storeId);
+    }
+
     public function authorize(Varien_Object $payment, $amount)
     {
         $error = false;
