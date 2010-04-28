@@ -29,8 +29,10 @@
  * @see Enterprise_Reward_Block_Customer_Reward_History
  */
 ?>
-<div class="box">
-    <h2 class="sub-title"><?php echo $this->__('Balance History'); ?></h2>
+<div class="box-account">
+    <div class="box-head">
+        <h2><?php echo $this->__('Balance History'); ?></h2>
+    </div>
 
     <?php if ($history = $this->getHistory()):?>
 

@@ -33,7 +33,6 @@
     <div class="page-title">
         <h1><?php echo Mage::helper('enterprise_giftcardaccount')->__('Gift Card status'); ?></h1>
     </div>
-
 <?php if ($this->getCode()): ?>
     <?php echo $this->getChildHtml('check_result') ?>
 <?php endif; ?>
@@ -48,8 +47,8 @@
                 </li>
             </ul>
         </fieldset>
-        <div class="buttons-set form-buttons btn-only">
-             <button class="button" type="button" onclick="cForm.submit()"><span><span><?php echo Mage::helper('enterprise_giftcardaccount')->__('Check'); ?></span></span></button>
+        <div class="buttons-set">
+             <button type="button" title="<?php echo Mage::helper('enterprise_giftcardaccount')->__('Check'); ?>" class="button" onclick="cForm.submit()"><span><span><?php echo Mage::helper('enterprise_giftcardaccount')->__('Check'); ?></span></span></button>
         </div>
     </form>
     <script type="text/javascript">
