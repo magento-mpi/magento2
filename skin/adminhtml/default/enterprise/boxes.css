@@ -231,7 +231,7 @@ dl.accordion dt,
 dl.accordion dt, div.collapseable { margin-top:1px; }
 dl.accordion dt a, div.collapseable a { background:url(images/entry_edit_head_arrow_down.gif) 100% 50% no-repeat; color:#fff; display:block; font-weight:bold; text-decoration:none; }
 div.disabled { background:#c6cbc9 !important; }
-div.disabled a { background-image:url(images/entry_edit_head_arrow_down2.gif) !important; color:#fff !important; }
+div.disabled a { background-image:url(images/entry_edit_head_arrow_down2.gif) !important; color:#f6f6f6 !important; }
 
 .entry-edit fieldset.collapseable { margin-bottom:10px; }
 
@@ -1234,7 +1234,6 @@ ul.super-product-attributes { padding-left:15px; }
 
 .giftcard-amounts .data { width:465px; }
 .giftcard-amounts .data select { width:99%; }
-
 
 /* Links */
 .link-feed { background:url(images/icon_feed.gif) no-repeat left 2px; padding-left:18px; }
