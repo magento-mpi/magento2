@@ -34,12 +34,13 @@
  */
 class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const PRICE_SCOPE_GLOBAL            = 0;
-    const PRICE_SCOPE_WEBSITE           = 1;
-    const XML_PATH_PRICE_SCOPE          = 'catalog/price/scope';
-    const XML_PATH_SEO_SAVE_HISTORY     = 'catalog/seo/save_rewrites_history';
-    const CONFIG_USE_STATIC_URLS        = 'cms/wysiwyg/use_static_urls_in_catalog';
-    const CONFIG_PARSE_URL_DIRECTIVES   = 'catalog/frontend/parse_url_directives';
+    const PRICE_SCOPE_GLOBAL               = 0;
+    const PRICE_SCOPE_WEBSITE              = 1;
+    const XML_PATH_PRICE_SCOPE             = 'catalog/price/scope';
+    const XML_PATH_SEO_SAVE_HISTORY        = 'catalog/seo/save_rewrites_history';
+    const CONFIG_USE_STATIC_URLS           = 'cms/wysiwyg/use_static_urls_in_catalog';
+    const CONFIG_PARSE_URL_DIRECTIVES      = 'catalog/frontend/parse_url_directives';
+    const XML_NODE_CONTENT_TEMPLATE_FILTER = 'global/catalog/content/tempate_filter';
     
     /**
      * Breadcrumb Path cache
@@ -56,7 +57,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_storeId = null;
 
     /**
-     * Setter
+     * Set a specified store ID value
      *
      * @param <type> $store
      */
@@ -240,26 +241,29 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check if the store is configured to use static URLs for media
      *
-     * @param int $storeId
      * @return bool
      */
-    public function isUsingStaticUrlsAllowed($storeId = null) {
-        if (null !== $storeId) {
-            $this->_storeId = $storeId;
-        }
+    public function isUsingStaticUrlsAllowed() {
         return Mage::getStoreConfigFlag(self::CONFIG_USE_STATIC_URLS, $this->_storeId);
     }
 
     /**
      * Check if the parsing of URL directives is allowed for the catalog
      *
-     * @param int $storeId
      * @return bool
      */
-    public function isUrlDirectivesParsingAllowed($storeId = null) {
-        if (null !== $storeId) {
-            $this->_storeId = $storeId;
-        }
+    public function isUrlDirectivesParsingAllowed() {
         return Mage::getStoreConfigFlag(self::CONFIG_PARSE_URL_DIRECTIVES, $this->_storeId);
+    }
+
+    /**
+     * Retrieve template processor for catalog content
+     *
+     * @return Varien_Filter_Template
+     */
+    public function getPageTemplateProcessor()
+    {
+        $model = (string)Mage::getConfig()->getNode(self::XML_NODE_CONTENT_TEMPLATE_FILTER);
+        return Mage::getModel($model);
     }
 }

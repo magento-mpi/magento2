@@ -549,6 +549,9 @@
                     <add_child_data>0</add_child_data>
                 </flat>
             </product>
+            <content>
+                <tempate_filter>catalog/template_filter</tempate_filter>
+            </content>
         </catalog>
         <eav_attributes>
             <catalog_product>
@@ -595,14 +598,14 @@
             </modules>
         </translate>
         <events>
-            <catalog_is_using_static_urls_allowed>
+            <cms_wysiwyg_images_static_urls_allowed>
                 <observers>
                     <catalog_wysiwyg>
                         <class>catalog/observer</class>
                         <method>catalogCheckIsUsingStaticUrlsAllowed</method>
                     </catalog_wysiwyg>
                 </observers>
-            </catalog_is_using_static_urls_allowed>
+            </cms_wysiwyg_images_static_urls_allowed>
         </events>
     </adminhtml>
 
@@ -750,9 +753,6 @@
                 <configurable_children>1</configurable_children>
             </layer>
 -->
-            <wysiwyg>
-                <use_static_urls_in_catalog>0</use_static_urls_in_catalog>
-            </wysiwyg>
         </catalog>
     </default>
 

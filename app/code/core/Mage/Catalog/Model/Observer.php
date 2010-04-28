@@ -229,8 +229,6 @@ class Mage_Catalog_Model_Observer
     {
         $storeId = $observer->getEvent()->getData('store_id');
         $result  = $observer->getEvent()->getData('result');
-        $result->isAllowed = Mage::helper('catalog')->isUsingStaticUrlsAllowed($storeId);
-
-        return $this;
+        $result->isAllowed = Mage::helper('catalog')->setStoreId($storeId)->isUsingStaticUrlsAllowed();
     }
 }

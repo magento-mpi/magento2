@@ -51,7 +51,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
 
 
     /**
-     * Setter
+     * Set a specified store ID value 
      *
      * @param <type> $store
      */
@@ -154,7 +154,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
     {
         $checkResult = new StdClass;
         $checkResult->isAllowed = false;
-        Mage::dispatchEvent('catalog_is_using_static_urls_allowed', array(
+        Mage::dispatchEvent('cms_wysiwyg_images_static_urls_allowed', array(
             'result'   => $checkResult,
             'store_id' => $this->_storeId
         ));
