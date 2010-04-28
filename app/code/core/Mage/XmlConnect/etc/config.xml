@@ -134,8 +134,16 @@
                     <color>#f3f3f3ff</color>
                 </font>
             </navigationBar>
+            <sortingBar>
+                    <backgroundImage>http://blah-blah/catBG.png</backgroundImage>
+                    <tintColor>#rrggbbaa</tintColor>
+                    <font>
+                        <name>Arial-BoldMT</name>
+                        <size>12</size>
+                        <color>#f3f3f3ff</color>
+                    </font>
+            </sortingBar>
             <tabBar>
-                <backgroundColor>#000000</backgroundColor>
                 <home>
                     <icon>http://kse.org.ua/1/home.png</icon>
                     <title>Home</title>
@@ -161,7 +169,118 @@
                 <backgroundColor>#777777</backgroundColor>
                 <scrollBackgroundColor>#dddddd</scrollBackgroundColor>
                 <itemBackgroundIcon>http://kse.org.ua/1/catBG.png</itemBackgroundIcon>
+                <rowBackgroundIcon>http://blah-blah/catBG.png</rowBackgroundIcon>
+                <rowAttributeIcon>http://blah-blah/catBG.png</rowAttributeIcon>
+                <addToCartBackgroundIcon>http://blah-blah/catBG.png</addToCartBackgroundIcon>
+                <actionsBackgroundIcon>http://blah-blah/catBG.png</actionsBackgroundIcon>
+                <reviewsBackgroundIcon>http://blah-blah/catBG.png</reviewsBackgroundIcon>
+                <categoryItemFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </categoryItemFont>
+                <copyrightFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </copyrightFont>
+                <versionFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </versionFont>
+                <productButtonFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </productButtonFont>
+                <nameFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </nameFont>
+                <priceFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </priceFont>
+                <plainFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </plainFont>
+                <textFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </textFont>
+                <ratingHeaderFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </ratingHeaderFont>
             </body>
+            <filters>
+                <nameFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </nameFont>
+                <valueFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </valueFont>
+            </filters>
+            <appliedFilters>
+                <backgroundImage>http://blah-blah/catBG.png</backgroundImage>
+                <backgroundColor>#rrggbbaa</backgroundColor>
+                <font>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </font>
+                <counfFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </counfFont>
+                <titleFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </titleFont>
+            </appliedFilters>
+            <itemActions>
+                <backgroundImage>http://blah-blah/catBG.png</backgroundImage>
+                <viewGalleryIcon>http://blah-blah/catBG.png</viewGalleryIcon>
+                <tellAFriendIcon>http://blah-blah/catBG.png</tellAFriendIcon>
+                <addToWishlistIcon>http://blah-blah/catBG.png</addToWishlistIcon>
+                <addToCartIcon>http://blah-blah/catBG.png</addToCartIcon>
+                <viewDetailsIcon>http://blah-blah/catBG.png</viewDetailsIcon>
+                <radioEnabledIcon>http://blah-blah/catBG.png</radioEnabledIcon>
+                <radioDisabledIcon>http://blah-blah/catBG.png</radioDisabledIcon>
+                <checkBoxEnabledIcon>http://blah-blah/catBG.png</checkBoxEnabledIcon>
+                <checkBoxDisabledIcon>http://blah-blah/catBG.png</checkBoxDisabledIcon>
+                <font>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </font>
+                <radioFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </radioFont>
+                <selectFont>
+                    <name>Arial-BoldMT</name>
+                    <size>12</size>
+                    <color>#f3f3f3ff</color>
+                </selectFont>
+                <relatedProductBackgroundColor>#rrggbbaa</relatedProductBackgroundColor>
+                <configHeaderBackgroundColor>#rrggbbaa</configHeaderBackgroundColor>
+                <configContentBackgroundColor>#rrggbbaa</configContentBackgroundColor>
+            </itemActions>
         </defaultConfiguration>
     </default>
 </config>

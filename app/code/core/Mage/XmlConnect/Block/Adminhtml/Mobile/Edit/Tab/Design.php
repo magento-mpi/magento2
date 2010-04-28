@@ -32,132 +32,145 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
         $this->setShowGlobalIcon(true);
     }
 
+    protected function getDefaultTitle($title, $field)
+    {
+        if (!is_null($title)) {
+            return $title;
+        }
+        $field = basename($field);
+        $field = preg_replace('/([a-z])([A-Z])/', '$1 $2', $field);
+        return ucwords($field);
+    }
+
+    protected function addColor($fieldset, $fieldName, $title=NULL)
+    {
+        $title = $this->getDefaultTitle($title, $fieldName);
+        $fieldName = 'conf/'.$fieldName;
+        $fieldset->addField($fieldName, 'text', array(
+            'name'      => $fieldName,
+            'label'     => $this->__($title),
+        ));
+    }
+
+    protected function addImage($fieldset, $fieldName, $title=NULL)
+    {
+        $title = $this->getDefaultTitle($title, $fieldName);
+        $fieldName = 'conf/'.$fieldName;
+        $fieldset->addField($fieldName, 'image', array(
+            'name'      => $fieldName,
+            'label'     => $this->__($title),
+        ));
+    }
+
+    protected function addFont($fieldset, $fieldPrefix, $title=NULL)
+    {
+        $title = $this->getDefaultTitle($title, $fieldPrefix);
+        $fieldPrefix = 'conf/'.$fieldPrefix;
+        $fieldset->addField($fieldPrefix.'/name', 'select', array(
+            'name'      => $fieldPrefix.'/name',
+            'label'     => $this->__($title.' Name'),
+            'values'    => Mage::helper('xmlconnect')->getFontList(),
+        ));
+        $fieldset->addField($fieldPrefix.'/size', 'text', array(
+            'name'      => $fieldPrefix.'/size',
+            'label'     => $this->__($title.' Size'),
+        ));
+        $fieldset->addField($fieldPrefix.'/color', 'text', array(
+            'name'      => $fieldPrefix.'/color',
+            'label'     => $this->__($title.' Color'),
+        ));
+    }
+
+    protected function addTab($fieldset, $fieldPrefix, $title=NULL)
+    {
+        $title = $this->getDefaultTitle($title, $fieldPrefix);
+        $fieldPrefix = 'conf/'.$fieldPrefix;
+        $fieldset->addField($fieldPrefix.'/icon', 'image', array(
+            'name'      => $fieldPrefix.'/icon',
+            'label'     => $this->__($title.' Tab Icon'),
+        ));
+        $fieldset->addField($fieldPrefix.'/title', 'text', array(
+            'name'      => $fieldPrefix.'/title',
+            'label'     => $this->__($title.' Tab Title'),
+        ));
+    }
 
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
 
-        /**
-         * Fieldset
-         */
-
         $fieldset = $form->addFieldset('navigationBar', array('legend' => $this->__('Navigation Bar')));
         $this->_addElementTypes($fieldset);
+        $this->addColor($fieldset, 'navigationBar/tintColor');
+        $this->addColor($fieldset, 'navigationBar/backgroundColor');
+        $this->addImage($fieldset, 'navigationBar/icon');
+        $this->addFont($fieldset, 'navigationBar/font');
 
-        $fieldset->addField('conf/navigationBar/tintColor', 'text', array(
-            'name'      => 'conf/navigationBar/tintColor',
-            'label'     => $this->__('Tint Color'),
-        ));
-
-        $fieldset->addField('conf/navigationBar/backgroundColor', 'text', array(
-            'name'      => 'conf/navigationBar/backgroundColor',
-            'label'     => $this->__('Background Color'),
-        ));
-
-        $fieldset->addField('conf/navigationBar/icon', 'image', array(
-            'name'      => 'conf/navigationBar/icon',
-            'label'     => $this->__('Icon'),
-        ));
-
-        $fieldset->addField('conf/navigationBar/font/name', 'select', array(
-            'name'      => 'conf/navigationBar/font/name',
-            'label'     => $this->__('Font Name'),
-            'values'    => Mage::helper('xmlconnect')->getFontList(),
-        ));
-
-        $fieldset->addField('conf/navigationBar/font/size', 'text', array(
-            'name'      => 'conf/navigationBar/font/size',
-            'label'     => $this->__('Font Size'),
-        ));
-
-        $fieldset->addField('conf/navigationBar/font/color', 'text', array(
-            'name'      => 'conf/navigationBar/font/color',
-            'label'     => $this->__('Font Color'),
-        ));
-
-        /**
-         * Fieldset
-         */
+        $fieldset = $form->addFieldset('sortingBar', array('legend' => $this->__('Sorting Bar')));
+        $this->_addElementTypes($fieldset);
+        $this->addImage($fieldset, 'sortingBar/backgroundImage');
+        $this->addColor($fieldset, 'sortingBar/tintColor');
+        $this->addFont($fieldset, 'sortingBar/font');
 
         $fieldset = $form->addFieldset('tabBar', array('legend' => $this->__('Tab Bar')));
         $this->_addElementTypes($fieldset);
-
-        $fieldset->addField('conf/tabBar/backgroundColor', 'text', array(
-            'name'      => 'conf/tabBar/backgroundColor',
-            'label'     => $this->__('Background Color'),
-        ));
-
-        $fieldset->addField('conf/tabBar/home/icon', 'image', array(
-            'name'      => 'conf/tabBar/home/icon',
-            'label'     => $this->__('Home Tab Icon'),
-        ));
-
-        $fieldset->addField('conf/tabBar/home/title', 'text', array(
-            'name'      => 'conf/tabBar/home/title',
-            'label'     => $this->__('Home Tab Title'),
-        ));
-
-        $fieldset->addField('conf/tabBar/shop/icon', 'image', array(
-            'name'      => 'conf/tabBar/shop/icon',
-            'label'     => $this->__('Shop Tab Icon'),
-        ));
-
-        $fieldset->addField('conf/tabBar/shop/title', 'text', array(
-            'name'      => 'conf/tabBar/shop/title',
-            'label'     => $this->__('Shop Tab Title'),
-        ));
-
-        $fieldset->addField('conf/tabBar/cart/icon', 'image', array(
-            'name'      => 'conf/tabBar/cart/icon',
-            'label'     => $this->__('Cart Tab Icon'),
-        ));
-
-        $fieldset->addField('conf/tabBar/cart/title', 'text', array(
-            'name'      => 'conf/tabBar/cart/title',
-            'label'     => $this->__('Cart Tab Title'),
-        ));
-
-        $fieldset->addField('conf/tabBar/search/icon', 'image', array(
-            'name'      => 'conf/tabBar/search/icon',
-            'label'     => $this->__('Search Tab Icon'),
-        ));
-
-        $fieldset->addField('conf/tabBar/search/title', 'text', array(
-            'name'      => 'conf/tabBar/search/title',
-            'label'     => $this->__('Search Tab Title'),
-        ));
-
-        $fieldset->addField('conf/tabBar/more/icon', 'image', array(
-            'name'      => 'conf/tabBar/more/icon',
-            'label'     => $this->__('More Tab Icon'),
-        ));
-
-        $fieldset->addField('conf/tabBar/more/title', 'text', array(
-            'name'      => 'conf/tabBar/more/title',
-            'label'     => $this->__('More Tab Title'),
-        ));
-
-        /**
-         * Fieldset
-         */
+        $this->addTab($fieldset, 'tabBar/home');
+        $this->addTab($fieldset, 'tabBar/shop');
+        $this->addTab($fieldset, 'tabBar/cart');
+        $this->addTab($fieldset, 'tabBar/search');
+        $this->addTab($fieldset, 'tabBar/more');
 
         $fieldset = $form->addFieldset('bodyPart', array('legend' => $this->__('Body')));
         $this->_addElementTypes($fieldset);
+        $this->addColor($fieldset, 'body/backgroundColor');
+        $this->addColor($fieldset, 'body/scrollBackgroundColor');
+        $this->addImage($fieldset, 'body/itemBackgroundIcon');
+        $this->addImage($fieldset, 'body/rowBackgroundIcon');
+        $this->addImage($fieldset, 'body/rowAttributeIcon');
+        $this->addImage($fieldset, 'body/addToCartBackgroundIcon');
+        $this->addImage($fieldset, 'body/actionsBackgroundIcon');
+        $this->addImage($fieldset, 'body/reviewsBackgroundIcon');
+        $this->addFont($fieldset, 'body/categoryItemFont');
+        $this->addFont($fieldset, 'body/copyrightFont');
+        $this->addFont($fieldset, 'body/versionFont');
+        $this->addFont($fieldset, 'body/productButtonFont');
+        $this->addFont($fieldset, 'body/nameFont');
+        $this->addFont($fieldset, 'body/priceFont');
+        $this->addFont($fieldset, 'body/plainFont');
+        $this->addFont($fieldset, 'body/textFont');
+        $this->addFont($fieldset, 'body/ratingHeaderFont');
 
-        $fieldset->addField('conf/body/backgroundColor', 'text', array(
-            'name'      => 'conf/body/backgroundColor',
-            'label'     => $this->__('Background Color'),
-        ));
+        $fieldset = $form->addFieldset('filters', array('legend' => $this->__('Filters')));
+        $this->_addElementTypes($fieldset);
+        $this->addFont($fieldset, 'filters/nameFont');
+        $this->addFont($fieldset, 'filters/valueFont');
 
-        $fieldset->addField('conf/body/scrollBackgroundColor', 'text', array(
-            'name'      => 'conf/body/scrollBackgroundColor',
-            'label'     => $this->__('Scroll Background Color'),
-        ));
+        $fieldset = $form->addFieldset('appliedFilters', array('legend' => $this->__('Applied Filters')));
+        $this->_addElementTypes($fieldset);
+        $this->addImage($fieldset, 'appliedFilters/backgroundImage');
+        $this->addColor($fieldset, 'appliedFilters/backgroundColor');
+        $this->addFont($fieldset, 'appliedFilters/font');
+        $this->addFont($fieldset, 'appliedFilters/counfFont');
+        $this->addFont($fieldset, 'appliedFilters/titleFont');
 
-        $fieldset->addField('conf/body/itemBackgroundIcon', 'image', array(
-            'name'      => 'conf/body/itemBackgroundIcon',
-            'label'     => $this->__('Item Background'),
-        ));
+        $fieldset = $form->addFieldset('itemActions', array('legend' => $this->__('Item Actions')));
+        $this->_addElementTypes($fieldset);
+        $this->addImage($fieldset, 'itemActions/backgroundImage');
+        $this->addImage($fieldset, 'itemActions/viewGalleryIcon');
+        $this->addImage($fieldset, 'itemActions/tellAFriendIcon');
+        $this->addImage($fieldset, 'itemActions/addToWishlistIcon');
+        $this->addImage($fieldset, 'itemActions/addToCartIcon');
+        $this->addImage($fieldset, 'itemActions/viewDetailsIcon');
+        $this->addImage($fieldset, 'itemActions/radioEnabledIcon');
+        $this->addImage($fieldset, 'itemActions/radioDisabledIcon');
+        $this->addImage($fieldset, 'itemActions/checkBoxEnabledIcon');
+        $this->addImage($fieldset, 'itemActions/checkBoxDisabledIcon');
+        $this->addFont($fieldset, 'itemActions/font');
+        $this->addFont($fieldset, 'itemActions/radioFont');
+        $this->addFont($fieldset, 'itemActions/selectFont');
+        $this->addColor($fieldset, 'itemActions/relatedProductBackgroundColor');
+        $this->addColor($fieldset, 'itemActions/configHeaderBackgroundColor');
+        $this->addColor($fieldset, 'itemActions/configContentBackgroundColor');
 
         $model = Mage::registry('current_app');
         $form->setValues($model->getData());

@@ -49,7 +49,13 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
     }
 
     protected function _getConf($path) {
-        if( substr($path, -5) == '/icon' ) {
+        $isImage = FALSE;
+        if ((substr($path, -5) == '/icon') ||
+            (substr($path, -4) == 'Icon') ||
+            (substr($path, -5) == 'Image')) {
+            $isImage = TRUE;
+        }
+        if( $isImage ) {
             $url = $this->_app['conf/'.$path];
             if (strpos($url, '://') === FALSE ) {
                 $url = Mage::getBaseUrl('media').'xmlconnect/'.$url;
@@ -59,38 +65,30 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
         return $this->_app['conf/'.$path];
     }
 
+    protected function buildRecursive($section, $subtree, $prefix='')
+    {
+        foreach ($subtree as $key=>$value) {
+            if (is_array($value)) {
+                if (strtolower(substr($key, -4)=='font')) {
+                    $font = $section->addChild($key);
+                    $font->addAttribute('name', $this->_getConf($prefix.$key.'/name'));
+                    $font->addAttribute('size', $this->_getConf($prefix.$key.'/size'));
+                    $font->addAttribute('color', $this->_getConf($prefix.$key.'/color'));
+                } else {
+                    $subsection = $section->addChild($key);
+                    $this->buildRecursive($subsection, $value, $prefix.$key.'/');
+                }
+            } else {
+                $section->addChild($key, $this->_getConf($prefix.$key));
+            }
+        }
+    }
+
     protected function _toHtml()
     {
+        $conf = Mage::getStoreConfig('defaultConfiguration');
         $xml = new Varien_Simplexml_Element('<configuration></configuration>');
-            $section = $xml->addChild('navigationBar');
-                $section->addChild('tintColor', $this->_getConf('navigationBar/tintColor'));
-                $section->addChild('backgroundColor', $this->_getConf('navigationBar/backgroundColor'));
-                $section->addChild('icon', $this->_getConf('navigationBar/icon'));
-                $font = $section->addChild('font');
-                    $font->addAttribute('name', $this->_getConf('navigationBar/font/name'));
-                    $font->addAttribute('size', $this->_getConf('navigationBar/font/size'));
-                    $font->addAttribute('color', $this->_getConf('navigationBar/font/color'));
-            $section = $xml->addChild('tabBar');
-                $section->addChild('backgroundColor', $this->_getConf('tabBar/backgroundColor'));
-                $tab = $section->addChild('home');
-                    $tab->addAttribute('icon', $this->_getConf('tabBar/home/icon'));
-                    $tab->addAttribute('title', $this->_getConf('tabBar/home/title'));
-                $tab = $section->addChild('shop');
-                    $tab->addAttribute('icon', $this->_getConf('tabBar/shop/icon'));
-                    $tab->addAttribute('title', $this->_getConf('tabBar/shop/title'));
-                $tab = $section->addChild('cart');
-                    $tab->addAttribute('icon', $this->_getConf('tabBar/cart/icon'));
-                    $tab->addAttribute('title', $this->_getConf('tabBar/cart/title'));
-                $tab = $section->addChild('search');
-                    $tab->addAttribute('icon', $this->_getConf('tabBar/search/icon'));
-                    $tab->addAttribute('title', $this->_getConf('tabBar/search/title'));
-                $tab = $section->addChild('more');
-                    $tab->addAttribute('icon', $this->_getConf('tabBar/more/icon'));
-                    $tab->addAttribute('title', $this->_getConf('tabBar/more/title'));
-            $section = $xml->addChild('body');
-                $section->addChild('backgroundColor', $this->_getConf('body/backgroundColor'));
-                $section->addChild('scrollBackgroundColor', $this->_getConf('body/scrollBackgroundColor'));
-                $section->addChild('itemBackgroundIcon', $this->_getConf('body/itemBackgroundIcon'));
+        $this->buildRecursive($xml, $conf);
         return $xml->asNiceXml();
     }
 }
