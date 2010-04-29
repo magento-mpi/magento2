@@ -523,6 +523,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .header2 .quick-access .links { float:right; }
 .header2 .quick-access .links li { float:left; font-size:13px; background:url(../images/bkg_pipe1.gif) 100% 60% no-repeat; padding:0 10px 0 8px; }
 .header2 .quick-access .links a { font-weight:bold; text-transform:uppercase; color:#0b3f80; text-decoration:none; }
+.header2 .quick-access .links a small { font-weight:normal; text-transform:none; }
 .header2 .quick-access .links a:hover { color:#b23412; text-decoration:none; }
 .header2 .quick-access .links a.top-link-checkout { color:#b23412; }
 .header2 .quick-access .links a.top-link-checkout:hover { color:#0b3f80; }
