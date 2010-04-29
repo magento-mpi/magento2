@@ -610,6 +610,8 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .block-account .block-content li a { display:block; border-bottom:1px solid #ddd; padding:3px 0; color:#5f5d5c; text-decoration:none !important; }
 .block-account .block-content li a:hover { color:#b23412; }
 .block-account .block-content li.last a { border-bottom:0; }
+.block-account .block-content li.last,
+.block-account .block-content li.last a { padding-bottom:0 !important; }
 .block-account .block-content li.current { border-bottom:1px solid #ddd; padding:3px 0; color:#f15d22; }
 .block-account .block-content li.current.last { border-bottom:0; }
 
@@ -706,6 +708,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .block-subscribe button.button span span { background:none; padding:0 12px 0 0; }
 
 /* Block: Reorder */
+.block-reorder li.item { margin:7px 0; }
 .block-reorder input.checkbox { float:left; margin:2px -20px 0 0; }
 .block-reorder .product-name { margin-left:20px; }
 .block-reorder .validation-advice { margin:3px 9px 7px; }
