@@ -341,6 +341,7 @@ p.required { font-size:11px; text-align:right; color:#f15c22; }
 .title-buttons h4,
 .title-buttons h5,
 .title-buttons h6 { float:left; }
+.title-buttons .button { margin-top:5px }
 
 .subtitle { clear:both; padding:15px 0 0; font-size:15px; font-weight:bold; margin:0 0 6px; color:#e25203; }
 
@@ -1381,10 +1382,11 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 #opc-review .buttons-set .please-wait { height:34px; line-height:34px; }
 
 /* Multiple Addresses Checkout */
-.checkout-progress { padding:0 90px; margin:0 0 20px; }
-.checkout-progress li { float:left; width:19%; margin:0 3px 0 0; border-top:10px solid #999; padding:2px 0 0; font-weight:bold; text-align:center; color:#abb5ba; }
-.checkout-progress li.active { border-top-color:#e96200; color:#e96200; }
+.checkout-progress { padding:0; margin:0 0 0; position:absolute; top:0; left:0; width:100%; }
+.checkout-progress li { float:left; width:20%; margin:0 0 0 0; border-bottom:5px solid #cfcfcf; background:#cfcfcf; padding:2px 0 0; font-weight:bold; text-align:center; color:#fff; }
+.checkout-progress li.active { background:#f15d22; color:#fff; }
 
+.multiple-checkout {  }
 .multiple-checkout h2 { font-size:13px; font-weight:bold; margin:0 0 10px; }
 .multiple-checkout h3,
 .multiple-checkout h4 { font-size:13px; font-weight:bold; color:#f15d22; }
@@ -1395,14 +1397,18 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .multiple-checkout .data-table .product-name a { font-weight:bold !important; }
 .multiple-checkout .data-table .item-options { margin:5px 0 0; }
 
+.multiple-checkout .buttons-set button.button { margin-right:-13px; display:inline; }
+.multiple-checkout .buttons-set button.button span { border:0; height:26px; line-height:26px; background:url(../images/bkg_btn-checkout.gif) 100% 0 no-repeat; padding:0 14px 0 0; }
+.multiple-checkout .buttons-set button.button span span { background-position:0 0; padding:0 11px 0 10px; }
+
 .multiple-checkout .gift-messages { margin:15px 0 0; }
 
 .multiple-checkout .tool-tip { top:50%; margin-top:-120px; right:20px; }
 
 .multiple-checkout .col2-set,
-.multiple-checkout .col3-set { background:#fbfaf6 url(../images/bkg_checkout.gif) 0 0 repeat-x; border:1px solid #bbb6a5; margin:0 0 25px; padding:20px; }
-.multiple-checkout .col2-set h2.legend { margin:-20px -20px 15px; padding:5px 10px; background:#f9f3e3; border-bottom:1px solid #bbafa0; position:relative; }
-.multiple-checkout .col2-set h3.legend { margin:0 0 10px; color:#0a263c; }
+.multiple-checkout .col3-set { margin:0 0 24px; padding:13px 13px 13px; border:1px solid #cfcfcf; }
+.multiple-checkout .col2-set h2.legend { font-size:16px; margin:-13px -13px 13px; padding:11px 13px 17px; background:#fafafa url(../images/bkg_heading.gif) 0 100% repeat-x; color:#f15d22; position:relative; z-index:1; }
+.multiple-checkout .col2-set h3.legend { font-size:14px; margin:-13px -13px 13px; padding:11px 13px 17px; background:#fafafa url(../images/bkg_heading.gif) 0 100% repeat-x; color:#000; position:relative; z-index:1; }
 .multiple-checkout .col2-set .divider { margin:0 -20px; padding:25px 0; position:relative; }
 .multiple-checkout .box { margin:0 0 15px; }
 .multiple-checkout .box h2 { color:#f15d22; }
@@ -1428,7 +1434,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .multiple-checkout .gift-messages-form .item .details .form-list input.input-text { width:209px; }
 .multiple-checkout .gift-messages-form .item .details .form-list li.wide .input-box { width:445px; }
 .multiple-checkout .gift-messages-form .item .details .form-list li.wide textarea { width:439px; }
-.checkout-multishipping-shipping .box-sp-methods { border:1px solid #d9d2be; background:#f9f3e3; padding:13px; position:relative; }
+.checkout-multishipping-shipping .box-sp-methods { border:5px solid #cfcfcf; background:#f2f2f2; padding:13px; position:relative; }
 .checkout-multishipping-shipping .box-sp-methods .pointer { position:absolute; top:-20px; right:-40px; width:178px; height:41px; background:url(../images/bkg_sp-methods.gif) 0 0 no-repeat; overflow:hidden; }
 
 /* Step 3 */
