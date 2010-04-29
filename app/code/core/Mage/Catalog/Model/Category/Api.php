@@ -283,7 +283,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
-
+        
         return $category->getId();
     }
 
@@ -327,7 +327,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
-
+        
         return true;
     }
 
@@ -344,30 +344,18 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
         $category = $this->_initCategory($categoryId);
         $parent_category = $this->_initCategory($parentId);
 
-        $tree = Mage::getResourceModel('catalog/category_tree')
-                ->load();
-
-        $node           = $tree->getNodeById($category->getId());
-        $newParentNode  = $tree->getNodeById($parent_category->getId());
-
-        if (!$node || !$node->getId()) {
-            $this->_fault('not_exists');
-        }
-
         // if $afterId is null - move category to the down
         if ($afterId === null && $parent_category->hasChildren()) {
             $parentChildren = $parent_category->getChildren();
             $afterId = array_pop(explode(',', $parentChildren));
         }
 
-        $prevNode = $tree->getNodeById($afterId);
-
-        if (!$prevNode || !$prevNode->getId()) {
-            $prevNode = null;
+        if( strpos($parent_category->getPath(), $category->getPath()) === 0) {
+            $this->_fault('not_moved', "Operation do not allow to move a parent category to any of children category");
         }
-
+        
         try {
-            $tree->move($node, $newParentNode, $prevNode);
+            $category->move($parentId, $afterId);
         } catch (Mage_Core_Exception $e) {
             $this->_fault('not_moved', $e->getMessage());
         }
