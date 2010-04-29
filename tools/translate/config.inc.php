@@ -441,6 +441,13 @@ $CONFIG['translates'] = array(
     'Enterprise_PageCache' => array(
         'app/code/core/Enterprise/PageCache/'
     ),
+    'Enterprise_Pbridge' => array(
+        'app/code/core/Enterprise/Pbridge/',
+        'app/design/adminhtml/default/default/layout/enterprise/pridge.xml',
+        'app/design/adminhtml/default/default/template/enterprise/pbridge/',
+        'app/design/frontend/enterprise/default/layout/pbridge.xml',
+        'app/design/frontend/enterprise/default/template/pbridge/'
+    ),
     'Enterprise_Pci' => array(
         'app/code/core/Enterprise/Pci/',
         'app/design/adminhtml/default/default/layout/enterprise/pci.xml',
@@ -563,6 +570,7 @@ $CONFIG['helpers']  = array(
     'enterprise_license'            => 'Enterprise_License',
     'enterprise_logging'            => 'Enterprise_Logging',
     'enterprise_pagecache'          => 'Enterprise_PageCache',
+    'enterprise_pbridge'            => 'Enterprise_Pbridge',
     'enterprise_pci'                => 'Enterprise_Pci',
     'enterprise_reminder'           => 'Enterprise_Reminder',
     'enterprise_reward'             => 'Enterprise_Reward',
