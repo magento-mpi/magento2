@@ -24,8 +24,10 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<div class="account-balance">
-    <h2><?php echo Mage::helper('enterprise_customerbalance')->__('Balance'); ?></h2>
+<div class="box-account account-balance">
+    <div class="box-head">
+        <h2><?php echo Mage::helper('enterprise_customerbalance')->__('Balance'); ?></h2>
+    </div>
     <?php echo Mage::helper('enterprise_customerbalance')->__('Your current balance is:'); ?>
     <?php echo Mage::helper('core')->currency($this->getBalance()); ?>
 </div>

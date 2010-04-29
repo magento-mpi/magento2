@@ -25,8 +25,7 @@
 
 /* IE 6 only */
 * html .validation-advice { height:13px; }
-* html .main { height:460px; }
-* html .account-login .content { height:240px; }
+* html .col-main { height:400px; }
 .block li.item,
 .block-poll li,
 .opc li.section { vertical-align:top; }
@@ -96,6 +95,7 @@ table { face-color:expression(runtimeStyle.scrollbarFaceColor = '#fff', cellSpac
 .rss-title h1,
 .products-grid,
 .products-list li.item,
+.box-account,
 .box-account .box-head,
 .dashboard .box .box-title,
 .order-info ul,
@@ -125,6 +125,8 @@ table { face-color:expression(runtimeStyle.scrollbarFaceColor = '#fff', cellSpac
 .sp-methods,
 .checkout-progress,
 .multiple-checkout .place-order,
+.fieldset,
+.fieldset .legend,
 .form-list li,
 .form-list .field,
 .group-select li,
