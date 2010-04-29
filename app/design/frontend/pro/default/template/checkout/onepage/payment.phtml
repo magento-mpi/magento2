@@ -26,6 +26,7 @@
 ?>
 <script type="text/javascript">
 //<![CDATA[
+    var quoteBaseGrandTotal = <?php echo (float)$this->getQuoteBaseGrandTotal(); ?>;
     var payment = new Payment('co-payment-form', '<?php echo $this->getUrl('checkout/onepage/savePayment') ?>');
 //]]>
 </script>
