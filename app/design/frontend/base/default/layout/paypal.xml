@@ -107,6 +107,12 @@ Available logo types can be assigned with action="setLogoType":
         </reference>
     </catalog_category_layered>
 
+    <cms_index_index>
+        <reference name="right">
+            <block type="paypal/logo" name="paypal.partner.right.logo" template="paypal/partner/logo.phtml"/>
+        </reference>
+    </cms_index_index>
+
     <default>
         <reference name="topCart.extra_actions">
             <block type="paypal/express_shortcut" name="paypal.partner.top_cart.shortcut" template="paypal/partner/shortcut.phtml"/>
