@@ -157,10 +157,10 @@ button.disabled span { border-color:#bbb !important; background:#bbb !important;
 button.btn-cart span { border:0; height:23px; line-height:23px; background:url(../images/bkg_btn-cart.gif) 100% 0 no-repeat; padding:0 13px 0 0; }
 button.btn-cart span span { background-position:0 0; padding:0 3px 0 8px; }
 
-button.btn-checkout span { height:40px; border:0; background:url(../images/btn_checkout.gif) 0 0 no-repeat; padding:0 0 0 9px; font:bold 15px/40px Arial, Helvetica, sans-serif; color:#fff; }
-button.btn-checkout span span { background-position:100% 0; padding:0 25px 0 16px; }
-button.btn-checkout.no-checkout span { background-position:0 100%; color:#b8baba; }
-button.btn-checkout.no-checkout span span { background-position:100% 100%; }
+button.btn-checkout span { height:33px; border:0; background:url(../images/btn_checkout.gif) 100% 0 no-repeat; padding:0 18px 0 0; font:bold 17px/33px Arial, Helvetica, sans-serif; color:#fff; }
+button.btn-checkout span span { background-position:0 0; padding:0 13px 0 13px; }
+button.btn-checkout.no-checkout span { background-position:100% 100%; }
+button.btn-checkout.no-checkout span span { background-position:0 100%; }
 
 p.control input.checkbox,
 p.control input.radio { margin-right:6px; }
@@ -1114,50 +1114,79 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .cart .page-title .checkout-types { display:none !important; }
 
 /* Shopping Cart Table */
-.cart-table th { padding:2px 10px; }
-.cart-table td { padding:10px; }
+.cart-table { border:3px solid #cfcfcf; }
+.cart-table thead,
+.cart-table thead tr { background:none !important; }
+.cart-table tbody tr.last td { border-bottom:3px solid #cfcfcf !important; }
+.cart-table thead th,
+.cart-table tbody td { background:url(../images/bkg_dots3.gif) 100% 0 repeat-y; }
+.cart-table thead th.last,
+.cart-table tbody td.last { background:none; }
+.cart-table th { padding:15px 25px; }
+.cart-table td { padding:25px; }
+.cart-table tbody td { vertical-align:middle; }
 .cart-table .product-name { font-weight:bold; margin:0 0 5px; color:#2f2f2f; }
 .cart-table .item-msg { margin:5px 0; font-size:11px; font-weight:bold; color:#df280a; }
-.cart-table tfoot td { padding:5px 10px; }
-.cart-table .btn-continue { float:left; }
+.cart-table tfoot tr { background:none !important; }
+.cart-table tfoot td { padding:15px 25px; text-align:left !important; }
+.cart-table tfoot button.btn-update span { border:0; background:none; padding:0 2px; font-size:12px; font-weight:normal; line-height:23px; text-transform:none; color:#214d90; }
+.cart-table tfoot button.btn-update:hover span { text-decoration:underline; }
 
 /* Shopping Cart Collateral boxes */
-.cart .cart-collaterals { padding:25px 0 0; }
-.cart .cart-collaterals .col2-set { float:left; width:605px; }
+.cart .cart-collaterals { padding:35px 0 0; }
+.cart .cart-collaterals .col2-set { float:left; width:650px; }
+.cart .cart-collaterals .col2-set .col-1 { width:345px; }
 .cart .cart-collaterals .col2-set .col-2 { width:294px; }
 
-.cart .crosssell { border:1px solid #cec3b6; background:#fafaec; padding:12px 15px; }
-.cart .crosssell h2 { font-size:13px; font-weight:bold; }
-.cart .crosssell .product-image { float:left; width:75px; height:75px; border:1px solid #d0cdc9; }
+.cart .crosssell { border:1px solid #cfcfcf; }
+.cart .crosssell h2 { font-size:16px; padding:11px 13px 17px; background:#fafafa url(../images/bkg_heading.gif) 0 100% repeat-x; color:#f15d22;  }
+.cart .crosssell .product-image { float:left; width:75px; height:75px; }
 .cart .crosssell .product-details { margin-left:90px; }
-.cart .crosssell .product-name { font-weight:bold; }
-.cart .crosssell li.item { margin:12px 0; }
-.cart .crosssell .link-compare { font-weight:normal; }
+.cart .crosssell li.item { padding:13px; border-bottom:1px solid #cfcfcf; }
+.cart .crosssell li.last { border-bottom:0; }
 
 /* Discount Codes & Estimate Shipping and Tax Boxes */
 .cart .discount,
-.cart .shipping { border:1px solid #cfcfcf; background:#fff url(../images/bkg_block-title.gif) 0 0 repeat-x; padding:12px 15px; margin:0 0 18px; }
+.cart .giftcard,
+.cart .shipping { border:1px solid #cfcfcf; padding:0 13px 13px; margin:0 0 18px; }
 .cart .discount h2,
-.cart .shipping h2 { background-position:0 0; background-repeat:no-repeat; font:bold 13px/16px Arial, Helvetica, sans-serif; padding:0 0 0 21px; color:#f15d22; text-transform:uppercase; }
+.cart .giftcard h2,
+.cart .shipping h2 { font-size:16px; margin:0 -13px 13px; padding:11px 13px 17px; background:#fafafa url(../images/bkg_heading.gif) 0 100% repeat-x; color:#f15d22; position:relative; z-index:1; }
+.cart .discount label,
+.cart .giftcard label { font-weight:bold; color:#000; }
 .cart .discount .buttons-set,
-.cart .shipping .buttons-set { margin:10px 0 0; border:0; padding:0; text-align:left; }
+.cart .giftcard .buttons-set,
+.cart .shipping .buttons-set { margin:10px 0 0; background:none; padding:0; text-align:right; }
 .cart .discount .buttons-set button.button,
+.cart .giftcard .buttons-set button.button,
 .cart .shipping .buttons-set button.button { float:none; margin-left:0; }
 
-.cart .discount h2 { background-image:url(../images/i_discount.gif); }
-.cart .discount .input-box { margin:8px 0 0; width:260px; }
-.cart .discount input.input-text { width:254px; }
+.cart .discount .buttons-set button.button span,
+.cart .giftcard .buttons-set button.button span,
+.cart .shipping .buttons-set button.button span { border:0; height:23px; line-height:23px; background:url(../images/bkg_btn-cart.gif) 100% 0 no-repeat; padding:0 13px 0 0; }
+.cart .discount .buttons-set button.button span span,
+.cart .giftcard .buttons-set button.button span span,
+.cart .shipping .buttons-set button.button span span { background-position:0 0; padding:0 3px 0 8px; }
 
-.cart .shipping h2 { background-image:url(../images/i_shipping.gif); }
+.cart .discount .input-box,
+.cart .giftcard .input-box { margin:8px 0 0; width:260px; }
+.cart .discount input.input-text,
+.cart .giftcard input.input-text { width:240px; padding:7px 12px; background:#fff url(../images/bkg_input.gif) 0 0 repeat-x; color:#484848; }
+
 .cart .shipping .sp-methods { margin:10px 0 0; padding:5px 0 0; background:url(../images/bkg_dots1.gif) 0 0 repeat-x; }
+.cart .shipping p { font-weight:bold; color:#000; }
+
+.cart .giftcard #gc-please-wait { font-size:11px; }
+.cart .giftcard .buttons-set button.button { margin:3px 0 0; }
 
 /* Shopping Cart Totals */
-.cart .totals { float:right; width:268px; background:#dee5e8; border:1px solid #bebcb7; }
+.cart .totals { float:right; width:268px; color:#214d90; }
 .cart .totals table { width:100%; margin:7px 0; }
-.cart .totals td { padding:1px 15px 1px 7px; }
+.cart .totals td { padding:1px 15px 1px 7px; vertical-align:middle; }
+.cart .totals tbody td .price { font-size:14px; font-weight:bold; }
 .cart .totals tr.last td {}
 .cart .totals tfoot td { padding-top:5px; padding-bottom:5px; }
-.cart .totals tfoot td strong { font-size:15px; }
+.cart .totals tfoot td strong { font-size:18px; }
 .cart .totals .checkout-types { font-size:13px; padding:8px 15px 15px; text-align:right; }
 .cart .totals .checkout-types li { clear:both; margin:10px 0; }
 
@@ -1179,7 +1208,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 /********** < Common Checkout Styles */
 /* Shipping and Payment methods */
 .sp-methods { margin:0 0 8px; }
-.sp-methods dt { margin:13px 0 5px; font-weight:bold; }
+.sp-methods dt { margin:13px 0 5px; font-weight:bold; color:#000; }
 .sp-methods dd {}
 .sp-methods dd li { margin:5px 0; }
 .sp-methods label { font-weight:bold; color:#666; }
@@ -1540,11 +1569,10 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .storecredit .box-account p { margin:0; }
 
 /* Gift card */
-.giftcardaccount {}
-.giftcardaccount .gift-card-info { margin:0 0 13px; padding:10px 9px 5px; border:1px solid #cfcfcf; background:#fafafa; }
-.giftcardaccount .gift-card-info p { margin:0 0 5px; }
-.giftcardaccount .gift-card-info .giftcard-number { font-weight:bold; }
-#gc-please-wait { float:right; text-align:right; margin:-40px 0 0; }
+.gift-card-info { margin:0 0 13px; padding:10px 9px 5px; border:1px solid #cfcfcf; background:#fafafa; }
+.gift-card-info p { margin:0 0 5px; }
+.gift-card-info .giftcard-number { font-weight:bold; }
+.giftcardaccount #gc-please-wait { float:right; text-align:right; margin:-40px 0 0; }
 
 /* Reward Points */
 .my-rewards .box { margin:0 0 30px; }

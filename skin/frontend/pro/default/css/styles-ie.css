@@ -50,7 +50,10 @@ button.button span { position:relative; }
 button.btn-cart { height:23px; }
 .add-to-box .add-to-cart button.btn-cart { height:28px; }
 .block-cart .actions button.button { height:26px; }
-button.btn-checkout { height:40px; }
+.cart .discount .buttons-set button.button,
+.cart .giftcard .buttons-set button.button,
+.cart .shipping .buttons-set button.button { height:23px; }
+button.btn-checkout { height:33px; }
 .product-view .box-tags .form-add button.button { height:31px; }
 .form-list label { position:relative; z-index:0; }
 .form-list label.required em { position:absolute; top:0; right:-8px; }
