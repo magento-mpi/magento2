@@ -79,12 +79,6 @@ class Mage_Adminhtml_Block_Sales_Transactions_Grid extends Mage_Adminhtml_Block_
             'type'      => 'number'
         ));
 
-        $this->addColumn('parent_id', array(
-            'header'    => Mage::helper('sales')->__('Parent ID'),
-            'index'     => 'parent_id',
-            'type'      => 'number'
-        ));
-
         $this->addColumn('increment_id', array(
             'header'    => Mage::helper('sales')->__('Order ID'),
             'index'     => 'increment_id',
@@ -100,7 +94,7 @@ class Mage_Adminhtml_Block_Sales_Transactions_Grid extends Mage_Adminhtml_Block_
         $this->addColumn('parent_txn_id', array(
             'header'    => Mage::helper('sales')->__('Parent Transaction ID'),
             'index'     => 'parent_txn_id',
-            'type'      => 'number'
+            'type'      => 'text'
         ));
 
         $this->addColumn('method', array(
