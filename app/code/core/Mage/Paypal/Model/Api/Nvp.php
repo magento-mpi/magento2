@@ -359,6 +359,13 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     protected $_callWarnings = array();
 
     /**
+     * Whether to return raw response information after each call
+     *
+     * @var bool
+     */
+    protected $_rawResponseNeeded = false;
+
+    /**
      * API endpoint getter
      *
      * @return string
@@ -413,7 +420,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         if ($this->getShippingOptions()) {
             $request['CALLBACK'] = $this->getCallbackUrl();
             $request['CALLBACKTIMEOUT'] = $this->getCallbackTimeout();
-            //Paypal must fix behavior with parameter 'MAXAMT' 
+            //Paypal must fix behavior with parameter 'MAXAMT'
             $request['MAXAMT'] = $this->_filterAmount((float)$request['AMT'] * 2);
             // end fix
             $this->_exportShippingOptions($request);
@@ -573,7 +580,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $response = array();
         $this->_exportShippingOptions($response);
         if (empty($response)) {
-            $response['NO_SHIPPING_OPTION_DETAILS'] = '1'; 
+            $response['NO_SHIPPING_OPTION_DETAILS'] = '1';
         }
         $response = $this->_addMethodToRequest(self::CALLBACK_RESPONSE, $response);
         return $this->_buildQuery($response);
@@ -655,10 +662,25 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         }
 
         if ($this->_isCallSuccessful($response)) {
+            if ($this->_rawResponseNeeded) {
+                $this->setRawSuccessResponseData($response);
+            }
             return $response;
         }
         $this->_handleCallErrors($response);
         return $response;
+    }
+
+    /**
+     * Setter for 'raw response needed' flag
+     *
+     * @param bool $flag
+     * @return Mage_Paypal_Model_Api_Nvp
+     */
+    public function setRawResponseNeeded($flag)
+    {
+        $this->_rawResponseNeeded = $flag;
+        return $this;
     }
 
     /**

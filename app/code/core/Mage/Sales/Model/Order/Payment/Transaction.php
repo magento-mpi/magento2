@@ -42,6 +42,12 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     const TYPE_REFUND  = 'refund';
 
     /**
+     * Raw details key in additional info
+     *
+     */
+    const RAW_DETAILS = 'raw_details_info';
+
+    /**
      * Payment instance. Required for most transaction writing and search operations
      * @var Mage_Sales_Model_Order_Payment
      */
@@ -611,6 +617,8 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
             if (null !== $this->_order) {
                 $this->setOrderId($this->_order->getId());
             }
+
+            $this->setCreatedAt(Mage::getModel('core/date')->gmtDate());
         }
         return parent::_beforeSave();
     }
@@ -687,6 +695,21 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     public function isVoided()
     {
         return $this->_isVoided();
+    }
+
+    /**
+     * Retrieve transaction types
+     *
+     * @return array
+     */
+    public function getTransactionTypes()
+    {
+        return array(
+            Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH    => Mage::helper('sales')->__('Authorization'),
+            Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE => Mage::helper('sales')->__('Capture'),
+            Mage_Sales_Model_Order_Payment_Transaction::TYPE_VOID    => Mage::helper('sales')->__('Void'),
+            Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND  => Mage::helper('sales')->__('Refund')
+        );
     }
 
     /**

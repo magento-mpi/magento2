@@ -792,6 +792,23 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     }
 
     /**
+     * Import details data of specified transaction
+     *
+     * @param Mage_Sales_Model_Order_Payment_Transaction $transactionTo
+     * @return Mage_Sales_Model_Order_Payment
+     */
+    public function importTransactionInfo(Mage_Sales_Model_Order_Payment_Transaction $transactionTo)
+    {
+        $data = $this->getMethodInstance()
+            ->setStore($this->getOrder()->getStoreId())
+            ->fetchTransactionInfo($transactionTo->getTxnId());
+        if ($data) {
+            $transactionTo->setAdditionalInformation(Mage_Sales_Model_Order_Payment_Transaction::RAW_DETAILS, $data);
+        }
+        return $this;
+    }
+
+    /**
      * Totals updater utility method
      * Updates self totals by keys in data array('key' => $delta)
      *

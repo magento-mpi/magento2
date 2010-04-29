@@ -49,6 +49,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = true;
     protected $_canSaveCc = false;
+    protected $_canFetchTransactionInfo = true;
 
     /**
      * Website Payments Pro instance
@@ -242,6 +243,17 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             $validator->setCustomApiEndpointUrl($this->_pro->getConfig()->centinelDefaultApiUrl);
         }
         return $validator;
+    }
+
+    /**
+     * Fetch transaction details info
+     *
+     * @param string $transactionId
+     * @return array
+     */
+    public function fetchTransactionInfo($transactionId)
+    {
+        return $this->_pro->fetchTransactionInfo($transactionId);
     }
 
     /**

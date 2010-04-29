@@ -219,6 +219,22 @@ class Mage_Paypal_Model_Pro
     }
 
     /**
+     * Fetch transaction details info
+     *
+     * @param string $transactionId
+     * @return array
+     */
+    public function fetchTransactionInfo($transactionId)
+    {
+        $api = $this->getApi()
+            ->setTransactionId($transactionId)
+            ->setRawResponseNeeded(true);
+        $api->callGetTransactionDetails();
+        $data = $api->getRawSuccessResponseData();
+        return ($data) ? $data : array();
+    }
+
+    /**
      * Import capture results to payment
      *
      * @param Mage_Paypal_Model_Api_Nvp

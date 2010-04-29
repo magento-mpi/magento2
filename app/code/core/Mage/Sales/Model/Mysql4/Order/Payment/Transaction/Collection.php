@@ -30,6 +30,27 @@
 class Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection extends Mage_Sales_Model_Mysql4_Order_Collection_Abstract
 {
     /**
+     * Order ID filter
+     *
+     * @var int
+     */
+    protected $_orderId = null;
+
+    /**
+     * Columns of order info that should be selected
+     *
+     * @var array
+     */
+    protected $_addOrderInformation = array();
+
+    /**
+     * Columns of payment info that should be selected
+     *
+     * @var array
+     */
+    protected $_addPaymentInformation = array();
+
+    /**
      * Payment ID filter
      * @var int
      */
@@ -61,6 +82,42 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection extends Mage_
     {
         $this->_init('sales/order_payment_transaction');
         return parent::_construct();
+    }
+
+    /**
+     * Join order information
+     *
+     * @param array $flag
+     * @return Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection
+     */
+    public function addOrderInformation($keys)
+    {
+        $this->_addOrderInformation = $keys;
+        return $this;
+    }
+
+    /**
+     * Join payment information
+     *
+     * @param array $flag
+     * @return Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection
+     */
+    public function addPaymentInformation($keys)
+    {
+        $this->_addPaymentInformation = $keys;
+        return $this;
+    }
+
+    /**
+     * Order ID filter setter
+     *
+     * @param int $orderId
+     * @return Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection
+     */
+    public function addOrderIdFilter($orderId)
+    {
+        $this->_orderId = (int)$orderId;
+        return $this;
     }
 
     /**
@@ -118,15 +175,31 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection extends Mage_
 
         // filters
         if ($this->_paymentId) {
-            $this->getSelect()->where('payment_id = ?', $this->_paymentId);
+            $this->getSelect()->where('main_table.payment_id = ?', $this->_paymentId);
         }
         if ($this->_parentId) {
-            $this->getSelect()->where('parent_id = ?', $this->_parentId);
+            $this->getSelect()->where('main_table.parent_id = ?', $this->_parentId);
         }
         if ($this->_txnTypes) {
-            $this->getSelect()->where('txn_type IN(?)', $this->_txnTypes);
+            $this->getSelect()->where('main_table.txn_type IN(?)', $this->_txnTypes);
         }
-
+        if ($this->_orderId) {
+            $this->getSelect()->where('main_table.order_id = ?', $this->_orderId);
+        }
+        if ($this->_addPaymentInformation) {
+            $this->getSelect()->joinInner(
+                array('sop' => $this->getTable('sales/order_payment')),
+                'main_table.payment_id = sop.entity_id',
+                $this->_addPaymentInformation
+            );
+        }
+        if($this->_addOrderInformation) {
+            $this->getSelect()->joinInner(
+                array('so' => $this->getTable('sales/order')),
+                'main_table.order_id = so.entity_id',
+                $this->_addOrderInformation
+            );
+        }
         return parent::load($printQuery, $logQuery);
     }
 

@@ -52,6 +52,11 @@
                     <action>adminhtml/sales_creditmemo</action>
                     <sort_order>40</sort_order>
                 </creditmemo>
+                <transactions translate="title" module="sales">
+                    <title>Transactions</title>
+                    <action>adminhtml/sales_transactions</action>
+                    <sort_order>50</sort_order>
+                </transactions>
             </children>
          </sales>
     </menu>
@@ -99,6 +104,13 @@
                                 <title>Credit Memos</title>
                                 <sort_order>40</sort_order>
                             </creditmemo>
+                            <transactions translate="title">
+                                <title>Transactions</title>
+                                <children>
+                                    <fetch translate="title"><title>Fetch</title></fetch>
+                                </children>
+                                <sort_order>50</sort_order>
+                            </transactions>
                         </children>
                     </sales>
                     <system>

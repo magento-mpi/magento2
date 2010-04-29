@@ -597,4 +597,15 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $grid       = $this->getLayout()->createBlock('adminhtml/sales_order_grid');
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
+
+    /**
+     * Order transactions grid ajax action
+     *
+     */
+    public function transactionsAction()
+    {
+        $this->_initOrder();
+        $this->loadLayout(false);
+        $this->renderLayout();
+    }
 }

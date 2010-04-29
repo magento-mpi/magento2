@@ -54,6 +54,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     protected $_canUseInternal          = false;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
+    protected $_canFetchTransactionInfo = true;
 
     /**
      * Ipn action
@@ -232,6 +233,17 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function getCheckoutRedirectUrl()
     {
         return Mage::getUrl('paypal/express/start');
+    }
+
+    /**
+     * Fetch transaction details info
+     *
+     * @param string $transactionId
+     * @return array
+     */
+    public function fetchTransactionInfo($transactionId)
+    {
+        return $this->_pro->fetchTransactionInfo($transactionId);
     }
 
     /**

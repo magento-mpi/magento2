@@ -60,6 +60,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = true;
     protected $_isInitializeNeeded      = false;
+    protected $_canFetchTransactionInfo = false;
     /**
      * TODO: whether a captured transaction may be voided by this gateway
      * This may happen when amount is captured, but not settled
@@ -179,6 +180,26 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function canEdit()
     {
         return true;
+    }
+
+    /**
+     * Check fetch transaction info availability
+     *
+     * @return bool
+     */
+    public function canFetchTransactionInfo()
+    {
+        return $this->_canFetchTransactionInfo;
+    }
+
+    /**
+     * Fetch transaction info
+     *
+     * @return array
+     */
+    public function fetchTransactionInfo($transactionId)
+    {
+        return array();
     }
 
     /**
