@@ -70,6 +70,10 @@ table { scrollbar-face-color:expression(runtimeStyle.scrollbarFaceColor = '#fff'
 .product-view .box-tags .product-tags li,
 .footer li { padding:0 5px 0 10px; }
 
+/* OPC */
+.section {margin-bottom:-3px;}
+
+
 /* Clearer */
 .clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
 
@@ -126,6 +130,7 @@ table { scrollbar-face-color:expression(runtimeStyle.scrollbarFaceColor = '#fff'
 .cart-collaterals,
 .cart .crosssell li.item,
 .cart .discount,
+.opc,
 .opc .step-title,
 .opc .step,
 .multiple-checkout,
