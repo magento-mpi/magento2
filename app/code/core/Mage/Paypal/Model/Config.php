@@ -504,7 +504,7 @@ class Mage_Paypal_Model_Config
             $product = $this->_buildNotationPPMap[$this->_methodCode];
         }
         if (null === $countryCode) {
-            $countryCode = $this->_matchBnCountryCode(Mage::getStoreConfig('general/country/default', $this->_storeId));
+            $countryCode = $this->_matchBnCountryCode($this->getMerchantCountry());
         }
         if ($countryCode) {
             $countryCode = '_' . $countryCode;
@@ -752,6 +752,9 @@ class Mage_Paypal_Model_Config
     private function _matchBnCountryCode($code)
     {
         switch ($code) {
+            // GB == UK
+            case 'GB':
+                return 'UK';
             // Australia, Austria, Belgium, Canada, China, France, Germany, Hong Kong, Italy
             case 'AU': case 'AT': case 'BE': case 'CA': case 'CN': case 'FR': case 'DE': case 'HK': case 'IT':
             // Japan, Mexico, Netherlands, Poland, Singapore, Spain, Switzerland, United Kingdom, United States
