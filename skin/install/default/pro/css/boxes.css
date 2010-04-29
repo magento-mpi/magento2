@@ -27,7 +27,6 @@
 /***********[ Mage_CSS_B Common Elements ]***********/
 /****************************************************/
 
-
 /********************** Columns */
 
 /* All */
@@ -56,8 +55,6 @@
 table .col-1, table .col-2, table .col-3, table .col-4 { float:none !important; margin:0 !important; }
 .col3-set td.spacer { width:3%; }
 .col4-set td.spacer { width:4%; }
-
-
 
 /********************** Form */
 
@@ -94,7 +91,6 @@ input.checkbox { margin-right:5px; }
 .group-select li .input-box textarea { width:250px; }
 .group-select li .input-box select { width:256px;}
 
-
 /* Form Messages */
 .validation-advice, .required { color:#EB340A; }
 .validation-advice { clear:both; min-height:15px; margin-top:3px; background:url(../images/validation_advice_bg.gif) no-repeat 2px 1px; padding-left:17px; font-size:.95em; font-weight:bold; line-height:1.25em; }
@@ -129,7 +125,6 @@ p.required { font-size:.95em; text-align:right; }
 .head, .inner-head { line-height:1.25em; text-align:right; }
 .head h1,.head h2, .head h3, .head h4, .head h5,
 .inner-head h1,.inner-head h2, .inner-head h3, .inner-head h4, .inner-head h5{ margin:0; float:left; }
-
 
 /* Page heading */
 .page-head { margin-bottom:20px; padding:7px 20px; }
@@ -167,7 +162,7 @@ p.required { font-size:.95em; text-align:right; }
 
 /* Structure */
 .header { text-align:left; }
-.header-top { width:940px; margin:0 auto; }
+.header-top { width:940px; margin:0 auto; overflow:hidden; }
 .header-nav { width:940px; margin:0 auto; }
 .middle { min-height:400px; width:938px; margin:0 auto; text-align:left; position:relative; }
 .side-col {}
@@ -187,13 +182,11 @@ p.required { font-size:.95em; text-align:right; }
 html, body { height:100%; margin:0; padding:0; }
 .container { height:auto !important; height:100%; min-height:100%; }
 .header { }
-.header-top-container { background:#000; padding:9px 0 11px; }
-.header-top { padding:10px 10px 10px; }
+.header-top-container { background:#000; }
+.header-top { padding:10px 0; }
 .header-nav-container { }
 .middle-container { background:url(../images/bkg_nav0.gif) repeat-x top; padding:20px 0 90px; }
 .middle { text-align:left; }
-
-
 
 /********************** Content */
 .license-text { font:12px/1.35 Arial, Helvetica, sans-serif!important; text-align:justify; padding:10px; color:#444; margin:-5px; background:#fafafa; }
@@ -202,9 +195,7 @@ html, body { height:100%; margin:0; padding:0; }
 .license-text li p {}
 .license-text span.u { text-decoration:underline; }
 
-
 /********************** Side block */
-
 .side-col p { padding:17px; font-size:11px; }
 .side-col ol { list-style:none; border:0!important; padding:7px!important; font-size:12px; }
 .side-col ol li { margin:.3em 0; }
@@ -215,14 +206,13 @@ html, body { height:100%; margin:0; padding:0; }
 .side-col .content { padding:10px 13px; border:1px solid #cfcfcf; border-width:0 1px; }
 
 /********************** Header */
-
 /* Logo */
-h1#logo { float:left; width:202px; margin:3px 0 0 12px; }
+h1#logo { float:left; line-height:1; margin:0; width:202px; }
+h1#logo img { vertical-align:bottom; }
 .page-popup h1#logo { display:none; }
 
-
 /* Quick Access*/
-.quick-access { width:390px; float:right; margin-top:28px; text-align:right; padding:0 10px; color:#fff; }
+.quick-access { width:390px; float:right; margin:0; text-align:right; padding:0 10px; color:#fff; }
 .quick-access p { margin-bottom:4px; }
 .quick-access li { display:inline; padding-right:7px; padding-left:3px; }
 .quick-access li.first { padding-left:0;}
@@ -236,9 +226,7 @@ h1#logo { float:left; width:202px; margin:3px 0 0 12px; }
 .breadcrumbs {  margin-bottom:13px; font-size:.95em; line-height:1.25em; }
 .breadcrumbs li { display:inline; }
 
-
 /********************** Footer */
-/*.footer-container { margin:0 auto 20px; width:904px; text-align:center; line-height:1.5; background:#f8f8f8; border:1px solid #cfcfcf; padding:14px 17px 12px; }*/
 .footer-container { background:#000; color:#fff; height:70px; margin:-70px auto 0; position:relative; text-align:center; line-height:70px; }
 .footer { margin:0 auto; text-align:left; width:940px; }
 .footer .store-switcher {  }
@@ -251,11 +239,9 @@ h1#logo { float:left; width:202px; margin:3px 0 0 12px; }
 .footer .legality { margin:0; }
 .footer .legality a, .footer .legality a:hover { }
 
-
 /************************************************************/
 /******************[ Mage_CSS_F Overrides]*******************/
 /************************************************************/
-
 
 /* Alignment */
 .v-top { vertical-align:top; }
