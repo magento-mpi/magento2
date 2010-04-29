@@ -127,7 +127,7 @@
             <navigationBar>
                 <tintColor>#363d40</tintColor>
                 <backgroundColor>#000000</backgroundColor>
-                <icon>http://kse.org.ua/1/smallIcon.png</icon>
+                <icon></icon>
                 <font>
                     <name>Arial-BoldMT</name>
                     <size>12</size>
@@ -135,7 +135,7 @@
                 </font>
             </navigationBar>
             <sortingBar>
-                    <backgroundImage>http://blah-blah/catBG.png</backgroundImage>
+                    <backgroundImage></backgroundImage>
                     <tintColor>#rrggbbaa</tintColor>
                     <font>
                         <name>Arial-BoldMT</name>
@@ -145,23 +145,23 @@
             </sortingBar>
             <tabBar>
                 <home>
-                    <icon>http://kse.org.ua/1/home.png</icon>
+                    <icon></icon>
                     <title>Home</title>
                 </home>
                 <shop>
-                    <icon>http://kse.org.ua/1/browse.png</icon>
+                    <icon></icon>
                     <title>Shop</title>
                 </shop>
                 <cart>
-                    <icon>http://kse.org.ua/1/cart.png</icon>
+                    <icon></icon>
                     <title>Cart</title>
                 </cart>
                 <search>
-                    <icon>http://kse.org.ua/1/search.png</icon>
+                    <icon></icon>
                     <title>Search</title>
                 </search>
                 <more>
-                    <icon>http://kse.org.ua/1/more.png</icon>
+                    <icon></icon>
                     <title>More</title>
                 </more>
             </tabBar>
@@ -169,11 +169,11 @@
                 <backgroundColor>#777777</backgroundColor>
                 <scrollBackgroundColor>#dddddd</scrollBackgroundColor>
                 <itemBackgroundIcon>http://kse.org.ua/1/catBG.png</itemBackgroundIcon>
-                <rowBackgroundIcon>http://blah-blah/catBG.png</rowBackgroundIcon>
-                <rowAttributeIcon>http://blah-blah/catBG.png</rowAttributeIcon>
-                <addToCartBackgroundIcon>http://blah-blah/catBG.png</addToCartBackgroundIcon>
-                <actionsBackgroundIcon>http://blah-blah/catBG.png</actionsBackgroundIcon>
-                <reviewsBackgroundIcon>http://blah-blah/catBG.png</reviewsBackgroundIcon>
+                <rowBackgroundIcon></rowBackgroundIcon>
+                <rowAttributeIcon></rowAttributeIcon>
+                <addToCartBackgroundIcon></addToCartBackgroundIcon>
+                <actionsBackgroundIcon></actionsBackgroundIcon>
+                <reviewsBackgroundIcon></reviewsBackgroundIcon>
                 <categoryItemFont>
                     <name>Arial-BoldMT</name>
                     <size>12</size>
@@ -233,7 +233,7 @@
                 </valueFont>
             </filters>
             <appliedFilters>
-                <backgroundImage>http://blah-blah/catBG.png</backgroundImage>
+                <backgroundImage></backgroundImage>
                 <backgroundColor>#rrggbbaa</backgroundColor>
                 <font>
                     <name>Arial-BoldMT</name>
@@ -252,16 +252,16 @@
                 </titleFont>
             </appliedFilters>
             <itemActions>
-                <backgroundImage>http://blah-blah/catBG.png</backgroundImage>
-                <viewGalleryIcon>http://blah-blah/catBG.png</viewGalleryIcon>
-                <tellAFriendIcon>http://blah-blah/catBG.png</tellAFriendIcon>
-                <addToWishlistIcon>http://blah-blah/catBG.png</addToWishlistIcon>
-                <addToCartIcon>http://blah-blah/catBG.png</addToCartIcon>
-                <viewDetailsIcon>http://blah-blah/catBG.png</viewDetailsIcon>
-                <radioEnabledIcon>http://blah-blah/catBG.png</radioEnabledIcon>
-                <radioDisabledIcon>http://blah-blah/catBG.png</radioDisabledIcon>
-                <checkBoxEnabledIcon>http://blah-blah/catBG.png</checkBoxEnabledIcon>
-                <checkBoxDisabledIcon>http://blah-blah/catBG.png</checkBoxDisabledIcon>
+                <backgroundImage></backgroundImage>
+                <viewGalleryIcon></viewGalleryIcon>
+                <tellAFriendIcon></tellAFriendIcon>
+                <addToWishlistIcon></addToWishlistIcon>
+                <addToCartIcon></addToCartIcon>
+                <viewDetailsIcon></viewDetailsIcon>
+                <radioEnabledIcon></radioEnabledIcon>
+                <radioDisabledIcon></radioDisabledIcon>
+                <checkBoxEnabledIcon></checkBoxEnabledIcon>
+                <checkBoxDisabledIcon></checkBoxDisabledIcon>
                 <font>
                     <name>Arial-BoldMT</name>
                     <size>12</size>

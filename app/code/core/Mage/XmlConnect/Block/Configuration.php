@@ -69,7 +69,7 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
     {
         foreach ($subtree as $key=>$value) {
             if (is_array($value)) {
-                if (strtolower(substr($key, -4)=='font')) {
+                if (strtolower(substr($key, -4))=='font') {
                     $font = $section->addChild($key);
                     $font->addAttribute('name', $this->_getConf($prefix.$key.'/name'));
                     $font->addAttribute('size', $this->_getConf($prefix.$key.'/size'));
@@ -79,7 +79,10 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
                     $this->buildRecursive($subsection, $value, $prefix.$key.'/');
                 }
             } else {
-                $section->addChild($key, $this->_getConf($prefix.$key));
+                $conf = $this->_getConf($prefix.$key);
+                if (!empty($conf)) {
+                    $section->addChild($key, $conf);
+                }
             }
         }
     }
