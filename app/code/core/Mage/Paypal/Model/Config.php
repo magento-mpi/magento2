@@ -240,6 +240,20 @@ class Mage_Paypal_Model_Config
     }
 
     /**
+     * Return merchant country code, use default country if it not specified in General settings
+     *
+     * @return string
+     */
+    public function getMerchantCountry()
+    {
+        $countryCode = Mage::getStoreConfig($this->_mapGeneralFieldset('merchant_country'), $this->_storeId);
+        if (!$countryCode) {
+            $countryCode = Mage::getStoreConfig('general/country/default', $this->_storeId);
+        }
+        return $countryCode;
+    }
+
+    /**
      * Get url for dispatching customer to express checkout start
      * @param string $token
      * @return string
@@ -595,13 +609,25 @@ class Mage_Paypal_Model_Config
     }
 
     /**
+     * Return full list of supported credit card types by Paypal services
+     *
+     * @return array
+     */
+    public function getCcTypesAsOptionArray()
+    {
+        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'AE', 'SS', 'SM', 'SO', 'JCB', 'DI', 'OT'));
+        return $model->toOptionArray();
+    }
+
+    /**
      * PayPal Direct cc types source getter
      *
+     * @depracted since 1.4.1.0
      * @return array
      */
     public function getDirectCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'AE', 'DI', 'OT'));
+        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'AE', 'DI', 'OT', 'SS'));
         return $model->toOptionArray();
     }
 
@@ -676,8 +702,9 @@ class Mage_Paypal_Model_Config
      */
     protected function _getSpecificConfigPath($fieldName)
     {
+        $path = null;
         if (self::METHOD_WPS === $this->_methodCode) {
-            return $this->_mapStandardFieldset($fieldName);
+            $path = $this->_mapStandardFieldset($fieldName);
         } elseif (self::METHOD_WPP_EXPRESS === $this->_methodCode ||  self::METHOD_WPP_DIRECT === $this->_methodCode) {
             $path = self::METHOD_WPP_EXPRESS === $this->_methodCode
                 ? $this->_mapExpressFieldset($fieldName)
@@ -686,11 +713,11 @@ class Mage_Paypal_Model_Config
             if (!$path) {
                 $path = $this->_mapWppFieldset($fieldName);
             }
-            if (!$path) {
-                $path = $this->_mapGenericStyleFieldset($fieldName);
-            }
-            return $path;
         }
+        if (!$path) {
+            $path = $this->_mapGenericStyleFieldset($fieldName);
+        }
+        return $path;
     }
 
     /**
@@ -703,12 +730,6 @@ class Mage_Paypal_Model_Config
     {
         switch ($fieldName)
         {
-            case 'business_account':
-            case 'allowspecific':
-            case 'specificcountry':
-            case 'line_items_enabled':
-            case 'line_items_summary':
-                return "paypal/general/{$fieldName}";
             case 'debug_flag':
             case 'sandbox_flag':
                 return "paypal/wps/{$fieldName}";
@@ -718,7 +739,7 @@ class Mage_Paypal_Model_Config
             case 'sort_order':
                 return 'payment/' . self::METHOD_WPS . "/{$fieldName}";
             default:
-                return $this->_mapGenericStyleFieldset($fieldName);
+                return $this->_mapGeneralFieldset($fieldName);
         }
     }
 
@@ -756,6 +777,8 @@ class Mage_Paypal_Model_Config
             case 'paypal_payflowcolor':
             case 'button_flavor':
                 return "paypal/style/{$fieldName}";
+            default:
+                return null;
         }
     }
 
@@ -769,8 +792,6 @@ class Mage_Paypal_Model_Config
     {
         switch ($fieldName)
         {
-            case 'business_account':
-                return "paypal/general/{$fieldName}";
             case 'api_password':
             case 'api_signature':
             case 'api_username':
@@ -781,6 +802,8 @@ class Mage_Paypal_Model_Config
             case 'sandbox_flag':
             case 'use_proxy':
                 return "paypal/wpp/{$fieldName}";
+            default:
+                return $this->_mapGeneralFieldset($fieldName);
         }
     }
 
@@ -794,11 +817,6 @@ class Mage_Paypal_Model_Config
     {
         switch ($fieldName)
         {
-            case 'allowspecific':
-            case 'specificcountry':
-            case 'line_items_enabled':
-            case 'use_payflow':
-                return "paypal/general/{$fieldName}";
             case 'active':
             case 'transfer_shipping_options':
             case 'fraud_filter':
@@ -811,6 +829,8 @@ class Mage_Paypal_Model_Config
             case 'sandbox_flag':
             case 'debug_flag':
                 return 'payment/' . self::METHOD_WPP_EXPRESS . "/{$fieldName}";
+            default:
+                return $this->_mapGeneralFieldset($fieldName);
         }
     }
 
@@ -824,13 +844,7 @@ class Mage_Paypal_Model_Config
     {
         switch ($fieldName)
         {
-            case 'allowspecific':
-            case 'specificcountry':
-            case 'line_items_enabled':
-            case 'use_payflow':
-                return "paypal/general/{$fieldName}";
             case 'active':
-            case 'cctypes':
             case 'centinel':
             case 'centinel_is_mode_strict':
             case 'centinel_api_url':
@@ -839,6 +853,31 @@ class Mage_Paypal_Model_Config
             case 'sort_order':
             case 'title':
                 return 'payment/' . self::METHOD_WPP_DIRECT . "/{$fieldName}";
+            default:
+                return $this->_mapGeneralFieldset($fieldName);
+        }
+    }
+
+    /**
+     * Map PayPal General Settings
+     *
+     * @param string $fieldName
+     * @return string|null
+     */
+    protected function _mapGeneralFieldset($fieldName)
+    {
+        switch ($fieldName)
+        {
+            case 'allowspecific':
+            case 'specificcountry':
+            case 'line_items_enabled':
+            case 'line_items_summary':
+            case 'use_payflow':
+            case 'merchant_country':
+            case 'cctypes':
+                return "paypal/general/{$fieldName}";
+            default:
+                return null;
         }
     }
 }

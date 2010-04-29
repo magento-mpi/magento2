@@ -66,11 +66,16 @@
         <payment>
             <cc>
                 <types>
-                    <SS translate="name">
-                        <code>SS</code>
-                        <name>Maestro/Solo</name>
-                        <order>40</order>
-                    </SS>
+                    <SM translate="name">
+                        <code>SM</code>
+                        <name>Switch/Maestro</name>
+                        <order>60</order>
+                    </SM>
+                    <SO translate="name">
+                        <code>SO</code>
+                        <name>Solo</name>
+                        <order>61</order>
+                    </SO>
                 </types>
             </cc>
         </payment>

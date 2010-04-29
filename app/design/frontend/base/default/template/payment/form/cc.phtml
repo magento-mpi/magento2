@@ -122,7 +122,7 @@
         //<![CDATA[
         var SSChecked<?php echo $_code ?> = function() {
             var elm = $('<?php echo $_code ?>_cc_type');
-            if (elm.value=='SS') {
+            if (['SS','SM','SO'].indexOf(elm.value) != -1) {
                 $('<?php echo $_code ?>_cc_type_ss_div').show();
                 $('<?php echo $_code ?>_cc_type_cvv_div').hide();
                 $('<?php echo $_code ?>_cc_type_exp_div').hide();
@@ -157,7 +157,7 @@
                       }
                       var ccType = ccTypeContainer.value;
 
-                      if(ccType!='SS'){
+                      if(['SS','SM','SO'].indexOf(elm.value) == -1){
                           return true;
                       }
 

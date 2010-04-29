@@ -114,6 +114,7 @@ class Mage_PaypalUk_Model_Config extends Mage_Paypal_Model_Config
     /**
      * PayPal Direct cc types source getter
      *
+     * @depracted since 1.4.1.0
      * @return array
      */
     public function getDirectCcTypesAsOptionArray()

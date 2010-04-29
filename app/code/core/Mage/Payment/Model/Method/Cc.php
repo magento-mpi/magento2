@@ -114,6 +114,9 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
                     'AE'  => '/^3[47][0-9]{13}$/',                    // American Express
                     'DI'  => '/^6011[0-9]{12}$/',                     // Discovery
                     'JCB' => '/^(3[0-9]{15}|(2131|1800)[0-9]{11})$/', // JCB
+                     // Solo, Switch or Maestro. International safe 
+                    'SM' => '/(^(5[0678])\d{11,18}$)|(^(6[^05])\d{11,18}$)|(^(601)[^1]\d{9,16}$)|(^(6011)\d{9,11}$)|(^(6011)\d{13,16}$)|(^(65)\d{11,13}$)|(^(65)\d{15,18}$)|(^(49030)[2-9](\d{10}$|\d{12,13}$))|(^(49033)[5-9](\d{10}$|\d{12,13}$))|(^(49110)[1-2](\d{10}$|\d{12,13}$))|(^(49117)[4-9](\d{10}$|\d{12,13}$))|(^(49118)[0-2](\d{10}$|\d{12,13}$))|(^(4936)(\d{12}$|\d{14,15}$))/',
+                    'SO' => '/(^(6334)[5-9](\d{11}$|\d{13,14}$))|(^(6767)(\d{12}$|\d{14,15}$))/', // Solo only
                 );
 
                 foreach ($ccTypeRegExpList as $ccTypeMatch=>$ccTypeRegExp) {
@@ -183,6 +186,8 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
             'AE' => '/^[0-9]{4}$/',        // American Express
             'DI' => '/^[0-9]{3}$/',          // Discovery
             'SS' => '/^[0-9]{3,4}$/',
+            'SM' => '/^[0-9]{3,4}$/', // Switch or Maestro
+            'SO' => '/^[0-9]{3,4}$/', // Solo
             'OT' => '/^[0-9]{3,4}$/',
             'JCB' => '/^[0-9]{4}$/' //JCB
         );

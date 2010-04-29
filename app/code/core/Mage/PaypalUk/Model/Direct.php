@@ -63,6 +63,17 @@ class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
         }
         return false;
     }
+    /**
+     * Return available CC types for gateway
+     *
+     * @return string
+     */
+    public function getAllowedCcTypes()
+    {
+        $ccTypes = explode(',', $this->_pro->getConfig()->cctypes);
+        $ccTypes = array_intersect(array('VI', 'MC', 'OT', 'SM', 'SO'), $ccTypes);
+        return implode(',', $ccTypes);
+    }
 
     /**
      * Import direct payment results to payment

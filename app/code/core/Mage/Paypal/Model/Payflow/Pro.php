@@ -107,6 +107,19 @@ class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
     );
 
     /**
+     * Return available CC types for gateway
+     *
+     * @return string
+     */
+    public function getAllowedCcTypes()
+    {
+        $ccTypes = Mage::getStoreConfig('paypal/general/cctypes', $this->getStore());
+        $ccTypes = explode(',', $ccTypes);
+        $ccTypes = array_intersect(array('AE', 'MC', 'DI', 'VI', 'JCB'), $ccTypes);
+        return implode(',', $ccTypes);
+    }
+
+    /**
      * Custom getter for payment configuration
      *
      * @param string $field
@@ -120,11 +133,13 @@ class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         }
         switch ($field)
         {
+            case 'cctypes':
+                return $this->getAllowedCcTypes();
             case 'url':
                 return $this->getTransactionUrl();
+            case 'merchant_country':
             case 'allowspecific':
             case 'specificcountry':
-            case 'cctypes':
                 $path = 'paypal/general/' . $field;
             default:
                 $path = 'payment/' . $this->getCode() . '/' . $field;

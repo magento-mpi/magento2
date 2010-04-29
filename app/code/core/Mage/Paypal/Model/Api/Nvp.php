@@ -349,7 +349,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * Map of credit card types supported by this API
      * @var array
      */
-    protected $_supportedCcTypes = array('VI' => 'Visa', 'MC' => 'MasterCard', 'DI' => 'Discover', 'AE' => 'Amex');
+    protected $_supportedCcTypes = array(
+        'VI' => 'Visa', 'MC' => 'MasterCard', 'DI' => 'Discover', 'AE' => 'Amex', 'SM' => 'Maestro', 'SO' => 'Solo');
 
     /**
      * Warning codes recollected after each API call

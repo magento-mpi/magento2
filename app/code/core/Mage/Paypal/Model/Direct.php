@@ -147,6 +147,23 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     }
 
     /**
+     * Return available CC types for gateway based on merchant country
+     *
+     * @return string
+     */
+    public function getAllowedCcTypes()
+    {
+        $ccTypes = explode(',', $this->_pro->getConfig()->cctypes);
+        $country = $this->_pro->getConfig()->merchantCountry;
+        if ($country == 'GB') {
+            $ccTypes = array_intersect(array('SS', 'MC', 'DI', 'VI'), $ccTypes);
+        } elseif ($country == 'CA') {
+            $ccTypes = array_intersect(array('MC', 'VI'), $ccTypes);
+        }
+        return implode(',', $ccTypes);
+    }
+
+    /**
      * Custom getter for payment configuration
      *
      * @param string $field
@@ -160,6 +177,8 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         }
         switch ($field)
         {
+            case 'cctypes':
+                return $this->getAllowedCcTypes();
             case 'allowspecific':
             case 'specificcountry':
             case 'line_items_enabled':
