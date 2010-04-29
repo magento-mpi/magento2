@@ -70,139 +70,86 @@ input.radio,
 input.checkbox { margin-right:5px; }
 .qty { width:2.5em; }
 .group-select label, .form-list label, .payment-methods label { font-size:12px; font-weight:bold; color:#444; }
-.button-set { /* Container for form buttons*/
-    clear:both;
-    margin-top:4em;
-    padding-top:8px;
-    text-align:right;
-    }
+.button-set { clear:both; margin-top:4em; padding-top:8px; text-align:right; }
 
-.form-button { border:0; height:24px; line-height:23px; background:url(../images/bkg_btn-cart.gif) 100% 0 no-repeat #214d90 !important; font-weight:bold; padding:0 13px 0 0; text-transform:uppercase; vertical-align:middle; }
-.form-button span { background-position:0 0; padding:0 3px 0 8px; color:#fff; vertical-align:middle; }
-
+.form-button:-moz-focus-inner { padding:0; border:0; } /* FF Fix */
+.form-button { -webkit-border-fit:lines; } /* <- Safari & Google Chrome Fix */
+.form-button { overflow:visible; width:auto; border:0; padding:0; margin:0; background:transparent; cursor:pointer; }
+.form-button span { display:block; height:20px; border:1px solid #4d71a6; background:#214d90; padding:0 11px; font:bold 12px/20px Arial, Helvetica, sans-serif; text-align:center; text-transform:uppercase; white-space:nowrap; color:#fff; }
+.disabled span { background:#fafafa; border:1px solid #cfcfcf; color:#cfcfcf; }
 
 /* Form lists */
 .form-list li { margin-bottom:6px; }
 .form-list li .input-box .input-text, .form-list li .input-box textarea { width:250px; }
 .form-list li .input-box select { width:256px;}
 
-.group-select {
-    margin:28px 0;
-    border:1px solid #cfcfcf;
-    padding:22px 25px 12px 25px;
-    background:#fafafa;
-    }
-.group-select .legend {
-    margin-top:-35px;
-    float:left;
-    background:#fafafa;
-    padding:1px 8px 2px;
-    color:#58595b;
-    font-weight:bold;
-    font-size:13px;
-	border:1px solid #cfcfcf;
-    }
+.group-select { background:#fff; border:1px solid #cfcfcf; margin:28px 0; padding:22px 5px 12px 5px; zoom:1; }
+.group-select .legend { background:#fafafa url(../images/bkg_heading.gif) 0 100% repeat-x; color:#f15d22; position:relative; z-index:1; font-size:16px; font-weight:bold; margin:-22px -5px 0; padding:11px 13px 17px; }
 .group-select li { padding:4px 8px !important; }
 .group-select li .input-box { float:left; width:275px; }
-.group-select li .input-text, .group-select li select, .group-select li textarea { width:525px; }
-.group-select li .input-box .input-text, .group-select li .input-box textarea { width:250px; }
+.group-select li .input-text,
+.group-select li select,
+.group-select li textarea { width:525px; }
+.group-select li .input-box .input-text,
+.group-select li .input-box textarea { width:250px; }
 .group-select li .input-box select { width:256px;}
 
 
 /* Form Messages */
 .validation-advice, .required { color:#EB340A; }
-.validation-advice {
-    clear:both;
-    min-height:15px;
-    margin-top:3px;
-    background:url(../images/validation_advice_bg.gif) no-repeat 2px 1px;
-    padding-left:17px;
-    font-size:.95em;
-    font-weight:bold;
-    line-height:1.25em;
-    }
-.validation-failed {
-    border:1px dashed #EB340A !important;
-    background:#faebe7 !important;
-    }
-label.required {
-    font-weight:bold;
-    }
-p.required {
-    font-size:.95em;
-    text-align:right;
-    }
-
-
+.validation-advice { clear:both; min-height:15px; margin-top:3px; background:url(../images/validation_advice_bg.gif) no-repeat 2px 1px; padding-left:17px; font-size:.95em; font-weight:bold; line-height:1.25em; }
+.validation-failed { border:1px dashed #EB340A !important; background:#faebe7 !important; }
+label.required { font-weight:bold; }
+p.required { font-size:.95em; text-align:right; }
 
 /********************** Messages  */
-    .messages { width:100%; overflow:hidden; text-align:left; margin-top:10px; }
-    .messages li { margin:0 0 10px; padding:0; }
-    .messages ul { padding:10px 17px 18px; margin:0 0 -11px; background-position:35px 100%; background-repeat:no-repeat; position:relative; }
-    .messages ul li { margin:0; padding:0 0 3px; }
-    .messages a { text-decoration:underline; }
-    .messages a:hover { text-decoration:none; }
-    .messages li.error-msg,
-    .messages li.success-msg,
-    .messages li.note-msg,
-    .messages li.notice-msg { border-style:solid !important; border-width:1px !important; font-size:12px !important; }
+.messages { width:100%; overflow:hidden; text-align:left; margin-top:10px; }
+.messages li { margin:0 0 10px; padding:0; }
+.messages ul { padding:10px 17px 18px; margin:0 0 -11px; background-position:35px 100%; background-repeat:no-repeat; position:relative; }
+.messages ul li { margin:0; padding:0 0 3px; }
+.messages a { text-decoration:underline; }
+.messages a:hover { text-decoration:none; }
+.messages li.error-msg,
+.messages li.success-msg,
+.messages li.note-msg,
+.messages li.notice-msg { border-style:solid !important; border-width:1px !important; font-size:12px !important; }
 
-    .messages li.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
-    .messages li.error-msg a { color:#d91a00; }
+.messages li.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
+.messages li.error-msg a { color:#d91a00; }
 
-    .messages li.success-msg { border-color:#446423; background-color:#eff5ea; color:#3d6611; }
-    .messages li.success-msg a { color:#3d6611; }
+.messages li.success-msg { border-color:#446423; background-color:#eff5ea; color:#3d6611; }
+.messages li.success-msg a { color:#3d6611; }
 
-    .messages li.note-msg,
-    .messages li.notice-msg { border-color:#fcd344; background-color:#fafaec; color:#3d6611; }
-    .messages li.note-msg a,
-    .messages li.notice-msg a { color:#3d6611; }
-
-
+.messages li.note-msg,
+.messages li.notice-msg { border-color:#fcd344; background-color:#fafaec; color:#3d6611; }
+.messages li.note-msg a,
+.messages li.notice-msg a { color:#3d6611; }
 
 /********************** Headings */
-
 .head, .inner-head { line-height:1.25em; text-align:right; }
 .head h1,.head h2, .head h3, .head h4, .head h5,
 .inner-head h1,.inner-head h2, .inner-head h3, .inner-head h4, .inner-head h5{ margin:0; float:left; }
 
 
 /* Page heading */
-    
 .page-head { margin-bottom:20px; padding:7px 20px; }
 .page-head h3, .page-head-alt h3  { font:normal 22px/27px Arial, Helvetica, sans-serif; color:#000; }
 .col-main .page-head-alt,
 .col-main .page-head { margin-left:-20px; margin-right:-20px; }
 
 /* Category list heading */
-.category-head {
-    margin-bottom:7px;
-    }
-.category-head h2 {
-    margin:0;
-    padding:3px 0;
-    color:#0a263c;
-    font-size:1.6em;
-    line-height:1.3em;
-    font-weight:normal;
-    }
-
-
-
+.category-head { margin-bottom:7px; }
+.category-head h2 { margin:0; padding:3px 0; color:#0a263c; font-size:1.6em; line-height:1.3em; font-weight:normal; }
 
 /********************** Lists */
 .disc { margin-bottom:10px; }
 .disc li { margin-left:20px; list-style:disc; }
 
-
 /* Bare List */ /* Unstyled list */
 .bare-list { margin:5px 0; }
 .bare-list li { margin:3px 0; }
 
-
-
 /********************** Space Creators */
-
 .no-show { display:none; }
 .no-wrap { white-space:nowrap; }
 .content-box { min-height:250px; } /* Set minimum height for visual presentation */
@@ -210,21 +157,11 @@ p.required {
 .actions { line-height:1.3em; }
 .separator { padding:0 5px;}
 .pipe { padding:0 4px; font-size:.95em; }
-.divider {
-    margin:10px 0;
-    height:1px;
-    font-size:1px;
-    line-height:1em;
-    overflow:hidden;
-    }
-
-
-
+.divider { margin:10px 0; height:1px; font-size:1px; line-height:1em; overflow:hidden; }
 
 /************************************************************/
 /********************[ Mage_CSS_C Layout]********************/
 /************************************************************/
-
 
 /********************** Base Layout */
 
@@ -285,20 +222,9 @@ h1#logo { float:left; width:202px; margin:3px 0 0 12px; }
 
 
 /* Quick Access*/
-.quick-access {
-    width:390px;
-    float:right;
-    margin-top:28px;
-    text-align:right;
-    padding:0 10px;
-    color:#fff;
-    }
+.quick-access { width:390px; float:right; margin-top:28px; text-align:right; padding:0 10px; color:#fff; }
 .quick-access p { margin-bottom:4px; }
-.quick-access li {
-    display:inline;
-    padding-right:7px;
-    padding-left:3px;
-    }
+.quick-access li { display:inline; padding-right:7px; padding-left:3px; }
 .quick-access li.first { padding-left:0;}
 .quick-access li.last { padding-right:0; background:none;}
 .account-access p, .account-access ul, .account-access li { display:inline; color:#fff; }
@@ -306,11 +232,9 @@ h1#logo { float:left; width:202px; margin:3px 0 0 12px; }
 .account-access ul { padding-left:10px; font-size:.95em; }
 .shop-access a, .shop-access a:hover { color:#ebbc58; font-size:.95em; }
 
-
 /* Breadcrumbs */
 .breadcrumbs {  margin-bottom:13px; font-size:.95em; line-height:1.25em; }
 .breadcrumbs li { display:inline; }
-
 
 
 /********************** Footer */

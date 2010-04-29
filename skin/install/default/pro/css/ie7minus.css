@@ -25,7 +25,7 @@
 
 h1#logo { display:inline; }
 .form-button, .form-button-alt { margin-bottom:1px; }
-.group-select .legend { position:relative; zoom:1; }
+.group-select .legend { margin-top:-21px; position:relative; zoom:1; }
 
 /* Min-height for IE */
 .login-box .content { height:180px; }
