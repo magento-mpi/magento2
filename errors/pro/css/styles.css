@@ -26,7 +26,7 @@
 
 html, body { height:100%; }
 
-body { background:#fff; font:11px/1.35 Arial, Helvetica, sans-serif; color:#444; text-align:center; }
+body { background:#fff; font:12px/1.35 Arial, Helvetica, sans-serif; color:#444; text-align:center; }
 
 a { color:#444; text-decoration:underline; }
 a:hover { color:#444; text-decoration:none; }
@@ -39,7 +39,7 @@ ul,ol { list-style:none; }
 .footer-container .footer { margin:0 auto; text-align:left; width:940px; }
 .page { background:url(../images/bkg_nav0.gif) repeat-x top; padding:20px 0 90px; text-align:center; }
 .main-container { width:940px; margin:0 auto; }
-.main { min-height:350px; background:#fff; border:5px solid #cfcfcf; text-align:left; }
+.main { min-height:350px; background:#fff; border:3px solid #cfcfcf; text-align:left; }
 .col1-layout { background-position:-1000px 0; }
 .col-main { float:left; width:715px; padding:0 20px 20px; }
 .col1-layout .col-main { float:none; width:auto; padding:0 20px 20px; }
