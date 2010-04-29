@@ -28,6 +28,7 @@ $installer = $this;
 /* @var $installer Mage_Core_Model_Resource_Setup */
 
 // alter table `xmlconnect_application` add column `configuration` blob default null;
+// alter table `xmlconnect_application` add column `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
 
 $installer->run("
 CREATE TABLE `{$installer->getTable('xmlconnect_application')}` (
@@ -38,6 +39,7 @@ CREATE TABLE `{$installer->getTable('xmlconnect_application')}` (
   `store_id` smallint(5) unsigned DEFAULT NULL,
   `active_from` date DEFAULT NULL,
   `active_to` date DEFAULT NULL,
+  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `configuration` blob DEFAULT NULL,
   PRIMARY KEY (`application_id`),
   KEY `FK_XMLCONNECT_APPLICAION_STORE` (`store_id`),
