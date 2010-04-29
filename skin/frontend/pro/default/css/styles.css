@@ -1339,12 +1339,12 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .opc .step-title h2 { margin:0; padding:0; }
 .opc .step-title a { display:none; float:right; font-size:11px; line-height:16px; }
 
-.opc .allow .step-title {  }
+.opc .allow .step-title { cursor:pointer; }
 .opc .allow .step-title .number { background:#000; border-color:#fff; color:#fff; }
 .opc .allow .step-title h2 { color:#000; }
 /*.opc .allow .step-title a { display:block; }*/
 
-.opc .active .step-title { color:#f15d22; padding:11px 40px 17px; background:#fafafa url(../images/bkg_heading.gif) 0 100% repeat-x; }
+.opc .active .step-title { color:#f15d22; padding:11px 40px 17px; background:#fafafa url(../images/bkg_heading.gif) 0 100% repeat-x; cursor:default; }
 .opc .active .step-title .number { background:#f15d22; border-color:#fff; color:#fff; }
 .opc .active .step-title h2 { color:#f15d22; }
 /*.opc .active .step-title a { display:none; }*/
