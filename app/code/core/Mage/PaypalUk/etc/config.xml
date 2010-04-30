@@ -105,7 +105,6 @@
     <default>
         <paypal>
             <wpuk>
-                <partner>PayPalUK</partner>
                 <user backend_model="adminhtml/system_config_backend_encrypted"/>
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
             </wpuk>
@@ -113,7 +112,6 @@
         <payment>
             <paypaluk_express>
                 <model>paypaluk/express</model>
-                <title>PayPal</title>
             </paypaluk_express>
             <paypaluk_direct>
                 <model>paypaluk/direct</model>
