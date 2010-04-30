@@ -111,9 +111,11 @@
         </paypal>
         <payment>
             <paypaluk_express>
+                <title>PayPal Express (PayFlow Edition)</title>
                 <model>paypaluk/express</model>
             </paypaluk_express>
             <paypaluk_direct>
+                <title>PayPal Direct (PayFlow Edition)</title>
                 <model>paypaluk/direct</model>
             </paypaluk_direct>
         </payment>

@@ -144,6 +144,7 @@
         <payment>
             <paypal_express translate="title">
                 <model>paypal/express</model>
+                <title>PayPal Express</title>
                 <payment_action>Sale</payment_action>
                 <allowspecific>0</allowspecific>
                 <solution_type>Sole</solution_type>
@@ -152,13 +153,14 @@
             <paypal_direct translate="title">
                 <payment_action>Sale</payment_action>
                 <model>paypal/direct</model>
-                <title>Debit or Credit Card</title>
+                <title>PayPal Direct</title>
                 <cctypes>AE,VI,MC,DI</cctypes>
                 <allowspecific>0</allowspecific>
                 <line_items_enabled>1</line_items_enabled>
             </paypal_direct>
             <paypal_standard translate="title">
                 <model>paypal/standard</model>
+                <model>PayPal Standard</model>
                 <allowspecific>0</allowspecific>
                 <payment_action>Sale</payment_action>
                 <line_items_enabled>1</line_items_enabled>
@@ -173,7 +175,7 @@
                 <payment_action>authorize</payment_action>
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
                 <tender>C</tender>
-                <title>Credit Card (Payflow Pro)</title>
+                <title>PayFlow Pro</title>
                 <user backend_model="adminhtml/system_config_backend_encrypted"/>
                 <verbosity>MEDIUM</verbosity>
                 <allowspecific>0</allowspecific>

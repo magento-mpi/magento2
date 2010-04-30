@@ -337,8 +337,9 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <title translate="label">
+                        <title translate="label comment">
                             <label>Title</label>
+                            <comment>It is recommended to set this value to "PayPal" per store views.</comment>
                             <config_path>payment/paypal_express/title</config_path>
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
@@ -447,8 +448,9 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <title translate="label">
+                        <title translate="label comment">
                             <label>Title</label>
+                            <comment>It is recommended to set this value to "PayPal" per store views.</comment>
                             <config_path>payment/paypal_standard/title</config_path>
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
@@ -508,8 +510,9 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <title translate="label">
+                        <title translate="label comment">
                             <label>Title</label>
+                            <comment>It is recommended to set this value to "Debit or Credit Card" per store views.</comment>
                             <config_path>payment/paypal_direct/title</config_path>
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
@@ -783,8 +786,9 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </tender>
-                        <title translate="label">
+                        <title translate="label comment">
                             <label>Title</label>
+                            <comment>It is recommended to set this value to "Debit or Credit Card" per store views.</comment>
                             <config_path>payment/verisign/title</config_path>
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
