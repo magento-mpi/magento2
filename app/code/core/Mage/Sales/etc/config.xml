@@ -605,6 +605,8 @@
                     <closed translate="label"><label>Closed</label></closed>
                     <canceled translate="label"><label>Canceled</label></canceled>
                     <fraud translate="label"><label>Suspected Fraud</label></fraud>
+                    <payment_review><label>Payment Review</label></payment_review>
+                    <fraud_suspected><label>Fraud Suspected</label></fraud_suspected>
                 </statuses>
                 <states>
                     <new translate="label">
@@ -656,6 +658,14 @@
                         </statuses>
                         <visible_on_front/>
                     </holded>
+                    <pending_payment_review translate="label">
+                        <label>Pending Payment Review</label>
+                        <statuses>
+                            <payment_review default="1"/>
+                            <fraud_suspected/>
+                        </statuses>
+                        <visible_on_front/>
+                    </pending_payment_review>
                 </states>
             </order>
             <order_invoice>

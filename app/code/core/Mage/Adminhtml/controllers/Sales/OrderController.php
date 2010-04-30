@@ -209,6 +209,52 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     }
 
     /**
+     * Accept order payment action
+     */
+    public function acceptPaymentAction()
+    {
+        if ($order = $this->_initOrder()) {
+            try {
+                $order->getPayment()->accept();
+                $order->save();
+                $this->_getSession()->addSuccess(
+                    $this->__('The order payment has been accepted.')
+                );
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+            catch (Exception $e) {
+                $this->_getSession()->addError($this->__('The order payment was not accepted.'));
+            }
+            $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+        }
+    }
+
+    /**
+     * Deny order payment action
+     */
+    public function denyPaymentAction()
+    {
+        if ($order = $this->_initOrder()) {
+            try {
+                $order->getPayment()->deny();
+                $order->save();
+                $this->_getSession()->addSuccess(
+                    $this->__('The order payment has been denied.')
+                );
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+            catch (Exception $e) {
+                $this->_getSession()->addError($this->__('The order payment was not denied.'));
+            }
+            $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+        }
+    }
+
+    /**
      * Add order comment action
      */
     public function addCommentAction()

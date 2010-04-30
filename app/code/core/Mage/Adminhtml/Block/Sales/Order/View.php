@@ -115,6 +115,20 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
             ));
         }
 
+        if ($this->_isAllowedAction('accept_payment') && $order->canPaymentReview()) {
+            $this->_addButton('accept_payment', array(
+                'label'     => Mage::helper('sales')->__('Accept Payment'),
+                'onclick'   => 'setLocation(\'' . $this->getAcceptPaymentUrl() . '\')',
+            ));
+        }
+
+        if ($this->_isAllowedAction('deny_payment') && $order->canPaymentReview()) {
+            $this->_addButton('deny_payment', array(
+                'label'     => Mage::helper('sales')->__('Deny Payment'),
+                'onclick'   => 'setLocation(\'' . $this->getDenyPaymentUrl() . '\')',
+            ));
+        }
+
         if ($this->_isAllowedAction('invoice') && $order->canInvoice()) {
             $_label = $order->getForcedDoShipmentWithInvoice() ?
                 Mage::helper('sales')->__('Invoice and Ship') :
@@ -255,5 +269,25 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         }
 
         return $this->getUrl('*/*/');
+    }
+
+    /**
+     * Return URL for accept payment action
+     *
+     * @return string
+     */
+    public function getAcceptPaymentUrl()
+    {
+        return $this->getUrl('*/*/acceptPayment');
+    }
+
+    /**
+     * Return URL for deny payment action
+     *
+     * @return string
+     */
+    public function getDenyPaymentUrl()
+    {
+        return $this->getUrl('*/*/denyPayment');
     }
 }
