@@ -611,11 +611,15 @@ EOT;
         $street2    = $xmlModel->xmlentities(strip_tags($address->getStreet(2)));
         $city       = $xmlModel->xmlentities(strip_tags($address->getCity()));
         $regionId   = $xmlModel->xmlentities($address->getRegionId());
-        $region     = $xmlModel->xmlentities(strip_tags(Mage::getModel('directory/region')->load($regionId)->getName()));
+        $region = Mage::getModel('directory/region')->load($regionId)->getName();
+        if (!$region) {
+            $region = $address->getRegion();
+        }
+        $region     = $xmlModel->xmlentities(strip_tags($region));
         $postcode   = $xmlModel->xmlentities(strip_tags($address->getPostcode()));
-        $countryId    = $xmlModel->xmlentities($address->getCountryId());
-        $fax        = $xmlModel->xmlentities(strip_tags($address->getTelephone()));
-        $telephone  = $xmlModel->xmlentities(strip_tags($address->getFax()));
+        $countryId  = $xmlModel->xmlentities($address->getCountryId());
+        $telephone  = $xmlModel->xmlentities(strip_tags($address->getTelephone()));
+        $fax        = $xmlModel->xmlentities(strip_tags($address->getFax()));
 
         $countries = $this->_getCountryOptions();
 
@@ -744,15 +748,15 @@ EOT;
                 $address->setId(null);
             }
             try {
-                $accressValidation = $address->validate();
-                if (true === $accressValidation) {
+                $addressValidation = $address->validate();
+                if (true === $addressValidation) {
                     $address->save();
                     $this->_message($this->__('The address has been saved.'), self::MESSAGE_STATUS_SUCCESS);
                     return;
                 }
                 else {
-                    if (is_array($accressValidation)) {
-                        $this->_message(implode('. ', $accressValidation), self::MESSAGE_STATUS_ERROR);
+                    if (is_array($addressValidation)) {
+                        $this->_message(implode('. ', $addressValidation), self::MESSAGE_STATUS_ERROR);
                     }
                     else {
                         $this->_message($this->__('Cannot save address.'), self::MESSAGE_STATUS_ERROR);
@@ -796,4 +800,15 @@ EOT;
         $this->loadLayout(false);
         $this->renderLayout();
     }
+
+    /**
+     * Check if customer is loggined
+     */
+    public function isLogginedAction()
+    {
+        $message = new Varien_Simplexml_Element('<message></message>');
+        $message->addChild('is_loggined', (int)$this->_getSession()->isLoggedIn());
+        $this->getResponse()->setBody($message->asNiceXml());
+    }
+
 }

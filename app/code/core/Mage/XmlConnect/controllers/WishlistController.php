@@ -40,7 +40,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
     {
         parent::preDispatch();
         if (!$this->_getCustomerSession()->isLoggedIn()) {
-            $this->setFlag('', 'no-dispatch', true);
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
             return ;
         }
