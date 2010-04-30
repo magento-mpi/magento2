@@ -112,18 +112,6 @@ class Mage_PaypalUk_Model_Config extends Mage_Paypal_Model_Config
     }
 
     /**
-     * PayPal Direct cc types source getter
-     *
-     * @depracted since 1.4.1.0
-     * @return array
-     */
-    public function getDirectCcTypesAsOptionArray()
-    {
-        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'AE', 'DI', 'SS', 'OT'));
-        return $model->toOptionArray();
-    }
-
-    /**
      * Map PayPal Website Payments Pro common config fields
      *
      * @param string $fieldName

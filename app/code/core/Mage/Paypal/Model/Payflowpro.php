@@ -32,7 +32,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
+class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
 {
     const TRXTYPE_AUTH_ONLY         = 'A';
     const TRXTYPE_SALE              = 'S';
@@ -115,7 +115,7 @@ class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
     {
         $ccTypes = Mage::getStoreConfig('paypal/general/cctypes', $this->getStore());
         $ccTypes = explode(',', $ccTypes);
-        $ccTypes = array_intersect(array('AE', 'MC', 'DI', 'VI', 'JCB'), $ccTypes);
+        $ccTypes = array_intersect(array('MC', 'DI', 'VI', 'JCB'), $ccTypes);
         return implode(',', $ccTypes);
     }
 
@@ -371,7 +371,7 @@ class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
         $debugData = array('request' => $request->getData());
 
         $client = new Varien_Http_Client();
-        $result = Mage::getModel('paypal/payflow_pro_result');
+        $result = $this->_getResultObject();
 
         $_config = array(
                         'maxredirects'=>5,
@@ -440,7 +440,7 @@ class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             $payment->setTender(self::TENDER_CC);
         }
 
-        $request = Mage::getModel('paypal/payflow_pro_request')
+        $request = $this->_getRequestObject()
             ->setUser($this->getConfigData('user'))
             ->setVendor($this->getConfigData('vendor'))
             ->setPartner($this->getConfigData('partner'))
@@ -448,8 +448,7 @@ class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             ->setTender($payment->getTender())
             ->setTrxtype($payment->getTrxtype())
             ->setVerbosity($this->getConfigData('verbosity'))
-            ->setRequestId($this->_generateRequestId())
-            ;
+            ->setRequestId($this->_generateRequestId());
 
         if ($this->getIsCentinelValidationEnabled()){
             $params = array();
@@ -518,7 +517,7 @@ class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             $payment->setTender(self::TENDER_CC);
         }
 
-        $request = Mage::getModel('paypal/payflow_pro_request')
+        $request = $this->_getRequestObject()
             ->setUser($this->getConfigData('user'))
             ->setVendor($this->getConfigData('vendor'))
             ->setPartner($this->getConfigData('partner'))
@@ -529,5 +528,27 @@ class Mage_Paypal_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
             ->setRequestId($this->_generateRequestId())
             ->setOrigid($payment->getTransactionId());
         return $request;
+    }
+
+     /**
+      * Return generic object instance for API requests
+      *
+      * @return Varien_Object
+      */
+    protected function _getRequestObject()
+    {
+        $request = new Varien_Object();
+        return $request;
+    }
+
+     /**
+      * Return wrapper object instance for API response results
+      *
+      * @return Varien_Object
+      */
+    protected function _getResultObject()
+    {
+        $result = new Varien_Object();
+        return $result;
     }
 }

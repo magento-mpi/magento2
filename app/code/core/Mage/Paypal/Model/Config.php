@@ -151,6 +151,15 @@ class Mage_Paypal_Model_Config
         'NOK', 'NZD', 'PLN', 'GBP', 'SGD', 'SEK', 'CHF', 'USD');
 
     /**
+     * Merchant country supported by PayPal
+     * @var array
+     */
+    protected $_supportedCountryCodes = array(
+        'AE','AR','AT','AU','BE','BG','BR','CA','CH','CL','CR','CY','CZ','DE','DK','DO','EC','EE','ES','FI','FR','GB',
+        'GF','GI','GP','GR','HK','HU','ID','IE','IL','IN','IS','IT','JM','JP','KR','LI','LT','LU','LV','MQ','MT','MX',
+        'MY','NL','NO','NZ','PH','PL','PT','RE','RO','SE','SG','SI','SK','SM','TH','TR','TW','US','UY','VE','VN','ZA');
+
+    /**
      * Locale codes supported by misc images (marks, shortcuts etc)
      * @var array
      * @see https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_ECButtonIntegration#id089QD0O0TX4__id08AH904I0YK
@@ -236,7 +245,7 @@ class Mage_Paypal_Model_Config
      */
     public function getSupportedMerchantCountryCodes()
     {
-        return explode(',', Mage::getStoreConfig('paypal/merchant_country_codes'));
+        return $this->_supportedCountryCodes;
     }
 
     /**
@@ -615,19 +624,7 @@ class Mage_Paypal_Model_Config
      */
     public function getCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'AE', 'SS', 'SM', 'SO', 'JCB', 'DI', 'OT'));
-        return $model->toOptionArray();
-    }
-
-    /**
-     * PayPal Direct cc types source getter
-     *
-     * @depracted since 1.4.1.0
-     * @return array
-     */
-    public function getDirectCcTypesAsOptionArray()
-    {
-        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'AE', 'DI', 'OT', 'SS'));
+        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'SS', 'SM', 'SO', 'JCB', 'DI', 'OT'));
         return $model->toOptionArray();
     }
 
