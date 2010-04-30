@@ -55,7 +55,7 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
             (substr($path, -5) == 'Image')) {
             $isImage = TRUE;
         }
-        if( $isImage ) {
+        if( $isImage && !empty($this->_app['conf/'.$path]) ) {
             $url = $this->_app['conf/'.$path];
             if (strpos($url, '://') === FALSE ) {
                 $url = Mage::getBaseUrl('media').'xmlconnect/'.$url;
@@ -91,6 +91,7 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
     {
         $conf = Mage::getStoreConfig('defaultConfiguration');
         $xml = new Varien_Simplexml_Element('<configuration></configuration>');
+        $xml->addChild('updateTimeUTC', strtotime($this->_app['updated_at']));
         $this->buildRecursive($xml, $conf);
         return $xml->asNiceXml();
     }

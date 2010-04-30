@@ -125,8 +125,8 @@
     <default>
         <defaultConfiguration>
             <navigationBar>
-                <tintColor>#363d40</tintColor>
-                <backgroundColor>#000000</backgroundColor>
+                <tintColor></tintColor>
+                <backgroundColor></backgroundColor>
                 <icon></icon>
                 <font>
                     <name>Arial-BoldMT</name>
@@ -136,7 +136,7 @@
             </navigationBar>
             <sortingBar>
                     <backgroundImage></backgroundImage>
-                    <tintColor>#rrggbbaa</tintColor>
+                    <tintColor></tintColor>
                     <font>
                         <name>Arial-BoldMT</name>
                         <size>12</size>
@@ -166,9 +166,9 @@
                 </more>
             </tabBar>
             <body>
-                <backgroundColor>#777777</backgroundColor>
-                <scrollBackgroundColor>#dddddd</scrollBackgroundColor>
-                <itemBackgroundIcon>http://kse.org.ua/1/catBG.png</itemBackgroundIcon>
+                <backgroundColor></backgroundColor>
+                <scrollBackgroundColor></scrollBackgroundColor>
+                <itemBackgroundIcon></itemBackgroundIcon>
                 <rowBackgroundIcon></rowBackgroundIcon>
                 <rowAttributeIcon></rowAttributeIcon>
                 <addToCartBackgroundIcon></addToCartBackgroundIcon>
@@ -234,7 +234,7 @@
             </filters>
             <appliedFilters>
                 <backgroundImage></backgroundImage>
-                <backgroundColor>#rrggbbaa</backgroundColor>
+                <backgroundColor></backgroundColor>
                 <font>
                     <name>Arial-BoldMT</name>
                     <size>12</size>
@@ -277,9 +277,9 @@
                     <size>12</size>
                     <color>#f3f3f3ff</color>
                 </selectFont>
-                <relatedProductBackgroundColor>#rrggbbaa</relatedProductBackgroundColor>
-                <configHeaderBackgroundColor>#rrggbbaa</configHeaderBackgroundColor>
-                <configContentBackgroundColor>#rrggbbaa</configContentBackgroundColor>
+                <relatedProductBackgroundColor></relatedProductBackgroundColor>
+                <configHeaderBackgroundColor></configHeaderBackgroundColor>
+                <configContentBackgroundColor></configContentBackgroundColor>
             </itemActions>
         </defaultConfiguration>
     </default>
