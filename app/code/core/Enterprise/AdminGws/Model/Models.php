@@ -786,6 +786,31 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Check whether order transaction may be saved
+     *
+     * @param Mage_Sales_Model_Order_Payment_Transaction $model
+     */
+    public function salesOrderTransactionSaveBefore($model)
+    {
+        $websiteId = $model->getOrderWebsiteId();
+            if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
+                $this->_throwSave();
+            }
+    }
+
+    /**
+     * Check whether order transaction can be loaded
+     *
+     * @param Mage_Sales_Model_Order_Payment_Transaction $model
+     */
+    public function salesOrderTransactionLoadAfter($model)
+    {
+        if (!$this->_role->hasWebsiteAccess($model->getOrderWebsiteId())) {
+            $this->_throwLoad();
+        }
+    }
+
+    /**
      * Disallow attribute save method when role scope is not 'all'
      *
      * @param Mage_Sales_Model_Abstract $model

@@ -85,6 +85,21 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction extends Mage_Sales_Model
     }
 
     /**
+     * Retrieve order website id
+     *
+     * @param int $orderId
+     * @return string
+     */
+    public function getOrderWebsiteId($orderId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from(array('so' => $this->getTable('sales/order')), 'cs.website_id')
+            ->joinInner(array('cs' => $this->getTable('core/store')), 'cs.store_id = so.store_id')
+            ->where('so.entity_id = ?', $orderId);
+        return $this->_getReadAdapter()->fetchOne($select);
+    }
+
+    /**
      * Lookup for parent_id in already saved transactions of this payment by the order_id
      * Also serialize additional information, if any
      *

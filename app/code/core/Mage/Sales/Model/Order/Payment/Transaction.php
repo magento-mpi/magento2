@@ -117,6 +117,13 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     protected $_eventObject = 'order_payment_transaction';
 
     /**
+     * Order website id
+     *
+     * @var int
+     */
+    protected $_orderWebsiteId = null;
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -710,6 +717,19 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
             Mage_Sales_Model_Order_Payment_Transaction::TYPE_VOID    => Mage::helper('sales')->__('Void'),
             Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND  => Mage::helper('sales')->__('Refund')
         );
+    }
+
+    /**
+     * Retrieve order website id
+     *
+     * @return int
+     */
+    public function getOrderWebsiteId()
+    {
+        if (is_null($this->_orderWebsiteId)) {
+            $this->_orderWebsiteId = (int)$this->getResource()->getOrderWebsiteId($this->getOrderId());
+        }
+        return $this->_orderWebsiteId;
     }
 
     /**

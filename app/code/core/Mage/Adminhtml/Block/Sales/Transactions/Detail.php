@@ -48,18 +48,21 @@ class Mage_Adminhtml_Block_Sales_Transactions_Detail extends Enterprise_Enterpri
     {
         parent::__construct();
 
+        $this->_txn = Mage::registry('current_transaction');
+
+        $backUrl = ($this->_txn->getOrderUrl()) ? $this->_txn->getOrderUrl() : $this->getUrl('*/*/');
         $this->_addButton('back', array(
             'label'   => Mage::helper('sales')->__('Back'),
-            'onclick' => "setLocation('" . Mage::getSingleton('adminhtml/url')->getUrl('*/*/'). "')",
+            'onclick' => "setLocation('{$backUrl}')",
             'class'   => 'back'
         ));
 
-        $this->_txn = Mage::registry('current_transaction');
         if (Mage::getSingleton('admin/session')->isAllowed('sales/transactions/fetch')
             && $this->_txn->getOrderPaymentObject()->getMethodInstance()->canFetchTransactionInfo()) {
+            $fetchUrl = $this->getUrl('*/*/fetch' , array('_current' => true));
             $this->_addButton('fetch', array(
                 'label'   => Mage::helper('sales')->__('Fetch'),
-                'onclick' => "setLocation('" . Mage::getSingleton('adminhtml/url')->getUrl('*/*/fetch' , array('_current' => true)). "')",
+                'onclick' => "setLocation('{$fetchUrl}')",
                 'class'   => 'button'
             ));
         }
@@ -80,22 +83,32 @@ class Mage_Adminhtml_Block_Sales_Transactions_Detail extends Enterprise_Enterpri
 
     protected function _toHtml()
     {
-        $this->addData($this->_txn->getData());
+        $this->setTxnIdHtml($this->escapeHtml($this->_txn->getTxnId()));
 
-        $this->setParentTxnIdUrl(
-            $this->getUrl('*/sales_transactions/view', array('txn_id' => $this->getParentId()))
+        $this->setParentTxnIdUrlHtml(
+            $this->escapeHtml($this->getUrl('*/sales_transactions/view', array('txn_id' => $this->_txn->getParentId())))
         );
 
-        $this->setOrderIncrementId($this->_txn->getOrder()->getIncrementId());
-
-        $this->setOrderIdUrl(
-            $this->getUrl('*/sales_order/view', array('order_id' => $this->getOrderId()))
+        $this->setParentTxnIdHtml(
+            $this->escapeHtml($this->_txn->getParentTxnId())
         );
 
-        $createdAt = (strtotime($this->getCreatedAt()))
-            ? $this->formatDate($this->getCreatedAt(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true)
+        $this->setOrderIncrementIdHtml($this->escapeHtml($this->_txn->getOrder()->getIncrementId()));
+
+        $this->setTxnTypeHtml($this->escapeHtml($this->_txn->getTxnType()));
+
+        $this->setOrderIdUrlHtml(
+            $this->escapeHtml($this->getUrl('*/sales_order/view', array('order_id' => $this->_txn->getOrderId())))
+        );
+
+        $this->setIsClosedHtml(
+            ($this->_txn->getIsClosed()) ? Mage::helper('sales')->__('Yes') : Mage::helper('sales')->__('No')
+        );
+
+        $createdAt = (strtotime($this->_txn->getCreatedAt()))
+            ? $this->formatDate($this->_txn->getCreatedAt(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true)
             : $this->__('N/A');
-        $this->setCreatedAt($createdAt);
+        $this->setCreatedAtHtml($this->escapeHtml($createdAt));
 
         return parent::_toHtml();
     }

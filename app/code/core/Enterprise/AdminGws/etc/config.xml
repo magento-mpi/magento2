@@ -367,6 +367,7 @@
                     <admin__roles_user_collection>limitAdminPermissionUsers</admin__roles_user_collection>
                     <reports__quote_collection>addStoreFilter</reports__quote_collection>
                     <widget__widget_instance_collection>addStoreFilter</widget__widget_instance_collection>
+                    <sales__order_payment_transaction_collection>addStoreFilter</sales__order_payment_transaction_collection>
                     <enterprise_banner__banner_collection>addStoreFilter</enterprise_banner__banner_collection>
                     <enterprise_customersegment__segment_collection>limitCustomerSegments</enterprise_customersegment__segment_collection>
                     <enterprise_reward__reward_history_collection>limitRewardHistoryWebsites</enterprise_reward__reward_history_collection>
@@ -381,6 +382,7 @@
                     <sales__order_invoice>salesOrderEntitySaveBefore</sales__order_invoice>
                     <sales__order_shipment>salesOrderEntitySaveBefore</sales__order_shipment>
                     <sales__order_creditmemo>salesOrderEntitySaveBefore</sales__order_creditmemo>
+                    <sales__order_payment_transaction>salesOrderTransactionSaveBefore</sales__order_payment_transaction>
                     <newsletter__queue>newsletterQueueSaveBefore</newsletter__queue>
                     <catalog__product>catalogProductSaveBefore</catalog__product>
                     <catalog__category>catalogCategorySaveBefore</catalog__category>
@@ -432,6 +434,7 @@
                     -->
                     <customer__customer>customerLoadAfter</customer__customer>
                     <sales__order>salesOrderLoadAfter</sales__order>
+                    <sales__order_payment_transaction>salesOrderTransactionLoadAfter</sales__order_payment_transaction>
                     <rule__rule>ruleLoadAfter</rule__rule>
                     <core__website>coreWebsiteLoadAfter</core__website>
                     <core__store_group>coreStoreGroupLoadAfter</core__store_group>
@@ -599,6 +602,7 @@
                     <enterprise_customersegment__adminhtml_customersegment>removeCustomerSegmentAddButton</enterprise_customersegment__adminhtml_customersegment>
                     <adminhtml__customer_group>removeCustomerGroupAddButton</adminhtml__customer_group>
                     <adminhtml__customer_group_edit>removeCustomerGroupControlButtons</adminhtml__customer_group_edit>
+                    <adminhtml__sales_transactions_detail>removeSalesTransactionControlButtons</adminhtml__sales_transactions_detail>
 
                     <adminhtml__tax_rule>removeTaxRuleAddButton</adminhtml__tax_rule>
                     <adminhtml__tax_rule_edit>removeTaxRuleControlButtons</adminhtml__tax_rule_edit>

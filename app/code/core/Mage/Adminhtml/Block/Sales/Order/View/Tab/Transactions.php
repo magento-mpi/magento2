@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Transactions
      */
     public function getRowUrl($item)
     {
-        return $this->getUrl('*/sales_transactions/view', array('txn_id' => $item->getId()));
+        return $this->getUrl('*/sales_transactions/view', array('_current' => true, 'txn_id' => $item->getId()));
     }
 
     /**

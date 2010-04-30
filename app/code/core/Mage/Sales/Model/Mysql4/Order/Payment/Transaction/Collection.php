@@ -51,6 +51,13 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection extends Mage_
     protected $_addPaymentInformation = array();
 
     /**
+     * Order Store ids
+     *
+     * @var array
+     */
+    protected $_storeIds = array();
+
+    /**
      * Payment ID filter
      * @var int
      */
@@ -87,24 +94,24 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection extends Mage_
     /**
      * Join order information
      *
-     * @param array $flag
+     * @param array $keys
      * @return Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection
      */
-    public function addOrderInformation($keys)
+    public function addOrderInformation(array $keys)
     {
-        $this->_addOrderInformation = $keys;
+        $this->_addOrderInformation = array_merge($this->_addOrderInformation, $keys);
         return $this;
     }
 
     /**
      * Join payment information
      *
-     * @param array $flag
+     * @param array $keys
      * @return Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection
      */
-    public function addPaymentInformation($keys)
+    public function addPaymentInformation(array $keys)
     {
-        $this->_addPaymentInformation = $keys;
+        $this->_addPaymentInformation = array_merge($this->_addPaymentInformation, $keys);
         return $this;
     }
 
@@ -162,13 +169,25 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection extends Mage_
     }
 
     /**
-     * Prepare filters and load the collection
-     * @param bool $printQuery
-     * @param bool $logQuery
+     * Add filter by store ids
+     *
+     * @param int|array $storeIds
      * @return Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection
      */
-    public function load($printQuery = false, $logQuery = false)
+    public function addStoreFilter($storeIds)
     {
+        $storeIds = (is_array($storeIds)) ? $storeIds : array($storeIds);
+        $this->_storeIds = array_merge($this->_storeIds, $storeIds);
+        return $this;
+    }
+
+    /**
+     * Prepare filters
+     */
+    protected function _beforeLoad()
+    {
+        parent::_beforeLoad();
+
         if ($this->isLoaded()) {
             return $this;
         }
@@ -193,6 +212,10 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection extends Mage_
                 $this->_addPaymentInformation
             );
         }
+        if ($this->_storeIds) {
+            $this->getSelect()->where('so.store_id IN(?)', $this->_storeIds);
+            $this->addOrderInformation(array('store_id'));
+        }
         if($this->_addOrderInformation) {
             $this->getSelect()->joinInner(
                 array('so' => $this->getTable('sales/order')),
@@ -200,7 +223,7 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection extends Mage_
                 $this->_addOrderInformation
             );
         }
-        return parent::load($printQuery, $logQuery);
+        return $this;
     }
 
     /**

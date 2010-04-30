@@ -45,14 +45,14 @@
                 <tbody>
                     <tr>
                         <th><?php echo $this->__('Transaction ID'); ?></th>
-                        <td><?php echo $this->escapeHtml($this->getTxnId()) ?></td>
+                        <td><?php echo $this->getTxnIdHtml() ?></td>
                     </tr>
                     <tr>
                         <th><?php echo $this->__('Parent Transaction ID'); ?></th>
                         <td>
-                            <?php if ($this->getParentTxnId()): ?>
-                                <a href="<?php echo $this->escapeHtml($this->getParentTxnIdUrl()) ?>">
-                                    <?php echo $this->getParentTxnId(); ?>
+                            <?php if ($this->getParentTxnIdHtml()): ?>
+                                <a href="<?php echo $this->getParentTxnIdUrlHtml() ?>">
+                                    <?php echo $this->getParentTxnIdHtml(); ?>
                                 </a>
                             <?php else :?>
                                 <?php echo $this->__('N/A'); ?>
@@ -62,18 +62,22 @@
                     <tr>
                         <th><?php echo $this->__('Order ID'); ?></th>
                         <td>
-                            <a href="<?php echo $this->escapeHtml($this->getOrderIdUrl()); ?>">
-                                <?php echo $this->getOrderIncrementId() ?>
+                            <a href="<?php echo $this->getOrderIdUrlHtml(); ?>">
+                                <?php echo $this->getOrderIncrementIdHtml() ?>
                             </a>
                         </td>
                     </tr>
                     <tr>
                         <th><?php echo $this->__('Transaction Type'); ?></th>
-                        <td><?php echo $this->getTxnType() ?></td>
+                        <td><?php echo $this->getTxnTypeHtml() ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo $this->__('Is Closed'); ?></th>
+                        <td><?php echo $this->getIsClosedHtml(); ?></td>
                     </tr>
                     <tr>
                         <th><?php echo $this->__('Created At'); ?></th>
-                        <td><?php echo $this->getCreatedAt(); ?></td>
+                        <td><?php echo $this->getCreatedAtHtml(); ?></td>
                     </tr>
                 </tbody>
             </table>

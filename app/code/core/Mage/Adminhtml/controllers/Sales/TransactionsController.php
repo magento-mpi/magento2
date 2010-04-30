@@ -48,6 +48,12 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
+        $orderId = $this->getRequest()->getParam('order_id');
+        if ($orderId) {
+            $txn->setOrderUrl(
+                $this->getUrl('*/sales_order/view', array('order_id' => $orderId))
+            );
+        }
 
         Mage::register('current_transaction', $txn);
         return $txn;

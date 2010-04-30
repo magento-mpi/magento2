@@ -437,6 +437,25 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Remove fetch button if user doesn't have exclusive access to order
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeSalesTransactionControlButtons($observer)
+    {
+        $model = Mage::registry('current_transaction');
+        if ($model) {
+            $websiteId = $model->getOrderWebsiteId();
+            if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
+                $block = $observer->getEvent()->getBlock();
+                $block->removeButton('fetch');
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Disable fields in edit form if user does not have exclusive access to current tag
      *
      * @param Varien_Event_Observer $observer
