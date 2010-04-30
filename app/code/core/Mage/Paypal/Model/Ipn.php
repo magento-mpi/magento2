@@ -210,6 +210,7 @@ class Mage_Paypal_Model_Ipn
         try {
             try {
                 $order = $this->_getOrder();
+                $orderState = $order->getState();
                 $wasPaymentInformationChanged = $this->_importPaymentInformation($order->getPayment());
                 $paymentStatus = $this->getIpnFormData('payment_status');
                 switch ($paymentStatus) {
@@ -218,15 +219,20 @@ class Mage_Paypal_Model_Ipn
                         // break intentionally omitted
                     // paid with PayPal
                     case self::STATUS_COMPLETED:
+                        if ($orderState == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT_REVIEW) {
+                            $this->_registerPaymentAccept();
+                            break;
+                        }
                         $this->_registerPaymentCapture();
                         break;
 
                     // the holded payment was denied on paypal side
                     case self::STATUS_DENIED:
-                        $this->_registerPaymentFailure(
-                            Mage::helper('paypal')->__('Merchant denied this pending payment.')
-                        );
-                        break;
+                        if ($orderState == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT_REVIEW) {
+                            $this->_registerPaymentDeny();
+                            break;
+                        }
+
                     // customer attempted to pay via bank account, but failed
                     case self::STATUS_FAILED:
                         // cancel order
@@ -311,6 +317,32 @@ class Mage_Paypal_Model_Ipn
                 ->setIsCustomerNotified(true)
                 ->save();
         }
+    }
+
+    /**
+     * Register payment accept  
+     */
+    protected function _registerPaymentAccept()
+    {
+        $order = $this->_getOrder();
+        $payment = $order->getPayment();
+        $payment->setTransactionId($this->getIpnFormData('txn_id'))
+            ->setIsTransactionClosed(false)
+            ->registerAcceptNotification();
+        $order->save();
+    }
+
+    /**
+     * Register payment deny  
+     */
+    protected function _registerPaymentDeny()
+    {
+        $order = $this->_getOrder();
+        $payment = $order->getPayment();
+        $payment->setTransactionId($this->getIpnFormData('txn_id'))
+            ->setIsTransactionClosed(false)
+            ->registerDenyNotification();
+        $order->save();
     }
 
     /**

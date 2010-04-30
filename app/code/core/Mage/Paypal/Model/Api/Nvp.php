@@ -43,6 +43,24 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     const CALLBACK_RESPONSE = 'CallbackResponse';
 
     /**
+     * Paypal ManagePendingTransactionStatus actions
+     */
+    const PENDING_TRANSACTION_ACCEPT = 'Accept';
+    const PENDING_TRANSACTION_DENY = 'Deny';
+
+    /**
+     * Paypal status values 
+     */
+    const STATUS_PENDING = 'Pending';
+    const STATUS_PROCESSING = 'Processing';
+    const STATUS_COMPLETED = 'Completed';
+    const STATUS_DENIED = 'Denied';
+    const STATUS_REVERSED = 'Reversed';
+    const STATUS_DISPLAY_ONLY = 'Display Only';
+    const STATUS_PARTIALLY_REFUNDED = 'Partially Refunded';
+    const STATUS_CREATED_REFUNDED = 'Created Refunded';
+
+    /**
      * Capture types (make authorization close or remain open)
      * @var string
      */
@@ -241,7 +259,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * ManagePendingTransactionStatus request/response map
      */
     protected $_managePendingTransactionStatusRequest = array('TRANSACTIONID', 'ACTION');
-    protected $_managePendingTransactionStatusResponse = array('TRANSACTIONID');
+    protected $_managePendingTransactionStatusResponse = array('TRANSACTIONID', 'STATUS');
 
     /**
      * GetPalDetails response map
@@ -473,6 +491,37 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $response = $this->call(self::DO_DIRECT_PAYMENT, $request);
         $this->_importFromResponse($this->_doDirectPaymentResponse, $response);
         $this->_importFraudFiltersResult($response, $this->_callWarnings);
+    }
+
+    /**
+     * Analise response and return true if payment has state Pending
+     *
+     * @return bool
+     */
+    public function getIsPaymentPending()
+    {
+        return $this->getPaymentStatus() == self::STATUS_PENDING 
+            && $this->getPendingReason() == 'multicurrency'; // it must be changed after create analyze pending_reason functionality  
+    }
+
+    /**
+     * Analise response and return true if payment has state Completed
+     *
+     * @return bool
+     */
+    public function getIsPaymentCompleted()
+    {
+        return $this->getPaymentStatus() == self::STATUS_COMPLETED; 
+    }
+
+    /**
+     * Analise response and return true if payment has state Denied
+     *
+     * @return bool
+     */
+    public function getIsPaymentDenied()
+    {
+        return $this->getPaymentStatus() == self::STATUS_DENIED; 
     }
 
     /**

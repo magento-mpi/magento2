@@ -219,6 +219,87 @@ class Mage_Paypal_Model_Pro
     }
 
     /**
+     * Accept payment
+     *
+     * @param Varien_Object $payment
+     */
+    public function accept(Varien_Object $payment)
+    {
+        $captureTxnId = $payment->getLastTransId();
+        if ($captureTxnId) {
+            $api = $this->getApi();
+            $api->setPayment($payment)
+                ->setTransactionId($captureTxnId)
+                ->setAction(Mage_Paypal_Model_Api_Nvp::PENDING_TRANSACTION_ACCEPT);
+
+            //PayPal must fix bug 
+            //$api->callManagePendingTransactionStatus();
+            /*fiction*/$api->setPaymentStatus(Mage_Paypal_Model_Api_Nvp::STATUS_COMPLETED);/*fiction*/
+            // end 
+
+            $this->_importAcceptResultToPayment($api, $payment);
+        } else {
+            Mage::throwException(Mage::helper('paypal')->__('Impossible to accept transaction because the capture transaction does not exist.'));
+        }
+    }
+
+    /**
+     * Deny payment
+     *
+     * @param Varien_Object $payment
+     */
+    public function deny(Varien_Object $payment)
+    {
+        $captureTxnId = $payment->getLastTransId();
+        if ($captureTxnId) {
+            $api = $this->getApi();
+            $api->setPayment($payment)
+                ->setTransactionId($captureTxnId)
+                ->setAction(Mage_Paypal_Model_Api_Nvp::PENDING_TRANSACTION_DENY);
+
+            // PayPal must fix bug 
+            //$api->callManagePendingTransactionStatus();
+            /*fiction*/$api->setPaymentStatus(Mage_Paypal_Model_Api_Nvp::STATUS_DENIED);/*fiction*/
+            // end 
+
+            $this->_importDenyResultToPayment($api, $payment);
+        } else {
+            Mage::throwException(Mage::helper('paypal')->__('Impossible to deny transaction because the capture transaction does not exist.'));
+        }
+    }
+
+    /**
+     * Import accept results to payment
+     *
+     * @param Mage_Paypal_Model_Api_Nvp
+     * @param Mage_Sales_Model_Order_Payment
+     */
+    protected function _importAcceptResultToPayment($api, $payment)
+    {
+        $payment
+            ->setTransactionId($api->getTransactionId())
+            ->setIsTransactionClosed(false)
+            ->setIsPaymentCompleted($api->getIsPaymentCompleted());
+        Mage::getModel('paypal/info')->importToPayment($api, $payment);
+    }
+
+    /**
+     * Import deny results to payment
+     *
+     * @param Mage_Paypal_Model_Api_Nvp
+     * @param Mage_Sales_Model_Order_Payment
+     */
+    protected function _importDenyResultToPayment($api, $payment)
+    {
+        $payment
+            ->setTransactionId($api->getTransactionId())
+            ->setIsTransactionClosed(true)
+            ->setIsPaymentDenied($api->getIsPaymentDenied());
+        Mage::getModel('paypal/info')->importToPayment($api, $payment);
+    }
+
+    
+    /**
      * Fetch transaction details info
      *
      * @param string $transactionId

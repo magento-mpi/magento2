@@ -224,6 +224,30 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
+     * Accept payment
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return Mage_Paypal_Model_Express
+     */
+    public function accept(Varien_Object $payment)
+    {
+        $this->_pro->accept($payment);
+        return $this;
+    }
+
+    /**
+     * Deny payment
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return Mage_Paypal_Model_Express
+     */
+    public function deny(Varien_Object $payment)
+    {
+        $this->_pro->deny($payment);
+        return $this;
+    }
+
+    /**
      * Checkout redirect URL getter for onepage checkout (hardcode)
      *
      * @see Mage_Checkout_OnepageController::savePaymentAction()
