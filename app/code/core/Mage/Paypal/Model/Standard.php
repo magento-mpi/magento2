@@ -199,6 +199,8 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         }
         switch ($field)
         {
+            case 'business_account':
+            case 'merchant_country':
             case 'allowspecific':
             case 'specificcountry':
             case 'line_items_enabled':

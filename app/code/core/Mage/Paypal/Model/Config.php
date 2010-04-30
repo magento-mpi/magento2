@@ -871,13 +871,14 @@ class Mage_Paypal_Model_Config
     {
         switch ($fieldName)
         {
+            case 'business_account':
+            case 'merchant_country':
+            case 'use_payflow':
+            case 'cctypes':
             case 'allowspecific':
             case 'specificcountry':
             case 'line_items_enabled':
             case 'line_items_summary':
-            case 'use_payflow':
-            case 'merchant_country':
-            case 'cctypes':
                 return "paypal/general/{$fieldName}";
             default:
                 return null;
