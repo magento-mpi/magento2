@@ -433,16 +433,14 @@ abstract class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Co
     }
 
     /**
-     * Load data
+     * Redeclare before load method for adding event
      *
-     * @return  Varien_Data_Collection_Db
+     * @return Mage_Core_Model_Mysql4_Collection_Abstract
      */
-    public function load($printQuery = false, $logQuery = false)
+    protected function _beforeLoad()
     {
-        if (!$this->isLoaded()) {
-            Mage::dispatchEvent('core_collection_abstract_load_before', array('collection' => $this));
-        }
-        parent::load($printQuery, $logQuery);
+        parent::_beforeLoad();
+        Mage::dispatchEvent('core_collection_abstract_load_before', array('collection' => $this));
         return $this;
     }
 

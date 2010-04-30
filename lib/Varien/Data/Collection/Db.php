@@ -559,6 +559,16 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     }
 
     /**
+     * Before load action
+     *
+     * @return Varien_Data_Collection_Db
+     */
+    protected function _beforeLoad()
+    {
+        return $this;
+    }
+
+    /**
      * Load data
      *
      * @return  Varien_Data_Collection_Db
@@ -568,6 +578,8 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         if ($this->isLoaded()) {
             return $this;
         }
+
+        $this->_beforeLoad();
 
         $this->_renderFilters()
              ->_renderOrders()
