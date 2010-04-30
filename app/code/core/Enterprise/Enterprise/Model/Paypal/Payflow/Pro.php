@@ -28,6 +28,6 @@
  * Ancestor class
  */
 
-abstract class Enterprise_Enterprise_Model_Paypal_Payflow_Pro extends Mage_Paypal_Model_Payflow_Pro
+abstract class Enterprise_Enterprise_Model_Paypal_Payflow_Pro extends Mage_Paypal_Model_Payflowpro
 {
 }
