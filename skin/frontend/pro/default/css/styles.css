@@ -739,7 +739,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 /* Category Page ========================================================================= */
 .category-title { border:0; margin:0 0 7px; }
 .category-image { width:100%; overflow:hidden; margin:0 0 7px; text-align:center; }
-.category-image img {}
+.category-image img { max-width:100%; }
 .category-description { margin:0 0 10px; }
 .category-products {}
 

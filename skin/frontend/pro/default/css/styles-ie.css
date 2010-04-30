@@ -26,6 +26,7 @@
 /* IE 6 only */
 * html .validation-advice { height:13px; }
 * html .col-main { height:400px; }
+* html .category-image img { width:100%; }
 .block li.item,
 .block-poll li,
 .opc li.section { vertical-align:top; }
