@@ -70,11 +70,18 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
         foreach ($subtree as $key=>$value) {
             if (is_array($value)) {
                 if (strtolower(substr($key, -4))=='font') {
+                    $name = $section->xmlentities(trim($this->_getConf($prefix.$key.'/name')));
+                    $size = $section->xmlentities(trim($this->_getConf($prefix.$key.'/size')));
+                    $color = $section->xmlentities(trim($this->_getConf($prefix.$key.'/color')));
+                    if (empty($name) || empty($size) || empty($color)) {
+                        continue;
+                    }
                     $font = $section->addChild($key);
-                    $font->addAttribute('name', $this->_getConf($prefix.$key.'/name'));
-                    $font->addAttribute('size', $this->_getConf($prefix.$key.'/size'));
-                    $font->addAttribute('color', $this->_getConf($prefix.$key.'/color'));
-                } else {
+                    $font->addAttribute('name', $name);
+                    $font->addAttribute('size', $size);
+                    $font->addAttribute('color', $color);
+                }
+                else {
                     $subsection = $section->addChild($key);
                     $this->buildRecursive($subsection, $value, $prefix.$key.'/');
                 }

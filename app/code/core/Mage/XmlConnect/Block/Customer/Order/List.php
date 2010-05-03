@@ -31,7 +31,7 @@
  * @package    Mage_XmlConnect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Customer_Order_List extends Mage_XmlConnect_Block_Catalog
+class Mage_XmlConnect_Block_Customer_Order_List
 {
     /**
      * Render customer orders list xml
