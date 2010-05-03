@@ -280,11 +280,14 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
             case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
                 $discountAmount     = $item->getDiscountAmount();
                 $baseDiscountAmount = $item->getBaseDiscountAmount();
-                $unitTax        = $this->_calculator->calcTaxAmount($price-$discountAmount/$qty, $rate, $inclTax);
-                $baseUnitTax    = $this->_calculator->calcTaxAmount($basePrice-$baseDiscountAmount/$qty, $rate, $inclTax);
+                $unitTax        = $this->_calculator->calcTaxAmount(max($price-$discountAmount, 0)/$qty, $rate, $inclTax);
+                $baseUnitTax    = $this->_calculator->calcTaxAmount(max($basePrice-$baseDiscountAmount, 0)/$qty, $rate, $inclTax);
                 if ($inclTax && $discountAmount>0) {
                     $hiddenTax      = $price - $unitTax - $item->getOriginalPrice();
                     $baseHiddenTax  = $basePrice - $unitTax - $item->getBasePrice();
+                } elseif ($discountAmount > $price*$qty) { // case with 100% discount on price incl. tax
+                    $hiddenTax      = ($discountAmount - $price*$qty)/$qty;
+                    $baseHiddenTax  = ($baseDiscountAmount - $basePrice*$qty)/$qty;
                 }
                 break;
         }
@@ -364,11 +367,14 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
             case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
                 $discountAmount     = $item->getDiscountAmount();
                 $baseDiscountAmount = $item->getBaseDiscountAmount();
-                $rowTax         = $this->_calculator->calcTaxAmount($subtotal - $discountAmount, $rate, $inclTax);
-                $baseRowTax     = $this->_calculator->calcTaxAmount($baseSubtotal - $baseDiscountAmount, $rate, $inclTax);
+                $rowTax         = $this->_calculator->calcTaxAmount(max($subtotal - $discountAmount, 0), $rate, $inclTax);
+                $baseRowTax     = $this->_calculator->calcTaxAmount(max($baseSubtotal - $baseDiscountAmount, 0), $rate, $inclTax);
                 if ($inclTax && $discountAmount>0) {
                     $hiddenTax      = $subtotal - $rowTax - $item->getRowTotal();
                     $baseHiddenTax  = $baseSubtotal - $baseRowTax - $item->getBaseRowTotal();
+                } elseif ($discountAmount>$subtotal) { // case with 100% discount on price incl. tax
+                    $hiddenTax      = $discountAmount - $subtotal;
+                    $baseHiddenTax  = $baseDiscountAmount - $baseSubtotal;
                 }
                 break;
         }
@@ -443,8 +449,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
     {
         $inclTax        = $item->getIsPriceInclTax();
         $rateKey        = (string) $rate;
-        $subtotal       = $item->getTaxableAmount() + $item->getExtraRowTaxableAmount();
-        $baseSubtotal   = $item->getBaseTaxableAmount() + $item->getBaseExtraRowTaxableAmount();
+        $taxSubtotal    = $subtotal     = $item->getTaxableAmount() + $item->getExtraRowTaxableAmount();
+        $baseTaxSubtotal= $baseSubtotal = $item->getBaseTaxableAmount() + $item->getBaseExtraRowTaxableAmount();
         $item->setTaxPercent($rate);
 
         if (!isset($taxGroups[$rateKey]['totals'])) {
@@ -464,10 +470,10 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
             case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
                 $discount       = $item->getDiscountAmount();
                 $baseDiscount   = $item->getBaseDiscountAmount();
-                $subtotal       -= $discount;
-                $baseSubtotal   -= $baseDiscount;
-                $rowTax         = $this->_calculator->calcTaxAmount($subtotal, $rate, $inclTax, false);
-                $baseRowTax     = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, $inclTax, false);
+                $taxSubtotal       = max($subtotal - $discount, 0);
+                $baseTaxSubtotal   = max($baseSubtotal - $baseDiscount, 0);
+                $rowTax         = $this->_calculator->calcTaxAmount($taxSubtotal, $rate, $inclTax, false);
+                $baseRowTax     = $this->_calculator->calcTaxAmount($baseTaxSubtotal, $rate, $inclTax, false);
                 break;
         }
 
@@ -483,6 +489,9 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
             $hiddenTax      = $this->_deltaRound($hiddenTax, $rateKey, $inclTax, 'hidden');
             $baseHiddenTax  = $this->_calculator->calcTaxAmount($baseDiscount, $rate, $inclTax, false);
             $baseHiddenTax  = $this->_deltaRound($baseHiddenTax, $rate, $inclTax, 'base_hidden');
+        } elseif (!empty($discount) && $discount > $subtotal) { // case with 100% discount on price incl. tax
+            $hiddenTax      = $discount - $subtotal;
+            $baseHiddenTax  = $baseDiscount - $baseSubtotal;
         }
 
         $item->setTaxAmount(max(0, $rowTax));
@@ -490,8 +499,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         $item->setHiddenTaxAmount(max(0, $hiddenTax));
         $item->setBaseHiddenTaxAmount(max(0, $baseHiddenTax));
 
-        $taxGroups[$rateKey]['totals'][]        = max(0, $subtotal);
-        $taxGroups[$rateKey]['base_totals'][]   = max(0, $baseSubtotal);
+        $taxGroups[$rateKey]['totals'][]        = max(0, $taxSubtotal);
+        $taxGroups[$rateKey]['base_totals'][]   = max(0, $baseTaxSubtotal);
         return $this;
     }
 
