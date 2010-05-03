@@ -474,8 +474,15 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         $rowTax     = $this->_deltaRound($rowTax, $rateKey, $inclTax);
         $baseRowTax = $this->_deltaRound($baseRowTax, $rateKey, $inclTax, 'base');
         if ($inclTax && !empty($discount)) {
+            /**
+             * Becouse of delta hidden tax should be calculated based on discount amount
             $hiddenTax      = $item->getRowTotalInclTax() - $item->getRowTotal() - $rowTax;
             $baseHiddenTax  = $item->getBaseRowTotalInclTax() - $item->getBaseRowTotal() - $baseRowTax;
+             */
+            $hiddenTax      = $this->_calculator->calcTaxAmount($discount, $rate, $inclTax, false);
+            $hiddenTax      = $this->_deltaRound($hiddenTax, $rateKey, $inclTax, 'hidden');
+            $baseHiddenTax  = $this->_calculator->calcTaxAmount($baseDiscount, $rate, $inclTax, false);
+            $baseHiddenTax  = $this->_deltaRound($baseHiddenTax, $rate, $inclTax, 'base_hidden');
         }
 
         $item->setTaxAmount(max(0, $rowTax));
