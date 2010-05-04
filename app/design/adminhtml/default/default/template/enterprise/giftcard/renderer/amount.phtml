@@ -148,7 +148,7 @@
         if ($('allow_open_amount')) {
             Event.observe('allow_open_amount', 'change', updatePriceAmountValidation);
         }
-        Event.observe(window, 'load', updatePriceAmountValidation);
+        updatePriceAmountValidation();
     }
     Event.observe(window, 'load', setupPriceAmountEvents);
 //]]>
