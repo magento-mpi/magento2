@@ -39,6 +39,10 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     protected function _getItemData()
     {
         $data = $this->getRequest()->getParam('creditmemo');
+        if (!$data) {
+            $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+        }
+
         if (isset($data['items'])) {
             $qtys = $data['items'];
         } else {
@@ -312,9 +316,10 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
+            Mage::getSingleton('adminhtml/session')->setFormData($data);
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_getSession()->addError($this->__('Cannot save the cedit memo.'));
+            $this->_getSession()->addError($this->__('Cannot save the credit memo.'));
         }
         $this->_redirect('*/*/new', array('_current' => true));
     }
