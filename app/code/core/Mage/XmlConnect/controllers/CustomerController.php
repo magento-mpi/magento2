@@ -124,12 +124,12 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     <fieldset>
         <field name="firstname" type="text" label="First Name" required="true">
             <validators>
-                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
             </validators>
         </field>
         <field name="lastname" type="text" label="Last Name" required="true">
             <validators>
-                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
             </validators>
         </field>
         <field name="email" type="text" label="Email" required="true">
@@ -174,12 +174,12 @@ EOT;
     <fieldset>
         <field name="firstname" type="text" label="First Name" required="true" value="$firstname">
             <validators>
-                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
             </validators>
         </field>
         <field name="lastname" type="text" label="Last Name" required="true" value="$lastname">
             <validators>
-                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
             </validators>
         </field>
         <field name="email" type="text" label="Email" required="true" value="$email">
@@ -550,12 +550,12 @@ EOT;
     <fieldset legend="Contact Information">
         <field name="firstname" type="text" label="First Name" required="true">
             <validators>
-                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
             </validators>
         </field>
         <field name="lastname" type="text" label="Last Name" required="true">
             <validators>
-                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
             </validators>
         </field>
         <field name="company" type="text" label="Company" />
@@ -656,12 +656,12 @@ EOT;
     <fieldset legend="Contact Information">
         <field name="firstname" type="text" label="First Name" required="true" value="$firstname">
             <validators>
-                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
             </validators>
         </field>
         <field name="lastname" type="text" label="Last Name" required="true" value="$lastname">
             <validators>
-                <validator type="regexp" message="Letters only">^[a-zA-Z]+$</validator>
+                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
             </validators>
         </field>
         <field name="company" type="text" label="Company" value="$company" />

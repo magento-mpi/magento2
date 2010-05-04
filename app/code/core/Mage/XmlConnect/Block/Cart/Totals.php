@@ -25,37 +25,36 @@
  */
 
 /**
- * Shopping cart summary information xml renderer
+ * Shopping cart totals xml renderer
  *
  * @category    Mage
  * @package     Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Cart_Info extends Mage_XmlConnect_Block_Cart
+class Mage_XmlConnect_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Totals
 {
    /**
-     * Render cart summary xml
+     * Render cart totals xml
      *
      * @return string
      */
     protected function _toHtml()
     {
         $quote = $this->getQuote();
-        $xmlObject  = new Varien_Simplexml_Element('<cart></cart>');
-        $xmlObject->addChild('is_virtual', (int)$this->helper('checkout/cart')->getIsVirtualQuote());
-        $xmlObject->addChild('summary_qty', (int)$this->helper('checkout/cart')->getSummaryCount());
-        $xmlObject->addChild('virtual_qty', (int)$quote->getItemVirtualQty());
-        if (strlen($quote->getCouponCode())) {
-            $xmlObject->addChild('has_coupon_code', 1);
+        $totalsXmlObj  = new Varien_Simplexml_Element('<totals></totals>');
+
+        foreach ($quote->getTotals() as $total) {
+            $value = sprintf('%01.2f', $total->getValue());
+            if ($value != 0.00 || $total->getCode() == 'subtotal' || $total->getCode() == 'grand_total' || $total->getCode() == 'shipping') {
+                $totalXmlObj = $totalsXmlObj->addChild($total->getCode());
+                $totalXmlObj->addChild('title', $totalsXmlObj->xmlentities(strip_tags($total->getTitle())));
+                $formatedValue = $quote->getStore()->formatPrice($value, false);
+                $totalXmlObj->addChild('value', $value);
+                $totalXmlObj->addChild('formated_value', $formatedValue);
+            }
         }
 
-        $totalsXml = $this->getChildHtml('totals');
-        if ($totalsXml) {
-            $totalsXmlObj = new Varien_Simplexml_Element($totalsXml);
-            $xmlObject->appendChild($totalsXmlObj);
-        }
-
-        return $xmlObject->asNiceXml();
+        return $totalsXmlObj->asNiceXml();
     }
 
 }

@@ -102,7 +102,9 @@
     </xmlconnect_cart_index>
 
     <xmlconnect_cart_info>
-        <block type="xmlconnect/cart_info" name="xmlconnect.cart.info" as="cart_info" output="toHtml"/>
+        <block type="xmlconnect/cart_info" name="xmlconnect.cart.info" as="cart_info" output="toHtml">
+            <block type="xmlconnect/cart_totals" name="xmlconnect.cart.totals" as="totals"/>
+        </block>
     </xmlconnect_cart_info>
 
     <!-- Customer -->
@@ -124,5 +126,45 @@
     <xmlconnect_configuration_index>
         <block type="xmlconnect/configuration" name="xmlconnect.configuration" output="toHtml"/>
     </xmlconnect_configuration_index>
+
+    <!-- Checkout (OnePage) -->
+
+    <xmlconnect_checkout_index>
+        <block type="xmlconnect/checkout_address_billing" name="xmlconnect.checkout.address.billing" output="toHtml"/>
+    </xmlconnect_checkout_index>
+
+    <xmlconnect_checkout_billingaddress>
+        <block type="xmlconnect/checkout_address_billing" name="xmlconnect.checkout.address.billing" output="toHtml"/>
+    </xmlconnect_checkout_billingaddress>
+
+    <xmlconnect_checkout_shippingaddress>
+        <block type="xmlconnect/checkout_address_shipping" name="xmlconnect.checkout.address.shipping" output="toHtml"/>
+    </xmlconnect_checkout_shippingaddress>
+
+    <xmlconnect_checkout_shippingmethods>
+        <block type="xmlconnect/checkout_shipping_method_avaliable" name="xmlconnect.checkout.shipping.method.avalieble" output="toHtml"/>
+    </xmlconnect_checkout_shippingmethods>
+
+    <xmlconnect_checkout_paymentmethods>
+        <block type="xmlconnect/checkout_payment_method_list" name="xmlconnect.checkout.payment.method.list" output="toHtml">
+            <block type="xmlconnect/checkout_payment_method_ccsave" name="xmlconnect.checkout.method.ccsave" as="payment_ccsave" output=""/>
+            <block type="xmlconnect/checkout_payment_method_checkmo" name="xmlconnect.checkout.method.checkmo" as="payment_checkmo" output=""/>
+            <block type="xmlconnect/checkout_payment_method_paypal_payflow" name="xmlconnect.checkout.method.paypal.payflow" as="payment_paypal_payflow" output=""/>
+            <block type="xmlconnect/checkout_payment_method_paypal_direct" name="xmlconnect.checkout.method.paypal.direct" as="payment_paypal_direct" output=""/>
+        </block>
+    </xmlconnect_checkout_paymentmethods>
+
+    <xmlconnect_checkout_orderreview>
+        <block type="xmlconnect/checkout_order_review" name="xmlconnect.checkout.order.review" output="toHtml">
+            <block type="xmlconnect/checkout_order_review_info" name="xmlconnect.checkout.order.info" as="order_products">
+                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/onepage/review/item.phtml</template></action>
+                <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/onepage/review/item.phtml</template></action>
+            </block>
+            <block type="xmlconnect/cart_totals" name="xmlconnect.checkout.order.review.totals" as="totals"/>
+            <block type="xmlconnect/checkout_agreements" name="xmlconnect.checkout.agreements" as="agreements" output=""/>
+        </block>
+    </xmlconnect_checkout_orderreview>
 
 </layout>

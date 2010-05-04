@@ -19,51 +19,44 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Checkout
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Shopping cart xml renderer
+ * One page checkout order info xml renderer
  *
- * @category    Mage
- * @package     Mage_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @category   Mage
+ * @package    Mage_XmlConnect
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
+class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Block_Onepage_Review_Info
 {
-   /**
-     * Render shopping cart xml
+    /**
+     * Render order review items
      *
      * @return string
      */
     protected function _toHtml()
     {
-        $cartMessages   = $this->getMessages();
-        $quote          = $this->getQuote();
-        $xmlObject      = new Varien_Simplexml_Element('<cart></cart>');
-        $xmlObject->addAttribute('is_virtual', (int)$this->helper('checkout/cart')->getIsVirtualQuote());
-        $xmlObject->addAttribute('summary_qty', (int)$this->helper('checkout/cart')->getSummaryCount());
-        if (strlen($quote->getCouponCode())) {
-            $xmlObject->addAttribute('has_coupon_code', 1);
-        }
-        $products = $xmlObject->addChild('products');
+        $itemsXmlObj = new Varien_Simplexml_Element('<products></products>');
+        $quote = Mage::getSingleton('checkout/session')->getQuote();
 
         /* @var $item Mage_Sales_Model_Quote_Item */
-        foreach ($this->getItems() as $item) {
-            $type = $item->getProductType();
+        foreach($this->getItems() as $item){
+            $type = $this->_getItemType($item);
             $renderer = $this->getItemRenderer($type)->setItem($item);
 
             /**
              * General information
              */
-            $itemXml = $products->addChild('item');
+            $itemXml = $itemsXmlObj->addChild('item');
             $itemXml->addChild('entity_id', $item->getProduct()->getId());
             $itemXml->addChild('entity_type', $type);
             $itemXml->addChild('item_id', $item->getId());
-            $itemXml->addChild('name', $xmlObject->xmlentities(strip_tags($renderer->getProductName())));
-            $itemXml->addChild('code', 'cart[' . $item->getId() . '][qty]');
+            $itemXml->addChild('name', $itemsXmlObj->xmlentities(strip_tags($renderer->getProductName())));
             $itemXml->addChild('qty', $renderer->getQty());
             $itemXml->addChild('icon', $renderer->getProductThumbnail()->resize(Mage_XmlConnect_Block_Catalog_Product::PRODUCT_IMAGE_SMALL_RESIZE_PARAM));
 
@@ -128,49 +121,17 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                 foreach ($_options as $_option){
                     $_formatedOptionValue = $renderer->getFormatedOptionValue($_option);
                     $optionXml = $itemOptionsXml->addChild('option');
-                    $optionXml->addAttribute('label', $xmlObject->xmlentities(strip_tags($_option['label'])));
-                    $optionXml->addAttribute('text', $xmlObject->xmlentities(strip_tags($_formatedOptionValue['value'])));
+                    $optionXml->addAttribute('label', $itemsXmlObj->xmlentities(strip_tags($_option['label'])));
+                    $optionXml->addAttribute('text', $itemsXmlObj->xmlentities(strip_tags($_formatedOptionValue['value'])));
 //                    if (isset($_formatedOptionValue['full_view'])){
 //                        $label = strip_tags($_option['label']);
 //                        $value = strip_tags($_formatedOptionValue['full_view']);
 //                    }
                 }
             }
-
-            /**
-             * Item messages
-             */
-            if ($messages = $renderer->getMessages()){
-                $itemMessagesXml = $itemXml->addChild('messages');
-                foreach ($messages as $message){
-                    $messageXml = $itemMessagesXml->addChild('option');
-                    $messageXml->addChild('type', $message['type']);
-                    $messageXml->addChild('text', $xmlObject->xmlentities(strip_tags($message['text'])));
-                }
-            }
         }
 
-        /**
-         * Cart messages
-         */
-        if ($cartMessages) {
-            $messagesXml = $xmlObject->addChild('messages');
-            foreach ($cartMessages as $status => $messages) {
-                foreach ($messages as $message) {
-                    $messageXml = $messagesXml->addChild('message');
-                    $messageXml->addChild('status', $status);
-                    $messageXml->addChild('text', strip_tags($message));
-                }
-            }
-        }
-
-        /**
-         * Cross Sell Products
-         */
-        $crossSellXmlObj = new Varien_Simplexml_Element($this->getChildHtml('crosssell'));
-        $xmlObject->appendChild($crossSellXmlObj);
-
-        return $xmlObject->asNiceXml();
+        return $itemsXmlObj->asNiceXml();
     }
 
 }

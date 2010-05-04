@@ -19,43 +19,44 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Checkout
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Shopping cart summary information xml renderer
+ * PayPal Direct Payment method xml renderer
  *
- * @category    Mage
- * @package     Mage_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @category   Mage
+ * @package    Mage_XmlConnect
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Cart_Info extends Mage_XmlConnect_Block_Cart
+class Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Direct extends Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Payflow
 {
-   /**
-     * Render cart summary xml
+    /**
+     * Prevent any rendering
      *
      * @return string
      */
     protected function _toHtml()
     {
-        $quote = $this->getQuote();
-        $xmlObject  = new Varien_Simplexml_Element('<cart></cart>');
-        $xmlObject->addChild('is_virtual', (int)$this->helper('checkout/cart')->getIsVirtualQuote());
-        $xmlObject->addChild('summary_qty', (int)$this->helper('checkout/cart')->getSummaryCount());
-        $xmlObject->addChild('virtual_qty', (int)$quote->getItemVirtualQty());
-        if (strlen($quote->getCouponCode())) {
-            $xmlObject->addChild('has_coupon_code', 1);
-        }
-
-        $totalsXml = $this->getChildHtml('totals');
-        if ($totalsXml) {
-            $totalsXmlObj = new Varien_Simplexml_Element($totalsXml);
-            $xmlObject->appendChild($totalsXmlObj);
-        }
-
-        return $xmlObject->asNiceXml();
+        return '';
     }
 
+    /**
+     * Retrieve payment method model
+     *
+     * @return Mage_Payment_Model_Method_Abstract
+     */
+    public function getMethod()
+    {
+        $method = $this->getData('method');
+        if (!$method) {
+            $method = Mage::getModel('paypal/direct');
+            $this->setData('method', $method);
+        }
+
+        return $method;
+    }
 }

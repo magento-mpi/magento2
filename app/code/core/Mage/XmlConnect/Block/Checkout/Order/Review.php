@@ -19,43 +19,58 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Checkout
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Shopping cart summary information xml renderer
+ * One page checkout order review xml renderer
  *
- * @category    Mage
- * @package     Mage_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @category   Mage
+ * @package    Mage_XmlConnect
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Cart_Info extends Mage_XmlConnect_Block_Cart
+class Mage_XmlConnect_Block_Checkout_Order_Review extends Mage_Checkout_Block_Onepage_Review
 {
-   /**
-     * Render cart summary xml
+    /**
+     * Render order review xml
      *
      * @return string
      */
     protected function _toHtml()
     {
-        $quote = $this->getQuote();
-        $xmlObject  = new Varien_Simplexml_Element('<cart></cart>');
-        $xmlObject->addChild('is_virtual', (int)$this->helper('checkout/cart')->getIsVirtualQuote());
-        $xmlObject->addChild('summary_qty', (int)$this->helper('checkout/cart')->getSummaryCount());
-        $xmlObject->addChild('virtual_qty', (int)$quote->getItemVirtualQty());
-        if (strlen($quote->getCouponCode())) {
-            $xmlObject->addChild('has_coupon_code', 1);
+        $orderXmlObj = new Varien_Simplexml_Element('<order></order>');
+
+        /**
+         * Order items
+         */
+        $products = $this->getChildHtml('order_products');
+        if ($products) {
+            $productsXmlObj = new Varien_Simplexml_Element($products);
+            $orderXmlObj->appendChild($productsXmlObj);
         }
 
+        /**
+         * Totals
+         */
         $totalsXml = $this->getChildHtml('totals');
         if ($totalsXml) {
             $totalsXmlObj = new Varien_Simplexml_Element($totalsXml);
-            $xmlObject->appendChild($totalsXmlObj);
+            $orderXmlObj->appendChild($totalsXmlObj);
         }
 
-        return $xmlObject->asNiceXml();
+        /**
+         * Agreements
+         */
+        $agreements = $this->getChildHtml('agreements');
+        if ($agreements) {
+            $agreementsXmlObj = new Varien_Simplexml_Element($agreements);
+            $orderXmlObj->appendChild($agreementsXmlObj);
+        }
+
+        return $orderXmlObj->asNiceXml();
     }
 
 }
