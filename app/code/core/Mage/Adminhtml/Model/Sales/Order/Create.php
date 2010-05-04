@@ -1192,7 +1192,10 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $service->setOrderData($orderData);
         }
         $order = $service->submit();
-
+        if (!$quote->getCustomer()->getId() || !$quote->getCustomer()->isInStore($this->getSession()->getStore())) {
+            $quote->getCustomer()->setCreatedAt($order->getCreatedAt());
+            $quote->getCustomer()->save();
+        }
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
 
@@ -1202,11 +1205,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 ->save();
             $order->save();
         }
-
         if ($this->getSendConfirmation()) {
             $order->sendNewOrderEmail();
         }
-
         return $order;
     }
 
