@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
         );
 
         if ($this->getCreditmemo()->canRefund()) {
-            if ($this->getCreditmemo()->getInvoice()) {
+            if ($this->getCreditmemo()->getInvoice() && $this->getCreditmemo()->getInvoice()->getTransactionId()) {
                 $this->setChild(
                     'submit_button',
                     $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
