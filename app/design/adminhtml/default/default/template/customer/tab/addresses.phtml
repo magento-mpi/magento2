@@ -391,7 +391,7 @@ addressesModel.prototype = {
     deleteAddress : function(item){
         if(confirm('<?php echo Mage::helper('customer')->__('Are you sure you want to delete this address?') ?>')){
             if( item.isNewAddress || 1 == this.itemList.length){
-                if ( this.activeItem == item ) this.formContainer.removeChild(item.formBlock);
+                this.formContainer.removeChild(item.formBlock);
             } else {
                 if($('deleted_'+item.id)){
                     $('deleted_'+item.id).value = 1;
