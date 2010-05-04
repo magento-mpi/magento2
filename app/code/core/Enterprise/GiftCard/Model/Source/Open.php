@@ -56,4 +56,32 @@ class Enterprise_GiftCard_Model_Source_Open extends Enterprise_Enterprise_Model_
             Enterprise_GiftCard_Model_Giftcard::OPEN_AMOUNT_ENABLED  => Mage::helper('enterprise_giftcard')->__('Yes'),
         );
     }
+    /**
+     * Retrive Flat columns structure
+     * @return array
+     */
+    public function getFlatColums()
+    {
+        $attributeDefaultValue = $this->getAttribute()->getDefaultValue();
+        return array(
+            $this->getAttribute()->getAttributeCode() => array(
+                'type'      => $this->getAttribute()->getBackendType(),
+                'unsigned'  => false,
+                'is_null'   => is_null($attributeDefaultValue) || empty($attributeDefaultValue),
+                'default'   => is_null($attributeDefaultValue) || empty($attributeDefaultValue)?null:$attributeDefaultValue,
+                'extra'     => null
+        ));
+    }
+    /**
+     * Retrieve Select For Flat Attribute update
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param int $store
+     * @return Varien_Db_Select|null
+     */
+    public function getFlatUpdateSelect($store)
+    {
+        return Mage::getResourceModel('eav/entity_attribute')
+            ->getFlatUpdateSelect($this->getAttribute(), $store);
+    }
 }
