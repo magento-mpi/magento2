@@ -44,11 +44,9 @@ class Mage_XmlConnect_Block_Checkout_Address_Shipping extends Mage_Checkout_Bloc
         $shippingXmlObj = new Varien_Simplexml_Element('<shipping></shipping>');
 
         $addressId = $this->getAddress()->getId();
-        if (empty($addressId)) {
-            $address = $this->getCustomer()->getPrimaryShippingAddress();
-            if ($address) {
-                $addressId = $address->getId();
-            }
+        $address = $this->getCustomer()->getPrimaryShippingAddress();
+        if ($address) {
+            $addressId = $address->getId();
         }
 
         foreach ($this->getCustomer()->getAddresses() as $address) {

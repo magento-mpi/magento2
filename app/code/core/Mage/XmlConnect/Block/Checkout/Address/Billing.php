@@ -44,11 +44,9 @@ class Mage_XmlConnect_Block_Checkout_Address_Billing extends Mage_Checkout_Block
         $billingXmlObj = new Varien_Simplexml_Element('<billing></billing>');
 
         $addressId = $this->getAddress()->getId();
-        if (empty($addressId)) {
-            $address = $this->getCustomer()->getPrimaryBillingAddress();
-            if ($address) {
-                $addressId = $address->getId();
-            }
+        $address = $this->getCustomer()->getPrimaryBillingAddress();
+        if ($address) {
+            $addressId = $address->getId();
         }
 
         foreach ($this->getCustomer()->getAddresses() as $address) {
