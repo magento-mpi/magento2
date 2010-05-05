@@ -167,4 +167,10 @@
         </block>
     </xmlconnect_checkout_orderreview>
 
+    <!-- Checkout with PayPal MEP -->
+
+    <xmlconnect_paypal_mep_shippingmethods>
+        <block type="xmlconnect/checkout_shipping_method_avaliable" name="xmlconnect.checkout.shipping.method.avalieble" output="toHtml"/>
+    </xmlconnect_paypal_mep_shippingmethods>
+
 </layout>

@@ -77,13 +77,12 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Payflow extends Mage_
         $formXmlObj->addAttribute('method', 'post');
 
         $_ccType = $this->getInfoData('cc_type');
-        $ccTypes = '
-                <item>
-                    <label>--Please Select--</label>
-                    <value></value>
-                </item>';
+        $ccTypes = '';
 
         foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName){
+            if (!$_typeCode) {
+                continue;
+            }
             $ccTypes .= '
             <item' . ($_typeCode == $_ccType ? ' selected="1"' : '') . '>
                 <label>' . $_typeName . '</label>
@@ -95,6 +94,9 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Payflow extends Mage_
 
         $_ccExpMonth = $this->getInfoData('cc_exp_month');
         foreach ($this->getCcMonths() as $k => $v){
+            if (!$k) {
+                continue;
+            }
             $ccMonthes .= '
             <item' . ($k == $_ccExpMonth ? ' selected="1"' : '') . '>
                 <label>' . $v . '</label>
@@ -106,6 +108,9 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Payflow extends Mage_
 
         $_ccExpYear = $this->getInfoData('cc_exp_year');
         foreach ($this->getCcYears() as $k => $v){
+            if (!$k) {
+                continue;
+            }
             $ccYears .= '
             <item' . ($k == $_ccExpYear ? ' selected="1"' : '') . '>
                 <label>' . $v . '</label>

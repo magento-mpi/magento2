@@ -123,6 +123,14 @@
         </translate>
     </frontend>
     <default>
+        <payment>
+            <paypal_mep translate="title">
+                <active>1</active>
+                <model>xmlconnect/payment_method_paypal_mep</model>
+                <title>PayPal Mep</title>
+                <allowspecific>0</allowspecific>
+            </paypal_mep>
+        </payment>
         <defaultConfiguration>
             <navigationBar>
                 <tintColor></tintColor>
