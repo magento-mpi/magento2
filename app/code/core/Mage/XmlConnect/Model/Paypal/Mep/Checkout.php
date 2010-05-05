@@ -35,7 +35,8 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
      * Uses additional_information as storage
      * @var string
      */
-    const PAYMENT_INFO_TRANSPORT_PAYER_ID = 'paypal_mep_checkout_payer_id';
+    const PAYMENT_INFO_PAYER_EMAIL = 'paypal_mep_checkout_payer_email';
+    const PAYMENT_INFO_TRANSACTION_ID = 'paypal_mep_checkout_transaction_id';
 
     /**
      * Payment method type
@@ -115,7 +116,6 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         }
 
         $address = $this->_quote->getBillingAddress();
-
         /**
          * Start hard code data
          *
@@ -123,12 +123,11 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
          */
         $customer = Mage::getSingleton('customer/session')->getCustomer();
         $data['country_id'] = 'US';
-        $data['firstname'] = $customer->getFirstName();
-        $data['lastname'] = $customer->getLastName();
+        $data['firstname'] = $customer->getFirstname();
+        $data['lastname'] = $customer->getLastname();
         /**
          * End hard code
          */
-
 
         $address->addData($data);
 
@@ -198,7 +197,8 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         $data['method'] = $this->_methodType;
         $payment->importData($data);
 
-        $payment->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_PAYER_ID, isset($data['payer']) ? $data['payer'] : null);
+        $payment->setAdditionalInformation(self::PAYMENT_INFO_PAYER_EMAIL, isset($data['payer']) ? $data['payer'] : null);
+        $payment->setAdditionalInformation(self::PAYMENT_INFO_TRANSACTION_ID, isset($data['transation_id']) ? $data['transation_id'] : null);
 
         $this->_quote->collectTotals()->save();
 
