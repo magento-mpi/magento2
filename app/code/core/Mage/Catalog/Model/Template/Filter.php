@@ -40,6 +40,7 @@ class Mage_Catalog_Model_Template_Filter extends Varien_Filter_Template
      *
      * @param array $construction
      * @return string
+     * @see Mage_Core_Model_Email_Template_Filter::skinDirective() method has been copypasted
      */
     public function skinDirective($construction)
     {
@@ -56,6 +57,7 @@ class Mage_Catalog_Model_Template_Filter extends Varien_Filter_Template
      *
      * @param array $construction
      * @return string
+     * @see Mage_Core_Model_Email_Template_Filter::mediaDirective() method has been copypasted
      */
     public function mediaDirective($construction)
     {
@@ -69,6 +71,7 @@ class Mage_Catalog_Model_Template_Filter extends Varien_Filter_Template
      *
      * @param array $construction
      * @return string
+     * @see Mage_Core_Model_Email_Template_Filter::storeDirective() method has been copypasted
      */
     public function storeDirective($construction)
     {

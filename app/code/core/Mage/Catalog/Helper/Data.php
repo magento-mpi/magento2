@@ -40,7 +40,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_SEO_SAVE_HISTORY        = 'catalog/seo/save_rewrites_history';
     const CONFIG_USE_STATIC_URLS           = 'cms/wysiwyg/use_static_urls_in_catalog';
     const CONFIG_PARSE_URL_DIRECTIVES      = 'catalog/frontend/parse_url_directives';
-    const XML_NODE_CONTENT_TEMPLATE_FILTER = 'global/catalog/content/tempate_filter';
+    const XML_PATH_CONTENT_TEMPLATE_FILTER = 'global/catalog/content/tempate_filter';
     
     /**
      * Breadcrumb Path cache
@@ -59,7 +59,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Set a specified store ID value
      *
-     * @param <type> $store
+     * @param int $store
      */
     public function setStoreId($store)
     {
@@ -243,7 +243,8 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return bool
      */
-    public function isUsingStaticUrlsAllowed() {
+    public function isUsingStaticUrlsAllowed()
+    {
         return Mage::getStoreConfigFlag(self::CONFIG_USE_STATIC_URLS, $this->_storeId);
     }
 
@@ -252,7 +253,8 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return bool
      */
-    public function isUrlDirectivesParsingAllowed() {
+    public function isUrlDirectivesParsingAllowed()
+    {
         return Mage::getStoreConfigFlag(self::CONFIG_PARSE_URL_DIRECTIVES, $this->_storeId);
     }
 
@@ -263,7 +265,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPageTemplateProcessor()
     {
-        $model = (string)Mage::getConfig()->getNode(self::XML_NODE_CONTENT_TEMPLATE_FILTER);
+        $model = (string)Mage::getConfig()->getNode(self::XML_PATH_CONTENT_TEMPLATE_FILTER);
         return Mage::getModel($model);
     }
 }
