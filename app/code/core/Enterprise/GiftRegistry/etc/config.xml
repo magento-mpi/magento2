@@ -195,5 +195,31 @@
             </modules>
         </translate>
     </adminhtml>
-
+  <frontend>
+        <layout>
+            <updates>
+                <enterprise_giftregistry>
+                    <file>giftregistry.xml</file>
+                </enterprise_giftregistry>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Enterprise_GiftRegistry>
+                    <files>
+                        <default>Enterprise_GiftRegistry.csv</default>
+                    </files>
+                </Enterprise_GiftRegistry>
+            </modules>
+        </translate>
+        <routers>
+            <enterprise_giftregistry>
+                <use>standard</use>
+                <args>
+                    <module>Enterprise_GiftRegistry</module>
+                    <frontName>giftregistry</frontName>
+                </args>
+            </enterprise_giftregistry>
+        </routers>
+    </frontend>
 </config>

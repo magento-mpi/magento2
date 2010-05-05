@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+-->
+<layout version="0.1.0">
+    <PRODUCT_TYPE_giftcard translate="label" module="enterprise_giftcard">
+        <label>Catalog Product View (Gift Card)</label>
+        <reference name="product.info">
+            <block type="enterprise_giftcard/catalog_product_view_type_giftcard" name="product.info.giftcard" as="product_type_data" template="giftcard/catalog/product/view/type/giftcard.phtml">
+                <action method="addPriceBlockType"><type>giftcard</type><block>enterprise_giftcard/catalog_product_price</block><template>giftcard/catalog/product/price.phtml</template></action>
+                <block type="cataloginventory/stockqty_default" name="product.info.giftcard.extra" as="product_type_data_extra" template="cataloginventory/stockqty/default.phtml"/>
+            </block>
+        </reference>
+        <reference name="product.clone_prices">
+            <action method="addPriceBlockType"><type>giftcard</type><block>enterprise_giftcard/catalog_product_price</block><template>giftcard/catalog/product/price.phtml</template></action>
+        </reference>
+    </PRODUCT_TYPE_giftcard>
+
+    <giftregistry_default>
+        <reference name="giftregistry_list">
+            <action method="addEntityList">
+                <type>giftcard</type>
+                <block>enterprise_giftregistry/list</block>
+                <template>giftregistry/list.phtml</template>
+            </action>
+        </reference>
+    </giftregistry_default>
+
+    <enterprise_giftregistry_index_index translate="label">
+        <label>Customer My Account GiftRegistry List</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="enterprise_giftregistry/customer_list" name="giftregistrys_list" template="giftregistry/list.phtml">
+                <block type="page/html_wrapper" name="giftregistrys.list.list.before" as="list_before">
+                    <!--action method="setMayBeInvisible"><value>1</value></action-->
+                    <action method="setElementClass"><value>rewards</value></action>
+                </block>
+            </block>
+        </reference>
+    </enterprise_giftregistry_index_index>
+    <customer_account>
+        <block type="enterprise_giftregistry/link" name="giftregistry_link_dashboard">
+            <action method="addDashboardLink" translate="label" module="enterprise_giftregistry"><block>customer_account_navigation</block><name>giftregistry</name><path>enterprise_giftregistry/</path><label>Gift Registry</label></action>
+        </block>
+    </customer_account>
+</layout>
