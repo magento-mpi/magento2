@@ -89,7 +89,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             $this->_message($this->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
-
+        $this->_initCheckout();
         $data = $this->getRequest()->getPost('shipping', array());
         $result = $this->_checkout->saveShipping($data);
         if (!isset($result['error'])) {
@@ -108,6 +108,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
      */
     public function shippingMethodsAction()
     {
+        $this->_initCheckout();
         $this->loadLayout(false);
         $this->renderLayout();
     }
@@ -121,7 +122,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             $this->_message($this->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
-
+        $this->_initCheckout();
         $data = $this->getRequest()->getPost('shipping_method', '');
         $result = $this->_checkout->saveShippingMethod($data);
         if (!isset($result['error'])) {
