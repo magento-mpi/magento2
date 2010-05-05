@@ -1034,6 +1034,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .product-view .box-description {}
 
 /* Block: Additional */
+.product-view .box-additional .data-table { border:0 }
 .product-view .box-additional .data-table th,
 .product-view .box-additional .data-table td { line-height:1.25; }
 
