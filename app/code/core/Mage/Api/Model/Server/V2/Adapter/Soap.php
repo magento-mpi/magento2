@@ -43,9 +43,6 @@ class Mage_Api_Model_Server_V2_Adapter_Soap extends Mage_Api_Model_Server_Adapte
     {
         $apiConfigCharset = Mage::getStoreConfig("api/config/charset");
 
-        $urlModel = Mage::getModel('core/url')
-                ->setUseSession(false);
-
         if ($this->getController()->getRequest()->getParam('wsdl') !== null) {
             $wsdlConfig = Mage::getModel('api/wsdl_config');
             $wsdlConfig->setHandler($this->getHandler())
@@ -62,7 +59,7 @@ class Mage_Api_Model_Server_V2_Adapter_Soap extends Mage_Api_Model_Server_Adapte
                 );
         } else {
             try {
-                $this->_soap = new Zend_Soap_Server($urlModel->getUrl('*/*/*', array('wsdl'=>1)), array('encoding'=>$apiConfigCharset));
+                $this->_soap = new Zend_Soap_Server($this->getWsdlUrl(array("wsdl" => 1)), array('encoding'=>$apiConfigCharset));
                 use_soap_error_handler(false);
                 $this->_soap
                     ->setReturnResponse(true)

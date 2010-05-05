@@ -95,9 +95,7 @@ class Mage_Api_Model_Server_Adapter_Soap
     public function run()
     {
         $apiConfigCharset = Mage::getStoreConfig("api/config/charset");
-
-        $urlModel = Mage::getModel('core/url')
-            ->setUseSession(false);
+        
         if ($this->getController()->getRequest()->getParam('wsdl') !== null) {
             // Generating wsdl content from template
             $io   = new Varien_Io_File();
@@ -114,7 +112,7 @@ class Mage_Api_Model_Server_Adapter_Soap
             }
 
             $wsdlConfig->setUrl(
-                htmlspecialchars($urlModel->getUrl('*/*/*', array('_query'=>$queryParams)))
+                htmlspecialchars(Mage::getUrl('*/*/*', array('_query'=>$queryParams) ))
             );
             $wsdlConfig->setName('Magento');
             $wsdlConfig->setHandler($this->getHandler());
@@ -134,7 +132,7 @@ class Mage_Api_Model_Server_Adapter_Soap
                 );
         } else {
             try {
-                $this->_soap = new Zend_Soap_Server($urlModel->getUrl('*/*/*', array('wsdl'=>1)), array('encoding'=>$apiConfigCharset));
+                $this->_soap = new Zend_Soap_Server($this->getWsdlUrl(array("wsdl" => 1)), array('encoding'=>$apiConfigCharset));
                 use_soap_error_handler(false);
                 $this->_soap
                     ->setReturnResponse(true)
@@ -191,6 +189,29 @@ class Mage_Api_Model_Server_Adapter_Soap
     protected function _extensionLoaded()
     {
         return class_exists('SoapServer', false);
+    }
+
+    /**
+     * Transform wsdl url if $_SERVER["PHP_AUTH_USER"] is set
+     *
+     * @param array
+     * @return String
+     */
+    protected function getWsdlUrl($params = null, $withAuth = true)
+    {
+        $urlModel = Mage::getModel('core/url')
+                ->setUseSession(false);
+
+        $wsdlUrl = ($params !== null)? $urlModel->getUrl('*/*/*', $params) : $urlModel->getUrl('*/*/*');
+
+        if( $withAuth ) {
+            $phpAuthUser = $this->getController()->getRequest()->getServer('PHP_AUTH_USER', false);
+            $phpAuthPw = $this->getController()->getRequest()->getServer('PHP_AUTH_PW', false);
+            
+            $wsdlUrl = ($phpAuthUser && $phpAuthPw)? sprintf("http://%s:%s@%s", $phpAuthUser, $phpAuthPw, str_replace('http://', '', $wsdlUrl ) ): $wsdlUrl;
+        }
+
+        return $wsdlUrl;
     }
 
 } // Class Mage_Api_Model_Server_Adapter_Soap End
