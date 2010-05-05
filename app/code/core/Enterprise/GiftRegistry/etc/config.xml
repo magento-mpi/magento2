@@ -45,7 +45,6 @@
                     <info><table>enterprise_giftregistry_type_info</table></info>
                     <person><table>enterprise_giftregistry_person</table></person>
                     <label><table>enterprise_giftregistry_label</table></label>
-                    <option><table>enterprise_giftregistry_option</table></option>
                 </entities>
             </enterprise_giftregistry_mysql4>
         </models>
@@ -67,42 +66,63 @@
                 </setup>
             </enterprise_giftregistry_setup>
         </resources>
-        <attributes>
-            <groups>
-                <custom translate="label" module="enterprise_giftregistry">
-                    <label>Custom types</label>
-                    <types>        
-                        <text translate="label" module="enterprise_giftregistry">
-                            <label>Text</label>
-                        </text>
-                        <select translate="label" module="enterprise_giftregistry">
-                            <label>Select</label>
-                            <render>enterprise_giftregistry/adminhtml_giftregistry_edit_attribute_type_select</render>
-                        </select>
-                        <date translate="label" module="enterprise_giftregistry">
-                            <label>Date</label>
-                        </date>
-                    </types>
-                </custom>
-                <static translate="label" module="enterprise_giftregistry">
-                    <label>Event types</label>
-                    <types>
-                        <event_date translate="label" module="enterprise_giftregistry">
-                            <label>Date</label>
-                        </event_date>
-                        <event_country translate="label" module="enterprise_giftregistry">
-                            <label>Country</label>
-                        </event_country>
-                        <event_region translate="label" module="enterprise_giftregistry">
-                            <label>Region</label>
-                         </event_region>
-                         <event_location translate="label" module="enterprise_giftregistry">
-                             <label>Location</label>
-                        </event_location>
-                    </types>
-                </static>
-            </groups>
-        </attributes>
+        <attribute_types>
+            <custom translate="label" module="enterprise_giftregistry">
+                <label>Custom types</label>
+                <types>        
+                    <text translate="label" module="enterprise_giftregistry">
+                        <label>Text</label>
+                    </text>
+                    <select translate="label" module="enterprise_giftregistry">
+                        <label>Select</label>
+                        <render>enterprise_giftregistry/adminhtml_giftregistry_edit_attribute_type_select</render>
+                    </select>
+                    <date translate="label" module="enterprise_giftregistry">
+                        <label>Date</label>
+                    </date>
+                </types>
+            </custom>
+            <static translate="label" module="enterprise_giftregistry">
+                <label>Event types</label>
+                <types>
+                    <event_date translate="label" module="enterprise_giftregistry">
+                        <label>Date</label>
+                    </event_date>
+                    <event_country translate="label" module="enterprise_giftregistry">
+                        <label>Country</label>
+                    </event_country>
+                    <event_region translate="label" module="enterprise_giftregistry">
+                        <label>Region</label>
+                     </event_region>
+                     <event_location translate="label" module="enterprise_giftregistry">
+                         <label>Location</label>
+                    </event_location>
+                </types>
+            </static>
+        </attribute_types>
+        <attribute_groups>
+            <event_information translate="label" module="enterprise_giftregistry">
+                <label>Event Information</label>
+                <sort_order>5</sort_order>
+            </event_information>
+            <registry translate="label" module="enterprise_giftregistry">
+                <label>Gift Registry Properties</label>
+                <sort_order>10</sort_order>
+            </registry>
+            <privacy translate="label" module="enterprise_giftregistry">
+               <label>Privacy Settings</label>
+               <sort_order>15</sort_order>
+             </privacy>
+            <registrants translate="label" module="enterprise_giftregistry">
+                <label>Registrants Information</label>
+                <sort_order>20</sort_order>
+            </registrants>
+            <shipping translate="label" module="enterprise_giftregistry">
+               <label>Shipping Address</label>
+               <sort_order>25</sort_order>
+             </shipping>
+        </attribute_groups>
+                
         <prototype>
             <registry>
                 <attributes>
@@ -126,28 +146,6 @@
                     </static>
                     <custom/>
                 </attributes>
-                <attribute_groups>
-                    <event_information translate="label" module="enterprise_giftregistry">
-                        <label>Event Information</label>
-                        <sort_order>5</sort_order>
-                    </event_information>
-                    <registry translate="label" module="enterprise_giftregistry">
-                        <label>Gift Registry Properties</label>
-                        <sort_order>10</sort_order>
-                    </registry>
-                    <privacy translate="label" module="enterprise_giftregistry">
-                       <label>Privacy Settings</label>
-                       <sort_order>15</sort_order>
-                     </privacy>
-                    <registrants translate="label" module="enterprise_giftregistry">
-                        <label>Registrants Information</label>
-                        <sort_order>20</sort_order>
-                    </registrants>
-                    <shipping translate="label" module="enterprise_giftregistry">
-                       <label>Shipping Address</label>
-                       <sort_order>25</sort_order>
-                     </shipping>
-                </attribute_groups>
             </registry>
             <registrant>
                 <attributes>

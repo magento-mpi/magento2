@@ -74,7 +74,8 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
         $fieldset->addField('code', 'text', array(
             'name'     => 'code',
             'label'    => Mage::helper('enterprise_giftregistry')->__('Code'),
-            'required' => true
+            'required' => true,
+            'class'    => 'validate-code'
         ));
 
         $element = $fieldset->addField('label', 'text', array(

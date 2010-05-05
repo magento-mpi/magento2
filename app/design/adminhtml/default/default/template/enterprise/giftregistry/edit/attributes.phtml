@@ -26,20 +26,20 @@
 ?>
 
 <div class="entry-edit custom-options attribute-custom-options">
-    <div class="entry-edit-head">
-        <h4><?php echo $this->getFormTitle() ?></h4>
-        <div class="right"><?php echo $this->getAddButtonHtml() ?></div>
-    </div>
+<div class="entry-edit-head">
+    <h4><?php echo $this->getFormTitle() ?></h4>
+    <div class="right"><?php echo $this->getAddButtonHtml() ?></div>
+</div>
 
-    <div id="attribute_options_container" class="box">
-        <div id="attribute_options_container_top"></div>
+<div class="box">
+<div id="attribute_container"></div>
 
-        <?php echo $this->getTemplatesHtml() ?>
+<?php echo $this->getTemplatesHtml() ?>
 
 <script type="text/javascript">
 //<![CDATA[
-var firstStepTemplate =
-	'<div class="option-box" id="option_{{id}}">'+
+var attributeTemplate =
+    '<div class="option-box" id="option_{{id}}">'+
     '<table id="attribute_{{id}}" class="option-header" cellpadding="0" cellspacing="0">'+
     '<thead>'+
         '<tr>'+
@@ -50,27 +50,29 @@ var firstStepTemplate =
             '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Sort Order') ?></th>'+
             '<th class="a-right"><?php echo $this->jsQuoteEscape($this->getDeleteButtonHtml()) ?></th>'+
         '</tr>'+
-    '</thead>'+
     '<tr>'+
-        '<td><input type="text" class="required-entry input-text" id="attribute_{{id}}_code" name="attribute[{{id}}][code]" value="{{code}}"></td>'+
+        '<td><input type="text" class="required-entry input-text global-scope" id="attribute_{{id}}_code" name="attributes[{{id}}][code]" value="{{code}}"></td>'+
         '<td><?php echo $this->getTypeSelectHtml() ?></td>'+
         '<td><?php echo $this->getGroupSelectHtml() ?></td>'+
-        '<td><input type="text" class="required-entry input-text" id="attribute_{{id}}_label" name="attribute[{{id}}][label]" value="{{label}}">{{checkboxScopeTitle}}</td>'+
-        '<td><input type="text" class="input-text" id="attribute_{{id}}_sort_order" name="attribute[{{id}}][sort_order]" value="{{sort_order}}">{{checkboxScopeSort}}</td>'+
-        '<td>&nbsp;</td>'+
+        '<td><input type="text" class="required-entry input-text" id="attribute_{{id}}_label" name="attributes[{{id}}][label]" value="{{label}}">{{checkbox_scope}}</td>'+
+        '<td><input type="text" class="input-text global-scope" id="attribute_{{id}}_sort_order" name="attributes[{{id}}][sort_order]" value="{{sort_order}}"></td>'+
+        '<td><input type="hidden" id="attribute_{{id}}_is_deleted" name="attributes[{{id}}][is_deleted]"><input type="hidden" class="hidden-code" name="attributes[{{id}}][code]" value="{{code}}" disabled="disabled"></td>'+
     '</tr>'+
     '</table></div>';
 
 var attributeOption = {
-    div : $('attribute_options_container_top'),
+    div : $('attribute_container'),
     templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
-    templateText : firstStepTemplate,
-    itemCount : 1,
+    templateText : attributeTemplate,
+    attributeId : 0,
     add : function(data) {
 
-        if(!data.id){
+        if(data.id == undefined){
             data = {};
-            data.id  = this.itemCount;
+            this.attributeId++;
+            data.id  = this.attributeId;
+        } else {
+            this.attributeId = data.id;
         }
 
         this.template = new Template(this.templateText, this.templateSyntax);
@@ -87,25 +89,22 @@ var attributeOption = {
             });
         }
 
-        if (data.checkboxScopeTitle) {
-            if ($('attribute_'+data.id+'_label') && data.scopeTitleDisabled) {
+        if (data.checkbox_scope) {
+            if ($('attribute_'+data.id+'_label') && data.label_disabled) {
                 $('attribute_'+data.id+'_label').disable();
             }
         }
-        if (data.checkboxScopeSort) {
-            if ($('attribute_'+data.id+'_sort_order') && data.scopeSortDisabled) {
-                $('attribute_'+data.id+'_sort_order').disable();
-            }
-        }
 
-        this.itemCount++;
         this.bindRemoveButtons();
         attributeOptionType.bindSelectInputType();
     },
     remove : function(event){
         var element = $(Event.findElement(event, 'div'));
         if (element) {
-            element.remove();
+            $('attribute_'+element.readAttribute('id').sub('option_','')+'_'+'is_deleted').value = '1';
+            element.addClassName('no-display');
+            element.addClassName('ignore-validate');
+            element.hide();
         }
     },
     bindRemoveButtons : function(){
@@ -124,13 +123,67 @@ var attributeOption = {
 var attributeOptionType = {
     templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
     loadStepTwo : function(event){
+        var element = $(Event.findElement(event, 'select'));
+        var type = element.getValue();
+        var template;
+
+        switch(type){
+            case 'select':
+                template = OptionTemplateSelect;
+                break;
+            case 'date':
+                template = OptionTemplateDate;
+                break;
+            default:
+                template = '';
+                break;
+        }
+
+        if (template){
+            template = '<div id="'+element.readAttribute('id')+'_'+type+'" class="grid">'+template+'</div>';
+            this.secondTemplate = new Template(template, this.templateSyntax);
+
+            data = {};
+            data.id = element.readAttribute('id').sub('attribute_', '').sub('_type', '');
+            Element.insert(element.readAttribute('id').sub('_type', ''), {'after':this.secondTemplate.evaluate(data)});
+        }
+
+        if (type == 'select') {
+            selectOptionType.bindAddButton();
+        }
 
     },
     addDataToValues : function(data){
+        var template;
+        switch(data.type){
+            case 'text':
+                break;
+            case 'select':
+                template = OptionTemplateSelect;
+                break;
+            case 'date':
+                break;
+            default:
+                template = '';
+                break;
+        }
 
+        if (template) {
+            template = '<div id="attribute_{{id}}_type_'+data.type+'" class="grid">'+template+'</div>';
+            this.secondTemplate = new Template(template, this.templateSyntax);
+            data.option_id = data.id;
+            Element.insert($('attribute_'+data.id), {'after':this.secondTemplate.evaluate(data)});
+
+            if (data.type == 'select') {
+                data.items.each(function(value) {
+                    selectOptionType.add(value);
+                });
+                selectOptionType.bindAddButton();
+            }
+        }
     },
     bindSelectInputType : function(){
-        var types = $$('.select-attribute-option-type');
+        var types = $$('.attribute-type');
         for(var i=0;i<types.length;i++){
             if(!$(types[i]).binded){
                 $(types[i]).binded = true;
@@ -161,11 +214,20 @@ var attributeOptionScope = {
                 Event.observe(checkboxes[i], 'click', this.addScope.bind(this));
             }
         }
+    },
+    changeInputs : function(scope){
+        var inputs = (scope) ? $$('.global-scope', '.hidden-code') : $$('.hidden-code');
+        inputs.each(function(el) {
+            if (el.disabled) el.enable();
+            else el.disable();
+        });
+    },
+    hideButtons : function(){
+        var inputs = $$('.scope-item');
+        inputs.each(function(el) {
+             el.hide();
+        });
     }
-}
-
-if($('option_panel')){
-    $('option_panel').remove();
 }
 
 attributeOption.bindRemoveButtons();
@@ -174,11 +236,19 @@ if($('<?php echo $this->getAddButtonId() ?>')){
     Event.observe('<?php echo $this->getAddButtonId() ?>', 'click', attributeOption.add.bind(attributeOption));
 }
 
-<?php foreach ($this->getOptionValues() as $_value): ?>
+<?php foreach ($this->getAttributeValues() as $_value): ?>
     attributeOption.add(<?php echo $_value->toJson() ?>);
+    attributeOptionType.addDataToValues(<?php echo $_value->toJson() ?>);
 <?php endforeach; ?>
 
 attributeOptionScope.bindScopeCheckbox();
+
+<?php if($this->getTypeStoreId()): ?>
+    attributeOptionScope.hideButtons();
+<?php endif;?>
+
+attributeOptionScope.changeInputs(<?php echo $this->getTypeStoreId(); ?>);
+
 //]]>
 </script>
 </div>

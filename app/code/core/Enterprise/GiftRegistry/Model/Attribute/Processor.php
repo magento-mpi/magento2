@@ -32,27 +32,52 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
     /**
      * Render customer xml
      *
+     * @param Enterprise_GiftRegistry_Model_Type $type
      * @return string
      */
-    public function processData($attributes = null)
+    public function processData($type)
     {
-        if (empty($attributes)) {
-            return '';
+        if ($attributes = $type->getAttributes()) {
+            $xmlObj = new Varien_Simplexml_Element('<custom></custom>');
+
+            foreach ($attributes as $attribute) {
+                if (!empty($attribute['is_deleted'])) {
+                    continue;
+                }
+                $itemXml = $xmlObj->addChild($attribute['code']);
+                $itemXml->addChild('label', $attribute['label']);
+                $itemXml->addChild('group', $attribute['group']);
+                $itemXml->addChild('type', $attribute['type']);
+                $itemXml->addChild('sort_order', $attribute['sort_order']);
+
+                switch ($attribute['type']) {
+                    case 'select': $this->getSelectOptions($attribute, $itemXml); break;
+                }
+            }
+            return $xmlObj->asNiceXml();
         }
+    }
 
-        $xmlObj = new Varien_Simplexml_Element('<custom></custom>');
-
-        foreach ($attributes as $attribute) {
-            $label = (isset($attribute['label_default'])) ? $attribute['label_default'] : $attribute['label'];
-            $sortOrder = (isset($attribute['sort_order_default'])) ? $attribute['sort_order_default'] : $attribute['sort_order'];
-
-            $itemXmlObj = $xmlObj->addChild($attribute['code']);
-            $itemXmlObj->addChild('label', $label);
-            $itemXmlObj->addChild('group', $attribute['group']);
-            $itemXmlObj->addChild('type', $attribute['type']);
-            $itemXmlObj->addChild('sort_order', $sortOrder);
+    /**
+     * Render xml select options
+     *
+     * @param array $attribute
+     * @param Varien_Simplexml_Element $itemXml
+     */
+    public function getSelectOptions($attribute, $itemXml)
+    {
+        if (isset($attribute['options']) && is_array($attribute['options'])) {
+            $optionXml = $itemXml->addChild('options');
+            foreach ($attribute['options'] as $option) {
+                if (!empty($option['is_deleted'])) {
+                    continue;
+                }
+                $optionXml->addChild($option['code'], $option['label']);
+            }
+            if (isset($attribute['default'])) {
+                $itemXml->addChild('default', $attribute['options'][$attribute['default']]['code']);
+            }
         }
-        return $xmlObj->asNiceXml();
     }
 
     /**

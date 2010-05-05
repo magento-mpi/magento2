@@ -32,12 +32,12 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Enterprise_Enterpri
     /**
      * Path to types of available custom attributes
      */
-    const XML_ATTRIBUTE_TYPES_PATH = 'global/attributes/groups';
+    const XML_ATTRIBUTE_TYPES_PATH = 'global/attribute_types';
 
     /**
      * Path to attribute groups
      */
-    const XML_ATTRIBUTE_GROUPS_PATH = 'global/prototype/registry/attribute_groups';
+    const XML_ATTRIBUTE_GROUPS_PATH = 'global/attribute_groups';
 
 
     /**

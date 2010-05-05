@@ -32,21 +32,24 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_S
         $this->setTemplate('enterprise/giftregistry/edit/type/select.phtml');
     }
 
+    /**
+     * Preparing block layout
+     */
     protected function _prepareLayout()
     {
         $this->setChild('add_select_row_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Add New Option'),
+                    'label' => Mage::helper('enterprise_giftregistry')->__('Add New Option'),
                     'class' => 'add add-select-row',
-                    'id'    => 'add_select_row_button_{{option_id}}'
+                    'id'    => 'add_select_row_button_{{id}}'
                 ))
         );
 
         $this->setChild('delete_select_row_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('catalog')->__('Delete Option'),
+                    'label' => Mage::helper('enterprise_giftregistry')->__('Delete Option'),
                     'class' => 'delete delete-select-row icon-btn'
                 ))
         );
@@ -54,11 +57,21 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_S
         return parent::_prepareLayout();
     }
 
+    /**
+     * Retrieve add button html
+     *
+     * @return string
+     */
     public function getAddButtonHtml()
     {
         return $this->getChildHtml('add_select_row_button');
     }
 
+    /**
+     * Retrieve delete button html
+     *
+     * @return string
+     */
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_select_row_button');

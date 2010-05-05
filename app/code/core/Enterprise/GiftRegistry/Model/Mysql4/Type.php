@@ -29,6 +29,9 @@
  */
 class Enterprise_GiftRegistry_Model_Mysql4_Type extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
 {
+    protected $_infoTable;
+    protected $_labelTable;
+
     /**
      * Intialize resource model
      *
@@ -37,6 +40,9 @@ class Enterprise_GiftRegistry_Model_Mysql4_Type extends Enterprise_Enterprise_Mo
     protected function _construct()
     {
         $this->_init('enterprise_giftregistry/type', 'type_id');
+
+        $this->_infoTable = $this->getTable('enterprise_giftregistry/info');
+        $this->_labelTable = $this->getTable('enterprise_giftregistry/label');
     }
 
     /**
@@ -48,7 +54,7 @@ class Enterprise_GiftRegistry_Model_Mysql4_Type extends Enterprise_Enterprise_Mo
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('enterprise_giftregistry/info'), array(
+            ->from($this->_infoTable, array(
                 'scope' => 'IF(store_id = 0, \'default\', \'store\')',
                 'label', 'is_listed', 'sort_order'
             ))
@@ -67,32 +73,134 @@ class Enterprise_GiftRegistry_Model_Mysql4_Type extends Enterprise_Enterprise_Mo
                 $object->setData($key, $value);
             }
         }
-
         return parent::_afterLoad($object);
     }
 
     /**
      * Perform actions after object save
      *
-     * @param Varien_Object $object
+     * @param Mage_Core_Model_Abstract $object
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $infoTable = $this->getTable('enterprise_giftregistry/info');
-
-        $this->_getWriteAdapter()->delete($infoTable, array(
-            'type_id = ?' => $object->getId(),
-            'store_id = ?' => $object->getStoreId()
-        ));
-
-        $this->_getWriteAdapter()->insert($infoTable, array(
-            'type_id' => $object->getId(),
-            'store_id' => $object->getStoreId(),
-            'label' => $object->getLabel(),
-            'is_listed' => $object->getIsListed(),
-            'sort_order' => $object->getSortOrder()
-        ));
-
         return parent::_afterSave($object);
+    }
+
+    /**
+     * Save registry type per store view data
+     *
+     * @param Enterprise_GiftRegistry_Model_Type $type
+     */
+    public function saveTypeStoreData($type)
+    {
+        $this->_getWriteAdapter()->delete($this->_infoTable, array(
+            'type_id = ?' => $type->getId(),
+            'store_id = ?' => $type->getStoreId()
+        ));
+
+        $this->_getWriteAdapter()->insert($this->_infoTable, array(
+            'type_id' => $type->getId(),
+            'store_id' => $type->getStoreId(),
+            'label' => $type->getLabel(),
+            'is_listed' => $type->getIsListed(),
+            'sort_order' => $type->getSortOrder()
+        ));
+    }
+
+    /**
+     * Save store data
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @param array $data
+     * @param string $optionCode
+     */
+    public function saveStoreData($type, $data, $optionCode = '')
+    {
+        $adapter = $this->_getWriteAdapter();
+        if (isset($data['use_default'])) {
+            $adapter->delete($this->_labelTable, array(
+                'type_id = ?' => $type->getId(),
+                'attribute_code = ?' => $data['code'],
+                'store_id = ?' => $type->getStoreId(),
+                'option_code = ?' => $optionCode
+            ));
+        } else {
+            $values = array(
+                'type_id' => $type->getId(),
+                'attribute_code' => $data['code'],
+                'store_id' => $type->getStoreId(),
+                'option_code' => $optionCode,
+                'label' => $data['label']
+            );
+            $adapter->insertOnDuplicate($this->_labelTable, $values, array('label'));
+        }
+    }
+
+    /**
+     * Get attribute store label
+     *
+     * @param Enterprise_GiftRegistry_Model_Type $type
+     * @param string $code
+     * @return null|string
+     */
+    public function getAttributeStoreLabel($type, $code)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->_labelTable, 'label')
+            ->where('type_id = ?', $type->getId())
+            ->where('attribute_code = ?', $code)
+            ->where('store_id = ?', $type->getStoreId())
+            ->where('option_code = ""');
+
+        return $this->_getReadAdapter()->fetchOne($select);
+    }
+
+    /**
+     * Get attribute store options data
+     *
+     * @param Enterprise_GiftRegistry_Model_Type $type
+     * @param string $code
+     * @return null|string
+     */
+    public function getAttributeStoreOptions($type, $code, $option)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->_labelTable, array('label'))
+            ->where('type_id = ?', $type->getId())
+            ->where('attribute_code = ?', $code)
+            ->where('option_code =?', $option)
+            ->where('store_id = ?', $type->getStoreId());
+
+        return $this->_getReadAdapter()->fetchOne($select);
+    }
+
+    /**
+     * Delete attribute store data
+     *
+     * @param int $typeId
+     * @param string $attributeCode
+     */
+    public function deleteStoreData($typeId, $attributeCode)
+    {
+        $this->_getWriteAdapter()->delete($this->_labelTable, array(
+            'type_id = ?' => $typeId,
+            'attribute_code = ?' => $attributeCode
+        ));
+    }
+
+    /**
+     * Delete attribute option store data
+     *
+     * @param int $typeId
+     * @param string $attributeCode
+     * @param string $optionCode
+     */
+    public function deleteOptionStoreData($typeId, $attributeCode, $optionCode)
+    {
+        $this->_getWriteAdapter()->delete($this->_labelTable, array(
+            'type_id = ?' => $typeId,
+            'attribute_code = ?' => $attributeCode,
+            'option_code = ?' => $optionCode
+        ));
     }
 }

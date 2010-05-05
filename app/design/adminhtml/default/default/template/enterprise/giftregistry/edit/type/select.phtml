@@ -28,71 +28,64 @@
 <script type="text/javascript">
 //<![CDATA[
 OptionTemplateSelect =
-	'<table class="border" cellpadding="0" cellspacing="0">'+
-        '<input type="hidden" class="required-option-select-type-rows" name="validation_{{option_id}}_result" value="" >'+
+    '<table class="border" cellpadding="0" cellspacing="0">'+
         '<thead>'+
         '<tr class="headings">'+
-            '<th class="type-title"><?php echo Mage::helper('enterprise_giftregistry')->__('Code') ?> <span class="required">*</span></th>'+
-            '<th class="type-title"><?php echo Mage::helper('enterprise_giftregistry')->__('Title') ?> <span class="required">*</span></th>'+
-            '<th class="type-price"><?php echo Mage::helper('enterprise_giftregistry')->__('Is Default') ?></th>'+
-            '<th class="type-order"><?php echo Mage::helper('enterprise_giftregistry')->__('Sort Order') ?></th>'+
-            '<th class="type-butt last">&nbsp;</th>'+
+            '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Code') ?> <span class="required">*</span></th>'+
+            '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Label') ?> <span class="required">*</span></th>'+
+            '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Is Default') ?></th>'+
+            '<th class="type-butt scope-item">&nbsp;</th>'+
         '</tr>'+
         '</thead>'+
-        '<tbody id="select_option_type_row_{{option_id}}"></tbody>'+
+        '<tbody id="select_option_type_row_{{id}}"></tbody>'+
         '<tfoot>'+
-            '<tr><td colspan="10" class="a-right"><?php echo $this->getAddButtonHtml() ?></td></tr>'+
+            '<tr><td colspan="10" class="a-right scope-item"><?php echo $this->getAddButtonHtml() ?></td></tr>'+
         '</tfoot>'+
     '</table>';
 
 OptionTemplateSelectRow =
-	'<tr id="attribute_{{id}}_select_{{select_id}}">'+
-	   '<td>'+
-        '<input type="hidden" name="attribute[{{id}}][options][{{select_id}}][option_type_id]" value="{{option_type_id}}">'+
-        '<input type="text" class="required-entry input-text select-type-code" id="attribute_{{id}}_select_{{select_id}}_title" name="attribute[{{id}}][options][{{select_id}}][code]" value="{{code}}">{{checkboxScopeTitle}}</td>'+
-        '<td><input type="text" class="required-entry input-text" id="attribute_{{id}}_select_{{select_id}}_title" name="attribute[{{id}}][options][{{select_id}}][title]" value="{{title}}">{{checkboxScopeTitle}}</td>'+
-        '<td><input type="radio" class="input-text" id="attribute_{{id}}_select_{{select_id}}_title" name="attribute[{{id}}][options][{{select_id}}][default]" value="{{select_id}}" {{checked}}></td>'+
-        '<td><input type="text" class="validate-zero-or-greater input-text" name="attribute[{{id}}][options][{{select_id}}][sort_order]" value="{{sort_order}}"></td>'+
-        '<td class="last"><span title="<?php echo Mage::helper('enterprise_giftregistry')->__('Delete Option') ?>"><?php echo $this->getDeleteButtonHtml() ?></span></td>'+
+    '<tr id="attribute_{{id}}_select_{{select_id}}">'+
+       '<td>'+
+        '<input type="hidden" class="hidden-code" name="attributes[{{id}}][options][{{select_id}}][code]" value="{{code}}" disabled="disabled">'+
+        '<input type="hidden" id="attribute_{{id}}_select_{{select_id}}_is_deleted" name="attributes[{{id}}][options][{{select_id}}][is_deleted]">'+
+        '<input type="text" class="required-entry input-text global-scope" id="attribute_{{id}}_select_{{select_id}}_code" name="attributes[{{id}}][options][{{select_id}}][code]" value="{{code}}"></td>'+
+        '<td><input type="text" class="required-entry input-text" id="attribute_{{id}}_select_{{select_id}}_label" name="attributes[{{id}}][options][{{select_id}}][label]" value="{{label}}">{{checkbox_scope}}</td>'+
+        '<td><input type="radio" class="input-text global-scope" id="attribute_{{id}}_select_{{select_id}}_default" name="attributes[{{id}}][default]" value="{{select_id}}" {{checked}}></td>'+
+        '<td class="scope-item"><span title="<?php echo Mage::helper('enterprise_giftregistry')->__('Delete Option') ?>"><?php echo $this->getDeleteButtonHtml() ?></span></td>'+
     '</tr>';
 
 selectOptionType = {
     div : 'select_option_type_row',
-    itemCount : 0,
+    selectId : 0,
     templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
     templateText : OptionTemplateSelectRow,
     add : function(data) {
-
         this.template = new Template(this.templateText, this.templateSyntax);
 
-        if (data.target || data.srcElement) {//data is Event (work in IE and Firefox)
+        if (data.target || data.srcElement) {
             element = $(Event.findElement(data, 'button'));
-            optionId = element.readAttribute('id').sub('add_select_row_button_', '');
             data = {};
-            data.option_type_id = '-1';
-            data.select_id = this.itemCount;
+            data.id = element.readAttribute('id').sub('add_select_row_button_', '');
+            this.selectId++;
+            data.select_id = this.selectId;
         } else {
-            optionId = data.option_id;
-            data.select_id = data.option_type_id;
-            this.itemCount = data.item_count;
+            this.selectId = data.select_id;
         }
 
-        data.id  = optionId;
         Element.insert($(this.div+'_'+data.id), {'bottom':this.template.evaluate(data)});
 
-        if (data.checkboxScopeTitle) {
-            if ($('attribute_'+data.id+'_select_'+data.select_id+'_title') && data.scopeTitleDisabled) {
-                $('attribute_'+data.id+'_select_'+data.select_id+'_title').disable();
+        if (data.checkbox_scope) {
+            if ($('attribute_'+data.id+'_select_'+data.select_id+'_label') && data.label_disabled) {
+                $('attribute_'+data.id+'_select_'+data.select_id+'_label').disable();
             }
         }
-
-        this.itemCount++;
         this.bindRemoveButtons();
     },
     remove : function(event){
         var element = $(Event.findElement(event, 'tr'));
 
         if(element){
+            $(element.readAttribute('id')+'_is_deleted').value = '1';
             element.addClassName('no-display');
             element.addClassName('ignore-validate');
             element.hide();
@@ -119,27 +112,7 @@ selectOptionType = {
     }
 }
 
-if ($('option_panel_type_select')) {
-    $('option_panel_type_select').remove();
-}
-
 selectOptionType.bindRemoveButtons();
-
-Validation.addAllThese([
-    ['required-option-select-type-rows',
-     '<?php echo Mage::helper('enterprise_giftregistry')->__('Please add options to select input element.') ?>',
-     function(v, elm) {
-            var optionContainerElm = elm.up('div.grid');
-            var selectTypesFlag = false;
-            selectTypeElements = $$('#'+optionContainerElm.id+' .select-type-code');
-            selectTypeElements.each(function(elm){
-                if (elm.id && elm.up('tr').visible()) {
-                    selectTypesFlag = true;
-                }
-            });
-            elm.advaiceContainer = optionContainerElm.id+'_advice';
-        return selectTypesFlag;
-}]]);
 
 if($('add_select_row_button')){
     Event.observe('add_select_row_button', 'click', selectOptionType.add.bind(selectOptionType));

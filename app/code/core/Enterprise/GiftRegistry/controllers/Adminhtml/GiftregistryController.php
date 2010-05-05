@@ -119,7 +119,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Enterpris
             try {
                 $model = $this->_initType('type_id');
                 $model->addData($this->getRequest()->getParam('type'));
-                $model->addData(array('attribute' => $this->getRequest()->getParam('attribute')));
+                $model->addData(array('attributes' => $this->getRequest()->getParam('attributes')));
 
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The gift registry type has been saved.'));
