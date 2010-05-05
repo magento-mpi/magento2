@@ -572,7 +572,8 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      */
     public function getDebugFlag()
     {
-        return $this->getConfigData('debug');
+        $debug = $this->getConfigData('debug') || $this->getConfigData('debug_flag'); 
+        return (bool)$debug;
     }
 
     /**
