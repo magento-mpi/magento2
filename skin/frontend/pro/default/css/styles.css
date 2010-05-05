@@ -377,7 +377,7 @@ p.required { font-size:11px; text-align:right; color:#f15c22; }
 .toolbar-bottom .toolbar { margin:0; }
 
 /* Data Table */
-.data-table { width:100%; border:5px solid #cfcfcf; }
+.data-table { width:100%; border:3px solid #cfcfcf; }
 /*.data-table tr.odd { background:#fff }
 .data-table tr.even { background:#fafafa; }*/
 .data-table tr.last th,
@@ -1128,7 +1128,6 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .cart .page-title .checkout-types { display:none !important; }
 
 /* Shopping Cart Table */
-.cart-table { border:3px solid #cfcfcf; }
 .cart-table thead,
 .cart-table thead tr { background:none !important; }
 .cart-table tbody tr.last td { border-bottom:3px solid #cfcfcf !important; }
@@ -1140,7 +1139,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .cart-table thead th.first,
 .cart-table tbody td.first { background-image:none!important; }
 .cart-table th { padding:15px 25px; }
-.cart-table td { padding:25px; }
+.cart-table td { padding:20px; }
 .cart-table tbody td { vertical-align:middle; }
 .cart-table .product-name { font-weight:bold; margin:0 0 5px; color:#2f2f2f; }
 .cart-table .item-msg { margin:5px 0; font-size:11px; font-weight:bold; color:#df280a; }
@@ -1152,8 +1151,8 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* Shopping Cart Collateral boxes */
 .cart .cart-collaterals { padding:35px 0 0; }
-.cart .cart-collaterals .col2-set { float:left; width:650px; }
-.cart .cart-collaterals .col2-set .col-1 { width:345px; }
+.cart .cart-collaterals .col2-set { float:left; width:638px; }
+.cart .cart-collaterals .col2-set .col-1 { width:333px; }
 .cart .cart-collaterals .col2-set .col-2 { width:294px; }
 
 .cart .crosssell { border:1px solid #cfcfcf; }
@@ -1198,7 +1197,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .cart .giftcard .buttons-set button.button { margin:3px 0 0; }
 
 /* Shopping Cart Totals */
-.cart .totals { float:right; width:268px; color:#214d90; }
+.cart .totals { float:right; width:280px; color:#214d90; }
 .cart .totals table { width:100%; margin:7px 0; }
 .cart .totals td { padding:1px 15px 1px 7px; vertical-align:middle; }
 .cart .totals tbody td .price { font-size:14px; font-weight:bold; }
