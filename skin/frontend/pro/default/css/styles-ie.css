@@ -79,6 +79,7 @@ table { scrollbar-face-color:expression(runtimeStyle.scrollbarFaceColor = '#fff'
 .clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
 
 /* Clears and hasLayout fixes */
+.sp-methods .form-list,
 .header-container,
 .header-container .top-container,
 .header,
