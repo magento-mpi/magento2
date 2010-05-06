@@ -181,6 +181,9 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                         if (!empty($group->comment)) {
                             $fieldsetConfig['comment'] = (string)$group->comment;
                         }
+                        if (!empty($group->expanded)) {
+                            $fieldsetConfig['expanded'] = (bool)$group->expanded;
+                        }
 
                         $fieldset = $form->addFieldset(
                             $section->getName() . '_' . $group->getName(), $fieldsetConfig)

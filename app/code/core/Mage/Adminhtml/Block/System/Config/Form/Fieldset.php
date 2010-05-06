@@ -173,6 +173,9 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
      */
     protected function _getCollapseState($element)
     {
+        if ($element->getExpanded() !== null) {
+            return 1;
+        }
         $extra = Mage::getSingleton('admin/session')->getUser()->getExtra();
         if (isset($extra['configState'][$element->getId()])) {
             return $extra['configState'][$element->getId()];
