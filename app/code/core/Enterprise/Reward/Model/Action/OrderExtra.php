@@ -94,14 +94,20 @@ class Enterprise_Reward_Model_Action_OrderExtra extends Enterprise_Reward_Model_
             $quote = $this->_quote;
             // known issue: no support for multishipping quote
             $address = $quote->getIsVirtual() ? $quote->getBillingAddress() : $quote->getShippingAddress();
-            $monetaryAmount = $quote->getBaseSubtotal() - abs(1 * $address->getBaseDiscountAmount());
+            // use only money customer spend - shipping & tax
+            $monetaryAmount = $quote->getBaseGrandTotal()
+                - $address->getBaseShippingAmount()
+                - $address->getBaseTaxAmount();
+            $monetaryAmount = $monetaryAmount < 0 ? 0 : $monetaryAmount;
         } else {
-            $monetaryAmount = $this->getEntity()->getBaseTotalPaid() - $this->getEntity()->getBaseShippingAmount() - $this->getEntity()->getBaseTaxAmount();
+            $monetaryAmount = $this->getEntity()->getBaseTotalPaid()
+                - $this->getEntity()->getBaseShippingAmount()
+                - $this->getEntity()->getBaseTaxAmount();
         }
         $pointsDelta = $this->getReward()->getRateToPoints()->calculateToPoints((float)$monetaryAmount);
         return $pointsDelta;
     }
-    
+
     /**
      * Check whether rewards can be added for action
      * Checking for the history records is intentionaly omitted
