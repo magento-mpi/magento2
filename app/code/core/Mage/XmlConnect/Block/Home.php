@@ -36,11 +36,6 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
 {
 
     /**
-     * Category list image size
-     */
-    const CATEGORY_IMAGE_RESIZE_PARAM = 80;
-
-    /**
      * Category list limitation
      */
     const HOME_PAGE_CATEGORIES_COUNT = 6;
@@ -68,8 +63,7 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
             $itemXmlObj->addChild('label', $homeXmlObj->xmlentities(strip_tags($item->getName())));
             $itemXmlObj->addChild('entity_id', $item->getEntityId());
             $itemXmlObj->addChild('content_type', $item->hasChildren() ? 'categories' : 'products');
-            $icon = Mage::helper('catalog/category_image')->init($item, 'image')
-                ->resize(self::CATEGORY_IMAGE_RESIZE_PARAM);
+            $icon = Mage::helper('catalog/category_image')->init($item, 'thumbnail');
             $itemXmlObj->addChild('icon', $icon);
         }
 

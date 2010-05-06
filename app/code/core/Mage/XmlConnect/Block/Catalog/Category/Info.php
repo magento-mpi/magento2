@@ -45,8 +45,17 @@ class Mage_XmlConnect_Block_Catalog_Category_Info extends Mage_XmlConnect_Block_
         $infoXmlObj = new Varien_Simplexml_Element('<category_info></category_info>');
         $category   = $this->getCategory();
         if ($category && is_object($category) && $category->getId()) {
-            $infoXmlObj->addChild('parent_title', $infoXmlObj->xmlentities(strip_tags($category->getParentCategory()->getName())));
-            $infoXmlObj->addChild('parent_id', $category->getParentId());
+            $title = $infoXmlObj->xmlentities(strip_tags($category->getParentCategory()->getName()));
+            if ($category->getParentCategory()->getLevel() == 1) {
+                $title = '';
+            }
+
+            $infoXmlObj->addChild('parent_title', $title);
+            $pId = $category->getParentId();
+            if ($category->getLevel() == 1) {
+                $pId = 0;
+            }
+            $infoXmlObj->addChild('parent_id', $pId);
         }
 
         return $infoXmlObj;

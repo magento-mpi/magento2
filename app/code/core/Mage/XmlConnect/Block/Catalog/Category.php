@@ -34,12 +34,6 @@
 
 class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catalog
 {
-
-    /**
-     * Category list image size
-     */
-    const CATEGORY_IMAGE_RESIZE_PARAM = 80;
-
     protected function _toHtml()
     {
         $request = $this->getRequest();
@@ -87,8 +81,7 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
             if (!is_null($categoryId)) {
                 $itemXmlObj->addChild('parent_id', $item->getParentId());
             }
-            $icon = Mage::helper('catalog/category_image')->init($item, 'image')
-                ->resize(self::CATEGORY_IMAGE_RESIZE_PARAM);
+            $icon = Mage::helper('catalog/category_image')->init($item, 'thumbnail');
             $itemXmlObj->addChild('icon', $icon);
         }
 

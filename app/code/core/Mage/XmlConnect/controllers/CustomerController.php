@@ -32,15 +32,6 @@
 
 class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Action
 {
-    /**
-     * Get customer session model
-     *
-     * @return Mage_Customer_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('customer/session');
-    }
 
     /**
      * Customer authentification action
@@ -114,93 +105,22 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     }
 
     /**
-     * Customer registration form
+     * Customer registration/edit account form
      */
     public function formAction()
     {
-        $xml = <<<EOT
-<?xml version="1.0"?>
-<form name="account_form" method="post">
-    <fieldset>
-        <field name="firstname" type="text" label="First Name" required="true">
-            <validators>
-                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
-            </validators>
-        </field>
-        <field name="lastname" type="text" label="Last Name" required="true">
-            <validators>
-                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
-            </validators>
-        </field>
-        <field name="email" type="text" label="Email" required="true">
-            <validators>
-                <validator type="email" message="Wrong email format"/>
-            </validators>
-        </field>
-        <field name="password" type="password" label="Password" required="true"/>
-        <field name="confirmation" type="password" label="Confirm" required="true">
-            <validators>
-                <validator type="confirmation" message="....">password</validator>
-            </validators>
-        </field>
-    </fieldset>
-    <fieldset legend="Receive Email Notifications">
-        <field name="is_subscribed" type="checkbox" label="Promos and News"/>
-    </fieldset>
-</form>
-EOT;
-        $this->getResponse()->setBody($xml);
-    }
-
-    /**
-     * Customer account edit form
-     */
-    public function editFormAction()
-    {
-        if (!$this->_getSession()->isLoggedIn()) {
-            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
-            return ;
+        $customer = null;
+        $editFlag = (int)$this->getRequest()->getParam('edit');
+        if ($editFlag == 1) {
+            if (!$this->_getSession()->isLoggedIn()) {
+                $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+                return ;
+            }
+            $customer  = $this->_getSession()->getCustomer();
         }
 
-        $customer  = $this->_getSession()->getCustomer();
-        $xmlModel  = new Varien_Simplexml_Element('<node></node>');
-        $firstname = $xmlModel->xmlentities(strip_tags($customer->getFirstname()));
-        $lastname  = $xmlModel->xmlentities(strip_tags($customer->getLastname()));
-        $email     = $xmlModel->xmlentities(strip_tags($customer->getEmail()));
-
-        $xml = <<<EOT
-<?xml version="1.0"?>
-<form name="account_form" method="post">
-    <fieldset>
-        <field name="firstname" type="text" label="First Name" required="true" value="$firstname">
-            <validators>
-                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
-            </validators>
-        </field>
-        <field name="lastname" type="text" label="Last Name" required="true" value="$lastname">
-            <validators>
-                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
-            </validators>
-        </field>
-        <field name="email" type="text" label="Email" required="true" value="$email">
-            <validators>
-                <validator type="email" message="Wrong email format"/>
-            </validators>
-        </field>
-        <field name="change_password" type="checkbox" label="Change Password"/>
-    </fieldset>
-    <fieldset>
-        <field name="current_password" type="password" label="Current Password"/>
-        <field name="password" type="password" label="New Password"/>
-        <field name="confirmation" type="password" label="Confirm New Password">
-            <validators>
-                <validator type="confirmation" message="....">password</validator>
-            </validators>
-        </field>
-    </fieldset>
-</form>
-EOT;
-        $this->getResponse()->setBody($xml);
+        $this->loadLayout(false)->getLayout()->getBlock('xmlconnect.customer.form')->setCustomer($customer);
+        $this->renderLayout();
     }
 
     /**
@@ -458,53 +378,7 @@ EOT;
     }
 
     /**
-     * Retrieve regions by country
-     *
-     * @param string $countryId
-     * @return array
-     */
-    protected function _getRegionOptions($countryId)
-    {
-        $cacheKey = 'DIRECTORY_REGION_SELECT_STORE'.Mage::app()->getStore()->getId();
-        if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
-            $options = unserialize($cache);
-        }
-        else {
-            $collection = Mage::getModel('directory/region')->getResourceCollection()
-                ->addCountryFilter($countryId)
-                ->load();
-            $options = $collection->toOptionArray();
-            if (Mage::app()->useCache('config')) {
-                Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
-            }
-        }
-        return $options;
-    }
-
-    /**
-     * Retrieve countries
-     *
-     * @return array
-     */
-    protected function _getCountryOptions()
-    {
-        $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_'.Mage::app()->getStore()->getCode();
-        if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
-            $options = unserialize($cache);
-        }
-        else {
-            $collection = Mage::getModel('directory/country')->getResourceCollection()
-                ->loadByStore();
-            $options = $collection->toOptionArray();
-            if (Mage::app()->useCache('config')) {
-                Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
-            }
-        }
-        return $options;
-    }
-
-    /**
-     * Customer add address form
+     * Customer add/edit address form
      */
     public function addressFormAction()
     {
@@ -513,177 +387,22 @@ EOT;
             return ;
         }
 
-        $xmlModel   = new Varien_Simplexml_Element('<node></node>');
-        $countryId = Mage::getStoreConfig('general/country/default');
-        $countries = $this->_getCountryOptions();
-
-        $regions = array();
-        $countryOptionsXml = '<values>';
-        if (is_array($countries)) {
-            foreach ($countries as $key => $data) {
-                if ($data['value']) {
-                    $regions = $this->_getRegionOptions($data['value']);
-                }
-                $countryOptionsXml .= '
-                <item relation="' . (is_array($regions) && !empty($regions) ? 'region_id' : 'region') . '"' . ($countryId == $data['value'] ? ' selected="1"' : '') . '>
-                    <label>' . $xmlModel->xmlentities((string)$data['label']) . '</label>
-                    <value>' . $xmlModel->xmlentities($data['value']) . '</value>';
-                if (is_array($regions) && !empty($regions)) {
-                    $countryOptionsXml .= '<regions>';
-                    foreach ($regions as $_key => $_data){
-                        $countryOptionsXml .= '<region_item>';
-                        $countryOptionsXml .=
-                            '<label>' . $xmlModel->xmlentities((string)$_data['label']) . '</label>
-                             <value>' . $xmlModel->xmlentities($_data['value']) . '</value>';
-                        $countryOptionsXml .= '</region_item>';
-                    }
-                    $countryOptionsXml .= '</regions>';
-                }
-                $countryOptionsXml .= '</item>';
-            }
-        }
-        $countryOptionsXml .= '</values>';
-
-        $xml = <<<EOT
-<?xml version="1.0"?>
-<form name="address_form" method="post">
-    <fieldset legend="Contact Information">
-        <field name="firstname" type="text" label="First Name" required="true">
-            <validators>
-                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
-            </validators>
-        </field>
-        <field name="lastname" type="text" label="Last Name" required="true">
-            <validators>
-                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
-            </validators>
-        </field>
-        <field name="company" type="text" label="Company" />
-        <field name="telephone" type="text" label="Telephone" required="true" />
-        <field name="fax" type="text" label="Fax" />
-    </fieldset>
-    <fieldset legend="Address">
-        <field name="street[]" type="text" label="Street Address" required="true" />
-        <field name="street[]" type="text" />
-        <field name="city" type="text" label="City" required="true" />
-        <field name="region" type="text" label="State/Province" />
-        <field name="region_id" type="select" label="State/Province" required="true" />
-        <field name="postcode" type="text" label="Zip/Postal Code" required="true" />
-        <field name="country_id" type="select" label="Country" required="true">
-            $countryOptionsXml
-        </field>
-        <field name="default_billing" type="checkbox" label="Use as my default billing address"/>
-        <field name="default_shipping" type="checkbox" label="Use as my default shipping address"/>
-    </fieldset>
-</form>
-EOT;
-        $this->getResponse()->setBody($xml);
-    }
-
-    /**
-     * Customer edit address form
-     */
-    public function editAddressAction()
-    {
-        if (!$this->_getSession()->isLoggedIn()) {
-            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
-            return ;
-        }
-
         $address = Mage::getModel('customer/address');
-        // Init address object
-        if ($id = $this->getRequest()->getParam('id')) {
-            $address->load($id);
+
+        /**
+         * Init address object
+         */
+        $addressId = (int)$this->getRequest()->getParam('id');
+        if ($addressId) {
+            $address->load($addressId);
             if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {
                 $this->_message($this->__('Specified address does not exist.'), self::MESSAGE_STATUS_ERROR);
                 return ;
             }
         }
 
-        $collection = Mage::getModel('directory/country')->getResourceCollection()
-            ->loadByStore();
-
-        $xmlModel   = new Varien_Simplexml_Element('<node></node>');
-        $firstname  = $xmlModel->xmlentities(strip_tags($address->getFirstname()));
-        $lastname   = $xmlModel->xmlentities(strip_tags($address->getLastname()));
-        $company    = $xmlModel->xmlentities(strip_tags($address->getCompany()));
-        $street1    = $xmlModel->xmlentities(strip_tags($address->getStreet(1)));
-        $street2    = $xmlModel->xmlentities(strip_tags($address->getStreet(2)));
-        $city       = $xmlModel->xmlentities(strip_tags($address->getCity()));
-        $regionId   = $xmlModel->xmlentities($address->getRegionId());
-        $region = Mage::getModel('directory/region')->load($regionId)->getName();
-        if (!$region) {
-            $region = $address->getRegion();
-        }
-        $region     = $xmlModel->xmlentities(strip_tags($region));
-        $postcode   = $xmlModel->xmlentities(strip_tags($address->getPostcode()));
-        $countryId  = $xmlModel->xmlentities($address->getCountryId());
-        $telephone  = $xmlModel->xmlentities(strip_tags($address->getTelephone()));
-        $fax        = $xmlModel->xmlentities(strip_tags($address->getFax()));
-
-        $countries = $this->_getCountryOptions();
-
-        $regions = array();
-        $countryOptionsXml = '<values>';
-        if (is_array($countries)) {
-            foreach ($countries as $key => $data) {
-                if ($data['value']) {
-                    $regions = $this->_getRegionOptions($data['value']);
-                }
-                $countryOptionsXml .= '
-                <item relation="' . (is_array($regions) && !empty($regions) ? 'region_id' : 'region') . '"' . ($countryId == $data['value'] ? ' selected="1"' : '') . '>
-                    <label>' . $xmlModel->xmlentities((string)$data['label']) . '</label>
-                    <value>' . $xmlModel->xmlentities($data['value']) . '</value>';
-                if (is_array($regions) && !empty($regions)) {
-                    $countryOptionsXml .= '<regions>';
-                    foreach ($regions as $_key => $_data){
-                        $countryOptionsXml .= '<region_item' . ($regionId == $_data['value'] ? ' selected="1"' : '') . '>';
-                        $countryOptionsXml .=
-                            '<label>' . $xmlModel->xmlentities((string)$_data['label']) . '</label>
-                             <value>' . $xmlModel->xmlentities($_data['value']) . '</value>';
-                        $countryOptionsXml .= '</region_item>';
-                    }
-                    $countryOptionsXml .= '</regions>';
-                }
-                $countryOptionsXml .= '</item>';
-            }
-        }
-        $countryOptionsXml .= '</values>';
-
-        $xml = <<<EOT
-<?xml version="1.0"?>
-<form name="address_form" method="post">
-    <fieldset legend="Contact Information">
-        <field name="firstname" type="text" label="First Name" required="true" value="$firstname">
-            <validators>
-                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
-            </validators>
-        </field>
-        <field name="lastname" type="text" label="Last Name" required="true" value="$lastname">
-            <validators>
-                <validator type="regexp" message="Letters only">^[ a-zA-Z]+$</validator>
-            </validators>
-        </field>
-        <field name="company" type="text" label="Company" value="$company" />
-        <field name="telephone" type="text" label="Telephone" required="true" value="$telephone" />
-        <field name="fax" type="text" label="Fax" value="$fax" />
-    </fieldset>
-    <fieldset legend="Address">
-        <field name="street[]" type="text" label="Street Address" required="true" value="$street1" />
-        <field name="street[]" type="text" value="$street2" />
-        <field name="city" type="text" label="City" required="true" value="$city" />
-        <field name="region" type="text" label="State/Province" value="$region" />
-        <field name="region_id" type="select" label="State/Province" required="true" />
-        <field name="postcode" type="text" label="Zip/Postal Code" required="true" value="$postcode" />
-        <field name="country_id" type="select" label="Country" required="true">
-            $countryOptionsXml
-        </field>
-        <field name="default_billing" type="checkbox" label="Use as my default billing address"/>
-        <field name="default_shipping" type="checkbox" label="Use as my default shipping address"/>
-    </fieldset>
-</form>
-EOT;
-        $this->getResponse()->setBody($xml);
+        $this->loadLayout(false)->getLayout()->getBlock('xmlconnect.customer.address.form')->setAddress($address);
+        $this->renderLayout();
     }
 
     /**
@@ -776,18 +495,6 @@ EOT;
     }
 
     /**
-     * Filtering posted data. Converting localized data if needed
-     *
-     * @param array
-     * @return array
-     */
-    protected function _filterPostData($data)
-    {
-        $data = $this->_filterDates($data, array('dob'));
-        return $data;
-    }
-
-    /**
      * Customer orders list
      */
     public function orderListAction()
@@ -811,4 +518,25 @@ EOT;
         $this->getResponse()->setBody($message->asNiceXml());
     }
 
+    /**
+     * Filtering posted data. Converting localized data if needed
+     *
+     * @param array
+     * @return array
+     */
+    protected function _filterPostData($data)
+    {
+        $data = $this->_filterDates($data, array('dob'));
+        return $data;
+    }
+
+    /**
+     * Get customer session model
+     *
+     * @return Mage_Customer_Model_Session
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('customer/session');
+    }
 }

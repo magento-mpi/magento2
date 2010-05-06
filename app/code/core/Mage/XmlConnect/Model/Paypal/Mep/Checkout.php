@@ -35,7 +35,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
      * Uses additional_information as storage
      * @var string
      */
-    const PAYMENT_INFO_PAYER_EMAIL = 'paypal_mep_checkout_payer_email';
+    const PAYMENT_INFO_PAYER_EMAIL = 'paypal_payer_email';
     const PAYMENT_INFO_TRANSACTION_ID = 'paypal_mep_checkout_transaction_id';
 
     /**
@@ -198,7 +198,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         $payment->importData($data);
 
         $payment->setAdditionalInformation(self::PAYMENT_INFO_PAYER_EMAIL, isset($data['payer']) ? $data['payer'] : null);
-        $payment->setAdditionalInformation(self::PAYMENT_INFO_TRANSACTION_ID, isset($data['transation_id']) ? $data['transation_id'] : null);
+        $payment->setAdditionalInformation(self::PAYMENT_INFO_TRANSACTION_ID, isset($data['transaction_id']) ? $data['transaction_id'] : null);
 
         $this->_quote->collectTotals()->save();
 

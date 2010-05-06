@@ -31,7 +31,7 @@
  * @package    Mage_XmlConnect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Block_Customer_Address_List
+class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Template
 {
 
     /**

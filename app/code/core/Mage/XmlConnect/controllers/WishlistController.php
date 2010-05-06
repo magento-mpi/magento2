@@ -166,6 +166,31 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
     }
 
     /**
+     * Clear wishlist action
+     */
+    public function clearAction()
+    {
+        $wishlist = $this->_getWishlist();
+        $items = $wishlist->getItemCollection();
+
+        try {
+            foreach ($items as $item) {
+                $item->delete();
+            }
+            $wishlist->save();
+            $this->_message($this->__('Wishlist was successfully cleared.'), self::MESSAGE_STATUS_SUCCESS);
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        }
+        catch(Exception $e) {
+            $this->_message('An error occurred while removing items from wishlist.', self::MESSAGE_STATUS_ERROR);
+        }
+
+        Mage::helper('wishlist')->calculate();
+    }
+
+    /**
      * Update wishlist item comments
      */
     public function updateAction()

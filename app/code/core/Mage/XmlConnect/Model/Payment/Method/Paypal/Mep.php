@@ -30,7 +30,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Payment_Method_Paypal_Mep extends Mage_Payment_Model_Method_Abstract
+class Mage_XmlConnect_Model_Payment_Method_Paypal_Mep extends Mage_Paypal_Model_Express
 {
     /**
      * Store MEP payment method code
@@ -53,5 +53,43 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mep extends Mage_Payment_Model
     public function getConfigPaymentAction()
     {
         return Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
+    }
+
+    /**
+     * Capture payment
+     *
+     * @param   Varien_Object $orderPayment
+     * @return  Mage_Payment_Model_Abstract
+     */
+    public function capture(Varien_Object $payment, $amount)
+    {
+        $transactionId = $payment->getAdditionalInformation(Mage_XmlConnect_Model_Paypal_Mep_Checkout::PAYMENT_INFO_TRANSACTION_ID);
+        $payment->setTransactionId($transactionId);
+        return $this;
+    }
+
+    /**
+     * Retrieve information from payment configuration
+     *
+     * @param   string $field
+     * @return  mixed
+     */
+    public function getConfigData($field, $storeId = null)
+    {
+        if (null === $storeId) {
+            $storeId = $this->getStore();
+        }
+        switch ($field)
+        {
+            case 'allowspecific':
+            case 'specificcountry':
+            case 'line_items_enabled':
+            case 'business_account':
+                $path = 'paypal/general/' . $field;
+            default:
+                $path = 'payment/'.$this->getCode().'/'.$field;
+        }
+
+        return Mage::getStoreConfig($path, $storeId);
     }
 }

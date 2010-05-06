@@ -109,6 +109,10 @@
 
     <!-- Customer -->
 
+    <xmlconnect_customer_form>
+        <block type="xmlconnect/customer_form" name="xmlconnect.customer.form" output="toHtml"/>
+    </xmlconnect_customer_form>
+
     <xmlconnect_wishlist_index>
         <block type="xmlconnect/wishlist" name="xmlconnect.wishlist" output="toHtml"/>
     </xmlconnect_wishlist_index>
@@ -116,6 +120,10 @@
     <xmlconnect_customer_address>
         <block type="xmlconnect/customer_address_list" name="xmlconnect.customer.address.list" output="toHtml"/>
     </xmlconnect_customer_address>
+
+    <xmlconnect_customer_addressform>
+        <block type="xmlconnect/customer_address_form" name="xmlconnect.customer.address.form" output="toHtml"/>
+    </xmlconnect_customer_addressform>
 
     <xmlconnect_customer_orderlist>
         <block type="xmlconnect/customer_order_list" name="xmlconnect.customer.order.list" output="toHtml"/>
