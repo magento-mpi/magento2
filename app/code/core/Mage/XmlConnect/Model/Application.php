@@ -102,11 +102,46 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    public function handleUpload($field) {
+    public function handleUpload($field)
+    {
         $uploader = new Varien_File_Uploader($field);
         $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
         $uploader->setAllowRenameFiles(true);
         $uploader->save(Mage::getBaseDir('media').DS.'xmlconnect');
         $this->_data[$field] = $uploader->getUploadedFileName();
+        $this->_handleResize($field, Mage::getBaseDir('media').DS.'xmlconnect'.DS.$this->_data[$field]);
+    }
+
+    protected function _handleResize($field, $file)
+    {
+        $conf = Mage::getStoreConfig('imageLimits');
+        $nameParts = explode('/', $field);
+        array_shift($nameParts);
+        while (count($nameParts)) {
+            $next = array_shift($nameParts);
+            if (isset($conf[$next])) {
+                $conf = $conf[$next];
+            } else {
+                return; // no config data - nothing to resize
+            }
+        }
+        $image = new Varien_Image($file);
+        $width = $image->getOriginalWidth();
+        $height = $image->getOriginalHeight();
+        if (isset($conf['widthMax']) && $conf['widthMax']<$width) {
+            $width = $conf['widthMax'];
+        } elseif (isset($conf['width'])) {
+            $width = $conf['width'];
+        }
+        if (isset($conf['heightMax']) && $conf['heightMax']<$height) {
+            $height = $conf['heightMax'];
+        } elseif (isset($conf['height'])) {
+            $height = $conf['height'];
+        }
+        if (($width!=$image->getOriginalWidth()) ||
+            ($height!=$image->getOriginalHeight()) ) {
+            $image->resize($width, $height);
+            $image->save(null, basename($file));
+        }
     }
 }
