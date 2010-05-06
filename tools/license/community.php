@@ -124,10 +124,10 @@ updateLicense(array(
     'errors', '!errors/enterprise', '!errors/design.xml'
 ), array('*.xml', '*.sample'), REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
 updateLicense(array(
-    'errors', '!errors/enterprise'
+    'errors', '!errors/enterprise', '!errors/pro'
 ), '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
 updateLicense(array(
-    'errors', '!errors/enterprise'
+    'errors', '!errors/enterprise', '!errors/pro'
 ), '*.css', REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('Mage', 'Errors'), true, true, true);
 
 // js/mage and js/varien

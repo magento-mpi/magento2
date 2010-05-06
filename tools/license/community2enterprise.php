@@ -39,7 +39,10 @@ updateLicense('app/etc/modules', 'Mage_*.xml', REGEX_XML, REPLACEMENT_XML, NOTIC
 // design phtml-files
 updateLicense(array(
         'app/design/adminhtml/default/default/template',
+        '!app/design/adminhtml/default/default/template/enterprise', // "!" = skip
+        '!app/design/adminhtml/default/default/template/moneybookers', // "!" = skip
         'app/design/frontend/base/default/template',
+        '!app/design/frontend/base/default/template/moneybookers', // "!" = skip
         'app/design/frontend/default/default/template',
         'app/design/frontend/default/modern/template',
         'app/design/frontend/default/blank/template',
@@ -52,8 +55,10 @@ updateLicense(array(
 updateLicense(array(
         'app/design/frontend/base/default/layout',
         'app/design/adminhtml/default/default/layout',
-        '!app/design/adminhtml/default/default/layout/moneybookers.xml',
+        '!app/design/adminhtml/default/default/layout/enterprise', // "!" = skip
+        '!app/design/adminhtml/default/default/layout/moneybookers.xml',  // "!" = skip
         'app/design/frontend/default/default/layout',
+        '!app/design/frontend/base/default/layout/moneybookers.xml', // "!" = skip
         'app/design/frontend/default/modern/layout',
         'app/design/frontend/default/blank/layout',
         'app/design/frontend/default/iphone/layout',
