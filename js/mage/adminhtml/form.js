@@ -400,10 +400,15 @@ FormElementDependenceController.prototype = {
      */
     initialize : function (elementsMap)
     {
+        var dependent = false;
         for (var idTo in elementsMap) {
             for (var idFrom in elementsMap[idTo]) {
-                Event.observe($(idFrom), 'change', this.trackChange.bindAsEventListener(this, idTo, elementsMap[idTo]));
-                this.trackChange(null, idTo, elementsMap[idTo]);
+                dependent = this.getDependentContainer(idTo);
+                if (!dependent) {
+                    continue;
+                }
+                Event.observe($(idFrom), 'change', this.trackChange.bindAsEventListener(this, dependent, elementsMap[idTo]));
+                this.trackChange(null, dependent, elementsMap[idTo]);
             }
         }
     },
@@ -412,11 +417,11 @@ FormElementDependenceController.prototype = {
      * Define whether target element should be toggled and show/hide its row
      *
      * @param object e - event
-     * @param string idTo - id of target element
+     * @param object dependent - dependent container
      * @param valuesFrom - ids of master elements and reference values
      * @return
      */
-    trackChange : function(e, idTo, valuesFrom)
+    trackChange : function(e, dependent, valuesFrom)
     {
         // define whether the target should show up
         var shouldShowUp = true;
@@ -428,19 +433,42 @@ FormElementDependenceController.prototype = {
 
         // toggle target row
         if (shouldShowUp) {
-            $(idTo).up(1).select('input', 'select').each(function (item) {
+            dependent.select('input', 'select').each(function (item) {
                 if (!item.type || item.type != 'hidden') { // don't touch hidden inputs, bc they may have custom logic
                     item.disabled = false;
                 }
             });
-            $(idTo).up(1).show();
+            dependent.show();
         } else {
-            $(idTo).up(1).select('input', 'select').each(function (item){
+            dependent.select('input', 'select').each(function (item){
                 if (!item.type || item.type != 'hidden') { // don't touch hidden inputs, bc they may have custom logic
                     item.disabled = true;
                 }
             });
-            $(idTo).up(1).hide();
+            dependent.hide();
         }
+    },
+
+    /**
+     * Return DOM element of dependent container
+     * Try to find dependent container in case of custom field renderers
+     *
+     * @param string idTo - id of target element
+     * @return object
+     */
+    getDependentContainer: function(idTo)
+    {
+        // Return parent row if element exists 
+        if ($(idTo) != undefined) {
+            return $(idTo).up(1);
+        }
+
+        // Return row itself 
+        var rowIdTo = 'row_' + idTo;
+        if ($(rowIdTo) != undefined) {
+            return $(rowIdTo);
+        }
+
+        return false;
     }
 }
