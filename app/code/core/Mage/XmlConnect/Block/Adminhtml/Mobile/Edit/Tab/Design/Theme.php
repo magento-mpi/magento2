@@ -23,53 +23,11 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminhtml_Block_Template
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Theme extends Mage_Core_Block_Template
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setShowGlobalIcon(true);
-        $this->setTemplate('xmlconnect/design.phtml');
-    }
-
-    /**
-     * Prepare label for tab
-     *
-     * @return string
-     */
-    public function getTabLabel()
-    {
-        return $this->__('Application Design');
-    }
-
-    /**
-     * Prepare title for tab
-     *
-     * @return string
-     */
-    public function getTabTitle()
-    {
-        return $this->__('Application Design');
-    }
-
-    /**
-     * Returns status flag about this tab can be showen or not
-     *
-     * @return true
-     */
-    public function canShowTab()
-    {
-        return true;
-    }
-
-    /**
-     * Returns status flag about this tab hidden or not
-     *
-     * @return true
-     */
-    public function isHidden()
-    {
-        return false;
+        $this->setTemplate('xmlconnect/theme.phtml');
     }
 }
