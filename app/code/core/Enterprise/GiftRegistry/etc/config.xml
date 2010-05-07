@@ -79,20 +79,22 @@
                     </select>
                     <date translate="label" module="enterprise_giftregistry">
                         <label>Date</label>
+                        <render>enterprise_giftregistry/adminhtml_giftregistry_edit_attribute_type_date</render>
                     </date>
                 </types>
             </custom>
             <static translate="label" module="enterprise_giftregistry">
-                <label>Event types</label>
+                <label>Static types</label>
                 <types>
                     <event_date translate="label" module="enterprise_giftregistry">
-                        <label>Date</label>
+                        <label>Event Date</label>
                     </event_date>
                     <event_country translate="label" module="enterprise_giftregistry">
                         <label>Country</label>
                     </event_country>
                     <event_region translate="label" module="enterprise_giftregistry">
                         <label>Region</label>
+                        <render>enterprise_giftregistry/adminhtml_giftregistry_edit_attribute_type_region</render>
                      </event_region>
                      <event_location translate="label" module="enterprise_giftregistry">
                          <label>Location</label>
@@ -195,7 +197,8 @@
             </modules>
         </translate>
     </adminhtml>
-  <frontend>
+
+    <frontend>
         <layout>
             <updates>
                 <enterprise_giftregistry>
@@ -222,4 +225,15 @@
             </enterprise_giftregistry>
         </routers>
     </frontend>
+
+    <default>
+        <enterprise_giftregistry>
+            <general>
+                <enabled>1</enabled>
+            </general>
+            <email>
+                <email_identity>general</email_identity>
+            </email>
+        </enterprise_giftregistry>
+    </default>
 </config>

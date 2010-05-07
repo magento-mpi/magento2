@@ -56,7 +56,7 @@ var attributeTemplate =
         '<td><?php echo $this->getGroupSelectHtml() ?></td>'+
         '<td><input type="text" class="required-entry input-text" id="attribute_{{id}}_label" name="attributes[{{id}}][label]" value="{{label}}">{{checkbox_scope}}</td>'+
         '<td><input type="text" class="input-text global-scope" id="attribute_{{id}}_sort_order" name="attributes[{{id}}][sort_order]" value="{{sort_order}}"></td>'+
-        '<td><input type="hidden" id="attribute_{{id}}_is_deleted" name="attributes[{{id}}][is_deleted]"><input type="hidden" class="hidden-code" name="attributes[{{id}}][code]" value="{{code}}" disabled="disabled"></td>'+
+        '<td><input type="hidden" id="attribute_{{id}}_is_deleted" name="attributes[{{id}}][is_deleted]"><input type="hidden" class="hidden-code" id="attribute_{{id}}_hidden_code" name="attributes[{{id}}][code]" value="{{code}}" disabled="disabled"></td>'+
     '</tr>'+
     '</table></div>';
 
@@ -125,61 +125,78 @@ var attributeOptionType = {
     loadStepTwo : function(event){
         var element = $(Event.findElement(event, 'select'));
         var type = element.getValue();
-        var template;
+        var template = this.getOptionTemplate(type);
 
-        switch(type){
-            case 'select':
-                template = OptionTemplateSelect;
-                break;
-            case 'date':
-                template = OptionTemplateDate;
-                break;
-            default:
-                template = '';
-                break;
-        }
+        data = {};
+        data.id = element.readAttribute('id').sub('attribute_', '').sub('_type', '');
+        data.type = type;
 
-        if (template){
-            template = '<div id="'+element.readAttribute('id')+'_'+type+'" class="grid">'+template+'</div>';
-            this.secondTemplate = new Template(template, this.templateSyntax);
+        $$('#option_'+data.id+' .grid').each(function(el){
+            $(el.readAttribute('id')).remove();
+        });
 
-            data = {};
-            data.id = element.readAttribute('id').sub('attribute_', '').sub('_type', '');
-            Element.insert(element.readAttribute('id').sub('_type', ''), {'after':this.secondTemplate.evaluate(data)});
-        }
+        this.checkStaticType(type, data.id);
+        this.insertOptionTemplate(element.readAttribute('id').sub('_type', ''), template, data);
 
         if (type == 'select') {
             selectOptionType.bindAddButton();
         }
-
     },
     addDataToValues : function(data){
-        var template;
-        switch(data.type){
-            case 'text':
-                break;
-            case 'select':
-                template = OptionTemplateSelect;
-                break;
-            case 'date':
-                break;
-            default:
-                template = '';
-                break;
-        }
-
+        var template = this.getOptionTemplate(data.type);
+        this.checkStaticType(data.type, data.id);
         if (template) {
-            template = '<div id="attribute_{{id}}_type_'+data.type+'" class="grid">'+template+'</div>';
-            this.secondTemplate = new Template(template, this.templateSyntax);
-            data.option_id = data.id;
-            Element.insert($('attribute_'+data.id), {'after':this.secondTemplate.evaluate(data)});
-
+            this.insertOptionTemplate($('attribute_'+data.id), template, data);
             if (data.type == 'select') {
                 data.items.each(function(value) {
                     selectOptionType.add(value);
                 });
                 selectOptionType.bindAddButton();
             }
+            if (data.type == 'date' || data.type == 'event_date') {
+                selectDateType.add(data);
+            }
+            if (data.type == 'event_region') {
+                selectRegionType.add(data);
+            }
+        }
+    },
+    getOptionTemplate : function(type){
+        var template;
+        switch(type){
+            case 'select':
+                template = OptionTemplateSelect;
+                break;
+            case 'date':
+            case 'event_date':
+                template = OptionTemplateDate;
+                break;
+            case 'event_region':
+                template = OptionTemplateRegion;
+                break;
+            default:
+                template = '';
+                break;
+        }
+        return template;
+    },
+    insertOptionTemplate : function(element, template, data){
+        var output = '<div id="attribute_{{id}}_type_'+data.type+'" class="grid">'+template+'</div>';
+        this.secondTemplate = new Template(output, this.templateSyntax);
+        Element.insert(element, {'after':this.secondTemplate.evaluate(data)});
+    },
+    checkStaticType : function(type, id){
+        codeInput = $('attribute_'+id+'_code');
+        hiddenInput = $('attribute_'+id+'_hidden_code');
+        if (!type.search('event_')) {
+            codeInput.value = type;
+            codeInput.disable();
+
+            hiddenInput.value = type;
+            hiddenInput.enable();
+        } else {
+            codeInput.enable();
+            hiddenInput.disable();
         }
     },
     bindSelectInputType : function(){
@@ -198,13 +215,10 @@ var attributeOptionType = {
 var attributeOptionScope = {
     addScope : function(event){
         var element = $(Event.element(event));
-        fieldToDisable = $(element.readAttribute('id').sub('_use_default', ''));
+        el = $(element.readAttribute('id').sub('_use_default', ''));
 
-        if (fieldToDisable.disabled) {
-            fieldToDisable.enable();
-        } else {
-            fieldToDisable.disable();
-        }
+        if (el.disabled) el.enable();
+        else el.disable();
     },
     bindScopeCheckbox : function(){
         var checkboxes = $$('.attribute-option-scope-checkbox');
@@ -215,18 +229,10 @@ var attributeOptionScope = {
             }
         }
     },
-    changeInputs : function(scope){
-        var inputs = (scope) ? $$('.global-scope', '.hidden-code') : $$('.hidden-code');
-        inputs.each(function(el) {
-            if (el.disabled) el.enable();
-            else el.disable();
-        });
-    },
-    hideButtons : function(){
-        var inputs = $$('.scope-item');
-        inputs.each(function(el) {
-             el.hide();
-        });
+    changeInputs : function(){
+        $$('.global-scope').each(function(el){el.disable()});
+        $$('.hidden-code').each(function(el){el.enable()});
+        $$('.scope-item').each(function(el){el.hide()});
     }
 }
 
@@ -244,11 +250,8 @@ if($('<?php echo $this->getAddButtonId() ?>')){
 attributeOptionScope.bindScopeCheckbox();
 
 <?php if($this->getTypeStoreId()): ?>
-    attributeOptionScope.hideButtons();
+    attributeOptionScope.changeInputs();
 <?php endif;?>
-
-attributeOptionScope.changeInputs(<?php echo $this->getTypeStoreId(); ?>);
-
 //]]>
 </script>
 </div>

@@ -76,19 +76,11 @@ CREATE TABLE `{$this->getTable('enterprise_giftregistry/label')}` (
     `type_id` int(10) unsigned NOT NULL DEFAULT '0',
     `attribute_code` varchar(32) NOT NULL DEFAULT '',
     `store_id` smallint(5) unsigned NOT NULL DEFAULT '0',
+    `option_code` varchar(32) NOT NULL,
     `label` varchar(255) NOT NULL DEFAULT '',
-    PRIMARY KEY (`type_id`,`attribute_code`,`store_id`),
+    PRIMARY KEY (`type_id`,`attribute_code`,`store_id`,`option_code`),
     KEY `IDX_EE_GR_LABEL_TYPE_ID` (`type_id`),
     KEY `IDX_EE_GR_LABEL_STORE_ID` (`store_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `{$this->getTable('enterprise_giftregistry/option')}` (
-    `attribute_code` varchar(32) NOT NULL DEFAULT '',
-    `option_code` varchar(32) NOT NULL DEFAULT '',
-    `store_id` smallint(5) unsigned NOT NULL DEFAULT '0',
-    `label` varchar(255) NOT NULL DEFAULT '',
-    PRIMARY KEY (`attribute_code`,`option_code`,`store_id`),
-    KEY `IDX_EE_GR_OPTION_STORE_ID` (`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 
@@ -156,10 +148,3 @@ $installer->getConnection()->addConstraint(
     'type_id'
 );
 
-$installer->getConnection()->addConstraint(
-    'FK_EE_GR_OPTION_STORE_ID',
-    $this->getTable('enterprise_giftregistry/option'),
-    'store_id',
-    $this->getTable('core_store'),
-    'store_id'
-);

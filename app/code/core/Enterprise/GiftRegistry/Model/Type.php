@@ -30,6 +30,7 @@
 class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Core_Abstract
 {
     protected $_store = null;
+    protected $_storeData = null;
 
     /**
      * Intialize model
@@ -37,6 +38,44 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
     protected function _construct()
     {
         $this->_init('enterprise_giftregistry/type');
+    }
+
+    /**
+     * Perform actions before object save.
+     */
+    protected function _beforeSave()
+    {
+        if (!$this->getStoreId()) {
+            $xmlModel = Mage::getModel('enterprise_giftregistry/attribute_processor');
+            $this->setMetaXml($xmlModel->processData($this));
+            $this->_cleanupData();
+        }
+
+        parent::_beforeSave();
+    }
+
+    /**
+     * Perform actions after object save.
+     */
+    protected function _afterSave()
+    {
+        $this->_getResource()->saveTypeStoreData($this);
+        if ($this->getStoreId()) {
+            $this->_saveAttributeStoreData();
+        }
+    }
+
+    /**
+     * Perform actions after object load
+     *
+     * @return Enterprise_GiftRegistry_Model_Type
+     */
+    protected function _afterLoad()
+    {
+        Mage_Core_Model_Abstract::_afterLoad();
+
+        $this->assignAttributesStoreData();
+        return $this;
     }
 
     /**
@@ -75,31 +114,6 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
     }
 
     /**
-     * Perform actions before object save.
-     */
-    protected function _beforeSave()
-    {
-        if (!$this->getStoreId()) {
-            $xmlModel = Mage::getModel('enterprise_giftregistry/attribute_processor');
-            $this->setMetaXml($xmlModel->processData($this));
-            $this->_cleanupData();
-        }
-
-        parent::_beforeSave();
-    }
-
-    /**
-     * Perform actions after object save.
-     */
-    protected function _afterSave()
-    {
-        if ($this->getId() && $this->getStoreId()) {
-            $this->_getResource()->saveTypeStoreData($this);
-            $this->_saveAttributeStoreData();
-        }
-    }
-
-    /**
      * Save registry type attribute data per store view
      *
      * @param Mage_Core_Model_Abstract $object
@@ -134,13 +148,13 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
             $attributesToSave = array();
             foreach ($attributes as $attribute) {
                 if ($attribute['is_deleted']) {
-                    $this->_getResource()->deleteStoreData($this->getId(), $attribute['code']);
+                    $this->_getResource()->deleteAttributeStoreData($this->getId(), $attribute['code']);
                 } else {
                     if (isset($attribute['options']) && is_array($attribute['options'])) {
                         $optionsToSave = array();
                         foreach ($attribute['options'] as $option) {
                             if ($option['is_deleted']) {
-                                $this->_getResource()->deleteOptionStoreData($this->getId(), $attribute['code'], $option['code']);
+                                $this->_getResource()->deleteAttributeStoreData($this->getId(), $attribute['code'], $option['code']);
                             } else {
                                 $optionsToSave[] = $option;
                             }
@@ -156,19 +170,6 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
     }
 
     /**
-     * Perform actions after object load
-     *
-     * @return Enterprise_GiftRegistry_Model_Type
-     */
-    protected function _afterLoad()
-    {
-        Mage_Core_Model_Abstract::_afterLoad();
-
-        $this->assignAttributesStoreData();
-        return $this;
-    }
-
-    /**
      * Assign attributes store data
      *
      * @return Enterprise_GiftRegistry_Model_Type
@@ -180,7 +181,7 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
 
         if (is_array($attributes)) {
             foreach ($attributes as $code => $attribute) {
-                if ($storeLabel = $this->getAttributeStoreLabel($code)) {
+                if ($storeLabel = $this->getAttributeStoreData($code)) {
                     $attributes[$code]['label'] = $storeLabel;
                     $attributes[$code]['default_label'] = $attribute['label'];
                 }
@@ -188,7 +189,7 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
                     $options = array();
                     foreach ($attribute['options'] as $key => $label) {
                         $data = array('code' => $key, 'label' => $label);
-                        if ($storeLabel = $this->getOptionStoreLabel($code, $key)) {
+                        if ($storeLabel = $this->getAttributeStoreData($code, $key)) {
                             $data['label'] = $storeLabel;
                             $data['default_label'] = $attribute['label'];
                         }
@@ -205,22 +206,23 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
     /**
      * Retrieve attribute store label
      *
-     * @param string $code
-     * @return null|string
+     * @param string $attributeCode
+     * @param string $optionCode
+     * @return string
      */
-    public function getAttributeStoreLabel($code)
+    public function getAttributeStoreData($attributeCode, $optionCode = '')
     {
-        return $this->_getResource()->getAttributeStoreLabel($this, $code);
-    }
+        if ($this->_storeData === null) {
+            $this->_storeData = $this->_getResource()->getAttributesStoreData($this);
+        }
 
-    /**
-     * Retrieve attribute option store label
-     *
-     * @param string $option
-     * @return Enterprise_GiftRegistry_Model_Type
-     */
-    public function getOptionStoreLabel($code, $option)
-    {
-        return $this->_getResource()->getAttributeStoreOptions($this, $code, $option);
+        if (is_array($this->_storeData)) {
+            foreach ($this->_storeData as $item) {
+               if ($item['attribute_code'] == $attributeCode && $item['option_code'] == $optionCode) {
+                   return $item['label'];
+               }
+            }
+        }
+        return '';
     }
 }

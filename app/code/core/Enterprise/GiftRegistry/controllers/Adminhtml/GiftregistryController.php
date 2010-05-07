@@ -36,11 +36,11 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Enterpris
         $this->loadLayout()
             ->_setActiveMenu('customer/giftregistry')
             ->_addBreadcrumb(
-                Mage::helper('enterprise_giftregistry')->__('Gift Registry Types'),
-                Mage::helper('enterprise_giftregistry')->__('Gift Registry Types')
+                Mage::helper('enterprise_giftregistry')->__('Gift Registry'),
+                Mage::helper('enterprise_giftregistry')->__('Gift Registry')
             );
 
-        $this->_title($this->__('Customers'))->_title($this->__('Gift Registries'));
+        $this->_title($this->__('Customers'))->_title($this->__('Gift Registry'));
         return $this;
     }
 
@@ -79,7 +79,25 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Enterpris
      */
     public function newAction()
     {
-        $this->_forward('edit');
+        try {
+            $model = $this->_initType();
+        }
+        catch (Mage_Core_Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            $this->_redirect('*/*/');
+            return;
+        }
+
+        $this->_initAction();
+        $this->_title($this->__('New Type'));
+
+        $block = $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit')
+            ->setData('form_action_url', $this->getUrl('*/*/save'));
+
+        $this->_addBreadcrumb($this->__('New Type'), $this->__('New Type'))
+            ->_addContent($block)
+            ->_addLeft($this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit_tabs'))
+            ->renderLayout();
     }
 
     /**
@@ -97,14 +115,12 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Enterpris
         }
 
         $this->_initAction();
-        $this->_title($model->getId() ? $model->getName() : $this->__('New Type'));
+        $this->_title($model->getId() ? $model->getName() : $this->__('Edit Type'));
 
         $block = $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
 
-        $this->_addBreadcrumb(
-            $model->getId() ? $this->__('Edit Type') : $this->__('New Type'),
-            $model->getId() ? $this->__('Edit Type') : $this->__('New Type'))
+        $this->_addBreadcrumb($this->__('Edit Type'), $this->__('Edit Type'))
             ->_addContent($block)
             ->_addLeft($this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit_tabs'))
             ->renderLayout();
@@ -183,6 +199,6 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Enterpris
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/giftregistry');
+        return Mage::getSingleton('admin/session')->isAllowed('customer/enterprise_giftregistry');
     }
 }

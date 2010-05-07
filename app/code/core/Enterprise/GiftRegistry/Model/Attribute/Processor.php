@@ -52,6 +52,9 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
 
                 switch ($attribute['type']) {
                     case 'select': $this->getSelectOptions($attribute, $itemXml); break;
+                    case 'date':
+                    case 'event_date': $this->getDateOptions($attribute, $itemXml); break;
+                    case 'event_region': $this->getRegionOptions($attribute, $itemXml); break;
                 }
             }
             return $xmlObj->asNiceXml();
@@ -77,6 +80,32 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
             if (isset($attribute['default'])) {
                 $itemXml->addChild('default', $attribute['options'][$attribute['default']]['code']);
             }
+        }
+    }
+
+    /**
+     * Render xml date options
+     *
+     * @param array $attribute
+     * @param Varien_Simplexml_Element $itemXml
+     */
+    public function getDateOptions($attribute, $itemXml)
+    {
+        if (isset($attribute['date_format'])) {
+            $itemXml->addChild('date_format', $attribute['date_format']);
+        }
+    }
+
+    /**
+     * Render xml region options
+     *
+     * @param array $attribute
+     * @param Varien_Simplexml_Element $itemXml
+     */
+    public function getRegionOptions($attribute, $itemXml)
+    {
+        if (isset($attribute['region_country'])) {
+            $itemXml->addChild('region_country', $attribute['region_country']);
         }
     }
 

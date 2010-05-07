@@ -24,7 +24,8 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Select extends Mage_Adminhtml_Block_Widget
+class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Select
+    extends Mage_Adminhtml_Block_Widget
 {
     public function __construct()
     {

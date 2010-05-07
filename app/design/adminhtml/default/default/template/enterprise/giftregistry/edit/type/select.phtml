@@ -66,12 +66,9 @@ selectOptionType = {
             element = $(Event.findElement(data, 'button'));
             data = {};
             data.id = element.readAttribute('id').sub('add_select_row_button_', '');
-            this.selectId++;
             data.select_id = this.selectId;
-        } else {
-            this.selectId = data.select_id;
         }
-
+        this.selectId++;
         Element.insert($(this.div+'_'+data.id), {'bottom':this.template.evaluate(data)});
 
         if (data.checkbox_scope) {

@@ -137,41 +137,20 @@ class Enterprise_GiftRegistry_Model_Mysql4_Type extends Enterprise_Enterprise_Mo
     }
 
     /**
-     * Get attribute store label
+     * Get attribute store data
      *
      * @param Enterprise_GiftRegistry_Model_Type $type
      * @param string $code
-     * @return null|string
+     * @return null|array
      */
-    public function getAttributeStoreLabel($type, $code)
+    public function getAttributesStoreData($type)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->_labelTable, 'label')
+            ->from($this->_labelTable, array('attribute_code', 'option_code', 'label'))
             ->where('type_id = ?', $type->getId())
-            ->where('attribute_code = ?', $code)
-            ->where('store_id = ?', $type->getStoreId())
-            ->where('option_code = ""');
-
-        return $this->_getReadAdapter()->fetchOne($select);
-    }
-
-    /**
-     * Get attribute store options data
-     *
-     * @param Enterprise_GiftRegistry_Model_Type $type
-     * @param string $code
-     * @return null|string
-     */
-    public function getAttributeStoreOptions($type, $code, $option)
-    {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->_labelTable, array('label'))
-            ->where('type_id = ?', $type->getId())
-            ->where('attribute_code = ?', $code)
-            ->where('option_code =?', $option)
             ->where('store_id = ?', $type->getStoreId());
 
-        return $this->_getReadAdapter()->fetchOne($select);
+        return $this->_getReadAdapter()->fetchAll($select);
     }
 
     /**
@@ -179,28 +158,19 @@ class Enterprise_GiftRegistry_Model_Mysql4_Type extends Enterprise_Enterprise_Mo
      *
      * @param int $typeId
      * @param string $attributeCode
-     */
-    public function deleteStoreData($typeId, $attributeCode)
-    {
-        $this->_getWriteAdapter()->delete($this->_labelTable, array(
-            'type_id = ?' => $typeId,
-            'attribute_code = ?' => $attributeCode
-        ));
-    }
-
-    /**
-     * Delete attribute option store data
-     *
-     * @param int $typeId
-     * @param string $attributeCode
      * @param string $optionCode
      */
-    public function deleteOptionStoreData($typeId, $attributeCode, $optionCode)
+    public function deleteAttributeStoreData($typeId, $attributeCode, $optionCode = null)
     {
-        $this->_getWriteAdapter()->delete($this->_labelTable, array(
+        $where = array(
             'type_id = ?' => $typeId,
-            'attribute_code = ?' => $attributeCode,
-            'option_code = ?' => $optionCode
-        ));
+            'attribute_code = ?' => $attributeCode
+        );
+
+        if (!is_null($optionCode)) {
+            $where['option_code = ?'] = $optionCode;
+        }
+
+        $this->_getWriteAdapter()->delete($this->_labelTable, $where);
     }
 }
