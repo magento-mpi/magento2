@@ -568,6 +568,8 @@
     <!--
     Dismax Request Handlers that used in Magento EE Search module
     -->
+       
+    <!--
     <requestHandler name="magento" class="solr.SearchHandler"><lst name="defaults"><str name="qf">name^2.2 fulltext in_stock^0.2</str><str name="pf">fulltext^2.2 name</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
     <requestHandler name="magento_en" class="solr.SearchHandler"><lst name="defaults"><str name="qf">name_en^2.2 fulltext_en</str><str name="pf">fulltext_en^2.2 name_en</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
     <requestHandler name="magento_fr" class="solr.SearchHandler"><lst name="defaults"><str name="qf">name_fr^2.2 fulltext_fr</str><str name="pf">fulltext_fr^2.2 name_fr</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
@@ -589,6 +591,36 @@
     <requestHandler name="magento_zh" class="solr.SearchHandler"><lst name="defaults"><str name="qf">name_zh^2.2 fulltext_zh</str><str name="pf">fulltext_zh^2.2 name_zh</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
     <requestHandler name="magento_ja" class="solr.SearchHandler"><lst name="defaults"><str name="qf">name_ja^2.2 fulltext_ja</str><str name="pf">fulltext_ja^2.2 name_ja</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
     <requestHandler name="magento_ko" class="solr.SearchHandler"><lst name="defaults"><str name="qf">name_ko^2.2 fulltext_ko</str><str name="pf">fulltext_ko^2.2 name_ko</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+
+-->
+<requestHandler name="magento" class="solr.SearchHandler">
+    <lst name="defaults">
+        <str name="qf">fulltext1^5.0 fulltext2^2.0 fulltext3^3.0 fulltext4^4.0 fulltext5^5.0</str>
+        <str name="pf">fulltext^2.2 name</str>
+        <str name="defType">dismax</str>
+        <str name="echoParams">explicit</str>
+    </lst>
+</requestHandler>
+    <requestHandler name="magento_en" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_en^1.0 fulltext2_en^2.0 fulltext3_en^3.0 fulltext4_en^4.0 fulltext5_en^1.0</str><str name="pf">fulltext5_en^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_fr" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_fr^1.0 fulltext2_fr^2.0 fulltext3_fr^3.0 fulltext4_fr^4.0 fulltext5_fr^5.0</str><str name="pf">fulltext5_fr^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_de" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_de^1.0 fulltext2_de^2.0 fulltext3_de^3.0 fulltext4_de^4.0 fulltext5_de^5.0</str><str name="pf">fulltext5_de^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_da" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_da^1.0 fulltext2_da^2.0 fulltext3_da^3.0 fulltext4_da^4.0 fulltext5_da^5.0</str><str name="pf">fulltext5_da^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_nl" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_nl^1.0 fulltext2_nl^2.0 fulltext3_nl^3.0 fulltext4_nl^4.0 fulltext5_nl^5.0</str><str name="pf">fulltext5_nl^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_fi" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_fi^1.0 fulltext2_fi^2.0 fulltext3_fi^3.0 fulltext4_fi^4.0 fulltext5_fi^5.0</str><str name="pf">fulltext5_fi^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_it" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_it^1.0 fulltext2_it^2.0 fulltext3_it^3.0 fulltext4_it^4.0 fulltext5_it^5.0</str><str name="pf">fulltext5_it^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_nb" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_nb^1.0 fulltext2_nb^2.0 fulltext3_nb^3.0 fulltext4_nb^4.0 fulltext5_nb^5.0</str><str name="pf">fulltext5_nb^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_pt" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_pt^1.0 fulltext2_pt^2.0 fulltext3_pt^3.0 fulltext4_pt^4.0 fulltext5_pt^5.0</str><str name="pf">fulltext5_pt^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_ro" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_ro^1.0 fulltext2_ro^2.0 fulltext3_ro^3.0 fulltext4_ro^4.0 fulltext5_ro^5.0</str><str name="pf">fulltext5_ro^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_ru" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_ru^1.0 fulltext2_ru^2.0 fulltext3_ru^3.0 fulltext4_ru^4.0 fulltext5_ru^5.0</str><str name="pf">fulltext5_ru^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_es" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_es^1.0 fulltext2_es^2.0 fulltext3_es^3.0 fulltext4_es^4.0 fulltext5_es^5.0</str><str name="pf">fulltext5_es^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_sv" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_sv^1.0 fulltext2_sv^2.0 fulltext3_sv^3.0 fulltext4_sv^4.0 fulltext5_sv^5.0</str><str name="pf">fulltext5_sv^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_tr" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_tr^1.0 fulltext2_tr^2.0 fulltext3_tr^3.0 fulltext4_tr^4.0 fulltext5_tr^5.0</str><str name="pf">fulltext5_tr^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_cs" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_cs^1.0 fulltext2_cs^2.0 fulltext3_cs^3.0 fulltext4_cs^4.0 fulltext5_cs^5.0</str><str name="pf">fulltext5_cs^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_el" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_el^1.0 fulltext2_el^2.0 fulltext3_el^3.0 fulltext4_el^4.0 fulltext5_el^5.0</str><str name="pf">fulltext5_el^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_th" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_th^1.0 fulltext2_th^2.0 fulltext3_th^3.0 fulltext4_th^4.0 fulltext5_th^5.0</str><str name="pf">fulltext5_th^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_zh" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_zh^1.0 fulltext2_zh^2.0 fulltext3_zh^3.0 fulltext4_zh^4.0 fulltext5_zh^5.0</str><str name="pf">fulltext5_zh^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_ja" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_ja^1.0 fulltext2_ja^2.0 fulltext3_ja^3.0 fulltext4_ja^4.0 fulltext5_ja^5.0</str><str name="pf">fulltext5_ja^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_ko" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_ko^1.0 fulltext2_ko^2.0 fulltext3_ko^3.0 fulltext4_ko^4.0 fulltext5_ko^5.0</str><str name="pf">fulltext5_ko^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
   
   <!-- Note how you can register the same handler multiple times with
        different names (and different init parameters)

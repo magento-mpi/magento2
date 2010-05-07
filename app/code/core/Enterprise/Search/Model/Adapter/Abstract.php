@@ -31,7 +31,6 @@
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 abstract class Enterprise_Search_Model_Adapter_Abstract
 {
     /**
@@ -122,6 +121,39 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     );
 
     /**
+     * Searchable attribute params
+     *
+     * @var array
+     */
+    protected $_searchableAttributeParams;
+
+    /**
+     * Retrieve attributes weights
+     *
+     */
+    public function getSearchableAttributeParams()
+    {
+        if (empty($this->_attributeParams)) {
+            $attributesModel = Mage::getModel('eav/config');
+            $entityTypeId = $attributesModel->getEntityType( 'catalog_product' )->getEntityTypeId();
+            $items = Mage::getResourceModel('catalog/product_attribute_collection')
+                ->setEntityTypeFilter( $entityTypeId )
+                ->addIsSearchableFilter()
+                ->getItems()
+            ;
+            $this->_searchableAttributeParams = array();
+            foreach ($items as $item) {
+                $this->_searchableAttributeParams[$item->getAttributeCode()] = array(
+                    'weight' => $item->getSearchWeight(),
+                    'type'   => $item->getBackendType(),
+                );
+            }
+        }
+
+        return $this->_searchableAttributeParams;
+    }
+
+    /**
      * Create Solr Input Documents by specified data
      *
      * @param array $docData
@@ -130,6 +162,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     public function prepareDocs($docData, $localeCode = null)
     {
+        $attributeParams = $this->getSearchableAttributeParams();
+
         if (!is_array($docData)) {
             return array();
         }
@@ -137,6 +171,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             return array();
         }
         $docs = array();
+
         foreach ($docData as $entityId => $index) {
             $doc = new $this->_clientDocObjectName;
 
@@ -152,24 +187,33 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
              */
             $index['name'] = $this->_implodeIndexData($index['name']);
 
-            /**
-             * Merge all attributes to fulltext field
-             */
             $fulltext = $index;
             foreach ($this->_notInFulltextField as $field) {
                 if (isset($fulltext[$field])) {
                     unset($fulltext[$field]);
                 }
             }
-            $index['fulltext'] = $this->_implodeIndexData($fulltext);
 
+            /**
+             * Merge attributes to fulltext fields according his search weight
+             */
+            $attributesWeights = array();
+            foreach ($index as $code => $value) {
+                if (!empty($attributeParams[$code])) {
+                    $weight = $attributeParams[$code]['weight'];
+                    $attributesWeights["fulltext{$weight}"][]=$value;
+                }
+            }
 
-
+            foreach ($attributesWeights as $key => $value) {
+                $index[$key] = $this->_implodeIndexData($value);
+            }
 
             $index = $this->_filterIndexData($index, $localeCode);
             if (!$index) {
                 continue;
             }
+
             foreach ($index as $name => $value) {
                 if (is_array($value)) {
                     foreach ($value as $val) {
@@ -184,8 +228,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             }
             $docs[] = $doc;
         }
+
         return $docs;
     }
+
+
 
     /**
      * Add prepared Solr Input documents to Solr index
@@ -281,10 +328,13 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     {
         $ids = array();
         $params['fields'] = array('id');
+
         $_result = $this->_search($query, $params);
 
-        foreach ($_result as $_id) {
-            $ids[] = $_id['id'];
+        if(!empty($_result)) {
+            foreach ($_result as $_id) {
+                $ids[] = $_id['id'];
+            }
         }
         return $ids;
     }
@@ -427,6 +477,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      * @return array
      * @see $this->_usedFields, $this->_searchTextFields
      */
+
     protected function _filterIndexData($data, $localeCode = null)
     {
         if (!is_array($data)) {
@@ -435,17 +486,32 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         if (empty($data)) {
             return array();
         }
-        $data = array_intersect_key($data, array_flip($this->_usedFields));
+       // $data = array_intersect_key($data, array_flip($this->_usedFields));
+        foreach ($data as $code => $value) {
+            if( !in_array($code, $this->_usedFields) && strpos($code, 'fulltext') !== 0 ) {
+                unset($data[$code]);
+            }
+        }
         $languageCode = $this->_getLanguageCodeByLocaleCode($localeCode);
         if ($languageCode) {
             foreach ($data as $key => $value) {
-                if (in_array($key, $this->_searchTextFields)) {
+                if ( in_array($key, $this->_searchTextFields) || strpos($key, 'fulltext') === 0) {
                     $data[$key . '_' . $languageCode] = $value;
                     unset($data[$key]);
                 }
             }
         }
         return $data;
+    }
+
+    /**
+     * Retrieve default searchable fields
+     *
+     * @return array
+     */
+    public function getSearchTextFields()
+    {
+        return $this->_searchTextFields;
     }
 
     /**

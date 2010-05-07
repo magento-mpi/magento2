@@ -63,6 +63,14 @@
             </supported_languages>
         </enterprise_search>
         -->
+        <resources>
+            <enterprise_search_setup>
+                <setup>
+                    <module>Enterprise_Search</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </enterprise_search_setup>
+        </resources>
     </global>
 
     <default>
@@ -76,4 +84,23 @@
             </search>
         </catalog>
     </default>
+    <adminhtml>
+        <layout>
+            <updates>
+                <enterprise_search>
+                    <file>enterprise/search.xml</file>
+                </enterprise_search>
+            </updates>
+        </layout>
+        <events>
+            <adminhtml_catalog_product_attribute_edit_prepare_form>
+                <observers>
+                    <enterprise_search>
+                        <class>enterprise_search/observer</class>
+                        <method>eavAttributeEditFormInit</method>
+                    </enterprise_search>
+                </observers>
+            </adminhtml_catalog_product_attribute_edit_prepare_form>
+        </events>
+    </adminhtml>
 </config>
