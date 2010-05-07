@@ -30,22 +30,42 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_XmlConnect_ConfigurationController extends Mage_XmlConnect_Controller_Action
+class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front_Action
 {
+
+    const APP_CODE_COOKIE_NAME_CONFIG_XML_PATH          = 'global/xmlconnect/applicationCodeCookie/name';
+    const APP_CODE_COOKIE_EXPIRE_OFFSET_CONFIG_XML_PATH = 'global/xmlconnect/applicationCodeCookie/expireOffset';
+
+    /**
+     * Declare content type header
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
+    }
+
     /**
      * Initialize application
-     * @param string $paramName
+     *
      * @return Mage_XmlConnect_Model_Application
      */
     protected function _initApp()
     {
-        $app = Mage::registry('current_app');
-        if ($app && $app->getId()) {
+        $cookieName = (string)Mage::getConfig()->getNode(self::APP_CODE_COOKIE_NAME_CONFIG_XML_PATH);
+        $code = $this->getRequest()->getParam($cookieName);
+        $app = Mage::getModel('xmlconnect/application');
+        if ($app) {
+            $app->loadByCode($code);
+            if (!$app->getId()) {
+                Mage::throwException($this->__('Aplication with specified code no longer exists.'));
+            }
             $app->loadConfiguration();
         }
         else {
-            Mage::throwException($this->__('Aplication with id "%s" no longer exists.', $id));
+            Mage::throwException($this->__('Aplication code required.'));
         }
+        Mage::register('current_app', $app);
         return $app;
     }
 
@@ -56,23 +76,36 @@ class Mage_XmlConnect_ConfigurationController extends Mage_XmlConnect_Controller
     {
         try {
             $app = $this->_initApp();
-            if( $this->getRequest()->getParam('updated_at') ) {
+            if($this->getRequest()->getParam('updated_at')) {
                 $updated_at = strtotime($app->getUpdatedAt());
                 $loaded_at = (int) $this->getRequest()->getParam('updated_at');
-                if( $loaded_at >= $updated_at ) {
+                if($loaded_at >= $updated_at) {
                     $message = new Varien_Simplexml_Element('<message></message>');
-                    $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
+                    $message->addChild('status', Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_SUCCESS);
                     $message->addChild('no_changes', '1');
                     $this->getResponse()->setBody($message->asNiceXml());
                     return;
                 }
             }
+            $cookieName = (string)Mage::getConfig()->getNode(self::APP_CODE_COOKIE_NAME_CONFIG_XML_PATH);
+            if (!isset($_COOKIE[$cookieName])) {
+                $cookieExpireOffset = (int)(string)Mage::getConfig()->getNode(self::APP_CODE_COOKIE_EXPIRE_OFFSET_CONFIG_XML_PATH);
+                setcookie($cookieName, $app->getCode(), time() + $cookieExpireOffset, '/', null, null, true);
+            }
             $this->loadLayout(false);
             $this->renderLayout();
-        } catch (Mage_Core_Exception $e) {
-            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-        } catch (Exception $e) {
-            $this->_message($this->__('Cannot show configuration.'), self::MESSAGE_STATUS_ERROR);
+        }
+        catch (Mage_Core_Exception $e) {
+            $message = new Varien_Simplexml_Element('<message></message>');
+            $message->addChild('status', Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR);
+            $message->addChild('text', $e->getMessage());
+            $this->getResponse()->setBody($message->asNiceXml());
+        }
+        catch (Exception $e) {
+            $message = new Varien_Simplexml_Element('<message></message>');
+            $message->addChild('status', Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR);
+            $message->addChild('text', $this->__('Cannot show configuration.'));
+            $this->getResponse()->setBody($message->asNiceXml());
         }
 
     }

@@ -63,6 +63,12 @@
                 </setup>
             </xmlconnect_setup>
         </resources>
+        <xmlconnect>
+            <applicationCodeCookie>
+                <name>app_code</name>
+                <expireOffset>2592000</expireOffset>
+            </applicationCodeCookie>
+        </xmlconnect>
     </global>
     <admin>
          <routers>
