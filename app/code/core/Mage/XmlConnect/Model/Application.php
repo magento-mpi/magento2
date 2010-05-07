@@ -56,17 +56,26 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     {
         $conf = Mage::getStoreConfig('defaultConfiguration');
         $conf = $this->_getFlatConfig($conf, 'conf/');
-        $this->_data += $conf;
+        $this->addData($conf);
         return TRUE;
     }
 
-    private function _getFlatConfig($config, $prefix='') {
+    /**
+     * Merge configuration tree into flat array
+     *
+     * @param  array $config
+     * @param  string $prefix
+     * @return array
+     */
+    private function _getFlatConfig($config, $prefix = '') {
         $result = array();
-        foreach ($config as $key=>$value) {
+        foreach ($config as $key => $value) {
             if (is_scalar($value)) {
-                $result[$prefix.$key] = $value;
-            } else {
-                $result += $this->_getFlatConfig($value, $prefix.$key.'/');
+                $result[$prefix . $key] = $value;
+            }
+            else {
+                $child = $this->_getFlatConfig($value, $prefix . $key . '/');
+                $result = array_merge($result, $child);
             }
         }
         return $result;
@@ -79,13 +88,14 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->_data['configuration'] = serialize($this->prepareConfiguration());
-        $this->_data['updated_at'] = date('Y-m-d H:i:s',time());
+        $conf = serialize($this->prepareConfiguration());
+        $this->setConfiguration($conf);
+        $this->setUpdatedAt(date('Y-m-d H:i:s', time()));
         return $this;
     }
 
     /**
-     * Load configuration data
+     * Load configuration data (from serialized blob)
      *
      * @return Mage_XmlConnect_Model_Application
      */
@@ -103,16 +113,30 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Process uploaded file
+     *
+     * @param string $field
+     */
     public function handleUpload($field)
     {
+        $upload_dir = Mage::getBaseDir('media') . DS . 'xmlconnect';
         $uploader = new Varien_File_Uploader($field);
         $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
         $uploader->setAllowRenameFiles(true);
-        $uploader->save(Mage::getBaseDir('media').DS.'xmlconnect');
-        $this->_data[$field] = $uploader->getUploadedFileName();
-        $this->_handleResize($field, Mage::getBaseDir('media').DS.'xmlconnect'.DS.$this->_data[$field]);
+        $uploader->save($upload_dir);
+
+        $this->setData($field, $uploader->getUploadedFileName());
+
+        $this->_handleResize($field, $upload_dir . DS . $uploader->getUploadedFileName());
     }
 
+    /**
+     * Resize uploaded file
+     *
+     * @param string $field
+     * @param string $file
+     */
     protected function _handleResize($field, $file)
     {
         $conf = Mage::getStoreConfig('imageLimits');
@@ -122,25 +146,35 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $next = array_shift($nameParts);
             if (isset($conf[$next])) {
                 $conf = $conf[$next];
-            } else {
-                return; // no config data - nothing to resize
+            }
+            /**
+             * No config data - nothing to resize
+             */
+            else {
+                return;
             }
         }
+
         $image = new Varien_Image($file);
         $width = $image->getOriginalWidth();
         $height = $image->getOriginalHeight();
-        if (isset($conf['widthMax']) && $conf['widthMax']<$width) {
+
+        if (isset($conf['widthMax']) && ($conf['widthMax'] < $width)) {
             $width = $conf['widthMax'];
-        } elseif (isset($conf['width'])) {
+        }
+        elseif (isset($conf['width'])) {
             $width = $conf['width'];
         }
-        if (isset($conf['heightMax']) && $conf['heightMax']<$height) {
+
+        if (isset($conf['heightMax']) && ($conf['heightMax'] < $height)) {
             $height = $conf['heightMax'];
-        } elseif (isset($conf['height'])) {
+        }
+        elseif (isset($conf['height'])) {
             $height = $conf['height'];
         }
-        if (($width!=$image->getOriginalWidth()) ||
-            ($height!=$image->getOriginalHeight()) ) {
+
+        if (($width != $image->getOriginalWidth()) ||
+            ($height != $image->getOriginalHeight()) ) {
             $image->resize($width, $height);
             $image->save(null, basename($file));
         }

@@ -173,6 +173,7 @@
             </tabBar>
             <body>
                 <backgroundColor></backgroundColor>
+                <backgroundImage></backgroundImage>
                 <scrollBackgroundColor></scrollBackgroundColor>
                 <itemBackgroundIcon></itemBackgroundIcon>
                 <rowBackgroundIcon></rowBackgroundIcon>
@@ -304,6 +305,7 @@
             </tabBar>
             <body>
                 <itemBackgroundIcon> <width>90</width> <height>120</height> </itemBackgroundIcon>
+                <backgroundImage> <width>320</width> <height>367</height> </backgroundImage>
                 <rowBackgroundIcon> <width>320</width> <height>90</height> </rowBackgroundIcon>
                 <rowAttributeIcon> <widthMax>30</widthMax> <heightMax>90</heightMax> </rowAttributeIcon>
                 <addToCartBackgroundIcon> <width>136</width> <height>28</height> </addToCartBackgroundIcon>

@@ -36,6 +36,11 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
 {
     protected $_app;
 
+    /**
+     * Init current application
+     *
+     * @return Mage_XmlConnect_Block_Configuration
+     */
     protected function _beforeToHtml()
     {
         $app = Mage::registry('current_app');
@@ -48,6 +53,12 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
         return $this;
     }
 
+    /**
+     * Get configuration value for current application
+     *
+     * @param string $path
+     * @return string
+     */
     protected function _getConf($path) {
         $isImage = FALSE;
         if ((substr($path, -5) == '/icon') ||
@@ -55,24 +66,32 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
             (substr($path, -5) == 'Image')) {
             $isImage = TRUE;
         }
-        if( $isImage && !empty($this->_app['conf/'.$path]) ) {
-            $url = $this->_app['conf/'.$path];
+        if( $isImage && !empty($this->_app['conf/' . $path]) ) {
+            $url = $this->_app['conf/' . $path];
             if (strpos($url, '://') === FALSE ) {
-                $url = Mage::getBaseUrl('media').'xmlconnect/'.$url;
+                $url = Mage::getBaseUrl('media') . 'xmlconnect/' . $url;
             }
             return $url;
         }
-        return $this->_app['conf/'.$path];
+        return $this->_app['conf/' . $path];
     }
 
-    protected function buildRecursive($section, $subtree, $prefix='')
+    /**
+     * Recursively build XML configuration tree
+     *
+     * @param Varien_Simplexml_Element $section
+     * @param array $subtree
+     * @param string $prefix
+     * @return Varien_Simplexml_Element
+     */
+    protected function _buildRecursive($section, $subtree, $prefix = '')
     {
-        foreach ($subtree as $key=>$value) {
+        foreach ($subtree as $key => $value) {
             if (is_array($value)) {
-                if (strtolower(substr($key, -4))=='font') {
-                    $name = $section->xmlentities(trim($this->_getConf($prefix.$key.'/name')));
-                    $size = $section->xmlentities(trim($this->_getConf($prefix.$key.'/size')));
-                    $color = $section->xmlentities(trim($this->_getConf($prefix.$key.'/color')));
+                if (strtolower(substr($key, -4)) == 'font') {
+                    $name = $section->xmlentities(trim($this->_getConf($prefix . $key . '/name')));
+                    $size = $section->xmlentities(trim($this->_getConf($prefix . $key . '/size')));
+                    $color = $section->xmlentities(trim($this->_getConf($prefix . $key . '/color')));
                     if (empty($name) || empty($size) || empty($color)) {
                         continue;
                     }
@@ -83,10 +102,10 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
                 }
                 else {
                     $subsection = $section->addChild($key);
-                    $this->buildRecursive($subsection, $value, $prefix.$key.'/');
+                    $this->_buildRecursive($subsection, $value, $prefix . $key . '/');
                 }
             } else {
-                $conf = $this->_getConf($prefix.$key);
+                $conf = $this->_getConf($prefix . $key);
                 if (!empty($conf)) {
                     $section->addChild($key, $conf);
                 }
@@ -94,12 +113,17 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
         }
     }
 
+    /**
+     * Render block
+     *
+     * @return string
+     */
     protected function _toHtml()
     {
         $conf = Mage::getStoreConfig('defaultConfiguration');
         $xml = new Varien_Simplexml_Element('<configuration></configuration>');
-        $xml->addChild('updateTimeUTC', strtotime($this->_app['updated_at']));
-        $this->buildRecursive($xml, $conf);
+        $xml->addChild('updateTimeUTC', strtotime($this->_app->getUpdatedAt()));
+        $this->_buildRecursive($xml, $conf);
         return $xml->asNiceXml();
     }
 }

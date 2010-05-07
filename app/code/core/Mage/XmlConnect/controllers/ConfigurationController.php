@@ -57,7 +57,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_XmlConnect_Controller
         try {
             $app = $this->_initApp();
             if( $this->getRequest()->getParam('updated_at') ) {
-                $updated_at = strtotime($app['updated_at']);
+                $updated_at = strtotime($app->getUpdatedAt());
                 $loaded_at = (int) $this->getRequest()->getParam('updated_at');
                 if( $loaded_at >= $updated_at ) {
                     $message = new Varien_Simplexml_Element('<message></message>');
