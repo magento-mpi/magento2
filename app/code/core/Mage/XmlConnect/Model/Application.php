@@ -75,7 +75,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     /**
      * Processing object before save data
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Mage_XmlConnect_Model_Application
      */
     protected function _beforeSave()
     {
@@ -85,17 +85,18 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Processing object after load data
+     * Load configuration data
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Mage_XmlConnect_Model_Application
      */
-    protected function _afterLoad()
+    public function loadConfiguration()
     {
-        if (!empty($this->_data['configuration'])) {
-            $conf = unserialize($this->_data['configuration']);
-            if (is_array($conf)) {
-                foreach($conf as $key=>$value) {
-                    $this->_data['conf/'.$key] = $value;
+        $configuration = $this->getConfiguration();
+        if (!empty($configuration)) {
+            $configuration = unserialize($configuration);
+            if (is_array($configuration)) {
+                foreach($configuration as $key => $value) {
+                    $this->setData('conf/' . $key, $value);
                 }
             }
         }
@@ -143,5 +144,17 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $image->resize($width, $height);
             $image->save(null, basename($file));
         }
+    }
+
+    /**
+     * Load application by code
+     *
+     * @param   string $code
+     * @return  Mage_XmlConnect_Model_Application
+     */
+    public function loadByCode($code)
+    {
+        $this->_getResource()->loadByCode($this, $code);
+        return $this;
     }
 }

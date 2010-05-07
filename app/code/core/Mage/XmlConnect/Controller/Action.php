@@ -41,6 +41,26 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
     {
         parent::preDispatch();
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
+
+        /**
+         * Load application by specified code and make sure that application exists
+         */
+        $appCode = (string)$this->getRequest()->getParam('app_code');
+        if (!$appCode) {
+            $this->_message($this->__('Specified invalid application code'), self::MESSAGE_STATUS_ERROR);
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return;
+        }
+        $appModel = Mage::getModel('xmlconnect/application')->loadByCode($appCode);
+        if ($appModel && $appModel->getId()) {
+            Mage::app()->setCurrentStore(Mage::app()->getStore($appModel->getId())->getCode());
+            Mage::register('current_app', $appModel);
+        }
+        else {
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_message($this->__('Specified invalid application code'), self::MESSAGE_STATUS_ERROR);
+            return;
+        }
     }
 
     /**

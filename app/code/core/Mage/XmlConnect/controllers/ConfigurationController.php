@@ -37,25 +37,20 @@ class Mage_XmlConnect_ConfigurationController extends Mage_XmlConnect_Controller
      * @param string $paramName
      * @return Mage_XmlConnect_Model_Application
      */
-    protected function _initApp($paramName = 'application_id')
+    protected function _initApp()
     {
-        $id = (int) $this->getRequest()->getParam($paramName);
-        $app = Mage::getModel('xmlconnect/application');
-        if ($id) {
-            $app->load($id);
-            if (!$app->getId()) {
-                Mage::throwException($this->__('Aplication with id "%s" no longer exists.', $id));
-            }
-        } else {
-            Mage::throwException($this->__('Aplication id required.'));
+        $app = Mage::registry('current_app');
+        if ($app && $app->getId()) {
+            $app->loadConfiguration();
         }
-        Mage::register('current_app', $app);
+        else {
+            Mage::throwException($this->__('Aplication with id "%s" no longer exists.', $id));
+        }
         return $app;
     }
 
     /**
      * Default action
-     *
      */
     public function indexAction()
     {

@@ -29,4 +29,26 @@ class Mage_XmlConnect_Model_Mysql4_Application extends Mage_Core_Model_Mysql4_Ab
     {
         $this->_init('xmlconnect/application', 'application_id');
     }
+
+    /**
+     * Load application by code
+     *
+     * @param Mage_XmlConnect_Model_Application $application
+     * @param string $code
+     * @return Mage_XmlConnect_Model_Mysql4_Application
+     */
+    public function loadByCode(Mage_XmlConnect_Model_Application $application, $code)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable(), array($this->getIdFieldName()))
+            ->where('code=:application_code');
+
+        if ($id = $this->_getReadAdapter()->fetchOne($select, array('application_code' => $code))) {
+            $this->load($application, $id);
+        }
+        else {
+            $application->setData(array());
+        }
+        return $this;
+    }
 }
