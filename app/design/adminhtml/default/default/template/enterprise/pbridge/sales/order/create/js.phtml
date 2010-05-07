@@ -38,7 +38,7 @@
             }
             new Ajax.Updater(
                 iframeContainer,
-                "<?php echo $this->getUrl('*/pbridge/iframe', array('_current' => true)); ?>",
+                "<?php echo $this->getUrl('*/pbridge/iframe', array('_current' => true, '_secure' => true)); ?>",
                 {parameters : {method_code : method}}
             );
         }
