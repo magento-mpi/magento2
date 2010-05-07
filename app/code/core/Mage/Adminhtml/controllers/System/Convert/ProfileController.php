@@ -200,17 +200,8 @@ class Mage_Adminhtml_System_Convert_ProfileController extends Mage_Adminhtml_Con
     public function runAction()
     {
         $this->_initProfile();
-        #$this->loadLayout();
-
-        #$this->_setActiveMenu('system/convert');
-
-        #$this->_addContent(
-        #    $this->getLayout()->createBlock('adminhtml/system_convert_profile_run')
-        #);
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/system_convert_profile_run')->toHtml());
-        $this->getResponse()->sendResponse();
-
-        #$this->renderLayout();
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     public function batchRunAction()
