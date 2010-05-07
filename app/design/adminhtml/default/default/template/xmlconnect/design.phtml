@@ -24,6 +24,6 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<div class="box-left"><?php echo $this->getLayout()->getBlock('mobile_edit_tab_design_form')->toHtml(); ?></div>
-<div class="box-right"><?php echo $this->getLayout()->getBlock('mobile_edit_tab_design_theme')->toHtml(); ?></div>
+<div class="box-left"><?php echo $this->getChildHtml('edit_form'); ?></div>
+<div class="box-right"><?php echo $this->getChildHtml('theme_chooser'); ?></div>
 <div class="box-clear"></div>
