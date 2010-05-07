@@ -123,6 +123,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
         $fieldset = $form->addFieldset('bodyPart', array('legend' => $this->__('Body')));
         $this->_addElementTypes($fieldset);
         $this->addColor($fieldset, 'body/backgroundColor');
+        $this->addImage($fieldset, 'body/backgroundImage');
         $this->addColor($fieldset, 'body/scrollBackgroundColor');
         $this->addImage($fieldset, 'body/itemBackgroundIcon');
         $this->addImage($fieldset, 'body/rowBackgroundIcon');
