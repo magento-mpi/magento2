@@ -45,17 +45,41 @@ class Mage_XmlConnect_Block_Customer_Form extends Mage_Core_Block_Template
         $customer  = $this->getCustomer();
 
         if ($editFlag == 1 && $customer && $customer->getId()) {
-        	$xmlModel  = new Varien_Simplexml_Element('<node></node>');
+            $xmlModel  = new Varien_Simplexml_Element('<node></node>');
             $firstname = $xmlModel->xmlentities(strip_tags($customer->getFirstname()));
             $lastname  = $xmlModel->xmlentities(strip_tags($customer->getLastname()));
             $email     = $xmlModel->xmlentities(strip_tags($customer->getEmail()));
         }
         else {
-        	$firstname = $lastname = $email = '';
+            $firstname = $lastname = $email = '';
+        }
+
+        if ($editFlag) {
+            $passwordManageXml = '
+                   <field name="change_password" type="checkbox" label="' . $helper->__('Change Password') . '"/>
+                </fieldset>
+                <fieldset>
+                    <field name="current_password" type="password" label="' . $helper->__('Current Password') . '"/>
+                    <field name="password" type="password" label="' . $helper->__('New Password') . '"/>
+                    <field name="confirmation" type="password" label="' . $helper->__('Confirm New Password') . '">
+                        <validators>
+                            <validator type="confirmation" message="' . $helper->__('Regular and confirmation passwords must be equal') . '">password</validator>
+                        </validators>
+                    </field>
+                </fieldset>';
+        }
+        else {
+            $passwordManageXml = '
+                    <field name="password" type="password" label="' . $helper->__('Password') . '" required="true"/>
+                    <field name="password_confirm" type="password" label="' . $helper->__('Confirm Password') . '" required="true">
+                        <validators>
+                            <validator type="confirmation" message="' . $helper->__('Regular and confirmation passwords must be equal') . '">password</validator>
+                        </validators>
+                    </field>
+                </fieldset>';
         }
 
         $xml = <<<EOT
-<?xml version="1.0"?>
 <form name="account_form" method="post">
     <fieldset>
         <field name="firstname" type="text" label="{$helper->__('First Name')}" required="true" value="$firstname">
@@ -73,17 +97,7 @@ class Mage_XmlConnect_Block_Customer_Form extends Mage_Core_Block_Template
                 <validator type="email" message="{$helper->__('Wrong email format')}"/>
             </validators>
         </field>
-        <field name="change_password" type="checkbox" label="{$helper->__('Change Password')}"/>
-    </fieldset>
-    <fieldset>
-        <field name="current_password" type="password" label="{$helper->__('Current Password')}"/>
-        <field name="password" type="password" label="{$helper->__('New Password')}"/>
-        <field name="confirmation" type="password" label="{$helper->__('Confirm New Password')}">
-            <validators>
-                <validator type="confirmation" message="{$helper->__('Regular and confirmation passwords must be equal')}">password</validator>
-            </validators>
-        </field>
-    </fieldset>
+        $passwordManageXml
 </form>
 EOT;
 

@@ -141,18 +141,18 @@
                 <backgroundColor></backgroundColor>
                 <icon></icon>
                 <font>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </font>
             </navigationBar>
             <sortingBar>
                     <backgroundImage></backgroundImage>
                     <tintColor></tintColor>
                     <font>
-                        <name>Arial-BoldMT</name>
-                        <size>12</size>
-                        <color>#f3f3f3ff</color>
+                        <name></name>
+                        <size></size>
+                        <color></color>
                     </font>
             </sortingBar>
             <tabBar>
@@ -188,80 +188,80 @@
                 <actionsBackgroundIcon></actionsBackgroundIcon>
                 <reviewsBackgroundIcon></reviewsBackgroundIcon>
                 <categoryItemFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </categoryItemFont>
                 <copyrightFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </copyrightFont>
                 <versionFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </versionFont>
                 <productButtonFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </productButtonFont>
                 <nameFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </nameFont>
                 <priceFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </priceFont>
                 <plainFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </plainFont>
                 <textFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </textFont>
                 <ratingHeaderFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </ratingHeaderFont>
             </body>
             <filters>
                 <nameFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </nameFont>
                 <valueFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </valueFont>
             </filters>
             <appliedFilters>
                 <backgroundImage></backgroundImage>
                 <backgroundColor></backgroundColor>
                 <font>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </font>
                 <counfFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </counfFont>
                 <titleFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </titleFont>
             </appliedFilters>
             <itemActions>
@@ -276,19 +276,19 @@
                 <checkBoxEnabledIcon></checkBoxEnabledIcon>
                 <checkBoxDisabledIcon></checkBoxDisabledIcon>
                 <font>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </font>
                 <radioFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </radioFont>
                 <selectFont>
-                    <name>Arial-BoldMT</name>
-                    <size>12</size>
-                    <color>#f3f3f3ff</color>
+                    <name></name>
+                    <size></size>
+                    <color></color>
                 </selectFont>
                 <relatedProductBackgroundColor></relatedProductBackgroundColor>
                 <configHeaderBackgroundColor></configHeaderBackgroundColor>

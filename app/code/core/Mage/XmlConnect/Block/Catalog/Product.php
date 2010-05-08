@@ -38,7 +38,7 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
     /**
      * Product view small image size
      */
-    const PRODUCT_IMAGE_SMALL_RESIZE_PARAM  = 80;
+    const PRODUCT_IMAGE_SMALL_RESIZE_PARAM  = 70;
 
     /**
      * Product view big image size

@@ -34,6 +34,11 @@
 class Mage_XmlConnect_Block_Customer_Order_List extends Mage_Core_Block_Template
 {
     /**
+     * Linmitation for orders list
+     */
+    const ORDERS_LIST_LIMIT = 10;
+
+    /**
      * Render customer orders list xml
      *
      * @return string
@@ -46,8 +51,10 @@ class Mage_XmlConnect_Block_Customer_Order_List extends Mage_Core_Block_Template
             ->addFieldToSelect('*')
             ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
             ->addFieldToFilter('state', array('in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates()))
-            ->setOrder('created_at', 'desc')
-            ->load();
+            ->setOrder('created_at', 'desc');
+
+        $orders->getSelect()->limit(self::ORDERS_LIST_LIMIT, 0);
+        $orders->load();
 
         if(sizeof($orders->getItems())){
             foreach ($orders as $_order){
