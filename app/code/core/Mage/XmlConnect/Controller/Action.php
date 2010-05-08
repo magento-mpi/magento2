@@ -56,12 +56,12 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
         }
         $appModel = Mage::getModel('xmlconnect/application')->loadByCode($appCode);
         if ($appModel && $appModel->getId()) {
-            Mage::app()->setCurrentStore(Mage::app()->getStore($appModel->getId())->getCode());
+            Mage::app()->setCurrentStore(Mage::app()->getStore($appModel->getStoreId())->getCode());
             Mage::register('current_app', $appModel);
         }
         else {
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_message($this->__('Specified invalid application code'), self::MESSAGE_STATUS_ERROR);
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
     }
