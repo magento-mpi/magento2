@@ -52,6 +52,11 @@ class Mage_XmlConnect_Block_Catalog_Product_Related extends Mage_XmlConnect_Bloc
             foreach ($collection->getItems() as $product) {
                 $productXmlObj = $this->productToXmlObject($product);
                 if ($productXmlObj) {
+                    if ($this->getParentBlock()->getChild('product_price')) {
+                        $this->getParentBlock()->getChild('product_price')->setProduct($product)
+                           ->setProductXmlObj($productXmlObj)
+                           ->collectProductPrices();
+                    }
                     $relatedXmlObj->appendChild($productXmlObj);
                 }
             }

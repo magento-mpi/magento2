@@ -43,7 +43,12 @@
     <!-- Category -->
     <xmlconnect_catalog_category>
         <block type="xmlconnect/catalog_category" name="xmlconnect.catalog.category" output="toHtml">
-            <block type="xmlconnect/catalog_product_list" name="xmlconnect.catalog.product.list" as="product_list" output=""/>
+            <block type="xmlconnect/catalog_product_list" name="xmlconnect.catalog.product.list" as="product_list" output="">
+                <block type="xmlconnect/catalog_product_price" name="xmlconnect.catalog.product.price" as="product_price" output="">
+                    <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_price_bundle</renderer></action>
+                </block>
+            </block>
+
             <block type="xmlconnect/catalog_category_info" name="xmlconnect.catalog.category.nfo" as="category_info" output=""/>
         </block>
     </xmlconnect_catalog_category>
@@ -53,6 +58,10 @@
     <xmlconnect_catalog_product>
         <block type="xmlconnect/catalog_product" name="xmlconnect.catalog.product" output="toHtml">
             <block type="xmlconnect/catalog_product_related" name="xmlconnect.product.related" as="related_products" output=""/>
+
+            <block type="xmlconnect/catalog_product_price" name="xmlconnect.catalog.product.price" as="product_price" output="">
+                <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_price_bundle</renderer></action>
+            </block>
         </block>
     </xmlconnect_catalog_product>
 
@@ -81,7 +90,11 @@
 
     <xmlconnect_catalog_search>
         <block type="xmlconnect/catalog_search" name="xmlconnect.catalog.search" output="toHtml">
-            <block type="xmlconnect/catalog_product_list" name="xmlconnect.catalog.product.list" as="product_list" output=""/>
+            <block type="xmlconnect/catalog_product_list" name="xmlconnect.catalog.product.list" as="product_list" output="">
+                <block type="xmlconnect/catalog_product_price" name="xmlconnect.catalog.product.price" as="product_price" output="">
+                    <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_price_bundle</renderer></action>
+                </block>
+            </block>
         </block>
     </xmlconnect_catalog_search>
 
@@ -97,7 +110,11 @@
             <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
             <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/item/default.phtml</template></action>
 
-            <block type="xmlconnect/cart_crosssell" name="xmlconnect.cart.crosssell" as="crosssell"/>
+            <block type="xmlconnect/cart_crosssell" name="xmlconnect.cart.crosssell" as="crosssell">
+                <block type="xmlconnect/catalog_product_price" name="xmlconnect.catalog.product.price" as="product_price" output="">
+                    <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_price_bundle</renderer></action>
+                </block>
+            </block>
         </block>
     </xmlconnect_cart_index>
 
@@ -114,7 +131,11 @@
     </xmlconnect_customer_form>
 
     <xmlconnect_wishlist_index>
-        <block type="xmlconnect/wishlist" name="xmlconnect.wishlist" output="toHtml"/>
+        <block type="xmlconnect/wishlist" name="xmlconnect.wishlist" output="toHtml">
+            <block type="xmlconnect/catalog_product_price" name="xmlconnect.catalog.product.price" as="product_price" output="">
+                <action method="addRenderer"><type>bundle</type><renderer>xmlconnect/catalog_product_price_bundle</renderer></action>
+            </block>
+        </block>
     </xmlconnect_wishlist_index>
 
     <xmlconnect_customer_address>
@@ -170,6 +191,7 @@
                 <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/onepage/review/item.phtml</template></action>
             </block>
+
             <block type="xmlconnect/cart_totals" name="xmlconnect.checkout.order.review.totals" as="totals"/>
             <block type="xmlconnect/checkout_agreements" name="xmlconnect.checkout.agreements" as="agreements" output=""/>
         </block>

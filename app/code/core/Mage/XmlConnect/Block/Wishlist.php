@@ -44,10 +44,6 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
         $wishlistXmlObj = new Varien_Simplexml_Element('<wishlist></wishlist>');
         $wishlistXmlObj->addAttribute('items_count', $this->getWishlistItemsCount());
         if ($this->hasWishlistItems()) {
-            /**
-             * @var Mage_XmlConnect_Block_Catalog_Product
-             */
-            $productBlock = $this->getLayout()->createBlock('xmlconnect/catalog_product');
 
             /**
              * @var Mage_Wishlist_Model_Mysql4_Product_Collection
@@ -64,8 +60,10 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
                 $itemXmlObj->addChild('description', $wishlistXmlObj->xmlentities(strip_tags($item->getWishlistItemDescription())));
                 $itemXmlObj->addChild('added_date', $wishlistXmlObj->xmlentities($this->getFormatedDate($item->getAddedAt())));
 
-                if ($productBlock) {
-                    $productBlock->collectProductPrices($item, $itemXmlObj);
+                if ($this->getChild('product_price')) {
+                    $this->getChild('product_price')->setProduct($item)
+                       ->setProductXmlObj($itemXmlObj)
+                       ->collectProductPrices();
                 }
 
                 if (!$item->getRatingSummary()) {

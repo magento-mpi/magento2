@@ -70,55 +70,102 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
             /**
              * Price
              */
-            $price = 0.00;
+            $exclPrice = $inclPrice = 0.00;
             if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()){
                 if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales') && $item->getWeeeTaxAppliedAmount()){
-                    $price = $item->getCalculationPrice() + $item->getWeeeTaxAppliedAmount() + $item->getWeeeTaxDisposition();
+                    $exclPrice = $item->getCalculationPrice() + $item->getWeeeTaxAppliedAmount() + $item->getWeeeTaxDisposition();
                 }
                 else {
-                    $price = $item->getCalculationPrice();
+                    $exclPrice = $item->getCalculationPrice();
                 }
             }
+
             if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()){
                 $_incl = $this->helper('checkout')->getPriceInclTax($item);
                 if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales') && $item->getWeeeTaxAppliedAmount()){
-                    $price = $_incl + $item->getWeeeTaxAppliedAmount();
+                    $inclPrice = $_incl + $item->getWeeeTaxAppliedAmount();
                 }
                 else {
-                    $price = $_incl - $item->getWeeeTaxDisposition();
+                    $inclPrice = $_incl - $item->getWeeeTaxDisposition();
                 }
             }
-            $price = sprintf('%01.2f', $price);
-            $formatedPrice = $quote->getStore()->formatPrice($price, false);
 
-            $itemXml->addChild('price', $price);
-            $itemXml->addChild('formated_price', $formatedPrice);
+            $exclPrice = sprintf('%01.2f', $exclPrice);
+            $formatedExclPrice = $quote->getStore()->formatPrice($exclPrice, false);
+
+            $inclPrice = sprintf('%01.2f', $inclPrice);
+            $formatedInclPrice = $quote->getStore()->formatPrice($inclPrice, false);
+
+            $priceXmlObj = $itemXml->addChild('price');
+            $formatedPriceXmlObj = $itemXml->addChild('formated_price');
+
+            if ($this->helper('tax')->displayCartBothPrices()) {
+                 $priceXmlObj->addAttribute('excluding_tax', $exclPrice);
+                 $priceXmlObj->addAttribute('including_tax', $inclPrice);
+
+                 $formatedPriceXmlObj->addAttribute('excluding_tax', $formatedExclPrice);
+                 $formatedPriceXmlObj->addAttribute('including_tax', $formatedInclPrice);
+            }
+            else {
+                 if ($this->helper('tax')->displayCartPriceExclTax()) {
+                     $priceXmlObj->addAttribute('regular', $exclPrice);
+                     $formatedPriceXmlObj->addAttribute('regular', $formatedExclPrice);
+                }
+                if ($this->helper('tax')->displayCartPriceInclTax()) {
+                     $priceXmlObj->addAttribute('regular', $inclPrice);
+                     $formatedPriceXmlObj->addAttribute('regular', $formatedInclPrice);
+                }
+            }
+
 
             /**
              * Subtotal
              */
-            $price = 0.00;
+            $exclPrice = $inclPrice = 0.00;
             if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()){
                 if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales') && $item->getWeeeTaxAppliedAmount()){
-                    $price = $item->getRowTotal() + $item->getWeeeTaxAppliedRowAmount() + $item->getWeeeTaxRowDisposition();
+                    $exclPrice = $item->getRowTotal() + $item->getWeeeTaxAppliedRowAmount() + $item->getWeeeTaxRowDisposition();
                 }
                 else {
-                    $price = $item->getRowTotal();
+                    $exclPrice = $item->getRowTotal();
                 }
             }
             if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()){
                 $_incl = $this->helper('checkout')->getSubtotalInclTax($item);
                 if (Mage::helper('weee')->typeOfDisplay($item, array(0, 1, 4), 'sales') && $item->getWeeeTaxAppliedAmount()){
-                    $price = $_incl + $item->getWeeeTaxAppliedRowAmount();
+                    $inclPrice = $_incl + $item->getWeeeTaxAppliedRowAmount();
                 }
                 else {
-                    $price = $_incl - $item->getWeeeTaxRowDisposition();
+                    $inclPrice = $_incl - $item->getWeeeTaxRowDisposition();
                 }
             }
-            $price = sprintf('%01.2f', $price);
-            $formatedPrice = $quote->getStore()->formatPrice($price, false);
-            $itemXml->addChild('subtotal', $price);
-            $itemXml->addChild('formated_subtotal', $formatedPrice);
+
+            $exclPrice = sprintf('%01.2f', $exclPrice);
+            $formatedExclPrice = $quote->getStore()->formatPrice($exclPrice, false);
+
+            $inclPrice = sprintf('%01.2f', $inclPrice);
+            $formatedInclPrice = $quote->getStore()->formatPrice($inclPrice, false);
+
+            $subtotalPriceXmlObj = $itemXml->addChild('subtotal');
+            $subtotalFormatedPriceXmlObj = $itemXml->addChild('formated_subtotal');
+
+            if ($this->helper('tax')->displayCartBothPrices()) {
+                 $subtotalPriceXmlObj->addAttribute('excluding_tax', $exclPrice);
+                 $subtotalPriceXmlObj->addAttribute('including_tax', $inclPrice);
+
+                 $subtotalFormatedPriceXmlObj->addAttribute('excluding_tax', $formatedExclPrice);
+                 $subtotalFormatedPriceXmlObj->addAttribute('including_tax', $formatedInclPrice);
+            }
+            else {
+                 if ($this->helper('tax')->displayCartPriceExclTax()) {
+                     $subtotalPriceXmlObj->addAttribute('regular', $exclPrice);
+                     $subtotalFormatedPriceXmlObj->addAttribute('regular', $formatedExclPrice);
+                }
+                if ($this->helper('tax')->displayCartPriceInclTax()) {
+                     $subtotalPriceXmlObj->addAttribute('regular', $inclPrice);
+                     $subtotalFormatedPriceXmlObj->addAttribute('regular', $formatedInclPrice);
+                }
+            }
 
             /**
              * Options list

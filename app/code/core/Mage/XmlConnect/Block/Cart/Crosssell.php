@@ -53,7 +53,12 @@ class Mage_XmlConnect_Block_Cart_Crosssell extends Mage_Checkout_Block_Cart_Cros
             $itemXmlObj->addChild('icon', $icon);
             $itemXmlObj->addChild('entity_id', $_item->getId());
             $itemXmlObj->addChild('entity_type', $_item->getTypeId());
-            $itemXmlObj->addChild('price', $crossSellXmlObj->xmlentities(trim(strip_tags($this->getPriceHtml($_item, true)))));
+
+            if ($this->getChild('product_price')) {
+                $this->getChild('product_price')->setProduct($_item)
+                   ->setProductXmlObj($itemXmlObj)
+                   ->collectProductPrices();
+            }
 
             if (!$_item->getRatingSummary()) {
                 Mage::getModel('review/review')

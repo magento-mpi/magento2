@@ -470,7 +470,12 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 $addressValidation = $address->validate();
                 if (true === $addressValidation) {
                     $address->save();
-                    $this->_message($this->__('The address has been saved.'), self::MESSAGE_STATUS_SUCCESS);
+
+                    $message = new Varien_Simplexml_Element('<message></message>');
+                    $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
+                    $message->addChild('text', $this->__('The address has been saved.'));
+                    $message->addChild('address_id', $address->getId());
+                    $this->getResponse()->setBody($message->asNiceXml());
                     return;
                 }
                 else {

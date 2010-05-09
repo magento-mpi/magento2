@@ -91,58 +91,14 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
             $item->addChild('rating_summary', round((int)$product->getRatingSummary()->getRatingSummary() / 10));
             $item->addChild('reviews_count', $product->getRatingSummary()->getReviewsCount());
 
-            $this->collectProductPrices($product, $item);
+            if ($this->getChild('product_price')) {
+                $this->getChild('product_price')->setProduct($product)
+                   ->setProductXmlObj($item)
+                   ->collectProductPrices();
+            }
         }
 
         return $item;
-    }
-
-
-    /**
-     * Renders text price for product
-     *
-     * @param Mage_Catalog_Model_Product $product
-     * @param Varien_Simplexml_Element $item
-     */
-    public function collectProductPrices(Mage_Catalog_Model_Product $product, Varien_Simplexml_Element $item)
-    {
-        $store = Mage::app()->getStore($product->getStoreId());
-        /* TODO: leak of data for grouped products price render if product loaded by load() method.
-           Everything works good when using collection to load products */
-        if ($product->getPriceModel() instanceof Mage_Bundle_Model_Product_Price
-            && !strlen($product->getMinPrice()) && !strlen($product->getMaxPrice())
-        ) {
-            $minPrice =  $store->formatPrice($product->getPriceModel()->getMinimalPrice($product), false);
-            $item->addChild('aslowas_price', $this->__('As low as:') . ' ' . $minPrice);
-            $item->addChild('min_price', $minPrice);
-            $item->addChild('max_price', $store->formatPrice($product->getPriceModel()->getMaximalPrice($product), false));
-        }
-
-        if (strlen($product->getSpecialPrice())) {
-            $item->addChild('price', $store->formatPrice($product->getSpecialPrice(), false));
-            $item->addChild('old_price', $store->formatPrice($product->getPrice(), false));
-        }
-        else if (strlen($product->getMinPrice()) && strlen($product->getMaxPrice())
-                 && $product->getMinPrice() !== $product->getMaxPrice() && strlen($product->getPrice())
-        ) {
-            $item->addChild('min_price', $store->formatPrice($product->getMinPrice(), false));
-            $item->addChild('max_price', $store->formatPrice($product->getMaxPrice(), false));
-            $item->addChild('price', $this->__('From:') . ' ' . $store->formatPrice($product->getMinPrice(), false) . "\n" .
-                $this->__('To:') . ' ' . $store->formatPrice($product->getMaxPrice(), false)
-            );
-        }
-        else if (strlen($product->getMinPrice()) && 0 == strlen($product->getPrice())) {
-            $item->addChild('min_price', $store->formatPrice($product->getMinPrice(), false));
-            $item->addChild('price', $this->__('Starting at:') . ' ' . $store->formatPrice($product->getMinPrice(), false));
-        }
-        else if (is_scalar($product->getTierPrice()) && strlen($product->getTierPrice())) {
-            $item->addChild('tier_price', $store->formatPrice($product->getTierPrice(), false));
-            $item->addChild('aslowas_price', $this->__('As low as:') . ' ' . $store->formatPrice($product->getTierPrice(), false));
-            $item->addChild('price', $store->formatPrice($product->getPrice(), false));
-        }
-        elseif ($product->getPrice()) {
-            $item->addChild('price', $store->formatPrice($product->getPrice(), false));
-        }
     }
 
     /**
