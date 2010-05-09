@@ -71,7 +71,7 @@ class Mage_XmlConnect_Block_Customer_Form extends Mage_Core_Block_Template
         else {
             $passwordManageXml = '
                     <field name="password" type="password" label="' . $helper->__('Password') . '" required="true"/>
-                    <field name="password_confirm" type="password" label="' . $helper->__('Confirm Password') . '" required="true">
+                    <field name="confirmation" type="password" label="' . $helper->__('Confirm Password') . '" required="true">
                         <validators>
                             <validator type="confirmation" message="' . $helper->__('Regular and confirmation passwords must be equal') . '">password</validator>
                         </validators>
