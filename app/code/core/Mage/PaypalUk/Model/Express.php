@@ -29,7 +29,7 @@
  */
 class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
 {
-    protected $_code = Mage_PaypalUk_Model_Config::METHOD_WPP_PE_EXPRESS;
+    protected $_code = Mage_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS;
     protected $_formBlockType = 'paypaluk/express_form';
 
     /**
@@ -45,25 +45,6 @@ class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
      * @var string
      */
     protected $_ipnAction = 'paypaluk/ipn/express';
-
-    /**
-     * Check whether payment method is available in checkout
-     * Return false if PayFlow edition disabled
-     *
-     * TODO?
-     * Also check obligatory data such as Credentials API or Merchant email
-     *
-     * @param Mage_Sales_Model_Quote $quote
-     * @return bool
-     */
-    public function isAvailable($quote = null)
-    {
-        parent::isAvailable($quote); // perform parent logic
-        if ($this->getConfigData('active') && $this->_pro->getConfig()->usePayflow) {
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Import payment info to payment

@@ -31,204 +31,274 @@
 ?>
 
 <table class="paypal-global" id="paypal_checkout" cellspacing="0">
-    <col />
-    <col width="90" />
-    <col width="10" />
-    <col width="90" />
-    <col width="10" />
-    <col width="90" />
-    <col width="90" />
+    <col width="90%" />
+    <col width="10%" />
     <thead>
-        <tr>
-            <th class="pg-empty" rowspan="2">&nbsp;</th>
-            <th><label for="paypal_global_express"><?php echo Mage::helper('paypal')->__('Express Checkout')?></label></th>
-            <th class="pg-empty" rowspan="2">&nbsp;</th>
-            <th><label for="paypal_global_standard"><?php echo Mage::helper('paypal')->__('Standard')?></label></th>
-            <th class="pg-empty" rowspan="2">&nbsp;</th>
-            <th><label for="paypal_global_pro"><?php echo Mage::helper('paypal')->__('Pro')?></label></th>
-            <!-- th><label for="paypal_global_pro"><?php echo Mage::helper('paypal')->__('WPP PE')?></label></th -->
-            <th><label for="paypal_global_gateway"><?php echo Mage::helper('paypal')->__('Payflow Pro')?></label></th>
-        </tr>
-        <tr>
-            <th>
-                <?php echo $this->getCheckboxHtml('paypal_global_express') ?>
-                <?php if ($this->canUseInherit('paypal_global_express')): ?>
-                    <span><?php echo $this->getInheritCheckboxHtml('paypal_global_express') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_express') ?></span>
-                <?php endif; ?>
-            </th>
-            <th>
-                <?php echo $this->getCheckboxHtml('paypal_global_standard') ?>
-                <?php if ($this->canUseInherit('paypal_global_standard')): ?>
-                    <span><?php echo $this->getInheritCheckboxHtml('paypal_global_standard') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_standard') ?></span>
-                <?php endif; ?>
-            </th>
-            <!-- th>
-                <input type="radio" name="pro">
-            </th>
-            <th>
-                <input type="radio" name="pro">
-            </th>
-            <th>
-                <input type="radio" name="pro">
-            </th -->
-            <th>
-                <?php echo $this->getCheckboxHtml('paypal_global_pro') ?>
-                <?php if ($this->canUseInherit('paypal_global_pro')): ?>
-                    <span><?php echo $this->getInheritCheckboxHtml('paypal_global_pro') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_pro') ?></span>
-                <?php endif; ?>
-            </th>
-            <th>
-                <?php echo $this->getCheckboxHtml('paypal_global_gateway') ?>
-                <?php if ($this->canUseInherit('paypal_global_gateway')): ?>
-                    <span><?php echo $this->getInheritCheckboxHtml('paypal_global_gateway') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_gateway') ?></span>
-                <?php endif; ?>
-            </th>
-        </tr>
     </thead>
     <tbody>
-        <?php  foreach ($this->getFeatures() as $feature => $info): ?>
         <tr>
-            <td>
-                <?php echo $info['label'] ?>
-                <?php if (isset($info['comment']) && $info['comment']): ?>
-                    <p class="paypal-note">(<?php echo $info['comment'] ?>)</p>
-                <?php endif; ?>
-            </td>
-            <td><?php echo ($this->getMethodFeature('express', $feature) ? '<span class="pg-tick"></span>' : '') ?></td>
-            <td class="pg-empty">&nbsp;</td>
-            <td><?php echo ($this->getMethodFeature('standard', $feature) ? '<span class="pg-tick"></span>' : '') ?></td>
-            <td class="pg-empty">&nbsp;</td>
-            <td><?php echo ($this->getMethodFeature('pro', $feature) ? '<span class="pg-tick"></span>' : '') ?></td>
-            <!-- td><?php echo ($this->getMethodFeature('pro', $feature) ? '<span class="pg-tick"></span>' : '') ?></td -->
-            <td><?php echo ($this->getMethodFeature('gateway', $feature) ? '<span class="pg-tick"></span>' : '') ?></td>
+            <td style="text-align: left;"><?php echo Mage::helper('paypal')->__('Select a PayPal Solution')?></td>
+            <td style="text-align: right;"><a href="#"><?php echo Mage::helper('paypal')->__('Help')?></a></td>
         </tr>
-        <?php endforeach; ?>
+
         <tr>
-            <td class="pg-empty">&nbsp;</td>
-            <td><a href="#"><?php echo Mage::helper('paypal')->__('View Demo')?></a> <a href="#"><?php echo Mage::helper('paypal')->__('Learn more')?></a></td>
-            <td class="pg-empty">&nbsp;</td>
-            <td><a href="#"><?php echo Mage::helper('paypal')->__('View Demo')?></a> <a href="#"><?php echo Mage::helper('paypal')->__('Learn more')?></a></td>
-            <td class="pg-empty">&nbsp;</td>
-            <td><a href="#"><?php echo Mage::helper('paypal')->__('View Demo')?></a> <a href="#"><?php echo Mage::helper('paypal')->__('Learn more')?></a></td>
-            <td><a href="#"><?php echo Mage::helper('paypal')->__('View Demo')?></a> <a href="#"><?php echo Mage::helper('paypal')->__('Learn more')?></a></td>
-            <!-- td><a href="#"><?php echo Mage::helper('paypal')->__('View Demo')?></a> <a href="#"><?php echo Mage::helper('paypal')->__('Learn more')?></a></td -->
+            <td style="text-align: left;">
+            <?php echo $this->getCheckboxHtml('paypal_global_wps') ?> <label for="paypal_global_wps"><?php echo Mage::helper('paypal')->__('Website Payments Standard')?></label>
+            <?php if ($this->canUseInherit('paypal_global_wps')): ?>
+                <div><?php echo $this->getInheritCheckboxHtml('paypal_global_wps') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_wps') ?></div>
+            <?php endif; ?>
+            </td>
+            <td style="text-align: right;"><a href="#"><?php echo Mage::helper('paypal')->__('View Demo')?></a> | <a href="#"><?php echo Mage::helper('paypal')->__('Learn more')?></a></td>
+        </tr>
+        <tr>
+            <td style="text-align: left;" colspan="2"><?php echo Mage::helper('paypal')->__('Accept PayPal payments on my shopping cart and product pages.')?></td>
+        </tr>
+
+        <tr>
+            <td style="text-align: left;">
+            <?php echo $this->getCheckboxHtml('paypal_global_wpp') ?> <label for="paypal_global_wpp"><?php echo Mage::helper('paypal')->__('Website Payments Pro')?></label>
+            <?php if ($this->canUseInherit('paypal_global_wpp')): ?>
+                <div><?php echo $this->getInheritCheckboxHtml('paypal_global_wpp') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_wpp') ?></div>
+            <?php endif; ?>
+            </td>
+            <td style="text-align: right;"><a href="#"><?php echo Mage::helper('paypal')->__('View Demo')?></a> | <a href="#"><?php echo Mage::helper('paypal')->__('Learn more')?></a></td>
+        </tr>
+        <tr>
+            <td style="text-align: left;" colspan="2"><?php echo Mage::helper('paypal')->__('Accept PayPal payments on my shopping cart and product pages, while accepting credit card payments utilizing PayPal as a processor.')?></td>
+        </tr>
+
+        <tr>
+            <td style="text-align: left;">
+            <?php echo $this->getCheckboxHtml('paypal_global_express') ?> <label for="paypal_global_express"><?php echo Mage::helper('paypal')->__('Express Checkout')?></label>
+            <?php if ($this->canUseInherit('paypal_global_express')): ?>
+                <div><?php echo $this->getInheritCheckboxHtml('paypal_global_express') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_express') ?></div>
+            <?php endif; ?>
+            </td>
+            <td style="text-align: right;"><a href="#"><?php echo Mage::helper('paypal')->__('View Demo')?></a> | <a href="#"><?php echo Mage::helper('paypal')->__('Learn more')?></a></td>
+        </tr>
+        <tr>
+            <td style="text-align: left;" colspan="2"><?php echo Mage::helper('paypal')->__('Accept PayPal payments on my shopping cart and product pages.')?></td>
+        </tr>
+
+        <tr>
+            <td style="text-align: left;"><?php echo Mage::helper('paypal')->__('Payflow Pro Gateway')?></td>
+            <td style="text-align: right;"><a href="#"><?php echo Mage::helper('paypal')->__('View Demo')?></a> | <a href="#"><?php echo Mage::helper('paypal')->__('Learn more')?></a></td>
+        </tr>
+        <tr>
+            <td style="text-align: left;padding-left:20px;" colspan="2">
+            <div>
+                <?php echo $this->getCheckboxHtml('paypal_global_wpp_pe') ?> <label for="paypal_global_wpp_pe"><?php echo Mage::helper('paypal')->__('With PayPal Merchant Account – Accept PayPal payments on my shopping cart and product pages, while accepting credit card payments through the Payflow Pro Gateway utilizing PayPal as a processor.')?></label>
+                <?php if ($this->canUseInherit('paypal_global_wpp_pe')): ?>
+                    <div><?php echo $this->getInheritCheckboxHtml('paypal_global_wpp_pe') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_wpp_pe') ?></div>
+                <?php endif; ?>
+            </div>
+            <div>
+                <?php echo $this->getCheckboxHtml('paypal_global_express_pe') ?> <label for="paypal_global_express_pe"><?php echo Mage::helper('paypal')->__('With Express Checkout – Accept PayPal payments on my shopping cart and product pages through the Payflow Pro Gateway.')?></label>
+                <?php if ($this->canUseInherit('paypal_global_express_pe')): ?>
+                    <div><?php echo $this->getInheritCheckboxHtml('paypal_global_express_pe') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_express_pe') ?></div>
+                <?php endif; ?>
+            </div>
+            <div>
+                <?php echo $this->getCheckboxHtml('paypal_global_verisign') ?> <label for="paypal_global_verisign"><?php echo Mage::helper('paypal')->__('With External Merchant Account – Accept credit card payments for a non-PayPal merchant account through the Payflow Pro Gateway')?></label>
+                <?php if ($this->canUseInherit('paypal_global_verisign')): ?>
+                    <div><?php echo $this->getInheritCheckboxHtml('paypal_global_verisign') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_verisign') ?></div>
+                <?php endif; ?>
+            </div>
+            </td>
         </tr>
     </tbody>
 </table>
-<p class="pg-options"><a href="#">Print</a>&nbsp;|&nbsp;<a href="#">Email</a> this table</p>
 
 <script type="text/javascript">
 decorateTable('paypal_checkout');
 
 Event.observe(window, 'load', function() {
     var pConfig = new PaypalConfig;
-
-    // toggle Payflow Edition(UK) dependance
-    Element.observe('paypal_general_merchant_country', 'change', pConfig.trackPayflowEnabled.bind(pConfig));
-    Element.observe('paypal_general_use_payflow', 'change', pConfig.trackPayflowEnabled.bind(pConfig));
-    pConfig.trackPayflowEnabled();
-
-    // toggle method fieldsets based on methods availability
-    Element.observe('paypal_global_express', 'click', pConfig.toggleFieldset.bind(pConfig, 'paypal_express', 'paypal_global_express'));
-    Element.observe('paypal_global_standard', 'click', pConfig.toggleFieldset.bind(pConfig, 'paypal_standard', 'paypal_global_standard'));
-    Element.observe('paypal_global_pro', 'click', pConfig.toggleFieldset.bind(pConfig, 'paypal_pro', 'paypal_global_pro'));
-    Element.observe('paypal_global_gateway', 'click', pConfig.toggleFieldset.bind(pConfig, 'paypal_verisign', 'paypal_global_gateway'));
-    if (!$('paypal_global_express').checked) {
-        pConfig.toggleFieldset('paypal_express', 'paypal_global_express');
-    }
-    if (!$('paypal_global_standard').checked) {
-        pConfig.toggleFieldset('paypal_standard', 'paypal_global_standard');
-    }
-    if (!$('paypal_global_pro').checked) {
-        pConfig.toggleFieldset('paypal_pro', 'paypal_global_pro');
-    }
-    if (!$('paypal_global_gateway').checked) {
-        pConfig.toggleFieldset('paypal_verisign', 'paypal_global_gateway');
-    }
+    Element.observe('paypal_account_merchant_country', 'change', pConfig.toggleMethods.bind(pConfig));
+    Element.observe('paypal_global_wpp', 'click', pConfig.trackWpp.bind(pConfig));
+    Element.observe('paypal_global_wpp_pe', 'click', pConfig.trackWppPe.bind(pConfig));
+    pConfig.trackWpp();
+    pConfig.trackWppPe();
+    pConfig.toggleMethods();
 });
 
 PaypalConfig = Class.create();
 PaypalConfig.prototype = {
-    initialize: function(){},
-
-    trackPayflowEnabled: function()
-    {
-        var usePayflow = $('paypal_general_merchant_country') != undefined
-            && $('paypal_general_merchant_country').value == 'GB'
-            && $('paypal_general_use_payflow') != undefined
-            && $('paypal_general_use_payflow').value == '1';
-        var payflowRows = [
-            'row_paypal_pro_heading_payflow',
-            'row_paypal_pro_partner',
-            'row_paypal_pro_user',
-            'row_paypal_pro_vendor',
-            'row_paypal_pro_pwd'
-        ];
-        var notPayflowRows = [
-            'row_paypal_general_heading_api',
-            'row_paypal_general_api_username',
-            'row_paypal_general_api_password',
-            'row_paypal_general_api_signature',
-            'row_paypal_general_use_proxy'
-        ];
-        if (usePayflow) {
-            payflowRows.each(function(e) {
-                this.enableRow(e);
-            }.bind(this));
-            notPayflowRows.each(function(e) {
-                this.disableRow(e);
-            }.bind(this));
-        } else {
-            payflowRows.each(function(e) {
-                this.disableRow(e);
-            }.bind(this));
-            notPayflowRows.each(function(e) {
-                this.enableRow(e);
-            }.bind(this));
-        }
-        //this.trackProductFeatures();
+    initialize: function(){
+        this.methods = $H({
+            ec: $H({switcher: 'express', fieldset: 'express'}),
+            wps: $H({switcher: 'wps', fieldset: 'wps'}),
+            wpp: $H({switcher: 'wpp', fieldset: 'wpp'}),
+            wpppe: $H({switcher: 'wpp_pe', fieldset: 'wpp_pe'}),
+            ecpe: $H({switcher: 'express_pe', fieldset: 'express_pe'}),
+            payflowpro: $H({switcher: 'verisign', fieldset: 'verisign'})
+        });
     },
 
-    trackProductFeatures: function()
+    getMethods: function()
+    {
+        return this.methods;
+    },
+
+    getMethod: function(method)
+    {
+        return this.methods.get(method);
+    },
+
+    getMethodFieldset: function(method)
+    {
+        var fieldsetId = 'paypal_' + this.getMethod(method).get('fieldset');        return $(fieldsetId);
+    },
+
+    getMethodSwitcher: function(method)
+    {
+        var switcherId = 'paypal_global_' + this.getMethod(method).get('switcher');        return $(switcherId);
+    },
+
+    getMethodSwitcherValue: function(method)
+    {
+        var switcherValueId = 'paypal_global_' + this.getMethod(method).get('switcher') + '_value';        return $(switcherValueId);
+    },
+
+    markMethodAsReadonly: function(method, readonly)
+    {
+        if (readonly == undefined) {
+            readonly = true;
+        }
+        this.getMethodSwitcherValue(method).value = this.getMethodSwitcher(method).checked ? '1' : '0';
+        this.getMethodSwitcher(method).disabled = readonly;    },
+
+    enableMethod: function(method, readonly)
+    {
+        this.getMethodSwitcher(method).checked = true;
+        readonly = (readonly == undefined ? false : readonly);
+        this.markMethodAsReadonly(method, readonly);
+        this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
+    },
+
+    disableMethod: function(method, readonly)
+    {
+        this.getMethodSwitcher(method).checked = false;
+        readonly = (readonly == undefined ? true : readonly);
+        this.markMethodAsReadonly(method, readonly);
+        this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
+    },
+
+    toggleMethods: function()
     {
         var countryConfig = $H({
             'US':{
-                'exclude_methods': [],
+                'allowed_methods': ['ec','wps','wpp','wpppe','ecpe','payflowpro'],
                 'exclude_fields': []
             },
             'CA':{
-                'exclude_methods': ['pro'],
+                'allowed_methods': ['ec','wps','wpp','payflowpro'],
                 'exclude_fields': []
             },
             'GB':{
-                'exclude_methods': ['gateway'],
+                'allowed_methods': ['ec','wps','wpp','wpppe','ecpe'],
                 'exclude_fields': []
             },
             'AU':{
-                'exclude_methods': ['pro'],
+                'allowed_methods': ['ec','wps','payflowpro'],
                 'exclude_fields': []
             },
             'NZ':{
-                'exclude_methods': ['pro'],
+                'allowed_methods': ['ec','wps','payflowpro'],
                 'exclude_fields': []
             },
             'DE':{
-                'exclude_methods': ['pro','gateway'],
+                'allowed_methods': ['ec','wps'],
                 'exclude_fields': []
             },
             'other':{
-                'exclude_methods': ['pro','gateway'],
+                'allowed_methods': ['ec','wps'],
                 'exclude_fields': []
             }
         });
-        var country = $('paypal_general_merchant_country').value;
-        if (countryConfig.get(country)) {
-            var excludeMethods = countryConfig.get(country).exclude_methods;
-            excludeMethods.each(function(method) {
-                $('paypal_global_' + method).checked = false;
-                $('paypal_global_' + method).disabled = true;
-            })
+        var country = $('paypal_account_merchant_country').value;
+        var config = countryConfig.get(country);
+        if (!config) {
+            config = countryConfig.get('other');
         }
+
+        this.getMethods().keys().each(function(m) {
+            this.disableMethod(m);
+        }.bind(this));
+
+        var allowedMethods = config.allowed_methods;
+        allowedMethods.each(function(m) {
+            this.enableMethod(m);
+        }.bind(this));
+    },
+
+    trackWpp: function()
+    {
+        var enabled = this.getMethodSwitcher('wpp').checked;
+
+        var wppGeneralRows = [
+            'row_paypal_general_api_username','row_paypal_general_api_password',
+            'row_paypal_general_api_signature','row_paypal_general_use_proxy'
+        ];        wppGeneralRows.each(function(e) {
+            enabled ? this.enableRow(e) : this.disableRow(e);
+        }.bind(this));
+        if (enabled && $('paypal_general_use_proxy').value == 1) {
+            this.enableRow('row_paypal_general_proxy_host');
+            this.enableRow('row_paypal_general_proxy_port');
+        } else {
+            this.disableRow('row_paypal_general_proxy_host');
+            this.disableRow('row_paypal_general_proxy_port');
+        }
+
+        if (enabled) {
+            this.enableMethod('wpp',false);
+            this.enableMethod('ec',true);
+            this.disableMethod('wps', true);
+        } else {
+            this.disableMethod('wpp',false);
+            this.markMethodAsReadonly('wps',false);
+            this.markMethodAsReadonly('ec',false);
+        }
+        if (enabled || this.getMethodSwitcher('wpppe').checked) {
+            this.enableRow('row_paypal_general_heading_api');
+        } else {
+            this.disableRow('row_paypal_general_heading_api');
+        }
+    },
+
+    trackWppPe: function()
+    {
+        var enabled = this.getMethodSwitcher('wpppe').checked;
+
+        var wppPeGeneralRows = [
+            'row_paypal_general_partner','row_paypal_general_user','row_paypal_general_vendor','row_paypal_general_pwd'
+        ];        wppPeGeneralRows.each(function(e) {
+            enabled ? this.enableRow(e) : this.disableRow(e);
+        }.bind(this));
+
+        if (enabled) {
+            this.enableMethod('wpppe',false);
+            this.enableMethod('ecpe',true);
+        } else {
+            this.disableMethod('wpppe',false);
+            this.markMethodAsReadonly('ecpe',false);
+        }
+        if (enabled || this.getMethodSwitcher('wpp').checked) {
+            this.enableRow('row_paypal_general_heading_api');
+        } else {
+            this.disableRow('row_paypal_general_heading_api');
+        }
+    },
+
+    trackWps: function()
+    {
+        if (this.getMethodSwitcher('wpp').checked) {
+            this.enableMethod('ec');
+            this.disableMethod('wps');
+        } else {
+            this.markMethodAsReadonly('wps',false);
+        }
+
     },
 
     enableRow: function(rowId)

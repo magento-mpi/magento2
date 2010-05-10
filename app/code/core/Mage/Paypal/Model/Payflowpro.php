@@ -61,7 +61,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     const RESPONSE_CODE_DECLINED = 12;
     const RESPONSE_CODE_CAPTURE_ERROR = 111;
 
-    protected $_code = 'verisign';
+    protected $_code = Mage_Paypal_Model_Config::METHOD_PAYFLOWPRO;
 
     /**
      * Availability options
@@ -128,23 +128,19 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
      */
     public function getConfigData($field, $storeId = null)
     {
-         if (null === $storeId) {
-            $storeId = $this->getStore();
-        }
+        $value = null;
         switch ($field)
         {
-            case 'cctypes':
-                return $this->getAllowedCcTypes();
             case 'url':
-                return $this->getTransactionUrl();
-            case 'merchant_country':
-            case 'allowspecific':
-            case 'specificcountry':
-                $path = 'paypal/general/' . $field;
+                $value = $this->getTransactionUrl();
             default:
-                $path = 'payment/' . $this->getCode() . '/' . $field;
+                $value = parent::getConfigData($field, $storeId);
         }
-        return Mage::getStoreConfig($path, $storeId);
+        if ($field == 'active') {
+            $isSupported = Mage::getModel('paypal/config')->isMethodSupportedForCountry($this->getCode());
+            $value = (bool)$value && $isSupported;
+        }
+        return $value;
     }
 
     /**

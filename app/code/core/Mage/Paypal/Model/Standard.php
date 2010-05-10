@@ -194,21 +194,11 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getConfigData($field, $storeId = null)
     {
-         if (null === $storeId) {
-            $storeId = $this->getStore();
+        $value = $this->getConfig()->$field;
+        if ($field == 'active') {
+            $value = (bool)$value && $this->getConfig()->isMethodSupportedForCountry();
         }
-        switch ($field)
-        {
-            case 'business_account':
-            case 'merchant_country':
-            case 'allowspecific':
-            case 'specificcountry':
-            case 'line_items_enabled':
-            case 'line_items_summary':
-                return Mage::getStoreConfig("paypal/general/{$field}", $storeId);
-            default:
-                return parent::getConfigData($field, $storeId);
-        }
+        return $value;
     }
 
     /**

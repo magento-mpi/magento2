@@ -49,6 +49,24 @@ class Mage_Paypal_Model_Config
     const METHOD_WPP_DIRECT  = 'paypal_direct';
 
     /**
+     * Direct Payments (Payflow Edition)
+     * @var string
+     */
+    const METHOD_WPP_PE_DIRECT  = 'paypaluk_direct';
+
+    /**
+     * Express Checkout (Payflow Edition)
+     * @var string
+     */
+    const METHOD_WPP_PE_EXPRESS  = 'paypaluk_express';
+
+    /**
+     * Payflow Pro Gateway
+     * @var string
+     */
+    const METHOD_PAYFLOWPRO   = 'verisign';
+
+    /**
      * Buttons and images
      * @var string
      */
@@ -126,9 +144,11 @@ class Mage_Paypal_Model_Config
      * @var array
      */
     protected $_buildNotationPPMap = array(
-        'paypal_standard' => 'WPS',
-        'paypal_express'  => 'EC',
-        'paypal_direct'   => 'DP',
+        'paypal_standard'  => 'WPS',
+        'paypal_express'   => 'EC',
+        'paypal_direct'    => 'DP',
+        'paypaluk_express' => 'EC',
+        'paypaluk_direct'  => 'DP',
     );
 
     /**
@@ -261,6 +281,81 @@ class Mage_Paypal_Model_Config
         }
         return $countryCode;
     }
+
+    /**
+     * Check whether method supported for specified country or not
+     * Use $_methodCode and merchant country by default
+     *
+     * @return bool
+     */
+    public function isMethodSupportedForCountry($method = null, $countryCode = null)
+    {
+        if ($method === null) {
+            $method = $this->getMethodCode();
+        }
+        if ($countryCode === null) {
+            $countryCode = $this->getMerchantCountry();
+        }
+        $countryMethods = $this->getCountryMethods($countryCode);
+        if (in_array($method, $countryMethods)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Return list of allowed methods for specified country iso code
+     *
+     * @param string $countryCode 2-letters iso code
+     * @return array
+     */
+    public function getCountryMethods($countryCode = null)
+    {
+        $countryMethods = array(
+            'US' => array(
+                self::METHOD_WPS,
+                self::METHOD_WPP_DIRECT,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_WPP_PE_DIRECT,
+                self::METHOD_WPP_PE_EXPRESS,
+                self::METHOD_PAYFLOWPRO,
+            ),
+            'CA' => array(
+                self::METHOD_WPS,
+                self::METHOD_WPP_DIRECT,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_PAYFLOWPRO,
+            ),
+            'GB' => array(
+                self::METHOD_WPS,
+                self::METHOD_WPP_DIRECT,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_WPP_PE_DIRECT,
+                self::METHOD_WPP_PE_EXPRESS,
+            ),
+            'AU' => array(
+                self::METHOD_WPS,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_PAYFLOWPRO,
+            ),
+            'NZ' => array(
+                self::METHOD_WPS,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_PAYFLOWPRO,
+            ),
+            'DE' => array(
+                self::METHOD_WPS,
+                self::METHOD_WPP_EXPRESS,
+            ),
+            'other' => array(
+                self::METHOD_WPS,
+                self::METHOD_WPP_EXPRESS,
+            )
+        );
+        if ($countryCode === null) {
+            return $countryMethods;
+        }
+        return isset($countryMethods[$countryCode]) ? $countryMethods[$countryCode] : $countryMethods['other'];    }
 
     /**
      * Get url for dispatching customer to express checkout start
@@ -700,44 +795,37 @@ class Mage_Paypal_Model_Config
     protected function _getSpecificConfigPath($fieldName)
     {
         $path = null;
-        if (self::METHOD_WPS === $this->_methodCode) {
-            $path = $this->_mapStandardFieldset($fieldName);
-        } elseif (self::METHOD_WPP_EXPRESS === $this->_methodCode ||  self::METHOD_WPP_DIRECT === $this->_methodCode) {
-            $path = self::METHOD_WPP_EXPRESS === $this->_methodCode
-                ? $this->_mapExpressFieldset($fieldName)
-                : $this->_mapDirectFieldset($fieldName)
-             ;
-            if (!$path) {
-                $path = $this->_mapWppFieldset($fieldName);
-            }
+        switch ($this->_methodCode) {
+            case self::METHOD_WPS:
+                $path = $this->_mapStandardFieldset($fieldName);
+
+            case self::METHOD_WPP_EXPRESS:
+            case self::METHOD_WPP_PE_EXPRESS:
+                $path = $this->_mapExpressFieldset($fieldName);
+
+            case self::METHOD_WPP_DIRECT:
+            case self::METHOD_WPP_PE_DIRECT:
+                $path = $this->_mapDirectFieldset($fieldName);
+
+            case self::METHOD_WPP_EXPRESS:
+            case self::METHOD_WPP_DIRECT:
+                if ($path === null) {
+                    $path = $this->_mapWppFieldset($fieldName);
+                }
+
+            case self::METHOD_WPP_PE_EXPRESS:
+            case self::METHOD_WPP_PE_DIRECT:
+                if ($path === null) {
+                    $path = $this->_mapWpukFieldset($fieldName);
+                }
         }
-        if (!$path) {
+        if ($path === null) {
+            $path = $this->_mapGeneralFieldset($fieldName);
+        }
+        if ($path === null) {
             $path = $this->_mapGenericStyleFieldset($fieldName);
         }
         return $path;
-    }
-
-    /**
-     * Map PayPal Standard config fields
-     *
-     * @param string $fieldName
-     * @return string|null
-     */
-    protected function _mapStandardFieldset($fieldName)
-    {
-        switch ($fieldName)
-        {
-            case 'debug_flag':
-            case 'sandbox_flag':
-                return "paypal/wps/{$fieldName}";
-            case 'active':
-            case 'title':
-            case 'payment_action':
-            case 'sort_order':
-                return 'payment/' . self::METHOD_WPS . "/{$fieldName}";
-            default:
-                return $this->_mapGeneralFieldset($fieldName);
-        }
     }
 
     /**
@@ -757,6 +845,105 @@ class Mage_Paypal_Model_Config
             // Japan, Mexico, Netherlands, Poland, Singapore, Spain, Switzerland, United Kingdom, United States
             case 'JP': case 'MX': case 'NL': case 'PL': case 'SG': case 'ES': case 'CH': case 'UK': case 'US':
                 return $code;
+        }
+    }
+
+    /**
+     * Map PayPal Standard config fields
+     *
+     * @param string $fieldName
+     * @return string|null
+     */
+    protected function _mapStandardFieldset($fieldName)
+    {
+        switch ($fieldName)
+        {
+            case 'line_items_summary':
+                return 'payment/' . self::METHOD_WPS . "/{$fieldName}";
+            default:
+                return $this->_mapMethodFieldset($fieldName);
+        }
+    }
+
+    /**
+     * Map PayPal Express config fields
+     *
+     * @param string $fieldName
+     * @return string|null
+     */
+    protected function _mapExpressFieldset($fieldName)
+    {
+        switch ($fieldName)
+        {
+            case 'transfer_shipping_options':
+            case 'solution_type':
+            case 'visible_on_cart':
+            case 'visible_on_product':
+                return "payment/{$this->_methodCode}/{$fieldName}";
+            default:
+                return $this->_mapMethodFieldset($fieldName);
+        }
+    }
+
+    /**
+     * Map PayPal Direct config fields
+     *
+     * @param string $fieldName
+     * @return string|null
+     */
+    protected function _mapDirectFieldset($fieldName)
+    {
+        switch ($fieldName)
+        {
+            case 'useccv':
+            case 'centinel':
+            case 'centinel_is_mode_strict':
+            case 'centinel_api_url':
+                return "payment/{$this->_methodCode}/{$fieldName}";
+            default:
+                return $this->_mapMethodFieldset($fieldName);
+        }
+    }
+
+    /**
+     * Map PayPal Website Payments Pro common config fields
+     *
+     * @param string $fieldName
+     * @return string|null
+     */
+    protected function _mapWppFieldset($fieldName)
+    {
+        switch ($fieldName)
+        {
+            case 'api_username':
+            case 'api_password':
+            case 'api_signature':
+            case 'use_proxy':
+            case 'proxy_host':
+            case 'proxy_port':
+                return "paypal/wpp/{$fieldName}";
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * Map PayPal Website Payments Pro common config fields
+     *
+     * @param string $fieldName
+     * @return string|null
+     */
+    protected function _mapWpukFieldset($fieldName)
+    {
+        switch ($fieldName)
+        {
+            case 'partner':
+            case 'user':
+            case 'vendor':
+            case 'pwd':
+                return "paypal/wpuk/{$fieldName}";
+            default:
+                return null;
         }
     }
 
@@ -783,82 +970,6 @@ class Mage_Paypal_Model_Config
     }
 
     /**
-     * Map PayPal Website Payments Pro common config fields
-     *
-     * @param string $fieldName
-     * @return string|null
-     */
-    protected function _mapWppFieldset($fieldName)
-    {
-        switch ($fieldName)
-        {
-            case 'api_password':
-            case 'api_signature':
-            case 'api_username':
-            case 'debug_flag':
-            case 'paypal_url':
-            case 'proxy_host':
-            case 'proxy_port':
-            case 'sandbox_flag':
-            case 'use_proxy':
-                return "paypal/wpp/{$fieldName}";
-            default:
-                return $this->_mapGeneralFieldset($fieldName);
-        }
-    }
-
-    /**
-     * Map PayPal Express config fields
-     *
-     * @param string $fieldName
-     * @return string|null
-     */
-    protected function _mapExpressFieldset($fieldName)
-    {
-        switch ($fieldName)
-        {
-            case 'active':
-            case 'transfer_shipping_options':
-            case 'fraud_filter':
-            case 'payment_action':
-            case 'solution_type':
-            case 'sort_order':
-            case 'title':
-            case 'visible_on_cart':
-            case 'visible_on_product':
-            case 'sandbox_flag':
-            case 'debug_flag':
-                return 'payment/' . self::METHOD_WPP_EXPRESS . "/{$fieldName}";
-            default:
-                return $this->_mapGeneralFieldset($fieldName);
-        }
-    }
-
-    /**
-     * Map PayPal Direct config fields
-     *
-     * @param string $fieldName
-     * @return string|null
-     */
-    protected function _mapDirectFieldset($fieldName)
-    {
-        switch ($fieldName)
-        {
-            case 'active':
-            case 'centinel':
-            case 'centinel_is_mode_strict':
-            case 'centinel_api_url':
-            case 'fraud_filter':
-            case 'payment_action':
-            case 'sort_order':
-            case 'title':
-                return 'payment/' . self::METHOD_WPP_DIRECT . "/{$fieldName}";
-            default:
-                return $this->_mapGeneralFieldset($fieldName);
-        }
-    }
-
-    /**
      * Map PayPal General Settings
      *
      * @param string $fieldName
@@ -870,15 +981,39 @@ class Mage_Paypal_Model_Config
         {
             case 'business_account':
             case 'merchant_country':
-            case 'use_payflow':
-            case 'cctypes':
-            case 'allowspecific':
-            case 'specificcountry':
-            case 'line_items_enabled':
-            case 'line_items_summary':
                 return "paypal/general/{$fieldName}";
             default:
                 return null;
         }
     }
+
+    /**
+     * Map PayPal General Settings
+     *
+     * @param string $fieldName
+     * @return string|null
+     */
+    protected function _mapMethodFieldset($fieldName)
+    {
+        if (!$this->_methodCode) {
+            return null;
+        }
+        switch ($fieldName)
+        {
+            case 'active':
+            case 'title':
+            case 'payment_action':
+            case 'allowspecific':
+            case 'specificcountry':
+            case 'line_items_enabled':
+            case 'cctypes':
+            case 'sort_order':
+            case 'debug':
+            case 'sandbox_flag':
+                return "payment/{$this->_methodCode}/{$fieldName}";
+            default:
+                return null;
+        }
+    }
 }
+

@@ -29,7 +29,7 @@
  */
 class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
 {
-    protected $_code  = Mage_PaypalUk_Model_Config::METHOD_WPP_PE_DIRECT;
+    protected $_code  = Mage_Paypal_Model_Config::METHOD_WPP_PE_DIRECT;
 
     /**
      * Website Payments Pro instance type
@@ -45,24 +45,6 @@ class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
      */
     protected $_notifyAction = 'paypaluk/ipn/direct';
 
-    /**
-     * Check whether payment method is available in checkout
-     * Return false if PayFlow edition disabled
-     *
-     * TODO?
-     * Also check obligatory data such as Credentials API or Merchant email
-     *
-     * @param Mage_Sales_Model_Quote $quote
-     * @return bool
-     */
-    public function isAvailable($quote = null)
-    {
-        parent::isAvailable($quote); // perform parent logic
-        if ($this->getConfigData('active') && $this->_pro->getConfig()->usePayflow) {
-            return true;
-        }
-        return false;
-    }
     /**
      * Return available CC types for gateway
      *
@@ -94,7 +76,7 @@ class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
     /**
      * Format credit card expiration date based on month and year values
      * Format: mmyy
-     * 
+     *
      * @param string|int $month
      * @param string|int $year
      * @return string
