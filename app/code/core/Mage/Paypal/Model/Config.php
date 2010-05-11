@@ -713,13 +713,35 @@ class Mage_Paypal_Model_Config
     }
 
     /**
-     * Return full list of supported credit card types by Paypal services
+     * Return list of supported credit card types by Paypal Direct gateway
      *
      * @return array
      */
-    public function getCcTypesAsOptionArray()
+    public function getWppCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'SS', 'SM', 'SO', 'JCB', 'DI', 'OT'));
+        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('AE', 'VI', 'MC', 'SS', 'DI'));
+        return $model->toOptionArray();
+    }
+
+    /**
+     * Return list of supported credit card types by Paypal Direct (Payflow Edition) gateway
+     *
+     * @return array
+     */
+    public function getWppPeCcTypesAsOptionArray()
+    {
+        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('VI', 'MC', 'SM', 'SO', 'OT'));
+        return $model->toOptionArray();
+    }
+
+    /**
+     * Return list of supported credit card types by Payflow Pro gateway
+     *
+     * @return array
+     */
+    public function getPayflowproCcTypesAsOptionArray()
+    {
+        $model = Mage::getModel('payment/source_cctype')->setAllowedTypes(array('AE', 'VI', 'MC', 'JCB', 'DI'));
         return $model->toOptionArray();
     }
 
@@ -798,27 +820,32 @@ class Mage_Paypal_Model_Config
         switch ($this->_methodCode) {
             case self::METHOD_WPS:
                 $path = $this->_mapStandardFieldset($fieldName);
-
+                break;
             case self::METHOD_WPP_EXPRESS:
             case self::METHOD_WPP_PE_EXPRESS:
                 $path = $this->_mapExpressFieldset($fieldName);
-
+                break;
             case self::METHOD_WPP_DIRECT:
             case self::METHOD_WPP_PE_DIRECT:
                 $path = $this->_mapDirectFieldset($fieldName);
+                break;
+        }
 
+        switch ($this->_methodCode) {
             case self::METHOD_WPP_EXPRESS:
             case self::METHOD_WPP_DIRECT:
                 if ($path === null) {
                     $path = $this->_mapWppFieldset($fieldName);
                 }
-
+                break;
             case self::METHOD_WPP_PE_EXPRESS:
             case self::METHOD_WPP_PE_DIRECT:
                 if ($path === null) {
                     $path = $this->_mapWpukFieldset($fieldName);
                 }
+                break;
         }
+
         if ($path === null) {
             $path = $this->_mapGeneralFieldset($fieldName);
         }

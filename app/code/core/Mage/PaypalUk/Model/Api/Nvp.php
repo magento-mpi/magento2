@@ -234,7 +234,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
         'SHIPTOSTREET'  => 'street',
         'SHIPTOSTREET2' => 'street2',
         'SHIPTOZIP' => 'postcode',
-        'SHIPTOPHONENUM' => 'telephone', // does not supported by PaypalUk 
+        'SHIPTOPHONENUM' => 'telephone', // does not supported by PaypalUk
     );
 
     /**
@@ -337,7 +337,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
      */
     public function getTender()
     {
-        if ($this->_config->getMethodCode() == Mage_PaypalUk_Model_Config::METHOD_WPP_PE_EXPRESS) {
+        if ($this->_config->getMethodCode() == Mage_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS) {
             return self::TENDER_PAYPAL;
         }
         return self::TENDER_CC;
@@ -391,7 +391,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
             case Mage_Paypal_Model_Api_Nvp::GET_EXPRESS_CHECKOUT_DETAILS:
             case Mage_Paypal_Model_Api_Nvp::SET_EXPRESS_CHECKOUT:
             case Mage_Paypal_Model_Api_Nvp::DO_DIRECT_PAYMENT:
-                return ($this->_config->payment_action == Mage_PaypalUk_Model_Config::PAYMENT_ACTION_AUTH) ?
+                return ($this->_config->payment_action == Mage_Paypal_Model_Config::PAYMENT_ACTION_AUTH) ?
                     self::TRXTYPE_AUTH_ONLY:
                     self::TRXTYPE_SALE;
             case Mage_Paypal_Model_Api_Nvp::DO_CAPTURE:

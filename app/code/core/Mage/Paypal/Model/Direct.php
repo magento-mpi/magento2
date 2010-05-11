@@ -133,7 +133,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     public function getAllowedCcTypes()
     {
         $ccTypes = explode(',', $this->_pro->getConfig()->cctypes);
-        $country = $this->_pro->getConfig()->merchantCountry;
+        $country = $this->_pro->getConfig()->getMerchantCountry();
         if ($country == 'GB') {
             $ccTypes = array_intersect(array('SS', 'MC', 'DI', 'VI'), $ccTypes);
         } elseif ($country == 'CA') {
@@ -151,9 +151,17 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getConfigData($field, $storeId = null)
     {
-        $value = $this->_pro->getConfig()->$field;
-        if ($field == 'active') {
-            $value = (bool)$value && $this->_pro->getConfig()->isMethodSupportedForCountry();
+        $value = null;
+        switch ($field)
+        {
+            case 'cctypes':
+                $value = $this->getAllowedCcTypes();
+                break;
+            case 'active':
+                $value = (bool)$this->_pro->getConfig()->$field && $this->_pro->getConfig()->isMethodSupportedForCountry();
+                break;
+            default:
+                $value = $this->_pro->getConfig()->$field;
         }
         return $value;
     }
