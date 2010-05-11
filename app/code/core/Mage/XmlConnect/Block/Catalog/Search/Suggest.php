@@ -43,31 +43,31 @@ class Mage_XmlConnect_Block_Catalog_Search_Suggest extends Mage_CatalogSearch_Bl
      */
     protected function _toHtml()
     {
-        $xmlObj = new Varien_Simplexml_Element('<node></node>');
+        $suggestXmlObj = new Varien_Simplexml_Element('<suggestions></suggestions>');
 
         if (!$this->getRequest()->getParam('q', false)) {
-       	    return $suggesXmlObj->asNiceXml();
+       	    return $suggestXmlObj->asNiceXml();
         }
 
         $suggestData = $this->getSuggestData();
         if (!($count = count($suggestData))) {
-            return $suggesXmlObj->asNiceXml();
+            return $suggestXmlObj->asNiceXml();
         }
 
         $items = '';
         foreach ($suggestData as $index => $item) {
-            $items .= $xmlObj->xmlentities(strip_tags($item['title']))
+            $items .= $suggestXmlObj->xmlentities(strip_tags($item['title']))
                    . self::SUGGEST_ITEM_SEPARATOR
                    . (int)$item['num_of_results']
                    . self::SUGGEST_ITEM_SEPARATOR;
-//            $itemXmlObj = $suggesXmlObj->addChild('item');
-//            $itemXmlObj->addChild('title', $suggesXmlObj->xmlentities(strip_tags($item['title'])));
+//            $itemXmlObj = $suggestXmlObj->addChild('item');
+//            $itemXmlObj->addChild('title', $suggestXmlObj->xmlentities(strip_tags($item['title'])));
 //            $itemXmlObj->addChild('count', (int)$item['num_of_results']);
         }
 
-        $suggesXmlObj = new Varien_Simplexml_Element('<suggestions>' . $items . '</suggestions>');
+        $suggestXmlObj = new Varien_Simplexml_Element('<suggestions>' . $items . '</suggestions>');
 
-        return $suggesXmlObj->asNiceXml();
+        return $suggestXmlObj->asNiceXml();
     }
 
 }

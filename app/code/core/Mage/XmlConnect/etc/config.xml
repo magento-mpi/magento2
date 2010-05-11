@@ -75,7 +75,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <enterprise_banner before="Mage_Adminhtml">Mage_XmlConnect_Adminhtml</enterprise_banner>
+                        <xmlconnect before="Mage_Adminhtml">Mage_XmlConnect_Adminhtml</xmlconnect>
                     </modules>
                 </args>
             </adminhtml>
