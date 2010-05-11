@@ -601,7 +601,7 @@
         <str name="echoParams">explicit</str>
     </lst>
 </requestHandler>
-    <requestHandler name="magento_en" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_en^1.0 fulltext2_en^2.0 fulltext3_en^3.0 fulltext4_en^4.0 fulltext5_en^1.0</str><str name="pf">fulltext5_en^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
+    <requestHandler name="magento_en" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_en^1.0 fulltext2_en^2.0 fulltext3_en^3.0 fulltext4_en^4.0 fulltext5_en^5.0</str><str name="pf">fulltext5_en^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
     <requestHandler name="magento_fr" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_fr^1.0 fulltext2_fr^2.0 fulltext3_fr^3.0 fulltext4_fr^4.0 fulltext5_fr^5.0</str><str name="pf">fulltext5_fr^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
     <requestHandler name="magento_de" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_de^1.0 fulltext2_de^2.0 fulltext3_de^3.0 fulltext4_de^4.0 fulltext5_de^5.0</str><str name="pf">fulltext5_de^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>
     <requestHandler name="magento_da" class="solr.SearchHandler"><lst name="defaults"><str name="qf">fulltext1_da^1.0 fulltext2_da^2.0 fulltext3_da^3.0 fulltext4_da^4.0 fulltext5_da^5.0</str><str name="pf">fulltext5_da^2.2</str><str name="defType">dismax</str><str name="echoParams">explicit</str></lst></requestHandler>

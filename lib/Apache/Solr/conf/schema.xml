@@ -1345,19 +1345,21 @@
         -->
         <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>
 
-        <!-- Dynamic field definitions.  If a field name is not found, dynamicFields 
+        <!-- Dynamic field definitions. If a field name is not found, dynamicFields 
             will be used if the name matches any of the patterns.
             RESTRICTION: the glob-like pattern in the name attribute must have
             a "*" only at the start or the end.
             EXAMPLE:  name="*_i" will match any field ending in _i (like myid_i, z_i)
             Longer patterns will be matched first.  if equal size patterns
-            both match, the first appearing in the schema will be used.  -->
+            both match, the first appearing in the schema will be used. -->
 
         <dynamicField name="ignored_*" type="ignored" multiValued="true"/>
-        <dynamicField name="attr_*" type="textgen" indexed="true" stored="true" multiValued="true"/>
+        <dynamicField name="random_*" type="random"/>
 
-        <dynamicField name="random_*" type="random" />
-        
+        <dynamicField name="attr_decimal_*" type="float" indexed="true" stored="true"/>
+        <dynamicField name="attr_datetime_*" type="date" indexed="true" stored="true"/>
+        <dynamicField name="attr_multi_*" type="textgen" indexed="true" stored="true" multiValued="true"/>
+
         <dynamicField name="*_en" type="text_en" indexed="true" stored="true"/>
         <dynamicField name="*_fr" type="text_fr" indexed="true" stored="true"/>
         <dynamicField name="*_de" type="text_de" indexed="true" stored="true"/>
@@ -1381,19 +1383,19 @@
     </fields>
 
     <!-- Field to use to determine and enforce document uniqueness. 
-        Unless this field is marked with required="false", it will be a required field
+        Unless this field is marked with required="false", it will be a required field.
     -->
     <uniqueKey>unique</uniqueKey>
 
-    <!-- field for the QueryParser to use when an explicit fieldname is absent -->
+    <!-- field for the QueryParser to use when an explicit fieldname is absent. -->
     <defaultSearchField>fulltext</defaultSearchField>
 
-    <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
+    <!-- SolrQueryParser configuration: defaultOperator="AND|OR". -->
     <solrQueryParser defaultOperator="OR"/>
 
       <!-- copyField commands copy one field to another at the time a document
             is added to the index.  It's used either to index the same field differently,
-            or to add multiple fields to the same field for easier/faster searching.  -->
+            or to add multiple fields to the same field for easier/faster searching. -->
     <copyField source="sku" dest="text"/>
     <copyField source="price" dest="text"/>
     <copyField source="sku" dest="text_en"/>
@@ -1442,7 +1444,7 @@
     Above, multiple source fields are copied to the [text] field. 
     Another way to map multiple source fields to the same 
     destination field is to use the dynamic field syntax. 
-    copyField also supports a maxChars to copy setting.  
+    copyField also supports a maxChars to copy setting. 
     -->   
     <copyField source="*_en" dest="text_en"/>
     <copyField source="*_fr" dest="text_fr"/>

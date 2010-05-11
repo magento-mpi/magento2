@@ -76,7 +76,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         'meta_keyword',
         'store_id',
         'in_stock',
-        'fulltext',
+        //'fulltext',
         'score' //used to support sorting by this field
     );
 
@@ -89,7 +89,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         'name',
         'description',
         'meta_keyword',
-        'fulltext',
+        //'fulltext',
         'alphaNameSort' //used to implement more right sorting by name field
     );
 
@@ -129,23 +129,24 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
     /**
      * Retrieve attributes weights
-     *
+     * 
+     * @return array
      */
-    public function getSearchableAttributeParams()
+    protected function _getSearchableAttributeParams()
     {
-        if (empty($this->_attributeParams)) {
+        if (empty($this->_searchableAttributeParams)) {
             $attributesModel = Mage::getModel('eav/config');
             $entityTypeId = $attributesModel->getEntityType( 'catalog_product' )->getEntityTypeId();
             $items = Mage::getResourceModel('catalog/product_attribute_collection')
-                ->setEntityTypeFilter( $entityTypeId )
+                ->setEntityTypeFilter($entityTypeId)
                 ->addIsSearchableFilter()
-                ->getItems()
-            ;
+                ->getItems();
             $this->_searchableAttributeParams = array();
             foreach ($items as $item) {
                 $this->_searchableAttributeParams[$item->getAttributeCode()] = array(
-                    'weight' => $item->getSearchWeight(),
-                    'type'   => $item->getBackendType(),
+                    'backendType'   => $item->getBackendType(),
+                    'frontendInput'  => $item->getFrontendInput(),
+                    'searchWeight'  => $item->getSearchWeight()
                 );
             }
         }
@@ -162,14 +163,13 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     public function prepareDocs($docData, $localeCode = null)
     {
-        $attributeParams = $this->getSearchableAttributeParams();
-
         if (!is_array($docData)) {
             return array();
         }
         if (empty($docData)) {
             return array();
         }
+        $attributeParams = $this->_getSearchableAttributeParams();
         $docs = array();
 
         foreach ($docData as $entityId => $index) {
@@ -200,7 +200,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $attributesWeights = array();
             foreach ($index as $code => $value) {
                 if (!empty($attributeParams[$code])) {
-                    $weight = $attributeParams[$code]['weight'];
+                    $weight = $attributeParams[$code]['searchWeight'];
                     $attributesWeights["fulltext{$weight}"][]=$value;
                 }
             }
@@ -209,7 +209,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 $index[$key] = $this->_implodeIndexData($value);
             }
 
-            $index = $this->_filterIndexData($index, $localeCode);
+            //$index = $this->_filterIndexData($index, $localeCode);
+            $index = $this->_prepareIndexData($index, $attributeParams, $localeCode);
             if (!$index) {
                 continue;
             }
@@ -471,13 +472,14 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     /**
      * Filter index data by common Solr metadata fields
      * Add language code suffix to text fields
-     *
+     * 
+     * @deprecated after 1.8.0.0 - use $this->_prepareIndexData()
+     * 
      * @param array $data
      * @param string|null $localeCode
      * @return array
      * @see $this->_usedFields, $this->_searchTextFields
      */
-
     protected function _filterIndexData($data, $localeCode = null)
     {
         if (!is_array($data)) {
@@ -486,7 +488,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         if (empty($data)) {
             return array();
         }
-       // $data = array_intersect_key($data, array_flip($this->_usedFields));
+        //$data = array_intersect_key($data, array_flip($this->_usedFields));
         foreach ($data as $code => $value) {
             if( !in_array($code, $this->_usedFields) && strpos($code, 'fulltext') !== 0 ) {
                 unset($data[$code]);
@@ -501,6 +503,63 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 }
             }
         }
+        return $data;
+    }
+
+    /**
+     * Prepare index data for using in Solr metadata
+     * Add language code suffix to text fields 
+     * and type suffix for not text dynamic fields
+     * 
+     * @see $this->_usedFields, $this->_searchTextFields
+     * 
+     * @param array $data
+     * @param array $attributesParams
+     * @param string|null $localCode
+     */
+    protected function _prepareIndexData($data, $attributesParams, $localeCode = null)
+    {
+        if (!is_array($data) || empty($data)) {
+            return array();
+        }
+
+        $languageCode = $this->_getLanguageCodeByLocaleCode($localeCode);
+        //Integer attributes are saved at metadata as text because in fact they are values for
+        //options of select type inputs but their values are presented as text aliases
+        $textFieldTypes = array(
+            'text',
+            'varchar',
+            'int'
+        );
+
+        foreach ($data as $key => $value) {
+            if (in_array($key, $this->_usedFields) && !in_array($key, $this->_searchTextFields)) {
+                continue;
+            }
+
+            $fieldType = (substr($key, 0, 8) == 'fulltext') ? 'text' : $attributesParams[$key]['backendType'];
+
+            if (substr($key, 0, 8) == 'fulltext') {
+                $backendType = 'text';
+                $frontendInput = null;
+            } else {
+                $backendType = $attributesParams[$key]['backendType'];
+                $frontendInput = $attributesParams[$key]['frontendInput'];
+            }
+
+            if ($frontendInput == 'multiselect') {
+                $data['attr_multi_'. $key] = $value;
+                unset($data[$key]);
+            }
+            elseif (in_array($backendType, $textFieldTypes) || in_array($key, $this->_searchTextFields)) {
+                $data[$key .'_'. $languageCode] = $value;
+                unset($data[$key]);
+            } elseif ($backendType != 'static') {
+                $data['attr_'. $backendType .'_'. $key] = $value;
+                unset($data[$key]);
+            }
+        }
+
         return $data;
     }
 
