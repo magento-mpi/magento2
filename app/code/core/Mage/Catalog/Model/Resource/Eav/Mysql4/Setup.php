@@ -1169,7 +1169,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'source'            => '',
                         'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
                         'visible'           => false,
-                        'required'          => true,
+                        'required'          => false,
                         'user_defined'      => false,
                         'default'           => '',
                         'searchable'        => false,
@@ -1348,11 +1348,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'visible'                 => false,
                         'default'                 => false,
                         'used_in_product_listing' => true,
+                        'required' => false,
                     ),
                     'has_options' => array(
                         'type'    => 'static',
                         'visible' =>false,
                         'default' => false,
+                        'required' => false,
                     ),
                     'image_label' => array(
                         'type'              => 'varchar',

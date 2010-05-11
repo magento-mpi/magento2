@@ -453,12 +453,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
      * Validate all object's attributes against configuration
      *
      * @param Varien_Object $object
-     * @return Varien_Object
+     * @return bool|array
      */
     public function validate($object)
     {
-        parent::validate($object);
-        return $this;
+        $this->walkAttributes('backend/beforeSave', array($object));
+        return parent::validate($object);
     }
 
     /**

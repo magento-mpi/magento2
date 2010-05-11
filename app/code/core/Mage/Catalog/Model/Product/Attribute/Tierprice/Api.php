@@ -80,17 +80,16 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
             $this->_fault('data_invalid', Mage::helper('catalog')->__('Invalid Tier Prices'));
         }
 
-        try {
-            if (is_array($errors = $product->validate())) {
-                $this->_fault('data_invalid', implode("\n", $errors));
+        $product->setData(self::ATTRIBUTE_CODE, $updatedTierPrices);
+        if (is_array($errors = $product->validate())) {
+            $strErrors = array();
+            foreach($errors as $code=>$error) {
+                $strErrors[] = ($error === true)? Mage::helper('catalog')->__('Value for "%s" is invalid.', $code) : Mage::helper('catalog')->__('Value for "%s" is invalid: %s', $code, $error);
             }
-        } catch (Mage_Core_Exception $e) {
-            $this->_fault('data_invalid', $e->getMessage());
+            $this->_fault('data_invalid', implode("\n", $strErrors));
         }
 
         try {
-            $product->setData(self::ATTRIBUTE_CODE ,$updatedTierPrices);
-            $product->validate();
             $product->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('not_updated', $e->getMessage());

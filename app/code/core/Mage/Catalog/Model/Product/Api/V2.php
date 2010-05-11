@@ -193,7 +193,11 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
         $this->_prepareDataForSave($product, $productData);
 
         if (is_array($errors = $product->validate())) {
-            $this->_fault('data_invalid', implode("\n", $errors));
+            $strErrors = array();
+            foreach($errors as $code=>$error) {
+                $strErrors[] = ($error === true)? Mage::helper('catalog')->__('Attribute "%s" is invalid.', $code) : $error;
+            }
+            $this->_fault('data_invalid', implode("\n", $strErrors));
         }
 
         try {
@@ -246,12 +250,12 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
 
         $this->_prepareDataForSave($product, $productData);
 
-        try {
-            if (is_array($errors = $product->validate())) {
-                $this->_fault('data_invalid', implode("\n", $errors));
+        if (is_array($errors = $product->validate())) {
+            $strErrors = array();
+            foreach($errors as $code=>$error) {
+                $strErrors[] = ($error === true)? Mage::helper('catalog')->__('Value for "%s" is invalid.', $code) : Mage::helper('catalog')->__('Value for "%s" is invalid: %s', $code, $error);
             }
-        } catch (Mage_Core_Exception $e) {
-            $this->_fault('data_invalid', $e->getMessage());
+            $this->_fault('data_invalid', implode("\n", $strErrors));
         }
 
         try {
