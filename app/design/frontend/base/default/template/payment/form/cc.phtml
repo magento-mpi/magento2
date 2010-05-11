@@ -124,11 +124,15 @@
             var elm = $('<?php echo $_code ?>_cc_type');
             if (['SS','SM','SO'].indexOf(elm.value) != -1) {
                 $('<?php echo $_code ?>_cc_type_ss_div').show();
-                $('<?php echo $_code ?>_cc_type_cvv_div').hide();
+                <?php if($this->hasVerification()): ?>
+                    $('<?php echo $_code ?>_cc_type_cvv_div').hide();
+                <?php endif; ?>
                 $('<?php echo $_code ?>_cc_type_exp_div').hide();
             } else {
                 $('<?php echo $_code ?>_cc_type_ss_div').hide();
-                $('<?php echo $_code ?>_cc_type_cvv_div').show();
+                <?php if($this->hasVerification()): ?>
+                    $('<?php echo $_code ?>_cc_type_cvv_div').show();
+                <?php endif; ?>
                 $('<?php echo $_code ?>_cc_type_exp_div').show();
             }
         };
