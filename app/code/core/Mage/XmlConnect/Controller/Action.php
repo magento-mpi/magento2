@@ -34,8 +34,6 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
     const MESSAGE_TYPE_ALERT        = 'alert';
     const MESSAGE_TYPE_PROMPT       = 'prompt';
 
-    const APP_CODE_COOKIE_NAME_CONFIG_XML_PATH = 'global/xmlconnect/applicationCodeCookie/name';
-
     /**
      * Declare content type header
      */
@@ -47,7 +45,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
         /**
          * Load application by specified code and make sure that application exists
          */
-        $cookieName = (string)Mage::getConfig()->getNode(self::APP_CODE_COOKIE_NAME_CONFIG_XML_PATH);
+        $cookieName = Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME;
         $appCode = isset($_COOKIE[$cookieName]) ? (string)$_COOKIE[$cookieName] : '';
         if (!$appCode) {
             $this->_message($this->__('Specified invalid application code'), self::MESSAGE_STATUS_ERROR);

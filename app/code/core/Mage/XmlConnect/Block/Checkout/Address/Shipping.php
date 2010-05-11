@@ -54,7 +54,7 @@ class Mage_XmlConnect_Block_Checkout_Address_Shipping extends Mage_Checkout_Bloc
             if ($addressId == $address->getId()) {
                 $item->addAttribute('selected', 1);
             }
-            $item->addChild('address_id', $address->getId());
+            $this->getChild('address_list')->prepareAddressData($address, $item);
             $item->addChild('address_line', $shippingXmlObj->xmlentities(strip_tags($address->format('oneline_noescape'))));
         }
 

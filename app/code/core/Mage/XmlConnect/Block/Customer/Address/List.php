@@ -51,6 +51,7 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
         'region_id',
         'postcode',
         'country',
+        'country_id',
         'telephone',
         'fax'
     );
@@ -70,13 +71,13 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
             $item = $addressXmlObj->addChild('item');
             $item->addAttribute('label', $this->__('Default Billing Address'));
             $item->addAttribute('default_billing', 1);
-            $this->_prepareAddressData(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_billingAddsses), $item);
+            $this->prepareAddressData(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_billingAddsses), $item);
         }
         if ($_shippingAddsses) {
             $item = $addressXmlObj->addChild('item');
             $item->addAttribute('label', $this->__('Default Shipping Address'));
             $item->addAttribute('default_shipping', 1);
-            $this->_prepareAddressData(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_shippingAddsses), $item);
+            $this->prepareAddressData(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_shippingAddsses), $item);
         }
         $_additionalAddresses = Mage::getSingleton('customer/session')->getCustomer()->getAdditionalAddresses();
         if($_additionalAddresses){
@@ -84,7 +85,7 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
                 $item = $addressXmlObj->addChild('item');
                 $item->addAttribute('label', $this->__('Additional Address'));
                 $item->addAttribute('additional', 1);
-                $this->_prepareAddressData($_address, $item);
+                $this->prepareAddressData($_address, $item);
             }
         }
 
@@ -99,7 +100,7 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
      * @return array
      * @see $this->_addressAttributes
      */
-    protected function _prepareAddressData(Mage_Customer_Model_Address $address, Varien_Simplexml_Element $item)
+    public function prepareAddressData(Mage_Customer_Model_Address $address, Varien_Simplexml_Element $item)
     {
         if (!$address) {
         	return array();

@@ -25,6 +25,15 @@
  */
 class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 {
+
+    /**
+     * Application code cookie name
+     */
+    const APP_CODE_COOKIE_NAME = 'app_code';
+
+    /**
+     * Initialize application
+     */
     protected function _construct()
     {
         $this->_init('xmlconnect/application');

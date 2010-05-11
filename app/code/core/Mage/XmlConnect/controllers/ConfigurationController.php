@@ -32,10 +32,6 @@
 
 class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front_Action
 {
-
-    const APP_CODE_COOKIE_NAME_CONFIG_XML_PATH          = 'global/xmlconnect/applicationCodeCookie/name';
-    const APP_CODE_COOKIE_EXPIRE_OFFSET_CONFIG_XML_PATH = 'global/xmlconnect/applicationCodeCookie/expireOffset';
-
     /**
      * Declare content type header
      */
@@ -52,7 +48,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
      */
     protected function _initApp()
     {
-        $cookieName = (string)Mage::getConfig()->getNode(self::APP_CODE_COOKIE_NAME_CONFIG_XML_PATH);
+        $cookieName = Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME;
         $code = $this->getRequest()->getParam($cookieName);
         $app = Mage::getModel('xmlconnect/application');
         if ($app) {
@@ -87,9 +83,12 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
                     return;
                 }
             }
-            $cookieName = (string)Mage::getConfig()->getNode(self::APP_CODE_COOKIE_NAME_CONFIG_XML_PATH);
+            $cookieName = Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME;
             if (!isset($_COOKIE[$cookieName])) {
-                $cookieExpireOffset = (int)(string)Mage::getConfig()->getNode(self::APP_CODE_COOKIE_EXPIRE_OFFSET_CONFIG_XML_PATH);
+                /**
+                 * @todo add management of cookie expire to application admin panel
+                 */
+                $cookieExpireOffset = 3600 * 24 * 30;
                 setcookie($cookieName, $app->getCode(), time() + $cookieExpireOffset, '/', null, null, true);
             }
             $this->loadLayout(false);
