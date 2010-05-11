@@ -529,6 +529,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     public function getDebugFlag()
     {
-        return $this->_config->debugFlag;
+        return $this->_config->debug;
     }
 }
