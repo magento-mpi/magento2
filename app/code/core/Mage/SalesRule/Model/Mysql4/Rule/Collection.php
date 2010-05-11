@@ -30,6 +30,7 @@ class Mage_SalesRule_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4
     protected function _construct()
     {
         $this->_init('salesrule/rule');
+        $this->_map['fields']['rule_id'] = 'main_table.rule_id';
     }
 
     public function setValidationFilter($websiteId, $customerGroupId, $couponCode='', $now=null)
