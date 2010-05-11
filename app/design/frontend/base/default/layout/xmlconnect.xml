@@ -159,7 +159,9 @@
     <!-- Checkout (OnePage) -->
 
     <xmlconnect_checkout_index>
-        <block type="xmlconnect/checkout_address_billing" name="xmlconnect.checkout.address.billing" output="toHtml"/>
+        <block type="xmlconnect/checkout_address_billing" name="xmlconnect.checkout.address.billing" output="toHtml">
+            <block type="xmlconnect/customer_address_list" name="xmlconnect.customer.address.list" as="address_list" output=""/>
+        </block>
     </xmlconnect_checkout_index>
 
     <xmlconnect_checkout_billingaddress>
