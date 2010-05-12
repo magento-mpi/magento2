@@ -400,31 +400,38 @@ FormElementDependenceController.prototype = {
      *     }
      * }
      * @param object elementsMap
+     * @param object config
      */
-    initialize : function (elementsMap)
+    initialize : function (elementsMap, config)
     {
-        var dependent = false;
+        if (config) {
+            this._config = config;
+        }
         for (var idTo in elementsMap) {
             for (var idFrom in elementsMap[idTo]) {
-                dependent = this.getDependentContainer(idTo);
-                if (!dependent) {
-                    continue;
-                }
-                Event.observe($(idFrom), 'change', this.trackChange.bindAsEventListener(this, dependent, elementsMap[idTo]));
-                this.trackChange(null, dependent, elementsMap[idTo]);
+                Event.observe($(idFrom), 'change', this.trackChange.bindAsEventListener(this, idTo, elementsMap[idTo]));
+                this.trackChange(null, idTo, elementsMap[idTo]);
             }
         }
+    },
+
+    /**
+     * Misc. config options
+     * Keys are underscored intentionally
+     */
+    _config : {
+        levels_up : 1 // how many levels up to travel when toggling element
     },
 
     /**
      * Define whether target element should be toggled and show/hide its row
      *
      * @param object e - event
-     * @param object dependent - dependent container
+     * @param string idTo - id of target element
      * @param valuesFrom - ids of master elements and reference values
      * @return
      */
-    trackChange : function(e, dependent, valuesFrom)
+    trackChange : function(e, idTo, valuesFrom)
     {
         // define whether the target should show up
         var shouldShowUp = true;
@@ -436,42 +443,19 @@ FormElementDependenceController.prototype = {
 
         // toggle target row
         if (shouldShowUp) {
-            dependent.select('input', 'select').each(function (item) {
+            $(idTo).up(this._config.levels_up).select('input', 'select').each(function (item) {
                 if (!item.type || item.type != 'hidden') { // don't touch hidden inputs, bc they may have custom logic
                     item.disabled = false;
                 }
             });
-            dependent.show();
+            $(idTo).up(this._config.levels_up).show();
         } else {
-            dependent.select('input', 'select').each(function (item){
+            $(idTo).up(this._config.levels_up).select('input', 'select').each(function (item){
                 if (!item.type || item.type != 'hidden') { // don't touch hidden inputs, bc they may have custom logic
                     item.disabled = true;
                 }
             });
-            dependent.hide();
+            $(idTo).up(this._config.levels_up).hide();
         }
-    },
-
-    /**
-     * Return DOM element of dependent container
-     * Try to find dependent container in case of custom field renderers
-     *
-     * @param string idTo - id of target element
-     * @return object
-     */
-    getDependentContainer: function(idTo)
-    {
-        // Return parent row if element exists 
-        if ($(idTo) != undefined) {
-            return $(idTo).up(1);
-        }
-
-        // Return row itself 
-        var rowIdTo = 'row_' + idTo;
-        if ($(rowIdTo) != undefined) {
-            return $(rowIdTo);
-        }
-
-        return false;
     }
 }
