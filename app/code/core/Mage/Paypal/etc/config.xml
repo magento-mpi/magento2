@@ -143,6 +143,12 @@
                 <user backend_model="adminhtml/system_config_backend_encrypted"/>
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
             </wpuk>
+            <fetch_reports>
+                <ftp_login backend_model="adminhtml/system_config_backend_encrypted"/>
+                <ftp_password backend_model="adminhtml/system_config_backend_encrypted"/>
+                <schedule>1</schedule>
+                <time>00,00,00</time>
+            </fetch_reports>
         </paypal>
         <payment>
             <paypal_express translate="title">
@@ -158,7 +164,8 @@
                 <model>paypal/direct</model>
                 <title>PayPal Direct</title>
                 <payment_action>Authorization</payment_action>
-                <cctypes>VI,MC,DI,AE,SS</cctypes>
+                <cctypes>VI,MC</cctypes>
+                <useccv>1</useccv>
             </paypal_direct>
             <paypal_standard translate="title">
                 <model>paypal/standard</model>
@@ -170,17 +177,21 @@
                 <title>PayPal Express Payflow Edition</title>
                 <payment_action>Authorization</payment_action>
                 <line_items_enabled>1</line_items_enabled>
+                <visible_on_cart>1</visible_on_cart>
+                <visible_on_product>1</visible_on_product>
             </paypaluk_express>
             <paypaluk_direct translate="title">
                 <title>PayPal Direct Payflow Edition</title>
                 <payment_action>Authorization</payment_action>
-                <cctypes>VI,MC,SM,SO</cctypes>
+                <cctypes>VI,MC</cctypes>
+                <useccv>1</useccv>
             </paypaluk_direct>
             <verisign>
                 <model>paypal/payflowpro</model>
                 <title>Payflow Pro</title>
                 <payment_action>Authorization</payment_action>
-                <cctypes>AE,VI,MC,DI,JCB</cctypes>
+                <cctypes>AE,VI</cctypes>
+                <useccv>1</useccv>
                 <fraud_order_status>holded</fraud_order_status>
                 <tender>C</tender>
                 <verbosity>MEDIUM</verbosity>
