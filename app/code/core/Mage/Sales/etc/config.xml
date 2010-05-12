@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>1.4.0.10</version>
+            <version>1.4.0.11</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -208,6 +208,7 @@
                 <store_id><to_order_item>*</to_order_item></store_id>
                 <hidden_tax_amount><to_order_item>*</to_order_item></hidden_tax_amount>
                 <base_hidden_tax_amount><to_order_item>*</to_order_item></base_hidden_tax_amount>
+                <is_recurring><to_order_item>*</to_order_item></is_recurring>
             </sales_convert_quote_item>
 
             <sales_convert_order>
@@ -392,6 +393,8 @@
                     <creditmemo_grid><table>sales_flat_creditmemo_grid</table></creditmemo_grid>
                     <creditmemo_item><table>sales_flat_creditmemo_item</table></creditmemo_item>
                     <creditmemo_comment><table>sales_flat_creditmemo_comment</table></creditmemo_comment>
+
+                    <recurring_profile><table>sales_recurring_profile</table></recurring_profile>
 
                     <!-- /**
                           * @depraceted since 1.4 order taxes moved to tax module
@@ -592,6 +595,9 @@
                         <special_to_date/>
                         <special_price/>
                         <cost/>
+                        <is_price_nominal/><!-- for totals calculation only -->
+                        <is_recurring/><!-- for totals calculation, placing and processing order -->
+                        <recurring_profile/><!-- for placing order -->
                     </product_attributes>
                 </item>
             </quote>
@@ -861,6 +867,14 @@
                     </sales_quote>
                 </observers>
             </catalog_product_status_update>
+            <catalog_product_edit_form_render_recurring>
+                <observers>
+                    <payment>
+                        <class>sales/observer</class>
+                        <method>prepareProductEditFormRecurringProfile</method>
+                    </payment>
+                </observers>
+            </catalog_product_edit_form_render_recurring>
         </events>
     </adminhtml>
 

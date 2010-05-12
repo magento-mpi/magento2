@@ -69,6 +69,13 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     protected $_canCancelInvoice        = false;
 
     /**
+     * Whether can submit and manage recurring payment profiles
+     *
+     * @var bool
+     */
+    protected $_canManageRecurringProfile = false;
+
+    /**
      * Fields that should be replaced in debug with '***'
      *
      * @var array
@@ -251,6 +258,16 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function canUseForCurrency($currencyCode)
     {
         return true;
+    }
+
+    /**
+     * Whether can submit and manage recurring payment profiles
+     *
+     * @return bool
+     */
+    public function canManageRecurringProfile()
+    {
+        return $this->_canManageRecurringProfile;
     }
 
     /**
@@ -525,6 +542,11 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
             'method_instance' => $this,
             'quote'           => $quote,
         ));
+        if ($quote && $quote->hasRecurringItems()) {
+            if (!$this->_canManageRecurringProfile) {
+                $checkResult->isAvailable = false;
+            }
+        }
         return $checkResult->isAvailable;
     }
 
@@ -583,5 +605,28 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function debugData($debugData)
     {
         $this->_debug($debugData);
+    }
+
+    /**
+     * Validate specified recurring payment profile as eligible for submission
+     *
+     * @param Mage_Payment_Model_Recurring_Profile $profile
+     * @throws Mage_Core_Exception
+     */
+    public function validateRecurringPaymentProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    {
+        Mage::throwException(
+            Mage::helper('payment')->__('This payment method does not support recurring payment profiles.')
+        );
+    }
+
+    /**
+     * Create a specified recurring payment profile on the gateway
+     *
+     * @param Mage_Payment_Model_Recurring_Profile $profile
+     */
+    public function submitRecurringPaymentProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    {
+        self::validateRecurringPaymentProfile($profile);
     }
 }

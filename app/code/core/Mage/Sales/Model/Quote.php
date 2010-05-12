@@ -1207,6 +1207,58 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Whether there are recurring items
+     *
+     * @return bool
+     */
+    public function hasRecurringItems()
+    {
+        foreach ($this->getAllVisibleItems() as $item) {
+            if ($item->getProduct() && $item->getProduct()->isRecurring()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Create recurring payment profiles basing on the current items
+     *
+     * @return array
+     */
+    public function prepareRecurringPaymentProfiles()
+    {
+        // require totals collected?
+
+        $result = array();
+        foreach ($this->getAllVisibleItems() as $item) {
+            $product = $item->getProduct();
+            if (is_object($product) && $product->isRecurring() && is_array($product->getRecurringProfile())) {
+                $profile = Mage::getModel('sales/recurring_profile')
+                    ->addData($product->getRecurringProfile())
+                    ->filterValues()
+                ;
+                if ($this->getPayment() && $this->getPayment()->getMethod()) {
+                    $profile->setMethodInstance($this->getPayment()->getMethodInstance());
+                }
+                // start date TODO: add customer date, if he was allowed to set it
+                $profile->setNearestStartDate();
+
+                // automatically determine amounts, if not specified
+                if (0 >= $profile->getBillingAmount()) {
+                    $profile->setBillingAmount($item->getBaseRowTotal());
+                    $profile->setTaxAmount(abs($item->getBaseRowTotal() - $item->getBaseRowTotalInclTax()));
+                    // shipping - TODO: poke in totals to determine it
+                }
+
+                $profile->setCurrencyCode($this->getBaseCurrencyCode());
+                $result[] = $profile;
+            }
+        }
+        return $result;
+    }
+
     protected function _validateCouponCode()
     {
         $code = $this->_getData('coupon_code');

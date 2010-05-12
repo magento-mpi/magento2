@@ -358,6 +358,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if (count($this) > 0) {
             Mage::dispatchEvent('catalog_product_collection_load_after', array('collection'=>$this));
         }
+
+        foreach ($this as $product) {
+            if ($product->isRecurring() && $profile = $product->getRecurringProfile()) {
+                $product->setRecurringProfile(unserialize($profile));
+            }
+            // Mage::getSilgleton('catalog/product_attribute_backend_recurring')->afterLoad($product);
+        }
+
         return $this;
     }
 
@@ -1573,7 +1581,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected function _applyZeroStoreProductLimitations()
     {
         $filters = $this->_productLimitationFilters;
-        
+
         $conditions = array(
             'cat_pro.product_id=e.entity_id',
             $this->getConnection()->quoteInto('cat_pro.category_id=?', $filters['category_id'])

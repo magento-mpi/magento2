@@ -76,6 +76,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                 );
             }
 
+            if ($recurringProfile = $form->getElement('recurring_profile')) {
+                $recurringProfile->setRenderer(
+                    $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_price_recurring')
+                );
+            }
+
             /**
              * Add new attribute button if not image tab
              */

@@ -1205,6 +1205,16 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->getIsVirtual();
     }
 
+    /**
+     * Whether the product is a recurring payment
+     *
+     * @return bool
+     */
+    public function isRecurring()
+    {
+        return $this->getIsRecurring() == '1';
+    }
+
     public function isSaleable()
     {
         return $this->isSalable();
