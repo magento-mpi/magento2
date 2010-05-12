@@ -92,12 +92,14 @@
                     <div><?php echo $this->getInheritCheckboxHtml('paypal_global_wpp_pe') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_wpp_pe') ?></div>
                 <?php endif; ?>
             </div>
+            <br/>
             <div>
                 <?php echo $this->getCheckboxHtml('paypal_global_express_pe') ?> <label for="paypal_global_express_pe"><?php echo Mage::helper('paypal')->__('With Express Checkout – Accept PayPal payments on my shopping cart and product pages through the Payflow Pro Gateway.')?></label>
                 <?php if ($this->canUseInherit('paypal_global_express_pe')): ?>
                     <div><?php echo $this->getInheritCheckboxHtml('paypal_global_express_pe') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_express_pe') ?></div>
                 <?php endif; ?>
             </div>
+            <br/>
             <div>
                 <?php echo $this->getCheckboxHtml('paypal_global_verisign') ?> <label for="paypal_global_verisign"><?php echo Mage::helper('paypal')->__('With External Merchant Account – Accept credit card payments for a non-PayPal merchant account through the Payflow Pro Gateway')?></label>
                 <?php if ($this->canUseInherit('paypal_global_verisign')): ?>
@@ -114,9 +116,11 @@ decorateTable('paypal_checkout');
 
 Event.observe(window, 'load', function() {
     var pConfig = new PaypalConfig;
+    Element.observe('paypal_account_business_account', 'change', pConfig.trackBusinessAccount.bind(pConfig));
     Element.observe('paypal_account_merchant_country', 'change', pConfig.toggleMethods.bind(pConfig));
     Element.observe('paypal_global_wpp', 'click', pConfig.trackWpp.bind(pConfig));
     Element.observe('paypal_global_wpp_pe', 'click', pConfig.trackWppPe.bind(pConfig));
+    pConfig.trackBusinessAccount();
     pConfig.trackWpp();
     pConfig.trackWppPe();
     pConfig.toggleMethods();
@@ -147,17 +151,26 @@ PaypalConfig.prototype = {
 
     getMethodFieldset: function(method)
     {
-        var fieldsetId = 'paypal_' + this.getMethod(method).get('fieldset');        return $(fieldsetId);
+        var fieldsetId = 'paypal_' + this.getMethod(method).get('fieldset');
+        return $(fieldsetId);
     },
 
     getMethodSwitcher: function(method)
     {
-        var switcherId = 'paypal_global_' + this.getMethod(method).get('switcher');        return $(switcherId);
+        var switcherId = 'paypal_global_' + this.getMethod(method).get('switcher');
+        return $(switcherId);
     },
 
     getMethodSwitcherValue: function(method)
     {
-        var switcherValueId = 'paypal_global_' + this.getMethod(method).get('switcher') + '_value';        return $(switcherValueId);
+        var switcherValueId = 'paypal_global_' + this.getMethod(method).get('switcher') + '_value';
+        return $(switcherValueId);
+    },
+
+    getMethodSwitcherInherit: function(method)
+    {
+        var inheritId = 'paypal_global_' + this.getMethod(method).get('switcher') + '_inherit';
+        return $(inheritId);
     },
 
     markMethodAsReadonly: function(method, readonly)
@@ -166,7 +179,8 @@ PaypalConfig.prototype = {
             readonly = true;
         }
         this.getMethodSwitcherValue(method).value = this.getMethodSwitcher(method).checked ? '1' : '0';
-        this.getMethodSwitcher(method).disabled = readonly;    },
+        this.getMethodSwitcher(method).disabled = readonly;
+    },
 
     enableMethod: function(method, readonly)
     {
@@ -174,6 +188,10 @@ PaypalConfig.prototype = {
         readonly = (readonly == undefined ? false : readonly);
         this.markMethodAsReadonly(method, readonly);
         this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
+        var inherit = this.getMethodSwitcherInherit(method);
+        if (inherit != undefined) {
+            inherit.up().show();
+        }
     },
 
     disableMethod: function(method, readonly)
@@ -182,38 +200,35 @@ PaypalConfig.prototype = {
         readonly = (readonly == undefined ? true : readonly);
         this.markMethodAsReadonly(method, readonly);
         this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
+        var inherit = this.getMethodSwitcherInherit(method);
+        if (inherit != undefined) {
+            inherit.up().hide();
+        }
     },
 
     toggleMethods: function()
     {
         var countryConfig = $H({
             'US':{
-                'allowed_methods': ['ec','wps','wpp','wpppe','ecpe','payflowpro'],
-                'exclude_fields': []
+                'exclude_methods': []
             },
             'CA':{
-                'allowed_methods': ['ec','wps','wpp','payflowpro'],
-                'exclude_fields': []
+                'exclude_methods': ['wpppe','ecpe']
             },
             'GB':{
-                'allowed_methods': ['ec','wps','wpp','wpppe','ecpe'],
-                'exclude_fields': []
+                'exclude_methods': ['payflowpro']
             },
             'AU':{
-                'allowed_methods': ['ec','wps','payflowpro'],
-                'exclude_fields': []
+                'exclude_methods': ['wpp','wpppe','ecpe']
             },
             'NZ':{
-                'allowed_methods': ['ec','wps','payflowpro'],
-                'exclude_fields': []
+                'exclude_methods': ['wpp','wpppe','ecpe']
             },
             'DE':{
-                'allowed_methods': ['ec','wps'],
-                'exclude_fields': []
+                'exclude_methods': ['wpp','wpppe','ecpe','payflowpro']
             },
             'other':{
-                'allowed_methods': ['ec','wps'],
-                'exclude_fields': []
+                'exclude_methods': ['wpp','wpppe','ecpe','payflowpro']
             }
         });
         var country = $('paypal_account_merchant_country').value;
@@ -222,14 +237,23 @@ PaypalConfig.prototype = {
             config = countryConfig.get('other');
         }
 
-        this.getMethods().keys().each(function(m) {
+        var excludeMethods = config.exclude_methods;
+        excludeMethods.each(function(m) {
             this.disableMethod(m);
         }.bind(this));
+    },
 
-        var allowedMethods = config.allowed_methods;
-        allowedMethods.each(function(m) {
-            this.enableMethod(m);
-        }.bind(this));
+    trackBusinessAccount: function()
+    {
+        if (!$('paypal_account_business_account').value) {
+            this.disableMethod('wps', true);
+            this.disableMethod('ec', true);
+            this.disableMethod('ecpe', true);
+        } else {
+            this.markMethodAsReadonly('wps',false);
+            this.markMethodAsReadonly('ec',false);
+            this.markMethodAsReadonly('ecpe',false);
+        }
     },
 
     trackWpp: function()
@@ -239,7 +263,8 @@ PaypalConfig.prototype = {
         var wppGeneralRows = [
             'row_paypal_general_api_username','row_paypal_general_api_password',
             'row_paypal_general_api_signature','row_paypal_general_use_proxy'
-        ];        wppGeneralRows.each(function(e) {
+        ];
+        wppGeneralRows.each(function(e) {
             enabled ? this.enableRow(e) : this.disableRow(e);
         }.bind(this));
         if (enabled && $('paypal_general_use_proxy').value == 1) {
@@ -272,16 +297,19 @@ PaypalConfig.prototype = {
 
         var wppPeGeneralRows = [
             'row_paypal_general_partner','row_paypal_general_user','row_paypal_general_vendor','row_paypal_general_pwd'
-        ];        wppPeGeneralRows.each(function(e) {
+        ];
+        wppPeGeneralRows.each(function(e) {
             enabled ? this.enableRow(e) : this.disableRow(e);
         }.bind(this));
 
         if (enabled) {
             this.enableMethod('wpppe',false);
             this.enableMethod('ecpe',true);
+            this.disableMethod('wps', true);
         } else {
             this.disableMethod('wpppe',false);
             this.markMethodAsReadonly('ecpe',false);
+            this.markMethodAsReadonly('wps',false);
         }
         if (enabled || this.getMethodSwitcher('wpp').checked) {
             this.enableRow('row_paypal_general_heading_api');
