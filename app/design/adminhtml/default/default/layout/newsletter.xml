@@ -36,5 +36,8 @@
 
     <adminhtml_newsletter_queue_edit>
         <update handle="editor"/>
+        <reference name="content">
+            <block type="adminhtml/newsletter_queue_edit" name="queue_edit" template="newsletter/queue/edit.phtml"/>
+        </reference>
     </adminhtml_newsletter_queue_edit>
 </layout>

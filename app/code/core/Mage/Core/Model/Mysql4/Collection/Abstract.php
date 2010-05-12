@@ -148,7 +148,7 @@ abstract class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Co
     /**
      * Init collection select
      *
-     * @return unknown
+     * @return Mage_Core_Model_Mysql4_Collection_Abstract
      */
     protected function _initSelect()
     {

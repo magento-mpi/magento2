@@ -47,6 +47,9 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
     const XML_PATH_CONFIRMATION_FLAG            = 'newsletter/subscription/confirm';
     const XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG   = 'newsletter/subscription/allow_guest_subscribe';
 
+    /**
+     * @deprecated since 1.4.0.1
+     */
     const XML_PATH_SENDING_SET_RETURN_PATH      = Mage_Core_Model_Email_Template::XML_PATH_SENDING_SET_RETURN_PATH;
 
     /**
@@ -510,5 +513,19 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
         $translate->setTranslateInline(true);
 
         return $this;
+    }
+    
+    /**
+     * Retrieve Subscribers Full Name if it was set
+     * 
+     * @return string|null
+     */
+    public function getSubscriberFullName()
+    {
+        $name = null;
+        if ($this->hasCustomerFirstname() || $this->hasCustomerLastname()) {
+            $name = $this->getCustomerFirstname() . ' ' . $this->getCustomerLastname();
+        }
+        return $name;
     }
 }
