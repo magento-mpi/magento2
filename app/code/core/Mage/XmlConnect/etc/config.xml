@@ -172,6 +172,7 @@
                 </more>
             </tabBar>
             <body>
+                <bannerImage></bannerImage>
                 <backgroundColor></backgroundColor>
                 <backgroundImage></backgroundImage>
                 <scrollBackgroundColor></scrollBackgroundColor>
@@ -304,6 +305,7 @@
                 <more> <icon> <heightMax>35</heightMax> </icon> </more>
             </tabBar>
             <body>
+                <bannerImage> <width>320</width> <height>230</height> </bannerImage>
                 <itemBackgroundIcon> <width>90</width> <height>120</height> </itemBackgroundIcon>
                 <backgroundImage> <width>320</width> <height>367</height> </backgroundImage>
                 <rowBackgroundIcon> <width>320</width> <height>90</height> </rowBackgroundIcon>
