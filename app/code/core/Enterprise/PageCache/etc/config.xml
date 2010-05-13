@@ -200,18 +200,18 @@
                     </enterprise_pagecache>
                 </observers>
             </controller_front_send_response_after>
-            <core_block_abstract_to_html_before>
+            <core_block_abstract_to_html_after>
                 <observers>
                     <enterprise_pagecache>
                         <class>enterprise_pagecache/observer</class>
-                        <method>blockCreateAfter</method>
+                        <method>renderBlockPlaceholder</method>
                     </enterprise_pagecache>
                 </observers>
-            </core_block_abstract_to_html_before>
+            </core_block_abstract_to_html_after>
         </events>
         <cache>
             <requests>
-                <!-- 
+                <!--
                     Supported definitions:
                     <module_front_name>processor_model</module_front_name> - all module urls
                     <module_front_name><controller>processor_model</controller></module_front_name> - all module controller actions

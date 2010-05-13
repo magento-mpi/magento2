@@ -26,7 +26,14 @@
 
 class Enterprise_PageCache_Model_Container_Placeholder
 {
-    const HTML_NAME_PATTERN = '/<!--\[(.*?)-->/i';
+    const HTML_NAME_PATTERN = '/<!--\{(.*?)\}-->/i';
+
+    /**
+     * Associative array of definition hash to informative definition
+     *
+     * @var array
+     */
+    protected static $_definitionMap = array();
 
     /**
      * Original placeholder definition based on HTML_NAME_PATTERN
@@ -54,6 +61,9 @@ class Enterprise_PageCache_Model_Container_Placeholder
      */
     public function __construct($definition)
     {
+        if ($definition && array_key_exists($definition, self::$_definitionMap)) {
+            $definition = self::$_definitionMap[$definition];
+        }
         $this->_definition = $definition;
         $definition     = explode(' ', $definition);
         $this->_name    = $definition[0];
@@ -100,8 +110,7 @@ class Enterprise_PageCache_Model_Container_Placeholder
      */
     public function getPattern()
     {
-        $def = preg_quote($this->_definition, '/');
-        return "/<!--\[{$def}-->(.*?)<!--{$this->_name}\]-->/ims";
+        return '/' . preg_quote($this->getStartTag(), '/') . '(.*?)' . preg_quote($this->getEndTag(), '/') . '/ims';
     }
 
     /**
@@ -115,7 +124,7 @@ class Enterprise_PageCache_Model_Container_Placeholder
         $containerClass = 'container="'.$this->getContainerClass().'"';
         $def = str_replace('container="'.$container.'"', $containerClass, $def);
         $def = str_replace('container=\''.$container.'\'', $containerClass, $def);
-        return "<!--[{$def}-->";
+        return '<!--{' . $def . '}-->';
     }
 
     /**
@@ -131,12 +140,28 @@ class Enterprise_PageCache_Model_Container_Placeholder
     }
 
     /**
+     * Retrieve placeholder definition hash
+     *
+     * @return string
+     */
+    protected function _getDefinitionHash()
+    {
+        $definition = $this->getDefinition();
+        $result = array_search($definition, self::$_definitionMap);
+        if ($result === false) {
+            $result = $this->getName() . '_' . md5($definition);
+            self::$_definitionMap[$result] = $definition;
+        }
+        return $result;
+    }
+
+    /**
      * Get placeholder start tag for block html generation
      * @return string
      */
     public function getStartTag()
     {
-        return '!--['.$this->getDefinition().'--';
+        return '<!--{' . $this->_getDefinitionHash() . '}-->';
     }
 
     /**
@@ -145,6 +170,6 @@ class Enterprise_PageCache_Model_Container_Placeholder
      */
     public function getEndTag()
     {
-        return '!--'.$this->getName().']--';
+        return '<!--/{' . $this->_getDefinitionHash() . '}-->';
     }
 }

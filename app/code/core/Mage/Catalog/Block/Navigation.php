@@ -52,17 +52,21 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
     }
 
     /**
-     * Retrieve Key for caching block content
+     * Get Key pieces for caching block content
      *
-     * @return string
+     * @return array
      */
-    public function getCacheKey()
+    public function getCacheKeyInfo()
     {
-        return 'CATALOG_NAVIGATION_' . Mage::app()->getStore()->getId()
-            . '_' . Mage::getDesign()->getPackageName()
-            . '_' . Mage::getDesign()->getTheme('template')
-            . '_' . Mage::getSingleton('customer/session')->getCustomerGroupId()
-            . '_' . md5($this->getTemplate() . $this->getCurrenCategoryKey());
+        return array(
+            'CATALOG_NAVIGATION',
+            Mage::app()->getStore()->getId(),
+            Mage::getDesign()->getPackageName(),
+            Mage::getDesign()->getTheme('template'),
+            Mage::getSingleton('customer/session')->getCustomerGroupId(),
+            'template' => $this->getTemplate(),
+            $this->getCurrenCategoryKey()
+        );
     }
 
     public function getCurrenCategoryKey()

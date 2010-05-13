@@ -45,16 +45,19 @@ class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
     }
 
     /**
-     * Retrieve Key for caching block content
+     * Get cache key informative items
      *
-     * @return string
+     * @return array
      */
-    public function getCacheKey()
+    public function getCacheKeyInfo()
     {
-        return 'PAGE_FOOTER_' . Mage::app()->getStore()->getId()
-            . '_' . (int)Mage::app()->getStore()->isCurrentlySecure()
-            . '_' . Mage::getDesign()->getPackageName()
-            . '_' . Mage::getDesign()->getTheme('template');
+        return array(
+            'PAGE_FOOTER',
+            Mage::app()->getStore()->getId(),
+            (int)Mage::app()->getStore()->isCurrentlySecure(),
+            Mage::getDesign()->getPackageName(),
+            Mage::getDesign()->getTheme('template')
+        );
     }
 
     public function setCopyright($copyright)

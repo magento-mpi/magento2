@@ -48,12 +48,6 @@ class Enterprise_PageCache_Model_Processor_Default
         if (Mage::getSingleton('core/session')->getNoCacheFlag()) {
             return false;
         }
-        /**
-         * Page can't be cached if customer is logged in
-         */
-        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
-            return false;
-        }
         return true;
     }
 

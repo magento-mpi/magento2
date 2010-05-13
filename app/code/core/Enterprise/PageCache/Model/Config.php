@@ -90,12 +90,11 @@ class Enterprise_PageCache_Model_Config extends Varien_Simplexml_Config
             $placeholder = $this->_placeholders[$type]['code']
                 . ' container="'.$this->_placeholders[$type]['container'].'"'
                 . ' block="' . get_class($block) . '"';
-            if ($block->getTemplate()) {
-                $placeholder.= ' template="' . $block->getTemplate() . '"';
-            }
-            if ($this->_placeholders[$type]['cache_lifetime'] && $block->getCacheKey()) {
-                $placeholder.= ' cache_id="' . $block->getCacheKey() . '"';
-                $placeholder.= ' cache_lifetime="' . $this->_placeholders[$type]['cache_lifetime'] . '"';
+            $placeholder.= ' cache_id="' . $block->getCacheKey() . '"';
+            foreach ($block->getCacheKeyInfo() as $k => $v) {
+                if (is_string($k) && !empty($k)) {
+                    $placeholder .= ' ' . $k . '="' . $v . '"';
+                }
             }
             $placeholder = Mage::getModel('enterprise_pagecache/container_placeholder', $placeholder);
             return $placeholder;

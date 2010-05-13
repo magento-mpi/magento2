@@ -93,6 +93,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
      */
     protected function _applyToContent(&$content, $containerContent)
     {
+        $containerContent = $this->_placeholder->getStartTag() . $containerContent . $this->_placeholder->getEndTag();
         $content = str_replace($this->_placeholder->getReplacer(), $containerContent, $content);
     }
 
@@ -114,10 +115,13 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
      */
     protected function _saveCache($data, $id, $tags = array())
     {
-        if ($this->_placeholder->getAttribute('cache_lifetime')) {
-            $tags[] = Enterprise_PageCache_Model_Processor::CACHE_TAG;
-            Mage::app()->getCache()->save($data, $id, $tags, $this->_placeholder->getAttribute('cache_lifetime'));
+        $tags[] = Enterprise_PageCache_Model_Processor::CACHE_TAG;
+        $lifetime = $this->_placeholder->getAttribute('cache_lifetime');
+        if (!$lifetime) {
+            $lifetime = false;
+            //$lifetime = 30 * 24 * 60 * 60;
         }
+        Mage::app()->getCache()->save($data, $id, $tags, $lifetime);
         return $this;
     }
 }

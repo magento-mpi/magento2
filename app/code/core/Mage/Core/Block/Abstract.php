@@ -673,7 +673,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
             }
         }
         $html = $this->_afterToHtml($html);
-        Mage::dispatchEvent('core_block_abstract_to_html_after', array('block' => $this));
 
         /**
          * Check framing options
@@ -681,6 +680,18 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         if ($this->_frameOpenTag) {
             $html = '<'.$this->_frameOpenTag.'>'.$html.'<'.$this->_frameCloseTag.'>';
         }
+
+        /**
+         * Use single transport object instance for all blocks
+         */
+        static $transport;
+        if ($transport === null) {
+            $transport = new Varien_Object;
+        }
+        $transport->setHtml($html);
+        Mage::dispatchEvent('core_block_abstract_to_html_after', array('block' => $this, 'transport' => $transport));
+        $html = $transport->getHtml();
+
         return $html;
     }
 
@@ -995,16 +1006,38 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
+     * Get cache key informative items
+     * Provide string array key to share specific info item with FPC placeholder
+     *
+     * @return array
+     */
+    public function getCacheKeyInfo()
+    {
+        return array(
+            $this->getNameInLayout()
+        );
+    }
+
+    /**
      * Get Key for caching block content
      *
      * @return string
      */
     public function getCacheKey()
     {
-        if (!$this->hasData('cache_key')) {
-            $this->setCacheKey($this->getNameInLayout());
+        if ($this->hasData('cache_key')) {
+            return $this->getData('cache_key');
         }
-        return $this->getData('cache_key');
+        /**
+         * don't prevent recalculation by saving generated cache key
+         * because of ability to render single block instance with different data
+         */
+        $key = $this->getCacheKeyInfo();
+        //ksort($key);  // ignore order
+        $key = array_values($key);  // ignore array keys
+        $key = implode('|', $key);
+        $key = sha1($key);
+        return $key;
     }
 
     /**

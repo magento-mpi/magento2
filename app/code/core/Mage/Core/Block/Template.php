@@ -284,20 +284,17 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     }
 
     /**
-     * Get Key for caching block content
+     * Get cache key informative items
      *
-     * @return string
+     * @return array
      */
-    public function getCacheKey()
+    public function getCacheKeyInfo()
     {
-        if (!$this->hasData('cache_key')) {
-            $key = array(
-                'BLOCK_TPL',
-                Mage::app()->getStore()->getCode(),
-                $this->getTemplateFile()
-            );
-            $this->setCacheKey(implode(':', $key));
-        }
-        return $this->getData('cache_key');
+        return array(
+            'BLOCK_TPL',
+            Mage::app()->getStore()->getCode(),
+            $this->getTemplateFile(),
+            'template' => $this->getTemplate()
+        );
     }
 }

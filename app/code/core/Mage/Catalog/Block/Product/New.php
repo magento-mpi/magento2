@@ -57,18 +57,21 @@ class Mage_Catalog_Block_Product_New extends Mage_Catalog_Block_Product_Abstract
     }
 
     /**
-     * Retrieve Key for caching block content
+     * Get Key pieces for caching block content
      *
-     * @return string
+     * @return array
      */
-    public function getCacheKey()
+    public function getCacheKeyInfo()
     {
-        return 'CATALOG_PRODUCT_NEW_' . Mage::app()->getStore()->getId()
-            . '_' . Mage::getDesign()->getPackageName()
-            . '_' . Mage::getDesign()->getTheme('template')
-            . '_' . Mage::getSingleton('customer/session')->getCustomerGroupId()
-            . '_' . md5($this->getTemplate())
-            . '_' . $this->getProductsCount();
+        return array(
+           'CATALOG_PRODUCT_NEW',
+           Mage::app()->getStore()->getId(),
+           Mage::getDesign()->getPackageName(),
+           Mage::getDesign()->getTheme('template'),
+           Mage::getSingleton('customer/session')->getCustomerGroupId(),
+           'template' => $this->getTemplate(),
+           $this->getProductsCount()
+        );
     }
 
     /**

@@ -96,8 +96,8 @@ class Enterprise_PageCache_Model_Observer
         } elseif ($action) {
             Mage::getSingleton('catalog/session')->setParamsMemorizeDisabled(true);
             if ($request->isPost() || in_array($action->getFullActionName(), $this->_cacheDisableActions)) {
-                Mage::getSingleton('core/session')->setNoCacheFlag(1);
-                $cookie->set($cookieName, 1);
+                //Mage::getSingleton('core/session')->setNoCacheFlag(1);
+                //$cookie->set($cookieName, 1);
             }
         }
         /**
@@ -219,8 +219,31 @@ class Enterprise_PageCache_Model_Observer
     }
 
     /**
-     * Check cache settings for specific block type and associate block to container if needed
+     * Render placeholder tags around the block if needed
+     *
      * @param Varien_Event_Observer $observer
+     */
+    public function renderBlockPlaceholder(Varien_Event_Observer $observer)
+    {
+        if (!$this->_isEnabled) {
+            return $this;
+        }
+        $block = $observer->getEvent()->getBlock();
+        $transport = $observer->getEvent()->getTransport();
+        $placeholder = $this->_config->getBlockPlaceholder($block);
+        if ($transport && $placeholder) {
+            $blockHtml = $transport->getHtml();
+            $blockHtml = $placeholder->getStartTag() . $blockHtml . $placeholder->getEndTag();
+            $transport->setHtml($blockHtml);
+        }
+        return $this;
+    }
+
+    /**
+     * Check cache settings for specific block type and associate block to container if needed
+     *
+     * @param Varien_Event_Observer $observer
+     * @deprecated after 1.4.1.0-alpha1
      */
     public function blockCreateAfter(Varien_Event_Observer $observer)
     {
