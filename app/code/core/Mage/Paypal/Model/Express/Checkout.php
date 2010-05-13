@@ -208,7 +208,7 @@ class Mage_Paypal_Model_Express_Checkout
         }
 
         // add shipping options
-        if ($this->_config->lineItemsEnabled && $this->_config->transferShippingOptions) {
+        if ($address && $this->_config->lineItemsEnabled && $this->_config->transferShippingOptions) {
             $options = Mage::helper('paypal')->prepareShippingOptions($address);
             if (!empty($options)) { // PayPal must fix bug with empty shipping rates
                 $url = Mage::getUrl('*/*/callbackshippingoptions', array('quote_id' => $this->_quote->getId()));
@@ -300,15 +300,15 @@ class Mage_Paypal_Model_Express_Checkout
         $callbackRequestShippingAddress = $this->_getApi()->getCallbackRequestShippingAddress();
         $quoteShippingAddress = $this->_quote->getShippingAddress();
 
+        $options = array();
         if ((!$this->_quote->getIsVirtual()) && $callbackRequestShippingAddress && $quoteShippingAddress) {
             foreach ($callbackRequestShippingAddress->getExportedKeys() as $key) {
                 $quoteShippingAddress->setDataUsingMethod($key, $callbackRequestShippingAddress->getData($key));
             }
             $quoteShippingAddress->setCollectShippingRates(true);
             $quoteShippingAddress->collectShippingRates();
+            $options = Mage::helper('paypal')->prepareShippingOptions($quoteShippingAddress);
         }
-
-        $options = Mage::helper('paypal')->prepareShippingOptions($quoteShippingAddress);
 
         $response = $this->_getApi()
             ->setShippingOptions($options)
