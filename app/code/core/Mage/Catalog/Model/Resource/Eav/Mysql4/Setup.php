@@ -1202,7 +1202,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'apply_to'          => 'simple,virtual',
                         'is_configurable'   => false
                     ),
-                    'is_recurring', array(
+                    'is_recurring' => array(
                         'group'             => 'Prices',
                         'type'              => 'int',
                         'backend'           => '',
@@ -1225,7 +1225,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'apply_to'          => 'simple,virtual',
                         'is_configurable'   => false
                     ),
-                    'recurring_profile', array(
+                    'recurring_profile' => array(
                         'group'             => 'Prices',
                         'type'              => 'text',
                         'backend'           => 'catalog/product_attribute_backend_recurring',
