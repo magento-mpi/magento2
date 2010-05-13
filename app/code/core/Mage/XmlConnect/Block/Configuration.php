@@ -122,8 +122,17 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
     {
         $conf = Mage::getStoreConfig('defaultConfiguration');
         $xml = new Varien_Simplexml_Element('<configuration></configuration>');
-        $xml->addChild('updateTimeUTC', strtotime($this->_app->getUpdatedAt()));
         $this->_buildRecursive($xml, $conf);
+
+        $xml->addChild('updateTimeUTC', strtotime($this->_app->getUpdatedAt()));
+
+        $maxRecepients = 0;
+        if ( Mage::getStoreConfig('sendfriend/email/enabled') ) {
+            $maxRecepients = Mage::getStoreConfig('sendfriend/email/max_recipients');
+        }
+        $email = $xml->addChild('emailToFriend');
+        $email->addChild('maxRecepients', $maxRecepients);
+
         return $xml->asNiceXml();
     }
 }
