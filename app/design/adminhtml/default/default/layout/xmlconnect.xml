@@ -40,8 +40,12 @@
                     <block type="xmlconnect/adminhtml_mobile_edit_tab_design_form" name="mobile_edit_tab_design_form" as="edit_form" />
                     <block type="xmlconnect/adminhtml_mobile_edit_tab_design_theme" name="mobile_edit_tab_design_theme" as="theme_chooser" />
                 </block>
+                <block type="xmlconnect/adminhtml_mobile_edit_tab_content" name="mobile_edit_tab_content"/>
+                <block type="xmlconnect/adminhtml_mobile_edit_tab_submission" name="mobile_edit_tab_submission"/>
                 <action method="addTab"><name>general_section</name><block>mobile_edit_tab_general</block></action>
                 <action method="addTab"><name>design_section</name><block>mobile_edit_tab_design</block></action>
+                <action method="addTab"><name>content_section</name><block>mobile_edit_tab_content</block></action>
+                <action method="addTab"><name>submission_section</name><block>mobile_edit_tab_submission</block></action>
             </block>
         </reference>
         <reference name="content">

@@ -54,29 +54,6 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
     }
 
     /**
-     * Get configuration value for current application
-     *
-     * @param string $path
-     * @return string
-     */
-    protected function _getConf($path) {
-        $isImage = FALSE;
-        if ((substr($path, -5) == '/icon') ||
-            (substr($path, -4) == 'Icon') ||
-            (substr($path, -5) == 'Image')) {
-            $isImage = TRUE;
-        }
-        if( $isImage && !empty($this->_app['conf/' . $path]) ) {
-            $url = $this->_app['conf/' . $path];
-            if (strpos($url, '://') === FALSE ) {
-                $url = Mage::getBaseUrl('media') . 'xmlconnect/' . $url;
-            }
-            return $url;
-        }
-        return $this->_app['conf/' . $path];
-    }
-
-    /**
      * Recursively build XML configuration tree
      *
      * @param Varien_Simplexml_Element $section
@@ -84,30 +61,31 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
      * @param string $prefix
      * @return Varien_Simplexml_Element
      */
-    protected function _buildRecursive($section, $subtree, $prefix = '')
+    protected function _buildRecursive($section, $subtree)
     {
         foreach ($subtree as $key => $value) {
             if (is_array($value)) {
                 if (strtolower(substr($key, -4)) == 'font') {
-                    $name = $section->xmlentities(trim($this->_getConf($prefix . $key . '/name')));
-                    $size = $section->xmlentities(trim($this->_getConf($prefix . $key . '/size')));
-                    $color = $section->xmlentities(trim($this->_getConf($prefix . $key . '/color')));
-                    if (empty($name) || empty($size) || empty($color)) {
+                    if (empty($value['name']) || empty($value['size']) || empty($value['color'])) {
                         continue;
                     }
                     $font = $section->addChild($key);
-                    $font->addAttribute('name', $name);
-                    $font->addAttribute('size', $size);
-                    $font->addAttribute('color', $color);
+                    $font->addAttribute('name', $value['name']);
+                    $font->addAttribute('size', $value['size']);
+                    $font->addAttribute('color', $value['color']);
                 }
                 else {
                     $subsection = $section->addChild($key);
-                    $this->_buildRecursive($subsection, $value, $prefix . $key . '/');
+                    $this->_buildRecursive($subsection, $value);
                 }
             } else {
-                $conf = $this->_getConf($prefix . $key);
-                if (!empty($conf)) {
-                    $section->addChild($key, $conf);
+                if (!empty($value)) {
+                    if ((substr($key, -4) == 'icon') ||
+                        (substr($key, -4) == 'Icon') ||
+                        (substr($key, -5) == 'Image')) {
+                        $value = Mage::getBaseUrl('media') . 'xmlconnect/' . $value;
+                    }
+                    $section->addChild($key, $value);
                 }
             }
         }
@@ -120,9 +98,8 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
      */
     protected function _toHtml()
     {
-        $conf = Mage::getStoreConfig('defaultConfiguration');
         $xml = new Varien_Simplexml_Element('<configuration></configuration>');
-        $this->_buildRecursive($xml, $conf);
+        $this->_buildRecursive($xml, $this->_app->getRenderConf());
 
         $xml->addChild('updateTimeUTC', strtotime($this->_app->getUpdatedAt()));
 

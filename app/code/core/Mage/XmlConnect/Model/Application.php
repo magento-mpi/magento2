@@ -40,53 +40,97 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Load data (flat array) for Varien_Data_Form
+     *
+     * @return array
+     */
+    public function getFormData()
+    {
+        return $this->_flatArray($this->getData());
+    }
+
+    /**
+     * Load data (flat array) for Varien_Data_Form
+     *
+     * @param array $subtree
+     * @param string $prefix
+     * @return array
+     */
+    protected function _flatArray($subtree, $prefix=null)
+    {
+        $result = array();
+        foreach ($subtree as $key => $value) {
+            if (is_null($prefix)) {
+                $name = $key;
+            }
+            else {
+                $name = $prefix . '[' . $key . ']';
+            }
+
+            if (is_array($value)) {
+                $result = array_merge($result, $this->_flatArray($value, $name));
+            }
+            else {
+                $result[$name] = $value;
+            }
+        }
+        return $result;
+    }
+
+    public function loadDefaultConfiguration()
+    {
+        $this->setType('iPhone');
+    }
+
+    /**
      * Load application configuration
      *
      * @return array
      */
     public function prepareConfiguration()
     {
-        $conf = array();
-        $keys = array_keys($this->_data);
-        foreach ($keys as $key) {
-            if (substr($key, 0, 5) == 'conf/') {
-                $conf[substr($key, 5)] = $this->_data[$key];
-            }
-        }
-        return $conf;
+        return $this->getData('conf');
     }
 
-    /**
-     * Load pre-set application configuration
-     *
-     * @return array
-     */
-    public function loadDefaultConfiguration()
+    public function getRenderConf()
     {
-        $conf = Mage::getStoreConfig('defaultConfiguration');
-        $conf = $this->_getFlatConfig($conf, 'conf/');
-        $this->addData($conf);
-        return TRUE;
-    }
+        $result = $this->_data['conf']['native'];
+        $special = $this->_data['conf']['special'];
 
-    /**
-     * Merge configuration tree into flat array
-     *
-     * @param  array $config
-     * @param  string $prefix
-     * @return array
-     */
-    private function _getFlatConfig($config, $prefix = '') {
-        $result = array();
-        foreach ($config as $key => $value) {
-            if (is_scalar($value)) {
-                $result[$prefix . $key] = $value;
-            }
-            else {
-                $child = $this->_getFlatConfig($value, $prefix . $key . '/');
-                $result = array_merge($result, $child);
-            }
+        if (!empty($special['primaryBodyColor'])) {
+            $result['body']['backgroundColor'] = $special['primaryBodyColor'];
         }
+
+        if (!empty($special['secondaryBodyColor'])) {
+            $result['body']['scrollBackgroundColor'] = $special['secondaryBodyColor'];
+        }
+
+        if (!empty($special['bodyTextFont']['name'])) {
+            $result['body']['categoryItemFont'] = $special['bodyTextFont'];
+            $result['body']['copyrightFont'] = $special['bodyTextFont'];
+            $result['body']['versionFont'] = $special['bodyTextFont'];
+            $result['body']['productButtonFont'] = $special['bodyTextFont'];
+            $result['body']['nameFont'] = $special['bodyTextFont'];
+            $result['body']['priceFont'] = $special['bodyTextFont'];
+            $result['body']['plainFont'] = $special['bodyTextFont'];
+            $result['body']['textFont'] = $special['bodyTextFont'];
+            $result['body']['ratingHeaderFont'] = $special['bodyTextFont'];
+            $result['body']['ratingHeaderFont'] = $special['bodyTextFont'];
+            $result['filters']['nameFont'] = $special['bodyTextFont'];
+            $result['filters']['valueFont'] = $special['bodyTextFont'];
+            $result['appliedFilters']['font'] = $special['bodyTextFont'];
+            $result['appliedFilters']['counfFont'] = $special['bodyTextFont'];
+            $result['appliedFilters']['titleFont'] = $special['bodyTextFont'];
+        }
+
+        if (!empty($special['headerBackgroundColor'])) {
+            $result['navigationBar']['backgroundColor'] = $special['headerBackgroundColor'];
+        }
+
+        if (!empty($special['headerTextFont']['name'])) {
+            $result['navigationBar']['font'] = $special['headerTextFont'];
+        }
+
         return $result;
     }
 
@@ -113,11 +157,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $configuration = $this->getConfiguration();
         if (!empty($configuration)) {
             $configuration = unserialize($configuration);
-            if (is_array($configuration)) {
-                foreach($configuration as $key => $value) {
-                    $this->setData('conf/' . $key, $value);
-                }
-            }
+            $this->setData('conf', $configuration);
         }
         return $this;
     }
@@ -135,22 +175,32 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $uploader->setAllowRenameFiles(true);
         $uploader->save($upload_dir);
 
-        $this->setData($field, $uploader->getUploadedFileName());
+        /**
+         * Ugly hack to avoid $_FILES[..]['name'][..][..]
+         */
+        $nameParts = explode('/', $field);
+        array_shift($nameParts);
+        $target =& $this->_data['conf'];
+        foreach($nameParts as $next) {
+            if (!isset($target[$next])) {
+                $target[$next] = array();
+            }
+            $target =& $target[$next];
+        }
+        $target = $uploader->getUploadedFileName();
 
-        $this->_handleResize($field, $upload_dir . DS . $uploader->getUploadedFileName());
+        $this->_handleResize($nameParts, $upload_dir . DS . $uploader->getUploadedFileName());
     }
 
     /**
      * Resize uploaded file
      *
-     * @param string $field
+     * @param array $nameParts
      * @param string $file
      */
-    protected function _handleResize($field, $file)
+    protected function _handleResize($nameParts, $file)
     {
-        $conf = Mage::getStoreConfig('imageLimits');
-        $nameParts = explode('/', $field);
-        array_shift($nameParts);
+        $conf = Mage::getStoreConfig('imageLimits/'.$this->getType());
         while (count($nameParts)) {
             $next = array_shift($nameParts);
             if (isset($conf[$next])) {

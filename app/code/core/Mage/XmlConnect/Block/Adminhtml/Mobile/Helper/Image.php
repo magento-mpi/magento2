@@ -39,8 +39,34 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Image extends Varien_Data_Fo
         return $url;
     }
 
-    protected function _getDeleteCheckbox()
+    public function getUploadName()
     {
-        return '';
+        /**
+         * Ugly hack to avoid $_FILES[..]['name'][..][..]
+         */
+        $name = $this->getName();
+        $name = strtr($name, array('[' => '/', ']' => ''));
+        return $name;
     }
+
+    public function getElementHtml()
+    {
+        $html = '';
+
+        if ($this->getValue()) {
+            $url = $this->_getUrl();
+            $html = '<a href="'.$url.'" onclick="imagePreview(\''.$this->getHtmlId().'_image\'); return false;"><img src="'.$url.'" id="'.$this->getHtmlId().'_image" title="'.$this->getValue().'" alt="'.$this->getValue().'" height="22" width="22" class="small-image-preview v-middle" /></a> ';
+        }
+
+        $html .= '<input id="'.$this->getHtmlId().'_hidden" name="'.$this->getName()
+             .'" value="'.$this->getEscapedValue().'" type="hidden" />';
+
+        $this->setClass('input-file');
+        $html .= '<input id="'.$this->getHtmlId().'" name="'.$this->getUploadName()
+             .'" value="'.$this->getEscapedValue().'" '.$this->serialize($this->getHtmlAttributes()).'/>'."\n";
+        $html.= $this->getAfterElementHtml();
+
+        return $html;
+    }
+
 }

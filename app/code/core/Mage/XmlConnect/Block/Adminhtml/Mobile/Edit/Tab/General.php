@@ -74,6 +74,12 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
             ));
             $model->setStoreId(Mage::app()->getStore(true)->getId());
         }
+
+        $fieldset->addField('device_type', 'note', array(
+            'text'      => $model->getType(),
+            'label'     => $this->__('Device type'),
+        ));
+
         $form->setValues($model->getData());
         $this->setForm($form);
         return parent::_prepareForm();
@@ -86,7 +92,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
      */
     public function getTabLabel()
     {
-        return $this->__('Application Information');
+        return $this->__('Account Dashboard');
     }
 
     /**
@@ -96,7 +102,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
      */
     public function getTabTitle()
     {
-        return $this->__('Application Information');
+        return $this->__('Account Dashboard');
     }
 
     /**
@@ -112,7 +118,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
     /**
      * Returns status flag about this tab hidden or not
      *
-     * @return true
+     * @return false
      */
     public function isHidden()
     {

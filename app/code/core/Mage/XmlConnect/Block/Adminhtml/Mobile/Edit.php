@@ -37,6 +37,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
         parent::__construct();
 
         $this->_updateButton('save', 'label', $this->__('Save Application'));
+
         $this->_addButton('saveandcontinue', array(
             'label'     => $this->__('Save and Continue Edit'),
             'onclick'   => 'saveAndContinueEdit()',
@@ -44,6 +45,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
         ), -100);
         $this->_formScripts[] = 'function saveAndContinueEdit() {
             editForm.submit($(\'edit_form\').action + \'back/edit/\');}';
+
+        $this->_addButton('submitapp', array(
+            'label'     => $this->__('Submit App'),
+            'onclick'   => 'submitApp()',
+            'class'     => 'save',
+        ), -100);
+        $this->_formScripts[] = 'function submitApp() { alert(\'FIXME\'); }';
 
         $this->_updateButton('delete', 'label', $this->__('Delete Application'));
     }

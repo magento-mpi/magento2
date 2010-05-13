@@ -23,14 +23,13 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminhtml_Block_Template
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     public function __construct()
     {
         parent::__construct();
         $this->setShowGlobalIcon(true);
-        $this->setTemplate('xmlconnect/design.phtml');
     }
 
     /**
@@ -40,7 +39,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
      */
     public function getTabLabel()
     {
-        return $this->__('Appearance');
+        return $this->__('Submission');
     }
 
     /**
@@ -50,7 +49,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
      */
     public function getTabTitle()
     {
-        return $this->__('Appearance');
+        return $this->__('Submission');
     }
 
     /**
@@ -66,7 +65,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
     /**
      * Returns status flag about this tab hidden or not
      *
-     * @return true
+     * @return false
      */
     public function isHidden()
     {
