@@ -47,6 +47,22 @@ class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
     protected $_ipnAction = 'paypaluk/ipn/express';
 
     /**
+     * Custom getter for payment configuration
+     *
+     * @param string $field
+     * @param int $storeId
+     * @return mixed
+     */
+    public function getConfigData($field, $storeId = null)
+    {
+        $value = parent::getConfigData($field, $storeId);
+        if ($field == 'visible_on_cart' || $field == 'visible_on_product') {
+            $value = (bool)$value && !Mage::getStoreConfigFlag('payment/'.Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS.'/'.$field, $storeId);
+        }
+        return $value;
+    }
+
+    /**
      * Import payment info to payment
      *
      * @param Mage_Paypal_Model_Api_Nvp

@@ -117,6 +117,19 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
+     * Check whether payment method can be used
+     * @param Mage_Sales_Model_Quote
+     * @return bool
+     */
+    public function isAvailable($quote = null)
+    {
+        if ($this->_pro->getConfig()->isMethodAvailable() && parent::isAvailable($quote)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Custom getter for payment configuration
      *
      * @param string $field
@@ -125,11 +138,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function getConfigData($field, $storeId = null)
     {
-        $value = $this->_pro->getConfig()->$field;
-        if ($field == 'active') {
-            $value = (bool)$value && $this->_pro->getConfig()->isMethodSupportedForCountry();
-        }
-        return $value;
+        return $this->_pro->getConfig()->$field;
     }
 
     /**

@@ -177,12 +177,25 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     {
         if (null === $this->_config) {
             $params = array($this->_code);
-            if ($this->getStore()) {
-                $params[] = (int)$this->getStore();
+            if ($store = $this->getStore()) {
+                $params[] = is_object($store) ? $store->getId() : $store;
             }
             $this->_config = Mage::getModel('paypal/config', $params);
         }
         return $this->_config;
+    }
+
+    /**
+     * Check whether payment method can be used
+     * @param Mage_Sales_Model_Quote
+     * @return bool
+     */
+    public function isAvailable($quote = null)
+    {
+        if ($this->getConfig()->isMethodAvailable() && parent::isAvailable($quote)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -194,11 +207,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
      */
     public function getConfigData($field, $storeId = null)
     {
-        $value = $this->getConfig()->$field;
-        if ($field == 'active') {
-            $value = (bool)$value && $this->getConfig()->isMethodSupportedForCountry();
-        }
-        return $value;
+        return $this->getConfig()->$field;
     }
 
     /**

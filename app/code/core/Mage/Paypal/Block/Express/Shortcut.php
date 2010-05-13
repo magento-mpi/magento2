@@ -146,13 +146,13 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
      */
     protected function _toHtml()
     {
-        $context = ($this->getContext() ? $this->getContext() : 'visibleOnCart');
-        if (!$this->_getProInstance()->getConfig()->$context) {
+        $context = ($this->getContext() ? $this->getContext() : 'visible_on_cart');
+        $methodInstance = Mage::getModel($this->_modelType, array($this->_pro));
+        if (!$methodInstance->getConfigData($context)) {
             return '';
         }
         $quote = Mage::getSingleton('checkout/session')->getQuote();
-        if (!$quote->validateMinimumAmount()
-            || !Mage::getModel($this->_modelType, array($this->_pro))->isAvailable($quote)) {
+        if (!$quote->validateMinimumAmount() || !$methodInstance->isAvailable($quote)) {
             return '';
         }
         return parent::_toHtml();

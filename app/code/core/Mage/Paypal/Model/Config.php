@@ -241,6 +241,71 @@ class Mage_Paypal_Model_Config
     }
 
     /**
+     * Check whether method active in configuration and supported for merchant country or not
+     *
+     * @param string $method Method code
+     * @return bool
+     */
+    public function isMethodActive($method)
+    {
+        if ($this->isMethodSupportedForCountry($method)
+            && Mage::getStoreConfigFlag("payment/{$method}/active", $this->_storeId))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check whether method available for checkout or not
+     * Logic based on merchant country, methods dependence
+     *
+     * @param string $method Method code
+     * @return bool
+     */
+    public function isMethodAvailable($methodCode = null)
+    {
+        if ($methodCode === null) {
+            $methodCode = $this->getMethodCode();
+        }
+
+        $result = true;
+
+        if (!$this->isMethodActive($methodCode)) {
+            $result = false;
+        }
+
+        switch ($methodCode) {
+            case self::METHOD_WPS:
+                if (!$this->businessAccount) {
+                    $result = false;
+                    break;
+                }
+                // check for direct payments dependence
+                if ($this->isMethodActive(self::METHOD_WPP_DIRECT) || $this->isMethodActive(self::METHOD_WPP_PE_DIRECT)) {
+                    $result = false;
+                }
+                break;
+            case self::METHOD_WPP_EXPRESS:
+                // check for direct payments dependence
+                if ($this->isMethodActive(self::METHOD_WPP_DIRECT)) {
+                    $result = true;
+                }
+                break;
+            case self::METHOD_WPP_PE_EXPRESS:
+                // check for direct payments dependence
+                if ($this->isMethodActive(self::METHOD_WPP_PE_DIRECT)) {
+                    $result = true;
+                }
+                break;
+            case self::METHOD_WPP_DIRECT:
+            case self::METHOD_WPP_PE_DIRECT:
+                break;
+        }
+        return $result;
+    }
+
+    /**
      * Config field magic getter
      * The specified key can be either in camelCase or under_score format
      * Tries to map specified value according to set payment method code, into the configuration value
@@ -691,7 +756,7 @@ class Mage_Paypal_Model_Config
      */
     public function shouldUseUnilateralPayments()
     {
-        $email = Mage::getStoreConfig($this->_mapWppFieldset('business_account'), $this->_storeId);
+        $email = Mage::getStoreConfig($this->_mapGeneralFieldset('business_account'), $this->_storeId);
         $apiUser = Mage::getStoreConfig($this->_mapWppFieldset('api_username'), $this->_storeId);
         $apiPassword = Mage::getStoreConfig($this->_mapWppFieldset('api_password'), $this->_storeId);
         $apiSignature = Mage::getStoreConfig($this->_mapWppFieldset('api_signature'), $this->_storeId);
