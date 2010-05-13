@@ -117,13 +117,20 @@ decorateTable('paypal_checkout');
 Event.observe(window, 'load', function() {
     var pConfig = new PaypalConfig;
     Element.observe('paypal_account_business_account', 'change', pConfig.trackBusinessAccount.bind(pConfig));
-    Element.observe('paypal_account_merchant_country', 'change', pConfig.toggleMethods.bind(pConfig));
+    Element.observe('paypal_account_merchant_country', 'change', pConfig.trackMerchantCountry.bind(pConfig));
     Element.observe('paypal_global_wpp', 'click', pConfig.trackWpp.bind(pConfig));
     Element.observe('paypal_global_wpp_pe', 'click', pConfig.trackWppPe.bind(pConfig));
+    ['ec','wps','ecpe','payflowpro'].each(function(m) {
+        Element.observe(pConfig.getMethodSwitcher(m).id, 'click', pConfig.trackMethod.bind(pConfig, m));
+    })
+
+    pConfig.fastMode = true;
     pConfig.trackBusinessAccount();
     pConfig.trackWpp();
     pConfig.trackWppPe();
-    pConfig.toggleMethods();
+    pConfig.trackMerchantCountry();
+    pConfig.fastMode = false;
+    pConfig.destruct();
 });
 
 PaypalConfig = Class.create();
@@ -137,6 +144,7 @@ PaypalConfig.prototype = {
             ecpe: $H({switcher: 'express_pe', fieldset: 'express_pe'}),
             payflowpro: $H({switcher: 'verisign', fieldset: 'verisign'})
         });
+        this.fastMode = false;
     },
 
     getMethods: function()
@@ -178,14 +186,23 @@ PaypalConfig.prototype = {
         if (readonly == undefined) {
             readonly = true;
         }
+        if (this.fastMode) {
+            this.getMethod(method).set('readonly', readonly);
+            return;
+        }
         this.getMethodSwitcherValue(method).value = this.getMethodSwitcher(method).checked ? '1' : '0';
         this.getMethodSwitcher(method).disabled = readonly;
     },
 
     enableMethod: function(method, readonly)
     {
-        this.getMethodSwitcher(method).checked = true;
         readonly = (readonly == undefined ? false : readonly);
+        if (this.fastMode) {
+            this.getMethod(method).set('disabled', false);
+            this.getMethod(method).set('readonly', readonly);
+            return;
+        }
+        this.getMethodSwitcher(method).checked = true;
         this.markMethodAsReadonly(method, readonly);
         this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
         var inherit = this.getMethodSwitcherInherit(method);
@@ -196,8 +213,13 @@ PaypalConfig.prototype = {
 
     disableMethod: function(method, readonly)
     {
-        this.getMethodSwitcher(method).checked = false;
         readonly = (readonly == undefined ? true : readonly);
+        if (this.fastMode) {
+            this.getMethod(method).set('disabled', true);
+            this.getMethod(method).set('readonly', readonly);
+            return;
+        }
+        this.getMethodSwitcher(method).checked = false;
         this.markMethodAsReadonly(method, readonly);
         this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
         var inherit = this.getMethodSwitcherInherit(method);
@@ -206,7 +228,12 @@ PaypalConfig.prototype = {
         }
     },
 
-    toggleMethods: function()
+    trackMethod: function(method)
+    {
+        this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
+    },
+
+    trackMerchantCountry: function()
     {
         var countryConfig = $H({
             'US':{
@@ -362,6 +389,18 @@ PaypalConfig.prototype = {
             headingLink.onclick = headingLink.oldOnclick;
             headingLink.href = headingLink.oldHref;
         }
+    },
+
+    destruct: function()
+    {
+        this.getMethods().each(function(method) {
+            if (method.value.get('disabled') != undefined) {
+                method.value.get('disabled') ? this.disableMethod(method.key) : this.enableMethod(method.key);
+            }
+            if (method.value.get('readonly') != undefined) {
+                this.markMethodAsReadonly(method.key, method.value.get('readonly'));
+            }
+        }.bind(this));
     }
 }
 </script>
