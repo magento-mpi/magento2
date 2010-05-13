@@ -204,7 +204,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canCancel()
     {
-        if ($this->canUnhold() || $this->canPaymentReview()) {
+        if ($this->canUnhold()) {
             return false;
         }
 
@@ -220,6 +220,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         }
 
         if ($this->isCanceled() ||
+            $this->getState() === self::STATE_PENDING_PAYMENT_REVIEW ||
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED) {
             return false;
@@ -247,10 +248,11 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canVoidPayment()
     {
-        if ($this->canUnhold() || $this->canPaymentReview()) {
+        if ($this->canUnhold()) {
             return false;
         }
         if ($this->isCanceled() ||
+            $this->getState() === self::STATE_PENDING_PAYMENT_REVIEW ||
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED ) {
             return false;
@@ -265,10 +267,11 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canInvoice()
     {
-        if ($this->canUnhold() || $this->canPaymentReview()) {
+        if ($this->canUnhold()) {
             return false;
         }
         if ($this->isCanceled() ||
+            $this->getState() === self::STATE_PENDING_PAYMENT_REVIEW ||
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED ) {
             return false;
@@ -297,11 +300,12 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             return $this->getForcedCanCreditmemo();
         }
 
-        if ($this->canUnhold() || $this->canPaymentReview()) {
+        if ($this->canUnhold()) {
             return false;
         }
 
         if ($this->isCanceled() ||
+            $this->getState() === self::STATE_PENDING_PAYMENT_REVIEW ||
             $this->getState() === self::STATE_CLOSED ) {
             return false;
         }
@@ -331,7 +335,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED ||
             $this->getState() === self::STATE_HOLDED ||
-            $this->canPaymentReview()) {
+            $this->getState() === self::STATE_PENDING_PAYMENT_REVIEW) {
             return false;
         }
 
@@ -348,7 +352,8 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canUnhold()
     {
-        if ($this->getActionFlag(self::ACTION_FLAG_UNHOLD) === false || $this->canPaymentReview()) {
+        if ($this->getActionFlag(self::ACTION_FLAG_UNHOLD) === false ||
+            $this->getState() === self::STATE_PENDING_PAYMENT_REVIEW) {
             return false;
         }
         return $this->getState() === self::STATE_HOLDED;
@@ -374,7 +379,8 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canShip()
     {
-        if ($this->canUnhold() || $this->canPaymentReview()) {
+        if ($this->canUnhold() || 
+            $this->getState() === self::STATE_PENDING_PAYMENT_REVIEW) {
             return false;
         }
 
@@ -403,11 +409,12 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canEdit()
     {
-        if ($this->canUnhold() || $this->canPaymentReview()) {
+        if ($this->canUnhold()) {
             return false;
         }
 
         if ($this->isCanceled() ||
+            $this->getState() === self::STATE_PENDING_PAYMENT_REVIEW ||
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED) {
             return false;
@@ -431,7 +438,9 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canReorder()
     {
-        if ($this->canUnhold() || !$this->getCustomerId() || $this->canPaymentReview()) {
+        if ($this->canUnhold() || 
+            !$this->getCustomerId() || 
+            $this->getState() === self::STATE_PENDING_PAYMENT_REVIEW) {
             return false;
         }
 
@@ -467,7 +476,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canPaymentReview()
     {
-        return $this->getState() === self::STATE_PENDING_PAYMENT_REVIEW;
+        return $this->getState() === self::STATE_PENDING_PAYMENT_REVIEW && $this->getPayment()->canReview();
     }
 
     /**

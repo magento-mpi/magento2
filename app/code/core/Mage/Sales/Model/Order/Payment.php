@@ -259,6 +259,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $message = $this->_prependMessage($message);
             $message = $this->_appendTransactionToMessage($transaction, $message);
             $status  = $this->getTransactionPendingStatus() ? $this->getTransactionPendingStatus() : true;
+            if ($this->getIsFraudDetected()) {
+                $status = 'fraud_suspected';
+            }
             $this->getOrder()->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT_REVIEW, $status, $message);
             $invoice->setIsPaid(false);
         } else {
@@ -596,6 +599,16 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     }
 
     /**
+     * Check order payment review availability
+     *
+     * @return bool
+     */
+    public function canReview()
+    {
+        return (bool)$this->getMethodInstance()->canReview($this);
+    }
+
+    /**
      * Accept order with payment method instance
      * 
      * @return Mage_Sales_Model_Order_Payment
@@ -755,6 +768,9 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 ->authorize($this, $amount);
             if ($this->getIsTransactionPending()) {
                 $status  = $this->getTransactionPendingStatus() ? $this->getTransactionPendingStatus() : true;
+                if ($this->getIsFraudDetected()) {
+                    $status = 'fraud_suspected';
+                }
                 $state   = Mage_Sales_Model_Order::STATE_HOLDED;
                 $message = Mage::helper('sales')->__('Authorization amount %s pending approval on gateway.', $this->_formatPrice($amount));
             } else {
