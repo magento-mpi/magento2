@@ -475,7 +475,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $response = $this->call(self::DO_EXPRESS_CHECKOUT_PAYMENT, $request);
         $this->_importFromResponse($this->_paymentInformationResponse, $response);
         $this->_importFromResponse($this->_doExpressCheckoutPaymentResponse, $response);
-        $this->_importFraudFiltersResult($response, $this->_callWarnings);
     }
 
     /**
@@ -490,7 +489,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         }
         $response = $this->call(self::DO_DIRECT_PAYMENT, $request);
         $this->_importFromResponse($this->_doDirectPaymentResponse, $response);
-        $this->_importFraudFiltersResult($response, $this->_callWarnings);
     }
 
     /**
@@ -500,8 +498,17 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function getIsPaymentPending()
     {
-        return $this->getPaymentStatus() == self::STATUS_PENDING 
-            && $this->getPendingReason() == 'multicurrency'; // it must be changed after create analyze pending_reason functionality  
+        return $this->getPaymentStatus() == self::STATUS_PENDING;
+    }
+
+    /**
+     * Analise response and return true if payment has fraud error code
+     *
+     * @return bool
+     */
+    public function getIsPaymentFraud()
+    {
+        return in_array(11610, $this->_callWarnings);
     }
 
     /**
@@ -917,30 +924,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             return true;
         }
         return $value;
-    }
-
-    /**
-     * Get FMF results from response, if any
-     * TODO: PayPal doesn't provide this information in API response for some reason.
-     *       However, the FMF results go in IPN
-     *
-     * @param array $from
-     * @param array $collectedWarnings
-     */
-    protected function _importFraudFiltersResult(array $from, array $collectedWarnings)
-    {
-        // detect whether there is a fraud warning
-        if (!in_array(11610, $collectedWarnings)) {
-            return;
-        }
-        $this->setIsPaymentPending(true);
-        $collectedFilters = array();
-        for ($i = 0; isset($from["L_FMFfilterID{$i}"]); $i++) {
-            $collectedFilters[] = $from["L_FMFfilterNAME{$i}"];
-        }
-        if ($collectedFilters) {
-            $this->setCollectedFraudFilters($collectedFilters);
-        }
     }
 
     /**

@@ -59,6 +59,13 @@ class Mage_Paypal_Model_Pro
     protected $_configType = 'paypal/config';
 
     /**
+     * Keys for passthrough variables in  sales/order_payment
+     * Uses additional_information as storage
+     * @var string
+     */
+    const CAN_REVIEW_PAYMENT = 'can_review_payment';
+
+    /**
      * Payment method code setter. Also instantiates/updates config
      *
      * @param string $code
@@ -232,10 +239,7 @@ class Mage_Paypal_Model_Pro
                 ->setTransactionId($captureTxnId)
                 ->setAction(Mage_Paypal_Model_Api_Nvp::PENDING_TRANSACTION_ACCEPT);
 
-            //PayPal must fix bug 
-            //$api->callManagePendingTransactionStatus();
-            /*fiction*/$api->setPaymentStatus(Mage_Paypal_Model_Api_Nvp::STATUS_COMPLETED);/*fiction*/
-            // end 
+            $api->callManagePendingTransactionStatus();
 
             $this->_importAcceptResultToPayment($api, $payment);
         } else {
@@ -257,10 +261,7 @@ class Mage_Paypal_Model_Pro
                 ->setTransactionId($captureTxnId)
                 ->setAction(Mage_Paypal_Model_Api_Nvp::PENDING_TRANSACTION_DENY);
 
-            // PayPal must fix bug 
-            //$api->callManagePendingTransactionStatus();
-            /*fiction*/$api->setPaymentStatus(Mage_Paypal_Model_Api_Nvp::STATUS_DENIED);/*fiction*/
-            // end 
+            $api->callManagePendingTransactionStatus();
 
             $this->_importDenyResultToPayment($api, $payment);
         } else {

@@ -194,6 +194,17 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
+     * If payment can be review return true or false if not
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return bool
+     */
+    public function canReview(Varien_Object $payment)
+    {
+        return $payment->getAdditionalInformation(Mage_Paypal_Model_Pro::CAN_REVIEW_PAYMENT) == true;
+    }
+
+    /**
      * Accept payment
      *
      * @param Mage_Sales_Model_Order_Payment $payment
@@ -288,8 +299,12 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
             ->setAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT,
                 $api->getRedirectRequired() || $api->getRedirectRequested()
-            )
-            ->setIsTransactionPending($api->getIsPaymentPending());
+            );
+        if ($api->getIsPaymentPending()) {
+            $payment->setIsTransactionPending(true)
+                ->setAdditionalInformation(Mage_Paypal_Model_Pro::CAN_REVIEW_PAYMENT, $api->getIsPaymentFraud())
+                ->setIsFraudDetected($api->getIsPaymentFraud());
+        }
         Mage::getModel('paypal/info')->importToPayment($api, $payment);
     }
 }
