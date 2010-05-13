@@ -40,7 +40,7 @@ extends Mage_Eav_Model_Entity_Attribute_Backend_Serialized
             if ($product->isRecurring()) {
                 parent::beforeSave($product);
             } else {
-                $product->setRecurringProfile(null);
+                $product->unsRecurringProfile();
             }
         }
     }
