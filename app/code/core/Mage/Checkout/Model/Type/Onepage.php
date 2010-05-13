@@ -56,7 +56,7 @@ class Mage_Checkout_Model_Type_Onepage
     /**
      * @var Mage_Sales_Model_Quote
      */
-    protected $_quote;
+    protected $_quote = null;
 
     /**
      * @var Mage_Checkout_Helper_Data
@@ -72,7 +72,6 @@ class Mage_Checkout_Model_Type_Onepage
         $this->_helper = Mage::helper('checkout');
         $this->_customerEmailExistsMessage = $this->_helper->__('There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.');
         $this->_checkoutSession = Mage::getSingleton('checkout/session');
-        $this->_quote = $this->_checkoutSession->getQuote();
         $this->_customerSession = Mage::getSingleton('customer/session');
     }
 
@@ -93,7 +92,21 @@ class Mage_Checkout_Model_Type_Onepage
      */
     public function getQuote()
     {
+        if ($this->_quote === null) {
+            return $this->_checkoutSession->getQuote();
+        }
         return $this->_quote;
+    }
+
+    /**
+     * Declare checkout quote instance
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     */
+    public function setQuote(Mage_Sales_Model_Quote $quote)
+    {
+        $this->_quote = $quote;
+        return $this;
     }
 
     /**

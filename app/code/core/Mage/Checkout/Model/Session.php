@@ -138,7 +138,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
             ->setStoreId(Mage::app()->getStore()->getId())
             ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomerId());
 
-        if ($this->getQuoteId() != $customerQuote->getId()) {
+        if ($customerQuote->getId() && $this->getQuoteId() != $customerQuote->getId()) {
             if ($this->getQuoteId()) {
                 $customerQuote->merge($this->getQuote())
                     ->collectTotals()
@@ -151,6 +151,8 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
                 $this->_quote->delete();
             }
             $this->_quote = $customerQuote;
+        } else {
+            $this->_quote->setCustomer(Mage::getSingleton('customer/session')->getCustomer());
         }
         return $this;
     }
