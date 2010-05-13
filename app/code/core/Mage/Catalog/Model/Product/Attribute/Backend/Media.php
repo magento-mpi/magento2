@@ -69,6 +69,33 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         return '';
     }
 
+    /**
+     * Validate media_gallery attribute data
+     *
+     * @param Mage_Catalog_Model_Product $object
+     * @throws Mage_Core_Exception
+     * @return bool
+     */
+    public function validate($object)
+    {
+        if ($this->getAttribute()->getIsRequired()) {
+            $value = $object->getData($this->getAttribute()->getAttributeCode());
+            if ($this->getAttribute()->isValueEmpty($value)) {
+                if ( !(is_array($value) && count($value)>0) ) {
+                    return false;
+                }
+            }
+        }
+        if ($this->getAttribute()->getIsUnique()) {
+            if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
+                $label = $this->getAttribute()->getFrontend()->getLabel();
+                Mage::throwException(Mage::helper('eav')->__('The value of attribute "%s" must be unique.', $label));
+            }
+        }
+
+        return true;
+    }
+
     public function beforeSave($object)
     {
         $attrCode = $this->getAttribute()->getAttributeCode();
