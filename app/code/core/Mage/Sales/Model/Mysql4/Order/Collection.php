@@ -133,6 +133,16 @@ class Mage_Sales_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Mysql4_C
     }
 
     /**
+     * Add addresses information to select
+     *
+     * @return Mage_Sales_Model_Mysql4_Collection_Abstract
+     */
+    public function addAddressFields()
+    {
+        return $this->_addAddressFields();
+    }
+
+    /**
      * Add field search filter to collection as OR condition
      *
      * @see self::_getConditionSql for $condition
