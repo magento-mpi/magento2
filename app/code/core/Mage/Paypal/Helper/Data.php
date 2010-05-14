@@ -106,13 +106,16 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Get shipping options from shipping address
+     * if last parameter is true will added noRate if there are not other options  
      * 
      * @param Mage_Sales_Model_Quote_Address $address
+     * @param bool $_addNotChosenOption
      * @return array
      */
-    public function prepareShippingOptions($address)
+    public function prepareShippingOptions($address, $_addNotChosenOption = false)
     {
         $options = array();
+
         foreach ($address->getGroupedAllShippingRates() as $_group) {
             foreach ($_group as $_rate) {
                 $data = array(
@@ -123,6 +126,16 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
                 );
                 $options[] = new Varien_Object($data);
             }
+        }
+
+        if (empty($options)) {
+            $data = array(
+                'is_default' => true,
+                'name'       => 'Rate is not chosen',
+                'code'       => 'rate_is_not_chosen',
+                'amount'     => 0.00
+            );
+            $options[] = new Varien_Object($data);
         }
         return $options;
     }
