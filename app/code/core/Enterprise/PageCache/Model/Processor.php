@@ -104,6 +104,9 @@ class Enterprise_PageCache_Model_Processor
             if (isset($_COOKIE['currency'])) {
                 $uri = $uri.'_'.$_COOKIE['currency'];
             }
+            if (isset($_COOKIE[Enterprise_PageCache_Model_Observer::CUSTOMER_COOKIE_NAME])) {
+                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Observer::CUSTOMER_COOKIE_NAME];
+            }
         }
         $this->_requestId       = $uri;
         $this->_requestCacheId  = $this->prepareCacheId($this->_requestId);
@@ -217,6 +220,14 @@ class Enterprise_PageCache_Model_Processor
                 ->setControllerName('request')
                 ->setActionName('process')
                 ->isStraight(true);
+
+            // restore original routing info
+            $routingInfo = Mage::app()->loadCache($this->getRequestCacheId() . '_routing_info');
+            if ($routingInfo) {
+                $routingInfo = unserialize($routingInfo);
+                Mage::app()->getRequest()->setRoutingInfo($routingInfo);
+            }
+
             return false;
         }
     }
@@ -266,6 +277,15 @@ class Enterprise_PageCache_Model_Processor
                 $lifetime = Mage::getStoreConfig(self::XML_PATH_LIFE_TIME)*60;
 
                 Mage::app()->saveCache($content, $cacheId, $this->getRequestTags(), $lifetime);
+
+                // save original routing info
+                $routingInfo = array(
+                    'aliases'    => Mage::app()->getRequest()->getAliases(),
+                    'route'      => Mage::app()->getRequest()->getRequestedRouteName(),
+                    'controller' => Mage::app()->getRequest()->getRequestedControllerName(),
+                    'action'     => Mage::app()->getRequest()->getRequestedActionName()
+                );
+                Mage::app()->saveCache(serialize($routingInfo), $cacheId . '_routing_info', $this->getRequestTags(), $lifetime);
             }
         }
         return $this;

@@ -208,6 +208,22 @@
                     </enterprise_pagecache>
                 </observers>
             </core_block_abstract_to_html_after>
+            <customer_login>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>setCustomerCookie</method>
+                    </enterprise_pagecache>
+                </observers>
+            </customer_login>
+            <customer_logout>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>removeCustomerCookie</method>
+                    </enterprise_pagecache>
+                </observers>
+            </customer_logout>
         </events>
         <cache>
             <requests>

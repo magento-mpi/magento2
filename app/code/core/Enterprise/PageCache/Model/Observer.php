@@ -26,6 +26,9 @@
 
 class Enterprise_PageCache_Model_Observer
 {
+    const CUSTOMER_COOKIE_NAME = 'CUSTOMER_INFO';
+    const CACHE_KEY = 'full_page_cache_key';
+
     /**
      * @var Enterprise_PageCache_Model_Processor
      */
@@ -39,6 +42,13 @@ class Enterprise_PageCache_Model_Observer
     );
 
     /**
+     * Full page cache encryption key
+     *
+     * @var sting
+     */
+    protected $_encryptionKey = null;
+
+    /**
      * Class constructor
      */
     public function __construct()
@@ -46,6 +56,14 @@ class Enterprise_PageCache_Model_Observer
         $this->_processor = Mage::getModel('enterprise_pagecache/processor');
         $this->_config    = Mage::getSingleton('enterprise_pagecache/config');
         $this->_isEnabled = Mage::app()->useCache('full_page');
+
+        if ($key = Mage::app()->getCache()->load(self::CACHE_KEY)) {
+            $this->_encryptionKey = $key;
+        } else {
+             $this->_encryptionKey = md5(time() . rand());
+             Mage::app()->getCache()->save($this->_encryptionKey, self::CACHE_KEY,
+                array(Enterprise_PageCache_Model_Processor::CACHE_TAG), false);
+        }
     }
 
     /**
@@ -279,5 +297,42 @@ class Enterprise_PageCache_Model_Observer
             }
             Mage::getSingleton('core/cookie')->delete($varName);
         }
+    }
+
+    /**
+     * Set cookie for logged in customer
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function setCustomerCookie(Varien_Event_Observer $observer)
+    {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
+        /** @var Mage_Customer_Model_Customer $customer */
+        $customer = $observer->getEvent()->getCustomer();
+        /** @var Mage_Core_Model_Cookie $cookie */
+        $cookie = Mage::getModel('core/cookie');
+        $cookieValue = md5($this->_encryptionKey . $customer->getGroupId());
+        $cookie->set(self::CUSTOMER_COOKIE_NAME, $cookieValue);
+        return $this;
+    }
+
+    /**
+     * Remove customer cookie
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function removeCustomerCookie(Varien_Event_Observer $observer)
+    {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
+        /** @var Mage_Customer_Model_Customer $customer */
+        $customer = $observer->getEvent()->getCustomer();
+        /** @var Mage_Core_Model_Cookie $cookie */
+        $cookie = Mage::getModel('core/cookie');
+        $cookie->delete(self::CUSTOMER_COOKIE_NAME);
+        return $this;
     }
 }

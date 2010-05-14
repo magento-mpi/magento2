@@ -51,6 +51,8 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     protected $_rewritedPathInfo= null;
     protected $_requestedRouteName = null;
+    protected $_requestedControllerName = null;
+    protected $_requestedActionName = null;
 
     protected $_route;
 
@@ -375,7 +377,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
                 $this->_requestedRouteName = $router->getRouteByFrontName($fronName);
             } else {
                 // no rewritten path found, use default route name
-                return $this->getRouteName();
+                $this->_requestedRouteName = $this->getRouteName();
             }
         }
         return $this->_requestedRouteName;
@@ -388,10 +390,14 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     public function getRequestedControllerName()
     {
-        if (($this->_rewritedPathInfo !== null) && isset($this->_rewritedPathInfo[1])) {
-            return $this->_rewritedPathInfo[1];
+        if ($this->_requestedControllerName === null) {
+            if (($this->_rewritedPathInfo !== null) && isset($this->_rewritedPathInfo[1])) {
+                $this->_requestedControllerName = $this->_rewritedPathInfo[1];
+            } else {
+                $this->_requestedControllerName = $this->getControllerName();
+            }
         }
-        return $this->getControllerName();
+        return $this->_requestedControllerName;
     }
 
     /**
@@ -401,10 +407,40 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     public function getRequestedActionName()
     {
-        if (($this->_rewritedPathInfo !== null) && isset($this->_rewritedPathInfo[2])) {
-            return $this->_rewritedPathInfo[2];
+        if ($this->_requestedActionName === null) {
+            if (($this->_rewritedPathInfo !== null) && isset($this->_rewritedPathInfo[2])) {
+                $this->_requestedActionName = $this->_rewritedPathInfo[2];
+            } else {
+                $this->_requestedActionName = $this->getActionName();
+            }
         }
-        return $this->getActionName();
+        return $this->_requestedActionName;
+    }
+
+    /**
+     * Set routing info data
+     *
+     * @param array $data
+     * @return Mage_Core_Controller_Request_Http
+     */
+    public function setRoutingInfo($data)
+    {
+        if (!is_array($data)) {
+            return $this;
+        }
+        if (array_key_exists('aliases', $data)) {
+            $this->_aliases = $data['aliases'];
+        }
+        if (array_key_exists('route', $data)) {
+            $this->_requestedRouteName = $data['route'];
+        }
+        if (array_key_exists('controller', $data)) {
+            $this->_requestedControllerName = $data['controller'];
+        }
+        if (array_key_exists('action', $data)) {
+            $this->_requestedActionName = $data['action'];
+        }
+        return $this;
     }
 
     /**
