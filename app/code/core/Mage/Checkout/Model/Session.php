@@ -152,7 +152,8 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
             }
             $this->_quote = $customerQuote;
         } else {
-            $this->_quote->setCustomer(Mage::getSingleton('customer/session')->getCustomer());
+            $this->getQuote()->setCustomer(Mage::getSingleton('customer/session')->getCustomer())
+                ->save();
         }
         return $this;
     }
