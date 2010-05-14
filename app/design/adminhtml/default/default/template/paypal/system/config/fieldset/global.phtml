@@ -341,6 +341,7 @@ PaypalConfig.prototype = {
         } else {
             this.disableRow('row_paypal_general_heading_api');
         }
+        this.trackWps();
     },
 
     trackWppPe: function()
@@ -366,6 +367,7 @@ PaypalConfig.prototype = {
         } else {
             this.disableRow('row_paypal_general_heading_api');
         }
+        this.trackWps();
     },
 
     trackWps: function()
