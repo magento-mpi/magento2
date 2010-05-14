@@ -257,9 +257,17 @@ class Mage_Paypal_Model_Express_Checkout
         $this->_ignoreAddressValidation();
 
         // import shipping rate
-        if ((!$this->_quote->getIsVirtual()) && $this->_api->getShippingRateCode() && 
+        if ((!$this->_quote->getIsVirtual()) && 
+            $this->_api->getShippingRateCode() && 
             $this->_quote->getShippingAddress()) {
-                $this->_quote->getShippingAddress()->setShippingMethod($this->_api->getShippingRateCode());
+
+            $address = $this->_quote->getShippingAddress();
+            $options = Mage::helper('paypal')->prepareShippingOptions($address);
+            foreach ($options as $option) {
+               if ($option->getName() == $this->_api->getShippingRateCode()) {
+                   $address->setShippingMethod($option->getCode());
+               }
+            }
         }
 
         // import payment info

@@ -117,7 +117,8 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
             foreach ($_group as $_rate) {
                 $data = array(
                     'is_default' => $address->getShippingMethod() === $_rate->getCode(),
-                    'name'       => $_rate->getCode(),
+                    'name'       => $_rate->getCarrierTitle() . ' ' . $_rate->getMethodTitle(),
+                    'code'       => $_rate->getCode(),
                     'amount'     => (float)$_rate->getPrice()
                 );
                 $options[] = new Varien_Object($data);
