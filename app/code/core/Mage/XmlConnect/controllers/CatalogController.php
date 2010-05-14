@@ -160,4 +160,112 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
         $this->loadLayout(false);
         $this->renderLayout();
     }
+
+    /**
+     * Send product link to friend action
+     */
+    public function sendEmailAction()
+    {
+        /* @var $helper Mage_Sendfriend_Helper_Data */
+        $helper = Mage::helper('sendfriend');
+        /* @var $session Mage_Customer_Model_Session */
+        $session = Mage::getSingleton('customer/session');
+
+        if (!$helper->isEnabled()) {
+            $this->_message($this->__('Email to Friend is disabled.'), self::MESSAGE_STATUS_ERROR);
+            return $this;
+        }
+
+        if (!$helper->isAllowForGuest() && !$session->isLoggedIn()) {
+            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            return $this;
+        }
+
+        /**
+         * Initialize product
+         */
+        $productId  = (int)$this->getRequest()->getParam('product_id');
+        if (!$productId) {
+            $this->_message($this->__('No selected product.'), self::MESSAGE_STATUS_ERROR);
+            return $this;
+        }
+        $product = Mage::getModel('catalog/product')
+            ->load($productId);
+        if (!$product->getId() || !$product->isVisibleInCatalog()) {
+            $this->_message($this->__('Selected product is unavailable.'), self::MESSAGE_STATUS_ERROR);
+            return $this;
+        }
+
+        Mage::register('product', $product);
+
+        /**
+         * Initialize send friend model
+         */
+        $model  = Mage::getModel('sendfriend/sendfriend');
+        $model->setRemoteAddr(Mage::helper('core/http')->getRemoteAddr(true));
+        $model->setCookie(Mage::app()->getCookie());
+        $model->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+
+        Mage::register('send_to_friend_model', $model);
+
+        if ($model->getMaxSendsToFriend()) {
+//            $this->_message($this->__('The messages cannot be sent more than %d times in an hour', $model->getMaxSendsToFriend()), self::MESSAGE_STATUS_WARNING);
+//            return $this;
+        }
+
+        $data   = $this->getRequest()->getPost();
+
+        if (!$data) {
+            $this->_message($this->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);
+            return $this;
+        }
+
+        $sender = (array)$this->getRequest()->getPost('sender');
+        if ($session->isLoggedIn()) {
+            $sender['email'] = $session->getCustomer()->getEmail();
+            $sender['name'] = $session->getCustomer()->getFirstName() . ' ' . $session->getCustomer()->getLastName();
+        }
+
+        /**
+         * Initialize category and set it to product
+         */
+        $categoryId = $this->getRequest()->getParam('category_id', null);
+        if ($categoryId) {
+            $category = Mage::getModel('catalog/category')
+                ->load($categoryId);
+            $product->setCategory($category);
+            Mage::register('current_category', $category);
+        }
+
+        $model->setSender($sender);
+        $model->setRecipients($this->getRequest()->getPost('recipients'));
+        $model->setProduct($product);
+
+        try {
+            $validate = $model->validate();
+            if ($validate === true) {
+                $model->send();
+                $this->_message($this->__('The link to a friend was sent.'), self::MESSAGE_STATUS_SUCCESS);
+                return;
+            }
+            else {
+                if (is_array($validate)) {
+                    $this->_message(implode(' ', $validate), self::MESSAGE_STATUS_ERROR);
+                    return;
+                }
+                else {
+                    $this->_message($this->__('There were some problems with the data.'), self::MESSAGE_STATUS_ERROR);
+                    return;
+                }
+            }
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        }
+        catch (Exception $e) {
+            $this->_message($this->__('Some emails were not sent.'), self::MESSAGE_STATUS_ERROR);
+        }
+
+        return $this;
+    }
 }

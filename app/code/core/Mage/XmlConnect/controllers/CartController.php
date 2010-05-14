@@ -240,6 +240,7 @@ class Mage_XmlConnect_CartController extends Mage_XmlConnect_Controller_Action
      */
     public function infoAction()
     {
+        $this->_getQuote()->collectTotals()->save();
         $this->loadLayout(false);
         $this->renderLayout();
     }

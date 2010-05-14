@@ -152,7 +152,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
                 $ccMonthes
             </values>
         </field>
-        <field name="payment[cc_exp_year]" type="select" required="true">
+        <field name="payment[cc_exp_year]" type="select" label="{$helper->__('Year')}" required="true">
             <values>
                 $ccYears
             </values>

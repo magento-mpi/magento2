@@ -29,13 +29,18 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Helper_Category_Image extends Mage_Catalog_Helper_Image
+class Mage_XmlCOnnect_Helper_Catalog_Category_Image extends Mage_Catalog_Helper_Image
 {
 
-    public function init(Mage_Catalog_Model_Abstract $category, $attributeName, $imageFile=null)
+    public function init(Mage_Catalog_Model_Product $product, $attributeName, $imageFile = null)
+    {
+        return $this;
+    }
+
+    public function initialize(Mage_Catalog_Model_Abstract $category, $attributeName, $imageFile = null)
     {
         $this->_reset();
-        $this->_setModel(Mage::getModel('catalog/category_image'));
+        $this->_setModel(Mage::getModel('xmlconnect/catalog_category_image'));
         $this->_getModel()->setDestinationSubdir($attributeName);
         $this->setProduct($category);
 

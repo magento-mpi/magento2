@@ -63,7 +63,7 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
             $itemXmlObj->addChild('label', $homeXmlObj->xmlentities(strip_tags($item->getName())));
             $itemXmlObj->addChild('entity_id', $item->getEntityId());
             $itemXmlObj->addChild('content_type', $item->hasChildren() ? 'categories' : 'products');
-            $icon = Mage::helper('catalog/category_image')->init($item, 'thumbnail')
+            $icon = Mage::helper('xmlconnect/catalog_category_image')->initialize($item, 'thumbnail')
                 ->resize(Mage_XmlConnect_Block_Catalog_Category::CATEGORY_IMAGE_RESIZE_PARAM);
             $itemXmlObj->addChild('icon', $icon);
         }

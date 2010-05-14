@@ -74,7 +74,10 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
 
             Mage::helper('catalogsearch')->checkNotes();
 
-            $this->_initLayout();
+            $this->loadLayout();
+            $this->_initLayoutMessages('catalog/session');
+            $this->_initLayoutMessages('checkout/session');
+            $this->renderLayout();
 
             if (!Mage::helper('catalogsearch')->isMinQueryLength()) {
                 $query->save();
@@ -83,17 +86,5 @@ class Mage_CatalogSearch_ResultController extends Mage_Core_Controller_Front_Act
         else {
             $this->_redirectReferer();
         }
-    }
-
-    /**
-     * Load and render layouts
-     *
-     */
-    protected function _initLayout()
-    {
-        $this->loadLayout();
-        $this->_initLayoutMessages('catalog/session');
-        $this->_initLayoutMessages('checkout/session');
-        $this->renderLayout();
     }
 }

@@ -161,6 +161,8 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
      */
     public function shippingMethodsAction()
     {
+        $this->getOnepage()->getQuote()->getShippingAddress()->setCollectShippingRates(true);
+        $this->getOnepage()->getQuote()->collectTotals()->save();
         $this->loadLayout(false);
         $this->renderLayout();
     }
@@ -233,6 +235,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
      */
     public function orderReviewAction()
     {
+        $this->getOnepage()->getQuote()->collectTotals()->save();
         $this->loadLayout(false);
         $this->renderLayout();
     }

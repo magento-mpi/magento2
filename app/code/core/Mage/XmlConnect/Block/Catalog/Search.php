@@ -46,7 +46,14 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
         $searchXmlObject  = new Varien_Simplexml_Element('<search></search>');
         $filtersXmlObject = new Varien_Simplexml_Element('<filters></filters>');
 
-        $searchEngine   = Mage::helper('catalogsearch')->getEngine();
+        $helper = Mage::helper('catalogsearch');
+        if (method_exists($helper, 'getEngine')) {
+            $isLayeredNavigationAllowed   = Mage::helper('catalogsearch')->getEngine()->isLeyeredNavigationAllowed();
+        }
+        else {
+            $isLayeredNavigationAllowed = true;
+        }
+
         $request        = $this->getRequest();
         $requestParams  = $request->getParams();
 
@@ -57,7 +64,7 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
         if ($productListBlock) {
             $layer = Mage::getSingleton('catalogsearch/layer');
             $productsXmlObj = $productListBlock->setLayer($layer)
-                ->setNeedBlockApplyingFilters(!$searchEngine->isLeyeredNavigationAllowed())
+                ->setNeedBlockApplyingFilters(!$isLayeredNavigationAllowed)
                 ->getProductsXmlObject();
             $searchXmlObject->appendChild($productsXmlObj);
         }
@@ -74,7 +81,7 @@ class Mage_XmlConnect_Block_Catalog_Search extends Mage_XmlConnect_Block_Catalog
                 break;
             }
         }
-        if ($searchEngine->isLeyeredNavigationAllowed() && $productListBlock && $showFiltersAndOrders) {
+        if ($isLayeredNavigationAllowed && $productListBlock && $showFiltersAndOrders) {
             $filters = $productListBlock->getCollectedFilters();
             /**
              * Render filters xml

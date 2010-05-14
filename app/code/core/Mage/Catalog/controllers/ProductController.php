@@ -50,6 +50,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $product = Mage::getModel('catalog/product')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($productId);
+
         if (!Mage::helper('catalog/product')->canShow($product)) {
             return false;
         }
@@ -82,6 +83,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
             Mage::logException($e);
             return false;
         }
+
         return $product;
     }
 

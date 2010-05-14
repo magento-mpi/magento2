@@ -31,7 +31,7 @@
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Category_Image extends Mage_Catalog_Model_Product_Image
+class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Product_Image
 {
 
     /**
@@ -47,7 +47,7 @@ class Mage_Catalog_Model_Category_Image extends Mage_Catalog_Model_Product_Image
         if (($file) && (0 !== strpos($file, '/', 0))) {
             $file = '/' . $file;
         }
-        $baseDir = Mage::getSingleton('catalog/category_media_config')->getBaseMediaPath();
+        $baseDir = Mage::getSingleton('xmlconnect/catalog_category_media_config')->getBaseMediaPath();
 
         if ('/no_selection' == $file) {
             $file = null;
@@ -92,7 +92,7 @@ class Mage_Catalog_Model_Category_Image extends Mage_Catalog_Model_Product_Image
 
         // build new filename (most important params)
         $path = array(
-            Mage::getSingleton('catalog/category_media_config')->getBaseMediaPath(),
+            Mage::getSingleton('xmlconnect/catalog_category_media_config')->getBaseMediaPath(),
             'cache',
             Mage::app()->getStore()->getId(),
             $path[] = $this->getDestinationSubdir()
@@ -143,7 +143,7 @@ class Mage_Catalog_Model_Category_Image extends Mage_Catalog_Model_Product_Image
             return $filePath;
         }
 
-        $baseDir = Mage::getSingleton('catalog/category_media_config')->getBaseMediaPath();
+        $baseDir = Mage::getSingleton('xmlconnect/catalog_category_media_config')->getBaseMediaPath();
 
         if( file_exists($baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file) ) {
             $filePath = $baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file;
