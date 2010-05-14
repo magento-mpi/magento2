@@ -122,13 +122,16 @@ Event.observe(window, 'load', function() {
     Element.observe('paypal_global_wpp_pe', 'click', pConfig.trackWppPe.bind(pConfig));
     ['ec','wps','ecpe','payflowpro'].each(function(m) {
         Element.observe(pConfig.getMethodSwitcher(m).id, 'click', pConfig.trackMethod.bind(pConfig, m));
-    })
-
+    });
     pConfig.fastMode = true;
+    pConfig.trackMerchantCountry();
     pConfig.trackBusinessAccount();
     pConfig.trackWpp();
     pConfig.trackWppPe();
-    pConfig.trackMerchantCountry();
+    pConfig.trackWps();
+    ['ec','wps','ecpe','payflowpro'].each(function(m) {
+        pConfig.trackMethod(m);
+    });
     pConfig.fastMode = false;
     pConfig.destruct();
 });
@@ -144,7 +147,7 @@ PaypalConfig.prototype = {
             ecpe: $H({switcher: 'express_pe', fieldset: 'express_pe'}),
             payflowpro: $H({switcher: 'verisign', fieldset: 'verisign'})
         });
-        this.fastMode = false;
+        this.disabledMethods = [];
     },
 
     getMethods: function()
@@ -155,6 +158,11 @@ PaypalConfig.prototype = {
     getMethod: function(method)
     {
         return this.methods.get(method);
+    },
+
+    isDisabled: function(method)
+    {
+        return this.disabledMethods.indexOf(method) != -1;
     },
 
     getMethodFieldset: function(method)
@@ -186,9 +194,19 @@ PaypalConfig.prototype = {
         if (readonly == undefined) {
             readonly = true;
         }
+        if (this.isDisabled(method) && !readonly) {
+            return;
+        }
         if (this.fastMode) {
             this.getMethod(method).set('readonly', readonly);
             return;
+        }
+        var inherit = this.getMethodSwitcherInherit(method);
+        if (inherit != undefined) {
+            inherit.disabled = readonly;
+            if (!inherit.disabled && inherit.checked) {
+                readonly = true;
+            }
         }
         this.getMethodSwitcherValue(method).value = this.getMethodSwitcher(method).checked ? '1' : '0';
         this.getMethodSwitcher(method).disabled = readonly;
@@ -196,6 +214,9 @@ PaypalConfig.prototype = {
 
     enableMethod: function(method, readonly)
     {
+        if (this.isDisabled(method)) {
+            return;
+        }
         readonly = (readonly == undefined ? false : readonly);
         if (this.fastMode) {
             this.getMethod(method).set('disabled', false);
@@ -205,10 +226,6 @@ PaypalConfig.prototype = {
         this.getMethodSwitcher(method).checked = true;
         this.markMethodAsReadonly(method, readonly);
         this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
-        var inherit = this.getMethodSwitcherInherit(method);
-        if (inherit != undefined) {
-            inherit.up().show();
-        }
     },
 
     disableMethod: function(method, readonly)
@@ -222,15 +239,13 @@ PaypalConfig.prototype = {
         this.getMethodSwitcher(method).checked = false;
         this.markMethodAsReadonly(method, readonly);
         this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
-        var inherit = this.getMethodSwitcherInherit(method);
-        if (inherit != undefined) {
-            inherit.up().hide();
-        }
     },
 
     trackMethod: function(method)
     {
-        this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
+        if (!this.getMethodSwitcher(method).checked && this.fastMode || !this.fastMode) {
+            this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
+        }
     },
 
     trackMerchantCountry: function()
@@ -265,9 +280,19 @@ PaypalConfig.prototype = {
         }
 
         var excludeMethods = config.exclude_methods;
-        excludeMethods.each(function(m) {
-            this.disableMethod(m);
+        this.disabledMethods = excludeMethods;
+        this.getMethods().keys().each(function(m) {
+            if (excludeMethods.indexOf(m) != -1) {
+                this.disableMethod(m);
+            } else {
+                this.markMethodAsReadonly(m, false);
+            }
         }.bind(this));
+
+        this.trackBusinessAccount();
+        this.trackWpp();
+        this.trackWppPe();
+        this.trackWps();
     },
 
     trackBusinessAccount: function()
@@ -276,7 +301,9 @@ PaypalConfig.prototype = {
             this.disableMethod('wps', true);
             this.disableMethod('ec', true);
             this.disableMethod('ecpe', true);
+            this.disabledMethods.push('wps','ec','ecpe');
         } else {
+            this.disabledMethods = this.disabledMethods.without('wps','ec','ecpe');
             this.markMethodAsReadonly('wps',false);
             this.markMethodAsReadonly('ec',false);
             this.markMethodAsReadonly('ecpe',false);
@@ -305,10 +332,8 @@ PaypalConfig.prototype = {
         if (enabled) {
             this.enableMethod('wpp',false);
             this.enableMethod('ec',true);
-            this.disableMethod('wps', true);
         } else {
             this.disableMethod('wpp',false);
-            this.markMethodAsReadonly('wps',false);
             this.markMethodAsReadonly('ec',false);
         }
         if (enabled || this.getMethodSwitcher('wpppe').checked) {
@@ -332,11 +357,9 @@ PaypalConfig.prototype = {
         if (enabled) {
             this.enableMethod('wpppe',false);
             this.enableMethod('ecpe',true);
-            this.disableMethod('wps', true);
         } else {
             this.disableMethod('wpppe',false);
             this.markMethodAsReadonly('ecpe',false);
-            this.markMethodAsReadonly('wps',false);
         }
         if (enabled || this.getMethodSwitcher('wpp').checked) {
             this.enableRow('row_paypal_general_heading_api');
@@ -347,13 +370,12 @@ PaypalConfig.prototype = {
 
     trackWps: function()
     {
-        if (this.getMethodSwitcher('wpp').checked) {
-            this.enableMethod('ec');
-            this.disableMethod('wps');
+        var disabled = this.getMethodSwitcher('wpp').checked || this.getMethodSwitcher('wpppe').checked;
+        if (disabled) {
+            this.disableMethod('wps', true);
         } else {
             this.markMethodAsReadonly('wps',false);
         }
-
     },
 
     enableRow: function(rowId)

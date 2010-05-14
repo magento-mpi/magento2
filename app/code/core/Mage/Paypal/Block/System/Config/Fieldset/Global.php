@@ -67,7 +67,7 @@ class Mage_Paypal_Block_System_Config_Fieldset_Global
         } else {
             $checkbox->setValue('1');
         }
-        if ($checkbox->getInherit()) {
+        if ($checkbox->getCanUseDefaultValue() && $checkbox->getInherit()) {
             $checkbox->setDisabled(true);
         }
 
