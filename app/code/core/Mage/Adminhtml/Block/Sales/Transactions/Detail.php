@@ -31,7 +31,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Sales_Transactions_Detail extends Enterprise_Enterprise_Block_Adminhtml_Widget_Container
+class Mage_Adminhtml_Block_Sales_Transactions_Detail extends Mage_Adminhtml_Block_Widget_Container
 {
     /**
      * Transaction model
