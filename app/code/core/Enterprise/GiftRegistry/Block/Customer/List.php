@@ -41,7 +41,7 @@ class Enterprise_GiftRegistry_Block_Customer_List extends Enterprise_Enterprise_
     {
         if (!$this->hasEntityCollection()) { // case is GiftregistryCollection !!!
             $this->setData('entity_collection', Mage::getModel('enterprise_giftregistry/entity')->getCollection()
-                ->addOrder('registry_id', Varien_Data_Collection::SORT_ORDER_DESC)
+                ->addOrder('entity_id', Varien_Data_Collection::SORT_ORDER_DESC)
                 ->loadByCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
             );
         }
@@ -73,6 +73,37 @@ class Enterprise_GiftRegistry_Block_Customer_List extends Enterprise_Enterprise_
         return parent::_prepareLayout();
     }
 
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        $this->addData(array('create_action_url' =>  $this->getUrl('enterprise_giftregistry/index/addPost')));
+        return parent::_toHtml();
+    }
+
+    /**
+     * Return "create giftregistry" form url
+     *
+     * @return string
+     */
+    public function getAddGiftRegistryUrl()
+    {
+        return $this->getUrl('enterprise_giftregistry/index/addselect');
+    }
+
+    /**
+     * Return "create giftregistry" form url
+     *
+     * @return string
+     */
+    public function getSaveActionUrl()
+    {
+        return $this->getUrl('enterprise_giftregistry/index/save');
+    }
+    
     public function getTitle($item)
     {
         return $item->getData('title');
@@ -80,11 +111,16 @@ class Enterprise_GiftRegistry_Block_Customer_List extends Enterprise_Enterprise_
 
     public function getRegistryId($item)
     {
-        return $item->getData('title');
+        return $item->getData('entity_id');
     }
 
     public function getMessage($item)
     {
-        return $item->getData('title');
+        return $item->getData('message');
+    }
+    
+    public function getViewUrl($item)
+    {
+        return  $this->getUrl('giftregistry/index/view') . $item->getData('entity_id');
     }
 }

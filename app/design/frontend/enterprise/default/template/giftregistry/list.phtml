@@ -28,6 +28,8 @@
 <div class="page-title">
     <h1><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry'); ?></h1>
 </div>
+
+
 <?php if ($registry = $this->getEntityCollection()):?>
 <?php echo $this->getChildHtml('pager') ?>
 <table class="data-table" id="giftregistry-list-table" cellpadding="0">
@@ -44,15 +46,18 @@
             <th> 
                 <?php echo Mage::helper('enterprise_giftregistry')->__('Message'); ?>
             </th>
-            
+            <th> 
+                <?php echo Mage::helper('enterprise_giftregistry')->__('View'); ?>
+            </th>
         </tr>
     </thead>
     <tbody>
             <?php foreach($registry as $item): ?>
             <tr>
-                <td class="a-right"><?php echo $this->getRegistryId($item)?></td>
-                <td class="a-right"><?php echo $this->getTitle($item)?></td>
-                <td class="a-right"><?php echo $this->getMessage($item)?></td>
+                <td class="a-left"><?php echo $this->getRegistryId($item)?></td>
+                <td class="a-left"><?php echo $this->getTitle($item)?></td>
+                <td class="a-left"><?php echo $this->getMessage($item)?></td>
+                <td class="a-center"><span class="nobr"><a href="<?php echo $this->getViewUrl($item)?>"><?php echo $this->__('View') ?></a></td>
             </tr>
             <?php endforeach; ?>
     </tbody>
@@ -71,8 +76,7 @@
 </div>
     <?php endif;?>
 
-
 <div class="buttons-set">
     <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
-    <a href="test.com<?php /*echo $this->helper('enterprise_giftregistry')->getCustomerGiftRegistryFormUrl(); */?>" class="button"><span><?php echo $this->__('Send Invitations') ?></span></a>
+    <a href="<?php echo $this->getAddGiftRegistryUrl(); ?>" class="button"><span><?php echo $this->__('Create Gift Registry') ?></span></a>
 </div>
