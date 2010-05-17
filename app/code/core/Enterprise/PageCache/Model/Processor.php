@@ -280,10 +280,10 @@ class Enterprise_PageCache_Model_Processor
 
                 // save original routing info
                 $routingInfo = array(
-                    'aliases'    => Mage::app()->getRequest()->getAliases(),
-                    'route'      => Mage::app()->getRequest()->getRequestedRouteName(),
-                    'controller' => Mage::app()->getRequest()->getRequestedControllerName(),
-                    'action'     => Mage::app()->getRequest()->getRequestedActionName()
+                    'aliases'              => Mage::app()->getRequest()->getAliases(),
+                    'requested_route'      => Mage::app()->getRequest()->getRequestedRouteName(),
+                    'requested_controller' => Mage::app()->getRequest()->getRequestedControllerName(),
+                    'requested_action'     => Mage::app()->getRequest()->getRequestedActionName()
                 );
                 Mage::app()->saveCache(serialize($routingInfo), $cacheId . '_routing_info', $this->getRequestTags(), $lifetime);
             }

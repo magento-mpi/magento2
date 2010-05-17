@@ -51,8 +51,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     protected $_rewritedPathInfo= null;
     protected $_requestedRouteName = null;
-    protected $_requestedControllerName = null;
-    protected $_requestedActionName = null;
+    protected $_routingInfo = array();
 
     protected $_route;
 
@@ -364,12 +363,45 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     }
 
     /**
+     * Retrieve an alias
+     *
+     * Retrieve the actual key represented by the alias $name.
+     *
+     * @param string $name
+     * @return string|null Returns null when no alias exists
+     */
+    public function getAlias($name)
+    {
+        $aliases = $this->getAliases();
+        if (isset($aliases[$name])) {
+            return $aliases[$name];
+        }
+        return null;
+    }
+
+    /**
+     * Retrieve the list of all aliases
+     *
+     * @return array
+     */
+    public function getAliases()
+    {
+        if (isset($this->_routingInfo['aliases'])) {
+            return $this->_routingInfo['aliases'];
+        }
+        return parent::getAliases();
+    }
+
+    /**
      * Get route name used in request (ignore rewrite)
      *
      * @return string
      */
     public function getRequestedRouteName()
     {
+        if (isset($this->_routingInfo['requested_route'])) {
+            return $this->_routingInfo['requested_route'];
+        }
         if ($this->_requestedRouteName === null) {
             if ($this->_rewritedPathInfo !== null && isset($this->_rewritedPathInfo[0])) {
                 $fronName = $this->_rewritedPathInfo[0];
@@ -377,7 +409,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
                 $this->_requestedRouteName = $router->getRouteByFrontName($fronName);
             } else {
                 // no rewritten path found, use default route name
-                $this->_requestedRouteName = $this->getRouteName();
+                return $this->getRouteName();
             }
         }
         return $this->_requestedRouteName;
@@ -390,14 +422,13 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     public function getRequestedControllerName()
     {
-        if ($this->_requestedControllerName === null) {
-            if (($this->_rewritedPathInfo !== null) && isset($this->_rewritedPathInfo[1])) {
-                $this->_requestedControllerName = $this->_rewritedPathInfo[1];
-            } else {
-                $this->_requestedControllerName = $this->getControllerName();
-            }
+        if (isset($this->_routingInfo['requested_controller'])) {
+            return $this->_routingInfo['requested_controller'];
         }
-        return $this->_requestedControllerName;
+        if (($this->_rewritedPathInfo !== null) && isset($this->_rewritedPathInfo[1])) {
+            return $this->_rewritedPathInfo[1];
+        }
+        return $this->getControllerName();
     }
 
     /**
@@ -407,14 +438,13 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     public function getRequestedActionName()
     {
-        if ($this->_requestedActionName === null) {
-            if (($this->_rewritedPathInfo !== null) && isset($this->_rewritedPathInfo[2])) {
-                $this->_requestedActionName = $this->_rewritedPathInfo[2];
-            } else {
-                $this->_requestedActionName = $this->getActionName();
-            }
+        if (isset($this->_routingInfo['requested_action'])) {
+            return $this->_routingInfo['requested_action'];
         }
-        return $this->_requestedActionName;
+        if (($this->_rewritedPathInfo !== null) && isset($this->_rewritedPathInfo[2])) {
+            return $this->_rewritedPathInfo[2];
+        }
+        return $this->getActionName();
     }
 
     /**
@@ -425,20 +455,8 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     public function setRoutingInfo($data)
     {
-        if (!is_array($data)) {
-            return $this;
-        }
-        if (array_key_exists('aliases', $data)) {
-            $this->_aliases = $data['aliases'];
-        }
-        if (array_key_exists('route', $data)) {
-            $this->_requestedRouteName = $data['route'];
-        }
-        if (array_key_exists('controller', $data)) {
-            $this->_requestedControllerName = $data['controller'];
-        }
-        if (array_key_exists('action', $data)) {
-            $this->_requestedActionName = $data['action'];
+        if (is_array($data)) {
+            $this->_routingInfo = $data;
         }
         return $this;
     }
