@@ -192,15 +192,19 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
         
         $this->_prepareDataForSave($product, $productData);
 
-        if (is_array($errors = $product->validate())) {
-            $strErrors = array();
-            foreach($errors as $code=>$error) {
-                $strErrors[] = ($error === true)? Mage::helper('catalog')->__('Attribute "%s" is invalid.', $code) : $error;
-            }
-            $this->_fault('data_invalid', implode("\n", $strErrors));
-        }
-
         try {
+            /**
+             * @todo implement full validation process with errors returning which are ignoring now
+             * @todo see Mage_Catalog_Model_Product::validate()
+             */
+            if (is_array($errors = $product->validate())) {
+                $strErrors = array();
+                foreach($errors as $code=>$error) {
+                    $strErrors[] = ($error === true)? Mage::helper('catalog')->__('Attribute "%s" is invalid.', $code) : $error;
+                }
+                $this->_fault('data_invalid', implode("\n", $strErrors));
+            }
+
             $product->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
@@ -250,15 +254,19 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
 
         $this->_prepareDataForSave($product, $productData);
 
-        if (is_array($errors = $product->validate())) {
-            $strErrors = array();
-            foreach($errors as $code=>$error) {
-                $strErrors[] = ($error === true)? Mage::helper('catalog')->__('Value for "%s" is invalid.', $code) : Mage::helper('catalog')->__('Value for "%s" is invalid: %s', $code, $error);
-            }
-            $this->_fault('data_invalid', implode("\n", $strErrors));
-        }
-
         try {
+            /**
+             * @todo implement full validation process with errors returning which are ignoring now
+             * @todo see Mage_Catalog_Model_Product::validate()
+             */
+            if (is_array($errors = $product->validate())) {
+                $strErrors = array();
+                foreach($errors as $code=>$error) {
+                    $strErrors[] = ($error === true)? Mage::helper('catalog')->__('Value for "%s" is invalid.', $code) : Mage::helper('catalog')->__('Value for "%s" is invalid: %s', $code, $error);
+                }
+                $this->_fault('data_invalid', implode("\n", $strErrors));
+            }
+
             $product->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());

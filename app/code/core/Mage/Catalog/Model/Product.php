@@ -151,15 +151,21 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * Validate Product Data
      *
-     * @return bool|array
+     * @todo implement full validation process with errors returning which are ignoring now
+     * 
+     * @return Mage_Catalog_Model_Product
      */
     public function validate()
     {
-        $this->getAttributes();
+//        $this->getAttributes();
+//        Mage::dispatchEvent($this->_eventPrefix.'_validate_before', array($this->_eventObject=>$this));
+//        $result = $this->_getResource()->validate($this);
+//        Mage::dispatchEvent($this->_eventPrefix.'_validate_after', array($this->_eventObject=>$this));
+//        return $result;
         Mage::dispatchEvent($this->_eventPrefix.'_validate_before', array($this->_eventObject=>$this));
-        $result = $this->_getResource()->validate($this);
+        $this->_getResource()->validate($this);
         Mage::dispatchEvent($this->_eventPrefix.'_validate_after', array($this->_eventObject=>$this));
-        return $result;
+        return $this;
     }
 
     /**

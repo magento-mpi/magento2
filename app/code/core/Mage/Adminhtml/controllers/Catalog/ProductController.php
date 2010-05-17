@@ -505,16 +505,20 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $productData = $this->_filterDates($productData, $dateFields);
 
             $product->addData($productData);
-            if (is_array($errors = $product->validate())) {
-                foreach ($errors as $code => $error) {
-                    if ($error === true) {
-                        Mage::throwException(Mage::helper('catalog')->__('Attribute "%s" is invalid.', $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
-                    }
-                    else {
-                        Mage::throwException($error);
-                    }
-                }
-            }
+            $product->validate();
+            /**
+             * @todo implement full validation process with errors returning which are ignoring now
+             */
+//            if (is_array($errors = $product->validate())) {
+//                foreach ($errors as $code => $error) {
+//                    if ($error === true) {
+//                        Mage::throwException(Mage::helper('catalog')->__('Attribute "%s" is invalid.', $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
+//                    }
+//                    else {
+//                        Mage::throwException($error);
+//                    }
+//                }
+//            }
         }
         catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
             $response->setError(true);
@@ -990,15 +994,19 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         }
 
         try {
-            if (is_array($errors = $product->validate())) {
-                $strErrors = array();
-                foreach($errors as $code=>$error) {
-                    $codeLabel = $product->getResource()->getAttribute($code)->getFrontend()->getLabel();
-                    $strErrors[] = ($error === true)? Mage::helper('catalog')->__('Value for "%s" is invalid.', $codeLabel) : Mage::helper('catalog')->__('Value for "%s" is invalid: %s', $codeLabel, $error);
-                }
-                Mage::throwException('data_invalid', implode("\n", $strErrors));
-            }
-            
+            /**
+             * @todo implement full validation process with errors returning which are ignoring now
+             */
+//            if (is_array($errors = $product->validate())) {
+//                $strErrors = array();
+//                foreach($errors as $code=>$error) {
+//                    $codeLabel = $product->getResource()->getAttribute($code)->getFrontend()->getLabel();
+//                    $strErrors[] = ($error === true)? Mage::helper('catalog')->__('Value for "%s" is invalid.', $codeLabel) : Mage::helper('catalog')->__('Value for "%s" is invalid: %s', $codeLabel, $error);
+//                }
+//                Mage::throwException('data_invalid', implode("\n", $strErrors));
+//            }
+
+            $product->validate();
             $product->save();
             $result['product_id'] = $product->getId();
             $this->_getSession()->addSuccess(Mage::helper('catalog')->__('The product has been created.'));
