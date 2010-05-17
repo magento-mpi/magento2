@@ -43,7 +43,7 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
         /**
          * Process address items
          */
-        $items = $address->getAllItems();
+        $items = $this->_getAddressItems($address);
         foreach ($items as $item) {
             if ($this->_initItem($address, $item) && $item->getQty() > 0) {
                 /**
@@ -163,5 +163,15 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
             'value' => $address->getSubtotal()
         ));
         return $this;
+    }
+
+    /**
+     * Get Subtotal label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return Mage::helper('sales')->__('Subtotal');
     }
 }

@@ -51,7 +51,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
      */
     public function isValid()
     {
-        $this->filterValues();
+        $this->_filterValues();
         $this->_errors = array();
 
         // start date, order ref ID, schedule description
@@ -122,7 +122,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
             }
             if ($asMessage) {
                 return Mage::throwException(
-                    Mage::helper('payment')->__("Payment profile cannot be saved:\n%s", implode("\n", $result))
+                    Mage::helper('payment')->__("Payment profile is invalid:\n%s", implode("\n", $result))
                 );
             }
             return $result;
@@ -143,6 +143,25 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Import product recurring profile information
+     * Returns false if it cannot be imported
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_Payment_Model_Recurring_Profile|false
+     */
+    public function importProduct(Mage_Catalog_Model_Product $product)
+    {
+        if ($product->isRecurring() && is_array($product->getRecurringProfile())) {
+            $this->addData($product->getRecurringProfile());
+            if (!$this->hasScheduleDescription()) {
+                $this->setScheduleDescription($product->getName());
+            }
+            return $this->_filterValues();
+        }
+        return false;
+    }
+
+    /**
      * Determine nearest possible profile start date
      *
      * @param Zend_Date $minAllowed
@@ -157,45 +176,6 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
             $date = new Zend_Date(time());
         }
         $this->setStartDate($date->toString(Varien_Date::DATE_INTERNAL_FORMAT));
-        return $this;
-    }
-
-    /**
-     * Filter self data to make sure it can be validated properly
-     *
-     * @return Mage_Payment_Model_Recurring_Profile
-     */
-    public function filterValues()
-    {
-        // determine payment method/code
-        if ($this->_methodInstance) {
-            $this->setMethodCode($this->_methodInstance->getCode());
-        }
-        elseif ($this->getMethodCode()) {
-            $this->setMethodInstance(Mage::helper('payment')->getMethodInstance($this->getMethodCode()));
-        }
-
-        // unset redundant values, if empty
-        foreach (array(
-            'suspension_threshold', 'bill_failed_later', 'period_frequency', 'period_max_cycles', 'reference_id',
-            'trial_period_unit', 'trial_period_frequency', 'trial_period_max_cycles', 'init_may_fail') as $key) {
-            if ($this->hasData($key) && (!$this->getData($key) || '0' == $this->getData($key))) {
-                $this->unsetData($key);
-            }
-        }
-
-        // cast amounts
-        foreach (array(
-            'billing_amount', 'trial_billing_amount', 'shipping_amount', 'tax_amount', 'init_amount') as $key) {
-            if ($this->hasData($key)) {
-                if (!$this->getData($key)) {
-                    $this->unsetData($key);
-                } else {
-                    $this->setData($key, sprintf('%.4F', $this->getData($key)));
-                }
-            }
-        }
-
         return $this;
     }
 
@@ -287,7 +267,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
             case 'start_date':
                 return Mage::helper('payment')->__('The date when billing for the profile begins.');
             case 'schedule_description':
-                return Mage::helper('payment')->__('Short description of the recurring payment.');
+                return Mage::helper('payment')->__('Short description of the recurring payment. By default equals to the product name.');
             case 'suspension_threshold':
                 return Mage::helper('payment')->__('The number of scheduled payments that can fail before the profile is automatically suspended.');
             case 'bill_failed_later':
@@ -298,17 +278,50 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
                 return Mage::helper('payment')->__('Number of billing periods that make up one billing cycle.');
             case 'period_max_cycles':
                 return Mage::helper('payment')->__('The number of billing cycles for payment period.');
-            case 'billing_amount':
-                return Mage::helper('payment')->__('Billing amount for each billing cycle during the payment period. Does not include shipping and tax amounts. Calculated automatically basing on the product nominal charges, if not specified.');
-            case 'shipping_amount':
-                return Mage::helper('payment')->__('Shipping amount for each billing cycle during the payment period. Ignored if the billing amount is not specified.');
-            case 'tax_amount':
-                return Mage::helper('payment')->__('Tax amount for each billing cycle during the payment period. Ignored if the billing amount is not specified.');
             case 'init_amount':
                 return Mage::helper('payment')->__('Initial non-recurring payment amount due immediately upon profile creation.');
             case 'init_may_fail':
                 return Mage::helper('payment')->__('Whether to suspend the payment profile if the initial fee fails or add it to the outstanding balance.');
         }
+    }
+
+    /**
+     * Filter self data to make sure it can be validated properly
+     *
+     * @return Mage_Payment_Model_Recurring_Profile
+     */
+    protected function _filterValues()
+    {
+        // determine payment method/code
+        if ($this->_methodInstance) {
+            $this->setMethodCode($this->_methodInstance->getCode());
+        }
+        elseif ($this->getMethodCode()) {
+            $this->setMethodInstance(Mage::helper('payment')->getMethodInstance($this->getMethodCode()));
+        }
+
+        // unset redundant values, if empty
+        foreach (array('schedule_description',
+            'suspension_threshold', 'bill_failed_later', 'period_frequency', 'period_max_cycles', 'reference_id',
+            'trial_period_unit', 'trial_period_frequency', 'trial_period_max_cycles', 'init_may_fail') as $key) {
+            if ($this->hasData($key) && (!$this->getData($key) || '0' == $this->getData($key))) {
+                $this->unsetData($key);
+            }
+        }
+
+        // cast amounts
+        foreach (array(
+            'billing_amount', 'trial_billing_amount', 'shipping_amount', 'tax_amount', 'init_amount') as $key) {
+            if ($this->hasData($key)) {
+                if (!$this->getData($key) || 0 == $this->getData($key)) {
+                    $this->unsetData($key);
+                } else {
+                    $this->setData($key, sprintf('%.4F', $this->getData($key)));
+                }
+            }
+        }
+
+        return $this;
     }
 
     /**

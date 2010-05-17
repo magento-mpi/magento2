@@ -31,6 +31,13 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     protected $_rates = null;
     protected $_numBoxes = 1;
 
+    /**
+     * Whether this carrier has fixed rates calculation
+     *
+     * @var bool
+     */
+    protected $_isFixed = false;
+
     const HANDLING_TYPE_PERCENT = 'P';
     const HANDLING_TYPE_FIXED = 'F';
 
@@ -122,6 +129,16 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     {
         $active = $this->getConfigData('active');
         return $active==1 || $active=='true';
+    }
+
+    /**
+     * Whether this carrier has fixed rates calculation
+     *
+     * @return bool
+     */
+    public function isFixed()
+    {
+        return $this->_isFixed;
     }
 
     /**

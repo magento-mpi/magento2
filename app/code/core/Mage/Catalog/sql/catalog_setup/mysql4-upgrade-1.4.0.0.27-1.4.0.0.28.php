@@ -27,39 +27,14 @@
 /* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 $installer = $this;
 
-// is price and related amounts are supposed to be calculated in purchase
-$installer->addAttribute('catalog_product', 'is_price_nominal', array(
-    'group'             => 'Prices',
-    'type'              => 'int',
-    'backend'           => '',
-    'frontend'          => '',
-    'label'             => 'Is Price Nominal',
-    'note'              => 'Nominal price participates in catalog, but is not accounted for purchases.',
-    'input'             => 'select',
-    'class'             => '',
-    'source'            => 'eav/entity_attribute_source_boolean',
-    'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-    'visible'           => true,
-    'required'          => false,
-    'user_defined'      => false,
-    'default'           => '',
-    'searchable'        => false,
-    'filterable'        => false,
-    'comparable'        => false,
-    'visible_on_front'  => false,
-    'unique'            => false,
-    'apply_to'          => 'simple,virtual',
-    'is_configurable'   => false
-));
-
 // is product used for recurring payments
 $installer->addAttribute('catalog_product', 'is_recurring', array(
-    'group'             => 'Prices',
+    'group'             => 'Recurring Profile',
     'type'              => 'int',
     'backend'           => '',
     'frontend'          => '',
-    'label'             => 'Is Recurring Payment',
-    'note'              => 'Nominal price option may be used for manipulating recurring fees.',
+    'label'             => 'Enable Recurring Profile',
+    'note'              => 'Products with recurring profile participate in catalog as nominal items.',
     'input'             => 'select',
     'class'             => '',
     'source'            => 'eav/entity_attribute_source_boolean',
@@ -79,7 +54,7 @@ $installer->addAttribute('catalog_product', 'is_recurring', array(
 
 // recurring payment profile
 $installer->addAttribute('catalog_product', 'recurring_profile', array(
-    'group'             => 'Prices',
+    'group'             => 'Recurring Profile',
     'type'              => 'text',
     'backend'           => 'catalog/product_attribute_backend_recurring',
     'frontend'          => '',

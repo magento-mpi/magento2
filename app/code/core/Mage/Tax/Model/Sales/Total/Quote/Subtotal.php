@@ -103,7 +103,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
         $address->setTotalAmount('subtotal', 0);
         $address->setBaseTotalAmount('subtotal', 0);
 
-        $items  = $address->getAllItems();
+        $items = $this->_getAddressItems($address);
         if (!$items) {
             return $this;
         }

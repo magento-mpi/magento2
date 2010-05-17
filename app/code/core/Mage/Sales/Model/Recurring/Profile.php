@@ -30,9 +30,9 @@
  */
 class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Profile
 {
-    const STATE_PENDING = 'pending';
-    // active
-    // suspended
+    const STATE_PENDING   = 'pending';
+    const STATE_ACTIVE    = 'active';
+    const STATE_SUSPENDED = 'suspended';
     // cancelled
 
     /**
@@ -137,13 +137,32 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     }
 
     /**
+     * Import quote item information to the profile
+     *
+     * @param Mage_Sales_Model_Quote_Item_Abstract $item
+     * @return Mage_Sales_Model_Recurring_Profile
+     */
+    public function importQuoteItem(Mage_Sales_Model_Quote_Item_Abstract $item)
+    {
+        // TODO: make it abstract from amounts
+        $this->setBillingAmount($item->getBaseRowTotal())
+            ->setTaxAmount($item->getBaseTaxAmount())
+            ->setShippingAmount($item->getBaseShippingAmount())
+        ;
+        if (!$this->getScheduleDescription()) {
+            $this->setScheduleDescription($item->getname());
+        }
+        return $this->_filterValues();
+    }
+
+    /**
      * Automatically set "unknown" state if not defined
      *
      * @return Mage_Payment_Model_Recurring_Profile
      */
-    public function filterValues()
+    protected function _filterValues()
     {
-        $result = parent::filterValues();
+        $result = parent::_filterValues();
 
         // state
         if (!$this->getState()) {

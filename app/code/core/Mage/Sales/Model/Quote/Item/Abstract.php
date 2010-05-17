@@ -282,6 +282,20 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     }
 
     /**
+     * Get whether the item is nominal
+     * TODO: fix for multishipping checkout
+     *
+     * @return bool
+     */
+    public function isNominal()
+    {
+        if (!$this->hasData('is_nominal')) {
+            $this->setData('is_nominal', $this->getProduct() ? '1' == $this->getProduct()->getIsRecurring() : false);
+        }
+        return $this->_getData('is_nominal');
+    }
+
+    /**
      * Get original price (retrieved from product) for item.
      * Original price value is in current selected currency
      *
@@ -495,18 +509,6 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     public function getTaxAmount()
     {
         return $this->_getData('tax_amount');
-
-        $priceType = $this->getProduct()->getPriceType();
-        if ($this->getHasChildren() && (null !== $priceType) && (int)$priceType === Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
-            $amount = 0;
-            foreach ($this->getChildren() as $child) {
-                $amount+= $child->getTaxAmount();
-            }
-            return $amount;
-        }
-        else {
-            return $this->_getData('tax_amount');
-        }
     }
 
 
@@ -519,18 +521,6 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     public function getBaseTaxAmount()
     {
         return $this->_getData('base_tax_amount');
-
-        $priceType = $this->getProduct()->getPriceType();
-        if ($this->getHasChildren() && (null !== $priceType) && (int)$priceType === Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
-            $baseAmount = 0;
-            foreach ($this->getChildren() as $child) {
-                $baseAmount+= $child->getBaseTaxAmount();
-            }
-            return $baseAmount;
-        }
-        else {
-            return $this->_getData('base_tax_amount');
-        }
     }
 
     /**

@@ -98,6 +98,12 @@
                         <before>grand_total</before>
                     </discount>
                 </totals>
+                <nominal_totals>
+                    <nominal_discount>
+                        <class>salesrule/quote_nominal_discount</class>
+                        <after>nominal_tax_subtotal</after>
+                    </nominal_discount>
+                </nominal_totals>
             </quote>
         </sales>
     </global>

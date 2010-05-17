@@ -1223,36 +1223,60 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Getter whether quote has nominal items
+     * Can bypass treating virtual items as nominal
+     *
+     * @param bool $countVirtual
+     * @return bool
+     */
+    public function hasNominalItems($countVirtual = true)
+    {
+        foreach ($this->getAllVisibleItems() as $item) {
+            if ($item->isNominal()) {
+                if ((!$countVirtual) && $item->getProduct()->isVirtual()) {
+                    continue;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Whether quote has nominal items only
+     *
+     * @return bool
+     */
+    public function isNominal()
+    {
+        foreach ($this->getAllVisibleItems() as $item) {
+            if (!$item->isNominal()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Create recurring payment profiles basing on the current items
      *
      * @return array
      */
     public function prepareRecurringPaymentProfiles()
     {
-        // require totals collected?
+        // TODO: require totals collected?
 
         $result = array();
         foreach ($this->getAllVisibleItems() as $item) {
             $product = $item->getProduct();
-            if (is_object($product) && $product->isRecurring() && is_array($product->getRecurringProfile())) {
-                $profile = Mage::getModel('sales/recurring_profile')
-                    ->addData($product->getRecurringProfile())
-                    ->filterValues()
-                ;
+            if (is_object($product) && $profile = Mage::getModel('sales/recurring_profile')->importProduct($product)) {
                 if ($this->getPayment() && $this->getPayment()->getMethod()) {
                     $profile->setMethodInstance($this->getPayment()->getMethodInstance());
                 }
                 // start date TODO: add customer date, if he was allowed to set it
                 $profile->setNearestStartDate();
 
-                // automatically determine amounts, if not specified
-                if (0 >= $profile->getBillingAmount()) {
-                    $profile->setBillingAmount($item->getBaseRowTotal());
-                    $profile->setTaxAmount(abs($item->getBaseRowTotal() - $item->getBaseRowTotalInclTax()));
-                    // shipping - TODO: poke in totals to determine it
-                }
-
-                $profile->setCurrencyCode($this->getBaseCurrencyCode());
+                $profile->importQuoteItem($item)->setCurrencyCode($this->getBaseCurrencyCode());
                 $result[] = $profile;
             }
         }

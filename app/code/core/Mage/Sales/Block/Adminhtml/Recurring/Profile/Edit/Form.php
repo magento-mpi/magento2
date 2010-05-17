@@ -152,9 +152,6 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Adminh
         ), 'select');
         $this->_addField($billing, 'period_frequency');
         $this->_addField($billing, 'period_max_cycles');
-        $this->_addField($billing, 'billing_amount');
-        $this->_addField($billing, 'shipping_amount');
-        $this->_addField($billing, 'tax_amount');
 
         // trial
         $trial = $form->addFieldset('trial_fieldset', array(
@@ -197,7 +194,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Adminh
             'note'     => $this->_profile->getFieldComment($elementName),
             'disabled' => $this->_isReadOnly,
         ));
-        if (in_array($elementName, array('schedule_description', 'period_unit', 'period_frequency'))) {
+        if (in_array($elementName, array('period_unit', 'period_frequency'))) {
             $options['required'] = true;
         }
         return $formOrFieldset->addField($elementName, $type, $options);

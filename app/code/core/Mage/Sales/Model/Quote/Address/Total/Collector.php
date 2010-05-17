@@ -32,6 +32,20 @@ class Mage_Sales_Model_Quote_Address_Total_Collector
     protected $_retrievers  = array();
     protected $_store;
 
+    /**
+     * Configuration path where to collect registered totals
+     *
+     * @var string
+     */
+    protected $_totalsConfigNode = 'global/sales/quote/totals';
+
+    /**
+     * Cache key for collectors
+     *
+     * @var string
+     */
+    protected $_collectorsCacheKey = 'sorted_quote_collectors';
+
 
     public function __construct($options)
     {
@@ -72,7 +86,7 @@ class Mage_Sales_Model_Quote_Address_Total_Collector
      */
     protected function _initModels()
     {
-        $totalsConfig = Mage::getConfig()->getNode('global/sales/quote/totals');
+        $totalsConfig = Mage::getConfig()->getNode($this->_totalsConfigNode);
 
         foreach ($totalsConfig->children() as $totalCode=>$totalConfig) {
             $class = $totalConfig->getClassName();
@@ -128,7 +142,7 @@ class Mage_Sales_Model_Quote_Address_Total_Collector
     protected function _getSortedCollectorCodes()
     {
         if (Mage::app()->useCache('config')) {
-            $cachedData = Mage::app()->loadCache('sorted_quote_collectors');
+            $cachedData = Mage::app()->loadCache($this->_collectorsCacheKey);
             if ($cachedData) {
                 return unserialize($cachedData);
             }
@@ -163,7 +177,7 @@ class Mage_Sales_Model_Quote_Address_Total_Collector
         uasort($configArray, array($this, '_compareTotals'));
         $sortedCollectors = array_keys($configArray);
         if (Mage::app()->useCache('config')) {
-            Mage::app()->saveCache(serialize($sortedCollectors), 'sorted_quote_collectors', array(
+            Mage::app()->saveCache(serialize($sortedCollectors), $this->_collectorsCacheKey, array(
                 Mage_Core_Model_Config::CACHE_TAG
             ));
         }
@@ -182,7 +196,7 @@ class Mage_Sales_Model_Quote_Address_Total_Collector
         foreach ($sortedCodes as $code) {
             $this->_collectors[$code] = $this->_models[$code];
         }
-        
+
         return $this;
     }
 

@@ -563,8 +563,13 @@
         <sales>
             <quote>
                 <totals>
+                    <nominal>
+                        <class>sales/quote_address_total_nominal</class>
+                        <before>subtotal</before>
+                    </nominal>
                     <subtotal>
                         <class>sales/quote_address_total_subtotal</class>
+                        <after>nominal</after>
                         <before>grand_total</before>
                     </subtotal>
                     <shipping>
@@ -577,6 +582,15 @@
                         <after>subtotal</after>
                     </grand_total>
                 </totals>
+                <nominal_totals>
+                    <nominal_subtotal>
+                        <class>sales/quote_address_total_nominal_subtotal</class>
+                    </nominal_subtotal>
+                    <nominal_shipping>
+                        <class>sales/quote_address_total_nominal_shipping</class>
+                        <after>nominal_subtotal</after>
+                    </nominal_shipping>
+                </nominal_totals>
                 <item>
                     <product_attributes>
                         <sku/>
@@ -595,7 +609,6 @@
                         <special_to_date/>
                         <special_price/>
                         <cost/>
-                        <is_price_nominal/><!-- for totals calculation only -->
                         <is_recurring/><!-- for totals calculation, placing and processing order -->
                         <recurring_profile/><!-- for placing order -->
                     </product_attributes>

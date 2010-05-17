@@ -99,7 +99,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
             $address->setAppliedTaxes(array());
         }
 
-        $items = $address->getAllItems();
+        $items = $this->_getAddressItems($address);
         if (!count($items)) {
             return $this;
         }
@@ -215,7 +215,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
      */
     protected function _unitBaseCalculation(Mage_Sales_Model_Quote_Address $address, $taxRateRequest)
     {
-        $items  = $address->getAllItems();
+        $items = $this->_getAddressItems($address);
         foreach ($items as $item) {
             if ($item->getParentItemId()) {
                 continue;
@@ -307,7 +307,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
      */
     protected function _rowBaseCalculation(Mage_Sales_Model_Quote_Address $address, $taxRateRequest)
     {
-        $items  = $address->getAllItems();
+        $items = $this->_getAddressItems($address);
         foreach ($items as $item) {
             if ($item->getParentItemId()) {
                 continue;
@@ -394,7 +394,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
      */
     protected function _totalBaseCalculation(Mage_Sales_Model_Quote_Address $address, $taxRateRequest)
     {
-        $items      = $address->getAllItems();
+        $items      = $this->_getAddressItems($address);
         $store      = $address->getQuote()->getStore();
         $taxGroups  = array();
 
@@ -662,5 +662,15 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                 break;
         }
         return $config;
+    }
+
+    /**
+     * Get Tax label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return Mage::helper('tax')->__('Tax');
     }
 }
