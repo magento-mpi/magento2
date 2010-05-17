@@ -767,14 +767,14 @@ ul.item-options li { padding-left:.7em; }
 .order-totals table .validation-advice  { text-align:right; white-space:nowrap; background-position:100% 1px; padding-right:14px; padding-left:0; }
 .grand-total, .grand_total              { font-size:1.2em; font-weight:bold; color:#eb4d00 !important; }
 
-/* Tax details */
-.tax-total { cursor:pointer; }
-.tax-total td { padding-top:5px !important; padding-bottom:5px !important; }
-.tax-total .tax-collapse { float:right; padding-left:20px; background:url(images/bg_collapse.gif) 0 4px no-repeat; text-align:right; cursor:pointer; }
-.show-details .tax-collapse { background-position:0 -52px; }
+/* Shopping cart total summary row expandable to details */
+.summary-total { cursor:pointer; }
+.summary-total td { padding-top:5px !important; padding-bottom:5px !important; }
+.summary-total .summary-collapse { float:right; padding-left:20px; background:url(images/bg_collapse.gif) 0 4px no-repeat; text-align:right; cursor:pointer; }
+.show-details .summary-collapse { background-position:0 -52px; }
 .show-details td { border-top:1px solid #eae1b2; }
-.tax-details td { font-size:11px; background-color:#fdfcdf; }
-.tax-details-first td { border-top:1px solid #eae1b2; }
+.summary-details td { font-size:11px; background-color:#fdfcdf; }
+.summary-details-first td { border-top:1px solid #eae1b2; }
 
 /* Order Constants */
 .payment-methods dt                     { margin-bottom:3px; }

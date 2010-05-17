@@ -347,14 +347,14 @@ p.required { font-size:10px; text-align:right; color:#f00; }
 .data-table th.label { font-weight:bold; background-color:#f6f6f6; }
 .data-table td.value {}
 
-/* Tax Details Row */
-tr.tax-total { cursor:pointer; }
-tr.tax-total td {}
-tr.tax-total .tax-collapse { float:right; text-align:right; padding-left:20px; background:url(../images/bkg_collapse.gif) 0 4px no-repeat; cursor:pointer; }
-tr.show-details .tax-collapse { background-position:0 -53px; }
+/* Shopping cart total summary row expandable to details */
+tr.summary-total { cursor:pointer; }
+tr.summary-total td {}
+tr.summary-total .summary-collapse { float:right; text-align:right; padding-left:20px; background:url(../images/bkg_collapse.gif) 0 4px no-repeat; cursor:pointer; }
+tr.show-details .summary-collapse { background-position:0 -53px; }
 tr.show-details td {}
-tr.tax-details td { font-size:11px; background-color:#dae1e4; color:#626465; }
-tr.tax-details-first td { border-top:1px solid #d2d8db; }
+tr.summary-details td { font-size:11px; background-color:#dae1e4; color:#626465; }
+tr.summary-details-first td { border-top:1px solid #d2d8db; }
 
 /* Shopping cart tax info */
 .cart-tax-info { display:block; }

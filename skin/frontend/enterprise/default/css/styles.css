@@ -426,14 +426,14 @@ p.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
 .page-popup .data-table th { border-bottom:1px solid #d9d9d9; }
 .page-popup .buttons-set .button { float:right; }
 
-/* Tax Details Row */
-tr.tax-total { cursor:pointer; }
-tr.tax-total td {}
-tr.tax-total .tax-collapse { float:right; text-align:right; padding-left:20px; background:url(../images/bkg_collapse.gif) 0 4px no-repeat; cursor:pointer; }
-tr.show-details .tax-collapse { background-position:0 -53px; }
+/* Shopping cart total summary row expandable to details */
+tr.summary-total { cursor:pointer; }
+tr.summary-total td {}
+tr.summary-total .summary-collapse { float:right; text-align:right; padding-left:20px; background:url(../images/bkg_collapse.gif) 0 4px no-repeat; cursor:pointer; }
+tr.show-details .summary-collapse { background-position:0 -53px; }
 tr.show-details td {}
-tr.tax-details td { background-color:#ede9e6; font-size:12px; padding:5px !important; }
-tr.tax-details-first td {}
+tr.summary-details td { background-color:#ede9e6; font-size:12px; padding:5px !important; }
+tr.summary-details-first td {}
 
 /* Shopping cart tax info */
 .cart-tax-info,
