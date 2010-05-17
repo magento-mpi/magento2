@@ -693,7 +693,17 @@ Validation.addAllThese([
                     });
                 return result;
             }],
-     ['validate-percents', 'Please enter a number lower than 100', {max:100}]
+     ['validate-percents', 'Please enter a number lower than 100', {max:100}],
+     ['required-file', 'Please select a file', function(v, elm) {
+         var result = !Validation.get('IsEmpty').test(v);
+         if (result === false) {
+             ovId = elm.id + '_value';
+             if ($(ovId)) {
+                 result = !Validation.get('IsEmpty').test($(ovId).value);
+             }
+         }
+         return result;
+     }]
 
 ]);
 
