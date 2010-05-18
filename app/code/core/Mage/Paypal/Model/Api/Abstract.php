@@ -71,6 +71,13 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     protected $_shippingOptionsExportItemsFormat = array();
 
+    /**
+     * Imported recurring profiles array
+     *
+     * @var array
+     */
+    protected $_recurringPaymentProfiles = array();
+
    /**
      * Fields that should be replaced in debug with '***'
      *
@@ -291,6 +298,20 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     public function isPaymentComplete()
     {
         return $this->isPaid($this->getPaymentStatus());
+    }
+
+    /**
+     * Set recurring profiles
+     *
+     * @param array $items
+     * @return Mage_Paypal_Model_Api_Abstract
+     */
+    public function addRecurringPaymentProfiles(array $items)
+    {
+        if ($items) {
+            $this->_recurringPaymentProfiles = $items;
+        }
+        return $this;
     }
 
     /**

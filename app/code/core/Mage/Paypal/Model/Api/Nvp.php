@@ -49,7 +49,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     const PENDING_TRANSACTION_DENY = 'Deny';
 
     /**
-     * Paypal status values 
+     * Paypal status values
      */
     const STATUS_PENDING = 'Pending';
     const STATUS_PROCESSING = 'Processing';
@@ -152,6 +152,30 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'XID'          => 'centinel_xid',
         'VPAS'         => 'centinel_vpas_result',
         'ECISUBMITTED3DS' => 'centinel_eci_result',
+
+        // recurring payment profiles
+//'TOKEN' => 'token',
+        'SUBSCRIBERNAME'    =>'subscriber_name',
+        'PROFILESTARTDATE'  => 'start_datetime',
+        'PROFILEREFERENCE'  => 'internal_reference_id',
+        'DESC'              => 'schedule_description',
+        'MAXFAILEDPAYMENTS' => 'suspension_threshold',
+        'AUTOBILLAMT'       => 'bill_failed_later',
+        'BILLINGPERIOD'     => 'period_unit',
+        'BILLINGFREQUENCY'    => 'period_frequency',
+        'TOTALBILLINGCYCLES'  => 'period_max_cycles',
+//'AMT' => 'billing_amount', // have to use 'amount', see above
+        'TRIALBILLINGPERIOD'      => 'trial_period_unit',
+        'TRIALBILLINGFREQUENCY'   => 'trial_period_frequency',
+        'TRIALTOTALBILLINGCYCLES' => 'trial_period_max_cycles',
+        'TRIALAMT'            => 'trial_billing_amount',
+// 'CURRENCYCODE' => 'currency_code',
+        'SHIPPINGAMT'         => 'shipping_amount',
+        'TAXAMT'              => 'tax_amount',
+        'INITAMT'             => 'init_amount',
+        'FAILEDINITAMTACTION' => 'init_may_fail',
+        'PROFILEID'           => 'recurring_profile_id',
+        'PROFILESTATUS'       => 'recurring_profile_status',
     );
 
     /**
@@ -160,8 +184,17 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * @var array
      */
     protected $_exportToRequestFilters = array(
-        'AMT' => '_filterAmount',
+        'AMT'         => '_filterAmount',
+        'TRIALAMT'    => '_filterAmount',
+        'SHIPPINGAMT' => '_filterAmount',
+        'TAXAMT'      => '_filterAmount',
+        'INITAMT'     => '_filterAmount',
         'CREDITCARDTYPE' => '_filterCcType',
+//        'PROFILESTARTDATE' => '_filterToPaypalDate',
+        'AUTOBILLAMT' => '_filterBillFailedLater',
+        'BILLINGPERIOD' => '_filterPeriodUnit',
+        'TRIALBILLINGPERIOD' => '_filterPeriodUnit',
+        'FAILEDINITAMTACTION' => '_filterInitialAmountMayFail',
     );
 
     protected $_importFromRequestFilters = array(
@@ -266,6 +299,20 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * @var array
      */
     protected $_getPalDetailsResponse = array('PAL');
+
+    /**
+     * CreateRecurringPaymentsProfile request/response map
+     *
+     * @var array
+     */
+    protected $_createRecurringPaymentsProfileRequest = array(
+        'TOKEN', 'SUBSCRIBERNAME', 'PROFILESTARTDATE', 'PROFILEREFERENCE', 'DESC', 'MAXFAILEDPAYMENTS', 'AUTOBILLAMT',
+        'BILLINGPERIOD', 'BILLINGFREQUENCY', 'TOTALBILLINGCYCLES', 'AMT', 'TRIALBILLINGPERIOD', 'TRIALBILLINGFREQUENCY',
+        'TRIALTOTALBILLINGCYCLES', 'TRIALAMT', 'CURRENCYCODE', 'SHIPPINGAMT', 'TAXAMT', 'INITAMT', 'FAILEDINITAMTACTION'
+    );
+    protected $_createRecurringPaymentsProfileResponse = array(
+        'PROFILEID', 'PROFILESTATUS'
+    );
 
     /**
      * Map for billing address import/export
@@ -445,6 +492,14 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $this->_exportShippingOptions($request);
         }
 
+        // add recurring profiles information
+        $i = 0;
+        foreach ($this->_recurringPaymentProfiles as $profile) {
+            $request["L_BILLINGTYPE{$i}"] = 'RecurringPayments';
+            $request["L_BILLINGAGREEMENTDESCRIPTION{$i}"] = $profile->getScheduleDescription();
+            $i++;
+        }
+
         $response = $this->call(self::SET_EXPRESS_CHECKOUT, $request);
         $this->_importFromResponse($this->_setExpressCheckoutResponse, $response);
     }
@@ -518,7 +573,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function getIsPaymentCompleted()
     {
-        return $this->getPaymentStatus() == self::STATUS_COMPLETED; 
+        return $this->getPaymentStatus() == self::STATUS_COMPLETED;
     }
 
     /**
@@ -528,7 +583,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function getIsPaymentDenied()
     {
-        return $this->getPaymentStatus() == self::STATUS_DENIED; 
+        return $this->getPaymentStatus() == self::STATUS_DENIED;
     }
 
     /**
@@ -609,6 +664,29 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     {
         $response = $this->call('getPalDetails', array());
         $this->_importFromResponse($this->_getPalDetailsResponse, $response);
+    }
+
+    /**
+     * CreateRecurringPaymentsProfile call
+     *
+     * @param Mage_Payment_Model_Recurring_Profile $profile
+     */
+    public function callCreateRecurringPaymentsProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    {
+        Varien_Object_Mapper::accumulateByMap($profile, $this, array(
+            'token', // EC fields
+            // TODO: DP fields
+            // profile fields
+            'subscriber_name', 'start_datetime', 'internal_reference_id', 'schedule_description',
+            'suspension_threshold', 'bill_failed_later', 'period_unit', 'period_frequency', 'period_max_cycles',
+            'billing_amount' => 'amount', 'trial_period_unit', 'trial_period_frequency', 'trial_period_max_cycles',
+            'trial_billing_amount', 'currency_code', 'shipping_amount', 'tax_amount', 'init_amount', 'init_may_fail',
+        ));
+        $request = $this->_exportToRequest($this->_createRecurringPaymentsProfileRequest);
+        $response = $this->call('CreateRecurringPaymentsProfile', $request);
+        $this->_importFromResponse($this->_createRecurringPaymentsProfileResponse, $response);
+
+        $this->setIsProfileActive('ActiveProfile' === $this->getRecurringProfileStatus());
     }
 
     /**
@@ -924,6 +1002,45 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             return true;
         }
         return $value;
+    }
+
+    /**
+     * Filter for 'AUTOBILLAMT'
+     *
+     * @param string $value
+     * @return string
+     */
+    protected function _filterBillFailedLater($value)
+    {
+        return $value ? 'AddToNextBilling' : 'NoAutoBill';
+    }
+
+    /**
+     * Filter for 'BILLINGPERIOD' and 'TRIALBILLINGPERIOD'
+     *
+     * @param string $value
+     * @return string
+     */
+    protected function _filterPeriodUnit($value)
+    {
+        switch ($value) {
+            case 'day':        return 'Day';
+            case 'week':       return 'Week';
+            case 'semi_month': return 'SemiMonth';
+            case 'month':      return 'Month';
+            case 'year':       return 'Year';
+        }
+    }
+
+    /**
+     * Filter for 'FAILEDINITAMTACTION'
+     *
+     * @param string $value
+     * @return string
+     */
+    protected function _filterInitialAmountMayFail($value)
+    {
+        return $value ? 'ContinueOnFailure' : 'CancelOnFailure';
     }
 
     /**

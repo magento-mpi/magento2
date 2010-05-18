@@ -28,7 +28,7 @@
  * PayPal Website Payments Pro implementation for payment method instaces
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
-class Mage_Paypal_Model_Pro
+class Mage_Paypal_Model_Pro implements Mage_Payment_Model_Recurring_Profile_MethodInterface
 {
     /**
      * Config instance
@@ -299,7 +299,6 @@ class Mage_Paypal_Model_Pro
         Mage::getModel('paypal/info')->importToPayment($api, $payment);
     }
 
-    
     /**
      * Fetch transaction details info
      *
@@ -314,6 +313,78 @@ class Mage_Paypal_Model_Pro
         $api->callGetTransactionDetails();
         $data = $api->getRawSuccessResponseData();
         return ($data) ? $data : array();
+    }
+
+    /**
+     * Validate RP data
+     *
+     * @param Mage_Payment_Model_Recurring_Profile $profile
+     * @throws Mage_Core_Exception
+     */
+    public function validateRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    {
+        $errors = array();
+        if (strlen($profile->getSubscriberName()) > 32) { // up to 32 single-byte chars
+            $errors[] = Mage::helper('paypal')->__('Subscriber name is too long.');
+        }
+        $refId = $profile->getInternalReferenceId(); // up to 127 single-byte alphanumeric
+        if (strlen($refId) > 127) { //  || !preg_match('/^[a-z\d\s]+$/i', $refId)
+            $errors[] = Mage::helper('paypal')->__('Merchant reference ID format is not supported.');
+        }
+        $scheduleDescr = $profile->getScheduleDescription(); // up to 127 single-byte alphanumeric
+        if (strlen($refId) > 127) { //  || !preg_match('/^[a-z\d\s]+$/i', $scheduleDescr)
+            $errors[] = Mage::helper('paypal')->__('Schedule description is too long.');
+        }
+        if ($errors) {
+            Mage::throwException(implode(' ', $errors));
+        }
+    }
+
+    /**
+     * Submit RP to the gateway
+     *
+     * @param Mage_Payment_Model_Recurring_Profile $profile
+     * @throws Mage_Core_Exception
+     */
+    public function submitRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    {
+        $api = $this->getApi();
+        $api->callCreateRecurringPaymentsProfile($profile);
+        $profile->setReferenceId($api->getRecurringProfileId())
+            ->setState($api->getIsProfileActive() ? Mage_Sales_Model_Recurring_Profile::STATE_ACTIVE
+                : Mage_Sales_Model_Recurring_Profile::STATE_SUSPENDED
+            );
+    }
+
+    /**
+     * Fetch RP details
+     *
+     * @param string $referenceId
+     * @param Mage_Payment_Model_Recurring_Profile_Info $result
+     */
+    public function getRecurringProfileDetails($referenceId, Mage_Payment_Model_Recurring_Profile_Info $result)
+    {
+
+    }
+
+    /**
+     * Update RP data
+     *
+     * @param Mage_Payment_Model_Recurring_Profile $profile
+     */
+    public function updateRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    {
+        // not implemented
+    }
+
+    /**
+     * Manage status
+     *
+     * @param Mage_Payment_Model_Recurring_Profile $profile
+     */
+    public function updateRecurringProfileStatus(Mage_Payment_Model_Recurring_Profile $profile)
+    {
+
     }
 
     /**

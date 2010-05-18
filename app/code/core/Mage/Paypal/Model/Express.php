@@ -29,6 +29,7 @@
  * PayPal Express Module
  */
 class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
+    implements Mage_Payment_Model_Recurring_Profile_MethodInterface
 {
     protected $_code  = Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS;
     protected $_formBlockType = 'paypal/express_form';
@@ -261,6 +262,60 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
+     * Validate RP data
+     *
+     * @param Mage_Payment_Model_Recurring_Profile $profile
+     */
+    public function validateRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    {
+        return $this->_pro->validateRecurringProfile($profile);
+    }
+
+    /**
+     * Submit RP to the gateway
+     *
+     * @param Mage_Payment_Model_Recurring_Profile $profile
+     */
+    public function submitRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    {
+        $payment = $profile->getOriginalOrderItem()->getOrder()->getPayment();
+        $token = $payment->getAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_TOKEN);
+        $profile->setToken($token);
+        $this->_pro->submitRecurringProfile($profile);
+    }
+
+    /**
+     * Fetch RP details
+     *
+     * @param string $referenceId
+     * @param Mage_Payment_Model_Recurring_Profile_Info $result
+     */
+    public function getRecurringProfileDetails($referenceId, Mage_Payment_Model_Recurring_Profile_Info $result)
+    {
+        return $this->_pro->getRecurringProfileDetails($referenceId, $result);
+    }
+
+    /**
+     * Update RP data
+     *
+     * @param Mage_Payment_Model_Recurring_Profile $profile
+     */
+    public function updateRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    {
+        return $this->_pro->updateRecurringProfile($profile);
+    }
+
+    /**
+     * Manage status
+     *
+     * @param Mage_Payment_Model_Recurring_Profile $profile
+     */
+    public function updateRecurringProfileStatus(Mage_Payment_Model_Recurring_Profile $profile)
+    {
+        return $this->_pro->updateRecurringProfile($profile);
+    }
+
+    /**
      * Place an order with authorization or capture action
      *
      * @param Mage_Sales_Model_Order_Payment $payment
@@ -269,8 +324,13 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     protected function _placeOrder(Mage_Sales_Model_Order_Payment $payment, $amount)
     {
-        // prepare api call
         $order = $payment->getOrder();
+        // no need to call API when order is nominal
+        if ($order->isNominal()) {
+            return $this;
+        }
+
+        // prepare api call
         $token = $payment->getAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_TOKEN);
         $api = $this->_pro->getApi()
             ->setToken($token)

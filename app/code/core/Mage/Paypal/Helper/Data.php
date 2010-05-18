@@ -106,8 +106,8 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Get shipping options from shipping address
-     * if last parameter is true will added noRate if there are not other options  
-     * 
+     * if last parameter is true will added noRate if there are not other options
+     *
      * @param Mage_Sales_Model_Quote_Address $address
      * @param bool $_addNotChosenOption
      * @return array
@@ -160,7 +160,7 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
          * numbers are intentionally converted to strings because of possible comparison error
          * see http://php.net/float
          */
-        return sprintf('%.4f', ($sum + $totals['shipping'] + $totals['tax'])) == sprintf('%.4f', $referenceAmount);
+        return sprintf('%.4F', ($sum + $totals['shipping'] + $totals['tax'])) == sprintf('%.4F', $referenceAmount);
     }
 
     /**
@@ -183,9 +183,10 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
         if ($salesEntity instanceof Mage_Sales_Model_Order) {
             $qty = $item->getQtyOrdered();
             $amount = $item->getBasePrice();
+            // TODO: nominal item for order
         } else {
             $qty = $item->getTotalQty();
-            $amount = $item->getBaseCalculationPrice();
+            $amount = $item->isNominal() ? 0 : $item->getBaseCalculationPrice();
         }
         // workaround in case if item subtotal precision is not compatible with PayPal (.2)
         $subAggregatedLabel = '';

@@ -164,6 +164,7 @@ class Mage_Paypal_Model_Express_Checkout
      */
     public function start($returnUrl, $cancelUrl)
     {
+        $this->_quote->collectTotals();
         $this->_quote->reserveOrderId()->save();
         // prepare API
         $this->_getApi();
@@ -218,6 +219,17 @@ class Mage_Paypal_Model_Express_Checkout
             }
         }
 
+        // add recurring payment profiles information
+        if ($profiles = $this->_quote->prepareRecurringPaymentProfiles()) {
+            foreach ($profiles as $profile) {
+                $profile->setMethodCode(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
+                if (!$profile->isValid()) {
+                    Mage::throwException($profile->getValidationErrors(true, true));
+                }
+            }
+            $this->_api->addRecurringPaymentProfiles($profiles);
+        }
+
         $this->_api->setBusinessAccount($this->_config->businessAccount);
 
         $this->_config->exportExpressCheckoutStyleSettings($this->_api);
@@ -257,8 +269,8 @@ class Mage_Paypal_Model_Express_Checkout
         $this->_ignoreAddressValidation();
 
         // import shipping rate
-        if ((!$this->_quote->getIsVirtual()) && 
-            $this->_api->getShippingRateCode() && 
+        if ((!$this->_quote->getIsVirtual()) &&
+            $this->_api->getShippingRateCode() &&
             $this->_quote->getShippingAddress()) {
 
             $address = $this->_quote->getShippingAddress();
@@ -360,6 +372,7 @@ class Mage_Paypal_Model_Express_Checkout
         }
 
         $this->_ignoreAddressValidation();
+        $this->_quote->collectTotals();
         $order = Mage::getModel('sales/service_quote', $this->_quote)->submit();
         $this->_quote->save();
 
