@@ -24,22 +24,11 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Recurring payment profiles resource model
- */
-class Mage_Sales_Model_Mysql4_Recurring_Profile extends Mage_Sales_Model_Mysql4_Abstract
-{
-    /**
-     * Initialize main table and column
-     */
-    protected function _construct()
-    {
-        $this->_init('sales/recurring_profile', 'profile_id');
+$profileTable = $this->getTable('sales_recurring_profile');
+$this->getConnection()->addColumn($profileTable, 'order_item', 'text NOT NULL');
+$this->getConnection()->addColumn($profileTable, 'profile_info', 'text DEFAULT NULL');
+$this->getConnection()->addColumn($profileTable, 'additional_info', 'text DEFAULT NULL');
+$this->getConnection()->changeColumn($profileTable, 'start_date', 'start_datetime', 'datetime NOT NULL');
 
-        $this->_serializableFields = array(
-            'order_item'      => array(new Varien_Object, new Varien_Object),
-            'profile_info'    => array(null, new Mage_Payment_Model_Recurring_Profile_Info),
-            'additional_info' => array(null, array()),
-        );
-    }
-}
+$orderItemTable = $this->getTable('sales_flat_order_item');
+$this->getConnection()->addColumn($orderItemTable, 'is_nominal', 'int NOT NULL DEFAULT \'0\'');

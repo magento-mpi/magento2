@@ -296,6 +296,17 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     }
 
     /**
+     * Data getter for 'is_nominal'
+     * Used for converting item to order item
+     *
+     * @return int
+     */
+    public function getIsNominal()
+    {
+        return (int)$this->isNominal();
+    }
+
+    /**
      * Get original price (retrieved from product) for item.
      * Original price value is in current selected currency
      *

@@ -38,7 +38,6 @@ CREATE TABLE `{$profileTable}` (
   `method_code` varchar(32) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `token` varchar(100) DEFAULT NULL,
   `reference_id` varchar(32) DEFAULT NULL,
   `subscriber_name` varchar(150) DEFAULT NULL,
   `start_date` date NOT NULL,
@@ -64,6 +63,10 @@ CREATE TABLE `{$profileTable}` (
   PRIMARY KEY (`profile_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
+//  `start_datetime` datetime NOT NULL, (instead of start_date)
+//  `order_item` text NOT NULL,
+//  `profile_info` text DEFAULT NULL,
+//  `additional_info` text DEFAULT NULL,
 $this->getConnection()->addConstraint('FK_RECURRING_PROFILE_ORDER_ITEM', $profileTable, 'order_item_id',
     $orderItemTable, 'item_id'
 );

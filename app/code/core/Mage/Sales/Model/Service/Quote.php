@@ -254,7 +254,11 @@ class Mage_Sales_Model_Service_Quote
                 ));
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            if ($order->isNominal()) {
+                throw $e;
+            } else {
+                Mage::logException($e);
+            }
         }
     }
 }

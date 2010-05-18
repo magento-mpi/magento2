@@ -19,27 +19,47 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Sales
+ * @package     Mage_Payment
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Recurring payment profiles resource model
+ * Recurring profile info object that returns labels and values for its public properties
  */
-class Mage_Sales_Model_Mysql4_Recurring_Profile extends Mage_Sales_Model_Mysql4_Abstract
+class Mage_Payment_Model_Recurring_Profile_Info
 {
     /**
-     * Initialize main table and column
+     * Getter for label
+     *
+     * @param string $key
+     * @return string
      */
-    protected function _construct()
+    public function getLabel($key)
     {
-        $this->_init('sales/recurring_profile', 'profile_id');
+        return $key;
+    }
 
-        $this->_serializableFields = array(
-            'order_item'      => array(new Varien_Object, new Varien_Object),
-            'profile_info'    => array(null, new Mage_Payment_Model_Recurring_Profile_Info),
-            'additional_info' => array(null, array()),
-        );
+    /**
+     * Getter for value
+     *
+     * @param string $key
+     * @return string
+     */
+    public function getValue($key)
+    {
+        return $this->_renderValue($key, isset($this->$key) ? $this->$key : null);
+    }
+
+    /**
+     * Filter value before getting
+     *
+     * @param string $key
+     * @param string $value
+     * @return string
+     */
+    protected function _renderValue($key, $value)
+    {
+        return $value;
     }
 }

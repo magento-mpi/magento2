@@ -379,7 +379,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canShip()
     {
-        if ($this->canUnhold() || 
+        if ($this->canUnhold() ||
             $this->getState() === self::STATE_PENDING_PAYMENT_REVIEW) {
             return false;
         }
@@ -438,8 +438,8 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canReorder()
     {
-        if ($this->canUnhold() || 
-            !$this->getCustomerId() || 
+        if ($this->canUnhold() ||
+            !$this->getCustomerId() ||
             $this->getState() === self::STATE_PENDING_PAYMENT_REVIEW) {
             return false;
         }
@@ -1142,6 +1142,21 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $this->getItemsCollection()->addItem($item);
         }
         return $this;
+    }
+
+    /**
+     * Whether the order has nominal items only
+     *
+     * @return bool
+     */
+    public function isNominal()
+    {
+        foreach ($this->getAllVisibleItems() as $item) {
+            if ('0' == $item->getIsNominal()) {
+                return false;
+            }
+        }
+        return true;
     }
 
 /*********************** PAYMENTS ***************************/

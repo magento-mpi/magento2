@@ -55,9 +55,9 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         $this->_errors = array();
 
         // start date, order ref ID, schedule description
-        if (!$this->getStartDate()) {
+        if (!$this->getStartDatetime()) {
 // TODO: validate format?
-            $this->_errors['start_date'][] = Mage::helper('payment')->__('Start date is undefined.');
+            $this->_errors['start_datetime'][] = Mage::helper('payment')->__('Start date is undefined.');
         }
         if (!$this->getScheduleDescription()) {
             $this->_errors['schedule_description'][] = Mage::helper('payment')->__('Schedule description must be not empty.');
@@ -98,7 +98,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         }
         if ($this->_methodInstance) {
             try {
-                $this->_methodInstance->validateRecurringPaymentProfile($this);
+                $this->_methodInstance->validateRecurringProfile($this);
             } catch (Mage_Core_Exception $e) {
                 $this->_errors['payment_method'][] = $e->getMessage();
             }
@@ -167,15 +167,18 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
      * @param Zend_Date $minAllowed
      * @return Mage_Payment_Model_Recurring_Profile
      */
-    public function setNearestStartDate(Zend_Date $minAllowed = null)
+    public function setNearestStartDatetime(Zend_Date $minAllowed = null)
     {
         // TODO: implement proper logic with invoking payment method instance
+        return $this->setStartDatetime(date('c'));
+
+
         if ($minAllowed) {
             $date = $minAllowed;
         } else {
             $date = new Zend_Date(time());
         }
-        $this->setStartDate($date->toString(Varien_Date::DATE_INTERNAL_FORMAT));
+        $this->setStartDatetime($date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
 
@@ -210,7 +213,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         switch ($field) {
             case 'subscriber_name':
                 return Mage::helper('payment')->__('Subscriber Name');
-            case 'start_date':
+            case 'start_datetime':
                 return Mage::helper('payment')->__('Start Date');
             case 'internal_reference_id':
                 return Mage::helper('payment')->__('Internal Reference ID');
@@ -264,7 +267,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         switch ($field) {
             case 'subscriber_name':
                 return Mage::helper('payment')->__('Full name of the person receiving the product or service paid for by the recurring payment.');
-            case 'start_date':
+            case 'start_datetime':
                 return Mage::helper('payment')->__('The date when billing for the profile begins.');
             case 'schedule_description':
                 return Mage::helper('payment')->__('Short description of the recurring payment. By default equals to the product name.');
@@ -297,7 +300,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
             $this->setMethodCode($this->_methodInstance->getCode());
         }
         elseif ($this->getMethodCode()) {
-            $this->setMethodInstance(Mage::helper('payment')->getMethodInstance($this->getMethodCode()));
+            $this->_initMethodInstance();
         }
 
         // unset redundant values, if empty
@@ -322,6 +325,21 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         }
 
         return $this;
+    }
+
+    /**
+     * Initialize payment method instance from code
+     *
+     * @param int $storeId
+     */
+    protected function _initMethodInstance($storeId = null)
+    {
+        if (!$this->_methodInstance) {
+            $this->setMethodInstance(Mage::helper('payment')->getMethodInstance($this->getMethodCode()));
+        }
+        if ($storeId) {
+            $this->_methodInstance->setStore($storeId);
+        }
     }
 
     /**

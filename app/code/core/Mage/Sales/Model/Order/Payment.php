@@ -610,7 +610,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
     /**
      * Accept order with payment method instance
-     * 
+     *
      * @return Mage_Sales_Model_Order_Payment
      */
     public function accept()
@@ -646,7 +646,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $invoice = $this->_getInvoiceForTransactionId($transactionId);
 
         if (!$invoice || $state != Mage_Sales_Model_Order::STATE_PENDING_PAYMENT_REVIEW) {
-            Mage::throwException(Mage::helper('sales')->__('Payment can not be accepted.'));    
+            Mage::throwException(Mage::helper('sales')->__('Payment can not be accepted.'));
         }
 
         if ($isOnline) {
@@ -677,7 +677,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
 
     /**
      * Accept order with payment method instance
-     * 
+     *
      * @return Mage_Sales_Model_Order_Payment
      */
     public function deny()
@@ -713,7 +713,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $invoice = $this->_getInvoiceForTransactionId($transactionId);
 
         if (!$invoice || $state != Mage_Sales_Model_Order::STATE_PENDING_PAYMENT_REVIEW) {
-            Mage::throwException(Mage::helper('sales')->__('This payment cannot be denied.'));    
+            Mage::throwException(Mage::helper('sales')->__('This payment cannot be denied.'));
         }
 
         if ($isOnline) {
@@ -766,6 +766,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             $this->getMethodInstance()
                 ->setStore($order->getStoreId())
                 ->authorize($this, $amount);
+            if ($order->isNominal()) {
+                $order->setState($state, $status, Mage::helper('sales')->__('Nominal order registered.'));
+                return $this;
+            }
             if ($this->getIsTransactionPending()) {
                 $status  = $this->getTransactionPendingStatus() ? $this->getTransactionPendingStatus() : true;
                 if ($this->getIsFraudDetected()) {

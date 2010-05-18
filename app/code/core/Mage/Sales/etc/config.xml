@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>1.4.0.11</version>
+            <version>1.4.0.12</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -209,6 +209,7 @@
                 <hidden_tax_amount><to_order_item>*</to_order_item></hidden_tax_amount>
                 <base_hidden_tax_amount><to_order_item>*</to_order_item></base_hidden_tax_amount>
                 <is_recurring><to_order_item>*</to_order_item></is_recurring>
+                <is_nominal><to_order_item>*</to_order_item></is_nominal>
             </sales_convert_quote_item>
 
             <sales_convert_order>
