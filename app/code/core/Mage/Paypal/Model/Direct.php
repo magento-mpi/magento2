@@ -143,6 +143,19 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     }
 
     /**
+     * Check whether payment method can be used
+     * @param Mage_Sales_Model_Quote
+     * @return bool
+     */
+    public function isAvailable($quote = null)
+    {
+        if ($this->_pro->getConfig()->isMethodAvailable() && parent::isAvailable($quote)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Custom getter for payment configuration
      *
      * @param string $field
@@ -156,9 +169,6 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         {
             case 'cctypes':
                 $value = $this->getAllowedCcTypes();
-                break;
-            case 'active':
-                $value = (bool)$this->_pro->getConfig()->$field && $this->_pro->getConfig()->isMethodSupportedForCountry();
                 break;
             default:
                 $value = $this->_pro->getConfig()->$field;

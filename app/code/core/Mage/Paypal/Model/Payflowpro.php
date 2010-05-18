@@ -107,6 +107,20 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     );
 
     /**
+     * Check whether payment method can be used
+     * @param Mage_Sales_Model_Quote
+     * @return bool
+     */
+    public function isAvailable($quote = null)
+    {
+        $config = Mage::getModel('paypal/config');
+        if ($config->isMethodAvailable($this->getCode()) && parent::isAvailable($quote)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Custom getter for payment configuration
      *
      * @param string $field
@@ -123,10 +137,6 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
                 break;
             default:
                 $value = parent::getConfigData($field, $storeId);
-        }
-        if ($field == 'active') {
-            $isSupported = Mage::getModel('paypal/config')->isMethodSupportedForCountry($this->getCode());
-            $value = (bool)$value && $isSupported;
         }
         return $value;
     }
