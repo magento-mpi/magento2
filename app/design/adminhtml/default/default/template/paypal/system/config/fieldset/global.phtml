@@ -246,6 +246,9 @@ PaypalConfig.prototype = {
         if (!this.getMethodSwitcher(method).checked && this.fastMode || !this.fastMode) {
             this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
         }
+        if (method == 'ec') {
+            this.toggleApiCredentials();
+        }
     },
 
     trackMerchantCountry: function()
@@ -308,26 +311,31 @@ PaypalConfig.prototype = {
             this.markMethodAsReadonly('ec',false);
             this.markMethodAsReadonly('ecpe',false);
         }
+        this.toggleApiCredentials();
     },
 
-    trackWpp: function()
+    toggleApiCredentials: function()
     {
-        var enabled = this.getMethodSwitcher('wpp').checked;
-
-        var wppGeneralRows = [
+        var visible = this.getMethodSwitcher('wpp').checked || this.getMethodSwitcher('ec').checked;
+        var apiCredentials = [
             'row_paypal_general_api_username','row_paypal_general_api_password',
             'row_paypal_general_api_signature','row_paypal_general_use_proxy'
         ];
-        wppGeneralRows.each(function(e) {
-            enabled ? this.enableRow(e) : this.disableRow(e);
+        apiCredentials.each(function(e) {
+            visible ? this.enableRow(e) : this.disableRow(e);
         }.bind(this));
-        if (enabled && $('paypal_general_use_proxy').value == 1) {
+        if (visible && $('paypal_general_use_proxy').value == 1) {
             this.enableRow('row_paypal_general_proxy_host');
             this.enableRow('row_paypal_general_proxy_port');
         } else {
             this.disableRow('row_paypal_general_proxy_host');
             this.disableRow('row_paypal_general_proxy_port');
         }
+    },
+
+    trackWpp: function()
+    {
+        var enabled = this.getMethodSwitcher('wpp').checked;
 
         if (enabled) {
             this.enableMethod('wpp',false);
@@ -341,6 +349,7 @@ PaypalConfig.prototype = {
         } else {
             this.disableRow('row_paypal_general_heading_api');
         }
+        this.toggleApiCredentials();
         this.trackWps();
     },
 
@@ -409,7 +418,7 @@ PaypalConfig.prototype = {
             headingLink.oldOnclick = headingLink.onclick;
             headingLink.onclick = "return false;";
             headingLink.href = "javascript:void(0)";
-        } else {
+        } else if (headingLink.oldOnclick && headingLink.oldHref) {
             headingLink.onclick = headingLink.oldOnclick;
             headingLink.href = headingLink.oldHref;
         }
