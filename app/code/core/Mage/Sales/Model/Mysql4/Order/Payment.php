@@ -30,70 +30,19 @@
  */
 class Mage_Sales_Model_Mysql4_Order_Payment extends Mage_Sales_Model_Mysql4_Order_Abstract
 {
+    /**
+     * Serializeable field: additional_information
+     *
+     * @var array
+     */
+    protected $_serializableFields = array(
+        'additional_information' => array(null, array())
+    );
+
     protected $_eventPrefix = 'sales_order_payment_resource';
 
     protected function _construct()
     {
         $this->_init('sales/order_payment', 'entity_id');
-    }
-
-    /**
-     * Also serialize additional information
-     *
-     * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Sales_Model_Mysql4_Order_Payment
-     */
-    protected function _beforeSave(Mage_Core_Model_Abstract $payment)
-    {
-        $additionalInformation = $payment->getData('additional_information');
-        if (empty($additionalInformation)) {
-            $payment->setData('additional_information', null);
-        } elseif (is_array($additionalInformation)) {
-            $payment->setData('additional_information', serialize($additionalInformation));
-        }
-        parent::_beforeSave($payment);
-        return $this;
-    }
-
-    /**
-     * Unserialize additional information after loading the object
-     *
-     * @param Varien_Object $payment
-     * @return Mage_Sales_Model_Mysql4_Order_Payment
-     */
-    protected function _afterLoad(Mage_Core_Model_Abstract $payment)
-    {
-        $this->unserializeFields($payment);
-        parent::_afterLoad($payment);
-        return $this;
-    }
-
-    /**
-     * Unserialize additional information after saving the object
-     *
-     * @param Varien_Object $payment
-     * @return Mage_Sales_Model_Mysql4_Order_Payment
-     */
-    protected function _afterSave(Mage_Core_Model_Abstract $payment)
-    {
-        $this->unserializeFields($payment);
-        parent::_afterSave($payment);
-        return $this;
-    }
-
-    /**
-     * Unserialize additional data if required
-     *
-     * @param Mage_Sales_Model_Order_Payment $payment
-     * @return void
-     */
-    public function unserializeFields(Mage_Sales_Model_Order_Payment $payment)
-    {
-        $additionalInformation = $payment->getData('additional_information');
-        if (empty($additionalInformation)) {
-            $payment->setData('additional_information', array());
-        } elseif (!is_array($additionalInformation)) {
-            $payment->setData('additional_information', unserialize($additionalInformation));
-        }
     }
 }

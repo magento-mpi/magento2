@@ -129,6 +129,21 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
     protected $_uniqueFields = null;
 
     /**
+     * Serializable fields declaration
+     *
+     * Structure: array(
+     *     <field_name> => array(
+     *         <default_value_for_serialization>,
+     *         <default_for_unserialization>,
+     *         <whether_to_unset_empty_when serializing> // optional parameter
+     *     ),
+     * )
+     *
+     * @var array
+     */
+    protected $_serializableFields = array();
+
+    /**
      * Standard resource model initialization
      *
      * @param string $mainTable
@@ -373,6 +388,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
             return $this->delete($object);
         }
 
+        $this->_serializeFields($object);
         $this->_beforeSave($object);
         $this->_checkUnique($object);
 
@@ -401,6 +417,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
             }
         }
 
+        $this->unserializeFields($object);
         $this->_afterSave($object);
 
         return $this;
@@ -475,6 +492,19 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
     {
          $this->_uniqueFields = array();
          return $this;
+    }
+
+    /**
+     * Unserialize serializeable object fields
+     *
+     * @param Mage_Core_Model_Abstract $object
+     */
+    public function unserializeFields(Mage_Core_Model_Abstract $object)
+    {
+        foreach ($this->_serializableFields as $field => $parameters) {
+            list($serializeDefault, $unserializeDefault) = $parameters;
+            $this->_unserializeField($object, $field, $unserializeDefault);
+        }
     }
 
     /**
@@ -666,6 +696,19 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
     protected function _afterDelete(Mage_Core_Model_Abstract $object)
     {
         return $this;
+    }
+
+    /**
+     * Serialize serializeable fields of the object
+     *
+     * @param Mage_Core_Model_Abstract $object
+     */
+    protected function _serializeFields(Mage_Core_Model_Abstract $object)
+    {
+        foreach ($this->_serializableFields as $field => $parameters) {
+            list($serializeDefault, $unserializeDefault) = $parameters;
+            $this->_serializeField($object, $field, $serializeDefault, isset($parameters[2]));
+        }
     }
 
     /**
