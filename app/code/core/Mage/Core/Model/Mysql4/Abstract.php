@@ -356,6 +356,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
             }
         }
 
+        $this->unserializeFields($object);
         $this->_afterLoad($object);
 
         return $this;
