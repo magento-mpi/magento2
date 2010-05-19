@@ -827,4 +827,28 @@ class Enterprise_Reward_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Add reward amount as separate item to paypal
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Reward_Model_Observer
+     */
+    public function addPaypalRewardItem(Varien_Event_Observer $observer)
+    {
+        $salesEntity = $observer->getEvent()->getSalesEntity();
+        if ($salesEntity instanceof Varien_Object && 0 != $salesEntity->getRewardCurrencyAmount()) {
+            $additionalItems = $observer->getEvent()->getAdditional();
+            $items = $additionalItems->getItems();
+            $items[] = new Varien_Object(array(
+                'id'     => Mage::helper('enterprise_reward')->__('Reward'),
+                'name'   => Mage::helper('enterprise_reward')->__('Reward points'),
+                'qty'    => 1,
+                'amount' => -1.00 * (float)$salesEntity->getBaseRewardCurrencyAmount()
+                )
+            );
+            $additionalItems->setItems($items);
+        }
+        return $this;
+    }
 }

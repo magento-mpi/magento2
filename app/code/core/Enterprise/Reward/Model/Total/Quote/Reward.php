@@ -53,7 +53,7 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Enterprise_Enterprise_M
             return $this;
         }
 
-        if (!$quote->getRewardPointsTotalReseted() && $address->getBaseGrandTotal() > 0) {
+        if (!$quote->getRewardPointsTotalReseted() && $address->getBaseGrandTotal() > 0) {           
             $quote->setRewardPointsBalance(0)
                 ->setRewardCurrencyAmount(0)
                 ->setBaseRewardCurrencyAmount(0);
@@ -64,12 +64,13 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Enterprise_Enterprise_M
         }
 
         if ($address->getBaseGrandTotal() && $quote->getCustomer()->getId() && $quote->getUseRewardPoints()) {
-            /* @var $reward Enterprise_Reward_Model_Reward */
+            /* @var $reward Enterprise_Reward_Model_Reward */            
             $reward = $quote->getRewardInstance();
             if (!$reward || !$reward->getId()) {
                 $reward = Mage::getModel('enterprise_reward/reward')
                     ->setCustomer($quote->getCustomer())
-                    ->setWebsite($quote->getStore()->getWebsiteId())
+                    ->setCustomerId($quote->getCustomer()->getId())
+                    ->setWebsiteId($quote->getStore()->getWebsiteId())
                     ->loadByCustomer();
             }
             $pointsLeft = $reward->getPointsBalance() - $quote->getRewardPointsBalance();

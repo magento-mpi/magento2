@@ -239,6 +239,14 @@
                     </enterprise_customerbalance>
                 </observers>
             </website_delete_before>
+            <paypal_prepare_line_items>
+                <observers>
+                    <enterprise_customerbalance>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>addPaypalCustomerBalanceItem</method>
+                    </enterprise_customerbalance>
+                </observers>
+            </paypal_prepare_line_items>
         </events>
         <pdf>
             <totals>

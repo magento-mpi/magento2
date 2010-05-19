@@ -473,4 +473,28 @@ class Enterprise_CustomerBalance_Model_Observer
         );
         return $this;
     }
+
+    /**
+     * Add customer balance amount as separate item to paypal
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CustomerBalance_Model_Observer
+     */
+    public function addPaypalCustomerBalanceItem(Varien_Event_Observer $observer)
+    {
+        $salesEntity = $observer->getEvent()->getSalesEntity();
+        if ($salesEntity instanceof Varien_Object && 0 != $salesEntity->getCustomerBalanceAmountUsed()) {
+            $additionalItems = $observer->getEvent()->getAdditional();
+            $items = $additionalItems->getItems();
+            $items[] = new Varien_Object(array(
+                'id'     => Mage::helper('enterprise_customerbalance')->__('Store Credit'),
+                'name'   => Mage::helper('enterprise_customerbalance')->__('Store Credit Balance'),
+                'qty'    => 1,
+                'amount' => -1.00 * (float)$salesEntity->getBaseCustomerBalanceAmount()
+                )
+            );
+            $additionalItems->setItems($items);
+        }
+        return $this;
+    }
 }

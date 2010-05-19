@@ -129,6 +129,14 @@
                     </enterprise_reward>
                 </observers>
             </newsletter_subscriber_save_commit_after>
+            <paypal_prepare_line_items>
+                <observers>
+                    <enterprise_reward>
+                        <class>enterprise_reward/observer</class>
+                        <method>addPaypalRewardItem</method>
+                    </enterprise_reward>
+                </observers>
+            </paypal_prepare_line_items>
             <sales_order_save_after>
                 <observers>
                     <enterprise_reward>
