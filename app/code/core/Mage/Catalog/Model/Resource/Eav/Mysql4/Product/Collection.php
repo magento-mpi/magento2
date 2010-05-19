@@ -985,7 +985,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
             return $this;
         }
-        $wId = Mage::app()->getWebsite()->getId();
+        $wId = Mage::app()->getStore($this->getStoreId())->getWebsite()->getId();
         $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
         $storeDate = Mage::app()->getLocale()->storeTimeStamp($this->getStoreId());
