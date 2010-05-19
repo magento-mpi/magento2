@@ -316,23 +316,35 @@ class Mage_Paypal_Model_Express_Checkout
      */
     public function getCallbackShippingOptionsResponse($request)
     {
-        $this->_getApi()->importCallbackRequest($request);
-        $callbackRequestShippingAddress = $this->_getApi()->getCallbackRequestShippingAddress();
-        $quoteShippingAddress = $this->_quote->getShippingAddress();
+        $logger = Mage::getModel('core/log_adapter', 'payment_' . $this->_methodType . '.log');
+        $debugData = array('request' => $request, 'response' => array());
 
-        $options = array();
-        if ((!$this->_quote->getIsVirtual()) && $callbackRequestShippingAddress && $quoteShippingAddress) {
-            foreach ($callbackRequestShippingAddress->getExportedKeys() as $key) {
-                $quoteShippingAddress->setDataUsingMethod($key, $callbackRequestShippingAddress->getData($key));
+        try {
+            $this->_getApi()->importCallbackRequest($request);
+            $callbackRequestShippingAddress = $this->_getApi()->getCallbackRequestShippingAddress();
+            $quoteShippingAddress = $this->_quote->getShippingAddress();
+
+            $options = array();
+            if ((!$this->_quote->getIsVirtual()) && $callbackRequestShippingAddress && $quoteShippingAddress) {
+                foreach ($callbackRequestShippingAddress->getExportedKeys() as $key) {
+                    $quoteShippingAddress->setDataUsingMethod($key, $callbackRequestShippingAddress->getData($key));
+                }
+                $quoteShippingAddress->setCollectShippingRates(true);
+                $quoteShippingAddress->collectShippingRates();
+                $options = Mage::helper('paypal')->prepareShippingOptions($quoteShippingAddress);
             }
-            $quoteShippingAddress->setCollectShippingRates(true);
-            $quoteShippingAddress->collectShippingRates();
-            $options = Mage::helper('paypal')->prepareShippingOptions($quoteShippingAddress);
+
+            $response = $this->_getApi()
+                ->setShippingOptions($options)
+                ->getCallbackResponse();
+
+            parse_str($response, $debugData['response']);
+            $logger->log($debugData);
+        } catch (Exception $e) {
+            $logger->log($debugData);
+            throw $e;
         }
 
-        $response = $this->_getApi()
-            ->setShippingOptions($options)
-            ->getCallbackResponse();
         return $response;
     }
 
