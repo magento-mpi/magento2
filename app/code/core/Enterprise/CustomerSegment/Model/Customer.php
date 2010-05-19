@@ -183,7 +183,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Enterprise_Enterprise_Mo
     {
         $existingIds = $this->getCustomerSegmentIdsForWebsite($customerId, $websiteId);
         $this->_getResource()->addCustomerToWebsiteSegments($customerId, $websiteId, $segmentIds);
-        $this->_customerWebsiteSegments[$websiteId][$customerId] = array_merge($existingIds, $segmentIds);
+        $this->_customerWebsiteSegments[$websiteId][$customerId] = array_unique(array_merge($existingIds, $segmentIds));
         return $this;
     }
 
@@ -241,7 +241,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Enterprise_Enterprise_Mo
         $customerId = $customer->getId();
         $existingIds = $this->getCustomerSegmentIds($customer);
         $this->_getResource()->addCustomerToSegments($customerId, $segmentIds);
-        $this->_customerSegments[$customerId] = array_merge($existingIds, $segmentIds);
+        $this->_customerSegments[$customerId] = array_unique(array_merge($existingIds, $segmentIds));
         return $this;
     }
 
