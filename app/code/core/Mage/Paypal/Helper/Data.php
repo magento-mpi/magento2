@@ -49,13 +49,20 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
                 $items[] = new Varien_Object($this->_prepareLineItemFields($salesEntity, $item));
             }
         }
+        $additionalItems = new Varien_Object(array('items'=>array()));
+        Mage::dispatchEvent('paypal_prepare_line_items', array('sales_entity'=>$salesEntity, 'additional'=>$additionalItems));
+        $additionalAmount = 0;
+        foreach ($additionalItems->getItems() as $item) {
+            $items[] = $item;
+            $additionalAmount += (float)$item['amount'];
+        }
         $discountAmount = 0; // this amount always includes the shipping discount
         $shippingDescription = '';
         if ($salesEntity instanceof Mage_Sales_Model_Order) {
             $discountAmount = abs(1 * $salesEntity->getBaseDiscountAmount());
             $shippingDescription = $salesEntity->getShippingDescription();
             $totals = array(
-                'subtotal' => $salesEntity->getBaseSubtotal() - $discountAmount,
+                'subtotal' => $salesEntity->getBaseSubtotal() - $discountAmount + $additionalAmount,
                 'tax'      => $salesEntity->getBaseTaxAmount(),
                 'shipping' => $salesEntity->getBaseShippingAmount(),
                 'discount' => $discountAmount,
@@ -66,7 +73,7 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
             $discountAmount = abs(1 * $address->getBaseDiscountAmount());
             $shippingDescription = $address->getShippingDescription();
             $totals = array (
-                'subtotal' => $salesEntity->getBaseSubtotal() - $discountAmount,
+                'subtotal' => $salesEntity->getBaseSubtotal() - $discountAmount + $additionalAmount,
                 'tax'      => $address->getBaseTaxAmount(),
                 'shipping' => $address->getBaseShippingAmount(),
                 'discount' => $discountAmount,
