@@ -41,6 +41,13 @@ updateLicense(array(
     REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_PRO, array('design', 'pro_default'), true, true, true
 );
 
+// skins for adminhtml
+updateLicense(array(
+        'skin/adminhtml/default/pro'
+    ), array('*.css', '*.js'),
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_PRO, array('design', 'default_pro'), true, true, true
+);
+
 // layouts
 updateLicense(array(
         'app/design/frontend/pro/default/layout',
