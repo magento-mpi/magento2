@@ -319,6 +319,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         }
         catch (Exception $e) {
             Mage::logException($e);
+            return array();
         }
     }
 
