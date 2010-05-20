@@ -127,4 +127,20 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         $block->setInfo($info);
         return $block;
     }
+
+    /**
+     * Retrieve available billing agreement methods
+     *
+     * @return array
+     */
+    public function getBillingAgreementMethods()
+    {
+        $result = array();
+        foreach ($this->getStoreMethods() as $method) {
+            if ($method->canManageBillingAgreements()) {
+                $result[] = $method;
+            }
+        }
+        return $result;
+    }
 }

@@ -61,6 +61,12 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     const STATUS_CREATED_REFUNDED = 'Created Refunded';
 
     /**
+     * Billing agreement status values
+     */
+    const BILLING_AGREEMENT_STATUS_CANCELED = 'Canceled';
+    const BILLING_AGREEMENT_STATUS_ACTIVE = 'Active';
+
+    /**
      * Capture types (make authorization close or remain open)
      * @var string
      */
@@ -176,6 +182,19 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'FAILEDINITAMTACTION' => 'init_may_fail',
         'PROFILEID'           => 'recurring_profile_id',
         'PROFILESTATUS'       => 'recurring_profile_status',
+
+        'BILLINGAGREEMENTID' => 'billing_agreement_id',
+        'REFERENCEID' => 'reference_id',
+        'BILLINGAGREEMENTSTATUS' => 'billing_agreement_status',
+        'BILLINGTYPE' => 'billing_type',
+        'SREET' => 'street',
+        'CITY' => 'city',
+        'STATE' => 'state',
+        'COUNTRYCODE' => 'countrycode',
+        'ZIP' => 'zip',
+
+        //'SHIPTOCOUNTRYCODE' => 'ship_to_country_code',
+        'PAYERBUSINESS' => 'payer_business'
     );
 
     /**
@@ -195,6 +214,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'BILLINGPERIOD' => '_filterPeriodUnit',
         'TRIALBILLINGPERIOD' => '_filterPeriodUnit',
         'FAILEDINITAMTACTION' => '_filterInitialAmountMayFail',
+        'BILLINGAGREEMENTSTATUS' => '_filterBillingAgreementStatus'
     );
 
     protected $_importFromRequestFilters = array(
@@ -401,6 +421,22 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'amount'     => 'L_SHIPPINGOPTIONAMOUNT%d',
     );
 
+    protected $_customerBillingAgreementRequest = array('RETURNURL', 'CANCELURL', 'BILLINGTYPE');
+    protected $_customerBillingAgreementResponse = array('TOKEN');
+
+    protected $_billingAgreementCustomerDetailsRequest = array('TOKEN');
+    protected $_billingAgreementCustomerDetailsResponse = array('EMAIL', 'PAYERID', 'PAYERSTATUS', 'SHIPTOCOUNTRYCODE', 'PAYERBUSINESS');
+
+    protected $_createBillingAgreementRequest = array('TOKEN');
+    protected $_createBillingAgreementResponse = array('BILLINGAGREEMENTID');
+
+    protected $_updateBillingAgreementRequest = array(
+        'REFERENCEID', 'BILLINGAGREEMENTDESCRIPTION', 'BILLINGAGREEMENTSTATUS', 'BILLINGAGREEMENTCUSTOM'
+    );
+    protected $_updateBillingAgreementResponse = array(
+        'REFERENCEID', 'BILLINGAGREEMENTDESCRIPTION', 'BILLINGAGREEMENTSTATUS', 'BILLINGAGREEMENTCUSTOM'
+    );
+
     /**
      * Fields that should be replaced in debug with '***'
      *
@@ -459,6 +495,16 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     public function getCallbackTimeout()
     {
         return 6;
+    }
+
+    /**
+     * Retrieve billing agreement type
+     *
+     * @return string
+     */
+    public function getBillingAgreementType()
+    {
+        return 'MerchantInitiatedBilling';
     }
 
     /**
@@ -664,6 +710,52 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     {
         $response = $this->call('getPalDetails', array());
         $this->_importFromResponse($this->_getPalDetailsResponse, $response);
+    }
+
+    /**
+     * Set Customer BillingA greement call
+     *
+     * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_SetCustomerBillingAgreement
+     */
+    public function callSetCustomerBillingAgreement()
+    {
+        $request = $this->_exportToRequest($this->_customerBillingAgreementRequest);
+        $response = $this->call('SetCustomerBillingAgreement', $request);
+        $this->_importFromResponse($this->_customerBillingAgreementResponse, $response);
+    }
+
+    /**
+     * Get Billing Agreement Customer Details call
+     *
+     * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_GetBillingAgreementCustomerDetails
+     */
+    public function callGetBillingAgreementCustomerDetails()
+    {
+        $request = $this->_exportToRequest($this->_billingAgreementCustomerDetailsRequest);
+        $response = $this->call('GetBillingAgreementCustomerDetails', $request);
+        $this->_importFromResponse($this->_billingAgreementCustomerDetailsResponse, $response);
+    }
+
+    /**
+     * Create Billing Agreement call
+     *
+     */
+    public function callCreateBillingAgreement()
+    {
+        $request = $this->_exportToRequest($this->_createBillingAgreementRequest);
+        $response = $this->call('CreateBillingAgreement', $request);
+        $this->_importFromResponse($this->_createBillingAgreementResponse, $response);
+    }
+
+    /**
+     * Billing Agreement Update call
+     *
+     */
+    public function callUpdateBillingAgreement()
+    {
+        $request = $this->_exportToRequest($this->_updateBillingAgreementRequest);
+        $response = $this->call('BillAgreementUpdate', $request);
+        $this->_importFromResponse($this->_updateBillingAgreementResponse, $response);
     }
 
     /**
@@ -1041,6 +1133,20 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     protected function _filterInitialAmountMayFail($value)
     {
         return $value ? 'ContinueOnFailure' : 'CancelOnFailure';
+    }
+
+    /**
+     * Filter for billing agreement status
+     *
+     * @param string $value
+     * @return string
+     */
+    protected function _filterBillingAgreementStatus($value)
+    {
+        switch ($value) {
+            case 'canceled':    return 'Canceled';
+            case 'active':      return 'Active';
+        }
     }
 
     /**

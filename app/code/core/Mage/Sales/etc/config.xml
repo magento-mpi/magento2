@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>1.4.0.12</version>
+            <version>1.4.0.13</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -434,6 +434,8 @@
                     <bestsellers_aggregated_daily><table>sales_bestsellers_aggregated_daily</table></bestsellers_aggregated_daily>
                     <bestsellers_aggregated_monthly><table>sales_bestsellers_aggregated_monthly</table></bestsellers_aggregated_monthly>
                     <bestsellers_aggregated_yearly><table>sales_bestsellers_aggregated_yearly</table></bestsellers_aggregated_yearly>
+
+                    <billing_agreement><table>sales_billing_agreement</table></billing_agreement>
 
                     <!--order></order>
 

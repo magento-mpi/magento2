@@ -198,6 +198,11 @@
                 <user backend_model="adminhtml/system_config_backend_encrypted"/>
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
             </verisign>
+            <paypal_billing_agreement translate="title">
+                <active>1</active>
+                <model>paypal/method_agreement</model>
+                <title>PayPal Billing Agreement</title>
+            </paypal_billing_agreement>
         </payment>
     </default>
 </config>

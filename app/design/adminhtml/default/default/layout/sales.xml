@@ -40,6 +40,12 @@
     <adminhtml_sales_order_transactions>
         <block type="adminhtml/sales_transactions_grid" name="sales_transactions.grid" output="toHtml"></block>
     </adminhtml_sales_order_transactions>
+    
+    <adminhtml_sales_billing_agreement_index>
+        <reference name="content">
+            <block type="sales/adminhtml_billing_agreement" name="sales_billing_agreement.grid.container"></block>
+        </reference>
+    </adminhtml_sales_billing_agreement_index>
 
     <adminhtml_sales_order_view>
         <reference name="content">

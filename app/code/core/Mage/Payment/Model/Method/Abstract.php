@@ -49,18 +49,19 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
      * Payment Method features
      * @var bool
      */
-    protected $_isGateway               = false;
-    protected $_canAuthorize            = false;
-    protected $_canCapture              = false;
-    protected $_canCapturePartial       = false;
-    protected $_canRefund               = false;
-    protected $_canRefundInvoicePartial = false;
-    protected $_canVoid                 = false;
-    protected $_canUseInternal          = true;
-    protected $_canUseCheckout          = true;
-    protected $_canUseForMultishipping  = true;
-    protected $_isInitializeNeeded      = false;
-    protected $_canFetchTransactionInfo = false;
+    protected $_isGateway                   = false;
+    protected $_canAuthorize                = false;
+    protected $_canCapture                  = false;
+    protected $_canCapturePartial           = false;
+    protected $_canRefund                   = false;
+    protected $_canRefundInvoicePartial     = false;
+    protected $_canVoid                     = false;
+    protected $_canUseInternal              = true;
+    protected $_canUseCheckout              = true;
+    protected $_canUseForMultishipping      = true;
+    protected $_isInitializeNeeded          = false;
+    protected $_canFetchTransactionInfo     = false;
+    protected $_canManageBillingAgreements  = false;
     /**
      * TODO: whether a captured transaction may be voided by this gateway
      * This may happen when amount is captured, but not settled
@@ -251,6 +252,16 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function canUseForCurrency($currencyCode)
     {
         return true;
+    }
+
+    /**
+     * Check manage billing agreements availability
+     *
+     * @return bool
+     */
+    public function canManageBillingAgreements()
+    {
+        return $this->_canManageBillingAgreements;
     }
 
     /**

@@ -66,6 +66,8 @@ class Mage_Paypal_Model_Config
      */
     const METHOD_PAYFLOWPRO   = 'verisign';
 
+    const METHOD_BILLING_AGREEMENT = 'paypal_billing_agreement';
+
     /**
      * Buttons and images
      * @var string
@@ -459,6 +461,20 @@ class Mage_Paypal_Model_Config
     {
         return $this->getPaypalUrl(array(
             'cmd'   => '_complete-express-checkout',
+            'token' => $token,
+        ));
+    }
+
+    /**
+     * Retrieve url for initialization of billing agreement
+     *
+     * @param string $token
+     * @return string
+     */
+    public function getStartBillingAgreementUrl($token)
+    {
+        return $this->getPaypalUrl(array(
+            'cmd'   => '_customer-billing-agreement',
             'token' => $token,
         ));
     }
@@ -893,6 +909,10 @@ class Mage_Paypal_Model_Config
             case self::METHOD_WPP_DIRECT:
             case self::METHOD_WPP_PE_DIRECT:
                 $path = $this->_mapDirectFieldset($fieldName);
+                break;
+            case self::METHOD_BILLING_AGREEMENT:
+                $path = $this->_mapMethodFieldset($fieldName);
+                return ($path) ? $path : $this->_mapWppFieldset($fieldName);
                 break;
         }
 

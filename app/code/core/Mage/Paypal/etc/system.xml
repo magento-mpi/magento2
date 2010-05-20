@@ -144,7 +144,7 @@
                         </verisign>
                     </fields>
                 </global>
-                <general translate="label comment">
+                <general translate="comment">
                     <label>General PayPal Settings</label>
                     <fieldset_css>paypal-config</fieldset_css>
                     <frontend_type>text</frontend_type>
@@ -397,7 +397,7 @@
                         </settlement_reports_time>
                     </fields>
                 </general>
-                <express translate="label comment">
+                <express translate="comment">
                     <label>Express Checkout Settings</label>
                     <comment><![CDATA[<a href="http://www.magentocommerce.com/paypal" target="_blank">Sign up for PayPal Merchant Account now!</a>]]></comment>
                     <fieldset_css>paypal-config</fieldset_css>
@@ -540,7 +540,7 @@
                         </sort_order>
                     </fields>
                 </express>
-                <wps translate="label comment">
+                <wps translate="comment">
                     <label>Website Payments Standard Settings</label>
                     <fieldset_css>paypal-config</fieldset_css>
                     <frontend_type>text</frontend_type>
@@ -641,7 +641,7 @@
                         </sort_order>
                     </fields>
                 </wps>
-                <wpp translate="label comment">
+                <wpp translate="comment">
                     <label>Website Payments Pro Settings</label>
                     <comment><![CDATA[<a href="http://www.magentocommerce.com/paypal" target="_blank">Sign up for PayPal Merchant Account now!</a><br />
                     <a href="http://www.paypal.com/en_US/m/demo/18077_ec.html" target="_blank">See Demo</a>]]></comment>
@@ -803,7 +803,7 @@
                         </centinel_api_url>
                     </fields>
                 </wpp>
-                <express_pe translate="label" module="paypal">
+                <express_pe module="paypal">
                     <label>Express Checkout (Payflow Edition) Settings</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>50</sort_order>
@@ -911,7 +911,7 @@
                         </sort_order>
                     </fields>
                 </express_pe>
-                <wpp_pe translate="label" module="paypal">
+                <wpp_pe module="paypal">
                     <label>Website Payments Pro (Payflow Edition) Settings</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>60</sort_order>
@@ -1070,7 +1070,95 @@
                         </sort_order>
                     </fields>
                 </wpp_pe>
-                <verisign translate="label" module="paypal">
+                <billing_agreement module="paypal">
+                    <label>Paypal Billing Agreement Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>80</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <title translate="label comment">
+                            <label>Title</label>
+                            <config_path>payment/paypal_billing_agreement/title</config_path>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <payment_action translate="label">
+                            <label>Payment Action</label>
+                            <config_path>payment/paypal_billing_agreement/payment_action</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>paypal/config::getPaymentActions</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </payment_action>
+                        <allowspecific translate="label">
+                            <label>Payment Applicable From</label>
+                            <config_path>payment/paypal_billing_agreement/allowspecific</config_path>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>25</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </allowspecific>
+                        <specificcountry translate="label">
+                            <label>Countries Payment Applicable From</label>
+                            <config_path>payment/paypal_billing_agreement/specificcountry</config_path>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>30</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends><allowspecific>1</allowspecific></depends>
+                        </specificcountry>
+                        <sandbox_flag translate="label">
+                            <label>Sandbox Mode</label>
+                            <config_path>payment/paypal_billing_agreement/sandbox_flag</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sandbox_flag>
+                        <debug translate="label">
+                            <label>Debug Mode</label>
+                            <config_path>payment/paypal_billing_agreement/debug</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </debug>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <config_path>payment/paypal_billing_agreement/sort_order</config_path>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                    </fields>
+                </billing_agreement>
+                <verisign module="paypal">
                     <label>Payflow Pro Settings</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>70</sort_order>
