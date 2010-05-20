@@ -122,7 +122,6 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
     public function prepareShippingOptions($address, $_addNotChosenOption = false)
     {
         $options = array();
-        $isDefaultFound = false; $minAmountKey = false; $minAmount = 9999;
 
         $i = 0;
         foreach ($address->getGroupedAllShippingRates() as $_group) {
@@ -133,12 +132,6 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
                     'code'       => $_rate->getCode(),
                     'amount'     => (float)$_rate->getPrice()
                 );
-                if ($data['is_default']) {
-                    $isDefaultFound = true;
-                } elseif ($data['amount'] < $minAmount) {
-                    $minAmount = $data['amount'];
-                    $minAmountKey = $i;
-                }
                 $options[$i] = new Varien_Object($data);
                 $i++;
             }
@@ -149,11 +142,9 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
                 'is_default' => true,
                 'name'       => 'N/A',
                 'code'       => 'no_rate',
-                'amount'     => 0.00
+                'amount'     => 0.00,
             );
             $options[] = new Varien_Object($data);
-        } elseif (!$isDefaultFound && false !== $minAmountKey) {
-            $options[$minAmountKey]->setIsDefault(true);
         }
 
         return $options;

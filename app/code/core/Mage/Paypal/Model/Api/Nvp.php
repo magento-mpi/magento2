@@ -529,12 +529,17 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $request['NOSHIPPING'] = 1;
         }
 
-        if ($this->getShippingOptions()) {
+        if ($options = $this->getShippingOptions()) {
             $request['CALLBACK'] = $this->getCallbackUrl();
             $request['CALLBACKTIMEOUT'] = $this->getCallbackTimeout();
-            //Paypal must fix behavior with parameter 'MAXAMT'
-            $request['MAXAMT'] = $this->_filterAmount((float)$request['AMT'] * 2);
-            // end fix
+
+            $maxAmount = 0;
+            foreach ($options as $option) {
+                if ($option['amount'] > $maxAmount) {
+                    $maxAmount = $option['amount'];
+                }
+            }
+            $request['MAXAMT'] = $request['AMT'] + $maxAmount;
             $this->_exportShippingOptions($request);
         }
 
