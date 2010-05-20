@@ -46,19 +46,38 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Font extends Varien_Data_For
 
         $name = $conf['name'];
 
-        $this->addElement(new Varien_Data_Form_Element_Select(array(
-            'name' => $name . '[name]',
-            'values' => $conf['fontNames'],
-        )));
+        if (isset($conf['is_simple']) && $conf['is_simple']) {
+            $el = new Varien_Data_Form_Element_Select(array(
+                'name' => $name . '[name]',
+                'values' => $conf['fontNames'],
+            ));
+            $el->setNoSpan(true);
+            $el->setStyle('width: 206px; margin: 0'); // FIXME
+            $this->addElement($el);
 
-        $this->addElement(new Varien_Data_Form_Element_Select(array(
-            'name' => $name . '[size]',
-            'values' => $conf['fontSizes'],
-        )));
+            $el = new Varien_Data_Form_Element_Select(array(
+                'name' => $name . '[size]',
+                'values' => $conf['fontSizes'],
+            ));
+            $el->setNoSpan(true);
+            $el->setStyle('width: 70px; margin: 0'); // FIXME
+            $this->addElement($el);
+        }
+        else {
+            $this->addElement(new Varien_Data_Form_Element_Select(array(
+                'name' => $name . '[name]',
+                'values' => $conf['fontNames'],
+            )));
 
-        $this->addElement(new Varien_Data_Form_Element_Text(array(
-            'name' => $name . '[color]',
-        )));
+            $this->addElement(new Varien_Data_Form_Element_Select(array(
+                'name' => $name . '[size]',
+                'values' => $conf['fontSizes'],
+            )));
+
+            $this->addElement(new Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Color(array(
+                'name' => $name . '[color]',
+            )));
+        }
     }
 
     /**
@@ -80,9 +99,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Font extends Varien_Data_For
      */
     public function getElementHtml()
     {
-        $html = ''; 
+        $html = '';
         foreach ($this->getElements() as $element) {
-            $html.= $element->toHtml();
+            $html .= $element->toHtml();
         }
         return $html;
     }

@@ -103,6 +103,10 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
 
         $xml->addChild('updateTimeUTC', strtotime($this->_app->getUpdatedAt()));
 
+        $storeId = $this->_app->getStoreId();
+        $currencyCode = Mage::app()->getStore($storeId)->getBaseCurrencyCode();
+        $xml->addChild('currencyCode', $currencyCode);
+
         $maxRecepients = 0;
         if ( Mage::getStoreConfig('sendfriend/email/enabled') ) {
             $maxRecepients = Mage::getStoreConfig('sendfriend/email/max_recipients');

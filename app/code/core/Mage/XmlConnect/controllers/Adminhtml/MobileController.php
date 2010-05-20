@@ -108,7 +108,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $app->addData($data);
                 if (!empty($_FILES)) {
                     foreach ($_FILES as $field=>$file) {
-                        if (!empty($file['name'])) {
+                        if (!empty($file['name']) && is_scalar($file['name'])) {
                             $app->handleUpload($field);
                         }
                     }

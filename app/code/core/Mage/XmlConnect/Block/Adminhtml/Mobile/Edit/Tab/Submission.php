@@ -33,6 +33,43 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
     }
 
     /**
+     * Add image uploader to fieldset
+     *
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param string $fieldName
+     * @param string $title
+     */
+    protected function addImage($fieldset, $fieldName, $title)
+    {
+        $fieldset->addField($fieldName, 'image', array(
+            'name'      => $fieldName,
+            'label'     => $this->__($title),
+        ));
+    }
+
+    protected function _prepareForm()
+    {
+        $form = new Varien_Data_Form();
+        $this->setForm($form);
+
+        $fieldset = $form->addFieldset('submit1', array('legend' => $this->__('Resubmission Fields')));
+        $this->addImage($fieldset, 'conf[submit][appIcon]', 'Application Icon');
+        $this->addImage($fieldset, 'conf[submit][loaderImage]', 'Loader Splash Screen');
+
+        $fieldset = $form->addFieldset('submit2', array('legend' => $this->__('Key')));
+        $fieldset->addField('conf[submit][key]', 'text', array(
+            'name'      => 'conf[submit][key]',
+            'label'     => $this->__('Activation Key'),
+        ));
+
+        // FIXME: submit button (here!)
+
+        $model = Mage::registry('current_app');
+        $form->setValues($model->getFormData());
+        return parent::_prepareForm();
+    }
+
+    /**
      * Prepare label for tab
      *
      * @return string
@@ -70,5 +107,16 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
     public function isHidden()
     {
         return false;
+    }
+
+    /**
+     * Configure image element type
+     *
+     */
+    protected function _getAdditionalElementTypes()
+    {
+        return array(
+            'image' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_image'),
+        );
     }
 }

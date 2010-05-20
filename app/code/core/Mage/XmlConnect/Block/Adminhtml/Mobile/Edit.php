@@ -46,14 +46,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
         $this->_formScripts[] = 'function saveAndContinueEdit() {
             editForm.submit($(\'edit_form\').action + \'back/edit/\');}';
 
-        $this->_addButton('submitapp', array(
-            'label'     => $this->__('Submit App'),
-            'onclick'   => 'submitApp()',
-            'class'     => 'save',
-        ), -100);
-        $this->_formScripts[] = 'function submitApp() { alert(\'FIXME\'); }';
-
         $this->_updateButton('delete', 'label', $this->__('Delete Application'));
+    }
+
+    protected function _prepareLayout()
+    {
+        //$this->getLayout()->getBlock('head')->addJs('jscolor/jscolor.js');
+        return parent::_prepareLayout();
     }
 
     /**

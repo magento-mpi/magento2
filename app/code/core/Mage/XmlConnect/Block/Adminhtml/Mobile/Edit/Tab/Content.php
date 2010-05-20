@@ -38,17 +38,21 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content extends Mage_Admin
         $this->setForm($form);
 
         $fieldset = $form->addFieldset('content1', array('legend' => $this->__('About Us')));
+        // FIXME: select content from CMS
         $fieldset->addField('conf[content][aboutUs]', 'textarea', array(
             'name'      => 'conf[content][aboutUs]',
             'label'     => $this->__('Content'),
         ));
 
         $fieldset = $form->addFieldset('content2', array('legend' => $this->__('Privacy Policy')));
+        // FIXME: select content from CMS
         $fieldset->addField('conf[content][privacyPolicy]', 'textarea', array(
             'name'      => 'conf[content][privacyPolicy]',
             'label'     => $this->__('Content'),
         ));
 
+        $model = Mage::registry('current_app');
+        $form->setValues($model->getFormData());
         return parent::_prepareForm();
     }
 
