@@ -59,13 +59,15 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
                     <fields>
-                        <business_account translate='label'>
+                        <business_account translate='label comment'>
                             <label>Email address to accociate with PayPal</label>
+                            <comment><![CDATA[<a href="http://www.magentocommerce.com/paypal" target="_blank">Sign up for PayPal merchant account now!</a>]]></comment>
                             <config_path>paypal/general/business_account</config_path>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
+                            <frontend_class>validate-email</frontend_class>
                         </business_account>
                         <merchant_country translate="label comment">
                             <label>PayPal Merchant Country</label>
@@ -419,7 +421,6 @@
                 </general>
                 <express translate="comment">
                     <label>Express Checkout Settings</label>
-                    <comment><![CDATA[<a href="http://www.magentocommerce.com/paypal" target="_blank">Sign up for PayPal Merchant Account now!</a>]]></comment>
                     <fieldset_css>paypal-config</fieldset_css>
                     <frontend_type>text</frontend_type>
                     <sort_order>20</sort_order>
@@ -663,8 +664,6 @@
                 </wps>
                 <wpp translate="comment">
                     <label>Website Payments Pro Settings</label>
-                    <comment><![CDATA[<a href="http://www.magentocommerce.com/paypal" target="_blank">Sign up for PayPal Merchant Account now!</a><br />
-                    <a href="http://www.paypal.com/en_US/m/demo/18077_ec.html" target="_blank">See Demo</a>]]></comment>
                     <fieldset_css>paypal-config</fieldset_css>
                     <frontend_type>text</frontend_type>
                     <sort_order>40</sort_order>
