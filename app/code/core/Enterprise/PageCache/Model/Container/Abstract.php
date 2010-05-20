@@ -113,13 +113,12 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
      * @param string $id
      * @param array $tags
      */
-    protected function _saveCache($data, $id, $tags = array())
+    protected function _saveCache($data, $id, $tags = array(), $lifetime = null)
     {
         $tags[] = Enterprise_PageCache_Model_Processor::CACHE_TAG;
-        $lifetime = $this->_placeholder->getAttribute('cache_lifetime');
-        if (!$lifetime) {
-            $lifetime = false;
-            //$lifetime = 30 * 24 * 60 * 60;
+        if (is_null($lifetime)) {
+            $lifetime = $this->_placeholder->getAttribute('cache_lifetime') ?
+                $this->_placeholder->getAttribute('cache_lifetime') : false;
         }
         Mage::app()->getCache()->save($data, $id, $tags, $lifetime);
         return $this;

@@ -69,7 +69,8 @@ class Enterprise_PageCache_Model_Config extends Varien_Simplexml_Config
                 $this->_placeholders[(string)$placeholder->block] = array(
                     'container'     => (string)$placeholder->container,
                     'code'          => (string)$placeholder->placeholder,
-                    'cache_lifetime'=> (int) $placeholder->cache_lifetime
+                    'cache_lifetime'=> (int) $placeholder->cache_lifetime,
+                    'name'          => (string) $placeholder->name
                 );
             }
         }
@@ -87,6 +88,10 @@ class Enterprise_PageCache_Model_Config extends Varien_Simplexml_Config
         $this->_initPlaceholders();
         $type = $block->getType();
         if (isset($this->_placeholders[$type])) {
+            if (!empty($this->_placeholders[$type]['name'])
+                && $this->_placeholders[$type]['name'] != $block->getNameInLayout()) {
+                return false;
+            }
             $placeholder = $this->_placeholders[$type]['code']
                 . ' container="'.$this->_placeholders[$type]['container'].'"'
                 . ' block="' . get_class($block) . '"';

@@ -40,7 +40,7 @@
         $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
     }
 ?>
-<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php echo $this->getMessagesBlock()->toHtml() ?>
 <div class="category-view">
     <?php if($_imgUrl): ?>
         <?php echo $_imgHtml ?>

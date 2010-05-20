@@ -248,6 +248,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     public function addMessage(Mage_Core_Model_Message_Abstract $message)
     {
         $this->getMessages()->add($message);
+        Mage::dispatchEvent('core_session_abstract_add_message');
         return $this;
     }
 

@@ -7,5 +7,61 @@
             <container>Enterprise_PageCache_Model_Container_Viewedproducts</container>
             <cache_lifetime>600</cache_lifetime>
         </last_viewed_products>
+        <cart_sidebar>
+            <block>checkout/cart_sidebar</block>
+            <placeholder>CART_SIDEBAR</placeholder>
+            <container>Enterprise_PageCache_Model_Container_CartSidebar</container>
+            <cache_lifetime>66600</cache_lifetime>
+        </cart_sidebar>
+        <compare_list_sidebar>
+            <block>catalog/product_compare_sidebar</block>
+            <placeholder>COMPARELIST_SIDEBAR</placeholder>
+            <container>Enterprise_PageCache_Model_Container_CompareListSidebar</container>
+            <cache_lifetime>66600</cache_lifetime>
+        </compare_list_sidebar>
+        <messages>
+            <block>core/messages</block>
+            <placeholder>MESSAGES</placeholder>
+            <name>messages</name>
+            <container>Enterprise_PageCache_Model_Container_Messages</container>
+            <cache_lifetime>66600</cache_lifetime>
+        </messages>
+        <recently_compared_sidebar>
+            <block>reports/product_compared</block>
+            <placeholder>RECENTLYCOMPARED_SIDEBAR</placeholder>
+            <container>Enterprise_PageCache_Model_Container_RecentlyComparedSidebar</container>
+            <cache_lifetime>66600</cache_lifetime>
+        </recently_compared_sidebar>
+        <welcome_message>
+            <block>page/html_welcome</block>
+            <placeholder>WELCOME</placeholder>
+            <container>Enterprise_PageCache_Model_Container_Welcome</container>
+            <cache_lifetime>66600</cache_lifetime>
+        </welcome_message>
+        <account_links>
+            <block>page/template_links</block>
+            <name>account.links</name>
+            <placeholder>ACCLINKS</placeholder>
+            <container>Enterprise_PageCache_Model_Container_AccountLinks</container>
+            <cache_lifetime>66600</cache_lifetime>
+        </account_links>
+        <wishlist>
+            <block>wishlist/customer_sidebar</block>
+            <placeholder>WISHLIST</placeholder>
+            <container>Enterprise_PageCache_Model_Container_Wishlist</container>
+            <cache_lifetime>66600</cache_lifetime>
+        </wishlist>
+        <orders>
+            <block>sales/reorder_sidebar</block>
+            <placeholder>ORDERS</placeholder>
+            <container>Enterprise_PageCache_Model_Container_Orders</container>
+            <cache_lifetime>66600</cache_lifetime>
+        </orders>
+        <wishlist_links>
+            <block>wishlist/links</block>
+            <placeholder>WISHLISTLINKS</placeholder>
+            <container>Enterprise_PageCache_Model_Container_WishlistLinks</container>
+            <cache_lifetime>66600</cache_lifetime>
+        </wishlist_links>
     </placeholders>
 </config>

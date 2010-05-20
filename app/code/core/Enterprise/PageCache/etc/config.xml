@@ -224,6 +224,79 @@
                     </enterprise_pagecache>
                 </observers>
             </customer_logout>
+            <sales_quote_save_after>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>registerQuoteChange</method>
+                    </enterprise_pagecache>
+                </observers>
+            </sales_quote_save_after>
+            <sales_quote_remove_item>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>registerQuoteChange</method>
+                    </enterprise_pagecache>
+                </observers>
+            </sales_quote_remove_item>
+            <catalog_product_compare_add_product>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>registerCompareListChange</method>
+                    </enterprise_pagecache>
+                </observers>
+            </catalog_product_compare_add_product>
+            <catalog_product_compare_remove_product>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>registerCompareListChange</method>
+                    </enterprise_pagecache>
+                </observers>
+            </catalog_product_compare_remove_product>
+            <catalog_product_compare_item_collection_clear>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>registerCompareListChange</method>
+                    </enterprise_pagecache>
+                </observers>
+            </catalog_product_compare_item_collection_clear>
+            <core_session_abstract_add_message>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>processNewMessage</method>
+                    </enterprise_pagecache>
+                </observers>
+            </core_session_abstract_add_message>
+            <wishlist_add_product>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>registerWishlistChange</method>
+                    </enterprise_pagecache>
+                </observers>
+            </wishlist_add_product>
+            <wishlist_item_delete_commit_after>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>registerWishlistChange</method>
+                    </enterprise_pagecache>
+                </observers>
+            </wishlist_item_delete_commit_after>
+            <sales_order_place_after>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>registerNewOrder</method>
+                    </enterprise_pagecache>
+                </observers>
+            </sales_order_place_after>
+            
         </events>
         <cache>
             <requests>
@@ -242,7 +315,7 @@
     <default>
         <system>
             <page_cache>
-                <lifetime>1440</lifetime>
+                <lifetime>28800</lifetime>
                 <allowed_depth>1</allowed_depth>
                 <multicurrency>1</multicurrency>
             </page_cache>
