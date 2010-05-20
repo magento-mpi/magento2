@@ -332,6 +332,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
     {
 //        $engine = (string)Mage::getConfig()->getNode('global/search/engine');
         $engine = Mage::getStoreConfig('catalog/search/engine');
+
         /**
          * This needed if there already was saved in configuartion some none-default engine
          * and module of that engine was disabled after that.

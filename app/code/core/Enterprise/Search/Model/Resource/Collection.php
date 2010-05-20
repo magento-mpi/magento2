@@ -23,6 +23,14 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+
+/**
+ * Enterprise search collection resource model
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Search
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_Search_Model_Resource_Collection
     extends Enterprise_Enterprise_Model_Catalog_Resource_Eav_Mysql4_Product_Collection
 {
@@ -40,6 +48,13 @@ class Enterprise_Search_Model_Resource_Collection
      * @var array
      */
     protected $_searchedEntityIds = array();
+
+    /**
+     * Store found suggestions
+     *
+     * @var array
+     */
+    protected $_searchedSuggestions = array();
 
     /**
      * Store engine instance
@@ -91,7 +106,6 @@ class Enterprise_Search_Model_Resource_Collection
     {
         $ids = $params = array();
         if ($this->_engine) {
-
             $store                 = Mage::app()->getStore();
             $params['store_id']    = $store->getId();
             $params['locale_code'] = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
@@ -141,7 +155,6 @@ class Enterprise_Search_Model_Resource_Collection
     {
         $params = array();
         if (is_null($this->_totalRecords)) {
-
             $store                 = Mage::app()->getStore();
             $params['store_id']    = $store->getId();
             $params['locale_code'] = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);

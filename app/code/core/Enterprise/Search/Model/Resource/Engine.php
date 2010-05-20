@@ -55,6 +55,18 @@ class Enterprise_Search_Model_Resource_Engine
     }
 
     /**
+     * Retrieve search suggestions
+     *
+     * @param string $query
+     * @param array $params see description in appropriate search adapter
+     * @return array
+     */
+    public function getSuggestionsByQuery($query, $params=array(), $limit=false, $withResultsCounts=false)
+    {
+        return $this->_adapter->getSuggestionsByQuery($query, $params, $limit, $withResultsCounts);
+    }
+
+    /**
      * Add entity data to search index
      *
      * @param int $entityId

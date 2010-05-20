@@ -129,7 +129,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
     /**
      * Retrieve attributes weights
-     * 
+     *
      * @return array
      */
     protected function _getSearchableAttributeParams()
@@ -209,8 +209,10 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 $index[$key] = $this->_implodeIndexData($value);
             }
 
+
             //$index = $this->_filterIndexData($index, $localeCode);
             $index = $this->_prepareIndexData($index, $attributeParams, $localeCode);
+            //Mage::log($index);
             if (!$index) {
                 continue;
             }
@@ -341,6 +343,17 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     }
 
     /**
+     * Retrieve search suggestions by query
+     *
+     * @param string $query
+     * @param array $params
+     * @return boolean|string
+     */
+    public function getSuggestionsByQuery($query, $params = array(), $limit=false, $withResultsCounts=false) {
+        return $this->_searchSuggestions($query, $params, $limit, $withResultsCounts);
+    }
+
+    /**
      * Search documents in Solr index sorted by relevance
      *
      * @param string $query
@@ -452,6 +465,43 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     }
 
     /**
+     * Convert Solr Query Response found suggestions to string
+     *
+     * @param object $response
+     * @return array
+     */
+    protected function _prepareSuggestionsQueryResponse($response)
+    {
+        $arrayResponse = Mage::helper('enterprise_search')->objectToArray($response->spellcheck->suggestions);
+        $suggestions = array();
+        if (is_array($arrayResponse)) {
+            foreach ($arrayResponse as $item) {
+                if (isset($item['suggestion']) && is_array($item['suggestion'])) {
+                    foreach ($item['suggestion'] as $suggestion) {
+                        $suggestions[]=$suggestion;
+                    }
+                }
+            }
+        }
+        // It is assumed that the frequency corresponds to the number of results
+        if (count($suggestions) > 0) {
+            usort($suggestions, array(get_class($this), "sortSuggestions"));
+        }
+        return $suggestions;
+    }
+
+    /**
+     * Callback function for sort search suggestions
+     *
+     * @param array $a
+     * @param array $b
+     * @return boolean
+     */
+    public static function sortSuggestions($a, $b) {
+        return $a['freq'] > $b['freq'] ? -1 : ($a['freq'] < $b['freq'] ? 1 : 0);
+    }
+
+    /**
      * Escape query text
      *
      * @param string $text
@@ -472,9 +522,9 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     /**
      * Filter index data by common Solr metadata fields
      * Add language code suffix to text fields
-     * 
+     *
      * @deprecated after 1.8.0.0 - use $this->_prepareIndexData()
-     * 
+     *
      * @param array $data
      * @param string|null $localeCode
      * @return array
@@ -508,11 +558,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
     /**
      * Prepare index data for using in Solr metadata
-     * Add language code suffix to text fields 
+     * Add language code suffix to text fields
      * and type suffix for not text dynamic fields
-     * 
+     *
      * @see $this->_usedFields, $this->_searchTextFields
-     * 
+     *
      * @param array $data
      * @param array $attributesParams
      * @param string|null $localCode
@@ -537,7 +587,13 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 continue;
             }
 
-            $fieldType = (substr($key, 0, 8) == 'fulltext') ? 'text' : $attributesParams[$key]['backendType'];
+            if (isset($attributesParams[$key])) {
+                $fieldType = (substr($key, 0, 8) == 'fulltext') ? 'text' : $attributesParams[$key]['backendType'];
+            } else {
+                $fieldType = null;
+                $attributesParams[$key]['backendType'] = null;
+                $attributesParams[$key]['frontendInput'] = null;
+            }
 
             if (substr($key, 0, 8) == 'fulltext') {
                 $backendType = 'text';
@@ -550,8 +606,10 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             if ($frontendInput == 'multiselect') {
                 $data['attr_multi_'. $key] = $value;
                 unset($data[$key]);
-            }
-            elseif (in_array($backendType, $textFieldTypes) || in_array($key, $this->_searchTextFields)) {
+            } elseif (in_array($backendType, $textFieldTypes) || in_array($key, $this->_searchTextFields)) {
+                if (is_array($value)) {
+                    $value = implode(" ", array_unique($value));
+                }
                 $data[$key .'_'. $languageCode] = $value;
                 unset($data[$key]);
             } elseif ($backendType != 'static') {

@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Search>
-             <version>1.8.0.0.0</version>
+             <version>1.8.0.0.1</version>
         </Enterprise_Search>
     </modules>
 
@@ -41,6 +41,11 @@
 
              <enterprise_search_resource>
                  <class>Enterprise_Search_Model_Resource</class>
+                 <entities>
+                    <recommendations>
+                        <table>catalogsearch_recommendations</table>
+                    </recommendations>
+                </entities>
              </enterprise_search_resource>
         </models>
         <helpers>
@@ -71,8 +76,19 @@
                 </setup>
             </enterprise_search_setup>
         </resources>
+        
     </global>
-
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <enterprise_search before="Mage_Adminhtml">Enterprise_Search_Adminhtml</enterprise_search>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <default>
         <catalog>
             <search>
@@ -81,6 +97,12 @@
                 <solr_server_username>admin</solr_server_username>
                 <solr_server_timeout>15</solr_server_timeout>
                 <solr_server_path>solr</solr_server_path>
+                <solr_server_suggestion_enabled>1</solr_server_suggestion_enabled>
+                <solr_server_suggestion_count>2</solr_server_suggestion_count>
+                <solr_server_suggestion_count_results_enabled>1</solr_server_suggestion_count_results_enabled>
+                <search_recommendations_enabled>1</search_recommendations_enabled>
+                <search_recommendations_count>5</search_recommendations_count>
+                <search_recommendations_count_results_enabled>1</search_recommendations_count_results_enabled>
             </search>
         </catalog>
     </default>
@@ -101,6 +123,15 @@
                     </enterprise_search>
                 </observers>
             </adminhtml_catalog_product_attribute_edit_prepare_form>
+            
+            <catalogsearch_query_save_after>
+                <observers>
+                    <enterprise_search>
+                        <class>enterprise_search/observer</class>
+                        <method>searchQueryEditFormAfterSave</method>
+                    </enterprise_search>
+                </observers>
+            </catalogsearch_query_save_after>
         </events>
     </adminhtml>
 </config>

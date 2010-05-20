@@ -208,6 +208,8 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             $_params['solr_params']['qt'] .= '_' . $languageCode;
         }
 
+
+
         /**
          * Specific Solr params
          */
@@ -231,6 +233,89 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             $this->_client->ping();
             $response = $this->_client->query($solrQuery);
             return $this->_prepareQueryResponse($response->getResponse());
+        }
+        catch (Exception $e) {
+            Mage::logException($e);
+        }
+    }
+
+    /**
+     * Simple Search suggestions interface
+     *
+     * @param string $query The raw query string
+     * @return boolean|string
+     */
+    public function _searchSuggestions($query, $params=array(), $limit=false, $withResultsCounts=false)
+    {
+         /**
+         * @see self::_search()
+         */
+        if ((int)('1' . str_replace('.', '', solr_get_version())) < 1099) {
+            $this->_connect();
+        }
+
+        $query = $this->_escapePhrase($query);
+
+        if (!$query) {
+            return false;
+        }
+        $_params = array();
+
+
+        $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
+
+
+        $solrQuery = new SolrQuery($query);
+
+        /**
+         * Now supported search only in fulltext and name fields based on dismax requestHandler (named as magento_lng).
+         * Using dismax requestHandler for each language make matches in name field
+         * are much more significant than matches in fulltext field.
+         */
+
+        $_params['solr_params'] = array (
+            'spellcheck'                 => 'true',
+            'spellcheck.collate'         => 'true',
+            'spellcheck.dictionary'      => 'magento_spell_' . $languageCode,
+            'spellcheck.extendedResults' => 'true'
+        );
+
+        /**
+         * Specific Solr params
+         */
+        if (!empty($_params['solr_params'])) {
+            foreach ($_params['solr_params'] as $name => $value) {
+                $solrQuery->setParam($name, $value);
+            }
+        }
+
+        $this->_client->setServlet(SolrClient::SEARCH_SERVLET_TYPE, 'spell');
+        /**
+         * Store filtering
+         */
+        if (!empty($params['store_id'])) {
+            $solrQuery->addFilterQuery('store_id:' . $params['store_id']);
+        }
+        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
+            $solrQuery->addFilterQuery('in_stock:true');
+        }
+        try {
+            $this->_client->ping();
+            $response = $this->_client->query($solrQuery);
+            $result = $this->_prepareSuggestionsQueryResponse($response->getResponse());
+            if ($limit) {
+                $result = array_slice($result, 0, $limit);
+            }
+            // Calc results count for each suggestion
+            if ($withResultsCounts) {
+                $tmp = $this->_lastNumFound; //Temporary store value for main search query
+                foreach ($result as $key => $item) {
+                    $this->search($item['word'], $params);
+                    $result[$key]['num_results'] = $this->_lastNumFound;
+                }
+                $this->_lastNumFound = $tmp; //Revert store value for main search query
+            }
+            return $result;
         }
         catch (Exception $e) {
             Mage::logException($e);

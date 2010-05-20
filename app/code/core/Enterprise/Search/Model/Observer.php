@@ -27,9 +27,6 @@
  /**
  * Enterprise search model observer
  *
- * Dynamic add fields to attribute edit form
- * (see Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main)
- *
  * @category   Enterprise
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
@@ -38,9 +35,9 @@ class Enterprise_Search_Model_Observer
 {
     /**
      * Add search weight field to attribute edit form (only for quick search)
+     * (see Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main)
      *
      * @param Varien_Event_Observer $observer
-     * @return Enterprise_Search_Model_Observer
      */
     public function eavAttributeEditFormInit(Varien_Event_Observer $observer)
     {
@@ -53,7 +50,7 @@ class Enterprise_Search_Model_Observer
             $fieldset->addField('search_weight', 'select', array(
                 'name'        => 'search_weight',
                 'label'       => Mage::helper('catalog')->__('Search Weight'),
-                'values'      => Enterprise_Search_Model_Weight::getOptions(),
+                'values'      => Mage::getModel("enterprise_search/source_weight")->getOptions(),
             ), 'is_searchable');
 
             /**
@@ -66,7 +63,24 @@ class Enterprise_Search_Model_Observer
                 $form->getElement('is_searchable')->setDisabled(1);
             }
         }
+    }
 
-        return $this;
+    /**
+     * Save search query relations after save search query
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function searchQueryEditFormAfterSave(Varien_Event_Observer $observer)
+    {
+        $searchQuryModel = $observer->getEvent()->getDataObject();
+        $queryId         = $searchQuryModel->getId();
+        $relatedQueries  = $searchQuryModel->getSelectedQueriesGrid();
+        if (strlen($relatedQueries) == 0) {
+            $relatedQueries = array();
+        } else {
+            $relatedQueries = explode("&", $relatedQueries);
+        }
+        Mage::getResourceModel('enterprise_search/recommendations')
+            ->saveRelatedQueries($queryId, $relatedQueries);
     }
 }
