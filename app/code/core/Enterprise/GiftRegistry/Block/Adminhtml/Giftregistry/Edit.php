@@ -75,9 +75,6 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Enterpri
     public function getSaveUrl()
     {
         $storeId = Mage::registry('current_giftregistry_type')->getStoreId();
-
-        return $this->getUrl('*/*/save', array(
-            'store'   => $storeId
-        ));
+        return $this->getUrl('*/*/save', array('store' => $storeId));
     }
 }

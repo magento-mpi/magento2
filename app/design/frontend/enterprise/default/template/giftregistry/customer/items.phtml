@@ -1,0 +1,91 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+<div class="page-title">
+    <h1><?php echo $this->getFormHeader() ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<?php if ($this->getItemCollection()->getSize()): ?>
+<form action="<?php echo $this->getActionUrl() ?>" method="post">
+    <fieldset>
+        <?php echo $this->getBlockHtml('formkey')?>
+        <table class="data-table" id="giftregistry-items-table">
+        <col width="1" />
+        <col />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+            <thead>
+                <tr>
+                    <th><?php echo $this->__('Product') ?></th>
+                    <th><?php echo $this->__('Note') ?></th>
+                    <th class="a-center"><span class="nobr"><?php echo $this->__('Added On') ?></span></th>
+                    <th class="a-center"><span class="nobr"><?php echo $this->__('Qty') ?></span></th>
+                    <th class="a-center"><span class="nobr"><?php echo $this->__('Qty Fulfilled') ?></span></th>
+                    <th class="a-center"><span class="nobr"><?php echo $this->__('Delete') ?></span></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach($this->getItemCollection() as $item): ?>
+                <tr>
+                    <td>
+                        <a class="product-image" href="<?php echo $item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($item->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($item, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->htmlEscape($item->getName()) ?>" /></a>
+                        <h2 class="product-name"><a href="<?php echo $item->getProductUrl() ?>"><?php echo $this->htmlEscape($item->getName()) ?></a></h2>
+                        <?php echo $this->getPriceHtml($item) ?>
+                    </td>
+                    <td>
+                        <textarea name="items[<?php echo $item->getItemId() ?>][note]" rows="3" cols="5" style="width:99%; height:10em;"><?php echo $this->getEscapedNote($item) ?></textarea>
+                    </td>
+                    <td>
+                        <span class="nobr"><?php echo $this->getFormattedDate($item) ?></span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-text" name="items[<?php echo $item->getItemId() ?>][qty]" style="width:50px" value="<?php echo $this->getItemQty($item) ?>" />
+                    </td>
+                    <td class="a-center">
+                        <?php echo $this->getItemQtyFulfilled($item) ?>
+                    </td>
+                    <td class="a-center">
+                        <input type="checkbox" name="items[<?php echo $item->getItemId() ?>][delete]" value="1" />
+                    </td>
+                </tr>
+            <?php endforeach ?>
+            </tbody>
+        </table>
+        <script type="text/javascript">decorateTable('giftregistry-items-table')</script>
+        <div class="buttons-set2">
+            <button type="submit" class="button"><span><span><?php echo $this->__('Update Gift Registry') ?></span></span></button>
+        </div>
+    </fieldset>
+</form>
+<?php else: ?>
+    <p><?php echo $this->__('You have no items in your gift registry.') ?></p>
+<?php endif ?>
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+</div>

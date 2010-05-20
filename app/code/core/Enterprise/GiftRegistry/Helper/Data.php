@@ -29,5 +29,26 @@
  */
 class Enterprise_GiftRegistry_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
+    const XML_PATH_ENABLED = 'enterprise_giftregistry/general/enabled';
+    const XML_PATH_SEND_LIMIT = 'enterprise_giftregistry/sharing_email/send_limit';
 
+    /**
+     * Check whether reminder rules should be enabled
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return (bool)Mage::getStoreConfig(self::XML_PATH_ENABLED);
+    }
+
+    /**
+     * Retrieve sharing recipients limit config data
+     *
+     * @return int
+     */
+    public function getRecipientsLimit()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_SEND_LIMIT);
+    }
 }

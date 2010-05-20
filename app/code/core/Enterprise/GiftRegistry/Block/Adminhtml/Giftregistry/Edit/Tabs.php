@@ -36,7 +36,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs extends Ent
         parent::__construct();
         $this->setId('enterprise_giftregistry_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('enterprise_reminder')->__('Gift Registry'));
+        $this->setTitle(Mage::helper('enterprise_giftregistry')->__('Gift Registry'));
     }
 
     /**
@@ -52,9 +52,8 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs extends Ent
         ));
 
         $this->addTab('registry_attributes', array(
-            'label' => Mage::helper('enterprise_giftregistry')->__('Registry Attributes'),
-            'url'   => $this->getUrl('*/*/registry', array('_current' => true, 'active_tab' => 'registry_attributes')),
-            'class' => 'ajax'
+            'label'   => Mage::helper('enterprise_giftregistry')->__('Custom Attributes'),
+            'content' => $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit_tab_registry')->toHtml()
         ));
 
         return parent::_beforeToHtml();

@@ -30,7 +30,7 @@
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Container
 {
     /**
-     * Initialize invitation manage page
+     * Initialize gift registry manage page
      *
      * @return void
      */

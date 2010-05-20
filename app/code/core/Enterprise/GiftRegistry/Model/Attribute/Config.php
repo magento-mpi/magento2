@@ -29,50 +29,40 @@
  */
 class Enterprise_GiftRegistry_Model_Attribute_Config extends Enterprise_Enterprise_Model_Core_Abstract
 {
-    /**
-     * Path to types of available custom attributes
-     */
-    const XML_ATTRIBUTE_TYPES_PATH = 'global/attribute_types';
+    protected $_config = null;
 
     /**
      * Path to attribute groups
      */
-    const XML_ATTRIBUTE_GROUPS_PATH = 'global/attribute_groups';
+    const XML_ATTRIBUTE_GROUPS_PATH = 'prototype/registry/attribute_groups';
 
+    /**
+     * Load config from giftregistry.xml files
+     *
+     * @return Varien_Simplexml_Config
+     */
+    public function getXmlConfig()
+    {
+        if (is_null($this->_config)) {
+            $config = new Varien_Simplexml_Config();
+            $config->loadString('<?xml version="1.0"?><prototype></prototype>');
+            Mage::getConfig()->loadModulesConfiguration('giftregistry.xml', $config);
+            $this->_config = $config;
+        }
+        return $this->_config;
+    }
 
     /**
      * Return array of default options
      *
      * @return array
      */
-    public function getDefaultOptions()
+    protected function _getDefaultOption()
     {
         return array(array(
             'value' => '',
             'label' => Mage::helper('enterprise_giftregistry')->__('-- Please select --'))
         );
-    }
-
-    /**
-     * Return array of attribute type renderers
-     *
-     * @return array
-     */
-    public function getAttributeRenderers()
-    {
-        $renderers = array();
-        $groups = Mage::getConfig()->getNode(self::XML_ATTRIBUTE_TYPES_PATH)->children();
-
-        foreach ($groups as $group) {
-            $typesPath = implode('/', array(self::XML_ATTRIBUTE_TYPES_PATH, $group->getName(), 'types'));
-            foreach (Mage::getConfig()->getNode($typesPath)->children() as $type) {
-                $path = implode('/', array($typesPath, $type->getName(), 'render'));
-                if ($renderer = (string)Mage::getConfig()->getNode($path)) {
-                    $renderers[] = $renderer;
-                }
-            }
-        }
-        return $renderers;
     }
 
     /**
@@ -82,26 +72,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Enterprise_Enterpri
      */
     public function getAttributeTypesOptions()
     {
-        $options = $this->getDefaultOptions();
-        $groups = Mage::getConfig()->getNode(self::XML_ATTRIBUTE_TYPES_PATH)->children();
-
-        foreach ($groups as $group) {
-            $types = array();
-            $typesPath = implode('/', array(self::XML_ATTRIBUTE_TYPES_PATH, $group->getName(), 'types'));
-            foreach (Mage::getConfig()->getNode($typesPath)->children() as $type) {
-                $labelPath = implode('/', array($typesPath, $type->getName(), 'label'));
-                $types[] = array(
-                    'label' => (string) Mage::getConfig()->getNode($labelPath),
-                    'value' => $type->getName()
-                );
-            }
-            $labelPath = implode('/', array(self::XML_ATTRIBUTE_TYPES_PATH, $group->getName(), 'label'));
-            $options[] = array(
-                'label' => (string) Mage::getConfig()->getNode($labelPath),
-                'value' => $types
-            );
-        }
-        return $options;
+        return array_merge($this->_getDefaultOption(), $this->getAttributeCustomTypesOptions());
     }
 
     /**
@@ -111,17 +82,88 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Enterprise_Enterpri
      */
     public function getAttributeGroupsOptions()
     {
-        $options = $this->getDefaultOptions();
-        $groups  = Mage::getConfig()->getNode(self::XML_ATTRIBUTE_GROUPS_PATH)->children();
+        $options = $this->_getDefaultOption();
+        $groups = $this->getAttributeGroups();
 
-        foreach ($groups as $group) {
-            $path = implode('/', array(self::XML_ATTRIBUTE_GROUPS_PATH, $group->getName(), 'label'));
-            $options[] = array(
-                'value' => $group->getName(),
-                'label' => (string) Mage::getConfig()->getNode($path)
-            );
+        if (is_array($groups)) {
+            foreach ($groups as $code => $group) {
+                if ($group['is_custom']) {
+                    $options[] = array(
+                        'value' => $code,
+                        'label' => $group['label']
+                    );
+                }
+            }
         }
         return $options;
     }
 
+    /**
+     * Return array of attribute groups
+     *
+     * @return array
+     */
+    public function getAttributeGroups()
+    {
+        if ($groups = $this->getXmlConfig()->getNode(self::XML_ATTRIBUTE_GROUPS_PATH)) {
+            return $groups->asCanonicalArray();
+        }
+    }
+
+    /**
+     * Return array of static attribute types for using as options
+     *
+     * @return array
+     */
+    public function getStaticTypes()
+    {
+        $staticTypes = array();
+        foreach (array('registry', 'registrant') as $node) {
+            if ($node = $this->getXmlConfig()->getNode('prototype/' . $node . '/attributes/static')) {
+                $staticTypes = array_merge($staticTypes, $node->asCanonicalArray());
+            }
+        }
+        return $staticTypes;
+    }
+
+    /**
+     * Return array of codes of static attribute types
+     *
+     * @return array
+     */
+    public function getStaticTypesCodes()
+    {
+        return array_keys($this->getStaticTypes());
+    }
+
+    /**
+     * Return array of static attribute types for using as options
+     *
+     * @return array
+     */
+    public function getAttributeCustomTypesOptions()
+    {
+        return array(
+            array(
+                'label' => Mage::helper('enterprise_giftregistry')->__('Text'),
+                'value' => 'text'
+            ),
+            array(
+                'label' => Mage::helper('enterprise_giftregistry')->__('Select'),
+                'value' => 'select'
+            ),
+            array(
+                'label' => Mage::helper('enterprise_giftregistry')->__('Date'),
+                'value' => 'date'
+            ),
+            array(
+                'label' => Mage::helper('enterprise_giftregistry')->__('Region'),
+                'value' => 'region'
+            ),
+            array(
+                'label' => Mage::helper('enterprise_giftregistry')->__('Country'),
+                'value' => 'country'
+            )
+        );
+    }
 }

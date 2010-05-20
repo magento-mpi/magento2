@@ -51,9 +51,9 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
         $this->setChild('add_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label' => Mage::helper('enterprise_giftregistry')->__('Add New Attribute'),
+                    'label' => Mage::helper('enterprise_giftregistry')->__('Add Attribute'),
                     'class' => 'add',
-                    'id'    => 'add_new_attribute'
+                    'id'    => $this->getFieldPrefix() . '_add_new_attribute'
                 ))
         );
 
@@ -86,10 +86,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getAddButtonId()
     {
-        $buttonId = $this->getLayout()
-            ->getBlock('registry.attributes')
-            ->getChild('add_button')->getId();
-        return $buttonId;
+        return $this->getChild('add_button')->getId();
     }
 
     /**
@@ -150,10 +147,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
     {
         $select = $this->getLayout()->createBlock('adminhtml/html_select')
             ->setData(array(
-                'id'    => 'attribute_{{id}}_type',
+                'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_type',
                 'class' => 'select required-entry attribute-type global-scope'
             ))
-            ->setName('attributes[{{id}}][type]')
+            ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][type]')
             ->setOptions($this->getConfig()->getAttributeTypesOptions());
 
         return $select->getHtml();
@@ -168,11 +165,83 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
     {
         $select = $this->getLayout()->createBlock('adminhtml/html_select')
             ->setData(array(
-                'id'    => 'attribute_{{id}}_group',
+                'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_group',
                 'class' => 'select required-entry global-scope'
             ))
-            ->setName('attributes[{{id}}][group]')
+            ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][group]')
             ->setOptions($this->getConfig()->getAttributeGroupsOptions());
+
+        return $select->getHtml();
+    }
+
+    /**
+     * Select element for choosing searcheable option
+     *
+     * @return string
+     */
+    public function getSearcheableSelectHtml()
+    {
+        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+            ->setData(array(
+                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_searcheable',
+                 'class' => 'select required-entry global-scope'
+            ))
+            ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_searcheable]')
+            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+
+        return $select->getHtml();
+    }
+
+    /**
+     * Select element for choosing listed option
+     *
+     * @return string
+     */
+    public function getListedSelectHtml()
+    {
+        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+            ->setData(array(
+                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_listed',
+                 'class' => 'select required-entry global-scope'
+            ))
+            ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_listed]')
+            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+
+        return $select->getHtml();
+    }
+
+    /**
+     * Select element for choosing viewable option
+     *
+     * @return string
+     */
+    public function getViewableSelectHtml()
+    {
+        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+            ->setData(array(
+                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_viewable',
+                 'class' => 'select required-entry global-scope'
+            ))
+            ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_viewable]')
+            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
+
+        return $select->getHtml();
+    }
+
+    /**
+     * Select element for choosing required option
+     *
+     * @return string
+     */
+    public function getRequiredSelectHtml()
+    {
+        $select = $this->getLayout()->createBlock('adminhtml/html_select')
+            ->setData(array(
+                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_required',
+                 'class' => 'select required-entry global-scope'
+            ))
+            ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_required]')
+            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -185,8 +254,12 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
     public function getTemplatesHtml()
     {
         $templates = array();
-        foreach ($this->getConfig()->getAttributeRenderers() as $renderer) {
-            $templates[] = $this->getLayout()->createBlock($renderer)->toHtml();
+        $types = array('select', 'date', 'region');
+
+        foreach ($types as $type) {
+            $renderer = 'enterprise_giftregistry/adminhtml_giftregistry_edit_attribute_type_' . $type;
+            $block = $this->getLayout()->createBlock($renderer)->setFieldPrefix($this->getFieldPrefix());
+            $templates[] = $block->toHtml();
         }
         return implode("\n", $templates);
     }
@@ -198,14 +271,24 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getAttributeValues()
     {
-        $values = array();
-        $attributes = array_reverse((array)$this->getType()->getAttributes(), true);
+        $attributes = array();
+        $groups = $this->getType()->getAttributes();
         $innerId = 0;
+
+        if (is_array($groups)) {
+            foreach ($groups as $group) {
+                $attributes = array_merge($attributes, $group);
+            }
+            $attributes = array_reverse($attributes, true);
+        } else {
+            return array();
+        }
 
         foreach ($attributes as $code => $attribute) {
             $value = $attribute;
             $value['code'] = $code;
             $value['id'] = $innerId;
+            $value['prefix'] = $this->getFieldPrefix();
 
             if ($this->getType()->getStoreId() != '0') {
                 $value['checkbox_scope'] = $this->getCheckboxScopeHtml($innerId, 'label', !isset($value['default_label']));
@@ -229,6 +312,11 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
                     }
                     $value['items'][] = $optionData;
                     $selectId++;
+                }
+            }
+            if (isset($value['frontend']) && is_array($value['frontend'])) {
+                foreach($value['frontend'] as $param => $paramValue) {
+                    $value[$param] = $paramValue;
                 }
             }
 
@@ -259,8 +347,31 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
             $selectIdHtml = 'select_'.$selectId.'_';
         }
 
-        $checkbox = '<div><input type="checkbox" id="attribute_'.$id.'_'.$selectIdHtml.$name.'_use_default" class="attribute-option-scope-checkbox" name="attributes['.$id.']'.$selectNameHtml.'[use_default]['.$name.']" value="1" '.$checkedHtml.'/>';
-        $checkbox .= '<label class="normal" for="attribute_'.$id.'_'.$selectIdHtml.$name.'_use_default"> '.$elementLabel.'</label></div>';
+        $checkbox = '<div><input type="checkbox" id="'.$this->getFieldPrefix().'_attribute_'.$id.'_'.$selectIdHtml.$name.'_use_default" class="attribute-option-scope-checkbox" name="attributes['.$this->getFieldPrefix().']['.$id.']'.$selectNameHtml.'[use_default]['.$name.']" value="1" '.$checkedHtml.'/>';
+        $checkbox .= '<label class="normal" for="'.$this->getFieldPrefix().'_attribute_'.$id.'_'.$selectIdHtml.$name.'_use_default"> '.$elementLabel.'</label></div>';
         return $checkbox;
+    }
+
+    /**
+     * Prepare and return static types as Varien_Object
+     *
+     * @return array
+     */
+    public function getStaticTypes()
+    {
+        return new Varien_Object($this->getConfig()->getStaticTypes());
+    }
+
+    /**
+     * Prepare and return static types as comma-separated array
+     *
+     * @return mixed
+     */
+    public function getStaticTypesHtml()
+    {
+        if ($types = $this->getConfig()->getStaticTypes()) {
+            return implode(', ', array_keys($types));
+        }
+        return '';
     }
 }

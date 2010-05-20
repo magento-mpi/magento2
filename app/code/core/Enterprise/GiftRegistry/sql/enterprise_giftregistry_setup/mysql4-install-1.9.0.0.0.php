@@ -45,33 +45,6 @@ CREATE TABLE `{$this->getTable('enterprise_giftregistry/info')}` (
     KEY `IDX_EE_GR_INFO_STORE` (`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `{$this->getTable('enterprise_giftregistry/registry')}` (
-    `registry_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `type_id` int(10) unsigned NOT NULL DEFAULT '0',
-    `customer_id` int(10) unsigned NOT NULL DEFAULT '0',
-    `website_id` smallint(5) unsigned NOT NULL DEFAULT '0',
-    `is_public` tinyint(1) unsigned NOT NULL DEFAULT '1',
-    `url_key` varchar(100) DEFAULT NULL,
-    `title` varchar(255) NOT NULL DEFAULT '',
-    `message` text NOT NULL,
-    `shipping_address` blob NOT NULL,
-    PRIMARY KEY (`registry_id`),
-    KEY `IDX_EE_GR_REGISTRY_CUSTOMER` (`customer_id`),
-    KEY `IDX_EE_GR_REGISTRY_WEBSITE` (`website_id`),
-    KEY `IDX_EE_GR_REGISTRY_TYPE` (`type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `{$this->getTable('enterprise_giftregistry/person')}` (
-    `person_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `registry_id` int(10) unsigned NOT NULL DEFAULT '0',
-    `firstname` varchar(100) NOT NULL DEFAULT '',
-    `lastname` varchar(100) NOT NULL DEFAULT '',
-    `email` varchar(150) NOT NULL DEFAULT '',
-    `role` int(10) unsigned DEFAULT NULL,
-    PRIMARY KEY (`person_id`),
-    KEY `IDX_EE_GR_PERSON_REGISTRY` (`registry_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `{$this->getTable('enterprise_giftregistry/label')}` (
     `type_id` int(10) unsigned NOT NULL DEFAULT '0',
     `attribute_code` varchar(32) NOT NULL DEFAULT '',
@@ -81,6 +54,58 @@ CREATE TABLE `{$this->getTable('enterprise_giftregistry/label')}` (
     PRIMARY KEY (`type_id`,`attribute_code`,`store_id`,`option_code`),
     KEY `IDX_EE_GR_LABEL_TYPE_ID` (`type_id`),
     KEY `IDX_EE_GR_LABEL_STORE_ID` (`store_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `{$this->getTable('enterprise_giftregistry/entity')}` (
+    `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `type_id` int(10) unsigned NOT NULL DEFAULT '0',
+    `customer_id` int(10) unsigned NOT NULL DEFAULT '0',
+    `website_id` smallint(5) unsigned NOT NULL DEFAULT '0',
+    `is_public` tinyint(1) unsigned NOT NULL DEFAULT '1',
+    `url_key` varchar(100) DEFAULT NULL,
+    `title` varchar(255) NOT NULL DEFAULT '',
+    `message` text NOT NULL,
+    `shipping_address` blob NOT NULL,
+    `custom_values` text NOT NULL,
+    `is_active` tinyint(4) NOT NULL DEFAULT '0',
+    `created_at` datetime DEFAULT NULL,
+    PRIMARY KEY (`entity_id`),
+    KEY `IDX_EE_GR_ENTITY_CUSTOMER` (`customer_id`),
+    KEY `IDX_EE_GR_ENTITY_WEBSITE` (`website_id`),
+    KEY `IDX_EE_GR_ENTITY_TYPE` (`type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `{$this->getTable('enterprise_giftregistry/item')}` (
+  `item_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `entity_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `product_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `qty` decimal(12,4) NOT NULL,
+  `qty_fulfilled` decimal(12,4) NOT NULL,
+  `note` text NOT NULL,
+  `added_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`item_id`),
+  KEY `IDX_EE_GR_ITEM_ENTITY` (`entity_id`),
+  KEY `IDX_EE_GR_ITEM_PRODUCT` (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `{$this->getTable('enterprise_giftregistry/person')}` (
+    `person_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `entity_id` int(10) unsigned NOT NULL DEFAULT '0',
+    `firstname` varchar(100) NOT NULL DEFAULT '',
+    `lastname` varchar(100) NOT NULL DEFAULT '',
+    `email` varchar(150) NOT NULL DEFAULT '',
+    `role` int(10) unsigned DEFAULT NULL,
+    PRIMARY KEY (`person_id`),
+    KEY `IDX_EE_GR_PERSON_ENTITY` (`entity_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `{$this->getTable('enterprise_giftregistry/data')}` (
+  `entity_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `event_date` date DEFAULT NULL,
+  `event_region` varchar(30) DEFAULT NULL,
+  `event_region_id` int(10) DEFAULT NULL,
+  `event_location` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`entity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 
@@ -101,38 +126,6 @@ $installer->getConnection()->addConstraint(
 );
 
 $installer->getConnection()->addConstraint(
-    'FK_EE_GR_REGISTRY_CUSTOMER',
-    $this->getTable('enterprise_giftregistry/registry'),
-    'customer_id',
-    $this->getTable('customer_entity'),
-    'entity_id'
-);
-
-$installer->getConnection()->addConstraint(
-    'FK_EE_GR_REGISTRY_WEBSITE',
-    $this->getTable('enterprise_giftregistry/registry'),
-    'website_id',
-    $this->getTable('core_website'),
-    'website_id'
-);
-
-$installer->getConnection()->addConstraint(
-    'FK_EE_GR_REGISTRY_TYPE',
-    $this->getTable('enterprise_giftregistry/registry'),
-    'type_id',
-    $this->getTable('enterprise_giftregistry/type'),
-    'type_id'
-);
-
-$installer->getConnection()->addConstraint(
-    'FK_EE_GR_PERSON_REGISTRY',
-    $this->getTable('enterprise_giftregistry/person'),
-    'registry_id',
-    $this->getTable('enterprise_giftregistry/registry'),
-    'registry_id'
-);
-
-$installer->getConnection()->addConstraint(
     'FK_EE_GR_LABEL_STORE_ID',
     $this->getTable('enterprise_giftregistry/label'),
     'store_id',
@@ -148,3 +141,58 @@ $installer->getConnection()->addConstraint(
     'type_id'
 );
 
+$installer->getConnection()->addConstraint(
+    'FK_EE_GR_ENTITY_CUSTOMER',
+    $this->getTable('enterprise_giftregistry/entity'),
+    'customer_id',
+    $this->getTable('customer_entity'),
+    'entity_id'
+);
+
+$installer->getConnection()->addConstraint(
+    'FK_EE_GR_ENTITY_WEBSITE',
+    $this->getTable('enterprise_giftregistry/entity'),
+    'website_id',
+    $this->getTable('core_website'),
+    'website_id'
+);
+
+$installer->getConnection()->addConstraint(
+    'FK_EE_GR_ENTITY_TYPE',
+    $this->getTable('enterprise_giftregistry/entity'),
+    'type_id',
+    $this->getTable('enterprise_giftregistry/type'),
+    'type_id'
+);
+
+$installer->getConnection()->addConstraint(
+    'FK_EE_GR_ITEM_ENTITY',
+    $this->getTable('enterprise_giftregistry/item'),
+    'entity_id',
+    $this->getTable('enterprise_giftregistry/entity'),
+    'entity_id'
+);
+
+$installer->getConnection()->addConstraint(
+    'FK_EE_GR_ITEM_PRODUCT',
+    $this->getTable('enterprise_giftregistry/item'),
+    'product_id',
+    $this->getTable('catalog/product'),
+    'entity_id'
+);
+
+$installer->getConnection()->addConstraint(
+    'FK_EE_GR_PERSON_ENTITY',
+    $this->getTable('enterprise_giftregistry/person'),
+    'entity_id',
+    $this->getTable('enterprise_giftregistry/entity'),
+    'entity_id'
+);
+
+$installer->getConnection()->addConstraint(
+    'FK_EE_GR_DATA_ENTITY',
+    $this->getTable('enterprise_giftregistry/data'),
+    'entity_id',
+    $this->getTable('enterprise_giftregistry/entity'),
+    'entity_id'
+);

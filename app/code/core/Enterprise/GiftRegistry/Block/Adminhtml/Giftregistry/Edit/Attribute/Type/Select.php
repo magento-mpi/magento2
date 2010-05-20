@@ -25,7 +25,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Select
-    extends Mage_Adminhtml_Block_Widget
+    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
 {
     public function __construct()
     {
@@ -43,7 +43,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_S
                 ->setData(array(
                     'label' => Mage::helper('enterprise_giftregistry')->__('Add New Option'),
                     'class' => 'add add-select-row',
-                    'id'    => 'add_select_row_button_{{id}}'
+                    'id'    => '{{prefix}}_add_select_row_button_{{id}}'
                 ))
         );
 

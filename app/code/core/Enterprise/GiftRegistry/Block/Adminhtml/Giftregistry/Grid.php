@@ -45,7 +45,8 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Grid extends Enterpri
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_giftregistry/type')->getCollection();
+        $collection = Mage::getModel('enterprise_giftregistry/type')->getCollection()
+            ->addStoreData();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -69,6 +70,27 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Grid extends Enterpri
             'index'  => 'code'
         ));
 
+
+        $this->addColumn('label', array(
+            'header' => Mage::helper('enterprise_giftregistry')->__('Label'),
+            'index'  => 'label'
+        ));
+
+        $this->addColumn('sort_order', array(
+            'header' => Mage::helper('enterprise_giftregistry')->__('Sort Order'),
+            'index'  => 'sort_order',
+            'default' => '-'
+        ));
+
+        $this->addColumn('is_listed', array(
+            'header'  => Mage::helper('enterprise_giftregistry')->__('Is Listed'),
+            'index'   => 'is_listed',
+            'type'    => 'options',
+            'options' => array(
+                '0' => Mage::helper('enterprise_giftregistry')->__('No'),
+                '1' => Mage::helper('enterprise_giftregistry')->__('Yes')
+            )
+        ));
         return parent::_prepareColumns();
     }
 

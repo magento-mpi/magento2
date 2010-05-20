@@ -24,8 +24,8 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Date extends
-    Mage_Adminhtml_Block_Widget
+class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Date
+    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
 {
     public function __construct()
     {
@@ -42,10 +42,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_D
     {
         $select = $this->getLayout()->createBlock('adminhtml/html_select')
             ->setData(array(
-                'id'    => 'attribute_{{id}}_date_format',
+                'id'    =>  '{{prefix}}_attribute_{{id}}_date_format',
                 'class' => 'select global-scope'
             ))
-            ->setName('attributes[{{id}}][date_format]')
+            ->setName('attributes[{{prefix}}][{{id}}][date_format]')
             ->setOptions($this->getDateFormatOptions());
 
         return $select->getHtml();

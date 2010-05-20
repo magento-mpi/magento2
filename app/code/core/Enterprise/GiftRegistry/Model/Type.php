@@ -120,9 +120,9 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
      */
     protected function _saveAttributeStoreData()
     {
-        if ($attributes = $this->getAttributes()) {
-            if (is_array($attributes)) {
-                foreach($attributes as $attribute) {
+        if ($groups = $this->getAttributes()) {
+            foreach((array)$groups as $attributes) {
+                foreach((array)$attributes as $attribute) {
                     $this->_getResource()->saveStoreData($this, $attribute);
                     if (isset($attribute['options']) && is_array($attribute['options'])) {
                         foreach($attribute['options'] as $option) {
@@ -144,27 +144,29 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
      */
     protected function _cleanupData()
     {
-        if ($attributes = $this->getAttributes()) {
+        if ($groups = $this->getAttributes()) {
             $attributesToSave = array();
-            foreach ($attributes as $attribute) {
-                if ($attribute['is_deleted']) {
-                    $this->_getResource()->deleteAttributeStoreData($this->getId(), $attribute['code']);
-                } else {
-                    if (isset($attribute['options']) && is_array($attribute['options'])) {
-                        $optionsToSave = array();
-                        foreach ($attribute['options'] as $option) {
-                            if ($option['is_deleted']) {
-                                $this->_getResource()->deleteAttributeStoreData($this->getId(), $attribute['code'], $option['code']);
-                            } else {
-                                $optionsToSave[] = $option;
+            foreach ((array)$groups as $group => $attributes) {
+                foreach ((array)$attributes as $attribute) {
+                    if ($attribute['is_deleted']) {
+                        $this->_getResource()->deleteAttributeStoreData($this->getId(), $attribute['code']);
+                    } else {
+                        if (isset($attribute['options']) && is_array($attribute['options'])) {
+                            $optionsToSave = array();
+                            foreach ($attribute['options'] as $option) {
+                                if ($option['is_deleted']) {
+                                  $this->_getResource()->deleteAttributeStoreData($this->getId(), $attribute['code'], $option['code']);
+                                } else {
+                                    $optionsToSave[] = $option;
+                                }
                             }
+                            $attribute['options'] = $optionsToSave;
                         }
-                        $attribute['options'] = $optionsToSave;
+                        $attributesToSave[$group] = $attribute;
                     }
-                    $attributesToSave[] = $attribute;
                 }
+                $this->setAttributes($attributesToSave);
             }
-            $this->setAttributes($attributesToSave);
         }
         return $this;
     }
@@ -177,8 +179,25 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
     public function assignAttributesStoreData()
     {
         $xmlModel = Mage::getModel('enterprise_giftregistry/attribute_processor');
-        $attributes = $xmlModel->processXml($this->getMetaXml());
+        $groups = $xmlModel->processXml($this->getMetaXml());
+        $storeData = array();
 
+        if (is_array($groups)) {
+            foreach ($groups as $group => $attributes) {
+                $storeData[$group] = $this->getAttributesStoreData($attributes);
+            }
+        }
+        $this->setAttributes($storeData);
+        return $this;
+    }
+
+    /**
+     * Assign attributes store data
+     *
+     * @return Enterprise_GiftRegistry_Model_Type
+     */
+    public function getAttributesStoreData($attributes)
+    {
         if (is_array($attributes)) {
             foreach ($attributes as $code => $attribute) {
                 if ($storeLabel = $this->getAttributeStoreData($code)) {
@@ -191,7 +210,7 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
                         $data = array('code' => $key, 'label' => $label);
                         if ($storeLabel = $this->getAttributeStoreData($code, $key)) {
                             $data['label'] = $storeLabel;
-                            $data['default_label'] = $attribute['label'];
+                            $data['default_label'] = $label;
                         }
                         $options[] = $data;
                     }
@@ -199,8 +218,7 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
                 }
             }
         }
-        $this->setAttributes($attributes);
-        return $this;
+        return $attributes;
     }
 
     /**

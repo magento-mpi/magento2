@@ -29,6 +29,10 @@
  */
 class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enterprise_Model_Core_Abstract
 {
+    const XML_PROTOTYPE_NODE  = 'prototype';
+    const XML_REGISTRY_NODE   = 'registry';
+    const XML_REGISTRANT_NODE = 'registrant';
+
     /**
      * Render customer xml
      *
@@ -37,27 +41,59 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
      */
     public function processData($type)
     {
-        if ($attributes = $type->getAttributes()) {
-            $xmlObj = new Varien_Simplexml_Element('<custom></custom>');
+        if ($data = $type->getAttributes()) {
+            $xmlObj = new Varien_Simplexml_Element('<config></config>');
+            $typeXml = $xmlObj->addChild(self::XML_PROTOTYPE_NODE);
+            if (is_array($data)) {
+                foreach ($data as $attributes) {
+                    foreach ($attributes as $attribute) {
+                        if ($attribute['group'] == self::XML_REGISTRANT_NODE) {
+                            $group = self::XML_REGISTRANT_NODE;
+                        } else {
+                            $group = self::XML_REGISTRY_NODE;
+                        }
+                        $groups[$group][] = $attribute;
+                    }
+                }
+                foreach ($groups as $group => $attributes ) {
+                    $this->processDataType($typeXml, $group, $attributes);
+                }
+            }
+            return $xmlObj->asNiceXml();
+        }
+    }
 
+    /**
+     * Render customer xml
+     *
+     * @param Varien_Simplexml_Element $typeXml
+     * @param string $group
+     * @return array $attributes
+     */
+    public function processDataType($typeXml, $group, $attributes)
+    {
+        $groupXml = $typeXml->addChild($group);
+
+        if (is_array($attributes)) {
             foreach ($attributes as $attribute) {
                 if (!empty($attribute['is_deleted'])) {
                     continue;
                 }
-                $itemXml = $xmlObj->addChild($attribute['code']);
-                $itemXml->addChild('label', $attribute['label']);
-                $itemXml->addChild('group', $attribute['group']);
-                $itemXml->addChild('type', $attribute['type']);
-                $itemXml->addChild('sort_order', $attribute['sort_order']);
+                $attributeXml = $groupXml->addChild($attribute['code']);
+                $attributeXml->addChild('label', $attribute['label']);
+                if (isset($attribute['group'])) {
+                    $attributeXml->addChild('group', $attribute['group']);
+                }
+                $attributeXml->addChild('type', $attribute['type']);
+                $attributeXml->addChild('sort_order', $attribute['sort_order']);
 
                 switch ($attribute['type']) {
-                    case 'select': $this->getSelectOptions($attribute, $itemXml); break;
-                    case 'date':
-                    case 'event_date': $this->getDateOptions($attribute, $itemXml); break;
-                    case 'event_region': $this->getRegionOptions($attribute, $itemXml); break;
+                    case 'select': $this->getSelectOptions($attribute, $attributeXml); break;
+                    case 'date': $this->getDateOptions($attribute, $attributeXml); break;
+                    case 'region': $this->getRegionOptions($attribute, $attributeXml); break;
                 }
+                 $this->getFrontendParams($attribute, $attributeXml);
             }
-            return $xmlObj->asNiceXml();
         }
     }
 
@@ -110,6 +146,21 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
     }
 
     /**
+     * Render xml frontend params
+     *
+     * @param array $attribute
+     * @param Varien_Simplexml_Element $itemXml
+     */
+    public function getFrontendParams($attribute, $itemXml)
+    {
+        if (isset($attribute['frontend']) && is_array($attribute['frontend'])) {
+            $paramXml = $itemXml->addChild('frontend');
+            foreach ($attribute['frontend'] as $param => $value) {
+                $paramXml->addChild($param, $value);
+            }
+        }
+    }
+    /**
      * Render customer xml
      *
      * @return array
@@ -118,7 +169,11 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
     {
         if ($xmlString) {
             $xmlObj = new Varien_Simplexml_Element($xmlString);
-            return $xmlObj->asArray();
+            $attributes = $xmlObj->asArray();
+            if (isset($attributes[self::XML_PROTOTYPE_NODE])) {
+                return $attributes[self::XML_PROTOTYPE_NODE];
+            }
         }
+        return array();
     }
 }

@@ -29,7 +29,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Enterpris
     /**
      * Init active menu and set breadcrumb
      *
-     * @return Enterprise_Reminder_Adminhtml_ReminderController
+     * @return Enterprise_GiftRegistry_Adminhtml_GiftregistryController
      */
     protected function _initAction()
     {
@@ -176,20 +176,6 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Enterpris
             Mage::logException($e);
         }
         $this->_redirect('*/*/');
-    }
-
-    /**
-     * Get attributes manage block
-     *
-     */
-    public function registryAction()
-    {
-        $this->_initType();
-        $block = $this->getLayout()->createBlock(
-            'enterprise_giftregistry/adminhtml_giftregistry_edit_tab_registry',
-            'registry.attributes'
-        );
-        $this->getResponse()->setBody($block->toHtml());
     }
 
     /**

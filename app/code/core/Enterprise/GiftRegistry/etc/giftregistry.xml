@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftRegistry
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+-->
+<config>
+    <prototype>
+        <registry>
+            <attributes>
+                <system>
+                    <registry_id/>
+                    <type_id/>
+                    <customer_id/>
+                    <website_id/>
+                    <is_public/>
+                    <url_key/>
+                    <title/>
+                    <message/>
+                    <shipping_address/>
+                    <custom_attributes/>
+                </system>
+                <static>
+                    <event_date>
+                        <type>date</type>
+                    </event_date>
+                    <event_country_code>
+                        <type>country</type>
+                    </event_country_code>
+                    <event_region_code>
+                        <type>region</type>
+                    </event_region_code>
+                    <event_location>
+                        <type>text</type>
+                    </event_location>
+                </static>
+                <custom/>
+            </attributes>
+            <attribute_groups>
+                <event_information translate="label" module="enterprise_giftregistry">
+                    <label>Event Information</label>
+                    <sort_order>5</sort_order>
+                    <is_custom>1</is_custom>
+                </event_information>
+                <registry translate="label" module="enterprise_giftregistry">
+                    <label>Gift Registry Properties</label>
+                    <sort_order>10</sort_order>
+                    <is_custom>1</is_custom>
+                </registry>
+                <privacy translate="label" module="enterprise_giftregistry">
+                    <label>Privacy Settings</label>
+                    <sort_order>15</sort_order>
+                    <is_custom>1</is_custom>
+                </privacy>
+                <registrant translate="label" module="enterprise_giftregistry">
+                    <label>Registrants Information</label>
+                    <sort_order>20</sort_order>
+                    <is_custom>1</is_custom>
+                </registrant>
+                <shipping translate="label" module="enterprise_giftregistry">
+                    <label>Shipping Address</label>
+                    <sort_order>25</sort_order>
+                    <is_custom>0</is_custom>
+                </shipping>
+            </attribute_groups>
+        </registry>
+        <registrant>
+            <attributes>
+                <system>
+                    <person_id/>
+                    <registry_id/>
+                    <firstname/>
+                    <lastname/>
+                    <email/>
+                </system>
+                <static>
+                    <role translate="label" module="enterprise_giftregistry">
+                        <label>Role</label>
+                        <type>select</type>
+                    </role>
+                </static>
+                <custom/>
+            </attributes>
+        </registrant>
+    </prototype>
+</config>

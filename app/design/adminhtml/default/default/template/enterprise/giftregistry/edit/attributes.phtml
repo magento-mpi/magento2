@@ -30,17 +30,20 @@
     <h4><?php echo $this->getFormTitle() ?></h4>
     <div class="right"><?php echo $this->getAddButtonHtml() ?></div>
 </div>
+<div>
+    <p class="comment">Pre-reserved attribute codes: <?php echo $this->getStaticTypesHtml() ?></p>
+</div>
 
 <div class="box">
-<div id="attribute_container"></div>
+<div id="<?php echo $this->getFieldPrefix() ?>_attribute_container"></div>
 
 <?php echo $this->getTemplatesHtml() ?>
 
 <script type="text/javascript">
 //<![CDATA[
 var attributeTemplate =
-    '<div class="option-box" id="option_{{id}}">'+
-    '<table id="attribute_{{id}}" class="option-header" cellpadding="0" cellspacing="0">'+
+    '<div class="option-box" id="{{prefix}}_option_{{id}}">'+
+    '<table id="{{prefix}}_attribute_{{id}}" class="option-header" cellpadding="0" cellspacing="0">'+
     '<thead>'+
         '<tr>'+
             '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Code') ?> <span class="required">*</span></th>'+
@@ -50,23 +53,56 @@ var attributeTemplate =
             '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Sort Order') ?></th>'+
             '<th class="a-right"><?php echo $this->jsQuoteEscape($this->getDeleteButtonHtml()) ?></th>'+
         '</tr>'+
+    '</thead>'+
     '<tr>'+
-        '<td><input type="text" class="required-entry input-text global-scope" id="attribute_{{id}}_code" name="attributes[{{id}}][code]" value="{{code}}"></td>'+
+        '<td><input type="text" class="required-entry validate-code input-text global-scope attribute-code" id="{{prefix}}_attribute_{{id}}_code" name="attributes[{{prefix}}][{{id}}][code]" value="{{code}}"></td>'+
         '<td><?php echo $this->getTypeSelectHtml() ?></td>'+
         '<td><?php echo $this->getGroupSelectHtml() ?></td>'+
-        '<td><input type="text" class="required-entry input-text" id="attribute_{{id}}_label" name="attributes[{{id}}][label]" value="{{label}}">{{checkbox_scope}}</td>'+
-        '<td><input type="text" class="input-text global-scope" id="attribute_{{id}}_sort_order" name="attributes[{{id}}][sort_order]" value="{{sort_order}}"></td>'+
-        '<td><input type="hidden" id="attribute_{{id}}_is_deleted" name="attributes[{{id}}][is_deleted]"><input type="hidden" class="hidden-code" id="attribute_{{id}}_hidden_code" name="attributes[{{id}}][code]" value="{{code}}" disabled="disabled"></td>'+
+        '<td><input type="text" class="required-entry input-text" id="{{prefix}}_attribute_{{id}}_label" name="attributes[{{prefix}}][{{id}}][label]" value="{{label}}">{{checkbox_scope}}</td>'+
+        '<td><input type="text" class="input-text global-scope" id="{{prefix}}_attribute_{{id}}_sort_order" name="attributes[{{prefix}}][{{id}}][sort_order]" value="{{sort_order}}"></td>'+
+        '<td>'+
+            '<input type="hidden" id="{{prefix}}_attribute_{{id}}_is_deleted" name="attributes[{{prefix}}][{{id}}][is_deleted]">'+
+            '<input type="hidden" class="hidden-type" id="{{prefix}}_attribute_{{id}}_hidden_type" name="attributes[{{prefix}}][{{id}}][type]" value="{{type}}" disabled="disabled">'+
+            '<input type="hidden" class="hidden-code" id="{{prefix}}_attribute_{{id}}_hidden_code" name="attributes[{{prefix}}][{{id}}][code]" value="{{code}}" disabled="disabled">'+
+        '</td>'+
     '</tr>'+
-    '</table></div>';
+    '</table>'+
 
-var attributeOption = {
-    div : $('attribute_container'),
+
+    '<div class="option-box">'+
+    '<table cellpadding="0" cellspacing="0">'+
+    '<tr>'+
+        '<td width="100"><?php echo Mage::helper('enterprise_giftregistry')->__('Is Viewable') ?> </td>'+
+        '<td width="100"><?php echo $this->getViewableSelectHtml() ?></td>'+
+    '</tr>'+
+    '<tr>'+
+        '<td><?php echo Mage::helper('enterprise_giftregistry')->__('Is Required') ?> </td>'+
+        '<td><?php echo $this->getRequiredSelectHtml() ?></td>'+
+    '</tr>'+
+    '</table>'+
+
+    '<div id="{{prefix}}_option_ext_{{id}}">'+
+    '<table cellpadding="0" cellspacing="0">'+
+    '<tr>'+
+        '<td width="100"><?php echo Mage::helper('enterprise_giftregistry')->__('Is Searcheable') ?> </td>'+
+        '<td width="100"><?php echo $this->getSearcheableSelectHtml() ?></td>'+
+    '</tr>'+
+    '<tr>'+
+        '<td><?php echo Mage::helper('enterprise_giftregistry')->__('Is Listed') ?> </td>'+
+        '<td><?php echo $this->getListedSelectHtml() ?></td>'+
+    '</tr>'+
+    '</table>'+
+    '</div>'+
+    '</div>'+
+    '</div>';
+
+var customAttribute = {
     templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
+    types : <?php echo $this->getStaticTypes()->toJson() ?>,
     templateText : attributeTemplate,
     attributeId : 0,
+    prefix : '<?php echo $this->getFieldPrefix() ?>',
     add : function(data) {
-
         if(data.id == undefined){
             data = {};
             this.attributeId++;
@@ -74,34 +110,98 @@ var attributeOption = {
         } else {
             this.attributeId = data.id;
         }
+        data.prefix = this.prefix;
 
         this.template = new Template(this.templateText, this.templateSyntax);
-        Element.insert(this.div, {'after':this.template.evaluate(data)});
+        Element.insert($(this.prefix+'_attribute_container'), {'after':this.template.evaluate(data)});
 
         if (data.type) {
-            $A($('attribute_'+data.id+'_type').options).each(function(option){
+            $A($(this.prefix+'_attribute_'+data.id+'_type').options).each(function(option){
                 if (option.value==data.type) option.selected = true;
             });
         }
         if (data.group) {
-            $A($('attribute_'+data.id+'_group').options).each(function(option){
+            $A($(this.prefix+'_attribute_'+data.id+'_group').options).each(function(option){
                 if (option.value==data.group) option.selected = true;
             });
         }
-
+        if (data.is_viewable) {
+            $A($(this.prefix+'_attribute_'+data.id+'_is_viewable').options).each(function(option){
+                if (option.value==data.is_viewable) option.selected = true;
+            });
+        }
+        if (data.is_required) {
+            $A($(this.prefix+'_attribute_'+data.id+'_is_required').options).each(function(option){
+                if (option.value==data.is_required) option.selected = true;
+            });
+        }
+        if (data.is_searcheable) {
+            $A($(this.prefix+'_attribute_'+data.id+'_is_searcheable').options).each(function(option){
+                if (option.value==data.is_searcheable) option.selected = true;
+            });
+        }
+        if (data.is_listed) {
+            $A($(this.prefix+'_attribute_'+data.id+'_is_listed').options).each(function(option){
+                if (option.value==data.is_listed) option.selected = true;
+            });
+        }
         if (data.checkbox_scope) {
-            if ($('attribute_'+data.id+'_label') && data.label_disabled) {
-                $('attribute_'+data.id+'_label').disable();
+            if ($(this.prefix+'_attribute_'+data.id+'_label') && data.label_disabled) {
+                $(this.prefix+'_attribute_'+data.id+'_label').disable();
             }
         }
 
+        var template = this.getOptionTemplate(data.type);
+        this.checkStaticType(null, $(this.prefix+'_attribute_'+data.id+'_code'));
+        if (template) {
+            this.insertOptionTemplate($(this.prefix+'_attribute_'+data.id), template, data);
+            if (data.type == 'select') {
+                data.items.each(function(value) {
+                    selectOptionType.add(value);
+                });
+                selectOptionType.bindAddButton();
+            }
+            if (data.type == 'date') {
+                selectDateType.add(data);
+            }
+            if (data.type == 'region') {
+                selectRegionType.add(data);
+            }
+        }
         this.bindRemoveButtons();
-        attributeOptionType.bindSelectInputType();
+        this.bindSelectInputType();
+        this.bindInputCode();
+    },
+    addParams : function(event, element){
+        if (element == undefined) {
+            element = $(Event.findElement(event, 'select'));
+        }
+
+        var type = element.getValue();
+        var template = this.getOptionTemplate(type);
+        var container = element.id.sub('attribute', 'option').sub('_type', '');
+
+        data = {};
+        data.id = element.id.sub(this.prefix+'_attribute_', '').sub('_type', '');
+        data.type = type;
+        data.prefix = this.prefix;
+
+        $$('#'+container+' .grid').each(function(el){
+            $(el.id).remove();
+        });
+
+        this.insertOptionTemplate(element.id.sub('_type', ''), template, data);
+
+        if (type == 'select') {
+            selectOptionType.bindAddButton();
+        }
     },
     remove : function(event){
         var element = $(Event.findElement(event, 'div'));
         if (element) {
-            $('attribute_'+element.readAttribute('id').sub('option_','')+'_'+'is_deleted').value = '1';
+            fieldId = element.id.sub(this.prefix+'_option_','');
+            $(this.prefix+'_attribute_'+fieldId+'_is_deleted').value = '1';
+
             element.addClassName('no-display');
             element.addClassName('ignore-validate');
             element.hide();
@@ -116,109 +216,7 @@ var attributeOption = {
             }
         }
         var inputs = $$('div.attribute-custom-options button', 'div.attribute-custom-options input', 'div.attribute-custom-options select');
-        inputs.each(function(el) { Event.observe(el, 'change', el.setHasChanges.bind(el));  } )
-    }
-}
-
-var attributeOptionType = {
-    templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
-    loadStepTwo : function(event){
-        var element = $(Event.findElement(event, 'select'));
-        var type = element.getValue();
-        var template = this.getOptionTemplate(type);
-
-        data = {};
-        data.id = element.readAttribute('id').sub('attribute_', '').sub('_type', '');
-        data.type = type;
-
-        $$('#option_'+data.id+' .grid').each(function(el){
-            $(el.readAttribute('id')).remove();
-        });
-
-        this.checkStaticType(type, data.id);
-        this.insertOptionTemplate(element.readAttribute('id').sub('_type', ''), template, data);
-
-        if (type == 'select') {
-            selectOptionType.bindAddButton();
-        }
-    },
-    addDataToValues : function(data){
-        var template = this.getOptionTemplate(data.type);
-        this.checkStaticType(data.type, data.id);
-        if (template) {
-            this.insertOptionTemplate($('attribute_'+data.id), template, data);
-            if (data.type == 'select') {
-                data.items.each(function(value) {
-                    selectOptionType.add(value);
-                });
-                selectOptionType.bindAddButton();
-            }
-            if (data.type == 'date' || data.type == 'event_date') {
-                selectDateType.add(data);
-            }
-            if (data.type == 'event_region') {
-                selectRegionType.add(data);
-            }
-        }
-    },
-    getOptionTemplate : function(type){
-        var template;
-        switch(type){
-            case 'select':
-                template = OptionTemplateSelect;
-                break;
-            case 'date':
-            case 'event_date':
-                template = OptionTemplateDate;
-                break;
-            case 'event_region':
-                template = OptionTemplateRegion;
-                break;
-            default:
-                template = '';
-                break;
-        }
-        return template;
-    },
-    insertOptionTemplate : function(element, template, data){
-        var output = '<div id="attribute_{{id}}_type_'+data.type+'" class="grid">'+template+'</div>';
-        this.secondTemplate = new Template(output, this.templateSyntax);
-        Element.insert(element, {'after':this.secondTemplate.evaluate(data)});
-    },
-    checkStaticType : function(type, id){
-        codeInput = $('attribute_'+id+'_code');
-        hiddenInput = $('attribute_'+id+'_hidden_code');
-        if (!type.search('event_')) {
-            codeInput.value = type;
-            codeInput.disable();
-
-            hiddenInput.value = type;
-            hiddenInput.enable();
-        } else {
-            codeInput.enable();
-            hiddenInput.disable();
-        }
-    },
-    bindSelectInputType : function(){
-        var types = $$('.attribute-type');
-        for(var i=0;i<types.length;i++){
-            if(!$(types[i]).binded){
-                $(types[i]).binded = true;
-                Event.observe(types[i], 'change', function(event){
-                    attributeOptionType.loadStepTwo(event);
-                });
-            }
-        }
-    }
-}
-
-var attributeOptionScope = {
-    addScope : function(event){
-        var element = $(Event.element(event));
-        el = $(element.readAttribute('id').sub('_use_default', ''));
-
-        if (el.disabled) el.enable();
-        else el.disable();
+        inputs.each(function(el) { Event.observe(el, 'change', el.setHasChanges.bind(el));  })
     },
     bindScopeCheckbox : function(){
         var checkboxes = $$('.attribute-option-scope-checkbox');
@@ -229,29 +227,106 @@ var attributeOptionScope = {
             }
         }
     },
-    changeInputs : function(){
-        $$('.global-scope').each(function(el){el.disable()});
-        $$('.hidden-code').each(function(el){el.enable()});
-        $$('.scope-item').each(function(el){el.hide()});
+    bindSelectInputType : function(){
+        var types = $$('.attribute-type');
+        for(var i=0;i<types.length;i++){
+            if(!$(types[i]).binded){
+                $(types[i]).binded = true;
+                Event.observe(types[i], 'click', this.addParams.bind(this));
+            }
+        }
+    },
+    bindInputCode : function(){
+        var codes = $$('.attribute-code');
+        for(var i=0;i<codes.length;i++){
+            if(!$(codes[i]).binded){
+                $(codes[i]).binded = true;
+                Event.observe(codes[i], 'change', this.checkStaticType.bind(this));
+            }
+        }
+    },
+    addScope : function(event){
+        var element = $(Event.element(event));
+        el = $(element.id.sub('_use_default', ''));
+        if (el.disabled) el.enable();
+        else el.disable();
+    },
+    changeScopeInputs : function(scope, mode){
+        if (scope) {
+            $$('.global-scope').each(function(el){el.disable()});
+            $$('.hidden-code').each(function(el){el.enable()});
+            $$('.scope-item').each(function(el){el.hide()});
+        }
+    },
+    checkStaticType : function(event, element){
+        if (element == undefined) {
+            element = $(Event.findElement(event, 'input'));
+        }
+
+        var code = element.value;
+        var typeInput = $(element.id.sub('_code','_type'));
+        var hiddenInput = $(element.id.sub('_code','_hidden_type'));
+        var extBox = $(element.id.sub('_code','').sub('attribute','option_ext'));
+
+        if (this.types[code]) {
+            type = this.types[code].type;
+
+            $A(typeInput.options).each(function(option){
+                if (option.value==type && option.selected==false) {
+                    option.selected = true;
+                }
+            });
+
+            typeInput.value = type;
+            typeInput.disable();
+            hiddenInput.value = type;
+            hiddenInput.enable();
+            extBox.show();
+            customAttribute.addParams(this, typeInput);
+        } else {
+            typeInput.enable();
+            hiddenInput.disable();
+            extBox.hide();
+        }
+    },
+    getOptionTemplate : function(type){
+        var template;
+        switch(type){
+            case 'select':
+                template = OptionTemplateSelect;
+                break;
+            case 'date':
+                template = OptionTemplateDate;
+                break;
+            case 'region':
+                template = OptionTemplateRegion;
+                break;
+            default:
+                template = '';
+                break;
+        }
+        return template;
+    },
+    insertOptionTemplate : function(element, template, data){
+        var id = data.prefix+'_'+data.id+'_type_'+data.type;
+        if (!$(id)) {
+            var output = '<div id="'+id+'" class="grid">'+template+'</div>';
+            this.secondTemplate = new Template(output, this.templateSyntax);
+            Element.insert(element, {'after':this.secondTemplate.evaluate(data)});
+        }
     }
 }
 
-attributeOption.bindRemoveButtons();
-
 if($('<?php echo $this->getAddButtonId() ?>')){
-    Event.observe('<?php echo $this->getAddButtonId() ?>', 'click', attributeOption.add.bind(attributeOption));
+    Event.observe('<?php echo $this->getAddButtonId() ?>', 'click', customAttribute.add.bind(customAttribute));
 }
 
 <?php foreach ($this->getAttributeValues() as $_value): ?>
-    attributeOption.add(<?php echo $_value->toJson() ?>);
-    attributeOptionType.addDataToValues(<?php echo $_value->toJson() ?>);
+    customAttribute.add(<?php echo $_value->toJson() ?>);
 <?php endforeach; ?>
 
-attributeOptionScope.bindScopeCheckbox();
-
-<?php if($this->getTypeStoreId()): ?>
-    attributeOptionScope.changeInputs();
-<?php endif;?>
+customAttribute.bindScopeCheckbox();
+customAttribute.changeScopeInputs(<?php echo $this->getTypeStoreId() ?>);
 //]]>
 </script>
 </div>

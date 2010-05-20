@@ -40,7 +40,7 @@ OptionTemplateRegion =
 selectRegionType = {
     add : function(data) {
         if (data.region_country) {
-            $A($('attribute_'+data.id+'_region_country').options).each(function(option){
+            $A($(data.prefix+'_attribute_'+data.id+'_region_country').options).each(function(option){
                 if (option.value==data.region_country) option.selected = true;
            });
         }

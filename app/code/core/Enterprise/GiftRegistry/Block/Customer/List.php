@@ -30,38 +30,26 @@
  * @category   Enterprise
  * @package    Enterprise_GiftRegistry
  */
-class Enterprise_GiftRegistry_Block_Customer_List extends Enterprise_Enterprise_Block_Customer_Account_Dashboard
+class Enterprise_GiftRegistry_Block_Customer_List
+    extends Enterprise_Enterprise_Block_Customer_Account_Dashboard
 {
     /**
-     * Return list of giftregistrys
+     * Return list of gift registries
      *
      * @return Enterprise_GiftRegistry_Model_Mysql4_GiftRegistry_Collection
      */
     public function getEntityCollection()
     {
-        if (!$this->hasEntityCollection()) { // case is GiftregistryCollection !!!
+        if (!$this->hasEntityCollection()) {
             $this->setData('entity_collection', Mage::getModel('enterprise_giftregistry/entity')->getCollection()
-                ->addOrder('entity_id', Varien_Data_Collection::SORT_ORDER_DESC)
-                ->loadByCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+                ->filterByCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
             );
         }
         return $this->_getData('entity_collection');
     }
 
     /**
-     * Return status text for giftregistry
-     *
-     * @param Enterprise_GiftRegistry_Model_GiftRegistry $giftregistry
-     * @return string
-     */
-    public function getStatusText($giftregistry)
-    {
-        return 'GiftRegistry STATUS TEXT (DEVELOPMENT) ';
-        return Mage::getSingleton('enterprise_giftregistry/source_entity_status')
-            ->getOptionText($giftregistry->getStatus());
-    }
-    /**
-     * Instantiate Pagination
+     * Instantiate pagination
      *
      * @return Enterprise_GiftRegistry_Block_Customer_List
      */
@@ -74,53 +62,86 @@ class Enterprise_GiftRegistry_Block_Customer_List extends Enterprise_Enterprise_
     }
 
     /**
-     * Render block HTML
+     * Return add button form url
      *
      * @return string
      */
-    protected function _toHtml()
+    public function getAddUrl()
     {
-        $this->addData(array('create_action_url' =>  $this->getUrl('enterprise_giftregistry/index/addPost')));
-        return parent::_toHtml();
+        return $this->getUrl('giftregistry/index/addselect');
     }
 
     /**
-     * Return "create giftregistry" form url
+     * Return view entity items url
      *
      * @return string
      */
-    public function getAddGiftRegistryUrl()
+    public function getItemsUrl($item)
     {
-        return $this->getUrl('enterprise_giftregistry/index/addselect');
+        return $this->getUrl('giftregistry/index/items', array('id' => $item->getData('entity_id')));
     }
 
     /**
-     * Return "create giftregistry" form url
+     * Return share entity url
      *
      * @return string
      */
-    public function getSaveActionUrl()
+    public function getShareUrl($item)
     {
-        return $this->getUrl('enterprise_giftregistry/index/save');
-    }
-    
-    public function getTitle($item)
-    {
-        return $item->getData('title');
+        return $this->getUrl('giftregistry/index/share', array('id' => $item->getData('entity_id')));
     }
 
-    public function getRegistryId($item)
+    /**
+     * Return delete entity url
+     *
+     * @return string
+     */
+    public function getDeleteUrl($item)
     {
-        return $item->getData('entity_id');
+        return $this->getUrl('giftregistry/index/delete', array('id' => $item->getData('entity_id')));
     }
 
-    public function getMessage($item)
+    /**
+     * Retrieve item title
+     *
+     * @param Enterprise_GiftRegistry_Model_Entity $item
+     * @return string
+     */
+    public function getEscapedTitle($item)
     {
-        return $item->getData('message');
+        return $this->htmlEscape($item->getData('title'));
     }
-    
-    public function getViewUrl($item)
+
+    /**
+     * Retrieve item formated date
+     *
+     * @param Enterprise_GiftRegistry_Model_Entity $item
+     * @return string
+     */
+    public function getFormattedDate($item)
     {
-        return  $this->getUrl('giftregistry/index/view') . $item->getData('entity_id');
+        return $this->formatDate($item->getCreatedAt(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+    }
+
+    /**
+     * Retrieve escaped item message
+     *
+     * @param Enterprise_GiftRegistry_Model_Entity $item
+     * @return string
+     */
+    public function getEscapedMessage($item)
+    {
+        return $this->htmlEscape($item->getData('message'));
+    }
+
+    /**
+     * Retrieve item message
+     *
+     * @param Enterprise_GiftRegistry_Model_Entity $item
+     * @return string
+     */
+    public function getIsActive($item)
+    {
+        return $item->getData('is_active');
     }
 }

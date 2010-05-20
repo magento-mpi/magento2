@@ -27,7 +27,8 @@
 /**
  * Gift refistry type resource collection
  */
-class Enterprise_GiftRegistry_Model_Mysql4_Type_Collection extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
+class Enterprise_GiftRegistry_Model_Mysql4_Type_Collection
+    extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
 {
     /**
      * Intialize collection
@@ -37,5 +38,73 @@ class Enterprise_GiftRegistry_Model_Mysql4_Type_Collection extends Enterprise_En
     protected function _construct()
     {
         $this->_init('enterprise_giftregistry/type');
+    }
+
+    /**
+     * Add store data to collection
+     *
+     * @param int $storeId
+     * @return Enterprise_GiftRegistry_Model_Mysql4_Type_Collection
+     */
+    public function addStoreData($storeId = 0)
+    {
+        $infoTable = $this->getTable('enterprise_giftregistry/info');
+
+        $select = $this->getConnection()->select();
+        $select->from(array('m' => $this->getMainTable()), array('*'));
+
+        $select->joinInner(
+            array('d' => $infoTable),
+            'm.type_id = d.type_id AND d.store_id = 0',
+            array()
+        );
+        $select->joinLeft(
+            array('s' => $infoTable),
+            's.type_id = m.type_id AND s.store_id = ' . $storeId,
+            array(
+                'label' => new Zend_Db_Expr('IFNULL(s.label, d.label)'),
+                'is_listed' => new Zend_Db_Expr('IFNULL(s.is_listed, d.is_listed)'),
+                'sort_order' => new Zend_Db_Expr('IFNULL(s.sort_order, d.sort_order)')
+            )
+        );
+
+        $this->getSelect()->reset()->from(
+            array('main_table' => $select),
+            array('*')
+        );
+
+        return $this;
+    }
+
+    /**
+     * Filter collection by listed param
+     *
+     * @return Enterprise_GiftRegistry_Model_Mysql4_Type_Collection
+     */
+    public function applyListedFilter()
+    {
+        $this->getSelect()->where('is_listed = 1');
+        return $this;
+    }
+
+    /**
+     * Apply sorting by sort_order param
+     *
+     * @return Enterprise_GiftRegistry_Model_Mysql4_Type_Collection
+     */
+    public function applySortOrder()
+    {
+        $this->getSelect()->order('sort_order');
+        return $this;
+    }
+
+    /**
+     * Convert collection to array for select options
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return $this->_toOptionArray('type_id', 'label');
     }
 }

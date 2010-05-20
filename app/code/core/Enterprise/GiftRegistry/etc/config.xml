@@ -40,11 +40,13 @@
              <enterprise_giftregistry_mysql4>
                 <class>Enterprise_GiftRegistry_Model_Mysql4</class>
                 <entities>
-                    <registry><table>enterprise_giftregistry_registry</table></registry>
                     <type><table>enterprise_giftregistry_type</table></type>
                     <info><table>enterprise_giftregistry_type_info</table></info>
-                    <person><table>enterprise_giftregistry_person</table></person>
                     <label><table>enterprise_giftregistry_label</table></label>
+                    <entity><table>enterprise_giftregistry_entity</table></entity>
+                    <item><table>enterprise_giftregistry_item</table></item>
+                    <person><table>enterprise_giftregistry_person</table></person>
+                    <data><table>enterprise_giftregistry_data</table></data>
                 </entities>
             </enterprise_giftregistry_mysql4>
         </models>
@@ -66,105 +68,25 @@
                 </setup>
             </enterprise_giftregistry_setup>
         </resources>
-        <attribute_types>
-            <custom translate="label" module="enterprise_giftregistry">
-                <label>Custom types</label>
-                <types>        
-                    <text translate="label" module="enterprise_giftregistry">
-                        <label>Text</label>
-                    </text>
-                    <select translate="label" module="enterprise_giftregistry">
-                        <label>Select</label>
-                        <render>enterprise_giftregistry/adminhtml_giftregistry_edit_attribute_type_select</render>
-                    </select>
-                    <date translate="label" module="enterprise_giftregistry">
-                        <label>Date</label>
-                        <render>enterprise_giftregistry/adminhtml_giftregistry_edit_attribute_type_date</render>
-                    </date>
-                </types>
-            </custom>
-            <static translate="label" module="enterprise_giftregistry">
-                <label>Static types</label>
-                <types>
-                    <event_date translate="label" module="enterprise_giftregistry">
-                        <label>Event Date</label>
-                    </event_date>
-                    <event_country translate="label" module="enterprise_giftregistry">
-                        <label>Country</label>
-                    </event_country>
-                    <event_region translate="label" module="enterprise_giftregistry">
-                        <label>Region</label>
-                        <render>enterprise_giftregistry/adminhtml_giftregistry_edit_attribute_type_region</render>
-                     </event_region>
-                     <event_location translate="label" module="enterprise_giftregistry">
-                         <label>Location</label>
-                    </event_location>
-                </types>
-            </static>
-        </attribute_types>
-        <attribute_groups>
-            <event_information translate="label" module="enterprise_giftregistry">
-                <label>Event Information</label>
-                <sort_order>5</sort_order>
-            </event_information>
-            <registry translate="label" module="enterprise_giftregistry">
-                <label>Gift Registry Properties</label>
-                <sort_order>10</sort_order>
-            </registry>
-            <privacy translate="label" module="enterprise_giftregistry">
-               <label>Privacy Settings</label>
-               <sort_order>15</sort_order>
-             </privacy>
-            <registrants translate="label" module="enterprise_giftregistry">
-                <label>Registrants Information</label>
-                <sort_order>20</sort_order>
-            </registrants>
-            <shipping translate="label" module="enterprise_giftregistry">
-               <label>Shipping Address</label>
-               <sort_order>25</sort_order>
-             </shipping>
-        </attribute_groups>
-                
-        <prototype>
-            <registry>
-                <attributes>
-                    <system>
-                        <registry_id/>
-                        <type_id/>
-                        <customer_id/>
-                        <website_id/>
-                        <is_public/>
-                        <url_key/>
-                        <title/>
-                        <message/>
-                        <shipping_address/>
-                        <custom_attributes/>
-                    </system>
-                    <static>
-                        <event_date/>
-                        <event_country_code/>
-                        <event_region_code/>
-                        <event_location/>
-                    </static>
-                    <custom/>
-                </attributes>
-            </registry>
-            <registrant>
-                <attributes>
-                    <system>
-                        <person_id/>
-                        <registry_id/>
-                        <firstname/>
-                        <lastname/>
-                        <email/>
-                    </system>
-                    <static>
-                        <role/>
-                    </static>
-                    <custom/>
-                </attributes>
-            </registrant>
-        </prototype>
+        <template>
+            <email>
+                <enterprise_gitregistry_owner_template translate="label" module="enterprise_giftregistry">
+                    <label>Gift Registry Owner Notification</label>
+                    <file>enterprise/gitregistry_owner.html</file>
+                    <type>html</type>
+                </enterprise_gitregistry_owner_template>
+                <enterprise_gitregistry_sharing_template translate="label" module="enterprise_giftregistry">
+                    <label>Gift Registry Sharing</label>
+                    <file>enterprise/gitregistry_sharing.html</file>
+                    <type>html</type>
+                </enterprise_gitregistry_sharing_template>
+                <enterprise_gitregistry_update_template translate="label" module="enterprise_giftregistry">
+                    <label>Gift Registry Update</label>
+                    <file>enterprise/gitregistry_update.html</file>
+                    <type>html</type>
+                </enterprise_gitregistry_update_template>
+            </email>
+        </template>
     </global>
 
     <admin>
@@ -231,9 +153,19 @@
             <general>
                 <enabled>1</enabled>
             </general>
-            <email>
-                <email_identity>general</email_identity>
-            </email>
+            <owner_email>
+                <identity>general</identity>
+                <template>enterprise_gitregistry_owner_template</template>
+            </owner_email>
+            <sharing_email>
+                <identity>general</identity>
+                <template>enterprise_gitregistry_sharing_template</template>
+                <send_limit>3</send_limit>
+            </sharing_email>
+            <update_email>
+                <identity>general</identity>
+                <template>enterprise_gitregistry_update_template</template>
+            </update_email>
         </enterprise_giftregistry>
     </default>
 </config>

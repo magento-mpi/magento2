@@ -19,18 +19,38 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Enterprise
- * @package     Enterprise_GiftCardAccount
+ * @package     Enterprise_GiftRegistry
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_Registrant
+    extends Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
 {
-
     public function __construct()
     {
         parent::__construct();
-        $this->setFormTitle(Mage::helper('enterprise_giftregistry')->__('Registrant Custom Attributes'));
+        $this->setFormTitle(Mage::helper('enterprise_giftregistry')->__('Registrant Attributes'));
+        $this->setIsRegistrantScope(true);
+    }
+
+    /**
+     * Get field prefix
+     *
+     * @return string
+     */
+    public function getFieldPrefix()
+    {
+        return 'registrant';
+    }
+
+    /**
+     * Prepare and return attribute values
+     *
+     * @return array
+     */
+    public function getAttributeValues()
+    {
+        return $this->getAttributeData('registrant');
     }
 }

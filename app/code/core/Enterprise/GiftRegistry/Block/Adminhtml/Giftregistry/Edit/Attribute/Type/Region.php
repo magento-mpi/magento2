@@ -24,8 +24,8 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Region extends
-    Mage_Adminhtml_Block_Widget
+class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Region
+    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
 {
     public function __construct()
     {
@@ -42,10 +42,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_R
     {
         $select = $this->getLayout()->createBlock('adminhtml/html_select')
             ->setData(array(
-                'id'    => 'attribute_{{id}}_region_country',
+                'id'    => '{{prefix}}_attribute_{{id}}_region_country',
                 'class' => 'select global-scope'
             ))
-            ->setName('attributes[{{id}}][region_country]')
+            ->setName('attributes[{{prefix}}][{{id}}][region_country]')
             ->setOptions(Mage::getSingleton('adminhtml/system_config_source_country')
             ->toOptionArray());
 
