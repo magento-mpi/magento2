@@ -64,6 +64,8 @@
                 <action method="setListModes"/>
                 <action method="setListCollection"/>
             </block>
+            <block type='enterprise_search/suggestions' name='search_suggestions' template="search/suggestions.phtml"></block>
+            <block type='enterprise_search/recommendations' name='search_recommendations' template="search/recommendations.phtml"></block>
         </reference>
     </catalogsearch_result_index>
 
