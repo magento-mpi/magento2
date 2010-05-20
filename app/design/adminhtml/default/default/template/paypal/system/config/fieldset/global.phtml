@@ -208,9 +208,7 @@ PaypalConfig.prototype = {
                 readonly = true;
             }
         }
-        if (readonly) {
-            this.getMethodSwitcherValue(method).value = this.getMethodSwitcher(method).checked ? '1' : '0';
-        }
+        this.getMethodSwitcherValue(method).value = this.getMethodSwitcher(method).checked ? '1' : '0';
         this.getMethodSwitcher(method).disabled = readonly;
     },
 
@@ -245,9 +243,12 @@ PaypalConfig.prototype = {
 
     trackMethod: function(method)
     {
-        if (!this.getMethodSwitcher(method).checked && this.fastMode || !this.fastMode) {
-            this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
+        var switcher = this.getMethodSwitcher(method);
+        if (!switcher.checked && this.fastMode || !this.fastMode) {
+            this.toggleFieldset(this.getMethodFieldset(method), switcher);
         }
+        this.getMethodSwitcherValue(method).value = switcher.checked ? '1' : '0';
+
         if (method == 'ec') {
             this.toggleApiCredentials();
         }
