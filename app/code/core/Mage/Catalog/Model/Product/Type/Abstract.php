@@ -284,6 +284,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         // try to add custom options
         try {
             $options = $this->_prepareOptionsForCart($buyRequest, $product);
+            $recurringProfileOptions = $this->_prepareRecurringProfileOptions($buyRequest, $product);
         } catch (Mage_Core_Exception $e) {
             return $e->getMessage();
         }
@@ -327,6 +328,10 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                 $product->addCustomOption('option_'.$optionId, $optionValue);
             }
         }
+        if ($recurringProfileOptions) {
+            $product->addCustomOption('recurring_profile_options', serialize($recurringProfileOptions));
+        }
+
         // set quantity in cart
         $product->setCartQty($buyRequest->getQty());
 
@@ -367,6 +372,34 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             }
         }
         return $newOptions;
+    }
+
+    /**
+     * Validate and process options for recurring profile
+     *
+     * @param Varien_Object $buyRequest
+     * @param Mage_Catalog_Model_Product $product
+     * @return  array || string
+     */
+    protected function _prepareRecurringProfileOptions(Varien_Object $buyRequest, $product = null)
+    {
+        $options = array();
+        $startDate = $buyRequest->getData('recurring_start_date');
+        if ($startDate) {
+            $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+            $locale = Mage::app()->getLocale()->getLocaleCode();
+            if (Zend_Date::isDate($startDate, $format, $locale)) {
+                $date = new Zend_Date($startDate, $format, $locale);
+                $options['start_date'] = $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+            } else {
+                Mage::throwException(Mage::helper('sales') ->__('Start date format is invalid'));
+            }
+        }
+        $subscriberName = $buyRequest->getData('recurring_subscriber_name');
+        if ($subscriberName) {
+            $options['subscriber_name'] = $subscriberName;
+        }
+        return $options;
     }
 
     /**

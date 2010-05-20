@@ -156,6 +156,15 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
             if (!$this->hasScheduleDescription()) {
                 $this->setScheduleDescription($product->getName());
             }
+            if ($options = $product->getCustomOption('recurring_profile_options')) {
+                $options = @unserialize($options->getValue());
+                if (isset($options['start_date'])) {
+                    $this->setNearestStartDatetime(new Zend_Date($options['start_date']));
+                }
+                if (isset($options['subscriber_name'])) {
+                    $this->setSubscriberName($options['subscriber_name']);
+                }
+            }
             return $this->_filterValues();
         }
         return false;
@@ -170,13 +179,10 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     public function setNearestStartDatetime(Zend_Date $minAllowed = null)
     {
         // TODO: implement proper logic with invoking payment method instance
-        return $this->setStartDatetime(date('c'));
-
-
         if ($minAllowed) {
             $date = $minAllowed;
         } else {
-            $date = new Zend_Date(time());
+            $date = new Zend_Date($this->getStartDate() ? $this->getStartDate() : time());
         }
         $this->setStartDatetime($date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
         return $this;

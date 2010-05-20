@@ -745,6 +745,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $item->setOptions($product->getCustomOptions())
             ->setProduct($product);
 
+
         $this->addItem($item);
 
         return $item;
@@ -1273,13 +1274,10 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         foreach ($this->getAllVisibleItems() as $item) {
             $product = $item->getProduct();
             if (is_object($product) && $profile = Mage::getModel('sales/recurring_profile')->importProduct($product)) {
+                /* @var $profile Mage_Sales_Model_Recurring_Profile */
                 if ($this->getPayment() && $this->getPayment()->getMethod()) {
                     $profile->setMethodInstance($this->getPayment()->getMethodInstance());
                 }
-                // start date TODO: add customer date, if he was allowed to set it
-                $profile->setNearestStartDatetime();
-                // TODO: implement subscriber_name
-
                 $profile->importQuoteItem($item)->setCurrencyCode($this->getBaseCurrencyCode());
                 $result[] = $profile;
             }
