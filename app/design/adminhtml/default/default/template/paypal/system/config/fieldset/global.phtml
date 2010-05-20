@@ -208,7 +208,9 @@ PaypalConfig.prototype = {
                 readonly = true;
             }
         }
-        this.getMethodSwitcherValue(method).value = this.getMethodSwitcher(method).checked ? '1' : '0';
+        if (readonly) {
+            this.getMethodSwitcherValue(method).value = this.getMethodSwitcher(method).checked ? '1' : '0';
+        }
         this.getMethodSwitcher(method).disabled = readonly;
     },
 
