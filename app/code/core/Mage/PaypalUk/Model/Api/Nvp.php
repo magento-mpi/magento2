@@ -287,7 +287,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
      */
     public function getApiEndpoint()
     {
-        return sprintf('https://%spayflowpro.verisign.com/transaction', $this->_config->sandboxFlag ? 'pilot-' : '');
+        return sprintf('https://%spayflowpro.paypal.com/transaction', $this->_config->sandboxFlag ? 'pilot-' : '');
     }
 
     /**
