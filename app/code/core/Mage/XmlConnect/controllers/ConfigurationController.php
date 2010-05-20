@@ -72,6 +72,16 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
     {
         try {
             $app = $this->_initApp();
+
+            $cookieName = Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME;
+            if (!isset($_COOKIE[$cookieName])) {
+                /**
+                 * @todo add management of cookie expire to application admin panel
+                 */
+                $cookieExpireOffset = 3600 * 24 * 30;
+                setcookie($cookieName, $app->getCode(), time() + $cookieExpireOffset, '/', null, null, true);
+            }
+
             if($this->getRequest()->getParam('updated_at')) {
                 $updated_at = strtotime($app->getUpdatedAt());
                 $loaded_at = (int) $this->getRequest()->getParam('updated_at');
@@ -82,14 +92,6 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
                     $this->getResponse()->setBody($message->asNiceXml());
                     return;
                 }
-            }
-            $cookieName = Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME;
-            if (!isset($_COOKIE[$cookieName])) {
-                /**
-                 * @todo add management of cookie expire to application admin panel
-                 */
-                $cookieExpireOffset = 3600 * 24 * 30;
-                setcookie($cookieName, $app->getCode(), time() + $cookieExpireOffset, '/', null, null, true);
             }
             $this->loadLayout(false);
             $this->renderLayout();
