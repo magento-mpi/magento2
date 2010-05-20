@@ -78,5 +78,16 @@
             <block type="checkout/cart_totals" name="paypal.express.review.details.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
         </block>
     </paypal_express_review_details>
-</layout>
 
+    <catalog_product_view>
+        <reference name="product.info.extra_buttons">
+            <block type="paypal/express_shortcut" name="paypaluk.partner.catalog.shortcut" template="paypal/partner/catalog/product/shortcut.phtml">
+                <action method="setContext"><context>visible_on_product</context></action>
+                <action method="setPaymentModelType"><type>paypaluk/express</type></action>
+                <action method="setProModelType"><type>paypaluk/pro</type></action>
+                <action method="setPaymentMethod"><type>paypaluk_express</type></action>
+                <action method="setStartAction"><type>paypaluk/express/start</type></action>
+            </block>
+        </reference>
+    </catalog_product_view>
+</layout>
