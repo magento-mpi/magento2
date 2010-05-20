@@ -57,7 +57,9 @@ class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
     {
         $value = parent::getConfigData($field, $storeId);
         if ($field == 'visible_on_cart' || $field == 'visible_on_product') {
-            $value = (bool)$value && !Mage::getStoreConfigFlag('payment/'.Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS.'/'.$field, $storeId);
+            $wppExpressShortcut = Mage::getStoreConfigFlag('payment/'.Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS.'/'.$field, $storeId)
+                && $this->_pro->getConfig()->isMethodAvailable(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
+            $value = (bool)$value && !$wppExpressShortcut;
         }
         return $value;
     }
