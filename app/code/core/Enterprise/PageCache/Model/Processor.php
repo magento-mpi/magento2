@@ -177,6 +177,9 @@ class Enterprise_PageCache_Model_Processor
         if (!$content && $this->isAllowed()) {
             $content = Mage::app()->loadCache($this->getRequestCacheId());
             if ($content) {
+                if (function_exists('gzuncompress')) {
+                    $content = gzuncompress($content);
+                }
                 $content = $this->_processContent($content);
             }
         }
@@ -276,6 +279,9 @@ class Enterprise_PageCache_Model_Processor
                 $content = $processor->prepareContent($response);
                 $lifetime = Mage::getStoreConfig(self::XML_PATH_LIFE_TIME)*60;
 
+                if (function_exists('gzcompress')) {
+                    $content = gzcompress($content);
+                }
                 Mage::app()->saveCache($content, $cacheId, $this->getRequestTags(), $lifetime);
 
                 // save original routing info

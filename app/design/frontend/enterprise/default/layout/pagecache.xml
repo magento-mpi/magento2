@@ -29,8 +29,8 @@
     <default>
         <reference name="right.poll">
             <action method="setFrameTags">
-                <start>!--[POLL--</start>
-                <end>!--POLL]--</end>
+                <start>!--{POLL}--</start>
+                <end>!--/{POLL}--</end>
             </action>
         </reference>
     </default>

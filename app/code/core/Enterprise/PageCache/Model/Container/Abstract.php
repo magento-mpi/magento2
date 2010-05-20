@@ -65,7 +65,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
         $cacheId = $this->_getCacheId();
         if ($cacheId !== false) {
             $block = $this->_loadCache($cacheId);
-            if ($block) {
+            if ($block !== false) {
                 $this->_applyToContent($content, $block);
             } else {
                 return false;
