@@ -109,7 +109,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
         foreach ($element->getSortedElements() as $field) {
             if ($field->getTooltip()) {
                 $tooltipsExist = true;
-                $html .= sprintf('<div id="row_%s_comment" class="tool-tip" style="display:none;"><span class="tool-tip-bg"><span class="tool-tip-corner">%s</span></span></div>',
+                $html .= sprintf('<div id="row_%s_comment" class="system-tooltip-box" style="display:none;">%s</div>',
                     $field->getId(), $field->getTooltip()
                 );
             }
@@ -132,35 +132,64 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
         $id = $element->getHtmlId();
         $js = "Fieldset.applyCollapse('{$id}');";
         if ($tooltipsExist) {
-            $js.= "$$('#{$id} table tbody tr').each(function(tr) {
+            $js.= "$$('#{$id} table')[0].addClassName('system-tooltip-wrap');
+                   $$('#{$id} table tbody tr').each(function(tr) {
                        Event.observe(tr, 'mouseover', function (event) {
-                           $$('div.row-comment').invoke('hide');
-                           var tr = Event.findElement(event, 'tr')
-                           var id = tr.id + '_comment';
-                           if ($(id) != undefined) {
-                               var trLeft = tr.cumulativeOffset().left;
-                               var trTop  = tr.cumulativeOffset().top;
-                               var tipOffsetLeft = 5;
-                               var tipOffsetTop  = tr.select('label')[0].getDimensions().height + 5;
-                               $(id).setStyle({left : trLeft + tipOffsetLeft + 'px', top : trTop + tipOffsetTop + 'px'}).show();
-                               Event.observe(id, 'mouseover', function() {
-                                   this.setStyle({display:'block'});
-                               });
-                               Event.observe(id, 'mouseout', function() {
-                                  if(!$(tr.id).hasClassName('hover')) {
-                                      this.hide();
-                                  }
-                               });
-                           }
+                           var currentTarget = this;
+                           var relatedTarget = $(event.relatedTarget || event.fromElement);
+                           if(relatedTarget)
+                               if (relatedTarget == currentTarget || relatedTarget.descendantOf(currentTarget)) return;
+                           showTooltip(event);
                        });
                        Event.observe(tr, 'mouseout', function (event) {
-                           var tr = Event.findElement(event, 'tr')
-                           var id = tr.id + '_comment';
-                           if ($(id) != undefined) {
-                               $(id).hide();
-                           }
+                           var currentTarget = this;
+                           var relatedTarget = $(event.relatedTarget || event.toElement);
+                           if(relatedTarget)
+                               if (relatedTarget == currentTarget || relatedTarget.childOf(currentTarget)) return;
+                           hideTooltip(event);
                        });
-                   });";
+                   });;
+                   $$('#{$id} table tbody tr input[type=text]').each(function(input) {
+                       Event.observe(input, 'focus', function (event) {
+                           showTooltip(event);
+                       });
+                       Event.observe(input, 'blur', function (event) {
+                           hideTooltip(event);
+                       });
+                   });
+                   $$('#{$id} table tbody tr select').each(function(select) {
+                       Event.observe(select, 'focus', function (event) {
+                           showTooltip(event);
+                       });
+                       Event.observe(select, 'blur', function (event) {
+                           hideTooltip(event);
+                       });
+                   });
+                   function showTooltip(event) {
+                        var tableHeight = Event.findElement(event, 'table').getStyle('height');
+                        var tr = Event.findElement(event, 'tr')
+                        var id = tr.id + '_comment';
+                       
+                       $$('.system-tooltip-box').invoke('hide');
+                       
+                        if ($(id)) {
+                            $(id).show().setStyle({height : tableHeight});
+                            if(document.viewport.getWidth() < 1200) {
+                                $(id).addClassName('system-tooltip-small').setStyle({height : 'auto'});
+                            }
+                            else {
+                                $(id).removeClassName('system-tooltip-small');
+                            }
+                        }
+                   };
+                   function hideTooltip(event) {
+                       var tr = Event.findElement(event, 'tr')
+                       var id = tr.id + '_comment';
+                       if ($(id)) {
+                            setTimeout(function() { $(id).hide(); }, 1);
+                       }
+                   }
+                   ";
         }
         return Mage::helper('adminhtml/js')->getScript($js);
     }

@@ -840,37 +840,24 @@ ul.tabs a.paypal-section span,
 ul.tabs a.paypal-section:hover span { background:url(images/paypal_section.png) no-repeat 0 0; height:0; overflow:hidden; padding:14px 0 0; width:53px; }
 
 .paypal-global { border-collapse:collapse; width:100%; }
-.paypal-global .pg-empty { background:none; border:none; }
-.paypal-global tr.even { background:#f2f2f2; }
-.paypal-global tbody .pg-empty { background:#fff; border-right:1px solid #ededed; }
-.paypal-global th { background:#e9eef1; border:1px solid #e4eae8; border-bottom:none; padding:0 0 5px; text-align:center; vertical-align:middle; }
-.paypal-global th label { color:#306375; display:block; font-weight:bold; }
-.paypal-global thead .last th { border-top:none; }
-.paypal-global thead .last th span { display:block; margin:20px 0 0; }
-.paypal-global thead .last th input { margin:0; width:15px; }
-.paypal-global thead .last label { display:inline; }
-.paypal-global td { border-right:1px solid #ededed; padding:5px; vertical-align:middle; }
-.paypal-global tr.last td { border-bottom:1px solid #ededed; text-align:center; }
-.paypal-global tr.last .pg-empty { border-bottom:none; border-right:1px solid #ededed; }
-.paypal-global tr.last .last { border-right:1px solid #ededed; }
-.paypal-global tr.last a,
-.pg-options a { color:#39c; text-decoration:none; }
-.paypal-global tr.last a:hover,
-.pg-options a:hover { text-decoration:underline; }
-
-.paypal-note,
-.pg-options { color:#999; }
-
-.pg-options { margin:0.5em 0 1.5em; text-align:right; }
-.pg-tick { background:url(images/paypal_tick.gif) no-repeat; display:block; height:17px; margin:0 auto; width:18px; }
+.paypal-global thead td { font-size:13px; padding:5px 0; text-align:left; vertical-align:middle; }
+.paypal-global thead tr.last td.last { text-align:right; vertical-align:top; }
+.paypal-global tr { background:#f2f2f2; }
+.paypal-global tr.last { background:#fff; }
+.paypal-global tr.last td.last { text-align:left; }
+.paypal-global td { border-bottom:5px solid #fff; padding:5px; vertical-align:middle; }
+.paypal-global td a { color:#2997d8; }
+.paypal-global td strong { color:#3c616a; }
+.paypal-global td label { display:block; padding-left:30px; text-indent:-30px; }
+.paypal-global td div label { display:inline; padding:0; text-indent:0; }
+.paypal-global td input { height:13px; overflow:hidden; margin-right:15px; position:relative; top:-1px; width:13px; vertical-align:middle; }
+.paypal-global td.last { text-align:right; vertical-align:top; }
+.paypal-global td ul { margin:0 0 -10px; padding-left:20px; }
+.paypal-global td li { margin:0 0 10px; vertical-align:bottom; }
 
 .paypal-config .form-list { width:100%; }
 .paypal-config tr.hover { background:#f7f7f7; }
 .paypal-config tr.hover label { cursor:help; }
-
-.tool-tip { background:url(images/tooltip_top.gif) no-repeat 0 0; cursor:help; padding:10px 0 0; position:absolute; width:185px; }
-.tool-tip-bg { background:url(images/tooltip_bg.gif) repeat-x #d7dbce; border-bottom:1px solid #999; display:block; }
-.tool-tip-corner { background:url(images/tooltip_corner.gif) no-repeat top right; border-left:1px solid #999; border-right:1px solid #999; display:block; margin:0 -1px; padding:10px; position:relative; width:165px; }
 
 .paypal-credentials { border:1px solid #f2f2f2; }
 .paypal-credentials caption { padding:5px; text-align:left; }
@@ -1120,6 +1107,10 @@ ul.config-tabs a.last span  { background-image:none; }
 
 .inline-table { border:0 !important; }
 .inline-table td { border:0 !important; padding:0 5px 5px !important; }
+
+.system-tooltip-wrap { float:left; }
+.system-tooltip-box { border-left:1px solid #ccc; float:left; line-height:16px; margin-left:5px; padding-left:5px; width:180px; }
+.system-tooltip-small { border:none; clear:both; margin:0; padding:5px; width:100%; }
 
 /* Import/export */
 
