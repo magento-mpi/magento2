@@ -132,8 +132,8 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                 break;
             }
 
-            $productAttributes  = array();
-            $productRelations   = array();
+            $productAttributes = array();
+            $productRelations  = array();
             foreach ($products as $productData) {
                 $lastProductId = $productData['entity_id'];
                 $productAttributes[$productData['entity_id']] = $productData['entity_id'];
@@ -146,8 +146,8 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                 }
             }
 
-            $productIndexes     = array();
-            $productAttributes  = $this->_getProductAttributes($storeId, $productAttributes, $dynamicFields);
+            $productIndexes    = array();
+            $productAttributes = $this->_getProductAttributes($storeId, $productAttributes, $dynamicFields);
             foreach ($products as $productData) {
                 if (!isset($productAttributes[$productData['entity_id']])) {
                     continue;
@@ -346,31 +346,49 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     {
         if (is_null($this->_searchableAttributes)) {
             $this->_searchableAttributes = array();
-            $entityType = $this->getEavConfig()->getEntityType('catalog_product');
-            $entity     = $entityType->getEntity();
 
-            $whereCond  = array(
-                $this->_getWriteAdapter()->quoteInto('additional_table.is_searchable=?', 1),
-                $this->_getWriteAdapter()->quoteInto('main_table.attribute_code IN(?)', array('status', 'visibility'))
-            );
+            $entityType   = $this->getEavConfig()->getEntityType('catalog_product');
+            $entity       = $entityType->getEntity();
 
-            $select = $this->_getWriteAdapter()->select()
-                ->from(array('main_table' => $this->getTable('eav/attribute')))
-                ->join(
-                    array('additional_table' => $this->getTable('catalog/eav_attribute')),
-                    'additional_table.attribute_id = main_table.attribute_id'
-                )
-                ->where('main_table.entity_type_id=?', $entityType->getEntityTypeId())
-                ->where(join(' OR ', $whereCond));
-            $attributesData = $this->_getWriteAdapter()->fetchAll($select);
-            $this->getEavConfig()->importAttributesData($entityType, $attributesData);
-            foreach ($attributesData as $attributeData) {
-                $attributeCode = $attributeData['attribute_code'];
-                $attribute = $this->getEavConfig()->getAttribute($entityType, $attributeCode);
+            $attributes = Mage::getResourceModel('catalog/product_attribute_collection')
+                ->setEntityTypeFilter($entityType->getEntityTypeId())
+                //->addVisibleFilter()
+                ->addToIndexFilter(true)
+                ->getItems();
+
+            foreach ($attributes as $attribute) {
                 $attribute->setEntity($entity);
                 $this->_searchableAttributes[$attribute->getId()] = $attribute;
             }
-            unset($attributesData);
+            unset($attributes);
+
+//            $whereCond  = array(
+//                $this->_getWriteAdapter()->quoteInto('additional_table.is_searchable = ?', 1),
+//                $this->_getWriteAdapter()->quoteInto('additional_table.is_visible_in_advanced_search = ?', 1),
+//                $this->_getWriteAdapter()->quoteInto('additional_table.is_filterable > ?', 0),
+//                $this->_getWriteAdapter()->quoteInto('additional_table.is_filterable_in_search = ?', 1),
+//                $this->_getWriteAdapter()->quoteInto('main_table.attribute_code IN(?)', array('status', 'visibility'))
+//            );
+//
+//            $select = $this->_getWriteAdapter()->select()
+//                ->from(array('main_table' => $this->getTable('eav/attribute')))
+//                ->join(
+//                    array('additional_table' => $this->getTable('catalog/eav_attribute')),
+//                    'additional_table.attribute_id = main_table.attribute_id'
+//                )
+//                ->where('main_table.entity_type_id=?', $entityType->getEntityTypeId())
+//                ->where(join(' OR ', $whereCond));
+//                
+//            $attributesData = $this->_getWriteAdapter()->fetchAll($select);
+//
+//            $this->getEavConfig()->importAttributesData($entityType, $attributesData);
+//            foreach ($attributesData as $attributeData) {
+//                $attributeCode = $attributeData['attribute_code'];
+//                $attribute = $this->getEavConfig()->getAttribute($entityType, $attributeCode);
+//                $attribute->setEntity($entity);
+//                $this->_searchableAttributes[$attribute->getId()] = $attribute;
+//            }
+//            unset($attributesData);
         }
         if (!is_null($backendType)) {
             $attributes = array();
@@ -379,8 +397,10 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                     $attributes[$attribute->getId()] = $attribute;
                 }
             }
+
             return $attributes;
         }
+
         return $this->_searchableAttributes;
     }
 
@@ -518,6 +538,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     protected function _prepareProductIndex($indexData, $productData, $storeId)
     {
         $index = array();
+
         foreach ($this->_getSearchableAttributes('static') as $attribute) {
             if (isset($productData[$attribute->getAttributeCode()])) {
                 if ($value = $this->_getAttributeValue($attribute->getId(), $productData[$attribute->getAttributeCode()], $storeId)) {
@@ -536,11 +557,11 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                 }
             }
         }
+
         foreach ($indexData as $attributeData) {
             foreach ($attributeData as $attributeId => $attributeValue) {
                 if ($value = $this->_getAttributeValue($attributeId, $attributeValue, $storeId)) {
                     $code = $this->_getSearchableAttribute($attributeId)->getAttributeCode();
-
                     //For grouped products
                     if (isset($index[$code])) {
                         if (!is_array($index[$code])) {
@@ -585,7 +606,10 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     protected function _getAttributeValue($attributeId, $value, $storeId)
     {
         $attribute = $this->_getSearchableAttribute($attributeId);
-        if (!$attribute->getIsSearchable()) {
+        if (!($attribute->getIsSearchable() ||
+            $attribute->getIsVisibleInAdvancedSearch() ||
+            $attribute->getIsFilterable() ||
+            $attribute->getIsFilterableInSearch())) {
             return null;
         }
         if ($attribute->usesSource()) {
@@ -603,7 +627,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             $value = implode($this->_separator, $value);
         }
 
-        return preg_replace("#\s+#si", " ", trim(strip_tags($value)));
+        return preg_replace("#\s+#si", ' ', trim(strip_tags($value)));
     }
 
     /**

@@ -111,13 +111,14 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      * @var array
      */
     protected $_defaultQueryParams = array(
-        'offset'        => 0,
-        'limit'         => 100,
-        'sort_by'       => array(array('score' => 'desc')),
-        'store_id'      => null,
-        'locale_code'   => null,
-        'fields'        => array(),
-        'solr_params'   => array(),
+        'offset'         => 0,
+        'limit'          => 100,
+        'sort_by'        => array(array('score' => 'desc')),
+        'store_id'       => null,
+        'locale_code'    => null,
+        'fields'         => array(),
+        'solr_params'    => array(),
+        'ignore_handler' => false
     );
 
     /**
@@ -125,33 +126,36 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      *
      * @var array
      */
-    protected $_searchableAttributeParams;
+    protected $_indexableAttributeParams;
 
     /**
-     * Retrieve attributes weights
+     * Retrieve attributes selected parameters
      *
      * @return array
      */
-    protected function _getSearchableAttributeParams()
+    protected function _getIndexableAttributeParams()
     {
         if (empty($this->_searchableAttributeParams)) {
-            $attributesModel = Mage::getModel('eav/config');
-            $entityTypeId = $attributesModel->getEntityType( 'catalog_product' )->getEntityTypeId();
+            $entityTypeId = Mage::getModel('eav/config')
+                ->getEntityType('catalog_product')
+                ->getEntityTypeId();
             $items = Mage::getResourceModel('catalog/product_attribute_collection')
                 ->setEntityTypeFilter($entityTypeId)
-                ->addIsSearchableFilter()
+                //->addVisibleFilter()
+                ->addToIndexFilter()
                 ->getItems();
-            $this->_searchableAttributeParams = array();
+
+            $this->_indexableAttributeParams = array();
             foreach ($items as $item) {
-                $this->_searchableAttributeParams[$item->getAttributeCode()] = array(
+                $this->_indexableAttributeParams[$item->getAttributeCode()] = array(
                     'backendType'   => $item->getBackendType(),
-                    'frontendInput'  => $item->getFrontendInput(),
+                    'frontendInput' => $item->getFrontendInput(),
                     'searchWeight'  => $item->getSearchWeight()
                 );
             }
         }
 
-        return $this->_searchableAttributeParams;
+        return $this->_indexableAttributeParams;
     }
 
     /**
@@ -163,14 +167,12 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     public function prepareDocs($docData, $localeCode = null)
     {
-        if (!is_array($docData)) {
+        if (!is_array($docData) || empty($docData)) {
             return array();
         }
-        if (empty($docData)) {
-            return array();
-        }
-        $attributeParams = $this->_getSearchableAttributeParams();
+
         $docs = array();
+        $attributeParams = $this->_getIndexableAttributeParams();
 
         foreach ($docData as $entityId => $index) {
             $doc = new $this->_clientDocObjectName;
@@ -201,7 +203,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             foreach ($index as $code => $value) {
                 if (!empty($attributeParams[$code])) {
                     $weight = $attributeParams[$code]['searchWeight'];
-                    $attributesWeights["fulltext{$weight}"][]=$value;
+                    $attributesWeights['fulltext' . $weight][]=$value;
                 }
             }
 
@@ -209,10 +211,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 $index[$key] = $this->_implodeIndexData($value);
             }
 
-
-            //$index = $this->_filterIndexData($index, $localeCode);
             $index = $this->_prepareIndexData($index, $attributeParams, $localeCode);
-            //Mage::log($index);
             if (!$index) {
                 continue;
             }
@@ -574,6 +573,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         }
 
         $languageCode = $this->_getLanguageCodeByLocaleCode($localeCode);
+        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+
         //Integer attributes are saved at metadata as text because in fact they are values for
         //options of select type inputs but their values are presented as text aliases
         $textFieldTypes = array(
@@ -598,7 +599,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             if (substr($key, 0, 8) == 'fulltext') {
                 $backendType = 'text';
                 $frontendInput = null;
-            } else {
+            }
+            else {
                 $backendType = $attributesParams[$key]['backendType'];
                 $frontendInput = $attributesParams[$key]['frontendInput'];
             }
@@ -607,17 +609,25 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 $data['attr_multi_'. $key] = $value;
                 unset($data[$key]);
             } elseif (in_array($backendType, $textFieldTypes) || in_array($key, $this->_searchTextFields)) {
+                //for groupped products
                 if (is_array($value)) {
-                    $value = implode(" ", array_unique($value));
+                    $value = implode(' ', array_unique($value));
                 }
-                $data[$key .'_'. $languageCode] = $value;
+                $data[$key . $languageSuffix] = $value;
                 unset($data[$key]);
-            } elseif ($backendType != 'static') {
+            }
+            elseif ($backendType != 'static') {
+                if ($backendType == 'datetime') {
+                    $date = new Zend_Date(
+                        $value,
+                        Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+                    );
+                    $value = $date->toString(Zend_Date::ISO_8601) . 'Z';
+                }
                 $data['attr_'. $backendType .'_'. $key] = $value;
                 unset($data[$key]);
             }
         }
-
         return $data;
     }
 

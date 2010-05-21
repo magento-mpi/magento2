@@ -42,6 +42,16 @@ class Enterprise_Search_Model_Resource_Engine
     }
 
     /**
+     * Set search resource model
+     * 
+     * @return string
+     */
+    public function getResourceName()
+    {
+        return 'enterprise_search/advanced';
+    }
+
+    /**
      * Retrieve found document ids search index sorted by relevance
      *
      * @param string $query
@@ -155,6 +165,16 @@ class Enterprise_Search_Model_Resource_Engine
     public function getResultCollection()
     {
         return Mage::getResourceModel('enterprise_search/collection')->setEngine($this);
+    }
+
+    /**
+     * Retrieve advanced search result data collection
+     *
+     * @return Enterprise_Search_Model_Resource_Collection
+     */
+    public function getAdvancedResultCollection()
+    {
+        return $this->getResultCollection();
     }
 
     /**

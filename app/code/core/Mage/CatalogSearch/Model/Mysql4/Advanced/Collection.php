@@ -26,6 +26,12 @@
 
 class Mage_CatalogSearch_Model_Mysql4_Advanced_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
+    /**
+     * Add not indexable fields to search
+     * 
+     * @param array $fields
+     * @return Mage_CatalogSearch_Model_Mysql4_Advanced_Collection
+     */
     public function addFieldsToFilter($fields)
     {
         if ($fields) {

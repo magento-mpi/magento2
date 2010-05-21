@@ -115,7 +115,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection extend
      */
     public function addVisibleFilter()
     {
-        $this->getSelect()->where('additional_table.is_visible=?', 1);
+        $this->getSelect()->where('additional_table.is_visible = ?', 1);
         return $this;
     }
 
@@ -126,7 +126,31 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection extend
      */
     public function addIsSearchableFilter()
     {
-        $this->getSelect()->where('additional_table.is_searchable=1');
+        $this->getSelect()->where('additional_table.is_searchable = ?', 1);
+        return $this;
+    }
+
+    /**
+     * Specify filter for attributes that have to be indexed
+     *
+     * @param bool $addRequiredCodes
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
+     */
+    public function addToIndexFilter($addRequiredCodes = false)
+    {
+        $requiredCodesCondition = ($addRequiredCodes)
+            ? $this->getConnection()->quoteInto(' OR main_table.attribute_code IN (?)', array('status', 'visibility'))
+            : '';
+
+        $this->getSelect()->where('(
+            additional_table.is_searchable = 1 OR
+            additional_table.is_visible_in_advanced_search = 1 OR
+            additional_table.is_filterable > 0 OR
+            additional_table.is_filterable_in_search = 1'.
+            $requiredCodesCondition .
+        ')');
+
         return $this;
     }
 }

@@ -51,7 +51,7 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
     /**
      * Prepare product collection
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection | Enterprise_Search_Model_Resource_Collection $collection
      * @return Mage_Catalog_Model_Layer
      */
     public function prepareProductCollection($collection)

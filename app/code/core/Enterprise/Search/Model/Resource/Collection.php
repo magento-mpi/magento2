@@ -43,6 +43,13 @@ class Enterprise_Search_Model_Resource_Collection
     protected $_searchQueryText = '';
 
     /**
+     * Store search query params
+     *
+     * @var array
+     */
+    protected $_searchQueryParams = array();
+
+    /**
      * Store found entities ids
      *
      * @var array
@@ -84,6 +91,42 @@ class Enterprise_Search_Model_Resource_Collection
     }
 
     /**
+     * Add search query filter
+     * Set search query parameters
+     *
+     * @param   string|array $param
+     * @param   string|array $value
+     * 
+     * @return  Enterprise_Search_Model_Resource_Collection
+     */
+    public function addSearchParam($param, $value = null)
+    {
+        if (is_array($param)) {
+            foreach ($param as $field => $value)
+                $this->addSearchParam($field, $value);
+        }
+        else {
+            if (!empty($value)) {
+                $this->_searchQueryParams[$param] = $value;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add advanced search query filter
+     * Set search query
+     *
+     * @param   string $query
+     * @return  Enterprise_Search_Model_Resource_Collection
+     */
+    public function addAdvancedSearchFilter($query)
+    {
+        return $this->addSearchFilter($query);
+    }
+
+    /**
      * Add sort order
      *
      * @param string $attribute
@@ -113,11 +156,20 @@ class Enterprise_Search_Model_Resource_Collection
             if ($this->_sortBy) {
                 $params['sort_by'] = $this->_sortBy;
             }
-            $page     = ($this->_curPage  > 0) ? $this->_curPage  : 1;
-            $rowCount = ($this->_pageSize > 0) ? $this->_pageSize : 1;
-            $params['offset'] = (int)$rowCount * ($page - 1);
-            $params['limit']  = (int)$rowCount;
-            $ids = (array)$this->_engine->getIdsByQuery($this->_searchQueryText, $params);
+            $page                  = ($this->_curPage  > 0) ? $this->_curPage  : 1;
+            $rowCount              = ($this->_pageSize > 0) ? $this->_pageSize : 1;
+            $params['offset']      = (int)$rowCount * ($page - 1);
+            $params['limit']       = (int)$rowCount;
+
+            if (!empty($this->_searchQueryParams)) {
+                $params['ignore_handler'] = true;
+                $query = $this->_searchQueryParams;
+            }
+            else {
+                $query = $this->_searchQueryText;
+            }
+
+            $ids = (array)$this->_engine->getIdsByQuery($query, $params);
         }
         $this->_searchedEntityIds = &$ids;
         $this->getSelect()->where('e.entity_id IN (?)', $this->_searchedEntityIds);
@@ -160,7 +212,15 @@ class Enterprise_Search_Model_Resource_Collection
             $params['locale_code'] = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
             $params['limit']       = 1;
 
-            $this->_engine->getIdsByQuery($this->_searchQueryText, $params);
+            if (!empty($this->_searchQueryParams)) {
+                $params['ignore_handler'] = true;
+                $query = $this->_searchQueryParams;
+            }
+            else {
+                $query = $this->_searchQueryText;
+            }
+
+            $this->_engine->getIdsByQuery($query, $params);
             $this->_totalRecords = $this->_engine->getLastNumFound();
         }
         return $this->_totalRecords;
@@ -175,6 +235,12 @@ class Enterprise_Search_Model_Resource_Collection
     public function setEngine($engine)
     {
         $this->_engine = $engine;
+        return $this;
+    }
+
+    
+    public function addFieldsToFilter($fields)
+    {
         return $this;
     }
 }

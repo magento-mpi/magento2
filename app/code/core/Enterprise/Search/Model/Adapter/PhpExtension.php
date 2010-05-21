@@ -91,19 +91,20 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
     /**
      * Simple Search interface
      *
-     * @param string $query The raw query string
-     * @param array $params Params can be specified like this:
-     *        'offset'      - The starting offset for result documents
-     *        'limit        - The maximum number of result documents to return
-     *        'sort_by'     - Sort field, can be just sort field name (and asceding order will be used by default),
-     *                        or can be an array of arrays like this: array('sort_field_name' => 'asc|desc')
-     *                        to define sort order and sorting fields.
-     *                        If sort order not asc|desc - asceding will used by default
-     *        'fields'      - Fields names which are need to be retrieved from found documents
-     *        'solr_params' - Key / value pairs for other query parameters (see Solr documentation),
-     *                        use arrays for parameter keys used more than once (e.g. facet.field)
-     *        'locale_code' - Locale code, it used to define what suffix is needed for text fields,
-     *                        by which will be performed search request and sorting
+     * @param string|array $query   The raw query string
+     * @param array $params Params  can be specified like this:
+     *        'offset'            - The starting offset for result documents
+     *        'limit              - The maximum number of result documents to return
+     *        'sort_by'           - Sort field, can be just sort field name (and asceding order will be used by default),
+     *                              or can be an array of arrays like this: array('sort_field_name' => 'asc|desc')
+     *                              to define sort order and sorting fields.
+     *                              If sort order not asc|desc - asceding will used by default
+     *        'fields'            - Fields names which are need to be retrieved from found documents
+     *        'solr_params'       - Key / value pairs for other query parameters (see Solr documentation),
+     *                              use arrays for parameter keys used more than once (e.g. facet.field)
+     *        'locale_code'       - Locale code, it used to define what suffix is needed for text fields,
+     *                              by which will be performed search request and sorting
+     *        'ignore_handler'    - Flag that allows to ignore handler (qt) and make multifield search
      *
      * @see Enterprise_Search_Model_Adapter_HttpStream::_getLanguageCodeByLocaleCode()
      * @return array
@@ -120,11 +121,6 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             $this->_connect();
         }
 
-
-        $query = $this->_prepareQueryText($query);
-        if (!$query) {
-            return array();
-        }
         $_params = $this->_defaultQueryParams;
         if (is_array($params) && !empty($params)) {
             $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
@@ -142,9 +138,48 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
          * When language fields need to be used, then perform search in appropriate field
          */
         $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
+        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
-        $solrQuery = new SolrQuery($query);
+        $solrQuery = new SolrQuery();
         $solrQuery->setStart($offset)->setRows($limit);
+
+        if (is_array($query)) {
+            $searchConditions = array();
+
+            foreach ($query as $field => $value) {
+                if (is_array($value)) {
+                    if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
+                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
+                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
+                        $fieldCondition = "$field:[$from TO $to]";
+                    }
+                    else {
+                        $fieldCondition = array();
+                        foreach ($value as $part) {
+                            $part = $this->_prepareQueryText($part);
+                            $fieldCondition[] = $field .':'. $part;
+                        }
+                        $fieldCondition = '('. implode(' OR ', $fieldCondition) .')';
+                    }
+                }
+                else {
+                    $value = $this->_prepareQueryText($value);
+                    $fieldCondition = $field .':'. $value;
+                }
+
+                $searchConditions[] = $fieldCondition;
+            }
+
+            $searchConditions = implode(' AND ', $searchConditions);
+        }
+        else {
+            $searchConditions = $this->_prepareQueryText($query);
+        }
+
+        if (!$searchConditions) {
+            return array();
+        }
+        $solrQuery->setQuery($searchConditions);
 
         if (!is_array($_params['fields'])) {
             $_params['fields'] = array($_params['fields']);
@@ -181,8 +216,8 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
                 if ($sortField == 'name') {
                     $sortField = 'alphaNameSort';
                 }
-                if (in_array($sortField, $this->_searchTextFields) && $languageCode) {
-                    $sortField = $sortField . '_' . $languageCode;
+                if (in_array($sortField, $this->_searchTextFields)) {
+                    $sortField = $sortField . $languageSuffix;
                 }
                 $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
                 $solrQuery->addSortField($sortField, $sortType);
@@ -203,9 +238,8 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
          * Using dismax requestHandler for each language make matches in name field
          * are much more significant than matches in fulltext field.
          */
-        $_params['solr_params']['qt'] = 'magento';
-        if ($languageCode) {
-            $_params['solr_params']['qt'] .= '_' . $languageCode;
+        if ($_params['ignore_handler'] !== true) {
+            $_params['solr_params']['qt'] = 'magento' . $languageSuffix;
         }
 
 
