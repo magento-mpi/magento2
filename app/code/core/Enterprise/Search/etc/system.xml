@@ -87,7 +87,7 @@
                         </solr_server_timeout>
                         <solr_server_path translate="label">
                             <label>Solr Server Path</label>
-                            <frontend_type>select</frontend_type>
+                            <frontend_type>text</frontend_type>
                             <comment>Without starting and trailing slashes.</comment>
                             <sort_order>56</sort_order>
                             <show_in_default>1</show_in_default>
