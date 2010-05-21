@@ -366,7 +366,7 @@ class Enterprise_Reward_Model_Observer
             return $this;
         }
         $quote = $observer->getEvent()->getQuote();
-        if (!$quote->getId()) {
+        if (!is_object($quote) || !$quote->getId()) {
             return $this;
         }
         /* @var $reward Enterprise_Reward_Model_Reward */
