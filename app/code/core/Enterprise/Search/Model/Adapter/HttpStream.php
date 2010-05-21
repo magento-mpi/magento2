@@ -125,6 +125,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
 
         $searchParams = array();
         $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
+        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
         if (!is_array($_params['fields'])) {
             $_params['fields'] = array($_params['fields']);
@@ -161,8 +162,8 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                 if ($sortField == 'name') {
                     $sortField = 'alphaNameSort';
                 }
-                if (in_array($sortField, $this->_searchTextFields) && $languageCode) {
-                    $sortField = $sortField . '_' . $languageCode;
+                if (in_array($sortField, $this->_searchTextFields)) {
+                    $sortField = $sortField . $languageSuffix;
                 }
                 $sortType = trim(strtolower($sortType)) == 'desc' ? 'desc' : 'asc';
                 $searchParams['sort'][] = $sortField . ' ' . $sortType;
@@ -181,9 +182,8 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
          * Using dismax requestHandler for each language make matches in name field
          * are much more significant than matches in fulltext field.
          */
-        $_params['solr_params']['qt'] = 'magento';
-        if ($languageCode) {
-            $_params['solr_params']['qt'] .= '_' . $languageCode;
+        if ($_params['ignore_handler'] !== true) {
+            $_params['solr_params']['qt'] = 'magento' . $languageSuffix;
         }
 
         /**
@@ -232,6 +232,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         $_params = array();
 
         $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
+        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
         $solrQuery = new SolrQuery($query);
 
@@ -244,7 +245,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         $_params['solr_params'] = array (
             'spellcheck'                 => 'true',
             'spellcheck.collate'         => 'true',
-            'spellcheck.dictionary'      => 'magento_spell_' . $languageCode,
+            'spellcheck.dictionary'      => 'magento_spell' . $languageSuffix,
             'spellcheck.extendedResults' => 'true'
         );
 

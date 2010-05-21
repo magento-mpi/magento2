@@ -197,13 +197,13 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             }
 
             /**
-             * Merge attributes to fulltext fields according his search weight
+             * Merge attributes to fulltext fields according to their search weights
              */
             $attributesWeights = array();
             foreach ($index as $code => $value) {
                 if (!empty($attributeParams[$code])) {
                     $weight = $attributeParams[$code]['searchWeight'];
-                    $attributesWeights['fulltext' . $weight][]=$value;
+                    $attributesWeights['fulltext' . $weight][] = $value;
                 }
             }
 

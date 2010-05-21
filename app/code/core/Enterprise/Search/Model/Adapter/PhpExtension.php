@@ -297,7 +297,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
 
 
         $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
-
+        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
         $solrQuery = new SolrQuery($query);
 
@@ -310,7 +310,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         $_params['solr_params'] = array (
             'spellcheck'                 => 'true',
             'spellcheck.collate'         => 'true',
-            'spellcheck.dictionary'      => 'magento_spell_' . $languageCode,
+            'spellcheck.dictionary'      => 'magento_spell' . $languageSuffix,
             'spellcheck.extendedResults' => 'true'
         );
 
@@ -333,6 +333,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
             $solrQuery->addFilterQuery('in_stock:true');
         }
+
         try {
             $this->_client->ping();
             $response = $this->_client->query($solrQuery);
