@@ -27,12 +27,9 @@
 /**
  * Billing Agreement abstaract class
  *
- * @category    Mage
- * @package     Mage_Payment
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author Magento Core Team <core@magentocommerce.com>
  */
-
-abstract class Mage_Payment_Model_Billing_Agreement extends Mage_Core_Model_Abstract
+abstract class Mage_Payment_Model_Billing_Agreement_Abstract extends Mage_Core_Model_Abstract
 {
     /**
      * Payment method instance
@@ -56,9 +53,8 @@ abstract class Mage_Payment_Model_Billing_Agreement extends Mage_Core_Model_Abst
     /**
      * Create billing agreement
      *
-     * @param Mage_Customer_Model_Customer $customer
      */
-    abstract public function place(Mage_Customer_Model_Customer $customer);
+    abstract public function place();
 
     /**
      * Cancel billing agreement
@@ -69,13 +65,13 @@ abstract class Mage_Payment_Model_Billing_Agreement extends Mage_Core_Model_Abst
     /**
      * Retreive payment method instance
      *
-     * @throws Mage_Core_Exception
      * @return Mage_Payment_Model_Method_Abstract
      */
     public function getPaymentMethodInstance()
     {
         if (is_null($this->_paymentMethodInstance)) {
             $this->_paymentMethodInstance = Mage::helper('payment')->getMethodInstance($this->getMethodCode());
+            $this->_paymentMethodInstance->setStore($this->getStoreId());
         }
         return $this->_paymentMethodInstance;
     }
@@ -83,6 +79,7 @@ abstract class Mage_Payment_Model_Billing_Agreement extends Mage_Core_Model_Abst
     /**
      * Validate data before save
      *
+     * @throws Mage_Core_Exception
      * @return Mage_Payment_Model_Billing_Agreement
      */
     public function validate()
@@ -98,7 +95,7 @@ abstract class Mage_Payment_Model_Billing_Agreement extends Mage_Core_Model_Abst
     }
 
     /**
-     * Before save
+     * Before save, it's overriden just to make data validation on before save event
      *
      * @return Mage_Core_Model_Abstract
      */

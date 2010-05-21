@@ -24,9 +24,13 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Billing agreements controller
+ *
+ * @author Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Sales_Customer_Billing_AgreementController extends Mage_Core_Controller_Front_Action
 {
-
     /**
      * View billing agreements
      *
@@ -82,7 +86,7 @@ class Mage_Sales_Customer_Billing_AgreementController extends Mage_Core_Controll
         $paymentCode = $this->getRequest()->getParam('payment_method');
         if ($paymentCode) {
             try {
-                $agreement->setStore(Mage::app()->getStore())
+                $agreement->setStoreId(Mage::app()->getStore()->getId())
                     ->setMethodCode($paymentCode)
                     ->setReturnUrl(Mage::getUrl('*/*/returnWizard', array('payment_method' => $paymentCode)))
                     ->setCancelUrl(Mage::getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode)));
@@ -93,7 +97,7 @@ class Mage_Sales_Customer_Billing_AgreementController extends Mage_Core_Controll
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError('An error occurred during your request');
+                $this->_getSession()->addError('There was an error processing your request. Please contact us.');
             }
         }
         $this->_redirect('*/*/');
@@ -110,10 +114,11 @@ class Mage_Sales_Customer_Billing_AgreementController extends Mage_Core_Controll
         $token = $this->getRequest()->getParam('token');
         if ($token && $paymentCode) {
             try {
-                $agreement->setStore(Mage::app()->getStore())
+                $agreement->setStoreId(Mage::app()->getStore()->getId())
                     ->setToken($token)
                     ->setMethodCode($paymentCode)
-                    ->place(Mage::getSingleton('customer/session')->getCustomer());
+                    ->setCustomer(Mage::getSingleton('customer/session')->getCustomer())
+                    ->place();
                 $this->_getSession()->addSuccess('Billing agreement has been created.');
                 $this->_redirect('*/*/view', array('agreement' => $agreement->getAgreementId()));
                 return;
@@ -121,7 +126,7 @@ class Mage_Sales_Customer_Billing_AgreementController extends Mage_Core_Controll
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError('An error occurred during your request');
+                $this->_getSession()->addError('There was an error processing your billing agreement. Please contact us.');
             }
             $this->_redirect('*/*/index');
         }
@@ -174,7 +179,7 @@ class Mage_Sales_Customer_Billing_AgreementController extends Mage_Core_Controll
                 return false;
             }
         }
-        Mage::register('billing_agreement', $billingAgreement);
+        Mage::register('current_billing_agreement', $billingAgreement);
         return $billingAgreement;
     }
 

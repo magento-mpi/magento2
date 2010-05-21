@@ -24,6 +24,11 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Customer account billing agreements block
+ *
+ * @author Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Block_Template
 {
     /**
@@ -48,7 +53,7 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Bloc
     protected function _prepareLayout()
     {
         if (is_null($this->_billingAgreementInstance)) {
-            $this->_billingAgreementInstance = Mage::registry('billing_agreement');
+            $this->_billingAgreementInstance = Mage::registry('current_billing_agreement');
         }
         return parent::_prepareLayout();
     }
@@ -88,7 +93,7 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Bloc
             case 'payment_method_label':
                 $this->_loadPaymentMethods();
                 $value = isset($this->_paymentMethods[$item->getMethodCode()])
-                    ? $this->_paymentMethods[$item->getMethodCode()] : 'N/A';
+                    ? $this->_paymentMethods[$item->getMethodCode()] : $this->__('N/A');
                 break;
             case 'status':
                 $value = $item->getStatusLabel();
@@ -126,7 +131,7 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Bloc
         $this->setCreateUrl($this->getUrl('*/customer_billing_agreement/startWizard'));
         $this->setBackUrl($this->getUrl('*/customer_billing_agreement/'));
         if ($this->_billingAgreementInstance) {
-            $this->setTitle($this->__('Billing Agreement #%s', $this->_billingAgreementInstance->getReferenceId()));
+            $this->setReferenceId($this->_billingAgreementInstance->getReferenceId());
 
             $this->setCanCancel($this->_billingAgreementInstance->canCancel());
             $this->setCancelUrl(

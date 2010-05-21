@@ -24,11 +24,18 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Billing agreement resource model
+ *
+ * @author Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Sales_Model_Mysql4_Billing_Agreement extends Mage_Core_Model_Mysql4_Abstract
 {
+    /**
+     * Resource initialization
+     */
     protected function _construct()
     {
         $this->_init('sales/billing_agreement', 'agreement_id');
     }
 }
-

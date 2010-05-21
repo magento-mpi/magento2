@@ -25,40 +25,37 @@
  */
 
 /**
- * Billing Agreement interface
+ * Interface for payment methods that support billing agreements management
  *
- * @category    Mage
- * @package     Mage_Payment
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author Magento Core Team <core@magentocommerce.com>
  */
-
 interface Mage_Payment_Model_Billing_Agreement_MethodInterface
 {
     /**
      * Init billing agreement
      *
-     * @param Mage_Payment_Model_Billing_Agreement $agreement
+     * @param Mage_Payment_Model_Billing_Agreement_Abstract $agreement
      */
-    public function initBillingAgreementToken(Mage_Payment_Model_Billing_Agreement $agreement);
+    public function initBillingAgreementToken(Mage_Payment_Model_Billing_Agreement_Abstract $agreement);
 
     /**
      * Retrieve billing agreement details
      *
-     * @param Mage_Payment_Model_Billing_Agreement $agreement
+     * @param Mage_Payment_Model_Billing_Agreement_Abstract $agreement
      */
-    public function getBillingAgreementTokenInfo(Mage_Payment_Model_Billing_Agreement $agreement);
+    public function getBillingAgreementTokenInfo(Mage_Payment_Model_Billing_Agreement_Abstract $agreement);
 
     /**
      * Create billing agreement
      *
-     * @param Mage_Payment_Model_Billing_Agreement $agreement
+     * @param Mage_Payment_Model_Billing_Agreement_Abstract $agreement
      */
-    public function placeBillingAgreement(Mage_Payment_Model_Billing_Agreement $agreement);
+    public function placeBillingAgreement(Mage_Payment_Model_Billing_Agreement_Abstract $agreement);
 
     /**
      * Update billing agreement status
      *
-     * @param Mage_Payment_Model_Billing_Agreement $agreement
+     * @param Mage_Payment_Model_Billing_Agreement_Abstract $agreement
      */
-    public function updateBillingAgreementStatus(Mage_Payment_Model_Billing_Agreement $agreement);
+    public function updateBillingAgreementStatus(Mage_Payment_Model_Billing_Agreement_Abstract $agreement);
 }

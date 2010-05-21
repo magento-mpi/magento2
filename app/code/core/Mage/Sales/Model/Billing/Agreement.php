@@ -25,14 +25,11 @@
  */
 
 /**
- * Billing Agreement model
+ * Billing Agreement abstract model
  *
- * @category    Mage
- * @package     Mage_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agreement
+class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agreement_Abstract
 {
     const STATUS_ACTIVE     = 'active';
     const STATUS_CANCELED   = 'canceled';
@@ -71,18 +68,16 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
     {
         switch ($this->getStatus()) {
             case self::STATUS_ACTIVE:
-                $label = Mage::helper('sales')->__('Active');
-                break;
-            default:
-                $label = Mage::helper('sales')->__('Canceled');
+                return Mage::helper('sales')->__('Active');
+            case self::STATUS_CANCELED:
+                return Mage::helper('sales')->__('Canceled');
         }
-        return $label;
     }
 
     /**
-     * Init billing agreement
+     * Initialize token
      *
-     * @return Mage_Sales_Model_Billing_Agreement
+     * @return string
      */
     public function initToken()
     {
@@ -107,17 +102,16 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
     /**
      * Create billing agreement
      *
-     * @param Mage_Customer_Model_Customer $customer
      * @return Mage_Sales_Model_Billing_Agreement
      */
-    public function place(Mage_Customer_Model_Customer $customer)
+    public function place()
     {
         $this->verifyToken();
 
         $this->getPaymentMethodInstance()
             ->placeBillingAgreement($this);
 
-        $this->setCustomerId($customer->getId())
+        $this->setCustomerId($this->getCustomer()->getId())
             ->setMethodCode($this->getMethodCode())
             ->setReferenceId($this->getBillingAgreementId())
             ->setStatus(self::STATUS_ACTIVE)
@@ -145,6 +139,19 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
     public function canCancel()
     {
         return ($this->getStatus() != self::STATUS_CANCELED);
+    }
+
+    /**
+     * Retrieve billing agreement statuses array
+     *
+     * @return array
+     */
+    public function getStatusesArray()
+    {
+        return array(
+            self::STATUS_ACTIVE     => Mage::helper('sales')->__('Active'),
+            self::STATUS_CANCELED   => Mage::helper('sales')->__('Canceled')
+        );
     }
 
 }
