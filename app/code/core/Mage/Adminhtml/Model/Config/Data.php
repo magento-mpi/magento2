@@ -151,14 +151,15 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                  * Look for custom defined field path
                  */
                 if (is_object($fieldConfig)) {
-                    $path = (string)$fieldConfig->config_path;
-                    if (!empty($path) && strrpos($path, '/') > 0) {
+                    $configPath = (string)$fieldConfig->config_path;
+                    if (!empty($configPath) && strrpos($configPath, '/') > 0) {
                         // Extend old data with specified section group
-                        $groupPath = substr($path, 0, strrpos($path, '/'));
+                        $groupPath = substr($configPath, 0, strrpos($configPath, '/'));
                         if (!isset($oldConfigAdditionalGroups[$groupPath])) {
                             $oldConfig = $this->extendConfig($groupPath, true, $oldConfig);
                             $oldConfigAdditionalGroups[$groupPath] = true;
                         }
+                        $path = $configPath;
                     }
                 }
 
