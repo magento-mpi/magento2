@@ -877,6 +877,7 @@ tr.summary-details-first td { border-top:1px solid #d2d8db; }
 
 /* Checkout Types */
 .cart .checkout-types { float:right; text-align:right; }
+.cart .title-buttons .checkout-types li { float:left; margin:0 0 5px 5px; }
 
 /* Shopping Cart Table */
 .cart-table .item-msg { font-size:10px; }
