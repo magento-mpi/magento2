@@ -415,7 +415,7 @@ PaypalConfig.prototype = {
         isHidden ? $(fieldset).hide() : $(fieldset).show();
         var heading = $(fieldset).previous('div');
         var headingLink = heading.down('a');
-        isHidden ? heading.addClassName('disabled') : heading.removeClassName('disabled');
+        isHidden ? heading.addClassName('disabled').addClassName('no-display') : heading.removeClassName('disabled').removeClassName('no-display');
         if (isHidden) {
             headingLink.oldHref = headingLink.href;
             headingLink.oldOnclick = headingLink.onclick;
