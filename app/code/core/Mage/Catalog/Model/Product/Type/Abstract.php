@@ -392,7 +392,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                 $date = new Zend_Date($startDate, $format, $locale);
                 $options['start_date'] = $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
             } else {
-                Mage::throwException(Mage::helper('sales') ->__('Start date format is invalid'));
+                Mage::throwException(Mage::helper('catalog') ->__('Start date for recurring period should be provided in valid format.'));
             }
         }
         $subscriberName = $buyRequest->getData('recurring_subscriber_name');

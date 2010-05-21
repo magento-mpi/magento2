@@ -76,11 +76,7 @@ class Mage_Sales_Block_Catalog_Product_View_Recurring_Profile extends Mage_Core_
      */
     protected function _getProduct()
     {
-        if (Mage::registry('product')) {
-            return Mage::registry('current_product');
-        } else {
-            return Mage::getSingleton('catalog/product');
-        }
+        return Mage::registry('current_product');
     }
 
     /**
