@@ -122,6 +122,13 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     );
 
     /**
+     * Array of Zend_Date objects per store
+     *
+     * @var array
+     */
+    protected $_dateFormats = array();
+
+    /**
      * Searchable attribute params
      *
      * @var array
@@ -618,17 +625,44 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             }
             elseif ($backendType != 'static') {
                 if ($backendType == 'datetime') {
-                    $date = new Zend_Date(
-                        $value,
-                        Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
-                    );
-                    $value = $date->toString(Zend_Date::ISO_8601) . 'Z';
+                    $value = $this->_getSolrDate($data['store_id'], $value);
                 }
                 $data['attr_'. $backendType .'_'. $key] = $value;
                 unset($data[$key]);
             }
         }
         return $data;
+    }
+
+    /**
+     * Retrieve date value in solr format (ISO 8601) with Z
+     * Example: 1995-12-31T23:59:59Z
+     *
+     * @param int $storeId
+     * @param string $date
+     *
+     * @return string
+     */
+    protected function _getSolrDate($storeId, $date = null)
+    {
+        if (!isset($this->_dateFormats[$storeId])) {
+            $timezone = Mage::getStoreConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE, $storeId);
+            $locale   = Mage::getStoreConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE, $storeId);
+            $locale   = new Zend_Locale($locale);
+
+            $dateObj = new Zend_Date(null, null, $locale);
+            $dateObj->setTimezone($timezone);
+            $this->_dateFormats[$storeId] = array($dateObj, $locale->getTranslation(null, 'date', $locale));
+        }
+
+        if (is_empty_date($date)) {
+            return null;
+        }
+
+        list($dateObj, $localeDateFormat) = $this->_dateFormats[$storeId];
+        $dateObj->setDate($date, $localeDateFormat);
+
+        return $dateObj->toString(Zend_Date::ISO_8601) . 'Z';
     }
 
     /**

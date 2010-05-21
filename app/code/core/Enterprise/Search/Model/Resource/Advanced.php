@@ -99,19 +99,23 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
             $field = 'attr_datetime_'. $field;
             if (is_array($value)) {
                 foreach ($value as &$val) {
-                    $date = new Zend_Date(
-                        $val,
-                        Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
-                    );
-                    $val = $date->toString(Zend_Date::ISO_8601) . 'Z';
+                    if (!is_empty_date($val)) {
+                        $date = new Zend_Date(
+                            $val,
+                            Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+                        );
+                        $val = $date->toString(Zend_Date::ISO_8601) . 'Z';
+                    }
                 }
             }
             else {
-                $date = new Zend_Date(
-                    $value,
-                    Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
-                );
-                $value = $date->toString(Zend_Date::ISO_8601) . 'Z';
+                if (!is_empty_date($value)) {
+                    $date = new Zend_Date(
+                        $value,
+                        Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+                    );
+                    $value = $date->toString(Zend_Date::ISO_8601) . 'Z';
+                }
             }
         }
         elseif (in_array($fieldType, $textFieldTypes)) {
