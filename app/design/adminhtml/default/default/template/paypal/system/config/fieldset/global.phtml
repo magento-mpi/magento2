@@ -29,7 +29,6 @@
  * @see Mage_Paypal_Block_System_Config_Fieldset_Global
  */
 ?>
-
 <table class="paypal-global" id="paypal_checkout" cellspacing="0">
     <col width="90%" />
     <col width="10%" />
@@ -410,10 +409,10 @@ PaypalConfig.prototype = {
 
     toggleFieldset: function(fieldset, checkbox)
     {
-        var isHidden = !$(checkbox).checked;
-        toggleValueElements(checkbox, fieldset, [], isHidden);
-        isHidden ? $(fieldset).hide() : $(fieldset).show();
-        var heading = $(fieldset).previous('div');
+        var isHidden = !checkbox.checked;
+        this.toggleValueElements(checkbox, fieldset, isHidden);
+        isHidden ? fieldset.hide() : fieldset.show();
+        var heading = fieldset.previous('div');
         var headingLink = heading.down('a');
         isHidden ? heading.addClassName('disabled').addClassName('no-display') : heading.removeClassName('disabled').removeClassName('no-display');
         if (isHidden) {
@@ -421,10 +420,34 @@ PaypalConfig.prototype = {
             headingLink.oldOnclick = headingLink.onclick;
             headingLink.onclick = "return false;";
             headingLink.href = "javascript:void(0)";
-        } else if (headingLink.oldOnclick && headingLink.oldHref) {
-            headingLink.onclick = headingLink.oldOnclick;
-            headingLink.href = headingLink.oldHref;
+        } else {
+            if (headingLink.oldOnclick && headingLink.oldHref) {
+                headingLink.onclick = headingLink.oldOnclick;
+                headingLink.href = headingLink.oldHref;
+            }
         }
+    },
+
+    toggleValueElements: function(checkbox, container, checked)
+    {
+        var isDisabled = (checked != undefined ? checked : $(checkbox).checked);
+        var elemInherit, currIsDisabled;
+        $(container).select('select', 'input', 'textarea', 'button').each (function(elem) {
+            // avoid inherit checkbox functionality rewrite
+            currIsDisabled = isDisabled;
+            if (!currIsDisabled) {
+                elemInherit = $(elem.id + '_inherit');
+                if (elemInherit != undefined && elemInherit.checked) {
+                    currIsDisabled = true;
+                }
+            }
+            elem.disabled=currIsDisabled;
+            if (currIsDisabled) {
+                elem.addClassName('disabled');
+            } else {
+                elem.removeClassName('disabled');
+            }
+        });
     },
 
     destruct: function()
