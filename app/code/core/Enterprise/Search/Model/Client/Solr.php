@@ -49,6 +49,18 @@ class Enterprise_Search_Model_Client_Solr extends Apache_Solr_Service
     protected $_password = '';
 
     /**
+     * Suggestions servlet
+     */
+    const SUGGESTIONS_SERVLET = 'spell';
+
+    /**
+     * Constructed servlet full path URLs
+     *
+     * @var string
+     */
+    protected $_suggestionsUrl;
+
+    /**
      * Initialize Solr Client
      *
      * @param array $options
@@ -75,6 +87,12 @@ class Enterprise_Search_Model_Client_Solr extends Apache_Solr_Service
 
         parent::__construct($options['hostname'], $options['port'], '/' . $options['path'] . '/');
         return $this;
+    }
+
+    protected function _initUrls() {
+        parent::_initUrls();
+        $this->_suggestionsUrl = $this->_constructUrl(self::SUGGESTIONS_SERVLET);
+
     }
 
     /**
@@ -208,5 +226,50 @@ class Enterprise_Search_Model_Client_Solr extends Apache_Solr_Service
     public function getPassword()
     {
         return $this->_password;
+    }
+
+    /**
+     * Simple Search interface
+     *
+     * @param string $query The raw query string
+     * @param array $params key / value pairs for other query parameters (see Solr documentation), use arrays for parameter keys used more than once (e.g. facet.field)
+     * @return Apache_Solr_Response
+     *
+     * @throws Exception If an error occurs during the service call
+     */
+    public function searchSuggestions($query, $params = array(), $method = self::METHOD_GET)
+    {
+        if (!is_array($params))
+        {
+            $params = array();
+        }
+        // construct our full parameters
+        // sending the version is important in case the format changes
+        $params['version'] = self::SOLR_VERSION;
+
+        // common parameters in this interface
+        $params['wt'] = self::SOLR_WRITER;
+        $params['json.nl'] = $this->_namedListTreatment;
+
+        $params['q'] = $query;
+
+        // use http_build_query to encode our arguments because its faster
+        // than urlencoding all the parts ourselves in a loop
+        $queryString = http_build_query($params, null, $this->_queryStringDelimiter);
+
+        $queryString = preg_replace('/%5B(?:[0-9]|[1-9][0-9]+)%5D=/', '=', $queryString);
+
+        if ($method == self::METHOD_GET)
+        {
+            return $this->_sendRawGet($this->_suggestionsUrl . $this->_queryDelimiter . $queryString);
+        }
+        else if ($method == self::METHOD_POST)
+        {
+            return $this->_sendRawPost($this->_suggestionsUrl, $queryString, FALSE, 'application/x-www-form-urlencoded');
+        }
+        else
+        {
+            throw new Exception("Unsupported method '$method', please use the Apache_Solr_Service::METHOD_* constants");
+        }
     }
 }
