@@ -57,6 +57,11 @@
                     <action>adminhtml/sales_transactions</action>
                     <sort_order>50</sort_order>
                 </transactions>
+                <recurring_profile translate="title" module="sales">
+                    <title>Recurring Profiles</title>
+                    <action>adminhtml/sales_recurring_profile</action>
+                    <sort_order>60</sort_order>
+                </recurring_profile>
             </children>
          </sales>
     </menu>
@@ -111,6 +116,10 @@
                                 </children>
                                 <sort_order>50</sort_order>
                             </transactions>
+                            <recurring_profile translate="title">
+                                <title>Recurring Profiles</title>
+                                <sort_order>60</sort_order>
+                            </recurring_profile>
                         </children>
                     </sales>
                     <system>

@@ -19,43 +19,39 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Sales
+ * @package     Mage_Adminhtml
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Recurring payment profiles resource model
+ * Adminhtml recurring profile items grid
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Mysql4_Recurring_Profile extends Mage_Sales_Model_Mysql4_Abstract
+class Mage_Adminhtml_Block_Sales_Recurring_Profile_View_Items extends Mage_Adminhtml_Block_Sales_Items_Abstract
 {
     /**
-     * Initialize main table and column
+     * Retrieve required options from parent
      */
-    protected function _construct()
+    protected function _beforeToHtml()
     {
-        $this->_init('sales/recurring_profile', 'profile_id');
-
-        $this->_serializableFields = array(
-            'order_item'      => array(new Varien_Object, new Varien_Object),
-            'profile_info'    => array(null, new Mage_Payment_Model_Recurring_Profile_Info),
-            'additional_info' => array(null, array()),
-        );
+        if (!$this->getParentBlock()) {
+            Mage::throwException(Mage::helper('adminhtml')->__('Invalid parent block for this block'));
+        }
+        parent::_beforeToHtml();
     }
 
     /**
-     * Return recurring profile child Orders Ids
+     * Retrieve recurring profile items
      *
-     * @param Mage_Sales_Model_Recurring_Profile
      * @return array
      */
-    public function getChildOrderIds($object)
+    public function getItems()
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from(
-                array('main_table' => $this->getTable('recurring_profile_order')),
-                array('order_id'))
-            ->where('profile_id=?', $object->getId());
-        return $this->_getReadAdapter()->fetchCol($select);
+        $recurringProfile = Mage::registry('current_recurring_profile');
+        return $recurringProfile->getItems();
     }
 }

@@ -912,4 +912,31 @@
         </reference>
     </adminhtml_report_sales_bestsellers>
 
+    <adminhtml_sales_recurring_profile_index>
+        <reference name="content">
+            <block type="adminhtml/sales_recurring_profile" name="sales_recurring_profile.grid.container"></block>
+        </reference>
+    </adminhtml_sales_recurring_profile_index>
+
+    <adminhtml_sales_recurring_profile_grid>
+        <block type="adminhtml/sales_recurring_profile_grid" name="sales_recurring_profile.grid" output="toHtml"></block>
+    </adminhtml_sales_recurring_profile_grid>
+
+    <adminhtml_sales_recurring_profile_view>
+        <reference name="content">
+            <block type="adminhtml/sales_recurring_profile_view" name="sales_recurring_profile_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="adminhtml/sales_recurring_profile_view_tabs" name="sales_recurring_profile_tabs">
+                <block type="adminhtml/sales_recurring_profile_view_tab_info" name="recurring_profile_tab_info" template="sales/recurring/profile/view/tab/info.phtml">
+                    <block type="adminhtml/sales_recurring_profile_view_info" name="recurring_profile_info" template="sales/recurring/profile/view/info.phtml"></block>
+                    <block type="adminhtml/sales_recurring_profile_view_getawayinfo" name="recurring_profile_getawayinfo" template="sales/recurring/profile/view/getawayinfo.phtml"></block>
+                    <block type="adminhtml/sales_recurring_profile_view_items" name="recurring_profile_items" template="sales/recurring/profile/view/items.phtml"></block>
+                </block>
+                <action method="addTab"><name>recurring_profile_info</name><block>recurring_profile_tab_info</block></action>
+                <action method="addTab"><name>recurring_profile_orders</name><block>adminhtml/sales_recurring_profile_view_tab_orders</block></action>
+            </block>
+        </reference>
+    </adminhtml_sales_recurring_profile_view>
+
 </layout>

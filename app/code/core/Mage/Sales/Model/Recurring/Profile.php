@@ -353,4 +353,28 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
         }
         return $result;
     }
+
+    /**
+     * Return recurring profile child orders Ids
+     *
+     * @return array
+     */
+    public function getChildOrderIds()
+    {
+        $ids = $this->_getResource()->getChildOrderIds($this);
+        if (empty($ids)){
+            $ids[] = '-1';
+        }
+        return $ids;
+    }
+
+    /**
+     * Return recurring profile child order items
+     *
+     * @return array
+     */
+    public function getItems()
+    {
+        return array();
+    }
 }

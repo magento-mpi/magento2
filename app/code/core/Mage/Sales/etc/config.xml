@@ -396,6 +396,7 @@
                     <creditmemo_comment><table>sales_flat_creditmemo_comment</table></creditmemo_comment>
 
                     <recurring_profile><table>sales_recurring_profile</table></recurring_profile>
+                    <recurring_profile_order><table>sales_recurring_profile_order</table></recurring_profile_order>
 
                     <!-- /**
                           * @depraceted since 1.4 order taxes moved to tax module
