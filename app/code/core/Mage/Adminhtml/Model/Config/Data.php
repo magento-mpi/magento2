@@ -93,11 +93,11 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                     }
                 }
             }
-            // set value for group field entry by fieldname 
-            // use extra memory 
+            // set value for group field entry by fieldname
+            // use extra memory
             $fieldsetData = array();
             foreach ($groupData['fields'] as $field => $fieldData) {
-                $fieldsetData[$field] = (is_array($fieldData) && isset($fieldData['value'])) 
+                $fieldsetData[$field] = (is_array($fieldData) && isset($fieldData['value']))
                     ? $fieldData['value'] : null;
             }
 
@@ -145,18 +145,20 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                     $fieldData['value'] = join(',', $fieldData['value']);
                 }*/
 
+                $path = $section.'/'.$group.'/'.$field;
+
                 /**
                  * Look for custom defined field path
                  */
-                $path = (string)$fieldConfig->config_path;
-                if (empty($path)) {
-                    $path = $section.'/'.$group.'/'.$field;
-                } elseif (strrpos($path, '/') > 0) {
-                    // Extend old data with specified section group
-                    $groupPath = substr($path, 0, strrpos($path, '/'));
-                    if (!isset($oldConfigAdditionalGroups[$groupPath])) {
-                        $oldConfig = $this->extendConfig($groupPath, true, $oldConfig);
-                        $oldConfigAdditionalGroups[$groupPath] = true;
+                if (is_object($fieldConfig)) {
+                    $path = (string)$fieldConfig->config_path;
+                    if (!empty($path) && strrpos($path, '/') > 0) {
+                        // Extend old data with specified section group
+                        $groupPath = substr($path, 0, strrpos($path, '/'));
+                        if (!isset($oldConfigAdditionalGroups[$groupPath])) {
+                            $oldConfig = $this->extendConfig($groupPath, true, $oldConfig);
+                            $oldConfigAdditionalGroups[$groupPath] = true;
+                        }
                     }
                 }
 
