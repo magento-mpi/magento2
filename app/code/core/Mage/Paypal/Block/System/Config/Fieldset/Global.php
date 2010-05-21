@@ -150,4 +150,40 @@ class Mage_Paypal_Block_System_Config_Fieldset_Global
         }
         return false;
     }
+
+    /**
+     * Return URL for PayPal methods landing page or demo page
+     *
+     * @param string $method
+     * @param string $type
+     * @return string
+     */
+    public function getExternalUrl($method, $type)
+    {
+        $urls = array(
+            'general' => array(
+                'more' => 'https://merchant.paypal.com/cgi-bin/marketingweb?cmd=_render-content&content_ID=merchant/home'
+            ),
+            'paypal_express' => array(
+                'demo' => 'https://merchant.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=merchant/demo_express_checkout',
+                'more' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_simple-referral-flow&partner_id=NB9WWHYEMVUMS&product_id=ECA'
+            ),
+            'paypal_standard' => array(
+                'demo' => 'https://merchant.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=merchant/demo_WPS',
+                'more' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_simple-referral-flow&partner_id=NB9WWHYEMVUMS&product_id=WPSA'
+            ),
+            'paypal_direct' => array(
+                'demo' => 'https://merchant.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=merchant/demo_wpp',
+                'more' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_simple-referral-flow&partner_id=NB9WWHYEMVUMS&product_id=WPPROA'
+            ),
+            'payflowpro' => array(
+                'demo' => '',
+                'more' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_simple-referral-flow&partner_id=NB9WWHYEMVUMS&product_id=payflow_pro'
+            ),
+        );
+        if (isset($urls[$method][$type])) {
+            return $urls[$method][$type];
+        }
+        return '';
+    }
 }
