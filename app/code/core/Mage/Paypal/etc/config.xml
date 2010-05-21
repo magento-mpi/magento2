@@ -151,7 +151,7 @@
             </fetch_reports>
         </paypal>
         <payment>
-            <paypal_express translate="title">
+            <paypal_express>
                 <model>paypal/express</model>
                 <title>PayPal Express</title>
                 <payment_action>Authorization</payment_action>
@@ -160,27 +160,27 @@
                 <visible_on_cart>1</visible_on_cart>
                 <visible_on_product>1</visible_on_product>
             </paypal_express>
-            <paypal_direct translate="title">
+            <paypal_direct>
                 <model>paypal/direct</model>
                 <title>PayPal Direct</title>
                 <payment_action>Authorization</payment_action>
                 <cctypes>VI,MC</cctypes>
                 <useccv>1</useccv>
             </paypal_direct>
-            <paypal_standard translate="title">
+            <paypal_standard>
                 <model>paypal/standard</model>
                 <title>PayPal Standard</title>
                 <payment_action>Authorization</payment_action>
                 <line_items_enabled>1</line_items_enabled>
             </paypal_standard>
-            <paypaluk_express translate="title">
+            <paypaluk_express>
                 <title>PayPal Express Payflow Edition</title>
                 <payment_action>Authorization</payment_action>
                 <line_items_enabled>1</line_items_enabled>
                 <visible_on_cart>1</visible_on_cart>
                 <visible_on_product>1</visible_on_product>
             </paypaluk_express>
-            <paypaluk_direct translate="title">
+            <paypaluk_direct>
                 <title>PayPal Direct Payflow Edition</title>
                 <payment_action>Authorization</payment_action>
                 <cctypes>VI,MC</cctypes>
@@ -198,7 +198,7 @@
                 <user backend_model="adminhtml/system_config_backend_encrypted"/>
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
             </verisign>
-            <paypal_billing_agreement translate="title">
+            <paypal_billing_agreement>
                 <active>1</active>
                 <model>paypal/method_agreement</model>
                 <title>PayPal Billing Agreement</title>

@@ -61,12 +61,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     const STATUS_CREATED_REFUNDED = 'Created Refunded';
 
     /**
-     * Billing agreement status values
-     */
-    const BILLING_AGREEMENT_STATUS_CANCELED = 'Canceled';
-    const BILLING_AGREEMENT_STATUS_ACTIVE = 'Active';
-
-    /**
      * Capture types (make authorization close or remain open)
      * @var string
      */
@@ -192,8 +186,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'STATE' => 'state',
         'COUNTRYCODE' => 'countrycode',
         'ZIP' => 'zip',
-
-        //'SHIPTOCOUNTRYCODE' => 'ship_to_country_code',
         'PAYERBUSINESS' => 'payer_business'
     );
 
@@ -421,15 +413,31 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'amount'     => 'L_SHIPPINGOPTIONAMOUNT%d',
     );
 
+    /**
+     * init Billing Agreement request/response map
+     * @var array
+     */
     protected $_customerBillingAgreementRequest = array('RETURNURL', 'CANCELURL', 'BILLINGTYPE');
     protected $_customerBillingAgreementResponse = array('TOKEN');
 
+    /**
+     * Billing Agreement details request/response map
+     * @var array
+     */
     protected $_billingAgreementCustomerDetailsRequest = array('TOKEN');
     protected $_billingAgreementCustomerDetailsResponse = array('EMAIL', 'PAYERID', 'PAYERSTATUS', 'SHIPTOCOUNTRYCODE', 'PAYERBUSINESS');
 
+    /**
+     * Create Billing Agreement request/response map
+     * @var array
+     */
     protected $_createBillingAgreementRequest = array('TOKEN');
     protected $_createBillingAgreementResponse = array('BILLINGAGREEMENTID');
 
+    /**
+     * Update Billing Agreement request/response map
+     * @var array
+     */
     protected $_updateBillingAgreementRequest = array(
         'REFERENCEID', 'BILLINGAGREEMENTDESCRIPTION', 'BILLINGAGREEMENTSTATUS', 'BILLINGAGREEMENTCUSTOM'
     );
