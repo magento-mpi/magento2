@@ -251,10 +251,15 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
         $service = $this->getService();
         $object = $this->getObject();
         $entry = $this->getEntry();
+        $attributeValues = $this->getAttributeValues();
 
         $this->_setAttribute('id', $object->getId() . '_' . $this->getStoreId(), 'text');
 
-        if ($object->getName()) {
+        if (isset($attributeValues['title']['value'])) {
+            $title = $service->newTitle()->setText($attributeValues['title']['value']);
+            $entry->setTitle($title);
+            unset($attributeValues['title']); // to prevent "Reason: Duplicate title" error
+        } elseif ($object->getName()) {
             $title = $service->newTitle()->setText( $object->getName() );
             $entry->setTitle($title);
         }
@@ -275,13 +280,15 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
             $entry->setLink($links);
         }
 
-        if ($object->getDescription()) {
+        if (isset($attributeValues['description']['value'])) {
+            $content = $service->newContent()->setText($attributeValues['description']['value']);
+            $entry->setContent($content);
+            unset($attributeValues['description']); // to prevent "Reason: Duplicate description" error
+        } elseif ($object->getDescription()) {
             $content = $service->newContent()->setText( $object->getDescription() );
             $entry->setContent($content);
         }
 
-        $attributeValues = $this->getAttributeValues();
-        
         if (isset($attributeValues['price']['value']) && floatval($attributeValues['price']['value']) > 0) {
             $price = $attributeValues['price']['value'];
         } else {
@@ -304,6 +311,8 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
         $this->_setAttribute('condition', 'new', 'text');
         $this->_setAttribute('target_country', $targetCountry, 'text');
         $this->_setAttribute('item_language', $this->getConfig()->getCountryInfo($targetCountry, 'language'), 'text');
+        // set new 'attribute_values' with removed 'title' and/or 'description' keys to avoid 'duplicate' errors
+        $this->setAttributeValues($attributeValues);
 
         return $this;
     }
