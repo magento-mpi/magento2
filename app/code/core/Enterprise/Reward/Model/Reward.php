@@ -57,6 +57,13 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
     protected $_rates = array();
 
     /**
+     * Identifies that reward balance was updated or not
+     *
+     * @var boolean
+     */
+    protected $_rewardPointsUpdated = false;
+
+    /**
      * Internal constructor
      */
     protected function _construct()
@@ -170,14 +177,31 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
     }
 
     /**
+     * Getter
+     *
+     * @return boolean
+     */
+    public function getRewardPointsUpdated()
+    {
+        return $this->_rewardPointsUpdated;
+    }
+
+    /**
      * Save reward points
      *
      * @return Enterprise_Reward_Model_Reward
      */
     public function updateRewardPoints()
     {
+        $this->_rewardPointsUpdated = false;
         if ($this->canUpdateRewardPoints()) {
-            $this->save();
+            try {
+                $this->save();
+                $this->_rewardPointsUpdated = true;
+            } catch (Exception $e) {
+                $this->_rewardPointsUpdated = false;
+                throw $e;
+            }
         }
         return $this;
     }
@@ -595,7 +619,7 @@ class Enterprise_Reward_Model_Reward extends Enterprise_Enterprise_Model_Core_Ab
                 , true, $store->getStoreId()),
             'reward_amount_now' => Mage::helper('enterprise_reward')->formatAmount(
                 $this->getCurrencyAmount()
-                , true, $store->getStoreId()), 
+                , true, $store->getStoreId()),
             'reward_pts_was' => ($this->getPointsBalance() - $delta),
             'reward_pts_change' => $delta,
             'update_message' => $this->getHistory()->getMessage(),

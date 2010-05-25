@@ -268,7 +268,7 @@ class Enterprise_Reward_Model_Observer
                 ->setActionEntity($order)
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ORDER_EXTRA)
                 ->updateRewardPoints();
-            if ($reward->getPointsDelta()) {
+            if ($reward->getRewardPointsUpdated() && $reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
                     Mage::helper('enterprise_reward')->__('Customer earned %s for the order.', Mage::helper('enterprise_reward')->formatReward($reward->getPointsDelta()))
                 )->save();
