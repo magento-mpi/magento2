@@ -56,6 +56,18 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mep extends Mage_Paypal_Model_
     }
 
     /**
+     * Check whether payment method can be used
+     * @param Mage_Sales_Model_Quote
+     * @return bool
+     */
+    public function isAvailable($quote = null)
+    {
+        return Mage::getModel('paypal/config')
+            ->setStoreId(Mage::app()->getStore()->getId())
+            ->isMethodAvailable(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
+    }
+
+    /**
      * Capture payment
      *
      * @param   Varien_Object $orderPayment
