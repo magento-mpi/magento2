@@ -96,7 +96,7 @@ class Mage_Catalog_Model_Url
      * @var bool
      */
     protected $_saveRewritesHistory = null;
-    
+
     /**
      * Retrieve stores array or store model
      *
@@ -140,7 +140,7 @@ class Mage_Catalog_Model_Url
     {
         return $this->getResource()->getProductModel();
     }
-    
+
     /**
      * Setter for $_saveRewritesHistory
      * Force Rewrites History save bypass config settings
@@ -152,7 +152,7 @@ class Mage_Catalog_Model_Url
         $this->_saveRewritesHistory = (bool)$flag;
         return $this;
     }
-    
+
     /**
      * Indicate whether to save URL Rewrite History or not (create redirects to old URLs)
      *
@@ -166,7 +166,7 @@ class Mage_Catalog_Model_Url
         }
         return Mage::helper('catalog')->shouldSaveUrlRewritesHistory($storeId);
     }
-    
+
     /**
      * Refresh rewrite urls
      *
@@ -221,7 +221,7 @@ class Mage_Catalog_Model_Url
             );
 
             $this->getResource()->saveRewrite($rewriteData, $this->_rewrite);
-            
+
             if ($this->getShouldSaveRewritesHistory($category->getStoreId())) {
                 $this->_saveRewriteHistory($rewriteData, $this->_rewrite);
             }
@@ -299,7 +299,7 @@ class Mage_Catalog_Model_Url
         if ($this->getShouldSaveRewritesHistory($category->getStoreId())) {
             $this->_saveRewriteHistory($rewriteData, $this->_rewrite);
         }
-        
+
         if ($updateKeys && $product->getUrlKey() != $urlKey) {
             $product->setUrlKey($urlKey);
             $this->getResource()->saveProductAttribute($product, 'url_key');
@@ -401,21 +401,29 @@ class Mage_Catalog_Model_Url
             return $this;
         }
 
-        if ($product = $this->getResource()->getProduct($productId, $storeId)) {
-            $storeRootCategoryId = $this->getStores($storeId)->getRootCategoryId();
-            $categories = $this->getResource()->getCategories($product->getCategoryIds(), $storeId);
-            $this->_rewrites = $this->getResource()->prepareRewrites($storeId, '', $productId);
+        $product = $this->getResource()->getProduct($productId, $storeId);
+        if ($product) {
+            $store = $this->getStores($storeId);
+            $storeRootCategoryId    = $store->getRootCategoryId();
+            $storeRootCategoryPath  = $store->getRootCategoryPath();
+            $categories             = $this->getResource()->getCategories($product->getCategoryIds(), $storeId);
+            $this->_rewrites        = $this->getResource()->prepareRewrites($storeId, '', $productId);
 
             if (!isset($categories[$storeRootCategoryId])) {
                 $categories[$storeRootCategoryId] = $this->getResource()->getCategory($storeRootCategoryId, $storeId);
             }
 
             foreach ($categories as $category) {
+                $subRoot = strpos($category['path'], $storeRootCategoryPath . '/') === 0;
+                if ($category['path'] != $storeRootCategoryPath && $subRoot) {
+                    continue;
+                }
+
                 $this->_refreshProductRewrite($product, $category);
             }
 
             $this->getResource()->clearProductRewrites($productId, $storeId, array_keys($categories));
-            
+
             unset($categories);
             unset($product);
 
@@ -717,7 +725,7 @@ class Mage_Catalog_Model_Url
         }
         return 'catalog/product/view/id/' . $product->getId();
     }
-    
+
     /**
      * Return unique string based on the time in microseconds.
      *
@@ -727,7 +735,7 @@ class Mage_Catalog_Model_Url
     {
         return str_replace('0.', '', str_replace(' ', '_', microtime()));
     }
-    
+
     /**
      * Create Custom URL Rewrite for old product/category URL after url_key changed
      * It will perform permanent redirect from old URL to new URL
@@ -746,7 +754,7 @@ class Mage_Catalog_Model_Url
             $rewriteData['options'] = 'RP'; // Redirect = Permanent
             $this->getResource()->saveRewriteHistory($rewriteData);
         }
-        
+
         return $this;
     }
 }

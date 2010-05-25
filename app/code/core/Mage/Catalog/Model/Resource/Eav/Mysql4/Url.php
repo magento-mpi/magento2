@@ -250,13 +250,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
                 $this->_getWriteAdapter()->insert($this->getMainTable(), $rewriteData);
             }
             catch (Exception $e) {
+                Mage::logException($e);
                 Mage::throwException(Mage::helper('catalog')->__('An error occurred while saving the URL rewrite.'));
             }
         }
         unset($rewriteData);
         return $this;
     }
-    
+
     public function saveRewriteHistory($rewriteData)
     {
         $rewriteData = new Varien_Object($rewriteData);
@@ -611,13 +612,17 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         }
 
         $select = $this->_getWriteAdapter()->select()
-            ->from(array('main_table'=>$this->getTable('catalog/category')), array('main_table.entity_id', 'main_table.parent_id', 'is_active'=>'IF(c.value_id>0, c.value, d.value)', 'main_table.path'));
+            ->from(array('main_table' => $this->getTable('catalog/category')), array(
+                'main_table.entity_id',
+                'main_table.parent_id',
+                'is_active' => 'IF(c.value_id>0, c.value, d.value)',
+                'main_table.path'));
 
         if (is_null($path)) {
             $select->where('main_table.entity_id IN(?)', $categoryIds);
-        }
-        else {
-            $select->where('main_table.path LIKE ?', $path . '%')
+        } else {
+            $select
+                ->where('main_table.path LIKE ?', $path . '%')
                 ->order('main_table.path');
         }
         $table = $this->getTable('catalog/category') . '_int';
@@ -920,7 +925,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
 
         return $this;
     }
-    
+
     /**
      * Remove unused rewrites for product
      *
@@ -939,7 +944,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             $where.= $adapter->quoteInto(' AND category_id NOT IN (?)', $excludeCategoryIds);
         }
         $adapter->delete($this->getMainTable(), $where);
-        
+
         return $this;
     }
 
