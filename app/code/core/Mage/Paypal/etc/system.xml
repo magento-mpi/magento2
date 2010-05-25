@@ -61,7 +61,7 @@
                     <fields>
                         <business_account translate='label comment'>
                             <label>Email address to accociate with PayPal</label>
-                            <comment><![CDATA[<a href="http://www.magentocommerce.com/paypal" target="_blank">Sign up for PayPal merchant account now!</a>]]></comment>
+                            <comment><![CDATA[<a href="http://www.magentocommerce.com/paypal">Sign up for PayPal merchant account now!</a>]]></comment>
                             <config_path>paypal/general/business_account</config_path>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
