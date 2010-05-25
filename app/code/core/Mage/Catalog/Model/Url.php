@@ -435,8 +435,9 @@ class Mage_Catalog_Model_Url
 
     public function refreshProductRewrites($storeId)
     {
-        $this->_categories = array();
-        $storeRootCategoryId = $this->getStores($storeId)->getRootCategoryId();
+        $this->_categories      = array();
+        $storeRootCategoryId    = $this->getStores($storeId)->getRootCategoryId();
+        $storeRootCategoryPath  = $this->getStores($storeId)->getRootCategoryId();
         $this->_categories[$storeRootCategoryId] = $this->getResource()->getCategory($storeRootCategoryId, $storeId);
 
         $lastEntityId = 0;
@@ -471,6 +472,9 @@ class Mage_Catalog_Model_Url
                 $this->_refreshProductRewrite($product, $this->_categories[$storeRootCategoryId]);
                 foreach ($product->getCategoryIds() as $categoryId) {
                     if ($categoryId != $storeRootCategoryId && isset($this->_categories[$categoryId])) {
+                        if (strpos($this->_categories[$categoryId]['path'], $storeRootCategoryPath . '/') !== 0) {
+                            continue;
+                        }
                         $this->_refreshProductRewrite($product, $this->_categories[$categoryId]);
                     }
                 }
