@@ -69,7 +69,7 @@ class Mage_CatalogSearch_Model_Mysql4_Query extends Mage_Core_Model_Mysql4_Abstr
             ->where('synonym_for=?', $value)
             ->orWhere('query_text=?', $value)
             ->where('store_id=?', $object->getStoreId())
-            ->order('synonym_for DESC');
+            ->order('synonym_for ASC');
         if ($data = $this->_getReadAdapter()->fetchRow($select)) {
             $object->setData($data);
             $this->_afterLoad($object);
