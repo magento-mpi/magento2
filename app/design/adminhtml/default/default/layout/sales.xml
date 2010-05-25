@@ -46,6 +46,30 @@
             <block type="sales/adminhtml_billing_agreement" name="sales_billing_agreement.grid.container"></block>
         </reference>
     </adminhtml_sales_billing_agreement_index>
+    
+    <adminhtml_sales_billing_agreement_grid>
+        <block type="sales/adminhtml_billing_agreement_grid" name="sales_billing_agreement.grid" output="toHtml"></block>
+    </adminhtml_sales_billing_agreement_grid>
+    
+    <adminhtml_sales_billing_agreement_view>
+        <reference name="content">
+            <block type="sales/adminhtml_billing_agreement_view" name="sales_billing_agreement_view"></block>
+        </reference>
+        <reference name="left">
+            <block type="sales/adminhtml_billing_agreement_view_tabs" name="sales_billing_agreement_tabs">
+                <action method="addTab"><name>billing_agreement_info</name><block>sales/adminhtml_billing_agreement_view_tab_info</block></action>
+                <action method="addTab"><name>billing_agreement_orders</name><block>sales/adminhtml_billing_agreement_view_tab_orders</block></action>
+            </block>
+        </reference>
+    </adminhtml_sales_billing_agreement_view>
+    
+    <adminhtml_sales_billing_agreement_ordersgrid>
+        <block type="sales/adminhtml_billing_agreement_view_tab_orders" name="related_orders.grid" output="toHtml"></block>
+    </adminhtml_sales_billing_agreement_ordersgrid>
+    
+    <adminhtml_sales_billing_agreement_customergrid>
+        <block type="sales/adminhtml_customer_edit_tab_agreement" name="customer_billing_agreement.grid" output="toHtml"></block>
+    </adminhtml_sales_billing_agreement_customergrid>
 
     <adminhtml_sales_order_view>
         <reference name="content">
@@ -938,5 +962,11 @@
             </block>
         </reference>
     </adminhtml_sales_recurring_profile_view>
+    
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <action method="addTab"><name>customer_edit_tab_agreements</name><block>sales/adminhtml_customer_edit_tab_agreement</block></action>
+        </reference>
+    </adminhtml_customer_edit>
 
 </layout>
