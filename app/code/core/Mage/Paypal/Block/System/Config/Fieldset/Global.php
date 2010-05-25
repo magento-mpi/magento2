@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Fieldset renderer for PayPal global settings
  * @author      Magento Core Team <core@magentocommerce.com>
@@ -33,157 +32,172 @@ class Mage_Paypal_Block_System_Config_Fieldset_Global
     extends Mage_Adminhtml_Block_Abstract
     implements Varien_Data_Form_Element_Renderer_Interface
 {
+    /**
+     * Associative array of PayPal product selection elements
+     *
+     * @var array
+     */
+    protected $_elements = array();
+
+    /**
+     * Custom template
+     *
+     * @var string
+     */
     protected $_template = 'paypal/system/config/fieldset/global.phtml';
 
     /**
      * Render fieldset html
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Varien_Data_Form_Element_Abstract $fieldset
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Varien_Data_Form_Element_Abstract $fieldset)
     {
-        foreach ($element->getSortedElements() as $field) {
-            $this->setChild($field->getHtmlId(), $field);
+        foreach ($fieldset->getSortedElements() as $element) {
+            $htmlId = $element->getHtmlId();
+            $this->_elements[$htmlId] = $element;
+            if ('paypal_global_express_pe' == $htmlId) {
+                $element->setIsSimplified(true);
+            }
         }
+        $originalData = $fieldset->getOriginalData();
+        $this->addData(array(
+            'fieldset_label' => $fieldset->getLegend(),
+            'fieldset_help_url' => isset($originalData['help_url']) ? $originalData['help_url'] : '',
+        ));
         return $this->toHtml();
     }
 
     /**
-     * Return child checkbox html with hidden field for correct config values
+     * Get array of element objects
      *
-     * @param string $htmlId Element Html Id
+     * @return array
+     */
+    public function getElements()
+    {
+        return $this->_elements;
+    }
+
+    /**
+     * Return checkbox html with hidden field for correct config values
+     *
+     * @param string $elementId
      * @return string
      */
-    public function getCheckboxHtml($htmlId)
+    public function getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $checkbox = $this->getChild($htmlId);
-        if (!$checkbox) {
-            return '';
-        }
-        $configValue = (string)$checkbox->getValue();
+        $configValue = (string)$element->getValue();
         if ($configValue) {
-            $checkbox->setChecked(true);
+            $element->setChecked(true);
         } else {
-            $checkbox->setValue('1');
+            $element->setValue('1');
         }
-        if ($checkbox->getCanUseDefaultValue() && $checkbox->getInherit()) {
-            $checkbox->setDisabled(true);
+        if ($element->getCanUseDefaultValue() && $element->getInherit()) {
+            $element->setDisabled(true);
         }
 
         $hidden = new Varien_Data_Form_Element_Hidden(array(
-            'html_id' => $checkbox->getHtmlId() . '_value',
-            'name' => $checkbox->getName(),
+            'html_id' => $element->getHtmlId() . '_value',
+            'name' => $element->getName(),
             'value' => '0'
         ));
-        $hidden->setForm($checkbox->getForm());
-        return $hidden->getElementHtml() . $checkbox->getElementHtml();
+        $hidden->setForm($element->getForm());
+        return $hidden->getElementHtml() . $element->getElementHtml();
+    }
+
+    /**
+     * Whether element should be rendered in "simplified" mode
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return bool
+     */
+    public function getIsElementSimplified(Varien_Data_Form_Element_Abstract $element)
+    {
+        return $element->getIsSimplified();
+    }
+
+    /**
+     * Getter for element label
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     */
+    public function getElementLabel(Varien_Data_Form_Element_Abstract $element)
+    {
+        return $element->getLabel();
+    }
+
+    /**
+     * Getter for element comment
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     */
+    public function getElementComment(Varien_Data_Form_Element_Abstract $element)
+    {
+        return $element->getComment();
+    }
+
+    /**
+     * Getter for element comment
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     */
+    public function getElementOriginalData(Varien_Data_Form_Element_Abstract $element, $key)
+    {
+        $data = $element->getOriginalData();
+        return isset($data[$key]) ? $data[$key] : '';
+    }
+
+    /**
+     * Check whether checkbox has "Use default" option or not
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return bool
+     */
+    public function hasInheritElement(Varien_Data_Form_Element_Abstract $element)
+    {
+        return (bool)$element->getCanUseDefaultValue();
     }
 
     /**
      * Return "Use default" checkbox html
      *
-     * @param string $checkboxId
+     * @param Varien_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function getInheritCheckboxHtml($checkboxId)
+    public function getInheritElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $checkbox = $this->getChild($checkboxId);
-
+        $elementId = $element->getHtmlId();
         $inheritCheckbox = new Varien_Data_Form_Element_Checkbox(array(
-            'html_id' => $checkboxId . '_inherit',
-            'name' => preg_replace('/\[value\](\[\])?$/', '[inherit]', $checkbox->getName()),
+            'html_id' => $elementId . '_inherit',
+            'name' => preg_replace('/\[value\](\[\])?$/', '[inherit]', $element->getName()),
             'value' => '1',
             'class' => 'checkbox config-inherit',
-            'onclick' => 'toggleValueElements(this, $(\''.$checkboxId.'\').up())'
+            'onclick' => 'toggleValueElements(this, $(\'' . $elementId . '\').up())'
         ));
-        if ($checkbox->getInherit()) {
+        if ($element->getInherit()) {
             $inheritCheckbox->setChecked(true);
         }
 
-        $inheritCheckbox->setForm($checkbox->getForm());
+        $inheritCheckbox->setForm($element->getForm());
         return $inheritCheckbox->getElementHtml();
     }
 
     /**
      * Return label for "Use default" checkbox
      *
-     * @param string $checkboxId
+     * @param Varien_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function getInheritCheckboxLabelHtml($checkboxId)
+    public function getInheritElementLabelHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $checkbox = $this->getChild($checkboxId);
         return sprintf('<label for="%s" class="inherit" title="%s">%s</label>',
-            $checkboxId . '_inherit',
-            $checkbox->getDefaultValue(),
+            $element->getHtmlId() . '_inherit',
+            $element->getDefaultValue(),
             Mage::helper('adminhtml')->__('Use Default')
         );
-    }
-
-    /**
-     * Check whether checkbox has "Use default" option or not
-     *
-     * @param string $checkboxId
-     * @return string
-     */
-    public function canUseInherit($checkboxId)
-    {
-        $checkbox = $this->getChild($checkboxId);
-        if ($checkbox && $checkbox->getCanUseDefaultValue()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Check whether checkbox has "Use default" option or not
-     *
-     * @param string $checkboxId
-     * @return string
-     */
-    public function getItems()
-    {
-        $checkbox = $this->getChild($checkboxId);
-        if ($checkbox && $checkbox->getCanUseDefaultValue()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Return URL for PayPal methods landing page or demo page
-     *
-     * @param string $method
-     * @param string $type
-     * @return string
-     */
-    public function getExternalUrl($method, $type)
-    {
-        $urls = array(
-            'general' => array(
-                'more' => 'https://merchant.paypal.com/cgi-bin/marketingweb?cmd=_render-content&content_ID=merchant/home'
-            ),
-            'paypal_express' => array(
-                'demo' => 'https://merchant.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=merchant/demo_express_checkout',
-                'more' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_simple-referral-flow&partner_id=NB9WWHYEMVUMS&product_id=ECA'
-            ),
-            'paypal_standard' => array(
-                'demo' => 'https://merchant.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=merchant/demo_WPS',
-                'more' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_simple-referral-flow&partner_id=NB9WWHYEMVUMS&product_id=WPSA'
-            ),
-            'paypal_direct' => array(
-                'demo' => 'https://merchant.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=merchant/demo_wpp',
-                'more' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_simple-referral-flow&partner_id=NB9WWHYEMVUMS&product_id=WPPROA'
-            ),
-            'payflowpro' => array(
-                'demo' => '',
-                'more' => 'https://www.paypal.com/cgi-bin/webscr?cmd=_simple-referral-flow&partner_id=NB9WWHYEMVUMS&product_id=payflow_pro'
-            ),
-        );
-        if (isset($urls[$method][$type])) {
-            return $urls[$method][$type];
-        }
-        return '';
     }
 }

@@ -34,77 +34,38 @@
     <col width="25%" />
     <thead>
         <tr>
-            <td><?php echo Mage::helper('paypal')->__('Select a PayPal Solution')?></td>
-            <td><a href="<?php echo $this->escapeHtml($this->getExternalUrl('general', 'more')) ?>"><?php echo Mage::helper('paypal')->__('Help')?></a></td>
+            <td><?php echo $this->escapeHtml($this->getFieldsetLabel()) ?></td>
+            <td><a href="<?php echo $this->escapeHtml($this->getFieldsetHelpUrl()) ?>"><?php echo Mage::helper('paypal')->__('Help')?></a></td>
         </tr>
     </thead>
     <tbody>
+<?php foreach($this->getElements() as $htmlId => $element): ?>
         <tr>
-            <td>
-            <?php if ($this->canUseInherit('paypal_global_wps')): ?>
-                <div><?php echo $this->getInheritCheckboxHtml('paypal_global_wps') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_wps') ?></div>
-            <?php endif; ?>
-            <label for="paypal_global_wps"><?php echo $this->getCheckboxHtml('paypal_global_wps') ?><strong><?php echo Mage::helper('paypal')->__('Website Payments Standard')?></strong>&nbsp;&ndash; <?php echo Mage::helper('paypal')->__('Accept PayPal payments on my shopping cart and product pages.')?></label>
-            </td>
-            <td>
-                <a href="<?php echo $this->escapeHtml($this->getExternalUrl('paypal_standard', 'demo')) ?>"><?php echo Mage::helper('paypal')->__('View Demo')?></a>
-              | <a href="<?php echo $this->escapeHtml($this->getExternalUrl('paypal_standard', 'more')) ?>"><?php echo Mage::helper('paypal')->__('Learn more')?></a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-            <?php if ($this->canUseInherit('paypal_global_wpp')): ?>
-                <div><?php echo $this->getInheritCheckboxHtml('paypal_global_wpp') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_wpp') ?></div>
-            <?php endif; ?>
-            <label for="paypal_global_wpp"><?php echo $this->getCheckboxHtml('paypal_global_wpp') ?><strong><?php echo Mage::helper('paypal')->__('Website Payments Pro')?></strong>&nbsp;&ndash; <?php echo Mage::helper('paypal')->__('Accept PayPal payments on my shopping cart and product pages, while accepting credit card payments utilizing PayPal as a processor.')?></label>
-            </td>
-            <td>
-                <a href="<?php echo $this->escapeHtml($this->getExternalUrl('paypal_direct', 'demo')) ?>"><?php echo Mage::helper('paypal')->__('View Demo')?></a>
-              | <a href="<?php echo $this->escapeHtml($this->getExternalUrl('paypal_direct', 'more')) ?>"><?php echo Mage::helper('paypal')->__('Learn more')?></a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-            <?php if ($this->canUseInherit('paypal_global_express')): ?>
-                <div><?php echo $this->getInheritCheckboxHtml('paypal_global_express') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_express') ?></div>
-            <?php endif; ?>
-            <label for="paypal_global_express"><?php echo $this->getCheckboxHtml('paypal_global_express') ?><strong><?php echo Mage::helper('paypal')->__('Express Checkout')?></strong>&nbsp;&ndash; <?php echo Mage::helper('paypal')->__('Accept PayPal payments on my shopping cart and product pages.')?></label>
-            </td>
-            <td>
-                <a href="<?php echo $this->escapeHtml($this->getExternalUrl('paypal_express', 'demo')) ?>"><?php echo Mage::helper('paypal')->__('View Demo')?></a>
-              | <a href="<?php echo $this->escapeHtml($this->getExternalUrl('paypal_express', 'more')) ?>"><?php echo Mage::helper('paypal')->__('Learn more')?></a>
-            </td>
-        </tr>
-        <tr>
-            <td><strong><?php echo Mage::helper('paypal')->__('Payflow Pro Gateway')?></strong></td>
-            <td>
-                <a href="<?php echo $this->escapeHtml($this->getExternalUrl('payflowpro', 'more')) ?>"><?php echo Mage::helper('paypal')->__('Learn more')?></a>
-            </td>
-        </tr>
-        <tr>
+        <?php if ($this->getIsElementSimplified($element)):?>
             <td colspan="2">
-            <ul>
-                <li>
-                    <?php if ($this->canUseInherit('paypal_global_wpp_pe')): ?>
-                        <div><?php echo $this->getInheritCheckboxHtml('paypal_global_wpp_pe') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_wpp_pe') ?></div>
-                    <?php endif; ?>
-                    <label for="paypal_global_wpp_pe"><?php echo $this->getCheckboxHtml('paypal_global_wpp_pe') ?><strong><?php echo Mage::helper('paypal')->__('With PayPal Merchant Account')?></strong>&nbsp;&ndash; <?php echo Mage::helper('paypal')->__('Accept PayPal payments on my shopping cart and product pages, while accepting credit card payments through the Payflow Pro Gateway utilizing PayPal as a processor.')?></label>
-                </li>
-                <li>
-                    <?php if ($this->canUseInherit('paypal_global_express_pe')): ?>
-                        <div><?php echo $this->getInheritCheckboxHtml('paypal_global_express_pe') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_express_pe') ?></div>
-                    <?php endif; ?>
-                    <label for="paypal_global_express_pe"><?php echo $this->getCheckboxHtml('paypal_global_express_pe') ?><strong><?php echo Mage::helper('paypal')->__('With Express Checkout')?></strong>&nbsp;&ndash; <?php echo Mage::helper('paypal')->__('Accept PayPal payments on my shopping cart and product pages through the Payflow Pro Gateway.')?></label>
-                </li>
-                <li>
-                    <?php if ($this->canUseInherit('paypal_global_verisign')): ?>
-                        <div><?php echo $this->getInheritCheckboxHtml('paypal_global_verisign') ?><?php echo $this->getInheritCheckboxLabelHtml('paypal_global_verisign') ?></div>
-                    <?php endif; ?>
-                    <label for="paypal_global_verisign"><?php echo $this->getCheckboxHtml('paypal_global_verisign') ?><strong><?php echo Mage::helper('paypal')->__('With External Merchant Account')?></strong>&nbsp;&ndash; <?php echo Mage::helper('paypal')->__('Accept credit card payments for a non-PayPal merchant account through the Payflow Pro Gateway')?></label>
-                </li>
-            </ul>
+                <?php if ($this->hasInheritElement($element)): ?>
+                    <div><?php echo $this->getInheritElementHtml($element) ?><?php echo $this->getInheritElementLabelHtml($element) ?></div>
+                <?php endif;?>
+                <label for="<?php echo $htmlId?>"><?php echo $this->getElementHtml($element) ?><strong><?php echo $this->escapeHtml($this->getElementLabel($element))?></strong>&nbsp;&ndash; <?php echo $this->escapeHtml($this->getElementComment($element))?></label>
             </td>
+        <?php else:?>
+            <td>
+                <?php if ($this->hasInheritElement($element)): ?>
+                    <div><?php echo $this->getInheritElementHtml($element) ?><?php echo $this->getInheritElementLabelHtml($element) ?></div>
+                <?php endif;?>
+                <label for="<?php echo $htmlId?>"><?php echo $this->getElementHtml($element) ?><strong><?php echo $this->escapeHtml($this->getElementLabel($element))?></strong>&nbsp;&ndash; <?php echo $this->escapeHtml($this->getElementComment($element))?></label>
+            </td>
+            <td>
+                <?php if ($url = $this->getElementOriginalData($element, 'demo_url')):?>
+                    <a href="<?php echo $this->escapeHtml($url) ?>"><?php echo Mage::helper('paypal')->__('View Demo')?></a> |
+                <?php endif;?>
+                <?php if ($url = $this->getElementOriginalData($element, 'more_url')):?>
+                    <a href="<?php echo $this->escapeHtml($url) ?>"><?php echo Mage::helper('paypal')->__('Learn More')?></a>
+                <?php endif;?>
+            </td>
+        <?php endif;?>
         </tr>
+<?php endforeach;?>
     </tbody>
 </table>
 
