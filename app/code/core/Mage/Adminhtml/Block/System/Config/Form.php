@@ -188,6 +188,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                         $fieldset = $form->addFieldset(
                             $section->getName() . '_' . $group->getName(), $fieldsetConfig)
                             ->setRenderer($fieldsetRenderer);
+                        $this->_prepareFieldOriginalData($fieldset, $group);
                         $this->_addElementTypes($fieldset);
 
                         if ($group->clone_fields) {
@@ -342,6 +343,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     'can_use_default_value' => $this->canUseDefaultValue((int)$e->show_in_default),
                     'can_use_website_value' => $this->canUseWebsiteValue((int)$e->show_in_website),
                 ));
+                $this->_prepareFieldOriginalData($field, $e);
 
                 if (isset($e->validate)) {
                     $field->addClass($e->validate);
@@ -383,6 +385,23 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
             }
         }
         return $this;
+    }
+
+    /**
+     * Set "original_data" array to the element, composed from nodes with scalar values
+     *
+     * @param Varien_Data_Form_Element_Abstract $field
+     * @param Varien_Simplexml_Element $xmlElement
+     */
+    protected function _prepareFieldOriginalData($field, $xmlElement)
+    {
+        $originalData = array();
+        foreach ($xmlElement as $key => $value) {
+            if (!$value->hasChildren()) {
+                $originalData[$key] = (string)$value;
+            }
+        }
+        $field->setOriginalData($originalData);
     }
 
     /**
