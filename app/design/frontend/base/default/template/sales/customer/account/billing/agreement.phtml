@@ -32,23 +32,26 @@
 <div class="dashboard">
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 
-    <h2 class="box-title"><?php echo $this->__('New Billing Agreement') ?></h2>
-    <div class="info-box">
-        <div class="box-content">
-            <form action="<?php echo $this->getCreateUrl() ?>" method="post">
-                <select id="payment_method" name="payment_method">
-                    <option value=""><?php echo $this->__('-- Please Select --') ?></option>
-                    <?php foreach ($this->getPaymentMethodOptions() as $code => $title): ?>
-                        <option value="<?php echo $code ?>"><?php echo $title ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <button type="submit" class="button" title="<?php echo $this->__('Create') ?>">
-                    <span><span><?php echo $this->__('Create') ?></span></span>
-                </button>
-                <em><?php echo $this->__('You will be redirected to the payment system website.') ?></em>
-            </form>
+    <?php $paymentMethods = $this->getPaymentMethodOptions() ?>
+    <?php if ($paymentMethods): ?>
+        <h2 class="box-title"><?php echo $this->__('New Billing Agreement') ?></h2>
+        <div class="info-box">
+            <div class="box-content">
+                <form action="<?php echo $this->getCreateUrl() ?>" method="post">
+                    <select id="payment_method" name="payment_method">
+                        <option value=""><?php echo $this->__('-- Please Select --') ?></option>
+                        <?php foreach ($paymentMethods as $code => $title): ?>
+                            <option value="<?php echo $code ?>"><?php echo $title ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <button type="submit" class="button" title="<?php echo $this->__('Create') ?>">
+                        <span><span><?php echo $this->__('Create') ?></span></span>
+                    </button>
+                    <em><?php echo $this->__('You will be redirected to the payment system website.') ?></em>
+                </form>
+            </div>
         </div>
-    </div>
+    <?php endif; ?>
 
     <h2><?php echo $this->__('Billing Agreements'); ?></h2>
     <div class="box">

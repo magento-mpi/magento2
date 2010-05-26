@@ -113,7 +113,9 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Bloc
     {
         if (!$this->_paymentMethods) {
             foreach ($this->helper('payment')->getBillingAgreementMethods() as $paymentMethod) {
-                $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
+                if ($paymentMethod->getConfigData('allow_billing_agreement_wizard') == 1) {
+                    $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
+                }
             }
         }
         return $this->_paymentMethods;

@@ -57,9 +57,6 @@ class Mage_Paypal_Block_System_Config_Fieldset_Global
         foreach ($fieldset->getSortedElements() as $element) {
             $htmlId = $element->getHtmlId();
             $this->_elements[$htmlId] = $element;
-            if ('paypal_global_express_pe' == $htmlId) {
-                $element->setIsSimplified(true);
-            }
         }
         $originalData = $fieldset->getOriginalData();
         $this->addData(array(
@@ -114,7 +111,8 @@ class Mage_Paypal_Block_System_Config_Fieldset_Global
      */
     public function getIsElementSimplified(Varien_Data_Form_Element_Abstract $element)
     {
-        return $element->getIsSimplified();
+        $originalData = $element->getOriginalData();
+        return isset($originalData['is_simplified']) && 1 == $originalData['is_simplified'];
     }
 
     /**

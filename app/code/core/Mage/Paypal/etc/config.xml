@@ -200,6 +200,7 @@
             </verisign>
             <paypal_billing_agreement>
                 <active>1</active>
+                <allow_billing_agreement_wizard>1</allow_billing_agreement_wizard>
                 <model>paypal/method_agreement</model>
                 <title>PayPal Billing Agreement</title>
             </paypal_billing_agreement>

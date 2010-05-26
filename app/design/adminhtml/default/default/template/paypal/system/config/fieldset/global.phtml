@@ -78,7 +78,7 @@ Event.observe(window, 'load', function() {
     Element.observe('paypal_account_merchant_country', 'change', pConfig.trackMerchantCountry.bind(pConfig));
     Element.observe('paypal_global_wpp', 'click', pConfig.trackWpp.bind(pConfig));
     Element.observe('paypal_global_wpp_pe', 'click', pConfig.trackWppPe.bind(pConfig));
-    ['ec','wps','ecpe','payflowpro'].each(function(m) {
+    ['ec','wps','ecpe','payflowpro','ba'].each(function(m) {
         Element.observe(pConfig.getMethodSwitcher(m).id, 'click', pConfig.trackMethod.bind(pConfig, m));
     });
     pConfig.fastMode = true;
@@ -87,7 +87,7 @@ Event.observe(window, 'load', function() {
     pConfig.trackWpp();
     pConfig.trackWppPe();
     pConfig.trackWps();
-    ['ec','wps','ecpe','payflowpro'].each(function(m) {
+    ['ec','wps','ecpe','payflowpro','ba'].each(function(m) {
         pConfig.trackMethod(m);
     });
     pConfig.fastMode = false;
@@ -103,7 +103,8 @@ PaypalConfig.prototype = {
             wpp: $H({switcher: 'wpp', fieldset: 'wpp'}),
             wpppe: $H({switcher: 'wpp_pe', fieldset: 'wpp_pe'}),
             ecpe: $H({switcher: 'express_pe', fieldset: 'express_pe'}),
-            payflowpro: $H({switcher: 'verisign', fieldset: 'verisign'})
+            payflowpro: $H({switcher: 'verisign', fieldset: 'verisign'}),
+            ba: $H({switcher: 'billing_agreement', fieldset: 'paypal_billing_agreement'})
         });
         this.disabledMethods = [];
     },
@@ -225,16 +226,16 @@ PaypalConfig.prototype = {
                 'exclude_methods': ['payflowpro']
             },
             'AU':{
-                'exclude_methods': ['wpp','wpppe','ecpe']
+                'exclude_methods': ['wpp','wpppe','ecpe','ba']
             },
             'NZ':{
-                'exclude_methods': ['wpp','wpppe','ecpe']
+                'exclude_methods': ['wpp','wpppe','ecpe','ba']
             },
             'DE':{
-                'exclude_methods': ['wpp','wpppe','ecpe','payflowpro']
+                'exclude_methods': ['wpp','wpppe','ecpe','payflowpro','ba']
             },
             'other':{
-                'exclude_methods': ['wpp','wpppe','ecpe','payflowpro']
+                'exclude_methods': ['wpp','wpppe','ecpe','payflowpro','ba']
             }
         });
         var country = $('paypal_account_merchant_country').value;
@@ -301,8 +302,11 @@ PaypalConfig.prototype = {
         if (enabled) {
             this.enableMethod('wpp',false);
             this.enableMethod('ec',true);
+            this.markMethodAsReadonly('ba',false);
         } else {
             this.disableMethod('wpp',false);
+            this.disableMethod('ba',false);
+            this.markMethodAsReadonly('ba',true);
             this.markMethodAsReadonly('ec',false);
         }
         if (enabled || this.getMethodSwitcher('wpppe').checked) {

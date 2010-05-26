@@ -945,8 +945,7 @@ class Mage_Paypal_Model_Config
                 $path = $this->_mapDirectFieldset($fieldName);
                 break;
             case self::METHOD_BILLING_AGREEMENT:
-                $path = $this->_mapMethodFieldset($fieldName);
-                return ($path) ? $path : $this->_mapWppFieldset($fieldName);
+                return $this->_mapBillingAgreementFieldset($fieldName);
         }
 
         switch ($this->_methodCode) {
@@ -1159,6 +1158,21 @@ class Mage_Paypal_Model_Config
             default:
                 return null;
         }
+    }
+
+    /**
+     * Map Billing Agreements General Settings
+     *
+     * @param string $fieldName
+     * @return string|null
+     */
+    protected function _mapBillingAgreementFieldset($fieldName)
+    {
+        if ($fieldName == 'sandbox_flag') {
+            return 'payment/' . self::METHOD_WPP_DIRECT . '/' . $fieldName;
+        }
+        $path = $this->_mapMethodFieldset($fieldName);
+        return ($path) ? $path : $this->_mapWppFieldset($fieldName);
     }
 }
 
