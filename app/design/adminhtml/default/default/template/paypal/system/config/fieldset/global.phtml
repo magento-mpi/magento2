@@ -281,7 +281,7 @@ PaypalConfig.prototype = {
         var visible = this.getMethodSwitcher('wpp').checked || this.getMethodSwitcher('ec').checked;
         var apiCredentials = [
             'row_paypal_general_api_username','row_paypal_general_api_password',
-            'row_paypal_general_api_signature','row_paypal_general_use_proxy'
+            'row_paypal_general_api_signature','row_paypal_general_use_proxy','row_paypal_general_api_wizard'
         ];
         apiCredentials.each(function(e) {
             visible ? this.enableRow(e) : this.disableRow(e);
