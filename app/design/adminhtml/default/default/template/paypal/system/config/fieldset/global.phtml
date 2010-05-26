@@ -29,20 +29,20 @@
  * @see Mage_Paypal_Block_System_Config_Fieldset_Global
  */
 ?>
-<table class="paypal-global" id="paypal_checkout" cellspacing="0">
+<table class="paypal-selection" id="paypal_checkout" cellspacing="0">
     <col width="75%" />
     <col width="25%" />
     <thead>
         <tr>
-            <td><?php echo $this->escapeHtml($this->getFieldsetLabel()) ?></td>
-            <td><a href="<?php echo $this->escapeHtml($this->getFieldsetHelpUrl()) ?>"><?php echo Mage::helper('paypal')->__('Help')?></a></td>
+            <th><?php echo $this->escapeHtml($this->getFieldsetLabel()) ?></td>
+            <th class="paypal-selection-info"><a href="<?php echo $this->escapeHtml($this->getFieldsetHelpUrl()) ?>"><?php echo Mage::helper('paypal')->__('Help')?></a></td>
         </tr>
     </thead>
     <tbody>
 <?php foreach($this->getElements() as $htmlId => $element): ?>
         <tr>
         <?php if ($this->getIsElementSimplified($element)):?>
-            <td colspan="2">
+            <td colspan="2" class="paypal-selection-simplified">
                 <?php if ($this->hasInheritElement($element)): ?>
                     <div><?php echo $this->getInheritElementHtml($element) ?><?php echo $this->getInheritElementLabelHtml($element) ?></div>
                 <?php endif;?>
@@ -55,7 +55,7 @@
                 <?php endif;?>
                 <label for="<?php echo $htmlId?>"><?php echo $this->getElementHtml($element) ?><strong><?php echo $this->escapeHtml($this->getElementLabel($element))?></strong>&nbsp;&ndash; <?php echo $this->escapeHtml($this->getElementComment($element))?></label>
             </td>
-            <td>
+            <td class="paypal-selection-info">
                 <?php if ($url = $this->getElementOriginalData($element, 'demo_url')):?>
                     <a href="<?php echo $this->escapeHtml($url) ?>"><?php echo Mage::helper('paypal')->__('View Demo')?></a> |
                 <?php endif;?>
@@ -70,7 +70,7 @@
 </table>
 
 <script type="text/javascript">
-decorateTable('paypal_checkout');
+//decorateTable('paypal_checkout');
 
 Event.observe(window, 'load', function() {
     var pConfig = new PaypalConfig;
