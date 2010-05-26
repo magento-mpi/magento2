@@ -242,6 +242,20 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
     }
 
     /**
+     * Remove characters and words not allowed by Google Base in title and content (description).
+     *
+     * (to avoid "Expected response code 200, got 400.
+     * Reason: There is a problem with the character encoding of this attribute")
+     *
+     * @param string $string
+     * @return string
+     */
+    protected function _cleanAtomAttribute($string)
+    {
+        return preg_replace('/[\pC¢€•™°½(shipping)]/ui', '', $string);
+    }
+
+    /**
      * Assign values to universal attribute of entry
      *
      * @return Mage_GoogleBase_Model_Service_Item
@@ -256,13 +270,14 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
         $this->_setAttribute('id', $object->getId() . '_' . $this->getStoreId(), 'text');
 
         if (isset($attributeValues['title']['value'])) {
-            $title = $service->newTitle()->setText($attributeValues['title']['value']);
-            $entry->setTitle($title);
+            $titleText = $attributeValues['title']['value'];
             unset($attributeValues['title']); // to prevent "Reason: Duplicate title" error
         } elseif ($object->getName()) {
-            $title = $service->newTitle()->setText( $object->getName() );
-            $entry->setTitle($title);
+            $titleText = $object->getName();
+        } else {
+            $titleText = 'no title';
         }
+        $entry->setTitle($service->newTitle()->setText($this->_cleanAtomAttribute($titleText)));
 
         if ($object->getUrl()) {
             $links = $entry->getLink();
@@ -281,13 +296,14 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
         }
 
         if (isset($attributeValues['description']['value'])) {
-            $content = $service->newContent()->setText($attributeValues['description']['value']);
-            $entry->setContent($content);
+            $descrText = $attributeValues['description']['value'];
             unset($attributeValues['description']); // to prevent "Reason: Duplicate description" error
         } elseif ($object->getDescription()) {
-            $content = $service->newContent()->setText( $object->getDescription() );
-            $entry->setContent($content);
+            $descrText = $object->getDescription();
+        } else {
+            $descrText = 'no description';
         }
+        $entry->setContent($service->newContent()->setText($this->_cleanAtomAttribute($descrText)));
 
         if (isset($attributeValues['price']['value']) && floatval($attributeValues['price']['value']) > 0) {
             $price = $attributeValues['price']['value'];
