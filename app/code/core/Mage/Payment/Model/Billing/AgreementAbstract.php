@@ -29,7 +29,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Payment_Model_Billing_Agreement_Abstract extends Mage_Core_Model_Abstract
+abstract class Mage_Payment_Model_Billing_AgreementAbstract extends Mage_Core_Model_Abstract
 {
     /**
      * Payment method instance
@@ -79,29 +79,33 @@ abstract class Mage_Payment_Model_Billing_Agreement_Abstract extends Mage_Core_M
     /**
      * Validate data before save
      *
-     * @throws Mage_Core_Exception
-     * @return Mage_Payment_Model_Billing_Agreement
+     * @return array
      */
     public function validate()
     {
+        $errors = array();
         if (is_null($this->_paymentMethodInstance)
             || !$this->_paymentMethodInstance->getCode()
             || !$this->getCustomerId()
             || !$this->getReferenceId()
             || !$this->getStatus()) {
-            throw new Mage_Core_Exception('Not enough data to save billing agreement instance.');
+            $errors[] = Mage::helper('payment')->__('Not enough data to save billing agreement instance.');
         }
-        return $this;
+        return $errors;
     }
 
     /**
      * Before save, it's overriden just to make data validation on before save event
      *
+     * @throws Mage_Core_Exception
      * @return Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->validate();
-        return parent::_beforeSave();
+        $errors = $this->validate();
+        if (empty($errors)) {
+            return parent::_beforeSave();
+        }
+        throw new Mage_Core_Exception(implode(' ', $errors));
     }
 }

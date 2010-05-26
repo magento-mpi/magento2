@@ -101,7 +101,7 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Bloc
             default:
                 $value = ($item->getData($key)) ? $item->getData($key) : $this->__('N/A');
         }
-        return $value;
+        return $this->escapeHtml($value);
     }
 
     /**

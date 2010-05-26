@@ -84,10 +84,10 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Payment_Model_Method_Abstr
     /**
      * Init billing agreement
      *
-     * @param Mage_Payment_Model_Billing_Agreement_Abstract $agreement
+     * @param Mage_Payment_Model_Billing_AgreementAbstract $agreement
      * @return Mage_Paypal_Model_Method_Agreement
      */
-    public function initBillingAgreementToken(Mage_Payment_Model_Billing_Agreement_Abstract $agreement)
+    public function initBillingAgreementToken(Mage_Payment_Model_Billing_AgreementAbstract $agreement)
     {
         $api = $this->_pro->getApi()
             ->setReturnUrl($agreement->getReturnUrl())
@@ -104,10 +104,10 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Payment_Model_Method_Abstr
     /**
      * Retrieve billing agreement customer details by token
      *
-     * @param Mage_Payment_Model_Billing_Agreement_Abstract $agreement
+     * @param Mage_Payment_Model_Billing_AgreementAbstract $agreement
      * @return array
      */
-    public function getBillingAgreementTokenInfo(Mage_Payment_Model_Billing_Agreement_Abstract $agreement)
+    public function getBillingAgreementTokenInfo(Mage_Payment_Model_Billing_AgreementAbstract $agreement)
     {
         $api = $this->_pro->getApi()
             ->setToken($agreement->getToken());
@@ -125,10 +125,10 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Payment_Model_Method_Abstr
     /**
      * Create billing agreement by token specified in request
      *
-     * @param Mage_Payment_Model_Billing_Agreement_Abstract $agreement
+     * @param Mage_Payment_Model_Billing_AgreementAbstract $agreement
      * @return Mage_Paypal_Model_Method_Agreement
      */
-    public function placeBillingAgreement(Mage_Payment_Model_Billing_Agreement_Abstract $agreement)
+    public function placeBillingAgreement(Mage_Payment_Model_Billing_AgreementAbstract $agreement)
     {
         $api = $this->_pro->getApi()
             ->setToken($agreement->getToken());
@@ -140,10 +140,10 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Payment_Model_Method_Abstr
     /**
      * Update billing agreement status
      *
-     * @param Mage_Payment_Model_Billing_Agreement_Abstract $agreement
+     * @param Mage_Payment_Model_Billing_AgreementAbstract $agreement
      * @return Mage_Paypal_Model_Method_Agreement
      */
-    public function updateBillingAgreementStatus(Mage_Payment_Model_Billing_Agreement_Abstract $agreement)
+    public function updateBillingAgreementStatus(Mage_Payment_Model_Billing_AgreementAbstract $agreement)
     {
         $api = $this->_pro->getApi()
             ->setReferenceId($agreement->getReferenceId())
