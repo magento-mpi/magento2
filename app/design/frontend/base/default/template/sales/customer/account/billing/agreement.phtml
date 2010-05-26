@@ -53,7 +53,7 @@
     <h2><?php echo $this->__('Billing Agreements'); ?></h2>
     <div class="box">
         <?php $billingAgreements = $this->getBillingAgreements(); ?>
-        <?php if ($billingAgreements): ?>
+        <?php if (count($billingAgreements) > 0): ?>
             <table id="billing-agreements" class="data-table">
                 <col width="1" />
                 <col />
