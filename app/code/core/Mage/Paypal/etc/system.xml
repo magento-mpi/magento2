@@ -463,7 +463,7 @@
                             <config_path>payment/paypal_express/specificcountry</config_path>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>14</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>paypal/system_config_source_buyerCountry</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -605,7 +605,7 @@
                             <config_path>payment/paypal_standard/specificcountry</config_path>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>12</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>paypal/system_config_source_buyerCountry</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -716,7 +716,7 @@
                             <config_path>payment/paypal_direct/specificcountry</config_path>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>16</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>paypal/system_config_source_buyerCountry</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -864,7 +864,7 @@
                             <config_path>payment/paypaluk_express/specificcountry</config_path>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>16</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>paypal/system_config_source_buyerCountry</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -983,7 +983,7 @@
                             <config_path>payment/paypaluk_direct/specificcountry</config_path>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>16</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>paypal/system_config_source_buyerCountry</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -1348,7 +1348,7 @@
                             <config_path>payment/verisign/specificcountry</config_path>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>12</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>paypal/system_config_source_buyerCountry</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
