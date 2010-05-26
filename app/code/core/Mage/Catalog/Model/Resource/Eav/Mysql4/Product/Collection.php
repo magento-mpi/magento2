@@ -1122,28 +1122,29 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         }
 
         $this->_allIdsCache = null;
+
         if (is_string($attribute) && $attribute == 'is_saleable') {
-            $isStockManagedInConfig = (int) Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
-            $inventoryTable = $this->getTable('cataloginventory_stock_item');
-            $this->getSelect()->where(
-                $this->_getConditionSql(
-                    "(
-                        IF(
-                            IF(
-                                $inventoryTable.use_config_manage_stock,
-                                $isStockManagedInConfig,
-                                $inventoryTable.manage_stock
-                            ),
-                            $inventoryTable.is_in_stock,
-                            1
-                        )
-                    )",
-                    $condition
-                )
-            );
+            $columns = $this->getSelect()->getPart(Zend_Db_Select::COLUMNS);
+            foreach ($columns as $columnEntry) {
+                list($correlationName, $column, $alias) = $columnEntry;
+                if ($alias == 'is_saleable') {
+                    if ($column instanceof Zend_Db_Expr) {
+                        $field = $column;
+                    } else {
+                        $adapter = $this->getSelect()->getAdapter();
+                        if (empty($correlationName)) {
+                            $field = $adapter->quoteColumnAs($column, $alias, true);
+                        } else {
+                            $field = $adapter->quoteColumnAs(array($correlationName, $column), $alias, true);
+                        }
+                    }
+                    $this->getSelect()->where("{$field} = ?", $condition);
+                    break;
+                }
+            }
+
             return $this;
-        }
-        else {
+        } else {
             return parent::addAttributeToFilter($attribute, $condition, $joinType);
         }
     }
@@ -1267,6 +1268,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             }
 
             return $this;
+        } else if($attribute == 'is_saleable'){
+            $this->getSelect()->order("is_saleable " . $dir);
+            return $this;
         }
 
         $storeId = Mage::app()->getStore()->getId();
@@ -1274,11 +1278,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             $this->addPriceData();
             $this->getSelect()->order("price_index.min_price {$dir}");
 
-            return $this;
-        }
-
-        if($attribute == 'is_saleable'){
-            $this->getSelect()->order("is_saleable " . $dir);
             return $this;
         }
 
