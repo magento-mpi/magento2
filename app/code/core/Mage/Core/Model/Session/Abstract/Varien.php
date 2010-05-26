@@ -115,8 +115,12 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         session_start();
         /**
          * Renew cookie expiration time
+         * Note: Renew() function has been commented because it was updating
+         *       cookie using old value which had been already changed by
+         *       session_id function before
          */
-        $cookie->renew(session_name());
+        // $cookie->renew(session_name());
+        $cookie->set(session_name(), $this->getSessionId());
         Varien_Profiler::stop(__METHOD__.'/start');
 
         return $this;
