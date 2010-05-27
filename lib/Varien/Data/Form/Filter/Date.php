@@ -82,10 +82,15 @@ class Varien_Data_Form_Filter_Date implements Varien_Data_Form_Filter_Interface
      */
     public function outputFilter($value)
     {
+        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
+            'date_format' => Varien_Date::DATE_INTERNAL_FORMAT
+        ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
             'date_format' => $this->_dateFormat
         ));
 
-        return $filterInternal->filter($value);
+        $value = $filterInput->filter($value);
+        $value = $filterInternal->filter($value);
+        return $value;
     }
 }
