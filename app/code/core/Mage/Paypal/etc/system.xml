@@ -30,7 +30,7 @@
         <payment>
             <groups>
                 <hint>
-                    <frontend_model>paypal/system_config_fieldset_hint</frontend_model>
+                    <frontend_model>paypal/adminhtml_system_config_fieldset_hint</frontend_model>
                     <sort_order>0</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -87,7 +87,7 @@
                     <label>Select a PayPal Solution</label>
                     <help_url><![CDATA[https://merchant.paypal.com/cgi-bin/marketingweb?cmd=_render-content&content_ID=merchant/home]]></help_url>
                     <frontend_type>text</frontend_type>
-                    <frontend_model>paypal/system_config_fieldset_global</frontend_model>
+                    <frontend_model>paypal/adminhtml_system_config_fieldset_global</frontend_model>
                     <sort_order>1</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>

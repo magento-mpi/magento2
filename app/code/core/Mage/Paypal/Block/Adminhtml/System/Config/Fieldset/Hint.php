@@ -19,28 +19,30 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Paypal
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Renderer for sub-heading in fieldset
- *
+ * Renderer for PayPal banner in System Configuration
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Block_System_Config_Field_UsePayflow 
-    extends Mage_Adminhtml_Block_System_Config_Form_Field
+class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
+    extends Mage_Adminhtml_Block_Abstract
+    implements Varien_Data_Form_Element_Renderer_Interface
 {
+    protected $_template = 'paypal/system/config/fieldset/hint.phtml';
+
     /**
-     * Enter description here...
+     * Render fieldset html
      *
      * @param Varien_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    public function render(Varien_Data_Form_Element_Abstract $element)
     {
-        return parent::_getElementHtml($element) . '<script></script>';
+        return $this->toHtml();
     }
 }
