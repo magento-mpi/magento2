@@ -20,41 +20,37 @@
  *
  * @category    Mage
  * @package     Mage_Adminhtml
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Adminhtml customer edit form block
+ * Customer Widget Form Boolean Element Block
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category    Mage
+ * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Adminhtml_Block_Customer_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Customer_Form_Element_Boolean extends Varien_Data_Form_Element_Select
 {
-
-    protected function _prepareForm()
+    /**
+     * Prepare default SELECT values
+     *
+     * @param array $attributes
+     */
+    public function __construct($attributes=array())
     {
-        $form = new Varien_Data_Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post',
-            'enctype'   => 'multipart/form-data'
+        parent::__construct($attributes);
+        $this->setValues(array(
+            array(
+                'label' => Mage::helper('adminhtml')->__('No'),
+                'value' => '0',
+            ),
+            array(
+                'label' => Mage::helper('adminhtml')->__('Yes'),
+                'value' => 1,
+            )
         ));
-
-        $customer = Mage::registry('current_customer');
-
-        if ($customer->getId()) {
-            $form->addField('entity_id', 'hidden', array(
-                'name' => 'customer_id',
-            ));
-            $form->setValues($customer->getData());
-        }
-
-        $form->setUseContainer(true);
-        $this->setForm($form);
-        return parent::_prepareForm();
     }
 }

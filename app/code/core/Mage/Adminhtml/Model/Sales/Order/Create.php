@@ -24,9 +24,12 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Order create model
  *
+ * @category    Mage
+ * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
@@ -44,19 +47,88 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      * @var Mage_Wishlist_Model_Wishlist
      */
     protected $_wishlist;
+
+    /**
+     * Sales Quote instance
+     *
+     * @var Mage_Sales_Model_Quote
+     */
     protected $_cart;
+
+    /**
+     * Catalog Compare List instance
+     *
+     * @var Mage_Catalog_Model_Product_Compare_List
+     */
     protected $_compareList;
 
+    /**
+     * Re-collect quote flag
+     *
+     * @var boolean
+     */
     protected $_needCollect;
 
     /**
+     * Collect (import) data and validate it flag
+     *
+     * @var boolean
+     */
+    protected $_isValidate              = false;
+
+    /**
+     * Customer instance
+     *
      * @var Mage_Customer_Model_Customer
      */
     protected $_customer;
 
+    /**
+     * Customer Address Form instance
+     *
+     * @var Mage_Customer_Model_Form
+     */
+    protected $_customerAddressForm;
+
+    /**
+     * Customer Form instance
+     *
+     * @var Mage_Customer_Model_Form
+     */
+    protected $_customerForm;
+
+    /**
+     * Array of validate errors
+     *
+     * @var array
+     */
+    protected $_errors = array();
+
     public function __construct()
     {
         $this->_session = Mage::getSingleton('adminhtml/session_quote');
+    }
+
+    /**
+     * Set validate data in import data flag
+     *
+     * @param boolean $flag
+     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     */
+    public function setIsValidate($flag)
+    {
+        $this->_isValidate = (bool)$flag;
+        return $this;
+    }
+
+    /**
+     * Return is validate data in import flag
+     *
+     * @return boolean
+     */
+    public function getIsValidate()
+    {
+        return $this->_isValidate;
     }
 
     /**
@@ -117,6 +189,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if ($this->_needCollect) {
             $this->getQuote()->collectTotals();
         }
+
         $this->getQuote()->save();
         return $this;
     }
@@ -855,12 +928,79 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         return $this->getQuote()->getShippingAddress();
     }
 
+    /**
+     * Return Customer (Checkout) Form instance
+     *
+     * @return Mage_Customer_Model_Form
+     */
+    protected function _getCustomerForm()
+    {
+        if (is_null($this->_customerForm)) {
+            $this->_customerForm = Mage::getModel('customer/form')
+                ->setFormCode('adminhtml_checkout');
+        }
+        return $this->_customerForm;
+    }
+
+    /**
+     * Return Customer Address Form instance
+     *
+     * @return Mage_Customer_Model_Form
+     */
+    protected function _getCustomerAddressForm()
+    {
+        if (is_null($this->_customerAddressForm)) {
+            $this->_customerAddressForm = Mage::getModel('customer/form')
+                ->setFormCode('adminhtml_customer_address');
+        }
+        return $this->_customerAddressForm;
+    }
+
+    /**
+     * Set and validate Quote address
+     * All errors added to _errors
+     *
+     * @param Mage_Sales_Model_Quote_Address $address
+     * @param array $data
+     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     */
+    protected function _setQuoteAddress(Mage_Sales_Model_Quote_Address $address, array $data)
+    {
+        $addressForm    = $this->_getCustomerAddressForm()
+            ->setEntity($address)
+            ->setEntityType(Mage::getSingleton('eav/config')->getEntityType('customer_address'))
+            ->setIsAjaxRequest(!$this->getIsValidate());
+        $request        = $addressForm->prepareRequest($data);
+        $addressData    = $addressForm->extractData($request);
+        if ($this->getIsValidate()) {
+            $errors = $addressForm->validateData($addressData);
+            if ($errors !== true) {
+                if ($address->getAddressType() == Mage_Sales_Model_Quote_Address::TYPE_SHIPPING) {
+                    $typeName = Mage::helper('adminhtml')->__('Shipping Address: ');
+                } else {
+                    $typeName = Mage::helper('adminhtml')->__('Billing Address: ');
+                }
+                foreach ($errors as $error) {
+                    $this->_errors[] = $typeName . $error;
+                }
+                $addressForm->restoreData($addressData);
+            } else {
+                $addressForm->compactData($addressData);
+            }
+        } else {
+            $addressForm->compactData($addressData);
+        }
+
+        return $this;
+    }
+
     public function setShippingAddress($address)
     {
         if (is_array($address)) {
             $address['save_in_address_book'] = isset($address['save_in_address_book']) ? (empty($address['save_in_address_book']) ? 0 : 1) : 0;
             $shippingAddress = Mage::getModel('sales/quote_address')
-                ->setData($address);
+                ->setAddressType(Mage_Sales_Model_Quote_Address::TYPE_SHIPPING);
+            $this->_setQuoteAddress($shippingAddress, $address);
             $shippingAddress->implodeStreetAddress();
         }
         if ($address instanceof Mage_Sales_Model_Quote_Address) {
@@ -900,7 +1040,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if (is_array($address)) {
             $address['save_in_address_book'] = isset($address['save_in_address_book']) ? 1 : 0;
             $billingAddress = Mage::getModel('sales/quote_address')
-                ->setData($address);
+                ->setAddressType(Mage_Sales_Model_Quote_Address::TYPE_BILLING);
+            $this->_setQuoteAddress($billingAddress, $address);
             $billingAddress->implodeStreetAddress();
         }
 
@@ -972,7 +1113,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         $data = array();
         foreach ($accountData as $key => $value) {
-            $data['customer_'.$key] = $value;
+            $data['customer_' . $key] = $value;
         }
 
         if (isset($data['customer_group_id'])) {
@@ -1051,6 +1192,52 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     }
 
     /**
+     * Validate customer data
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     */
+    protected function _validateCustomer(Mage_Customer_Model_Customer $customer)
+    {
+        $form = $this->_getCustomerForm();
+        $form->setEntity($customer);
+
+        // emulate request
+        $request = $form->prepareRequest($this->getData('account'));
+        $data    = $form->extractData($request);
+
+
+        return $this;
+    }
+
+    /**
+     * Set and validate Customer data
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @return Mage_Adminhtml_Model_Sales_Order_Create
+     */
+    protected function _setCustomerData(Mage_Customer_Model_Customer $customer)
+    {
+        $form = $this->_getCustomerForm();
+        $form->setEntity($customer);
+
+        // emulate request
+        $request = $form->prepareRequest($this->getData('account'));
+        $data    = $form->extractData($request);
+        if ($this->getIsValidate()) {
+            $errors = $form->validateData($data);
+            if ($errors !== true) {
+                foreach ($errors as $error) {
+                    $this->_errors[] = $error;
+                }
+            }
+        }
+        $form->compactData($data);
+
+        return $this;
+    }
+
+    /**
      * Prepare quote customer
      */
     public function _prepareCustomer()
@@ -1065,8 +1252,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $billingAddress  = null;
         $shippingAddress = null;
 
-        $customer->addData($this->_getData('account'));
-
         if ($customer->getId()) {
             if (!$this->_customerIsInStore($store)) {
                 $customer->setId(null)
@@ -1074,6 +1259,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     ->setDefaultBilling(null)
                     ->setDefaultShipping(null)
                     ->setPassword($customer->generatePassword());
+                $this->_setCustomerData($customer);
             }
             if ($this->getBillingAddress()->getSaveInAddressBook()) {
                 $billingAddress = $this->getBillingAddress()->exportCustomerAddress();
@@ -1111,6 +1297,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 ->setPassword($customer->generatePassword())
                 ->setStore($store)
                 ->setEmail($this->_getNewCustomerEmail($customer));
+            $this->_setCustomerData($customer);
 
             $customerBilling = $this->getBillingAddress()->exportCustomerAddress();
             $customerBilling->setIsDefaultBilling(true);
@@ -1128,13 +1315,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $quote->setCustomer($customer);
         if (!$customer->getId()) {
             $quote->setCustomerId(true);
-        }
-
-        // we should not change account data for existing customer, so restore it
-        if ($customer->getId() && is_array($this->_getData('account'))) {
-            foreach($this->_getData('account') as $key => $value) {
-                $customer->setData($key, $customer->getOrigData($key));
-            }
         }
 
         return $this;
@@ -1168,9 +1348,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      */
     public function createOrder()
     {
+        $this->_prepareCustomer();
         $this->_validate();
         $quote = $this->getQuote();
-        $this->_prepareCustomer();
         $this->_prepareQuoteItems();
 
         if (! $quote->getCustomer()->getId() || ! $quote->getCustomer()->isInStore($this->getSession()->getStore())) {
@@ -1228,38 +1408,37 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         }
         $items = $this->getQuote()->getAllItems();
 
-        $errors = array();
         if (count($items) == 0) {
-            $errors[] = Mage::helper('adminhtml')->__('You need to specify order items.');
+            $this->_errors[] = Mage::helper('adminhtml')->__('You need to specify order items.');
         }
 
         if (!$this->getQuote()->isVirtual()) {
             if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
-                $errors[] = Mage::helper('adminhtml')->__('Shipping method must be specified.');
+                $this->_errors[] = Mage::helper('adminhtml')->__('Shipping method must be specified.');
             }
         }
 
         if (!$this->getQuote()->getPayment()->getMethod()) {
-            $errors[] = Mage::helper('adminhtml')->__('Payment method must be specified.');
+            $this->_errors[] = Mage::helper('adminhtml')->__('Payment method must be specified.');
         } else {
             $method = $this->getQuote()->getPayment()->getMethodInstance();
             if (!$method) {
-                $errors[] = Mage::helper('adminhtml')->__('Payment method instance is not available.');
+                $this->_errors[] = Mage::helper('adminhtml')->__('Payment method instance is not available.');
             } else {
                 if (!$method->isAvailable($this->getQuote())) {
-                    $errors[] = Mage::helper('adminhtml')->__('Payment method is not available.');
+                    $this->_errors[] = Mage::helper('adminhtml')->__('Payment method is not available.');
                 } else {
                     try {
                         $method->validate();
                     } catch (Mage_Core_Exception $e) {
-                        $errors[] = $e->getMessage();
+                        $this->_errors[] = $e->getMessage();
                     }
                 }
             }
         }
 
-        if (!empty($errors)) {
-            foreach ($errors as $error) {
+        if (!empty($this->_errors)) {
+            foreach ($this->_errors as $error) {
                 $this->getSession()->addError($error);
             }
             Mage::throwException('');
