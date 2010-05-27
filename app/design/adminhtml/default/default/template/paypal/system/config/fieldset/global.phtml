@@ -123,6 +123,14 @@ PaypalConfig.prototype = {
         return this.disabledMethods.indexOf(method) != -1;
     },
 
+    isHidden: function(method)
+    {
+        if (this.getMethod(method).get('hidden')) {
+            return true;
+        }
+        return false;
+    },
+
     getMethodFieldset: function(method)
     {
         var fieldsetId = 'paypal_' + this.getMethod(method).get('fieldset');
@@ -152,7 +160,7 @@ PaypalConfig.prototype = {
         if (readonly == undefined) {
             readonly = true;
         }
-        if (this.isDisabled(method) && !readonly) {
+        if (this.isDisabled(method) && !readonly || this.isHidden(method)) {
             return;
         }
         if (this.fastMode) {
@@ -172,7 +180,7 @@ PaypalConfig.prototype = {
 
     enableMethod: function(method, readonly)
     {
-        if (this.isDisabled(method)) {
+        if (this.isDisabled(method) || this.isHidden(method)) {
             return;
         }
         readonly = (readonly == undefined ? false : readonly);
@@ -188,6 +196,9 @@ PaypalConfig.prototype = {
 
     disableMethod: function(method, readonly)
     {
+        if (this.isHidden(method)) {
+            return;
+        }
         readonly = (readonly == undefined ? true : readonly);
         if (this.fastMode) {
             this.getMethod(method).set('disabled', true);
@@ -197,6 +208,31 @@ PaypalConfig.prototype = {
         this.getMethodSwitcher(method).checked = false;
         this.markMethodAsReadonly(method, readonly);
         this.toggleFieldset(this.getMethodFieldset(method), this.getMethodSwitcher(method));
+    },
+
+    toggleMethodVisibility: function(method, isHidden)
+    {
+        var selection = this.getMethodSwitcher(method).up('tr');
+        var fieldset = this.getMethodFieldset(method);
+        var fieldsetHead = fieldset.previous('div');
+        [selection, fieldset, fieldsetHead].each(function(e) {
+            isHidden ? e.hide() : e.show();
+        });
+        // do not show fieldset for turned off methods
+        if (!isHidden && !this.getMethodSwitcher(method).checked) {
+            fieldset.hide();
+        }
+        this.getMethod(method).set('hidden', isHidden);
+    },
+
+    hideMethod: function(method)
+    {
+        this.toggleMethodVisibility(method, true);
+    },
+
+    showMethod: function(method)
+    {
+        this.toggleMethodVisibility(method, false);
     },
 
     trackMethod: function(method)
@@ -244,8 +280,10 @@ PaypalConfig.prototype = {
         this.getMethods().keys().each(function(m) {
             if (excludeMethods.indexOf(m) != -1) {
                 this.disableMethod(m);
+                this.hideMethod(m);
             } else {
                 this.markMethodAsReadonly(m, false);
+                this.showMethod(m);
             }
         }.bind(this));
 
@@ -334,7 +372,7 @@ PaypalConfig.prototype = {
         isHidden ? fieldset.hide() : fieldset.show();
         var heading = fieldset.previous('div');
         var headingLink = heading.down('a');
-        isHidden ? heading.addClassName('disabled').addClassName('no-display') : heading.removeClassName('disabled').removeClassName('no-display');
+        isHidden ? heading.addClassName('disabled') : heading.removeClassName('disabled');
         if (isHidden) {
             headingLink.oldHref = headingLink.href;
             headingLink.oldOnclick = headingLink.onclick;
