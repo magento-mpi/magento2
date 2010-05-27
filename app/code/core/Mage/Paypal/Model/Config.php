@@ -322,6 +322,8 @@ class Mage_Paypal_Model_Config
                 // check for direct payments dependence
                 if ($this->isMethodActive(self::METHOD_WPP_PE_DIRECT)) {
                     $result = true;
+                } elseif (!$this->isMethodActive(self::METHOD_WPP_PE_DIRECT) && !$this->isMethodActive(self::METHOD_PAYFLOWPRO)) {
+                    $result = false;
                 }
                 break;
             case self::METHOD_WPP_DIRECT:
@@ -1079,13 +1081,17 @@ class Mage_Paypal_Model_Config
      */
     protected function _mapWpukFieldset($fieldName)
     {
-        switch ($fieldName)
-        {
+        $pathPrefix = 'paypal/wpuk';
+        // Use PUMP credentials from Verisign for EC when Direct Payments are unavailable
+        if ($this->_methodCode == self::METHOD_WPP_PE_EXPRESS && !$this->isMethodAvailable(self::METHOD_WPP_PE_DIRECT)) {
+            $pathPrefix = 'payment/verisign';
+        }
+        switch ($fieldName) {
             case 'partner':
             case 'user':
             case 'vendor':
             case 'pwd':
-                return "paypal/wpuk/{$fieldName}";
+                return $pathPrefix . '/' . $fieldName;
             default:
                 return null;
         }

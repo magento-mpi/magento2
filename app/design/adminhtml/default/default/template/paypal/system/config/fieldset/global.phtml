@@ -77,7 +77,8 @@ Event.observe(window, 'load', function() {
     Element.observe('paypal_account_merchant_country', 'change', pConfig.trackMerchantCountry.bind(pConfig));
     Element.observe('paypal_global_wpp', 'click', pConfig.trackWpp.bind(pConfig));
     Element.observe('paypal_global_wpp_pe', 'click', pConfig.trackWppPe.bind(pConfig));
-    ['ec','wps','ecpe','payflowpro','ba'].each(function(m) {
+    Element.observe('paypal_global_verisign', 'click', pConfig.trackPayflowpro.bind(pConfig));
+    ['ec','wps','ecpe','ba'].each(function(m) {
         Element.observe(pConfig.getMethodSwitcher(m).id, 'click', pConfig.trackMethod.bind(pConfig, m));
     });
     pConfig.fastMode = true;
@@ -86,7 +87,7 @@ Event.observe(window, 'load', function() {
     pConfig.trackWpp();
     pConfig.trackWppPe();
     pConfig.trackWps();
-    ['ec','wps','ecpe','payflowpro','ba'].each(function(m) {
+    ['ec','wps','ecpe','ba'].each(function(m) {
         pConfig.trackMethod(m);
     });
     pConfig.fastMode = false;
@@ -298,13 +299,11 @@ PaypalConfig.prototype = {
         if (!$('paypal_account_business_account').value) {
             this.disableMethod('wps', true);
             this.disableMethod('ec', true);
-            this.disableMethod('ecpe', true);
-            this.disabledMethods.push('wps','ec','ecpe');
+            this.disabledMethods.push('wps','ec');
         } else {
-            this.disabledMethods = this.disabledMethods.without('wps','ec','ecpe');
+            this.disabledMethods = this.disabledMethods.without('wps','ec');
             this.markMethodAsReadonly('wps',false);
             this.markMethodAsReadonly('ec',false);
-            this.markMethodAsReadonly('ecpe',false);
         }
     },
 
@@ -327,16 +326,30 @@ PaypalConfig.prototype = {
 
     trackWppPe: function()
     {
-        var enabled = this.getMethodSwitcher('wpppe').checked;
-
-        if (enabled) {
-            this.enableMethod('wpppe',false);
-            this.enableMethod('ecpe',true);
-        } else {
-            this.disableMethod('wpppe',false);
-            this.markMethodAsReadonly('ecpe',false);
-        }
+        this.trackMethod('wpppe');
+        this.trackEcpe();
         this.trackWps();
+    },
+
+    trackPayflowpro: function()
+    {
+        this.trackMethod('payflowpro');
+        this.trackEcpe();
+    },
+
+    trackEcpe: function()
+    {
+        var wpppeEnabled = this.getMethodSwitcher('wpppe').checked;
+        if (wpppeEnabled) {
+            this.enableMethod('ecpe',true);
+            return;
+        }
+        var disabled = !wpppeEnabled && !this.getMethodSwitcher('payflowpro').checked;
+        if (disabled) {
+            this.disableMethod('ecpe', true);
+        } else {
+            this.markMethodAsReadonly('ecpe', false);
+        }
     },
 
     trackWps: function()
