@@ -127,9 +127,6 @@
     </adminhtml>
     <default>
         <paypal>
-            <general>
-                <merchant_country>US</merchant_country>
-            </general>
             <style>
                 <button_flavor>dynamic</button_flavor>
                 <logo>nowAccepting_150x60</logo>
