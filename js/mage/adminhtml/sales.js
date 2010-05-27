@@ -158,28 +158,46 @@ AdminOrder.prototype = {
     fillAddressFields : function(container, data){
         var regionIdElem = false;
         var regionIdElemValue = false;
+
         var fields = $(container).select('input', 'select');
         var re = /[^\[]*\[[^\]]*\]\[([^\]]*)\](\[(\d)\])?/;
         for(var i=0;i<fields.length;i++){
+            // skip input type file @Security error code: 1000
+            if (fields[i].tagName.toLowerCase() == 'input' && fields[i].type.toLowerCase() == 'file') {
+                continue;
+            }
             var matchRes = fields[i].name.match(re);
+            if (matchRes === null) {
+                continue;
+            }
             var name = matchRes[1];
             var index = matchRes[3];
 
-            if(index){
-                if(data[name]){
+            if (index){
+                // multiply line
+                if (data[name]){
                     var values = data[name].split("\n");
                     fields[i].value = values[index] ? values[index] : '';
-                }
-                else{
+                } else {
                     fields[i].value = '';
                 }
-            }
-            else{
-                fields[i].value = data[name] ? data[name] : '';
+            } else if (fields[i].tagName.toLowerCase() == 'select' && fields[i].multiple) {
+                // multiselect
+                if (data[name]) {
+                    values = [''];
+                    if (Object.isString(data[name])) {
+                        values = data[name].split(',');
+                    } else if (Object.isArray(data[name])) {
+                        values = data[name];
+                    }
+                    fields[i].setValue(values);
+                }
+            } else {
+                fields[i].setValue(data[name] ? data[name] : '');
             }
 
-            if(fields[i].changeUpdater) fields[i].changeUpdater();
-            if(name == 'region' && data['region_id'] && !data['region']){
+            if (fields[i].changeUpdater) fields[i].changeUpdater();
+            if (name == 'region' && data['region_id'] && !data['region']){
                 fields[i].value = data['region_id'];
             }
         }
