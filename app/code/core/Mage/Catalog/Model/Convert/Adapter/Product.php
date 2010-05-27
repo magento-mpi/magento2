@@ -621,6 +621,9 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             if (in_array($field, $this->_imageFields)) {
                 continue;
             }
+            if (is_null($value)) {
+                continue;
+            }
 
             $attribute = $this->getAttribute($field);
             if (!$attribute) {
