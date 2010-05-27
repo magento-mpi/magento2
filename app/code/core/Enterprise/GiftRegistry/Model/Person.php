@@ -32,4 +32,50 @@ class Enterprise_GiftRegistry_Model_Person extends Enterprise_Enterprise_Model_C
     function _construct() {
         $this->_init('enterprise_giftregistry/person');
     }
+
+    /**
+     * Validate registrant attribute values
+     *
+     * @return bool
+     */
+    public function validate()
+    {
+        // not Checking entityId !!!
+        $errors = array();
+        $helper = Mage::helper('enterprise_giftregistry');
+
+        if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
+            $errors[] = $helper->__('Please enter the first name.');
+        }
+
+        if (!Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
+            $errors[] = $helper->__('Please enter the last name.');
+        }
+
+        if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
+            $errors[] = $helper->__('Please enter correct Email.');
+        }
+
+        $customValues = $this->getCustom();
+        $attributes = Mage::getSingleton('enterprise_giftregistry/entity')->getRegistrantAttributes();
+
+        $errors = $helper->validateCustomAttributes($customValues, $attributes);
+
+        if (empty($errors)) {
+            return true;
+        }
+        return $errors;
+    }
+
+    /**
+     * Unpack "custom" value array
+     *
+     * @return $this
+     */
+    public function unserialiseCustom() {
+        if (is_string($this->getCustom())) {
+            $this->setCustom(unserialize($this->getCustom()));
+        }
+        return $this;
+    }
 }

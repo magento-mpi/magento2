@@ -344,11 +344,13 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
     public function addSelectAction()
     {
         $this->loadLayout();
+        $this->_initLayoutMessages('customer/session');
         if ($block = $this->getLayout()->getBlock('giftregistry_addselect')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
         $this->renderLayout();
     }
+
 
     /**
      * Select Type action
@@ -356,32 +358,41 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
     public function editAction()
     {
         $typeId = $this->getRequest()->getParam('type_id');
-        if (!$typeId) {
-            $data = $this->_getSession()->getGiftRegistryEntityFormData(true);
-///            if ()
-            $this->_redirect('*/*/addselect');
-            return ;
+        $entityId = $this->getRequest()->getParam('entity_id');
+        try {
+            if (!$typeId) {
+                if (!$entityId) {
+                    $this->_redirect('*/*/addselect');
+                    return;
+                } else {
+                    // editing existing entity
+                    /* @var $model Enterprise_GiftRegistry_Model_Entity */
+                    $model = Mage::getModel('enterprise_giftregistry/entity')->load($entityId);
+                    if (!$model->getId()) {
+                        Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Gift registry is not longer exists.'));
+                    }
+                }
+            }
+
+            if ($typeId && !$entityId) {
+                // creating new entity
+                /* @var $model Enterprise_GiftRegistry_Model_Entity */
+                $model = Mage::getSingleton('enterprise_giftregistry/entity');
+                if ($model->setType($typeId) === false) {
+                    Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Incorrect Type.'));
+                }
+            }
+
+            Mage::register('enterprise_giftregistry_entity', $model);
+            Mage::register('enterprise_giftregistry_address', $model->exportAddress());
+
+            $this->loadLayout();
+            $this->_initLayoutMessages('customer/session');
+            $this->renderLayout();
+        } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+                $this->_redirect('*/*/addselect');
         }
-        $this->_initLayoutMessages('customer/session');
-
-        /* @var $model Enterprise_GiftRegistry_Model_Entity */
-        $model = Mage::getSingleton('enterprise_giftregistry/entity');
-        $model->setTypeId($typeId);
-        $data = $this->_getSession()->getGiftRegistryEntityFormData(true);
-        if ($data) {
-            $model->addData($data);
-        }
-
-        Mage::register('enterprise_giftregistry_entity', $model);
-
-        $address = Mage::getModel('customer/address');
-        $model->exportAddress($address);
-
-        Mage::register('enterprise_giftregistry_address', $address);
-
-        $this->loadLayout();
-
-        $this->renderLayout();
     }
 
     /**
@@ -389,152 +400,138 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
      */
     public function editPostAction()
     {
-        Mage::log('GiftRegistry: indexConts addPostAction');
         if (!($typeId = $this->getRequest()->getParam('type_id'))) {
-            Mage::log('contr: AddpostAction validate false ');
-//            $this->addAction($typeId);
-            Mage::log('1 type id = '. $typeId);
             $this->_redirect('*/*/addselect');
             return;
         }
 
         if (!$this->_validateFormKey()) {
-            Mage::log('contr: AddpostAction validate false ');
-            $this->_redirect('*/*/add', array('type_id', $typeId));
+            $this->_redirect('*/*/edit', array('type_id', $typeId));
             return ;
         }
 
         if ($this->getRequest()->isPost() && ($data = $this->getRequest()->getPost())) {
-            Mage::log('addPostAction : isPost == TRUE ');
-            Mage::log($data);
-
+            $entityId = $this->getRequest()->getParam('entity_id');
             $isError = false;
-
+            $isAddAction = true;
             try {
-                Mage::log('Try: start');
+                $model = Mage::getModel('enterprise_giftregistry/entity');
+                if ($entityId){
+                    $isAddAction = false;
+                    $model->load($entityId);
+                    if (!$model->getId()){
+                        Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Incorrect Registry Entity.'));
+                    }
+                }
+                if ($isAddAction) {
+                    $entityId = null;
+                    if ($model->setType($typeId) === false) {
+                        Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Incorrect Type.'));
+                    }
+                }
 
-                $model = Mage::getSingleton('enterprise_giftregistry/entity' );
-                $model->setTypeId($typeId);
-                $model->addData(array('attributes' => $this->getRequest()->getParam('attributes')));
-                $model->addData(array(
-                    'region' => $this->getRequest()->getParam('attributes'),
-                    'event_date' => $this->getRequest()->getParam('event_date'),
-                    'event_location' => $this->getRequest()->getParam('event_location'),
-                    'country_id' => $this->getRequest()->getParam('country_id'),
-                ));
+                $data = $this->_filterDates($data, array('event_date'));
+                $model->importData($data, $isAddAction);
 
-                $model->addData(array(
-                    'type_id' => $typeId,
-                    'customer_id' => Mage::getSingleton('customer/session')->getCustomer()->getId(),
-                    'website_id' => '0',
-                    'is_public' => '1',
-                    'url_key' => '/reg/1',
-                    'title' => $this->getRequest()->getParam('title'),
-                    'message' => $this->getRequest()->getParam('message'),
-                    'shipping_address' => '12',
-                    'custom_values' => serialize($this->getRequest()->getParam('attributes'))
-                ));
-
-                Mage::log('Try: set TypeID = '.$typeId);
-
-                $addressType    = $this->getRequest()->getParam('address_type');
-                switch ($addressType) {
-                    case 'customer':
-                        /* @var $customer Mage_Customer_Model_Customer */
-                        $customer  = Mage::getSingleton('customer/session')->getCustomer();
-                        $addressId = $this->getRequest()->getParam('shipping_address_id');
-                        if (!$addressId) {
-                            Mage::throwException('No address selected.');
+                $registrantsPost = $this->getRequest()->getParam('registrant');
+                $persons = array();
+                if (is_array($registrantsPost)) {
+                    foreach  ($registrantsPost as $index => $registrant) {
+                        if (is_array($registrant)) {
+                            /* @var $person Enterprise_GiftRegistry_Model_Person */
+                            $person = Mage::getModel('enterprise_giftregistry/person');
+                            $idField = $person->getIdFieldName();
+                            if (!empty($registrant[$idField])) {
+                                $person->load($registrant[$idField]);
+                                if (!$person->getId()) {
+                                    Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Incorrect registrant data.'));
+                                }
+                            } else {
+                                unset($registrant['person_id']);
+                            }
+                            $person->setData($registrant);
+                            $errors = $person->validate();
+                            if ($errors !== true) {
+                                foreach ($errors as $err) {
+                                    $this->_getSession()->addError($err);
+                                }
+                                $isError = true;
+                            } else {
+                                $persons[] = $person;
+                            }
                         }
-                        $address = $customer->getAddressItemById($addressId);
-                        if (!$address) {
-                            Mage::throwException('Incorrect address selected.');
-                        }
-                        $model->importAddress($address);
-                        break;
-                    case 'new':
+                    }
+                }
+                $addressTypeOrId = $this->getRequest()->getParam('address_type_or_id');
+                if ($addressTypeOrId == Enterprise_GiftRegistry_Helper_Data::ADDRESS_NEW) {
+                    // creating new address
+                    if (!empty($data['address'])) {
                         /* @var $address Mage_Customer_Model_Address */
                         $address = Mage::getModel('customer/address');
-                        $address->setData($this->getRequest()->getParam('address'));
+                        $address->setData($data['address']);
                         $errors = $address->validate();
-                        if ($errors !== true) {
-                            foreach ($errors as $err) {
-                                $this->_getSession()->addError($err);
-                            }
-                            $isError = true;
+                        $model->importAddress($address);
+                    } else {
+                        Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Address is empty.'));
+                    }
+                    if ($errors !== true) {
+                        foreach ($errors as $err) {
+                            $this->_getSession()->addError($err);
                         }
-                        break;
-                    case 'none':
-                    default:
-                        break;
+                        $isError = true;
+                    }
+                } else if ($addressTypeOrId != Enterprise_GiftRegistry_Helper_Data::ADDRESS_NONE) {
+                    // using one of existing Customer adressess
+                    $addressId = $addressTypeOrId;
+                    if (!$addressId) {
+                        Mage::throwException(Mage::helper('enterprise_giftregistry')->__('No address selected.'));
+                    }
+                    /* @var $customer Mage_Customer_Model_Customer */
+                    $customer  = Mage::getSingleton('customer/session')->getCustomer();
 
+                    $address = $customer->getAddressItemById($addressId);
+                    if (!$address) {
+                        Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Incorrect address selected.'));
+                    }
+                    $model->importAddress($address);
                 }
-//                $address = Mage::getModel('customer/address');
-//
-//                $address->
-//                = $this->getRequest()->getParam('attributes');
 
                 if (!$isError) {
                     $model->save();
-
+                    $entityId = $model->getId();
+                    $personLeft = array();
+                    foreach ($persons as $person) {
+                        $person->setEntityId($entityId);
+                        $person->save();
+                        $personLeft[] = $person->getId();
+                    }
+                    if (!$isAddAction) {
+                        Mage::getModel('enterprise_giftregistry/person')
+                            ->getResource()
+                            ->deleteOrphan($entityId, $personLeft);
+                    }
                     $this->_getSession()->addSuccess(
                         Mage::helper('enterprise_giftregistry/data')->__('Data saved succesfully.')
                     );
                 }
-//                'static_registrant[]'
-//                $_staticTypes = array('event_date', 'event_country_code', 'event_region_code', 'event_location');
-
-//                Mage::log('Try: save ');
-//                Mage::getSingleton('customer/session')->addSuccess($this->__('The gift registry type has been saved.'));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $isError = true;
-//                $this->_redirect('*/*/add', array('type_id' => $typeId));
-//                return;
             } catch (Exception $e) {
-                $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_giftregistry/data')->__('Errors found.')
-                );
+                Mage::getSingleton('customer/session')->addError($this->__('Failed to save gift registry.'));
+                Mage::logException($e);
                 $isError = true;
-//                Mage::getSingleton('customer/session')->addError($this->__('Failed to save gift registry type.'));
-//                Mage::logException($e);
-            }
-            /*
-            $customer = Mage::getModel('customer/customer')
-                ->setId($this->_getSession()->getCustomerId())
-                ->setWebsiteId($this->_getSession()->getCustomer()->getWebsiteId());
-
-            $fields = Mage::getConfig()->getFieldset('customer_account');
-            $data = $this->_filterPostData($this->getRequest()->getPost());
-
-            foreach ($fields as $code=>$node) {
-                if ($node->is('update') && isset($data[$code])) {
-                    $customer->setData($code, $data[$code]);
-                }
             }
 
-            $errors = $customer->validate();
-            if (!is_array($errors)) {
-                $errors = array();
-            }
-*/
             if ($isError) {
                 $this->_getSession()->setGiftRegistryEntityFormData($this->getRequest()->getPost());
-                foreach ($errors as $message) {
-                    $this->_getSession()->addError($message);
-                }
-                $this->_redirect('*/*/edit');
+                $params = $isAddAction ? array('type_id' => $typeId) : array('entity_id' => $entityId);
+                $this->_redirect('*/*/edit', $params);
                 return $this;
-
-                // set current data to sess
-                // redirect to edit
             } else {
                 $this->_redirect('*/*/');
-
-                // redirect to next step
             }
         }
-        Mage::log('Index ENDING ');
         $this->_redirect('*/*/');
     }
 
@@ -551,4 +548,5 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
 
         return $entity;
     }
+
 }

@@ -31,6 +31,20 @@ class Enterprise_GiftRegistry_Helper_Data extends Enterprise_Enterprise_Helper_C
 {
     const XML_PATH_ENABLED = 'enterprise_giftregistry/general/enabled';
     const XML_PATH_SEND_LIMIT = 'enterprise_giftregistry/sharing_email/send_limit';
+    const XML_PATH_MAX_REGISTRANT   = 'enterprise_giftregistry/general/max_registrant';
+
+    /**
+     * Option for address source selector
+     * @var string
+     */
+    const ADDRESS_NEW = 'new';
+
+    /**
+     * Option for address source selector
+     * @var string
+     */
+    const ADDRESS_NONE = 'none';
+
 
     /**
      * Check whether reminder rules should be enabled
@@ -50,5 +64,49 @@ class Enterprise_GiftRegistry_Helper_Data extends Enterprise_Enterprise_Helper_C
     public function getRecipientsLimit()
     {
         return Mage::getStoreConfig(self::XML_PATH_SEND_LIMIT);
+    }
+
+    /**
+     * Retrieve Max Recipients
+     *
+     * @param int $store
+     * @return int
+     */
+    public function getMaxRegistrant($store = null)
+    {
+        return (int)Mage::getStoreConfig(self::XML_PATH_MAX_REGISTRANT, $store);
+    }
+
+    /**
+     * Validate custom attributes values
+     *
+     * @param array $customValues
+     * @param array $attributes
+     * @return int
+     */
+    public function validateCustomAttributes($customValues, $attributes)
+    {
+        $errors = array();
+        foreach ($attributes as $field => $data) {
+            if (empty($customValues[$field])) {
+                if (!empty($data['is_required'])) {
+                    $errors[] = $this->__('Please enter the "%s".', $data['label']);
+                }
+            } else {
+                if (($data['type']) == 'select' && is_array($data['options'])) {
+                    $found = false;
+                    foreach ($data['options'] as $option) {
+                        if ($customValues[$field] == $option['code']) {
+                            $found = true;
+                            break;
+                        }
+                    }
+                    if (!$found) {
+                        $errors[] = $this->__('Please enter correct "%s".', $data['label']);
+                    }
+                }
+            }
+        }
+        return $errors;
     }
 }

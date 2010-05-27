@@ -29,15 +29,40 @@
  */
 class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_Core_Abstract
 {
+    /**
+     * Type object
+     * @var Enterprise_GiftRegistry_Model_Type
+     */
+    protected $_type = null;
 
+    /**
+     * Type id
+     *
+     * @var int
+     */
+    protected $_typeId = null;
+
+    /**
+     * Attributes array
+     *
+     * @var array
+     */
+    protected $_attributes = null;
+
+    /**
+     * Directory region models
+     *
+     * @var array
+     */
     const XML_PATH_SHARE_EMAIL_IDENTITY = 'enterprise_giftregistry/sharing_email/identity';
     const XML_PATH_SHARE_EMAIL_TEMPLATE = 'enterprise_giftregistry/sharing_email/template';
 
    /**
      * Init resource model
      */
-    function _construct() {
+    protected function _construct() {
         $this->_init('enterprise_giftregistry/entity');
+        parent::_construct();
     }
 
     /**
@@ -254,5 +279,252 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
         }
 
         return $params;
+    }
+
+    /**
+     * Return address object entity on data in GiftRegistry entity
+     *
+     * @return Mage_Customer_Model_Address
+     */
+    public function exportAddress()
+    {
+        $address = Mage::getModel('customer/address');
+        $address->setData(unserialize($this->getData('shipping_address')));
+        return $address;
+    }
+
+     /**
+     * Sets up address data to the GiftRegistry entity  object
+     *
+     * @param Mage_Customer_Model_Address $address
+     * @return $this
+     */
+    public function importAddress(Mage_Customer_Model_Address $address)
+    {
+        $data = array();
+        $attributes = $address->getAttributes();
+        foreach ($attributes as $attribute) {
+            $data[$attribute->getAttributeCode()] = $address->getData($attribute->getAttributeCode());
+        }
+        $this->setData('shipping_address', serialize($data));
+        return $this;
+    }
+
+    /**
+     * Set type for Model using typeId
+     * @param int $typeId
+     * @return Enterprise_GiftRegistry_Model_Entity | false
+     */
+    public function setType($typeId) {
+        $this->_typeId = (int) $typeId;
+        $this->_type = Mage::getSingleton('enterprise_giftregistry/type');
+        $this->_type->setStoreId(Mage::app()->getStore()->getStoreId());
+        $this->setData('type_id', $typeId);
+        $this->_type->load($this->_typeId);
+        if ($this->_type->getId()) {
+            $this->_attributes = $this->_type->getAttributes();
+            return $this;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Get Entity type id
+     * @return int|null
+     */
+    public function getTypeId() {
+        return $this->_typeId;
+    }
+
+    /**
+     * Get Entity type Name
+     * @return string|null
+     */
+    public function getTypeLabel() {
+        if ($this->_type !== null) {
+            return $this->_type->getLabel();
+        }
+        return null;
+    }
+
+    /**
+     * Getter, returns all type custom attributes
+     *
+     * @return array
+     */
+    public function getCustomAttributes()
+    {
+        return $this->_attributes;
+    }
+
+    /**
+     * Getter, returns registrants custom attributes
+     *
+     * @return array
+     */
+    public function getRegistrantAttributes()
+    {
+        $attributes = $this->getCustomAttributes();
+        return is_array($attributes) && !empty($attributes['registrant']) ? $attributes['registrant'] : array();
+    }
+
+    /**
+     * Getter, return registry custom attributes
+     *
+     * @return array
+     */
+    public function getRegistryAttributes()
+    {
+        $attributes = $this->getCustomAttributes();
+        return is_array($attributes) && !empty($attributes['registry']) ? $attributes['registry'] : array();
+    }
+
+    /**
+     * Getter, return array of valid values for privacy field
+     *
+     * @return array
+     */
+    public function getOptionsIsPublic()
+    {
+        if (!isset($this->_optionsIsPublic)) {
+            $this->_optionsIsPublic = array(
+                '0' => Mage::helper('enterprise_giftregistry')->__('Private'),
+                '1' => Mage::helper('enterprise_giftregistry')->__('Public'));
+        }
+        return $this->_optionsIsPublic;
+    }
+
+    /**
+     * Validate entity attribute values
+     *
+     * @return bool
+     */
+    public function validate()
+    {
+        $errors = array();
+        $helper = Mage::helper('enterprise_giftregistry');
+
+        if (!Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
+            $errors[] = $helper->__('Please enter the title.');
+        }
+
+        if (!Zend_Validate::is($this->getMessage(), 'NotEmpty')) {
+            $errors[] = $helper->__('Please enter the message.');
+        }
+
+        if (!key_exists($this->getIsPublic(), $this->_optionsIsPublic)) {
+            $errors[] = $helper->__('Please enter correct Privacy setting.');
+        }
+
+        $customValues = $this->getCustomValues();
+        $attributes = Mage::getSingleton('enterprise_giftregistry/entity')->getRegistryAttributes();
+        $errors = $helper->validateCustomAttributes($customValues, $attributes);
+        if (empty($errors)) {
+            return true;
+        }
+        return $errors;
+    }
+
+    /**
+     * Import Post data
+     *
+     * @return this
+     */
+    public function importData ($data, $isAddAction = true)
+    {
+        $this->addData(array(
+                'event_region_id' => !empty($data['event_region_id']) ? $data['event_region_id'] : null,
+                'event_region' => !empty($data['event_region']) ? $data['event_region'] : null,
+                'event_date' => !empty($data['event_date']) ? $data['event_date'] : null,
+                'event_location' => !empty($data['event_location']) ? $data['event_location'] : null,
+                'event_country_code' => !empty($data['event_country_code']) ? $data['event_country_code'] : null))
+
+            ->addData(array(
+//              'type_id' => $this->getTypeId(),
+                'is_public' => !empty($data['is_public']) ? (bool) (int) $data['is_public'] : null,
+                'title' => !empty($data['title']) ? $data['title'] : null,
+                'message' => !empty($data['message']) ? $data['message'] : null,
+                'custom_values' => !empty($data['registry']) ? $data['registry'] : null
+            ));
+
+        if ($isAddAction) {
+            $this->addData(array(
+                'customer_id' => Mage::getSingleton('customer/session')->getCustomer()->getId(),
+                'website_id' => Mage::app()->getStore()->getWebsiteId(),
+                'url_key' => $this->getGenerateKeyId(),
+                'created_at' => Mage::getModel('core/date')->date(),
+                'is_add_action' => true
+            ));
+
+        }
+        return $this;
+    }
+
+    /**
+     * Retrieve region name
+     *
+     * @return string
+     */
+    public function getRegion()
+    {
+
+        $regionId = $this->getData('region_id');
+        $region   = $this->getData('region');
+        $country_id = $this->getData('event_country_code');
+
+        $regionModelId = Mage::getModel('directory/region')->load($regionId);
+        $regionModelName = Mage::getModel('directory/region')->load($region);
+
+        if ($regionId) {
+            if ($regionModelId->getCountryId() == $country_id) {
+               $region = $regionModelId->getName();
+                $this->setData('region', $region);
+            }
+        }
+
+        if (!empty($region) && is_string($region)) {
+            $this->setData('region', $region);
+        }
+        elseif (!$regionId && is_numeric($region)) {
+            if ($regionModelName->getCountryId() == $country_id) {
+                $this->setData('region', $regionModelName->getName());
+                $this->setData('region_id', $region);
+            }
+        }
+        elseif ($regionId && !$region) {
+               if ($regionModelId->getCountryId() == $country_id) {
+                $this->setData('region', $regionModelId->getName());
+            }
+        }
+
+        return $this->getData('region');
+    }
+
+    /**
+     * Generate uniq url key
+     *
+     * @return string
+     */
+    public function getGenerateKeyId()
+    {
+        return Mage::helper('core')->uniqHash();
+    }
+
+    /**
+     * Fetch array of custom date types fields id
+     *
+     * @return array
+     */
+    public function getCustomDateFields()
+    {
+        $dateFields = array();
+        $attributes = $this->getRegistryAttributes();
+        foreach ($attributes as $id => $attribute) {
+            if ($attribute['type'] == 'date') {
+                $dateFields[] = $id;
+            }
+        }
+        return $dateFields;
     }
 }

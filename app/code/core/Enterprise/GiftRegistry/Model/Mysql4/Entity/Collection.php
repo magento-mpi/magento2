@@ -26,6 +26,9 @@
 
 /**
  * Gift registry entity collection
+ *
+ * @category   Enterprise
+ * @package    Enterprise_GiftRegistry
  */
 class Enterprise_GiftRegistry_Model_Mysql4_Entity_Collection
     extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract

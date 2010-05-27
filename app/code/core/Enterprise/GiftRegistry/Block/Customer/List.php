@@ -92,6 +92,16 @@ class Enterprise_GiftRegistry_Block_Customer_List
     }
 
     /**
+     * Return edit entity url
+     *
+     * @return string
+     */
+    public function getEditUrl($item)
+    {
+        return  $this->getUrl('giftregistry/index/edit', array('entity_id' => $item->getEntityId()));
+    }
+
+    /**
      * Return delete entity url
      *
      * @return string

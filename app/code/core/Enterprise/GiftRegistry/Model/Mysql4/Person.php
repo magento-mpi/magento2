@@ -29,7 +29,58 @@
  */
 class Enterprise_GiftRegistry_Model_Mysql4_Person extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
 {
-    protected function _construct() {
+    /**
+     * Intialize resource model
+     *
+     * @return void
+     */
+    protected function _construct()
+    {
         $this->_init('enterprise_giftregistry/person', 'person_id');
+    }
+
+    /**
+     * Serialization for custom attributes
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+     */
+    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    {
+        $object->setCustom(serialize($object->getCustom()));
+        return parent::_beforeSave($object);
+    }
+
+    /**
+     * Deserialization for custom attributes
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+     */
+    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    {
+        $object->setCustom(unserialize($object->getCustom()));
+        return parent::_afterLoad($object);
+    }
+
+    /**
+     * Delete orphan persons
+     *
+     * @param int $entityId
+     * @param array $personLeft - records which should not be deleted
+     */
+    public function deleteOrphan($entityId, $personLeft = array())
+    {
+        $condition = array();
+        $conditionIn = array();
+        $condition[] = $this->_getWriteAdapter()->quoteInto('entity_id=?', $entityId);
+        if (is_array($personLeft)) {
+            foreach ($personLeft as $personId) {
+                $conditionIn[] = $this->_getWriteAdapter()->quoteInto('?', $personId);
+            }
+            $condition[] = '`person_id` NOT IN(' . implode(',', $conditionIn) . ')';
+        }
+        $this->_getWriteAdapter()->delete($this->getMainTable(), implode(' AND ', $condition));
+        return $this;
     }
 }

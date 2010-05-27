@@ -1,0 +1,157 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @package     base_default
+ * @category    design
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<div id="template_container" style="display:none" class="template">
+    <div id="template_registrant">
+        <li class="fields">
+            <input name="registrant[{{index}}][person_id]" value="" id="registrant:person_id{{index}}" type="hidden"/>
+            <p class="btn-remove" id="btn-remove{{index}}"><a href="#" onclick="removeRegistrant({{index}}); return false" class="btn-remove">
+                <img src="<?php echo $this->getSkinUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove Email') ?>" /></a>
+            </p>
+            <div class="field">
+                <label for="registrant:firstname{{index}}" class="required"><em>*</em><?php echo $this->__('First Name:') ?></label>
+                <div class="input-box">
+                    <input name="registrant[{{index}}][firstname]" value="" type="text" class="input-text required-entry" id="registrant:firstname{{index}}" />
+                </div>
+            </div>
+            <div class="field">
+                <label for="registrant:lastname{{index}}" class="required"><em>*</em><?php echo $this->__('Last Name:') ?></label>
+                <div class="input-box">
+                    <input name="registrant[{{index}}][lastname]" value="" type="text" class="input-text required-entry" id="registrant:lastname{{index}}" />
+                </div>
+            </div>
+            <div class="field">
+                <label for="registrant:email{{index}}" class="required"><em>*</em><?php echo $this->__('Email Address:') ?></label>
+                <div class="input-box">
+                    <input name="registrant[{{index}}][email]" value="" title="<?php echo $this->__('Email Address') ?>" id="registrant:email{{index}}" type="text" class="input-text required-entry validate-email" />
+                </div>
+            </div>
+
+<?php
+        $fields = $this->getGroupedRegistrantAttributes();
+        foreach ($fields as $field => $data) : ?>
+            <div class="field">
+                <label for="registrant:custom:<?php echo $field ?>{{index}}" class="required"><em>*</em><?php echo $this->__("%s", $data['label']) ?></label>
+                <div class="input-box">
+                    <?php echo $this->renderField($data, '{{index}}][custom][' . $field, 'registrant:custom:' . $field . '{{index}}', '{{' . $field . '_value}}', 'required-entry')?>
+                </div>
+            </div>
+<?php   endforeach; ?>
+            </li>
+    </div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+    iz=0;
+    var regCount  = 0;
+    var maxRegistrant = '<?php echo $this->getMaxRegistrant() ?>';
+    var myTemplate = new Template($('template_registrant').innerHTML, /(^|.|\r|\n)({{(\w+)}})/);
+    $('template_registrant').remove();
+    function removeRegistrant(iz){
+        $('registrant:firstname'+iz).up(2).remove();
+        regCount--;
+        if(regCount<maxRegistrant && maxRegistrant != 0) {
+            $('add_registrant_button').show();
+            $('max_registrant_message').hide();
+        }
+        return false;
+    }
+    function addRegistrant(){
+        ul = $('registrant_options');
+        var li_mail = Element.extend(document.createElement("li"));
+        li_mail.addClassName('add-row');
+        li_mail.addClassName('fields');
+
+        date_template = myTemplate.evaluate({index: iz});
+
+        li_mail.innerHTML = date_template;
+
+        iz++;
+        regCount++;
+        if(regCount>=maxRegistrant && maxRegistrant != 0) {
+            $('add_registrant_button').hide();
+            $('max_registrant_message').show();
+        }
+
+        ul.appendChild(li_mail);
+        if (iz == (0 + 1) ) {
+            $('btn-remove0').hide();
+        }
+    }
+//]]>
+</script>
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->__('Registrants Information:') ?></h2>
+        <ul class="form-list" id="registrant_options">
+        </ul>
+    </div>
+
+    <div class="buttons-set form-buttons">
+        <p class="back-link">
+            <span id="max_registrant_message" style="display:none;">
+                <?php if ($this->getMaxRegistrant()): ?>
+                    <?php echo $this->__('Maximum %d email addresses allowed.', $this->getMaxRegistrant()) ?>
+                <?php endif; ?>
+            </span>&nbsp;
+        </p>
+        <?php if (1 < $this->getMaxRegistrant()): ?>
+            <button type="button" id="add_registrant_button" onclick="addRegistrant();" class="button"><span><span><?php echo $this->__('Add Registrant') ?></span></span></button>
+        <?php endif; ?>
+    </div>
+
+<script type="text/javascript">
+//<![CDATA[
+//drawing first registrant
+
+document.observe("dom:loaded", function() {
+<?php
+/* @var $this Enterprise_GiftRegistry_Block_Customer_Edit*/
+$registrantsData = $this->getRegistrantPresets($this->getEntity()->getId());
+$i = 0;
+?>
+<?php foreach ($registrantsData as $registrant) : ?>
+    addRegistrant();
+    <?php foreach ($registrant as $field => $value) : ?>
+        <?php if (!is_array($value)) : ?>
+            setFieldById(<?php echo "'registrant:$field$i', '$value'" ?>);
+        <?php else : ?>
+            <?php foreach ($value as $customId => $customValue) : ?>
+                setFieldById(<?php echo "'registrant:custom:$customId$i', '$customValue'" ?>);
+            <?php endforeach;?>
+        <?php endif; ?>
+    <?php endforeach; ?>
+
+    <?php $i++; ?>
+<?php endforeach; ?>
+<?php echo "iz = $i;\n"; ?>
+    if (iz == 0) {
+        addRegistrant();
+    }
+});
+//]]>
+</script>

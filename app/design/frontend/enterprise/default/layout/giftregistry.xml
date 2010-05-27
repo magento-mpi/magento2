@@ -96,4 +96,35 @@
     <enterprise_giftregistry_search_advanced>
         <block type="enterprise_giftregistry/search_advanced" name="root" template="giftregistry/search/advanced.phtml"></block>
     </enterprise_giftregistry_search_advanced>
+
+    <enterprise_giftregistry_index_addselect translate="label">
+        <label>Customer My Account GiftRegistry Add</label>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="enterprise_giftregistry/customer_edit" name="giftregistry_addselect" template="giftregistry/edit/addselect.phtml"></block>
+        </reference>
+    </enterprise_giftregistry_index_addselect>
+
+    <enterprise_giftregistry_index_edit translate="label">
+        <label>Customer My Account GiftRegistry Edit</label>
+        <update handle="customer_account"/>
+        <update handle="calendar"/>
+        <reference name="my.account.wrapper">
+            <block type="enterprise_giftregistry/customer_edit" name="giftregistry_edit" template="giftregistry/edit/edit.phtml">
+                <action method="addInputTypeTemplate"><type>text</type><template>giftregistry/attributes/text.phtml</template></action>
+                <block type="enterprise_giftregistry/customer_edit_registry" name="giftregistry_edit_registry" template="giftregistry/edit/registry.phtml"/>
+                <block type="enterprise_giftregistry/customer_edit_registrants" name="giftregistry_edit_registrants" template="giftregistry/edit/registrants.phtml"/>
+                <block type="enterprise_giftregistry/customer_address_edit" name="giftregistry_address_edit" template="giftregistry/address/edit.phtml"/>
+            </block>
+        </reference>
+    </enterprise_giftregistry_index_edit>
+
+    <calendar>
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+        </reference>
+    </calendar>
 </layout>

@@ -152,6 +152,7 @@
         <enterprise_giftregistry>
             <general>
                 <enabled>1</enabled>
+                <max_registrant>5</max_registrant>
             </general>
             <owner_email>
                 <identity>general</identity>
