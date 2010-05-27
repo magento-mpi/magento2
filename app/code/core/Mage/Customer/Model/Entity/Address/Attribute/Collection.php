@@ -36,7 +36,8 @@ class Mage_Customer_Model_Entity_Address_Attribute_Collection extends Mage_Eav_M
 {
     protected function _initSelect()
     {
-        $this->getSelect()->from(array('main_table' => $this->getResource()->getMainTable()))
+        $this->getSelect()
+            ->from(array('main_table' => $this->getResource()->getMainTable()))
             ->where('main_table.entity_type_id=?', Mage::getModel('eav/entity')->setType('customer_address')->getTypeId())
             ->join(
                 array('additional_table' => $this->getTable('customer/eav_attribute')),
@@ -65,5 +66,27 @@ class Mage_Customer_Model_Entity_Address_Attribute_Collection extends Mage_Eav_M
     {
         $this->getSelect()->where('additional_table.is_visible=?', 1);
         return $this;
+    }
+
+    /**
+     * Exclude system hidden attributes
+     *
+     * @return Mage_Customer_Model_Entity_Address_Attribute_Collection
+     */
+    public function addSystemHiddenFilter()
+    {
+        $field = '(CASE WHEN additional_table.is_system = 1 AND additional_table.is_visible = 0 THEN 1 ELSE 0 END)';
+        $this->addFieldToFilter($field, 0);
+        return $this;
+    }
+
+    /**
+     * Add exclude hidden frontend input attribute filter to collection
+     *
+     * @return Mage_Customer_Model_Entity_Address_Attribute_Collection
+     */
+    public function addExcludeHiddenFrontendFilter()
+    {
+        return $this->addFieldToFilter('main_table.frontend_input', array('neq' => 'hidden'));
     }
 }

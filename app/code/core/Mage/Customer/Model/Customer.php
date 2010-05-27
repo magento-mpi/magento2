@@ -1109,4 +1109,29 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $this->addAddress(clone $address);
         }
     }
+
+    /**
+     * Return Entity Type instance
+     *
+     * @return Mage_Eav_Model_Entity_Type
+     */
+    public function getEntityType()
+    {
+        return $this->_getResource()->getEntityType();
+    }
+
+    /**
+     * Return Entity Type ID
+     *
+     * @return int
+     */
+    public function getEntityTypeId()
+    {
+        $entityTypeId = $this->getData('entity_type_id');
+        if (!$entityTypeId) {
+            $entityTypeId = $this->getEntityType()->getId();
+            $this->setData('entity_type_id', $entityTypeId);
+        }
+        return $entityTypeId;
+    }
 }

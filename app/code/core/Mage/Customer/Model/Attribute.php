@@ -53,4 +53,43 @@ class Mage_Customer_Model_Attribute extends Mage_Eav_Model_Entity_Attribute
         Mage::getSingleton('eav/config')->clear();
         return parent::_afterSave();
     }
+
+    /**
+     * Return forms in which the attribute
+     *
+     * @return array
+     */
+    public function getUsedInForms()
+    {
+        $forms = $this->getData('used_in_forms');
+        if (is_null($forms)) {
+            $forms = $this->_getResource()->getUsedInForms($this);
+            $this->setData('used_in_forms', $forms);
+        }
+        return $forms;
+    }
+
+    /**
+     * Return validate rules
+     *
+     * @return array
+     */
+    public function getValidateRules()
+    {
+        $rules = $this->getData('validate_rules');
+        if (!empty($rules)) {
+            return unserialize($rules);
+        }
+        return array();
+    }
+
+    public function setValidateRules($rules)
+    {
+        if (empty($rules)) {
+            $rules = null;
+        } else if (is_array($rules)) {
+            $rules = serialize($rules);
+        }
+        $this->setData('validate_rules', $rules);
+    }
 }

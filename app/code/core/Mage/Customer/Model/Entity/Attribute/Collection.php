@@ -66,4 +66,26 @@ class Mage_Customer_Model_Entity_Attribute_Collection extends Mage_Eav_Model_Mys
         $this->getSelect()->where('additional_table.is_visible=?', 1);
         return $this;
     }
+
+    /**
+     * Exclude system hidden attributes
+     *
+     * @return Mage_Customer_Model_Entity_Attribute_Collection
+     */
+    public function addSystemHiddenFilter()
+    {
+        $field = '(CASE WHEN additional_table.is_system = 1 AND additional_table.is_visible = 0 THEN 1 ELSE 0 END)';
+        $this->addFieldToFilter($field, 0);
+        return $this;
+    }
+
+    /**
+     * Add exclude hidden frontend input attribute filter to collection
+     *
+     * @return Mage_Customer_Model_Entity_Attribute_Collection
+     */
+    public function addExcludeHiddenFrontendFilter()
+    {
+        return $this->addFieldToFilter('main_table.frontend_input', array('neq' => 'hidden'));
+    }
 }
