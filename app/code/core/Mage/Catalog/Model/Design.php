@@ -38,8 +38,8 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
     const APPLY_FOR_CATEGORY    = 2;
 
     /**
+     * @deprecated after 1.4.1.0
      * Category / Custom Design / Apply To constants
-     *
      */
     const CATEGORY_APPLY_CATEGORY_AND_PRODUCT_RECURSIVE = 1;
     const CATEGORY_APPLY_CATEGORY_ONLY                  = 2;
@@ -62,7 +62,7 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
         if (Mage::helper('catalog/category_flat')->isEnabled()) {
             $this->_applyDesign($object, $calledFrom);
         } else {
-            $this->_applyDesignRecursively($object, $calledFrom);
+            $this->_inheritDesign($object, $calledFrom);
         }
 
         return $this;
@@ -84,6 +84,8 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
     /**
      * Check is allow apply for
      *
+     * @deprecated after 1.4.1.0
+     *
      * @param int $applyForObject
      * @param int $applyTo
      * @param int $pass
@@ -92,6 +94,7 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
     protected function _isApplyFor($applyForObject, $applyTo, $pass = 0)
     {
         $hasError = false;
+
         if ($pass == 0) {
             switch ($applyForObject) {
                 case self::APPLY_FOR_CATEGORY:
@@ -134,6 +137,7 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
                     break;
             }
         }
+
         return !$hasError;
     }
 
@@ -168,17 +172,66 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Apply design recursively (if using EAV)
+     * Recursively apply design
      *
      * @param Varien_Object $object
      * @param int $calledFrom
+     *
+     * @return Mage_Catalog_Model_Design
+     */
+    protected function _inheritDesign($object, $calledFrom = 0)
+    {
+        if ($object instanceof Mage_Catalog_Model_Product) {
+            $category = $object->getCategory();
+
+            if ($category && $category->getId()) {
+                return $this->_inheritDesign($category, $calledFrom);
+            }
+        }
+        elseif ($object instanceof Mage_Catalog_Model_Category) {
+            $category = $object->getParentCategory();
+
+            $useParentSettings = $object->getCustomUseParentSettings();
+            if ($useParentSettings) {
+                if ($category &&
+                    $category->getId() &&
+                    $category->getId() != Mage_Catalog_Model_Category::TREE_ROOT_ID) {
+                    return $this->_inheritDesign($category, $calledFrom);
+                }
+            }
+
+            if ($calledFrom == self::APPLY_FOR_PRODUCT) {
+                $applyToProducts = $object->getCustomApplyToProducts();
+                if (!$applyToProducts) {
+                    return $this;
+                }
+            }
+        }
+
+        $design = $object->getCustomDesign();
+        $date   = $object->getCustomDesignDate();
+
+        $this->_isApplyDesign($design, $date);
+
+        return $this;
+    }
+
+    /**
+     * Apply design recursively (if using EAV)
+     *
+     * @deprecated after 1.4.1.0
+     *
+     * @param Varien_Object $object
+     * @param int $calledFrom
+     * @param int $pass
+     *
      * @return Mage_Catalog_Model_Design
      */
     protected function _applyDesignRecursively($object, $calledFrom = 0, $pass = 0)
     {
-        $design     = $object->getCustomDesign();
-        $date       = $object->getCustomDesignDate();
-        $applyTo    = $object->getCustomDesignApply();
+        $design  = $object->getCustomDesign();
+        $date    = $object->getCustomDesignDate();
+        $applyTo = $object->getCustomDesignApply();
 
         $checkAndApply = $this->_isApplyFor($calledFrom, $applyTo, $pass)
             && $this->_isApplyDesign($design, $date);
@@ -197,21 +250,13 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
             $category = $object->getParentCategory();
         }
 
-        if ($category && $category->getId()){
+        if ($category && $category->getId()) {
             $this->_applyDesignRecursively($category, $calledFrom, $pass);
         }
 
         return $this;
     }
 
-    /**
-     * Apply design (if using Flat Category)
-     *
-     * @param Varien_Object|array $designUpdateData
-     * @param int $calledFrom
-     * @param bool $loaded
-     * @return Mage_Catalog_Model_Design
-     */
     protected function _applyDesign($designUpdateData, $calledFrom = 0, $loaded = false, $pass = 0)
     {
         $objects = array();
@@ -221,9 +266,9 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
             $objects = &$designUpdateData;
         }
         foreach ($objects as $object) {
-            $design     = $object->getCustomDesign();
-            $date       = $object->getCustomDesignDate();
-            $applyTo    = $object->getCustomDesignApply();
+            $design  = $object->getCustomDesign();
+            $date    = $object->getCustomDesignDate();
+            $applyTo = $object->getCustomDesignApply();
 
             $checkAndApply = $this->_isApplyFor($calledFrom, $applyTo, $pass)
                 && $this->_isApplyDesign($design, $date);

@@ -29,7 +29,7 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
 {
@@ -40,7 +40,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
      */
     protected function _initCatagory()
     {
-        Mage::dispatchEvent('catalog_controller_category_init_before', array('controller_action'=>$this));
+        Mage::dispatchEvent('catalog_controller_category_init_before', array('controller_action' => $this));
         $categoryId = (int) $this->getRequest()->getParam('id', false);
         if (!$categoryId) {
             return false;
@@ -56,12 +56,47 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
         Mage::getSingleton('catalog/session')->setLastVisitedCategoryId($category->getId());
         Mage::register('current_category', $category);
         try {
-            Mage::dispatchEvent('catalog_controller_category_init_after', array('category'=>$category, 'controller_action'=>$this));
+            Mage::dispatchEvent('catalog_controller_category_init_after', array('category' => $category, 'controller_action' => $this));
         } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
             return false;
         }
         return $category;
+    }
+
+    /**
+     * Recursively apply custom design settings to category if it's option
+     * custom_use_parent_settings is setted to 1 while parent option is not
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @param Mage_Core_Model_Layout_Update $update
+     *
+     * return Mage_Catalog_CategoryController
+     */
+    protected function _applyCustomDesignSettings($category, $update)
+    {
+        if ($category->getCustomUseParentSettings()) {
+            $parentCategory = $category->getParentCategory();
+            if ($parentCategory &&
+                $parentCategory->getId() &&
+                $parentCategory->getId() != Mage_Catalog_Model_Category::TREE_ROOT_ID) {
+                return $this->_applyCustomDesignSettings($parentCategory, $update);
+            }
+        }
+
+        $validityDate = $category->getCustomDesignDate();
+
+        if (array_key_exists('from', $validityDate) &&
+            array_key_exists('to', $validityDate) &&
+            Mage::app()->getLocale()->isStoreDateInInterval(null, $validityDate['from'], $validityDate['to'])) {
+            if ($category->getPageLayout()) {
+                $this->getLayout()->helper('page/layout')
+                    ->applyHandle($category->getPageLayout());
+            }
+            $update->addUpdate($category->getCustomLayoutUpdate());
+        }
+
+        return $this;
     }
 
     /**
@@ -85,18 +120,11 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             $this->addActionLayoutHandles();
 
             $update->addHandle($category->getLayoutUpdateHandle());
-            $update->addHandle('CATEGORY_'.$category->getId());
+            $update->addHandle('CATEGORY_' . $category->getId());
 
-
-
-            if ($category->getPageLayout()) {
-                    $this->getLayout()->helper('page/layout')
-                        ->applyHandle($category->getPageLayout());
-            }
-
+            $this->_applyCustomDesignSettings($category, $update);
+ 
             $this->loadLayoutUpdates();
-
-            $update->addUpdate($category->getCustomLayoutUpdate());
 
             $this->generateLayoutXml()->generateLayoutBlocks();
 
@@ -106,8 +134,8 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             }
 
             if ($root = $this->getLayout()->getBlock('root')) {
-                $root->addBodyClass('categorypath-'.$category->getUrlPath())
-                    ->addBodyClass('category-'.$category->getUrlKey());
+                $root->addBodyClass('categorypath-' . $category->getUrlPath())
+                    ->addBodyClass('category-' . $category->getUrlKey());
             }
 
             $this->_initLayoutMessages('catalog/session');
