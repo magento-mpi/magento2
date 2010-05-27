@@ -307,7 +307,7 @@ abstract class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Co
      *
      * @param string $alias
      * @param string $expression
-     * @param string $attribute
+     * @param array $fields
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function addExpressionFieldToSelect($alias, $expression, $fields)

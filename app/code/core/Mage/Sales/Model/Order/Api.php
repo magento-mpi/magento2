@@ -78,6 +78,18 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
             ->addAttributeToSelect('*')
             ->addAddressFields()
             ->addExpressionFieldToSelect(
+                'billing_firstname', "{{billing_firstname}}", array('billing_firstname'=>"$billingAliasName.firstname")
+            )
+            ->addExpressionFieldToSelect(
+                'billing_lastname', "{{billing_lastname}}", array('billing_lastname'=>"$billingAliasName.lastname")
+            )
+            ->addExpressionFieldToSelect(
+                'shipping_firstname', "{{shipping_firstname}}", array('shipping_firstname'=>"$shippingAliasName.firstname")
+            )
+            ->addExpressionFieldToSelect(
+                'shipping_lastname', "{{shipping_lastname}}", array('shipping_lastname'=>"$shippingAliasName.lastname")
+            )
+            ->addExpressionFieldToSelect(
                     'billing_name',
                     "CONCAT({{billing_firstname}}, ' ', {{billing_lastname}})",
                     array('billing_firstname'=>"$billingAliasName.firstname", 'billing_lastname'=>"$billingAliasName.lastname")

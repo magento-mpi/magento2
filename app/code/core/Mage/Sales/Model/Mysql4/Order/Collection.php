@@ -36,6 +36,10 @@ class Mage_Sales_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Mysql4_C
     protected function _construct()
     {
         $this->_init('sales/order');
+        $this
+            ->addFilterToMap('entity_id', 'main_table.entity_id')
+            ->addFilterToMap('customer_id', 'main_table.customer_id')
+            ->addFilterToMap('quote_address_id', 'main_table.quote_address_id');
     }
 
     /**
@@ -94,17 +98,16 @@ class Mage_Sales_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Mysql4_C
         $shippingAliasName = 'shipping_o_a';
         $joinTable = $this->getTable('sales/order_address');
 
-        $this->_map = array('fields' => array(
-            'billing_firstname' => $billingAliasName . '.firstname',
-            'billing_lastname' => $billingAliasName . '.lastname',
-            'billing_telephone' => $billingAliasName . '.telephone',
-            'billing_postcode' => $billingAliasName . '.postcode',
+        $this
+            ->addFilterToMap('billing_firstname', $billingAliasName . '.firstname')
+            ->addFilterToMap('billing_lastname', $billingAliasName . '.lastname')
+            ->addFilterToMap('billing_telephone', $billingAliasName . '.telephone')
+            ->addFilterToMap('billing_postcode', $billingAliasName . '.postcode')
 
-            'shipping_firstname' => $shippingAliasName . '.firstname',
-            'shipping_lastname' => $shippingAliasName . '.lastname',
-            'shipping_telephone' => $shippingAliasName . '.telephone',
-            'shipping_postcode' => $shippingAliasName . '.postcode'
-        ));
+            ->addFilterToMap('shipping_firstname', $shippingAliasName . '.firstname')
+            ->addFilterToMap('shipping_lastname', $shippingAliasName . '.lastname')
+            ->addFilterToMap('shipping_telephone', $shippingAliasName . '.telephone')
+            ->addFilterToMap('shipping_postcode', $shippingAliasName . '.postcode');
 
         $this
             ->getSelect()

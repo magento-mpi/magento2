@@ -789,4 +789,25 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         }
         return array();
     }
+
+    /**
+     * Add filter to Map
+     *
+     * @param string $filter
+     * @param string $alias
+     * @param string $group default 'fields'
+     *
+     * @return Varien_Data_Collection_Db
+     */
+    public function addFilterToMap($filter, $alias, $group = 'fields')
+    {
+        if (is_null($this->_map)) {
+            $this->_map = array($group => array());
+        } else if(is_null($this->_map[$group])) {
+            $this->_map[$group] = array();
+        }
+        $this->_map[$group][$filter] = $alias;
+
+        return $this;
+    }
 }
