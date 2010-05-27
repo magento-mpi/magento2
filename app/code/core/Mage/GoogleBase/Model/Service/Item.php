@@ -252,7 +252,7 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
      */
     protected function _cleanAtomAttribute($string)
     {
-        return preg_replace('/[\pC¢€†•™°½(shipping)]/ui', '', $string);
+        return Mage::helper('core/string')->substr(preg_replace('/[\pC¢€•—™°½]|shipping/ui', '', $string), 0, 3500);
     }
 
     /**
