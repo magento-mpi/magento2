@@ -30,6 +30,9 @@ function saveAndContinueEdit(){
     editForm.submit($('edit_form').action+'back/edit/');
 }
 
+var show_option_panel           = false;
+var attribute_validate_filters  = <?php echo $this->getValidateFiltersJson();?>;
+var attribute_filter_types      = <?php echo $this->getFilteTypesJson();?>;
 
 function toggleApplyVisibility(select) {
     if ($(select).value == 1) {
@@ -46,27 +49,32 @@ function toggleApplyVisibility(select) {
     }
 }
 
-function checkOptionsPanelVisibility(){
-    if($('matage-options-panel')){
-        var panel = $('matage-options-panel');
-        if($('frontend_input') &&
-                ($('frontend_input').value=='select'
-                || $('frontend_input').value=='multiselect'
-                || $('frontend_input').value=='radio'
-                || $('frontend_input').value=='checkbox')
-        ){
-            panel.show();
-        }
-        else {
-            panel.hide();
-        }
-    }
-}
-
 function bindAttributeInputType()
 {
-    checkOptionsPanelVisibility();
     switchDefaultValueField();
+}
+
+function switchFilterSelect(id, vals, dict)
+{
+    if ($(id)) {
+        if (vals) {
+            var value = $(id).value;
+            $(id).up(1).show();
+            for (var i = $(id).length - 1; i >= 0; i--) {
+                if (i != 0) {
+                    $(id).remove(i);
+                }
+            }
+            vals.each(function(e, index){
+                $(id).options[index + 1] = new Option(dict[e], e);
+                if (e == value) {
+                    $(id).options[index + 1].selected = true;
+                }
+            }.bind(this));
+        } else {
+            $(id).up(1).hide();
+        }
+    }
 }
 
 function switchDefaultValueField()
@@ -77,66 +85,91 @@ function switchDefaultValueField()
 
     var currentValue = $('frontend_input').value;
 
-    var defaultValueTextVisibility = false;
-    var defaultValueTextareaVisibility = false;
-    var defaultValueDateVisibility = false;
-    var defaultValueYesnoVisibility = false;
-    var linesToDivideMultilineVisibility = false;
-    var minTextLengthVisibility = false;
-    var maxTextLengthVisibility = false;
+    var show_default_value_text     = false;
+    var show_default_value_textarea = false;
+    var show_default_value_date     = false;
+    var show_default_value_yesno    = false;
+
+    show_option_panel               = false;
+    var panel_default_value_type    = null;
+
+    var show_multiline_count        = false;
+    var show_min_text_length        = false;
+    var show_max_text_length        = false;
+    var show_max_file_size          = false;
+    var show_file_extensions        = false;
+    var show_max_image_width        = false;
+    var show_max_image_heght        = false;
+
+    var select_filter_types         = false;
+    var select_validate_filters     = false;
 
     switch (currentValue) {
-        case 'radio':
-        case 'select':
-            optionDefaultInputType = 'radio';
+        <?php foreach ($this->getAttributeInputTypes() as $type => $prop):?>
+        case '<?php echo $type?>':
+            <?php foreach ($prop['validate_types'] as $vt):?>
+            show_<?php echo $vt?> = true;
+            <?php endforeach;?>
+            <?php if ($type == 'multiline'):?>
+            show_multiline_count = true;
+            <?php endif;?>
+            <?php if ($prop['manage_options']):?>
+            show_option_panel = true;
+            panel_default_value_type = '<?php echo $prop['option_default']?>';
+            <?php endif;?>
+            <?php if ($prop['default_value']):?>
+            show_default_value_<?php echo $prop['default_value']?> = true;
+            <?php endif;?>
+            <?php if ($prop['filter_types']):?>
+            select_filter_types = <?php echo Mage::helper('core')->jsonEncode($prop['filter_types'])?>;
+            <?php endif;?>
+            <?php if ($prop['validate_filters']):?>
+            select_validate_filters = <?php echo Mage::helper('core')->jsonEncode($prop['validate_filters'])?>;
+            <?php endif;?>
             break;
-        case 'checkbox':
-        case 'multiselect':
-            optionDefaultInputType = 'checkbox';
-            break;
-            break;
-        case 'date':
-            defaultValueDateVisibility = true;
-            break;
-        case 'boolean':
-            defaultValueYesnoVisibility = true;
-            break;
-        case 'textarea':
-            defaultValueTextareaVisibility = true;
-            minTextLengthVisibility = true;
-            maxTextLengthVisibility = true;
-            break;
-        case 'multiline':
-            linesToDivideMultilineVisibility = true;
-            defaultValueTextareaVisibility = true;
-            break;
-        default:
-            defaultValueTextVisibility = true;
-            minTextLengthVisibility = true;
-            maxTextLengthVisibility = true;
-            break;
+        <?php endforeach;?>
     }
 
-    setRowVisibility('default_value_text', defaultValueTextVisibility);
-    setRowVisibility('default_value_textarea', defaultValueTextareaVisibility);
-    setRowVisibility('default_value_date', defaultValueDateVisibility);
-    setRowVisibility('default_value_yesno', defaultValueYesnoVisibility);
-    setRowVisibility('lines_to_divide_multiline', linesToDivideMultilineVisibility);
-    setRowVisibility('min_text_length', minTextLengthVisibility);
-    setRowVisibility('max_text_length', maxTextLengthVisibility);
+    switchFilterSelect('input_validation', select_validate_filters, attribute_validate_filters);
+    switchFilterSelect('input_filter', select_filter_types, attribute_filter_types);
 
+    setRowVisibility('default_value_text', show_default_value_text);
+    setRowVisibility('default_value_textarea', show_default_value_textarea);
+    setRowVisibility('default_value_date', show_default_value_date);
+    setRowVisibility('default_value_yesno', show_default_value_yesno);
 
-    var elems = document.getElementsByName('default[]');
-    for (var i = 0; i < elems.length; i++) {
-        elems[i].type = optionDefaultInputType;
+    setRowVisibility('multiline_count', show_multiline_count);
+    if ($('multiline_count')) {
+        if (show_multiline_count) {
+            $('multiline_count').disabled = false;
+        } else {
+            $('multiline_count').disabled = true;
+        }
+    }
+    setRowVisibility('min_text_length', show_min_text_length);
+    setRowVisibility('max_text_length', show_max_text_length);
+    setRowVisibility('max_file_size', show_max_file_size);
+    setRowVisibility('file_extensions', show_file_extensions);
+    setRowVisibility('max_image_width', show_max_image_width);
+    setRowVisibility('max_image_heght', show_max_image_heght);
+
+    var panel = $('matage-options-panel');
+    if (show_option_panel) {
+        panel.show();
+        var elems = document.getElementsByName('default[]');
+        for (var i = 0; i < elems.length; i++) {
+            elems[i].type = panel_default_value_type;
+        }
+        optionDefaultInputType = panel_default_value_type;
+    } else {
+        panel.hide();
     }
 }
 
 function setRowVisibility(id, isVisible)
 {
     if ($(id)) {
-        var td = $(id).parentNode;
-        var tr = $(td.parentNode);
+        var tr = $(id).up(1);
 
         if (isVisible) {
             tr.show();
@@ -149,7 +182,7 @@ function setRowVisibility(id, isVisible)
 
 function updateRequriedOptions()
 {
-    if ($F('frontend_input')=='select' && $F('is_required')==1) {
+    if (show_option_panel && $F('is_required') == 1) {
         $('option-count-check').addClassName('required-options-count');
     } else {
         $('option-count-check').removeClassName('required-options-count');
