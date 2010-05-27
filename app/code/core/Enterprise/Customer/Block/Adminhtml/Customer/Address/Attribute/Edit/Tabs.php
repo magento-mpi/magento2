@@ -26,53 +26,25 @@
 
 
 /**
- * Customer Attributes edit form options tab
+ * Customer Address Attribute Tab Block
  *
  * @category    Enterprise
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options
-    extends Enterprise_Enterprise_Block_Eav_Adminhtml_Attribute_Edit_Options_Abstract
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tabs
+    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Tabs
 {
     /**
-     * Return Tab label
+     * Initialize edit tabs
      *
-     * @return string
      */
-    public function getTabLabel()
+    public function __construct()
     {
-        return Mage::helper('enterprise_customer')->__('Manage Label / Options');
-    }
+        parent::__construct();
 
-    /**
-     * Return Tab title
-     *
-     * @return string
-     */
-    public function getTabTitle()
-    {
-        return Mage::helper('enterprise_customer')->__('Properties');
-    }
-
-    /**
-     * Can show tab in tabs
-     *
-     * @return boolean
-     */
-    public function canShowTab()
-    {
-        return true;
-    }
-
-    /**
-     * Tab is hidden
-     *
-     * @return boolean
-     */
-    public function isHidden()
-    {
-        return false;
+        $this->setId('enterprise_customer_address_attribute_edit_tabs');
+        $this->setDestElementId('edit_form');
+        $this->setTitle(Mage::helper('enterprise_customer')->__('Attribute Information'));
     }
 }

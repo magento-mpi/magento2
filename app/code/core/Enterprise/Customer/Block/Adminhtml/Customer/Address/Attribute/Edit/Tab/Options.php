@@ -26,13 +26,13 @@
 
 
 /**
- * Customer Attributes edit form options tab
+ * Customer Address Attribute General Tab Block
  *
  * @category    Enterprise
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options
+class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Options
     extends Enterprise_Enterprise_Block_Eav_Adminhtml_Attribute_Edit_Options_Abstract
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {

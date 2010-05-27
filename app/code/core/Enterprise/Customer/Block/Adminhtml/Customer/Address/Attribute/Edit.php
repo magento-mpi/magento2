@@ -26,13 +26,13 @@
 
 
 /**
- * Customer Attributes Edit container
+ * Customer Address Attribute Edit Container Block
  *
  * @category    Enterprise
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit
+class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit
     extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form_Container
 {
     /**
@@ -51,9 +51,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit
      */
     public function __construct()
     {
-        $this->_objectId    = 'attribute_id';
-        $this->_blockGroup  = 'enterprise_customer';
-        $this->_controller  = 'adminhtml_customer_attribute';
+        $this->_objectId   = 'attribute_id';
+        $this->_blockGroup = 'enterprise_customer';
+        $this->_controller = 'adminhtml_customer_address_attribute';
 
         parent::__construct();
 
@@ -68,7 +68,6 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit
         );
 
         $this->_updateButton('save', 'label', Mage::helper('enterprise_customer')->__('Save Attribute'));
-
         if (!$this->_getAttribute()->getIsUserDefined()) {
             $this->_removeButton('delete');
         } else {
@@ -89,20 +88,20 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit
                 // restored label
                 $label = $label[0];
             }
-            return Mage::helper('enterprise_customer')->__('Edit Customer Attribute "%s"', $label);
+            return Mage::helper('enterprise_customer')->__('Edit Customer Address Attribute "%s"', $label);
         } else {
-            return Mage::helper('enterprise_customer')->__('New Customer Attribute');
+            return Mage::helper('enterprise_customer')->__('New Customer Address Attribute');
         }
     }
 
     /**
-     * Return validation url for edit form
+     * Return validation URL for edit form
      *
      * @return string
      */
     public function getValidationUrl()
     {
-        return $this->getUrl('*/*/validate', array('_current'=>true));
+        return $this->getUrl('*/*/validate', array('_current' => true));
     }
 
     /**
@@ -112,6 +111,6 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', array('_current'=>true, 'back'=>null));
+        return $this->getUrl('*/*/save', array('_current' => true, 'back' => null));
     }
 }

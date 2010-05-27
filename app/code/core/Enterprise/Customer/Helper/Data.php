@@ -49,4 +49,327 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Enterprise_Helper_Core_
         }
         return $typesIds;
     }
+
+    /**
+     * Return available customer attribute form as select options
+     *
+     * @return array
+     */
+    public function getCustomerAttributeFormOptions()
+    {
+        return array(
+            array(
+                'label' => Mage::helper('enterprise_customer')->__('Checkout Register Customer'),
+                'value' => 'checkout_register'
+            ),
+            array(
+                'label' => Mage::helper('enterprise_customer')->__('Customer Registration'),
+                'value' => 'customer_account_create'
+            ),
+            array(
+                'label' => Mage::helper('enterprise_customer')->__('Customer Account Edit'),
+                'value' => 'customer_account_edit'
+            ),
+            array(
+                'label' => Mage::helper('enterprise_customer')->__('Admin Checkout'),
+                'value' => 'adminhtml_checkout'
+            ),
+        );
+    }
+
+    /**
+     * Return available customer address attribute form as select options
+     *
+     * @return array
+     */
+    public function getCustomerAddressAttributeFormOptions()
+    {
+        return array(
+            array(
+                'label' => Mage::helper('enterprise_customer')->__('Customer Registration Address'),
+                'value' => 'customer_register_address'
+            ),
+            array(
+                'label' => Mage::helper('enterprise_customer')->__('Customer Account Edit Address'),
+                'value' => 'customer_address_edit'
+            ),
+        );
+    }
+
+    /**
+     * Return data array of customer and customer address attribute Input Types
+     *
+     * @param string $inputType
+     * @return array
+     */
+    public function getAttributeInputTypes($inputType = null)
+    {
+        $inputTypes = array(
+            'text'          => array(
+                'label'             => Mage::helper('enterprise_customer')->__('Text Field'),
+                'manage_options'    => false,
+                'validate_types'    => array(
+                    'min_text_length',
+                    'max_text_length',
+                ),
+                'validate_filters'  => array(
+                    'alphanumeric',
+                    'numeric',
+                    'alpha',
+                    'url',
+                    'email',
+                ),
+                'filter_types'      => array(
+                    'striptags',
+                    'escapehtml'
+                ),
+                'backend_type'      => 'varchar',
+                'default_value'     => 'text',
+            ),
+            'textarea'      => array(
+                'label'             => Mage::helper('enterprise_customer')->__('Text Area'),
+                'manage_options'    => false,
+                'validate_types'    => array(
+                    'min_text_length',
+                    'max_text_length',
+                ),
+                'validate_filters'  => array(),
+                'filter_types'      => array(
+                    'striptags',
+                    'escapehtml'
+                ),
+                'backend_type'      => 'text',
+                'default_value'     => 'textarea',
+            ),
+            'multiline'     => array(
+                'label'             => Mage::helper('enterprise_customer')->__('Multiple Line'),
+                'manage_options'    => false,
+                'validate_types'    => array(
+                    'min_text_length',
+                    'max_text_length',
+                ),
+                'validate_filters'  => array(
+                    'alphanumeric',
+                    'numeric',
+                    'alpha',
+                    'url',
+                    'email',
+                ),
+                'filter_types'      => array(
+                    'striptags',
+                    'escapehtml'
+                ),
+                'backend_type'      => 'text',
+                'default_value'     => 'text',
+            ),
+            'date'          => array(
+                'label'             => Mage::helper('enterprise_customer')->__('Date'),
+                'manage_options'    => false,
+                'validate_types'    => array(),
+                'validate_filters'  => array(
+                    'date'
+                ),
+                'filter_types'      => array(
+                    'date'
+                ),
+                'backend_model'     => 'eav/entity_attribute_backend_datetime',
+                'backend_type'      => 'datetime',
+                'default_value'     => 'date',
+            ),
+            'select'        => array(
+                'label'             => Mage::helper('enterprise_customer')->__('Dropdown'),
+                'manage_options'    => true,
+                'option_default'    => 'radio',
+                'validate_types'    => array(),
+                'validate_filters'  => array(),
+                'filter_types'      => array(),
+                'source_model'      => 'eav/entity_attribute_source_table',
+                'backend_type'      => 'int',
+                'default_value'     => false,
+            ),
+            'multiselect'   => array(
+                'label'             => Mage::helper('enterprise_customer')->__('Multiple Select'),
+                'manage_options'    => true,
+                'option_default'    => 'checkbox',
+                'validate_types'    => array(),
+                'filter_types'      => array(),
+                'validate_filters'  => array(),
+                'backend_model'     => 'eav/entity_attribute_backend_array',
+                'source_model'      => 'eav/entity_attribute_source_table',
+                'backend_type'      => 'varchar',
+                'default_value'     => false,
+            ),
+            'boolean'       => array(
+                'label'             => Mage::helper('enterprise_customer')->__('Yes/No'),
+                'manage_options'    => false,
+                'validate_types'    => array(),
+                'validate_filters'  => array(),
+                'filter_types'      => array(),
+                'source_model'      => 'eav/entity_attribute_source_boolean',
+                'backend_type'      => 'int',
+                'default_value'     => 'yesno',
+            ),
+            'file'          => array(
+                'label'             => Mage::helper('enterprise_customer')->__('File (attachment)'),
+                'manage_options'    => false,
+                'validate_types'    => array(
+                    'max_file_size',
+                    'file_extensions'
+                ),
+                'validate_filters'  => array(),
+                'filter_types'      => array(),
+                'backend_type'      => 'varchar',
+                'default_value'     => false,
+            ),
+            'image'         => array(
+                'label'             => Mage::helper('enterprise_customer')->__('Image file'),
+                'manage_options'    => false,
+                'validate_types'    => array(
+                    'max_file_size',
+                    'max_image_width',
+                    'max_image_heght',
+                ),
+                'validate_filters'  => array(),
+                'filter_types'      => array(),
+                'backend_type'      => 'varchar',
+                'default_value'     => false,
+            ),
+        );
+
+        if (is_null($inputType)) {
+            return $inputTypes;
+        } else if (isset($inputTypes[$inputType])) {
+            return $inputTypes[$inputType];
+        }
+        return array();
+    }
+
+    /**
+     * Return options array of customer attribute Front-end Input types
+     *
+     * @return array
+     */
+    public function getFrontendInputOptions()
+    {
+        $inputTypes = $this->getAttributeInputTypes();
+        $options    = array();
+        foreach ($inputTypes as $k => $v) {
+            $options[] = array(
+                'value' => $k,
+                'label' => $v['label']
+            );
+        }
+
+        return $options;
+    }
+
+    public function getAttributeValidateFilters()
+    {
+        return array(
+            'alphanumeric'  => Mage::helper('enterprise_customer')->__('Alpha and Numeric'),
+            'numeric'       => Mage::helper('enterprise_customer')->__('Numeric only'),
+            'alpha'         => Mage::helper('enterprise_customer')->__('Alpha only'),
+            'url'           => Mage::helper('enterprise_customer')->__('URL'),
+            'email'         => Mage::helper('enterprise_customer')->__('Email'),
+            'date'          => Mage::helper('enterprise_customer')->__('Date'),
+        );
+    }
+
+    public function getAttributeFilterTypes()
+    {
+        return array(
+            'striptags'     => Mage::helper('enterprise_customer')->__('Strip HTML Tags'),
+            'escapehtml'    => Mage::helper('enterprise_customer')->__('Escape HTML Entities'),
+            'date'          => Mage::helper('enterprise_customer')->__('Normalize Date')
+        );
+    }
+
+    /**
+     * Return default value field name by attribute input type
+     *
+     * @param string $inputType
+     * @return string
+     */
+    public function getAttributeDefaultValueByInput($inputType)
+    {
+        $inputTypes = $this->getAttributeInputTypes();
+        if (isset($inputTypes[$inputType])) {
+            $value = $inputTypes[$inputType]['default_value'];
+            if ($value) {
+                return 'default_value_' . $value;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Return array of attribute validate rules
+     *
+     * @param string $inputType
+     * @param array $data
+     * @return array
+     */
+    public function getAttributeValidateRules($inputType, array $data)
+    {
+        $inputTypes = $this->getAttributeInputTypes();
+        $rules      = array();
+        if (isset($inputTypes[$inputType])) {
+            foreach ($inputTypes[$inputType]['validate_types'] as $validateType) {
+                if (!empty($data[$validateType])) {
+                    $rules[$validateType] = $data[$validateType];
+                }
+            }
+            if (!empty($inputTypes[$inputType]['validate_filters']) && !empty($data['input_validation'])) {
+                if (in_array($data['input_validation'], $inputTypes[$inputType]['validate_filters'])) {
+                    $rules['input_validation'] = $data['input_validation'];
+                }
+            }
+        }
+        return $rules;
+    }
+
+    /**
+     * Return default attribute back-end model by input type
+     *
+     * @param string $inputType
+     * @return string|null
+     */
+    public function getAttributeBackendModelByInputType($inputType)
+    {
+        $inputTypes = $this->getAttributeInputTypes();
+        if (!empty($inputTypes[$inputType]['backend_model'])) {
+            return $inputTypes[$inputType]['backend_model'];
+        }
+        return null;
+    }
+
+    /**
+     * Return default attribute source model by input type
+     *
+     * @param string $inputType
+     * @return string|null
+     */
+    public function getAttributeSourceModelByInputType($inputType)
+    {
+        $inputTypes = $this->getAttributeInputTypes();
+        if (!empty($inputTypes[$inputType]['source_model'])) {
+            return $inputTypes[$inputType]['source_model'];
+        }
+        return null;
+    }
+
+    /**
+     * Return default attribute backend storage type by input type
+     *
+     * @param string $inputType
+     * @return string|null
+     */
+    public function getAttributeBackendTypeByInputType($inputType)
+    {
+        $inputTypes = $this->getAttributeInputTypes();
+        if (!empty($inputTypes[$inputType]['backend_type'])) {
+            return $inputTypes[$inputType]['backend_type'];
+        }
+        return null;
+    }
 }

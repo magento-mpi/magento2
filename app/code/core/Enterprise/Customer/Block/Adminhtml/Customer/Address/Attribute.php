@@ -26,53 +26,25 @@
 
 
 /**
- * Customer Attributes edit form options tab
+ * Customer address attributes Grid Container
  *
  * @category    Enterprise
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options
-    extends Enterprise_Enterprise_Block_Eav_Adminhtml_Attribute_Edit_Options_Abstract
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute
+    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Container
 {
     /**
-     * Return Tab label
+     * Define controller, block and labels
      *
-     * @return string
      */
-    public function getTabLabel()
+    public function __construct()
     {
-        return Mage::helper('enterprise_customer')->__('Manage Label / Options');
-    }
-
-    /**
-     * Return Tab title
-     *
-     * @return string
-     */
-    public function getTabTitle()
-    {
-        return Mage::helper('enterprise_customer')->__('Properties');
-    }
-
-    /**
-     * Can show tab in tabs
-     *
-     * @return boolean
-     */
-    public function canShowTab()
-    {
-        return true;
-    }
-
-    /**
-     * Tab is hidden
-     *
-     * @return boolean
-     */
-    public function isHidden()
-    {
-        return false;
+        $this->_blockGroup = 'enterprise_customer';
+        $this->_controller = 'adminhtml_customer_address_attribute';
+        $this->_headerText = Mage::helper('enterprise_customer')->__('Manage Customer Address Attributes');
+        $this->_addButtonLabel = Mage::helper('enterprise_customer')->__('Add New Attribute');
+        parent::__construct();
     }
 }

@@ -26,53 +26,29 @@
 
 
 /**
- * Customer Attributes edit form options tab
+ * Customer Address Attribute Form Block
  *
  * @category    Enterprise
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options
-    extends Enterprise_Enterprise_Block_Eav_Adminhtml_Attribute_Edit_Options_Abstract
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Form
+    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
 {
     /**
-     * Return Tab label
+     * Prepare form before rendering HTML
      *
-     * @return string
+     * @return Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Form
      */
-    public function getTabLabel()
+    protected function _prepareForm()
     {
-        return Mage::helper('enterprise_customer')->__('Manage Label / Options');
-    }
-
-    /**
-     * Return Tab title
-     *
-     * @return string
-     */
-    public function getTabTitle()
-    {
-        return Mage::helper('enterprise_customer')->__('Properties');
-    }
-
-    /**
-     * Can show tab in tabs
-     *
-     * @return boolean
-     */
-    public function canShowTab()
-    {
-        return true;
-    }
-
-    /**
-     * Tab is hidden
-     *
-     * @return boolean
-     */
-    public function isHidden()
-    {
-        return false;
+        $form = new Varien_Data_Form(array(
+            'id'        => 'edit_form',
+            'action'    => $this->getData('action'),
+            'method'    => 'post'
+        ));
+        $form->setUseContainer(true);
+        $this->setForm($form);
+        return parent::_prepareForm();
     }
 }

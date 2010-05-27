@@ -28,36 +28,23 @@
 /**
  * Customer attributes edit page tabs
  *
- * @category   Enterprise
- * @package    Enterprise_Customer
+ * @category    Enterprise
+ * @package     Enterprise_Customer
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tabs extends Enterprise_Enterprise_Block_Adminhtml_Widget_Tabs
+class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tabs
+    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Tabs
 {
-
+    /**
+     * Initialize edit tabs
+     *
+     */
     public function __construct()
     {
         parent::__construct();
+
         $this->setId('customer_attribute_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle(Mage::helper('enterprise_customer')->__('Attribute Information'));
     }
-
-    protected function _beforeToHtml()
-    {
-        $this->addTab('main', array(
-            'label'     => Mage::helper('enterprise_customer')->__('Properties'),
-            'title'     => Mage::helper('enterprise_customer')->__('Properties'),
-            'content'   => $this->getLayout()->createBlock('enterprise_customer/adminhtml_customer_attribute_edit_tab_main')->toHtml(),
-            'active'    => true
-        ));
-
-        $this->addTab('labels', array(
-            'label'     => Mage::helper('enterprise_customer')->__('Manage Label / Options'),
-            'title'     => Mage::helper('enterprise_customer')->__('Manage Label / Options'),
-            'content'   => $this->getLayout()->createBlock('enterprise_customer/adminhtml_customer_attribute_edit_tab_options')->toHtml(),
-        ));
-
-        return parent::_beforeToHtml();
-    }
-
 }

@@ -24,10 +24,15 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
- * Controller for Customer Attributes Management
+ * Manage Customer Address Attributes Controller
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Customer
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Adminhtml_Customer_AttributeController
+class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
     extends Enterprise_Enterprise_Controller_Adminhtml_Action
 {
     /**
@@ -45,7 +50,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
     protected function _getEntityType()
     {
         if (is_null($this->_entityType)) {
-            $this->_entityType = Mage::getSingleton('eav/config')->getEntityType('customer');
+            $this->_entityType = Mage::getSingleton('eav/config')->getEntityType('customer_address');
         }
         return $this->_entityType;
     }
@@ -53,18 +58,18 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
     /**
      * Load layout, set breadcrumbs
      *
-     * @return Enterprise_Customer_Adminhtml_Customer_AttributeController
+     * @return Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
      */
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('customer/attributes')
+            ->_setActiveMenu('customer/address_attributes')
             ->_addBreadcrumb(
                 Mage::helper('enterprise_customer')->__('Customer'),
                 Mage::helper('enterprise_customer')->__('Customer'))
             ->_addBreadcrumb(
-                Mage::helper('enterprise_customer')->__('Manage Customer Attributes'),
-                Mage::helper('enterprise_customer')->__('Manage Customer Attributes'));
+                Mage::helper('enterprise_customer')->__('Manage Customer Address Attributes'),
+                Mage::helper('enterprise_customer')->__('Manage Customer Address Attributes'));
         return $this;
     }
 
@@ -93,34 +98,41 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
      */
     public function editAction()
     {
-        /* @var $attributeObject Mage_Customer_Model_Attribute */
         $attributeId = $this->getRequest()->getParam('attribute_id');
+        /* @var $attributeObject Mage_Customer_Model_Attribute */
         $attributeObject = Mage::getModel('customer/attribute')
             ->setEntityTypeId($this->_getEntityType()->getId());
 
         if ($attributeId) {
             $attributeObject->load($attributeId);
             if (!$attributeObject->getId()) {
-                $this->_getSession()
-                    ->addError(Mage::helper('enterprise_customer')->__('Attribute is no longer exists.'));
+                $this->_getSession()->addError(
+                    Mage::helper('enterprise_customer')->__('Attribute is no longer exists.')
+                );
                 $this->_redirect('*/*/');
                 return;
             }
             if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()) {
-                $this->_getSession()->addError(Mage::helper('enterprise_customer')->__('You cannot edit this attribute.'));
+                $this->_getSession()->addError(
+                    Mage::helper('enterprise_customer')->__('You cannot edit this attribute.')
+                );
                 $this->_redirect('*/*/');
                 return;
             }
         }
+
+        // restore attribute data
         $attributeData = $this->_getSession()->getAttributeData(true);
         if (!empty($attributeData)) {
             $attributeObject->setData($attributeData);
         }
+
+        // register attribute object
         Mage::register('entity_attribute', $attributeObject);
 
         $label = $attributeObject->getId()
-            ? Mage::helper('enterprise_customer')->__('Edit Customer Attribute')
-            : Mage::helper('enterprise_customer')->__('New Customer Attribute');
+            ? Mage::helper('enterprise_customer')->__('Edit Customer Address Attribute')
+            : Mage::helper('enterprise_customer')->__('New Customer Address Attribute');
 
         $this->_initAction()
             ->_addBreadcrumb($label, $label)
@@ -197,7 +209,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
             }
 
             if (isset($data['used_in_forms'])) {
-                $data['used_in_forms'][] = 'adminhtml_customer';
+                $data['used_in_forms'][] = 'adminhtml_customer_address';
             }
 
             $defaultValueField = $helper->getAttributeDefaultValueByInput($data['frontend_input']);
@@ -214,7 +226,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
                 $attributeObject->save();
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_customer')->__('The customer attribute has been saved.')
+                    Mage::helper('enterprise_customer')->__('The customer address attribute has been saved.')
                 );
                 $this->_getSession()->setAttributeData(false);
                 if ($this->getRequest()->getParam('back', false)) {
@@ -233,7 +245,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
                 return;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_customer')->__('An error occurred while saving the customer attribute.')
+                    Mage::helper('enterprise_customer')->__('An error occurred while saving the customer address attribute.')
                 );
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('*/*/edit', array('_current' => true));
@@ -265,7 +277,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
             try {
                 $attributeObject->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_customer')->__('The customer attribute has been deleted.')
+                    Mage::helper('enterprise_customer')->__('The customer address attribute has been deleted.')
                 );
                 $this->_redirect('*/*/');
                 return;
@@ -275,7 +287,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
                 return;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_customer')->__('An error occurred while deleting the customer attribute.')
+                    Mage::helper('enterprise_customer')->__('An error occurred while deleting the customer address attribute.')
                 );
                 $this->_redirect('*/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;
@@ -293,6 +305,6 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('admin/customer/attributes/customer_attributes');
+        return Mage::getSingleton('admin/session')->isAllowed('admin/customer/attributes/customer_address_attributes');
     }
 }

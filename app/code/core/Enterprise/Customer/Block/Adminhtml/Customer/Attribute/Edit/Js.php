@@ -26,53 +26,42 @@
 
 
 /**
- * Customer Attributes edit form options tab
+ * Customer and Customer Address Attributes Edit JavaScript Block
  *
  * @category    Enterprise
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options
-    extends Enterprise_Enterprise_Block_Eav_Adminhtml_Attribute_Edit_Options_Abstract
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Js
+    extends Enterprise_Enterprise_Block_Adminhtml_Template
 {
     /**
-     * Return Tab label
+     * Retrieve allowed Input Validate Filters in JSON format
      *
      * @return string
      */
-    public function getTabLabel()
+    public function getValidateFiltersJson()
     {
-        return Mage::helper('enterprise_customer')->__('Manage Label / Options');
+        return Mage::helper('core')->jsonEncode(Mage::helper('enterprise_customer')->getAttributeValidateFilters());
     }
 
     /**
-     * Return Tab title
+     * Retrieve allowed Input Filter Types in JSON format
      *
      * @return string
      */
-    public function getTabTitle()
+    public function getFilteTypesJson()
     {
-        return Mage::helper('enterprise_customer')->__('Properties');
+        return Mage::helper('core')->jsonEncode(Mage::helper('enterprise_customer')->getAttributeFilterTypes());
     }
 
     /**
-     * Can show tab in tabs
+     * Returns array of input types with type properties
      *
-     * @return boolean
+     * @return array
      */
-    public function canShowTab()
+    public function getAttributeInputTypes()
     {
-        return true;
-    }
-
-    /**
-     * Tab is hidden
-     *
-     * @return boolean
-     */
-    public function isHidden()
-    {
-        return false;
+        return Mage::helper('enterprise_customer')->getAttributeInputTypes();
     }
 }

@@ -26,24 +26,24 @@
 
 
 /**
- * Customer Attributes Edit Form
+ * Customer Address Attribute General Tab Block
  *
  * @category    Enterprise
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
+class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
     extends Enterprise_Enterprise_Block_Eav_Adminhtml_Attribute_Edit_Main_Abstract
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
-     * Adding customer form elements for edit form
+     * Adding customer address attribute form elements for edit form
      *
-     * @return Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
+     * @return Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
      */
     protected function _prepareForm()
     {
-        parent::_prepareForm();
+    parent::_prepareForm();
 
         $attribute  = $this->getAttributeObject();
         $form       = $this->getForm();
@@ -55,8 +55,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
         $fieldset->removeField('is_unique');
 
         // update Input Types
+        $values     = $helper->getFrontendInputOptions();
         $element    = $form->getElement('frontend_input');
-        $element->setValues($helper->getFrontendInputOptions());
+        $element->setValues($values);
         $element->setLabel(Mage::helper('enterprise_customer')->__('Input type'));
         $element->setRequired(true);
 
@@ -96,19 +97,12 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
             'class'     => 'validate-digits',
         ), 'max_text_length');
 
-        $fieldset->addField('file_extensions', 'text', array(
-            'name'      => 'file_extensions',
-            'label'     => Mage::helper('enterprise_customer')->__('File Extensions'),
-            'title'     => Mage::helper('enterprise_customer')->__('File Extensions'),
-            'note'      => Mage::helper('enterprise_customer')->__('Comma separate'),
-        ), 'max_file_size');
-
         $fieldset->addField('max_image_width', 'text', array(
             'name'      => 'max_image_width',
             'label'     => Mage::helper('enterprise_customer')->__('Maximum Image Width (px)'),
             'title'     => Mage::helper('enterprise_customer')->__('Maximum Image Width (px)'),
             'class'     => 'validate-digits',
-        ), 'file_extensions');
+        ), 'max_file_size');
 
         $fieldset->addField('max_image_heght', 'text', array(
             'name'      => 'max_image_heght',
@@ -149,7 +143,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
             'name'      => 'used_in_forms',
             'label'     => Mage::helper('enterprise_customer')->__('Forms to Use In'),
             'title'     => Mage::helper('enterprise_customer')->__('Forms to Use In'),
-            'values'    => $helper->getCustomerAttributeFormOptions(),
+            'values'    => $helper->getCustomerAddressAttributeFormOptions(),
             'value'     => $attribute->getUsedInForms()
         ))->setSize(5);
 

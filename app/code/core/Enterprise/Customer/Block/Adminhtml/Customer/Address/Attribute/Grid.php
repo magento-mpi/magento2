@@ -26,13 +26,13 @@
 
 
 /**
- * Customer Attributes Grid Block
+ * Customer Address Attributes Grid Block
  *
  * @category    Enterprise
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Grid
+class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Grid
     extends Enterprise_Enterprise_Block_Eav_Adminhtml_Attribute_Grid_Abstract
 {
     /**
@@ -42,18 +42,19 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Grid
     public function __construct()
     {
         parent::__construct();
-        $this->setId('customerAttributeGrid');
         $this->setDefaultSort('sort_order');
+        $this->setId('customerAddressAttributeGrid');
     }
 
     /**
-     * Prepare customer attributes grid collection object
+     * Prepare customer address attributes grid collection object
      *
-     * @return Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Grid
+     * @return Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('customer/attribute_collection')
+        /* @var $collection Mage_Customer_Model_Entity_Address_Attribute_Collection */
+        $collection = Mage::getResourceModel('customer/address_attribute_collection')
             ->addSystemHiddenFilter()
             ->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);
@@ -62,9 +63,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Grid
     }
 
     /**
-     * Prepare customer attributes grid columns
+     * Prepare customer address attributes grid columns
      *
-     * @return Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Grid
+     * @return Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Grid
      */
     protected function _prepareColumns()
     {

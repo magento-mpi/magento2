@@ -27,12 +27,16 @@
 /**
  * Customer attributes grid container
  *
- * @category   Enterprise
- * @package    Enterprise_Customer
+ * @category    Enterprise
+ * @package     Enterprise_Customer
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Attribute extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Container
 {
-
+    /**
+     * Define controller, block and labels
+     *
+     */
     public function __construct()
     {
         $this->_blockGroup = 'enterprise_customer';
@@ -41,5 +45,4 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute extends Enterprise_
         $this->_addButtonLabel = Mage::helper('enterprise_customer')->__('Add New Attribute');
         parent::__construct();
     }
-
 }
