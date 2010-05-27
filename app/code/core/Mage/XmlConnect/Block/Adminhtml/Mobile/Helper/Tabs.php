@@ -24,11 +24,11 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Color extends Varien_Data_Form_Element_Text
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Tabs extends Varien_Data_Form_Element_Text
 {
     public function getHtml()
     {
-        $this->addClass('color {required:false,hash:true}');
-        return parent::getHtml();
+        $block = new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Tabs;
+        return $block->toHtml();
     }
 }

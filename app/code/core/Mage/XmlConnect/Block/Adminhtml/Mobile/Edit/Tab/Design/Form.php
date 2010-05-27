@@ -26,6 +26,21 @@
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
 {
     /**
+     * Add color theme to fieldset
+     *
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param string $fieldName
+     * @param string $title
+     */
+    protected function addTheme($fieldset, $fieldName, $themeId)
+    {
+        $fieldset->addField($fieldName.$themeId, 'theme', array(
+            'name'      => $fieldName,
+        ));
+    }
+
+    /**
+    /**
      * Prepare form
      *
      * @return Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form
@@ -41,7 +56,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_X
 
         $fieldset = $form->addFieldset('fieldColors', array('legend' => $this->__('Color Themes')));
         $this->_addElementTypes($fieldset);
-        // FIXME: radio buttons width presets
+        $fieldset->addField('conf[dummy][theme]', 'theme', array(
+            'name'      => 'conf[dummy][theme]',
+            'themes'    => array(
+                new Mage_XmlConnect_Model_Theme('Theme1', 'Default'),
+                new Mage_XmlConnect_Model_Theme('Theme2', 'Foo'),
+                new Mage_XmlConnect_Model_Theme('Theme3', 'Bar'),
+                new Mage_XmlConnect_Model_Theme('Theme4', 'Baz'),
+            ),
+        ));
         $this->addColor($fieldset, 'conf[special][headerBackgroundColor]', $this->__('Header Background Color'));
         $this->addColor($fieldset, 'conf[special][headerTextColor]', $this->__('Header Text'));
         $this->addColor($fieldset, 'conf[special][primaryBodyColor]', $this->__('Primary'));
@@ -49,17 +72,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_X
         $this->addColor($fieldset, 'conf[special][bodyTextColor]', $this->__('Body Text'));
         $this->addColor($fieldset, 'conf[special][priceTextColor]', $this->__('Price Text'));
 
-        /*
         $fieldset = $form->addFieldset('fieldFonts', array('legend' => $this->__('Fonts')));
         $this->_addElementTypes($fieldset);
         $this->addFontSimple($fieldset, 'conf[special][headerTextFont]');
         $this->addFontSimple($fieldset, 'conf[special][bodyTextFont]');
-        */
 
-        /*
         $fieldset = $form->addFieldset('fieldTabs', array('legend' => $this->__('Tabs')));
-        // FIXME
-        */
+        $this->_addElementTypes($fieldset);
+        $fieldset->addField('conf[dummy][tabs]', 'tabs', array('name' => 'conf[dummy][tabs]'));
 
         $model = Mage::registry('current_app');
         $form->setValues($model->getFormData());

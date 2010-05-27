@@ -51,7 +51,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
 
     protected function _prepareLayout()
     {
-        //$this->getLayout()->getBlock('head')->addJs('jscolor/jscolor.js');
+        $this->getLayout()->getBlock('head')->addJs('jscolor/jscolor.js');
         return parent::_prepareLayout();
     }
 

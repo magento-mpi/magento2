@@ -23,12 +23,34 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Color extends Varien_Data_Form_Element_Text
+class Mage_XmlConnect_Model_Theme
 {
-    public function getHtml()
+    protected $_name;
+    protected $_label;
+
+    public function __construct($name, $label)
     {
-        $this->addClass('color {required:false,hash:true}');
-        return parent::getHtml();
+        $this->_name = $name;
+        $this->_label = $label;
+    }
+
+    public function getName()
+    {
+        return $this->_name;
+    }
+
+    public function getLabel()
+    {
+        return $this->_label;
+    }
+
+    public function getColorbarUrl()
+    {
+        return Mage::getBaseUrl('skin').'xmlconnect/'.$this->_name.'/colorbar.png';
+    }
+
+    public function getPreviewUrl()
+    {
+        return Mage::getBaseUrl('skin').'xmlconnect/'.$this->_name.'/preview.jpg';
     }
 }
