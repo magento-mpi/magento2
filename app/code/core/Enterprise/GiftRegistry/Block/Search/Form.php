@@ -32,6 +32,8 @@
  */
 class Enterprise_GiftRegistry_Block_Search_Form extends Enterprise_Enterprise_Block_Core_Template
 {
+    protected $_formData = null;
+
     /**
      * Retrieve form header
      *
@@ -40,6 +42,35 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Enterprise_Enterprise_Bl
     public function getFormHeader()
     {
         return Mage::helper('enterprise_giftregistry')->__('Gift Registry Search');
+    }
+
+     /* Html pager block
+     *
+     * @return Enterprise_GiftRegistry_Block_Search_Form
+     */
+    public function setSearchResults($results)
+    {
+        $this->setData('search_results', $results);
+        $pager = $this->getLayout()->createBlock('page/html_pager', 'giftregistry.search.pager')
+            ->setCollection($results)->setIsOutputRequired(false);
+        $this->setChild('pager', $pager);
+    }
+
+    /**
+     * Retrieve by key saved in session form data
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function getFormData($key)
+    {
+        if (is_null($this->_formData)) {
+            $this->_formData = Mage::getSingleton('customer/session')->getRegistrySearchData();
+        }
+        if (!$this->_formData || !isset($this->_formData[$key])) {
+            return null;
+        }
+        return $this->escapeHtml($this->_formData[$key]);
     }
 
     /**
@@ -62,11 +93,11 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Enterprise_Enterprise_Bl
     {
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setData(array(
-                'id'    => 'search_type',
-                'class' => 'select required-entry'
+                'id'    => 'params_type_id',
+                'class' => 'select'
             ))
-            ->setName('search[type]')
-            ->setOptions($this->getTypesCollection()->toOptionArray());
+            ->setName('params[type_id]')
+            ->setOptions($this->getTypesCollection()->toOptionArray(true));
         return $select->getHtml();
     }
 
@@ -88,5 +119,18 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Enterprise_Enterprise_Bl
     public function getAdvancedUrl()
     {
         return $this->getUrl('giftregistry/search/advanced');
+    }
+
+    /**
+     * Retrieve item formated date
+     *
+     * @param Enterprise_GiftRegistry_Model_Entity $item
+     * @return string
+     */
+    public function getFormattedDate($item)
+    {
+        if ($item->getEventDate()) {
+            return $this->formatDate($item->getEventDate(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+        }
     }
 }

@@ -32,28 +32,34 @@
 </span>
 
 <?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
-<form action="<?php echo $this->getSearchUrl() ?>" method="post" id="gr_search_form">
+<form action="<?php echo $this->getActionUrl() ?>" method="post" id="gr_search_form">
     <div class="fieldset">
         <?php echo $this->getBlockHtml('formkey')?>
         <h2 class="legend"><?php echo $this->__('Search Options') ?></h2>
         <ul class="form-list">
             <li class="fields">
                 <div class="field">
-                    <label for="search_type" class="required"><em>*</em><?php echo $this->__('Gift Registry Type:') ?></label>
+                    <label for="params_firstname" class="required"><em>*</em><?php echo $this->__('First Name') ?></label>
+                     <div class="input-box">
+                        <input name="params[firstname]" id="params_firstname" type="text" value="<?php echo $this->getFormData('firstname') ?>" class="input-text required-entry" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="params_lastname" class="required"><em>*</em><?php echo $this->__('Last Name') ?></label>
+                    <div class="input-box">
+                        <input name="params[lastname]" id="params_lastname" type="text" value="<?php echo $this->getFormData('lastname') ?>" class="input-text required-entry" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="params_type_id"><?php echo $this->__('Gift Registry Type') ?></label>
                     <div class="input-box">
                         <?php echo $this->getTypeSelectHtml() ?>
                     </div>
                 </div>
                 <div class="field">
-                    <label for="search_firstname" class="required"><em>*</em><?php echo $this->__('First Name:') ?></label>
-                     <div class="input-box">
-                        <input name="search[firstname]" id="search_firstname" type="text" class="input-text required-entry" />
-                    </div>
-                </div>
-                <div class="field">
-                    <label for="search_lastname" class="required"><em>*</em><?php echo $this->__('Last Name:') ?></label>
+                    <label for="params_email"><?php echo $this->__('Email') ?></label>
                     <div class="input-box">
-                        <input name="search[lastname]" id="search_lastname" type="text" class="input-text required-entry" />
+                        <input name="params[email]" id="params_email" type="text" value="<?php echo $this->getFormData('email') ?>" class="input-text" />
                     </div>
                 </div>
             </li>
@@ -78,6 +84,7 @@ var giftRegistrySearchForm = new VarienForm('gr_search_form');
 
 function advancedFormUpdate() {
     new Ajax.Updater('gr-type-specific-options', '<?php echo $this->getAdvancedUrl() ?>', {
+        evalScripts : true,
         onCreate: function() {
             $('gr-please-wait').show()
         },
@@ -85,18 +92,25 @@ function advancedFormUpdate() {
             $('gr-please-wait').hide();
             $('gr-type-specific-fieldset').show();
         },
-        parameters : {type_id : $('search_type').value}
+        parameters : {type_id : $('params_type_id').value}
     });
 }
-$('search_type').observe('change', advancedFormUpdate);
+$('params_type_id').observe('change', advancedFormUpdate);
+
+<?php if ($this->getFormData('type_id')): ?>
+    $A($('params_type_id').options).each(function(option){
+        if (option.value==<?php echo $this->getFormData('type_id') ?>) option.selected = true;
+    });
+    advancedFormUpdate();
+<?php endif; ?>
 //]]>
 </script>
 
-<?php if ($this->getSearchResults()): ?>
+<?php if ($this->getSearchResults()->getSize()): ?>
 <div class="fieldset">
     <h2 class="legend"><?php echo $this->__('Search Results') ?></h2>
 </div>
-
+<?php echo $this->getChildHtml('pager') ?>
 <table class="data-table" id="giftregistry-search-results">
     <thead>
         <tr>
@@ -109,17 +123,20 @@ $('search_type').observe('change', advancedFormUpdate);
         </tr>
     </thead>
     <tbody>
-    <?php foreach((array)$this->getSearchResults() as $item): ?>
+    <?php foreach($this->getSearchResults() as $item): ?>
         <tr>
-            <td><?php echo $item['registrant'] ?></td>
-            <td><?php echo $item['event_location'] ?></td>
-            <td><?php echo $item['title'] ?></td>
-            <td><?php echo $item['type'] ?></td>
-            <td><?php echo $item['event_date'] ?></td>
-            <td><a href=""><?php echo $this->__('View') ?></a></td>
+            <td><?php echo $this->escapeHtml($item->getRegistrant()) ?></td>
+            <td><?php echo $this->escapeHtml($item->getEventLocation()) ?></td>
+            <td><?php echo $this->escapeHtml($item->getTitle()) ?></td>
+            <td><?php echo $this->escapeHtml($item->getType()) ?></td>
+            <td><?php echo $this->getFormattedDate($item) ?></td>
+            <td><a href="<?php echo $item->getRegistryLink() ?>"><?php echo $this->__('View') ?></a></td>
         </tr>
     <?php endforeach; ?>
     </tbody>
 </table>
 <script type="text/javascript">decorateTable('giftregistry-search-results')</script>
+<?php echo $this->getChildHtml('pager') ?>
+<?php else: ?>
+    <?php echo $this->__('Your search returns no results.') ?>
 <?php endif; ?>

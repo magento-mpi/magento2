@@ -61,10 +61,10 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
      */
     public function cartAction()
     {
-        $entity = $this->_getActiveEntity();
-        $count  = 0;
+        $count = 0;
 
         try {
+            $entity = $this->_getActiveEntity();
             if ($entity && $entity->getId()) {
                 $quote = Mage::getSingleton('checkout/cart')->getQuote();
                 foreach ($quote->getAllVisibleItems() as $item) {
@@ -73,7 +73,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                 }
                 if ($count > 0) {
                     Mage::getSingleton('checkout/session')->addSuccess(
-                        Mage::helper('enterprise_giftregistry')->__('%d shopping cart items have been added to gift registry.', $count)
+                        Mage::helper('enterprise_giftregistry')->__('%d shopping cart item(s) have been added to gift registry.', $count)
                     );
                 } else {
                     Mage::getSingleton('checkout/session')->addNotice(
@@ -81,7 +81,13 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                     );
                 }
             }
-        } catch (Exception $e) {
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('giftregistry');
+            return;
+        }
+        catch (Exception $e) {
             Mage::getSingleton('checkout/session')->addError($this->__('Failed to add shopping cart items to gift registry.'));
         }
 
@@ -94,15 +100,15 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
     public function wishlistAction()
     {
         if ($items = $this->getRequest()->getParam('items')) {
-            $entity = $this->_getActiveEntity();
             try {
+                $entity = $this->_getActiveEntity();
                 if ($entity && $entity->getId() && is_array($items)) {
                     foreach (array_keys($items) as $item) {
                         $entity->addItem((int)$item);
                     }
                     if (count($items) > 0) {
                         $this->_getSession()->addSuccess(
-                            Mage::helper('enterprise_giftregistry')->__('%d wishlist items have been added to gift registry.', count($items))
+                            Mage::helper('enterprise_giftregistry')->__('%d wishlist item(s) have been added to gift registry.', count($items))
                         );
                     } else {
                         $this->_getSession()->addNotice(
@@ -110,7 +116,13 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                         );
                     }
                 }
-            } catch (Exception $e) {
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+                $this->_redirect('giftregistry');
+                return;
+            }
+            catch (Exception $e) {
                 $this->_getSession()->addError($this->__('Failed to add wishlist items to gift registry.'));
             }
         }

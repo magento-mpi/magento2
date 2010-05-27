@@ -79,6 +79,21 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
     }
 
     /**
+     * Callback function for sorting attributes by sort_order param
+     *
+     * @param array $a
+     * @param array $b
+     * @return int
+     */
+    protected function _sortAttributes($a, $b)
+    {
+        if ($a['sort_order'] != $b['sort_order']) {
+            return ($a['sort_order'] > $b['sort_order']) ? 1 : -1;
+        }
+        return 0;
+    }
+
+    /**
      * Set store id
      *
      * @return Enterprise_GiftRegistry_Model_Type
@@ -217,6 +232,7 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
                     $attributes[$code]['options'] = $options;
                 }
             }
+            uasort($attributes, array($this, '_sortAttributes'));
         }
         return $attributes;
     }
@@ -242,5 +258,26 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
             }
         }
         return '';
+    }
+
+    /**
+     * Retrieve attribute by code
+     *
+     * @param string $code
+     * @return null|array
+     */
+    public function getAttributeByCode($code)
+    {
+        if (!$this->getId() || empty($code)) {
+            return null;
+        }
+        if ($groups = $this->getAttributes()) {
+            foreach ($groups as $group) {
+                if (isset($group[$code])) {
+                    return $group[$code];
+                }
+            }
+        }
+        return null;
     }
 }

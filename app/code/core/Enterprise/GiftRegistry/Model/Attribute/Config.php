@@ -37,17 +37,26 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Enterprise_Enterpri
     const XML_ATTRIBUTE_GROUPS_PATH = 'prototype/registry/attribute_groups';
 
     /**
-     * Load config from giftregistry.xml files
+     * Load config from giftregistry.xml files and try to cache it
      *
      * @return Varien_Simplexml_Config
      */
     public function getXmlConfig()
     {
         if (is_null($this->_config)) {
-            $config = new Varien_Simplexml_Config();
-            $config->loadString('<?xml version="1.0"?><prototype></prototype>');
-            Mage::getConfig()->loadModulesConfiguration('giftregistry.xml', $config);
-            $this->_config = $config;
+            if ($cachedXml = Mage::app()->loadCache('giftregistry_config')) {
+                $xmlConfig = new Varien_Simplexml_Config($cachedXml);
+            } else {
+                $xmlConfig = new Varien_Simplexml_Config();
+                $xmlConfig->loadString('<?xml version="1.0"?><prototype></prototype>');
+                Mage::getConfig()->loadModulesConfiguration('giftregistry.xml', $xmlConfig);
+
+                if (Mage::app()->useCache('config')) {
+                    Mage::app()->saveCache($xmlConfig->getXmlString(), 'giftregistry_config',
+                        array(Mage_Core_Model_Config::CACHE_TAG));
+                }
+            }
+            $this->_config = $xmlConfig;
         }
         return $this->_config;
     }
@@ -134,6 +143,21 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Enterprise_Enterpri
     public function getStaticTypesCodes()
     {
         return array_keys($this->getStaticTypes());
+    }
+
+    /**
+     * Return code of static date attribute type
+     *
+     * @return null|string
+     */
+    public function getStaticDateType()
+    {
+        foreach ($this->getStaticTypes() as $code =>$type) {
+            if (isset($type['type']) && $type['type'] == 'date') {
+                return $code;
+            }
+        }
+        return null;
     }
 
     /**

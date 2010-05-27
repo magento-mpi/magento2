@@ -60,7 +60,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Enterpri
     {
         $type = Mage::registry('current_giftregistry_type');
         if ($type->getTypeId()) {
-            return Mage::helper('enterprise_giftregistry')->__("Edit '%s' Gift Registry Type", $this->htmlEscape($type->getLabel()));
+            return Mage::helper('enterprise_giftregistry')->__("Edit '%s' Gift Registry Type", $this->escapeHtml($type->getLabel()));
         }
         else {
             return Mage::helper('enterprise_giftregistry')->__('New Gift Registry Type');

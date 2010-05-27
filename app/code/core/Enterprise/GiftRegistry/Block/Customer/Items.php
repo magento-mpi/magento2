@@ -76,7 +76,7 @@ class Enterprise_GiftRegistry_Block_Customer_Items
      */
     public function getEscapedNote($item)
     {
-        return $this->htmlEscape($item->getData('note'));
+        return $this->escapeHtml($item->getData('note'));
     }
 
     /**

@@ -55,10 +55,10 @@ class Enterprise_GiftRegistry_Block_Search_Quick extends Enterprise_Enterprise_B
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setData(array(
                 'id'    => 'params_type_id',
-                'class' => 'select required-entry'
+                'class' => 'select'
             ))
             ->setName('params[type_id]')
-            ->setOptions($this->getTypesCollection()->toOptionArray());
+            ->setOptions($this->getTypesCollection()->toOptionArray(true));
         return $select->getHtml();
     }
 

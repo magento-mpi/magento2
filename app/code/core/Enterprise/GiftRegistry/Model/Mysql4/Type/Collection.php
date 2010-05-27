@@ -101,10 +101,18 @@ class Enterprise_GiftRegistry_Model_Mysql4_Type_Collection
     /**
      * Convert collection to array for select options
      *
+     * @param bool $withEmpty
      * @return array
      */
-    public function toOptionArray()
+    public function toOptionArray($withEmpty = false)
     {
-        return $this->_toOptionArray('type_id', 'label');
+        $result = $this->_toOptionArray('type_id', 'label');
+        if ($withEmpty) {
+            $result = array_merge(array(array(
+                'value' => '',
+                'label' => Mage::helper('enterprise_giftregistry')->__('-- Please select --')
+            )), $result);
+        }
+        return $result;
     }
 }

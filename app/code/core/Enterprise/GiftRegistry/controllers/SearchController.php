@@ -30,6 +30,96 @@
 class Enterprise_GiftRegistry_SearchController extends Enterprise_Enterprise_Controller_Core_Front_Action
 {
     /**
+     * Get current customer session
+     *
+     * @return Mage_Customer_Model_Session
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('customer/session');
+    }
+
+    /**
+     * Initialize gift registry type model
+     *
+     * @param int $typeId
+     * @return Enterprise_GiftRegistry_Model_Type
+     */
+    protected function _initType($typeId)
+    {
+        $type = Mage::getModel('enterprise_giftregistry/type')
+            ->setStoreId(Mage::app()->getStore()->getId())
+            ->load($typeId);
+
+        Mage::register('current_giftregistry_type', $type);
+        return $type;
+    }
+
+    /**
+     * Filter input form data
+     *
+     * @param  array $params
+     * @return array
+     */
+    protected function _filterInputParams($params)
+    {
+        if (isset($params['type_id'])) {
+            $type = $this->_initType($params['type_id']);
+            $dateType = Mage::getSingleton('enterprise_giftregistry/attribute_config')->getStaticDateType();
+            if ($dateType) {
+                $attribute = $type->getAttributeByCode($dateType);
+                $format = (isset($attribute['date_format'])) ? $attribute['date_format'] : null;
+
+                $dateFields = array();
+                $fromDate = $dateType . '_from';
+                $toDate = $dateType . '_to';
+
+                if (isset($params[$fromDate])) {
+                    $dateFields[] = $fromDate;
+                }
+                if (isset($params[$toDate])) {
+                    $dateFields[] = $toDate;
+                }
+                $params = $this->_filterInputDates($params, $dateFields, $format);
+            }
+        }
+        return $params;
+    }
+
+    /**
+     * Convert dates in array from localized to internal format
+     *
+     * @param   array $array
+     * @param   array $dateFields
+     * @return  array
+     */
+    protected function _filterInputDates($array, $dateFields, $format = null)
+    {
+        if (empty($dateFields)) {
+            return $array;
+        }
+        if (is_null($format)) {
+            $format = Mage_Core_Model_Locale::FORMAT_TYPE_SHORT;
+        }
+
+        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
+            'locale' => Mage::app()->getLocale()->getLocaleCode(),
+            'date_format' => Mage::app()->getLocale()->getDateFormat($format)
+        ));
+        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
+            'date_format' => Varien_Date::DATE_INTERNAL_FORMAT
+        ));
+
+        foreach ($dateFields as $dateField) {
+            if (array_key_exists($dateField, $array) && !empty($dateField)) {
+                $array[$dateField] = $filterInput->filter($array[$dateField]);
+                $array[$dateField] = $filterInternal->filter($array[$dateField]);
+            }
+        }
+        return $array;
+    }
+
+    /**
      * Index action
      */
     public function indexAction()
@@ -38,12 +128,16 @@ class Enterprise_GiftRegistry_SearchController extends Enterprise_Enterprise_Con
         $this->_initLayoutMessages('customer/session');
 
         if ($params = $this->getRequest()->getParam('params')) {
-            $entity = Mage::getModel('enterprise_giftregistry/entity');
-            $results = $entity->search($params);
-
-            $this->getLayout()->getBlock('giftregistry.search.form')
-                ->setSearchResults($results);
+            $this->_getSession()->setRegistrySearchData($params);
+        } else {
+            $params = $this->_getSession()->getRegistrySearchData();
         }
+
+        $results = Mage::getModel('enterprise_giftregistry/entity')->getCollection()
+            ->applySearchFilters($this->_filterInputParams($params));
+
+        $this->getLayout()->getBlock('giftregistry.search.form')
+            ->setSearchResults($results);
 
         $this->renderLayout();
     }
@@ -53,13 +147,7 @@ class Enterprise_GiftRegistry_SearchController extends Enterprise_Enterprise_Con
      */
     public function advancedAction()
     {
-        $typeId = $this->getRequest()->getParam('type_id');
-        $type = Mage::getModel('enterprise_giftregistry/type')
-            ->setStoreId(Mage::app()->getStore()->getId())
-            ->load($typeId);
-
-        Mage::register('current_giftregistry_type', $type);
-
+        $this->_initType($this->getRequest()->getParam('type_id'));
         $this->loadLayout();
         $this->renderLayout();
     }

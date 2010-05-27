@@ -25,4 +25,20 @@
  */
 ?>
 
+<?php foreach ($this->getAttributes() as $code => $attribute) : ?>
+    <div class="field">
+        <label for="<?php echo $this->getFieldIdPrefix().$code ?>"><?php echo $attribute['label'] ?></label>
+        <div class="input-box">
+            <?php echo $this->renderField($code) ?>
+        </div>
+    </div>
+<?php endforeach; ?>
 
+<script type="text/javascript">
+//<![CDATA[
+<?php if ($this->getRegionJsVisible()): ?>
+    regionJSON = <?php echo $this->helper('directory')->getRegionJson(); ?>;
+    new RegionUpdater('<?php echo $this->getFieldIdPrefix().$this->getElementCountry()?>', '<?php echo $this->getFieldIdPrefix().$this->getElementRegionText()?>', '<?php echo $this->getFieldIdPrefix().$this->getElementRegion()?>', regionJSON);
+<?php endif; ?>
+//]]>
+</script>

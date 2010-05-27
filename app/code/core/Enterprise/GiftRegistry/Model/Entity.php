@@ -228,8 +228,12 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
             ->filterByCustomerId($customerId)
             ->filterByActive();
 
-        foreach ($collection as $entity) {
-            return $entity;
+        if ($collection->getSize()) {
+            foreach ($collection as $entity) {
+                return $entity;
+            }
+        } else {
+            Mage::throwException(Mage::helper('enterprise_giftregistry')->__('There is no active gift registries.'));
         }
         return false;
     }
@@ -245,40 +249,6 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     {
         $this->_getResource()->setActiveEntity($customerId, $entityId);
         return $this;
-    }
-
-    /**
-     * Search
-     *
-     * @param array $params
-     * @return array
-     */
-    public function search($params)
-    {
-        $params = $this->_prepareSearchParams($params);
-        return $this->_getResource()->quickSearch($params);
-    }
-
-    /**
-     * Prepare search params
-     *
-     * @param array $params
-     * @return array
-     */
-    protected function _prepareSearchParams($params)
-    {
-        $params['store_id'] = Mage::app()->getStore()->getId();
-        $params['website_id'] = Mage::app()->getStore()->getWebsiteId();
-
-        if (isset($params['firstname'])) {
-            $params['firstname'] = substr(trim($params['firstname']), 0 , 2);
-        }
-
-        if (isset($params['lastname'])) {
-            $params['lastname'] = substr(trim($params['lastname']), 0 , 2);
-        }
-
-        return $params;
     }
 
     /**

@@ -78,7 +78,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
      */
     public function getItemsUrl($item)
     {
-        return $this->getUrl('giftregistry/index/items', array('id' => $item->getData('entity_id')));
+        return $this->getUrl('giftregistry/index/items', array('id' => $item->getEntityId()));
     }
 
     /**
@@ -88,7 +88,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
      */
     public function getShareUrl($item)
     {
-        return $this->getUrl('giftregistry/index/share', array('id' => $item->getData('entity_id')));
+        return $this->getUrl('giftregistry/index/share', array('id' => $item->getEntityId()));
     }
 
     /**
@@ -108,7 +108,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
      */
     public function getDeleteUrl($item)
     {
-        return $this->getUrl('giftregistry/index/delete', array('id' => $item->getData('entity_id')));
+        return $this->getUrl('giftregistry/index/delete', array('id' => $item->getEntityId()));
     }
 
     /**
@@ -119,7 +119,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
      */
     public function getEscapedTitle($item)
     {
-        return $this->htmlEscape($item->getData('title'));
+        return $this->escapeHtml($item->getData('title'));
     }
 
     /**
@@ -141,7 +141,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
      */
     public function getEscapedMessage($item)
     {
-        return $this->htmlEscape($item->getData('message'));
+        return $this->escapeHtml($item->getData('message'));
     }
 
     /**

@@ -56,8 +56,8 @@
             <?php foreach($this->getWishlist() as $item): ?>
                 <tr>
                     <td>
-                        <a class="product-image" href="<?php echo $item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($item->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($item, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->htmlEscape($item->getName()) ?>" /></a>
-                        <h2 class="product-name"><a href="<?php echo $item->getProductUrl() ?>"><?php echo $this->htmlEscape($item->getName()) ?></a></h2>
+                        <a class="product-image" href="<?php echo $item->getProductUrl() ?>" title="<?php echo $this->escapeHtml($item->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($item, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->escapeHtml($item->getName()) ?>" /></a>
+                        <h2 class="product-name"><a href="<?php echo $item->getProductUrl() ?>"><?php echo $this->escapeHtml($item->getName()) ?></a></h2>
                         <?php echo $this->getPriceHtml($item) ?>
                     </td>
                     <td>
@@ -112,9 +112,9 @@ function focusComment(obj) {
 }
 
 function updateAction(addAction) {
-	viewForm = $('wishlist-view-form');
-	viewForm.action = addAction;
-	viewForm.submit();
+    viewForm = $('wishlist-view-form');
+    viewForm.action = addAction;
+    viewForm.submit();
 }
 //]]>
 </script>

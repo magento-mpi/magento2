@@ -53,7 +53,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit
     {
         $entity = Mage::registry('current_giftregistry_entity');
         if ($entity->getId()) {
-            return $this->htmlEscape($entity->getTitle());
+            return $this->escapeHtml($entity->getTitle());
         }
         return Mage::helper('enterprise_giftregistry')->__('Gift Registry Entity');
     }

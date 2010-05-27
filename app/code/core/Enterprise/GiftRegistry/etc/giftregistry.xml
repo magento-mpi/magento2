@@ -48,9 +48,12 @@
                     <event_country_code>
                         <type>country</type>
                     </event_country_code>
-                    <event_region_code>
+                    <event_region>
                         <type>region</type>
-                    </event_region_code>
+                    </event_region>
+                    <event_region_text>
+                        <type>text</type>
+                    </event_region_text>
                     <event_location>
                         <type>text</type>
                     </event_location>
@@ -95,8 +98,7 @@
                     <email/>
                 </system>
                 <static>
-                    <role translate="label" module="enterprise_giftregistry">
-                        <label>Role</label>
+                    <role>
                         <type>select</type>
                     </role>
                 </static>

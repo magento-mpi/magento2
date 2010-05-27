@@ -60,19 +60,19 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_D
     {
          return array(
             array(
-                'value' => Mage_Core_Model_Locale::FORMAT_TYPE_SHORT ,
+                'value' => Mage_Core_Model_Locale::FORMAT_TYPE_SHORT,
                 'label' => Mage::helper('enterprise_giftregistry')->__('Short')
             ),
             array(
-                'value' => Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM ,
+                'value' => Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM,
                 'label' => Mage::helper('enterprise_giftregistry')->__('Medium')
             ),
             array(
-                'value' => Mage_Core_Model_Locale::FORMAT_TYPE_LONG ,
+                'value' => Mage_Core_Model_Locale::FORMAT_TYPE_LONG,
                 'label' => Mage::helper('enterprise_giftregistry')->__('Long')
             ),
             array(
-                'value' => Mage_Core_Model_Locale::FORMAT_TYPE_FULL ,
+                'value' => Mage_Core_Model_Locale::FORMAT_TYPE_FULL,
                 'label' => Mage::helper('enterprise_giftregistry')->__('Full')
             )
         );

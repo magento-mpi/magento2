@@ -134,4 +134,91 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity_Collection
         );
         return $this;
     }
+
+    /**
+     * Apply search filters
+     *
+     * @param array $params
+     * @return Enterprise_GiftRegistry_Model_Mysql4_Entity_Collection
+     */
+    public function applySearchFilters($params)
+    {
+        $select = $this->getConnection()->select();
+        $select->from(array('m' => $this->getMainTable()), array('*'))
+            ->where('m.is_public = 1')
+            ->where('m.website_id=?', Mage::app()->getStore()->getWebsiteId());
+
+        /*
+         * Join registry type store label
+         */
+        $select->joinLeft(
+            array('i1' => $this->getTable('enterprise_giftregistry/info')),
+            'i1.type_id = m.type_id AND i1.store_id = 0',
+            array()
+        );
+        $select->joinLeft(
+            array('i2' => $this->getTable('enterprise_giftregistry/info')),
+            'i2.type_id = m.type_id AND i2.store_id = ' . Mage::app()->getStore()->getId(),
+            array('type' => new Zend_Db_Expr('IFNULL(i2.label, i1.label)'))
+        );
+
+        /*
+         * Join registrant data
+         */
+        $select->joinInner(
+            array('p' => $this->getTable('enterprise_giftregistry/person')),
+            'm.entity_id = p.entity_id',
+            array('registrant' => new Zend_Db_Expr("CONCAT(firstname,' ',lastname)"))
+        );
+
+        /*
+         * Join entity event data
+         */
+        $select->joinLeft(
+            array('d' => $this->getTable('enterprise_giftregistry/data')),
+            'm.entity_id = d.entity_id',
+            array('event_date', 'event_location')
+        );
+
+        /*
+         * Apply search filters
+         */
+        if (!empty($params['type_id'])) {
+            $select->where('m.type_id=?', $params['type_id']);
+        }
+        if (!empty($params['firstname'])) {
+            $select->where($this->getConnection()->quoteInto('p.firstname LIKE ?', $params['firstname'] . '%'));
+        }
+        if (!empty($params['lastname'])) {
+            $select->where($this->getConnection()->quoteInto('p.lastname LIKE ?', $params['lastname'] . '%'));
+        }
+        if (!empty($params['email'])) {
+            $select->where($this->getConnection()->quoteInto('p.email =?', $params['email']));
+        }
+
+        /*
+         * Apply search filters by static attributes
+         */
+        $config = Mage::getSingleton('enterprise_giftregistry/attribute_config');
+        $staticCodes = $config->getStaticTypesCodes();
+        foreach ($staticCodes as $code) {
+            if (!empty($params[$code])) {
+                $select->where($this->getConnection()->quoteInto($code . ' =?', $params[$code]));
+            }
+        }
+        $dateType = $config->getStaticDateType();
+        if (!empty($params[$dateType . '_from'])) {
+            $select->where($this->getConnection()->quoteInto($dateType . ' >= ?', $params[$dateType . '_from']));
+        }
+        if (!empty($params[$dateType . '_to'])) {
+            $select->where($this->getConnection()->quoteInto($dateType . ' <= ?', $params[$dateType . '_to']));
+        }
+
+        $select->group(array('m.entity_id'));
+        $this->getSelect()->reset()->from(
+            array('main_table' => $select),
+            array('*')
+        );
+        return $this;
+    }
 }

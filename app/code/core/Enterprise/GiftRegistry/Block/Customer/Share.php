@@ -51,7 +51,7 @@ class Enterprise_GiftRegistry_Block_Customer_Share
      */
     public function getCustomerName()
     {
-        return $this->htmlEscape($this->getCustomer()->getName());
+        return $this->escapeHtml($this->getCustomer()->getName());
     }
 
     /**
@@ -61,7 +61,7 @@ class Enterprise_GiftRegistry_Block_Customer_Share
      */
     public function getCustomerEmail()
     {
-        return $this->htmlEscape($this->getCustomer()->getEmail());
+        return $this->escapeHtml($this->getCustomer()->getEmail());
     }
 
     /**
@@ -90,7 +90,7 @@ class Enterprise_GiftRegistry_Block_Customer_Share
             return null;
         }
         else {
-            return $this->htmlEscape($this->_formData[$key]);
+            return $this->escapeHtml($this->_formData[$key]);
         }
     }
 

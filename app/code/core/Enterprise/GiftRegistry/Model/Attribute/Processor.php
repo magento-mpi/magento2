@@ -34,7 +34,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
     const XML_REGISTRANT_NODE = 'registrant';
 
     /**
-     * Render customer xml
+     * Convert attributes data to xml
      *
      * @param Enterprise_GiftRegistry_Model_Type $type
      * @return string
@@ -55,7 +55,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
                         $groups[$group][] = $attribute;
                     }
                 }
-                foreach ($groups as $group => $attributes ) {
+                foreach ($groups as $group => $attributes) {
                     $this->processDataType($typeXml, $group, $attributes);
                 }
             }
@@ -64,7 +64,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
     }
 
     /**
-     * Render customer xml
+     * Process attribute types as xml
      *
      * @param Varien_Simplexml_Element $typeXml
      * @param string $group
@@ -88,22 +88,22 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
                 $attributeXml->addChild('sort_order', $attribute['sort_order']);
 
                 switch ($attribute['type']) {
-                    case 'select': $this->getSelectOptions($attribute, $attributeXml); break;
-                    case 'date': $this->getDateOptions($attribute, $attributeXml); break;
-                    case 'region': $this->getRegionOptions($attribute, $attributeXml); break;
+                    case 'select': $this->addSelectOptions($attribute, $attributeXml); break;
+                    case 'date': $this->addDateOptions($attribute, $attributeXml); break;
+                    case 'region': $this->addRegionOptions($attribute, $attributeXml); break;
                 }
-                 $this->getFrontendParams($attribute, $attributeXml);
+                 $this->addFrontendParams($attribute, $attributeXml);
             }
         }
     }
 
     /**
-     * Render xml select options
+     * Add select type options to attribute node
      *
      * @param array $attribute
      * @param Varien_Simplexml_Element $itemXml
      */
-    public function getSelectOptions($attribute, $itemXml)
+    public function addSelectOptions($attribute, $itemXml)
     {
         if (isset($attribute['options']) && is_array($attribute['options'])) {
             $optionXml = $itemXml->addChild('options');
@@ -120,38 +120,36 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
     }
 
     /**
-     * Render xml date options
+     * Add date type options to attribute node
      *
      * @param array $attribute
      * @param Varien_Simplexml_Element $itemXml
      */
-    public function getDateOptions($attribute, $itemXml)
+    public function addDateOptions($attribute, $itemXml)
     {
-        if (isset($attribute['date_format'])) {
-            $itemXml->addChild('date_format', $attribute['date_format']);
-        }
+        $dateFormat = (isset($attribute['date_format'])) ? $attribute['date_format'] : '';
+        $itemXml->addChild('date_format', $dateFormat);
     }
 
     /**
-     * Render xml region options
+     * Add region type options to attribute node
      *
      * @param array $attribute
      * @param Varien_Simplexml_Element $itemXml
      */
-    public function getRegionOptions($attribute, $itemXml)
+    public function addRegionOptions($attribute, $itemXml)
     {
-        if (isset($attribute['region_country'])) {
-            $itemXml->addChild('region_country', $attribute['region_country']);
-        }
+        $regionCountry = (isset($attribute['region_country'])) ? $attribute['region_country'] : '';
+        $itemXml->addChild('region_country', $regionCountry);
     }
 
     /**
-     * Render xml frontend params
+     * Add frontend params to attribute node
      *
      * @param array $attribute
      * @param Varien_Simplexml_Element $itemXml
      */
-    public function getFrontendParams($attribute, $itemXml)
+    public function addFrontendParams($attribute, $itemXml)
     {
         if (isset($attribute['frontend']) && is_array($attribute['frontend'])) {
             $paramXml = $itemXml->addChild('frontend');
@@ -160,9 +158,11 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
             }
         }
     }
+
     /**
-     * Render customer xml
+     * Convert attributes xml to array
      *
+     * @param string $xmlString
      * @return array
      */
     public function processXml($xmlString = '')

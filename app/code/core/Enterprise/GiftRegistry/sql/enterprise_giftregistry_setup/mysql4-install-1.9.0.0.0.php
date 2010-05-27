@@ -94,7 +94,7 @@ CREATE TABLE `{$this->getTable('enterprise_giftregistry/person')}` (
     `firstname` varchar(100) NOT NULL DEFAULT '',
     `lastname` varchar(100) NOT NULL DEFAULT '',
     `email` varchar(150) NOT NULL DEFAULT '',
-    `role` int(10) unsigned DEFAULT NULL,
+    `role` varchar(32) NOT NULL DEFAULT '',
     PRIMARY KEY (`person_id`),
     KEY `IDX_EE_GR_PERSON_ENTITY` (`entity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -102,8 +102,9 @@ CREATE TABLE `{$this->getTable('enterprise_giftregistry/person')}` (
 CREATE TABLE `{$this->getTable('enterprise_giftregistry/data')}` (
   `entity_id` int(10) unsigned NOT NULL DEFAULT '0',
   `event_date` date DEFAULT NULL,
-  `event_region` varchar(30) DEFAULT NULL,
-  `event_region_id` int(10) DEFAULT NULL,
+  `event_country_code` char(3) DEFAULT NULL,
+  `event_region` int(10) DEFAULT NULL,
+  `event_region_text` varchar(30) DEFAULT NULL,
   `event_location` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`entity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
