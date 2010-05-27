@@ -366,18 +366,32 @@ addressesModel.prototype = {
             for(var i=0; i < fields.size(); i++){
                 if(fields[i].id){
                     var id = fields[i].id.replace(/^(_item)?[0-9]+/, '');
+                    var id = id.replace(/^(id)?[0-9]+/, '');
                     var value = fields[i].getValue();
-                    if(fields[i].tagName.toLowerCase()=='select'){
-                        data[id] = fields[i].options[fields[i].selectedIndex].text.escapeHTML();
-                    }
-                    else{
+                    var tagName = fields[i].tagName.toLowerCase();
+                    if (tagName == 'select') {
+                        if (fields[i].multiple) {
+                            var values = $([]);
+                            var l = fields[i].options.length;
+                            for (j=0; j<l; j++) {
+                                var o = fields[i].options[j];
+                                if (o.selected) {
+                                    values[j] = o.text.escapeHTML();
+                                }
+                            }
+                            data[id] = values.join(', ');
+                        } else {
+                            data[id] = fields[i].options[fields[i].selectedIndex].text.escapeHTML();
+                        }
+                    } else if (value !== null) {
                         data[id] = value.escapeHTML();
                     }
                 }
             }
+
+//            console.log(data);
             var itemContainer = container.addressItem.getElementsBySelector('address');
             if(itemContainer[0]){
-
                 var html = this.itemContentTemplate.evaluate(data);
                 html = html.replace(new RegExp('(<br\\s*/?>\\s*){2,}','img'),'<br/>');
                 html = html.replace(new RegExp('<br\\s*/?>(\\s*,){1,}\\s*<br\\s*/?>','ig'),'<br/>');
