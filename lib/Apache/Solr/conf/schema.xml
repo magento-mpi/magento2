@@ -1229,7 +1229,7 @@
          default: a value that should be used if no value is specified
            when adding a document.
         -->
-
+        
         <!--
         Numeric fields
         -->
@@ -1238,9 +1238,9 @@
         <field name="unique" type="string" indexed="true" stored="true" required="true"/> 
         <field name="price"  type="tfloat" indexed="true" stored="true" multiValued="true"/>
         <field name="store_id" type="int" indexed="true" stored="true"/>
-        <field name="in_stock" type="boolean" indexed="true" stored="true" />
+        <field name="in_stock" type="boolean" indexed="true" stored="true"/>
+        <field name="categories" type="int" indexed="true" stored="true" multiValued="true"/>
         
-       
         <!--
         Text fields
         -->

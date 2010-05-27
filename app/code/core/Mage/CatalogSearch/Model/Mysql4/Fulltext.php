@@ -172,6 +172,8 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                 }
 
                 $index = $this->_prepareProductIndex($productIndex, $productData, $storeId);
+                $index['categories'] = $this->_prepareProductCategories($productData['entity_id']);
+
                 $productIndexes[$productData['entity_id']] = $index;
                 //$this->_saveProductIndex($productData['entity_id'], $storeId, $index);
             }
@@ -181,6 +183,24 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         $this->resetSearchResults();
 
         return $this;
+    }
+
+    /**
+     * Collects all categories ids where product is represented
+     *
+     * @param int $productId
+     *
+     * @return string
+     */
+    protected function _prepareProductCategories($productId) {
+        $select = $this->_getWriteAdapter()->select()
+            ->from(
+                array('c_p' => $this->getTable('catalog/category_product')),
+                array('categories_ids' => 
+                    $this->_getWriteAdapter()->quoteInto('GROUP_CONCAT(category_id SEPARATOR ?)', ' ')))
+            ->where('product_id = ?', $productId);
+
+        return $this->_getWriteAdapter()->fetchOne($select);
     }
 
     /**

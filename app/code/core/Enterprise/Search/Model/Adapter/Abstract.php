@@ -75,6 +75,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         'description',
         'meta_keyword',
         'store_id',
+        'categories',
         'in_stock',
         //'fulltext',
         'score' //used to support sorting by this field
@@ -102,7 +103,21 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         self::UNIQUE_KEY,
         'id',
         'store_id',
-        'in_stock'
+        'in_stock',
+        'categories'
+    );
+
+    /**
+     * Defines text type fields
+     * Integer attributes are saved at metadata as text because in fact they are values for
+     * options of select type inputs but their values are presented as text aliases
+     *
+     * @var array
+     */
+    protected $_textFieldTypes = array(
+        'text',
+        'varchar',
+        'int'
     );
 
     /**
@@ -582,14 +597,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         $languageCode = $this->_getLanguageCodeByLocaleCode($localeCode);
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
-        //Integer attributes are saved at metadata as text because in fact they are values for
-        //options of select type inputs but their values are presented as text aliases
-        $textFieldTypes = array(
-            'text',
-            'varchar',
-            'int'
-        );
-
         foreach ($data as $key => $value) {
             if (in_array($key, $this->_usedFields) && !in_array($key, $this->_searchTextFields)) {
                 continue;
@@ -615,7 +622,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             if ($frontendInput == 'multiselect') {
                 $data['attr_multi_'. $key] = $value;
                 unset($data[$key]);
-            } elseif (in_array($backendType, $textFieldTypes) || in_array($key, $this->_searchTextFields)) {
+            } elseif (in_array($backendType, $this->_textFieldTypes) || in_array($key, $this->_searchTextFields)) {
                 //for groupped products
                 if (is_array($value)) {
                     $value = implode(' ', array_unique($value));

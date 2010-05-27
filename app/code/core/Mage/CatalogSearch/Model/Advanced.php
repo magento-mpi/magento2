@@ -147,7 +147,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
                     else {
                         $rate = 1;
                     }
-    
+
                     if ($this->_getResource()->addRatedPriceFilter($this->getProductCollection(), $attribute, $value, $rate)) {
                         $hasConditions = true;
                         $this->_addSearchCriteria($attribute, $value);
