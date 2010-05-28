@@ -282,8 +282,8 @@ PaypalConfig.prototype = {
                 this.disableMethod(m);
                 this.hideMethod(m);
             } else {
-                this.markMethodAsReadonly(m, false);
                 this.showMethod(m);
+                this.markMethodAsReadonly(m, false);
             }
         }.bind(this));
 
