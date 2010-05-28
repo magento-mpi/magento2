@@ -24,20 +24,94 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+
+<script type="text/javascript">
+
+// tabNumber:
+//  * 0, 1, 2 — main tabs
+//  * 3, ... — active tabs
+
+// disabled tabs have another numbers
+
+function XmlconnectTabMoveLeft(tabNumber) {
+    alert('FIXME')
+}
+
+function XmlconnectTabMoveRight(tabNumber) {
+    alert('FIXME')
+}
+
+function XmlconnectTabEnable(disabledTabNumber) {
+    alert('FIXME')
+    return false
+}
+
+function XmlconnectTabDisable(tabNumber) {
+    alert('FIXME')
+    return false
+}
+
+</script>
+
 <div style="background: #eee">Main Tabs</div>
 <br />
-<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_home.png" />
-<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_search.png" />
-<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_cart.png" />
-<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_account.png" />
-<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_more.png" />
+<table border="0" width="100%">
+    <tr>
+        <td align="center" valign="bottom">
+            <img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_home.png" />
+        </td>
+        <td align="center" valign="bottom">
+            <img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_search.png" />
+        </td>
+        <td align="center" valign="bottom">
+            <img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_cart.png" />
+        </td>
+        <td align="center" valign="bottom">
+            <img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_account.png" />
+        </td>
+        <td align="center" valign="bottom">
+            <img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_more.png" />
+        </td>
+    </tr>
+    <tr>
+        <td align="center">Home</td>
+        <td align="center">Search</td>
+        <td align="center">Cart</td>
+        <td align="center">Account</td>
+        <td align="center">More</td>
+    </tr>
+    <tr>
+        <td><!-- Home tab == fixed place --></td>
+        <td align="center" valign="top">
+            <input type="button" value="→" onclick="XmlconnectTabMoveRight(0)" />
+        </td>
+        <td align="center" valign="top">
+            <input type="button" value="←" onclick="XmlconnectTabMoveLeft(1)" />
+            <input type="button" value="→" onclick="XmlconnectTabMoveRight(1)" />
+        </td>
+        <td align="center" valign="top">
+            <input type="button" value="←" onclick="XmlconnectTabMoveLeft(2)" />
+            <input type="button" value="→" onclick="XmlconnectTabMoveRight(2)" />
+        </td>
+        <td><!-- More tab == fixed place --></td>
+    </tr>
+    <tr>
+        <td><!-- Home tab == always active --></td>
+        <td align="center"><a href="#" onclick="return XmlconnectTabDisable(0)">Make Inactive</a></td>
+        <td align="center"><a href="#" onclick="return XmlconnectTabDisable(1)">Make Inactive</a></td>
+        <td align="center"><a href="#" onclick="return XmlconnectTabDisable(2)">Make Inactive</a></td>
+        <td><!-- More tab == always active--></td>
+    </tr>
+</table>
 <br />
 <br />
 
 <div style="background: #eee">More Tabs</div>
 <br />
+<!-- same shit, w/o Home and More -->
 <br />
 
 <div style="background: #eee">Inactive Tabs</div>
 <br />
+<!-- same shit, grayscaled, w/o Home and More -->
 <br />
