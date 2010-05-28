@@ -31,7 +31,7 @@
 //  * 0, 1, 2 — main tabs
 //  * 3, ... — active tabs
 
-// disabled tabs have another numbers
+// disabledTabNumber — another numbers
 
 tabNames = [ 'Search', 'Cart', 'Account', 'Browse', 'About Us', 'Contact Us']
 
@@ -42,6 +42,9 @@ tabImages = [
 '<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_fixme.png',
 '<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_fixme.png',
 '<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_fixme.png' ]
+
+disabledTabNames = []
+disabledTabImages = []
 
 function XmlconnectTabUpdate() {
     for(i=0; i<tabImages.length; i++) {
@@ -61,6 +64,40 @@ function XmlconnectTabUpdate() {
     for(i=tabImages.length; i<8; i++) {
         tab=document.getElementsByClassName('mm_tab'+i)
         for(j=0; j<tab.length; j++) {
+            if(tab[j].className.indexOf('mm_img')>0) {
+                tab[j].innerHTML = '<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_empty.png" alt="" />'
+            }
+            if(tab[j].className.indexOf('mm_name')>0) {
+                tab[j].innerHTML = ''
+            }
+            if(tab[j].className.indexOf('mm_ctrl')>0) {
+                tab[j].style.visibility = 'hidden'
+            }
+        }
+    }
+    for(i=0; i<disabledTabImages.length; i++) {
+        tab=document.getElementsByClassName('mmd_tab'+i)
+        for(j=0; j<tab.length; j++) {
+            if(tab[j].className.indexOf('mm_img')>0) {
+                tab[j].innerHTML = '<img src="'+disabledTabImages[i]+'" alt="" />'
+            }
+            if(tab[j].className.indexOf('mm_name')>0) {
+                tab[j].innerHTML = disabledTabNames[i]
+            }
+            if(tab[j].className.indexOf('mm_ctrl')>0) {
+                tab[j].style.visibility = 'visible'
+            }
+        }
+    }
+    for(i=disabledTabImages.length; i<5; i++) {
+        tab=document.getElementsByClassName('mmd_tab'+i)
+        for(j=0; j<tab.length; j++) {
+            if(tab[j].className.indexOf('mm_img')>0) {
+                tab[j].innerHTML = '<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_empty.png" alt="" />'
+            }
+            if(tab[j].className.indexOf('mm_name')>0) {
+                tab[j].innerHTML = ''
+            }
             if(tab[j].className.indexOf('mm_ctrl')>0) {
                 tab[j].style.visibility = 'hidden'
             }
@@ -75,6 +112,7 @@ if(window.addEventListener) {
 }
 
 function XmlconnectTabMoveLeft(tabNumber) {
+    if(tabNumber==0) return
     // name
     tab = tabNames[tabNumber]
     tabNames[tabNumber] = tabNames[tabNumber-1]
@@ -102,12 +140,17 @@ function XmlconnectTabMoveRight(tabNumber) {
 }
 
 function XmlconnectTabEnable(disabledTabNumber) {
-    alert('FIXME')
+    tabNames.push(disabledTabNames.splice(disabledTabNumber,1))
+    tabImages.push(disabledTabImages.splice(disabledTabNumber,1))
+    XmlconnectTabUpdate()
     return false
 }
 
 function XmlconnectTabDisable(tabNumber) {
-    alert('FIXME')
+    if(disabledTabImages.length>=5) return
+    disabledTabNames.push(tabNames.splice(tabNumber,1))
+    disabledTabImages.push(tabImages.splice(tabNumber,1))
+    XmlconnectTabUpdate()
     return false
 }
 
@@ -211,5 +254,27 @@ function XmlconnectTabDisable(tabNumber) {
 
 <div style="background: #eee">Inactive Tabs</div>
 <br />
-<!-- same shit, grayscaled, w/o Home and More -->
+<table border="0" width="100%">
+    <tr>
+        <td width="20%" align="center" valign="bottom" class="mmd_tab0 mm_img"> </td>
+        <td width="20%" align="center" valign="bottom" class="mmd_tab1 mm_img"> </td>
+        <td width="20%" align="center" valign="bottom" class="mmd_tab2 mm_img"> </td>
+        <td width="20%" align="center" valign="bottom" class="mmd_tab3 mm_img"> </td>
+        <td width="20%" align="center" valign="bottom" class="mmd_tab4 mm_img"> </td>
+    </tr>
+    <tr>
+        <td align="center" class="mmd_tab0 mm_name"> </td>
+        <td align="center" class="mmd_tab1 mm_name"> </td>
+        <td align="center" class="mmd_tab2 mm_name"> </td>
+        <td align="center" class="mmd_tab3 mm_name"> </td>
+        <td align="center" class="mmd_tab4 mm_name"> </td>
+    </tr>
+    <tr>
+        <td align="center" class="mmd_tab0 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(0)">Activate</a></td>
+        <td align="center" class="mmd_tab1 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(1)">Activate</a></td>
+        <td align="center" class="mmd_tab2 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(2)">Activate</a></td>
+        <td align="center" class="mmd_tab3 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(3)">Activate</a></td>
+        <td align="center" class="mmd_tab4 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(4)">Activate</a></td>
+    </tr>
+</table>
 <br />
