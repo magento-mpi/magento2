@@ -169,4 +169,24 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
         $io = new Varien_Io_File();
         $io->rmdir($directory, true);
     }
+
+    /**
+     * Convert array of 3 items (decimal r, g, b) to string of their hex values
+     *
+     * @param array $rgbArray
+     * @return string
+     */
+    protected function _rgbToString($rgbArray)
+    {
+        $result = array();
+        foreach ($rgbArray as $value) {
+            if (null === $value) {
+                $result[] = 'null';
+            }
+            else {
+                $result[] = sprintf('%02s', dechex($value));
+            }
+        }
+        return implode($result);
+    }
 }

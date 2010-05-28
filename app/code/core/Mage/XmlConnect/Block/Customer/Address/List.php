@@ -63,23 +63,27 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
      */
     protected function _toHtml()
     {
-        $addressXmlObj      = new Varien_Simplexml_Element('<address></address>');
-        $_billingAddsses    = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
-        $_shippingAddsses   = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping();
+        $addressXmlObj          = new Varien_Simplexml_Element('<address></address>');
+        $customer               = Mage::getSingleton('customer/session')->getCustomer();
 
-        if($_billingAddsses){
+        $_billingAddssesId      = $customer->getDefaultBilling();
+        $_shippingAddssesId     = $customer->getDefaultShipping();
+        $billingAddress         = $customer->getAddressById($_billingAddssesId);
+        $shippingAddress        = $customer->getAddressById($_shippingAddssesId);
+
+        if($billingAddress && $billingAddress->getId()){
             $item = $addressXmlObj->addChild('item');
             $item->addAttribute('label', $this->__('Default Billing Address'));
             $item->addAttribute('default_billing', 1);
-            $this->prepareAddressData(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_billingAddsses), $item);
+            $this->prepareAddressData($billingAddress, $item);
         }
-        if ($_shippingAddsses) {
+        if ($shippingAddress && $shippingAddress->getId()) {
             $item = $addressXmlObj->addChild('item');
             $item->addAttribute('label', $this->__('Default Shipping Address'));
             $item->addAttribute('default_shipping', 1);
-            $this->prepareAddressData(Mage::getSingleton('customer/session')->getCustomer()->getAddressById($_shippingAddsses), $item);
+            $this->prepareAddressData($shippingAddress, $item);
         }
-        $_additionalAddresses = Mage::getSingleton('customer/session')->getCustomer()->getAdditionalAddresses();
+        $_additionalAddresses = $customer->getAdditionalAddresses();
         if($_additionalAddresses){
             foreach($_additionalAddresses as $_address){
                 $item = $addressXmlObj->addChild('item');

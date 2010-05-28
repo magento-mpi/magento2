@@ -106,6 +106,7 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
         $storeId = $this->_app->getStoreId();
         $currencyCode = Mage::app()->getStore($storeId)->getBaseCurrencyCode();
         $xml->addChild('currencyCode', $currencyCode);
+        $xml->addChild('secureBaseUrl', Mage::getStoreConfig('web/secure/base_url', $storeId));
 
         $maxRecepients = 0;
         if ( Mage::getStoreConfig('sendfriend/email/enabled') ) {
