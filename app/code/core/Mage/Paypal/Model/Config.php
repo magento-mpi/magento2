@@ -346,8 +346,29 @@ class Mage_Paypal_Model_Config
     {
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
         $value = Mage::getStoreConfig($this->_getSpecificConfigPath($underscored), $this->_storeId);
+        $value = $this->_prepareValue($underscored, $value);
         $this->$key = $value;
         $this->$underscored = $value;
+        return $value;
+    }
+
+    /**
+     * Perform additional config value preparation and return new value if needed
+     *
+     * @param string $key Underscored key
+     * @param string $value Old value
+     * @return string Modified value or old value
+     */
+    protected function _prepareValue($key, $value)
+    {
+        // Always set payment action as "Sale" for Unilateral payments in EC
+        if ($key == 'payment_action'
+            && $value != self::PAYMENT_ACTION_SALE
+            && $this->_methodCode == self::METHOD_WPP_EXPRESS
+            && $this->shouldUseUnilateralPayments())
+        {
+            return self::PAYMENT_ACTION_SALE;
+        }
         return $value;
     }
 
