@@ -58,12 +58,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_X
         $this->_addElementTypes($fieldset);
         $fieldset->addField('conf[dummy][theme]', 'theme', array(
             'name'      => 'conf[dummy][theme]',
-            'themes'    => array(
-                new Mage_XmlConnect_Model_Theme('Theme1', 'Default'),
-                new Mage_XmlConnect_Model_Theme('Theme2', 'Foo'),
-                new Mage_XmlConnect_Model_Theme('Theme3', 'Bar'),
-                new Mage_XmlConnect_Model_Theme('Theme4', 'Baz'),
-            ),
+            'themes'    => Mage::helper('xmlconnect/data')->getThemes(),
         ));
         $this->addColor($fieldset, 'conf[special][headerBackgroundColor]', $this->__('Header Background Color'));
         $this->addColor($fieldset, 'conf[special][headerTextColor]', $this->__('Header Text'));

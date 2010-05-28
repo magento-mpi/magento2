@@ -26,6 +26,17 @@
 
 class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    public function getThemes()
+    {
+        return array(
+            'Theme1' => new Mage_XmlConnect_Model_Theme('Theme1', 'Default'),
+            'Theme2' => new Mage_XmlConnect_Model_Theme('Theme2', 'Red'),
+            'Theme3' => new Mage_XmlConnect_Model_Theme('Theme3', 'Twilight'),
+            'Theme4' => new Mage_XmlConnect_Model_Theme('Theme4', 'Ocean'),
+        );
+    }
+
+
     /**
      * Create filter object by key
      *
