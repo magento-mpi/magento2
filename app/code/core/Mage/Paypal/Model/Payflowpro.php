@@ -150,7 +150,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
      */
     public function getTransactionUrl($testMode = null)
     {
-        $testMode = is_null($testMode) ? $this->getConfigData('test_mode') : (bool)$testMode;
+        $testMode = is_null($testMode) ? $this->getConfigData('sandbox_flag') : (bool)$testMode;
         if ($testMode) {
             return self::TRANSACTION_URL_TEST_MODE;
         }
@@ -177,7 +177,6 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
 
                 case self::RESPONSE_CODE_FRAUDSERVICE_FILTER:
                     $payment->setIsTransactionPending(true);
-                    $payment->getTransactionPendingStatus($this->getConfigData('fraud_order_status'));
                     break;
 
                 default:
@@ -230,7 +229,6 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
 
             case self::RESPONSE_CODE_FRAUDSERVICE_FILTER:
                 $payment->setIsTransactionPending(true);
-                $payment->getTransactionPendingStatus($this->getConfigData('fraud_order_status'));
                 break;
 
             default:

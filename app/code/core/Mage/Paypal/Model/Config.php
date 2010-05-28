@@ -808,11 +808,17 @@ class Mage_Paypal_Model_Config
      */
     public function shouldUseUnilateralPayments()
     {
-        $email = Mage::getStoreConfig($this->_mapGeneralFieldset('business_account'), $this->_storeId);
-        $apiUser = Mage::getStoreConfig($this->_mapWppFieldset('api_username'), $this->_storeId);
-        $apiPassword = Mage::getStoreConfig($this->_mapWppFieldset('api_password'), $this->_storeId);
-        $apiSignature = Mage::getStoreConfig($this->_mapWppFieldset('api_signature'), $this->_storeId);
-        return $email && (!$apiUser || !$apiPassword || !$apiSignature);
+        return $this->business_account && !$this->isWppApiAvailabe();
+    }
+
+    /**
+     * Check whether WPP API credentials are available for this method
+     *
+     * @return bool
+     */
+    public function isWppApiAvailabe()
+    {
+        return $this->api_username && $this->api_password && $this->api_signature;
     }
 
     /**
@@ -947,22 +953,22 @@ class Mage_Paypal_Model_Config
                 $path = $this->_mapDirectFieldset($fieldName);
                 break;
             case self::METHOD_BILLING_AGREEMENT:
-                return $this->_mapBillingAgreementFieldset($fieldName);
+                $path = $this->_mapMethodFieldset($fieldName);
+                break;
         }
 
-        switch ($this->_methodCode) {
-            case self::METHOD_WPP_EXPRESS:
-            case self::METHOD_WPP_DIRECT:
-                if ($path === null) {
+        if ($path === null) {
+            switch ($this->_methodCode) {
+                case self::METHOD_WPP_EXPRESS:
+                case self::METHOD_WPP_DIRECT:
+                case self::METHOD_BILLING_AGREEMENT:
                     $path = $this->_mapWppFieldset($fieldName);
-                }
-                break;
-            case self::METHOD_WPP_PE_EXPRESS:
-            case self::METHOD_WPP_PE_DIRECT:
-                if ($path === null) {
+                    break;
+                case self::METHOD_WPP_PE_EXPRESS:
+                case self::METHOD_WPP_PE_DIRECT:
                     $path = $this->_mapWpukFieldset($fieldName);
-                }
-                break;
+                    break;
+            }
         }
 
         if ($path === null) {
@@ -1005,6 +1011,7 @@ class Mage_Paypal_Model_Config
         switch ($fieldName)
         {
             case 'line_items_summary':
+            case 'sandbox_flag':
                 return 'payment/' . self::METHOD_WPS . "/{$fieldName}";
             default:
                 return $this->_mapMethodFieldset($fieldName);
@@ -1064,6 +1071,7 @@ class Mage_Paypal_Model_Config
             case 'api_username':
             case 'api_password':
             case 'api_signature':
+            case 'sandbox_flag':
             case 'use_proxy':
             case 'proxy_host':
             case 'proxy_port':
@@ -1091,6 +1099,10 @@ class Mage_Paypal_Model_Config
             case 'user':
             case 'vendor':
             case 'pwd':
+            case 'sandbox_flag':
+            case 'use_proxy':
+            case 'proxy_host':
+            case 'proxy_port':
                 return $pathPrefix . '/' . $fieldName;
             default:
                 return null;
@@ -1159,26 +1171,10 @@ class Mage_Paypal_Model_Config
             case 'cctypes':
             case 'sort_order':
             case 'debug':
-            case 'sandbox_flag':
                 return "payment/{$this->_methodCode}/{$fieldName}";
             default:
                 return null;
         }
-    }
-
-    /**
-     * Map Billing Agreements General Settings
-     *
-     * @param string $fieldName
-     * @return string|null
-     */
-    protected function _mapBillingAgreementFieldset($fieldName)
-    {
-        if ($fieldName == 'sandbox_flag') {
-            return 'payment/' . self::METHOD_WPP_DIRECT . '/' . $fieldName;
-        }
-        $path = $this->_mapMethodFieldset($fieldName);
-        return ($path) ? $path : $this->_mapWppFieldset($fieldName);
     }
 }
 

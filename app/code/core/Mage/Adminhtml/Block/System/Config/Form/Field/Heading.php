@@ -30,7 +30,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Config_Form_Field_Heading 
+class Mage_Adminhtml_Block_System_Config_Form_Field_Heading
     extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface
 {
     /**
@@ -42,11 +42,8 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Heading
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $useContainerId = $element->getData('use_container_id');
-        $html = '<tr class="paypal-sub-head" id="row_' . $element->getHtmlId() . '">'
-              . '<td colspan="5">'
-              . '<h4>' . $element->getLabel() . '</h4>'
-              . '</td>'
-              . '</tr>';
-        return $html;
+        return sprintf('<tr class="system-fieldset-sub-head" id="row_%s"><td colspan="5"><h4>%s</h4></td></tr>',
+            $element->getHtmlId(), $element->getLabel()
+        );
     }
 }
