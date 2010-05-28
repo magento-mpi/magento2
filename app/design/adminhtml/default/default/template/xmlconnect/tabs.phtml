@@ -39,9 +39,9 @@ tabImages = [
 '<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_search.png',
 '<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_cart.png',
 '<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_account.png',
-'<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_fixme.png',
-'<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_fixme.png',
-'<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_fixme.png' ]
+'<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_home.png',
+'<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_page.png',
+'<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_page.png' ]
 
 disabledTabNames = []
 disabledTabImages = []
@@ -142,6 +142,7 @@ function XmlconnectTabMoveRight(tabNumber) {
 function XmlconnectTabEnable(disabledTabNumber) {
     tabNames.push(disabledTabNames.splice(disabledTabNumber,1))
     tabImages.push(disabledTabImages.splice(disabledTabNumber,1))
+    // update
     XmlconnectTabUpdate()
     return false
 }
@@ -150,6 +151,7 @@ function XmlconnectTabDisable(tabNumber) {
     if(disabledTabImages.length>=5) return
     disabledTabNames.push(tabNames.splice(tabNumber,1))
     disabledTabImages.push(tabImages.splice(tabNumber,1))
+    // update
     XmlconnectTabUpdate()
     return false
 }
@@ -256,11 +258,11 @@ function XmlconnectTabDisable(tabNumber) {
 <br />
 <table border="0" width="100%">
     <tr>
-        <td width="20%" align="center" valign="bottom" class="mmd_tab0 mm_img"> </td>
-        <td width="20%" align="center" valign="bottom" class="mmd_tab1 mm_img"> </td>
-        <td width="20%" align="center" valign="bottom" class="mmd_tab2 mm_img"> </td>
-        <td width="20%" align="center" valign="bottom" class="mmd_tab3 mm_img"> </td>
-        <td width="20%" align="center" valign="bottom" class="mmd_tab4 mm_img"> </td>
+        <td width="20%" align="center" valign="bottom" class="mmd_tab0 mm_img" style="opacity: .5"> </td>
+        <td width="20%" align="center" valign="bottom" class="mmd_tab1 mm_img" style="opacity: .5"> </td>
+        <td width="20%" align="center" valign="bottom" class="mmd_tab2 mm_img" style="opacity: .5"> </td>
+        <td width="20%" align="center" valign="bottom" class="mmd_tab3 mm_img" style="opacity: .5"> </td>
+        <td width="20%" align="center" valign="bottom" class="mmd_tab4 mm_img" style="opacity: .5"> </td>
     </tr>
     <tr>
         <td align="center" class="mmd_tab0 mm_name"> </td>
