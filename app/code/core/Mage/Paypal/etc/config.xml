@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Paypal>
-            <version>1.4.0.0</version>
+            <version>1.4.0.1</version>
         </Mage_Paypal>
     </modules>
     <global>
@@ -41,6 +41,8 @@
                 <class>Mage_Paypal_Model_Mysql4</class>
                 <entities>
                     <api_debug><table>paypal_api_debug</table></api_debug>
+                    <settlement_report><table>paypal_settlement_report</table></settlement_report>
+                    <settlement_report_row><table>paypal_settlement_report_row</table></settlement_report_row>
                 </entities>
             </paypal_mysql4>
         </models>
@@ -202,4 +204,22 @@
             </paypal_billing_agreement>
         </payment>
     </default>
+    <crontab>
+        <jobs>
+            <paypal_fetch_settlement_reports>
+                <run><model>paypal/observer::fetchReports</model></run>
+            </paypal_fetch_settlement_reports>
+        </jobs>
+    </crontab>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Mage_Paypal before="Mage_Adminhtml">Mage_Paypal_Adminhtml</Mage_Paypal>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
 </config>

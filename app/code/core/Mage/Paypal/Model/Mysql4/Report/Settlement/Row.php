@@ -20,25 +20,17 @@
  *
  * @category    Mage
  * @package     Mage_Paypal
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Source model for available settlement report fetching intervals
+/*
+ * Resource for report rows
  */
-class Mage_Paypal_Model_System_Config_Source_FetchingSchedule
+class Mage_Paypal_Model_Mysql4_Report_Settlement_Row extends Mage_Core_Model_Mysql4_Abstract
 {
-    public function toOptionArray()
+    protected function _construct()
     {
-        return array (
-            1 => Mage::helper('paypal')->__("Daily"),
-            3 => Mage::helper('paypal')->__("Every 3 days"),
-            7 => Mage::helper('paypal')->__("Every 7 days"),
-            10 => Mage::helper('paypal')->__("Every 10 days"),
-            14 => Mage::helper('paypal')->__("Every 14 days"),
-            30 => Mage::helper('paypal')->__("Every 30 days"),
-            40 => Mage::helper('paypal')->__("Every 40 days"),
-        );
+        $this->_init('paypal/settlement_report_row', 'row_id');
     }
 }

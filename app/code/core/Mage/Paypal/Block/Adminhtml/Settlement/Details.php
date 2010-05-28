@@ -20,25 +20,32 @@
  *
  * @category    Mage
  * @package     Mage_Paypal
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Source model for available settlement report fetching intervals
+ * Settlement reports transaction details
+ *
+ * @category    Mage
+ * @package     Mage_Paypal
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Model_System_Config_Source_FetchingSchedule
+class Mage_Paypal_Block_Adminhtml_Settlement_Details extends Mage_Adminhtml_Block_Widget_Form_Container
 {
-    public function toOptionArray()
+    public function __construct()
     {
-        return array (
-            1 => Mage::helper('paypal')->__("Daily"),
-            3 => Mage::helper('paypal')->__("Every 3 days"),
-            7 => Mage::helper('paypal')->__("Every 7 days"),
-            10 => Mage::helper('paypal')->__("Every 10 days"),
-            14 => Mage::helper('paypal')->__("Every 14 days"),
-            30 => Mage::helper('paypal')->__("Every 30 days"),
-            40 => Mage::helper('paypal')->__("Every 40 days"),
-        );
+        parent::__construct();
+        $this->_controller = '';
+        $this->_removeButton('reset')
+            ->_removeButton('delete')
+            ->_removeButton('save');
+    }
+
+    protected function _prepareLayout()
+    {
+        parent::_prepareLayout();
+        $this->setChild('form', $this->getLayout()->createBlock('paypal/adminhtml_settlement_details_form'));
+        return $this;
     }
 }
