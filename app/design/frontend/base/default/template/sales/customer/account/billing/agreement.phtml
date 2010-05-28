@@ -35,7 +35,7 @@
 
 <div class="billing-agreements">
     <?php $paymentMethods = $this->getPaymentMethodOptions() ?>
-    <?php if (!$paymentMethods): ?>
+    <?php if ($paymentMethods): ?>
         <div class="info-box">
             <h2 class="box-title"><?php echo $this->__('New Billing Agreement') ?></h2>
             <form action="<?php echo $this->getCreateUrl() ?>" method="post">
