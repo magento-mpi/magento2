@@ -60,7 +60,7 @@
             <types>
                 <full_page translate="label,description" module="enterprise_pagecache">
                     <label>Page Cache</label>
-                    <description>Full page caching for none session visitors</description>
+                    <description>Full page caching.</description>
                     <tags>FPC</tags>
                 </full_page>
             </types>
@@ -296,7 +296,7 @@
                     </enterprise_pagecache>
                 </observers>
             </sales_order_place_after>
-            
+
         </events>
         <cache>
             <requests>
@@ -315,7 +315,6 @@
     <default>
         <system>
             <page_cache>
-                <lifetime>28800</lifetime>
                 <allowed_depth>1</allowed_depth>
                 <multicurrency>1</multicurrency>
             </page_cache>

@@ -29,7 +29,7 @@ class Enterprise_PageCache_Model_Processor
     const NO_CACHE_COOKIE               = 'NO_CACHE';
     const XML_NODE_ALLOWED_CACHE        = 'frontend/cache/requests';
     const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';
-    const XML_PATH_LIFE_TIME            = 'system/page_cache/lifetime';
+    const XML_PATH_LIFE_TIME            = 'system/page_cache/lifetime';  /** @deprecated after 1.8 */
     const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
     const REQUEST_ID_PREFIX             = 'REQEST_';
     const CACHE_TAG                     = 'FPC';  // Full Page Cache, minimize
@@ -104,8 +104,8 @@ class Enterprise_PageCache_Model_Processor
             if (isset($_COOKIE['currency'])) {
                 $uri = $uri.'_'.$_COOKIE['currency'];
             }
-            if (isset($_COOKIE[Enterprise_PageCache_Model_Observer::CUSTOMER_COOKIE_NAME])) {
-                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Observer::CUSTOMER_COOKIE_NAME];
+            if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP])) {
+                $uri .= '_' . $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP];
             }
         }
         $this->_requestId       = $uri;
@@ -277,12 +277,11 @@ class Enterprise_PageCache_Model_Processor
             if ($processor && $processor->allowCache($request)) {
                 $cacheId = $this->prepareCacheId($processor->getRequestUri($this, $request));
                 $content = $processor->prepareContent($response);
-                $lifetime = Mage::getStoreConfig(self::XML_PATH_LIFE_TIME)*60;
 
                 if (function_exists('gzcompress')) {
                     $content = gzcompress($content);
                 }
-                Mage::app()->saveCache($content, $cacheId, $this->getRequestTags(), $lifetime);
+                Mage::app()->saveCache($content, $cacheId, $this->getRequestTags());
 
                 // save original routing info
                 $routingInfo = array(
@@ -291,7 +290,7 @@ class Enterprise_PageCache_Model_Processor
                     'requested_controller' => Mage::app()->getRequest()->getRequestedControllerName(),
                     'requested_action'     => Mage::app()->getRequest()->getRequestedActionName()
                 );
-                Mage::app()->saveCache(serialize($routingInfo), $cacheId . '_routing_info', $this->getRequestTags(), $lifetime);
+                Mage::app()->saveCache(serialize($routingInfo), $cacheId . '_routing_info', $this->getRequestTags());
             }
         }
         return $this;

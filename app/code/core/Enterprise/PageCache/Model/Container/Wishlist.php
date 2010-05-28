@@ -35,7 +35,12 @@ class Enterprise_PageCache_Model_Container_Wishlist extends Enterprise_PageCache
      */
     protected function _getIdentificator()
     {
-        return (isset($_COOKIE[self::COOKIE])) ? $_COOKIE[self::COOKIE] : '';
+        $result = '';
+        $result .= (isset($_COOKIE[self::COOKIE])) ? $_COOKIE[self::COOKIE] : '';
+        if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP])) {
+            $result .= $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP];
+        }
+        return $result;
     }
 
     /**
@@ -51,8 +56,9 @@ class Enterprise_PageCache_Model_Container_Wishlist extends Enterprise_PageCache
      */
     public function applyInApp(&$content)
     {
+        $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
-        $block = Mage::app()->getLayout()->createBlock('wishlist/customer_sidebar');
+        $block = new $block;
         $block->setTemplate($template);
         $blockContent = $block->toHtml();
         $cacheId = $this->_getCacheId();

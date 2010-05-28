@@ -29,13 +29,18 @@
  */
 class Enterprise_PageCache_Model_Container_CartSidebar extends Enterprise_PageCache_Model_Container_Abstract
 {
-    const CART_COOKIE = 'CART';
+    const COOKIE = 'CART';
+    const CACHE_TAG_PREFIX = 'cartsidebar';
+
     /**
      * Get cart hash from cookies
      */
-    protected function _getCartIdentificator()
+    protected function _getIdentificator()
     {
-        return (isset($_COOKIE[self::CART_COOKIE])) ? $_COOKIE[self::CART_COOKIE] : '';
+        $result = '';
+        $result .= (isset($_COOKIE[self::COOKIE])) ? $_COOKIE[self::COOKIE] : '';
+        $result .= (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ? '1' : '';
+        return $result;
     }
 
     /**
@@ -43,21 +48,25 @@ class Enterprise_PageCache_Model_Container_CartSidebar extends Enterprise_PageCa
      */
     protected function _getCacheId()
     {
-        return 'CONTAINER_SIDEBAR_'.md5($this->_placeholder->getAttribute('cache_id') . $this->_getCartIdentificator());
+        return 'CONTAINER_SIDEBAR_' . md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentificator());
     }
+
     /**
      * Generate block content
      * @param $content
      */
     public function applyInApp(&$content)
     {
+        $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
-        $block = Mage::app()->getLayout()->createBlock('checkout/cart_sidebar');
+        $block = new $block;
         $block->setTemplate($template);
+        $block->setLayout(Mage::app()->getLayout());
         $blockContent = $block->toHtml();
         $cacheId = $this->_getCacheId();
         if ($cacheId) {
-            $this->_saveCache($blockContent, $cacheId, array($this->_getCartIdentificator()));
+            $cacheTag = md5(self::CACHE_TAG_PREFIX . $this->_getIdentificator());
+            $this->_saveCache($blockContent, $cacheId, array($cacheTag));
         }
         $this->_applyToContent($content, $blockContent);
         return true;

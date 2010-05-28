@@ -138,17 +138,18 @@ class Mage_Page_Block_Template_Links extends Mage_Core_Block_Template
      */
     public function getCacheKeyInfo()
     {
-        $result = array();
-
+        $links = array();
         if (!empty($this->_links)) {
             foreach ($this->_links as $position => $link) {
                 if ($link instanceof Varien_Object) {
-                    $result[$position] = $link->getData();
+                    $links[$position] = $link->getData();
                 }
             }
         }
-
-        return array_merge(parent::getCacheKeyInfo(), array('links' => base64_encode(serialize($result))));
+        return parent::getCacheKeyInfo() + array(
+            'links' => base64_encode(serialize($links)),
+            'name' => $this->getNameInLayout()
+        );
     }
 
     /**

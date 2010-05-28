@@ -30,12 +30,16 @@
 class Enterprise_PageCache_Model_Container_WishlistLinks extends Enterprise_PageCache_Model_Container_Abstract
 {
     const COOKIE = 'WISHLIST_CNT';
+
     /**
      * Get cart hash from cookies
      */
     protected function _getIdentificator()
     {
-        return (isset($_COOKIE[self::COOKIE])) ? $_COOKIE[self::COOKIE] : '';
+        $result = '';
+        $result .= (isset($_COOKIE[self::COOKIE])) ? $_COOKIE[self::COOKIE] : '';
+        $result .= (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ? '1' : '';
+        return $result;
     }
 
     /**
@@ -43,16 +47,17 @@ class Enterprise_PageCache_Model_Container_WishlistLinks extends Enterprise_Page
      */
     protected function _getCacheId()
     {
-        return 'CONTAINER_WISHLINKS_'.md5($this->_placeholder->getAttribute('cache_id')
-            . Enterprise_PageCache_Model_Container_Welcome::COOKIE . $this->_getIdentificator());
+        return 'CONTAINER_WISHLINKS_'.md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentificator());
     }
+
     /**
      * Generate block content
      * @param $content
      */
     public function applyInApp(&$content)
     {
-        $block = Mage::app()->getLayout()->createBlock('wishlist/links');
+        $block = $this->_placeholder->getAttribute('block');
+        $block = new $block;
         $blockContent = $block->toHtml();
         $cacheId = $this->_getCacheId();
         if ($cacheId) {

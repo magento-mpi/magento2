@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -19,16 +18,26 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    design
- * @package     enterprise_default
+ * @category    Enterprise
+ * @package     Enterprise_PageCache
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
--->
-<layout>
-    <catalog_product_view>
-        <reference name="content">
-            <block type="enterprise_pagecache/catalog_product" name="pagecache.cookie" template="pagecache/catalog/product.phtml"/>
-        </reference>
-    </catalog_product_view>
-</layout>
+
+/**
+ * Placeholder container for absent block
+ */
+class Enterprise_PageCache_Model_Container_Blackhole extends Enterprise_PageCache_Model_Container_Abstract
+{
+    /**
+     * Generate placeholder content before application was initialized and apply to page content if possible
+     *
+     * @param string $content
+     * @return bool
+     */
+    public function applyWithoutApp(&$content)
+    {
+        $this->_applyToContent($content, '');
+        return true;
+    }
+}

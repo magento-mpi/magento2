@@ -79,12 +79,14 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
         if ($blockCacheId && $categoryCacheId) {
             $blockContent = $this->_loadCache($blockCacheId);
             $categoryUniqueClasses = $this->_loadCache($categoryCacheId);
-            if ($blockContent !== false && $categoryUniqueClasses !== false) {
-                $regexp = '';
-                foreach (explode(' ', $categoryUniqueClasses) as $categoryUniqueClass) {
-                    $regexp .= ($regexp ? '|' : '') . preg_quote($categoryUniqueClass);
+            if ($blockContent && $categoryUniqueClasses !== false) {
+                if ($categoryUniqueClasses != '') {
+                    $regexp = '';
+                    foreach (explode(' ', $categoryUniqueClasses) as $categoryUniqueClass) {
+                        $regexp .= ($regexp ? '|' : '') . preg_quote($categoryUniqueClass);
+                    }
+                    $blockContent = preg_replace('/(?<=\s|")(' . $regexp . ')(?=\s|")/u', '$1 active', $blockContent);
                 }
-                $blockContent = preg_replace('/(?<=\s|")(' . $regexp . ')(?=\s|")/u', '$1 active', $blockContent);
                 $this->_applyToContent($content, $blockContent);
                 return true;
             }
@@ -125,12 +127,12 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
         }
 
         $blockCacheId = $this->_getBlockCacheId();
-        $categoryCacheId = $this->_getCategoryCacheId();
-        if ($blockCacheId && $categoryCacheId) {
-            $classes = array();
-            $classesCount = preg_match_all('/(?<=\s)class="(.*?active.*?)"/u', $blockContent, $classes);
-            if ($classesCount) {
+        if ($blockCacheId) {
+            $categoryCacheId = $this->_getCategoryCacheId();
+            if ($categoryCacheId) {
                 $categoryUniqueClasses = '';
+                $classes = array();
+                $classesCount = preg_match_all('/(?<=\s)class="(.*?active.*?)"/u', $blockContent, $classes);
                 for ($i = 0; $i < $classesCount; $i++) {
                     $classAttribute = $classes[0][$i];
                     $classValue = $classes[1][$i];
@@ -141,8 +143,10 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
                         $categoryUniqueClasses .= ($categoryUniqueClasses ? ' ' : '') . $matches[0];
                     }
                 }
-                $this->_saveCache($blockContent, $blockCacheId);
                 $this->_saveCache($categoryUniqueClasses, $categoryCacheId);
+            }
+            if (!Mage::app()->getCache()->test($blockCacheId)) {
+                $this->_saveCache($blockContent, $blockCacheId);
             }
         }
 

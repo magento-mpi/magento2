@@ -30,12 +30,16 @@
 class Enterprise_PageCache_Model_Container_RecentlyComparedSidebar extends Enterprise_PageCache_Model_Container_Abstract
 {
     const COOKIE = 'RECENTLYCOMPARED';
+
     /**
      * Get cart hash from cookies
      */
     protected function _getIdentificator()
     {
-        return (isset($_COOKIE[self::COOKIE])) ? $_COOKIE[self::COOKIE] : '';
+        $result = '';
+        $result .= (isset($_COOKIE[self::COOKIE])) ? $_COOKIE[self::COOKIE] : '';
+        $result .= (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ? '1' : '';
+        return $result;
     }
 
     /**
@@ -45,14 +49,16 @@ class Enterprise_PageCache_Model_Container_RecentlyComparedSidebar extends Enter
     {
         return 'CONTAINER_RECENTLYCOMPARED_'.md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentificator());
     }
+
     /**
      * Generate block content
      * @param $content
      */
     public function applyInApp(&$content)
     {
+        $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
-        $block = Mage::app()->getLayout()->createBlock('reports/product_compared');
+        $block = new $block;
         $block->setTemplate($template);
         $blockContent = $block->toHtml();
         $cacheId = $this->_getCacheId();

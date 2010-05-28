@@ -29,13 +29,12 @@
  */
 class Enterprise_PageCache_Model_Container_Welcome extends Enterprise_PageCache_Model_Container_CustomerContainer
 {
-    const COOKIE = 'CUSTOMER';
     /**
      * Get cart hash from cookies
      */
     protected function _getIdentificator()
     {
-        return (isset($_COOKIE[self::COOKIE])) ? $_COOKIE[self::COOKIE] : '';
+        return (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ? '1' : '';
     }
 
     /**
@@ -52,11 +51,6 @@ class Enterprise_PageCache_Model_Container_Welcome extends Enterprise_PageCache_
      */
     public function applyInApp(&$content)
     {
-        //Delete customer cookie if session is expires
-        if (!Mage::getSingleton('customer/session')->isLoggedIn() && $this->_getIdentificator()) {
-            Mage::getModel('core/cookie')->delete(Enterprise_PageCache_Model_Container_Welcome::COOKIE);
-        }
-
         $blockContent = Mage::app()->getLayout()->createBlock('page/html_header')->getWelcome();
         $cacheId = $this->_getCacheId();
         if ($cacheId) {

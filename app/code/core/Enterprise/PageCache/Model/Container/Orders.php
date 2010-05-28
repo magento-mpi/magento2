@@ -30,13 +30,14 @@
 class Enterprise_PageCache_Model_Container_Orders extends Enterprise_PageCache_Model_Container_Abstract
 {
     const CACHE_TAG_PREFIX = 'orders';
+
     /**
      * Get cart hash from cookies
      */
     protected function _getIdentificator()
     {
-        return (isset($_COOKIE[Enterprise_PageCache_Model_Container_Welcome::COOKIE])) ?
-            $_COOKIE[Enterprise_PageCache_Model_Container_Welcome::COOKIE] : null;
+        return (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ?
+            $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER] : null;
     }
 
     /**
@@ -54,13 +55,15 @@ class Enterprise_PageCache_Model_Container_Orders extends Enterprise_PageCache_M
      */
     public function applyInApp(&$content)
     {
+        $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
-        $block = Mage::app()->getLayout()->createBlock('sales/reorder_sidebar');
+        $block = new $block;
         $block->setTemplate($template);
         $blockContent = $block->toHtml();
         $cacheId = $this->_getCacheId();
         if ($cacheId) {
-            $this->_saveCache($blockContent, $cacheId, array(self::CACHE_TAG_PREFIX . $this->_getIdentificator()));
+            $cacheTag = md5(self::CACHE_TAG_PREFIX . $this->_getIdentificator());
+            $this->_saveCache($blockContent, $cacheId, array($cacheTag));
         }
         $this->_applyToContent($content, $blockContent);
         return true;

@@ -26,22 +26,12 @@
 
 class Enterprise_PageCache_Model_Observer
 {
-    const CUSTOMER_COOKIE_NAME = 'CUSTOMER_INFO';
-    const CACHE_KEY = 'full_page_cache_key';
-
     /**
      * @var Enterprise_PageCache_Model_Processor
      */
     protected $_processor;
     protected $_config;
     protected $_isEnabled;
-
-    /**
-     * Full page cache encryption key
-     *
-     * @var sting
-     */
-    protected $_encryptionKey = null;
 
     /**
      * Class constructor
@@ -51,14 +41,6 @@ class Enterprise_PageCache_Model_Observer
         $this->_processor = Mage::getModel('enterprise_pagecache/processor');
         $this->_config    = Mage::getSingleton('enterprise_pagecache/config');
         $this->_isEnabled = Mage::app()->useCache('full_page');
-
-        if ($key = Mage::app()->getCache()->load(self::CACHE_KEY)) {
-            $this->_encryptionKey = $key;
-        } else {
-             $this->_encryptionKey = md5(time() . rand());
-             Mage::app()->getCache()->save($this->_encryptionKey, self::CACHE_KEY,
-                array(Enterprise_PageCache_Model_Processor::CACHE_TAG), false);
-        }
     }
 
     /**
@@ -101,13 +83,11 @@ class Enterprise_PageCache_Model_Observer
         $action = $observer->getEvent()->getControllerAction();
         /* @var $request Mage_Core_Controller_Request_Http */
         $request = $action->getRequest();
-        /* @var $cookie Mage_Core_Model_Cookie */
-        $cookie = Mage::getSingleton('core/cookie');
-        $cookieName = Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE;
-        $noCache = $cookie->get($cookieName);
+
+        $noCache = $this->_getCookie()->get(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE);
         if ($noCache) {
             Mage::getSingleton('catalog/session')->setParamsMemorizeDisabled(false);
-            $cookie->renew($cookieName);
+            $this->_getCookie()->renew(Enterprise_PageCache_Model_Processor::NO_CACHE_COOKIE);
         } elseif ($action) {
             Mage::getSingleton('catalog/session')->setParamsMemorizeDisabled(true);
         }
@@ -118,6 +98,7 @@ class Enterprise_PageCache_Model_Observer
             Mage::app()->setUseSessionInUrl(false); // disable SID
             Mage::app()->getCacheInstance()->banUse(Mage_Core_Block_Abstract::CACHE_GROUP); // disable blocks cache
         }
+        $this->_getCookie()->updateCustomerCookies();
         return $this;
     }
 
@@ -254,7 +235,7 @@ class Enterprise_PageCache_Model_Observer
      * Check cache settings for specific block type and associate block to container if needed
      *
      * @param Varien_Event_Observer $observer
-     * @deprecated after 1.4.1.0-alpha1
+     * @deprecated after 1.8
      */
     public function blockCreateAfter(Varien_Event_Observer $observer)
     {
@@ -282,11 +263,11 @@ class Enterprise_PageCache_Model_Observer
         /** @var Mage_Sales_Model_Quote */
         $quote = ($observer->getEvent()->getQuote()) ? $observer->getEvent()->getQuote() :
             $observer->getEvent()->getQuoteItem()->getQuote();
-        $identificator = md5('quote_' . $quote->getId());
-        Mage::getSingleton('core/cookie')->set(Enterprise_PageCache_Model_Container_CartSidebar::CART_COOKIE,
-            $identificator);
+        $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Container_CartSidebar::COOKIE, 'quote_' . $quote->getId());
 
-        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($identificator));
+        $cacheTag = md5(Enterprise_PageCache_Model_Container_CartSidebar::CACHE_TAG_PREFIX
+            . $this->_getCookie()->get(Enterprise_PageCache_Model_Container_CartSidebar::COOKIE));
+        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($cacheTag));
 
         return $this;
     }
@@ -303,8 +284,7 @@ class Enterprise_PageCache_Model_Observer
         }
 
         $listItems = Mage::helper('catalog/product_compare')->getItemCollection();
-        $previouseList = Mage::getSingleton('core/cookie')
-            ->get(Enterprise_PageCache_Model_Container_CompareListSidebar::COOKIE);
+        $previouseList = $this->_getCookie()->get(Enterprise_PageCache_Model_Container_CompareListSidebar::COOKIE);
         $previouseList = (empty($previouseList)) ? array() : explode(',', $previouseList);
 
         $ids = array();
@@ -312,11 +292,10 @@ class Enterprise_PageCache_Model_Observer
             $ids[] = $item->getId();
         }
         sort($ids);
-        Mage::getSingleton('core/cookie')->set(Enterprise_PageCache_Model_Container_CompareListSidebar::COOKIE,
-            implode(',', $ids));
+        $this->_getCookie()->set(Enterprise_PageCache_Model_Container_CompareListSidebar::COOKIE, implode(',', $ids));
 
         //Recenlty compared products processing
-        $recentlyComparedProducts = Mage::getSingleton('core/cookie')
+        $recentlyComparedProducts = $this->_getCookie()
             ->get(Enterprise_PageCache_Model_Container_RecentlyComparedSidebar::COOKIE);
         $recentlyComparedProducts = (empty($recentlyComparedProducts)) ? array()
             : explode(',', $recentlyComparedProducts);
@@ -332,7 +311,7 @@ class Enterprise_PageCache_Model_Observer
         $recentlyComparedProducts = array_unique($recentlyComparedProducts);
         sort($recentlyComparedProducts);
 
-        Mage::getSingleton('core/cookie')->set(Enterprise_PageCache_Model_Container_RecentlyComparedSidebar::COOKIE,
+        $this->_getCookie()->set(Enterprise_PageCache_Model_Container_RecentlyComparedSidebar::COOKIE,
             implode(',', $recentlyComparedProducts));
 
        return $this;
@@ -348,7 +327,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        Mage::getSingleton('core/cookie')->set(Enterprise_PageCache_Model_Container_Messages::COOKIE, '1');
+        $this->_getCookie()->set(Enterprise_PageCache_Model_Container_Messages::COOKIE, '1');
         return $this;
     }
 
@@ -362,15 +341,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        /** @var Mage_Customer_Model_Customer $customer */
-        $customer = $observer->getEvent()->getCustomer();
-        $cookie = Mage::getModel('core/cookie');
-        $cookie->set(Enterprise_PageCache_Model_Container_Welcome::COOKIE,
-            md5($this->_encryptionKey . $customer->getId()));
-
-        $cookieValue = md5($this->_encryptionKey . $customer->getGroupId());
-        $cookie->set(self::CUSTOMER_COOKIE_NAME, $cookieValue);
-
+        $this->_getCookie()->updateCustomerCookies();
         return $this;
 
     }
@@ -385,14 +356,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        /** @var Mage_Customer_Model_Customer $customer */
-        $customer = $observer->getEvent()->getCustomer();
-        /** @var Mage_Core_Model_Cookie $cookie */
-        $cookie = Mage::getModel('core/cookie');
-
-        $cookie->delete(Enterprise_PageCache_Model_Container_Welcome::COOKIE);
-        $cookie->delete(self::CUSTOMER_COOKIE_NAME);
-
+        $this->_getCookie()->updateCustomerCookies();
         return $this;
     }
 
@@ -407,20 +371,17 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
 
-        $hash = '';
-        /** @var Mage_Wishlist_Model_Mysql4_Product_Collection */
-        $products = Mage::helper('wishlist')->getProductCollection();
-        foreach ($products as $item) {
-            $hash .= $item->getId() . '_';
+        $cookieValue = '';
+        foreach (Mage::helper('wishlist')->getProductCollection() as $item) {
+            $cookieValue .= ($cookieValue ? '_' : '') . $item->getId();
         }
-        /** @var Mage_Core_Model_Cookie $cookie */
-        $cookie = Mage::getModel('core/cookie');
-        $hash = md5($hash . $cookie->get(self::CUSTOMER_COOKIE_NAME));
-        //Wishlist sidebar hash
-        $cookie->set(Enterprise_PageCache_Model_Container_Wishlist::COOKIE, $hash);
-        //Wishlist items count hash for top link
-        $cookie->set(Enterprise_PageCache_Model_Container_WishlistLinks::COOKIE,
-            md5($this->_encryptionKey . Mage::helper('wishlist')->getItemCount()));
+
+        // Wishlist sidebar hash
+        $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Container_Wishlist::COOKIE, $cookieValue);
+
+        // Wishlist items count hash for top link
+        $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Container_WishlistLinks::COOKIE,
+            'wishlist_item_count_' . Mage::helper('wishlist')->getItemCount());
 
         return $this;
     }
@@ -436,12 +397,22 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
 
-        //Customer order sidebar tag
-        $hash = Enterprise_PageCache_Model_Container_Orders::CACHE_TAG_PREFIX
-            . Mage::getModel('core/cookie')->get(Enterprise_PageCache_Model_Container_Welcome::COOKIE);
+        // Customer order sidebar tag
+        $cacheTag = md5(Enterprise_PageCache_Model_Container_Orders::CACHE_TAG_PREFIX
+            . $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::CUSTOMER_COOKIE));
 
-        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($hash));
+        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($cacheTag));
         return $this;
+    }
+
+    /**
+     * Retrieve cookie instance
+     *
+     * @return Enterprise_PageCache_Model_Cookie
+     */
+    protected function _getCookie()
+    {
+        return Mage::getSingleton('enterprise_pagecache/cookie');
     }
 
 
