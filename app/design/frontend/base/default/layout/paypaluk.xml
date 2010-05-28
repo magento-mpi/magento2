@@ -90,4 +90,23 @@
             </block>
         </reference>
     </catalog_product_view>
+    
+    <default>
+        <reference name="topCart.extra_actions">
+            <block type="paypal/express_shortcut" name="paypaluk.partner.top_cart.shortcut" template="paypal/partner/shortcut.phtml">
+                <action method="setPaymentModelType"><type>paypaluk/express</type></action>
+                <action method="setProModelType"><type>paypaluk/pro</type></action>
+                <action method="setPaymentMethod"><type>paypaluk_express</type></action>
+                <action method="setStartAction"><type>paypaluk/express/start</type></action>
+            </block>
+        </reference>
+        <reference name="cart_sidebar.extra_actions">
+            <block type="paypal/express_shortcut" name="paypaluk.partner.cart_sidebar.shortcut" template="paypal/partner/shortcut.phtml">
+                <action method="setPaymentModelType"><type>paypaluk/express</type></action>
+                <action method="setProModelType"><type>paypaluk/pro</type></action>
+                <action method="setPaymentMethod"><type>paypaluk_express</type></action>
+                <action method="setStartAction"><type>paypaluk/express/start</type></action>
+            </block>
+        </reference>
+    </default>
 </layout>
