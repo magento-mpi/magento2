@@ -386,7 +386,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         $options = array();
         $startDate = $buyRequest->getData('recurring_start_date');
         if ($startDate) {
-            $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+            $format = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
             $locale = Mage::app()->getLocale()->getLocaleCode();
             if (Zend_Date::isDate($startDate, $format, $locale)) {
                 $date = new Zend_Date($startDate, $format, $locale);
@@ -594,6 +594,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     public function hasOptions($product = null)
     {
         if ($this->getProduct($product)->getHasOptions()) {
+            return true;
+        }
+        if ($this->getProduct($product)->isRecurring()) {
             return true;
         }
         return false;

@@ -60,12 +60,14 @@ class Mage_Sales_Block_Catalog_Product_View_Recurring_Profile extends Mage_Core_
      */
     public function getDateHtml()
     {
+        $format = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $calendar = $this->getLayout()
             ->createBlock('core/html_date')
             ->setId('recurring_start_date')
             ->setName('recurring_start_date')
             ->setImage($this->getSkinUrl('images/calendar.gif'))
-            ->setFormat(Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
+            ->setFormat($format)
+            ->setTime(true);
         return $calendar->getHtml();
     }
 
