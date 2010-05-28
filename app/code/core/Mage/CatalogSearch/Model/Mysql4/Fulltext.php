@@ -172,7 +172,6 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                 }
 
                 $index = $this->_prepareProductIndex($productIndex, $productData, $storeId);
-                $index['categories'] = $this->_prepareProductCategories($productData['entity_id']);
 
                 $productIndexes[$productData['entity_id']] = $index;
                 //$this->_saveProductIndex($productData['entity_id'], $storeId, $index);
@@ -183,24 +182,6 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         $this->resetSearchResults();
 
         return $this;
-    }
-
-    /**
-     * Collects all categories ids where product is represented
-     *
-     * @param int $productId
-     *
-     * @return string
-     */
-    protected function _prepareProductCategories($productId) {
-        $select = $this->_getWriteAdapter()->select()
-            ->from(
-                array('c_p' => $this->getTable('catalog/category_product')),
-                array('categories_ids' => 
-                    $this->_getWriteAdapter()->quoteInto('GROUP_CONCAT(category_id SEPARATOR ?)', ' ')))
-            ->where('product_id = ?', $productId);
-
-        return $this->_getWriteAdapter()->fetchOne($select);
     }
 
     /**
@@ -611,9 +592,59 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         }
 
         if ($this->_engine) {
+            if ($this->_engine->allowAdvancedIndex()) {
+                //unset($index['price']);
+                $index['categories'] = $this->_prepareProductCategories($productData['entity_id']);
+                $index += $this->_prepareProductPriceIndexing($productData['entity_id']);
+            }
+
             return $this->_engine->prepareEntityIndex($index, $this->_separator);
         }
         return Mage::helper('catalogsearch')->prepareIndexdata($index, $this->_separator);
+    }
+
+    /**
+     * Prepare product price indexing: currency and customers groups
+     * Index field key format:
+     * price_{customer_group_id}_{website_id}
+     *
+     * @param int $productId
+     *
+     * @return array
+     */
+    protected function _prepareProductPriceIndexing($productId)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from(
+                array($this->getTable('catalog/product_index_price')),
+                array('customer_group_id', 'website_id', 'final_price'))
+            ->where('entity_id = ?', $productId);
+
+        $result = array();
+        foreach($this->_getWriteAdapter()->fetchAll($select) as $index) {
+            $result['price_' . $index['customer_group_id'] . '_' . $index['website_id']] = $index['final_price'];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Collect all categories ids where product is represented
+     *
+     * @param int $productId
+     *
+     * @return string
+     */
+    protected function _prepareProductCategories($productId)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from(
+                array($this->getTable('catalog/category_product')),
+                array('categories_ids' => 
+                    $this->_getWriteAdapter()->quoteInto('GROUP_CONCAT(category_id SEPARATOR ?)', ' ')))
+            ->where('product_id = ?', $productId);
+
+        return $this->_getWriteAdapter()->fetchOne($select);
     }
 
     /**

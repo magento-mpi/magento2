@@ -1236,10 +1236,10 @@
        
         <field name="id" type="string" indexed="true" stored="true" required="true"/> 
         <field name="unique" type="string" indexed="true" stored="true" required="true"/> 
-        <field name="price"  type="tfloat" indexed="true" stored="true" multiValued="true"/>
+        <field name="price" type="tfloat" indexed="true" stored="true" multiValued="true"/>
         <field name="store_id" type="int" indexed="true" stored="true"/>
-        <field name="in_stock" type="boolean" indexed="true" stored="true"/>
         <field name="categories" type="int" indexed="true" stored="true" multiValued="true"/>
+        <field name="in_stock" type="boolean" indexed="true" stored="true"/>
         
         <!--
         Text fields
@@ -1359,6 +1359,8 @@
         <dynamicField name="attr_decimal_*" type="float" indexed="true" stored="true"/>
         <dynamicField name="attr_datetime_*" type="date" indexed="true" stored="true"/>
         <dynamicField name="attr_multi_*" type="textgen" indexed="true" stored="true" multiValued="true"/>
+        
+        <dynamicField name="price_*" type="tfloat" indexed="true" stored="true"/>
 
         <dynamicField name="*_en" type="text_en" indexed="true" stored="true"/>
         <dynamicField name="*_fr" type="text_fr" indexed="true" stored="true"/>

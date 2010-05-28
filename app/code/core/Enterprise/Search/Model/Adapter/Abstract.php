@@ -602,16 +602,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 continue;
             }
 
-            if (isset($attributesParams[$key])) {
-                $fieldType = (substr($key, 0, 8) == 'fulltext') ? 'text' : $attributesParams[$key]['backendType'];
-            } else {
-                $fieldType = null;
-                $attributesParams[$key]['backendType'] = null;
-                $attributesParams[$key]['frontendInput'] = null;
-            }
-
-            if (substr($key, 0, 8) == 'fulltext') {
-                $backendType = 'text';
+            if (!array_key_exists($key, $attributesParams)) {
+                $backendType = (substr($key, 0, 8) == 'fulltext') ? 'text' : null;
                 $frontendInput = null;
             }
             else {
@@ -630,7 +622,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 $data[$key . $languageSuffix] = $value;
                 unset($data[$key]);
             }
-            elseif ($backendType != 'static') {
+            elseif ($backendType != 'static' && substr($key, 0, 6) != 'price_') {
                 if ($backendType == 'datetime') {
                     $value = $this->_getSolrDate($data['store_id'], $value);
                 }
@@ -638,6 +630,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 unset($data[$key]);
             }
         }
+
         return $data;
     }
 
@@ -657,7 +650,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $locale   = Mage::getStoreConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE, $storeId);
             $locale   = new Zend_Locale($locale);
 
-            $dateObj = new Zend_Date(null, null, $locale);
+            $dateObj  = new Zend_Date(null, null, $locale);
             $dateObj->setTimezone($timezone);
             $this->_dateFormats[$storeId] = array($dateObj, $locale->getTranslation(null, 'date', $locale));
         }

@@ -35,7 +35,6 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext_Engine extends Mage_Core_Model_My
 {
     /**
      * Init resource model
-     *
      */
     protected function _construct()
     {
@@ -87,6 +86,16 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext_Engine extends Mage_Core_Model_My
         }
 
         return $this;
+    }
+
+    /**
+     * Define if current search engine supports advanced index
+     *
+     * @return bool
+     */
+    public function allowAdvancedIndex()
+    {
+        return false;
     }
 
     /**

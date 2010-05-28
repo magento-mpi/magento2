@@ -178,6 +178,16 @@ class Enterprise_Search_Model_Resource_Engine
     }
 
     /**
+     * Define if current search engine supports advanced index
+     *
+     * @return bool
+     */
+    public function allowAdvancedIndex()
+    {
+        return true;
+    }
+
+    /**
      * Prepare index array
      *
      * @param array $index
