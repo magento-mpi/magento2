@@ -27,29 +27,56 @@
 <div class="page-title title-buttons">
     <h1><?php echo $this->__('Billing Agreement #%s', $this->escapeHtml($this->getReferenceId())) ?></h1>
     <?php if ($this->getCanCancel()): ?>
-        <button type="button" title="<?php echo $this->__('Cancel') ?>" class="button" onclick="if( confirm('<?php echo $this->__('Are you sure you want to do this?') ?>') ) { window.location.href = '<?php echo $this->getCancelUrl() ?>'; } return false;">
-            <span><span><?php echo $this->__('Cancel') ?></span></span>
-        </button>
+        <button type="button" title="<?php echo $this->__('Cancel') ?>" class="button" onclick="if( confirm('<?php echo $this->__('Are you sure you want to do this?') ?>') ) { window.location.href = '<?php echo $this->getCancelUrl() ?>'; } return false;"><span><span><?php echo $this->__('Cancel') ?></span></span></button>
     <?php endif; ?>
 </div>
-
-<div class="dashboard">
-    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div class="billing-agreements">
     <div class="info-box">
         <h2 class="box-title"><?php echo $this->__('Agreement Information') ?></h2>
         <div class="box-content">
-            <strong>Payment Method</strong>: <?php echo $this->getPaymentMethodTitle() ?><br>
-            <strong>Status</strong>: <?php echo $this->getAgreementStatus() ?><br>
-            <strong>Created</strong>: <?php echo $this->escapeHtml($this->getAgreementCreatedAt()) ?><br>
-            <?php if ($this->getAgreementUpdatedAt()): ?>
-                <strong>Updated</strong>: <?php echo $this->escapeHtml($this->getAgreementUpdatedAt()); ?>
-            <?php endif; ?>
+            <table class="info-table">
+                <tbody>
+                    <tr>
+                        <th><?php echo $this->__('Payment Method:') ?></th>
+                        <td><?php echo $this->getPaymentMethodTitle() ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo $this->__('Status:') ?></th>
+                        <td><?php echo $this->getAgreementStatus() ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo $this->__('Created:') ?></th>
+                        <td><?php echo $this->escapeHtml($this->getAgreementCreatedAt()) ?></td>
+                    </tr>
+                    <?php if($this->getAgreementUpdatedAt()): ?>
+                    <tr>
+                        <th><?php echo $this->__('Updated:') ?></th>
+                        <td><?php echo $this->escapeHtml($this->getAgreementUpdatedAt()); ?></td>
+                    </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
-    <div class="info-box">
-        <h2 class="box-title"><?php echo $this->__('Related Orders') ?></h2>
-        <div class="box-content"><?php echo 'Related Orders Grid will be here' ?></div>
-    </div>
+    <h2 class="table-caption"><?php echo $this->__('Related Orders') ?></h2>
+    <table class="data-table" id="related-orders-table">
+        <col />
+        <col width="1" />
+        <thead>
+            <tr>
+                <th><span class="nobr"><?php echo $this->__('Order #') ?></span></th>
+                <th><?php echo $this->__('Date') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Related Orders Grid will be here</td>
+                <td>5/27/10</td>
+            </tr>
+        </tbody>
+    </table>
+    <script type="text/javascript">decorateTable('related-orders-table');</script>
     <div class="buttons-set">
         <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back to Billing Agreements') ?></a></p>
     </div>

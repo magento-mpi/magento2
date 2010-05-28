@@ -409,6 +409,13 @@ p.required { font-size:11px; text-align:right; color:#f15c22; }
 .data-table tbody td .option-label { font-weight:bold; font-style:italic; }
 .data-table tbody td .option-value { padding-left:10px; }
 
+/* Generic Info Box */
+.info-box { border:1px solid #cfcfcf; padding:12px 15px; margin:0 0 15px; }
+.info-box h2 { font-weight:bold; font-size:13px; }
+
+.info-table th { font-weight:bold; padding:2px 15px 2px 0; }
+.info-table td { padding:2px 0; }
+
 /* Shopping cart total summary row expandable to details */
 tr.summary-total { cursor:pointer; }
 tr.summary-total td {}
@@ -1654,6 +1661,11 @@ tr.summary-details-first td { border-top:1px solid #d2d8db; }
 .my-rewards .form-list label { width:auto; }
 .my-rewards .form-list .control .input-box { position:static; margin:0 5px 0 0; }
 .my-rewards .data-table small { display:block; font-size:1em; color:#808080; }
+
+/* Billing Agreements */
+.billing-agreements .form-list li select { float:left; padding:2px; }
+.billing-agreements .form-list li button.button { float:left; margin-left:10px; }
+.billing-agreements .table-caption { font-weight:bold; font-size:13px; }
 /* ======================================================================================= */
 
 
