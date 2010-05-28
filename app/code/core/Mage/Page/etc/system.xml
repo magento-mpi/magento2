@@ -41,8 +41,7 @@
                             <label>Shortcut Icon</label>
                             <comment>Allowed file types: ICO, PNG, GIF, JPEG, APNG, SVG. Not all browsers support all this formats!</comment>
                             <frontend_type>image</frontend_type>
-                            <backend_model>adminhtml/system_config_backend_image</backend_model>
-                            <upload_dir config="system/filesystem/media" scope_info="1">favicon</upload_dir>
+                            <backend_model>adminhtml/system_config_backend_image_favicon</backend_model>
                             <base_url type="media" scope_info="1">favicon</base_url>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
