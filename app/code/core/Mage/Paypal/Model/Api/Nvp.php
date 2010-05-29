@@ -134,6 +134,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 
         // shipping rate
         'SHIPPINGOPTIONNAME' => 'shipping_rate_code',
+        'NOSHIPPING'         => 'suppress_shipping',
 
         // paypal direct credit card information
         'CREDITCARDTYPE' => 'credit_card_type',
@@ -206,7 +207,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'BILLINGPERIOD' => '_filterPeriodUnit',
         'TRIALBILLINGPERIOD' => '_filterPeriodUnit',
         'FAILEDINITAMTACTION' => '_filterInitialAmountMayFail',
-        'BILLINGAGREEMENTSTATUS' => '_filterBillingAgreementStatus'
+        'BILLINGAGREEMENTSTATUS' => '_filterBillingAgreementStatus',
+        'NOSHIPPING' => '_filterInt',
     );
 
     protected $_importFromRequestFilters = array(
@@ -225,7 +227,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * @var array
      */
     protected $_setExpressCheckoutRequest = array(
-        'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'RETURNURL', 'CANCELURL', 'INVNUM', 'SOLUTIONTYPE',
+        'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'RETURNURL', 'CANCELURL', 'INVNUM', 'SOLUTIONTYPE', 'NOSHIPPING',
         'GIROPAYCANCELURL', 'GIROPAYSUCCESSURL', 'BANKTXNPENDINGURL',
         'PAGESTYLE', 'HDRIMG', 'HDRBORDERCOLOR', 'HDRBACKCOLOR', 'PAYFLOWCOLOR', 'LOCALECODE',
     );
@@ -409,8 +411,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     protected $_shippingOptionsExportItemsFormat = array(
         'is_default' => 'L_SHIPPINGOPTIONISDEFAULT%d',
-        'name'       => 'L_SHIPPINGOPTIONNAME%d',
         'amount'     => 'L_SHIPPINGOPTIONAMOUNT%d',
+        'code'       => 'L_SHIPPINGOPTIONNAME%d',
+        'name'       => 'L_SHIPPINGOPTIONLABEL%d',
     );
 
     /**
@@ -496,16 +499,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
-     * Return Paypal callback request timeout
-     *
-     * @return int
-     */
-    public function getCallbackTimeout()
-    {
-        return 6;
-    }
-
-    /**
      * Retrieve billing agreement type
      *
      * @return string
@@ -529,25 +522,11 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         // import/suppress shipping address, if any
         if ($address = $this->getAddress()) {
             $request = $this->_importAddress($address, $request);
-            if (!$this->getShippingOptions()) {
-                $request['ADDROVERRIDE'] = 1;
-            }
-        }
-        if ($this->getSuppressShipping()) {
-            $request['NOSHIPPING'] = 1;
-        }
-
-        if ($options = $this->getShippingOptions()) {
-            $request['CALLBACK'] = $this->getCallbackUrl();
-            $request['CALLBACKTIMEOUT'] = $this->getCallbackTimeout();
-
-            $maxAmount = 0;
-            foreach ($options as $option) {
-                if ($option['amount'] > $maxAmount) {
-                    $maxAmount = $option['amount'];
-                }
-            }
-            $request['MAXAMT'] = $request['AMT'] + $maxAmount;
+            $request['ADDROVERRIDE'] = 1;
+        } elseif ($options = $this->getShippingOptions()) {
+            $request['CALLBACK'] = $this->getShippingOptionsCallbackUrl();
+            $request['CALLBACKTIMEOUT'] = 6; // max value
+            $request['MAXAMT'] = $request['AMT'] + 999.00; // it is impossible to calculate max amount
             $this->_exportShippingOptions($request);
         }
 
@@ -798,28 +777,26 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * Import callback request array into $this public data
      *
      * @param array $request
-     * @return Mage_Paypal_Model_Api_Nvp
+     * @return Varien_Object
      */
-    public function importCallbackRequest($request)
+    public function prepareShippingOptionsCallbackAddress(array $request)
     {
-        $shippingAddress = new Varien_Object();
-        Varien_Object_Mapper::accumulateByMap($request, $shippingAddress, $this->_callbackRequestMap);
-        $shippingAddress->setExportedKeys(array_values($this->_callbackRequestMap));
-        $this->_applyStreetAndRegionWorkarounds($shippingAddress);
-        $this->setCallbackRequestShippingAddress($shippingAddress);
-        return $this;
+        $address = new Varien_Object();
+        Varien_Object_Mapper::accumulateByMap($request, $address, $this->_callbackRequestMap);
+        $address->setExportedKeys(array_values($this->_callbackRequestMap));
+        $this->_applyStreetAndRegionWorkarounds($address);
+        return $address;
     }
 
     /**
-     * Return callback response
+     * Prepare response for shipping options callback
      *
      * @return string
      */
-    public function getCallbackResponse()
+    public function formatShippingOptionsCallback()
     {
         $response = array();
-        $this->_exportShippingOptions($response);
-        if (empty($response)) {
+        if (!$this->_exportShippingOptions($response)) {
             $response['NO_SHIPPING_OPTION_DETAILS'] = '1';
         }
         $response = $this->_addMethodToRequest(self::CALLBACK_RESPONSE, $response);
@@ -835,21 +812,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     protected function _addMethodToRequest($methodName, $request)
     {
-        $request['method'] = $methodName;
+        $request['METHOD'] = $methodName;
         return $request;
-    }
-
-    /**
-     * Add method to response array
-     *
-     * @param string $methodName
-     * @param array $response
-     * @return array
-     */
-    protected function _addMethodToResponse($methodName, $response)
-    {
-        $response['method'] = $methodName;
-        return $response;
     }
 
     /**

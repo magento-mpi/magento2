@@ -43,6 +43,7 @@ class Mage_Paypal_Model_Express_Checkout
      */
     const PAYMENT_INFO_TRANSPORT_TOKEN    = 'paypal_express_checkout_token';
     const PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN = 'paypal_express_checkout_shipping_overriden';
+    const PAYMENT_INFO_TRANSPORT_SHIPPING_METHOD = 'paypal_express_checkout_shipping_method';
     const PAYMENT_INFO_TRANSPORT_PAYER_ID = 'paypal_express_checkout_payer_id';
     const PAYMENT_INFO_TRANSPORT_REDIRECT = 'paypal_express_checkout_redirect_required';
 
@@ -206,16 +207,14 @@ class Mage_Paypal_Model_Express_Checkout
             if (Mage::helper('paypal')->areCartLineItemsValid($items, $totals, $this->_quote->getBaseGrandTotal())) {
                 $this->_api->setLineItems($items)->setLineItemTotals($totals);
             }
-        }
 
-        // add shipping options
-        if (!$this->_quote->getIsVirtual() && $this->_config->lineItemsEnabled && $this->_config->transferShippingOptions) {
-            $options = Mage::helper('paypal')->prepareShippingOptions($address, true);
-            if (!empty($options)) { // PayPal must fix bug with empty shipping rates
-                $url = Mage::getUrl('*/*/callbackshippingoptions', array('quote_id' => $this->_quote->getId()));
-                $this->_api
-                    ->setCallbackUrl($url)
-                    ->setShippingOptions($options);
+            // add shipping options
+            if ($this->_config->transferShippingOptions && !$this->_quote->getIsVirtual()) {
+                if ($options = $this->_prepareShippingOptions($address, true)) {
+                    $this->_api->setShippingOptionsCallbackUrl(
+                        Mage::getUrl('*/*/shippingOptionsCallback', array('quote_id' => $this->_quote->getId()))
+                    )->setShippingOptions($options);
+                }
             }
         }
 
@@ -252,35 +251,36 @@ class Mage_Paypal_Model_Express_Checkout
             ->setBusinessAccount($this->_config->businessAccount)
             ->callGetExpressCheckoutDetails();
 
-        // import addresses
+        // import billing address
         $billingAddress = $this->_quote->getBillingAddress();
         $exportedBillingAddress = $this->_api->getExportedBillingAddress();
         foreach ($exportedBillingAddress->getExportedKeys() as $key) {
             $billingAddress->setDataUsingMethod($key, $exportedBillingAddress->getData($key));
         }
+
+        // import shipping address
         $exportedShippingAddress = $this->_api->getExportedShippingAddress();
-        if ((!$this->_quote->getIsVirtual()) && $exportedShippingAddress
-            && $shippingAddress = $this->_quote->getShippingAddress()) {
-            foreach ($exportedShippingAddress->getExportedKeys() as $key) {
-                $shippingAddress->setDataUsingMethod($key, $exportedShippingAddress->getData($key));
+        if (!$this->_quote->getIsVirtual()) {
+            $shippingAddress = $this->_quote->getShippingAddress();
+            if ($shippingAddress) {
+                if ($exportedShippingAddress) {
+                    foreach ($exportedShippingAddress->getExportedKeys() as $key) {
+                        $shippingAddress->setDataUsingMethod($key, $exportedShippingAddress->getData($key));
+                    }
+                    $shippingAddress->setCollectShippingRates(true)->collectShippingRates();
+                }
+
+                // import shipping method
+                $code = '';
+                if ($this->_api->getShippingRateCode()) {
+                    if ($code = $this->_matchShippingMethodCode($shippingAddress, $this->_api->getShippingRateCode())) {
+                        $shippingAddress->setShippingMethod($code)->setCollectShippingRates(true);
+                    }
+                }
+                $this->_quote->getPayment()->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_SHIPPING_METHOD, $code);
             }
-            $shippingAddress->setCollectShippingRates(true);
         }
         $this->_ignoreAddressValidation();
-
-        // import shipping rate
-        if ((!$this->_quote->getIsVirtual()) &&
-            $this->_api->getShippingRateCode() &&
-            $this->_quote->getShippingAddress()) {
-
-            $address = $this->_quote->getShippingAddress();
-            $options = Mage::helper('paypal')->prepareShippingOptions($address);
-            foreach ($options as $option) {
-               if ($option->getName() == $this->_api->getShippingRateCode()) {
-                   $address->setShippingMethod($option->getCode());
-               }
-            }
-        }
 
         // import payment info
         $payment = $this->_quote->getPayment();
@@ -304,6 +304,12 @@ class Mage_Paypal_Model_Express_Checkout
         if (!$payment || !$payment->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_PAYER_ID)) {
             Mage::throwException(Mage::helper('paypal')->__('Payer is not identified.'));
         }
+        $this->_quote->setMayEditShippingAddress(
+            1 != $this->_quote->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN)
+        );
+        $this->_quote->setMayEditShippingMethod(
+            '' == $this->_quote->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_SHIPPING_METHOD)
+        );
         $this->_ignoreAddressValidation();
         $this->_quote->collectTotals()->save();
     }
@@ -314,38 +320,37 @@ class Mage_Paypal_Model_Express_Checkout
      * @param array $request
      * @return string
      */
-    public function getCallbackShippingOptionsResponse($request)
+    public function getShippingOptionsCallbackResponse(array $request)
     {
+        // prepare debug data
         $logger = Mage::getModel('core/log_adapter', 'payment_' . $this->_methodType . '.log');
         $debugData = array('request' => $request, 'response' => array());
 
         try {
-            $this->_getApi()->importCallbackRequest($request);
-            $callbackRequestShippingAddress = $this->_getApi()->getCallbackRequestShippingAddress();
-            $quoteShippingAddress = $this->_quote->getShippingAddress();
+            // obtain addresses
+            $this->_getApi();
+            $address = $this->_api->prepareShippingOptionsCallbackAddress($request);
+            $quoteAddress = $this->_quote->getShippingAddress();
 
+            // compare addresses, calculate shipping rates and prepare response
             $options = array();
-            if ((!$this->_quote->getIsVirtual()) && $callbackRequestShippingAddress && $quoteShippingAddress) {
-                foreach ($callbackRequestShippingAddress->getExportedKeys() as $key) {
-                    $quoteShippingAddress->setDataUsingMethod($key, $callbackRequestShippingAddress->getData($key));
+            if ($address && $quoteAddress && !$this->_quote->getIsVirtual()) {
+                foreach ($address->getExportedKeys() as $key) {
+                    $quoteAddress->setDataUsingMethod($key, $address->getData($key));
                 }
-                $quoteShippingAddress->setCollectShippingRates(true);
-                $quoteShippingAddress->collectShippingRates();
-                $options = Mage::helper('paypal')->prepareShippingOptions($quoteShippingAddress);
+                $quoteAddress->setCollectShippingRates(true)->collectShippingRates();
+                $options = $this->_prepareShippingOptions($quoteAddress, false);
             }
+            $response = $this->_api->setShippingOptions($options)->formatShippingOptionsCallback();
 
-            $response = $this->_getApi()
-                ->setShippingOptions($options)
-                ->getCallbackResponse();
-
-            parse_str($response, $debugData['response']);
+            // log request and response
+            $debugData['response'] = $response;
             $logger->log($debugData);
+            return $response;
         } catch (Exception $e) {
             $logger->log($debugData);
             throw $e;
         }
-
-        return $response;
     }
 
     /**
@@ -408,17 +413,6 @@ class Mage_Paypal_Model_Express_Checkout
     }
 
     /**
-     * Whether customer is allowed to edit shipping address on order review
-     *
-     * @return bool
-     */
-    public function mayEditShippingAddress()
-    {
-        return 1 != $this->_quote->getPayment()
-            ->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN);
-    }
-
-    /**
      * Make sure addresses will be saved without validation errors
      */
     private function _ignoreAddressValidation()
@@ -449,5 +443,77 @@ class Mage_Paypal_Model_Express_Checkout
             $this->_api = Mage::getModel($this->_apiType)->setConfigObject($this->_config);
         }
         return $this->_api;
+    }
+
+    /**
+     * Attempt to collect address shipping rates and return them for further usage in instant update API
+     * Returns empty array if it was impossible to obtain any shipping rate
+     * If there are shipping rates obtained, the method must return one of them as default.
+     *
+     * @param Mage_Sales_Model_Quote_Address $address
+     * @param bool $mayReturnEmpty
+     * @return array|false
+     */
+    protected function _prepareShippingOptions(Mage_Sales_Model_Quote_Address $address, $mayReturnEmpty = false)
+    {
+        $options = array(); $i = 0; $iMin = false; $min = false; $iDefault = false;
+
+        foreach ($address->getGroupedAllShippingRates() as $group) {
+            foreach ($group as $rate) {
+                $isDefault = $address->getShippingMethod() === $rate->getCode();
+                if ($isDefault) {
+                    $iDefault = $i;
+                }
+                $amount = (float)$rate->getPrice();
+                $options[$i] = new Varien_Object(array(
+                    'is_default' => $isDefault,
+                    'name'       => "{$rate->getCarrierTitle()} - {$rate->getMethodTitle()}",
+                    'code'       => $rate->getCode(),
+                    'amount'     => $amount,
+                ));
+                if (false === $min || $amount < $min) {
+                    $min = $amount; $iMin = $i;
+                }
+                $i++;
+            }
+        }
+
+        if ($mayReturnEmpty) {
+            $options[] = new Varien_Object(array(
+                'is_default' => (false === $iDefault ? true : false),
+                'name'       => 'N/A',
+                'code'       => 'no_rate',
+                'amount'     => 0.00,
+            ));
+        } elseif (false === $iDefault && isset($options[$iMin])) {
+            $options[$iMin]->setIsDefault(true);
+        }
+
+        return $options;
+    }
+
+    /**
+     * Try to find whether the code provided by PayPal corresponds to any of possible shipping rates
+     * This method was created only because PayPal has issues with returning the selected code.
+     * If in future the issue is fixed, we don't need to attempt to match it. It would be enough to set the method code
+     * before collecting shipping rates
+     *
+     * @param Mage_Sales_Model_Quote_Address $address
+     * @param string $selectedCode
+     * @return string
+     */
+    protected function _matchShippingMethodCode(Mage_Sales_Model_Quote_Address $address, $selectedCode)
+    {
+        $options = $this->_prepareShippingOptions($address, false);
+        foreach ($options as $option) {
+            if ($selectedCode === $option['code'] // the proper case as outlined in documentation
+                || $selectedCode === $option['name'] // workaround: PayPal may return name instead of the code
+                // workaround: PayPal may concatenate code and name, and return it instead of the code:
+                || $selectedCode === "{$option['code']} {$option['name']}"
+            ) {
+                return $option['code'];
+            }
+        }
+        return '';
     }
 }

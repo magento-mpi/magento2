@@ -406,15 +406,17 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
 
     /**
      * Prepare shipping options request
+     * Returns false if there are no shipping options
      *
      * @param array &$request
      * @param int $i
+     * @return bool
      */
     protected function _exportShippingOptions(array &$request, $i = 0)
     {
         $options = $this->getShippingOptions();
         if (empty($options)) {
-            return;
+            return false;
         }
         foreach ($options as $option) {
             foreach ($this->_shippingOptionsExportItemsFormat as $publicKey => $privateFormat) {
@@ -429,6 +431,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
             }
             $i++;
         }
+        return true;
     }
 
     /**
@@ -442,14 +445,25 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Filter bool in API calls
+     * Filter boolean values in API calls
      *
-     * @param bool $value
+     * @param mixed $value
      * @return string
      */
     protected function _filterBool($value)
     {
         return ($value) ? 'true' : 'false';
+    }
+
+    /**
+     * Filter int values in API calls
+     *
+     * @param mixed $value
+     * @return int
+     */
+    protected function _filterInt($value)
+    {
+        return (int)$value;
     }
 
     /**

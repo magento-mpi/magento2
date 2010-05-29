@@ -112,45 +112,6 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Get shipping options from shipping address
-     * if last parameter is true will added noRate if there are not other options
-     *
-     * @param Mage_Sales_Model_Quote_Address $address
-     * @param bool $_addNotChosenOption
-     * @return array
-     */
-    public function prepareShippingOptions($address, $_addNotChosenOption = false)
-    {
-        $options = array();
-
-        $i = 0;
-        foreach ($address->getGroupedAllShippingRates() as $_group) {
-            foreach ($_group as $_rate) {
-                $data = array(
-                    'is_default' => $address->getShippingMethod() === $_rate->getCode(),
-                    'name'       => $_rate->getCarrierTitle() . ' ' . $_rate->getMethodTitle(),
-                    'code'       => $_rate->getCode(),
-                    'amount'     => (float)$_rate->getPrice()
-                );
-                $options[$i] = new Varien_Object($data);
-                $i++;
-            }
-        }
-
-        if (empty($options)) {
-            $data = array(
-                'is_default' => true,
-                'name'       => 'N/A',
-                'code'       => 'no_rate',
-                'amount'     => 0.00,
-            );
-            $options[] = new Varien_Object($data);
-        }
-
-        return $options;
-    }
-
-    /**
      * Check whether cart line items are eligible for exporting to PayPal API
      *
      * Requires data returned by self::prepareLineItems()

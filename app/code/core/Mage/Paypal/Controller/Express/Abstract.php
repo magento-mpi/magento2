@@ -83,17 +83,15 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     /**
      * Return shipping options items for shipping address from request
      */
-    public function callbackShippingOptionsAction()
+    public function shippingOptionsCallbackAction()
     {
         try {
             $quoteId = $this->getRequest()->getParam('quote_id');
             $this->_quote = Mage::getModel('sales/quote')->load($quoteId);
             $this->_initCheckout();
-            $response = $this->_checkout->getCallbackShippingoptionsResponse($this->getRequest()->getParams());
+            $response = $this->_checkout->getShippingOptionsCallbackResponse($this->getRequest()->getParams());
             $this->getResponse()->setBody($response);
-            return;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
         }
     }
@@ -163,7 +161,6 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $this->_initLayoutMessages('paypal/session');
             $this->getLayout()->getBlock('paypal.express.review')
                 ->setQuote($this->_getQuote())
-                ->setCanEditShippingAddress($this->_checkout->mayEditShippingAddress())
                 ->getChild('details')->setQuote($this->_getQuote())
             ;
             $this->renderLayout();
