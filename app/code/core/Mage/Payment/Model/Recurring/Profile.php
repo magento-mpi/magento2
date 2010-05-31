@@ -158,14 +158,17 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
             }
             if ($options = $product->getCustomOption('recurring_profile_options')) {
                 $options = @unserialize($options->getValue());
-                if (isset($options['start_date'])) {
-                    $startDatetime = new Zend_Date($options['start_date'], Varien_Date::DATETIME_INTERNAL_FORMAT);
-                    $this->setNearestStartDatetime($startDatetime);
+                if (is_array($options)) {
+                    if (isset($options['start_date'])) {
+                        $startDatetime = new Zend_Date($options['start_date'], Varien_Date::DATETIME_INTERNAL_FORMAT);
+                        $this->setNearestStartDatetime($startDatetime);
+                    }
+                    if (isset($options['subscriber_name'])) {
+                        $this->setSubscriberName($options['subscriber_name']);
+                    }
                 }
-                if (isset($options['subscriber_name'])) {
-                    $this->setSubscriberName($options['subscriber_name']);
-                }
-            } else {
+            }
+            if (!$this->getStartDatetime()) {
                 $this->setNearestStartDatetime();
             }
             return $this->_filterValues();
