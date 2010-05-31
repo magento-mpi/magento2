@@ -51,11 +51,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Image extends Varien_Data_Fo
 
     public function getElementHtml()
     {
-        $html = '';
+        $html = '<div style="white-space: nowrap">';
 
         if ($this->getValue()) {
             $url = $this->_getUrl();
-            $html = '<a href="'.$url.'" onclick="imagePreview(\''.$this->getHtmlId().'_image\'); return false;"><img src="'.$url.'" id="'.$this->getHtmlId().'_image" title="'.$this->getValue().'" alt="'.$this->getValue().'" height="22" width="22" class="small-image-preview v-middle" /></a> ';
+            $html .= '<a href="'.$url.'" onclick="imagePreview(\''.$this->getHtmlId().'_image\'); return false;"><img src="'.$url.'" id="'.$this->getHtmlId().'_image" title="'.$this->getValue().'" alt="'.$this->getValue().'" height="22" width="22" class="small-image-preview v-middle" /></a> ';
         }
 
         $html .= '<input id="'.$this->getHtmlId().'_hidden" name="'.$this->getName()
@@ -65,6 +65,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Image extends Varien_Data_Fo
         $html .= '<input id="'.$this->getHtmlId().'" name="'.$this->getUploadName()
              .'" value="'.$this->getEscapedValue().'" '.$this->serialize($this->getHtmlAttributes()).'/>'."\n";
         $html.= $this->getAfterElementHtml();
+
+        $html.= '</div>';
 
         return $html;
     }
