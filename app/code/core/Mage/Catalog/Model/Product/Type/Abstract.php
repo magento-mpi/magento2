@@ -386,8 +386,8 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         $options = array();
         $startDate = $buyRequest->getData('recurring_start_date');
         if ($startDate) {
-            if (Zend_Date::isDate($startDate, $format, $locale)) {
-                $format = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+            $format = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+            if (Zend_Date::isDate($startDate, $format, Mage::app()->getLocale()->getLocaleCode())) {
                 $utcDate = Mage::app()->getLocale()
                     ->utcDate(Mage::app()->getStore(), $startDate, true, $format)
                     ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
