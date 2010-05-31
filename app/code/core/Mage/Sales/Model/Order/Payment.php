@@ -92,18 +92,19 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     /**
      * Check order payment capture action availability
      *
-     * @return unknown
+     * @return bool
      */
     public function canCapture()
     {
-        /**
-         * Check Authoriztion transaction state
-         */
-        $authTransaction = $this->getAuthorizationTransaction();
-        if ($authTransaction) {
-            return !$authTransaction->getIsClosed();
+        if (!$this->getMethodInstance()->canCapture()) {
+            return false;
         }
-        return $this->getMethodInstance()->canCapture();
+        // Check Authoriztion transaction state
+        $authTransaction = $this->getAuthorizationTransaction();
+        if ($authTransaction && $authTransaction->getIsClosed()) {
+            return false;
+        }
+        return true;
     }
 
     public function canRefund()
