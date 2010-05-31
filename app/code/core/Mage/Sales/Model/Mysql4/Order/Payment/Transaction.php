@@ -90,6 +90,7 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction extends Mage_Sales_Model
         $select = $this->_getLoadByUniqueKeySelect($orderId, $paymentId, $txnId);
         $data = $this->_getWriteAdapter()->fetchRow($select);
         $transaction->setData($data);
+        $this->unserializeFields($transaction);
         $this->_afterLoad($transaction);
     }
 
