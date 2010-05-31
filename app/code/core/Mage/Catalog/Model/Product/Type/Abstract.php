@@ -386,11 +386,12 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         $options = array();
         $startDate = $buyRequest->getData('recurring_start_date');
         if ($startDate) {
-            $format = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
-            $locale = Mage::app()->getLocale()->getLocaleCode();
             if (Zend_Date::isDate($startDate, $format, $locale)) {
-                $date = new Zend_Date($startDate, $format, $locale);
-                $options['start_date'] = $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+                $format = Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+                $utcDate = Mage::app()->getLocale()
+                    ->utcDate(Mage::app()->getStore(), $startDate, true, $format)
+                    ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+                $options['start_date'] = $utcDate;
             } else {
                 Mage::throwException(Mage::helper('catalog') ->__('Start date for recurring period should be provided in valid format.'));
             }
