@@ -123,7 +123,7 @@
         <div style="line-height: 3em"> 
         <label> 
             <input type="radio"
-                onclick="XmlconnectPreviewImage('<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/Theme1/preview.jpg')"
+                onclick="XmlconnectPreviewImage('<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/empty.png')"
                         name="conf[dummy][theme]"
                 value="" style="margin-right: 2em;" /> 
             Custom Colors
@@ -649,7 +649,35 @@
         </div> 
         </div>
 </div>
-<div class="box-right" style="width:360px;"><?php echo $this->getChildHtml('app_preview'); ?></div>
+<div class="box-right" style="width:360px;">
+<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/Theme1/preview.jpg"
+    id="XmlconnectThemePreview" width="320" height="481" alt="Theme Preview" title="Theme Preview" />
+<div class="mm-box-blue a-center" style="width:280px;">
+    <button type="button" class="scalable" onclick=""><span>Update Preview</span></button>
+</div>
+<div class="mm-pager">
+    <strong>Screens:</strong>
+    <ul id="mmPager">
+        <li><a class="active" href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $('mmPager').childElements().each(function(t){
+        Event.observe(t.down('a'), 'click', function(e){
+            e.stop();
+            resetPager();
+            t.down('a').addClassName('active');
+        });
+    });
+    function resetPager(){
+        $('mmPager').childElements().each(function(t){
+            t.down('a').removeClassName('active');
+        });
+    }
+</script></div>
 <div class="box-clear"></div>
 
 <!-- <div class="box-left" style="min-width:540px;"><?php //echo $this->getChildHtml('edit_form'); ?></div>
