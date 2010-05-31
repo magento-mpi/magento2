@@ -56,10 +56,12 @@ class Mage_Sales_Model_Order_Creditmemo_Total_Shipping extends Mage_Sales_Model_
                 $part = $baseShippingAmount/$baseShippingInclTax;
                 $shippingInclTax    = Mage::app()->getStore()->roundPrice($shippingInclTax*$part);
                 $baseShippingInclTax= $baseShippingAmount;
-                $baseShippingAmount = Mage::app()->getStore()->roundPrice($baseShipping*$part);;
+                $baseShippingAmount = Mage::app()->getStore()->roundPrice($baseShipping*$part);
             }
-            if ($baseShippingAmount<= $baseAllowedAmount && $baseShipping != 0) {
-                $shipping       = $shipping*$baseShippingAmount/$baseShipping;
+            if ($baseShippingAmount<= $baseAllowedAmount) {
+                if ($baseShipping != 0) {
+                    $shipping = $shipping*$baseShippingAmount/$baseShipping;
+                }
                 $shipping       = Mage::app()->getStore()->roundPrice($shipping);
                 $baseShipping   = $baseShippingAmount;
             } else {
