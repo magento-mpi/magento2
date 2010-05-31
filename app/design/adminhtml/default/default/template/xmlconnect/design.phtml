@@ -24,6 +24,634 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<div class="box-left" style="width: 60%"><?php echo $this->getChildHtml('edit_form'); ?></div>
-<div class="box-right" style="width: 35%"><?php echo $this->getChildHtml('app_preview'); ?></div>
+<div class="mm-box-blue">
+      <label for="selectTemplate">Select Template:</label>
+      <select name="selectTemplate" id="selectTemplate">
+        <option value="1">Default Template</option>
+      </select>
+      &nbsp;&nbsp;&nbsp;<a href="#">Add more templates</a>
+</div>
+<br/>
+<div class="box-left" style="min-width:540px;">
+<div class="entry-edit"> 
+    <div class="entry-edit-head"> 
+    <h4 class="icon-head head-edit-form fieldset-legend">Logo</h4> 
+    <div class="form-buttons"></div> 
+        </div> 
+            <div class="fieldset " id="fieldLogo"> 
+            <div class="hor-scroll"> 
+                <table cellspacing="0" class="form-list"> 
+                    <tbody> 
+                <tr> 
+                <td class="label"><label for="conf[native][navigationBar][icon]">Header Logo Image</label></td> 
+                <td class="value"> 
+                    <img src="<?php echo $this->getSkinUrl('images/small_logo.gif') ?>" style="vertical-align:middle;"/>&nbsp;&nbsp;<input id="conf[native][navigationBar][icon]_hidden" name="conf[native][navigationBar][icon]" value="" type="hidden" /><input id="conf[native][navigationBar][icon]" name="conf/native/navigationBar/icon" value="" type="file" class="input-file"/>
+                    <p style="margin:5px 0 0 25px;"><input type="checkbox"/> Delete Image</p>
+                </td> 
+                </tr> 
+                <tr> 
+                <td class="label"><label for="conf[native][navigationBar][position]">Header Logo Image</label></td> 
+                <td class="value"> 
+                    <select id="conf[native][navigationBar][position]">
+                    <option value="1">Above Screen title</option>
+                    </select>
+                </td> 
+                </tr> 
+        <tr> 
+                <td class="label"><label for="conf[native][body][bannerImage]">Body Logo Image</label></td> 
+            <td class="value"> 
+                <img src="<?php echo $this->getSkinUrl('images/small_logo.gif') ?>" style="vertical-align:middle;"/>&nbsp;&nbsp;<input id="conf[native][body][bannerImage]_hidden" name="conf[native][body][bannerImage]" value="" type="hidden" /><input id="conf[native][body][bannerImage]" name="conf/native/body/bannerImage" value="" type="file" class="input-file"/>
+                <p style="margin:5px 0 0 25px;"><input type="checkbox"/> Delete Image</p>
+            </td> 
+            </tr> 
+                    </tbody> 
+                </table> 
+                    </div> 
+                </div> 
+        <div class="entry-edit-head"> 
+            <h4 class="icon-head head-edit-form fieldset-legend">Color Themes</h4> 
+            <div class="form-buttons"></div> 
+        </div> 
+            <div class="fieldset " id="fieldColors" style="padding:0;"> 
+            <div class="hor-scroll"><div style="margin:15px 20px;">
+        <script type="text/javascript"> 
+            function XmlconnectPreviewImage(url) {
+                document.getElementById('XmlconnectThemePreview').src=url
+            }
+        </script> 
+            <div style="line-height: 3em"> 
+            <label> 
+                <input type="radio"
+                    onclick="XmlconnectPreviewImage('<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/Theme1/preview.jpg')"
+                    checked="checked"            name="conf[dummy][theme]"
+                    value="Theme1" /> 
+                <img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/Theme1/colorbar.png" alt=""
+                    style="margin: 0 2em; vertical-align: middle" /> 
+                Default    </label> 
+            </div> 
+            <div style="line-height: 3em"> 
+            <label> 
+                <input type="radio"
+                    onclick="XmlconnectPreviewImage('<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/Theme2/preview.jpg')"
+                                name="conf[dummy][theme]"
+                    value="Theme2" /> 
+                <img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/Theme2/colorbar.png" alt=""
+                    style="margin: 0 2em; vertical-align: middle" /> 
+                Red    </label> 
+            </div> 
+            <div style="line-height: 3em"> 
+            <label> 
+                <input type="radio"
+                    onclick="XmlconnectPreviewImage('<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/Theme3/preview.jpg')"
+                                name="conf[dummy][theme]"
+                    value="Theme3" /> 
+                <img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/Theme3/colorbar.png" alt=""
+                    style="margin: 0 2em; vertical-align: middle" /> 
+                Twilight    </label> 
+            </div> 
+            <div style="line-height: 3em"> 
+            <label> 
+                <input type="radio"
+                    onclick="XmlconnectPreviewImage('<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/Theme4/preview.jpg')"
+                                name="conf[dummy][theme]"
+                    value="Theme4" /> 
+                <img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/Theme4/colorbar.png" alt=""
+                    style="margin: 0 2em; vertical-align: middle" /> 
+                Ocean    </label> 
+            </div> 
+         
+        <div style="line-height: 3em"> 
+        <label> 
+            <input type="radio"
+                onclick="XmlconnectPreviewImage('<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/empty.png')"
+                        name="conf[dummy][theme]"
+                value="" style="margin-right: 2em;" /> 
+            Custom Colors
+        </label> 
+        <div style="float:right;">Base on: <select><option>Hot Red</option></select></div>
+        </div> 
+        <hr style="margin:10px 0;" />
+        </div>
+        <div style="margin:15px 20px;">
+        <table cellspacing="0" class="form-list"> 
+        <tbody> 
+        <tr> 
+            <td class="label"><label for="conf[special][headerBackgroundColor]">Header Background Color</label></td> 
+            <td class="value"> 
+                <input style="width:70px;" id="conf[special][headerBackgroundColor]" name="conf[special][headerBackgroundColor]" value="" type="text" class=" color {required:false,hash:true} input-text"/></td> 
+            </tr> 
+        <tr> 
+                <td class="label"><label for="conf[special][headerTextColor]">Header Text</label></td> 
+            <td class="value"> 
+                <input style="width:70px;" id="conf[special][headerTextColor]" name="conf[special][headerTextColor]" value="" type="text" class=" color {required:false,hash:true} input-text"/>            </td> 
+            </tr> 
+        <tr> 
+                <td class="label"><label for="conf[special][primaryBodyColor]">Primary</label></td> 
+            <td class="value"> 
+                <input style="width:70px;" id="conf[special][primaryBodyColor]" name="conf[special][primaryBodyColor]" value="" type="text" class=" color {required:false,hash:true} input-text"/>            </td> 
+            </tr> 
+        <tr> 
+                <td class="label"><label for="conf[special][secondaryBodyColor]">Secondary</label></td> 
+            <td class="value"> 
+                <input style="width:70px;" id="conf[special][secondaryBodyColor]" name="conf[special][secondaryBodyColor]" value="" type="text" class=" color {required:false,hash:true} input-text"/>            </td> 
+            </tr> 
+        <tr> 
+                <td class="label"><label for="conf[special][bodyTextColor]">Body Text</label></td> 
+            <td class="value"> 
+                <input style="width:70px;" id="conf[special][bodyTextColor]" name="conf[special][bodyTextColor]" value="" type="text" class=" color {required:false,hash:true} input-text"/>            </td> 
+            </tr> 
+        <tr> 
+                <td class="label"><label for="conf[special][priceTextColor]">Price Text</label></td> 
+            <td class="value"> 
+                <input style="width:70px;" id="conf[special][priceTextColor]" name="conf[special][priceTextColor]" value="" type="text" class=" color {required:false,hash:true} input-text"/>            </td> 
+            </tr> 
+                    </tbody> 
+                </table></div>
+                <div style="background:#fff5df;padding:15px 20px;">
+                    <h3 style="color:#f26201;">Resubmission Fields</h3>
+                    <p>Updating the following fields will incur a <strong>$75 resubmission fee.</strong></p>
+                    <table cellspacing="0" class="form-list"> 
+                    <tr> 
+                        <td class="label"><label for="LoaderBackground">Loader Background</label></td> 
+                        <td class="value">
+                            <input id="LoaderBackground" name="LoaderBackground" value="" type="file" class="input-file"/>
+                        </td>
+                    </tr>  
+                    <tr> 
+                        <td class="label"><label for="CategoryPageBackground">Category Page Background</label></td> 
+                        <td class="value">
+                            <input id="CategoryPageBackground" name="CategoryPageBackground" value="" type="file" class="input-file"/>
+                        </td>
+                    </tr>  
+                    <tr> 
+                        <td class="label"><label for="ListingBoxBackground">Listing Box Background</label></td> 
+                        <td class="value">
+                            <input id="ListingBoxBackground" name="ListingBoxBackground" value="" type="file" class="input-file"/>
+                        </td>
+                    </tr>  
+                    <tr> 
+                        <td class="label"><label for="AboutUsPageBackground">About Us Page Background</label></td> 
+                        <td class="value">
+                            <img src="<?php echo $this->getSkinUrl('images/tmp-icon.gif') ?>" style="vertical-align:middle;"/>&nbsp;&nbsp;
+                            <input id="AboutUsPageBackground" name="AboutUsPageBackground" value="" type="file" class="input-file"/>
+                            <p style="margin:5px 0 0 0;"><input type="checkbox"/> Delete Image</p>
+                        </td>
+                    </tr>  
+                    </table>
+                </div> 
+                    </div> 
+                </div> 
+        <div class="entry-edit-head"> 
+            <h4 class="icon-head head-edit-form fieldset-legend">Fonts</h4> 
+            <div class="form-buttons"></div> 
+        </div> 
+            <div class="fieldset " id="fieldFonts"> 
+            <div class="hor-scroll"> 
+                                <table cellspacing="0" class="form-list"> 
+                    <tbody> 
+                        <tr> 
+                <td class="label"><label for="conf[special][headerTextFont]">Header Text Font</label></td> 
+            <td class="value"> 
+                <select id="conf[special][headerTextFont][name]" name="conf[special][headerTextFont][name]" style="width: 206px; margin: 0" class=" select"> 
+        <option value="" selected="selected"></option> 
+        <option value="HiraKakuProN-W3">HiraKakuProN-W3</option> 
+        <option value="Courier">Courier</option> 
+        <option value="Courier-BoldOblique">Courier-BoldOblique</option> 
+        <option value="Courier-Oblique">Courier-Oblique</option> 
+        <option value="Courier-Bold">Courier-Bold</option> 
+        <option value="ArialMT">ArialMT</option> 
+        <option value="Arial-BoldMT">Arial-BoldMT</option> 
+        <option value="Arial-BoldItalicMT">Arial-BoldItalicMT</option> 
+        <option value="Arial-ItalicMT">Arial-ItalicMT</option> 
+        <option value="STHeitiTC-Light">STHeitiTC-Light</option> 
+        <option value="STHeitiTC-Medium">STHeitiTC-Medium</option> 
+        <option value="AppleGothic">AppleGothic</option> 
+        <option value="CourierNewPS-BoldMT">CourierNewPS-BoldMT</option> 
+        <option value="CourierNewPS-ItalicMT">CourierNewPS-ItalicMT</option> 
+        <option value="CourierNewPS-BoldItalicMT">CourierNewPS-BoldItalicMT</option> 
+        <option value="CourierNewPSMT">CourierNewPSMT</option> 
+        <option value="Zapfino">Zapfino</option> 
+        <option value="HiraKakuProN-W6">HiraKakuProN-W6</option> 
+        <option value="ArialUnicodeMS">ArialUnicodeMS</option> 
+        <option value="STHeitiSC-Medium">STHeitiSC-Medium</option> 
+        <option value="STHeitiSC-Light">STHeitiSC-Light</option> 
+        <option value="AmericanTypewriter">AmericanTypewriter</option> 
+        <option value="AmericanTypewriter-Bold">AmericanTypewriter-Bold</option> 
+        <option value="Helvetica-Oblique">Helvetica-Oblique</option> 
+        <option value="Helvetica-BoldOblique">Helvetica-BoldOblique</option> 
+        <option value="Helvetica">Helvetica</option> 
+        <option value="Helvetica-Bold">Helvetica-Bold</option> 
+        <option value="MarkerFelt-Thin">MarkerFelt-Thin</option> 
+        <option value="HelveticaNeue">HelveticaNeue</option> 
+        <option value="HelveticaNeue-Bold">HelveticaNeue-Bold</option> 
+        <option value="DBLCDTempBlack">DBLCDTempBlack</option> 
+        <option value="Verdana-Bold">Verdana-Bold</option> 
+        <option value="Verdana-BoldItalic">Verdana-BoldItalic</option> 
+        <option value="Verdana">Verdana</option> 
+        <option value="Verdana-Italic">Verdana-Italic</option> 
+        <option value="TimesNewRomanPSMT">TimesNewRomanPSMT</option> 
+        <option value="TimesNewRomanPS-BoldMT">TimesNewRomanPS-BoldMT</option> 
+        <option value="TimesNewRomanPS-BoldItalicMT">TimesNewRomanPS-BoldItalicMT</option> 
+        <option value="TimesNewRomanPS-ItalicMT">TimesNewRomanPS-ItalicMT</option> 
+        <option value="Georgia-Bold">Georgia-Bold</option> 
+        <option value="Georgia">Georgia</option> 
+        <option value="Georgia-BoldItalic">Georgia-BoldItalic</option> 
+        <option value="Georgia-Italic">Georgia-Italic</option> 
+        <option value="STHeitiJ-Medium">STHeitiJ-Medium</option> 
+        <option value="STHeitiJ-Light">STHeitiJ-Light</option> 
+        <option value="ArialRoundedMTBold">ArialRoundedMTBold</option> 
+        <option value="TrebuchetMS-Italic">TrebuchetMS-Italic</option> 
+        <option value="TrebuchetMS">TrebuchetMS</option> 
+        <option value="Trebuchet-BoldItalic">Trebuchet-BoldItalic</option> 
+        <option value="TrebuchetMS-Bold">TrebuchetMS-Bold</option> 
+        <option value="STHeitiK-Medium">STHeitiK-Medium</option> 
+        <option value="STHeitiK-Light">STHeitiK-Light</option> 
+        </select> 
+        <select id="conf[special][headerTextFont][size]" name="conf[special][headerTextFont][size]" style="width: 70px; margin: 0" class=" select"> 
+        <option value="" selected="selected"></option> 
+        <option value="6">6 pt</option> 
+        <option value="7">7 pt</option> 
+        <option value="8">8 pt</option> 
+        <option value="9">9 pt</option> 
+        <option value="10">10 pt</option> 
+        <option value="11">11 pt</option> 
+        <option value="12">12 pt</option> 
+        <option value="13">13 pt</option> 
+        <option value="14">14 pt</option> 
+        <option value="15">15 pt</option> 
+        <option value="16">16 pt</option> 
+        <option value="17">17 pt</option> 
+        <option value="18">18 pt</option> 
+        <option value="19">19 pt</option> 
+        <option value="20">20 pt</option> 
+        <option value="21">21 pt</option> 
+        <option value="22">22 pt</option> 
+        <option value="23">23 pt</option> 
+        <option value="24">24 pt</option> 
+        <option value="25">25 pt</option> 
+        <option value="26">26 pt</option> 
+        <option value="27">27 pt</option> 
+        <option value="28">28 pt</option> 
+        <option value="29">29 pt</option> 
+        <option value="30">30 pt</option> 
+        <option value="31">31 pt</option> 
+        </select>            </td> 
+            </tr> 
+        <tr> 
+                <td class="label"><label for="conf[special][bodyTextFont]">Body Text Font</label></td> 
+            <td class="value"> 
+                <select id="conf[special][bodyTextFont][name]" name="conf[special][bodyTextFont][name]" style="width: 206px; margin: 0" class=" select"> 
+        <option value="" selected="selected"></option> 
+        <option value="HiraKakuProN-W3">HiraKakuProN-W3</option> 
+        <option value="Courier">Courier</option> 
+        <option value="Courier-BoldOblique">Courier-BoldOblique</option> 
+        <option value="Courier-Oblique">Courier-Oblique</option> 
+        <option value="Courier-Bold">Courier-Bold</option> 
+        <option value="ArialMT">ArialMT</option> 
+        <option value="Arial-BoldMT">Arial-BoldMT</option> 
+        <option value="Arial-BoldItalicMT">Arial-BoldItalicMT</option> 
+        <option value="Arial-ItalicMT">Arial-ItalicMT</option> 
+        <option value="STHeitiTC-Light">STHeitiTC-Light</option> 
+        <option value="STHeitiTC-Medium">STHeitiTC-Medium</option> 
+        <option value="AppleGothic">AppleGothic</option> 
+        <option value="CourierNewPS-BoldMT">CourierNewPS-BoldMT</option> 
+        <option value="CourierNewPS-ItalicMT">CourierNewPS-ItalicMT</option> 
+        <option value="CourierNewPS-BoldItalicMT">CourierNewPS-BoldItalicMT</option> 
+        <option value="CourierNewPSMT">CourierNewPSMT</option> 
+        <option value="Zapfino">Zapfino</option> 
+        <option value="HiraKakuProN-W6">HiraKakuProN-W6</option> 
+        <option value="ArialUnicodeMS">ArialUnicodeMS</option> 
+        <option value="STHeitiSC-Medium">STHeitiSC-Medium</option> 
+        <option value="STHeitiSC-Light">STHeitiSC-Light</option> 
+        <option value="AmericanTypewriter">AmericanTypewriter</option> 
+        <option value="AmericanTypewriter-Bold">AmericanTypewriter-Bold</option> 
+        <option value="Helvetica-Oblique">Helvetica-Oblique</option> 
+        <option value="Helvetica-BoldOblique">Helvetica-BoldOblique</option> 
+        <option value="Helvetica">Helvetica</option> 
+        <option value="Helvetica-Bold">Helvetica-Bold</option> 
+        <option value="MarkerFelt-Thin">MarkerFelt-Thin</option> 
+        <option value="HelveticaNeue">HelveticaNeue</option> 
+        <option value="HelveticaNeue-Bold">HelveticaNeue-Bold</option> 
+        <option value="DBLCDTempBlack">DBLCDTempBlack</option> 
+        <option value="Verdana-Bold">Verdana-Bold</option> 
+        <option value="Verdana-BoldItalic">Verdana-BoldItalic</option> 
+        <option value="Verdana">Verdana</option> 
+        <option value="Verdana-Italic">Verdana-Italic</option> 
+        <option value="TimesNewRomanPSMT">TimesNewRomanPSMT</option> 
+        <option value="TimesNewRomanPS-BoldMT">TimesNewRomanPS-BoldMT</option> 
+        <option value="TimesNewRomanPS-BoldItalicMT">TimesNewRomanPS-BoldItalicMT</option> 
+        <option value="TimesNewRomanPS-ItalicMT">TimesNewRomanPS-ItalicMT</option> 
+        <option value="Georgia-Bold">Georgia-Bold</option> 
+        <option value="Georgia">Georgia</option> 
+        <option value="Georgia-BoldItalic">Georgia-BoldItalic</option> 
+        <option value="Georgia-Italic">Georgia-Italic</option> 
+        <option value="STHeitiJ-Medium">STHeitiJ-Medium</option> 
+        <option value="STHeitiJ-Light">STHeitiJ-Light</option> 
+        <option value="ArialRoundedMTBold">ArialRoundedMTBold</option> 
+        <option value="TrebuchetMS-Italic">TrebuchetMS-Italic</option> 
+        <option value="TrebuchetMS">TrebuchetMS</option> 
+        <option value="Trebuchet-BoldItalic">Trebuchet-BoldItalic</option> 
+        <option value="TrebuchetMS-Bold">TrebuchetMS-Bold</option> 
+        <option value="STHeitiK-Medium">STHeitiK-Medium</option> 
+        <option value="STHeitiK-Light">STHeitiK-Light</option> 
+        </select> 
+        <select id="conf[special][bodyTextFont][size]" name="conf[special][bodyTextFont][size]" style="width: 70px; margin: 0" class=" select"> 
+        <option value="" selected="selected"></option> 
+        <option value="6">6 pt</option> 
+        <option value="7">7 pt</option> 
+        <option value="8">8 pt</option> 
+        <option value="9">9 pt</option> 
+        <option value="10">10 pt</option> 
+        <option value="11">11 pt</option> 
+        <option value="12">12 pt</option> 
+        <option value="13">13 pt</option> 
+        <option value="14">14 pt</option> 
+        <option value="15">15 pt</option> 
+        <option value="16">16 pt</option> 
+        <option value="17">17 pt</option> 
+        <option value="18">18 pt</option> 
+        <option value="19">19 pt</option> 
+        <option value="20">20 pt</option> 
+        <option value="21">21 pt</option> 
+        <option value="22">22 pt</option> 
+        <option value="23">23 pt</option> 
+        <option value="24">24 pt</option> 
+        <option value="25">25 pt</option> 
+        <option value="26">26 pt</option> 
+        <option value="27">27 pt</option> 
+        <option value="28">28 pt</option> 
+        <option value="29">29 pt</option> 
+        <option value="30">30 pt</option> 
+        <option value="31">31 pt</option> 
+        </select>            </td> 
+            </tr> 
+                    </tbody> 
+                </table> 
+                    </div> 
+                </div> 
+        <div class="entry-edit-head"> 
+            <h4 class="icon-head head-edit-form fieldset-legend">Tabs</h4> 
+            <div class="form-buttons"></div> 
+        </div> 
+            <div class="fieldset " id="fieldTabs"> 
+            <div class="hor-scroll"> 
+                                <table cellspacing="0" class="form-list"> 
+                    <tbody> 
+                        
+        <script type="text/javascript"> 
+         
+        // tabNumber:
+        //  * 0, 1, 2  main tabs
+        //  * 3, ...  active tabs
+         
+        // disabledTabNumber � another numbers
+         
+        tabNames = [ 'Search', 'Cart', 'Account', 'Browse', 'About Us', 'Contact Us']
+         
+        tabImages = [
+        '<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_search.png',
+        '<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_cart.png',
+        '<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_account.png',
+        '<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_home.png',
+        '<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_page.png',
+        '<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_page.png' ]
+         
+        disabledTabNames = []
+        disabledTabImages = []
+         
+        function XmlconnectTabUpdate() {
+            for(i=0; i<tabImages.length; i++) {
+                tab=document.getElementsByClassName('mm_tab'+i)
+                for(j=0; j<tab.length; j++) {
+                    if(tab[j].className.indexOf('mm_img')>0) {
+                        tab[j].innerHTML = '<img src="'+tabImages[i]+'" alt="" />'
+                    }
+                    if(tab[j].className.indexOf('mm_name')>0) {
+                        tab[j].innerHTML = '<span>'+tabNames[i]+'</span>';
+                    }
+                    if(tab[j].className.indexOf('mm_ctrl')>0) {
+                        tab[j].style.visibility = 'visible'
+                    }
+                }
+            }
+            for(i=tabImages.length; i<8; i++) {
+                tab=document.getElementsByClassName('mm_tab'+i)
+                for(j=0; j<tab.length; j++) {
+                    if(tab[j].className.indexOf('mm_img')>0) {
+                        tab[j].innerHTML = '<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_empty.png" alt="" />'
+                    }
+                    if(tab[j].className.indexOf('mm_name')>0) {
+                        tab[j].innerHTML = ''
+                    }
+                    if(tab[j].className.indexOf('mm_ctrl')>0) {
+                        tab[j].style.visibility = 'hidden'
+                    }
+                }
+            }
+            for(i=0; i<disabledTabImages.length; i++) {
+                tab=document.getElementsByClassName('mmd_tab'+i)
+                for(j=0; j<tab.length; j++) {
+                    if(tab[j].className.indexOf('mm_img')>0) {
+                        tab[j].innerHTML = '<img src="'+disabledTabImages[i]+'" alt="" />'
+                    }
+                    if(tab[j].className.indexOf('mm_name')>0) {
+                        tab[j].innerHTML = disabledTabNames[i]
+                    }
+                    if(tab[j].className.indexOf('mm_ctrl')>0) {
+                        tab[j].style.visibility = 'visible'
+                    }
+                }
+            }
+            for(i=disabledTabImages.length; i<5; i++) {
+                tab=document.getElementsByClassName('mmd_tab'+i)
+                for(j=0; j<tab.length; j++) {
+                    if(tab[j].className.indexOf('mm_img')>0) {
+                        tab[j].innerHTML = '<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_empty.png" alt="" />'
+                    }
+                    if(tab[j].className.indexOf('mm_name')>0) {
+                        tab[j].innerHTML = ''
+                    }
+                    if(tab[j].className.indexOf('mm_ctrl')>0) {
+                        tab[j].style.visibility = 'hidden'
+                    }
+                }
+            }
+        }
+         
+        if(window.addEventListener) {
+            window.addEventListener('load', XmlconnectTabUpdate, false)
+        } else if(window.attachEvent) {
+            window.attachEvent('onload', XmlconnectTabUpdate)
+        }
+         
+        function XmlconnectTabMoveLeft(tabNumber) {
+            if(tabNumber==0) return
+            // name
+            tab = tabNames[tabNumber]
+            tabNames[tabNumber] = tabNames[tabNumber-1]
+            tabNames[tabNumber-1] = tab
+            // image
+            tab = tabImages[tabNumber]
+            tabImages[tabNumber] = tabImages[tabNumber-1]
+            tabImages[tabNumber-1] = tab
+            // update
+            XmlconnectTabUpdate()
+        }
+         
+        function XmlconnectTabMoveRight(tabNumber) {
+            if(tabNumber+1>=tabImages.length) return
+            // name
+            tab = tabNames[tabNumber]
+            tabNames[tabNumber] = tabNames[tabNumber+1]
+            tabNames[tabNumber+1] = tab
+            // image
+            tab = tabImages[tabNumber]
+            tabImages[tabNumber] = tabImages[tabNumber+1]
+            tabImages[tabNumber+1] = tab
+            // update
+            XmlconnectTabUpdate()
+        }
+         
+        function XmlconnectTabEnable(disabledTabNumber) {
+            tabNames.push(disabledTabNames.splice(disabledTabNumber,1))
+            tabImages.push(disabledTabImages.splice(disabledTabNumber,1))
+            // update
+            XmlconnectTabUpdate()
+            return false
+        }
+         
+        function XmlconnectTabDisable(tabNumber) {
+            if(disabledTabImages.length>=5) return
+            disabledTabNames.push(tabNames.splice(tabNumber,1))
+            disabledTabImages.push(tabImages.splice(tabNumber,1))
+            // update
+            XmlconnectTabUpdate()
+            return false
+        }
+         
+        </script> 
+        <div class="mm-tabs-title">Main Tabs</div> 
+        <table border="0"> 
+            <tr> 
+                <td width="20%" align="center" valign="bottom"> 
+                    <img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_home.png" /> 
+                </td> 
+                <td width="20%" align="center" valign="bottom" class="mm_tab0 mm_img"> </td> 
+                <td width="20%" align="center" valign="bottom" class="mm_tab1 mm_img"> </td> 
+                <td width="20%" align="center" valign="bottom" class="mm_tab2 mm_img"> </td> 
+                <td width="20%" align="center" valign="bottom"> 
+                    <img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_more.png" /> 
+                </td> 
+            </tr> 
+            <tr> 
+                <td align="center">Home</td> 
+                <td align="center" class="mm_tab0 mm_name"> </td> 
+                <td align="center" class="mm_tab1 mm_name"> </td> 
+                <td align="center" class="mm_tab2 mm_name"> </td> 
+                <td align="center">More</td> 
+            </tr> 
+            <tr> 
+                <td><!-- Home tab == fixed place --></td> 
+                <td align="center" valign="top" class="mm_tab0 mm_ctrl"> 
+                    <input type="button"  class="m-arrows full-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(0)" /> 
+                </td> 
+                <td align="center" valign="top" class="mm_tab1 mm_ctrl"> 
+                    <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(1)" /> 
+                    <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(1)" /> 
+                </td> 
+                <td align="center" valign="top" class="mm_tab2 mm_ctrl"> 
+                    <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(2)" /> 
+                    <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(2)" /> 
+                </td> 
+                <td><!-- More tab == fixed place --></td> 
+            </tr> 
+            <tr> 
+                <td><!-- Home tab == always active --></td> 
+                <td align="center" class="mm_tab0 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(0)">Make Inactive</a></td> 
+                <td align="center" class="mm_tab1 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(1)">Make Inactive</a></td> 
+                <td align="center" class="mm_tab2 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(2)">Make Inactive</a></td> 
+                <td><!-- More tab == always active--></td> 
+            </tr> 
+        </table> 
+        <div class="mm-tabs-title">More Tabs</div> 
+        <table border="0"> 
+            <tr> 
+                <td width="20%" align="center" valign="bottom" class="mm_tab3 mm_img"> </td> 
+                <td width="20%" align="center" valign="bottom" class="mm_tab4 mm_img"> </td> 
+                <td width="20%" align="center" valign="bottom" class="mm_tab5 mm_img"> </td> 
+                <td width="20%" align="center" valign="bottom" class="mm_tab6 mm_img"> </td> 
+                <td width="20%" align="center" valign="bottom" class="mm_tab7 mm_img"> </td> 
+            </tr> 
+            <tr> 
+                <td align="center" class="mm_tab3 mm_name"> </td> 
+                <td align="center" class="mm_tab4 mm_name"> </td> 
+                <td align="center" class="mm_tab5 mm_name"> </td> 
+                <td align="center" class="mm_tab6 mm_name"> </td> 
+                <td align="center" class="mm_tab7 mm_name"> </td> 
+            </tr> 
+            <tr> 
+                <td align="center" valign="top" class="mm_tab3 mm_ctrl"> 
+                    <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(3)" /> 
+                    <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(3)" /> 
+                </td> 
+                <td align="center" valign="top" class="mm_tab4 mm_ctrl"> 
+                    <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(4)" /> 
+                    <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(4)" /> 
+                </td> 
+                <td align="center" valign="top" class="mm_tab5 mm_ctrl"> 
+                    <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(5)" /> 
+                    <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(5)" /> 
+                </td> 
+                <td align="center" valign="top" class="mm_tab6 mm_ctrl"> 
+                    <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(6)" /> 
+                    <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(6)" /> 
+                </td> 
+                <td align="center" valign="top" class="mm_tab7 mm_ctrl"> 
+                    <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(7)" /> 
+                    <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(7)" /> 
+                </td> 
+            </tr> 
+            <tr> 
+                <td align="center" class="mm_tab3 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(3)">Make Inactive</a></td> 
+                <td align="center" class="mm_tab4 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(4)">Make Inactive</a></td> 
+                <td align="center" class="mm_tab5 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(5)">Make Inactive</a></td> 
+                <td align="center" class="mm_tab6 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(6)">Make Inactive</a></td> 
+                <td align="center" class="mm_tab7 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(7)">Make Inactive</a></td> 
+            </tr> 
+        </table> 
+        <div class="mm-tabs-title">Inactive Tabs</div> 
+        <table border="0"> 
+            <tr> 
+                <td width="20%" align="center" valign="bottom" class="mmd_tab0 mm_img" style="opacity: .5"> </td> 
+                <td width="20%" align="center" valign="bottom" class="mmd_tab1 mm_img" style="opacity: .5"> </td> 
+                <td width="20%" align="center" valign="bottom" class="mmd_tab2 mm_img" style="opacity: .5"> </td> 
+                <td width="20%" align="center" valign="bottom" class="mmd_tab3 mm_img" style="opacity: .5"> </td> 
+                <td width="20%" align="center" valign="bottom" class="mmd_tab4 mm_img" style="opacity: .5"> </td> 
+            </tr> 
+            <tr> 
+                <td align="center" class="mmd_tab0 mm_name"> </td> 
+                <td align="center" class="mmd_tab1 mm_name"> </td> 
+                <td align="center" class="mmd_tab2 mm_name"> </td> 
+                <td align="center" class="mmd_tab3 mm_name"> </td> 
+                <td align="center" class="mmd_tab4 mm_name"> </td> 
+            </tr> 
+            <tr> 
+                <td align="center" class="mmd_tab0 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(0)">Activate</a></td> 
+                <td align="center" class="mmd_tab1 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(1)">Activate</a></td> 
+                <td align="center" class="mmd_tab2 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(2)">Activate</a></td> 
+                <td align="center" class="mmd_tab3 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(3)">Activate</a></td> 
+                <td align="center" class="mmd_tab4 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(4)">Activate</a></td> 
+            </tr> 
+        </table>
+        </tbody> 
+        </table> 
+        </div> 
+        </div> 
+        </div>
+</div>
+<div class="box-right" style="width:360px;"><?php echo $this->getChildHtml('app_preview'); ?></div>
 <div class="box-clear"></div>
+
+<!-- <div class="box-left" style="min-width:540px;"><?php //echo $this->getChildHtml('edit_form'); ?></div>
+<div class="box-right" style="width:360px;"><?php //echo $this->getChildHtml('app_preview'); ?></div>
+<div class="box-clear"></div> -->
