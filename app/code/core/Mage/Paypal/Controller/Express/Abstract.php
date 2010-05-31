@@ -60,9 +60,21 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     {
         try {
             $this->_initCheckout();
+
+            // billing agreement
+            $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+            $isBARequested = (bool)$this->getRequest()
+                ->getParam(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
+            if ($customerId) {
+                $this->_checkout->setCustomerId($customerId);
+                $this->_checkout->setIsBillingAgreementRequested($isBARequested);
+            }
+
+            // giropay
             $this->_checkout->prepareGiropayUrls(Mage::getUrl('checkout/onepage/success'),
                 Mage::getUrl('paypal/express/cancel'), Mage::getUrl('checkout/onepage/success')
             );
+
             $token = $this->_checkout->start(Mage::getUrl('*/*/return'), Mage::getUrl('*/*/cancel'));
             if ($token && $url = $this->_checkout->getRedirectUrl()) {
                 $this->_initToken($token);

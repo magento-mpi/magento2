@@ -175,6 +175,18 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             }
         }
 
+        if ($this->getBillingAgreementData()) {
+            $agreement = Mage::getModel('sales/billing_agreement')->importOrderPayment($this);
+            if ($agreement->isValid()) {
+                $message = Mage::helper('sales')->__('Created billing agreement #%s.', $agreement->getReferenceId());
+                $order->addRelatedObject($agreement);
+            } else {
+                $message = Mage::helper('sales')->__('Failed to create billing agreement for this order.');
+            }
+            $comment = $order->addStatusHistoryComment($message);
+            $order->addRelatedObject($comment);
+        }
+
         $orderIsNotified = null;
         if ($stateObject->getState() && $stateObject->getStatus()) {
             $orderState      = $stateObject->getState();

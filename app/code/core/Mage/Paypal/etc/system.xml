@@ -364,6 +364,16 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </solution_type>
+                        <allow_ba_signup translate="label comment">
+                            <label>Billing Agreement Signup </label>
+                            <comment>Whether to create a billing agreement, if there are no active billing agreements available.</comment>
+                            <config_path>payment/paypal_express/allow_ba_signup</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>paypal/config::getExpressCheckoutBASignupOptions</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </allow_ba_signup>
                     </fields>
                 </express>
 

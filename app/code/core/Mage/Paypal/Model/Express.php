@@ -45,17 +45,18 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     /**
      * Availability options
      */
-    protected $_isGateway               = false;
-    protected $_canAuthorize            = true;
-    protected $_canCapture              = true;
-    protected $_canCapturePartial       = true;
-    protected $_canRefund               = true;
-    protected $_canRefundInvoicePartial = true;
-    protected $_canVoid                 = true;
-    protected $_canUseInternal          = false;
-    protected $_canUseCheckout          = true;
-    protected $_canUseForMultishipping  = false;
-    protected $_canFetchTransactionInfo = true;
+    protected $_isGateway                   = false;
+    protected $_canAuthorize                = true;
+    protected $_canCapture                  = true;
+    protected $_canCapturePartial           = true;
+    protected $_canRefund                   = true;
+    protected $_canRefundInvoicePartial     = true;
+    protected $_canVoid                     = true;
+    protected $_canUseInternal              = false;
+    protected $_canUseCheckout              = true;
+    protected $_canUseForMultishipping      = false;
+    protected $_canFetchTransactionInfo     = true;
+    protected $_canCreateBillingAgreement   = true;
 
     /**
      * Ipn action
@@ -316,6 +317,25 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
+     * Assign data to info model instance
+     *
+     * @param   mixed $data
+     * @return  Mage_Payment_Model_Info
+     */
+    public function assignData($data)
+    {
+        $result = parent::assignData($data);
+        $key = Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT;
+        if (is_array($data)) {
+            $this->getInfoInstance()->setAdditionalInformation($key, isset($data[$key]) ? $data[$key] : null);
+        }
+        elseif ($data instanceof Varien_Object) {
+            $this->getInfoInstance()->setAdditionalInformation($key, $data->getData($key));
+        }
+        return $result;
+    }
+
+    /**
      * Place an order with authorization or capture action
      *
      * @param Mage_Sales_Model_Order_Payment $payment
@@ -374,6 +394,14 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
                 ->setAdditionalInformation(Mage_Paypal_Model_Pro::CAN_REVIEW_PAYMENT, $api->getIsPaymentFraud())
                 ->setIsFraudDetected($api->getIsPaymentFraud());
         }
+
+        if ($api->getBillingAgreementId()) {
+            $payment->setBillingAgreementData(array(
+                'billing_agreement_id'  => $api->getBillingAgreementId(),
+                'method_code'           => Mage_Paypal_Model_Config::METHOD_BILLING_AGREEMENT
+            ));
+        }
+
         Mage::getModel('paypal/info')->importToPayment($api, $payment);
     }
 }

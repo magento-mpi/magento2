@@ -154,4 +154,74 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
         );
     }
 
+    /**
+     * Validate data
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        $result = parent::isValid();
+        if (!$this->getCustomerId()) {
+            $this->_errors[] = Mage::helper('payment')->__('Customer ID is not set.');
+        }
+        if (!$this->getStatus()) {
+            $this->_errors[] = Mage::helper('payment')->__('Billing Agreement status is not set.');
+        }
+        return $result && empty($this->_errors);
+    }
+
+    /**
+     * Import payment data to billing agreement
+     *
+     * $payment->getBillingAgreementData() contains array with following structure :
+     *  [billing_agreement_id]  => string
+     *  [method_code]           => string
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return Mage_Sales_Model_Billing_Agreement
+     */
+    public function importOrderPayment(Mage_Sales_Model_Order_Payment $payment)
+    {
+        $baData = $payment->getBillingAgreementData();
+
+        $this->_paymentMethodInstance = (isset($baData['method_code']))
+            ? Mage::helper('payment')->getMethodInstance($baData['method_code'])
+                ->setStore($payment->getMethodInstance()->getStore())
+            : $payment->getMethodInstance();
+
+        $this->setCustomerId($payment->getOrder()->getCustomerId())
+            ->setMethodCode($this->_paymentMethodInstance->getCode())
+            ->setReferenceId($baData['billing_agreement_id'])
+            ->setStatus(self::STATUS_ACTIVE);
+        return $this;
+    }
+
+    /**
+     * Retrieve available customer Billing Agreements
+     *
+     * @param int $customer
+     * @return Mage_Paypal_Controller_Express_Abstract
+     */
+    public function getAvailableCustomerBillingAgreements($customerId)
+    {
+        $collection = Mage::getResourceModel('sales/billing_agreement_collection');
+        $collection->addFieldToFilter('customer_id', $customerId)
+            ->addFieldToFilter('status', self::STATUS_ACTIVE)
+            ->setOrder('agreement_id');
+        return $collection;
+    }
+
+    /**
+     * Check whether need to create billing agreement for customer
+     *
+     * @param bool $needToCreateBA
+     * @param int $customerId
+     * @return bool
+     */
+    public function needToCreateForCustomer($needToCreateBA, $customerId)
+    {
+        return ($needToCreateBA && $customerId) ? count($this->getAvailableCustomerBillingAgreements($customerId)) == 0
+            : false;
+    }
 }

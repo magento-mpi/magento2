@@ -34,7 +34,7 @@
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 
 <div class="billing-agreements">
-    <?php $paymentMethods = $this->getPaymentMethodOptions() ?>
+    <?php $paymentMethods = $this->getWizardPaymentMethodOptions() ?>
     <?php if ($paymentMethods): ?>
         <div class="info-box">
             <h2 class="box-title"><?php echo $this->__('New Billing Agreement') ?></h2>
@@ -56,7 +56,7 @@
             </form>
         </div>
     <?php endif; ?>
-    
+
     <?php $billingAgreements = $this->getBillingAgreements(); ?>
     <?php if (count($billingAgreements) > 0): ?>
         <table id="billing-agreements" class="data-table">

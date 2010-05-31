@@ -122,6 +122,15 @@ class Mage_Paypal_Model_Config
     const WPS_TRANSPORT_IPN_PDT  = 'ipn_n_pdt';
 
     /**
+     * Billing Agreement Signup
+     *
+     * @var string
+     */
+    const EC_BA_SIGNUP_AUTO     = 'auto';
+    const EC_BA_SIGNUP_ASK      = 'ask';
+    const EC_BA_SIGNUP_NEVER    = 'never';
+
+    /**
      * Default URL for centinel API (PayPal Direct)
      *
      * @var string
@@ -823,6 +832,20 @@ class Mage_Paypal_Model_Config
     }
 
     /**
+     * Retrieve express checkout billing agreement signup options
+     *
+     * @return array
+     */
+    public function getExpressCheckoutBASignupOptions()
+    {
+        return array(
+            self::EC_BA_SIGNUP_AUTO     => Mage::helper('paypal')->__('Auto'),
+            self::EC_BA_SIGNUP_ASK      => Mage::helper('paypal')->__('Ask Customer'),
+            self::EC_BA_SIGNUP_NEVER    =>Mage::helper('paypal')->__('Never')
+        );
+    }
+
+    /**
      * Check whether only Unilateral payments (Accelerated Boarding) possible for Express method or not
      *
      * @return bool
@@ -1053,6 +1076,7 @@ class Mage_Paypal_Model_Config
             case 'solution_type':
             case 'visible_on_cart':
             case 'visible_on_product':
+            case 'allow_ba_signup':
                 return "payment/{$this->_methodCode}/{$fieldName}";
             default:
                 return $this->_mapMethodFieldset($fieldName);

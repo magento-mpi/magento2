@@ -113,12 +113,21 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Bloc
     {
         if (!$this->_paymentMethods) {
             foreach ($this->helper('payment')->getBillingAgreementMethods() as $paymentMethod) {
-                if ($paymentMethod->getConfigData('allow_billing_agreement_wizard') == 1) {
-                    $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
-                }
+                $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
         return $this->_paymentMethods;
+    }
+
+    public function getWizardPaymentMethodOptions()
+    {
+        $paymentMethodOptions = array();
+        foreach ($this->helper('payment')->getBillingAgreementMethods() as $paymentMethod) {
+            if ($paymentMethod->getConfigData('allow_billing_agreement_wizard') == 1) {
+                $paymentMethodOptions[$paymentMethod->getCode()] = $paymentMethod->getTitle();
+            }
+        }
+        return $paymentMethodOptions;
     }
 
     /**
@@ -129,7 +138,6 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Bloc
     protected function _toHtml()
     {
         $this->_loadPaymentMethods();
-        $this->setPaymentMethodOptions($this->_paymentMethods);
         $this->setCreateUrl($this->getUrl('*/customer_billing_agreement/startWizard'));
         $this->setBackUrl($this->getUrl('*/customer_billing_agreement/'));
         if ($this->_billingAgreementInstance) {

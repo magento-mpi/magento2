@@ -39,6 +39,13 @@ abstract class Mage_Payment_Model_Billing_AgreementAbstract extends Mage_Core_Mo
     protected $_paymentMethodInstance = null;
 
     /**
+     * Billing Agreement Errors
+     *
+     * @var array
+     */
+    protected $_errors = array();
+
+    /**
      * Init billing agreement
      *
      */
@@ -79,19 +86,18 @@ abstract class Mage_Payment_Model_Billing_AgreementAbstract extends Mage_Core_Mo
     /**
      * Validate data before save
      *
-     * @return array
+     * @return bool
      */
-    public function validate()
+    public function isValid()
     {
-        $errors = array();
-        if (is_null($this->_paymentMethodInstance)
-            || !$this->_paymentMethodInstance->getCode()
-            || !$this->getCustomerId()
-            || !$this->getReferenceId()
-            || !$this->getStatus()) {
-            $errors[] = Mage::helper('payment')->__('Not enough data to save billing agreement instance.');
+        $this->_errors = array();
+        if (is_null($this->_paymentMethodInstance) || !$this->_paymentMethodInstance->getCode()) {
+            $this->_errors[] = Mage::helper('payment')->__('Payment method code is not set.');
         }
-        return $errors;
+        if (!$this->getReferenceId()) {
+            $this->_errors[] = Mage::helper('payment')->__('Reference ID is not set.');
+        }
+        return empty($this->_errors);
     }
 
     /**
@@ -102,10 +108,10 @@ abstract class Mage_Payment_Model_Billing_AgreementAbstract extends Mage_Core_Mo
      */
     protected function _beforeSave()
     {
-        $errors = $this->validate();
-        if (empty($errors)) {
+        if ($this->isValid()) {
             return parent::_beforeSave();
         }
-        throw new Mage_Core_Exception(implode(' ', $errors));
+        array_unshift($this->_errors, Mage::helper('payment')->__('Unable to save Billing Agreement:'));
+        throw new Mage_Core_Exception(implode(' ', $this->_errors));
     }
 }

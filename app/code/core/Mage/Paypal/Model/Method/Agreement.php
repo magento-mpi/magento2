@@ -33,6 +33,11 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Payment_Model_Method_Abstr
     implements Mage_Payment_Model_Billing_Agreement_MethodInterface
 {
     /**
+     * Method instance settings
+     *
+     */
+    protected $_canUseCheckout  = false;
+    /**
      * Website Payments Pro instance type
      *
      * @var $_proType string
@@ -151,5 +156,4 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Payment_Model_Method_Abstr
         $api->callUpdateBillingAgreement();
         return $this;
     }
-
 }

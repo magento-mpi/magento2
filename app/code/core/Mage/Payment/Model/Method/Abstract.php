@@ -61,6 +61,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     protected $_canUseForMultishipping      = true;
     protected $_isInitializeNeeded          = false;
     protected $_canFetchTransactionInfo     = false;
+    protected $_canCreateBillingAgreement   = false;
     /**
      * TODO: whether a captured transaction may be voided by this gateway
      * This may happen when amount is captured, but not settled
@@ -190,6 +191,16 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function canFetchTransactionInfo()
     {
         return $this->_canFetchTransactionInfo;
+    }
+
+    /**
+     * Check whether payment method instance can create billing agreements
+     *
+     * @return bool
+     */
+    public function canCreateBillingAgreement()
+    {
+        return $this->_canCreateBillingAgreement;
     }
 
     /**

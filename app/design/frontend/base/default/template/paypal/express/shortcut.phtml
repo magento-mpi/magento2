@@ -29,6 +29,18 @@
  * @see Mage_Paypal_Block_Express_Shortcut
  */
 ?>
+<?php $shortcutHtmlId = $this->getShortcutHtmlId() ?>
 <li class="paypal-logo">
-    <a href="<?php echo $this->getCheckoutUrl()?>" title="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>"><img src="<?php echo $this->getImageUrl()?>" alt="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" /></a>
+    <a id="<?php echo $shortcutHtmlId ?>" href="<?php echo $this->getCheckoutUrl()?>" title="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>">
+        <img src="<?php echo $this->getImageUrl()?>" alt="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" />
+    </a>
 </li>
+<?php if ($this->shouldAskConfirm()): ?>
+<script type="text/javascript">
+    Event.observe('<?php echo $shortcutHtmlId ?>', 'click', function(event) {
+        if (confirm('<?php echo $this->__('Create billing agreement?') ?>')) {
+            this.href = '<?php echo $this->getBACheckoutUrl() ?>';
+        }
+    });
+</script>
+<?php endif; ?>

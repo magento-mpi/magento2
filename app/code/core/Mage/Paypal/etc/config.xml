@@ -158,6 +158,7 @@
                 <line_items_enabled>1</line_items_enabled>
                 <visible_on_cart>1</visible_on_cart>
                 <visible_on_product>1</visible_on_product>
+                <allow_ba_signup>auto</allow_ba_signup>
             </paypal_express>
             <paypal_direct>
                 <model>paypal/direct</model>

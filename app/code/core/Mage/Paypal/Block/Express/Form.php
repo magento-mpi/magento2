@@ -44,4 +44,17 @@ class Mage_Paypal_Block_Express_Form extends Mage_Paypal_Block_Standard_Form
         $this->setRedirectMessage(Mage::helper('paypal')->__('You will be redirected to PayPal website.'));
         return $result;
     }
+
+    /**
+     * Set data to block
+     *
+     * @return Mage_Core_Block_Abstract
+     */
+    protected function _beforeToHtml()
+    {
+        if ($this->canCreateBillingAgreement()) {
+            $this->setCreateBACode(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
+        }
+        return parent::_beforeToHtml();
+    }
 }

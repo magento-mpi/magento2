@@ -75,6 +75,17 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
     }
 
     /**
+     * Retrieve express checkout URL with create billing agreement parameter
+     *
+     * @return string
+     */
+    public function getBACheckoutUrl()
+    {
+        return $this->getUrl($this->_startAction,
+            array(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1));
+    }
+
+    /**
      * Get checkout button image url
      *
      * @return string
@@ -135,6 +146,34 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
     public function setShortcutText($text)
     {
         $this->_shortcutText = $text;
+    }
+
+    /**
+     * Retrieve unique string
+     *
+     * @return string
+     */
+    public function getShortcutHtmlId()
+    {
+        return $this->helper('core')->uniqHash('paypal_shortcut_');
+    }
+
+    /**
+     * Check whether should ask confirm
+     *
+     * @return bool
+     */
+    public function shouldAskConfirm()
+    {
+        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        if ($customerId) {
+            $methodInstance = Mage::getModel($this->_modelType, array($this->_pro));
+            return Mage::getModel('sales/billing_agreement')->needToCreateForCustomer(
+                Mage_Paypal_Model_Config::EC_BA_SIGNUP_ASK == $methodInstance->getConfigData('allow_ba_signup'),
+                $customerId
+            );
+        }
+        return false;
     }
 
     /**

@@ -64,4 +64,14 @@ class Mage_Payment_Block_Form extends Mage_Core_Block_Template
     {
         return $this->htmlEscape($this->getMethod()->getInfoInstance()->getData($field));
     }
+
+    /**
+     * Check whether current payment method can create billing agreement
+     *
+     * @return bool
+     */
+    public function canCreateBillingAgreement()
+    {
+        return $this->getMethod()->canCreateBillingAgreement();
+    }
 }

@@ -46,6 +46,7 @@ class Mage_Paypal_Model_Express_Checkout
     const PAYMENT_INFO_TRANSPORT_SHIPPING_METHOD = 'paypal_express_checkout_shipping_method';
     const PAYMENT_INFO_TRANSPORT_PAYER_ID = 'paypal_express_checkout_payer_id';
     const PAYMENT_INFO_TRANSPORT_REDIRECT = 'paypal_express_checkout_redirect_required';
+    const PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT = 'paypal_ec_create_ba';
 
     /**
      * @var Mage_Sales_Model_Quote
@@ -92,6 +93,13 @@ class Mage_Paypal_Model_Express_Checkout
      * @var array
      */
     protected $_giropayUrls = array();
+
+    /**
+     * Create Billing Agreement flag
+     *
+     * @var bool
+     */
+    protected $_isBARequested = false;
 
     /**
      * Set quote and config instances
@@ -160,6 +168,30 @@ class Mage_Paypal_Model_Express_Checkout
     }
 
     /**
+     * Set create billing agreement flag
+     *
+     * @param bool $flag
+     * @return Mage_Paypal_Model_Express_Checkout
+     */
+    public function setIsBillingAgreementRequested($flag)
+    {
+        $this->_isBARequested = $flag;
+        return $this;
+    }
+
+    /**
+     * Setter for customer Id
+     *
+     * @param int $id
+     * @return Mage_Paypal_Model_Express_Checkout
+     */
+    public function setCustomerId($id)
+    {
+        $this->_customerId = $id;
+        return $this;
+    }
+
+    /**
      * Reserve order ID for specified quote and start checkout on PayPal
      * @return string
      */
@@ -185,6 +217,8 @@ class Mage_Paypal_Model_Express_Checkout
                 'giropay_bank_txn_pending_url' => $pendingUrl,
             ));
         }
+
+        $this->_setBillingAgreementRequest();
 
         // supress or export shipping address
         if ($this->_quote->getIsVirtual()) {
@@ -432,6 +466,27 @@ class Mage_Paypal_Model_Express_Checkout
     public function getRedirectUrl()
     {
         return $this->_redirectUrl;
+    }
+
+    /**
+     * Set create billing agreement flag to api call
+     *
+     * @return Mage_Paypal_Model_Express_Checkout
+     */
+    protected function _setBillingAgreementRequest()
+    {
+        $isRequested = $this->_isBARequested || $this->_quote->getPayment()
+        ->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
+
+        if (!Mage::getModel('sales/billing_agreement')->needToCreateForCustomer(
+            $this->_config->allow_ba_signup == Mage_Paypal_Model_Config::EC_BA_SIGNUP_AUTO
+            || $isRequested && $this->_config->allow_ba_signup == Mage_Paypal_Model_Config::EC_BA_SIGNUP_ASK
+            , $this->_customerId
+        )) {
+            return $this;
+        }
+        $this->_api->setBillingType($this->_api->getBillingAgreementType());
+        return $this;
     }
 
     /**
