@@ -30,6 +30,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tabs extends Mage_Adminhtml_Bl
         parent::__construct();
         $this->setId('mobile_app_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('xmlconnect')->__('Application Information'));
+        $this->setTitle(Mage::helper('xmlconnect')->__('Manage Mobile App'));
+        $this->setTemplate('xmlconnect/tabs_left.phtml');
     }
 }
