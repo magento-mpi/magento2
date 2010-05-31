@@ -933,6 +933,7 @@ f/********** Product Prices > */
 .product-options dd { padding:5px 10px 15px; margin:0 0 5px; border-bottom:1px solid #ddd; }
 .product-options dl.last dd.last { border-bottom:0; padding-bottom:5px; margin-bottom:0; }
 .product-options dd input.input-text { width:98%; }
+.product-options dd input.datetime-picker { width:150px; }
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd select { width:99%; }
 .product-options dd .multiselect option { border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
@@ -1137,6 +1138,7 @@ f/********** Product Prices > */
 .cart .totals td { padding:0 0 0 15px; }
 .cart .totals tr.last td {}
 .cart .totals tfoot td {}
+.cart .totals tfoot th strong,
 .cart .totals tfoot td strong { font-size:14px; font-weight:bold; color:#e02f00; }
 .cart .totals .checkout-types { font-size:13px; padding:4px 0; text-align:right; }
 .cart .totals .checkout-types li { clear:both; margin:0 0 5px; }

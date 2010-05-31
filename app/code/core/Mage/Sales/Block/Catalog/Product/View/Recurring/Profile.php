@@ -65,6 +65,7 @@ class Mage_Sales_Block_Catalog_Product_View_Recurring_Profile extends Mage_Core_
             ->createBlock('core/html_date')
             ->setId('recurring_start_date')
             ->setName('recurring_start_date')
+            ->setClass('datetime-picker input-text')
             ->setImage($this->getSkinUrl('images/calendar.gif'))
             ->setFormat($format)
             ->setTime(true);

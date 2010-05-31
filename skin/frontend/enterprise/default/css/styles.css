@@ -1615,6 +1615,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .cart .totals table td { padding:0 5px 5px; }
 .cart .totals .btn-remove img { vertical-align:middle; }
 .cart .totals table tfoot strong { font-weight:normal; font-size:18px; color:#cd3800; display:block; margin:10px 0 15px; }
+.cart .totals table tfoot .summary-total td { padding:0 0 20px; }
+.cart .totals table tfoot th strong { margin:0; }
 .cart .totals table tfoot td .price { font-weight:bold; }
 .cart .totals .checkout-types li { margin:0 0 15px; }
 

@@ -799,6 +799,7 @@ tr.summary-details-first td { border-top:1px solid #d2d8db; }
 .product-options dd { margin:10px 0; }
 .product-options dl.last dd.last {}
 .product-options dd input.input-text { width:98%; }
+.product-options dd input.datetime-picker { width:150px; }
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd select { width:100%; }
 .product-options .options-list {}
@@ -902,6 +903,7 @@ tr.summary-details-first td { border-top:1px solid #d2d8db; }
 .cart .totals table th,
 .cart .totals table td { padding:5px; }
 .cart .totals table th { font-weight:bold; }
+.cart .totals table tfoot th {}
 
 /* Options Tool Tip */
 .item-options dt { font-weight:bold; font-style:italic; }
