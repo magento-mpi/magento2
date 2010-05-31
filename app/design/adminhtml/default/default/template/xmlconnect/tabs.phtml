@@ -28,8 +28,8 @@
 <script type="text/javascript">
 
 // tabNumber:
-//  * 0, 1, 2 — main tabs
-//  * 3, ... — active tabs
+//  * 0, 1, 2  main tabs
+//  * 3, ...  active tabs
 
 // disabledTabNumber — another numbers
 
@@ -54,7 +54,7 @@ function XmlconnectTabUpdate() {
                 tab[j].innerHTML = '<img src="'+tabImages[i]+'" alt="" />'
             }
             if(tab[j].className.indexOf('mm_name')>0) {
-                tab[j].innerHTML = tabNames[i]
+                tab[j].innerHTML = '<span>'+tabNames[i]+'</span>';
             }
             if(tab[j].className.indexOf('mm_ctrl')>0) {
                 tab[j].style.visibility = 'visible'
@@ -157,10 +157,8 @@ function XmlconnectTabDisable(tabNumber) {
 }
 
 </script>
-
-<div style="background: #eee">Main Tabs</div>
-<br />
-<table border="0" width="100%">
+<div class="mm-tabs-title">Main Tabs</div>
+<table border="0">
     <tr>
         <td width="20%" align="center" valign="bottom">
             <img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_home.png" />
@@ -182,15 +180,15 @@ function XmlconnectTabDisable(tabNumber) {
     <tr>
         <td><!-- Home tab == fixed place --></td>
         <td align="center" valign="top" class="mm_tab0 mm_ctrl">
-            <input type="button" value="→" onclick="XmlconnectTabMoveRight(0)" />
+            <input type="button"  class="m-arrows full-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(0)" />
         </td>
         <td align="center" valign="top" class="mm_tab1 mm_ctrl">
-            <input type="button" value="←" onclick="XmlconnectTabMoveLeft(1)" />
-            <input type="button" value="→" onclick="XmlconnectTabMoveRight(1)" />
+            <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(1)" />
+            <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(1)" />
         </td>
         <td align="center" valign="top" class="mm_tab2 mm_ctrl">
-            <input type="button" value="←" onclick="XmlconnectTabMoveLeft(2)" />
-            <input type="button" value="→" onclick="XmlconnectTabMoveRight(2)" />
+            <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(2)" />
+            <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(2)" />
         </td>
         <td><!-- More tab == fixed place --></td>
     </tr>
@@ -202,12 +200,8 @@ function XmlconnectTabDisable(tabNumber) {
         <td><!-- More tab == always active--></td>
     </tr>
 </table>
-<br />
-<br />
-
-<div style="background: #eee">More Tabs</div>
-<br />
-<table border="0" width="100%">
+<div class="mm-tabs-title">More Tabs</div>
+<table border="0">
     <tr>
         <td width="20%" align="center" valign="bottom" class="mm_tab3 mm_img"> </td>
         <td width="20%" align="center" valign="bottom" class="mm_tab4 mm_img"> </td>
@@ -224,24 +218,24 @@ function XmlconnectTabDisable(tabNumber) {
     </tr>
     <tr>
         <td align="center" valign="top" class="mm_tab3 mm_ctrl">
-            <input type="button" value="←" onclick="XmlconnectTabMoveLeft(3)" />
-            <input type="button" value="→" onclick="XmlconnectTabMoveRight(3)" />
+            <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(3)" />
+            <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(3)" />
         </td>
         <td align="center" valign="top" class="mm_tab4 mm_ctrl">
-            <input type="button" value="←" onclick="XmlconnectTabMoveLeft(4)" />
-            <input type="button" value="→" onclick="XmlconnectTabMoveRight(4)" />
+            <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(4)" />
+            <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(4)" />
         </td>
         <td align="center" valign="top" class="mm_tab5 mm_ctrl">
-            <input type="button" value="←" onclick="XmlconnectTabMoveLeft(5)" />
-            <input type="button" value="→" onclick="XmlconnectTabMoveRight(5)" />
+            <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(5)" />
+            <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(5)" />
         </td>
         <td align="center" valign="top" class="mm_tab6 mm_ctrl">
-            <input type="button" value="←" onclick="XmlconnectTabMoveLeft(6)" />
-            <input type="button" value="→" onclick="XmlconnectTabMoveRight(6)" />
+            <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(6)" />
+            <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(6)" />
         </td>
         <td align="center" valign="top" class="mm_tab7 mm_ctrl">
-            <input type="button" value="←" onclick="XmlconnectTabMoveLeft(7)" />
-            <input type="button" value="→" onclick="XmlconnectTabMoveRight(7)" />
+            <input type="button" class="m-arrows l-arrow" value="&larr;" onclick="XmlconnectTabMoveLeft(7)" />
+            <input type="button"  class="m-arrows r-arrow" value="&rarr;" onclick="XmlconnectTabMoveRight(7)" />
         </td>
     </tr>
     <tr>
@@ -252,11 +246,8 @@ function XmlconnectTabDisable(tabNumber) {
         <td align="center" class="mm_tab7 mm_ctrl"><a href="#" onclick="return XmlconnectTabDisable(7)">Make Inactive</a></td>
     </tr>
 </table>
-<br />
-
-<div style="background: #eee">Inactive Tabs</div>
-<br />
-<table border="0" width="100%">
+<div class="mm-tabs-title">Inactive Tabs</div>
+<table border="0">
     <tr>
         <td width="20%" align="center" valign="bottom" class="mmd_tab0 mm_img" style="opacity: .5"> </td>
         <td width="20%" align="center" valign="bottom" class="mmd_tab1 mm_img" style="opacity: .5"> </td>
@@ -279,4 +270,3 @@ function XmlconnectTabDisable(tabNumber) {
         <td align="center" class="mmd_tab4 mm_ctrl"><a href="#" onclick="return XmlconnectTabEnable(4)">Activate</a></td>
     </tr>
 </table>
-<br />
