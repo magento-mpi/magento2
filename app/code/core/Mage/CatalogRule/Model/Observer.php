@@ -102,7 +102,7 @@ class Mage_CatalogRule_Model_Observer
         if ($observer->hasCustomerGroupId()) {
             $gId = $observer->getEvent()->getCustomerGroupId();
         } elseif ($product->hasCustomerGroupId()) {
-            $gId = $product->hasCustomerGroupId();
+            $gId = $product->getCustomerGroupId();
         } else {
             $gId = Mage::getSingleton('customer/session')->getCustomerGroupId();
         }
