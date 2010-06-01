@@ -1229,24 +1229,25 @@
          default: a value that should be used if no value is specified
            when adding a document.
         -->
-        
+
         <!--
         Numeric fields
         -->
-       
+
         <field name="id" type="string" indexed="true" stored="true" required="true"/> 
         <field name="unique" type="string" indexed="true" stored="true" required="true"/> 
         <field name="price" type="tfloat" indexed="true" stored="true" multiValued="true"/>
         <field name="store_id" type="int" indexed="true" stored="true"/>
         <field name="categories" type="int" indexed="true" stored="true" multiValued="true"/>
         <field name="in_stock" type="boolean" indexed="true" stored="true"/>
-        
+        <field name="visibility" type="int" indexed="true" stored="true"/>
+
         <!--
         Text fields
         -->
-        
+
         <field name="sku" type="textTight_en" indexed="true" stored="true" omitNorms="true"/>
-        
+
         <field name="description_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
         <field name="meta_keyword_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
         <field name="description_fr" type="text_fr" indexed="true" stored="true" multiValued="true"/>
@@ -1287,12 +1288,12 @@
         <field name="meta_keyword_ja" type="text_ja" indexed="true" stored="true" multiValued="true"/>
         <field name="description_ko" type="text_ko" indexed="true" stored="true" multiValued="true"/>
         <field name="meta_keyword_ko" type="text_ko" indexed="true" stored="true" multiValued="true"/>
-        
+
         <field name="name" type="textgen" indexed="true" stored="true"/>
         <field name="fulltext" type="textgen" indexed="true" stored="true"/>
         <field name="description" type="textgen" indexed="true" stored="true" multiValued="true"/>
         <field name="meta_keyword" type="textgen" indexed="true" stored="true" multiValued="true"/>
-        
+
         <!--A field designed for sorting by name, its value will be pasted from name field-->
         <field name="alphaNameSort" type="alphaOnlySort" indexed="true" stored="false"/>
         <field name="alphaNameSort_en" type="alphaOnlySort_en" indexed="true" stored="false"/>
@@ -1315,7 +1316,7 @@
         <field name="alphaNameSort_zh" type="alphaOnlySort_zh" indexed="true" stored="false"/>
         <field name="alphaNameSort_ja" type="alphaOnlySort_ja" indexed="true" stored="false"/>
         <field name="alphaNameSort_ko" type="alphaOnlySort_ko" indexed="true" stored="false"/>
-       
+
         <!-- catchall field, containing all other searchable text fields (implemented
             via copyField further on in this schema  -->
         <field name="text" type="textgen" indexed="true" stored="false" multiValued="true"/>
@@ -1339,7 +1340,7 @@
         <field name="text_zh" type="text_zh" indexed="true" stored="false" multiValued="true"/>
         <field name="text_ja" type="text_ja" indexed="true" stored="false" multiValued="true"/>
         <field name="text_ko" type="text_ko" indexed="true" stored="false" multiValued="true"/>
-       
+
         <!-- The following will create a "timestamp" field using
             a default value of "NOW" to indicate when each document was indexed.
         -->
@@ -1359,7 +1360,7 @@
         <dynamicField name="attr_decimal_*" type="float" indexed="true" stored="true"/>
         <dynamicField name="attr_datetime_*" type="date" indexed="true" stored="true"/>
         <dynamicField name="attr_multi_*" type="textgen" indexed="true" stored="true" multiValued="true"/>
-        
+
         <dynamicField name="price_*" type="tfloat" indexed="true" stored="true"/>
 
         <dynamicField name="*_en" type="text_en" indexed="true" stored="true"/>
