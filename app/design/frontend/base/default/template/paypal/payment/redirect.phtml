@@ -31,9 +31,9 @@
  */
 ?>
 <ul class="form-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
-    <li><?php echo $this->getRedirectMessage() ?></li>
+    <li class="form-alt"><?php echo $this->getRedirectMessage() ?></li>
     <?php if ($code = $this->getCreateBACode()): ?>
-        <li>
+        <li class="form-alt">
             <input type="checkbox" id="<?php echo $code ?>" value="1" name="payment[<?php echo $code ?>]" class="checkbox" /><label for="<?php echo $code ?>">
             <?php echo $this->__('Create Billing Agreement') ?></label>
         </li>
