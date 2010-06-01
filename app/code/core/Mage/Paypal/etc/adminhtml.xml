@@ -34,6 +34,7 @@
                         <paypal_settlement_reports translate="title">
                             <title>PayPal Settlement Reports</title>
                             <action>adminhtml/paypal_reports</action>
+                            <sort_order>100</sort_order>
                         </paypal_settlement_reports>
                     </children>
                 </salesroot>
