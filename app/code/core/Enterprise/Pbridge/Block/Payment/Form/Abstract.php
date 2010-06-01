@@ -72,7 +72,7 @@ abstract class Enterprise_Pbridge_Block_Payment_Form_Abstract extends Enterprise
      */
     public function getRedirectUrl()
     {
-        return $this->getUrl('enterprise_pbridge/pbridge/result', array('_current' => true));
+        return $this->getUrl('enterprise_pbridge/pbridge/result', array('_current' => true, '_secure' => true));
     }
 
     /**
