@@ -40,7 +40,7 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
     public function indexAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('paypal/adminhtml_settlement_grid', 'settlementGrid'))
+            ->_addContent($this->getLayout()->createBlock('paypal/adminhtml_settlement_report'))
             ->renderLayout();
     }
 
@@ -51,7 +51,7 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
     {
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('paypal/adminhtml_settlement_grid', 'settlementGrid')->toHtml()
+            $this->getLayout()->createBlock('paypal/adminhtml_settlement_report_grid')->toHtml()
         );
     }
 

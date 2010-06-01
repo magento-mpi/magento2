@@ -31,7 +31,7 @@
  * @package     Mage_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Block_Adminhtml_Settlement_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Constructor
@@ -147,16 +147,13 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Grid extends Mage_Adminhtml_Block_W
         return parent::_prepareColumns();
     }
 
-    public function getMainButtonsHtml()
+    /**
+     * Return grid URL
+     * @return string
+     */
+    public function getGridUrl()
     {
-        $fetchReportsButton = $this->getLayout()->createBlock('adminhtml/widget_button')
-            ->setData(array(
-                'label'     => Mage::helper('paypal')->__('Fetch Reports'),
-                'onclick'   => "setLocation('" . $this->getUrl('*/*/fetch'). "')",
-                'class'   => 'task'
-            ))
-        ;
-        return parent::getMainButtonsHtml() . $fetchReportsButton->toHtml();
+         return $this->getUrl('*/*/grid');
     }
 
     /**
