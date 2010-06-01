@@ -603,7 +603,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             if (in_array($key, $this->_usedFields) && !in_array($key, $this->_searchTextFields)) {
                 continue;
             }
-            elseif ($key == 'option') {
+            elseif ($key == 'options') {
                 unset($data[$key]);
                 continue;
             }
