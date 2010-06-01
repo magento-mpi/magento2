@@ -279,7 +279,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             /* @var $stringHelper Mage_Core_Helper_String */
 
             $bind = array(
-                ':query'     => $queryText
+                ':query' => $queryText
             );
             $like = array();
 
@@ -594,7 +594,10 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         if ($this->_engine) {
             if ($this->_engine->allowAdvancedIndex()) {
                 //unset($index['price']);
-                $index['categories'] = $this->_prepareProductCategories($productData['entity_id']);
+                $categories = $this->_prepareProductCategories($productData['entity_id']);
+                if (!empty($categories)) {
+                    $index['categories'] = $categories;
+                }
                 $index += $this->_prepareProductPriceIndexing($productData['entity_id']);
             }
 
@@ -617,12 +620,12 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         $select = $this->_getWriteAdapter()->select()
             ->from(
                 array($this->getTable('catalog/product_index_price')),
-                array('customer_group_id', 'website_id', 'final_price'))
+                array('customer_group_id', 'website_id', 'min_price'))
             ->where('entity_id = ?', $productId);
 
         $result = array();
         foreach($this->_getWriteAdapter()->fetchAll($select) as $index) {
-            $result['price_' . $index['customer_group_id'] . '_' . $index['website_id']] = $index['final_price'];
+            $result['price_' . $index['customer_group_id'] . '_' . $index['website_id']] = $index['min_price'];
         }
 
         return $result;
@@ -633,18 +636,22 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
      *
      * @param int $productId
      *
-     * @return string
+     * @return array
      */
     protected function _prepareProductCategories($productId)
     {
         $select = $this->_getWriteAdapter()->select()
             ->from(
                 array($this->getTable('catalog/category_product')),
-                array('categories_ids' => 
-                    $this->_getWriteAdapter()->quoteInto('GROUP_CONCAT(category_id SEPARATOR ?)', ' ')))
+                array('category_id'))
             ->where('product_id = ?', $productId);
 
-        return $this->_getWriteAdapter()->fetchOne($select);
+        $result = array();
+        foreach ($this->_getWriteAdapter()->fetchAll($select) as $category) {
+            $result[] = $category['category_id'];
+        }
+
+        return $result;
     }
 
     /**

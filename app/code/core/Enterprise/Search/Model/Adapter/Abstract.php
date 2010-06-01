@@ -587,6 +587,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      * @param array $data
      * @param array $attributesParams
      * @param string|null $localCode
+     *
+     * @return array
      */
     protected function _prepareIndexData($data, $attributesParams, $localeCode = null)
     {
@@ -601,6 +603,10 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             if (in_array($key, $this->_usedFields) && !in_array($key, $this->_searchTextFields)) {
                 continue;
             }
+            elseif ($key == 'option') {
+                unset($data[$key]);
+                continue;
+            }
 
             if (!array_key_exists($key, $attributesParams)) {
                 $backendType = (substr($key, 0, 8) == 'fulltext') ? 'text' : null;
@@ -612,6 +618,9 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             }
 
             if ($frontendInput == 'multiselect') {
+                if (!is_array($value)) {
+                    $value = explode(' ', $value);
+                }
                 $data['attr_multi_'. $key] = $value;
                 unset($data[$key]);
             } elseif (in_array($backendType, $this->_textFieldTypes) || in_array($key, $this->_searchTextFields)) {
