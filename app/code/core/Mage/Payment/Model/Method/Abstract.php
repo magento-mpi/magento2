@@ -61,6 +61,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     protected $_canUseForMultishipping      = true;
     protected $_isInitializeNeeded          = false;
     protected $_canFetchTransactionInfo     = false;
+    protected $_canReviewPayment            = false;
     protected $_canCreateBillingAgreement   = false;
     /**
      * TODO: whether a captured transaction may be voided by this gateway
@@ -206,9 +207,11 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     /**
      * Fetch transaction info
      *
+     * @param Mage_Payment_Model_Info $payment
+     * @param string $transactionId
      * @return array
      */
-    public function fetchTransactionInfo($transactionId)
+    public function fetchTransactionInfo(Mage_Payment_Model_Info $payment, $transactionId)
     {
         return array();
     }
@@ -477,6 +480,48 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
             Mage::throwException($this->_getHelper()->__('Void action is not available.'));
         }
         return $this;
+    }
+
+    /**
+     * Whether this method can accept or deny payment
+     *
+     * @param Mage_Payment_Model_Info $payment
+     * @param bool $soft
+     * @return bool
+     */
+    public function canReviewPayment(Mage_Payment_Model_Info $payment)
+    {
+        return $this->_canReviewPayment;
+    }
+
+    /**
+     * Attempt to accept a payment that us under review
+     *
+     * @param Mage_Payment_Model_Info $payment
+     * @return bool
+     * @throws Mage_Core_Exception
+     */
+    public function acceptPayment(Mage_Payment_Model_Info $payment)
+    {
+        if (!$this->canReviewPayment($payment)) {
+            Mage::throwException(Mage::helper('payment')->__('The payment review action is unavailable.'));
+        }
+        return false;
+    }
+
+    /**
+     * Attempt to deny a payment that us under review
+     *
+     * @param Mage_Payment_Model_Info $payment
+     * @return bool
+     * @throws Mage_Core_Exception
+     */
+    public function denyPayment(Mage_Payment_Model_Info $payment)
+    {
+        if (!$this->canReviewPayment($payment)) {
+            Mage::throwException(Mage::helper('payment')->__('The payment review action is unavailable.'));
+        }
+        return false;
     }
 
     /**

@@ -115,18 +115,25 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
             ));
         }
 
-        if ($this->_isAllowedAction('accept_payment') && $order->canPaymentReview()) {
-            $this->_addButton('accept_payment', array(
-                'label'     => Mage::helper('sales')->__('Accept Payment'),
-                'onclick'   => 'setLocation(\'' . $this->getAcceptPaymentUrl() . '\')',
-            ));
-        }
-
-        if ($this->_isAllowedAction('deny_payment') && $order->canPaymentReview()) {
-            $this->_addButton('deny_payment', array(
-                'label'     => Mage::helper('sales')->__('Deny Payment'),
-                'onclick'   => 'setLocation(\'' . $this->getDenyPaymentUrl() . '\')',
-            ));
+        if ($this->_isAllowedAction('review_payment')) {
+            if ($order->canReviewPayment()) {
+                $message = Mage::helper('sales')->__('Are you sure you want to accept this payment?');
+                $this->_addButton('accept_payment', array(
+                    'label'     => Mage::helper('sales')->__('Accept Payment'),
+                    'onclick'   => "confirmSetLocation('{$message}', '{$this->getReviewPaymentUrl('accept')}')",
+                ));
+                $message = Mage::helper('sales')->__('Are you sure you want to deny this payment?');
+                $this->_addButton('deny_payment', array(
+                    'label'     => Mage::helper('sales')->__('Deny Payment'),
+                    'onclick'   => "confirmSetLocation('{$message}', '{$this->getReviewPaymentUrl('deny')}')",
+                ));
+            }
+            if ($order->canFetchPaymentReviewUpdate()) {
+                $this->_addButton('get_review_payment_update', array(
+                    'label'     => Mage::helper('sales')->__('Get Payment Update'),
+                    'onclick'   => 'setLocation(\'' . $this->getReviewPaymentUrl('update') . '\')',
+                ));
+            }
         }
 
         if ($this->_isAllowedAction('invoice') && $order->canInvoice()) {
@@ -271,23 +278,33 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         return $this->getUrl('*/*/');
     }
 
-    /**
-     * Return URL for accept payment action
-     *
-     * @return string
-     */
-    public function getAcceptPaymentUrl()
+    public function getReviewPaymentUrl($action)
     {
-        return $this->getUrl('*/*/acceptPayment');
+        return $this->getUrl('*/*/reviewPayment', array('action' => $action));
     }
-
-    /**
-     * Return URL for deny payment action
-     *
-     * @return string
-     */
-    public function getDenyPaymentUrl()
-    {
-        return $this->getUrl('*/*/denyPayment');
-    }
+//
+//    /**
+//     * Return URL for accept payment action
+//     *
+//     * @return string
+//     */
+//    public function getAcceptPaymentUrl()
+//    {
+//        return $this->getUrl('*/*/reviewPayment', array('action' => 'accept'));
+//    }
+//
+//    /**
+//     * Return URL for deny payment action
+//     *
+//     * @return string
+//     */
+//    public function getDenyPaymentUrl()
+//    {
+//        return $this->getUrl('*/*/reviewPayment', array('action' => 'deny'));
+//    }
+//
+//    public function getPaymentReviewUpdateUrl()
+//    {
+//        return $this->getUrl('*/*/reviewPaymentUpdate');
+//    }
 }

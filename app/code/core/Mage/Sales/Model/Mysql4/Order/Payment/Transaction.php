@@ -139,7 +139,7 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction extends Mage_Sales_Model
         if ($transaction->isFailsafe()) {
             $autoincrementId = (int)$this->_lookupByTxnId($orderId, $paymentId, $txnId, $idFieldName);
             if ($autoincrementId) {
-                $transaction->setData($idFieldName, $autoincrementId);
+                $transaction->setData($idFieldName, $autoincrementId)->isObjectNew(false);
             }
         }
 
