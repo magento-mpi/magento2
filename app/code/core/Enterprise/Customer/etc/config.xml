@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Customer>
-             <version>0.1.0</version>
+             <version>0.1.1</version>
         </Enterprise_Customer>
     </modules>
     <global>
@@ -40,6 +40,18 @@
             <enterprise_customer_mysql4>
                 <class>Enterprise_Customer_Model_Mysql4</class>
                 <entities>
+                    <sales_order>
+                        <table>enterprise_customer_sales_flat_order</table>
+                    </sales_order>
+                    <sales_order_address>
+                        <table>enterprise_customer_sales_flat_order_address</table>
+                    </sales_order_address>
+                    <sales_quote>
+                        <table>enterprise_customer_sales_flat_quote</table>
+                    </sales_quote>
+                    <sales_quote_address>
+                        <table>enterprise_customer_sales_flat_quote_address</table>
+                    </sales_quote_address>
                 </entities>
             </enterprise_customer_mysql4>
         </models>
@@ -61,6 +73,104 @@
                 </setup>
             </enterprise_customer_setup>
         </resources>
+        <events>
+            <sales_quote_load_after>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>afterLoadSalesQuote</method>
+                    </enterprise_customer>
+                </observers>
+            </sales_quote_load_after>
+            <sales_quote_address_collection_load_after>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>afterLoadSalesQuoteAddressCollection</method>
+                    </enterprise_customer>
+                </observers>
+            </sales_quote_address_collection_load_after>
+            <sales_quote_save_after>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>afterSaveSalesQuote</method>
+                    </enterprise_customer>
+                </observers>
+            </sales_quote_save_after>
+            <sales_quote_address_save_after>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>afterSaveSalesQuoteAddress</method>
+                    </enterprise_customer>
+                </observers>
+            </sales_quote_address_save_after>
+            <sales_order_load_after>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>afterLoadSalesOrder</method>
+                    </enterprise_customer>
+                </observers>
+            </sales_order_load_after>
+            <sales_order_address_collection_load_after>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>afterLoadSalesOrderAddressCollection</method>
+                    </enterprise_customer>
+                </observers>
+            </sales_order_address_collection_load_after>
+            <sales_order_save_after>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>afterSaveSalesOrder</method>
+                    </enterprise_customer>
+                </observers>
+            </sales_order_save_after>
+            <sales_order_address_save_after>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>afterSaveSalesOrderAddress</method>
+                    </enterprise_customer>
+                </observers>
+            </sales_order_address_save_after>
+            <enterprise_customer_attribute_save>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>EnterpriseCustomerAttributeSave</method>
+                    </enterprise_customer>
+                </observers>
+            </enterprise_customer_attribute_save>
+            <enterprise_customer_attribute_delete>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>EnterpriseCustomerAttributeDelete</method>
+                    </enterprise_customer>
+                </observers>
+            </enterprise_customer_attribute_delete>
+            <enterprise_customer_address_attribute_save>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>EnterpriseCustomerAddressAttributeSave</method>
+                    </enterprise_customer>
+                </observers>
+            </enterprise_customer_address_attribute_save>
+            <enterprise_customer_address_attribute_delete>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>EnterpriseCustomerAddressAttributeDelete</method>
+                    </enterprise_customer>
+                </observers>
+            </enterprise_customer_address_attribute_delete>
+        </events>
     </global>
     <adminhtml>
         <layout>
