@@ -31,6 +31,18 @@
 class Mage_Paypal_Block_Payment_Info extends Mage_Payment_Block_Info_Cc
 {
     /**
+     * Don't show CC type for non-CC methods
+     *
+     * @return string|null
+     */
+    public function getCcTypeName()
+    {
+        if (Mage_Paypal_Model_Config::getIsCreditCardMethod($this->getInfo()->getMethod())) {
+            return parent::getCcTypeName();
+        }
+    }
+
+    /**
      * Prepare PayPal-specific payment information
      *
      * @param Varien_Object|array $transport

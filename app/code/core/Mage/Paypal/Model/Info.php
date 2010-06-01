@@ -25,8 +25,11 @@
  */
 
 /**
- * Payment information import/export model
+ * PayPal payment information model
+ *
+ * Aware of all PayPal payment methods
  * Collects and provides access to PayPal-specific payment data
+ * Provides business logic information about payment flow
  */
 class Mage_Paypal_Model_Info
 {
@@ -48,6 +51,13 @@ class Mage_Paypal_Model_Info
     const CENTINEL_VPAS  = 'centinel_vpas_result';
     const CENTINEL_ECI   = 'centinel_eci_result';
 
+    const PAYMENT_STATUS = 'payment_status';
+    const PENDING_REASON = 'pending_reason';
+    const IS_FRAUD       = 'is_fraud_detected';
+    const PAYMENT_STATUS_GLOBAL = 'paypal_payment_status';
+    const PENDING_REASON_GLOBAL = 'paypal_pending_reason';
+    const IS_FRAUD_GLOBAL       = 'paypal_is_fraud_detected';
+
     /**
      * All payment information map
      *
@@ -67,6 +77,53 @@ class Mage_Paypal_Model_Info
         self::CENTINEL_VPAS  => self::CENTINEL_VPAS,
         self::CENTINEL_ECI   => self::CENTINEL_ECI,
     );
+
+    /**
+     * System information map
+     *
+     * @var array
+     */
+    protected $_systemMap = array(
+        self::PAYMENT_STATUS => self::PAYMENT_STATUS_GLOBAL,
+        self::PENDING_REASON => self::PENDING_REASON_GLOBAL,
+        self::IS_FRAUD       => self::IS_FRAUD_GLOBAL,
+    );
+
+    /**
+     * PayPal payment status possible values
+     *
+     * @var string
+     */
+    const PAYMENTSTATUS_NONE         = 'none';
+    const PAYMENTSTATUS_COMPLETED    = 'completed';
+    const PAYMENTSTATUS_DENIED       = 'denied';
+    const PAYMENTSTATUS_EXPIRED      = 'expired';
+    const PAYMENTSTATUS_FAILED       = 'failed';
+    const PAYMENTSTATUS_INPROGRESS   = 'in_progress';
+    const PAYMENTSTATUS_PENDING      = 'pending';
+    const PAYMENTSTATUS_PREFUNDED    = 'refunded';
+    const PAYMENTSTATUS_REFUNDEDPART = 'partially_refunded';
+    const PAYMENTSTATUS_REVERSED     = 'reversed';
+    const PAYMENTSTATUS_UNREVERSED   = 'canceled_reversal';
+    const PAYMENTSTATUS_PROCESSED    = 'processed';
+    const PAYMENTSTATUS_VOIDED       = 'voided';
+
+    /**
+     * PayPal reasons for pending payment status
+     *
+     * @var string
+     */
+    const PENDINGREASON_NONE       = 'none';
+    const PENDINGREASON_ADDRESS    = 'address';
+    const PENDINGREASON_AUTH       = 'authorization';
+    const PENDINGREASON_ECHECK     = 'echeck';
+    const PENDINGREASON_INTL       = 'intl';
+    const PENDINGREASON_CURRENCY   = 'multi-currency';
+    const PENDINGREASON_ORDER      = 'order';
+    const PENDINGREASON_IPR        = 'paymentreview';
+    const PENDINGREASON_UNILATERAL = 'unilateral';
+    const PENDINGREASON_VERIFY     = 'verify';
+    const PENDINGREASON_OTHER      = 'other';
 
     /**
      * Map of payment information available to customer
@@ -128,7 +185,11 @@ class Mage_Paypal_Model_Info
      */
     public function importToPayment($from, Mage_Payment_Model_Info $payment)
     {
-        Varien_Object_Mapper::accumulateByMap($from, array($payment, 'setAdditionalInformation'), $this->_paymentMap);
+        $fullMap = array_merge($this->_paymentMap, $this->_systemMap);
+        if (is_object($from)) {
+            $from = array($from, 'getDataUsingMethod');
+        }
+        Varien_Object_Mapper::accumulateByMap($from, array($payment, 'setAdditionalInformation'), $fullMap);
     }
 
     /**
@@ -141,10 +202,86 @@ class Mage_Paypal_Model_Info
      */
     public function &exportFromPayment(Mage_Payment_Model_Info $payment, $to, array $map = null)
     {
+        $fullMap = array_merge($this->_paymentMap, $this->_systemMap);
         Varien_Object_Mapper::accumulateByMap(array($payment, 'getAdditionalInformation'), $to,
-            $map ? $map : array_flip($this->_paymentMap)
+            $map ? $map : array_flip($fullMap)
         );
         return $to;
+    }
+
+    /**
+     * Check whether the payment is in review state
+     *
+     * @param Mage_Payment_Model_Info $payment
+     * @return bool
+     */
+    public static function isPaymentReviewRequired(Mage_Payment_Model_Info $payment)
+    {
+        $paymentStatus = $payment->getAdditionalInformation(self::PAYMENT_STATUS_GLOBAL);
+        if (self::PAYMENTSTATUS_PENDING === $paymentStatus) {
+            $pendingReason = $payment->getAdditionalInformation(self::PENDING_REASON_GLOBAL);
+            return !in_array($pendingReason, array(self::PENDINGREASON_AUTH, self::PENDINGREASON_ORDER));
+        }
+        return false;
+    }
+
+    /**
+     * Check whether fraud order review detected and can be reviewed
+     *
+     * @param Mage_Payment_Model_Info $payment
+     * @return bool
+     */
+    public static function isFraudReviewAllowed(Mage_Payment_Model_Info $payment)
+    {
+        return self::isPaymentReviewRequired($payment)
+            && 1 == $payment->getAdditionalInformation(self::IS_FRAUD_GLOBAL);
+    }
+
+    /**
+     * Check whether the payment is completed
+     *
+     * @param Mage_Payment_Model_Info $payment
+     * @return bool
+     */
+    public static function isPaymentCompleted(Mage_Payment_Model_Info $payment)
+    {
+        $paymentStatus = $payment->getAdditionalInformation(self::PAYMENT_STATUS_GLOBAL);
+        return self::PAYMENTSTATUS_COMPLETED === $paymentStatus;
+    }
+
+    /**
+     * Check whether the payment was processed successfully
+     *
+     * @param Mage_Payment_Model_Info $payment
+     * @return bool
+     */
+    public static function isPaymentSuccessful(Mage_Payment_Model_Info $payment)
+    {
+        $paymentStatus = $payment->getAdditionalInformation(self::PAYMENT_STATUS_GLOBAL);
+        if (in_array($paymentStatus, array(
+            self::PAYMENTSTATUS_COMPLETED, self::PAYMENTSTATUS_INPROGRESS, self::PAYMENTSTATUS_PREFUNDED,
+            self::PAYMENTSTATUS_REFUNDEDPART, self::PAYMENTSTATUS_UNREVERSED, self::PAYMENTSTATUS_PROCESSED,
+        ))) {
+            return true;
+        }
+        $pendingReason = $payment->getAdditionalInformation(self::PENDING_REASON_GLOBAL);
+        return self::PAYMENTSTATUS_PENDING === $paymentStatus
+            && in_array($pendingReason, array(self::PENDINGREASON_AUTH, self::PENDINGREASON_ORDER));
+    }
+
+    /**
+     * Check whether the payment was processed unsuccessfully or failed
+     *
+     * @param Mage_Payment_Model_Info $payment
+     * @return bool
+     */
+    public static function isPaymentFailed(Mage_Payment_Model_Info $payment)
+    {
+        $paymentStatus = $payment->getAdditionalInformation(self::PAYMENT_STATUS_GLOBAL);
+        return in_array($paymentStatus, array(
+            self::PAYMENTSTATUS_DENIED, self::PAYMENTSTATUS_EXPIRED, self::PAYMENTSTATUS_FAILED,
+            self::PAYMENTSTATUS_REVERSED, self::PAYMENTSTATUS_VOIDED,
+        ));
     }
 
     /**

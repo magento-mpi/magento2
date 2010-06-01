@@ -219,19 +219,13 @@ class Mage_Paypal_Model_Ipn
                         // break intentionally omitted
                     // paid with PayPal
                     case self::STATUS_COMPLETED:
-                        if ($orderState == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT_REVIEW) {
-                            $this->_registerPaymentAccept();
-                            break;
-                        }
                         $this->_registerPaymentCapture();
                         break;
 
                     // the holded payment was denied on paypal side
                     case self::STATUS_DENIED:
-                        if ($orderState == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT_REVIEW) {
-                            $this->_registerPaymentDeny();
-                            break;
-                        }
+                        $this->_registerPaymentDenial();
+                        break;
 
                     // customer attempted to pay via bank account, but failed
                     case self::STATUS_FAILED:
@@ -320,28 +314,15 @@ class Mage_Paypal_Model_Ipn
     }
 
     /**
-     * Register payment accept  
+     * Process denied payment notification
      */
-    protected function _registerPaymentAccept()
+    protected function _registerPaymentDenial()
     {
         $order = $this->_getOrder();
-        $payment = $order->getPayment();
-        $payment->setTransactionId($this->getIpnFormData('txn_id'))
-            ->setIsTransactionClosed(false)
-            ->registerAcceptNotification();
-        $order->save();
-    }
-
-    /**
-     * Register payment deny  
-     */
-    protected function _registerPaymentDeny()
-    {
-        $order = $this->_getOrder();
-        $payment = $order->getPayment();
-        $payment->setTransactionId($this->getIpnFormData('txn_id'))
-            ->setIsTransactionClosed(false)
-            ->registerDenyNotification();
+        $order->getPayment()->setTransactionId($this->getIpnFormData('txn_id'))
+            ->setNotificationResult(true)
+            ->setIsTransactionClosed(true)
+            ->registerPaymentReviewAction(Mage_Sales_Model_Order_Payment::REVIEW_ACTION_DENY, false);
         $order->save();
     }
 

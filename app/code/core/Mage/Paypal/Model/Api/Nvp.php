@@ -49,18 +49,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     const PENDING_TRANSACTION_DENY = 'Deny';
 
     /**
-     * Paypal status values
-     */
-    const STATUS_PENDING = 'Pending';
-    const STATUS_PROCESSING = 'Processing';
-    const STATUS_COMPLETED = 'Completed';
-    const STATUS_DENIED = 'Denied';
-    const STATUS_REVERSED = 'Reversed';
-    const STATUS_DISPLAY_ONLY = 'Display Only';
-    const STATUS_PARTIALLY_REFUNDED = 'Partially Refunded';
-    const STATUS_CREATED_REFUNDED = 'Created Refunded';
-
-    /**
      * Capture types (make authorization close or remain open)
      * @var string
      */
@@ -209,11 +197,13 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'FAILEDINITAMTACTION' => '_filterInitialAmountMayFail',
         'BILLINGAGREEMENTSTATUS' => '_filterBillingAgreementStatus',
         'NOSHIPPING' => '_filterInt',
+        'ACTION'     => '_filterPaymentReviewAction',
     );
 
     protected $_importFromRequestFilters = array(
         'REDIRECTREQUIRED'  => '_filterToBool',
         'SUCCESSPAGEREDIRECTREQUESTED'  => '_filterToBool',
+        'PAYMENTSTATUS' => '_filterPaymentStatusFromNvpToInfo',
     );
 
     /**
@@ -246,9 +236,10 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     protected $_doExpressCheckoutPaymentRequest = array(
         'TOKEN', 'PAYERID', 'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'IPADDRESS', 'BUTTONSOURCE', 'NOTIFYURL',
+        'RETURNFMFDETAILS',
     );
     protected $_doExpressCheckoutPaymentResponse = array(
-        'TRANSACTIONID', 'AMT', 'PAYMENTSTATUS', 'REDIRECTREQUIRED', 'SUCCESSPAGEREDIRECTREQUESTED',
+        'TRANSACTIONID', 'AMT', 'PAYMENTSTATUS', 'PENDINGREASON', 'REDIRECTREQUIRED', 'SUCCESSPAGEREDIRECTREQUESTED',
     );
 
     /**
@@ -279,7 +270,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * @var array
      */
     protected $_doCaptureRequest = array('AUTHORIZATIONID', 'COMPLETETYPE', 'AMT', 'CURRENCYCODE', 'NOTE', 'INVNUM',);
-    protected $_doCaptureResponse = array('TRANSACTIONID', 'CURRENCYCODE', 'AMT',);
+    protected $_doCaptureResponse = array('TRANSACTIONID', 'CURRENCYCODE', 'AMT', 'PAYMENTSTATUS', 'PENDINGREASON',);
 
     /**
      * DoVoid request map
@@ -293,7 +284,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     protected $_getTransactionDetailsRequest = array('TRANSACTIONID');
     protected $_getTransactionDetailsResponse = array(
-        'PAYERID', 'FIRSTNAME', 'LASTNAME', 'TRANSACTIONID', 'PARENTTRANSACTIONID', 'CURRENCYCODE', 'AMT', 'PAYMENTSTATUS'
+        'PAYERID', 'FIRSTNAME', 'LASTNAME', 'TRANSACTIONID', 'PARENTTRANSACTIONID', 'CURRENCYCODE', 'AMT',
+        'PAYMENTSTATUS', 'PENDINGREASON',
     );
 
     /**
@@ -587,43 +579,13 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
-     * Analise response and return true if payment has state Pending
+     * Check whether the last call was returned with fraud warning
      *
      * @return bool
      */
-    public function getIsPaymentPending()
-    {
-        return $this->getPaymentStatus() == self::STATUS_PENDING;
-    }
-
-    /**
-     * Analise response and return true if payment has fraud error code
-     *
-     * @return bool
-     */
-    public function getIsPaymentFraud()
+    public function getIsFraudDetected()
     {
         return in_array(11610, $this->_callWarnings);
-    }
-
-    /**
-     * Analise response and return true if payment has state Completed
-     *
-     * @return bool
-     */
-    public function getIsPaymentCompleted()
-    {
-        return $this->getPaymentStatus() == self::STATUS_COMPLETED;
-    }
-
-    /**
-     * Analise response and return true if payment has state Denied
-     *
-     * @return bool
-     */
-    public function getIsPaymentDenied()
-    {
-        return $this->getPaymentStatus() == self::STATUS_DENIED;
     }
 
     /**
@@ -1125,6 +1087,47 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         switch ($value) {
             case 'canceled':    return 'Canceled';
             case 'active':      return 'Active';
+        }
+    }
+
+    /**
+     * Convert payment status from NVP format to paypal/info model format
+     *
+     * @param string $value
+     * @return string|null
+     */
+    protected function _filterPaymentStatusFromNvpToInfo($value)
+    {
+        switch ($value) {
+            case 'None': return Mage_Paypal_Model_Info::PAYMENTSTATUS_NONE;
+            case 'Completed': return Mage_Paypal_Model_Info::PAYMENTSTATUS_COMPLETED;
+            case 'Denied': return Mage_Paypal_Model_Info::PAYMENTSTATUS_DENIED;
+            case 'Expired': return Mage_Paypal_Model_Info::PAYMENTSTATUS_EXPIRED;
+            case 'Failed': return Mage_Paypal_Model_Info::PAYMENTSTATUS_FAILED;
+            case 'In-Progress': return Mage_Paypal_Model_Info::PAYMENTSTATUS_INPROGRESS;
+            case 'Pending': return Mage_Paypal_Model_Info::PAYMENTSTATUS_PENDING;
+            case 'Refunded': return Mage_Paypal_Model_Info::PAYMENTSTATUS_PREFUNDED;
+            case 'Partially-Refunded': return Mage_Paypal_Model_Info::PAYMENTSTATUS_REFUNDEDPART;
+            case 'Reversed': return Mage_Paypal_Model_Info::PAYMENTSTATUS_REVERSED;
+            case 'Canceled-Reversal': return Mage_Paypal_Model_Info::PAYMENTSTATUS_UNREVERSED;
+            case 'Processed': return Mage_Paypal_Model_Info::PAYMENTSTATUS_PROCESSED;
+            case 'Voided': return Mage_Paypal_Model_Info::PAYMENTSTATUS_VOIDED;
+        }
+    }
+
+    /**
+     * Convert payment review action to NVP-compatible value
+     *
+     * @param string $value
+     * @return string|null
+     */
+    protected function _filterPaymentReviewAction($value)
+    {
+        switch ($value) {
+            case Mage_Paypal_Model_Pro::PAYMENT_REVIEW_ACCEPT:
+                return 'Accept';
+            case Mage_Paypal_Model_Pro::PAYMENT_REVIEW_DENY:
+                return 'Deny';
         }
     }
 

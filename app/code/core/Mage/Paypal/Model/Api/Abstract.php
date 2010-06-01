@@ -280,27 +280,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Whether specified payment status indicates that money were paid
-     *
-     * @param string $paymentStatus
-     * @return bool
-     */
-    public function isPaid($paymentStatus)
-    {
-        return $paymentStatus === 'Completed';
-    }
-
-    /**
-     * Whether payment is completed
-     *
-     * @return bool
-     */
-    public function isPaymentComplete()
-    {
-        return $this->isPaid($this->getPaymentStatus());
-    }
-
-    /**
      * Set recurring profiles
      *
      * @param array $items

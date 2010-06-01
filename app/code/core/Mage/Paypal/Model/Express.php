@@ -57,6 +57,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     protected $_canUseForMultishipping      = false;
     protected $_canFetchTransactionInfo     = true;
     protected $_canCreateBillingAgreement   = true;
+    protected $_canReviewPayment        = true;
 
     /**
      * Ipn action
@@ -205,38 +206,38 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * If payment can be review return true or false if not
+     * Whether payment can be reviewed
      *
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return bool
      */
-    public function canReview(Varien_Object $payment)
+    public function canReviewPayment(Mage_Payment_Model_Info $payment)
     {
-        return $payment->getAdditionalInformation(Mage_Paypal_Model_Pro::CAN_REVIEW_PAYMENT) == true;
+        return parent::canReviewPayment($payment) && $this->_pro->canReviewPayment($payment);
     }
 
     /**
-     * Accept payment
+     * Attempt to accept a pending payment
      *
      * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Paypal_Model_Express
+     * @return bool
      */
-    public function accept(Varien_Object $payment)
+    public function acceptPayment(Mage_Payment_Model_Info $payment)
     {
-        $this->_pro->accept($payment);
-        return $this;
+        parent::acceptPayment($payment);
+        return $this->_pro->reviewPayment($payment, Mage_Paypal_Model_Pro::PAYMENT_REVIEW_ACCEPT);
     }
 
     /**
-     * Deny payment
+     * Attempt to deny a pending payment
      *
      * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Paypal_Model_Express
+     * @return bool
      */
-    public function deny(Varien_Object $payment)
+    public function denyPayment(Mage_Payment_Model_Info $payment)
     {
-        $this->_pro->deny($payment);
-        return $this;
+        parent::denyPayment($payment);
+        return $this->_pro->reviewPayment($payment, Mage_Paypal_Model_Pro::PAYMENT_REVIEW_DENY);
     }
 
     /**
@@ -254,12 +255,13 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     /**
      * Fetch transaction details info
      *
+     * @param Mage_Payment_Model_Info $payment
      * @param string $transactionId
      * @return array
      */
-    public function fetchTransactionInfo($transactionId)
+    public function fetchTransactionInfo(Mage_Payment_Model_Info $payment, $transactionId)
     {
-        return $this->_pro->fetchTransactionInfo($transactionId);
+        return $this->_pro->fetchTransactionInfo($payment, $transactionId);
     }
 
     /**
@@ -389,11 +391,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             ->setAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT,
                 $api->getRedirectRequired() || $api->getRedirectRequested()
             );
-        if ($api->getIsPaymentPending()) {
-            $payment->setIsTransactionPending(true)
-                ->setAdditionalInformation(Mage_Paypal_Model_Pro::CAN_REVIEW_PAYMENT, $api->getIsPaymentFraud())
-                ->setIsFraudDetected($api->getIsPaymentFraud());
-        }
 
         if ($api->getBillingAgreementId()) {
             $payment->setBillingAgreementData(array(
@@ -402,6 +399,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             ));
         }
 
-        Mage::getModel('paypal/info')->importToPayment($api, $payment);
+        $this->_pro->importPaymentInfo($api, $payment);
     }
 }

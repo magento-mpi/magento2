@@ -913,6 +913,23 @@ class Mage_Paypal_Model_Config
     }
 
     /**
+     * Check whether the specified payment method is a CC-based one
+     *
+     * @param string $code
+     * @return bool
+     */
+    public static function getIsCreditCardMethod($code)
+    {
+        switch ($code) {
+            case self::METHOD_WPP_DIRECT:
+            case self::METHOD_WPP_PE_DIRECT:
+            case self::METHOD_PAYFLOWPRO:
+                return true;
+        }
+        return false;
+    }
+
+    /**
      * Check whether specified currency code is supported
      * @param string $code
      * @return bool
