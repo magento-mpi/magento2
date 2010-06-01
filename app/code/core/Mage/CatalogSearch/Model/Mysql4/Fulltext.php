@@ -594,10 +594,11 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         if ($this->_engine) {
             if ($this->_engine->allowAdvancedIndex()) {
                 //unset($index['price']);
-                $categories = $this->_prepareProductCategories($productData['entity_id']);
+                $categories = $this->_prepareProductCategories($productData['entity_id'], $storeId);
                 if (!empty($categories)) {
                     $index['categories'] = $categories;
                 }
+                $index['visibility'] = $this->_prepareProductVisibility($productData['entity_id'], $storeId);
                 $index += $this->_prepareProductPriceIndexing($productData['entity_id']);
             }
 
@@ -632,19 +633,21 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     }
 
     /**
-     * Collect all categories ids where product is represented
+     * Collect all categories ids where product should be represented
      *
      * @param int $productId
      *
      * @return array
      */
-    protected function _prepareProductCategories($productId)
+    protected function _prepareProductCategories($productId, $storeId)
     {
         $select = $this->_getWriteAdapter()->select()
+            ->distinct()
             ->from(
-                array($this->getTable('catalog/category_product')),
+                array($this->getTable('catalog/category_product_index')),
                 array('category_id'))
-            ->where('product_id = ?', $productId);
+            ->where('product_id = ?', $productId)
+            ->where('store_id = ?', $storeId);
 
         $result = array();
         foreach ($this->_getWriteAdapter()->fetchAll($select) as $category) {
@@ -652,6 +655,27 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         }
 
         return $result;
+    }
+
+    /**
+     * Return visibility condition id for product displaying in search results 
+     * and in catalog
+     *
+     * @param int $productId
+     * @param int $storeId
+     *
+     * @return int
+     */
+    protected function _prepareProductVisibility($productId, $storeId)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from(
+                array($this->getTable('catalog/category_product_index')),
+                array('visibility'))
+            ->where('product_id = ?', $productId)
+            ->where('store_id = ?', $storeId);
+
+        return $this->_getWriteAdapter()->fetchOne($select);
     }
 
     /**
