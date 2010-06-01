@@ -129,4 +129,32 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         return $this->helper('checkout/cart')->getIsVirtualQuote();
     }
 
+    /**
+     * Return list of available checkout methods
+     *
+     * @param string $nameInLayout Container block alias in layout
+     * @return array
+     */
+    public function getMethods($nameInLayout)
+    {
+        if ($this->getChild($nameInLayout) instanceof Mage_Core_Block_Abstract) {
+            return $this->getChild($nameInLayout)->getSortedChildren();
+        }
+        return array();
+    }
+
+    /**
+     * Return HTML of checkout method (link, button etc.)
+     *
+     * @param string $name Block name in layout
+     * @return string
+     */
+    public function getMethodHtml($name)
+    {
+        $block = $this->getLayout()->getBlock($name);
+        if (!$block) {
+            Mage::throwException(Mage::helper('checkout')->__('Invalid method: %s', $name));
+        }
+        return $block->toHtml();
+    }
 }
