@@ -64,21 +64,20 @@
                         <div class="add-to-box">
                             <?php if($_product->isSaleable()): ?>
                                 <?php echo $this->getChildHtml('addtocart') ?>
+                                <?php echo $this->getChildHtml('extra_buttons') ?>
                             <?php endif; ?>
                             <?php echo $this->getChildHtml('addto') ?>
                         </div>
                     <?php else:?>
-
                         <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container1') ):?>
                             <div class="options-container-small">
                                 <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
                             </div>
                         <?php endif;?>
-
                         <?php echo $this->getChildHtml('addto') ?>
                     <?php endif; ?>
 
-                    <?php echo $this->getChildHtml('extra_buttons') ?>
+
 
                     <?php if ($_product->getShortDescription()):?>
                         <div class="short-description std">
