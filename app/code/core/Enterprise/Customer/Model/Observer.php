@@ -39,9 +39,11 @@ class Enterprise_Customer_Model_Observer
     public function afterLoadSalesQuote($observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        Mage::getModel('enterprise_customer/sales_quote')
-            ->load($quote->getId())
-            ->attachAttributeData($quote);
+        if ($quote instanceof Mage_Core_Model_Abstract){
+            Mage::getModel('enterprise_customer/sales_quote')
+                ->load($quote->getId())
+                ->attachAttributeData($quote);
+        }
 
         return $this;
     }
@@ -55,8 +57,10 @@ class Enterprise_Customer_Model_Observer
     public function afterLoadSalesQuoteAddressCollection($observer)
     {
         $collection = $observer->getEvent()->getQuoteAddressCollection();
-        Mage::getModel('enterprise_customer/sales_quote_address')
-            ->attachDataToCollection($collection);
+        if ($collection instanceof Varien_Data_Collection_Db){
+            Mage::getModel('enterprise_customer/sales_quote_address')
+                ->attachDataToCollection($collection);
+        }
 
         return $this;
     }
@@ -70,8 +74,10 @@ class Enterprise_Customer_Model_Observer
     public function afterSaveSalesQuote($observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        Mage::getModel('enterprise_customer/sales_quote')
-            ->saveAttributeData($quote);
+        if ($quote instanceof Mage_Core_Model_Abstract){
+            Mage::getModel('enterprise_customer/sales_quote')
+                ->saveAttributeData($quote);
+        }
 
         return $this;
     }
@@ -85,8 +91,10 @@ class Enterprise_Customer_Model_Observer
     public function afterSaveSalesQuoteAddress($observer)
     {
         $quoteAddress = $observer->getEvent()->getQuoteAddress();
-        Mage::getModel('enterprise_customer/sales_quote_address')
-            ->saveAttributeData($quoteAddress);
+        if ($quoteAddress instanceof Mage_Core_Model_Abstract){
+            Mage::getModel('enterprise_customer/sales_quote_address')
+                ->saveAttributeData($quoteAddress);
+        }
         
         return $this;
     }
@@ -100,9 +108,11 @@ class Enterprise_Customer_Model_Observer
     public function afterLoadSalesOrder($observer)
     {
         $order = $observer->getEvent()->getOrder();
-        Mage::getModel('enterprise_customer/sales_order')
-            ->load($order->getId())
-            ->attachAttributeData($order);
+        if ($order instanceof Mage_Core_Model_Abstract){
+            Mage::getModel('enterprise_customer/sales_order')
+                ->load($order->getId())
+                ->attachAttributeData($order);
+        }
 
         return $this;
     }
@@ -116,8 +126,10 @@ class Enterprise_Customer_Model_Observer
     public function afterLoadSalesOrderAddressCollection($observer)
     {
         $collection = $observer->getEvent()->getOrderAddressCollection();
-        Mage::getModel('enterprise_customer/sales_order_address')
-            ->attachDataToCollection($collection);
+        if ($collection instanceof Varien_Data_Collection_Db){
+            Mage::getModel('enterprise_customer/sales_order_address')
+                ->attachDataToCollection($collection);
+        }
 
         return $this;
     }
@@ -131,8 +143,10 @@ class Enterprise_Customer_Model_Observer
     public function afterSaveSalesOrder($observer)
     {
         $order = $observer->getEvent()->getOrder();
-        Mage::getModel('enterprise_customer/sales_order')
-            ->saveAttributeData($order);
+        if ($order instanceof Mage_Core_Model_Abstract){
+            Mage::getModel('enterprise_customer/sales_order')
+                ->saveAttributeData($order);
+        }
 
         return $this;
     }
@@ -145,9 +159,11 @@ class Enterprise_Customer_Model_Observer
      */
     public function afterSaveSalesOrderAddress($observer)
     {
-        $orderAddress = $observer->getEvent()->getOrderAddress();
-        Mage::getModel('enterprise_customer/sales_order_address')
-            ->saveAttributeData($orderAddress);
+        $orderAddress = $observer->getEvent()->getAddress();
+        if ($orderAddress instanceof Mage_Core_Model_Abstract){
+            Mage::getModel('enterprise_customer/sales_order_address')
+                ->saveAttributeData($orderAddress);
+        }
 
         return $this;
     }
@@ -161,7 +177,9 @@ class Enterprise_Customer_Model_Observer
     public function EnterpriseCustomerAttributeSave($observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute->isObjectNew()) {
+        if ($attribute instanceof Mage_Customer_Model_Attribute
+            && $attribute->isObjectNew()
+        ) {
             Mage::getModel('enterprise_customer/sales_quote')
                 ->saveNewAttribute($attribute);
             Mage::getModel('enterprise_customer/sales_order')
@@ -180,7 +198,9 @@ class Enterprise_Customer_Model_Observer
     public function EnterpriseCustomerAttributeDelete($observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if (!$attribute->isObjectNew()) {
+        if ($attribute instanceof Mage_Customer_Model_Attribute 
+            && !$attribute->isObjectNew()
+        ) {
             Mage::getModel('enterprise_customer/sales_quote')
                 ->deleteAttribute($attribute);
             Mage::getModel('enterprise_customer/sales_order')
@@ -199,7 +219,9 @@ class Enterprise_Customer_Model_Observer
     public function EnterpriseCustomerAddressAttributeSave($observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute->isObjectNew()) {
+        if ($attribute instanceof Mage_Customer_Model_Attribute
+            && $attribute->isObjectNew()
+        ) {
             Mage::getModel('enterprise_customer/sales_quote_address')
                 ->saveNewAttribute($attribute);
             Mage::getModel('enterprise_customer/sales_order_address')
@@ -218,7 +240,9 @@ class Enterprise_Customer_Model_Observer
     public function EnterpriseCustomerAddressAttributeDelete($observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if (!$attribute->isObjectNew()) {
+        if ($attribute instanceof Mage_Customer_Model_Attribute
+            && !$attribute->isObjectNew()
+        ) {
             Mage::getModel('enterprise_customer/sales_quote_address')
                 ->deleteAttribute($attribute);
             Mage::getModel('enterprise_customer/sales_order_address')
@@ -227,5 +251,85 @@ class Enterprise_Customer_Model_Observer
         
         return $this;
     }
-    
+
+    /**
+     * Observer for converting quote to order
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Customer_Model_Observer
+     */
+    public function salesConvertQuoteToOrder($observer)
+    {
+        $quote = $observer->getEvent()->getQuote();
+        $order = $observer->getEvent()->getOrder();
+        if ($quote instanceof Mage_Core_Model_Abstract
+            && $order instanceof Mage_Core_Model_Abstract
+        ){
+            Mage::getModel('enterprise_customer/sales_quote')
+                    ->convertQuoteToOrder($quote, $order);
+        }
+        
+        return $this;
+    }
+
+    /**
+     * Observer for converting quote address to order address
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Customer_Model_Observer
+     */
+    public function salesConvertQuoteAddressToOrderAddress($observer)
+    {
+        $quoteAddress = $observer->getEvent()->getAddress();
+        $orderAddress = $observer->getEvent()->getOrderAddress();
+        if ($quoteAddress instanceof Mage_Core_Model_Abstract
+            && $orderAddress instanceof Mage_Core_Model_Abstract
+        ){
+            Mage::getModel('enterprise_customer/sales_quote_address')
+                    ->convertQuoteToOrder($quoteAddress, $orderAddress);
+        }
+        
+        return $this;
+    }
+
+    /**
+     * Observer for converting order to quote
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Customer_Model_Observer
+     */
+    public function salesConvertOrderToQuote($observer)
+    {
+        $quote = $observer->getEvent()->getQuote();
+        $order = $observer->getEvent()->getOrder();
+        if ($quote instanceof Mage_Core_Model_Abstract 
+            && $order instanceof Mage_Core_Model_Abstract
+        ){
+            Mage::getModel('enterprise_customer/sales_order')
+                    ->convertOrderToQuote($order, $quote);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Observer for converting order address to quote address
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Customer_Model_Observer
+     */
+    public function salesConvertOrderAddressToQuoteAddress($observer)
+    {
+        $quoteAddress = $observer->getEvent()->getAddress();
+        $orderAddress = $observer->getEvent()->getOrderAddress();
+        if ($quoteAddress instanceof Mage_Core_Model_Abstract
+            && $orderAddress instanceof Mage_Core_Model_Abstract
+        ){
+            
+            Mage::getModel('enterprise_customer/sales_order_address')
+                    ->convertOrderToQuote($orderAddress, $quoteAddress);
+        }
+
+        return $this;
+    }
 }
