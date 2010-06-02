@@ -125,6 +125,291 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         if (is_array($params) && !empty($params)) {
             $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
         }
+
+        $offset = (int)$_params['offset'];
+        $limit  = (int)$_params['limit'];
+
+        if (!$limit) {
+            $limit = 100;
+        }
+
+        /**
+         * Now supported search only in fulltext field
+         * By default in Solr  set <defaultSearchField> is "fulltext"
+         * When language fields need to be used, then perform search in appropriate field
+         */
+        $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
+        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+
+        $solrQuery = new SolrQuery();
+        $solrQuery->setStart($offset)->setRows($limit);
+
+        if (is_array($query)) {
+            $searchConditions = array();
+
+            foreach ($query as $field => $value) {
+                if (is_array($value)) {
+                    if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
+                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
+                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
+                        $fieldCondition = "$field:[$from TO $to]";
+                    }
+                    else {
+                        $fieldCondition = array();
+                        foreach ($value as $part) {
+                            $part = $this->_prepareQueryText($part);
+                            $fieldCondition[] = $field .':'. $part;
+                        }
+                        $fieldCondition = '('. implode(' OR ', $fieldCondition) .')';
+                    }
+                }
+                else {
+                    $value = $this->_prepareQueryText($value);
+                    $fieldCondition = $field .':'. $value;
+                }
+
+                $searchConditions[] = $fieldCondition;
+            }
+
+            $searchConditions = implode(' AND ', $searchConditions);
+        }
+        else {
+            $searchConditions = $this->_prepareQueryText($query);
+        }
+
+
+        if (!$searchConditions) {
+            return array();
+        }
+        $solrQuery->setQuery($searchConditions);
+
+        if (!is_array($_params['fields'])) {
+            $_params['fields'] = array($_params['fields']);
+        }
+
+        if (!is_array($_params['solr_params'])){
+            $_params['solr_params'] = array($_params['solr_params']);
+        }
+
+        /**
+         * Support specifing sort by field as only string name of field
+         */
+        if (!empty($_params['sort_by']) && !is_array($_params['sort_by'])) {
+            if ($_params['sort_by'] == 'relevance') {
+                $_params['sort_by'] = 'score';
+            }
+            if ($_params['sort_by'] == 'name') {
+                $_params['sort_by'] = 'alphaNameSort';
+            }
+            $_params['sort_by'] = array(array($_params['sort_by'] => SolrQuery::ORDER_ASC));
+        }
+
+        /**
+         * Add sort fields
+         */
+        foreach ($_params['sort_by'] as $_key => $sort) {
+            $_sort = each($sort);
+            $sortField = $_sort['key'];
+            $sortType = $_sort['value'];
+            if ($sortField == 'relevance') {
+                $sortField = 'score';
+            }
+            if (in_array($sortField, $this->_usedFields)) {
+                if ($sortField == 'name') {
+                    $sortField = 'alphaNameSort';
+                }
+                if (in_array($sortField, $this->_searchTextFields)) {
+                    $sortField = $sortField . $languageSuffix;
+                }
+                $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
+                $solrQuery->addSortField($sortField, $sortType);
+            }
+        }
+
+        /**
+         * Fields to retrieve
+         */
+        if (!empty($_params['fields'])) {
+            foreach ($_params['fields'] as $field) {
+                $solrQuery->addField($field);
+            }
+        }
+
+        /**
+         * Now supported search only in fulltext and name fields based on dismax requestHandler (named as magento_lng).
+         * Using dismax requestHandler for each language make matches in name field
+         * are much more significant than matches in fulltext field.
+         */
+        if ($_params['ignore_handler'] !== true) {
+            $_params['solr_params']['qt'] = 'magento' . $languageSuffix;
+        }
+
+        /**
+         * Specific Solr params
+         */
+        if (!empty($_params['solr_params'])) {
+            foreach ($_params['solr_params'] as $name => $value) {
+                $solrQuery->setParam($name, $value);
+            }
+        }
+
+        if (!empty($params['filters'])) {
+            foreach ($params['filters'] as $field => $value) {
+                if (is_array($value)) {
+                    if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
+                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
+                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
+                        $fieldCondition = "$field:[$from TO $to]";
+                    }
+                    else {
+                        $fieldCondition = array();
+                        foreach ($value as $part) {
+                            $part = $this->_prepareQueryText($part);
+                            $fieldCondition[] = $field .':'. strtolower($part);
+                        }
+                        $fieldCondition = '(' . implode(' OR ', $fieldCondition) . ')';
+                    }
+                }
+                else {
+                    $value = $this->_prepareQueryText($value);
+                    $fieldCondition = $field .':'. $value;
+                }
+
+                $solrQuery->addFilterQuery($fieldCondition);
+            }
+        }
+
+        /**
+         * Store filtering
+         */
+        if ($_params['store_id'] > 0) {
+            $solrQuery->addFilterQuery('store_id:' . $_params['store_id']);
+        }
+        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
+            $solrQuery->addFilterQuery('in_stock:true');
+        }
+
+        try {
+            $this->_client->ping();
+            $response = $this->_client->query($solrQuery);
+            $results = $this->_prepareQueryResponse($response->getResponse());
+
+            return $this->_prepareQueryResponse($response->getResponse());
+        }
+        catch (Exception $e) {
+            Mage::logException($e);
+        }
+    }
+
+    /**
+     * Simple Search suggestions interface
+     *
+     * @param string $query The raw query string
+     * @return boolean|string
+     */
+    public function _searchSuggestions($query, $params=array(), $limit=false, $withResultsCounts=false)
+    {
+         /**
+         * @see self::_search()
+         */
+        if ((int)('1' . str_replace('.', '', solr_get_version())) < 1099) {
+            $this->_connect();
+        }
+
+        $query = $this->_escapePhrase($query);
+
+        if (!$query) {
+            return false;
+        }
+        $_params = array();
+
+
+        $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
+        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+
+        $solrQuery = new SolrQuery($query);
+
+        /**
+         * Now supported search only in fulltext and name fields based on dismax requestHandler (named as magento_lng).
+         * Using dismax requestHandler for each language make matches in name field
+         * are much more significant than matches in fulltext field.
+         */
+
+        $_params['solr_params'] = array (
+            'spellcheck'                 => 'true',
+            'spellcheck.collate'         => 'true',
+            'spellcheck.dictionary'      => 'magento_spell' . $languageSuffix,
+            'spellcheck.extendedResults' => 'true'
+        );
+
+        /**
+         * Specific Solr params
+         */
+        if (!empty($_params['solr_params'])) {
+            foreach ($_params['solr_params'] as $name => $value) {
+                $solrQuery->setParam($name, $value);
+            }
+        }
+
+        $this->_client->setServlet(SolrClient::SEARCH_SERVLET_TYPE, 'spell');
+        /**
+         * Store filtering
+         */
+        if (!empty($params['store_id'])) {
+            $solrQuery->addFilterQuery('store_id:' . $params['store_id']);
+        }
+        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
+            $solrQuery->addFilterQuery('in_stock:true');
+        }
+
+        try {
+            $this->_client->ping();
+            $response = $this->_client->query($solrQuery);
+            $result = $this->_prepareSuggestionsQueryResponse($response->getResponse());
+            if ($limit) {
+                $result = array_slice($result, 0, $limit);
+            }
+            // Calc results count for each suggestion
+            if ($withResultsCounts) {
+                $tmp = $this->_lastNumFound; //Temporary store value for main search query
+                foreach ($result as $key => $item) {
+                    $this->search($item['word'], $params);
+                    $result[$key]['num_results'] = $this->_lastNumFound;
+                }
+                $this->_lastNumFound = $tmp; //Revert store value for main search query
+            }
+            return $result;
+        }
+        catch (Exception $e) {
+            Mage::logException($e);
+            return array();
+        }
+    }
+
+    /**
+     * Simple Search facets interface
+     *
+     * @param string $query The raw query string
+     * @return boolean|string
+     */
+    protected function _searchFacets($query, $params=array())
+    {
+        /**
+         * Hard code to prevent Solr bug:
+         * Bug #17009 Creating two SolrQuery objects leads to wrong query value
+         * @see http://pecl.php.net/bugs/bug.php?id=17009&edit=1
+         * @see http://svn.php.net/viewvc?view=revision&revision=293379
+         */
+        if ((int)('1' . str_replace('.', '', solr_get_version())) < 1099) {
+            $this->_connect();
+        }
+
+        $_params = $this->_defaultQueryParams;
+        if (is_array($params) && !empty($params)) {
+            $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
+        }
+
+
         $offset = (int)$_params['offset'];
         $limit  = (int)$_params['limit'];
 
@@ -243,13 +528,67 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         }
 
 
+        $_params['solr_params'] = array (
+            'facet'                      => 'on',
+            'qt'                         => 'magento' . $languageSuffix
+        );
+
+        if (isset($params['facet'])) {
+            if (empty($params['facet']['values'])) {
+                $_params['solr_params']['facet.field'] = $params['facet']['field'];
+            } else {
+                $_params['solr_params']['facet.query'] = array();
+                foreach ($params['facet']['values'] as $key => $value) {
+                    if (is_array($value) && isset($value['from']) && isset($value['to'])) {
+                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
+                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
+                        $fieldCondition = "{$params['facet']['field']}:[$from TO $to]";
+                    } else {
+                        $fieldCondition = "{$params['facet']['field']}:$value";
+                    }
+                    $_params['solr_params']['facet.query'][]= $fieldCondition;
+                }
+            }
+        }
 
         /**
          * Specific Solr params
          */
         if (!empty($_params['solr_params'])) {
             foreach ($_params['solr_params'] as $name => $value) {
-                $solrQuery->setParam($name, $value);
+                if (is_array($value)) {
+                    foreach ($value as $multiValue) {
+                        $solrQuery->addParam($name, $multiValue);
+                    }
+                } else {
+                    $solrQuery->addParam($name, $value);
+                }
+            }
+        }
+
+        if (!empty($params['filters'])) {
+            foreach ($params['filters'] as $field => $value) {
+                if (is_array($value)) {
+                    if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
+                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
+                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
+                        $fieldCondition = "$field:[$from TO $to]";
+                    }
+                    else {
+                        $fieldCondition = array();
+                        foreach ($value as $part) {
+                            $part = $this->_prepareQueryText($part);
+                            $fieldCondition[] = $field .':'. strtolower($part);
+                        }
+                        $fieldCondition = '(' . implode(' OR ', $fieldCondition) . ')';
+                    }
+                }
+                else {
+                    $value = $this->_prepareQueryText($value);
+                    $fieldCondition = $field .':'. $value;
+                }
+
+                $solrQuery->addFilterQuery($fieldCondition);
             }
         }
 
@@ -266,97 +605,16 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         try {
             $this->_client->ping();
             $response = $this->_client->query($solrQuery);
-            return $this->_prepareQueryResponse($response->getResponse());
-        }
-        catch (Exception $e) {
-            Mage::logException($e);
-        }
-    }
-
-    /**
-     * Simple Search suggestions interface
-     *
-     * @param string $query The raw query string
-     * @return boolean|string
-     */
-    public function _searchSuggestions($query, $params=array(), $limit=false, $withResultsCounts=false)
-    {
-         /**
-         * @see self::_search()
-         */
-        if ((int)('1' . str_replace('.', '', solr_get_version())) < 1099) {
-            $this->_connect();
-        }
-
-        $query = $this->_escapePhrase($query);
-
-        if (!$query) {
-            return false;
-        }
-        $_params = array();
-
-
-        $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
-        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
-
-        $solrQuery = new SolrQuery($query);
-
-        /**
-         * Now supported search only in fulltext and name fields based on dismax requestHandler (named as magento_lng).
-         * Using dismax requestHandler for each language make matches in name field
-         * are much more significant than matches in fulltext field.
-         */
-
-        $_params['solr_params'] = array (
-            'spellcheck'                 => 'true',
-            'spellcheck.collate'         => 'true',
-            'spellcheck.dictionary'      => 'magento_spell' . $languageSuffix,
-            'spellcheck.extendedResults' => 'true'
-        );
-
-        /**
-         * Specific Solr params
-         */
-        if (!empty($_params['solr_params'])) {
-            foreach ($_params['solr_params'] as $name => $value) {
-                $solrQuery->setParam($name, $value);
-            }
-        }
-
-        $this->_client->setServlet(SolrClient::SEARCH_SERVLET_TYPE, 'spell');
-        /**
-         * Store filtering
-         */
-        if (!empty($params['store_id'])) {
-            $solrQuery->addFilterQuery('store_id:' . $params['store_id']);
-        }
-        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
-            $solrQuery->addFilterQuery('in_stock:true');
-        }
-
-        try {
-            $this->_client->ping();
-            $response = $this->_client->query($solrQuery);
-            $result = $this->_prepareSuggestionsQueryResponse($response->getResponse());
-            if ($limit) {
-                $result = array_slice($result, 0, $limit);
-            }
-            // Calc results count for each suggestion
-            if ($withResultsCounts) {
-                $tmp = $this->_lastNumFound; //Temporary store value for main search query
-                foreach ($result as $key => $item) {
-                    $this->search($item['word'], $params);
-                    $result[$key]['num_results'] = $this->_lastNumFound;
-                }
-                $this->_lastNumFound = $tmp; //Revert store value for main search query
-            }
+            $result = $this->_prepareFacetsQueryResponse($response->getResponse());
             return $result;
         }
         catch (Exception $e) {
             Mage::logException($e);
-            return array();
         }
     }
+
+
+
 
     /**
      * Checks if Solr server is still up

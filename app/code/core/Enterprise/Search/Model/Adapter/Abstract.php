@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento Enterprise Edition
  *
@@ -59,6 +60,13 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      * @var int
      */
     protected $_lastNumFound = 0;
+
+    /**
+     * Search query filters
+     *
+     * @var array
+     */
+    protected $_filters = array();
 
     /**
      * Store common Solr metadata fields
@@ -376,6 +384,17 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     }
 
     /**
+     * Retrieve data from solr facet search
+     *
+     * @param string $query
+     * @param array $params
+     * @return array
+     */
+    public function getFacetsByQuery($query, $params = array()) {
+        return $this->_searchFacets($query, $params);
+    }
+
+    /**
      * Search documents in Solr index sorted by relevance
      *
      * @param string $query
@@ -513,6 +532,17 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     }
 
     /**
+     * Convert Solr Query Response found facets to array
+     *
+     * @param object $response
+     * @return array
+     */
+    protected function _prepareFacetsQueryResponse($response)
+    {
+        return  Mage::helper('enterprise_search')->facetObjectToArray($response->facet_counts);
+    }
+
+    /**
      * Callback function for sort search suggestions
      *
      * @param array $a
@@ -601,6 +631,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
         foreach ($data as $key => $value) {
+
             if (in_array($key, $this->_usedFields) && !in_array($key, $this->_searchTextFields)) {
                 continue;
             }
@@ -629,6 +660,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 if (is_array($value)) {
                     $value = implode(' ', array_unique($value));
                 }
+
                 $data[$key . $languageSuffix] = $value;
                 unset($data[$key]);
             }
@@ -754,5 +786,14 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     public function _phrase($value)
     {
         return '"' . $this->_escapePhrase($value) . '"';
+    }
+
+    /**
+     * Enter description here...
+     *
+     */
+    public function addFilter()
+    {
+
     }
 }

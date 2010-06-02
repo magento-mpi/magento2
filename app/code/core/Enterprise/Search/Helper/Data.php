@@ -24,6 +24,13 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+ /**
+ * Enterprise search helper
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Search
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_Search_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
     /**
@@ -40,7 +47,40 @@ class Enterprise_Search_Helper_Data extends Enterprise_Enterprise_Helper_Core_Ab
         if(is_object($object)){
             $object = get_object_vars($object);
         }
+
         return array_map(array($this, 'objectToArray'), $object);
+    }
+
+    /**
+     * Convert facet results object to an array
+     *
+     * @param object $object
+     * @return array
+     */
+    public function facetObjectToArray($object)
+    {
+        if(!is_object($object) && !is_array($object)){
+            return $object;
+        }
+
+        if(is_object($object)){
+            $object = get_object_vars($object);
+        }
+
+        $res = array();
+
+        foreach ($object['facet_fields'] as $attr => $val) {
+            foreach ($val as $key => $value) {
+                $res[$attr][$key] = $value;
+            }
+        }
+
+        foreach ($object['facet_queries'] as $attr => $val) {
+            $attrArray = explode(':', $attr);
+            $res[$attrArray[0]][$attrArray[1]] = $val;
+        }
+
+        return $res;
     }
 
     /**

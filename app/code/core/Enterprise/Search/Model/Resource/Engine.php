@@ -43,7 +43,7 @@ class Enterprise_Search_Model_Resource_Engine
 
     /**
      * Set search resource model
-     * 
+     *
      * @return string
      */
     public function getResourceName()
@@ -74,6 +74,17 @@ class Enterprise_Search_Model_Resource_Engine
     public function getSuggestionsByQuery($query, $params=array(), $limit=false, $withResultsCounts=false)
     {
         return $this->_adapter->getSuggestionsByQuery($query, $params, $limit, $withResultsCounts);
+    }
+
+    /**
+     * Retrieve search facets
+     *
+     * @param string $query
+     * @param array $params
+     */
+    public function getFacetsByQuery($query, $params=array())
+    {
+        return $this->_adapter->getFacetsByQuery($query, $params);
     }
 
     /**
@@ -110,7 +121,9 @@ class Enterprise_Search_Model_Resource_Engine
         foreach ($entityIndexes as $entityId => $indexData) {
             $entityIndexes[$entityId]['store_id'] = $storeId;
         }
+
         $docs = $this->_adapter->prepareDocs($entityIndexes, $localeCode);
+
         $this->_adapter->addDocs($docs);
         return $this;
     }
@@ -206,7 +219,8 @@ class Enterprise_Search_Model_Resource_Engine
      */
     public function isLeyeredNavigationAllowed()
     {
-        return false;
+        //return false;
+        return true;
     }
 
     /**

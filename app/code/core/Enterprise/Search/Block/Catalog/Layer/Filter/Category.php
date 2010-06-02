@@ -18,40 +18,28 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Mage
- * @package     Mage_CatalogSearch
+ * @category    Enterprise
+ * @package     Enterprise_Search
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Advanced Catalog Search resource model
+ * Catalog layer category filter
  *
- * @category    Mage
- * @package     Mage_CatalogSearch
+ * @category    Enterprise
+ * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Model_Resource_Advanced extends Enterprise_Search_Model_Resource_Abstract
+class Enterprise_Search_Block_Catalog_Layer_Filter_Category extends Mage_Catalog_Block_Layer_Filter_Abstract
 {
-    protected function _construct()
-    {
-
-    }
-
     /**
-     * Add filter by indexable attribute
+     * Set model name
      *
-     * @param Enterprise_Search_Model_Resource_Collection $collection
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @param string|array $value
-     *
-     * @return bool
      */
-    public function addIndexableAttributeFilter($collection, $attribute, $value)
+    public function __construct()
     {
-        $param = $this->_getSearchParam($collection, $attribute, $value);
-        $collection->addSearchParam($param);
-        return true;
+        parent::__construct();
+        $this->_filterModelName = 'enterprise_search/catalog_layer_filter_category';
     }
 }

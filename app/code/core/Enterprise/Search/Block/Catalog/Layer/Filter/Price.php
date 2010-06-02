@@ -18,40 +18,39 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Mage
- * @package     Mage_CatalogSearch
+ * @category    Enterprise
+ * @package     Enterprise_Search
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Advanced Catalog Search resource model
+ * Catalog layer price filter
  *
- * @category    Mage
- * @package     Mage_CatalogSearch
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Enterprise
+ * @package    Enterprise_Search
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Model_Resource_Advanced extends Enterprise_Search_Model_Resource_Abstract
+class Enterprise_Search_Block_Catalog_Layer_Filter_Price extends Mage_Catalog_Block_Layer_Filter_Abstract
 {
-    protected function _construct()
+    /**
+     * Initialize Price filter module
+     *
+     */
+    public function __construct()
     {
-
+        parent::__construct();
+        $this->_filterModelName = 'enterprise_search/catalog_layer_filter_price';
     }
 
     /**
-     * Add filter by indexable attribute
+     * Prepare filter process
      *
-     * @param Enterprise_Search_Model_Resource_Collection $collection
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @param string|array $value
-     *
-     * @return bool
+     * @return Mage_Catalog_Block_Layer_Filter_Price
      */
-    public function addIndexableAttributeFilter($collection, $attribute, $value)
+    protected function _prepareFilter()
     {
-        $param = $this->_getSearchParam($collection, $attribute, $value);
-        $collection->addSearchParam($param);
-        return true;
+        $this->_filter->setAttributeModel($this->getAttributeModel());
+        return $this;
     }
 }
