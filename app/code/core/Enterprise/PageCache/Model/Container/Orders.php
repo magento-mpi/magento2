@@ -25,47 +25,62 @@
  */
 
 /**
- * Cart sidebar container
+ * Orders container
  */
 class Enterprise_PageCache_Model_Container_Orders extends Enterprise_PageCache_Model_Container_Abstract
 {
     const CACHE_TAG_PREFIX = 'orders';
 
     /**
-     * Get cart hash from cookies
+     * Get identifier from cookies
+     *
+     * @return string
      */
-    protected function _getIdentificator()
+    protected function _getIdentifier()
     {
         return (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ?
-            $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER] : null;
+            $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER] : '';
     }
 
     /**
      * Get cache identifier
+     *
+     * @return string
      */
     protected function _getCacheId()
     {
-
-        return 'CONTAINER_ORDERS_'.md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentificator());
+        return 'CONTAINER_ORDERS_' . md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentifier());
     }
 
     /**
-     * Generate block content
-     * @param $content
+     * Render block content
+     *
+     * @return string
      */
-    public function applyInApp(&$content)
+    protected function _renderBlock()
     {
         $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
+
         $block = new $block;
         $block->setTemplate($template);
-        $blockContent = $block->toHtml();
+
+        return $block->toHtml();
+    }
+
+    /**
+     * Save rendered block content to cache storage
+     *
+     * @param string $blockContent
+     * @return Enterprise_PageCache_Model_Container_Abstract
+     */
+    public function saveCache($blockContent)
+    {
         $cacheId = $this->_getCacheId();
-        if ($cacheId) {
-            $cacheTag = md5(self::CACHE_TAG_PREFIX . $this->_getIdentificator());
+        if ($cacheId !== false) {
+            $cacheTag = md5(self::CACHE_TAG_PREFIX . $this->_getIdentifier());
             $this->_saveCache($blockContent, $cacheId, array($cacheTag));
         }
-        $this->_applyToContent($content, $blockContent);
-        return true;
+        return $this;
     }
 }

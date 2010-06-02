@@ -25,38 +25,37 @@
  */
 
 /**
- * Cart sidebar container
+ * Welcome container
  */
 class Enterprise_PageCache_Model_Container_Welcome extends Enterprise_PageCache_Model_Container_CustomerContainer
 {
     /**
-     * Get cart hash from cookies
+     * Get identifier from cookies
+     *
+     * @return string
      */
-    protected function _getIdentificator()
+    protected function _getIdentifier()
     {
         return (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ? '1' : '';
     }
 
     /**
      * Get cache identifier
+     *
+     * @return string
      */
     protected function _getCacheId()
     {
-        return 'CONTAINER_WELCOME_'.md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentificator());
+        return 'CONTAINER_WELCOME_' . md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentifier());
     }
 
     /**
-     * Generate block content
-     * @param $content
+     * Render block content
+     *
+     * @return string
      */
-    public function applyInApp(&$content)
+    protected function _renderBlock()
     {
-        $blockContent = Mage::app()->getLayout()->createBlock('page/html_header')->getWelcome();
-        $cacheId = $this->_getCacheId();
-        if ($cacheId) {
-            $this->_saveCache($blockContent, $cacheId);
-        }
-        $this->_applyToContent($content, $blockContent);
-        return true;
+        return Mage::app()->getLayout()->createBlock('page/html_header')->getWelcome();
     }
 }

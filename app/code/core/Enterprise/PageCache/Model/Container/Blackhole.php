@@ -29,15 +29,5 @@
  */
 class Enterprise_PageCache_Model_Container_Blackhole extends Enterprise_PageCache_Model_Container_Abstract
 {
-    /**
-     * Generate placeholder content before application was initialized and apply to page content if possible
-     *
-     * @param string $content
-     * @return bool
-     */
-    public function applyWithoutApp(&$content)
-    {
-        $this->_applyToContent($content, '');
-        return true;
-    }
+
 }

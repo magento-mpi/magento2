@@ -55,23 +55,18 @@ class Enterprise_PageCache_Model_Container_RecentlyComparedSidebar extends Enter
     }
 
     /**
-     * Generate block content
+     * Render block content
      *
-     * @param string $content
-     * @return bool
+     * @return string
      */
-    public function applyInApp(&$content)
+    protected function _renderBlock()
     {
         $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
+
         $block = new $block;
         $block->setTemplate($template);
-        $blockContent = $block->toHtml();
-        $cacheId = $this->_getCacheId();
-        if ($cacheId) {
-            $this->_saveCache($blockContent, $cacheId);
-        }
-        $this->_applyToContent($content, $blockContent);
-        return true;
+
+        return $block->toHtml();
     }
 }

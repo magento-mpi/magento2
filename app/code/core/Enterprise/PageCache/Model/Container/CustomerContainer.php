@@ -25,9 +25,9 @@
  */
 
 /**
- * Abstract placeholder container
+ * Container for cache lifetime equated with session lifetime
  */
- class Enterprise_PageCache_Model_Container_CustomerContainer extends Enterprise_PageCache_Model_Container_Abstract
+class Enterprise_PageCache_Model_Container_CustomerContainer extends Enterprise_PageCache_Model_Container_Abstract
 {
     /**
      * Save data to cache storage and set cache lifetime equal with customer session lifetime

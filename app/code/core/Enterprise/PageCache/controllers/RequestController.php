@@ -30,16 +30,16 @@ class Enterprise_PageCache_RequestController extends Enterprise_Enterprise_Contr
      */
     public function processAction()
     {
+        $processor  = Mage::getSingleton('enterprise_pagecache/processor');
         $content    = Mage::registry('cached_page_content');
         $containers = Mage::registry('cached_page_containers');
-        if (!empty($containers)) {
-            foreach ($containers as $container) {
-                $container->applyInApp($content);
-            }
-            $this->getResponse()->appendBody($content);
+        foreach ($containers as $container) {
+            $container->applyInApp($content);
         }
+        $this->getResponse()->appendBody($content);
         // save session cookie lifetime info
-        $sessionInfo = Mage::app()->loadCache(Enterprise_PageCache_Model_Processor::SESSION_INFO_CACHE_ID);
+        $cacheId = $processor->getSessionInfoCacheId();
+        $sessionInfo = Mage::app()->loadCache($cacheId);
         if ($sessionInfo) {
             $sessionInfo = unserialize($sessionInfo);
         } else {
@@ -51,8 +51,7 @@ class Enterprise_PageCache_RequestController extends Enterprise_Enterprise_Contr
         if (!isset($sessionInfo[$cookieName]) || $sessionInfo[$cookieName] != $cookieLifetime) {
             $sessionInfo[$cookieName] = $cookieLifetime;
             $sessionInfo = serialize($sessionInfo);
-            Mage::app()->saveCache($sessionInfo, Enterprise_PageCache_Model_Processor::SESSION_INFO_CACHE_ID,
-                array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
+            Mage::app()->saveCache($sessionInfo, $cacheId, array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
         }
     }
 }

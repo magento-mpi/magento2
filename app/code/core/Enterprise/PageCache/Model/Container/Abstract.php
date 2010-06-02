@@ -31,6 +31,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
 {
     /**
      * Placeholder instance
+     *
      * @var Enterprise_PageCache_Model_Container_Placeholder
      */
     protected $_placeholder;
@@ -47,6 +48,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
 
     /**
      * Get container individual cache id
+     *
      * @return string | false
      */
     protected function _getCacheId()
@@ -71,6 +73,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
                 return false;
             }
         }
+        $this->_applyToContent($content, '');
         return true;
     }
 
@@ -81,6 +84,37 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
      * @return bool
      */
     public function applyInApp(&$content)
+    {
+        $blockContent = $this->_renderBlock();
+        if ($blockContent !== false) {
+            $this->_applyToContent($content, $blockContent);
+            $this->saveCache($blockContent);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Save rendered block content to cache storage
+     *
+     * @param string $blockContent
+     * @return Enterprise_PageCache_Model_Container_Abstract
+     */
+    public function saveCache($blockContent)
+    {
+        $cacheId = $this->_getCacheId();
+        if ($cacheId !== false) {
+            $this->_saveCache($blockContent, $cacheId);
+        }
+        return $this;
+    }
+
+    /**
+     * Render block content from placeholder
+     *
+     * @return string|false
+     */
+    protected function _renderBlock()
     {
         return false;
     }
@@ -99,6 +133,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
 
     /**
      * Load cached data by cache id
+     *
      * @param string $id
      * @return string | false
      */
@@ -109,6 +144,7 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
 
     /**
      * Save data to cache storage
+     *
      * @param string $data
      * @param string $id
      * @param array $tags

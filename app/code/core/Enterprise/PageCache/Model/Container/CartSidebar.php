@@ -57,25 +57,35 @@ class Enterprise_PageCache_Model_Container_CartSidebar extends Enterprise_PageCa
     }
 
     /**
-     * Generate block content
+     * Render block content
      *
-     * @param string $content
-     * @return bool
+     * @return string
      */
-    public function applyInApp(&$content)
+    protected function _renderBlock()
     {
         $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
+
         $block = new $block;
         $block->setTemplate($template);
         $block->setLayout(Mage::app()->getLayout());
-        $blockContent = $block->toHtml();
+
+        return $block->toHtml();
+    }
+
+    /**
+     * Save rendered block content to cache storage
+     *
+     * @param string $blockContent
+     * @return Enterprise_PageCache_Model_Container_Abstract
+     */
+    public function saveCache($blockContent)
+    {
         $cacheId = $this->_getCacheId();
-        if ($cacheId) {
+        if ($cacheId !== false) {
             $cacheTag = md5(self::CACHE_TAG_PREFIX . $this->_getIdentifier());
             $this->_saveCache($blockContent, $cacheId, array($cacheTag));
         }
-        $this->_applyToContent($content, $blockContent);
-        return true;
+        return $this;
     }
 }

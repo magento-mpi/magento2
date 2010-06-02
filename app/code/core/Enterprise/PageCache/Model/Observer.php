@@ -38,7 +38,7 @@ class Enterprise_PageCache_Model_Observer
      */
     public function __construct()
     {
-        $this->_processor = Mage::getModel('enterprise_pagecache/processor');
+        $this->_processor = Mage::getSingleton('enterprise_pagecache/processor');
         $this->_config    = Mage::getSingleton('enterprise_pagecache/config');
         $this->_isEnabled = Mage::app()->useCache('full_page');
     }

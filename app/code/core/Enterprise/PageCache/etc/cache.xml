@@ -9,6 +9,7 @@
         </last_viewed_products>
         <catalog_navigation>
             <block>catalog/navigation</block>
+            <name>catalog.topnav</name>
             <placeholder>CATALOG_NAVIGATION</placeholder>
             <container>Enterprise_PageCache_Model_Container_Catalognavigation</container>
             <cache_lifetime>86400</cache_lifetime>

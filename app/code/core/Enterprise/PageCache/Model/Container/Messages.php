@@ -53,10 +53,25 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
     }
 
     /**
-     * Generate block content
-     * @param $content
+     * Redirect to content processing on new message
+     *
+     * @param string $content
+     * @return bool
      */
-    public function applyInApp(&$content)
+    public function applyWithoutApp(&$content)
+    {
+        if ($this->_isNewMessageRecived()) {
+            return false;
+        }
+        return parent::applyWithoutApp($content);
+    }
+
+    /**
+     * Render block content
+     *
+     * @return string
+     */
+    protected function _renderBlock()
     {
         Mage::getSingleton('core/cookie')->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
 
@@ -66,21 +81,7 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
             $this->_addMessagesToBlock($type, $block);
         }
 
-        $blockContent = $block->toHtml();
-
-        $this->_applyToContent($content, $blockContent);
-        return true;
-    }
-
-    /**
-     * Redirect to content processing on new message
-     *
-     * @param string $content
-     * @return bool
-     */
-    public function applyWithoutApp(&$content)
-    {
-        return ($this->_isNewMessageRecived()) ? false : true;
+        return $block->toHtml();
     }
 
     /**

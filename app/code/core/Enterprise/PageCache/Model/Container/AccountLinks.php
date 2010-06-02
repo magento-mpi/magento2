@@ -25,7 +25,7 @@
  */
 
 /**
- * Cart sidebar container
+ * Account links container
  */
 class Enterprise_PageCache_Model_Container_AccountLinks extends Enterprise_PageCache_Model_Container_CustomerContainer
 {
@@ -39,18 +39,21 @@ class Enterprise_PageCache_Model_Container_AccountLinks extends Enterprise_PageC
 
     /**
      * Get cache identifier
+     *
+     * @return string
      */
     protected function _getCacheId()
     {
-        return 'CONTAINER_LINKS_'.md5($this->_placeholder->getAttribute('cache_id') .
+        return 'CONTAINER_LINKS_' . md5($this->_placeholder->getAttribute('cache_id') .
             (($this->_isLogged()) ? 'logged' : 'not_logged'));
     }
 
     /**
-     * Generate block content
-     * @param $content
+     * Render block content
+     *
+     * @return string
      */
-    public function applyInApp(&$content)
+    protected function _renderBlock()
     {
         $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
@@ -69,13 +72,6 @@ class Enterprise_PageCache_Model_Container_AccountLinks extends Enterprise_PageC
             }
         }
 
-        $blockContent = $block->toHtml();
-
-        $cacheId = $this->_getCacheId();
-        if ($cacheId) {
-            $this->_saveCache($blockContent, $cacheId);
-        }
-        $this->_applyToContent($content, $blockContent);
-        return true;
+        return $block->toHtml();
     }
 }

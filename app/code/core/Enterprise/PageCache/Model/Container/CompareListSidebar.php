@@ -53,22 +53,17 @@ class Enterprise_PageCache_Model_Container_CompareListSidebar extends Enterprise
     }
 
     /**
-     * Generate block content
+     * Render block content
      *
-     * @param string $content
-     * @return bool
+     * @return string
      */
-    public function applyInApp(&$content)
+    protected function _renderBlock()
     {
         $template = $this->_placeholder->getAttribute('template');
+
         $block = Mage::app()->getLayout()->createBlock('catalog/product_compare_list');
         $block->setTemplate($template);
-        $blockContent = $block->toHtml();
-        $cacheId = $this->_getCacheId();
-        if ($cacheId) {
-            $this->_saveCache($blockContent, $cacheId);
-        }
-        $this->_applyToContent($content, $blockContent);
-        return true;
+
+        return $block->toHtml();
     }
 }

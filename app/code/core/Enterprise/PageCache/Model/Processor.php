@@ -33,7 +33,6 @@ class Enterprise_PageCache_Model_Processor
     const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
     const REQUEST_ID_PREFIX             = 'REQEST_';
     const CACHE_TAG                     = 'FPC';  // Full Page Cache, minimize
-    const SESSION_INFO_CACHE_ID         = 'full_page_cache_session_info';
 
     /**
      * @deprecated after 1.8.0.0 - moved to Enterprise_PageCache_Model_Container_Viewedproducts
@@ -188,6 +187,17 @@ class Enterprise_PageCache_Model_Processor
     }
 
     /**
+     * Retrieve session info cache identifier
+     *
+     * @return string
+     */
+    public function getSessionInfoCacheId()
+    {
+        $cookieName = Mage_Core_Model_Store::COOKIE_NAME;
+        return 'full_page_cache_session_info' . (isset($_COOKIE[$cookieName]) ? '_' . $_COOKIE[$cookieName] : '');
+    }
+
+    /**
      * Determine and process all defined containers.
      * Direct request to pagecache/request/process action if necessary for additional processing
      *
@@ -214,17 +224,20 @@ class Enterprise_PageCache_Model_Processor
                 $containers[] = $container;
             }
         }
-        if (empty($containers)) {
-            // renew session cookie
-            $sessionInfo = Mage::app()->loadCache(self::SESSION_INFO_CACHE_ID);
-            if ($sessionInfo) {
-                $sessionInfo = unserialize($sessionInfo);
-                foreach ($sessionInfo as $cookieName => $cookieLifetime) {
-                    if (isset($_COOKIE[$cookieName]) && $cookieLifetime) {
-                        setcookie($cookieName, $_COOKIE[$cookieName], time() + $cookieLifetime);
-                    }
+        $isProcessed = empty($containers);
+        // renew session cookie
+        $sessionInfo = Mage::app()->loadCache($this->getSessionInfoCacheId());
+        if ($sessionInfo) {
+            $sessionInfo = unserialize($sessionInfo);
+            foreach ($sessionInfo as $cookieName => $cookieLifetime) {
+                if (isset($_COOKIE[$cookieName]) && $cookieLifetime) {
+                    setcookie($cookieName, $_COOKIE[$cookieName], time() + $cookieLifetime);
                 }
             }
+        } else {
+            $isProcessed = false;
+        }
+        if ($isProcessed) {
             return $content;
         } else {
             Mage::register('cached_page_content', $content);

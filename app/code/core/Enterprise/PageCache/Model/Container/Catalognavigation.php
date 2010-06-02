@@ -25,23 +25,10 @@
  */
 
 /**
- * Placeholder container for catalog navigation block
+ * Placeholder container for catalog top navigation block
  */
 class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_PageCache_Model_Container_Abstract
 {
-    /**
-     * Get container individual cache id
-     *
-     * @return string | false
-     */
-    protected function _getCacheId()
-    {
-        if ($this->_placeholder->getAttribute('name') === 'catalog.topnav') {
-            return false;
-        }
-        return $this->_placeholder->getAttribute('cache_id');
-    }
-
     /**
      * @return string
      */
@@ -71,9 +58,6 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
      */
     public function applyWithoutApp(&$content)
     {
-        if ($this->_getCacheId()) {
-            return parent::applyWithoutApp($content);
-        }
         $blockCacheId = $this->_getBlockCacheId();
         $categoryCacheId = $this->_getCategoryCacheId();
         if ($blockCacheId && $categoryCacheId) {
@@ -95,37 +79,13 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
     }
 
     /**
-     * Generate block content
+     * Save rendered block content to cache storage
      *
-     * @param $content
+     * @param string $blockContent
+     * @return Enterprise_PageCache_Model_Container_Abstract
      */
-    public function applyInApp(&$content)
+    public function saveCache($blockContent)
     {
-        $block = $this->_placeholder->getAttribute('block');
-        $template = $this->_placeholder->getAttribute('template');
-        $categoryPath = $this->_placeholder->getAttribute('category_path');
-
-        /** @var Mage_Catalog_Block_Product_Price $block */
-        $block = new $block;
-        $block->setTemplate($template);
-
-        if ($categoryPath) {
-            $categoryPath = explode('/', $categoryPath);
-            $categoryId = end($categoryPath);
-            if (!Mage::registry('current_category')) {
-                $category = Mage::getModel('catalog/category')->load($categoryId);
-                Mage::register('current_category', $category);
-            }
-        }
-
-        $blockContent = $block->toHtml();
-        $this->_applyToContent($content, $blockContent);
-
-        if ($cacheId = $this->_getCacheId()) {
-            $this->_saveCache($blockContent, $cacheId);
-            return true;
-        }
-
         $blockCacheId = $this->_getBlockCacheId();
         if ($blockCacheId) {
             $categoryCacheId = $this->_getCategoryCacheId();
@@ -149,7 +109,33 @@ class Enterprise_PageCache_Model_Container_Catalognavigation extends Enterprise_
                 $this->_saveCache($blockContent, $blockCacheId);
             }
         }
+        return $this;
+    }
 
-        return true;
+    /**
+     * Render block content
+     *
+     * @return string
+     */
+    protected function _renderBlock()
+    {
+        $block = $this->_placeholder->getAttribute('block');
+        $template = $this->_placeholder->getAttribute('template');
+        $categoryPath = $this->_placeholder->getAttribute('category_path');
+
+        /** @var Mage_Catalog_Block_Product_Price $block */
+        $block = new $block;
+        $block->setTemplate($template);
+
+        if ($categoryPath) {
+            $categoryPath = explode('/', $categoryPath);
+            $categoryId = end($categoryPath);
+            if (!Mage::registry('current_category')) {
+                $category = Mage::getModel('catalog/category')->load($categoryId);
+                Mage::register('current_category', $category);
+            }
+        }
+
+        return $block->toHtml();
     }
 }

@@ -27,6 +27,11 @@
 class Enterprise_PageCache_Model_Processor_Default
 {
     /**
+     * @var Enterprise_PageCache_Model_Container_Placeholder
+     */
+    private $_placeholder;
+
+    /**
      * Get request uri based on HTTP request uri and visitor session state
      *
      * @param Enterprise_PageCache_Model_Processor $processor
@@ -40,6 +45,7 @@ class Enterprise_PageCache_Model_Processor_Default
 
     /**
      * Check if request can be cached
+     *
      * @param Zend_Controller_Request_Http $request
      * @return bool
      */
@@ -59,22 +65,46 @@ class Enterprise_PageCache_Model_Processor_Default
      */
     public function prepareContent(Zend_Controller_Response_Http $response)
     {
-        $start = microtime(true);
         $content = $response->getBody();
-        $containers = array();
+        $placeholders = array();
         preg_match_all(
             Enterprise_PageCache_Model_Container_Placeholder::HTML_NAME_PATTERN,
             $content,
-            $containers,
+            $placeholders,
             PREG_PATTERN_ORDER
         );
-        $containers = array_unique($containers[1]);
-        foreach ($containers as $container) {
-            $placeholder= Mage::getModel('enterprise_pagecache/container_placeholder', $container);
-            $pattern    = $placeholder->getPattern();
-            $replacer   = $placeholder->getReplacer();
-            $content = preg_replace($pattern, $replacer, $content);
+        $placeholders = array_unique($placeholders[1]);
+        try {
+            foreach ($placeholders as $definition) {
+                $this->_placeholder = Mage::getModel('enterprise_pagecache/container_placeholder', $definition);
+                $content = preg_replace_callback($this->_placeholder->getPattern(), array($this, '_getPlaceholderReplacer'), $content);
+            }
+            $this->_placeholder = null;
+        } catch (Exception $e) {
+            $this->_placeholder = null;
+            throw $e;
         }
         return $content;
+    }
+
+    /**
+     * Retrieve placeholder replacer
+     *
+     * @param array $matches Matches by preg_replace_callback
+     * @return string
+     */
+    protected function _getPlaceholderReplacer($matches)
+    {
+        $container = $this->_placeholder->getContainerClass();
+        /**
+         * In developer mode blocks will be rendered separately
+         * This should simplify debugging _renderBlock()
+         */
+        if ($container && !Mage::getIsDeveloperMode()) {
+            $container = new $container($this->_placeholder);
+            $blockContent = $matches[1];
+            $container->saveCache($blockContent);
+        }
+        return $this->_placeholder->getReplacer();
     }
 }
