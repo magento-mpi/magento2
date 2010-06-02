@@ -99,7 +99,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             if (!is_array($result['message'])) {
                 $result['message'] = array($result['message']);
             }
-            $this->_message(htmlspecialchars(implode('. ', $result['message'])), self::MESSAGE_STATUS_ERROR);
+            $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -126,13 +126,23 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         $data = $this->getRequest()->getPost('shipping_method', '');
         $result = $this->_checkout->saveShippingMethod($data);
         if (!isset($result['error'])) {
-            $this->_message($this->__('Shipping method was successfully set.'), self::MESSAGE_STATUS_SUCCESS);
+            $message = new Varien_Simplexml_Element('<message></message>');
+            $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
+            $message->addChild('text', $this->__('Shipping method was successfully set.'));
+            if ($this->_getQuote()->isVirtual()) {
+                $quoteAddress = $this->_getQuote()->getBillingAddress();
+            }
+            else {
+                $quoteAddress = $this->_getQuote()->getShippingAddress();
+            }
+            $message->addChild('tax_amount', sprintf('%01.2f', $quoteAddress->getBaseTaxAmount()));
+            $this->getResponse()->setBody($message->asNiceXml());
         }
         else {
             if (!is_array($result['message'])) {
                 $result['message'] = array($result['message']);
             }
-            $this->_message(htmlspecialchars(implode('. ', $result['message'])), self::MESSAGE_STATUS_ERROR);
+            $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
         }
     }
 

@@ -119,7 +119,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             if (!is_array($result['message'])) {
                 $result['message'] = array($result['message']);
             }
-            $this->_message(htmlspecialchars(implode('. ', $result['message'])), self::MESSAGE_STATUS_ERROR);
+            $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -152,7 +152,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             if (!is_array($result['message'])) {
                 $result['message'] = array($result['message']);
             }
-            $this->_message(htmlspecialchars(implode('. ', $result['message'])), self::MESSAGE_STATUS_ERROR);
+            $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -187,7 +187,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
                 $result['message'] = array($result['message']);
             }
             Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array('request'=>$this->getRequest(), 'quote'=>$this->getOnepage()->getQuote()));
-            $this->_message(htmlspecialchars(implode('. ', $result['message'])), self::MESSAGE_STATUS_ERROR);
+            $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -227,7 +227,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             Mage::logException($e);
             $result['error'] = $this->__('Unable to set Payment Method.');
         }
-        $this->_message(htmlspecialchars($result['error']), self::MESSAGE_STATUS_ERROR);
+        $this->_message($result['error'], self::MESSAGE_STATUS_ERROR);
     }
 
     /**
@@ -255,7 +255,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 if ($diff = array_diff($requiredAgreements, $postedAgreements)) {
                     $error = $this->__('Please agree to all the terms and conditions before placing the order.');
-                    $this->_message(htmlspecialchars($error), self::MESSAGE_STATUS_ERROR);
+                    $this->_message($error, self::MESSAGE_STATUS_ERROR);
                     return;
                 }
             }
@@ -292,6 +292,6 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             $this->getOnepage()->getQuote()->save();
         }
 
-        $this->_message(htmlspecialchars($error), self::MESSAGE_STATUS_ERROR);
+        $this->_message($error, self::MESSAGE_STATUS_ERROR);
     }
 }

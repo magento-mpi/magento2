@@ -126,7 +126,7 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Core_Block_Templa
     </fieldset>
     <fieldset legend="Address">
         <field name="street[]" type="text" label="{$helper->__('Street Address')}" required="true" value="$street1" />
-        <field name="street[]" type="text" value="$street2" />
+        <field name="street[]" type="text" label="{$helper->__('Street Address 2')}" value="$street2" />
         <field name="city" type="text" label="{$helper->__('City')}" required="true" value="$city" />
         <field name="region" type="text" label="{$helper->__('State/Province')}" value="$region" />
         <field name="region_id" type="select" label="{$helper->__('State/Province')}" required="true" />
