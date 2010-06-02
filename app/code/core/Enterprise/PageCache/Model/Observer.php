@@ -191,7 +191,6 @@ class Enterprise_PageCache_Model_Observer
         $object = Mage::getModel('enterprise_pagecache/validator')->checkDataDelete($object);
     }
 
-
     /**
      * Clean full page cache
      */
@@ -263,10 +262,10 @@ class Enterprise_PageCache_Model_Observer
         /** @var Mage_Sales_Model_Quote */
         $quote = ($observer->getEvent()->getQuote()) ? $observer->getEvent()->getQuote() :
             $observer->getEvent()->getQuoteItem()->getQuote();
-        $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Container_CartSidebar::COOKIE, 'quote_' . $quote->getId());
+        $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_CART, 'quote_' . $quote->getId());
 
         $cacheTag = md5(Enterprise_PageCache_Model_Container_CartSidebar::CACHE_TAG_PREFIX
-            . $this->_getCookie()->get(Enterprise_PageCache_Model_Container_CartSidebar::COOKIE));
+            . $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CART));
         Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($cacheTag));
 
         return $this;
@@ -284,7 +283,7 @@ class Enterprise_PageCache_Model_Observer
         }
 
         $listItems = Mage::helper('catalog/product_compare')->getItemCollection();
-        $previouseList = $this->_getCookie()->get(Enterprise_PageCache_Model_Container_CompareListSidebar::COOKIE);
+        $previouseList = $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
         $previouseList = (empty($previouseList)) ? array() : explode(',', $previouseList);
 
         $ids = array();
@@ -292,11 +291,11 @@ class Enterprise_PageCache_Model_Observer
             $ids[] = $item->getId();
         }
         sort($ids);
-        $this->_getCookie()->set(Enterprise_PageCache_Model_Container_CompareListSidebar::COOKIE, implode(',', $ids));
+        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST, implode(',', $ids));
 
         //Recenlty compared products processing
         $recentlyComparedProducts = $this->_getCookie()
-            ->get(Enterprise_PageCache_Model_Container_RecentlyComparedSidebar::COOKIE);
+            ->get(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED);
         $recentlyComparedProducts = (empty($recentlyComparedProducts)) ? array()
             : explode(',', $recentlyComparedProducts);
 
@@ -311,7 +310,7 @@ class Enterprise_PageCache_Model_Observer
         $recentlyComparedProducts = array_unique($recentlyComparedProducts);
         sort($recentlyComparedProducts);
 
-        $this->_getCookie()->set(Enterprise_PageCache_Model_Container_RecentlyComparedSidebar::COOKIE,
+        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED,
             implode(',', $recentlyComparedProducts));
 
        return $this;
@@ -327,7 +326,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_getCookie()->set(Enterprise_PageCache_Model_Container_Messages::COOKIE, '1');
+        $this->_getCookie()->set(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE, '1');
         return $this;
     }
 
@@ -377,10 +376,10 @@ class Enterprise_PageCache_Model_Observer
         }
 
         // Wishlist sidebar hash
-        $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Container_Wishlist::COOKIE, $cookieValue);
+        $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST, $cookieValue);
 
         // Wishlist items count hash for top link
-        $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Container_WishlistLinks::COOKIE,
+        $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST_ITEMS,
             'wishlist_item_count_' . Mage::helper('wishlist')->getItemCount());
 
         return $this;

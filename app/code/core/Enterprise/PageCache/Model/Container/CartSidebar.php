@@ -29,31 +29,38 @@
  */
 class Enterprise_PageCache_Model_Container_CartSidebar extends Enterprise_PageCache_Model_Container_Abstract
 {
-    const COOKIE = 'CART';
     const CACHE_TAG_PREFIX = 'cartsidebar';
 
     /**
-     * Get cart hash from cookies
+     * Get identifier from cookies
+     *
+     * @return string
      */
-    protected function _getIdentificator()
+    protected function _getIdentifier()
     {
         $result = '';
-        $result .= (isset($_COOKIE[self::COOKIE])) ? $_COOKIE[self::COOKIE] : '';
+        if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CART])) {
+            $result .= $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CART];
+        }
         $result .= (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ? '1' : '';
         return $result;
     }
 
     /**
      * Get cache identifier
+     *
+     * @return string
      */
     protected function _getCacheId()
     {
-        return 'CONTAINER_SIDEBAR_' . md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentificator());
+        return 'CONTAINER_SIDEBAR_' . md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentifier());
     }
 
     /**
      * Generate block content
-     * @param $content
+     *
+     * @param string $content
+     * @return bool
      */
     public function applyInApp(&$content)
     {
@@ -65,7 +72,7 @@ class Enterprise_PageCache_Model_Container_CartSidebar extends Enterprise_PageCa
         $blockContent = $block->toHtml();
         $cacheId = $this->_getCacheId();
         if ($cacheId) {
-            $cacheTag = md5(self::CACHE_TAG_PREFIX . $this->_getIdentificator());
+            $cacheTag = md5(self::CACHE_TAG_PREFIX . $this->_getIdentifier());
             $this->_saveCache($blockContent, $cacheId, array($cacheTag));
         }
         $this->_applyToContent($content, $blockContent);

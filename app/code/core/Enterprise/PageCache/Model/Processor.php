@@ -33,6 +33,7 @@ class Enterprise_PageCache_Model_Processor
     const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
     const REQUEST_ID_PREFIX             = 'REQEST_';
     const CACHE_TAG                     = 'FPC';  // Full Page Cache, minimize
+    const SESSION_INFO_CACHE_ID         = 'full_page_cache_session_info';
 
     /**
      * @deprecated after 1.8.0.0 - moved to Enterprise_PageCache_Model_Container_Viewedproducts
@@ -214,6 +215,16 @@ class Enterprise_PageCache_Model_Processor
             }
         }
         if (empty($containers)) {
+            // renew session cookie
+            $sessionInfo = Mage::app()->loadCache(self::SESSION_INFO_CACHE_ID);
+            if ($sessionInfo) {
+                $sessionInfo = unserialize($sessionInfo);
+                foreach ($sessionInfo as $cookieName => $cookieLifetime) {
+                    if (isset($_COOKIE[$cookieName]) && $cookieLifetime) {
+                        setcookie($cookieName, $_COOKIE[$cookieName], time() + $cookieLifetime);
+                    }
+                }
+            }
             return $content;
         } else {
             Mage::register('cached_page_content', $content);

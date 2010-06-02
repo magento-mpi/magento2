@@ -38,5 +38,21 @@ class Enterprise_PageCache_RequestController extends Enterprise_Enterprise_Contr
             }
             $this->getResponse()->appendBody($content);
         }
+        // save session cookie lifetime info
+        $sessionInfo = Mage::app()->loadCache(Enterprise_PageCache_Model_Processor::SESSION_INFO_CACHE_ID);
+        if ($sessionInfo) {
+            $sessionInfo = unserialize($sessionInfo);
+        } else {
+            $sessionInfo = array();
+        }
+        $session = Mage::getSingleton('core/session');
+        $cookieName = $session->getSessionName();
+        $cookieLifetime = $session->getCookieLifetime();
+        if (!isset($sessionInfo[$cookieName]) || $sessionInfo[$cookieName] != $cookieLifetime) {
+            $sessionInfo[$cookieName] = $cookieLifetime;
+            $sessionInfo = serialize($sessionInfo);
+            Mage::app()->saveCache($sessionInfo, Enterprise_PageCache_Model_Processor::SESSION_INFO_CACHE_ID,
+                array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
+        }
     }
 }

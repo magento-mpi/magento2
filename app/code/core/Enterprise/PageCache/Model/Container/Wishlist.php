@@ -25,18 +25,21 @@
  */
 
 /**
- * Cart sidebar container
+ * Wishlist sidebar container
  */
 class Enterprise_PageCache_Model_Container_Wishlist extends Enterprise_PageCache_Model_Container_Abstract
 {
-    const COOKIE = 'WISHLIST';
     /**
-     * Get cart hash from cookies
+     * Get identifier from cookies
+     *
+     * @return string
      */
-    protected function _getIdentificator()
+    protected function _getIdentifier()
     {
         $result = '';
-        $result .= (isset($_COOKIE[self::COOKIE])) ? $_COOKIE[self::COOKIE] : '';
+        if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST])) {
+            $result .= $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST];
+        }
         if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP])) {
             $result .= $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP];
         }
@@ -45,14 +48,19 @@ class Enterprise_PageCache_Model_Container_Wishlist extends Enterprise_PageCache
 
     /**
      * Get cache identifier
+     *
+     * @return string
      */
     protected function _getCacheId()
     {
-        return 'CONTAINER_WISHLIST_'.md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentificator());
+        return 'CONTAINER_WISHLIST_' . md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentifier());
     }
+
     /**
      * Generate block content
-     * @param $content
+     *
+     * @param string $content
+     * @return bool
      */
     public function applyInApp(&$content)
     {

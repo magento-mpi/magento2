@@ -30,13 +30,17 @@
 class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache_Model_Container_Abstract
 {
     /**
-     * New message flag cookie name
+     * Message store factory names
      *
-     * @var string
+     * @var array
      */
-    const COOKIE = 'NEWMESSAGE';
-
-    protected $_messageStoreTypes = array('catalog/session', 'checkout/session', 'tag/session');
+    protected $_messageStoreTypes = array(
+        'core/session',
+        'customer/session',
+        'catalog/session',
+        'checkout/session',
+        'tag/session'
+    );
 
     /**
      * Check for new messages. New message flag will be reseted if needed.
@@ -45,15 +49,16 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
      */
     protected function _isNewMessageRecived()
     {
-        return (isset($_COOKIE[self::COOKIE])) ? true : false;
+        return (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE])) ? true : false;
     }
+
     /**
      * Generate block content
      * @param $content
      */
     public function applyInApp(&$content)
     {
-        Mage::getSingleton('core/cookie')->delete(self::COOKIE);
+        Mage::getSingleton('core/cookie')->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
 
         $block = Mage::app()->getLayout()->getMessagesBlock();
 

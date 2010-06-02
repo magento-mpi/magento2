@@ -25,29 +25,38 @@
  */
 
 /**
- * Cart sidebar container
+ * Compare list sidebar container
  */
 class Enterprise_PageCache_Model_Container_CompareListSidebar extends Enterprise_PageCache_Model_Container_Abstract
 {
-    const COOKIE = 'COMPARE';
     /**
-     * Get cart hash from cookies
+     * Get identifier from cookies
+     *
+     * @return string
      */
-    protected function _getIdentificator()
+    protected function _getIdentifier()
     {
-        return (isset($_COOKIE[self::COOKIE])) ? $_COOKIE[self::COOKIE] : '';
+        if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST])) {
+            return $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST];
+        }
+        return '';
     }
 
     /**
      * Get cache identifier
+     *
+     * @return string
      */
     protected function _getCacheId()
     {
-        return 'CONTAINER_COMPARELIST_'.md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentificator());
+        return 'CONTAINER_COMPARELIST_' . md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentifier());
     }
+
     /**
      * Generate block content
-     * @param $content
+     *
+     * @param string $content
+     * @return bool
      */
     public function applyInApp(&$content)
     {

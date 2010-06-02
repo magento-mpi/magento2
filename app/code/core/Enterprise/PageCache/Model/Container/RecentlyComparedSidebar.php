@@ -25,34 +25,40 @@
  */
 
 /**
- * Cart sidebar container
+ * Recently compared sidebar container
  */
 class Enterprise_PageCache_Model_Container_RecentlyComparedSidebar extends Enterprise_PageCache_Model_Container_Abstract
 {
-    const COOKIE = 'RECENTLYCOMPARED';
-
     /**
-     * Get cart hash from cookies
+     * Get identifier from cookies
+     *
+     * @return string
      */
-    protected function _getIdentificator()
+    protected function _getIdentifier()
     {
         $result = '';
-        $result .= (isset($_COOKIE[self::COOKIE])) ? $_COOKIE[self::COOKIE] : '';
+        if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED])) {
+            $result .= $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED];
+        }
         $result .= (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ? '1' : '';
         return $result;
     }
 
     /**
      * Get cache identifier
+     *
+     * @return string
      */
     protected function _getCacheId()
     {
-        return 'CONTAINER_RECENTLYCOMPARED_'.md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentificator());
+        return 'CONTAINER_RECENTLYCOMPARED_' . md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentifier());
     }
 
     /**
      * Generate block content
-     * @param $content
+     *
+     * @param string $content
+     * @return bool
      */
     public function applyInApp(&$content)
     {
