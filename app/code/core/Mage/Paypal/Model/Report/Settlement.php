@@ -25,23 +25,37 @@
  */
 
 /*
+ * Paypal Settlement Report model
  *
- * Paypal Settlement Report — writing side.
- *
- * This class allows interface reports on a "per-file" basis, that is, as they
- * are being read from PayPal. The class contains necessary methods to even retrieve
- * all its rows but it is *not* a recommended way to read-interface the reports. For
- * that, please use Mage_Paypal_Model_Report_Settlement_Collection.
+ * Perform fetching reports from remote servers with following saving them to database
+ * Prepare report rows for Mage_Paypal_Model_Report_Settlement_Row model
  *
  */
 class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
 {
+    /**
+     * Default PayPal SFTP host
+     * @var string
+     */
     const REPORTS_HOSTNAME = "reports.paypal.com";
+
+    /**
+     * Default PayPal SFTP host for sandbox mode
+     * @var string
+     */
     const SANDBOX_REPORTS_HOSTNAME = "reports.sandbox.paypal.com";
+
+    /**
+     * PayPal SFTP path
+     * @var string
+     */
     const REPORTS_PATH = "/ppreports/outgoing";
 
-    protected $_rows = null;
-    protected $_maySkipExistingReports = true;
+    /**
+     * Reports rows storage
+     * @var array
+     */
+    protected $_rows = array();
 
     /**
      * Initialize resource model
@@ -53,6 +67,13 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
 
     /**
      * Goes to specified host/path and fetches reports from there.
+     * Save reports to database.
+     *
+     * @param string $host
+     * @param string $username
+     * @param string $password
+     * @param string $path
+     * @return Mage_Paypal_Model_Report_Settlement
      */
     public function fetchAndSave($host, $username, $password, $path)
     {
@@ -63,28 +84,41 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
         foreach ($listing as $filename => $attributes) {
             $localCsv = Mage::getConfig()->getOptions()->getTmpDir() . DS . $filename;
             if ($connection->read($filename, $localCsv)) {
-                $this->saveFromCsv($localCsv)
+                $this->setReportDate($this->_fileNameToDate($filename))
                     ->setFilename($filename)
-                    ->setReportDate($this->_fileNameToDate($filename))
-                    ->setMaySkipExistingReport(true)
+                    ->parseCsv($localCsv)
                     ->save();
 
                 $io = new Varien_Io_File();
                 $io->rm($localCsv);
             }
         }
+        return $this;
     }
 
     /**
-     * Parse CSV file and save report data
+     * Fetch and save reports for all existing SFTP settings
+     *
+     * @param bool $automaticMode Whether to skip settings with disabled Automatic Fetching or not
+     * @return Mage_Paypal_Model_Report_Settlement
+     */
+    public function fetchAllReports($automaticMode = false)
+    {
+        $configs = $this->_getSftpConfigs($automaticMode);
+        foreach ($configs as $config) {
+            $this->fetchAndSave($config['hostname'], $config['username'], $config['password'], $config['path']);
+        }
+        return $this;
+    }
+
+    /**
+     * Parse CSV file and collect report rows
      *
      * @param string $localCsv Path to CSV file
      * @return Mage_Paypal_Model_Report_Settlement
      */
-    public function saveFromCsv($localCsv)
+    public function parseCsv($localCsv)
     {
-        // If a filename is given but contents is not, read in the file
-        // as if it were local.
         $this->_rows = array();
 
         $section_columns = array('' => 0,
@@ -138,7 +172,7 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
                     break;
                 case 'SH': // Section header.
                     $this->setAccountId($line[3]);
-                    $this->loadByAccountAndDate($this->getAccountId(), $this->getReportDate());
+                    $this->loadByAccountAndDate();
                     break;
                 case 'CH': // Section columns.
                     // In case ever the column order is changed, we will have the items recorded properly
@@ -168,7 +202,17 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Load report by unique key (accoutn + report date)
      *
+     * @return Mage_Paypal_Model_Report_Settlement
+     */
+    public function loadByAccountAndDate()
+    {
+        $this->getResource()->loadByAccountAndDate($this, $this->getAccountId(), $this->getReportDate());
+        return $this;
+    }
+
+    /**
      * Return collected rows for further processing.
      *
      * @return array
@@ -178,25 +222,79 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
         return $this->_rows;
     }
 
-    public function setMaySkipExistingReports($value)
+    /**
+     * Return name for row column
+     *
+     * @param string $field Field name in row model
+     * @return string
+     */
+    public function getFieldLabel($field)
     {
-        $this->_maySkipExistingReports = (bool) $value;
-        return $this;
-    }
-
-    public function getMaySkipExistingReports()
-    {
-        return $this->_maySkipExistingReports;
-    }
-
-    public function loadByAccountAndDate($accountID, $reportDate)
-    {
-        return $this->addData($this->getResource()->loadByAccountAndDate($accountID, $reportDate));
+        $labels = array(
+            'report_date'                   => 'Report Date',
+            'account_id'                    => 'Merchant Account',
+            'transaction_id'                => 'Transaction ID',
+            'invoice_id'                    => 'Invoice ID',
+            'paypal_reference_id'           => 'PayPal Reference ID',
+            'paypal_reference_id_type'      => 'PayPal Reference ID Type',
+            'transaction_event_code'        => 'Event Code',
+            'transaction_event'             => 'Event',
+            'transaction_initiation_date'   => 'Initiation Date',
+            'transaction_completion_date'   => 'Completion Date',
+            'transaction_debit_or_credit'   => 'Debit or Credit',
+            'gross_transaction_amount'      => 'Gross Amount',
+            'fee_debit_or_credit'           => 'Fee Debit or Credit',
+            'fee_amount'                    => 'Fee Amount',
+            'custom_field'                  => 'Custom',
+        );
+        if (isset($labels[$field])) {
+            return Mage::helper('paypal')->__($labels[$field]);
+        }
+        return '';
     }
 
     /**
-     * Converts a filename to date of report. This method should be
-     * modified if naming scheme changes.
+     * Iterate through website configurations and collect all SFTP configurations
+     * Filter config values if necessary
+     *
+     * @param bool $automaticMode Whether to skip settings with disabled Automatic Fetching or not
+     * @return array
+     */
+    protected function _getSftpConfigs($automaticMode = false)
+    {
+        $configs = array();
+        $uniques = array();
+        foreach(Mage::app()->getStores() as $store) {
+            /*@var $store Mage_Core_Model_Store */
+            $active = (bool)$store->getConfig('paypal/fetch_reports/active');
+            if (!$active && $automaticMode) {
+                continue;
+            }
+            $cfg = array(
+                'hostname'  => $store->getConfig('paypal/fetch_reports/ftp_ip'),
+                'path'      => $store->getConfig('paypal/fetch_reports/ftp_path'),
+                'username'  => $store->getConfig('paypal/fetch_reports/ftp_login'),
+                'password'  => $store->getConfig('paypal/fetch_reports/ftp_password'),
+                'sandbox'   => $store->getConfig('paypal/fetch_reports/ftp_sandbox'),
+            );
+            if (empty($cfg['hostname'])) {
+                $cfg['hostname'] = $cfg['sandbox'] ? self::SANDBOX_REPORTS_HOSTNAME : self::REPORTS_HOSTNAME;
+            }
+            if (empty($config['path'])) {
+                $config['path'] = self::REPORTS_PATH;
+            }
+            // avoid duplicates
+            if (in_array(serialize($cfg), $uniques)) {
+                continue;
+            }
+            $uniques[] = serialize($cfg);
+            $configs[] = $cfg;
+        }
+        return $configs;
+    }
+
+    /**
+     * Converts a filename to date of report.
      *
      * @param string $filename
      * @return string
@@ -210,19 +308,15 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
     }
 
     /**
-     *
-     * Takes in a list of files as reported by connection->rawls(), and returns
-     * only those items which look like settlement reports.
+     * Filter SFTP file list by filename format
      *
      * @param array $list List of files as per $connection->rawls()
      * @return array Trimmed down list of files
-     *
      */
     protected function _filterReportsList($list)
     {
         $result = array();
         $pattern = '/^STL-(\d{8,8})\.(\d{2,2})\.(.{3,3})\.CSV$/';
-//        $pattern = '/\.csv$/';
         foreach ($list as $filename => $data) {
             if (preg_match($pattern, $filename)) {
                 $result[$filename] = $data;

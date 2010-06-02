@@ -56,6 +56,25 @@
                             </config>
                         </children>
                     </system>
+                    <report>
+                        <children>
+                            <salesroot>
+                                <children>
+                                    <paypal_settlement_reports translate="title">
+                                        <title>PayPal Settlement Reports</title>
+                                        <children>
+                                            <view translate="title">
+                                                <title>View</title>
+                                            </view>
+                                            <fetch translate="title">
+                                                <title>Fetch</title>
+                                            </fetch>
+                                        </children>
+                                    </paypal_settlement_reports>
+                                </children>
+                            </salesroot>
+                        </children>
+                    </report>
                 </children>
             </admin>
         </resources>

@@ -1709,4 +1709,22 @@
             </adminhtml_cache_flushAll>
         </actions>
     </cache_management>
+    
+    <paypal_settlement_reports translate="label">
+        <label>PayPal Settlement Reports</label>
+        <actions>
+            <adminhtml_paypal_reports_details>
+                <action>view</action>
+                <expected_models>
+                    <paypal__report_settlement_row/>
+                </expected_models>
+            </adminhtml_paypal_reports_details>
+            <adminhtml_paypal_reports_fetch>
+                <action>fetch</action>
+                <expected_models>
+                    <paypal__report_settlement/>
+                </expected_models>
+            </adminhtml_paypal_reports_fetch>
+        </actions>
+    </paypal_settlement_reports>
 </logging>

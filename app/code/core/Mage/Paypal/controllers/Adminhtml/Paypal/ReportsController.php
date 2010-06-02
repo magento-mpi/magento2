@@ -35,7 +35,7 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
 {
 
     /**
-     * Grid renderer
+     * Grid action
      */
     public function indexAction()
     {
@@ -56,7 +56,7 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
     }
 
     /**
-     * View transaction details
+     * View transaction details action
      */
     public function detailsAction()
     {
@@ -74,13 +74,12 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
     }
 
     /**
-     * Manual reports fetching
+     * Forced fetch reports action
      */
     public function fetchAction()
     {
         try {
-            // Observer model should be rewritted and fixed - this is temporary call and should be removed in future
-            Mage::getModel('paypal/observer')->fetchReports();
+            Mage::getModel('paypal/report_settlement')->fetchAllReports();
             $this->_getSession()->addSuccess(Mage::helper('paypal')->__('Reports have been fetched successfully.'));
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -105,5 +104,25 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
             ->_addBreadcrumb(Mage::helper('paypal')->__('Sales'), Mage::helper('paypal')->__('Sales'))
             ->_addBreadcrumb(Mage::helper('paypal')->__('PayPal Settlement Reports'), Mage::helper('paypal')->__('PayPal Settlement Reports'));
         return $this;
+    }
+
+    /**
+     * ACL check
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        switch ($this->getRequest()->getActionName()) {
+            case 'index':
+            case 'details':
+                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/paypal_settlement_reports/view');
+                break;
+            case 'fetch':
+                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/paypal_settlement_reports/fetch');
+                break;
+            default:
+                return Mage::getSingleton('admin/session')->isAllowed('report/salesroot/paypal_settlement_reports');
+                break;
+        }
     }
 }

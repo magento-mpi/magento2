@@ -42,7 +42,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_
         parent::__construct();
         $this->setId('settlementGrid');
         $this->setUseAjax(true);
-        $this->setDefaultSort('transaction_completion_date', 'desc');
+        $this->setDefaultSort('row_id', 'desc');
     }
 
     /**
@@ -62,88 +62,56 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_
      */
     protected function _prepareColumns()
     {
+        $settlement = Mage::getSingleton('paypal/report_settlement');
+        $this->addColumn('report_date', array(
+            'header'    => $settlement->getFieldLabel('report_date'),
+            'index'     => 'report_date',
+            'type'     => 'date'
+        ));
         $this->addColumn('account_id', array(
-            'header'    => Mage::helper('paypal')->__('Account ID'),
+            'header'    => $settlement->getFieldLabel('account_id'),
             'index'     => 'account_id'
         ));
         $this->addColumn('transaction_id', array(
-            'header'    => Mage::helper('paypal')->__('Transaction ID'),
+            'header'    => $settlement->getFieldLabel('transaction_id'),
             'index'     => 'transaction_id'
         ));
         $this->addColumn('invoice_id', array(
-            'header'    => Mage::helper('paypal')->__('Invoice ID'),
+            'header'    => $settlement->getFieldLabel('invoice_id'),
             'index'     => 'invoice_id'
         ));
+        $this->addColumn('paypal_reference_id', array(
+            'header'    => $settlement->getFieldLabel('paypal_reference_id'),
+            'index'     => 'paypal_reference_id'
+        ));
+        $this->addColumn('transaction_event_code', array(
+            'header'    => $settlement->getFieldLabel('transaction_event'),
+            'index'     => 'transaction_event_code',
+            'type'      => 'options',
+            'options'   => Mage::getModel('paypal/report_settlement_row')->getTransactionEvent()
+        ));
         $this->addColumn('transaction_initiation_date', array(
-            'header'    => Mage::helper('paypal')->__('Start Date'),
+            'header'    => $settlement->getFieldLabel('transaction_initiation_date'),
             'index'     => 'transaction_initiation_date',
-            'type'      => 'date'
+            'type'      => 'datetime'
         ));
         $this->addColumn('transaction_completion_date', array(
-            'header'    => Mage::helper('paypal')->__('Completion Date'),
+            'header'    => $settlement->getFieldLabel('transaction_completion_date'),
             'index'     => 'transaction_completion_date',
-            'type'      => 'date'
-        ));
-
-//        $this->addColumn('transaction_event_code', array(
-//            'header'    => Mage::helper('paypal')->__('Transaction Event Code'),
-//            'index'     => 'transaction_event_code'
-//        ));
-
-//        $this->addColumn('paypal_reference_id', array(
-//            'header'    => Mage::helper('paypal')->__('Paypal Reference ID'),
-//            'index'     => 'paypal_reference_id'
-//        ));
-
-//        $this->addColumn('paypal_reference_id_type', array(
-//            'header'    => Mage::helper('paypal')->__('Reference ID Type'),
-//            'index'     => 'paypal_reference_id_type',
-//            'type'      => 'options',
-//            'options'   => Mage::getModel('paypal/report_settlement_row')->getAvailableReferenceTypes()
-//        ));
-
-        $this->addColumn('transaction_debit_or_credit', array(
-            'header'    => Mage::helper('paypal')->__('Transaction Debit/Credit'),
-            'index'     => 'transaction_debit_or_credit',
-            'type'      => 'options',
-            'options'   => Mage::getModel('paypal/report_settlement_row')->getAvailableDebitCreditOptions()
-        ));
-        $this->addColumn('gross_transaction_currency', array(
-            'header'    => Mage::helper('paypal')->__('Gross Currency'),
-            'index'     => 'gross_transaction_currency',
+            'type'      => 'datetime'
         ));
         $this->addColumn('gross_transaction_amount', array(
-            'header'    => Mage::helper('paypal')->__('Gross Amount'),
+            'header'    => $settlement->getFieldLabel('gross_transaction_amount'),
             'index'     => 'gross_transaction_amount',
-        ));
-        $this->addColumn('fee_debit_or_credit', array(
-            'header'    => Mage::helper('paypal')->__('Fee Debit/Credit'),
-            'index'     => 'fee_debit_or_credit',
-            'type'      => 'options',
-            'options'   => Mage::getModel('paypal/report_settlement_row')->getAvailableDebitCreditOptions()
-        ));
-        $this->addColumn('fee_currency', array(
-            'header'    => Mage::helper('paypal')->__('Fee Currency'),
-            'index'     => 'gross_transaction_currency',
+            'type'      => 'currency',
+            'currency'  => 'gross_transaction_currency',
         ));
         $this->addColumn('fee_amount', array(
-            'header'    => Mage::helper('paypal')->__('Fee Amount'),
+            'header'    => $settlement->getFieldLabel('fee_amount'),
             'index'     => 'fee_amount',
+            'type'      => 'currency',
+            'currency'  => 'gross_transaction_currency',
         ));
-
-//        $this->addColumn('custom_field', array(
-//            'header'    => Mage::helper('paypal')->__('Custom Field'),
-//            'index'     => 'custom_field',
-//            'type'      => 'text'
-//        ));
-
-//        $this->addColumn('consumer_id', array(
-//            'header'    => Mage::helper('paypal')->__('Consumer ID'),
-//            'index'     => 'consumer_id',
-//        ));
-
-        //$this->addExportType('*/*/exportCsv', Mage::helper('customer')->__('CSV'));
-        //$this->addExportType('*/*/exportXml', Mage::helper('customer')->__('XML'));
         return parent::_prepareColumns();
     }
 

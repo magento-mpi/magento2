@@ -33,40 +33,29 @@
 class Mage_Paypal_Model_Mysql4_Report_Settlement extends Mage_Core_Model_Mysql4_Abstract
 {
     protected $_rowsTable;
-    protected $_read;
-    protected $_write;
 
+    /**
+     * Init main table
+     */
     protected function _construct()
     {
         $this->_init('paypal/settlement_report', 'report_id');
         $this->_rowsTable = Mage::getSingleton('core/resource')->getTableName('paypal/settlement_report_row');
-        $this->_read = $this->_getReadAdapter();
-        $this->_write = $this->_getWriteAdapter();
     }
 
     /**
+     * Save report rows collected in settlement model
      *
-     * Override parent's save() to skip saving if we need to skip the report.
-     * _beforeSave() does not fit as it's result is irrelevant to save().
-     *
+     * @param Mage_Paypal_Model_Report_Settlement $object
+     * @return Mage_Paypal_Model_Mysql4_Report_Settlement
      */
-    public function save(Mage_Core_Model_Abstract $object)
-    {
-        if ($object->getMaySkipExistingReports() && $this->_exists($object)) {
-            return $this;
-        } else {
-            return parent::save($object);
-        }
-
-    }
-
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         $rows = $object->getRows();
         if (is_array($rows)){
             try {
                 $this->_getWriteAdapter()->beginTransaction();
-                if ($object->hasData('id')) {
+                if ($object->getId()) {
                     $this->_getWriteAdapter()->query(sprintf('DELETE FROM %s WHERE report_id = :report', $this->_rowsTable), array('report' => $object->getId()));
                 }
                 foreach ($rows as $key => $row) {
@@ -83,31 +72,22 @@ class Mage_Paypal_Model_Mysql4_Report_Settlement extends Mage_Core_Model_Mysql4_
     }
 
     /**
-     * Load report by account ID and date
+     * Check if report with same account and report date already fetched
      *
-     * @param string $accountID
+     * @param Mage_Paypal_Model_Report_Settlement $report
+     * @param string $accountId
      * @param string $reportDate
-     * @return array
+     * @return bool
      */
-    public function loadByAccountAndDate($accountID, $reportDate)
+    public function loadByAccountAndDate(Mage_Paypal_Model_Report_Settlement $report, $accountId, $reportDate)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('paypal/settlement_report'))
-            ->where('account_id=?',$accountID)
-            ->where('report_date=?',$reportDate);
-
-        $result = $this->_getReadAdapter()->fetchRow($select);
-
-        if(!$result) {
-            return array();
+            ->from($this->getMainTable())
+            ->where('account_id=?', $accountId)
+            ->where('report_date=?', $reportDate);
+        if ($data = $this->_getReadAdapter()->fetchRow($select)) {
+            $report->addData($data);
         }
-
-        return $result;
-    }
-
-    protected function _exists($report)
-    {
-        $report = $this->loadByAccountAndDate($report->getAccountID(), $report->getReportDate());
-        return (bool) count($report);
+        return $this;
     }
 }
