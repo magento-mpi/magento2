@@ -70,7 +70,7 @@ abstract class Enterprise_Customer_Model_Sales_Abstract extends Enterprise_Enter
      * @param Mage_Sales_Model_Abstract $sales
      * @return Enterprise_Customer_Model_Sales_Abstract
      */
-    public function attachAttributeData(Mage_Sales_Model_Abstract $sales)
+    public function attachAttributeData(Mage_Core_Model_Abstract $sales)
     {
         $sales->addData($this->getData());
         return $this;
@@ -82,7 +82,7 @@ abstract class Enterprise_Customer_Model_Sales_Abstract extends Enterprise_Enter
      * @param Mage_Sales_Model_Abstract $sales
      * @return Enterprise_Customer_Model_Sales_Abstract
      */
-    public function saveAttributeData(Mage_Sales_Model_Abstract $sales)
+    public function saveAttributeData(Mage_Core_Model_Abstract $sales)
     {
         $this->setId($sales->getId())
              ->addData($sales->getData())
