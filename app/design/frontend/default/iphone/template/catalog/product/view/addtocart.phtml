@@ -35,5 +35,6 @@
         <input name="qty" type="text" class="input-text qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" /></span>
         <?php endif; ?>
         <button type="button" class="form-button" onclick="productAddToCartForm.submit()"><span><?php echo $this->__('Add to Cart') ?></span></button>
+        <?php echo $this->getChildHtml('', true, true) ?>
     </fieldset>
 <?php endif; ?>

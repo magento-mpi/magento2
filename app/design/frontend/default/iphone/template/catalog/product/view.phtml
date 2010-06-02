@@ -76,7 +76,6 @@
                    <?php if (!$this->hasOptions()):?>
                         <?php if($_product->isSaleable()): ?>
                             <?php echo $this->getChildHtml('addtocart') ?>
-                            <?php echo $this->getChildHtml('extra_buttons') ?>
                         <?php endif; ?>
                     <?php endif; ?>
                     <?php echo $this->getChildHtml('other');?>
