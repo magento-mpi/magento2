@@ -170,6 +170,14 @@
                     </enterprise_customer>
                 </observers>
             </enterprise_customer_address_attribute_delete>
+            <sales_convert_quote_address_to_order>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>salesConvertQuoteAddressToOrder</method>
+                    </enterprise_customer>
+                </observers>
+            </sales_convert_quote_address_to_order>
         </events>
     </global>
     <adminhtml>
