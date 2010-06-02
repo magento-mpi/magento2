@@ -59,6 +59,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     const CACHE_TAG                     = 'store';
 
+    const COOKIE_NAME                   = 'store';
+
     protected $_cacheTag    = true;
 
     /**
