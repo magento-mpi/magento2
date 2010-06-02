@@ -342,7 +342,7 @@ class Mage_Paypal_Model_Info
             case 'paypal_fraud_filters':
                 return Mage::helper('paypal')->__('Triggered Fraud Filters');
             case 'paypal_correlation_id':
-                return Mage::helper('paypal')->__('Last Corellation ID');
+                return Mage::helper('paypal')->__('Last Correlation ID');
             case 'paypal_avs_code':
                 return Mage::helper('paypal')->__('Address Verification System Response');
             case 'paypal_cvv2_match':

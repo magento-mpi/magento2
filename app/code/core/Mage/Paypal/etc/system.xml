@@ -1232,80 +1232,94 @@
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <fields>
-                        <settlement_reports_schedule translate="label comment">
-                            <label>Fetching Schedule</label>
-                            <comment>PayPal retains reports for 45 days.</comment>
-                            <config_path>paypal/fetch_reports/schedule</config_path>
-                            <frontend_type>select</frontend_type>
-                            <source_model>paypal/system_config_source_fetchingSchedule</source_model>
+                        <heading_sftp translate="label">
+                            <label>SFTP Credentials</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
-                        </settlement_reports_schedule>
-                        <settlement_reports_time translate="label">
-                            <label>Fetching Time of Day</label>
-                            <config_path>paypal/fetch_reports/time</config_path>
-                            <frontend_type>time</frontend_type>
-                            <!-- backend_model>paypal/system_config_backend_cron</backend_model -->
-                            <sort_order>10</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </settlement_reports_time>
-                        <settlement_reports_active translate="label">
-                            <label>Fetch Settlement Reports</label>
-                            <config_path>paypal/fetch_reports/active</config_path>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>15</sort_order>
-                            <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                        </settlement_reports_active>
+                        </heading_sftp>
                         <settlement_reports_ftp_login translate="label">
-                            <label>SFTP Login</label>
+                            <label>Login</label>
                             <config_path>paypal/fetch_reports/ftp_login</config_path>
                             <frontend_type>obscure</frontend_type>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-                            <sort_order>20</sort_order>
+                            <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <depends><settlement_reports_active>1</settlement_reports_active></depends>
                         </settlement_reports_ftp_login>
                         <settlement_reports_ftp_password translate="label">
-                            <label>SFTP Password</label>
+                            <label>Password</label>
                             <config_path>paypal/fetch_reports/ftp_password</config_path>
                             <frontend_type>obscure</frontend_type>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </settlement_reports_ftp_password>
+                        <settlement_reports_ftp_sandbox translate="label">
+                            <label>Sandbox Mode</label>
+                            <config_path>paypal/fetch_reports/ftp_sandbox</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </settlement_reports_ftp_sandbox>
+                        <settlement_reports_ftp_ip translate="label comment tooltip">
+                            <label>Custom Endpoint Hostname or IP-Address</label>
+                            <comment>By default it is "reports.paypal.com".</comment>
+                            <tooltip>Use colon to specify port. For example: "test.example.com:5224".</tooltip>
+                            <config_path>paypal/fetch_reports/ftp_ip</config_path>
+                            <frontend_type>text</frontend_type>
                             <sort_order>25</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <depends><settlement_reports_active>1</settlement_reports_active></depends>
-                        </settlement_reports_ftp_password>
-                        <settlement_reports_ftp_ip translate="label">
-                            <label>SFTP Custom Endpoint Hostname or IP-Address</label>
-                            <config_path>paypal/fetch_reports/ftp_ip</config_path>
+                            <depends><settlement_reports_ftp_sandbox>0</settlement_reports_ftp_sandbox></depends>
+                        </settlement_reports_ftp_ip>
+                        <settlement_reports_ftp_path translate="label comeent">
+                            <label>Custom Path</label>
+                            <comment>By default it is "/ppreports/outgoing".</comment>
+                            <config_path>paypal/fetch_reports/ftp_path</config_path>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <depends><settlement_reports_active>1</settlement_reports_active></depends>
-                        </settlement_reports_ftp_ip>
-                        <settlement_reports_ftp_path translate="label">
-                            <label>SFTP Custom Path</label>
-                            <config_path>paypal/fetch_reports/ftp_path</config_path>
-                            <frontend_type>text</frontend_type>
+                            <depends><settlement_reports_ftp_sandbox>0</settlement_reports_ftp_sandbox></depends>
+                        </settlement_reports_ftp_path>
+                        <heading_schedule translate="label">
+                            <label>Scheduled Fetching</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <depends><settlement_reports_active>1</settlement_reports_active></depends>
-                        </settlement_reports_ftp_path>
-                        <settlement_reports_ftp_sandbox translate="label">
-                            <label>SFTP Sandbox Mode</label>
-                            <config_path>paypal/fetch_reports/ftp_sandbox</config_path>
+                        </heading_schedule>
+                        <settlement_reports_active translate="label">
+                            <label>Enable Automatic Fetching</label>
+                            <config_path>paypal/fetch_reports/active</config_path>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <depends><settlement_reports_active>1</settlement_reports_active></depends>
-                        </settlement_reports_ftp_sandbox>
+                        </settlement_reports_active>
+                        <settlement_reports_schedule translate="label comment">
+                            <label>Schedule</label>
+                            <comment>PayPal retains reports for 45 days.</comment>
+                            <config_path>paypal/fetch_reports/schedule</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>paypal/system_config_source_fetchingSchedule</source_model>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </settlement_reports_schedule>
+                        <settlement_reports_time translate="label">
+                            <label>Time of Day</label>
+                            <config_path>paypal/fetch_reports/time</config_path>
+                            <frontend_type>time</frontend_type>
+                            <!-- backend_model>paypal/system_config_backend_cron</backend_model -->
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </settlement_reports_time>
                     </fields>
                 </settlement_reports>
 
