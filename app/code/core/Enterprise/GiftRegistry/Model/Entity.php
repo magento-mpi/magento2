@@ -30,6 +30,16 @@
 class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_Core_Abstract
 {
     /**
+     * XML configuration paths
+     */
+    const XML_PATH_OWNER_EMAIL_IDENTITY  = 'enterprise_giftregistry/owner_email/identity';
+    const XML_PATH_OWNER_EMAIL_TEMPLATE  = 'enterprise_giftregistry/owner_email/template';
+    const XML_PATH_SHARE_EMAIL_IDENTITY  = 'enterprise_giftregistry/sharing_email/identity';
+    const XML_PATH_SHARE_EMAIL_TEMPLATE  = 'enterprise_giftregistry/sharing_email/template';
+    const XML_PATH_UPDATE_EMAIL_IDENTITY = 'enterprise_giftregistry/update_email/identity';
+    const XML_PATH_UPDATE_EMAIL_TEMPLATE = 'enterprise_giftregistry/update_email/template';
+
+    /**
      * Type object
      * @var Enterprise_GiftRegistry_Model_Type
      */
@@ -48,14 +58,6 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
      * @var array
      */
     protected $_attributes = null;
-
-    /**
-     * Directory region models
-     *
-     * @var array
-     */
-    const XML_PATH_SHARE_EMAIL_IDENTITY = 'enterprise_giftregistry/sharing_email/identity';
-    const XML_PATH_SHARE_EMAIL_TEMPLATE = 'enterprise_giftregistry/sharing_email/template';
 
    /**
      * Init resource model
@@ -123,20 +125,20 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
      * @param string $message
      * @return bool
      */
-    public function sendShareEmail($recipient, $storeId, $message, $sender = null)
+    public function sendShareRegistryEmail($recipient, $storeId, $message, $sender = null)
     {
         $translate = Mage::getSingleton('core/translate');
-        /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
         $store = Mage::app()->getStore($this->getStoreId());
         $mail  = Mage::getModel('core/email_template');
-        $template = $store->getConfig(self::XML_PATH_SHARE_EMAIL_TEMPLATE);
 
         if (is_array($recipient)) {
-            $email = $recipient['email'];
+            $recipientEmail = $recipient['email'];
+            $recipientName = $recipient['name'];
         } else {
-            $email = $recipient;
+            $recipientEmail = $recipient;
+            $recipientName = null;
         }
 
         if (is_array($sender)) {
@@ -152,7 +154,90 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
         );
 
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $storeId));
-        $mail->sendTransactional($template, $identity, $email, null, $templateVars);
+        $mail->sendTransactional(
+            $store->getConfig(self::XML_PATH_SHARE_EMAIL_TEMPLATE),
+            $identity,
+            $recipientEmail,
+            $recipientName,
+            $templateVars
+        );
+
+        $translate->setTranslateInline(true);
+
+        if ($mail->getSentSuccess()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Send notification to owner on gift registry update -
+     * gift registry items or their quantity purchased
+     *
+     * @return bool
+     */
+    public function sendUpdateRegistryEmail()
+    {
+        $translate = Mage::getSingleton('core/translate');
+        $translate->setTranslateInline(false);
+
+        $customer = Mage::getModel('customer/customer')
+            ->load($this->getCustomerId());
+
+        $store = Mage::app()->getStore($customer->getStoreId());
+        $mail = Mage::getModel('core/email_template');
+
+        $templateVars = array(
+            'store'   => $store,
+            'customer' => $customer
+        );
+
+        $mail->setDesignConfig(array('area' => 'frontend', 'store' => $store->getId()));
+        $mail->sendTransactional(
+            $store->getConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE),
+            $store->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY),
+            $customer->getEmail(),
+            $customer->getName(),
+            $templateVars
+        );
+
+        $translate->setTranslateInline(true);
+
+        if ($mail->getSentSuccess()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Send notification to owner on successful creation of gift registry
+     *
+     * @return bool
+     */
+    public function sendNewRegistryEmail()
+    {
+        $translate = Mage::getSingleton('core/translate');
+        $translate->setTranslateInline(false);
+
+        $customer = Mage::getModel('customer/customer')
+            ->load($this->getCustomerId());
+
+        $store = Mage::app()->getStore($customer->getStoreId());
+        $mail = Mage::getModel('core/email_template');
+
+        $templateVars = array(
+            'store'   => $store,
+            'customer' => $customer
+        );
+
+        $mail->setDesignConfig(array('area' => 'frontend', 'store' => $store->getId()));
+        $mail->sendTransactional(
+            $store->getConfig(self::XML_PATH_OWNER_EMAIL_TEMPLATE),
+            $store->getConfig(self::XML_PATH_OWNER_EMAIL_IDENTITY),
+            $customer->getEmail(),
+            $customer->getName(),
+            $templateVars
+       );
 
         $translate->setTranslateInline(true);
 
@@ -239,6 +324,18 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     }
 
     /**
+     * Load entity model by gift registry item id
+     *
+     * @param int $itemId
+     * @return Enterprise_GiftRegistry_Model_Entity
+     */
+    public function loadByEntityItem($itemId)
+    {
+        $this->_getResource()->loadByEntityItem($this, $itemId);
+        return $this;
+    }
+
+    /**
      * Set active entity
      *
      * @param int $customerId
@@ -249,6 +346,16 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     {
         $this->_getResource()->setActiveEntity($customerId, $entityId);
         return $this;
+    }
+
+    /**
+     * Return formated address data
+     *
+     * @return string
+     */
+    public function getFormatedShippingAddress()
+    {
+        return $this->exportAddress()->format('html');
     }
 
     /**

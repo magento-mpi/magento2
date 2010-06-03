@@ -72,12 +72,8 @@ var attributeTemplate =
     '<div class="option-box">'+
     '<table cellpadding="0" cellspacing="0">'+
     '<tr>'+
-        '<td width="100"><?php echo Mage::helper('enterprise_giftregistry')->__('Is Viewable') ?> </td>'+
-        '<td width="100"><?php echo $this->getViewableSelectHtml() ?></td>'+
-    '</tr>'+
-    '<tr>'+
-        '<td><?php echo Mage::helper('enterprise_giftregistry')->__('Is Required') ?> </td>'+
-        '<td><?php echo $this->getRequiredSelectHtml() ?></td>'+
+        '<td width="100"><?php echo Mage::helper('enterprise_giftregistry')->__('Is Required') ?> </td>'+
+        '<td width="100"><?php echo $this->getRequiredSelectHtml() ?></td>'+
     '</tr>'+
     '</table>'+
 
@@ -123,11 +119,6 @@ var customAttribute = {
         if (data.group) {
             $A($(this.prefix+'_attribute_'+data.id+'_group').options).each(function(option){
                 if (option.value==data.group) option.selected = true;
-            });
-        }
-        if (data.is_viewable) {
-            $A($(this.prefix+'_attribute_'+data.id+'_is_viewable').options).each(function(option){
-                if (option.value==data.is_viewable) option.selected = true;
             });
         }
         if (data.is_required) {
@@ -232,7 +223,7 @@ var customAttribute = {
         for(var i=0;i<types.length;i++){
             if(!$(types[i]).binded){
                 $(types[i]).binded = true;
-                Event.observe(types[i], 'click', this.addParams.bind(this));
+                Event.observe(types[i], 'change', this.addParams.bind(this));
             }
         }
     },

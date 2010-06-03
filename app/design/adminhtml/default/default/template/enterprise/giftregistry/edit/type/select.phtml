@@ -48,7 +48,7 @@ OptionTemplateSelectRow =
        '<td>'+
         '<input type="hidden" class="hidden-code" name="attributes[{{prefix}}][{{id}}][options][{{select_id}}][code]" value="{{code}}" disabled="disabled">'+
         '<input type="hidden" id="{{prefix}}_attribute_{{id}}_select_{{select_id}}_is_deleted" name="attributes[{{prefix}}][{{id}}][options][{{select_id}}][is_deleted]">'+
-        '<input type="text" class="required-entry input-text global-scope" id="{{prefix}}_attribute_{{id}}_select_{{select_id}}_code" name="attributes[{{prefix}}][{{id}}][options][{{select_id}}][code]" value="{{code}}"></td>'+
+        '<input type="text" class="required-entry validate-code input-text global-scope" id="{{prefix}}_attribute_{{id}}_select_{{select_id}}_code" name="attributes[{{prefix}}][{{id}}][options][{{select_id}}][code]" value="{{code}}"></td>'+
         '<td><input type="text" class="required-entry input-text" id="{{prefix}}_attribute_{{id}}_select_{{select_id}}_label" name="attributes[{{prefix}}][{{id}}][options][{{select_id}}][label]" value="{{label}}">{{checkbox_scope}}</td>'+
         '<td><input type="radio" class="input-text global-scope" id="{{prefix}}_attribute_{{id}}_select_{{select_id}}_default" name="attributes[{{prefix}}][{{id}}][default]" value="{{select_id}}" {{checked}}></td>'+
         '<td class="scope-item"><span title="<?php echo Mage::helper('enterprise_giftregistry')->__('Delete Option') ?>"><?php echo $this->getDeleteButtonHtml() ?></span></td>'+

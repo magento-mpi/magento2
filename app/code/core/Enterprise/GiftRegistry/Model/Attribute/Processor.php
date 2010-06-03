@@ -45,6 +45,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
             $xmlObj = new Varien_Simplexml_Element('<config></config>');
             $typeXml = $xmlObj->addChild(self::XML_PROTOTYPE_NODE);
             if (is_array($data)) {
+                $groups = array();
                 foreach ($data as $attributes) {
                     foreach ($attributes as $attribute) {
                         if ($attribute['group'] == self::XML_REGISTRANT_NODE) {
@@ -52,7 +53,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enter
                         } else {
                             $group = self::XML_REGISTRY_NODE;
                         }
-                        $groups[$group][] = $attribute;
+                        $groups[$group][$attribute['code']] = $attribute;
                     }
                 }
                 foreach ($groups as $group => $attributes) {

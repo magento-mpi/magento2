@@ -48,18 +48,14 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Enterpris
      * Initialize model
      *
      * @param string $requestParam
-     * @param string $typeId
      * @return Enterprise_GiftRegistry_Model_Type
      */
-    protected function _initType($requestParam = 'id', $typeId = false)
+    protected function _initType($requestParam = 'id')
     {
         $type = Mage::getModel('enterprise_giftregistry/type');
         $type->setStoreId($this->getRequest()->getParam('store', 0));
-        // typeId came as $POST['type']['type_id'], so we have to fetch it as optional second parameter
-        if ($typeId === false) {
-            $typeId = $this->getRequest()->getParam($requestParam);
-        }
-        if ($typeId) {
+
+        if ($typeId = $this->getRequest()->getParam($requestParam)) {
             $type->load($typeId);
             if (!$type->getId()) {
                 Mage::throwException($this->__('Wrong gift registry type requested.'));
@@ -136,13 +132,8 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Enterpris
     {
         if ($data = $this->getRequest()->getPost()) {
             try {
-
-                $typeData = $this->getRequest()->getParam('type');
-                $typeId = isset($typeData['type_id']) ? $typeData['type_id'] : false;
-
-                $model = $this->_initType('type_id', $typeId);
+                $model = $this->_initType();
                 $model->addData($this->getRequest()->getParam('type'));
-
                 $model->addData(array('attributes' => $this->getRequest()->getParam('attributes')));
 
                 $model->save();

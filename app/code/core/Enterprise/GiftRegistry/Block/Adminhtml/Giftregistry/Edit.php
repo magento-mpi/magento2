@@ -59,7 +59,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Enterpri
     public function getHeaderText()
     {
         $type = Mage::registry('current_giftregistry_type');
-        if ($type->getTypeId()) {
+        if ($type->getId()) {
             return Mage::helper('enterprise_giftregistry')->__("Edit '%s' Gift Registry Type", $this->escapeHtml($type->getLabel()));
         }
         else {
@@ -74,7 +74,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Enterpri
      */
     public function getSaveUrl()
     {
-        $storeId = Mage::registry('current_giftregistry_type')->getStoreId();
-        return $this->getUrl('*/*/save', array('store' => $storeId));
+        $type = Mage::registry('current_giftregistry_type');
+        return $this->getUrl('*/*/save', array('id' => $type->getId(), 'store' => $type->getStoreId()));
     }
 }

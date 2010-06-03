@@ -291,7 +291,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                 if (count($emails) && !$error){
                     foreach($emails as $recipient) {
                         $sender = array('name' => $senderName, 'email' => $senderEmail);
-                        if ($this->_initEntity()->sendShareEmail($recipient, null, $senderMessage, $sender)) {
+                        if ($this->_initEntity()->sendShareRegistryEmail($recipient, null, $senderMessage, $sender)) {
                             $count++;
                         }
                     }
@@ -525,6 +525,9 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                     $this->_getSession()->addSuccess(
                         Mage::helper('enterprise_giftregistry/data')->__('Data saved succesfully.')
                     );
+                    if ($isAddAction) {
+                        $model->sendNewRegistryEmail();
+                    }
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

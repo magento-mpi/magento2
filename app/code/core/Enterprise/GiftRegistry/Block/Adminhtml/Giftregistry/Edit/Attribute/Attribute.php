@@ -211,24 +211,6 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
     }
 
     /**
-     * Select element for choosing viewable option
-     *
-     * @return string
-     */
-    public function getViewableSelectHtml()
-    {
-        $select = $this->getLayout()->createBlock('adminhtml/html_select')
-            ->setData(array(
-                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_viewable',
-                 'class' => 'select required-entry global-scope'
-            ))
-            ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_viewable]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
-
-        return $select->getHtml();
-    }
-
-    /**
      * Select element for choosing required option
      *
      * @return string
@@ -282,7 +264,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
             }
             $attributes = array_reverse($attributes, true);
         } else {
-            return array();
+            return $values;
         }
 
         foreach ($attributes as $code => $attribute) {

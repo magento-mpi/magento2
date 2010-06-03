@@ -72,7 +72,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
         $customer = Mage::getModel('customer/customer')
             ->load($this->getEntity()->getCustomerId());
 
-        return $customer->getName();
+        return $this->escapeHtml($customer->getName());
     }
 
     /**
@@ -95,7 +95,27 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
         $type = Mage::getModel('enterprise_giftregistry/type')
             ->load($this->getEntity()->getTypeId());
 
-        return $type->getLabel();
+        return $this->escapeHtml($type->getLabel());
+    }
+
+   /**
+     * Retrieve escaped entity title
+     *
+     * @return string
+     */
+    public function getEntityTitle()
+    {
+        return $this->escapeHtml($this->getEntity()->getTitle());
+    }
+
+   /**
+     * Retrieve escaped entity message
+     *
+     * @return string
+     */
+    public function getEntityMessage()
+    {
+        return $this->escapeHtml($this->getEntity()->getMessage());
     }
 
    /**
@@ -105,7 +125,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getRegistrants()
     {
-        return $this->getEntity()->getRegistrants();
+        return $this->escapeHtml($this->getEntity()->getRegistrants());
     }
 
    /**
@@ -125,7 +145,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getShippingAddressHtml()
     {
-        return $this->getEntity()->getShippingAddress();
+        return $this->getEntity()->getFormatedShippingAddress();
     }
 
    /**

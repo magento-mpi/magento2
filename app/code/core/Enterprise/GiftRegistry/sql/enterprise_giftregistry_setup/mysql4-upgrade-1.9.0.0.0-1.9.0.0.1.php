@@ -24,10 +24,16 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/**
- * Gift registry resource setup
- */
-class Enterprise_GiftRegistry_Model_Mysql4_Setup extends Enterprise_Enterprise_Model_Sales_Mysql4_Setup
-{
+$installer = $this;
+/* @var $installer Enterprise_GiftRegistry_Model_Mysql4_Setup */
 
-}
+$installer->addAttribute('quote_item', 'giftregistry_item_id', array('type' => 'int', 'visible' => 0));
+$installer->addAttribute('order_item', 'giftregistry_item_id', array('type' => 'int', 'visible' => 0));
+$installer->addAttribute('quote_address', 'giftregistry_item_id', array('type' => 'int', 'visible' => 0));
+$installer->addAttribute('order_address', 'giftregistry_item_id', array('type' => 'int', 'visible' => 0));
+
+$installer->getConnection()->addColumn(
+    $installer->getTable('enterprise_giftregistry/item'),
+    'custom_options',
+    'TEXT NOT NULL'
+);

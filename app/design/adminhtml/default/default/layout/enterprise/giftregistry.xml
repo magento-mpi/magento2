@@ -52,5 +52,5 @@
         <reference name="content">
             <block type="enterprise_giftregistry/adminhtml_customer_edit" name="giftregistry_customer_edit"></block>
         </reference> 
-   </adminhtml_giftregistry_customer_edit>        
+   </adminhtml_giftregistry_customer_edit>
 </layout>

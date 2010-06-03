@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_GiftRegistry>
-             <version>1.9.0.0.0</version>
+             <version>1.9.0.0.1</version>
         </Enterprise_GiftRegistry>
     </modules>
     <global>
@@ -87,6 +87,56 @@
                 </enterprise_gitregistry_update_template>
             </email>
         </template>
+        <events>
+            <customer_address_load_before>
+                <observers>
+                    <enterprise_giftregistry>
+                        <class>enterprise_giftregistry/observer</class>
+                        <method>addressDataBeforeLoad</method>
+                    </enterprise_giftregistry>
+                </observers>
+            </customer_address_load_before>
+            <customer_address_load_after>
+                <observers>
+                    <enterprise_giftregistry>
+                        <class>enterprise_giftregistry/observer</class>
+                        <method>addressDataAfterLoad</method>
+                    </enterprise_giftregistry>
+                </observers>
+            </customer_address_load_after>
+            <customer_address_format>
+                <observers>
+                    <enterprise_giftregistry>
+                        <class>enterprise_giftregistry/observer</class>
+                        <method>addressFormat</method>
+                    </enterprise_giftregistry>
+                </observers>
+            </customer_address_format>
+            <sales_convert_quote_item_to_order_item>
+                <observers>
+                    <enterprise_giftregistry>
+                        <class>enterprise_giftregistry/observer</class>
+                        <method>convertItems</method>
+                    </enterprise_giftregistry>
+                </observers>
+            </sales_convert_quote_item_to_order_item>
+            <sales_order_save_after>
+                <observers>
+                    <enterprise_giftregistry>
+                        <class>enterprise_giftregistry/observer</class>
+                        <method>orderPlaced</method>
+                    </enterprise_giftregistry>
+                </observers>
+            </sales_order_save_after>
+        </events>
+        <fieldsets>
+            <customer_address>
+                <giftregistry_item_id><to_quote_address>*</to_quote_address></giftregistry_item_id>
+            </customer_address>
+            <sales_convert_quote_address>
+                <giftregistry_item_id><to_order_address>*</to_order_address></giftregistry_item_id>
+            </sales_convert_quote_address>
+        </fieldsets>
     </global>
 
     <admin>

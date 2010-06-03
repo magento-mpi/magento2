@@ -144,8 +144,6 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity extends Enterprise_Enterprise_
                 ->where($this->getIdFieldName() . ' = ?', $entityId));
     }
 
-
-
     /**
      * Set active entity filtered by customer
      *
@@ -164,6 +162,29 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity extends Enterprise_Enterprise_
             array('is_active' => '1'),
             array('customer_id =?' => $customerId, 'entity_id =?' => $entityId)
         );
+        return $this;
+    }
+
+    /**
+     * Load entity by gift registry item id
+     *
+     * @param Enterprise_GiftRegistry_Model_Entity $object
+     * @param int $itemId
+     * @return Enterprise_GiftRegistry_Model_Mysql4_Entity
+     */
+    public function loadByEntityItem($object, $itemId)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()->from(array('e' => $this->getMainTable()));
+        $select->joinInner(
+            array('i' => $this->getTable('enterprise_giftregistry/item')),
+            'e.entity_id = i.entity_id AND i.item_id = ' . $itemId,
+            array()
+        );
+        if ($data = $adapter->fetchRow($select)) {
+            $object->setData($data);
+            $this->_afterLoad($object);
+        }
         return $this;
     }
 }

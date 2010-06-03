@@ -33,6 +33,8 @@ class Enterprise_GiftRegistry_Helper_Data extends Enterprise_Enterprise_Helper_C
     const XML_PATH_SEND_LIMIT = 'enterprise_giftregistry/sharing_email/send_limit';
     const XML_PATH_MAX_REGISTRANT   = 'enterprise_giftregistry/general/max_registrant';
 
+    const ADDRESS_PREFIX = 'gr_address_';
+
     /**
      * Option for address source selector
      * @var string
@@ -64,6 +66,16 @@ class Enterprise_GiftRegistry_Helper_Data extends Enterprise_Enterprise_Helper_C
     public function getRecipientsLimit()
     {
         return Mage::getStoreConfig(self::XML_PATH_SEND_LIMIT);
+    }
+
+    /**
+     * Retrieve address prefix
+     *
+     * @return int
+     */
+    public function getAddressIdPrefix()
+    {
+        return self::ADDRESS_PREFIX;
     }
 
     /**

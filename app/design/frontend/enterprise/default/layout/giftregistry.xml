@@ -112,6 +112,18 @@
         </reference>
     </calendar>
 
+    <checkout_onepage_index>
+        <reference name="content">
+            <block type="enterprise_giftregistry/customer_checkout" name="giftregistry.customer.checkout" template="giftregistry/customer/checkout/onepage.phtml"/>
+        </reference>
+    </checkout_onepage_index>
+
+    <checkout_multishipping_addresses>
+        <reference name="content">
+            <block type="enterprise_giftregistry/customer_checkout" name="giftregistry.customer.checkout" template="giftregistry/customer/checkout/multishipping.phtml"/>
+        </reference>
+    </checkout_multishipping_addresses>
+
     <enterprise_giftregistry_index_addselect translate="label">
         <label>Customer My Account GiftRegistry Add</label>
         <update handle="customer_account"/>

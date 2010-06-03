@@ -102,7 +102,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
                 $failedCount = 0;
                 foreach ($emails as $email) {
                     if (!empty($email)) {
-                        if ($model->sendShareEmail($email, $storeId, $this->getRequest()->getParam('message'))) {
+                        if ($model->sendShareRegistryEmail($email, $storeId, $this->getRequest()->getParam('message'))) {
                             $sentCount++;
                         } else {
                             $failedCount++;
