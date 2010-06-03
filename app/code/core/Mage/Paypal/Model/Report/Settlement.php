@@ -277,10 +277,10 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
                 'password'  => $store->getConfig('paypal/fetch_reports/ftp_password'),
                 'sandbox'   => $store->getConfig('paypal/fetch_reports/ftp_sandbox'),
             );
-            if (empty($cfg['hostname'])) {
+            if (empty($cfg['hostname']) || $cfg['sandbox']) {
                 $cfg['hostname'] = $cfg['sandbox'] ? self::SANDBOX_REPORTS_HOSTNAME : self::REPORTS_HOSTNAME;
             }
-            if (empty($config['path'])) {
+            if (empty($config['path']) || $cfg['sandbox']) {
                 $config['path'] = self::REPORTS_PATH;
             }
             // avoid duplicates
