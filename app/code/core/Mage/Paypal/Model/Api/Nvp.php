@@ -513,10 +513,12 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $this->_exportLineItems($request);
 
         // import/suppress shipping address, if any
-        if ($address = $this->getAddress()) {
+        $address = $this->getAddress();
+        $options = $this->getShippingOptions();
+        if ($address) {
             $request = $this->_importAddress($address, $request);
             $request['ADDROVERRIDE'] = 1;
-        } elseif ($options = $this->getShippingOptions()) {
+        } elseif ($options && (count($options) < 10)) { // doesn't support more than 10 shipping options
             $request['CALLBACK'] = $this->getShippingOptionsCallbackUrl();
             $request['CALLBACKTIMEOUT'] = 6; // max value
             $request['MAXAMT'] = $request['AMT'] + 999.00; // it is impossible to calculate max amount

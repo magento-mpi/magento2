@@ -515,11 +515,14 @@ class Mage_Paypal_Model_Express_Checkout
 
         foreach ($address->getGroupedAllShippingRates() as $group) {
             foreach ($group as $rate) {
+                $amount = (float)$rate->getPrice();
+                if (!$rate->getMethodTitle() || 0.00 == $amount) {
+                    continue;
+                }
                 $isDefault = $address->getShippingMethod() === $rate->getCode();
                 if ($isDefault) {
                     $iDefault = $i;
                 }
-                $amount = (float)$rate->getPrice();
                 $options[$i] = new Varien_Object(array(
                     'is_default' => $isDefault,
                     'name'       => "{$rate->getCarrierTitle()} - {$rate->getMethodTitle()}",
