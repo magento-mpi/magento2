@@ -235,6 +235,7 @@ class Mage_Checkout_Model_Type_Onepage
         }
 
         $address = $this->getQuote()->getBillingAddress();
+
         if (!empty($customerAddressId)) {
             $customerAddress = Mage::getModel('customer/address')->load($customerAddressId);
             if ($customerAddress->getId()) {
@@ -246,12 +247,23 @@ class Mage_Checkout_Model_Type_Onepage
                 $address->importCustomerAddress($customerAddress);
             }
         } else {
-            unset($data['address_id']);
-            $address->addData($data);
-            //$address->setId(null);
+            // process billing address and validate form
+            /* @var $addressForm Mage_Customer_Model_Form */
+            $addressForm    = Mage::getModel('customer/form');
+            $addressForm->setFormCode('customer_address_edit')
+                ->setEntity($address)
+                ->setEntityType('customer_address');
+            // emulate request object
+            $addressData    = $addressForm->extractData($addressForm->prepareRequest($data));
+            $addressErrors  = $addressForm->validateData($addressData);
+            if ($addressErrors !== true) {
+                return array('error' => 1, 'message' => $addressErrors);
+            }
+            $addressForm->compactData($addressData);
         }
 
-        if (($validateRes = $address->validate())!==true) {
+        // validate billing address
+        if (($validateRes = $address->validate()) !== true) {
             return array('error' => 1, 'message' => $validateRes);
         }
 
@@ -263,11 +275,15 @@ class Mage_Checkout_Model_Type_Onepage
 
         $address->implodeStreetAddress();
 
+        if (true !== ($result = $this->_validateCustomerData($data))) {
+            return $result;
+        }
+
         if (!$this->getQuote()->isVirtual()) {
             /**
              * Billing address using otions
              */
-            $usingCase = isset($data['use_for_shipping']) ? (int) $data['use_for_shipping'] : 0;
+            $usingCase = isset($data['use_for_shipping']) ? (int)$data['use_for_shipping'] : 0;
 
             switch($usingCase) {
                 case 0:
@@ -288,10 +304,6 @@ class Mage_Checkout_Model_Type_Onepage
             }
         }
 
-        if (true !== $result = $this->_processValidateCustomer($address)) {
-            return $result;
-        }
-
         $this->getQuote()->collectTotals();
         $this->getQuote()->save();
 
@@ -307,6 +319,72 @@ class Mage_Checkout_Model_Type_Onepage
      * Validate customer data and set some its data for further usage in quote
      * Will return either true or array with error messages
      *
+     * @param array $data
+     * @return true|array
+     */
+    protected function _validateCustomerData(array $data)
+    {
+        if ($this->getQuote()->getCustomerId()) {
+            return true;
+        }
+
+        /* @var $customerForm Mage_Customer_Model_Form */
+        $customerForm    = Mage::getModel('customer/form');
+        $customerForm->setFormCode('checkout_register');
+        $customerRequest = $customerForm->prepareRequest($data);
+
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('customer/customer');
+        $customerForm->setEntity($customer);
+        $customerData   = $customerForm->extractData($customerRequest);
+        $customerErrors = $customerForm->validateData($customerData);
+        if ($customerErrors !== true) {
+            return array(
+                'error'     => -1,
+                'message'   => implode(', ', $customerErrors)
+            );
+        }
+
+        $customerForm->compactData($customerData);
+
+        if ($this->getQuote()->getCheckoutMethod() == self::METHOD_REGISTER) {
+            // set customer password
+            $customer->setPassword($customerRequest->getParam('customer_password'));
+            $customer->setConfirmation($customerRequest->getParam('confirm_password'));
+        } else {
+            // emulate customer password for quest
+            $password = $customer->generatePassword();
+            $customer->setPassword($password);
+            $customer->setConfirmation($password);
+        }
+
+        $result = $customer->validate();
+        if (true !== $result && is_array($result)) {
+            return array(
+                'error'   => -1,
+                'message' => implode(', ', $result)
+            );
+        }
+
+        if ($this->getQuote()->getCheckoutMethod() == self::METHOD_REGISTER) {
+            // save customer encrypted password in quote
+            $this->getQuote()->setPasswordHash($customer->encryptPassword($customer->getPassword()));
+        }
+
+        // copy customer/guest email to address
+        $this->getQuote()->getBillingAddress()->setEmail($customer->getEmail());
+
+        // copy customer data to quote
+        Mage::helper('core')->copyFieldset('customer_account', 'to_quote', $customer, $this->getQuote());
+
+        return true;
+    }
+
+    /**
+     * Validate customer data and set some its data for further usage in quote
+     * Will return either true or array with error messages
+     *
+     * @deprecated since 1.4.0.1
      * @param Mage_Sales_Model_Quote_Address $address
      * @return true|array
      */
@@ -395,9 +473,20 @@ class Mage_Checkout_Model_Type_Onepage
                 $address->importCustomerAddress($customerAddress);
             }
         } else {
-            unset($data['address_id']);
-            $address->addData($data);
+            /* @var $addressForm Mage_Customer_Model_Form */
+            $addressForm    = Mage::getModel('customer/form');
+            $addressForm->setFormCode('customer_address_edit')
+                ->setEntity($address)
+                ->setEntityType('customer_address');
+            // emulate request object
+            $addressData    = $addressForm->extractData($addressForm->prepareRequest($data));
+            $addressErrors  = $addressForm->validateData($addressData);
+            if ($addressErrors !== true) {
+                return array('error' => 1, 'message' => $addressErrors);
+            }
+            $addressForm->compactData($addressData);
         }
+
         $address->implodeStreetAddress();
         $address->setCollectShippingRates(true);
 
@@ -527,22 +616,23 @@ class Mage_Checkout_Model_Type_Onepage
         } else {
             $customerBilling->setIsDefaultShipping(true);
         }
-        /**
-         * @todo integration with dynamica attributes customer_dob, customer_taxvat, customer_gender
-         */
-        if ($quote->getCustomerDob() && !$billing->getCustomerDob()) {
-            $billing->setCustomerDob($quote->getCustomerDob());
-        }
+//        /**
+//         * @todo integration with dynamica attributes customer_dob, customer_taxvat, customer_gender
+//         */
+//        if ($quote->getCustomerDob() && !$billing->getCustomerDob()) {
+//            $billing->setCustomerDob($quote->getCustomerDob());
+//        }
+//
+//        if ($quote->getCustomerTaxvat() && !$billing->getCustomerTaxvat()) {
+//            $billing->setCustomerTaxvat($quote->getCustomerTaxvat());
+//        }
+//
+//        if ($quote->getCustomerGender() && !$billing->getCustomerGender()) {
+//            $billing->setCustomerGender($quote->getCustomerGender());
+//        }
 
-        if ($quote->getCustomerTaxvat() && !$billing->getCustomerTaxvat()) {
-            $billing->setCustomerTaxvat($quote->getCustomerTaxvat());
-        }
-
-        if ($quote->getCustomerGender() && !$billing->getCustomerGender()) {
-            $billing->setCustomerGender($quote->getCustomerGender());
-        }
-
-        Mage::helper('core')->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
+//        Mage::helper('core')->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
+        Mage::helper('core')->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
         $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
         $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
         $quote->setCustomer($customer)
