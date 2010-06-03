@@ -103,47 +103,81 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
         }
         // Save data
         if ($this->getRequest()->isPost()) {
-            $address = Mage::getModel('customer/address')
-                ->setData($this->getRequest()->getPost())
-                ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
-                ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
-                ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
+            $customer = $this->_getSession()->getCustomer();
+            /* @var $address Mage_Customer_Model_Address */
+            $address  = Mage::getModel('customer/address');
             $addressId = $this->getRequest()->getParam('id');
             if ($addressId) {
-                $customerAddress = $this->_getSession()->getCustomer()->getAddressById($addressId);
-                if ($customerAddress->getId() && $customerAddress->getCustomerId() == $this->_getSession()->getCustomerId()) {
-                    $address->setId($addressId);
-                }
-                else {
-                    $address->setId(null);
+                $existsAddress = $customer->getAddressById($addressId);
+                if ($existsAddress->getId() && $existsAddress->getCustomerId() == $customer->getId()) {
+                    $address->setId($existsAddress->getId());
                 }
             }
-            else {
-                $address->setId(null);
-            }
+
+            $errors = array();
+
+            /* @var $addressForm Mage_Customer_Model_Form */
+            $addressForm = Mage::getModel('customer/form');
+            $addressForm->setFormCode('customer_address_edit')
+                ->setEntity($address);
+            $addressData    = $addressForm->extractData($this->getRequest());
+            $addressErrors  = $addressForm->validateData($addressData);
+
+//
+//
+//            $address = Mage::getModel('customer/address')
+//                ->setData($this->getRequest()->getPost())
+//                ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+//                ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
+//                ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
+//            $addressId = $this->getRequest()->getParam('id');
+//            if ($addressId) {
+//                $customerAddress = $this->_getSession()->getCustomer()->getAddressById($addressId);
+//                if ($customerAddress->getId() && $customerAddress->getCustomerId() == $this->_getSession()->getCustomerId()) {
+//                    $address->setId($addressId);
+//                }
+//                else {
+//                    $address->setId(null);
+//                }
+//            }
+//            else {
+//                $address->setId(null);
+//            }
             try {
-                $accressValidation = $address->validate();
-                if (true === $accressValidation) {
+                if ($addressErrors === true) {
+                    $addressForm->compactData($addressData);
+                    $address->setCustomerId($customer->getId())
+                        ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
+                        ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
+                } else {
+                    $errors = array_merge($errors, $addressErrors);
+                }
+
+                $errors = $address->validate();
+                if (!is_array($errors)) {
+                    $errors = array();
+                }
+
+                $addressValidation = count($errors) == 0;
+                if (true === $addressValidation) {
                     $address->save();
                     $this->_getSession()->addSuccess($this->__('The address has been saved.'));
                     $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
                     return;
                 } else {
                     $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-                    if (is_array($accressValidation)) {
-                        foreach ($accressValidation as $errorMessage) {
+                    if (is_array($addressValidation)) {
+                        foreach ($addressValidation as $errorMessage) {
                             $this->_getSession()->addError($errorMessage);
                         }
                     } else {
                         $this->_getSession()->addError($this->__('Cannot save the address.'));
                     }
                 }
-            }
-            catch (Mage_Core_Exception $e) {
+            } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->setAddressFormData($this->getRequest()->getPost())
                     ->addException($e, $e->getMessage());
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $this->_getSession()->setAddressFormData($this->getRequest()->getPost())
                     ->addException($e, $this->__('Cannot save address.'));
             }

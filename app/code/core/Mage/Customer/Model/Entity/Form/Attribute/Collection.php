@@ -126,7 +126,7 @@ class Mage_Customer_Model_Entity_Form_Attribute_Collection extends Mage_Core_Mod
      */
     public function setSortOrder($direction = self::SORT_ORDER_ASC)
     {
-        return $this->setOrder('aa.sort_order', $direction);
+        return $this->setOrder('ca.sort_order', $direction);
     }
 
     /**
@@ -138,36 +138,86 @@ class Mage_Customer_Model_Entity_Form_Attribute_Collection extends Mage_Core_Mod
     {
         $entityType = $this->getEntityType();
         $this->setItemObjectClass($entityType->getAttributeModel());
+
+        $eaColumns  = array();
+        $caColumns  = array();
+        $saColumns  = array();
+
+        $eaDescribe = $this->getConnection()->describeTable($this->getTable('eav/attribute'));
+        foreach (array_keys($eaDescribe) as $columnName) {
+            if ($columnName == 'attribute_id') {
+                continue;
+            }
+            $eaColumns[$columnName] = $columnName;
+        }
+
         $this->_select->join(
             array('ea' => $this->getTable('eav/attribute')),
             'main_table.attribute_id = ea.attribute_id',
-            Zend_Db_Select::SQL_WILDCARD
+            $eaColumns
         );
 
         // join additional attribute data table
         $additionalTable = $entityType->getAdditionalAttributeTable();
         if ($additionalTable) {
+            $caDescribe = $this->getConnection()->describeTable($this->getTable($additionalTable));
+            foreach (array_keys($caDescribe) as $columnName) {
+                if ($columnName == 'attribute_id') {
+                    continue;
+                }
+                $caColumns[$columnName] = $columnName;
+            }
+
             $this->_select->join(
-                array('aa' => $this->getTable($additionalTable)),
-                'ea.attribute_id = aa.attribute_id',
-                Zend_Db_Select::SQL_WILDCARD
+                array('ca' => $this->getTable($additionalTable)),
+                'main_table.attribute_id = ca.attribute_id',
+                $caColumns
             );
         }
 
-        // add store attribute label
+        // add scope values
+        $saDescribe = $this->getConnection()->describeTable($this->getTable('customer/eav_attribute_website'));
+        foreach (array_keys($saDescribe) as $columnName) {
+            if ($columnName == 'attribute_id') {
+                continue;
+            } else if ($columnName == 'website_id') {
+                $saColumns['scope_website_id'] = $columnName;
+            } else {
+                if (isset($eaColumns[$columnName])) {
+                    $code = sprintf('scope_%s', $columnName);
+                    $saColumns[$code] = new Zend_Db_Expr(sprintf('IFNULL(ea.%s, sa.%s)',
+                        $columnName, $columnName));
+                } else if (isset($caColumns[$columnName])) {
+                    $code = sprintf('scope_%s', $columnName);
+                    $saColumns[$code] = new Zend_Db_Expr(sprintf('IFNULL(ca.%s, sa.%s)',
+                        $columnName, $columnName));
+                }
+            }
+        }
+
         $store = $this->getStore();
+
+        $this->_select->joinLeft(
+            array('sa' => $this->getTable('customer/eav_attribute_website')),
+            'main_table.attribute_id = sa.attribute_id AND sa.website_id = :scope_website_id',
+            $saColumns
+        );
+        $this->addBindParam(':scope_website_id', $store->getWebsiteId());
+
+        // add store attribute label
         if ($store->isAdmin()) {
             $this->_select->columns(array('store_label' => 'ea.frontend_label'));
         } else {
             $this->_select->joinLeft(
                 array('al' => $this->getTable('eav/attribute_label')),
-                'al.attribute_id = main_table.attribute_id AND al.store_id = ' . (int) $store->getId(),
+                'al.attribute_id = main_table.attribute_id AND al.store_id = :label_store_id',
                 array('store_label' => new Zend_Db_Expr('IFNULL(al.value, ea.frontend_label)'))
             );
+            $this->addBindParam(':label_store_id', $store->getId());
         }
 
         // add entity type filter
-        $this->_select->where('ea.entity_type_id = ?', $entityType->getId());
+        $this->_select->where('ea.entity_type_id = ?', (int)$entityType->getId());
 
         return parent::_beforeLoad();
     }

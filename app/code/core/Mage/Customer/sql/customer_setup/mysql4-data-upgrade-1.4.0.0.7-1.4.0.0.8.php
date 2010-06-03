@@ -30,6 +30,7 @@ $installer = $this;
 
 /* @var $addressHelper Mage_Customer_Helper_Address */
 $addressHelper = Mage::helper('customer/address');
+$store         = Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 
 /* @var $eavConfig Mage_Eav_Model_Config */
 $eavConfig = Mage::getSingleton('eav/config');
@@ -92,9 +93,9 @@ $attributes = array(
     'prefix'            => array(
         'is_user_defined'   => 0,
         'is_system'         => 0,
-        'is_visible'        => $addressHelper->getConfig('prefix_show') == '' ? 0 : 1,
+        'is_visible'        => $addressHelper->getConfig('prefix_show', $store) == '' ? 0 : 1,
         'sort_order'        => 30,
-        'is_required'       => $addressHelper->getConfig('prefix_show') == 'req' ? 1 : 0
+        'is_required'       => $addressHelper->getConfig('prefix_show', $store) == 'req' ? 1 : 0
     ),
     'firstname'         => array(
         'is_user_defined'   => 0,
@@ -110,9 +111,9 @@ $attributes = array(
     'middlename'        => array(
         'is_user_defined'   => 0,
         'is_system'         => 0,
-        'is_visible'        => $addressHelper->getConfig('middlename_show') == '' ? 0 : 1,
+        'is_visible'        => $addressHelper->getConfig('middlename_show', $store) == '' ? 0 : 1,
         'sort_order'        => 50,
-        'is_required'       => $addressHelper->getConfig('middlename_show') == 'req' ? 1 : 0
+        'is_required'       => $addressHelper->getConfig('middlename_show', $store) == 'req' ? 1 : 0
     ),
     'lastname'          => array(
         'is_user_defined'   => 0,
@@ -128,9 +129,9 @@ $attributes = array(
     'suffix'            => array(
         'is_user_defined'   => 0,
         'is_system'         => 0,
-        'is_visible'        => $addressHelper->getConfig('suffix_show') == '' ? 0 : 1,
+        'is_visible'        => $addressHelper->getConfig('suffix_show', $store) == '' ? 0 : 1,
         'sort_order'        => 70,
-        'is_required'       => $addressHelper->getConfig('suffix_show') == 'req' ? 1 : 0
+        'is_required'       => $addressHelper->getConfig('suffix_show', $store) == 'req' ? 1 : 0
     ),
     'email'             => array(
         'is_user_defined'   => 0,
@@ -146,9 +147,9 @@ $attributes = array(
     'dob'               => array(
         'is_user_defined'   => 0,
         'is_system'         => 0,
-        'is_visible'        => $addressHelper->getConfig('dob_show') == '' ? 0 : 1,
+        'is_visible'        => $addressHelper->getConfig('dob_show', $store) == '' ? 0 : 1,
         'sort_order'        => 90,
-        'is_required'       => $addressHelper->getConfig('dob_show') == 'req' ? 1 : 0,
+        'is_required'       => $addressHelper->getConfig('dob_show', $store) == 'req' ? 1 : 0,
         'validate_rules'    => array(
             'input_validation'  => 'date'
         ),
@@ -158,18 +159,28 @@ $attributes = array(
     'taxvat'            => array(
         'is_user_defined'   => 0,
         'is_system'         => 0,
-        'is_visible'        => $addressHelper->getConfig('dob_show') == '' ? 0 : 1,
+        'is_visible'        => $addressHelper->getConfig('dob_show', $store) == '' ? 0 : 1,
         'sort_order'        => 100,
-        'is_required'       => $addressHelper->getConfig('dob_show') == 'req' ? 1 : 0,
+        'is_required'       => $addressHelper->getConfig('dob_show', $store) == 'req' ? 1 : 0,
         'validate_rules'    => array(
             'max_text_length'   => 255,
         ),
+        'admin_checkout'    => 1
+    ),
+    'gender'            => array(
+        'is_user_defined'   => 0,
+        'is_system'         => 0,
+        'is_visible'        => $addressHelper->getConfig('gender_show', $store) == '' ? 0 : 1,
+        'sort_order'        => 110,
+        'is_required'       => $addressHelper->getConfig('gender_show', $store) == 'req' ? 1 : 0,
+        'validate_rules'    => array(),
         'admin_checkout'    => 1
     ),
 );
 
 foreach ($attributes as $attributeCode => $data) {
     $attribute = $eavConfig->getAttribute('customer', $attributeCode);
+    $attribute->setWebsite($store->getWebsite());
     $attribute->addData($data);
     if (false === ($data['is_system'] == 1 && $data['is_visible'] == 0)) {
         $usedInForms = array(
@@ -196,9 +207,9 @@ $attributes = array(
     'prefix'            => array(
         'is_user_defined'   => 0,
         'is_system'         => 0,
-        'is_visible'        => $addressHelper->getConfig('prefix_show') == '' ? 0 : 1,
+        'is_visible'        => $addressHelper->getConfig('prefix_show', $store) == '' ? 0 : 1,
         'sort_order'        => 10,
-        'is_required'       => $addressHelper->getConfig('prefix_show') == 'req' ? 1 : 0,
+        'is_required'       => $addressHelper->getConfig('prefix_show', $store) == 'req' ? 1 : 0,
         'is_customer'       => true,
     ),
     'firstname'         => array(
@@ -216,9 +227,9 @@ $attributes = array(
     'middlename'        => array(
         'is_user_defined'   => 0,
         'is_system'         => 0,
-        'is_visible'        => $addressHelper->getConfig('middlename_show') == '' ? 0 : 1,
+        'is_visible'        => $addressHelper->getConfig('middlename_show', $store) == '' ? 0 : 1,
         'sort_order'        => 30,
-        'is_required'       => $addressHelper->getConfig('middlename_show') == 'req' ? 1 : 0,
+        'is_required'       => $addressHelper->getConfig('middlename_show', $store) == 'req' ? 1 : 0,
         'is_customer'       => true,
     ),
     'lastname'          => array(
@@ -236,9 +247,9 @@ $attributes = array(
     'suffix'            => array(
         'is_user_defined'   => 0,
         'is_system'         => 0,
-        'is_visible'        => $addressHelper->getConfig('suffix_show') == '' ? 0 : 1,
+        'is_visible'        => $addressHelper->getConfig('suffix_show', $store) == '' ? 0 : 1,
         'sort_order'        => 50,
-        'is_required'       => $addressHelper->getConfig('suffix_show') == 'req' ? 1 : 0,
+        'is_required'       => $addressHelper->getConfig('suffix_show', $store) == 'req' ? 1 : 0,
         'is_customer'       => true,
     ),
     'company'           => array(
@@ -257,7 +268,7 @@ $attributes = array(
         'is_system'         => 1,
         'is_visible'        => 1,
         'sort_order'        => 70,
-        'multiline_count'   => Mage::helper('customer/address')->getStreetLines(),
+        'multiline_count'   => $addressHelper->getStreetLines($store),
         'is_required'       => 1,
         'validate_rules'    => array(
             'max_text_length'   => 255,
@@ -333,6 +344,7 @@ $attributes = array(
 
 foreach ($attributes as $attributeCode => $data) {
     $attribute = $eavConfig->getAttribute('customer_address', $attributeCode);
+    $attribute->setWebsite($store->getWebsite());
     $attribute->addData($data);
     if (false === ($data['is_system'] == 1 && $data['is_visible'] == 0)) {
         $usedInForms = array(

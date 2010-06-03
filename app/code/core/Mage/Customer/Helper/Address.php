@@ -31,9 +31,20 @@
  */
 class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
 {
-    protected $_config;
-    protected $_streetLines;
-    protected $_formatTemplate = array();
+    /**
+     * Customer address config node per website
+     *
+     * @var array
+     */
+    protected $_config          = array();
+
+    /**
+     * Customer Number of Lines in a Street Address per website
+     *
+     * @var array
+     */
+    protected $_streetLines     = array();
+    protected $_formatTemplate  = array();
 
     /**
      * Addresses url
@@ -67,21 +78,38 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
         }
     }
 
-    public function getConfig($key, $store=null)
+    /**
+     * Return customer address config value by key and store
+     *
+     * @param string $key
+     * @param Mage_Core_Model_Store|int|string $store
+     * @return string|null
+     */
+    public function getConfig($key, $store = null)
     {
-        if (is_null($this->_config)) {
-            $this->_config = Mage::getStoreConfig('customer/address');
+        $websiteId = Mage::app()->getStore($store)->getWebsiteId();
+
+        if (!isset($this->_config[$websiteId])) {
+            $this->_config[$websiteId] = Mage::getStoreConfig('customer/address', $store);
         }
-        return isset($this->_config[$key]) ? $this->_config[$key] : null;
+        return isset($this->_config[$websiteId][$key]) ? (string)$this->_config[$websiteId][$key] : null;
     }
 
-    public function getStreetLines($store=null)
+    /**
+     * Return Number of Lines in a Street Address for store
+     *
+     * @param Mage_Core_Model_Store|int|string $store
+     * @return int
+     */
+    public function getStreetLines($store = null)
     {
-        if (is_null($this->_streetLines)) {
+        $websiteId = Mage::app()->getStore($store)->getWebsiteId();
+        if (!isset($this->_streetLines[$websiteId])) {
             $lines = $this->getConfig('street_lines', $store);
-            $this->_streetLines = min(4, max(1, (int)$lines));
+            $this->_streetLines[$websiteId] = min(4, max(1, (int)$lines));
         }
-        return $this->_streetLines;
+
+        return $this->_streetLines[$websiteId];
     }
 
     public function getFormat($code)

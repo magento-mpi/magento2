@@ -50,6 +50,38 @@ class Mage_Customer_Model_Entity_Attribute extends Mage_Eav_Model_Mysql4_Entity_
     }
 
     /**
+     * Retrieve select object for load object data
+     *
+     * @param   string $field
+     * @param   mixed $value
+     * @return  Zend_Db_Select
+     */
+    protected function _getLoadSelect($field, $value, $object)
+    {
+        $select = parent::_getLoadSelect($field, $value, $object);
+        if ($object->getWebsite()->getId()) {
+            $columns    = array();
+            $describe   = $this->_getReadAdapter()->describeTable($this->getTable('customer/eav_attribute_website'));
+            unset($describe['attribute_id']);
+            foreach (array_keys($describe) as $columnName) {
+                if ($columnName == 'attribute_id') {
+                    continue;
+                }
+                $columns['scope_' . $columnName] = $columnName;
+            }
+
+            $select->joinLeft(
+                array('scope_table' => $this->getTable('customer/eav_attribute_website')),
+                $this->getMainTable() . '.attribute_id = scope_table.attribute_id AND scope_table.website_id = '
+                    . (int)$object->getWebsite()->getId(),
+                $columns
+            );
+        }
+
+        return $select;
+    }
+
+    /**
      * Save attribute/form relations after attribute save
      *
      * @param Mage_Core_Model_Abstract $object
@@ -84,7 +116,53 @@ class Mage_Customer_Model_Entity_Attribute extends Mage_Eav_Model_Mysql4_Entity_
             $this->_getWriteAdapter()->update($this->getTable('eav/entity_attribute'), $bind, $where);
         }
 
+        // save scope attributes
+        $websiteId = $object->getWebsite()->getId();
+        if ($websiteId) {
+            $table      = $this->getTable('customer/eav_attribute_website');
+            $describe   = $this->_getReadAdapter()->describeTable($table);
+            $data       = array();
+            if (!$object->getScopeWebsiteId() || $object->getScopeWebsiteId() != $websiteId) {
+                $data = $this->getScopeValues($object);
+            }
+
+            $data['attribute_id']   = $object->getId();
+            $data['website_id']     = $websiteId;
+
+            $updateColumns = array();
+            foreach (array_keys($describe) as $columnName) {
+                if ($columnName != 'attribute_id' && $columnName != 'website_id') {
+                    $data[$columnName] = $object->getData('scope_' . $columnName);
+                    $updateColumns[] = $columnName;
+                }
+            }
+
+            $this->_getWriteAdapter()->insertOnDuplicate($table, $data, $updateColumns);
+        }
+
         return parent::_afterSave($object);
+    }
+
+    /**
+     * Return scope values for attribute and website
+     *
+     * @param Mage_Customer_Model_Attribute $object
+     * @return array
+     */
+    public function getScopeValues(Mage_Customer_Model_Attribute $object)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('customer/eav_attribute_website'))
+            ->where('attribute_id = ?', $object->getId())
+            ->where('website_id = ?', $object->getWebsite()->getId())
+            ->limit(1);
+        $result = $this->_getReadAdapter()->fetchRow($select);
+
+        if (!$result) {
+            $result = array();
+        }
+
+        return $result;
     }
 
     /**
