@@ -379,7 +379,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      * @param array $params
      * @return boolean|string
      */
-    public function getSuggestionsByQuery($query, $params = array(), $limit=false, $withResultsCounts=false) {
+    public function getSuggestionsByQuery($query, $params = array(), $limit=false, $withResultsCounts=false)
+    {
         return $this->_searchSuggestions($query, $params, $limit, $withResultsCounts);
     }
 
@@ -390,7 +391,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      * @param array $params
      * @return array
      */
-    public function getFacetsByQuery($query, $params = array()) {
+    public function getFacetsByQuery($query, $params = array())
+    {
         return $this->_searchFacets($query, $params);
     }
 
@@ -549,7 +551,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      * @param array $b
      * @return boolean
      */
-    public static function sortSuggestions($a, $b) {
+    public static function sortSuggestions($a, $b)
+    {
         return $a['freq'] > $b['freq'] ? -1 : ($a['freq'] < $b['freq'] ? 1 : 0);
     }
 

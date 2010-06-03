@@ -89,7 +89,8 @@ class Enterprise_Search_Model_Client_Solr extends Apache_Solr_Service
         return $this;
     }
 
-    protected function _initUrls() {
+    protected function _initUrls()
+    {
         parent::_initUrls();
         $this->_suggestionsUrl = $this->_constructUrl(self::SUGGESTIONS_SERVLET);
 
