@@ -390,7 +390,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                 // creating new entity
                 /* @var $model Enterprise_GiftRegistry_Model_Entity */
                 $model = Mage::getSingleton('enterprise_giftregistry/entity');
-                if ($model->setType($typeId) === false) {
+                if ($model->setTypeById($typeId) === false) {
                     Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Incorrect Type.'));
                 }
             }
@@ -437,7 +437,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                 }
                 if ($isAddAction) {
                     $entityId = null;
-                    if ($model->setType($typeId) === false) {
+                    if ($model->setTypeById($typeId) === false) {
                         Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Incorrect Type.'));
                     }
                 }

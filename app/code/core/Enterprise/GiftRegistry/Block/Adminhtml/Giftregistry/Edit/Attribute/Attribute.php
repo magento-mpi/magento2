@@ -271,6 +271,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
      */
     public function getAttributeValues()
     {
+        $values = array();
         $attributes = array();
         $groups = $this->getType()->getAttributes();
         $innerId = 0;

@@ -271,10 +271,13 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
      */
     public function importAddress(Mage_Customer_Model_Address $address)
     {
+        $skip = array('increment_id', 'entity_type_id', 'parent_id', 'entity_id', 'attribute_set_id');
         $data = array();
         $attributes = $address->getAttributes();
         foreach ($attributes as $attribute) {
-            $data[$attribute->getAttributeCode()] = $address->getData($attribute->getAttributeCode());
+            if (!in_array($attribute->getAttributeCode(), $skip)) {
+                $data[$attribute->getAttributeCode()] = $address->getData($attribute->getAttributeCode());
+            }
         }
         $this->setData('shipping_address', serialize($data));
         return $this;
@@ -285,7 +288,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
      * @param int $typeId
      * @return Enterprise_GiftRegistry_Model_Entity | false
      */
-    public function setType($typeId) {
+    public function setTypeById($typeId) {
         $this->_typeId = (int) $typeId;
         $this->_type = Mage::getSingleton('enterprise_giftregistry/type');
         $this->_type->setStoreId(Mage::app()->getStore()->getStoreId());
@@ -497,4 +500,34 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
         }
         return $dateFields;
     }
+
+    /**
+     * Custom handler for giftregistry share email action
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchShare($config, $eventModel, $processor)
+    {
+        $request = Mage::app()->getRequest();
+        $change = Mage::getModel('enterprise_logging/event_changes');
+
+        $emails = $request->getParam('emails', '');
+        if ($emails) {
+            $processor->addEventChanges(clone $change->setSourceName('share')
+                ->setOriginalData(array())
+                ->setResultData(array('emails' => $emails)));
+        }
+
+        $message = $request->getParam('message', '');
+        if ($emails) {
+            $processor->addEventChanges(clone $change->setSourceName('share')
+                ->setOriginalData(array())
+                ->setResultData(array('message' => $message)));
+        }
+
+        return $eventModel;
+    }
+
 }

@@ -1191,4 +1191,35 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $model->setIsReadonly(true);
         }
     }
+
+    /**
+     * Validate Gift Registry Type before save
+     *
+     * @param Enterprise_GiftRegistry_Model_Type $model
+     * @return void
+     */
+    public function giftRegistryTypeSaveBefore($model)
+    {
+
+        // it's not allowed to create not form super user
+        if (!$model->getId()) {
+            $this->_throwSave();
+        }
+
+        $model->setData(array(
+            'meta_xml' => $model->getOrigData('meta_xml'),
+            'code' => $model->getOrigData('model')
+        ));
+    }
+
+    /**
+     * Validate Gift Registry Type before delete
+     *
+     * @param Enterprise_GiftRegistry_Model_Type $model
+     * @return void
+     */
+    public function giftRegistryTypeDeleteBefore($model)
+    {
+       $this->_throwDelete();
+    }
 }

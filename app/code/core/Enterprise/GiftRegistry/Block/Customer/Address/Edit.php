@@ -73,9 +73,10 @@
     /**
      * Return html select input element for Address (None/<address1>/<address2>/New/)
      *
+     * @param string $domId
      * @return html
      */
-    public function getAddressHtmlSelect()
+    public function getAddressHtmlSelect($domId = 'address_type_or_id')
     {
         if ($this->isCustomerLoggedIn()) {
             $options = array(array(
@@ -95,7 +96,7 @@
 
             $select = $this->getLayout()->createBlock('core/html_select')
                 ->setName('address_type_or_id')
-                ->setId('address_type_or_id')
+                ->setId($domId)
                 ->setClass('address-select')
                 ->setOptions($options);
 

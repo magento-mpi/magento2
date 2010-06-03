@@ -89,7 +89,7 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity extends Enterprise_Enterprise_
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
         if ($object->getId()) {
-            $object->setType($object->getData('type_id'));
+            $object->setTypeById($object->getData('type_id'));
             $object->setCustomValues(unserialize($object->getCustomValues()));
         }
         return parent::_afterLoad($object);
@@ -127,8 +127,24 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity extends Enterprise_Enterprise_
         return $this->_getReadAdapter()->fetchOne(
             $this->_getReadAdapter()->select()
                 ->from($this->getMainTable(), 'type_id')
-                ->where('entity_id = ?', $entityId));
+                ->where($this->getIdFieldName() . ' = ?', $entityId));
     }
+
+    /**
+     * Fetches websiteId for entity
+     *
+     * @param int
+     * @return string
+     */
+    public function getWebsiteIdByEntityId($entityId)
+    {
+        return $this->_getReadAdapter()->fetchOne(
+            $this->_getReadAdapter()->select()
+                ->from($this->getMainTable(), 'website_id')
+                ->where($this->getIdFieldName() . ' = ?', $entityId));
+    }
+
+
 
     /**
      * Set active entity filtered by customer

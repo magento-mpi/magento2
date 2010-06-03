@@ -372,6 +372,7 @@
                     <enterprise_customersegment__segment_collection>limitCustomerSegments</enterprise_customersegment__segment_collection>
                     <enterprise_reward__reward_history_collection>limitRewardHistoryWebsites</enterprise_reward__reward_history_collection>
                     <enterprise_reward__reward_collection>limitRewardBalanceWebsites</enterprise_reward__reward_collection>
+                    <enterprise_giftregistry__entity_collection>limitGiftRegistryEntityWebsites</enterprise_giftregistry__entity_collection>
                 </collection_load_before>
                 <model_save_before>
                     <cms__page>cmsPageSaveBefore</cms__page>
@@ -400,6 +401,7 @@
                     <enterprise_banner__banner>bannerSaveBefore</enterprise_banner__banner>
                     <enterprise_giftcardaccount__giftcardaccount>giftCardAccountSaveBefore</enterprise_giftcardaccount__giftcardaccount>
                     <enterprise_customersegment__segment>customerSegmentSaveBefore</enterprise_customersegment__segment>
+                    <enterprise_giftregistry__type>giftRegistryTypeSaveBefore</enterprise_giftregistry__type>
                 </model_save_before>
                 <model_delete_before>
                     <cms__page>cmsPageDeleteBefore</cms__page>
@@ -422,6 +424,7 @@
                     <enterprise_banner__banner>bannerDeleteBefore</enterprise_banner__banner>
                     <enterprise_giftcardaccount__giftcardaccount>giftCardAccountDeleteBefore</enterprise_giftcardaccount__giftcardaccount>
                     <enterprise_customersegment__segment>customerSegmentDeleteBefore</enterprise_customersegment__segment>
+                    <enterprise_giftregistry__type>giftRegistryTypeDeleteBefore</enterprise_giftregistry__type>
                 </model_delete_before>
                 <model_load_after>
                     <catalog__product>catalogProductLoadAfter</catalog__product>
@@ -552,6 +555,10 @@
                     <adminhtml__tax_class_customer__delete>blockTaxChange</adminhtml__tax_class_customer__delete>
                     <adminhtml__tax_class_product__delete>blockTaxChange</adminhtml__tax_class_product__delete>
                     <adminhtml__tax_class__save>blockTaxChange</adminhtml__tax_class__save>
+                    <adminhtml__giftregistry_customer__add>validateGiftregistryEntityAction</adminhtml__giftregistry_customer__add>
+                    <adminhtml__giftregistry_customer__edit>validateGiftregistryEntityAction</adminhtml__giftregistry_customer__edit>
+                    <adminhtml__giftregistry_customer__delete>validateGiftregistryEntityAction</adminhtml__giftregistry_customer__delete>
+                    <adminhtml__giftregistry_customer__share>validateGiftregistryEntityAction</adminhtml__giftregistry_customer__share>
                 </controller_predispatch>
                 <block_html_before>
                     <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>

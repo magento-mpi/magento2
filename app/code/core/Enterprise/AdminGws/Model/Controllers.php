@@ -981,4 +981,28 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         $this->_forward();
         return false;
     }
+
+    /**
+     * Validate Giftregistry actions : edit, add, share, delete
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     *
+     * @return bool
+     */
+    public function validateGiftregistryEntityAction($controller)
+    {
+        $id = $this->_request->getParam('id', $this->_request->getParam('entity_id'));
+        if ($id) {
+            $websiteId = Mage::getModel('enterprise_giftregistry/entity')->getResource()->getWebsiteIdByEntityId($id);
+            if (!in_array($websiteId, $this->_role->getWebsiteIds())) {
+                $this->_forward();
+                return false;
+            }
+        } else {
+            $this->_forward();
+            return false;
+        }
+        return true;
+    }
+
 }

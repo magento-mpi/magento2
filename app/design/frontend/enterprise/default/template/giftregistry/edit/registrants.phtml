@@ -27,7 +27,6 @@
 
 <div id="template_container" style="display:none" class="template">
     <div id="template_registrant">
-        <li class="fields">
             <input name="registrant[{{index}}][person_id]" value="" id="registrant:person_id{{index}}" type="hidden"/>
             <p class="btn-remove" id="btn-remove{{index}}"><a href="#" onclick="removeRegistrant({{index}}); return false" class="btn-remove">
                 <img src="<?php echo $this->getSkinUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove Email') ?>" /></a>
@@ -61,19 +60,18 @@
                 </div>
             </div>
 <?php   endforeach; ?>
-            </li>
     </div>
 </div>
 <script type="text/javascript">
 //<![CDATA[
 
-    iz=0;
+    liIndex=0;
     var regCount  = 0;
     var maxRegistrant = '<?php echo $this->getMaxRegistrant() ?>';
     var myTemplate = new Template($('template_registrant').innerHTML, /(^|.|\r|\n)({{(\w+)}})/);
     $('template_registrant').remove();
-    function removeRegistrant(iz){
-        $('registrant:firstname'+iz).up(2).remove();
+    function removeRegistrant(liIndex){
+        $('registrant:firstname'+liIndex).up(2).remove();
         regCount--;
         if(regCount<maxRegistrant && maxRegistrant != 0) {
             $('add_registrant_button').show();
@@ -84,14 +82,17 @@
     function addRegistrant(){
         ul = $('registrant_options');
         var li_mail = Element.extend(document.createElement("li"));
-        li_mail.addClassName('add-row');
+        // skipping first row
+        if (liIndex != 0) {
+            li_mail.addClassName('add-row');
+        }
         li_mail.addClassName('fields');
 
-        date_template = myTemplate.evaluate({index: iz});
+        date_template = myTemplate.evaluate({index: liIndex});
 
         li_mail.innerHTML = date_template;
 
-        iz++;
+        liIndex++;
         regCount++;
         if(regCount>=maxRegistrant && maxRegistrant != 0) {
             $('add_registrant_button').hide();
@@ -99,7 +100,7 @@
         }
 
         ul.appendChild(li_mail);
-        if (iz == (0 + 1) ) {
+        if (liIndex == (0 + 1) ) {
             $('btn-remove0').hide();
         }
     }
@@ -148,8 +149,8 @@ $i = 0;
 
     <?php $i++; ?>
 <?php endforeach; ?>
-<?php echo "iz = $i;\n"; ?>
-    if (iz == 0) {
+<?php echo "liIndex = $i;\n"; ?>
+    if (liIndex == 0) {
         addRegistrant();
     }
 });

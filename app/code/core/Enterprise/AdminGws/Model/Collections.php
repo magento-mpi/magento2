@@ -339,4 +339,14 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     {
         $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
     }
+
+    /**
+     * Limit GiftRegistry Entity collection
+     *
+     * @param Enterprise_GiftRegistry_Model_Mysql4_Entity_Collection $collection
+     */
+    public function limitGiftRegistryEntityWebsites($collection)
+    {
+        $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
+    }
 }
