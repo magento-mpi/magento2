@@ -158,6 +158,10 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
      */
     public function unsAdditionalInformation($key = null)
     {
+        if ($key && isset($this->_additionalInformation[$key])) {
+            unset($this->_additionalInformation[$key]);
+            return $this->setData('additional_information', $this->_additionalInformation);
+        }
         $this->_additionalInformation = -1;
         return $this->unsetData('additional_information');
     }
