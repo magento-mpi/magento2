@@ -475,7 +475,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                     }
                 }
                 $addressTypeOrId = $this->getRequest()->getParam('address_type_or_id');
-                if ($addressTypeOrId == Enterprise_GiftRegistry_Helper_Data::ADDRESS_NEW) {
+                if (!$addressTypeOrId || $addressTypeOrId == Enterprise_GiftRegistry_Helper_Data::ADDRESS_NEW) {
                     // creating new address
                     if (!empty($data['address'])) {
                         /* @var $address Mage_Customer_Model_Address */

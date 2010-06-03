@@ -72,8 +72,7 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
      */
     protected function _afterLoad()
     {
-        Mage_Core_Model_Abstract::_afterLoad();
-
+        parent::_afterLoad();
         $this->assignAttributesStoreData();
         return $this;
     }
@@ -280,4 +279,19 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
         }
         return null;
     }
+
+    /**
+     * Custom handler for giftregistry type save action
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchTypeSave($config, $eventModel, $processor)
+    {
+        $typeData = Mage::app()->getRequest()->getParam('type');
+        $typeId = isset($typeData['type_id']) ? $typeData['type_id'] : Mage::helper('enterprise_logging')->__('New');
+        return $eventModel->setInfo($typeId);
+    }
+
 }

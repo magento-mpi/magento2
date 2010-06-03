@@ -113,38 +113,6 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
     }
 
     /**
-     * Return region select html element
-     * @param string regionName     - DOM name
-     * @param string regionId       - DOM id
-     * @param string class
-     * @param string regionLabel
-     * @return string
-     */
-    public function getRegionHtmlSelect($regionName = 'region', $regionId = 'state', $class = null)
-    {
-        Varien_Profiler::start('TEST: '.__METHOD__);
-        $cacheKey = 'ENTERPRISE_GIFTREGISTRY_REGION_SELECT_STORE'.Mage::app()->getStore()->getId();
-        if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
-            $options = unserialize($cache);
-        } else {
-            $options = $this->getRegionCollection()->toOptionArray();
-            if (Mage::app()->useCache('config')) {
-                Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
-            }
-        }
-        $html = $this->getLayout()->createBlock('core/html_select')
-            ->setName($regionName)
-            ->setTitle(Mage::helper('directory')->__('State/Province'))
-            ->setId($regionId)
-            ->setClass($class . ' validate-state')
-            ->setValue($this->getRegionId())
-            ->setOptions($options)
-            ->getHtml();
-        Varien_Profiler::start('TEST: '.__METHOD__);
-        return $html;
-    }
-
-    /**
      * JS Calendar html
      *
      * @param string name   - DOM name
@@ -255,7 +223,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
      */
     public function renderField($data, $name, $id, $value = null, $class = null)
     {
-        return $this->_renderField($data, $name, $id, $value = null, $class = null);
+        return $this->_renderField($data, $name, $id, $value, $class);
     }
 
     /**
@@ -280,8 +248,9 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
                 //    public function getCountryHtmlSelect($defValue=null, $name='country_id', $id='country', $title='Country')
             } else if ($type == 'event_region_code') {
                 $this->setRegionJsVisible(true);
-                return $this->getRegionHtmlSelect('event_region_id', 'event_region_id', 'required-entry', 'State/Province')
-                    . $this->_getInputTextHtml('event_region', 'event_region', '', ' input-text '
+                return $this->getRegionHtmlSelectEmpty('event_region', 'event_region', $value, 'required-entry',
+                    $this->__('State/Province'))
+                    . $this->_getInputTextHtml('event_region_text', 'event_region_text', '', ' input-text '
                         , 'title="' . $this->__('State/Province') . '" style="display:none;"');
             } else if ($type == 'event_location' || $type == 'text') {
                 return $this->_getInputTextHtml($name, $id, $value, $class . ' input-text');
@@ -315,6 +284,29 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
             ->setInputValue($value)
             ->setInputClass($class)
             ->setInputParams($params);
+        if ($template) {
+            $this->setScriptPath(Mage::getBaseDir('design'));
+            return  $this->fetchView($template);
+        }
+    }
+
+    /**
+     * Return region select html element
+     * @param string $name
+     * @param string $id
+     * @param string $value
+     * @param string $class
+     * @param string $params additional params
+     */
+    public function getRegionHtmlSelectEmpty($name, $id, $value = '', $class = '', $params = '', $default = '')
+    {
+        $template = $this->getLayout()->getBlock('giftregistry_edit')->getInputTypeTemplate('region');
+        $this->setSelectRegionName($name)
+            ->setSelectRegionId($id)
+            ->setSelectRegionValue($value)
+            ->setSelectRegionClass($class)
+            ->setSelectRegionParams($params)
+            ->setSelectRegionDefault($default);
         if ($template) {
             $this->setScriptPath(Mage::getBaseDir('design'));
             return  $this->fetchView($template);

@@ -29,7 +29,7 @@
     <div id="template_registrant">
             <input name="registrant[{{index}}][person_id]" value="" id="registrant:person_id{{index}}" type="hidden"/>
             <p class="btn-remove" id="btn-remove{{index}}"><a href="#" onclick="removeRegistrant({{index}}); return false" class="btn-remove">
-                <img src="<?php echo $this->getSkinUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove Email') ?>" /></a>
+                <img src="<?php echo $this->getSkinUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove') ?>" /></a>
             </p>
             <div class="field">
                 <label for="registrant:firstname{{index}}" class="required"><em>*</em><?php echo $this->__('First Name:') ?></label>
@@ -100,7 +100,9 @@
         }
 
         ul.appendChild(li_mail);
-        if (liIndex == (0 + 1) ) {
+
+        // skipping first row
+        if (liIndex == (0 + 1)) {
             $('btn-remove0').hide();
         }
     }

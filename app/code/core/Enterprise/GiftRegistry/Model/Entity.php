@@ -514,14 +514,13 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     public function importData ($data, $isAddAction = true)
     {
         $this->addData(array(
-                'event_region_id' => !empty($data['event_region_id']) ? $data['event_region_id'] : null,
                 'event_region' => !empty($data['event_region']) ? $data['event_region'] : null,
+                'event_region_text' => !empty($data['event_region_text']) ? $data['event_region_text'] : null,
                 'event_date' => !empty($data['event_date']) ? $data['event_date'] : null,
                 'event_location' => !empty($data['event_location']) ? $data['event_location'] : null,
                 'event_country_code' => !empty($data['event_country_code']) ? $data['event_country_code'] : null))
 
             ->addData(array(
-//              'type_id' => $this->getTypeId(),
                 'is_public' => !empty($data['is_public']) ? (bool) (int) $data['is_public'] : null,
                 'title' => !empty($data['title']) ? $data['title'] : null,
                 'message' => !empty($data['message']) ? $data['message'] : null,
@@ -542,15 +541,27 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     }
 
     /**
+     * Fetches field value from Entity object
+     * @param string $field
+     * @return mixed
+     */
+    public function getFieldValue($field)
+    {
+        $data = $this->getData();
+        $value = isset($data[$field]) ? $data[$field] : null;
+        return $value;
+    }
+
+    /**
      * Retrieve region name
      *
      * @return string
      */
-    public function getRegion()
+    public function getEventRegionText()
     {
 
-        $regionId = $this->getData('region_id');
-        $region   = $this->getData('region');
+        $regionId = $this->getData('event_region');
+        $region   = $this->getData('event_region_text');
         $country_id = $this->getData('event_country_code');
 
         $regionModelId = Mage::getModel('directory/region')->load($regionId);
@@ -564,21 +575,21 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
         }
 
         if (!empty($region) && is_string($region)) {
-            $this->setData('region', $region);
+            $this->setData('event_region_text', $region);
         }
         elseif (!$regionId && is_numeric($region)) {
             if ($regionModelName->getCountryId() == $country_id) {
-                $this->setData('region', $regionModelName->getName());
-                $this->setData('region_id', $region);
+                $this->setData('event_region_text', $regionModelName->getName());
+                $this->setData('event_region', $region);
             }
         }
         elseif ($regionId && !$region) {
                if ($regionModelId->getCountryId() == $country_id) {
-                $this->setData('region', $regionModelId->getName());
+                $this->setData('event_region_text', $regionModelId->getName());
             }
         }
 
-        return $this->getData('region');
+        return $this->getData('event_region_text');
     }
 
     /**

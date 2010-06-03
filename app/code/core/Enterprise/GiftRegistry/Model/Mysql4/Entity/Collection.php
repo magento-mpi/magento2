@@ -221,4 +221,16 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity_Collection
         );
         return $this;
     }
+
+    /**
+     * Filter collection by specified websites
+     *
+     * @param array|int $websiteIds
+     * @return Enterprise_GiftRegistry_Model_Mysql4_GiftRegistry_Collection
+     */
+    public function addWebsiteFilter($websiteIds)
+    {
+        $this->getSelect()->where('main_table.website_id IN (?)', $websiteIds);
+        return $this;
+    }
 }

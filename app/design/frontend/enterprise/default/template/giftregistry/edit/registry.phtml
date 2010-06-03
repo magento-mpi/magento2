@@ -63,7 +63,7 @@
         <?php foreach ($fields as $field => $data) : ?>
         <li>
              <label for="<?php echo $this->wrapId($field) ?>" class="required"><?php echo $this->__($data['label']) ?></label>
-             <?php echo $this->renderField($data, $field, $this->wrapId($field), null, '')?>
+             <?php echo $this->renderField($data, $field, $this->wrapId($field), $this->getEntity()->getFieldValue($field), '')?>
         </li>
         <?php endforeach; ?>
 
@@ -76,7 +76,7 @@
 //<![CDATA[
 
 <?php if ($this->getRegionJsVisible()): ?>
-    new RegionUpdater('event_country_code', 'event_region', 'event_region_id', regionJSON , undefined, 'zip');
+    new RegionUpdater('event_country_code', 'event_region_text', 'event_region', regionJSON , undefined, 'zip');
 <?php endif; ?>
 
 document.observe("dom:loaded", function() {

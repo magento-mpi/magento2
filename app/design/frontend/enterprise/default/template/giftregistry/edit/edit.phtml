@@ -34,8 +34,10 @@
 <?php echo $this->getBlockHtml('formkey')?>
 <script type="text/javascript">
 //<![CDATA[
-var dataForm = new VarienForm('form-validate');
+
+dataForm = new VarienForm('form-validate');
 regionJSON = <?php echo $this->helper('directory')->getRegionJson(); ?>;
+
 //]]>
 </script>
 
@@ -49,8 +51,6 @@ regionJSON = <?php echo $this->helper('directory')->getRegionJson(); ?>;
 </form>
 <script type="text/javascript">
 //<![CDATA[
-var dataForm = new VarienForm('form-validate');
-regionJSON = <?php echo $this->helper('directory')->getRegionJson(); ?>;
 
 function $Name(element)
 {
@@ -108,6 +108,4 @@ document.observe("dom:loaded", function() {
 
 //]]>
 </script>
-
-
 

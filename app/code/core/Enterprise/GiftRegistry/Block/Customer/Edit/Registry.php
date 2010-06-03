@@ -45,7 +45,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registry extends  Enterprise_G
      * @var array
      */
     protected $_staticTypes = array(
-        'event_date', 'event_country_code', 'event_region_id', 'event_region', 'event_location');
+        'event_date', 'event_country_code', 'event_region', 'event_region_text', 'event_location');
 
     /**
      * Holds fields which has to be setted up by javascript
@@ -53,7 +53,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registry extends  Enterprise_G
      * @var array
      */
     protected $_staticAttributes = array(
-        'is_public', 'event_region_id', 'event_region' , 'event_date', 'event_location', 'event_country_code');
+        'is_public', 'event_region', 'event_region_text' , 'event_date', 'event_location', 'event_country_code');
 
     /**
      * Return array of attributes groupped by group

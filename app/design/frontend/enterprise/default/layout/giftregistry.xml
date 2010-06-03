@@ -139,6 +139,7 @@
         <reference name="my.account.wrapper">
             <block type="enterprise_giftregistry/customer_edit" name="giftregistry_edit" template="giftregistry/edit/edit.phtml">
                 <action method="addInputTypeTemplate"><type>text</type><template>giftregistry/attributes/text.phtml</template></action>
+                <action method="addInputTypeTemplate"><type>region</type><template>giftregistry/attributes/region.phtml</template></action>
                 <block type="enterprise_giftregistry/customer_edit_registry" name="giftregistry_edit_registry" template="giftregistry/edit/registry.phtml"/>
                 <block type="enterprise_giftregistry/customer_edit_registrants" name="giftregistry_edit_registrants" template="giftregistry/edit/registrants.phtml"/>
                 <block type="enterprise_giftregistry/customer_address_edit" name="giftregistry_address_edit" template="giftregistry/address/edit.phtml"/>
