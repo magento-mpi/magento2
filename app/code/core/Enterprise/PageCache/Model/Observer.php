@@ -398,7 +398,7 @@ class Enterprise_PageCache_Model_Observer
 
         // Customer order sidebar tag
         $cacheTag = md5(Enterprise_PageCache_Model_Container_Orders::CACHE_TAG_PREFIX
-            . $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::CUSTOMER_COOKIE));
+            . $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER));
 
         Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($cacheTag));
         return $this;
