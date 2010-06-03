@@ -52,6 +52,18 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
     const REPORTS_PATH = "/ppreports/outgoing";
 
     /**
+     * Original charset of report files
+     * @var string
+     */
+    const FILES_IN_CHARSET = "UTF-16";
+
+    /**
+     * Target charset of report files to be parsed
+     * @var string
+     */
+    const FILES_OUT_CHARSET = "UTF-8";
+
+    /**
      * Reports rows storage
      * @var array
      */
@@ -63,6 +75,22 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('paypal/report_settlement');
+    }
+
+    /**
+     * Stop saving process if file with same report date, account ID and last modified date was already ferched
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _beforeSave()
+    {
+        if ($this->getId()) {
+            if ($this->getLastModified() == $this->getReportLastModified()) {
+                $this->_dataSaveAllowed = false;
+            }
+        }
+        $this->setLastModified($this->getReportLastModified());
+        return parent::_beforeSave();
     }
 
     /**
@@ -84,13 +112,28 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
         foreach ($listing as $filename => $attributes) {
             $localCsv = Mage::getConfig()->getOptions()->getTmpDir() . DS . $filename;
             if ($connection->read($filename, $localCsv)) {
+                if (!is_writable($localCsv)) {
+                    Mage::throwException(Mage::helper('paypal')->__('Cannot create target file for reading reports.'));
+                }
+
+                $encoded = file_get_contents($localCsv);
+                $decoded = iconv(self::FILES_IN_CHARSET, self::FILES_OUT_CHARSET.'//IGNORE', $encoded);
+                file_put_contents($localCsv, $decoded);
+
+                // Set last modified date, this value will be overwritten during parsing
+                if (isset($attributes['mtime'])) {
+                    $lastModified = new Zend_Date($attributes['mtime']);
+                    $this->setReportLastModified($lastModified->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+                }
+
                 $this->setReportDate($this->_fileNameToDate($filename))
                     ->setFilename($filename)
                     ->parseCsv($localCsv)
                     ->save();
 
-                $io = new Varien_Io_File();
-                $io->rm($localCsv);
+                // clean object and remove parsed file
+                $this->unsetData();
+                unlink($localCsv);
             }
         }
         return $this;
@@ -164,7 +207,8 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
             $lineType = $line[0];
             switch($lineType) {
                 case 'RH': // Report header.
-                    $this->setLastModified($line[1]);
+                    $lastModified = new Zend_Date($line[1]);
+                    $this->setReportLastModified($lastModified->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
                     //$this->setAccountId($columns[2]); -- probably we'll just take that from the section header...
                     break;
                 case 'FH': // File header.
