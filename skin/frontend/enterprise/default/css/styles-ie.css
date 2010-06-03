@@ -41,6 +41,8 @@
 .product-view .box-tags .form-add-tags .input-box .input-text { vertical-align:top; }
 .product-view .box-tags .form-add-tags .button { margin-top:1px; }
 .giftcard-send-form   { float:left; width:416px; display:inline; margin-bottom:-40px;}
+.col2-right-layout .giftcard-send-form,
+.col2-left-layout .giftcard-send-form { width:100%; }
 .top-cart  { _width:10px; }
 .cart .crosssell { _height:400px; }
 .event  .event-bottom { _bottom:-14px }
@@ -81,8 +83,11 @@ a.button { _height:22px; }
 .product-view .add-review .form-list .review-summary-table { width:50px; }
 .product-view .add-review .form-list .review-summary-table .rating-box .rating { height:0px; padding-top:13px; overflow:hidden; }
 .product-options dd select { _margin-bottom:1px; }
+.product-options dd .time-picker select { margin:0; padding:0; position:relative; top:-1px; }
 
 .col2-right-layout #options-container { margin-left:-3px; }
+
+.options-container-small dd { float:none; }
 
 /* jQzoom */
 .preload { width:100px; height:55px; }
@@ -122,6 +127,7 @@ a.button { _height:22px; }
 .giftcard-send-form,
 .product-options dd .input-box,
 .options-container-small .product-options,
+.product-view .product-shop,
 .product-view .product-shop .product-main-info,
 .product-view,
 .col-main .page-title,

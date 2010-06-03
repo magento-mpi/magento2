@@ -250,7 +250,9 @@ tr.td-noborder td { border:0; }
 .product-options dt { padding:0; margin:0; }
 .product-options dt label { font-weight:bold; }
 .product-options dd { margin:0 0 10px; padding:0 0 10px; border-bottom:1px solid #ddd; }
+.product-options dd img { padding:4px 0 0; vertical-align:middle; }
 .product-options dd select { width:100%; }
+.product-options dd .time-picker { display:inline-block; padding:4px 0 0; vertical-align:middle; }
 .product-options dl.last dd.last { margin:0; padding:0; border-bottom:0; }
 .product-options-bottom { margin:0 0 5px; }
 

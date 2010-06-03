@@ -922,6 +922,7 @@ tr.summary-details-first td { border-top:1px solid #d2d8db; }
 .add-to-cart button.button { float:left; }
 .add-to-cart button.btn-cart span { height:28px; line-height:28px; background-image:url(../images/bkg_btn-cart2.gif); padding:0 15px 0 0; }
 .add-to-cart button.btn-cart span span { padding:0 8px 0 10px; }
+.add-to-cart .paypal-logo { clear:left; padding:10px 0 0; text-align:right; }
 
 /* Add to Links + Add to Cart */
 .add-to-box { margin:10px 0; }
@@ -995,6 +996,7 @@ tr.summary-details-first td { border-top:1px solid #d2d8db; }
 .product-options dl.last dd.last { border-bottom:0; padding-bottom:5px; margin-bottom:0; }
 .product-options dd input.input-text { width:98%; }
 .product-options dd input.datetime-picker { width:150px; }
+.product-options dd .time-picker { display:-moz-inline-box; display:inline-block; padding:2px 0; vertical-align:middle; }
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd select { width:99%; }
 .product-options dd .multiselect option { border-bottom:1px dotted #d9e5ee; padding:2px 4px; }

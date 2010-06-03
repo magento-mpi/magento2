@@ -31,5 +31,5 @@
 ?>
 <p class="paypal-logo">
     <input type="hidden" id="pp_checkout_url" name="return_url" value="" />
-    <a href="<?php echo $this->getCheckoutUrl()?>" title="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" onclick="$('pp_checkout_url').value=this.href; productAddToCartForm.submit(); return false;"><img src="<?php echo $this->getImageUrl()?>" alt="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" /></a>
+    <a href="<?php echo $this->getCheckoutUrl()?>" title="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" onclick="$('pp_checkout_url').value=this.href; productAddToCartForm.submit(); return false;"><img src="<?php echo $this->escapeHtml($this->getImageUrl())?>" alt="<?php echo Mage::helper('paypal')->__('PayPal Checkout');?>" /></a>
 </p>

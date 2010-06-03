@@ -893,6 +893,7 @@ tr.summary-details-first td { border-top:1px solid #d2d8db; }
 .add-to-cart label { float:left; margin-right:5px; font-weight:bold; color:#666; }
 .add-to-cart .qty { float:left; margin-right:5px; }
 .add-to-cart button.button { float:left; }
+.add-to-cart .paypal-logo { clear:left; margin:0; padding:10px 0 0; text-align:right; }
 
 /* Add to Links + Add to Cart */
 .add-to-box { margin:10px 0; }
@@ -967,6 +968,7 @@ tr.summary-details-first td { border-top:1px solid #d2d8db; }
 .product-options dl.last dd.last { border-bottom:0; padding-bottom:5px; margin-bottom:0; }
 .product-options dd input.input-text { width:98%; }
 .product-options dd input.datetime-picker { width:150px; }
+.product-options dd .time-picker { display:-moz-inline-box; display:inline-block; padding:2px 0; vertical-align:middle; }
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd select { width:99%; }
 .product-options dd .multiselect option { border-bottom:1px dotted #d9e5ee; padding:2px 4px; }
@@ -986,6 +988,7 @@ tr.summary-details-first td { border-top:1px solid #d2d8db; }
 .product-options-bottom .tier-prices .price,
 .product-options-bottom .tier-prices .benefit { color:#e26703; }
 .product-options-bottom .price-box { float:left; margin:0; padding:0; }
+.col3-layout .product-options-bottom .price-box { float:none; padding:0 0 5px; }
 .product-options-bottom .price-label { float:left; padding-right:5px; }
 .product-options-bottom .price-tax { float:left; }
 .product-options-bottom .add-to-cart { float:right; }
@@ -1589,6 +1592,7 @@ tr.summary-details-first td { border-top:1px solid #d2d8db; }
 .col-main:after,
 .col2-set:after,
 .col3-set:after,
+.col3-layout .product-options-bottom .price-box:after,
 .col4-set:after,
 .search-autocomplete li:after,
 .block .block-content:after,

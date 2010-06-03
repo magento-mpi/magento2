@@ -748,6 +748,7 @@ tr.summary-details-first td { border-top:1px solid #d2d8db; }
 .add-to-cart label { float:left; margin-right:5px; }
 .add-to-cart .qty { float:left; }
 .add-to-cart button.button { float:left; margin-left:5px; }
+.add-to-cart .paypal-logo { clear:left; }
 
 /* Add to Links + Add to Cart */
 .add-to-box {}
@@ -800,6 +801,7 @@ tr.summary-details-first td { border-top:1px solid #d2d8db; }
 .product-options dl.last dd.last {}
 .product-options dd input.input-text { width:98%; }
 .product-options dd input.datetime-picker { width:150px; }
+.product-options dd .time-picker { display:-moz-inline-box; display:inline-block; padding:2px 0; vertical-align:middle; }
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd select { width:100%; }
 .product-options .options-list {}

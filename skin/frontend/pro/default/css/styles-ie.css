@@ -69,6 +69,8 @@ table { scrollbar-face-color:expression(runtimeStyle.scrollbarFaceColor = '#fff'
 .product-view .box-tags .product-tags li,
 .footer li { padding:0 5px 0 10px; }
 
+.product-options dd .time-picker select { margin:0; padding:0; }
+
 /* OPC */
 .section {margin-bottom:-3px;}
 

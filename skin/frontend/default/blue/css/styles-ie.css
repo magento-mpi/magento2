@@ -67,6 +67,8 @@ table { scrollbar-face-color:expression(runtimeStyle.scrollbarFaceColor = '#fff'
 .product-view .box-tags .product-tags li,
 .footer li { padding:0 4px 0 7px; }
 
+.product-options dd .time-picker select { margin:0; padding:0; }
+
 /* Clearer */
 .clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
 
@@ -82,6 +84,7 @@ table { scrollbar-face-color:expression(runtimeStyle.scrollbarFaceColor = '#fff'
 .col-main,
 .col2-set,
 .col3-set,
+.col3-layout .product-options-bottom .price-box,
 .col4-set,
 .messages li,
 .search-autocomplete li,
