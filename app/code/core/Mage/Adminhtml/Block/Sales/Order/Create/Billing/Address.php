@@ -78,8 +78,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Address
      */
     public function getFormValues()
     {
-        Mage::log(var_export($this->getCreateOrderModel()->getBillingAddress()->getData(), true));
-
         return $this->getCreateOrderModel()->getBillingAddress()->getData();
     }
 

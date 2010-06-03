@@ -970,8 +970,18 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             ->setEntity($address)
             ->setEntityType(Mage::getSingleton('eav/config')->getEntityType('customer_address'))
             ->setIsAjaxRequest(!$this->getIsValidate());
-        $request        = $addressForm->prepareRequest($data);
-        $addressData    = $addressForm->extractData($request);
+
+        // prepare request
+        // save original request structure for files
+        if ($address->getAddressType() == Mage_Sales_Model_Quote_Address::TYPE_SHIPPING) {
+            $requestData  = array('order' => array('shipping_address' => $data));
+            $requestScope = 'order/shipping_address';
+        } else {
+            $requestData = array('order' => array('billing_address' => $data));
+            $requestScope = 'order/billing_address';
+        }
+        $request        = $addressForm->prepareRequest($requestData);
+        $addressData    = $addressForm->extractData($request, $requestScope);
         if ($this->getIsValidate()) {
             $errors = $addressForm->validateData($addressData);
             if ($errors !== true) {
@@ -988,7 +998,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 $addressForm->compactData($addressData);
             }
         } else {
-            $addressForm->compactData($addressData);
+            $addressForm->restoreData($addressData);
         }
 
         return $this;
@@ -1111,9 +1121,19 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
     public function setAccountData($accountData)
     {
+        $customer   = $this->getQuote()->getCustomer();
+        $form       = $this->_getCustomerForm();
+        $form->setEntity($customer);
+
+        // emulate request
+        $request = $form->prepareRequest($accountData);
+        $data    = $form->extractData($request);
+        $form->restoreData($data);
+
         $data = array();
-        foreach ($accountData as $key => $value) {
-            $data['customer_' . $key] = $value;
+        foreach ($form->getAttributes() as $attribute) {
+            $code = sprintf('customer_%s', $attribute->getAttributeCode());
+            $data[$code] = $customer->getData($attribute->getAttributeCode());
         }
 
         if (isset($data['customer_group_id'])) {
@@ -1222,17 +1242,21 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         $form->setEntity($customer);
 
         // emulate request
-        $request = $form->prepareRequest($this->getData('account'));
-        $data    = $form->extractData($request);
+        $request = $form->prepareRequest(array('order' => $this->getData()));
+        $data    = $form->extractData($request, 'order/account');
         if ($this->getIsValidate()) {
             $errors = $form->validateData($data);
             if ($errors !== true) {
                 foreach ($errors as $error) {
                     $this->_errors[] = $error;
                 }
+                $form->restoreData($data);
+            } else {
+                $form->compactData($data);
             }
+        } else {
+            $form->restoreData($data);
         }
-        $form->compactData($data);
 
         return $this;
     }
@@ -1295,8 +1319,8 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         } else {
             $customer->addData($this->getBillingAddress()->exportCustomerAddress()->getData())
                 ->setPassword($customer->generatePassword())
-                ->setStore($store)
-                ->setEmail($this->_getNewCustomerEmail($customer));
+                ->setStore($store);
+            $customer->setEmail($this->_getNewCustomerEmail($customer));
             $this->_setCustomerData($customer);
 
             $customerBilling = $this->getBillingAddress()->exportCustomerAddress();
@@ -1313,6 +1337,14 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             }
         }
         $quote->setCustomer($customer);
+
+        // add user defined attributes to quote
+        $form = $this->_getCustomerForm()->setEntity($customer);
+        foreach ($form->getUserAttributes() as $attribute) {
+            $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
+            $quote->setData($quoteCode, $customer->getData($attribute->getAttributeCode()));
+        }
+
         if (!$customer->getId()) {
             $quote->setCustomerId(true);
         }
@@ -1459,6 +1491,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $host = $this->getSession()->getStore()->getConfig(Mage_Customer_Model_Customer::XML_PATH_DEFAULT_EMAIL_DOMAIN);
             $account = $customer->getIncrementId() ? $customer->getIncrementId() : time();
             $email = $account.'@'. $host;
+            $account = $this->getData('account');
+            $account['email'] = $email;
+            $this->setData('account', $account);
         }
         return $email;
     }

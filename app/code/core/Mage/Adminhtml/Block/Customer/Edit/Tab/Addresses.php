@@ -123,19 +123,19 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
 //        $this->_setFieldset($addressModel->getAttributes(), $fieldset);
         $this->_setFieldset($addressForm->getAttributes(), $fieldset);
 
-        if ($streetElement = $form->getElement('street')) {
-            $streetElement->setLineCount(Mage::helper('customer/address')->getStreetLines());
-        }
 
-        if ($regionElement = $form->getElement('region')) {
+        $regionElement = $form->getElement('region');
+        if ($regionElement) {
             $regionElement->setRenderer(Mage::getModel('adminhtml/customer_renderer_region'));
         }
 
-        if ($regionElement = $form->getElement('region_id')) {
+        $regionElement = $form->getElement('region_id');
+        if ($regionElement) {
             $regionElement->setNoDisplay(true);
         }
 
-        if ($country = $form->getElement('country_id')) {
+        $country = $form->getElement('country_id');
+        if ($country) {
             $country->addClass('countries');
         }
 
