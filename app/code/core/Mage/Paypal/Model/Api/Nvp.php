@@ -442,6 +442,14 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     );
 
     /**
+     * Do Reference Transaction request/response map
+     *
+     * @var array
+     */
+    protected $_doReferenceTransactionRequest = array('REFERENCEID', 'PAYMENTACTION', 'AMT');
+    protected $_doReferenceTransactionResponse = array('BILLINGAGREEMENTID', 'TRANSACTIONID');
+
+    /**
      * Fields that should be replaced in debug with '***'
      *
      * @var array
@@ -578,6 +586,18 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         }
         $response = $this->call(self::DO_DIRECT_PAYMENT, $request);
         $this->_importFromResponse($this->_doDirectPaymentResponse, $response);
+    }
+
+    /**
+     * Do Reference Transaction call
+     * @see https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoReferenceTransaction
+     */
+    public function callDoReferenceTransaction()
+    {
+        $request = $this->_exportToRequest($this->_doReferenceTransactionRequest);
+        $this->_exportLineItems($request);
+        $response = $this->call('DoReferenceTransaction', $request);
+        $this->_importFromResponse($this->_doReferenceTransactionResponse, $response);
     }
 
     /**

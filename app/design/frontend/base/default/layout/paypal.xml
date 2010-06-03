@@ -84,8 +84,12 @@ Available logo types can be assigned with action="setLogoType":
 
     <catalog_product_view>
         <reference name="product.info.addtocart">
-            <block type="paypal/express_shortcut" name="paypal.partner.catalog.shortcut" template="paypal/partner/catalog/product/shortcut.phtml">
-                <action method="setContext"><context>visible_on_product</context></action>
+            <block type="page/html_wrapper" name="product.info.addtocart.paypal.wrapper">
+                <action method="setHtmlTagName"><tag>p</tag></action>
+                <action method="setElementClass"><class>paypal-logo</class></action>
+                <block type="paypal/express_shortcut" name="product.info.addtocart.paypal" template="paypal/express/shortcut.phtml">
+                    <action method="setContext"><context>visible_on_product</context></action>
+                </block>
             </block>
         </reference>
         <reference name="right">

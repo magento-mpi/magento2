@@ -102,6 +102,13 @@ class Mage_Paypal_Model_Express_Checkout
     protected $_isBARequested = false;
 
     /**
+     * Customer ID
+     *
+     * @var int
+     */
+    protected $_customerId = null;
+
+    /**
      * Set quote and config instances
      * @param array $params
      */
@@ -271,6 +278,9 @@ class Mage_Paypal_Model_Express_Checkout
         $this->_api->callSetExpressCheckout();
         $token = $this->_api->getToken();
         $this->_redirectUrl = $this->_config->getExpressCheckoutStartUrl($token);
+
+        $this->_quote->getPayment()->unsAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
+        $this->_quote->getPayment()->save();
         return $token;
     }
 
@@ -475,14 +485,17 @@ class Mage_Paypal_Model_Express_Checkout
      */
     protected function _setBillingAgreementRequest()
     {
-        $isRequested = $this->_isBARequested || $this->_quote->getPayment()
-        ->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
+        if (!$this->_customerId) {
+            return $this;
+        }
 
-        if (!Mage::getModel('sales/billing_agreement')->needToCreateForCustomer(
-            $this->_config->allow_ba_signup == Mage_Paypal_Model_Config::EC_BA_SIGNUP_AUTO
-            || $isRequested && $this->_config->allow_ba_signup == Mage_Paypal_Model_Config::EC_BA_SIGNUP_ASK
-            , $this->_customerId
-        )) {
+        $isRequested = $this->_isBARequested || $this->_quote->getPayment()
+            ->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
+
+        $needToCreateBA = $this->_config->allow_ba_signup == Mage_Paypal_Model_Config::EC_BA_SIGNUP_AUTO
+            || $isRequested && $this->_config->allow_ba_signup == Mage_Paypal_Model_Config::EC_BA_SIGNUP_ASK;
+
+        if (!Mage::getModel('sales/billing_agreement')->needToCreateForCustomer($needToCreateBA, $this->_customerId)) {
             return $this;
         }
         $this->_api->setBillingType($this->_api->getBillingAgreementType());

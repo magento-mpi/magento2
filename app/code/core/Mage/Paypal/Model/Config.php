@@ -335,6 +335,9 @@ class Mage_Paypal_Model_Config
                     $result = false;
                 }
                 break;
+            case self::METHOD_BILLING_AGREEMENT:
+                $result = $this->isWppApiAvailabe();
+                break;
             case self::METHOD_WPP_DIRECT:
             case self::METHOD_WPP_PE_DIRECT:
                 break;

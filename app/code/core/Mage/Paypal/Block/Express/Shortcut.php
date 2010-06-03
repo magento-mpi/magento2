@@ -194,6 +194,7 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
         if (!$quote->validateMinimumAmount() || !$methodInstance->isAvailable($quote)) {
             return '';
         }
+        $this->setIsOneClickCheckout($context == 'visible_on_product');
         return parent::_toHtml();
     }
 

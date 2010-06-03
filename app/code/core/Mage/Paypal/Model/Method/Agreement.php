@@ -29,27 +29,27 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Model_Method_Agreement extends Mage_Payment_Model_Method_Abstract
+class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract
     implements Mage_Payment_Model_Billing_Agreement_MethodInterface
 {
-    /**
-     * Method instance settings
-     *
-     */
-    protected $_canUseCheckout  = false;
-    /**
-     * Website Payments Pro instance type
-     *
-     * @var $_proType string
-     */
-    protected $_proType = 'paypal/pro';
-
     /**
      * Method code
      *
      * @var string
      */
     protected $_code = Mage_Paypal_Model_Config::METHOD_BILLING_AGREEMENT;
+
+    /**
+     * Method instance settings
+     *
+     */
+    protected $_canAuthorize            = true;
+    protected $_canCapture              = true;
+    protected $_canCapturePartial       = true;
+    protected $_canRefund               = true;
+    protected $_canRefundInvoicePartial = true;
+    protected $_canVoid                 = true;
+    protected $_canUseCheckout          = false;
 
     /**
      * Website Payments Pro instance
@@ -69,21 +69,9 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Payment_Model_Method_Abstr
         if ($proInstance && ($proInstance instanceof Mage_Paypal_Model_Pro)) {
             $this->_pro = $proInstance;
         } else {
-            $this->_pro = Mage::getModel($this->_proType);
+            $this->_pro = Mage::getModel('paypal/pro');
         }
         $this->_pro->setMethod($this->_code);
-    }
-
-    /**
-     * Redeclare parent method just for adding dependency of WPP Direct
-     *
-     * @param Mage_Sales_Model_Quote
-     * @return bool
-     */
-    public function isAvailable($quote = null)
-    {
-        return (parent::isAvailable($quote)
-            && $this->_pro->getConfig()->isMethodAvailable(Mage_Paypal_Model_Config::METHOD_WPP_DIRECT));
     }
 
     /**
@@ -156,4 +144,130 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Payment_Model_Method_Abstr
         $api->callUpdateBillingAgreement();
         return $this;
     }
+
+    /**
+     * Authorize payment
+     *
+     * @param Varien_Object $payment
+     * @param float $amount
+     * @return Mage_Paypal_Model_Method_Agreement
+     */
+    public function authorize(Varien_Object $payment, $amount)
+    {
+        return $this->_placeOrder($payment, $amount);
+    }
+
+    /**
+     * Void payment
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return Mage_Paypal_Model_Method_Agreement
+     */
+    public function void(Varien_Object $payment)
+    {
+        $this->_pro->void($payment);
+        return $this;
+    }
+
+    /**
+     * Capture payment
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param float $amount
+     * @return Mage_Paypal_Model_Method_Agreement
+     */
+    public function capture(Varien_Object $payment, $amount)
+    {
+        if (false === $this->_pro->capture($payment, $amount)) {
+            $this->_placeOrder($payment, $amount);
+        }
+        return $this;
+    }
+
+    /**
+     * Refund capture
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param float $amount
+     * @return Mage_Paypal_Model_Method_Agreement
+     */
+    public function refund(Varien_Object $payment, $amount)
+    {
+        $this->_pro->refund($payment, $amount);
+        return $this;
+    }
+
+    /**
+     * Cancel payment
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return Mage_Paypal_Model_Method_Agreement
+     */
+    public function cancel(Varien_Object $payment)
+    {
+        $this->_pro->cancel($payment);
+        return $this;
+    }
+
+    /**
+     * Place an order with authorization or capture action
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @param float $amount
+     * @return Mage_Paypal_Model_Method_Agreement
+     */
+    protected function _placeOrder(Mage_Sales_Model_Order_Payment $payment, $amount)
+    {
+        $order = $payment->getOrder();
+        $billingAgreement = Mage::getModel('sales/billing_agreement')->load(
+            $payment->getAdditionalInformation(self::TRANSPORT_BILLING_AGREEMENT_ID)
+        );
+
+        $api = $this->_pro->getApi()
+            ->setReferenceId($billingAgreement->getReferenceId())
+            ->setPaymentAction($this->_pro->getConfig()->paymentAction)
+            ->setAmount($amount)
+            ->setNotifyUrl(Mage::getUrl('paypal/ipn/'));
+
+        // add line items
+        if ($this->_pro->getConfig()->lineItemsEnabled) {
+            list($items, $totals) = Mage::helper('paypal')->prepareLineItems($order);
+            if (Mage::helper('paypal')->areCartLineItemsValid($items, $totals, $amount)) {
+                $api->setLineItems($items)->setLineItemTotals($totals);
+            }
+        }
+
+        // call api and import transaction and other payment information
+        $api->callDoReferenceTransaction();
+        $this->_pro->importPaymentInfo($api, $payment);
+        $api->callGetTransactionDetails();
+        $this->_pro->importPaymentInfo($api, $payment);
+
+        $payment->setTransactionId($api->getTransactionId())
+            ->setIsTransactionClosed(0);
+
+        if ($api->getBillingAgreementId()) {
+            $billingAgreement->addOrderRelation($order->getId());
+        }
+
+        return $this;
+    }
+
+
+    protected function _isAvailable($quote)
+    {
+        return $this->_pro->getConfig()->isMethodAvailable($this->_code);
+    }
+
+    /**
+     * Payment action getter compatible with payment model
+     *
+     * @see Mage_Sales_Model_Payment::place()
+     * @return string
+     */
+    public function getConfigPaymentAction()
+    {
+        return $this->_pro->getConfig()->getPaymentAction();
+    }
+
 }
