@@ -25,12 +25,10 @@
  */
 
 /**
- * Cart sidebar container
+ * Recently compared sidebar container
  */
-class Enterprise_PageCache_Model_Container_CartSidebar extends Enterprise_PageCache_Model_Container_Abstract
+class Enterprise_PageCache_Model_Container_Sidebar_Recentlycompared extends Enterprise_PageCache_Model_Container_Abstract
 {
-    const CACHE_TAG_PREFIX = 'cartsidebar';
-
     /**
      * Get identifier from cookies
      *
@@ -38,12 +36,8 @@ class Enterprise_PageCache_Model_Container_CartSidebar extends Enterprise_PageCa
      */
     protected function _getIdentifier()
     {
-        $result = '';
-        if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CART])) {
-            $result .= $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CART];
-        }
-        $result .= (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ? '1' : '';
-        return $result;
+        return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED, '')
+            . ($this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER) ? '1' : '');
     }
 
     /**
@@ -53,7 +47,7 @@ class Enterprise_PageCache_Model_Container_CartSidebar extends Enterprise_PageCa
      */
     protected function _getCacheId()
     {
-        return 'CONTAINER_SIDEBAR_' . md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentifier());
+        return 'CONTAINER_RECENTLYCOMPARED_' . md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentifier());
     }
 
     /**
@@ -68,24 +62,7 @@ class Enterprise_PageCache_Model_Container_CartSidebar extends Enterprise_PageCa
 
         $block = new $block;
         $block->setTemplate($template);
-        $block->setLayout(Mage::app()->getLayout());
 
         return $block->toHtml();
-    }
-
-    /**
-     * Save rendered block content to cache storage
-     *
-     * @param string $blockContent
-     * @return Enterprise_PageCache_Model_Container_Abstract
-     */
-    public function saveCache($blockContent)
-    {
-        $cacheId = $this->_getCacheId();
-        if ($cacheId !== false) {
-            $cacheTag = md5(self::CACHE_TAG_PREFIX . $this->_getIdentifier());
-            $this->_saveCache($blockContent, $cacheId, array($cacheTag));
-        }
-        return $this;
     }
 }

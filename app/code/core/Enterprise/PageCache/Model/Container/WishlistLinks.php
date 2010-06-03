@@ -27,7 +27,7 @@
 /**
  * Wishlist sidebar links container
  */
-class Enterprise_PageCache_Model_Container_WishlistLinks extends Enterprise_PageCache_Model_Container_Abstract
+class Enterprise_PageCache_Model_Container_Wishlistlinks extends Enterprise_PageCache_Model_Container_Abstract
 {
     /**
      * Get identifier from cookies
@@ -36,12 +36,8 @@ class Enterprise_PageCache_Model_Container_WishlistLinks extends Enterprise_Page
      */
     protected function _getIdentifier()
     {
-        $result = '';
-        if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST_ITEMS])) {
-            $result .= $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST_ITEMS];
-        }
-        $result .= (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ? '1' : '';
-        return $result;
+        return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST_ITEMS, '')
+            . ($this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER) ? '1' : '');
     }
 
     /**

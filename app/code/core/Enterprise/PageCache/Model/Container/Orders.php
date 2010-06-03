@@ -38,8 +38,7 @@ class Enterprise_PageCache_Model_Container_Orders extends Enterprise_PageCache_M
      */
     protected function _getIdentifier()
     {
-        return (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ?
-            $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER] : '';
+        return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER, '');
     }
 
     /**

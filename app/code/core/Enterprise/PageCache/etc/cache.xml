@@ -17,13 +17,13 @@
         <cart_sidebar>
             <block>checkout/cart_sidebar</block>
             <placeholder>CART_SIDEBAR</placeholder>
-            <container>Enterprise_PageCache_Model_Container_CartSidebar</container>
+            <container>Enterprise_PageCache_Model_Container_Sidebar_Cart</container>
             <cache_lifetime>86400</cache_lifetime>
         </cart_sidebar>
         <compare_list_sidebar>
             <block>catalog/product_compare_sidebar</block>
             <placeholder>COMPARELIST_SIDEBAR</placeholder>
-            <container>Enterprise_PageCache_Model_Container_CompareListSidebar</container>
+            <container>Enterprise_PageCache_Model_Container_Sidebar_Comparelist</container>
             <cache_lifetime>86400</cache_lifetime>
         </compare_list_sidebar>
         <messages>
@@ -36,7 +36,7 @@
         <recently_compared_sidebar>
             <block>reports/product_compared</block>
             <placeholder>RECENTLYCOMPARED_SIDEBAR</placeholder>
-            <container>Enterprise_PageCache_Model_Container_RecentlyComparedSidebar</container>
+            <container>Enterprise_PageCache_Model_Container_Sidebar_Recentlycompared</container>
             <cache_lifetime>86400</cache_lifetime>
         </recently_compared_sidebar>
         <welcome_message>
@@ -49,7 +49,7 @@
             <block>page/template_links</block>
             <name>account.links</name>
             <placeholder>ACCLINKS</placeholder>
-            <container>Enterprise_PageCache_Model_Container_AccountLinks</container>
+            <container>Enterprise_PageCache_Model_Container_Accountlinks</container>
             <cache_lifetime>86400</cache_lifetime>
         </account_links>
         <wishlist>
@@ -67,7 +67,7 @@
         <wishlist_links>
             <block>wishlist/links</block>
             <placeholder>WISHLISTLINKS</placeholder>
-            <container>Enterprise_PageCache_Model_Container_WishlistLinks</container>
+            <container>Enterprise_PageCache_Model_Container_Wishlistlinks</container>
             <cache_lifetime>86400</cache_lifetime>
         </wishlist_links>
         <poll_activepoll>

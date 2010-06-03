@@ -36,14 +36,8 @@ class Enterprise_PageCache_Model_Container_Wishlist extends Enterprise_PageCache
      */
     protected function _getIdentifier()
     {
-        $result = '';
-        if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST])) {
-            $result .= $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST];
-        }
-        if (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP])) {
-            $result .= $_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP];
-        }
-        return $result;
+        return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST, '')
+            . ($this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP, ''));
     }
 
     /**

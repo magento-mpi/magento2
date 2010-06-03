@@ -27,7 +27,7 @@
 /**
  * Welcome container
  */
-class Enterprise_PageCache_Model_Container_Welcome extends Enterprise_PageCache_Model_Container_CustomerContainer
+class Enterprise_PageCache_Model_Container_Welcome extends Enterprise_PageCache_Model_Container_Customer
 {
     /**
      * Get identifier from cookies
@@ -36,7 +36,7 @@ class Enterprise_PageCache_Model_Container_Welcome extends Enterprise_PageCache_
      */
     protected function _getIdentifier()
     {
-        return (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ? '1' : '';
+        return ($this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER) ? '1' : '');
     }
 
     /**

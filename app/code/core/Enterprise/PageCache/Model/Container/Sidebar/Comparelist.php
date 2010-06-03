@@ -25,20 +25,42 @@
  */
 
 /**
- * Container for cache lifetime equated with session lifetime
+ * Compare list sidebar container
  */
-class Enterprise_PageCache_Model_Container_CustomerContainer extends Enterprise_PageCache_Model_Container_Abstract
+class Enterprise_PageCache_Model_Container_Sidebar_Comparelist extends Enterprise_PageCache_Model_Container_Abstract
 {
     /**
-     * Save data to cache storage and set cache lifetime equal with customer session lifetime
+     * Get identifier from cookies
      *
-     * @param string $data
-     * @param string $id
-     * @param array $tags
+     * @return string
      */
-    protected function _saveCache($data, $id, $tags = array(), $lifetime = null)
+    protected function _getIdentifier()
     {
-        $lifetime = Mage::getConfig()->getNode(Mage_Core_Model_Session_Abstract::XML_PATH_COOKIE_LIFETIME);
-        return parent::_saveCache($data, $id, $tags, $lifetime);
+        return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST, '');
+    }
+
+    /**
+     * Get cache identifier
+     *
+     * @return string
+     */
+    protected function _getCacheId()
+    {
+        return 'CONTAINER_COMPARELIST_' . md5($this->_placeholder->getAttribute('cache_id') . $this->_getIdentifier());
+    }
+
+    /**
+     * Render block content
+     *
+     * @return string
+     */
+    protected function _renderBlock()
+    {
+        $template = $this->_placeholder->getAttribute('template');
+
+        $block = Mage::app()->getLayout()->createBlock('catalog/product_compare_list');
+        $block->setTemplate($template);
+
+        return $block->toHtml();
     }
 }

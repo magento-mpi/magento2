@@ -264,7 +264,7 @@ class Enterprise_PageCache_Model_Observer
             $observer->getEvent()->getQuoteItem()->getQuote();
         $this->_getCookie()->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_CART, 'quote_' . $quote->getId());
 
-        $cacheTag = md5(Enterprise_PageCache_Model_Container_CartSidebar::CACHE_TAG_PREFIX
+        $cacheTag = md5(Enterprise_PageCache_Model_Container_Sidebar_Cart::CACHE_TAG_PREFIX
             . $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CART));
         Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($cacheTag));
 

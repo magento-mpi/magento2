@@ -72,8 +72,9 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
             } else {
                 return false;
             }
+        } else {
+            $this->_applyToContent($content, '');
         }
-        $this->_applyToContent($content, '');
         return true;
     }
 
@@ -158,5 +159,17 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
         }
         Mage::app()->getCache()->save($data, $id, $tags, $lifetime);
         return $this;
+    }
+
+    /**
+     * Retrieve cookie value
+     *
+     * @param string $cookieName
+     * @param mixed $defaultValue
+     * @return string
+     */
+    protected function _getCookieValue($cookieName, $defaultValue = null)
+    {
+        return (array_key_exists($cookieName, $_COOKIE) ? $_COOKIE[$cookieName] : $defaultValue);
     }
 }

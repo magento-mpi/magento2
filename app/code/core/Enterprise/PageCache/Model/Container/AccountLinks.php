@@ -27,14 +27,14 @@
 /**
  * Account links container
  */
-class Enterprise_PageCache_Model_Container_AccountLinks extends Enterprise_PageCache_Model_Container_CustomerContainer
+class Enterprise_PageCache_Model_Container_Accountlinks extends Enterprise_PageCache_Model_Container_Customer
 {
     /**
      * Get cart hash from cookies
      */
     protected function _isLogged()
     {
-        return (isset($_COOKIE[Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER])) ? true : false;
+        return ($this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER) ? true : false);
     }
 
     /**
