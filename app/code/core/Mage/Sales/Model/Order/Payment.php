@@ -236,6 +236,8 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      * Updates transactions hierarchy, if required
      * Updates payment totals, updates order status and adds proper comments
      *
+     * TODO: eliminate logic duplication with registerCaptureNotification()
+     *
      * @return Mage_Sales_Model_Order_Payment
      * @throws Mage_Core_Exception
      */
@@ -309,6 +311,8 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      * Prevents transaction double processing
      * Updates payment totals, updates order status and adds proper comments
      *
+     * TODO: eliminate logic duplication with capture()
+     *
      * @param float $amount
      * @return Mage_Sales_Model_Order_Payment
      */
@@ -332,18 +336,29 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 $this->_updateTotals(array('base_amount_paid_online' => $amount));
             }
         }
-        // register capture for an existing invoice
-        if ($invoice && Mage_Sales_Model_Order_Invoice::STATE_OPEN == $invoice->getState()) {
-            $invoice->pay();
-            $order->addRelatedObject($invoice);
-            $this->_updateTotals(array('base_amount_paid_online' => $amount));
+
+        $status = true;
+        if ($this->getIsTransactionPending()) {
+            $message = Mage::helper('sales')->__('Capturing amount of %s is pending approval on gateway.', $this->_formatPrice($amount));
+            $state = Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW;
+            if ($this->getIsFraudDetected()) {
+                $status = 'fraud';
+            }
+        } else {
+            $message = Mage::helper('sales')->__('Registered notification about captured amount of %s.', $this->_formatPrice($amount));
+            $state = Mage_Sales_Model_Order::STATE_PROCESSING;
+            // register capture for an existing invoice
+            if ($invoice && Mage_Sales_Model_Order_Invoice::STATE_OPEN == $invoice->getState()) {
+                $invoice->pay();
+                $this->_updateTotals(array('base_amount_paid_online' => $amount));
+                $order->addRelatedObject($invoice);
+            }
         }
 
         $transaction = $this->_addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE, $invoice, true);
-        $message = Mage::helper('sales')->__('Registered notification about captured amount of %s.', $this->_formatPrice($amount));
         $message = $this->_prependMessage($message);
         $message = $this->_appendTransactionToMessage($transaction, $message);
-        $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $message);
+        $order->setState($state, $status, $message);
         return $this;
     }
 
@@ -536,6 +551,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      * Updates payment totals, updates order status and adds proper comments
      * TODO: potentially a full capture can be refunded. In this case if there was only one invoice for that transaction
      *       then we should create a creditmemo from invoice and also refund it offline
+     * TODO: implement logic of chargebacks reimbursements (via negative amount)
      *
      * @param float $amount
      * @return Mage_Sales_Model_Order_Payment
@@ -711,14 +727,17 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                 }
                 break;
             case self::REVIEW_ACTION_UPDATE:
-                $transactionId = $this->getLastTransId();
-                $this->getMethodInstance()->setStore($order->getStoreId())->fetchTransactionInfo($this, $transactionId);
+                if ($isOnline) {
+                    $this->getMethodInstance()->setStore($order->getStoreId())->fetchTransactionInfo($this, $transactionId);
+                } else {
+                    // notification mechanism is responsible to update the payment object first
+                }
                 if ($this->getIsTransactionApproved()) {
                     $result = true;
-                    $message = Mage::helper('sales')->__('Fetched update about approved payment.');
+                    $message = Mage::helper('sales')->__('Registered update about approved payment.');
                 } elseif ($this->getIsTransactionDenied()) {
                     $result = false;
-                    $message = Mage::helper('sales')->__('Fetched update about approved payment.');
+                    $message = Mage::helper('sales')->__('Registered update about approved payment.');
                 } else {
                     $result = -1;
                     $message = Mage::helper('sales')->__('There is no update for the payment.');
@@ -727,6 +746,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             default:
                 throw new Exception('Not implemented.');
         }
+        $message = $this->_prependMessage($message);
         $message = $this->_appendTransactionToMessage($transactionId, $message);
 
         // process payment in case of positive or negative result, or add a comment

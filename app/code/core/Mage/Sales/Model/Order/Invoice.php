@@ -490,8 +490,10 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
                 }
             }
         } elseif(!$order->getPayment()->getMethodInstance()->isGateway() || $captureCase == self::CAPTURE_OFFLINE) {
-            $this->setCanVoidFlag(false);
-            $this->pay();
+            if (!$order->getPayment()->getIsTransactionPending()) {
+                $this->setCanVoidFlag(false);
+                $this->pay();
+            }
         }
 
         $order->setTotalInvoiced($order->getTotalInvoiced() + $this->getGrandTotal());
