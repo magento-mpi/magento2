@@ -25,35 +25,42 @@
  */
 
 /**
- * Billing agreement resource model
+ * Sales Billing Agreement form block
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Mysql4_Billing_Agreement extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Sales_Block_Payment_Form_Billing_Agreement extends Mage_Payment_Block_Form
 {
     /**
-     * Resource initialization
+     * Set custom template
+     *
      */
-    protected function _construct()
+    public function __construct()
     {
-        $this->_init('sales/billing_agreement', 'agreement_id');
+        parent::__construct();
+        $this->setTemplate('sales/billing/agreement/form.phtml');
+        $this->setTransportBAId(Mage_Paypal_Model_Method_Agreement::TRANSPORT_BILLING_AGREEMENT_ID);
     }
 
     /**
-     * Add order relation to billing agreement
+     * Retrieve available customer billing agreements
      *
-     * @param int $agreementId
-     * @param int $orderId
-     * @return Mage_Sales_Model_Mysql4_Billing_Agreement
+     * @return array
      */
-    public function addOrderRelation($agreementId, $orderId)
+    public function getBillingAgreements()
     {
-        $this->_getWriteAdapter()->insert(
-            $this->getTable('sales/billing_agreement_order'), array(
-                'agreement_id'  => $agreementId,
-                'order_id'      => $orderId
-            )
+        $data = array();
+        $quote = $this->getParentBlock()->getQuote();
+        if (!$quote || !$quote->getCustomer()) {
+            return $data;
+        }
+        $collection = Mage::getModel('sales/billing_agreement')->getAvailableCustomerBillingAgreements(
+            $quote->getCustomer()->getId()
         );
-        return $this;
+
+        foreach ($collection as $item) {
+            $data[$item->getId()] = $item->getReferenceId();
+        }
+        return $data;
     }
 }

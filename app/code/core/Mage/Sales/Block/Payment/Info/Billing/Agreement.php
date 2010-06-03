@@ -25,35 +25,29 @@
  */
 
 /**
- * Billing agreement resource model
+ * Sales Billing Agreement info block
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Mysql4_Billing_Agreement extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Sales_Block_Payment_Info_Billing_Agreement extends Mage_Payment_Block_Info
 {
-    /**
-     * Resource initialization
-     */
-    protected function _construct()
-    {
-        $this->_init('sales/billing_agreement', 'agreement_id');
-    }
-
-    /**
-     * Add order relation to billing agreement
+/**
+     * Add reference id to payment method information
      *
-     * @param int $agreementId
-     * @param int $orderId
-     * @return Mage_Sales_Model_Mysql4_Billing_Agreement
+     * @param Varien_Object|array $transport
      */
-    public function addOrderRelation($agreementId, $orderId)
+    protected function _prepareSpecificInformation($transport = null)
     {
-        $this->_getWriteAdapter()->insert(
-            $this->getTable('sales/billing_agreement_order'), array(
-                'agreement_id'  => $agreementId,
-                'order_id'      => $orderId
-            )
+        if (null !== $this->_paymentSpecificInformation) {
+            return $this->_paymentSpecificInformation;
+        }
+        $info = $this->getInfo();
+        $referenceID = $info->getAdditionalInformation(
+            Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract::PAYMENT_INFO_REFERENCE_ID
         );
-        return $this;
+        $transport = new Varien_Object(array($this->__('Reference ID') => $referenceID,));
+        $transport = parent::_prepareSpecificInformation($transport);
+
+        return $transport;
     }
 }

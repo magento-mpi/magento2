@@ -89,7 +89,7 @@ class Mage_Sales_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Mysql4_C
     /**
      * Join table sales_flat_order_address to select for billing and shipping order addresses.
      * Create corillation map
-     * 
+     *
      * @return Mage_Sales_Model_Mysql4_Collection_Abstract
      */
     protected function _addAddressFields()
@@ -181,6 +181,23 @@ class Mage_Sales_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Mysql4_C
             $this->addAttributeToFilter($attributes, $condition);
         }
 
+        return $this;
+    }
+
+    /**
+     * Add filter by specified billing agreements
+     *
+     * @param int|array $agreements
+     * @return Mage_Sales_Model_Mysql4_Order_Collection
+     */
+    public function addBillingAgreementsFilter($agreements)
+    {
+        $agreements = (is_array($agreements)) ? $agreements : array($agreements);
+        $this->getSelect()->joinInner(
+            array('sbao' => $this->getTable('sales/billing_agreement_order')),
+            'main_table.entity_id = sbao.order_id',
+            array()
+        )->where('sbao.agreement_id IN(?)', $agreements);
         return $this;
     }
 }

@@ -224,4 +224,17 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
         return ($needToCreateBA && $customerId) ? count($this->getAvailableCustomerBillingAgreements($customerId)) == 0
             : false;
     }
+
+    /**
+     * Add order relation to current billing agreement
+     *
+     * @param int $orderId
+     * @return Mage_Sales_Model_Billing_Agreement
+     */
+    public function addOrderRelation($orderId)
+    {
+        $this->getResource()->addOrderRelation($this->getId(), $orderId);
+        return $this;
+    }
+
 }

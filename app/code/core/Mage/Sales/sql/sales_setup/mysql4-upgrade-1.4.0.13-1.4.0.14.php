@@ -24,36 +24,30 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Billing agreement resource model
- *
- * @author Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Sales_Model_Mysql4_Billing_Agreement extends Mage_Core_Model_Mysql4_Abstract
-{
-    /**
-     * Resource initialization
-     */
-    protected function _construct()
-    {
-        $this->_init('sales/billing_agreement', 'agreement_id');
-    }
+/* @var $installer Mage_Sales_Model_Entity_Setup */
+$installer = $this;
 
-    /**
-     * Add order relation to billing agreement
-     *
-     * @param int $agreementId
-     * @param int $orderId
-     * @return Mage_Sales_Model_Mysql4_Billing_Agreement
-     */
-    public function addOrderRelation($agreementId, $orderId)
-    {
-        $this->_getWriteAdapter()->insert(
-            $this->getTable('sales/billing_agreement_order'), array(
-                'agreement_id'  => $agreementId,
-                'order_id'      => $orderId
-            )
-        );
-        return $this;
-    }
-}
+$installer->run("
+    CREATE TABLE `{$installer->getTable('sales/billing_agreement_order')}` (
+      `agreement_id` int(10) unsigned NOT NULL,
+      `order_id` int(10) unsigned NOT NULL,
+      UNIQUE KEY `UNQ_BILLING_AGREEMENT_ORDER` (`agreement_id`,`order_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+");
+
+$installer->getConnection()->addConstraint(
+    'FK_BILLING_AGREEMENT_ORDER_AGREEMENT',
+    $installer->getTable('sales/billing_agreement_order'),
+    'agreement_id',
+    $installer->getTable('sales/billing_agreement'),
+    'agreement_id'
+);
+
+$installer->getConnection()->addConstraint(
+    'FK_BILLING_AGREEMENT_ORDER_ORDER',
+    $installer->getTable('sales/billing_agreement_order'),
+    'order_id',
+    $installer->getTable('sales/order'),
+    'entity_id'
+);
+
