@@ -34,6 +34,13 @@
 class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
+     * Retain filter parameters in session
+     *
+     * @var bool
+     */
+    protected $_saveParametersInSession = true;
+
+    /**
      * Constructor
      * Set main configuration of grid
      */
@@ -42,7 +49,6 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_
         parent::__construct();
         $this->setId('settlementGrid');
         $this->setUseAjax(true);
-        $this->setDefaultSort('row_id', 'desc');
     }
 
     /**
@@ -53,6 +59,9 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_
     {
         $collection = Mage::getResourceModel('paypal/report_settlement_row_collection');
         $this->setCollection($collection);
+        if (!$this->getParam($this->getVarNameSort())) {
+            $collection->setOrder('row_id', 'desc');
+        }
         return parent::_prepareCollection();
     }
 
