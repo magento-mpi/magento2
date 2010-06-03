@@ -310,6 +310,10 @@ Email layouts section
     </customer_account>
 
     <catalog_product_view>
+        <reference name="product.info.container1">
+            <block type="sales/catalog_product_view_recurring_profile" name="sales.product.recurring_profile" template="sales/catalog/product/view/recurring/profile.phtml" before="product.info.options.wrapper.bottom"/>
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+        </reference>
         <reference name="product.info.container2">
             <block type="sales/catalog_product_view_recurring_profile" name="sales.product.recurring_profile" template="sales/catalog/product/view/recurring/profile.phtml" before="product.info.options.wrapper.bottom"/>
             <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
