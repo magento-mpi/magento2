@@ -39,13 +39,6 @@ class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
     protected $_proType = 'paypaluk/pro';
 
     /**
-     * Ipn notify action
-     *
-     * @var string
-     */
-    protected $_notifyAction = 'paypaluk/ipn/direct';
-
-    /**
      * Return available CC types for gateway based on merchant country
      *
      * @return string

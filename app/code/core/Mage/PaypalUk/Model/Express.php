@@ -41,13 +41,6 @@ class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
     protected $_proType = 'paypaluk/pro';
 
     /**
-     * Notify Url
-     *
-     * @var string
-     */
-    protected $_ipnAction = 'paypaluk/ipn/express';
-
-    /**
      * Custom getter for payment configuration
      *
      * @param string $field

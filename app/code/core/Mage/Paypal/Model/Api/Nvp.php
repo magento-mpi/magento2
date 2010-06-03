@@ -794,7 +794,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $eachCallRequest = $this->_prepareEachCallRequest($methodName);
         $request = $this->_exportToRequest($eachCallRequest, $request);
 
-        $debugData = array('request' => $request);
+        $debugData = array('url' => $this->getApiEndpoint(), $methodName => $request);
 
         try {
             $http = new Varien_Http_Adapter_Curl();
@@ -805,9 +805,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $http->setConfig($config);
             $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', array(), $this->_buildQuery($request));
             $response = $http->read();
-        }
-        catch (Exception $e) {
-            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+        } catch (Exception $e) {
+            $debugData['http_error'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $this->_debug($debugData);
             throw $e;
         }
@@ -818,7 +817,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $response = trim($response[1]);
         $response = $this->_deformatNVP($response);
 
-        $debugData['result'] = $response;
+        $debugData['response'] = $response;
         $this->_debug($debugData);
 
         // handle transport error
@@ -1106,7 +1105,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             case 'Failed': return Mage_Paypal_Model_Info::PAYMENTSTATUS_FAILED;
             case 'In-Progress': return Mage_Paypal_Model_Info::PAYMENTSTATUS_INPROGRESS;
             case 'Pending': return Mage_Paypal_Model_Info::PAYMENTSTATUS_PENDING;
-            case 'Refunded': return Mage_Paypal_Model_Info::PAYMENTSTATUS_PREFUNDED;
+            case 'Refunded': return Mage_Paypal_Model_Info::PAYMENTSTATUS_REFUNDED;
             case 'Partially-Refunded': return Mage_Paypal_Model_Info::PAYMENTSTATUS_REFUNDEDPART;
             case 'Reversed': return Mage_Paypal_Model_Info::PAYMENTSTATUS_REVERSED;
             case 'Canceled-Reversal': return Mage_Paypal_Model_Info::PAYMENTSTATUS_UNREVERSED;

@@ -161,7 +161,10 @@ class Mage_Paypal_Model_Pro implements Mage_Payment_Model_Recurring_Profile_Meth
         // update PayPal-specific payment information in the payment object
         $this->getInfo()->importToPayment($from, $to);
 
-        // detect payment review and/or frauds
+        /**
+         * Detect payment review and/or frauds
+         * PayPal pro API returns fraud results only in the payment call response
+         */
         if ($from->getDataUsingMethod(Mage_Paypal_Model_Info::IS_FRAUD)) {
             $to->setIsTransactionPending(true);
             $to->setIsFraudDetected(true);

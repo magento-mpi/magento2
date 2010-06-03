@@ -60,13 +60,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     protected $_canReviewPayment        = true;
 
     /**
-     * Ipn action
-     *
-     * @var string
-     */
-    protected $_ipnAction = 'paypal/ipn/express';
-
-    /**
      * Website Payments Pro instance
      *
      * @var Mage_Paypal_Model_Pro
@@ -359,7 +352,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             ->setPayerId($payment->getAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_PAYER_ID))
             ->setAmount($amount)
             ->setPaymentAction($this->_pro->getConfig()->paymentAction)
-            ->setNotifyUrl(Mage::getUrl($this->_ipnAction))
+            ->setNotifyUrl(Mage::getUrl('paypal/ipn/'))
             ->setInvNum($order->getIncrementId())
             ->setCurrencyCode($order->getBaseCurrencyCode())
             ->setBusinessAccount($this->_pro->getConfig()->businessAccount);

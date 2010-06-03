@@ -123,7 +123,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $api->setOrderId($orderIncrementId)
             ->setCurrencyCode($order->getBaseCurrencyCode())
             //->setPaymentAction()
-            ->setNotifyUrl(Mage::getUrl('paypal/ipn/standard'))
+            ->setNotifyUrl(Mage::getUrl('paypal/ipn/'))
             ->setReturnUrl(Mage::getUrl('paypal/standard/success'))
             ->setCancelUrl(Mage::getUrl('paypal/standard/cancel'));
 

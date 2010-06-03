@@ -27,55 +27,22 @@
 /**
  * Unified IPN controller for all supported PayPal methods
  */
-abstract class Mage_Paypal_Controller_Ipn_Abstract extends Mage_Core_Controller_Front_Action
+class Mage_Paypal_IpnController extends Mage_Core_Controller_Front_Action
 {
     /**
-     * Config Model Type
-     *
-     * @var string
+     * Instantiate IPN model and pass IPN request to it
      */
-    protected $_configType = 'paypal/config';
-
-    /**
-     * Process IPN for PayPal Standard
-     */
-    public function standardAction()
-    {
-        return $this->_ipnAction(Mage_Paypal_Model_Config::METHOD_WPS);
-    }
-
-    /**
-     * Process IPN for PayPal Express
-     */
-    public function expressAction()
-    {
-        return $this->_ipnAction(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
-    }
-
-    /**
-     * Process IPN for PayPal Direct
-     */
-    public function directAction()
-    {
-        return $this->_ipnAction(Mage_Paypal_Model_Config::METHOD_WPP_DIRECT);
-    }
-
-    /**
-     * Actually process the IPN
-     * @param string $method
-     */
-    protected function _ipnAction($method)
+    public function indexAction()
     {
         if (!$this->getRequest()->isPost()) {
             return;
         }
-        $config = Mage::getModel($this->_configType, array($method));
-        if (!$config->active) {
-            return;
+
+        try {
+            $data = $this->getRequest()->getPost();
+            Mage::getModel('paypal/ipn')->processIpnRequest($data, new Varien_Http_Adapter_Curl());
+        } catch (Exception $e) {
+            Mage::logException($e);
         }
-        Mage::getModel('paypal/ipn')
-            ->setConfig($config)
-            ->setIpnFormData($this->getRequest()->getPost())
-            ->processIpnRequest();
     }
 }
