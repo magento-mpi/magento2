@@ -321,7 +321,7 @@ abstract class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Co
         foreach($fields as $fieldKey=>$fieldItem) {
             $fullExpression = str_replace('{{' . $fieldKey . '}}', $fieldItem, $fullExpression);
         }
-        
+
         $this->getSelect()->columns(array($alias=>$fullExpression));
 
         return $this;
@@ -450,7 +450,7 @@ abstract class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Co
         $idsSelect->columns(
             'main_table.' . $this->getResource()->getIdFieldName()
         );
-        return $this->getConnection()->fetchCol($idsSelect);
+        return $this->getConnection()->fetchCol($idsSelect, $this->_bindParams);
     }
 
     public function join($table, $cond, $cols='*')
