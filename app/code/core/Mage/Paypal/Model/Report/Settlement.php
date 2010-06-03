@@ -281,7 +281,7 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
                 $cfg['hostname'] = $cfg['sandbox'] ? self::SANDBOX_REPORTS_HOSTNAME : self::REPORTS_HOSTNAME;
             }
             if (empty($config['path']) || $cfg['sandbox']) {
-                $config['path'] = self::REPORTS_PATH;
+                $cfg['path'] = self::REPORTS_PATH;
             }
             // avoid duplicates
             if (in_array(serialize($cfg), $uniques)) {
