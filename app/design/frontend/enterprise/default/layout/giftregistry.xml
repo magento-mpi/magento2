@@ -31,6 +31,9 @@
         <reference name="checkout.cart.methods">
             <block type="enterprise_giftregistry/cart_link" name="giftregistry.cart.link" template="giftregistry/cart/link.phtml"/>
         </reference>
+        <reference name="additional.product.info">
+            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="giftregistry/cart/product/mark.phtml"/>
+        </reference>
     </checkout_cart_index>
 
    <wishlist_index_index>
@@ -69,7 +72,12 @@
             <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="enterprise_giftregistry/customer_items" name="giftregistry.customer.items" template="giftregistry/customer/items.phtml"></block>
+            <block type="enterprise_giftregistry/items" name="giftregistry.customer.items" template="giftregistry/customer/items.phtml">
+                <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>giftregistry/customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>giftregistry/customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>giftregistry/customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>giftregistry/customer/items/default.phtml</template></action>
+            </block>
         </reference>
     </enterprise_giftregistry_index_items>
 
@@ -100,6 +108,34 @@
     <enterprise_giftregistry_search_advanced>
         <block type="enterprise_giftregistry/search_advanced" name="root" template="giftregistry/search/advanced.phtml"></block>
     </enterprise_giftregistry_search_advanced>
+
+    
+    <enterprise_giftregistry_view_index>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="enterprise_giftregistry/view" name="enterprise.giftregistry.view" template="giftregistry/view.phtml">
+                <block type="enterprise_giftregistry/items" name="giftregistry_items" template="giftregistry/view/items.phtml">
+                    <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>giftregistry/view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>giftregistry/view/items/default.phtml</template></action>
+                </block>
+                <block type="enterprise_giftregistry/customer_items" name="giftregistry.view.items" template="giftregistry/view/items.phtml"/>
+            </block>
+        </reference>
+    </enterprise_giftregistry_view_index>
+
+    <catalog_product_view>
+        <reference name="product.info">
+            <action method="unsetChild"><name>product.info.addtocart</name></action>
+            <block type="enterprise_giftregistry/product_view" name="product.info.addtocart"/>
+        </reference>
+        <reference name="product.info.options.wrapper.bottom">
+            <action method="append"><block>product.info.addtocart</block></action>
+        </reference>
+    </catalog_product_view>
 
     <calendar>
         <reference name="head">
@@ -146,4 +182,9 @@
             </block>
         </reference>
     </enterprise_giftregistry_index_edit>
+    <checkout_onepage_review>
+        <reference name="additional.product.info">
+            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="giftregistry/cart/product/mark.phtml"/>
+        </reference>
+    </checkout_onepage_review>
 </layout>

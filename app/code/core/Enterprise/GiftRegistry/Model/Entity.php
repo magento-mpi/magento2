@@ -59,6 +59,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
      */
     protected $_attributes = null;
 
+    const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS = 916;
+
    /**
      * Init resource model
      */
@@ -90,30 +92,66 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
      * Add new product to registry
      *
      * @param int|Mage_Sales_Model_Quote_Item $itemToAdd
+     * @param Varien_Object $request
      * @return Enterprise_GiftRegistry_Model_Item
      */
-    public function addItem($itemToAdd)
+    public function addItem($itemToAdd, $request = null)
     {
         if ($itemToAdd instanceof Mage_Sales_Model_Quote_Item) {
             $productId = $itemToAdd->getProductId();
             $qty = $itemToAdd->getQty();
         } else {
             $productId = $itemToAdd;
-            $qty = 1;
+            $qty = ($request && $request->getQty()) ? $request->getQty() : 1;
+        }
+        $product = $this->getProduct($productId);
+
+        if ($product->getTypeInstance(true)->hasRequiredOptions($product)
+            && (!$request && !($itemToAdd instanceof Mage_Sales_Model_Quote_Item))) {
+            throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
         $item = Mage::getModel('enterprise_giftregistry/item');
         $item->loadByProductRegistry($this->getId(), $productId);
 
-        if ($item->getId()) {
+        if ($itemToAdd instanceof Mage_Sales_Model_Quote_Item) {
+            $cartCandidate = $itemToAdd->getProduct();
+            $cartCandidate->setCustomOptions($itemToAdd->getOptionsByCode());
+        } else {
+            if (!$request) {
+                $request = new Varien_Object();
+            }
+            $cartCandidate = $product->getTypeInstance(true)->prepareForCart($request, $product);
+            if (is_array($cartCandidate)) {
+                $cartCandidate = array_shift($cartCandidate);
+            }
+        }
+
+        $alreadyExists = false;
+        if ($cartCandidate) {
+            $items = $item->getCollection()->addRegistryFilter($this->getId());
+            foreach ($items as $itemForCheck) {
+                if ($itemForCheck->isRepresentProduct($cartCandidate)) {
+                    $alreadyExists = true;
+                    $item = $itemForCheck;
+                    break;
+                }
+            }
+        }
+
+        if ($alreadyExists) {
             $item->setQty($item->getQty() + $qty)
                 ->save();
         } else {
+            $customOptions = $cartCandidate->getCustomOptions();
+            $item = Mage::getModel('enterprise_giftregistry/item');
             $item->setEntityId($this->getId())
                 ->setProductId($productId)
+                ->setCustomOptions($customOptions['info_buyRequest']->getValue())
                 ->setQty($qty)
                 ->save();
         }
+
         return $item;
     }
 
@@ -507,6 +545,28 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     }
 
     /**
+     * Retrieve item product instance
+     *
+     * @throws Mage_Core_Exception
+     * @return Mage_Catalog_Model_Product
+     */
+    public function getProduct($productId)
+    {
+        $product = $this->_getData('product');
+        if (is_null($product)) {
+            if (!$productId) {
+                Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Cannot specify product.'));
+            }
+
+            $product = Mage::getModel('catalog/product')
+                ->load($productId);
+
+            $this->setData('product', $product);
+        }
+        return $product;
+    }
+
+    /**
      * Import Post data
      *
      * @return this
@@ -647,5 +707,4 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
 
         return $eventModel;
     }
-
 }

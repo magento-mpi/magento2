@@ -61,16 +61,25 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
      */
     public function cartAction()
     {
-        $count = 0;
+        $entity = $this->_getActiveEntity();
+        $count  = 0;
 
         try {
             $entity = $this->_getActiveEntity();
             if ($entity && $entity->getId()) {
-                $quote = Mage::getSingleton('checkout/cart')->getQuote();
-                foreach ($quote->getAllVisibleItems() as $item) {
-                    $entity->addItem($item);
-                    $count += $item->getQty();
+
+                $request = $this->getRequest();
+                if ($request->getParam('product')) {//Adding from product page
+                    $entity->addItem($request->getParam('product'), new Varien_Object($request->getParams()));
+                    $count = $request->getParam('qty');
+                } else {//Adding from cart
+                    $quote = Mage::getSingleton('checkout/cart')->getQuote();
+                    foreach ($quote->getAllVisibleItems() as $item) {
+                        $entity->addItem($item);
+                        $count += $item->getQty();
+                    }
                 }
+
                 if ($count > 0) {
                     Mage::getSingleton('checkout/session')->addSuccess(
                         Mage::helper('enterprise_giftregistry')->__('%d shopping cart item(s) have been added to gift registry.', $count)
@@ -99,30 +108,28 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
      */
     public function wishlistAction()
     {
-        if ($items = $this->getRequest()->getParam('items')) {
+        if ($item = $this->getRequest()->getParam('id')) {
             try {
                 $entity = $this->_getActiveEntity();
-                if ($entity && $entity->getId() && is_array($items)) {
-                    foreach (array_keys($items) as $item) {
-                        $entity->addItem((int)$item);
-                    }
-                    if (count($items) > 0) {
-                        $this->_getSession()->addSuccess(
-                            Mage::helper('enterprise_giftregistry')->__('%d wishlist item(s) have been added to gift registry.', count($items))
-                        );
-                    } else {
-                        $this->_getSession()->addNotice(
-                            Mage::helper('enterprise_giftregistry')->__('Nothing to add to gift registry.')
-                        );
-                    }
+                if ($entity && $entity->getId()) {
+
+                    $entity->addItem((int)$item);
+
+                    $this->_getSession()->addSuccess(
+                        Mage::helper('enterprise_giftregistry')->__('Wishlist item have been added to gift registry.')
+                    );
                 }
-            }
-            catch (Mage_Core_Exception $e) {
+            } catch (Mage_Core_Exception $e) {
+                if ($e->getCode() == Enterprise_GiftRegistry_Model_Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
+                    $product = Mage::getModel('catalog/product')->load((int)$item);
+                    $query['options'] = Enterprise_GiftRegistry_Block_Product_View::FLAG;
+                    $this->_redirectUrl($product->getUrlModel()->getUrl($product, array('_query' => $query)));
+                    return;
+                }
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('giftregistry');
                 return;
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $this->_getSession()->addError($this->__('Failed to add wishlist items to gift registry.'));
             }
         }
@@ -202,10 +209,10 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
      */
     public function itemsAction()
     {
+        Mage::register('current_entity', $this->_initEntity());
+
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
-        $this->getLayout()->getBlock('giftregistry.customer.items')
-            ->setEntity($this->_initEntity());
         $this->renderLayout();
     }
 

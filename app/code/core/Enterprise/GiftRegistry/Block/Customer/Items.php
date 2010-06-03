@@ -31,12 +31,16 @@ class Enterprise_GiftRegistry_Block_Customer_Items
     extends Mage_Catalog_Block_Product_Abstract
 {
 
+    /**
+     * Return gift registry form header
+     */
     public function getFormHeader()
     {
         return Mage::helper('enterprise_giftregistry')->__('View Gift Registry %s',
             $this->getEntity()->getTitle()
         );
     }
+
     /**
      * Return list of gift registries
      *
@@ -47,11 +51,7 @@ class Enterprise_GiftRegistry_Block_Customer_Items
          if (!$this->hasItemCollection()) {
              $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
              $collection = Mage::getModel('enterprise_giftregistry/item')->getCollection()
-                ->addAttributeToSelect($attributes)
-                ->addRegistryFilter($this->getEntity()->getId())
-                ->addStoreFilter()
-                ->addUrlRewrite();
-
+                ->addRegistryFilter($this->getEntity()->getId());
             $this->setData('item_collection', $collection);
         }
         return $this->_getData('item_collection');
@@ -100,6 +100,7 @@ class Enterprise_GiftRegistry_Block_Customer_Items
     {
         return $item->getQtyFulfilled()*1;
     }
+
     /**
      * Return action form url
      *
@@ -118,5 +119,23 @@ class Enterprise_GiftRegistry_Block_Customer_Items
     public function getBackUrl()
     {
         return $this->getUrl('giftregistry');
+    }
+
+    /**
+     * Returns product price
+     *
+     * @param Enterprise_GiftRegistry_Model_Item $product
+     * @param boolean $displayMinimalPrice
+     */
+    public function getPrice($item)
+    {
+        $product = $item->getProduct();
+        $request = new Varien_Object(unserialize($item->getCustomOptions()));
+        $candidate = $product->getTypeInstance(true)->prepareForCart($request, $product);
+        if ($candidate && is_array($candidate)) {
+            $candidate = array_shift($candidate);
+            $product->setCustomOptions($candidate->getCustomOptions());
+        }
+        return Mage::helper('core')->currency($product->getFinalPrice(),true,true);
     }
 }

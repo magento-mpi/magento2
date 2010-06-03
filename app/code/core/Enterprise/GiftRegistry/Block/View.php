@@ -25,21 +25,10 @@
  */
 
 /**
- * Wishlist view block
+ * Gift registry view block
  */
-class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Customer_Wishlist
+class Enterprise_GiftRegistry_Block_View extends Enterprise_GiftRegistry_Block_Customer_Items
 {
-
-    /**
-     * Return add url
-     *
-     * @return bool
-     */
-    public function getAddItemUrl($productId)
-    {
-        return $this->getUrl('giftregistry/index/wishlist', array('id' => $productId));
-    }
-
     /**
      * Check whether module is available
      *
@@ -48,5 +37,36 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Cu
     public function getEnabled()
     {
         return  Mage::helper('enterprise_giftregistry')->isEnabled();
+    }
+
+    /**
+     * Return current giftregistry entity
+     *
+     * @return Enterprise_GiftRegistry_Model_Entity
+     */
+    public function getEntity()
+    {
+        return Mage::registry('current_entity');
+    }
+
+    /**
+     * Retrieve entity formated date
+     *
+     * @return string
+     */
+    public function getFormattedDate($item)
+    {
+        return $this->formatDate($item->getCreatedAt(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+    }
+
+    /**
+     * Retrieve item remaining qty
+     *
+     * @param Enterprise_GiftRegistry_Model_Item $item
+     * @return string
+     */
+    public function getItemQtyRemaining($item)
+    {
+        return ($this->getItemQty($item) - $this->getItemQtyFulfilled($item)) * 1;
     }
 }

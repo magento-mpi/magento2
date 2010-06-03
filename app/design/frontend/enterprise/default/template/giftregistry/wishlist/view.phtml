@@ -66,7 +66,10 @@
                     <td>
                         <span class="nobr"><?php echo $this->getFormatedDate($item->getAddedAt()) ?></span>
                     </td>
-                    <td><input type="checkbox" name="items[<?php echo $item->getProductId() ?>]" value="1" /></td>
+                    <td>
+                        <button type="button" onclick="setLocation('<?php echo $this->getAddItemUrl($item->getProductId()) ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
+                    </td>
+                    <!-- <td><input type="checkbox" name="items[<?php echo $item->getProductId() ?>]" value="1" /></td> -->
                     <td>
                     <?php if($item->isSaleable()): ?>
                         <button type="button" onclick="setLocation('<?php echo $this->getItemAddToCartUrl($item) ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
@@ -86,7 +89,7 @@
             <button type="button" onclick="setLocation('<?php echo $this->getUrl('*/*/allcart') ?>')" class="button"><span><span><?php echo $this->__('Add All to Cart') ?></span></span></button>&nbsp;
             <?php endif;?>
             <button type="submit" onclick="this.name='do'" class="button"><span><span><?php echo $this->__('Update Wishlist') ?></span></span></button>&nbsp;
-            <button type="button" onclick="updateAction('<?php echo $this->getAddUrl()?>')" class="button"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
+            <!-- <button type="button" onclick="updateAction('<?php echo $this->getAddUrl()?>')" class="button"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button> -->
         </div>
     </fieldset>
 </form>

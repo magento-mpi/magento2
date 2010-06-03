@@ -24,17 +24,17 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<div class="page-title">
-    <h1><?php echo $this->getFormHeader() ?></h1>
-</div>
-<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-
-<?php if (count($this->getItems()) > 0): ?>
+<?php
+/**
+ * Shopping items template
+ *
+ * @see Mage_Checkout_Block_Cart
+ */
+?>
 <div>
     <h1><?php echo $this->__('Gift Registry Items') ?></h1>
-    <form action="<?php echo $this->getActionUpdateUrl() ?>" method="post">
+    <form action="<?php echo $this->getActionUrl() ?>" method="post">
         <fieldset>
-            <?php echo $this->getBlockHtml('formkey')?>
             <table id="shopping-cart-table" class="data-table cart-table">
                 <col width="1" />
                 <col />
@@ -47,17 +47,17 @@
                     <tr>
                         <th>&nbsp;</th>
                         <th class="a-center"><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Note') ?></span></th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Added On') ?></span></th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Qty') ?></span></th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Qty Fulfilled') ?></span></th>
-                        <th class="a-center"><?php echo $this->__('Delete') ?></th>
+                        <th class="a-center"><span class="nobr"><?php echo $this->__('Desired') ?></span></th>
+                        <th class="a-center"><span class="nobr"><?php echo $this->__('Fullfiled') ?></span></th>
+                        <th class="a-center"><span class="nobr"><?php echo $this->__('Remaining') ?></span></th>
+                        <th class="a-center"><span class="nobr"><?php echo $this->__('Unit Price') ?></span></th>
+                        <th class="a-center"><?php echo $this->__('Qty') ?></th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <td colspan="50" class="a-right">
-                            <button type="submit" class="button btn-update"><span><span><?php echo $this->__('Update Gift Registry') ?></span></span></button>
+                            <button type="submit" class="button btn-update"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
                         </td>
                     </tr>
                 </tfoot>
@@ -70,10 +70,4 @@
             <script type="text/javascript">decorateTable('shopping-cart-table')</script>
         </fieldset>
     </form>
-</div>
-<?php else: ?>
-    <p><?php echo $this->__('Gift Registry have no items.') ?></p>
-<?php endif ?>
-<div class="buttons-set">
-    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
 </div>

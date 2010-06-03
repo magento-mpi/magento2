@@ -47,6 +47,9 @@
             <?php endforeach; ?>
         </dl>
         <?php endif;?>
+        <?php if ($addtInfoBlock = $this->getProductAdditionalInformationBlock()):?>
+            <?php echo $addtInfoBlock->setItem($_item)->toHtml() ?>
+        <?php endif;?>
         <!-- / -->
     </td>
     <td class="a-center"><?php echo $_item->getQty() ?></td>
@@ -184,7 +187,7 @@
                 </div>
             <?php endif; ?>
         <?php endif; ?>
-    
+
     <?php endif; ?>
     <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
         <?php $_incl = $this->helper('checkout')->getSubtotalInclTax($_item); ?>

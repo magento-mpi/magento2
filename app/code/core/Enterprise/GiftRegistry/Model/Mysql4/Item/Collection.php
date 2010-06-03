@@ -28,8 +28,16 @@
  * GiftRegistry entity item collection
  */
 class Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
-    extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+    extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
 {
+    /**
+     * Internal constructor
+     */
+    protected function _construct()
+    {
+        $this->_init('enterprise_giftregistry/item', 'item_id');
+    }
+
     /**
      * Add gift registry filter to collection
      *
@@ -38,21 +46,62 @@ class Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
      */
     public function addRegistryFilter($entityId)
     {
-        $this->joinTable(
-            array('item' => 'enterprise_giftregistry/item'),
-            'product_id=entity_id',
-            array(
-                'item_id' => 'item_id',
-                'product_id' => 'product_id',
-                'qty' => 'qty',
-                'note' => 'note',
-                'qty_fulfilled' => 'qty_fulfilled',
-                'added_at' => 'added_at'
-            ),
-            array(
-                'entity_id' => $entityId,
-            )
-        );
+        $this->getSelect()->where('main_table.entity_id = ?', $entityId);
+        return $this;
+    }
+
+    /**
+     * After load processing
+     *
+     * @return Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
+     */
+    protected function _afterLoad()
+    {
+        parent::_afterLoad();
+        $this->_assignProducts();
+
+        return $this;
+    }
+
+    /**
+     * Add products to items
+     *
+     * @return Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
+     */
+    protected function _assignProducts()
+    {
+        $itemIds = array();
+        $tempItems = $this->_items;
+        $productIds = array();
+
+        foreach ($tempItems as $offset => $item) {
+            $productIds[] = $item->getproductId();
+        }
+
+        $productCollection = Mage::getModel('catalog/product')->getCollection()
+            ->setStoreId(Mage::app()->getStore()->getId())
+            ->addIdFilter($productIds)
+            ->addAttributeToSelect(Mage::getSingleton('sales/quote_config')->getProductAttributes())
+            ->addStoreFilter()
+            ->addUrlRewrite()
+            ->addOptionsToResult()
+            ;
+
+        foreach ($tempItems as $offset => $item) {
+            $currentProduct = false;
+            foreach ($productCollection as $product) {
+                if ($product->getId() == $item->getProductId()) {
+                    $currentProduct = $product;
+                    break;
+                }
+            }
+
+            if (!$currentProduct) {
+                unset($this->_items[$offset]);
+            } else {
+                $item->setProduct($currentProduct);
+            }
+        }
         return $this;
     }
 }

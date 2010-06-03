@@ -45,4 +45,132 @@ class Enterprise_GiftRegistry_Model_Item extends Enterprise_Enterprise_Model_Cor
         $this->_getResource()->loadByProductRegistry($this, $registryId, $productId);
         return $this;
     }
+
+    /**
+     * Add or Move item product to shopping cart
+     *
+     * Return true if product was successful added or exception with code
+     * Return false for disabled or unvisible products
+     *
+     * @throws Mage_Core_Exception
+     * @param Mage_Checkout_Model_Cart $cart
+     * @param int $qty
+     * @return bool
+     */
+    public function addToCart(Mage_Checkout_Model_Cart $cart, $qty)
+    {
+
+        $product = $this->_getProduct();
+
+        $storeId = $this->getStoreId();
+
+        if ($this->getQty() < ($qty + $this->getQtyFulfilled())) {
+            $qty = $this->getQty() - $this->getQtyFulfilled();
+        }
+
+        if ($product->getStatus() != Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
+            return false;
+        }
+
+        if (!$product->isVisibleInSiteVisibility()) {
+            if ($product->getStoreId() == $storeId) {
+                return false;
+            }
+            $urlData = Mage::getResourceSingleton('catalog/url')
+                ->getRewriteByProductStore(array($product->getId() => $storeId));
+            if (!isset($urlData[$product->getId()])) {
+                return false;
+            }
+            $product->setUrlDataObject(new Varien_Object($urlData));
+            $visibility = $product->getUrlDataObject()->getVisibility();
+            if (!in_array($visibility, $product->getVisibleInSiteVisibilities())) {
+                return false;
+            }
+        }
+
+        if (!$product->isSalable()) {
+            Mage::throwException(
+                Mage::helper('enterprise_giftregistry')->__('This product(s) is currently out of stock.'));
+        }
+
+        $product->setGiftregistryItemId($this->getId());
+        $request = unserialize($this->getCustomOptions());
+        $request['qty'] = $qty;
+
+        $cart->addProduct($product, $request);
+        if (!empty($request['related_product'])) {
+            $cart->addProductsByIds(explode(',', $request['related_product']));
+        }
+
+        if (!$product->isVisibleInSiteVisibility()) {
+            $cart->getQuote()->getItemByProduct($product)->setStoreId($storeId);
+        }
+    }
+
+    /**
+     * Check product representation in item
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @return  bool
+     */
+    public function isRepresentProduct($product)
+    {
+        if ($this->getProductId() != $product->getId()) {
+            return false;
+        }
+
+        $productCustomOptions = $product->getCustomOptions();
+
+        if (empty($productCustomOptions['info_buyRequest'])) {
+            return false;
+        }
+        $requestOption = $productCustomOptions['info_buyRequest'];
+        $requestArray = unserialize($requestOption->getValue());
+        $selfOptions = unserialize($this->getCustomOptions());
+
+        if ($requestOption['options'] != $requestOption['options']) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Return product name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getProduct()->getName();
+    }
+
+    /**
+     * Return product url
+     *
+     * @return bool
+     */
+    public function getProductUrl()
+    {
+        return $this->getProduct()->getProductUrl();
+    }
+
+
+    /**
+     * Return item product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _getProduct()
+    {
+        if (!$this->getProduct()) {
+            $product = Mage::getModel('catalog/product')->load($this->getProductId());
+            if (!$product->getId()) {
+                Mage::throwException(
+                    Mage::helper('enterprise_giftregistry')->__('Invalid product for adding item to quote.'));
+            }
+            $this->setProduct($product);
+        }
+        return $this->getProduct();
+    }
 }

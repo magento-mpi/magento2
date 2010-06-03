@@ -30,6 +30,29 @@
 class Enterprise_GiftRegistry_Model_Observer
 {
     /**
+     * Module enabled flag
+     * @var bool
+     */
+    protected $_isEnabled;
+
+    /**
+     * Class constructor
+     */
+    public function __construct()
+    {
+        $this->_isEnabled = Mage::helper('enterprise_giftregistry')->isEnabled();
+    }
+
+    /**
+     * Check if giftregistry is enabled
+     * @return bool
+     */
+    public function isGiftregistryEnabled()
+    {
+        return $this->_isEnabled;
+    }
+
+    /**
      * Retrieve customer session model object
      *
      * @return Mage_Customer_Model_Session
@@ -164,6 +187,32 @@ class Enterprise_GiftRegistry_Model_Observer
         }
 
         $order->setRegistryProcessed(true);
+        return $this;
+    }
+
+    /**
+     * Save page body to cache storage
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftRegistry_Model_Observer
+     */
+    public function addGiftRegistryQuoteFlag(Varien_Event_Observer $observer)
+    {
+        if (!$this->isGiftregistryEnabled()) {
+            return $this;
+        }
+        $product = $observer->getEvent()->getProduct();
+        $quoteItem = $observer->getEvent()->getQuoteItem();
+
+        $giftregistryItemId = $product->getGiftregistryItemId();
+        if ($giftregistryItemId) {
+            $quoteItem->setGiftregistryItemId($giftregistryItemId);
+
+            $parent = $quoteItem->getParentItem();
+            if ($parent) {
+                $parent->setGiftregistryItemId($giftregistryItemId);
+            }
+        }
         return $this;
     }
 }

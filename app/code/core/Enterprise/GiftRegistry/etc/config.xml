@@ -196,6 +196,16 @@
                 </args>
             </enterprise_giftregistry>
         </routers>
+        <events>
+            <checkout_cart_product_add_after>
+                <observers>
+                    <enterprise_giftregistry>
+                        <class>enterprise_giftregistry/observer</class>
+                        <method>addGiftRegistryQuoteFlag</method>
+                    </enterprise_giftregistry>
+                </observers>
+            </checkout_cart_product_add_after>
+        </events>
     </frontend>
 
     <default>

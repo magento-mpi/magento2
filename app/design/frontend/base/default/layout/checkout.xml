@@ -90,6 +90,7 @@ Default layout, loads most of the pages
                 <block type="checkout/cart_totals" name="checkout.cart.totals" as="totals" template="checkout/cart/totals.phtml"/>
             </block>
         </reference>
+        <block type="core/text_list" name="additional.product.info"/>
     </checkout_cart_index>
 
 <!--
@@ -409,4 +410,5 @@ One page checkout order review block
             <block type="checkout/onepage_failure" name="checkout.failure" template="checkout/onepage/failure.phtml"/>
         </reference>
     </checkout_onepage_failure>
+    <block type="core/list" name="additional.product.info"/>
 </layout>

@@ -350,4 +350,14 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     {
         return $this->getProduct()->isVisibleInSiteVisibility();
     }
+
+    /**
+     * Return product additional information block
+     *
+     * @return Mage_Core_Block_Abstract
+     */
+    public function getProductAdditionalInformationBlock()
+    {
+        return $this->getLayout()->getBlock('additional.product.info');
+    }
 }

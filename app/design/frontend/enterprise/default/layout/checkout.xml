@@ -100,6 +100,7 @@ Default layout, loads most of the pages
                 <block type="checkout/cart_totals" name="checkout.cart.totals" as="totals" template="checkout/cart/totals.phtml"/>
             </block>
         </reference>
+        <block type="core/text_list" name="additional.product.info"/>
     </checkout_cart_index>
 
 <!--
@@ -336,6 +337,7 @@ One page checkout main layout
                 </block>
             </block>
         </reference>
+        
     </checkout_onepage_index>
 
 <!--
@@ -407,6 +409,7 @@ One page checkout order review block
             <block type="checkout/cart_totals" name="checkout.onepage.review.info.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
             <block type="core/text_list" name="checkout.onepage.review.info.items.before" as="items_before"/>
         </block>
+        <block type="core/text_list" name="additional.product.info"/>
     </checkout_onepage_review>
 
     <checkout_onepage_success translate="label">

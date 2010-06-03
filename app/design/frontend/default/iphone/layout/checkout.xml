@@ -81,6 +81,7 @@ Default layout, loads most of the pages
                 <block type="checkout/cart_crosssell" name="checkout.cart.crosssell" as="crosssell" template="checkout/cart/crosssell.phtml"/>
             </block>
         </reference>
+        <block type="core/text_list" name="additional.product.info"/>
     </checkout_cart_index>
 
 <!--

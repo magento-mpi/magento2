@@ -25,28 +25,43 @@
  */
 
 /**
- * Wishlist view block
+ * Front end helper block to show giftregistry mark
  */
-class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Customer_Wishlist
+class Enterprise_GiftRegistry_Block_Product_View extends Mage_Catalog_Block_Product_View
 {
-
     /**
-     * Return add url
-     *
-     * @return bool
+     * Giftregistry param flag value in url option params
+     * @var string
      */
-    public function getAddItemUrl($productId)
+    const FLAG = 'giftregistry';
+
+    public function __construct()
     {
-        return $this->getUrl('giftregistry/index/wishlist', array('id' => $productId));
+        if ($this->_isGiftRegistryRedirect()) {
+            $this->setTemplate('giftregistry/product/addtocart.phtml');
+        } else {
+            $this->setTemplate('catalog/product/view/addtocart.phtml');
+        }
+
+        parent::_construct();
+    }
+    /**
+     * Return giftregistry add cart items url
+     *
+     * @return string
+     */
+    public function getAddToGiftregistryUrl()
+    {
+        return $this->getUrl('enterprise_giftregistry/index/cart');
     }
 
     /**
-     * Check whether module is available
+     * Return gift registry redirect flag.
      *
      * @return bool
      */
-    public function getEnabled()
+    protected function _isGiftRegistryRedirect()
     {
-        return  Mage::helper('enterprise_giftregistry')->isEnabled();
+        return $this->getRequest()->getParam('options') == self::FLAG;
     }
 }
