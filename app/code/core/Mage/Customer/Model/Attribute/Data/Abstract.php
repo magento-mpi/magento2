@@ -298,10 +298,12 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
                     break;
                 case 'url':
                     $parsedUrl = parse_url($value);
+                    Mage::log($value);
+                    Mage::log($parsedUrl);
                     if ($parsedUrl === false || empty($parsedUrl['scheme']) || empty($parsedUrl['host'])) {
                         return array(Mage::helper('customer')->__('"%s" is not a valid URL', $label));
                     }
-                    $validator = new Zend_Validate_Hostname(0);
+                    $validator = new Zend_Validate_Hostname();
                     if (!$validator->isValid($parsedUrl['host'])) {
                         return array(Mage::helper('customer')->__('"%s" is not a valid URL', $label));
                     }

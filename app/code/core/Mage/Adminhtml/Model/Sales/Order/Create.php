@@ -1336,6 +1336,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 $customerBilling->setIsDefaultShipping(true);
             }
         }
+
+        // set quote customer data to customer
+        $this->_setCustomerData($customer);
+
+        // set customer to quote and convert customer data to quote
         $quote->setCustomer($customer);
 
         // add user defined attributes to quote
@@ -1345,7 +1350,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $quote->setData($quoteCode, $customer->getData($attribute->getAttributeCode()));
         }
 
-        if (!$customer->getId()) {
+        if ($customer->getId()) {
+            // we should not change account data for existing customer, so restore it
+            $this->_getCustomerForm()
+                ->setEntity($customer)
+                ->resetEntityData();
+        } else {
             $quote->setCustomerId(true);
         }
 

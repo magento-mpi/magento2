@@ -58,7 +58,7 @@ foreach ($websites as $website) {
         $isVisible      = $attribute->getData('is_visible');
         $isRequired     = $attribute->getData('is_required');
 
-        if ($configValue == 'opt') {
+        if ($configValue == 'opt' || $configValue == '1') {
             $scopeIsVisible     = '1';
             $scopeIsRequired    = '0';
         } else if ($configValue == 'req') {
@@ -90,7 +90,7 @@ foreach ($websites as $website) {
         $isVisible      = $attribute->getData('is_visible');
         $isRequired     = $attribute->getData('is_required');
 
-        if ($configValue == 'opt') {
+        if ($configValue == 'opt' || $configValue == '1') {
             $scopeIsVisible     = '1';
             $scopeIsRequired    = '0';
         } else if ($configValue == 'req') {

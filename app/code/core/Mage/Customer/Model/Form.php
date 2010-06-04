@@ -413,6 +413,20 @@ class Mage_Customer_Model_Form
     }
 
     /**
+     * Restore entity original data
+     *
+     * @return Mage_Customer_Model_Form
+     */
+    public function resetEntityData()
+    {
+        foreach ($this->getAttributes() as $attribute) {
+            $value = $this->getEntity()->getOrigData($attribute->getAttributeCode());
+            $this->getEntity()->setData($attribute->getAttributeCode(), $value);
+        }
+        return $this;
+    }
+
+    /**
      * Set is AJAX Request flag
      *
      * @param boolean $flag
