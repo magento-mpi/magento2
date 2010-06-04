@@ -182,8 +182,26 @@ class Enterprise_PageCache_Model_Processor
                 }
                 $content = $this->_processContent($content);
             }
+            // renew recently viewed products
+            $productId = Mage::app()->loadCache($this->getRequestCacheId() . '_current_product_id');
+            $countLimit = Mage::app()->loadCache($this->getRecentlyViewedCountCacheId());
+            if ($productId && $countLimit) {
+                $cookie = new Enterprise_PageCache_Model_Cookie;
+                Enterprise_PageCache_Model_Cookie::registerViewedProducts($productId, $countLimit);
+            }
         }
         return $content;
+    }
+
+    /**
+     * Retrieve recently viewed count cache identifier
+     *
+     * @return string
+     */
+    public function getRecentlyViewedCountCacheId()
+    {
+        $cookieName = Mage_Core_Model_Store::COOKIE_NAME;
+        return 'recently_viewed_count' . (isset($_COOKIE[$cookieName]) ? '_' . $_COOKIE[$cookieName] : '');
     }
 
     /**
@@ -229,9 +247,13 @@ class Enterprise_PageCache_Model_Processor
         $sessionInfo = Mage::app()->loadCache($this->getSessionInfoCacheId());
         if ($sessionInfo) {
             $sessionInfo = unserialize($sessionInfo);
-            foreach ($sessionInfo as $cookieName => $cookieLifetime) {
-                if (isset($_COOKIE[$cookieName]) && $cookieLifetime) {
-                    setcookie($cookieName, $_COOKIE[$cookieName], time() + $cookieLifetime);
+            foreach ($sessionInfo as $cookieName => $cookieInfo) {
+                if (isset($_COOKIE[$cookieName]) && isset($cookieInfo['lifetime'])
+                    && isset($cookieInfo['path']) && isset($cookieInfo['domain'])
+                    && isset($cookieInfo['secure']) && isset($cookieInfo['httponly'])) {
+                    setcookie($cookieName, $_COOKIE[$cookieName], time() + $cookieInfo['lifetime'],
+                        $cookieInfo['path'], $cookieInfo['domain'],
+                        $cookieInfo['secure'], $cookieInfo['httponly']);
                 }
             }
         } else {

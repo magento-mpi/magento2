@@ -47,9 +47,15 @@ class Enterprise_PageCache_RequestController extends Enterprise_Enterprise_Contr
         }
         $session = Mage::getSingleton('core/session');
         $cookieName = $session->getSessionName();
-        $cookieLifetime = $session->getCookieLifetime();
-        if (!isset($sessionInfo[$cookieName]) || $sessionInfo[$cookieName] != $cookieLifetime) {
-            $sessionInfo[$cookieName] = $cookieLifetime;
+        $cookieInfo = array(
+            'lifetime' => $session->getCookie()->getLifetime(),
+            'path'     => $session->getCookie()->getPath(),
+            'domain'   => $session->getCookie()->getDomain(),
+            'secure'   => $session->getCookie()->isSecure(),
+            'httponly' => $session->getCookie()->getHttponly(),
+        );
+        if (!isset($sessionInfo[$cookieName]) || $sessionInfo[$cookieName] != $cookieInfo) {
+            $sessionInfo[$cookieName] = $cookieInfo;
             $sessionInfo = serialize($sessionInfo);
             Mage::app()->saveCache($sessionInfo, $cacheId, array(Enterprise_PageCache_Model_Processor::CACHE_TAG));
         }

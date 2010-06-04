@@ -335,12 +335,36 @@ class Enterprise_PageCache_Model_Observer
      *
      * @param Varien_Event_Observer $observer
      */
-    public function setCustomerCookie(Varien_Event_Observer $observer)
+    public function customerLogin(Varien_Event_Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;
         }
         $this->_getCookie()->updateCustomerCookies();
+
+        // update customer viewed products index
+        try {
+            $productIds = $this->_getCookie()->get(Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME);
+            if ($productIds) {
+                $productIds = explode(',', $productIds);
+                Mage::getModel('reports/product_index_viewed')->registerIds($productIds);
+            }
+        } catch (Exception $e) {
+            Mage::logException($e);
+        }
+
+        // renew customer viewed product ids cookie
+        $countLimit = Mage::getStoreConfig(Mage_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
+        $collection = Mage::getResourceModel('reports/product_index_viewed_collection')
+            ->addIndexFilter()
+            ->setAddedAtOrder()
+            ->setPageSize($countLimit)
+            ->setCurPage(1);
+        Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($collection);
+        $productIds = $collection->load()->getLoadedIds();
+        $productIds = implode(',', $productIds);
+        Enterprise_PageCache_Model_Cookie::registerViewedProducts($productIds, $countLimit, false);
+
         return $this;
 
     }
@@ -350,7 +374,7 @@ class Enterprise_PageCache_Model_Observer
      *
      * @param Varien_Event_Observer $observer
      */
-    public function removeCustomerCookie(Varien_Event_Observer $observer)
+    public function customerLogout(Varien_Event_Observer $observer)
     {
         if (!$this->isCacheEnabled()) {
             return $this;

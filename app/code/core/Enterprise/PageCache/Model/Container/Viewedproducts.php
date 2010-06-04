@@ -25,67 +25,70 @@
  */
 
 /**
- * Default placeholder container
+ * Viewed products container
  */
 class Enterprise_PageCache_Model_Container_Viewedproducts extends Enterprise_PageCache_Model_Container_Abstract
 {
     const COOKIE_NAME = 'VIEWED_PRODUCT_IDS';
+
     /**
      * Get viewed product ids from cookie
+     *
+     * @return array
      */
     protected function _getProductIds()
     {
-        if (isset($_COOKIE[self::COOKIE_NAME])) {
-            return explode(',', $_COOKIE[self::COOKIE_NAME]);
+        $result = $this->_getCookieValue(self::COOKIE_NAME, array());
+        if ($result) {
+            $result = explode(',', $result);
         }
-        return array();
+        return $result;
     }
 
     /**
      * Get cache identifier
+     *
+     * @return string
      */
     protected function _getCacheId()
     {
-        $id = $this->_placeholder->getAttribute('cache_id');
-        if ($id && $this->_getProductIds()) {
-            $id = 'CONTAINER_'.md5($id . implode('_', $this->_getProductIds()));
-            return $id;
+        $cacheId = $this->_placeholder->getAttribute('cache_id');
+        $productIds = $this->_getProductIds();
+        if ($cacheId && $productIds) {
+            sort($productIds);
+            $cacheId = 'CONTAINER_' . md5($cacheId . implode('_', $productIds));
+            return $cacheId;
         }
         return false;
     }
 
     /**
-     * Generate block content
-     * @param $content
+     * Render block content
+     *
+     * @return string
      */
-    public function applyInApp(&$content)
+    protected function _renderBlock()
     {
         $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
         $productIds = $this->_getProductIds();
+
         $block = new $block;
         $block->setTemplate($template);
         $block->setProductIds($productIds);
-        $blockContent = $block->toHtml();
-        $this->_registerProductsView($productIds);
-        $cacheId = $this->_getCacheId();
-        if ($cacheId) {
-            $this->_saveCache($blockContent, $cacheId);
-        }
-        $this->_applyToContent($content, $blockContent);
-        return true;
+
+        return $block->toHtml();
     }
 
     /**
      * Save information about last viewed products
+     *
      * @param array $productIds
+     * @return Enterprise_PageCache_Model_Container_Viewedproducts
+     * @deprecated after 1.8
      */
     protected function _registerProductsView($productIds)
     {
-        try {
-            Mage::getModel('reports/product_index_viewed')->registerIds($productIds);
-        } catch (Exception $e) {
-            Mage::logException($e);
-        }
+        return $this;
     }
 }

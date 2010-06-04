@@ -152,13 +152,6 @@
                 </args>
             </enterprise_pagecache>
         </routers>
-        <layout>
-            <updates>
-                <enterprise_pagecache>
-                    <file>pagecache.xml</file>
-                </enterprise_pagecache>
-            </updates>
-        </layout>
         <events>
             <model_load_after>
                 <observers>
@@ -212,7 +205,7 @@
                 <observers>
                     <enterprise_pagecache>
                         <class>enterprise_pagecache/observer</class>
-                        <method>setCustomerCookie</method>
+                        <method>customerLogin</method>
                     </enterprise_pagecache>
                 </observers>
             </customer_login>
@@ -220,7 +213,7 @@
                 <observers>
                     <enterprise_pagecache>
                         <class>enterprise_pagecache/observer</class>
-                        <method>removeCustomerCookie</method>
+                        <method>customerLogout</method>
                     </enterprise_pagecache>
                 </observers>
             </customer_logout>
@@ -308,7 +301,7 @@
                  -->
                 <cms>enterprise_pagecache/processor_default</cms>
                 <catalog><category><view>enterprise_pagecache/processor_category</view></category></catalog>
-                <catalog><product><view>enterprise_pagecache/processor_default</view></product></catalog>
+                <catalog><product><view>enterprise_pagecache/processor_product</view></product></catalog>
             </requests>
         </cache>
     </frontend>

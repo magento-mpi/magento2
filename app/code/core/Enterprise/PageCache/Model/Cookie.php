@@ -106,4 +106,33 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
             $this->delete(self::COOKIE_CUSTOMER_GROUP);
         }
     }
+
+    /**
+     * Register viewed product ids in cookie
+     *
+     * @param int|string|array $productIds
+     * @param int $countLimit
+     * @param bool $append
+     */
+    public static function registerViewedProducts($productIds, $countLimit, $append = true)
+    {
+        if (!is_array($productIds)) {
+            $productIds = array($productIds);
+        }
+        if ($append) {
+            if (!empty($_COOKIE[Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME])) {
+                $cookieIds = $_COOKIE[Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME];
+                $cookieIds = explode(',', $cookieIds);
+            } else {
+                $cookieIds = array();
+            }
+            array_splice($cookieIds, 0, 0, $productIds);  // append to the beginning
+        } else {
+            $cookieIds = $productIds;
+        }
+        $cookieIds = array_unique($cookieIds);
+        $cookieIds = array_slice($cookieIds, 0, $countLimit);
+        $cookieIds = implode(',', $cookieIds);
+        setcookie(Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME, $cookieIds, 0, '/');
+    }
 }
