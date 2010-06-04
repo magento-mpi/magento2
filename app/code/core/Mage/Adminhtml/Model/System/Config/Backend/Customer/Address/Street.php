@@ -24,7 +24,6 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
  * Customer Address Street Model
  *
@@ -44,7 +43,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Customer_Address_Street extends
         $attribute = Mage::getSingleton('eav/config')->getAttribute('customer_address', 'street');
         $value  = $this->getValue();
         switch ($this->getScope()) {
-            case 'website':
+            case 'websites':
                 $website = Mage::app()->getWebsite($this->getWebsiteCode());
                 $attribute->setWebsite($website);
                 if ($attribute->getData('multiline_count') != $value) {

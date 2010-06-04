@@ -41,7 +41,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Address extends M
     protected function _afterSave()
     {
         $field         = $this->getField();
-        $attributeCode = str_replace('show_', '', $field);
+        $attributeCode = str_replace('_show', '', $field);
 
         $attributeObjects = array(
             Mage::getSingleton('eav/config')->getAttribute('customer_address', $attributeCode),
@@ -50,13 +50,14 @@ class Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Address extends M
         $valueConfig = array(
             ''    => array('is_required' => 0, 'is_visible' => 0),
             'opt' => array('is_required' => 0, 'is_visible' => 1),
+            '1'   => array('is_required' => 0, 'is_visible' => 1),
             'req' => array('is_required' => 1, 'is_visible' => 1),
         );
 
         $value  = $this->getValue();
 
         foreach ($attributeObjects as $attributeObject) {
-            if ($this->getScope() == 'website') {
+            if ($this->getScope() == 'websites') {
                 $website = Mage::app()->getWebsite($this->getWebsiteCode());
                 $attributeObject->setWebsite($website);
                 $dataFieldPrefix = 'scope_';
@@ -70,13 +71,9 @@ class Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Address extends M
                 $data = $valueConfig[''];
             }
 
-            $isRequired = $attributeObject->getData['is_required'];
-            $isVisible  = $attributeObject->getData['is_visible'];
+            $attributeObject->setData("{$dataFieldPrefix}is_required", $data['is_required']);
+            $attributeObject->setData("{$dataFieldPrefix}is_visible",  $data['is_visible']);
 
-            if ($isRequired != $data['is_required'] && $isVisible != $data['is_visible']) {
-                $attributeObject->setData("{$dataFieldPrefix}is_required", $data['is_required']);
-                $attributeObject->setData("{$dataFieldPrefix}is_visible",  $data['is_visible']);
-            }
             $attributeObject->save();
         }
         return $this;
