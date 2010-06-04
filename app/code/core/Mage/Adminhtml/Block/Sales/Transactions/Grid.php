@@ -101,7 +101,8 @@ class Mage_Adminhtml_Block_Sales_Transactions_Grid extends Mage_Adminhtml_Block_
             'header'    => Mage::helper('sales')->__('Payment Method Name'),
             'index'     => 'method',
             'type'      => 'options',
-            'options'   => Mage::helper('payment')->getAllPaymentMethods()
+            'options'       => Mage::helper('payment')->getPaymentMethodList(true),
+            'option_groups' => Mage::helper('payment')->getPaymentMethodList(true, true, true),
         ));
 
         $this->addColumn('txn_type', array(
