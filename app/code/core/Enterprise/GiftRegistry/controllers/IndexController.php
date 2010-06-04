@@ -61,9 +61,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
      */
     public function cartAction()
     {
-        $entity = $this->_getActiveEntity();
         $count  = 0;
-
         try {
             $entity = $this->_getActiveEntity();
             if ($entity && $entity->getId()) {
@@ -112,9 +110,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
             try {
                 $entity = $this->_getActiveEntity();
                 if ($entity && $entity->getId()) {
-
                     $entity->addItem((int)$item);
-
                     $this->_getSession()->addSuccess(
                         Mage::helper('enterprise_giftregistry')->__('Wishlist item have been added to gift registry.')
                     );
@@ -328,8 +324,9 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
         }
         $this->_redirect('*/*/index', array('_current' => true));
     }
+
     /**
-     * Get current customer session
+     * Get customer active gift registry entity
      *
      * @return Enterprise_GiftRegistry_Model_Entity
      */

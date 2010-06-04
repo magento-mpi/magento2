@@ -122,6 +122,17 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Enterprise_Enterprise_Bl
     }
 
     /**
+     * Return frontend registry link
+     *
+     * @param Enterprise_GiftRegistry_Model_Entity $item
+     * @return string
+     */
+    public function getRegistryLink($item)
+    {
+        return $this->getUrl('*/view/index', array('id' => $item->getUrlKey()));
+    }
+
+    /**
      * Retrieve item formated date
      *
      * @param Enterprise_GiftRegistry_Model_Entity $item

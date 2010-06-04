@@ -286,16 +286,6 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     }
 
     /**
-     * Return frontend registry link
-     *
-     * @return string
-     */
-    public function getRegistryLink()
-    {
-        return $this->getUrl('*/*/*');
-    }
-
-    /**
      * Return comma-separated list of entitity registrants
      *
      * @return string

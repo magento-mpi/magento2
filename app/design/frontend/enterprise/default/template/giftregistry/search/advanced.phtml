@@ -25,7 +25,7 @@
  */
 ?>
 
-<?php foreach ($this->getAttributes() as $code => $attribute) : ?>
+<?php foreach ($this->getAttributes() as $code => $attribute): ?>
     <div class="field">
         <label for="<?php echo $this->getFieldIdPrefix().$code ?>"><?php echo $attribute['label'] ?></label>
         <div class="input-box">
@@ -36,6 +36,12 @@
 
 <script type="text/javascript">
 //<![CDATA[
+<?php if ($this->getAttributes()): ?>
+    $('gr-type-specific-fieldset').show();
+<?php else: ?>
+    $('gr-type-specific-fieldset').hide();
+<?php endif; ?>
+
 <?php if ($this->getRegionJsVisible()): ?>
     regionJSON = <?php echo $this->helper('directory')->getRegionJson(); ?>;
     new RegionUpdater('<?php echo $this->getFieldIdPrefix().$this->getElementCountry()?>', '<?php echo $this->getFieldIdPrefix().$this->getElementRegionText()?>', '<?php echo $this->getFieldIdPrefix().$this->getElementRegion()?>', regionJSON);
