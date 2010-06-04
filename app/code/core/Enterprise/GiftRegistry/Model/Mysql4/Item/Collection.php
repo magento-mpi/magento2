@@ -100,6 +100,9 @@ class Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
                 unset($this->_items[$offset]);
             } else {
                 $item->setProduct($currentProduct);
+                $item->setProductName($currentProduct->getName());
+                $item->setProductSku($currentProduct->getSku());
+                $item->setProductPrice($currentProduct->getPrice());
             }
         }
         return $this;

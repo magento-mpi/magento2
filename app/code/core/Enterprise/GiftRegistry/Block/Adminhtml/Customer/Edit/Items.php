@@ -43,9 +43,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('enterprise_giftregistry/item')->getCollection()
-            ->addRegistryFilter($this->getEntity()->getId())
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('price');
+            ->addRegistryFilter($this->getEntity()->getId());
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -62,18 +60,18 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
 
         $this->addColumn('name', array(
             'header' => Mage::helper('enterprise_giftregistry')->__('Product Name'),
-            'index'  => 'name'
+            'index'  => 'product_name'
         ));
 
         $this->addColumn('sku', array(
             'header' => Mage::helper('enterprise_giftregistry')->__('Product SKU'),
-            'index'  => 'sku',
+            'index'  => 'product_sku',
             'width'  => '200px'
         ));
 
         $this->addColumn('price', array(
             'header' => Mage::helper('enterprise_giftregistry')->__('Price'),
-            'index'  => 'price',
+            'index'  => 'product_price',
             'type'  => 'currency',
             'width' => '120px',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
