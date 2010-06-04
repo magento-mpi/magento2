@@ -128,7 +128,7 @@ class Enterprise_GiftRegistry_Model_Item extends Enterprise_Enterprise_Model_Cor
         $requestArray = unserialize($requestOption->getValue());
         $selfOptions = unserialize($this->getCustomOptions());
 
-        if ($requestOption['options'] != $requestOption['options']) {
+        if ($requestOption['options'] != $selfOptions['options']) {
             return false;
         }
 
