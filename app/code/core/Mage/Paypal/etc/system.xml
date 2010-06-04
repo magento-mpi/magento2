@@ -49,9 +49,8 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
-                <account translate="label comment">
+                <account translate="label">
                     <label>Merchant Account</label>
-                    <comment><![CDATA[Don't have a PayPal account? <a href="http://www.magentocommerce.com/paypal">Start accepting payments via PayPal!</a> Simply enter your email address below.]]></comment>
                     <fieldset_css>paypal-config</fieldset_css>
                     <expanded>1</expanded>
                     <frontend_type>text</frontend_type>
@@ -70,8 +69,10 @@
                             <show_in_website>1</show_in_website>
                             <sort_order>5</sort_order>
                         </merchant_country>
-                        <business_account translate="label">
+                        <business_account translate="label comment tooltip">
                             <label>Email Associated with PayPal Merchant Account</label>
+                            <comment><![CDATA[<a href="http://www.magentocommerce.com/paypal">Start accepting payments via PayPal!</a>]]></comment>
+                            <tooltip>Don't have a PayPal account? Simply enter your email address.</tooltip>
                             <config_path>paypal/general/business_account</config_path>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
