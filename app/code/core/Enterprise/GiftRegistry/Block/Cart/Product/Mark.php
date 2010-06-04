@@ -69,9 +69,11 @@ class Enterprise_GiftRegistry_Block_Cart_Product_Mark extends Enterprise_Enterpr
             return $this;
         }
 
-        $this->setData('item', $newItem);
-        $entity = Mage::getModel('enterprise_giftregistry/entity')->loadByEntityItem($newItem->getGiftregistryItemId());
-        $this->setEntity($entity);
+        if ($newItem->getGiftregistryItemId()) {
+            $this->setData('item', $newItem);
+            $entity = Mage::getModel('enterprise_giftregistry/entity')->loadByEntityItem($newItem->getGiftregistryItemId());
+            $this->setEntity($entity);
+        }
 
         return $this;
     }
