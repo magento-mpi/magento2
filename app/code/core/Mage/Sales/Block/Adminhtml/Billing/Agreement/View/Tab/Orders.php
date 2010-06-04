@@ -43,6 +43,19 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders extends Mage_
     }
 
     /**
+     * Prepare related orders collection
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
+    protected function _prepareCollection()
+    {
+        $collection = Mage::getResourceModel('sales/order_grid_collection');
+        $collection->addBillingAgreementsFilter(Mage::registry('billing_agreement')->getId());
+        $this->setCollection($collection);
+        return Mage_Adminhtml_Block_Widget_Grid::_prepareCollection();
+    }
+
+    /**
      * Return Tab label
      *
      * @return string
