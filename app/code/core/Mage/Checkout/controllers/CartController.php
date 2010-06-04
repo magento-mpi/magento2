@@ -74,6 +74,10 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
     protected function _goBack()
     {
         if ($returnUrl = $this->getRequest()->getParam('return_url')) {
+            // clear layout messages in case of external url redirect
+            if ($this->_isUrlInternal($returnUrl)) {
+                $this->_getSession()->getMessages(true);
+            }
             $this->getResponse()->setRedirect($returnUrl);
         } elseif (!Mage::getStoreConfig('checkout/cart/redirect_to_cart')
             && !$this->getRequest()->getParam('in_cart')
