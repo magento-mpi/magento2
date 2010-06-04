@@ -117,7 +117,7 @@
                             <show_in_store>1</show_in_store>
                         </identity>
                         <send_limit translate="label" module="enterprise_giftregistry">
-                            <label>Sharing Email Send Limit</label>
+                            <label>Max Emails Allowed to be Sent at One Time</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
