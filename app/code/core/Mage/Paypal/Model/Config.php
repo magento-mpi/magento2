@@ -842,10 +842,20 @@ class Mage_Paypal_Model_Config
     public function getExpressCheckoutBASignupOptions()
     {
         return array(
-            self::EC_BA_SIGNUP_AUTO     => Mage::helper('paypal')->__('Auto'),
-            self::EC_BA_SIGNUP_ASK      => Mage::helper('paypal')->__('Ask Customer'),
-            self::EC_BA_SIGNUP_NEVER    =>Mage::helper('paypal')->__('Never')
+            self::EC_BA_SIGNUP_AUTO  => Mage::helper('paypal')->__('Auto'),
+            self::EC_BA_SIGNUP_ASK   => Mage::helper('paypal')->__('Ask Customer'),
+            self::EC_BA_SIGNUP_NEVER => Mage::helper('paypal')->__('Never')
         );
+    }
+
+    /**
+     * Whether to ask customer to create billing agreements
+     *
+     * @return bool
+     */
+    public function shouldAskToCreateBillingAgreement()
+    {
+        return $this->allow_ba_signup === self::EC_BA_SIGNUP_ASK;
     }
 
     /**
@@ -1140,6 +1150,7 @@ class Mage_Paypal_Model_Config
             case 'use_proxy':
             case 'proxy_host':
             case 'proxy_port':
+            case 'button_flavor':
                 return "paypal/wpp/{$fieldName}";
             default:
                 return null;
@@ -1189,7 +1200,6 @@ class Mage_Paypal_Model_Config
             case 'paypal_hdrbackcolor':
             case 'paypal_hdrbordercolor':
             case 'paypal_payflowcolor':
-            case 'button_flavor':
                 return "paypal/style/{$fieldName}";
             default:
                 return null;

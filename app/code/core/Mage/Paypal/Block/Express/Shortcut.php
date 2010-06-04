@@ -30,25 +30,18 @@
 class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
 {
     /**
-     * Model type
+     * Whether the block should be eventually rendered
      *
-     * @var string
+     * @var bool
      */
-    protected $_modelType = 'paypal/express';
-
-    /**
-     * Pro model type
-     *
-     * @var string
-     */
-    protected $_proModelType = 'paypal/pro';
+    protected $_shouldRender = true;
 
     /**
      * Payment method code
      *
      * @var string
      */
-    protected $_paymentMethod = Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS;
+    protected $_paymentMethodCode = Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS;
 
     /**
      * Start express action
@@ -58,156 +51,81 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
     protected $_startAction = 'paypal/express/start';
 
     /**
-     * PayPal Pro instance
+     * Express checkout model factory name
      *
-     * @var Mage_Paypal_Model_Pro
+     * @var string
      */
-    protected $_pro = null;
+    protected $_checkoutType = 'paypal/express_checkout';
 
-    /**
-     * Express checkout URL getter
-     *
-     * @return string
-     */
-    public function getCheckoutUrl()
+    protected function _beforeToHtml()
     {
-        return $this->getUrl($this->_startAction);
-    }
+        $result = parent::_beforeToHtml();
+        $config = Mage::getModel('paypal/config', array($this->_paymentMethodCode));
+        $isInCatalog = $this->getIsInCatalogProduct();
+        $quote = ($isInCatalog || '' == $this->getIsQuoteAllowed())
+            ? null : Mage::getSingleton('checkout/session')->getQuote();
 
-    /**
-     * Retrieve express checkout URL with create billing agreement parameter
-     *
-     * @return string
-     */
-    public function getBACheckoutUrl()
-    {
-        return $this->getUrl($this->_startAction,
-            array(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1));
-    }
-
-    /**
-     * Get checkout button image url
-     *
-     * @return string
-     */
-    public function getImageUrl()
-    {
-        return Mage::getModel('paypal/express_checkout', array(
-            'quote'  => Mage::getSingleton('checkout/session')->getQuote(),
-            'config' => $this->_getProInstance()->getConfig(),
-        ))->getCheckoutShortcutImageUrl();
-    }
-
-    /**
-     * Payment method model type setter
-     *
-     * @param string
-     */
-    public function setPaymentModelType($type)
-    {
-        $this->_modelType = $type;
-    }
-
-    /**
-     * Pro model type setter
-     *
-     * @param string
-     */
-    public function setProModelType($type)
-    {
-        $this->_proModelType = $type;
-    }
-
-    /**
-     * Payment method setter
-     *
-     * @param string
-     */
-    public function setPaymentMethod($method)
-    {
-        $this->_paymentMethod = $method;
-    }
-
-    /**
-     * Start action setter
-     *
-     * @param string
-     */
-    public function setStartAction($action)
-    {
-        $this->_startAction = $action;
-    }
-
-    /**
-     * Shortcut text setter
-     *
-     * @param string
-     */
-    public function setShortcutText($text)
-    {
-        $this->_shortcutText = $text;
-    }
-
-    /**
-     * Retrieve unique string
-     *
-     * @return string
-     */
-    public function getShortcutHtmlId()
-    {
-        return $this->helper('core')->uniqHash('paypal_shortcut_');
-    }
-
-    /**
-     * Check whether should ask confirm
-     *
-     * @return bool
-     */
-    public function shouldAskConfirm()
-    {
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-        if ($customerId) {
-            $methodInstance = Mage::getModel($this->_modelType, array($this->_pro));
-            return Mage::getModel('sales/billing_agreement')->needToCreateForCustomer(
-                Mage_Paypal_Model_Config::EC_BA_SIGNUP_ASK == $methodInstance->getConfigData('allow_ba_signup'),
-                $customerId
-            );
+        // check visibility on cart or product page
+        $context = $isInCatalog ? 'visible_on_product' : 'visible_on_cart';
+        if (!$config->$context) {
+            $this->_shouldRender = false;
+            return $result;
         }
-        return false;
+
+        // validate minimum quote amount
+        if (null !== $quote && !$quote->validateMinimumAmount()) {
+            $this->_shouldRender = false;
+            return $result;
+        }
+
+        // check payment method availability
+        $methodInstance = Mage::helper('payment')->getMethodInstance($this->_paymentMethodCode);
+        if (!$methodInstance->isAvailable($quote)) {
+            $this->_shouldRender = false;
+            return $result;
+        }
+
+        // set misc data
+        $this->setShortcutHtmlId($this->helper('core')->uniqHash('ec_shortcut_'))
+            ->setCheckoutUrl($this->getUrl($this->_startAction))
+        ;
+
+        // use static image if in catalog
+        if ($isInCatalog || null === $quote) {
+            $this->setImageUrl($config->getExpressCheckoutShortcutImageUrl(Mage::app()->getLocale()->getLocaleCode()));
+        } else {
+            $this->setImageUrl(Mage::getModel($this->_checkoutType, array(
+                'quote'  => $quote,
+                'config' => $config,
+            ))->getCheckoutShortcutImageUrl());
+        }
+
+        // ask whether to create a billing agreement
+        if ($config->shouldAskToCreateBillingAgreement()) {
+            $customerId = Mage::getSingleton('customer/session')->getCustomerId(); // potential issue for caching
+            if ($customerId) {
+                if (Mage::getModel('sales/billing_agreement')->needToCreateForCustomer(true, $customerId)) {
+                    $this->setConfirmationUrl($this->getUrl($this->_startAction,
+                        array(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)
+                    ));
+                    $this->setConfirmationMessage(Mage::helper('paypal')->__('Would you like to sign a billing agreement to streamline further purchases with PayPal?'));
+                }
+            }
+        }
+
+        return $result;
     }
 
     /**
-     * Check whether method is available and render HTML
-     * TODO: payment method instance is not supposed to know about quote.
-     * The block also is not supposed to know about payment method instance
+     * Render the block if needed
      *
      * @return string
      */
     protected function _toHtml()
     {
-        $context = ($this->getContext() ? $this->getContext() : 'visible_on_cart');
-        $methodInstance = Mage::getModel($this->_modelType, array($this->_pro));
-        if (!$methodInstance->getConfigData($context)) {
+        if (!$this->_shouldRender) {
             return '';
         }
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
-        if (!$quote->validateMinimumAmount() || !$methodInstance->isAvailable($quote)) {
-            return '';
-        }
-        $this->setIsOneClickCheckout($context == 'visible_on_product');
         return parent::_toHtml();
-    }
-
-    /**
-     * PayPal Pro instance getter
-     *
-     * @return Mage_Paypal_Model_Pro
-     */
-    protected function _getProInstance()
-    {
-        if (null === $this->_pro) {
-            $this->_pro = Mage::getModel($this->_proModelType)->setMethod($this->_paymentMethod);
-        }
-        return $this->_pro;
     }
 }

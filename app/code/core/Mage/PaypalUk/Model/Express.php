@@ -41,21 +41,30 @@ class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
     protected $_proType = 'paypaluk/pro';
 
     /**
-     * Custom getter for payment configuration
+     * Express Checkout payment method instance
      *
-     * @param string $field
-     * @param int $storeId
-     * @return mixed
+     * @var Mage_Paypal_Model_Express
      */
-    public function getConfigData($field, $storeId = null)
+    protected $_ecInstance = null;
+
+    /**
+     * EC PE won't be available if the EC is available
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return bool
+     */
+    public function isAvailable($quote = null)
     {
-        $value = parent::getConfigData($field, $storeId);
-        if ($field == 'visible_on_cart' || $field == 'visible_on_product') {
-            $wppExpressShortcut = Mage::getStoreConfigFlag('payment/'.Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS.'/'.$field, $storeId)
-                && $this->_pro->getConfig()->isMethodAvailable(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
-            $value = (bool)$value && !$wppExpressShortcut;
+        if (!parent::isAvailable($quote)) {
+            return false;
         }
-        return $value;
+        if (!$this->_ecInstance) {
+            $this->_ecInstance = Mage::helper('payment')->getMethodInstance(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
+        }
+        if ($quote) {
+            $this->_ecInstance->setStore($quote->getStoreId());
+        }
+        return !$this->_ecInstance->isAvailable();
     }
 
     /**

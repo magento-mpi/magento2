@@ -130,13 +130,13 @@
     <default>
         <paypal>
             <style>
-                <button_flavor>dynamic</button_flavor>
                 <logo>nowAccepting_150x60</logo>
             </style>
             <wpp>
                 <api_password backend_model="adminhtml/system_config_backend_encrypted"/>
                 <api_signature backend_model="adminhtml/system_config_backend_encrypted"/>
                 <api_username backend_model="adminhtml/system_config_backend_encrypted"/>
+                <button_flavor>dynamic</button_flavor>
             </wpp>
             <wpuk>
                 <user backend_model="adminhtml/system_config_backend_encrypted"/>
