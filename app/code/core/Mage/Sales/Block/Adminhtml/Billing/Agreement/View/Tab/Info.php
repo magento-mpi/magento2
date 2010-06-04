@@ -89,11 +89,11 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Mage_Ad
      */
     protected function _getBillingAgreement()
     {
-        return Mage::registry('billing_agreement');
+        return Mage::registry('current_billing_agreement');
     }
 
     /**
-     * Enter description here...
+     * Set data to block
      *
      * @return string
      */

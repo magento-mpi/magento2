@@ -40,7 +40,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Mage_Adminhtml_B
         parent::__construct();
         $this->setId('billing_agreements');
         $this->setUseAjax(true);
-        $this->setDefaultSort('created_at');
+        $this->setDefaultSort('agreement_id');
         $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
     }
@@ -85,6 +85,12 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Mage_Adminhtml_B
      */
     protected function _prepareColumns()
     {
+        $this->addColumn('agreement_id', array(
+            'header'    => Mage::helper('sales')->__('ID'),
+            'index'     => 'agreement_id',
+            'type'      => 'text'
+        ));
+
         $this->addColumn('customer_email', array(
             'header'    => Mage::helper('sales')->__('Customer Email'),
             'index'     => 'customer_email',

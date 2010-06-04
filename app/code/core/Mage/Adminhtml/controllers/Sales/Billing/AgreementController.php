@@ -67,7 +67,7 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
                 ->_title($this->__('Billing Agreements'))
                 ->_title(sprintf("#%s", $agreementModel->getReferenceId()));
 
-            Mage::register('billing_agreement', $agreementModel);
+            Mage::register('current_billing_agreement', $agreementModel);
             $this->loadLayout()
                 ->renderLayout();
             return;
@@ -126,7 +126,7 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
         $agreementModel = Mage::getModel('sales/billing_agreement')->load($agreementId);
 
         if (!$agreementModel->getId()) {
-            $this->_getSession()->addError($this->__('Wrong billing agreement Id specified.'));
+            $this->_getSession()->addError($this->__('Wrong billing agreement ID specified.'));
             return false;
         }
         return $agreementModel;

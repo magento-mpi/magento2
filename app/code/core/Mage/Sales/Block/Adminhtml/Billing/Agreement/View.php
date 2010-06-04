@@ -91,7 +91,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View extends Mage_Adminhtml_B
      */
     protected function _getBillingAgreement()
     {
-        return Mage::registry('billing_agreement');
+        return Mage::registry('current_billing_agreement');
     }
 
     /**
