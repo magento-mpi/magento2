@@ -31,6 +31,7 @@ class Enterprise_PageCache_Model_Processor
     const XML_PATH_ALLOWED_DEPTH        = 'system/page_cache/allowed_depth';
     const XML_PATH_LIFE_TIME            = 'system/page_cache/lifetime';  /** @deprecated after 1.8 */
     const XML_PATH_CACHE_MULTICURRENCY  = 'system/page_cache/multicurrency';
+    const XML_PATH_CACHE_DEBUG          = 'system/page_cache/debug';
     const REQUEST_ID_PREFIX             = 'REQEST_';
     const CACHE_TAG                     = 'FPC';  // Full Page Cache, minimize
 

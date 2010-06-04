@@ -88,7 +88,12 @@ abstract class Enterprise_PageCache_Model_Container_Abstract
     {
         $blockContent = $this->_renderBlock();
         if ($blockContent !== false) {
-            $this->_applyToContent($content, $blockContent);
+            if (Mage::getStoreConfig(Enterprise_PageCache_Model_Processor::XML_PATH_CACHE_DEBUG)){
+                $this->_applyToContent($content,
+                    '<div style="position:relative; border:1px dotted red; margin:6px 2px; padding:18px 2px 2px 2px; zoom:1;">'.$blockContent.'</div>');
+            } else {
+                $this->_applyToContent($content, $blockContent);
+            }
             $this->saveCache($blockContent);
             return true;
         }
