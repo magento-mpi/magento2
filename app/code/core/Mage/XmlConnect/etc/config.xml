@@ -122,11 +122,12 @@
     </frontend>
     <default>
         <payment>
-            <paypal_mep translate="title">
+            <paypal_mep>
                 <active>1</active>
                 <model>xmlconnect/payment_method_paypal_mep</model>
-                <title>PayPal Mep</title>
+                <title>PayPal Mobile Payments Library</title>
                 <allowspecific>0</allowspecific>
+                <group>paypal</group>
             </paypal_mep>
         </payment>
         <imageLimits>
