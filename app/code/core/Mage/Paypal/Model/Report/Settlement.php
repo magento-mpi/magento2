@@ -97,20 +97,22 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
      * Goes to specified host/path and fetches reports from there.
      * Save reports to database.
      *
-     * @param string $host
-     * @param string $username
-     * @param string $password
-     * @param string $path
-     * @return Mage_Paypal_Model_Report_Settlement
+     * @param array $config SFTP credentials
+     * @return int Number of report rows that were fetched and saved successfully
      */
-    public function fetchAndSave($host, $username, $password, $path)
+    public function fetchAndSave($config)
     {
         $connection = new Varien_Io_Sftp();
-        $connection->open(array('host' => $host, 'username' => $username, 'password' => $password));
-        $connection->cd($path);
+        $connection->open(array(
+            'host'     => $config['hostname'],
+            'username' => $config['username'],
+            'password' => $config['password']
+        ));
+        $connection->cd($config['path']);
+        $fetched = 0;
         $listing = $this->_filterReportsList($connection->rawls());
         foreach ($listing as $filename => $attributes) {
-            $localCsv = Mage::getConfig()->getOptions()->getTmpDir() . DS . $filename;
+            $localCsv = tempnam(Mage::getConfig()->getOptions()->getTmpDir(), 'PayPal_STL');
             if ($connection->read($filename, $localCsv)) {
                 if (!is_writable($localCsv)) {
                     Mage::throwException(Mage::helper('paypal')->__('Cannot create target file for reading reports.'));
@@ -131,27 +133,15 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
                     ->parseCsv($localCsv)
                     ->save();
 
+                if ($this->_dataSaveAllowed) {
+                    $fetched += count($this->_rows);
+                }
                 // clean object and remove parsed file
                 $this->unsetData();
                 unlink($localCsv);
             }
         }
-        return $this;
-    }
-
-    /**
-     * Fetch and save reports for all existing SFTP settings
-     *
-     * @param bool $automaticMode Whether to skip settings with disabled Automatic Fetching or not
-     * @return Mage_Paypal_Model_Report_Settlement
-     */
-    public function fetchAllReports($automaticMode = false)
-    {
-        $configs = $this->_getSftpConfigs($automaticMode);
-        foreach ($configs as $config) {
-            $this->fetchAndSave($config['hostname'], $config['username'], $config['password'], $config['path']);
-        }
-        return $this;
+        return $fetched;
     }
 
     /**
@@ -274,27 +264,40 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
      */
     public function getFieldLabel($field)
     {
-        $labels = array(
-            'report_date'                   => 'Report Date',
-            'account_id'                    => 'Merchant Account',
-            'transaction_id'                => 'Transaction ID',
-            'invoice_id'                    => 'Invoice ID',
-            'paypal_reference_id'           => 'PayPal Reference ID',
-            'paypal_reference_id_type'      => 'PayPal Reference ID Type',
-            'transaction_event_code'        => 'Event Code',
-            'transaction_event'             => 'Event',
-            'transaction_initiation_date'   => 'Initiation Date',
-            'transaction_completion_date'   => 'Completion Date',
-            'transaction_debit_or_credit'   => 'Debit or Credit',
-            'gross_transaction_amount'      => 'Gross Amount',
-            'fee_debit_or_credit'           => 'Fee Debit or Credit',
-            'fee_amount'                    => 'Fee Amount',
-            'custom_field'                  => 'Custom',
-        );
-        if (isset($labels[$field])) {
-            return Mage::helper('paypal')->__($labels[$field]);
+        switch ($field) {
+            case 'report_date':
+                return Mage::helper('paypal')->__('Report Date');
+            case 'account_id':
+                return Mage::helper('paypal')->__('Merchant Account');
+            case 'transaction_id':
+                return Mage::helper('paypal')->__('Transaction ID');
+            case 'invoice_id':
+                return Mage::helper('paypal')->__('Invoice ID');
+            case 'paypal_reference_id':
+                return Mage::helper('paypal')->__('PayPal Reference ID');
+            case 'paypal_reference_id_type':
+                return Mage::helper('paypal')->__('PayPal Reference ID Type');
+            case 'transaction_event_code':
+                return Mage::helper('paypal')->__('Event Code');
+            case 'transaction_event':
+                return Mage::helper('paypal')->__('Event');
+            case 'transaction_initiation_date':
+                return Mage::helper('paypal')->__('Initiation Date');
+            case 'transaction_completion_date':
+                return Mage::helper('paypal')->__('Completion Date');
+            case 'transaction_debit_or_credit':
+                return Mage::helper('paypal')->__('Debit or Credit');
+            case 'gross_transaction_amount':
+                return Mage::helper('paypal')->__('Gross Amount');
+            case 'fee_debit_or_credit':
+                return Mage::helper('paypal')->__('Fee Debit or Credit');
+            case 'fee_amount':
+                return Mage::helper('paypal')->__('Fee Amount');
+            case 'custom_field':
+                return Mage::helper('paypal')->__('Custom');
+            default:
+                return $field;
         }
-        return '';
     }
 
     /**
@@ -304,7 +307,7 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
      * @param bool $automaticMode Whether to skip settings with disabled Automatic Fetching or not
      * @return array
      */
-    protected function _getSftpConfigs($automaticMode = false)
+    public function getSftpCredentials($automaticMode = false)
     {
         $configs = array();
         $uniques = array();
@@ -321,6 +324,9 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
                 'password'  => $store->getConfig('paypal/fetch_reports/ftp_password'),
                 'sandbox'   => $store->getConfig('paypal/fetch_reports/ftp_sandbox'),
             );
+            if (empty($cfg['username']) || empty($cfg['password'])) {
+                continue;
+            }
             if (empty($cfg['hostname']) || $cfg['sandbox']) {
                 $cfg['hostname'] = $cfg['sandbox'] ? self::SANDBOX_REPORTS_HOSTNAME : self::REPORTS_HOSTNAME;
             }

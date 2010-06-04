@@ -25,32 +25,35 @@
  */
 
 /**
- * PayPal module observer
+ * Adminhtml renderer for amount-type columns in settlement report rows
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Paypal
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Paypal_Model_Observer
+class Mage_Paypal_Block_Adminhtml_Settlement_Report_Renderer_Amount
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
 {
     /**
-     * Goes to reports.paypal.com and fetches Settlement reports.
-     * @return Mage_Paypal_Model_Observer
+     * Renders Amount
+     *
+     * @param   Varien_Object $row
+     * @return  string
      */
-    public function fetchReports()
+    public function render(Varien_Object $row)
     {
-        try {
-            $reports = Mage::getModel('paypal/report_settlement');
-            /* @var $reports Mage_Paypal_Model_Report_Settlement */
-            $credentials = $reports->getSftpCredentials(true);
-            foreach ($credentials as $config) {
-                try {
-                    $reports->fetchAndSave($config);
-                } catch (Exception $e) {
-                    Mage::logException($e);
-                }
-            }
-        } catch (Exception $e) {
-            Mage::logException($e);
+        $value = parent::render($row);
+        if (
+            ($this->getColumn()->getIndex() == 'fee_amount'
+            && $row->getData('fee_debit_or_credit') == 'CR'
+            && $row->getData('fee_amount') > 0)
+            ||
+            ($this->getColumn()->getIndex() == 'gross_transaction_amount'
+            && $row->getData('transaction_debit_or_credit') == 'CR'
+            && $row->getData('gross_transaction_amount') > 0))
+        {
+            return '-' . $value;
         }
+        return $value;
     }
 }

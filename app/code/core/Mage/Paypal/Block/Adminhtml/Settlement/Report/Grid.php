@@ -114,12 +114,14 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_
             'index'     => 'gross_transaction_amount',
             'type'      => 'currency',
             'currency'  => 'gross_transaction_currency',
+            'renderer'  => 'paypal/adminhtml_settlement_report_renderer_amount',
         ));
         $this->addColumn('fee_amount', array(
             'header'    => $settlement->getFieldLabel('fee_amount'),
             'index'     => 'fee_amount',
             'type'      => 'currency',
             'currency'  => 'gross_transaction_currency',
+            'renderer'  => 'paypal/adminhtml_settlement_report_renderer_amount',
         ));
         return parent::_prepareColumns();
     }

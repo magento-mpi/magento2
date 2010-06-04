@@ -71,6 +71,91 @@ class Mage_Paypal_Model_Report_Settlement_Row extends Mage_Core_Model_Abstract
      */
     public function getTransactionEvent($code = null)
     {
+        /**
+         * for translations
+         */
+        // Mage::helper('paypal')->__('General: received payment of a type not belonging to the other T00xx categories')
+        // Mage::helper('paypal')->__('Mass Pay Payment')
+        // Mage::helper('paypal')->__('Subscription Payment, either payment sent or payment received')
+        // Mage::helper('paypal')->__('Preapproved Payment (BillUser API), either sent or received')
+        // Mage::helper('paypal')->__('eBay Auction Payment')
+        // Mage::helper('paypal')->__('Direct Payment API')
+        // Mage::helper('paypal')->__('Express Checkout APIs')
+        // Mage::helper('paypal')->__('Website Payments Standard Payment')
+        // Mage::helper('paypal')->__('Postage Payment to either USPS or UPS')
+        // Mage::helper('paypal')->__('Gift Certificate Payment: purchase of Gift Certificate')
+        // Mage::helper('paypal')->__('Auction Payment other than through eBay')
+        // Mage::helper('paypal')->__('Mobile Payment (made via a mobile phone)')
+        // Mage::helper('paypal')->__('Virtual Terminal Payment')
+        // Mage::helper('paypal')->__('General: non-payment fee of a type not belonging to the other T01xx categories')
+        // Mage::helper('paypal')->__('Fee: Web Site Payments Pro Account Monthly')
+        // Mage::helper('paypal')->__('Fee: Foreign ACH Withdrawal')
+        // Mage::helper('paypal')->__('Fee: WorldLink Check Withdrawal')
+        // Mage::helper('paypal')->__('Fee: Mass Pay Request')
+        // Mage::helper('paypal')->__('General Currency Conversion')
+        // Mage::helper('paypal')->__('User-initiated Currency Conversion')
+        // Mage::helper('paypal')->__('Currency Conversion required to cover negative balance')
+        // Mage::helper('paypal')->__('General Funding of PayPal Account ')
+        // Mage::helper('paypal')->__('PayPal Balance Manager function of PayPal account')
+        // Mage::helper('paypal')->__('ACH Funding for Funds Recovery from Account Balance')
+        // Mage::helper('paypal')->__('EFT Funding (German banking)')
+        // Mage::helper('paypal')->__('General Withdrawal from PayPal Account')
+        // Mage::helper('paypal')->__('AutoSweep')
+        // Mage::helper('paypal')->__('General: Use of PayPal account for purchasing as well as receiving payments')
+        // Mage::helper('paypal')->__('Virtual PayPal Debit Card Transaction')
+        // Mage::helper('paypal')->__('PayPal Debit Card Withdrawal from ATM')
+        // Mage::helper('paypal')->__('Hidden Virtual PayPal Debit Card Transaction')
+        // Mage::helper('paypal')->__('PayPal Debit Card Cash Advance')
+        // Mage::helper('paypal')->__('General: Withdrawal from PayPal Account')
+        // Mage::helper('paypal')->__('General (Purchase with a credit card)')
+        // Mage::helper('paypal')->__('Negative Balance')
+        // Mage::helper('paypal')->__('General: bonus of a type not belonging to the other T08xx categories')
+        // Mage::helper('paypal')->__('Debit Card Cash Back')
+        // Mage::helper('paypal')->__('Merchant Referral Bonus')
+        // Mage::helper('paypal')->__('Balance Manager Account Bonus')
+        // Mage::helper('paypal')->__('PayPal Buyer Warranty Bonus')
+        // Mage::helper('paypal')->__('PayPal Protection Bonus')
+        // Mage::helper('paypal')->__('Bonus for first ACH Use')
+        // Mage::helper('paypal')->__('General Redemption')
+        // Mage::helper('paypal')->__('Gift Certificate Redemption')
+        // Mage::helper('paypal')->__('Points Incentive Redemption')
+        // Mage::helper('paypal')->__('Coupon Redemption')
+        // Mage::helper('paypal')->__('Reward Voucher Redemption')
+        // Mage::helper('paypal')->__('General. Product no longer supported')
+        // Mage::helper('paypal')->__('General: reversal of a type not belonging to the other T11xx categories')
+        // Mage::helper('paypal')->__('ACH Withdrawal')
+        // Mage::helper('paypal')->__('Debit Card Transaction')
+        // Mage::helper('paypal')->__('Reversal of Points Usage')
+        // Mage::helper('paypal')->__('ACH Deposit (Reversal)')
+        // Mage::helper('paypal')->__('Reversal of General Account Hold')
+        // Mage::helper('paypal')->__('Account-to-Account Payment, initiated by PayPal')
+        // Mage::helper('paypal')->__('Payment Refund initiated by merchant')
+        // Mage::helper('paypal')->__('Fee Reversal')
+        // Mage::helper('paypal')->__('Hold for Dispute Investigation')
+        // Mage::helper('paypal')->__('Reversal of hold for Dispute Investigation')
+        // Mage::helper('paypal')->__('General: adjustment of a type not belonging to the other T12xx categories')
+        // Mage::helper('paypal')->__('Chargeback')
+        // Mage::helper('paypal')->__('Reversal')
+        // Mage::helper('paypal')->__('Charge-off')
+        // Mage::helper('paypal')->__('Incentive')
+        // Mage::helper('paypal')->__('Reimbursement of Chargeback')
+        // Mage::helper('paypal')->__('General (Authorization)')
+        // Mage::helper('paypal')->__('Reauthorization')
+        // Mage::helper('paypal')->__('Void')
+        // Mage::helper('paypal')->__('General (Dividend)')
+        // Mage::helper('paypal')->__('General: temporary hold of a type not belonging to the other T15xx categories')
+        // Mage::helper('paypal')->__('Open Authorization')
+        // Mage::helper('paypal')->__('ACH Deposit (Hold for Dispute or Other Investigation)')
+        // Mage::helper('paypal')->__('Available Balance')
+        // Mage::helper('paypal')->__('Funding')
+        // Mage::helper('paypal')->__('General: Withdrawal to Non-Bank Entity')
+        // Mage::helper('paypal')->__('WorldLink Withdrawal')
+        // Mage::helper('paypal')->__('Buyer Credit Payment')
+        // Mage::helper('paypal')->__('General Adjustment without businessrelated event')
+        // Mage::helper('paypal')->__('General (Funds Transfer from PayPal Account to Another)')
+        // Mage::helper('paypal')->__('Settlement Consolidation')
+        // Mage::helper('paypal')->__('General: event not yet categorized')
+
         $events = array(
             'T0000' => 'General: received payment of a type not belonging to the other T00xx categories',
             'T0001' => 'Mass Pay Payment',
@@ -155,11 +240,14 @@ class Mage_Paypal_Model_Report_Settlement_Row extends Mage_Core_Model_Abstract
             'T9900' => 'General: event not yet categorized',
         );
         if($code === null) {
+            foreach ($events as $key => $event) {
+                $events[$key] = Mage::helper('paypal')->__($event);
+            }
             asort($events);
             return $events;
         }
         if (isset($events[$code])) {
-            return $events[$code];
+            return Mage::helper('paypal')->__($events[$code]);
         }
         return $code;
     }

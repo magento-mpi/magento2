@@ -79,15 +79,30 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
     public function fetchAction()
     {
         try {
-            Mage::getModel('paypal/report_settlement')->fetchAllReports();
-            $this->_getSession()->addSuccess(Mage::helper('paypal')->__('Reports have been fetched successfully.'));
+            $reports = Mage::getModel('paypal/report_settlement');
+            /* @var $reports Mage_Paypal_Model_Report_Settlement */
+            $credentials = $reports->getSftpCredentials();
+            if (empty($credentials)) {
+                Mage::throwException(Mage::helper('paypal')->__('Nothing to fetch because of an empty configuration.'));
+            }
+            foreach ($credentials as $config) {
+                try {
+                    $fetched = $reports->fetchAndSave($config);
+                    $this->_getSession()->addSuccess(
+                        Mage::helper('paypal')->__("Fetched %s report rows from '%s@%s'.", $fetched, $config['username'], $config['hostname'])
+                    );
+                } catch (Exception $e) {
+                    $this->_getSession()->addError(
+                        Mage::helper('paypal')->__("Failed to fetch reports from '%s@%s'.", $config['username'], $config['hostname'])
+                    );
+                    Mage::logException($e);
+                }
+            }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
             Mage::logException($e);
         }
-
         $this->_redirect('*/*/index');
     }
 
