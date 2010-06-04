@@ -154,6 +154,22 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Retrieve all payment methods array as [code] => [label]
+     *
+     * @return array
+     */
+    public function getAllPaymentMethods()
+    {
+        $methods = array();
+        foreach ($this->getPaymentMethods() as $code => $data) {
+            if ((isset($data['title']))) {
+                $methods[$code] = $data['title'];
+            }
+        }
+        return $methods;
+    }
+
+    /**
      * Retrieve all billing agreement methods (code and label)
      *
      * @return array
