@@ -97,7 +97,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_
             'header'    => $settlement->getFieldLabel('transaction_event'),
             'index'     => 'transaction_event_code',
             'type'      => 'options',
-            'options'   => Mage::getModel('paypal/report_settlement_row')->getTransactionEvent()
+            'options'   => Mage::getModel('paypal/report_settlement_row')->getTransactionEvents()
         ));
         $this->addColumn('transaction_initiation_date', array(
             'header'    => $settlement->getFieldLabel('transaction_initiation_date'),
@@ -114,14 +114,12 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid extends Mage_Adminhtml_
             'index'     => 'gross_transaction_amount',
             'type'      => 'currency',
             'currency'  => 'gross_transaction_currency',
-            'renderer'  => 'paypal/adminhtml_settlement_report_renderer_amount',
         ));
         $this->addColumn('fee_amount', array(
             'header'    => $settlement->getFieldLabel('fee_amount'),
             'index'     => 'fee_amount',
             'type'      => 'currency',
             'currency'  => 'gross_transaction_currency',
-            'renderer'  => 'paypal/adminhtml_settlement_report_renderer_amount',
         ));
         return parent::_prepareColumns();
     }
