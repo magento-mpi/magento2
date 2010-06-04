@@ -107,4 +107,24 @@ class Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
         }
         return $this;
     }
+
+    /**
+     * Update items custom price (Depends on custom options)
+     */
+    public function updateItemAttributes()
+    {
+        foreach ($this->getItems() as $item) {
+            $product = $item->getProduct();
+            $request = new Varien_Object(unserialize($item->getCustomOptions()));
+
+            $candidate = $product->getTypeInstance(true)->prepareForCart($request, $product);
+            if (is_array($candidate)) {
+                $candidate = array_shift($candidate);
+                $product->setCustomOptions($candidate->getCustomOptions());
+
+                $item->setPrice($product->getFinalPrice());
+                $item->setSku($product->getSku());
+            }
+        }
+    }
 }

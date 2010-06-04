@@ -45,6 +45,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
         $collection = Mage::getModel('enterprise_giftregistry/item')->getCollection()
             ->addRegistryFilter($this->getEntity()->getId());
 
+        $collection->updateItemAttributes();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -91,9 +92,9 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
             'width'  => '120px'
         ));
 
-        $this->addColumn('notes', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Notes'),
-            'index'  => 'notes',
+        $this->addColumn('note', array(
+            'header' => Mage::helper('enterprise_giftregistry')->__('Note'),
+            'index'  => 'note',
             'width'  => '120px'
         ));
 

@@ -128,7 +128,7 @@ class Enterprise_GiftRegistry_Model_Item extends Enterprise_Enterprise_Model_Cor
         $requestArray = unserialize($requestOption->getValue());
         $selfOptions = unserialize($this->getCustomOptions());
 
-        if ($requestOption['options'] != $selfOptions['options']) {
+        if ($requestArray['options'] != $selfOptions['options']) {
             return false;
         }
 
@@ -136,13 +136,16 @@ class Enterprise_GiftRegistry_Model_Item extends Enterprise_Enterprise_Model_Cor
     }
 
     /**
-     * Return product name
+     * Set product attributes to item
      *
-     * @return string
+     * @param Mage_Catalog_Model_Product $product
+     * @return Enterprise_GiftRegistry_Model_Item
      */
-    public function getName()
+    public function setProduct($product)
     {
-        return $this->getProduct()->getName();
+        $this->setName($product->getName());
+        $this->setData('product', $product);
+        return $this;
     }
 
     /**

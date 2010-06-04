@@ -75,6 +75,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                     foreach ($quote->getAllVisibleItems() as $item) {
                         $entity->addItem($item);
                         $count += $item->getQty();
+                        Mage::getSingleton('checkout/cart')->removeItem($item->getId())->save();
                     }
                 }
 
@@ -88,17 +89,20 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                     );
                 }
             }
-        }
-        catch (Mage_Core_Exception $e) {
+
+        } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('giftregistry');
             return;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::getSingleton('checkout/session')->addError($this->__('Failed to add shopping cart items to gift registry.'));
         }
 
-        $this->_redirect('checkout/cart');
+        if ($entity->getId()) {
+            $this->_redirect('giftregistry/index/items', array('id' => $entity->getId()));
+        } else {
+            $this->_redirect('giftregistry');
+        }
     }
 
     /**
