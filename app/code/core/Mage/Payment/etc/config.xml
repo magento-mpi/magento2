@@ -99,6 +99,10 @@
                     </OT>
                 </types>
             </cc>
+
+            <groups>
+                <offline>Offline Payment Methods</offline>
+            </groups>
         </payment>
 
         <events>
@@ -146,6 +150,7 @@
                 <order_status>pending</order_status>
                 <title>Credit Card (saved)</title>
                 <allowspecific>0</allowspecific>
+                <group>offline</group>
             </ccsave>
 
             <checkmo>
@@ -154,6 +159,7 @@
                 <order_status>pending</order_status>
                 <title>Check / Money order</title>
                 <allowspecific>0</allowspecific>
+                <group>offline</group>
             </checkmo>
 
             <free>
@@ -167,6 +173,7 @@
                 <max_order_total>0</max_order_total>
 -->
                 <sort_order>1</sort_order>
+                <group>offline</group>
             </free>
 
             <purchaseorder>
@@ -175,6 +182,7 @@
                 <order_status>pending</order_status>
                 <title>Purchase Order</title>
                 <allowspecific>0</allowspecific>
+                <group>offline</group>
             </purchaseorder>
 
          </payment>
