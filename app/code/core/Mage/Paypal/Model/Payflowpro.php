@@ -157,6 +157,22 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
         return self::TRANSACTION_URL;
     }
 
+    /**
+     * Payment action getter compatible with payment model
+     *
+     * @see Mage_Sales_Model_Payment::place()
+     * @return string
+     */
+    public function getConfigPaymentAction()
+    {
+        switch ($this->getConfigData('payment_action')) {
+            case Mage_Paypal_Model_Config::PAYMENT_ACTION_AUTH:
+                return Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
+            case Mage_Paypal_Model_Config::PAYMENT_ACTION_SALE:
+                return Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
+        }
+    }
+
     public function authorize(Varien_Object $payment, $amount)
     {
         $error = false;
