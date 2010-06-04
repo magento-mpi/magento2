@@ -59,6 +59,7 @@
 
     <?php $billingAgreements = $this->getBillingAgreements(); ?>
     <?php if (count($billingAgreements) > 0): ?>
+        <?php echo $this->getPagerHtml(); ?>
         <table id="billing-agreements" class="data-table">
             <col />
             <col width="1" />
@@ -90,6 +91,7 @@
             </tbody>
         </table>
         <script type="text/javascript">decorateTable('billing-agreements')</script>
+        <?php echo $this->getPagerHtml(); ?>
     <?php else: ?>
         <p><?php echo $this->__('There are no billing agreements yet.')?></p>
     <?php endif; ?>

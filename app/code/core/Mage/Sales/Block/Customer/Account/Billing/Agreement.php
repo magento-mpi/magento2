@@ -32,18 +32,18 @@
 class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Block_Template
 {
     /**
-     * Billing Agreement instance
-     *
-     * @var Mage_Sales_Model_Billing_Agreement
-     */
-    protected $_billingAgreementInstance = null;
-
-    /**
      * Payment methods array
      *
      * @var array
      */
     protected $_paymentMethods = array();
+
+    /**
+     * Billing agreements collection
+     *
+     * @var Mage_Sales_Model_Mysql4_Billing_Agreement_Collection
+     */
+    protected $_billingAgreements = null;
 
     /**
      * Set Billing Agreement instance
@@ -52,10 +52,17 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Bloc
      */
     protected function _prepareLayout()
     {
-        if (is_null($this->_billingAgreementInstance)) {
-            $this->_billingAgreementInstance = Mage::registry('current_billing_agreement');
-        }
-        return parent::_prepareLayout();
+        parent::_prepareLayout();
+        $pager = $this->getLayout()->createBlock('page/html_pager')
+            ->setCollection($this->getBillingAgreements());
+        $this->setChild('pager', $pager);
+        $this->getBillingAgreements()->load();
+        return $this;
+    }
+
+    public function getPagerHtml()
+    {
+        return $this->getChildHtml('pager');
     }
 
     /**
@@ -65,11 +72,12 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Bloc
      */
     public function getBillingAgreements()
     {
-        $agreementsCollection = Mage::getResourceModel('sales/billing_agreement_collection');
-        $agreementsCollection
-            ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomerId())
-            ->setOrder('created_at');
-        return $agreementsCollection;
+        if (is_null($this->_billingAgreements)) {
+            $this->_billingAgreements = Mage::getResourceModel('sales/billing_agreement_collection')
+                ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomerId())
+                ->setOrder('created_at');
+        }
+        return $this->_billingAgreements;
     }
 
     /**
@@ -136,92 +144,13 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Bloc
     }
 
     /**
-     * Retrieve related orders collection
-     *
-     * @return Mage_Sales_Model_Mysql4_Order_Collection
-     */
-    public function getRelatedOrders()
-    {
-        return Mage::getResourceModel('sales/order_collection')
-            ->addFieldToSelect('*')
-            ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
-            ->addFieldToFilter('state', array('in' => Mage::getSingleton('sales/order_config')->getVisibleOnFrontStates()))
-            ->addBillingAgreementsFilter($this->_billingAgreementInstance->getAgreementId())
-            ->setOrder('created_at', 'desc')
-        ;
-    }
-
-    /**
-     * Retrieve order item value by key
-     *
-     * @param Mage_Sales_Model_Order $order
-     * @param string $key
-     * @return string
-     */
-    public function getOrderItemValue(Mage_Sales_Model_Order $order, $key)
-    {
-        $escape = true;
-        switch ($key) {
-            case 'order_increment_id':
-                $value = $order->getIncrementId();
-                break;
-            case 'created_at':
-                $value = $this->helper('core')->formatDate($order->getCreatedAt(), 'short', true);
-                break;
-            case 'shipping_address':
-                $value = $order->getShippingAddress()
-                    ? $this->htmlEscape($order->getShippingAddress()->getName()) : $this->__('N/A');
-                break;
-            case 'order_total':
-                $value = $order->formatPrice($order->getGrandTotal());
-                $escape = false;
-                break;
-            case 'status_label':
-                $value = $order->getStatusLabel();
-                break;
-            case 'view_url':
-                $value = $this->getUrl('*/order/view', array('order_id' => $order->getId()));
-                break;
-            default:
-                $value = ($order->getData($key)) ? $order->getData($key) : $this->__('N/A');
-        }
-        return ($escape) ? $this->escapeHtml($value) : $value;
-    }
-
-    /**
      * Set data to block
      *
      * @return string
      */
     protected function _toHtml()
     {
-        $this->_loadPaymentMethods();
         $this->setCreateUrl($this->getUrl('*/customer_billing_agreement/startWizard'));
-        $this->setBackUrl($this->getUrl('*/customer_billing_agreement/'));
-        if ($this->_billingAgreementInstance) {
-            $this->setReferenceId($this->_billingAgreementInstance->getReferenceId());
-
-            $this->setCanCancel($this->_billingAgreementInstance->canCancel());
-            $this->setCancelUrl(
-                $this->getUrl('*/customer_billing_agreement/cancel', array(
-                    '_current' => true,
-                    'payment_method' => $this->_billingAgreementInstance->getMethodCode()))
-            );
-
-            $this->setPaymentMethodTitle(
-                $this->_paymentMethods[$this->_billingAgreementInstance->getMethodCode()]
-            );
-            $this->setAgreementCreatedAt(
-                $this->getItemValue($this->_billingAgreementInstance, 'created_at')
-            );
-            if ($this->_billingAgreementInstance->getUpdatedAt()) {
-                $this->setAgreementUpdatedAt(
-                    $this->getItemValue($this->_billingAgreementInstance, 'updated_at')
-                );
-            }
-            $this->setAgreementStatus($this->_billingAgreementInstance->getStatusLabel());
-        }
-
         return parent::_toHtml();
     }
 }
