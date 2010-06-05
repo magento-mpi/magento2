@@ -95,6 +95,13 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected $_childrenHtmlCache = array();
 
     /**
+     * Arbitrary groups of child blocks
+     *
+     * @var array
+     */
+    protected $_childGroups = array();
+
+    /**
      * Request object
      *
      * @var Zend_Controller_Request_Http
@@ -618,6 +625,84 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     {
         $this->insert($block, '', true, $alias);
         return $this;
+    }
+
+    /**
+     * Make sure specified block will be registered in the specified child groups
+     *
+     * @param string $groupName
+     * @param Mage_Core_Block_Abstract $child
+     */
+    public function addToChildGroup($groupName, Mage_Core_Block_Abstract $child)
+    {
+        if (!isset($this->_childGroups[$groupName])) {
+            $this->_childGroups[$groupName] = array();
+        }
+        if (!in_array($child->getBlockAlias(), $this->_childGroups[$groupName])) {
+            $this->_childGroups[$groupName][] = $child->getBlockAlias();
+        }
+    }
+
+    /**
+     * Add self to the specified group of parent block
+     *
+     * @param string $groupName
+     * @return Mage_Core_Block_Abstract
+     */
+    public function addToParentGroup($groupName)
+    {
+        $this->getParentBlock()->addToChildGroup($groupName, $this);
+        return $this;
+    }
+
+    /**
+     * Get a group of child blocks
+     *
+     * Returns an array of <alias> => <block>
+     * or an array of <alias> => <callback_result>
+     * The callback currently supports only $this methods and passes the alias as parameter
+     *
+     * @param string $groupName
+     * @param string $callback
+     * @param bool $skipEmptyResults
+     * @return array
+     */
+    public function getChildGroup($groupName, $callback = null, $skipEmptyResults = true)
+    {
+        $result = array();
+        if (!isset($this->_childGroups[$groupName])) {
+            return $result;
+        }
+        foreach ($this->getSortedChildBlocks() as $block) {
+            $alias = $block->getBlockAlias();
+            if (in_array($alias, $this->_childGroups[$groupName])) {
+                if ($callback) {
+                    $row = $this->$callback($alias);
+                    if (!$skipEmptyResults || $row) {
+                        $result[$alias] = $row;
+                    }
+                } else {
+                    $result[$alias] = $block;
+                }
+
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Get a value from child block by specified key
+     *
+     * @param string $alias
+     * @param string $key
+     * @return mixed
+     */
+    public function getChildData($alias, $key = '')
+    {
+        $child = $this->getChild($alias);
+        if ($child) {
+            return $child->getData($key);
+        }
     }
 
     /**

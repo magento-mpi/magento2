@@ -93,13 +93,11 @@
         </div>
 
         <div class="product-collateral">
-        <?php if ($_description = $this->getChildHtml('description')):?>
+        <?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):?>
             <br />
-            <h4><?php echo $this->__('Product Description') ?></h4>
-            <div class="product-specs">
-                <?php echo $_description ?>
-            </div>
-        <?php endif; ?>
+            <h4><?php echo $this->escapeHtml($this->getChildData($alias, 'title'));?></h4>
+            <div><?php echo $html;?></div>
+        <?php endforeach;?>
 
         <?php if($_additional = $this->getAdditionalData()): ?>
         <div class="attribute-specs">

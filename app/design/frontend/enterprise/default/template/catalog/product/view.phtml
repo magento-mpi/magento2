@@ -94,22 +94,14 @@
 
         </div>
         <div class="product-collateral">
-            <?php $_description = $this->getChildHtml('description') ?>
-            <?php $_additional = $this->getChildHtml('additional') ?>
-            <?php if($_description || $_additional):?>
+            <?php if ($detailedInfoGroup = $this->getChildGroup('detailed_info', 'getChildHtml')):?>
                 <dl id="collateral-tabs" class="collateral-tabs">
-                <?php if ($_description):?>
-                    <dt class="tab"><span><?php echo $this->__('Details') ?></span></dt>
+                <?php foreach ($detailedInfoGroup as $alias => $html):?>
+                    <dt class="tab"><span><?php echo $this->escapeHtml($this->getChildData($alias, 'title')) ?></span></dt>
                     <dd class="tab-container">
-                       <div class="tab-content"><?php echo $_description ?></div>
+                       <div class="tab-content"><?php echo $html ?></div>
                     </dd>
-                <?php endif;?>
-                <?php if ($_additional):?>
-                    <dt class="tab"><span><?php echo $this->__('Additional Information') ?></span></dt>
-                    <dd class="tab-container">
-                        <div class="tab-content"><?php echo $_additional ?></div>
-                    </dd>
-                <?php endif;?>
+                <?php endforeach;?>
                 </dl>
                 <script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>
             <?php endif; ?>

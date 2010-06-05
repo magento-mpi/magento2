@@ -211,9 +211,16 @@ Product view
                     <action method="setItemLimit"><type>upsell</type><limit>4</limit></action>
                 </block>
 
-                <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data" />
-                <block type="catalog/product_view_description" name="product.description" as="description" template="catalog/product/view/description.phtml"/>
-                <block type="catalog/product_view_attributes" name="product.attributes" as="additional" template="catalog/product/view/attributes.phtml"/>
+                <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data"/>
+                <block type="catalog/product_view_description" name="product.description" as="description" template="catalog/product/view/description.phtml">
+                    <action method="addToParentGroup"><group>detailed_info</group></action>
+                    <action method="setTitle" translate="value"><value>Details</value></action>
+                </block>
+                <block type="catalog/product_view_attributes" name="product.attributes" as="additional" template="catalog/product/view/attributes.phtml">
+                <action method="addToParentGroup"><group>detailed_info</group></action>
+                    <action method="addToParentGroup"><group>detailed_info</group></action>
+                    <action method="setTitle" translate="value"><value>Additional Information</value></action>
+                </block>
                 <block type="core/text_list" name="product.tag.list" as="productTagList" translate="label">
                     <label>Product Tags List</label>
                 </block>
