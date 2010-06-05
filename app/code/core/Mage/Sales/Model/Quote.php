@@ -1274,7 +1274,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $result = array();
         foreach ($this->getAllVisibleItems() as $item) {
             $product = $item->getProduct();
-            if (is_object($product) && $profile = Mage::getModel('sales/recurring_profile')->importProduct($product)) {
+            if (is_object($product) && ($product->isRecurring())
+                && $profile = Mage::getModel('sales/recurring_profile')->importProduct($product)) {
                 /* @var $profile Mage_Sales_Model_Recurring_Profile */
                 if ($this->getPayment() && $this->getPayment()->getMethod()) {
                     $profile->setMethodInstance($this->getPayment()->getMethodInstance());

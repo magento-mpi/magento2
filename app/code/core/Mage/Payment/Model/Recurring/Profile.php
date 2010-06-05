@@ -31,6 +31,14 @@
 class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
 {
     /**
+     * Constants for passing data through catalog
+     *
+     * @var string
+     */
+    const BUY_REQUEST_START_DATETIME = 'recurring_profile_start_datetime';
+    const PRODUCT_OPTIONS_KEY = 'recurring_profile_options';
+
+    /**
      * Errors collected during validation
      *
      * @var array
@@ -42,6 +50,20 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
      * @var Mage_Payment_Model_Method_Abstract
      */
     protected $_methodInstance = null;
+
+    /**
+     * Locale instance used for importing/exporting data
+     *
+     * @var Mage_Core_Model_Locale
+     */
+    protected $_locale = null;
+
+    /**
+     * Store instance used by locale or method instance
+     *
+     * @var Mage_Core_Model_Store
+     */
+    protected $_store = null;
 
     /**
      * Check whether the object data is valid
@@ -56,8 +78,9 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
 
         // start date, order ref ID, schedule description
         if (!$this->getStartDatetime()) {
-// TODO: validate format?
             $this->_errors['start_datetime'][] = Mage::helper('payment')->__('Start date is undefined.');
+        } elseif (!Zend_Date::isDate($this->getStartDatetime(), Varien_Date::DATETIME_INTERNAL_FORMAT)) {
+            $this->_errors['start_datetime'][] = Mage::helper('payment')->__('Start date has invalid format.');
         }
         if (!$this->getScheduleDescription()) {
             $this->_errors['schedule_description'][] = Mage::helper('payment')->__('Schedule description must be not empty.');
@@ -143,6 +166,31 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Collect needed information from buy request
+     * Then filter data
+     *
+     * @param Varien_Object $buyRequest
+     * @return Mage_Payment_Model_Recurring_Profile
+     * @throws Mage_Core_Exception
+     */
+    public function importBuyRequest(Varien_Object $buyRequest)
+    {
+        $startDate = $buyRequest->getData(self::BUY_REQUEST_START_DATETIME);
+        if ($startDate) {
+            $this->_ensureLocaleAndStore();
+            $dateFormat = $this->_locale->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+            $localeCode = $this->_locale->getLocaleCode();
+            if (!Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
+                Mage::throwException(Mage::helper('payment')->__('Recurring profile start date has invalid format.'));
+            }
+            $utcTime = $this->_locale->utcDate($this->_store, $startDate, true, $dateFormat)
+                ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+            $this->setStartDatetime($utcTime)->setImportedStartDatetime($startDate);
+        }
+        return $this->_filterValues();
+    }
+
+    /**
      * Import product recurring profile information
      * Returns false if it cannot be imported
      *
@@ -152,28 +200,52 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     public function importProduct(Mage_Catalog_Model_Product $product)
     {
         if ($product->isRecurring() && is_array($product->getRecurringProfile())) {
+            // import recurring profile data
             $this->addData($product->getRecurringProfile());
+
+            // automatically set product name if there is no schedule description
             if (!$this->hasScheduleDescription()) {
                 $this->setScheduleDescription($product->getName());
             }
-            if ($options = $product->getCustomOption('recurring_profile_options')) {
-                $options = @unserialize($options->getValue());
+
+            // collect start datetime from the product options
+            $options = $product->getCustomOption(self::PRODUCT_OPTIONS_KEY);
+            if ($options) {
+                $options = unserialize($options->getValue());
                 if (is_array($options)) {
-                    if (isset($options['start_date'])) {
-                        $startDatetime = new Zend_Date($options['start_date'], Varien_Date::DATETIME_INTERNAL_FORMAT);
+                    if (isset($options['start_datetime'])) {
+                        $startDatetime = new Zend_Date($options['start_datetime'], Varien_Date::DATETIME_INTERNAL_FORMAT);
                         $this->setNearestStartDatetime($startDatetime);
-                    }
-                    if (isset($options['subscriber_name'])) {
-                        $this->setSubscriberName($options['subscriber_name']);
                     }
                 }
             }
-            if (!$this->getStartDatetime()) {
-                $this->setNearestStartDatetime();
-            }
+
             return $this->_filterValues();
         }
         return false;
+    }
+
+    /**
+     * Render available schedule information
+     *
+     * @return array
+     */
+    public function exportScheduleInfo()
+    {
+        $result = array(
+            new Varien_Object(array(
+                'title'    => Mage::helper('payment')->__('Billing Period'),
+                'schedule' => $this->_renderSchedule('period_unit', 'period_frequency', 'period_max_cycles'),
+            ))
+        );
+        $trial = $this->_renderSchedule('trial_period_unit', 'trial_period_frequency', 'trial_period_max_cycles');
+        if ($trial) {
+            $result[] = new Varien_Object(array(
+                'title'    => Mage::helper('payment')->__('Trial Period'),
+                'schedule' => $trial,
+            ));
+        }
+        return $result;
     }
 
     /**
@@ -195,6 +267,49 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Convert the start datetime (if set) to proper locale/timezone and return
+     *
+     * @param bool $asString
+     * @return Zend_Date|string
+     */
+    public function exportStartDatetime($asString = true)
+    {
+        $datetime = $this->getStartDatetime();
+        if (!$datetime || !$this->_locale || !$this->_store) {
+            return;
+        }
+        $date = $this->_locale->storeDate($this->_store, $datetime, true);
+        if ($asString) {
+            return $date->toString($this->_locale->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
+        }
+        return $date;
+    }
+
+    /**
+     * Locale instance setter
+     *
+     * @param Mage_Core_Model_Locale $locale
+     * @return Mage_Payment_Model_Recurring_Profile
+     */
+    public function setLocale(Mage_Core_Model_Locale $locale)
+    {
+        $this->_locale = $locale;
+        return $this;
+    }
+
+    /**
+     * Store instance setter
+     *
+     * @param Mage_Core_Model_Store $store
+     * @return Mage_Payment_Model_Recurring_Profile
+     */
+    public function setStore(Mage_Core_Model_Store $store)
+    {
+        $this->_store = $store;
+        return $this;
+    }
+
+    /**
      * Getter for available period units
      *
      * @param bool $withLabels
@@ -202,16 +317,32 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
      */
     public function getAllPeriodUnits($withLabels = true)
     {
+        $units = array('day', 'week', 'semi_month', 'month', 'year');
         if ($withLabels) {
-            return array(
-                'day'        => Mage::helper('payment')->__('Day'),
-                'week'       => Mage::helper('payment')->__('Week'),
-                'semi_month' => Mage::helper('payment')->__('Two Weeks'),
-                'month'      => Mage::helper('payment')->__('Month'),
-                'year'       => Mage::helper('payment')->__('Year'),
-            );
+            $result = array();
+            foreach ($units as $unit) {
+                $result[$unit] = $this->getPeriodUnitLabel($unit);
+            }
+            return $result;
         }
-        return array('day', 'week', 'semi_month', 'month', 'year');
+        return $units;
+    }
+
+    /**
+     * Render label for specified period unit
+     *
+     * @param string $unit
+     */
+    public function getPeriodUnitLabel($unit)
+    {
+        switch ($unit) {
+            case 'day':  return Mage::helper('payment')->__('Day');
+            case 'week': return Mage::helper('payment')->__('Week');
+            case 'semi_month': return Mage::helper('payment')->__('Two Weeks');
+            case 'month': return Mage::helper('payment')->__('Month');
+            case 'year':  return Mage::helper('payment')->__('Year');
+        }
+        return $unit;
     }
 
     /**
@@ -336,7 +467,24 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
             }
         }
 
+        // automatically determine start date, if not set
+        if (!$this->getStartDatetime()) {
+            $this->setNearestStartDatetime();
+        }
+
         return $this;
+    }
+
+    /**
+     * Check that locale and store instances are set
+     *
+     * @throws Exception
+     */
+    protected function _ensureLocaleAndStore()
+    {
+        if (!$this->_locale || !$this->_store) {
+            throw new Exception('Locale and store instances must be set for this operation.');
+        }
     }
 
     /**
@@ -394,5 +542,38 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     {
         $this->_validateBeforeSave();
         return parent::_beforeSave();
+    }
+
+    /**
+     * Generate explanations for specified schedule parameters
+     *
+     * TODO: utilize Zend_Translate_Plural or similar stuff to render proper declensions with numerals.
+     *
+     * @param string $periodKey
+     * @param string $frequencyKey
+     * @param string $cyclesKey
+     * @return array
+     */
+    protected function _renderSchedule($periodKey, $frequencyKey, $cyclesKey)
+    {
+        $result = array();
+
+        $period = $this->_getData($periodKey);
+        $frequency = (int)$this->_getData($frequencyKey);
+        if (!$period || !$frequency) {
+            return $result;
+        }
+        if ('semi_month' == $period) {
+            $frequency = '';
+        }
+        $result[] = Mage::helper('payment')->__('%s %s cycle.', $frequency, $this->getPeriodUnitLabel($period));
+
+        $cycles = (int)$this->_getData($cyclesKey);
+        if ($cycles) {
+            $result[] = Mage::helper('payment')->__('Repeats %s time(s).', $cycles);
+        } else {
+            $result[] = Mage::helper('payment')->__('Repeats until suspended or canceled.');
+        }
+        return $result;
     }
 }

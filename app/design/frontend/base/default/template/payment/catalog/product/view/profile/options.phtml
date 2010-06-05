@@ -26,26 +26,16 @@
 ?>
 <?php
 /**
- * @see Mage_Sales_Block_Catalog_Product_View_Recurring_Profile
+ * @see Mage_Payment_Block_Catalog_Product_View_Profile
  */
 ?>
-<div class="product-options">
-    <dl class="last">
-        <?php if ($this->getIsStartDateEditable()): ?>
-        <dt>
-            <label for="recurring_start_date"><?php echo $this->__('Start date for recurring period') ?></label>
-        </dt>
-        <dd>
-            <?php echo $this->getDateHtml() ?>
-        </dd>
-        <?php endif; ?>
-        <dt>
-            <label for="recurring_subscriber"><?php echo $this->__('Subscriber name') ?></label>
-        </dt>
-        <dd class="last">
-            <div class="input-box">
-                <input name="recurring_subscriber_name" type="text" class="input-text" id="recurring_subscriber" value="<?php echo $this->htmlEscape($this->getCustomerName()) ?>"/>
-            </div>
-        </dd>
-    </dl>
-</div>
+<?php if ($dateHtml = $this->getDateHtml()): ?>
+<dl>
+    <dt>
+        <label for="<?php echo $this->getDateHtmlId() ?>"><?php echo $this->__('Recurring Profile Start Date') ?></label>
+    </dt>
+    <dd>
+        <?php echo $dateHtml ?>
+    </dd>
+</dl>
+<?php endif; ?>
