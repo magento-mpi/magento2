@@ -158,10 +158,15 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
      *
      * @param Mage_Payment_Model_Method_Abstract $object
      * @return Mage_Payment_Model_Recurring_Profile
+     * @throws Exception
      */
     public function setMethodInstance(Mage_Payment_Model_Method_Abstract $object)
     {
-        $this->_methodInstance = $object;
+        if ($object instanceof Mage_Payment_Model_Recurring_Profile_MethodInterface) {
+            $this->_methodInstance = $object;
+        } else {
+            throw new Exception('Invalid payment method instance for use in recurring profile.');
+        }
         return $this;
     }
 
@@ -443,7 +448,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
             $this->setMethodCode($this->_methodInstance->getCode());
         }
         elseif ($this->getMethodCode()) {
-            $this->_initMethodInstance();
+            $this->getMethodInstance();
         }
 
         // unset redundant values, if empty
@@ -488,18 +493,17 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Initialize payment method instance from code
+     * Return payment method instance
      *
-     * @param int $storeId
+     * @return Mage_Payment_Model_Method_Abstract
      */
-    protected function _initMethodInstance($storeId = null)
+    protected function getMethodInstance()
     {
         if (!$this->_methodInstance) {
             $this->setMethodInstance(Mage::helper('payment')->getMethodInstance($this->getMethodCode()));
         }
-        if ($storeId) {
-            $this->_methodInstance->setStore($storeId);
-        }
+        $this->_methodInstance->setStore($this->getStoreId());
+        return $this->_methodInstance;
     }
 
     /**

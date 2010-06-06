@@ -1276,11 +1276,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $product = $item->getProduct();
             if (is_object($product) && ($product->isRecurring())
                 && $profile = Mage::getModel('sales/recurring_profile')->importProduct($product)) {
-                /* @var $profile Mage_Sales_Model_Recurring_Profile */
-                if ($this->getPayment() && $this->getPayment()->getMethod()) {
-                    $profile->setMethodInstance($this->getPayment()->getMethodInstance());
-                }
-                $profile->importQuoteItem($item)->setCurrencyCode($this->getBaseCurrencyCode());
+                $profile->importQuote($this);
+                $profile->importQuoteItem($item);
                 $result[] = $profile;
             }
         }

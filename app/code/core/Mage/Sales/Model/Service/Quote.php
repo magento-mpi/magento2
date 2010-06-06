@@ -110,6 +110,9 @@ class Mage_Sales_Model_Service_Quote
     public function submit()
     {
         $this->_validate();
+
+        $this->_submitRecurringPaymentProfiles();
+
         $quote = $this->_quote;
         $isVirtual = $quote->isVirtual();
 
@@ -156,13 +159,33 @@ class Mage_Sales_Model_Service_Quote
         try {
             $transaction->save();
             Mage::dispatchEvent('sales_model_service_quote_submit_success', array('order'=>$order, 'quote'=>$quote));
-            $this->_submitRecurringProfiles($order);
         } catch (Exception $e) {
             Mage::dispatchEvent('sales_model_service_quote_submit_failure', array('order'=>$order, 'quote'=>$quote));
             throw $e;
         }
         Mage::dispatchEvent('sales_model_service_quote_submit_after', array('order'=>$order, 'quote'=>$quote));
         return $order;
+    }
+
+    /**
+     * Submit nominal items
+     *
+     * @return array
+     */
+    public function submitNominalItems()
+    {
+        $this->_validate();
+        return $this->_submitRecurringPaymentProfiles();
+    }
+
+    /**
+     * Return recurring payment profiles
+     *
+     * @return array
+     */
+    public function getRecurringPaymentProfiles()
+    {
+        return $this->_recurringPaymentProfiles;
     }
 
     /**
@@ -199,66 +222,22 @@ class Mage_Sales_Model_Service_Quote
             Mage::throwException($helper->__('Please select a valid payment method.'));
         }
 
-        $this->_prepareRecurringPaymentProfiles();
         return $this;
     }
 
     /**
-     * Request recurring profiles from the quote and attempt to validate them
+     * Submit recurring payment profiles
      *
-     * @throws Mage_Core_Exception
      */
-    protected function _prepareRecurringPaymentProfiles()
+    protected function _submitRecurringPaymentProfiles()
     {
-        $this->_recurringPaymentProfiles = $this->_quote->prepareRecurringPaymentProfiles();
-        if ($this->_recurringPaymentProfiles) {
-            foreach ($this->_recurringPaymentProfiles as $profile) {
-                if (!$profile->isValid()) {
-                    Mage::throwException($profile->getValidationErrors(true, true));
-                }
+        $profiles = $this->_quote->prepareRecurringPaymentProfiles();
+        foreach ($profiles as $profile) {
+            if (!$profile->isValid()) {
+                Mage::throwException($profile->getValidationErrors(true, true));
             }
+            $profile->submit();
         }
-    }
-
-    /**
-     * Submit prepared recurring profiles
-     * Profiles and recurring order items correspond each other in a severe sequence
-     *
-     * @param Mage_Sales_Model_Order $order
-     * @throws Mage_Core_Exception
-     */
-    protected function _submitRecurringProfiles(Mage_Sales_Model_Order $order)
-    {
-        if (!$this->_recurringPaymentProfiles) {
-            return;
-        }
-        try {
-            // shift a payment profile instance for each recurring order item
-            foreach ($order->getAllVisibleItems() as $item) {
-                if ($item->getIsRecurring() == '1') {
-                    $profile = array_shift($this->_recurringPaymentProfiles);
-                    if ($profile) {
-                        $profile->submit($item);
-                    } else {
-                        // no translation intentionally
-                        throw new Exception(sprintf('No recurring profile matched for item "%s" in order #%s.',
-                            $item->getSku(), $order->getIncrementId()
-                        ));
-                    }
-                }
-            }
-            if ($this->_recurringPaymentProfiles) {
-                // no translation intentionally
-                throw new Exception(sprintf('Order #%s was placed with redundant recurring payment profiles.',
-                    $order->getIncrementId()
-                ));
-            }
-        } catch (Exception $e) {
-            if ($order->isNominal()) {
-                throw $e;
-            } else {
-                Mage::logException($e);
-            }
-        }
+        $this->_recurringPaymentProfiles = $profiles;
     }
 }

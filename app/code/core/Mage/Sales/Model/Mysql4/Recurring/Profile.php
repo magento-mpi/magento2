@@ -37,9 +37,13 @@ class Mage_Sales_Model_Mysql4_Recurring_Profile extends Mage_Sales_Model_Mysql4_
         $this->_init('sales/recurring_profile', 'profile_id');
 
         $this->_serializableFields = array(
-            'order_item'      => array(new Varien_Object, new Varien_Object),
-            'profile_info'    => array(null, new Mage_Payment_Model_Recurring_Profile_Info),
+            'profile_vendor_info'    => array(null, new Mage_Payment_Model_Recurring_Profile_Info),
             'additional_info' => array(null, array()),
+
+            'order_info' => array(null, array()),
+            'order_item_info' => array(null, array()),
+            'billing_address_info' => array(null, array()),
+            'shipping_address_info' => array(null, array())
         );
     }
 

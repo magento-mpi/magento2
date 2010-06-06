@@ -41,8 +41,9 @@ interface Mage_Payment_Model_Recurring_Profile_MethodInterface
      * Submit to the gateway
      *
      * @param Mage_Payment_Model_Recurring_Profile $profile
+     * @param Mage_Payment_Model_Info $paymentInfo
      */
-    public function submitRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile);
+    public function submitRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile, Mage_Payment_Model_Info $paymentInfo);
 
     /**
      * Fetch details

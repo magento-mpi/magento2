@@ -49,40 +49,21 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     protected $_workflow = null;
 
     /**
-     * Original order item the profile was generated from
-     *
-     * @var Mage_Sales_Model_Order_Item
-     */
-    protected $_originalOrderItem;
-
-    /**
      * Submit a recurring profile right after an order is placed
      *
-     * @param Mage_Sales_Model_Order_Item $orderItem
      */
-    public function submit(Mage_Sales_Model_Order_Item $orderItem)
+    public function submit()
     {
-        $this->_originalOrderItem = $orderItem;
-        /* @var $order Mage_Sales_Model_Order */
-        $order = $orderItem->getOrder();
-        $this->setMethodInstance($order->getPayment()->getMethodInstance());
-
-        $this->setOrderItemId($orderItem->getId()); // TODO: collect order item info for further usage
+        $this->_getResource()->beginTransaction();
         try {
-            $this->_methodInstance->setStoreId($order->getStoreId())->submitRecurringProfile($this);
-            $this->setInternalReferenceId("{$order->getIncrementId()}/{$orderItem->getId()}");
-
-            if ($this->getReferenceId()) {
-                $message = Mage::helper('sales')->__('Added recurring profile #%s for item "%s".', $this->getReferenceId(), $orderItem->getSku());
-            } else {
-                $message = Mage::helper('sales')->__('Added a mock recurring profile #%s for item "%s".', $this->getInternalReferenceId(), $orderItem->getSku());
-            }
-            $comment = $order->addStatusHistoryComment($message);
-            Mage::getModel('core/resource_transaction')->addObject($this)->addObject($comment)->save();
-        } catch (Mage_Core_Exception $e) {
-            $order->addStatusHistoryComment(
-                Mage::helper('sales')->__('Failed to create a recurring profile #%s for item "%s": %s', $this->getInternalReferenceId(), $orderItem->getSku(), $e->getMessage())
-            )->save();
+            $this->setInternalReferenceId(Mage::helper('core')->uniqHash('temporary-'));
+            $this->save();
+            $this->setInternalReferenceId(Mage::helper('core')->uniqHash($this->getId() . '-'));
+            $this->getMethodInstance()->submitRecurringProfile($this, $this->getQuote()->getPayment());
+            $this->save();
+            $this->_getResource()->commit();
+        } catch (Exception $e) {
+            $this->_getResource()->rollBack();
             throw $e;
         }
     }
@@ -159,19 +140,6 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
 ////    }
 
     /**
-     * Get the original order item (load if needed)
-     *
-     * @return Mage_Sales_Model_Order_Item
-     */
-    public function getOriginalOrderItem()
-    {
-        if (!$this->_originalOrderItem) {
-            // TODO: load the item by id
-        }
-        return $this->_originalOrderItem;
-    }
-
-    /**
      * Validate states
      *
      * @return bool
@@ -189,6 +157,40 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     }
 
     /**
+     * Import quote information to the profile
+     *
+     * @param Mage_Sales_Model_Quote_ $quote
+     * @return Mage_Sales_Model_Recurring_Profile
+     */
+    public function importQuote(Mage_Sales_Model_Quote $quote)
+    {
+        $this->setQuote($quote);
+
+        if ($quote->getPayment() && $quote->getPayment()->getMethod()) {
+            $this->setMethodInstance($quote->getPayment()->getMethodInstance());
+        }
+
+        $orderInfo = array();
+        foreach ($quote->getData() as $kay => $value) {
+            if (!is_object($value)) {
+                $orderInfo[$kay] = $value;
+            }
+        }
+        $this->setOrderInfo($orderInfo);
+
+        $this->setBillingAddressInfo($quote->getBillingAddress()->getData());
+        if (!$quote->isVirtual()) {
+            $this->setShippingAddressInfo($quote->getShippingAddress()->getData());
+        }
+
+        $this->setCurrencyCode($quote->getBaseCurrencyCode());
+        $this->setCustomerId($quote->getCustomerId());
+        $this->setStoreId($quote->getStoreId());
+
+        return $this;
+    }
+
+    /**
      * Import quote item information to the profile
      *
      * @param Mage_Sales_Model_Quote_Item_Abstract $item
@@ -196,14 +198,25 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
      */
     public function importQuoteItem(Mage_Sales_Model_Quote_Item_Abstract $item)
     {
+        $this->setQuoteItemInfo($item);
+
         // TODO: make it abstract from amounts
         $this->setBillingAmount($item->getBaseRowTotal())
             ->setTaxAmount($item->getBaseTaxAmount())
             ->setShippingAmount($item->getBaseShippingAmount())
         ;
         if (!$this->getScheduleDescription()) {
-            $this->setScheduleDescription($item->getname());
+            $this->setScheduleDescription($item->getName());
         }
+
+        $orderItemInfo = array();
+        foreach ($item->getData() as $kay => $value) {
+            if (!is_object($value)) {
+                $orderItemInfo[$kay] = $value;
+            }
+        }
+        $this->setOrderItemInfo($orderItemInfo);
+
         return $this->_filterValues();
     }
 
@@ -289,19 +302,6 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
         }
 
         return $result;
-    }
-
-    /**
-     * Validate the state
-     *
-     * @throws Mage_Core_Exception
-     */
-    protected function _validateBeforeSave()
-    {
-        parent::_validateBeforeSave();
-        if (!$this->getOrderItemId()) {
-            Mage::throwException(Mage::helper('sales')->__('An order item ID is required to save this profile.'));
-        }
     }
 
     /**
