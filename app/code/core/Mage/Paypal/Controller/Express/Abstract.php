@@ -241,15 +241,33 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     {
         try {
             $this->_initCheckout();
-            $order = $this->_checkout->placeOrder($this->_initToken());
+            $this->_checkout->place($this->_initToken());
+
             // prepare session to success or cancellation page
+            $this->_getCheckoutSession()
+                ->setLastOrderId(null)
+                ->setLastRealOrderId(null)
+                ->setRecurringPaymentProfiles(array());
+
             $quoteId = $this->_getQuote()->getId();
             $this->_getCheckoutSession()
                 ->setLastQuoteId($quoteId)
-                ->setLastSuccessQuoteId($quoteId)
-                ->setLastOrderId($order->getId())
-                ->setLastRealOrderId($order->getIncrementId())
-            ;
+                ->setLastSuccessQuoteId($quoteId);
+
+            if ($order = $this->_checkout->getOrder()) {
+                $this->_getCheckoutSession()
+                    ->setLastOrderId($order->getId())
+                    ->setLastRealOrderId($order->getIncrementId());
+            }
+
+            if ($recurringPaymentProfiles = $this->_checkout->getRecurringPaymentProfiles()) {
+                $data = array();
+                foreach($recurringPaymentProfiles as $profile) {
+                    $data[] = array($profile->getId(), $profile->getInternalReferenceId());
+                }
+                $this->_getCheckoutSession()->setRecurringPaymentProfiles($data);
+            }
+
             if ($url = $this->_checkout->getRedirectUrl()) {
                 $this->getResponse()->setRedirect($url);
                 return;

@@ -109,6 +109,20 @@ class Mage_Paypal_Model_Express_Checkout
     protected $_customerId = null;
 
     /**
+     * Recurring payment profiles
+     *
+     * @var array
+     */
+    protected $_recurringPaymentProfiles = array();
+
+    /**
+     * Order
+     *
+     * @var Mage_Sales_Model_QuoteMage_Sales_Model_Quote
+     */
+    protected $_order = null;
+
+    /**
      * Set quote and config instances
      * @param array $params
      */
@@ -413,14 +427,13 @@ class Mage_Paypal_Model_Express_Checkout
     }
 
     /**
-     * Place the order when customer returned from paypal
+     * Place the order and recurring payment profiles when customer returned from paypal
      * Until this moment all quote data must be valid
      *
      * @param string $token
      * @param string $shippingMethodCode
-     * @return Mage_Sales_Model_Order
      */
-    public function placeOrder($token, $shippingMethodCode = null)
+    public function place($token, $shippingMethodCode = null)
     {
         if ($shippingMethodCode) {
             $this->updateShippingMethod($shippingMethodCode);
@@ -434,7 +447,17 @@ class Mage_Paypal_Model_Express_Checkout
 
         $this->_ignoreAddressValidation();
         $this->_quote->collectTotals();
-        $order = Mage::getModel('sales/service_quote', $this->_quote)->submit();
+        $serviceQuote = Mage::getModel('sales/service_quote', $this->_quote);
+
+        if ($this->_quote->isNominal()) {
+            $serviceQuote->submitNominalItems();
+            $this->_recurringPaymentProfiles = $serviceQuote->getRecurringPaymentProfiles();
+            $this->_quote->save();
+            return;
+        }
+
+        $order = $serviceQuote->submit();
+        $this->_recurringPaymentProfiles = $serviceQuote->getRecurringPaymentProfiles();
         $this->_quote->save();
 
         // commence redirecting to finish payment, if paypal requires it
@@ -453,7 +476,7 @@ class Mage_Paypal_Model_Express_Checkout
                 $order->sendNewOrderEmail();
                 break;
         }
-        return $order;
+        $this->_order = $order;
     }
 
     /**
@@ -476,6 +499,26 @@ class Mage_Paypal_Model_Express_Checkout
     public function getRedirectUrl()
     {
         return $this->_redirectUrl;
+    }
+
+    /**
+     * Return recurring payment profiles
+     *
+     * @return array
+     */
+    public function getRecurringPaymentProfiles()
+    {
+        return $this->_recurringPaymentProfiles;
+    }
+
+    /**
+     * Return order
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getOrder()
+    {
+        return $this->_order;
     }
 
     /**

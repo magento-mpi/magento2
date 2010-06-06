@@ -271,13 +271,13 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      * Submit RP to the gateway
      *
      * @param Mage_Payment_Model_Recurring_Profile $profile
+     * @param Mage_Payment_Model_Info $paymentInfo
      */
-    public function submitRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    public function submitRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile, Mage_Payment_Model_Info $paymentInfo)
     {
-        $payment = $profile->getOriginalOrderItem()->getOrder()->getPayment();
-        $token = $payment->getAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_TOKEN);
+        $token = $paymentInfo->getAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_TOKEN);
         $profile->setToken($token);
-        $this->_pro->submitRecurringProfile($profile);
+        $this->_pro->submitRecurringProfile($profile, $paymentInfo);
     }
 
     /**

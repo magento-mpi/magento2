@@ -349,9 +349,10 @@ class Mage_Paypal_Model_Pro implements Mage_Payment_Model_Recurring_Profile_Meth
      * Submit RP to the gateway
      *
      * @param Mage_Payment_Model_Recurring_Profile $profile
+     * @param Mage_Payment_Model_Info $paymentInfo
      * @throws Mage_Core_Exception
      */
-    public function submitRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    public function submitRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile, Mage_Payment_Model_Info $paymentInfo)
     {
         $api = $this->getApi();
         $api->callCreateRecurringPaymentsProfile($profile);
