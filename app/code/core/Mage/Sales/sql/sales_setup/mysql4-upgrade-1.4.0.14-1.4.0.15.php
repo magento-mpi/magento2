@@ -75,11 +75,11 @@ CREATE TABLE `{$profileTable}` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 
 $this->getConnection()->addConstraint('FK_RECURRING_PROFILE_CUSTOMER', $profileTable, 'customer_id',
-    $customerEntityTable, 'entity_id'
+    $customerEntityTable, 'entity_id', 'SET NULL'
 );
 
 $this->getConnection()->addConstraint('FK_RECURRING_PROFILE_STORE', $profileTable, 'store_id',
-    $customerEntityTable, 'store_id'
+    $customerEntityTable, 'store_id', 'SET NULL'
 );
 
 $this->run("
