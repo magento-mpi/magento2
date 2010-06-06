@@ -29,7 +29,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Customer_Billing_AgreementController extends Mage_Core_Controller_Front_Action
+class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_Action
 {
     /**
      * View billing agreements
@@ -71,7 +71,7 @@ class Mage_Sales_Customer_Billing_AgreementController extends Mage_Core_Controll
         $this->_initLayoutMessages('customer/session');
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
-            $navigationBlock->setActive('sales/customer_billing_agreement/');
+            $navigationBlock->setActive('sales/billing_agreement/');
         }
         $this->renderLayout();
     }

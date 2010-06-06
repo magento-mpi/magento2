@@ -150,13 +150,13 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
     protected function _toHtml()
     {
         $this->_loadPaymentMethods();
-        $this->setBackUrl($this->getUrl('*/customer_billing_agreement/'));
+        $this->setBackUrl($this->getUrl('*/billing_agreement/'));
         if ($this->_billingAgreementInstance) {
             $this->setReferenceId($this->_billingAgreementInstance->getReferenceId());
 
             $this->setCanCancel($this->_billingAgreementInstance->canCancel());
             $this->setCancelUrl(
-                $this->getUrl('*/customer_billing_agreement/cancel', array(
+                $this->getUrl('*/billing_agreement/cancel', array(
                     '_current' => true,
                     'payment_method' => $this->_billingAgreementInstance->getMethodCode()))
             );

@@ -92,7 +92,7 @@ class Mage_Sales_Block_Billing_Agreements extends Mage_Core_Block_Template
                     ? $this->helper('core')->formatDate($item->getData($key), 'short', true) : $this->__('N/A');
                 break;
             case 'edit_url':
-                $value = $this->getUrl('*/customer_billing_agreement/view', array('agreement' => $item->getAgreementId()));
+                $value = $this->getUrl('*/billing_agreement/view', array('agreement' => $item->getAgreementId()));
                 break;
             case 'payment_method_label':
                 $this->_loadPaymentMethods();
@@ -146,7 +146,7 @@ class Mage_Sales_Block_Billing_Agreements extends Mage_Core_Block_Template
      */
     protected function _toHtml()
     {
-        $this->setCreateUrl($this->getUrl('*/customer_billing_agreement/startWizard'));
+        $this->setCreateUrl($this->getUrl('*/billing_agreement/startWizard'));
         return parent::_toHtml();
     }
 }
