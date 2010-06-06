@@ -101,7 +101,7 @@
                 <nominal_totals>
                     <nominal_discount>
                         <class>salesrule/quote_nominal_discount</class>
-                        <after>nominal_tax_subtotal</after>
+                        <sort_order>550</sort_order>
                     </nominal_discount>
                 </nominal_totals>
             </quote>

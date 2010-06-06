@@ -94,6 +94,17 @@ class Mage_Checkout_Block_Total_Nominal extends Mage_Checkout_Block_Total_Defaul
     }
 
     /**
+     * Getter for details row compounded state
+     *
+     * @param Varien_Object $row
+     * @return bool
+     */
+    public function getItemDetailsRowIsCompounded(Varien_Object $row)
+    {
+        return $row->getIsCompounded();
+    }
+
+    /**
      * Format an amount without container
      *
      * @param float $amount

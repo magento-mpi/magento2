@@ -183,8 +183,7 @@
                 <nominal_totals>
                     <nominal_weee>
                         <class>weee/total_quote_nominal_weee</class>
-                        <after>nominal_discount</after>
-                        <before>nominal_tax</before>
+                        <sort_order>600</sort_order>
                     </nominal_weee>
                 </nominal_totals>
             </quote>

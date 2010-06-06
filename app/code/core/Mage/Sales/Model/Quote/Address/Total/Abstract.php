@@ -241,6 +241,20 @@ abstract class Mage_Sales_Model_Quote_Address_Total_Abstract
     }
 
     /**
+     * Whether the item row total may be compouded with others
+     *
+     * @param Mage_Sales_Model_Quote_Item_Abstract $item
+     * @return bool
+     */
+    public function getIsItemRowTotalCompoundable(Mage_Sales_Model_Quote_Item_Abstract $item)
+    {
+        if ($item->getData("skip_compound_{$this->_itemRowTotalKey}")) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Process model configuration array.
      * This method can be used for changing models apply sort order
      *

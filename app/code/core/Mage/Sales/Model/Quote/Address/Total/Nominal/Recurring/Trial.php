@@ -25,53 +25,38 @@
  */
 
 /**
- * Nominal subtotal total
+ * Total model for recurring profile trial payment
  */
-class Mage_Sales_Model_Quote_Address_Total_Nominal_Subtotal extends Mage_Sales_Model_Quote_Address_Total_Subtotal
+class Mage_Sales_Model_Quote_Address_Total_Nominal_Recurring_Trial
+    extends Mage_Sales_Model_Quote_Address_Total_Nominal_RecurringAbstract
 {
     /**
-     * Don't add amounts to address
-     *
-     * @var bool
-     */
-    protected $_canAddAmountToAddress = false;
-
-    /**
-     * Custom row total key
+     * Custom row total/profile keys
      *
      * @var string
      */
-    protected $_itemRowTotalKey = 'row_total';
+    protected $_itemRowTotalKey = 'recurring_trial_payment';
+    protected $_profileDataKey = 'trial_billing_amount';
 
     /**
-     * Don't fetch anything
-     *
-     * @param Mage_Sales_Model_Quote_Address $address
-     * @return array
-     */
-    public function fetch(Mage_Sales_Model_Quote_Address $address)
-    {
-        return Mage_Sales_Model_Quote_Address_Total_Abstract::fetch($address);
-    }
-
-    /**
-     * Get regular payment label
+     * Get trial payment label
      *
      * @return string
      */
     public function getLabel()
     {
-        return Mage::helper('sales')->__('Regular Payment');
+        return Mage::helper('sales')->__('Trial Payment');
     }
 
     /**
-     * Get nominal items only
+     * Prevent compounding nominal subtotal in case if the trial payment exists
      *
+     * @see Mage_Sales_Model_Quote_Address_Total_Nominal_Subtotal
      * @param Mage_Sales_Model_Quote_Address $address
-     * @return array
+     * @param Mage_Sales_Model_Quote_Item_Abstract $item
      */
-    protected function _getAddressItems(Mage_Sales_Model_Quote_Address $address)
+    protected function _afterCollectSuccess($address, $item)
     {
-        return $address->getAllNominalItems();
+        $item->setData('skip_compound_row_total', true);
     }
 }

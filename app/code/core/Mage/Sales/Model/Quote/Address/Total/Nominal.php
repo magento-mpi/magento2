@@ -54,12 +54,18 @@ class Mage_Sales_Model_Quote_Address_Total_Nominal extends Mage_Sales_Model_Quot
             $totalDetails = array();
             foreach ($collector->getCollectors() as $model) {
                 $itemRowTotal = $model->getItemRowTotal($item);
-                $rowTotal += $itemRowTotal;
-                $baseRowTotal += $model->getItemBaseRowTotal($item);
+                if ($model->getIsItemRowTotalCompoundable($item)) {
+                    $rowTotal += $itemRowTotal;
+                    $baseRowTotal += $model->getItemBaseRowTotal($item);
+                    $isCompounded = true;
+                } else {
+                    $isCompounded = false;
+                }
                 if ((float)$itemRowTotal > 0 && $label = $model->getLabel()) {
                     $totalDetails[] = new Varien_Object(array(
                         'label'  => $label,
                         'amount' => $itemRowTotal,
+                        'is_compounded' => $isCompounded,
                     ));
                 }
             }

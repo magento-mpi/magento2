@@ -388,6 +388,7 @@ tr.show-details .summary-collapse { background-position:0 -52px; }
 tr.show-details td {}
 tr.summary-details td { font-size:11px; background-color:#dae1e4; color:#626465; }
 tr.summary-details-first td { border-top:1px solid #d2d8db; }
+tr.summary-details-excluded { font-style:italic; }
 
 /* Shopping cart tax info */
 .cart-tax-info { display:block; }
