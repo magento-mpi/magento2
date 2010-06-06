@@ -29,7 +29,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Block_Template
+class Mage_Sales_Block_Billing_Agreements extends Mage_Core_Block_Template
 {
     /**
      * Payment methods array
@@ -54,15 +54,11 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Bloc
     {
         parent::_prepareLayout();
         $pager = $this->getLayout()->createBlock('page/html_pager')
-            ->setCollection($this->getBillingAgreements());
-        $this->setChild('pager', $pager);
+            ->setCollection($this->getBillingAgreements())->setIsOutputRequired(false);
+        $this->setChild('pager', $pager)
+            ->setBackUrl($this->getUrl('customer/account/'));
         $this->getBillingAgreements()->load();
         return $this;
-    }
-
-    public function getPagerHtml()
-    {
-        return $this->getChildHtml('pager');
     }
 
     /**
@@ -75,7 +71,7 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement extends Mage_Core_Bloc
         if (is_null($this->_billingAgreements)) {
             $this->_billingAgreements = Mage::getResourceModel('sales/billing_agreement_collection')
                 ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomerId())
-                ->setOrder('created_at');
+                ->setOrder('agreement_id', 'desc');
         }
         return $this->_billingAgreements;
     }

@@ -215,14 +215,12 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
     /**
      * Check whether need to create billing agreement for customer
      *
-     * @param bool $needToCreateBA
      * @param int $customerId
      * @return bool
      */
-    public function needToCreateForCustomer($needToCreateBA, $customerId)
+    public function needToCreateForCustomer($customerId)
     {
-        return ($needToCreateBA && $customerId) ? count($this->getAvailableCustomerBillingAgreements($customerId)) == 0
-            : false;
+        return $customerId ? count($this->getAvailableCustomerBillingAgreements($customerId)) == 0 : false;
     }
 
     /**

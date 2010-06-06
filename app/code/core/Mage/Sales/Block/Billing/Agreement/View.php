@@ -29,7 +29,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Block_Customer_Account_Billing_Agreement_View extends Mage_Core_Block_Template
+class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
 {
     /**
      * Payment methods array
@@ -51,16 +51,6 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement_View extends Mage_Core
      * @var Mage_Sales_Model_Mysql4_Order_Collection
      */
     protected $_relatedOrders = null;
-
-    /**
-     * Retrieve pager html
-     *
-     * @return string
-     */
-    public function getPagerHtml()
-    {
-        return $this->getChildHtml('pager');
-    }
 
     /**
      * Retrieve related orders collection
@@ -130,7 +120,7 @@ class Mage_Sales_Block_Customer_Account_Billing_Agreement_View extends Mage_Core
         parent::_prepareLayout();
 
         $pager = $this->getLayout()->createBlock('page/html_pager')
-            ->setCollection($this->getRelatedOrders());
+            ->setCollection($this->getRelatedOrders())->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
         $this->getRelatedOrders()->load();
 
