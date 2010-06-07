@@ -203,16 +203,16 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
      */
     public function successAction()
     {
-        if (!$this->getOnepage()->getCheckout()->getLastSuccessQuoteId()) {
+        $session = $this->getOnepage()->getCheckout();
+        if (!$session->getLastSuccessQuoteId()) {
             $this->_redirect('checkout/cart');
             return;
         }
 
-        $lastQuoteId = $this->getOnepage()->getCheckout()->getLastQuoteId();
-        $lastOrderId = $this->getOnepage()->getCheckout()->getLastOrderId();
-        $recurringPaymentProfiles = $this->getOnepage()->getCheckout()->getRecurringPaymentProfiles();
-
-        if (!$lastQuoteId || (!$lastOrderId && empty($recurringPaymentProfiles))) {
+        $lastQuoteId = $session->getLastQuoteId();
+        $lastOrderId = $session->getLastOrderId();
+        $lastRecurringProfiles = $session->getLastRecurringProfileIds();
+        if (!$lastQuoteId || (!$lastOrderId && empty($lastRecurringProfiles))) {
             $this->_redirect('checkout/cart');
             return;
         }
