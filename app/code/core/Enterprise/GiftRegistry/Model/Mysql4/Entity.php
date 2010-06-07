@@ -187,4 +187,27 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity extends Enterprise_Enterprise_
         }
         return $this;
     }
+
+
+    /**
+     * Load entity by url key
+     *
+     * @param Enterprise_GiftRegistry_Model_Entity $object
+     * @param string $urlKey
+     * @return Enterprise_GiftRegistry_Model_Mysql4_Entity
+     */
+    public function loadByUrlKey($object, $urlKey)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select  = $adapter->select()
+            ->from($this->getMainTable())
+            ->where('url_key=?', $urlKey);
+
+        if ($data = $adapter->fetchRow($select)) {
+            $object->setData($data);
+            $this->_afterLoad($object);
+        }
+
+        return $this;
+    }
 }

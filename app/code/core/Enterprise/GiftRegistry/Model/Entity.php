@@ -697,4 +697,16 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
 
         return $eventModel;
     }
+
+    /**
+     * Load entity model by url key
+     *
+     * @param string $urlKey
+     * @return Enterprise_GiftRegistry_Model_Entity
+     */
+    public function loadByUrlKey($urlKey)
+    {
+        $this->_getResource()->loadByUrlKey($this, $urlKey);
+        return $this;
+    }
 }

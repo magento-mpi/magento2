@@ -36,7 +36,7 @@ class Enterprise_GiftRegistry_ViewController extends Enterprise_Enterprise_Contr
     public function indexAction()
     {
         $entity = Mage::getModel('enterprise_giftregistry/entity');
-        $entity->load($this->getRequest()->getParam('id'));
+        $entity->loadByUrlKey($this->getRequest()->getParam('id'));
 
         if (!$entity->getId() || !$entity->getCustomerId() || !$entity->getTypeId()) {
             $this->_forward('404');
