@@ -474,11 +474,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return $result;
         }
 
-        if ($this->getQtyIncrements() && ($qty % $this->getQtyIncrements() != 0)) {
-            $result->setHasError(true)
-                ->setMessage(Mage::helper('cataloginventory')->__('This product is available for purchase in increments of %s only.', $this->getQtyIncrements() * 1))
-                ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products cannot be ordered in the requested quantity.'))
-                ->setQuoteMessageIndex('qty');
+        $result->addData($this->checkQtyIncrements($qty)->getData());
+        if ($result->getHasError()) {
             return $result;
         }
 
@@ -506,6 +503,25 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             // no return intentionally
         }
 
+        return $result;
+    }
+
+    /**
+     * Check qty increments
+     *
+     * @param int|float $qty
+     * @return Varien_Object
+     */
+    public function checkQtyIncrements($qty)
+    {
+        $result = new Varien_Object();
+        $qtyIncrements = $this->getQtyIncrements();
+        if ($qtyIncrements && ($qty % $qtyIncrements != 0)) {
+            $result->setHasError(true)
+                ->setMessage(Mage::helper('cataloginventory')->__('This product is available for purchase in increments of %s only.', $qtyIncrements * 1))
+                ->setQuoteMessage(Mage::helper('cataloginventory')->__('Some of the products cannot be ordered in the requested quantity.'))
+                ->setQuoteMessageIndex('qty');
+        }
         return $result;
     }
 

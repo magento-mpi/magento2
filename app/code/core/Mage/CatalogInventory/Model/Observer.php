@@ -223,6 +223,17 @@ class Mage_CatalogInventory_Model_Observer
             $qty = $quoteItem->getProduct()->getTypeInstance(true)->prepareQuoteItemQty($qty, $quoteItem->getProduct());
             $quoteItem->setData('qty', $qty);
 
+            $stockItem = $quoteItem->getProduct()->getStockItem();
+            if ($stockItem) {
+                $result = $stockItem->checkQtyIncrements($qty);
+                if ($result->getHasError()) {
+                    $quoteItem->setHasError(true)
+                        ->setMessage($result->getMessage());
+                    $quoteItem->getQuote()->setHasError(true)
+                        ->addMessage($result->getQuoteMessage(), $result->getQuoteMessageIndex());
+                }
+            }
+
             foreach ($options as $option) {
                 /* @var $option Mage_Sales_Model_Quote_Item_Option */
                 $optionQty = $qty * $option->getValue();
