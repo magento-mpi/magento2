@@ -116,6 +116,13 @@ class Mage_Paypal_Model_Express_Checkout
     protected $_recurringPaymentProfiles = array();
 
     /**
+     * Billing agreement that might be created during order placing
+     *
+     * @var Mage_Sales_Model_Billing_Agreement
+     */
+    protected $_billingAgreement = null;
+
+    /**
      * Order
      *
      * @var Mage_Sales_Model_QuoteMage_Sales_Model_Quote
@@ -264,7 +271,8 @@ class Mage_Paypal_Model_Express_Checkout
             }
 
             // add shipping options
-            if ($this->_config->transferShippingOptions && !$this->_quote->getIsVirtual()) {
+            if ($this->_config->transferShippingOptions
+                && !$this->_quote->getIsVirtual() && !$this->_quote->hasNominalItems()) {
                 if ($options = $this->_prepareShippingOptions($address, true)) {
                     $this->_api->setShippingOptionsCallbackUrl(
                         Mage::getUrl('*/*/shippingOptionsCallback', array('quote_id' => $this->_quote->getId()))
@@ -332,6 +340,7 @@ class Mage_Paypal_Model_Express_Checkout
                 $code = '';
                 if ($this->_api->getShippingRateCode()) {
                     if ($code = $this->_matchShippingMethodCode($shippingAddress, $this->_api->getShippingRateCode())) {
+                         // possible bug of double collecting rates :-/
                         $shippingAddress->setShippingMethod($code)->setCollectShippingRates(true);
                     }
                 }
@@ -449,6 +458,7 @@ class Mage_Paypal_Model_Express_Checkout
         $this->_quote->collectTotals();
         $serviceQuote = Mage::getModel('sales/service_quote', $this->_quote);
 
+        // nominal quotes are submitted without creating the order
         if ($this->_quote->isNominal()) {
             $serviceQuote->submitNominalItems();
             $this->_recurringPaymentProfiles = $serviceQuote->getRecurringPaymentProfiles();
@@ -458,6 +468,7 @@ class Mage_Paypal_Model_Express_Checkout
 
         $order = $serviceQuote->submit();
         $this->_recurringPaymentProfiles = $serviceQuote->getRecurringPaymentProfiles();
+        $this->_billingAgreement = $order->getPayment()->getBillingAgreement();
         $this->_quote->save();
 
         // commence redirecting to finish payment, if paypal requires it
@@ -473,6 +484,7 @@ class Mage_Paypal_Model_Express_Checkout
             // regular placement, when everything is ok
             case Mage_Sales_Model_Order::STATE_PROCESSING:
             case Mage_Sales_Model_Order::STATE_COMPLETE:
+            case Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW:
                 $order->sendNewOrderEmail();
                 break;
         }
@@ -512,6 +524,16 @@ class Mage_Paypal_Model_Express_Checkout
     }
 
     /**
+     * Get created billing agreement
+     *
+     * @return Mage_Sales_Model_Billing_Agreement|null
+     */
+    public function getBillingAgreement()
+    {
+        return $this->_billingAgreement;
+    }
+
+    /**
      * Return order
      *
      * @return Mage_Sales_Model_Order
@@ -528,17 +550,19 @@ class Mage_Paypal_Model_Express_Checkout
      */
     protected function _setBillingAgreementRequest()
     {
-        if (!$this->_customerId) {
+        if (!$this->_customerId || $this->_quote->hasNominalItems()) {
             return $this;
         }
 
         $isRequested = $this->_isBARequested || $this->_quote->getPayment()
             ->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
 
-        $needToCreateBA = $this->_config->allow_ba_signup == Mage_Paypal_Model_Config::EC_BA_SIGNUP_AUTO
-            || $isRequested && $this->_config->allow_ba_signup == Mage_Paypal_Model_Config::EC_BA_SIGNUP_ASK;
+        if (!($this->_config->allow_ba_signup == Mage_Paypal_Model_Config::EC_BA_SIGNUP_AUTO
+            || $isRequested && $this->_config->allow_ba_signup == Mage_Paypal_Model_Config::EC_BA_SIGNUP_ASK)) {
+            return $this;
+        }
 
-        if (!Mage::getModel('sales/billing_agreement')->needToCreateForCustomer($needToCreateBA, $this->_customerId)) {
+        if (!Mage::getModel('sales/billing_agreement')->needToCreateForCustomer($this->_customerId)) {
             return $this;
         }
         $this->_api->setBillingType($this->_api->getBillingAgreementType());

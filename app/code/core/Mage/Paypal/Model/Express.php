@@ -86,6 +86,9 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function setStore($store)
     {
         $this->setData('store', $store);
+        if (null === $store) {
+            $store = Mage::app()->getStore()->getId();
+        }
         $this->_pro->getConfig()->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
@@ -340,10 +343,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     protected function _placeOrder(Mage_Sales_Model_Order_Payment $payment, $amount)
     {
         $order = $payment->getOrder();
-        // no need to call API when order is nominal
-        if ($order->isNominal()) {
-            return $this;
-        }
 
         // prepare api call
         $token = $payment->getAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_TOKEN);

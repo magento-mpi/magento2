@@ -473,6 +473,13 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     protected $_callWarnings = array();
 
     /**
+     * Error codes recollected after each API call
+     *
+     * @var array
+     */
+    protected $_callErrors = array();
+
+    /**
      * Whether to return raw response information after each call
      *
      * @var bool
@@ -732,7 +739,14 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     public function callUpdateBillingAgreement()
     {
         $request = $this->_exportToRequest($this->_updateBillingAgreementRequest);
+        try {
         $response = $this->call('BillAgreementUpdate', $request);
+        } catch (Mage_Core_Exception $e) {
+            if (in_array(10201, $this->_callErrors)) {
+                $this->setIsBillingAgreementAlreadyCancelled(true);
+            }
+            throw $e;
+        }
         $this->_importFromResponse($this->_updateBillingAgreementResponse, $response);
     }
 
@@ -850,6 +864,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             Mage::throwException(Mage::helper('paypal')->__('Unable to communicate with the PayPal gateway.'));
         }
 
+        $this->_callErrors = array();
         if ($this->_isCallSuccessful($response)) {
             if ($this->_rawResponseNeeded) {
                 $this->setRawSuccessResponseData($response);
@@ -887,15 +902,17 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $errors[] = $longMessage
                 ? sprintf('%s (#%s: %s).', $longMessage, $response["L_ERRORCODE{$i}"], $shortMessage)
                 : sprintf('#%s: %s.', $response["L_ERRORCODE{$i}"], $shortMessage);
+            $this->_callErrors[] = $response["L_ERRORCODE{$i}"];
         }
         if ($errors) {
             $errors = implode(' ', $errors);
-            $e = new Exception(sprintf('PayPal NVP gateway errors: %s Corellation ID: %s. Version: %s.', $errors,
+            $e = Mage::exception('Mage_Core', sprintf('PayPal NVP gateway errors: %s Correlation ID: %s. Version: %s.', $errors,
                 isset($response['CORRELATIONID']) ? $response['CORRELATIONID'] : '',
                 isset($response['VERSION']) ? $response['VERSION'] : ''
             ));
             Mage::logException($e);
-            Mage::throwException(Mage::helper('paypal')->__('PayPal gateway has rejected request. %s', $errors));
+            $e->setMessage(Mage::helper('paypal')->__('PayPal gateway has rejected request. %s', $errors));
+            throw $e;
         }
     }
 

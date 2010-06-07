@@ -75,6 +75,22 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
     }
 
     /**
+     * Store setter
+     * Also updates store ID in config object
+     *
+     * @param Mage_Core_Model_Store|int $store
+     */
+    public function setStore($store)
+    {
+        $this->setData('store', $store);
+        if (null === $store) {
+            $store = Mage::app()->getStore()->getId();
+        }
+        $this->_pro->getConfig()->setStoreId(is_object($store) ? $store->getId() : $store);
+        return $this;
+    }
+
+    /**
      * Init billing agreement
      *
      * @param Mage_Payment_Model_Billing_AgreementAbstract $agreement
@@ -138,10 +154,19 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
      */
     public function updateBillingAgreementStatus(Mage_Payment_Model_Billing_AgreementAbstract $agreement)
     {
+        $targetStatus = $agreement->getStatus();
         $api = $this->_pro->getApi()
             ->setReferenceId($agreement->getReferenceId())
-            ->setBillingAgreementStatus($agreement->getStatus());
-        $api->callUpdateBillingAgreement();
+            ->setBillingAgreementStatus($targetStatus);
+        try {
+            $api->callUpdateBillingAgreement();
+        } catch (Mage_Core_Exception $e) {
+            // when BA was already canceled, just pretend that the operation succeeded
+            if (!(Mage_Sales_Model_Billing_Agreement::STATUS_CANCELED == $targetStatus
+                && $api->getIsBillingAgreementAlreadyCancelled())) {
+                throw $e;
+            }
+        }
         return $this;
     }
 
@@ -220,7 +245,7 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
     {
         $order = $payment->getOrder();
         $billingAgreement = Mage::getModel('sales/billing_agreement')->load(
-            $payment->getAdditionalInformation(self::TRANSPORT_BILLING_AGREEMENT_ID)
+            $payment->getAdditionalInformation(Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract::TRANSPORT_BILLING_AGREEMENT_ID)
         );
 
         $api = $this->_pro->getApi()

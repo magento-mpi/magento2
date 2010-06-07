@@ -244,30 +244,37 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $this->_checkout->place($this->_initToken());
 
             // prepare session to success or cancellation page
-            $this->_getCheckoutSession()
-                ->setLastOrderId(null)
+            $session = $this->_getCheckoutSession();
+            $session->setLastOrderId(null)
                 ->setLastRealOrderId(null)
-                ->setRecurringPaymentProfiles(array());
+                ->setRecurringPaymentProfiles(array())
+                ->setLastBillingAgreementId(null)
+            ;
 
+            // "last successful quote"
             $quoteId = $this->_getQuote()->getId();
-            $this->_getCheckoutSession()
-                ->setLastQuoteId($quoteId)
-                ->setLastSuccessQuoteId($quoteId);
+            $session->setLastQuoteId($quoteId)->setLastSuccessQuoteId($quoteId);
 
+            // an order may be created
             if ($order = $this->_checkout->getOrder()) {
-                $this->_getCheckoutSession()
-                    ->setLastOrderId($order->getId())
+                $session->setLastOrderId($order->getId())
                     ->setLastRealOrderId($order->getIncrementId());
-            }
-
-            if ($recurringPaymentProfiles = $this->_checkout->getRecurringPaymentProfiles()) {
-                $data = array();
-                foreach($recurringPaymentProfiles as $profile) {
-                    $data[] = array($profile->getId(), $profile->getInternalReferenceId());
+                // as well a billing agreement can be created
+                if ($agreement = $this->_checkout->getBillingAgreement()) {
+                    $session->setLastBillingAgreementId($agreement->getId());
                 }
-                $this->_getCheckoutSession()->setRecurringPaymentProfiles($data);
             }
 
+            // recurring profiles may be created along with the order or without it
+            if ($profiles = $this->_checkout->getRecurringPaymentProfiles()) {
+                $ids = array();
+                foreach($profiles as $profile) {
+                    $ids[] = $profile->getId();
+                }
+                $this->_getCheckoutSession()->setLastRecurringProfileIds($ids);
+            }
+
+            // redirect if PayPal specified some URL (for example, to Giropay bank)
             if ($url = $this->_checkout->getRedirectUrl()) {
                 $this->getResponse()->setRedirect($url);
                 return;
