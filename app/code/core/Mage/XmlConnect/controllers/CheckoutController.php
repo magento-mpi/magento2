@@ -269,6 +269,8 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
 
             $orderId = $this->getOnepage()->getLastOrderId();
 
+            Mage::getSingleton('checkout/session')->clear();
+
             $text = $this->__('Thank you for your purchase! ');
             $text .= $this->__('Your order # is: %s. ', $orderId);
             $text .= $this->__('You will receive an order confirmation email with details of your order and a link to track its progress.');

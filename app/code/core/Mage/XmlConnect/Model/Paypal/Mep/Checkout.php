@@ -220,15 +220,6 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
         $order = Mage::getModel('sales/service_quote', $this->_quote)->submit();
         $this->_quote->save();
 
-        if ($order->getState() == Mage_Sales_Model_Order::STATE_PROCESSING) {
-            try {
-                $order->sendNewOrderEmail();
-            }
-            catch (Exception $e) {
-                Mage::logException($e);
-            }
-        }
-
         /**
          * Prepare session to success or cancellation page
          */
@@ -238,6 +229,16 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
             ->setLastSuccessQuoteId($quoteId)
             ->setLastOrderId($order->getId())
             ->setLastRealOrderId($order->getIncrementId());
+
+        if ($order->getState() == Mage_Sales_Model_Order::STATE_PROCESSING) {
+            try {
+                $order->sendNewOrderEmail();
+            }
+            catch (Exception $e) {
+                Mage::logException($e);
+            }
+        }
+
         return array();
     }
 
