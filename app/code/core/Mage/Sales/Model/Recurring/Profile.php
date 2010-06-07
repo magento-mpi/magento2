@@ -300,6 +300,9 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
         if (!$this->getState()) {
             $this->setState(self::STATE_UNKNOWN);
         }
+        if (!$this->getCustomerId()) {
+            $this->setCustomerId(null);
+        }
 
         return $result;
     }

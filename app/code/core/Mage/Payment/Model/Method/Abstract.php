@@ -591,8 +591,12 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
             'method_instance' => $this,
             'quote'           => $quote,
         ));
-        if ($quote && $quote->hasRecurringItems()) {
-            if (!($this instanceof Mage_Payment_Model_Recurring_Profile_MethodInterface)) {
+
+        // disable method if it cannot implement recurring profiles management and there are recurring items in quote
+        if ($checkResult->isAvailable) {
+            $implementsRecurring = ($this instanceof Mage_Payment_Model_Recurring_Profile_MethodInterface);
+            // the $quote->hasRecurringItems() causes big performance impact, thus it has to be called last
+            if ($quote && (!$implementsRecurring) && $quote->hasRecurringItems()) {
                 $checkResult->isAvailable = false;
             }
         }

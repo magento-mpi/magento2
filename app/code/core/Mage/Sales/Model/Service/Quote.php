@@ -58,6 +58,13 @@ class Mage_Sales_Model_Service_Quote
     protected $_recurringPaymentProfiles = array();
 
     /**
+     * Order that may be created during submission
+     *
+     * @var Mage_Sales_Model_Order
+     */
+    protected $_order = null;
+
+    /**
      * Class constructor
      *
      * @param Mage_Sales_Model_Quote $quote
@@ -103,16 +110,24 @@ class Mage_Sales_Model_Service_Quote
     }
 
     /**
+     * @deprecated after 1.4.0.1
+     * @see submitOrder()
+     * @see submitAll()
+     */
+    public function submit()
+    {
+        return $this->submitOrder();
+    }
+
+    /**
      * Submit the quote. Quote submit process will create the order based on quote data
      *
      * @return Mage_Sales_Model_Order
      */
-    public function submit()
+    public function submitOrder()
     {
+        $this->_deleteNominalItems();
         $this->_validate();
-
-        $this->_submitRecurringPaymentProfiles();
-
         $quote = $this->_quote;
         $isVirtual = $quote->isVirtual();
 
@@ -164,6 +179,7 @@ class Mage_Sales_Model_Service_Quote
             throw $e;
         }
         Mage::dispatchEvent('sales_model_service_quote_submit_after', array('order'=>$order, 'quote'=>$quote));
+        $this->_order = $order;
         return $order;
     }
 
@@ -175,7 +191,22 @@ class Mage_Sales_Model_Service_Quote
     public function submitNominalItems()
     {
         $this->_validate();
-        return $this->_submitRecurringPaymentProfiles();
+        $this->_submitRecurringPaymentProfiles();
+        $this->_deleteNominalItems();
+    }
+
+    /**
+     * Submit all available items
+     * All created items will be set to the object
+     */
+    public function submitAll()
+    {
+        $this->submitNominalItems();
+        // no need to submit the order if there are no normal items remained
+        if (!$this->_quote->getAllVisibleItems()) {
+            return;
+        }
+        $this->submitOrder();
     }
 
     /**
@@ -186,6 +217,16 @@ class Mage_Sales_Model_Service_Quote
     public function getRecurringPaymentProfiles()
     {
         return $this->_recurringPaymentProfiles;
+    }
+
+    /**
+     * Get an order that may had been created during submission
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getOrder()
+    {
+        return $this->_order;
     }
 
     /**
@@ -227,7 +268,6 @@ class Mage_Sales_Model_Service_Quote
 
     /**
      * Submit recurring payment profiles
-     *
      */
     protected function _submitRecurringPaymentProfiles()
     {
@@ -239,5 +279,17 @@ class Mage_Sales_Model_Service_Quote
             $profile->submit();
         }
         $this->_recurringPaymentProfiles = $profiles;
+    }
+
+    /**
+     * Get rid of all nominal items
+     */
+    protected function _deleteNominalItems()
+    {
+        foreach ($this->_quote->getAllVisibleItems() as $item) {
+            if ($item->isNominal()) {
+                $item->isDeleted(true);
+            }
+        }
     }
 }

@@ -204,6 +204,19 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         $this->setLastSuccessQuoteId(null);
     }
 
+    /**
+     * Clear misc checkout parameters
+     */
+    public function clearHelperData()
+    {
+        $this->setLastBillingAgreementId(null)
+            ->setRedirectUrl(null)
+            ->setLastOrderId(null)
+            ->setLastRealOrderId(null)
+            ->setLastRecurringProfileIds(null)
+        ;
+    }
+
     public function resetCheckout()
     {
         $this->setCheckoutState(self::CHECKOUT_STATE_BEGIN);
