@@ -29,6 +29,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Tabs extends Varien_Data_For
     public function getHtml()
     {
         $block = new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Tabs;
+        $block->setName($this->getName());
+        $block->setValue($this->getValue());
         return $block->toHtml();
     }
 }

@@ -46,7 +46,8 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function getFormData()
     {
-        return $this->_flatArray($this->getData());
+        $data = $this->getData();
+        return $this->_flatArray($data);
     }
 
     /**
@@ -96,6 +97,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     {
         $result = $this->_data['conf']['native'];
         $special = $this->_data['conf']['special'];
+        $extra = $this->_data['conf']['extra'];
 
         if (!empty($special['primaryBodyColor'])) {
             $result['body']['backgroundColor'] = $special['primaryBodyColor'];
@@ -129,6 +131,11 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
         if (!empty($special['headerTextFont']['name'])) {
             $result['navigationBar']['font'] = $special['headerTextFont'];
+        }
+
+        if (!empty($extra['tabs'])) {
+            $tabs = new Mage_XmlConnect_Model_Tabs($extra['tabs']);
+            $result['tabBar']['tabs'] = $tabs;
         }
 
         return $result;

@@ -30,4 +30,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Tabs extends Mage_C
         parent::__construct();
         $this->setTemplate('xmlconnect/tabs.phtml');
     }
+
+    protected function _beforeToHtml()
+    {
+        $this->setTabs(new Mage_XmlConnect_Model_Tabs($this->getValue()));
+        return parent::_beforeToHtml();
+    }
 }

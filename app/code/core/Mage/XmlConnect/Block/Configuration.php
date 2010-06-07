@@ -78,7 +78,14 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
                     $subsection = $section->addChild($key);
                     $this->_buildRecursive($subsection, $value);
                 }
-            } else {
+            }
+            elseif ($value instanceof Mage_XmlConnect_Model_Tabs) {
+                foreach($value->getRenderTabs() as $tab) {
+                    $subsection = $section->addChild('tab');
+                    $this->_buildRecursive($subsection, $tab);
+                }
+            }
+            else {
                 if (!empty($value)) {
                     if ((substr($key, -4) == 'icon') ||
                         (substr($key, -4) == 'Icon') ||

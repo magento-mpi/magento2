@@ -26,6 +26,7 @@
 ?>
 
 <script type="text/javascript">
+// <![CDATA[
 
 // tabNumber:
 //  * 0, 1, 2  main tabs
@@ -33,76 +34,69 @@
 
 // disabledTabNumber — another numbers
 
-tabNames = [ 'Search', 'Cart', 'Account', 'Browse', 'About Us', 'Contact Us']
+enabledTabs = <?php echo json_encode($this->getTabs()->getEnabledTabs()); ?>
 
-tabImages = [
-'<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_search.png',
-'<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_cart.png',
-'<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_account.png',
-'<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_home.png',
-'<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_page.png',
-'<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_page.png' ]
 
-disabledTabNames = []
-disabledTabImages = []
+disabledTabs = <?php echo json_encode($this->getTabs()->getDisabledTabs()); ?>
 
 function XmlconnectTabUpdate() {
-    for(i=0; i<tabImages.length; i++) {
+    for(i=0; i<8; i++) {
         tab=document.getElementsByClassName('mm_tab'+i)
         for(j=0; j<tab.length; j++) {
-            if(tab[j].className.indexOf('mm_img')>0) {
-                tab[j].innerHTML = '<img src="'+tabImages[i]+'" alt="" />'
-            }
-            if(tab[j].className.indexOf('mm_name')>0) {
-                tab[j].innerHTML = '<span>'+tabNames[i]+'</span>';
-            }
-            if(tab[j].className.indexOf('mm_ctrl')>0) {
-                tab[j].style.visibility = 'visible'
+            if(i<enabledTabs.length) {
+                // Enabled tabs
+                if(tab[j].className.indexOf('mm_img')>0) {
+                    tab[j].innerHTML = '<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/'+enabledTabs[i].image+'" alt="" />'
+                }
+                if(tab[j].className.indexOf('mm_name')>0) {
+                    tab[j].innerHTML = '<span>'+enabledTabs[i].label+'</span>'
+                }
+                if(tab[j].className.indexOf('mm_ctrl')>0) {
+                    tab[j].style.visibility = 'visible'
+                }
+            } else {
+                // Empty places
+                if(tab[j].className.indexOf('mm_img')>0) {
+                    tab[j].innerHTML = '<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_empty.png" alt="" />'
+                }
+                if(tab[j].className.indexOf('mm_name')>0) {
+                    tab[j].innerHTML = ''
+                }
+                if(tab[j].className.indexOf('mm_ctrl')>0) {
+                    tab[j].style.visibility = 'hidden';
+                }
             }
         }
     }
-    for(i=tabImages.length; i<8; i++) {
-        tab=document.getElementsByClassName('mm_tab'+i)
-        for(j=0; j<tab.length; j++) {
-            if(tab[j].className.indexOf('mm_img')>0) {
-                tab[j].innerHTML = '<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_empty.png" alt="" />'
-            }
-            if(tab[j].className.indexOf('mm_name')>0) {
-                tab[j].innerHTML = ''
-            }
-            if(tab[j].className.indexOf('mm_ctrl')>0) {
-                tab[j].style.visibility = 'hidden'
-            }
-        }
-    }
-    for(i=0; i<disabledTabImages.length; i++) {
+    for(i=0; i<5; i++) {
         tab=document.getElementsByClassName('mmd_tab'+i)
         for(j=0; j<tab.length; j++) {
-            if(tab[j].className.indexOf('mm_img')>0) {
-                tab[j].innerHTML = '<img src="'+disabledTabImages[i]+'" alt="" />'
-            }
-            if(tab[j].className.indexOf('mm_name')>0) {
-                tab[j].innerHTML = disabledTabNames[i]
-            }
-            if(tab[j].className.indexOf('mm_ctrl')>0) {
-                tab[j].style.visibility = 'visible'
+            if(i<disabledTabs.length) {
+                // Disabled tabs
+                if(tab[j].className.indexOf('mm_img')>0) {
+                    tab[j].innerHTML = '<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/'+disabledTabs[i].image+'" alt="" />'
+                }
+                if(tab[j].className.indexOf('mm_name')>0) {
+                    tab[j].innerHTML = disabledTabs[i].label
+                }
+                if(tab[j].className.indexOf('mm_ctrl')>0) {
+                    tab[j].style.visibility = 'visible'
+                }
+            } else {
+                // Empty places
+                if(tab[j].className.indexOf('mm_img')>0) {
+                    tab[j].innerHTML = '<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_empty.png" alt="" />'
+                }
+                if(tab[j].className.indexOf('mm_name')>0) {
+                    tab[j].innerHTML = ''
+                }
+                if(tab[j].className.indexOf('mm_ctrl')>0) {
+                    tab[j].style.visibility = 'hidden'
+                }
             }
         }
     }
-    for(i=disabledTabImages.length; i<5; i++) {
-        tab=document.getElementsByClassName('mmd_tab'+i)
-        for(j=0; j<tab.length; j++) {
-            if(tab[j].className.indexOf('mm_img')>0) {
-                tab[j].innerHTML = '<img src="<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/tab_empty.png" alt="" />'
-            }
-            if(tab[j].className.indexOf('mm_name')>0) {
-                tab[j].innerHTML = ''
-            }
-            if(tab[j].className.indexOf('mm_ctrl')>0) {
-                tab[j].style.visibility = 'hidden'
-            }
-        }
-    }
+    document.getElementById('<?php echo htmlspecialchars($this->getName()); ?>').value = Object.toJSON({"enabledTabs": enabledTabs, "disabledTabs": disabledTabs})
 }
 
 if(window.addEventListener) {
@@ -112,51 +106,46 @@ if(window.addEventListener) {
 }
 
 function XmlconnectTabMoveLeft(tabNumber) {
-    if(tabNumber==0) return
-    // name
-    tab = tabNames[tabNumber]
-    tabNames[tabNumber] = tabNames[tabNumber-1]
-    tabNames[tabNumber-1] = tab
-    // image
-    tab = tabImages[tabNumber]
-    tabImages[tabNumber] = tabImages[tabNumber-1]
-    tabImages[tabNumber-1] = tab
-    // update
+    if(tabNumber<=0) return
+    tab = enabledTabs[tabNumber]
+    enabledTabs[tabNumber] = enabledTabs[tabNumber-1]
+    enabledTabs[tabNumber-1] = tab
     XmlconnectTabUpdate()
 }
 
 function XmlconnectTabMoveRight(tabNumber) {
-    if(tabNumber+1>=tabImages.length) return
-    // name
-    tab = tabNames[tabNumber]
-    tabNames[tabNumber] = tabNames[tabNumber+1]
-    tabNames[tabNumber+1] = tab
-    // image
-    tab = tabImages[tabNumber]
-    tabImages[tabNumber] = tabImages[tabNumber+1]
-    tabImages[tabNumber+1] = tab
-    // update
+    if(tabNumber+1>=enabledTabs.length) return
+    tab = enabledTabs[tabNumber]
+    enabledTabs[tabNumber] = enabledTabs[tabNumber+1]
+    enabledTabs[tabNumber+1] = tab
     XmlconnectTabUpdate()
 }
 
 function XmlconnectTabEnable(disabledTabNumber) {
-    tabNames.push(disabledTabNames.splice(disabledTabNumber,1))
-    tabImages.push(disabledTabImages.splice(disabledTabNumber,1))
-    // update
+    tab = disabledTabs[disabledTabNumber]
+    disabledTabs.splice(disabledTabNumber,1)
+    enabledTabs.push(tab)
     XmlconnectTabUpdate()
     return false
 }
 
 function XmlconnectTabDisable(tabNumber) {
-    if(disabledTabImages.length>=5) return
-    disabledTabNames.push(tabNames.splice(tabNumber,1))
-    disabledTabImages.push(tabImages.splice(tabNumber,1))
-    // update
+    if(disabledTabs.length>=5) return false
+    tab = enabledTabs[tabNumber]
+    enabledTabs.splice(tabNumber,1)
+    disabledTabs.push(tab)
     XmlconnectTabUpdate()
     return false
 }
 
+// ]]>
 </script>
+
+<input type="hidden"
+    name="<?php echo htmlspecialchars($this->getName()); ?>"
+    id="<?php echo htmlspecialchars($this->getName()); ?>"
+    value="<?php echo htmlspecialchars($this->getValue()); ?>" />
+
 <div class="mm-tabs-title">Main Tabs</div>
 <table border="0">
     <tr>

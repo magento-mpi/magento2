@@ -26,21 +26,6 @@
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
 {
     /**
-     * Add color theme to fieldset
-     *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
-     * @param string $fieldName
-     * @param string $title
-     */
-    protected function addTheme($fieldset, $fieldName, $themeId)
-    {
-        $fieldset->addField($fieldName.$themeId, 'theme', array(
-            'name'      => $fieldName,
-        ));
-    }
-
-    /**
-    /**
      * Prepare form
      *
      * @return Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form
@@ -56,8 +41,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_X
 
         $fieldset = $form->addFieldset('fieldColors', array('legend' => $this->__('Color Themes')));
         $this->_addElementTypes($fieldset);
-        $fieldset->addField('conf[dummy][theme]', 'theme', array(
-            'name'      => 'conf[dummy][theme]',
+        $fieldset->addField('conf[extra][theme]', 'theme', array(
+            'name'      => 'conf[extra][theme]',
             'themes'    => Mage::helper('xmlconnect/data')->getThemes(),
         ));
         $this->addColor($fieldset, 'conf[special][headerBackgroundColor]', $this->__('Header Background Color'));
@@ -74,7 +59,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_X
 
         $fieldset = $form->addFieldset('fieldTabs', array('legend' => $this->__('Tabs')));
         $this->_addElementTypes($fieldset);
-        $fieldset->addField('conf[dummy][tabs]', 'tabs', array('name' => 'conf[dummy][tabs]'));
+        $fieldset->addField('conf[extra][tabs]', 'tabs', array('name' => 'conf[extra][tabs]'));
 
         $model = Mage::registry('current_app');
         $form->setValues($model->getFormData());
