@@ -79,7 +79,7 @@ $this->getConnection()->addConstraint('FK_RECURRING_PROFILE_CUSTOMER', $profileT
 );
 
 $this->getConnection()->addConstraint('FK_RECURRING_PROFILE_STORE', $profileTable, 'store_id',
-    $customerEntityTable, 'store_id', 'SET NULL'
+    $coreStoreTable, 'store_id', 'SET NULL'
 );
 
 $this->run("

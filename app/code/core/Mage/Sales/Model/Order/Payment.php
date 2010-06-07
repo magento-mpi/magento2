@@ -46,6 +46,13 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     protected $_order;
 
     /**
+     * Billing agreement instance that may be created during payment processing
+     *
+     * @var Mage_Sales_Model_Billing_Agreement
+     */
+    protected $_billingAgreement = null;
+
+    /**
      * Whether can void
      * @var string
      */
@@ -981,6 +988,16 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
     }
 
     /**
+     * Get the billing agreement, if any
+     *
+     * @return Mage_Sales_Model_Billing_Agreement|null
+     */
+    public function getBillingAgreement()
+    {
+        return $this->_billingAgreement;
+    }
+
+    /**
      * Totals updater utility method
      * Updates self totals by keys in data array('key' => $delta)
      *
@@ -1222,6 +1239,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             if ($agreement->isValid()) {
                 $message = Mage::helper('sales')->__('Created billing agreement #%s.', $agreement->getReferenceId());
                 $order->addRelatedObject($agreement);
+                $this->_billingAgreement = $agreement;
             } else {
                 $message = Mage::helper('sales')->__('Failed to create billing agreement for this order.');
             }

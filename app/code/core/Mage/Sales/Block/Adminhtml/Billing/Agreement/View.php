@@ -37,14 +37,16 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View extends Mage_Adminhtml_B
      */
     public function __construct()
     {
-        $this->_objectId    = 'agreement_id';
+        $this->_objectId    = 'agreement';
         $this->_controller  = 'adminhtml_billing_agreement';
         $this->_mode        = 'view';
         $this->_blockGroup  = 'sales';
 
         parent::__construct();
 
-        $this->_removeButton('delete');
+        if (!$this->_isAllowed('sales/billing_agreement/actions/manage')) {
+            $this->_removeButton('delete');
+        }
         $this->_removeButton('reset');
         $this->_removeButton('save');
         $this->setId('billing_agreement_view');
@@ -55,7 +57,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View extends Mage_Adminhtml_B
             'class'     => 'back',
         ), -1);
 
-        if ($this->_getBillingAgreement()->canCancel() && $this->_isAllowed('sales/billing_agreement/actions/cancel')) {
+        if ($this->_getBillingAgreement()->canCancel() && $this->_isAllowed('sales/billing_agreement/actions/manage')) {
             $this->_addButton('cancel', array(
                 'label'     => Mage::helper('adminhtml')->__('Cancel'),
                 'onclick'   => "confirmSetLocation('{$this->__('Are you sure you want to do this?')}', '{$this->_getCancelUrl()}')",

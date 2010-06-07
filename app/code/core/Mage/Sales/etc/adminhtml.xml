@@ -130,12 +130,22 @@
                                 <title>Billing Agreements</title>
                                     <children>
                                         <actions translate="title">
-                                        <title>Actions</title>
-                                        <children>
-                                            <view translate="title"><title>View</title></view>
-                                            <cancel translate="title"><title>Cancel</title></cancel>
-                                        </children>
-                                    </actions>
+                                            <title>Actions</title>
+                                            <children>
+                                                <view translate="title">
+                                                    <title>View</title>
+                                                    <sort_order>5</sort_order>
+                                                </view>
+                                                <manage translate="title">
+                                                    <title>Manage</title>
+                                                    <sort_order>10</sort_order>
+                                                </manage>
+                                                <use translate="title">
+                                                    <title>Place Order Using Billing Agreements</title>
+                                                    <sort_order>15</sort_order>
+                                                </use>
+                                            </children>
+                                        </actions>
                                     </children>
                                 <sort_order>70</sort_order>
                             </billing_agreement>

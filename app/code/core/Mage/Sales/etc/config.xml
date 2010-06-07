@@ -900,6 +900,14 @@
                     </payment>
                 </observers>
             </catalog_product_edit_form_render_recurring>
+            <payment_method_is_active>
+                <observers>
+                    <sales_billing_agreement>
+                        <class>sales/observer</class>
+                        <method>restrictAdminBillingAgreementUsage</method>
+                    </sales_billing_agreement>
+                </observers>
+            </payment_method_is_active>
         </events>
     </adminhtml>
 

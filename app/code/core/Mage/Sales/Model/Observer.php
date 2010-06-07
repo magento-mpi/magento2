@@ -222,5 +222,21 @@ class Mage_Sales_Model_Observer
             ->addConfigOptions(array('levels_up' => 2));
         $observer->getEvent()->getResult()->output .= $dependencies->toHtml();
     }
+
+    /**
+     * Block admin ability to use customer billing agreements
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function restrictAdminBillingAgreementUsage($observer)
+    {
+        $methodInstance = $observer->getEvent()->getMethodInstance();
+        if (!($methodInstance instanceof Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract)) {
+            return;
+        }
+        if (!Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/use')) {
+            $observer->getEvent()->getResult()->isAvailable = false;
+        }
+    }
 }
 

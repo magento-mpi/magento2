@@ -28,7 +28,7 @@
  * Recurring profile collection
  *
  */
-class Mage_Sales_Model_Mysql4_Recurring_Profile_Collection extends Mage_Sales_Model_Mysql4_Collection_Abstract
+class Mage_Sales_Model_Mysql4_Recurring_Profile_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     protected $_eventPrefix = 'sales_recurring_profile_collection';
     protected $_eventObject = 'recurring_profile_collection';
