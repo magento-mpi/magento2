@@ -273,8 +273,6 @@ class Enterprise_Reward_Model_Observer
                     Mage::helper('enterprise_reward')->__('Customer earned %s for the order.', Mage::helper('enterprise_reward')->formatReward($reward->getPointsDelta()))
                 )->save();
             }
-            // Also update inviter balance if possible
-            $this->_invitationToOrder($observer);
         }
         return $this;
     }
@@ -288,8 +286,13 @@ class Enterprise_Reward_Model_Observer
     protected function _invitationToOrder($observer)
     {
         if (Mage::helper('Core')->isModuleEnabled('Enterprise_Invitation')) {
+            $invoice = $observer->getEvent()->getInvoice();
+            /* @var $invoice Mage_Sales_Model_Order_Invoice */
+            $order = $invoice->getOrder();
             /* @var $order Mage_Sales_Model_Order */
-            $order = $observer->getEvent()->getOrder();
+            if ($order->getBaseTotalDue() > 0) {
+                return $this;
+            }
             $invitation = Mage::getModel('enterprise_invitation/invitation')
                 ->load($order->getCustomerId(), 'referral_id');
             if (!$invitation->getId() || !$invitation->getCustomerId()) {
@@ -548,6 +551,8 @@ class Enterprise_Reward_Model_Observer
             $order->setRewardCurrencyAmountInvoiced($order->getRewardCurrencyAmountInvoiced() + $invoice->getRewardCurrencyAmount());
             $order->setBaseRewardCurrencyAmountInvoiced($order->getBaseRewardCurrencyAmountInvoiced() + $invoice->getBaseRewardCurrencyAmount());
         }
+        // Update inviter balance if possible
+        $this->_invitationToOrder($observer);
         return $this;
     }
 

@@ -51,7 +51,14 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
      */
     public function canAddRewardPoints()
     {
-        return !($this->isRewardLimitExceeded());
+        $frequency = Mage::helper('enterprise_reward')->getPointsConfig(
+            'invitation_order_frequency', $this->getReward()->getWebsiteId()
+        );
+        if ($frequency == '*') {
+            return !($this->isRewardLimitExceeded());
+        } else {
+            return parent::canAddRewardPoints();
+        }
     }
 
     /**
