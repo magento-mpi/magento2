@@ -38,5 +38,4 @@ class Enterprise_Customer_Model_Sales_Quote extends Enterprise_Customer_Model_Sa
     {
         $this->_init('enterprise_customer/sales_quote');
     }
-
 }

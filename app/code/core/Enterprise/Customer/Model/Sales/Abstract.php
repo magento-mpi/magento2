@@ -67,7 +67,7 @@ abstract class Enterprise_Customer_Model_Sales_Abstract extends Enterprise_Enter
     /**
      * Attach extended data to sales object
      *
-     * @param Mage_Sales_Model_Abstract $sales
+     * @param Mage_Core_Model_Abstract $sales
      * @return Enterprise_Customer_Model_Sales_Abstract
      */
     public function attachAttributeData(Mage_Core_Model_Abstract $sales)
@@ -79,7 +79,7 @@ abstract class Enterprise_Customer_Model_Sales_Abstract extends Enterprise_Enter
     /**
      * Save extended attributes data
      *
-     * @param Mage_Sales_Model_Abstract $sales
+     * @param Mage_Core_Model_Abstract $sales
      * @return Enterprise_Customer_Model_Sales_Abstract
      */
     public function saveAttributeData(Mage_Core_Model_Abstract $sales)
@@ -87,7 +87,35 @@ abstract class Enterprise_Customer_Model_Sales_Abstract extends Enterprise_Enter
         $this->setId($sales->getId())
              ->addData($sales->getData())
              ->save();
-
+        
         return $this;
+    }
+
+    /**
+     * CopyFieldset converts customer attributes from source object to target object
+     *
+     * @param Mage_Core_Model_Abstract $source
+     * @param Mage_Core_Model_Abstract $target
+     * @param array $fields
+     * @param bool $useColumnPrefix
+     * @return Enterprise_Customer_Model_Sales_Abstract
+     */
+    public function copyFieldsetSourceToTarget(
+        Mage_Core_Model_Abstract $source,
+        Mage_Core_Model_Abstract $target,
+        array                    $fields = null,
+                                 $useColumnPrefix = false
+    ){
+        $this->_getResource()->copyFieldsetSourceToTarget($source, $target, $fields, $useColumnPrefix);
+        return $this;
+    }
+
+    /**
+     * Describe table
+     *
+     * @return array
+     */
+    public function describeTable(){
+        return $this->_getResource()->describeTable();
     }
 }

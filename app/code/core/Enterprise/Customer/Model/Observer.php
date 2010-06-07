@@ -36,10 +36,10 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function afterLoadSalesQuote($observer)
+    public function afterLoadSalesQuote(Varien_Event_Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        if ($quote instanceof Mage_Core_Model_Abstract){
+        if ($quote instanceof Mage_Core_Model_Abstract) {
             Mage::getModel('enterprise_customer/sales_quote')
                 ->load($quote->getId())
                 ->attachAttributeData($quote);
@@ -54,10 +54,10 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function afterLoadSalesQuoteAddressCollection($observer)
+    public function afterLoadSalesQuoteAddressCollection(Varien_Event_Observer $observer)
     {
         $collection = $observer->getEvent()->getQuoteAddressCollection();
-        if ($collection instanceof Varien_Data_Collection_Db){
+        if ($collection instanceof Varien_Data_Collection_Db) {
             Mage::getModel('enterprise_customer/sales_quote_address')
                 ->attachDataToCollection($collection);
         }
@@ -71,10 +71,10 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function afterSaveSalesQuote($observer)
+    public function afterSaveSalesQuote(Varien_Event_Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        if ($quote instanceof Mage_Core_Model_Abstract){
+        if ($quote instanceof Mage_Core_Model_Abstract) {
             Mage::getModel('enterprise_customer/sales_quote')
                 ->saveAttributeData($quote);
         }
@@ -88,10 +88,10 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function afterSaveSalesQuoteAddress($observer)
+    public function afterSaveSalesQuoteAddress(Varien_Event_Observer $observer)
     {
         $quoteAddress = $observer->getEvent()->getQuoteAddress();
-        if ($quoteAddress instanceof Mage_Core_Model_Abstract){
+        if ($quoteAddress instanceof Mage_Core_Model_Abstract) {
             Mage::getModel('enterprise_customer/sales_quote_address')
                 ->saveAttributeData($quoteAddress);
         }
@@ -105,10 +105,10 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function afterLoadSalesOrder($observer)
+    public function afterLoadSalesOrder(Varien_Event_Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
-        if ($order instanceof Mage_Core_Model_Abstract){
+        if ($order instanceof Mage_Core_Model_Abstract) {
             Mage::getModel('enterprise_customer/sales_order')
                 ->load($order->getId())
                 ->attachAttributeData($order);
@@ -123,10 +123,10 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function afterLoadSalesOrderAddressCollection($observer)
+    public function afterLoadSalesOrderAddressCollection(Varien_Event_Observer $observer)
     {
         $collection = $observer->getEvent()->getOrderAddressCollection();
-        if ($collection instanceof Varien_Data_Collection_Db){
+        if ($collection instanceof Varien_Data_Collection_Db) {
             Mage::getModel('enterprise_customer/sales_order_address')
                 ->attachDataToCollection($collection);
         }
@@ -140,10 +140,10 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function afterSaveSalesOrder($observer)
+    public function afterSaveSalesOrder(Varien_Event_Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
-        if ($order instanceof Mage_Core_Model_Abstract){
+        if ($order instanceof Mage_Core_Model_Abstract) {
             Mage::getModel('enterprise_customer/sales_order')
                 ->saveAttributeData($order);
         }
@@ -157,10 +157,10 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function afterSaveSalesOrderAddress($observer)
+    public function afterSaveSalesOrderAddress(Varien_Event_Observer $observer)
     {
         $orderAddress = $observer->getEvent()->getAddress();
-        if ($orderAddress instanceof Mage_Core_Model_Abstract){
+        if ($orderAddress instanceof Mage_Core_Model_Abstract) {
             Mage::getModel('enterprise_customer/sales_order_address')
                 ->saveAttributeData($orderAddress);
         }
@@ -174,7 +174,7 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function EnterpriseCustomerAttributeSave($observer)
+    public function EnterpriseCustomerAttributeSave(Varien_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Mage_Customer_Model_Attribute
@@ -195,7 +195,7 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function EnterpriseCustomerAttributeDelete($observer)
+    public function EnterpriseCustomerAttributeDelete(Varien_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Mage_Customer_Model_Attribute 
@@ -216,7 +216,7 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function EnterpriseCustomerAddressAttributeSave($observer)
+    public function EnterpriseCustomerAddressAttributeSave(Varien_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Mage_Customer_Model_Attribute
@@ -237,7 +237,7 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function EnterpriseCustomerAddressAttributeDelete($observer)
+    public function EnterpriseCustomerAddressAttributeDelete(Varien_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Mage_Customer_Model_Attribute
@@ -258,17 +258,13 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function salesConvertQuoteToOrder($observer)
+    public function coreCopyFieldsetSalesConvertQuoteToOrder(Varien_Event_Observer $observer)
     {
-        $quote = $observer->getEvent()->getQuote();
-        $order = $observer->getEvent()->getOrder();
-        if ($quote instanceof Mage_Core_Model_Abstract
-            && $order instanceof Mage_Core_Model_Abstract
-        ){
+        $this->_coreCopyFieldsetSourceToTarget(
+            $observer,
             Mage::getModel('enterprise_customer/sales_quote')
-                    ->convertQuoteToOrder($quote, $order);
-        }
-        
+        );
+
         return $this;
     }
 
@@ -278,17 +274,13 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function salesConvertQuoteAddressToOrderAddress($observer)
+    public function coreCopyFieldsetSalesConvertQuoteAddressToOrderAddress(Varien_Event_Observer $observer)
     {
-        $quoteAddress = $observer->getEvent()->getAddress();
-        $orderAddress = $observer->getEvent()->getOrderAddress();
-        if ($quoteAddress instanceof Mage_Core_Model_Abstract
-            && $orderAddress instanceof Mage_Core_Model_Abstract
-        ){
+        $this->_coreCopyFieldsetSourceToTarget(
+            $observer,
             Mage::getModel('enterprise_customer/sales_quote_address')
-                    ->convertQuoteToOrder($quoteAddress, $orderAddress);
-        }
-        
+        );
+
         return $this;
     }
 
@@ -298,36 +290,104 @@ class Enterprise_Customer_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function salesConvertOrderToQuote($observer)
+    public function coreCopyFieldsetSalesCopyOrderToEdit(Varien_Event_Observer $observer)
     {
-        $quote = $observer->getEvent()->getQuote();
-        $order = $observer->getEvent()->getOrder();
-        if ($quote instanceof Mage_Core_Model_Abstract 
-            && $order instanceof Mage_Core_Model_Abstract
-        ){
+        $this->_coreCopyFieldsetSourceToTarget(
+            $observer,
             Mage::getModel('enterprise_customer/sales_order')
-                    ->convertOrderToQuote($order, $quote);
-        }
+        );
 
         return $this;
     }
 
     /**
-     * Observer for converting order address to quote address
+     * Observer for converting order billing address to quote billing address
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Customer_Model_Observer
      */
-    public function salesConvertOrderAddressToQuoteAddress($observer)
+    public function coreCopyFieldsetSalesCopyOrderBillingAddressToOrder(Varien_Event_Observer $observer)
     {
-        $quoteAddress = $observer->getEvent()->getAddress();
-        $orderAddress = $observer->getEvent()->getOrderAddress();
-        if ($quoteAddress instanceof Mage_Core_Model_Abstract
-            && $orderAddress instanceof Mage_Core_Model_Abstract
-        ){
-            
+        $this->_coreCopyFieldsetSourceToTarget(
+            $observer,
             Mage::getModel('enterprise_customer/sales_order_address')
-                    ->convertOrderToQuote($orderAddress, $quoteAddress);
+        );
+
+        return $this;
+    }
+
+    /**
+     * Observer for converting order shipping address to quote shipping address
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Customer_Model_Observer
+     */
+    public function coreCopyFieldsetSalesCopyOrderShippingAddressToOrder(Varien_Event_Observer $observer)
+    {
+        $this->_coreCopyFieldsetSourceToTarget(
+            $observer,
+            Mage::getModel('enterprise_customer/sales_order_address')
+        );
+
+        return $this;
+    }
+
+    /**
+     * Observer for converting customer to quote
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Customer_Model_Observer
+     */
+    public function coreCopyFieldsetCustomerAccountToQuote(Varien_Event_Observer $observer)
+    {
+        $this->_coreCopyFieldsetSourceToTarget(
+            $observer,
+            Mage::getModel('enterprise_customer/sales_quote'),
+            Mage::getModel('enterprise_customer/sales_quote')->describeTable(),
+            true
+        );
+        
+        return $this;
+    }
+
+    /**
+     * Observer for converting customer address to quote address
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Customer_Model_Observer
+     */
+    public function coreCopyFieldsetCustomerAddressToQuoteAddress(Varien_Event_Observer $observer)
+    {
+        $this->_coreCopyFieldsetSourceToTarget(
+            $observer,
+            Mage::getModel('enterprise_customer/sales_quote_address'),
+            Mage::getModel('enterprise_customer/sales_quote_address')->describeTable()
+        );
+
+        return $this;
+    }
+
+    /**
+     * CopyFieldset converts customer attributes from source object to target object
+     *
+     * @param Varien_Event_Observer $observer
+     * @param Mage_Core_Model_Abstract $model
+     * @param array $fields
+     * @param bool $useColumnPrefix
+     * @return Enterprise_Customer_Model_Observer
+     */
+    protected function _coreCopyFieldsetSourceToTarget(
+        Varien_Event_Observer    $observer,
+        Mage_Core_Model_Abstract $model,
+        array                    $fields = null,
+                                 $useColumnPrefix = false
+    ) {
+        $source = $observer->getEvent()->getSource();
+        $target = $observer->getEvent()->getTarget();
+        if ($source instanceof Mage_Core_Model_Abstract
+            && $target instanceof Mage_Core_Model_Abstract
+        ) {
+            $model->copyFieldsetSourceToTarget($source, $target, $fields, $useColumnPrefix);
         }
 
         return $this;
