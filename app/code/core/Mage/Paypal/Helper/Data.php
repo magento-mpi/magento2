@@ -30,6 +30,13 @@
 class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
+     * Cache for shouldAskToCreateBillingAgreement()
+     *
+     * @var bool
+     */
+    protected static $_shouldAskToCreateBillingAgreement = null;
+
+    /**
      * Get line items and totals from sales quote or order
      *
      * PayPal calculates grand total by this formula:
@@ -132,6 +139,26 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
          * see http://php.net/float
          */
         return sprintf('%.4F', ($sum + $totals['shipping'] + $totals['tax'])) == sprintf('%.4F', $referenceAmount);
+    }
+
+    /**
+     * Check whether customer should be asked confirmation whether to sign a billing agreement
+     *
+     * @param Mage_Paypal_Model_Config $config
+     * @param int $customerId
+     * @return bool
+     */
+    public function shouldAskToCreateBillingAgreement(Mage_Paypal_Model_Config $config, $customerId)
+    {
+        if (null === self::$_shouldAskToCreateBillingAgreement) {
+            self::$_shouldAskToCreateBillingAgreement = false;
+            if ($customerId && $config->shouldAskToCreateBillingAgreement()) {
+                if (Mage::getModel('sales/billing_agreement')->needToCreateForCustomer($customerId)) {
+                    self::$_shouldAskToCreateBillingAgreement = true;
+                }
+            }
+        }
+        return self::$_shouldAskToCreateBillingAgreement;
     }
 
     /**
