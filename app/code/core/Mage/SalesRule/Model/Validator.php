@@ -250,6 +250,10 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
             $baseItemPrice = $item->getBaseCalculationPrice();
         }
 
+        if ($itemPrice <= 0) {
+            return $this;
+        }
+
         $appliedRuleIds = array();
         foreach ($this->_getRules() as $rule) {
             /* @var $rule Mage_SalesRule_Model_Rule */
