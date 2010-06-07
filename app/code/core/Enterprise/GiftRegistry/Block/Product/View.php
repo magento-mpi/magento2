@@ -52,7 +52,8 @@ class Enterprise_GiftRegistry_Block_Product_View extends Mage_Catalog_Block_Prod
      */
     public function getAddToGiftregistryUrl()
     {
-        return $this->getUrl('enterprise_giftregistry/index/cart');
+        return $this->getUrl('enterprise_giftregistry/index/cart',
+            array('entity' => $this->getRequest()->getParam('entity')));
     }
 
     /**

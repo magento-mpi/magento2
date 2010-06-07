@@ -51,7 +51,6 @@
     <th><?php echo Mage::helper('enterprise_giftregistry')->__('Title'); ?></th>
     <th><?php echo Mage::helper('enterprise_giftregistry')->__('Created At'); ?></th>
     <th><?php echo Mage::helper('enterprise_giftregistry')->__('Message'); ?></th>
-    <th class="a-center"><?php echo Mage::helper('enterprise_giftregistry')->__('Is Active'); ?></th>
     <th class="a-center"><?php echo Mage::helper('enterprise_giftregistry')->__('Action'); ?></th>
 </tr>
 </thead>
@@ -61,7 +60,6 @@
             <td class="a-left"><?php echo $this->getEscapedTitle($item)?></td>
             <td class="a-left"><?php echo $this->getFormattedDate($item) ?></td>
             <td class="a-left"><?php echo $this->getEscapedMessage($item)?></td>
-            <td class="a-center"><input type="radio" name="active" <?php if($this->getIsActive($item)): ?>checked="checked"<?php endif;?> value="<?php echo $item->getId()?>" /></td>
             <td class="a-center">
                 <span class="nobr">
                     <a href="<?php echo $this->getItemsUrl($item)?>"><?php echo $this->__('Items') ?></a> |

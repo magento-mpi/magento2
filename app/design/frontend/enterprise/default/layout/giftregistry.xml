@@ -77,6 +77,7 @@
                 <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>giftregistry/customer/items/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>giftregistry/customer/items/default.phtml</template></action>
                 <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>giftregistry/customer/items/default.phtml</template></action>
+                <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>giftregistry/customer/items/default.phtml</template></action>
             </block>
         </reference>
     </enterprise_giftregistry_index_items>
@@ -121,6 +122,7 @@
                     <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
                     <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>giftregistry/view/items/default.phtml</template></action>
                     <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>giftregistry/view/items/default.phtml</template></action>
+                    <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>giftregistry/view/items/default.phtml</template></action>
                 </block>
                 <block type="enterprise_giftregistry/customer_items" name="giftregistry.view.items" template="giftregistry/view/items.phtml"/>
             </block>

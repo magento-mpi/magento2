@@ -128,11 +128,16 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
         } else {
             if (!$request) {
                 $request = new Varien_Object();
+                $request->setBundleOption(array());//Bundle options mocking for compatibility
             }
             $cartCandidate = $product->getTypeInstance(true)->prepareForCart($request, $product);
             if (is_array($cartCandidate)) {
                 $cartCandidate = array_shift($cartCandidate);
             }
+        }
+
+        if (is_string($cartCandidate)) { //prepare process has error, seems like we have bundle
+            throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
         $alreadyExists = false;

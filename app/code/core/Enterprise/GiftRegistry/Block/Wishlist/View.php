@@ -35,9 +35,9 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Cu
      *
      * @return bool
      */
-    public function getAddItemUrl($productId)
+    public function getAddUrl()
     {
-        return $this->getUrl('giftregistry/index/wishlist', array('id' => $productId));
+        return $this->getUrl('giftregistry/index/wishlist');
     }
 
     /**
@@ -48,5 +48,15 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Cu
     public function getEnabled()
     {
         return  Mage::helper('enterprise_giftregistry')->isEnabled();
+    }
+
+    /**
+     * Return list of current customer gift registries
+     *
+     * @return Enterprise_GiftRegistry_Model_Mysql4_GiftRegistry_Collection
+     */
+    public function getEntityValues()
+    {
+        return Mage::helper('enterprise_giftregistry')->getCurrentCustomerEntityOptions();
     }
 }

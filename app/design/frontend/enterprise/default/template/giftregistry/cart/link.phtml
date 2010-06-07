@@ -24,11 +24,24 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
+<?php $entityValues = $this->getEntityValues() ?>
 
-<?php if ($this->getEnabled()): ?>
+<?php if ($this->getEnabled() && count($entityValues)): ?>
 <div>
-    <button type="button" class="button" onclick="setLocation('<?php echo $this->getAddUrl();?>')">
-        <span><span><?php echo Mage::helper('enterprise_giftregistry')->__('Add All To Gift Registry ');?></span></span>
-    </button>
+    <form action="<?php echo $this->getAddUrl();?>" method="post" id="form-validate">
+        <select id="giftregistry_entity" name="entity" title="<?php echo $this->__('Gift Registry') ?>" class="required-entry">
+            <?php foreach ($entityValues as $_entity):?>
+                <option value="<?php echo $_entity->getValue()?>"><?php echo $_entity->getTitle()?></option>
+            <?php endforeach;?>
+        </select>
+        <button type="submit" class="button">
+            <span><span><?php echo Mage::helper('enterprise_giftregistry')->__('Add All To Gift Registry ');?></span></span>
+        </button>
+    </form>
 </div>
+<script type="text/javascript">
+//<![CDATA[
+var dataForm = new VarienForm('form-validate');
+//]]>
+</script>
 <?php endif; ?>

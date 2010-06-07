@@ -49,4 +49,14 @@ class Enterprise_GiftRegistry_Block_Cart_Link extends Enterprise_Enterprise_Bloc
     {
         return  Mage::helper('enterprise_giftregistry')->isEnabled();
     }
+
+    /**
+     * Return list of current customer gift registries
+     *
+     * @return Enterprise_GiftRegistry_Model_Mysql4_GiftRegistry_Collection
+     */
+    public function getEntityValues()
+    {
+        return Mage::helper('enterprise_giftregistry')->getCurrentCustomerEntityOptions();
+    }
 }

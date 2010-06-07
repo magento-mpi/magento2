@@ -127,6 +127,27 @@ class Enterprise_GiftRegistry_Helper_Data extends Enterprise_Enterprise_Helper_C
     }
 
     /**
+     * Return list of gift registries
+     *
+     * @return Enterprise_GiftRegistry_Model_Mysql4_GiftRegistry_Collection
+     */
+    public function getCurrentCustomerEntityOptions()
+    {
+        $result = array();
+        $entityCollection = Mage::getModel('enterprise_giftregistry/entity')->getCollection()
+            ->filterByCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+
+        if (count($entityCollection)) {
+            $result[] = new Varien_Object(array('value' => '', 'title' => $this->__('Select Gift Registry')));
+            foreach ($entityCollection as $entity) {
+                $result[] = new Varien_Object(array('value' => $entity->getId(),
+                        'title' => $this->escapeHtml($entity->getTitle())));
+            }
+        }
+        return $result;
+    }
+
+    /**
      * Format custom dates to internal format
      *
      * @param array|string $data
@@ -183,5 +204,4 @@ class Enterprise_GiftRegistry_Helper_Data extends Enterprise_Enterprise_Helper_C
 
         return $value;
     }
-
 }

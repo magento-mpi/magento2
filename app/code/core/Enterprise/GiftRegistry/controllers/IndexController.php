@@ -63,7 +63,9 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
     {
         $count  = 0;
         try {
-            $entity = $this->_getActiveEntity();
+            $entity = Mage::getModel('enterprise_giftregistry/entity')
+                ->load($this->getRequest()->getParam('entity'));
+
             if ($entity && $entity->getId()) {
 
                 $request = $this->getRequest();
@@ -110,9 +112,10 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
      */
     public function wishlistAction()
     {
-        if ($item = $this->getRequest()->getParam('id')) {
+        if ($item = $this->getRequest()->getParam('product')) {
             try {
-                $entity = $this->_getActiveEntity();
+                $entity = Mage::getModel('enterprise_giftregistry/entity')
+                    ->load($this->getRequest()->getParam('entity'));
                 if ($entity && $entity->getId()) {
                     $entity->addItem((int)$item);
                     $this->_getSession()->addSuccess(
@@ -123,6 +126,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                 if ($e->getCode() == Enterprise_GiftRegistry_Model_Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                     $product = Mage::getModel('catalog/product')->load((int)$item);
                     $query['options'] = Enterprise_GiftRegistry_Block_Product_View::FLAG;
+                    $query['entity'] = $this->getRequest()->getParam('entity');
                     $this->_redirectUrl($product->getUrlModel()->getUrl($product, array('_query' => $query)));
                     return;
                 }

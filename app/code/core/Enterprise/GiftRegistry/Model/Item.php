@@ -128,8 +128,23 @@ class Enterprise_GiftRegistry_Model_Item extends Enterprise_Enterprise_Model_Cor
         $requestArray = unserialize($requestOption->getValue());
         $selfOptions = unserialize($this->getCustomOptions());
 
-        if ($requestArray['options'] != $selfOptions['options']) {
+        if (!empty($requestArray['options']) && empty($selfOptions['options'])) {
             return false;
+        }
+
+        if (!empty($requestArray['options']) && ($requestArray['options'] != $selfOptions['options'])) {
+            return false;
+        }
+        //bundle product checks
+        if (!empty($requestArray['bundle_option'])) {
+            foreach ($requestArray['bundle_option'] as $key => $value) {
+                if (empty($selfOptions['bundle_option'][$key])
+                    || $selfOptions['bundle_option'][$key] != $value
+                    || empty($selfOptions['bundle_option_qty'][$key])
+                    || $selfOptions['bundle_option_qty'][$key] != $requestArray['bundle_option_qty'][$key]) {
+                    return false;
+                }
+            }
         }
 
         return true;
