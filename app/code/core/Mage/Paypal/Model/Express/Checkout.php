@@ -453,20 +453,17 @@ class Mage_Paypal_Model_Express_Checkout
 
         $this->_ignoreAddressValidation();
         $this->_quote->collectTotals();
-        $serviceQuote = Mage::getModel('sales/service_quote', $this->_quote);
+        $service = Mage::getModel('sales/service_quote', $this->_quote);
+        $service->submitAll();
+        $this->_quote->save();
+        $this->_recurringPaymentProfiles = $service->getRecurringPaymentProfiles();
+        // TODO: send recurring profile emails
 
-        // nominal quotes are submitted without creating the order
-        if ($this->_quote->isNominal()) {
-            $serviceQuote->submitNominalItems();
-            $this->_recurringPaymentProfiles = $serviceQuote->getRecurringPaymentProfiles();
-            $this->_quote->save();
+        $order = $service->getOrder();
+        if (!$order) {
             return;
         }
-
-        $order = $serviceQuote->submit();
-        $this->_recurringPaymentProfiles = $serviceQuote->getRecurringPaymentProfiles();
         $this->_billingAgreement = $order->getPayment()->getBillingAgreement();
-        $this->_quote->save();
 
         // commence redirecting to finish payment, if paypal requires it
         if ($order->getPayment()->getAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT)) {

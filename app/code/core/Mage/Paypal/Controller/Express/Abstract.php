@@ -245,37 +245,37 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
 
             // prepare session to success or cancellation page
             $session = $this->_getCheckoutSession();
-            $session->setLastOrderId(null)
-                ->setLastRealOrderId(null)
-                ->setRecurringPaymentProfiles(array())
-                ->setLastBillingAgreementId(null)
-            ;
+            $session->clearHelperData();
 
             // "last successful quote"
             $quoteId = $this->_getQuote()->getId();
             $session->setLastQuoteId($quoteId)->setLastSuccessQuoteId($quoteId);
 
             // an order may be created
-            if ($order = $this->_checkout->getOrder()) {
+            $order = $this->_checkout->getOrder();
+            if ($order) {
                 $session->setLastOrderId($order->getId())
                     ->setLastRealOrderId($order->getIncrementId());
                 // as well a billing agreement can be created
-                if ($agreement = $this->_checkout->getBillingAgreement()) {
+                $agreement = $this->_checkout->getBillingAgreement();
+                if ($agreement) {
                     $session->setLastBillingAgreementId($agreement->getId());
                 }
             }
 
             // recurring profiles may be created along with the order or without it
-            if ($profiles = $this->_checkout->getRecurringPaymentProfiles()) {
+            $profiles = $this->_checkout->getRecurringPaymentProfiles();
+            if ($profiles) {
                 $ids = array();
                 foreach($profiles as $profile) {
                     $ids[] = $profile->getId();
                 }
-                $this->_getCheckoutSession()->setLastRecurringProfileIds($ids);
+                $session->setLastRecurringProfileIds($ids);
             }
 
             // redirect if PayPal specified some URL (for example, to Giropay bank)
-            if ($url = $this->_checkout->getRedirectUrl()) {
+            $url = $this->_checkout->getRedirectUrl();
+            if ($url) {
                 $this->getResponse()->setRedirect($url);
                 return;
             }
