@@ -381,6 +381,13 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
             $result = true;
         }
 
+        $eventName = sprintf('core_copy_fieldset_%s_%s', $fieldset, $aspect);
+        Mage::dispatchEvent($eventName, array(
+            'target' => $target,
+            'source' => $source,
+            'root'   => $root
+        ));
+
         return $result;
     }
 
