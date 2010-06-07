@@ -164,7 +164,10 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
                     }
                 }
                 else {
-                    $value = $this->_prepareQueryText($value);
+                    if ($value != '*') {
+                        $value = $this->_prepareQueryText($value);
+                    }
+
                     $fieldCondition = $field .':'. $value;
                 }
 
@@ -176,7 +179,6 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         else {
             $searchConditions = $this->_prepareQueryText($query);
         }
-
 
         if (!$searchConditions) {
             return array();
@@ -448,7 +450,9 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
                     }
                 }
                 else {
-                    $value = $this->_prepareQueryText($value);
+                    if ($value != '*') {
+                        $value = $this->_prepareQueryText($value);
+                    }
                     $fieldCondition = $field .':'. $value;
                 }
 
@@ -527,11 +531,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             $_params['solr_params']['qt'] = 'magento' . $languageSuffix;
         }
 
-
-        $_params['solr_params'] = array (
-            'facet'                      => 'on',
-            'qt'                         => 'magento' . $languageSuffix
-        );
+        $_params['solr_params']['facet'] = 'on';
 
         if (isset($params['facet'])) {
             if (empty($params['facet']['values'])) {
@@ -613,9 +613,6 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         }
     }
 
-
-
-
     /**
      * Checks if Solr server is still up
      *
@@ -656,6 +653,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
                 return $code;
             }
         }
+
         return false;
     }
 }

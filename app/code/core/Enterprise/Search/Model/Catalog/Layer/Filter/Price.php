@@ -42,9 +42,11 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
     {
         $engineClassName         = get_class(Mage::helper('catalogsearch')->getEngine());
         $fulltextEngineClassName = get_class(Mage::getResourceSingleton('catalogsearch/fulltext_engine'));
+
         if ($engineClassName == $fulltextEngineClassName) {
             return parent::_getResource();
         }
+
         return Mage::getResourceSingleton('enterprise_search/facets_price');
     }
 
@@ -59,22 +61,22 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         $rangeKey = 'range_item_counts_' . $range;
         $items = $this->getData($rangeKey);
         if (is_null($items)) {
-            $maxPrice   = $this->getMaxPriceInt();
+            $maxPrice    = $this->getMaxPriceInt();
             $priceFacets = array();
-            $facetCount = ceil($maxPrice / $range);
+            $facetCount  = ceil($maxPrice / $range);
 
-            for ($i=0; $i<$facetCount; $i++) {
-                $priceFacets[]=array(
+            for ($i = 0; $i < $facetCount; $i++) {
+                $priceFacets[] = array(
                     'from' => $i * $range,
-                    'to'   => ($i+1) * $range
+                    'to'   => ($i + 1) * $range
                 );
             }
 
             $websiteId       = Mage::app()->getStore()->getWebsiteId();
             $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
-            $priceField      = "price_{$customerGroupId}_{$websiteId}";
+            $priceField      = 'price_'. $customerGroupId .'_'. $websiteId;
 
-            $params['facet']       = array(
+            $params['facet'] = array(
                 'field'  => $priceField,
                 'values' => $priceFacets
             );

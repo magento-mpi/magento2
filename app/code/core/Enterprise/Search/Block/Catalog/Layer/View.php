@@ -25,33 +25,35 @@
  */
 
 /**
- * Catalog layer price filter
+ * Catalog layered navigation view block
  *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Layer_Filter_Price extends Mage_Catalog_Block_Layer_Filter_Abstract
+class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Layer_View
 {
     /**
-     * Initialize Price filter module
-     *
+     * Internal constructor
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
-        $this->_filterModelName = 'catalog/layer_filter_price';
+        $productCollection = Mage::getSingleton('catalogsearch/layer')->getProductCollection();
+        $productCollection->setGeneralDefoultQuery();
     }
 
     /**
-     * Prepare filter process
-     *
-     * @return Mage_Catalog_Block_Layer_Filter_Price
+     * Initialize blocks names
      */
-    protected function _prepareFilter()
+    protected function _initBlocks()
     {
-        $this->_filter->setAttributeModel($this->getAttributeModel());
-        return $this;
+        parent::_initBlocks();
+
+        $this->_categoryBlockName = 'enterprise_search/catalog_layer_filter_category';
+        $this->_attributeFilterBlockName = 'enterprise_search/catalog_layer_filter_attribute';
+        $this->_priceFilterBlockName = 'enterprise_search/catalog_layer_filter_price';
+        $this->_decimalFilterBlockName = 'enterprise_search/catalog_layer_filter_decimal';
     }
 }

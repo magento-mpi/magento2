@@ -34,27 +34,49 @@
  */
 class Enterprise_Search_Model_Resource_Abstract extends Mage_Core_Model_Resource_Abstract
 {
+    /**
+     * Defines text type fields
+     * Integer attributes are saved at metadata as text because in fact they are values for
+     * options of select type inputs but their values are presented as text aliases
+     *
+     * @var array
+     */
+    protected $_textFieldTypes = array(
+        'text',
+        'varchar',
+        'int'
+    );
+
     protected function _construct()
     {
 
     }
 
     /**
-     * Add filter by attribute rated price
+     * Retrieve language code by specified locale code if this locale is supported
      *
-     * @param Enterprise_Search_Model_Resource_Collection $collection
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @param string|array $value
-     * @param int $rate
+     * @param string $localeCode
      *
-     * @return bool
+     * @return false|string
      */
-    public function addRatedPriceFilter($collection, $attribute, $value, $rate = 1)
+    protected function _getLanguageCodeByLocaleCode($localeCode)
     {
-        $collection->addPriceData();
-        $collection->addSearchParam(array('price' => $value));
-
-        return true;
+        $localeCode = (string)$localeCode;
+        if (!$localeCode) {
+            return false;
+        }
+        $languages = Mage::helper('enterprise_search')->getSolrSupportedLanguages();
+        foreach ($languages as $code => $locales) {
+            if (is_array($locales)) {
+                if (in_array($localeCode, $locales)) {
+                    return $code;
+                }
+            }
+            elseif ($localeCode == $locales) {
+                return $code;
+            }
+        }
+        return false;
     }
 
     /**
@@ -81,12 +103,6 @@ class Enterprise_Search_Model_Resource_Abstract extends Mage_Core_Model_Resource
         $field = $attribute->getAttributeCode();
         $fieldType = $attribute->getBackendType();
         $frontendInput = $attribute->getFrontendInput();
-
-        $textFieldTypes = array(
-            'text',
-            'varchar',
-            'int'
-        );
 
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
@@ -117,7 +133,7 @@ class Enterprise_Search_Model_Resource_Abstract extends Mage_Core_Model_Resource
                 }
             }
         }
-        elseif (in_array($fieldType, $textFieldTypes)) {
+        elseif (in_array($fieldType, $this->_textFieldTypes)) {
             $field .= $languageSuffix;
         }
 
@@ -130,7 +146,26 @@ class Enterprise_Search_Model_Resource_Abstract extends Mage_Core_Model_Resource
                 $val = $attribute->getSource()->getOptionText($val);
             }
         }
+
         return array($field => $value);
+    }
+
+    /**
+     * Add filter by attribute rated price
+     *
+     * @param Enterprise_Search_Model_Resource_Collection $collection
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param string|array $value
+     * @param int $rate
+     *
+     * @return bool
+     */
+    public function addRatedPriceFilter($collection, $attribute, $value, $rate = 1)
+    {
+        $collection->addPriceData();
+        $collection->addSearchParam(array('price' => $value));
+
+        return true;
     }
 
     /**
@@ -165,32 +200,5 @@ class Enterprise_Search_Model_Resource_Abstract extends Mage_Core_Model_Resource
     public function _getWriteAdapter()
     {
         return null;
-    }
-
-    /**
-     * Retrieve language code by specified locale code if this locale is supported
-     *
-     * @param string $localeCode
-     *
-     * @return false|string
-     */
-    protected function _getLanguageCodeByLocaleCode($localeCode)
-    {
-        $localeCode = (string)$localeCode;
-        if (!$localeCode) {
-            return false;
-        }
-        $languages = Mage::helper('enterprise_search')->getSolrSupportedLanguages();
-        foreach ($languages as $code => $locales) {
-            if (is_array($locales)) {
-                if (in_array($localeCode, $locales)) {
-                    return $code;
-                }
-            }
-            elseif ($localeCode == $locales) {
-                return $code;
-            }
-        }
-        return false;
     }
 }

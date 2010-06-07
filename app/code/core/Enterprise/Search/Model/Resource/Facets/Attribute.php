@@ -52,7 +52,8 @@ class Enterprise_Search_Model_Resource_Facets_Attribute extends Enterprise_Searc
     {
         $attribute = $attribute->getAttributeModel();
         $params = array();
-        $params['facet']       = array(
+
+        $params['facet'] = array(
             'field'  => $this->getAttributeSolrFieldName($attribute),
             'values' => array()
         );
@@ -60,11 +61,9 @@ class Enterprise_Search_Model_Resource_Facets_Attribute extends Enterprise_Searc
         $productCollection = Mage::getSingleton('catalogsearch/layer')->getProductCollection();
         $facets = $productCollection->getFacets($params);
 
-
         $facet = !empty($facets[$params['facet']['field']]) ? $facets[$params['facet']['field']] : array();
 
         $resultFacet = array();
-
         $options = $attribute->getFrontend()->getSelectOptions();
         foreach ($options as $option) {
             $optionLabel = $this->_prepareOptionLabel($option['label']);
@@ -90,7 +89,7 @@ class Enterprise_Search_Model_Resource_Facets_Attribute extends Enterprise_Searc
             $value = array($value);
         }
 
-        $productCollection = Mage::getSingleton('catalogsearch/layer')->getProductCollection();
+        $productCollection = Mage::getSingleton('catalog/layer')->getProductCollection();
         $attribute  = $filter->getAttributeModel();
         $this->addSearchQfFilter($productCollection, $attribute, $value);
     }
@@ -131,19 +130,13 @@ class Enterprise_Search_Model_Resource_Facets_Attribute extends Enterprise_Searc
         $fieldType = $attribute->getBackendType();
         $frontendInput = $attribute->getFrontendInput();
 
-        $textFieldTypes = array(
-            'text',
-            'varchar',
-            'int'
-        );
-
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
         }
         elseif ($fieldType == 'decimal') {
             $field = 'attr_decimal_'. $field;
         }
-        elseif (in_array($fieldType, $textFieldTypes)) {
+        elseif (in_array($fieldType, $this->_textFieldTypes)) {
             $field .= $languageSuffix;
         }
 
@@ -158,6 +151,6 @@ class Enterprise_Search_Model_Resource_Facets_Attribute extends Enterprise_Searc
      */
     protected function _prepareOptionLabel($label)
     {
-        return strtolower(str_replace(":", "", $label));
+        return strtolower(str_replace(':', '', $label));
     }
 }

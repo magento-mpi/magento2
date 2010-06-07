@@ -71,7 +71,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
      * @param Mage_Catalog_Model_Category $category
      * @param Mage_Core_Model_Layout_Update $update
      *
-     * return Mage_Catalog_CategoryController
+     * @return Mage_Catalog_CategoryController
      */
     protected function _applyCustomDesignSettings($category, $update)
     {
@@ -104,7 +104,6 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
      */
     public function viewAction()
     {
-
         if ($category = $this->_initCatagory()) {
 
             Mage::getModel('catalog/design')->applyDesign($category, Mage_Catalog_Model_Design::APPLY_FOR_CATEGORY);
@@ -123,7 +122,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             $update->addHandle('CATEGORY_' . $category->getId());
 
             $this->_applyCustomDesignSettings($category, $update);
- 
+
             $this->loadLayoutUpdates();
 
             $this->generateLayoutXml()->generateLayoutBlocks();

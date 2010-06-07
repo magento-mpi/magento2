@@ -110,13 +110,12 @@ class Enterprise_Search_Model_Resource_Collection
     public function addSearchParam($param, $value = null)
     {
         if (is_array($param)) {
-            foreach ($param as $field => $value)
+            foreach ($param as $field => $value) {
                 $this->addSearchParam($field, $value);
-        }
-        else {
-            if (!empty($value)) {
-                $this->_searchQueryParams[$param] = $value;
             }
+        }
+        elseif (!empty($value)) {
+            $this->_searchQueryParams[$param] = $value;
         }
 
         return $this;
@@ -137,14 +136,13 @@ class Enterprise_Search_Model_Resource_Collection
                 $this->addSearchQfFilter($field, $value);
             }
         }
-        else {
-            if (isset($value)) {
-                if ( isset($this->_searchQueryFilters[$param]) && !is_array($this->_searchQueryFilters[$param]) ) {
-                    $this->_searchQueryFilters[$param] = array($this->_searchQueryFilters[$param]);
-                    $this->_searchQueryFilters[$param][]=$value;
-                } else {
-                    $this->_searchQueryFilters[$param] = $value;
-                }
+        elseif (isset($value)) {
+            if (isset($this->_searchQueryFilters[$param]) && !is_array($this->_searchQueryFilters[$param])) {
+                $this->_searchQueryFilters[$param] = array($this->_searchQueryFilters[$param]);
+                $this->_searchQueryFilters[$param][]=$value;
+            }
+            else {
+                $this->_searchQueryFilters[$param] = $value;
             }
         }
 
@@ -155,7 +153,6 @@ class Enterprise_Search_Model_Resource_Collection
      * Add price search query filter (qf)
      *
      * @param   string|array $param
-     * @param   string|array $value
      *
      * @return  Enterprise_Search_Model_Resource_Collection
      */
@@ -165,6 +162,7 @@ class Enterprise_Search_Model_Resource_Collection
             foreach ($param as $field => $value)
                 $this->_searchQueryFilters[$field] = $value;
         }
+
         return $this;
     }
 
@@ -172,8 +170,8 @@ class Enterprise_Search_Model_Resource_Collection
      * Add advanced search query filter
      * Set search query
      *
-     * @param   string $query
-     * @return  Enterprise_Search_Model_Resource_Collection
+     * @param  string $query
+     * @return Enterprise_Search_Model_Resource_Collection
      */
     public function addAdvancedSearchFilter($query)
     {
@@ -227,12 +225,14 @@ class Enterprise_Search_Model_Resource_Collection
 
             $ids = (array)$this->_engine->getIdsByQuery($query, $params);
         }
+
         $this->_searchedEntityIds = &$ids;
         $this->getSelect()->where('e.entity_id IN (?)', $this->_searchedEntityIds);
         /**
-         * To prevent limitations to the collection, becouse of new data logic
+         * To prevent limitations to the collection, because of new data logic
          */
         $this->_pageSize = false;
+
         return parent::_beforeLoad();
     }
 
@@ -251,6 +251,7 @@ class Enterprise_Search_Model_Resource_Collection
             }
         }
         $this->_items = &$sortedItems;
+
         return $this;
     }
 
@@ -280,39 +281,45 @@ class Enterprise_Search_Model_Resource_Collection
             $this->_engine->getIdsByQuery($query, $params);
             $this->_totalRecords = $this->_engine->getLastNumFound();
         }
+
         return $this->_totalRecords;
     }
 
     /**
-     * Retrieve found number of items
+     * Retrieve faceted search results
      *
-     * @return int
+     * @param array $params
+     *
+     * @return array
      */
     public function getFacets($params)
     {
+        $store                 = Mage::app()->getStore();
+        $params['store_id']    = $store->getId();
+        $params['locale_code'] = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+        $params['limit']       = 1;
 
-      //  if (is_null($this->_totalRecords)) {
-            $store                 = Mage::app()->getStore();
-            $params['store_id']    = $store->getId();
-            $params['locale_code'] = $store->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
-            $params['limit']       = 1;
+        if (!empty($this->_searchQueryParams)) {
+            $params['ignore_handler'] = true;
+            $query = $this->_searchQueryParams;
+        }
+        else {
+            $query = $this->_searchQueryText;
+        }
+        $params['filters'] = $this->_searchQueryFilters;
 
-            if (!empty($this->_searchQueryParams)) {
-                $params['ignore_handler'] = true;
-                $query = $this->_searchQueryParams;
-            }
-            else {
-                $query = $this->_searchQueryText;
-            }
+        return (array)$this->_engine->getFacetsByQuery($query, $params);
+    }
 
-            $params['filters'] = $this->_searchQueryFilters;
-
-            //$this->_engine->getIdsByQuery($query, $params);
-            $facets = (array)$this->_engine->getFacetsByQuery($query, $params);
-
-          //  $this->_totalRecords = $this->_engine->getLastNumFound();
-      //  }
-        return $facets;
+    /**
+     * Set query *:* to disablet query limitation
+     *
+     * @return Enterprise_Search_Model_Resource_Collection
+     */
+    public function setGeneralDefoultQuery()
+    {
+        $this->_searchQueryParams = array('*' => '*');
+        return $this;
     }
 
     /**
@@ -327,7 +334,13 @@ class Enterprise_Search_Model_Resource_Collection
         return $this;
     }
 
-
+    /**
+     * Stub method
+     *
+     * @param array $fields
+     *
+     * @return Enterprise_Search_Model_Resource_Collection
+     */
     public function addFieldsToFilter($fields)
     {
         return $this;
@@ -342,7 +355,6 @@ class Enterprise_Search_Model_Resource_Collection
      */
     public function addCountToCategories($categoryCollection)
     {
-
         $isAnchor = array();
         $isNotAnchor = array();
         foreach ($categoryCollection as $category) {
@@ -358,11 +370,6 @@ class Enterprise_Search_Model_Resource_Collection
 
             Mage::dispatchEvent('catalog_product_collection_before_add_count_to_categories', array('collection'=>$this));
             if ($isAnchor) {
-                //$anchorStmt = clone $select;
-                //$anchorStmt->limit(); //reset limits
-                //$anchorStmt->where('count_table.category_id in (?)', $isAnchor);
-                //$productCounts += $this->getConnection()->fetchPairs($anchorStmt);
-
                 $params = array();
                 $params['facet']['field']  = 'categories';
                 $params['facet']['values'] = $isAnchor;
@@ -372,12 +379,6 @@ class Enterprise_Search_Model_Resource_Collection
                 $anchorStmt = null;
             }
             if ($isNotAnchor) {
-                //$notAnchorStmt = clone $select;
-                //$notAnchorStmt->limit(); //reset limits
-                //$notAnchorStmt->where('count_table.category_id in (?)', $isNotAnchor);
-                //$notAnchorStmt->where('count_table.is_parent=1');
-                //$productCounts += $this->getConnection()->fetchPairs($notAnchorStmt);
-
                 $params = array();
                 $params['facet']['field']  = 'categories';
                 $params['facet']['values'] = $isNotAnchor;
@@ -397,6 +398,7 @@ class Enterprise_Search_Model_Resource_Collection
             }
             $category->setProductCount($_count);
         }
+
         return $this;
     }
 
@@ -413,6 +415,7 @@ class Enterprise_Search_Model_Resource_Collection
                 $this->addSearchQfFilter('visibility', $visibilityId);
             }
         }
+
         return $this;
     }
 
@@ -425,17 +428,6 @@ class Enterprise_Search_Model_Resource_Collection
     public function addCategoryFilter(Mage_Catalog_Model_Category $category)
     {
         $this->addSearchQfFilter('categories', $category->getId());
-/*
-        $this->_productLimitationFilters['category_id'] = $category->getId();
-        if ($category->getIsAnchor()) {
-            unset($this->_productLimitationFilters['category_is_anchor']);
-        }
-        else {
-            $this->_productLimitationFilters['category_is_anchor'] = 1;
-        }
-
-        ($this->getStoreId() == 0)? $this->_applyZeroStoreProductLimitations() : $this->_applyProductLimitations();
-*/
         return $this;
     }
 }

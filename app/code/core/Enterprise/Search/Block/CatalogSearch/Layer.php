@@ -18,40 +18,31 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Mage
- * @package     Mage_Catalog
+ * @category    Enterprise
+ * @package     Enterprise_Search
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Catalog layer price filter
+ /**
+ * Layered Navigation block for search
  *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Enterprise
+ * @package     Enterprise_Search
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Layer_Filter_Price extends Mage_Catalog_Block_Layer_Filter_Abstract
+class Enterprise_Search_Block_CatalogSearch_Layer extends Mage_CatalogSearch_Block_Layer
 {
     /**
-     * Initialize Price filter module
-     *
+     * Initialize blocks names
      */
-    public function __construct()
+    protected function _initBlocks()
     {
-        parent::__construct();
+        parent::_initBlocks();
 
-        $this->_filterModelName = 'catalog/layer_filter_price';
-    }
-
-    /**
-     * Prepare filter process
-     *
-     * @return Mage_Catalog_Block_Layer_Filter_Price
-     */
-    protected function _prepareFilter()
-    {
-        $this->_filter->setAttributeModel($this->getAttributeModel());
-        return $this;
+        $this->_categoryBlockName = 'enterprise_search/catalog_layer_filter_category';
+        $this->_attributeFilterBlockName = 'enterprise_search/catalog_layer_filter_attribute';
+        $this->_priceFilterBlockName = 'enterprise_search/catalog_layer_filter_price';
+        $this->_decimalFilterBlockName = 'enterprise_search/catalog_layer_filter_decimal';
     }
 }

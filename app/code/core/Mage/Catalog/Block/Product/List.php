@@ -91,6 +91,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
                 $layer->setCurrentCategory($origCategory);
             }
         }
+
         return $this->_productCollection;
     }
 
@@ -148,7 +149,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
 
         $this->setChild('toolbar', $toolbar);
         Mage::dispatchEvent('catalog_block_product_list_collection', array(
-            'collection'=>$this->_getProductCollection(),
+            'collection' => $this->_getProductCollection()
         ));
 
         $this->_getProductCollection()->load();

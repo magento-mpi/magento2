@@ -56,6 +56,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
                 if (is_array($option['value'])) {
                     continue;
                 }
+
                 if (Mage::helper('core/string')->strlen($option['value'])) {
                     // Check filter type
                     if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
@@ -78,7 +79,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
             }
 
             $tags = array(
-                Mage_Eav_Model_Entity_Attribute::CACHE_TAG.':'.$attribute->getId()
+                Mage_Eav_Model_Entity_Attribute::CACHE_TAG .':'. $attribute->getId()
             );
 
             $tags = $this->getLayer()->getStateTags($tags);
@@ -96,9 +97,11 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
     {
         $engineClassName         = get_class(Mage::helper('catalogsearch')->getEngine());
         $fulltextEngineClassName = get_class(Mage::getResourceSingleton('catalogsearch/fulltext_engine'));
+
         if ($engineClassName == $fulltextEngineClassName) {
             return parent::_getResource();
         }
+
         return Mage::getResourceSingleton('enterprise_search/facets_attribute');
     }
 }
