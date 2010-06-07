@@ -220,7 +220,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'RETURNURL', 'CANCELURL', 'INVNUM', 'SOLUTIONTYPE', 'NOSHIPPING',
         'GIROPAYCANCELURL', 'GIROPAYSUCCESSURL', 'BANKTXNPENDINGURL',
         'PAGESTYLE', 'HDRIMG', 'HDRBORDERCOLOR', 'HDRBACKCOLOR', 'PAYFLOWCOLOR', 'LOCALECODE',
-        'BILLINGTYPE',
+        'BILLINGTYPE', 'SUBJECT',
     );
     protected $_setExpressCheckoutResponse = array('TOKEN');
 
@@ -228,7 +228,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * GetExpressCheckoutDetails request/response map
      * @var array
      */
-    protected $_getExpressCheckoutDetailsRequest = array('TOKEN');
+    protected $_getExpressCheckoutDetailsRequest = array('TOKEN', 'SUBJECT',);
 
     /**
      * DoExpressCheckoutPayment request/response map
@@ -236,7 +236,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     protected $_doExpressCheckoutPaymentRequest = array(
         'TOKEN', 'PAYERID', 'PAYMENTACTION', 'AMT', 'CURRENCYCODE', 'IPADDRESS', 'BUTTONSOURCE', 'NOTIFYURL',
-        'RETURNFMFDETAILS',
+        'RETURNFMFDETAILS', 'SUBJECT',
     );
     protected $_doExpressCheckoutPaymentResponse = array(
         'TRANSACTIONID', 'AMT', 'PAYMENTSTATUS', 'PENDINGREASON', 'REDIRECTREQUIRED', 'SUCCESSPAGEREDIRECTREQUESTED',
@@ -523,8 +523,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function callSetExpressCheckout()
     {
-        $request = $this->_prepareExpressCheckoutCallRequest($this->_setExpressCheckoutRequest);
-        $request = $this->_exportToRequest($request);
+        $this->_prepareExpressCheckoutCallRequest($this->_setExpressCheckoutRequest);
+        $request = $this->_exportToRequest($this->_setExpressCheckoutRequest);
         $this->_exportLineItems($request);
 
         // import/suppress shipping address, if any
@@ -558,8 +558,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     function callGetExpressCheckoutDetails()
     {
-        $request = $this->_prepareExpressCheckoutCallRequest($this->_getExpressCheckoutDetailsRequest);
-        $request = $this->_exportToRequest($request);
+        $this->_prepareExpressCheckoutCallRequest($this->_getExpressCheckoutDetailsRequest);
+        $request = $this->_exportToRequest($this->_getExpressCheckoutDetailsRequest);
         $response = $this->call(self::GET_EXPRESS_CHECKOUT_DETAILS, $request);
         $this->_importFromResponse($this->_paymentInformationResponse, $response);
         $this->_exportAddressses($response);
@@ -571,8 +571,8 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function callDoExpressCheckoutPayment()
     {
-        $request = $this->_prepareExpressCheckoutCallRequest($this->_doExpressCheckoutPaymentRequest);
-        $request = $this->_exportToRequest($request);
+        $this->_prepareExpressCheckoutCallRequest($this->_doExpressCheckoutPaymentRequest);
+        $request = $this->_exportToRequest($this->_doExpressCheckoutPaymentRequest);
         $this->_exportLineItems($request);
 
         $response = $this->call(self::DO_EXPRESS_CHECKOUT_PAYMENT, $request);
@@ -1200,17 +1200,16 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
-     * Supplement EC call request fields with additional values if needed
+     * Check the EC request against unilateral payments mode and remove the SUBJECT if needed
      *
-     * @param array $requestFields Standard set of values
-     * @return array New set of fields with additional values
+     * @param &array $requestFields
      */
-    protected function _prepareExpressCheckoutCallRequest($requestFields)
+    protected function _prepareExpressCheckoutCallRequest(&$requestFields)
     {
-        if ($this->_config->shouldUseUnilateralPayments()) {
-            array_push($requestFields, 'SUBJECT');
-            return $requestFields;
+        if (!$this->_config->shouldUseUnilateralPayments()) {
+            if ($key = array_search('SUBJECT', $requestFields)) {
+                unset($requestFields[$key]);
+            }
         }
-        return $requestFields;
     }
 }

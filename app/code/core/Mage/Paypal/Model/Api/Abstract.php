@@ -226,6 +226,14 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     * PayPal merchant email getter
+     */
+    public function getBusinessAccount()
+    {
+        return $this->_getDataOrConfig('business_account');
+    }
+
+    /**
      * Import $this public data to specified object or array
      *
      * @param array|Varien_Object $to

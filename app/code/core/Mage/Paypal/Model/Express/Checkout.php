@@ -292,8 +292,6 @@ class Mage_Paypal_Model_Express_Checkout
             $this->_api->addRecurringPaymentProfiles($profiles);
         }
 
-        $this->_api->setBusinessAccount($this->_config->businessAccount);
-
         $this->_config->exportExpressCheckoutStyleSettings($this->_api);
 
         // call API and redirect with token
@@ -314,7 +312,6 @@ class Mage_Paypal_Model_Express_Checkout
     {
         $this->_getApi();
         $this->_api->setToken($token)
-            ->setBusinessAccount($this->_config->businessAccount)
             ->callGetExpressCheckoutDetails();
 
         // import billing address
@@ -558,7 +555,7 @@ class Mage_Paypal_Model_Express_Checkout
             ->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
 
         if (!($this->_config->allow_ba_signup == Mage_Paypal_Model_Config::EC_BA_SIGNUP_AUTO
-            || $isRequested && $this->_config->allow_ba_signup == Mage_Paypal_Model_Config::EC_BA_SIGNUP_ASK)) {
+            || $isRequested && $this->_config->shouldAskToCreateBillingAgreement())) {
             return $this;
         }
 

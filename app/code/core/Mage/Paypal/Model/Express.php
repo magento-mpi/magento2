@@ -354,7 +354,6 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             ->setNotifyUrl(Mage::getUrl('paypal/ipn/'))
             ->setInvNum($order->getIncrementId())
             ->setCurrencyCode($order->getBaseCurrencyCode())
-            ->setBusinessAccount($this->_pro->getConfig()->businessAccount);
         ;
 
         // add line items

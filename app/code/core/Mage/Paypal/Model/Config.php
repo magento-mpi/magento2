@@ -850,12 +850,13 @@ class Mage_Paypal_Model_Config
 
     /**
      * Whether to ask customer to create billing agreements
+     * Unilateral payments are incompatible with the billing agreements
      *
      * @return bool
      */
     public function shouldAskToCreateBillingAgreement()
     {
-        return $this->allow_ba_signup === self::EC_BA_SIGNUP_ASK;
+        return ($this->allow_ba_signup === self::EC_BA_SIGNUP_ASK) && !$this->shouldUseUnilateralPayments();
     }
 
     /**

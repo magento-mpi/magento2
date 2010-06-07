@@ -36,17 +36,24 @@ class Mage_Paypal_Block_Standard_Form extends Mage_Payment_Block_Form
     protected $_methodCode = Mage_Paypal_Model_Config::METHOD_WPS;
 
     /**
+     * Config model instance
+     *
+     * @var Mage_Paypal_Model_Config
+     */
+    protected $_config;
+
+    /**
      * Set template and redirect message
      */
     protected function _construct()
     {
-        $config = Mage::getSingleton('paypal/config')->setMethod($this->getMethodCode());
+        $this->_config = Mage::getModel('paypal/config')->setMethod($this->getMethodCode());
         $locale = Mage::app()->getLocale();
         $mark = Mage::getConfig()->getBlockClassName('core/template');
         $mark = new $mark;
         $mark->setTemplate('paypal/payment/mark.phtml')
-            ->setPaymentAcceptanceMarkHref($config->getPaymentMarkWhatIsPaypalUrl($locale))
-            ->setPaymentAcceptanceMarkSrc($config->getPaymentMarkImageUrl($locale->getLocaleCode()))
+            ->setPaymentAcceptanceMarkHref($this->_config->getPaymentMarkWhatIsPaypalUrl($locale))
+            ->setPaymentAcceptanceMarkSrc($this->_config->getPaymentMarkImageUrl($locale->getLocaleCode()))
         ; // known issue: code above will render only static mark image
         $this->setTemplate('paypal/payment/redirect.phtml')
             ->setRedirectMessage(
