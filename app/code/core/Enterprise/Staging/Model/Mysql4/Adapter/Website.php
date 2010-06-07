@@ -73,8 +73,12 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Website extends Enterprise_Staging
 
             $stagingWebsite->save();
 
-            $entryPoint = Mage::getModel('enterprise_staging/entry')
-                ->setWebsite($stagingWebsite)->save();
+            if (Mage::getStoreConfigFlag('general/content_staging/create_entry_point')) {
+                $entryPoint = Mage::getModel('enterprise_staging/entry')
+                    ->setWebsite($stagingWebsite)->save();
+            } else {
+                $entryPoint = null;
+            }
 
             $stagingWebsiteId = (int)$stagingWebsite->getId();
 
