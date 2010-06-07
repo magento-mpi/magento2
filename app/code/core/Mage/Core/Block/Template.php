@@ -284,6 +284,18 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     }
 
     /**
+     * Get data from specified object
+     *
+     * @param Varien_Object $object
+     * @param string $key
+     * @return mixed
+     */
+    public function getObjectData(Varien_Object $object, $key)
+    {
+        return $object->getDataUsingMethod((string)$key);
+    }
+
+    /**
      * Get cache key informative items
      *
      * @return array
