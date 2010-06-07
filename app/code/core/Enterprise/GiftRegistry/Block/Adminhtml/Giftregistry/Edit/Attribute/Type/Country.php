@@ -24,30 +24,29 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Region
+class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Country
     extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('enterprise/giftregistry/edit/type/region.phtml');
+        $this->setTemplate('enterprise/giftregistry/edit/type/country.phtml');
     }
 
     /**
-     * Select element for choosing attribute type
+     * Select element for choosing show region option
      *
      * @return string
      */
-    public function getCountrySelectHtml()
+    public function getRegionShowSelectHtml()
     {
         $select = $this->getLayout()->createBlock('adminhtml/html_select')
             ->setData(array(
-                'id'    => '{{prefix}}_attribute_{{id}}_region_country',
+                'id'    => '{{prefix}}_attribute_{{id}}_show_region',
                 'class' => 'select global-scope'
             ))
-            ->setName('attributes[{{prefix}}][{{id}}][region_country]')
-            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_country')
-            ->toOptionArray());
+            ->setName('attributes[{{prefix}}][{{id}}][show_region]')
+            ->setOptions(Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray());
 
         return $select->getHtml();
     }

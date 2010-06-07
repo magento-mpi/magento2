@@ -27,79 +27,87 @@
 -->
 <config>
     <prototype>
+        <attribute_types>
+            <text translate="label" module="enterprise_giftregistry">
+                <label>Text</label>
+            </text>
+            <select translate="label" module="enterprise_giftregistry">
+                <label>Select</label>
+            </select>
+            <date translate="label" module="enterprise_giftregistry">
+                <label>Date</label>
+            </date>
+            <country translate="label" module="enterprise_giftregistry">
+                <label>Country</label>
+            </country>
+        </attribute_types>
+        <attribute_groups>
+            <event_information translate="label" module="enterprise_giftregistry">
+                <label>Event Information</label>
+                <sort_order>5</sort_order>
+                <visible>1</visible>
+            </event_information>
+            <registry translate="label" module="enterprise_giftregistry">
+                <label>Gift Registry Properties</label>
+                <sort_order>10</sort_order>
+                <visible>1</visible>
+            </registry>
+            <privacy translate="label" module="enterprise_giftregistry">
+                <label>Privacy Settings</label>
+                <sort_order>15</sort_order>
+                <visible>1</visible>
+            </privacy>
+            <registrant translate="label" module="enterprise_giftregistry">
+                <label>Registrants Information</label>
+                <sort_order>20</sort_order>
+                <visible>1</visible>
+            </registrant>
+            <shipping translate="label" module="enterprise_giftregistry">
+                <label>Shipping Address</label>
+                <sort_order>25</sort_order>
+                <visible>0</visible>
+            </shipping>
+        </attribute_groups>
         <registry>
             <attributes>
-                <system>
-                    <registry_id/>
-                    <type_id/>
-                    <customer_id/>
-                    <website_id/>
-                    <is_public/>
-                    <url_key/>
-                    <title/>
-                    <message/>
-                    <shipping_address/>
-                    <custom_attributes/>
-                </system>
                 <static>
-                    <event_date>
+                    <event_date translate="label" module="enterprise_giftregistry">
+                        <label>Event Date</label>
                         <type>date</type>
+                        <visible>1</visible>
                     </event_date>
-                    <event_country_code>
+                    <event_country_code translate="label" module="enterprise_giftregistry">
+                        <label>Event Country</label>
                         <type>country</type>
-                    </event_country_code>
-                    <event_region>
+                        <visible>1</visible>
+                    </event_country_code> 
+                    <event_region translate="label" module="enterprise_giftregistry">
+                        <label>Event Region Id</label>
                         <type>region</type>
-                    </event_region>
-                    <event_region_text>
+                        <visible>0</visible>
+                    </event_region >
+                    <event_region_text translate="label" module="enterprise_giftregistry">
+                        <label>Event Region Text</label>
                         <type>text</type>
+                        <visible>0</visible>
                     </event_region_text>
-                    <event_location>
+                    <event_location translate="label" module="enterprise_giftregistry">
+                        <label>Event Location</label>
                         <type>text</type>
+                        <visible>1</visible>
                     </event_location>
                 </static>
                 <custom/>
             </attributes>
-            <attribute_groups>
-                <event_information translate="label" module="enterprise_giftregistry">
-                    <label>Event Information</label>
-                    <sort_order>5</sort_order>
-                    <is_custom>1</is_custom>
-                </event_information>
-                <registry translate="label" module="enterprise_giftregistry">
-                    <label>Gift Registry Properties</label>
-                    <sort_order>10</sort_order>
-                    <is_custom>1</is_custom>
-                </registry>
-                <privacy translate="label" module="enterprise_giftregistry">
-                    <label>Privacy Settings</label>
-                    <sort_order>15</sort_order>
-                    <is_custom>1</is_custom>
-                </privacy>
-                <registrant translate="label" module="enterprise_giftregistry">
-                    <label>Registrants Information</label>
-                    <sort_order>20</sort_order>
-                    <is_custom>1</is_custom>
-                </registrant>
-                <shipping translate="label" module="enterprise_giftregistry">
-                    <label>Shipping Address</label>
-                    <sort_order>25</sort_order>
-                    <is_custom>0</is_custom>
-                </shipping>
-            </attribute_groups>
         </registry>
         <registrant>
             <attributes>
-                <system>
-                    <person_id/>
-                    <registry_id/>
-                    <firstname/>
-                    <lastname/>
-                    <email/>
-                </system>
                 <static>
-                    <role>
+                    <role translate="label" module="enterprise_giftregistry">
+                        <label>Role</label>
                         <type>select</type>
+                        <group>registrant</group>
+                        <visible>1</visible>
                     </role>
                 </static>
                 <custom/>

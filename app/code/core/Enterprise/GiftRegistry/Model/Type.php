@@ -294,4 +294,28 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
         return $eventModel->setInfo($typeId);
     }
 
+    /**
+     * Filter and load post data to object
+     *
+     * @param array $data
+     * @return Enterprise_GiftRegistry_Model_Type
+     */
+    public function loadPost(array $data)
+    {
+        $type = $data['type'];
+        $this->setCode($type['code']);
+        $this->setAttributes($data['attributes']);
+
+        $label = (isset($type['label'])) ? $type['label'] : null;
+        $this->setLabel($label);
+
+        $sortOrder = (isset($type['sort_order'])) ? $type['sort_order'] : null;
+        $this->setSortOrder($sortOrder);
+
+        $isListed = (isset($type['is_listed'])) ? $type['is_listed'] : null;
+        $this->setIsListed($isListed);
+
+        return $this;
+    }
+
 }

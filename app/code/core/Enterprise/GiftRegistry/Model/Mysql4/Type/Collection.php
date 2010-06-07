@@ -110,7 +110,7 @@ class Enterprise_GiftRegistry_Model_Mysql4_Type_Collection
         if ($withEmpty) {
             $result = array_merge(array(array(
                 'value' => '',
-                'label' => Mage::helper('enterprise_giftregistry')->__('-- Please select --')
+                'label' => Mage::helper('enterprise_giftregistry')->__('-- All --')
             )), $result);
         }
         return $result;

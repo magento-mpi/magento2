@@ -27,21 +27,21 @@
 
 <script type="text/javascript">
 //<![CDATA[
-OptionTemplateRegion =
+OptionTemplateCountry =
 '<table class="border" cellpadding="0" cellspacing="0">'+
     '<tr class="headings">'+
-        '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Country') ?></th>'+
+        '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Show Region') ?></th>'+
     '</tr>'+
     '<tr>'+
-        '<td><?php echo $this->getCountrySelectHtml() ?></td>'+
+        '<td><?php echo $this->getRegionShowSelectHtml() ?></td>'+
     '</tr>'+
 '</table>';
 
-selectRegionType = {
+selectCountryType = {
     add : function(data) {
-        if (data.region_country) {
-            $A($(data.prefix+'_attribute_'+data.id+'_region_country').options).each(function(option){
-                if (option.value==data.region_country) option.selected = true;
+        if (data.show_region) {
+            $A($(data.prefix+'_attribute_'+data.id+'_show_region').options).each(function(option){
+                if (option.value==data.show_region) option.selected = true;
            });
         }
     }

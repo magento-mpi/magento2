@@ -30,9 +30,6 @@
     <h4><?php echo $this->getFormTitle() ?></h4>
     <div class="right"><?php echo $this->getAddButtonHtml() ?></div>
 </div>
-<div>
-    <p class="comment">Pre-reserved attribute codes: <?php echo $this->getStaticTypesHtml() ?></p>
-</div>
 
 <div class="box">
 <div id="<?php echo $this->getFieldPrefix() ?>_attribute_container"></div>
@@ -62,12 +59,12 @@ var attributeTemplate =
         '<td><input type="text" class="input-text global-scope" id="{{prefix}}_attribute_{{id}}_sort_order" name="attributes[{{prefix}}][{{id}}][sort_order]" value="{{sort_order}}"></td>'+
         '<td>'+
             '<input type="hidden" id="{{prefix}}_attribute_{{id}}_is_deleted" name="attributes[{{prefix}}][{{id}}][is_deleted]">'+
-            '<input type="hidden" class="hidden-type" id="{{prefix}}_attribute_{{id}}_hidden_type" name="attributes[{{prefix}}][{{id}}][type]" value="{{type}}" disabled="disabled">'+
-            '<input type="hidden" class="hidden-code" id="{{prefix}}_attribute_{{id}}_hidden_code" name="attributes[{{prefix}}][{{id}}][code]" value="{{code}}" disabled="disabled">'+
+            '<input type="hidden" id="{{prefix}}_attribute_{{id}}_hidden_type" name="attributes[{{prefix}}][{{id}}][type]" value="{{type}}">'+
+            '<input class="hidden-code" type="hidden" id="{{prefix}}_attribute_{{id}}_hidden_code" name="attributes[{{prefix}}][{{id}}][code]" value="{{code}}" disabled="disabled">'+
+            '<input type="hidden" id="{{prefix}}_attribute_{{id}}_hidden_group" name="attributes[{{prefix}}][{{id}}][group]" value="{{group}}" disabled="disabled">'+
         '</td>'+
     '</tr>'+
     '</table>'+
-
 
     '<div class="option-box">'+
     '<table cellpadding="0" cellspacing="0">'+
@@ -112,8 +109,14 @@ var customAttribute = {
         Element.insert($(this.prefix+'_attribute_container'), {'after':this.template.evaluate(data)});
 
         if (data.type) {
+            var is_static = 0;
+            var type = data.type;
+            if (this.types[data.code]) {
+                type += ':' + data.code;
+                is_static = 1;
+            }
             $A($(this.prefix+'_attribute_'+data.id+'_type').options).each(function(option){
-                if (option.value==data.type) option.selected = true;
+                if (option.value==type || (is_static && option.value.include(type))) option.selected = true;
             });
         }
         if (data.group) {
@@ -143,32 +146,28 @@ var customAttribute = {
         }
 
         var template = this.getOptionTemplate(data.type);
-        this.checkStaticType(null, $(this.prefix+'_attribute_'+data.id+'_code'));
+        this.checkStaticType(null, $(this.prefix+'_attribute_'+data.id+'_type'));
         if (template) {
             this.insertOptionTemplate($(this.prefix+'_attribute_'+data.id), template, data);
             if (data.type == 'select') {
-                data.items.each(function(value) {
-                    selectOptionType.add(value);
-                });
+                if (data.items) {
+                    data.items.each(function(value) {
+                        selectOptionType.add(value);
+                    });
+                }
                 selectOptionType.bindAddButton();
             }
             if (data.type == 'date') {
                 selectDateType.add(data);
             }
-            if (data.type == 'region') {
-                selectRegionType.add(data);
+            if (data.type == 'country') {
+                selectCountryType.add(data);
             }
         }
         this.bindRemoveButtons();
         this.bindSelectInputType();
-        this.bindInputCode();
     },
-    addParams : function(event, element){
-        if (element == undefined) {
-            element = $(Event.findElement(event, 'select'));
-        }
-
-        var type = element.getValue();
+    addParams : function(element, type){
         var template = this.getOptionTemplate(type);
         var container = element.id.sub('attribute', 'option').sub('_type', '');
 
@@ -223,16 +222,7 @@ var customAttribute = {
         for(var i=0;i<types.length;i++){
             if(!$(types[i]).binded){
                 $(types[i]).binded = true;
-                Event.observe(types[i], 'change', this.addParams.bind(this));
-            }
-        }
-    },
-    bindInputCode : function(){
-        var codes = $$('.attribute-code');
-        for(var i=0;i<codes.length;i++){
-            if(!$(codes[i]).binded){
-                $(codes[i]).binded = true;
-                Event.observe(codes[i], 'change', this.checkStaticType.bind(this));
+                Event.observe(types[i], 'change', this.checkStaticType.bind(this));
             }
         }
     },
@@ -251,34 +241,52 @@ var customAttribute = {
     },
     checkStaticType : function(event, element){
         if (element == undefined) {
-            element = $(Event.findElement(event, 'input'));
+            element = $(Event.findElement(event, 'select'));
         }
 
-        var code = element.value;
-        var typeInput = $(element.id.sub('_code','_type'));
-        var hiddenInput = $(element.id.sub('_code','_hidden_type'));
-        var extBox = $(element.id.sub('_code','').sub('attribute','option_ext'));
+        var parts = element.value.split(':');
+        var type = parts[0];
+        var code = (parts[1] != undefined) ? parts[1] : 0;
+        var group = (parts[2] != undefined) ? parts[2] : 0;
 
-        if (this.types[code]) {
-            type = this.types[code].type;
+        hiddenTypeInput = $(element.id.sub('_type','_hidden_type'));
+        hiddenTypeInput.value = type;
 
-            $A(typeInput.options).each(function(option){
-                if (option.value==type && option.selected==false) {
+        extBox = $(element.id.sub('_type','').sub('attribute','option_ext'));
+        codeInput = $(element.id.sub('_type','_code'));
+        hiddenCodeInput = $(element.id.sub('_type','_hidden_code'));
+
+        if (code) {
+            codeInput.value = code;
+            codeInput.disable();
+            hiddenCodeInput.value = code;
+            hiddenCodeInput.enable();
+            extBox.show();
+            $$('div#'+extBox.id+' .select').each(function(el){el.enable()});
+        } else {
+            codeInput.enable();
+            hiddenCodeInput.disable();
+            $$('div#'+extBox.id+' .select').each(function(el){el.disable()});
+            extBox.hide();
+        }
+
+        groupInput = $(element.id.sub('_type','_group'));
+        hiddenGroupInput = $(element.id.sub('_type','_hidden_group'));
+
+        if (group) {
+            $A(groupInput.options).each(function(option){
+                if (option.value==group && option.selected==false) {
                     option.selected = true;
                 }
             });
-
-            typeInput.value = type;
-            typeInput.disable();
-            hiddenInput.value = type;
-            hiddenInput.enable();
-            extBox.show();
-            customAttribute.addParams(this, typeInput);
+            groupInput.disable();
+            hiddenGroupInput.value = group;
+            hiddenGroupInput.enable();
         } else {
-            typeInput.enable();
-            hiddenInput.disable();
-            extBox.hide();
+            groupInput.enable();
+            hiddenGroupInput.disable();
         }
+        customAttribute.addParams(element, type);
     },
     getOptionTemplate : function(type){
         var template;
@@ -289,8 +297,8 @@ var customAttribute = {
             case 'date':
                 template = OptionTemplateDate;
                 break;
-            case 'region':
-                template = OptionTemplateRegion;
+            case 'country':
+                template = OptionTemplateCountry;
                 break;
             default:
                 template = '';
@@ -318,6 +326,25 @@ if($('<?php echo $this->getAddButtonId() ?>')){
 
 customAttribute.bindScopeCheckbox();
 customAttribute.changeScopeInputs(<?php echo $this->getTypeStoreId() ?>);
+
+Validation.addAllThese([
+    ['attribute-code', '<?php echo $this->__('Please use different input type for this code.') ?>', function(v, element) {
+        var resultFlag = true;
+        $A($(element.id.sub('_code','_type')).options).each(function(option){
+            parts = option.value.split(':');
+            if (parts[1] != undefined && parts[1] == v) {
+                resultFlag = false;
+            }
+        });
+        return resultFlag;
+}]]);
+
+function bindActiveRegistryTab(event) {
+    if ($('store_switcher') && event.tab && event.tab.name) {
+        $('store_switcher').switchParams = 'active_tab/'+event.tab.name+'/';
+    }
+}
+varienGlobalEvents.attachEventHandler('showTab', bindActiveRegistryTab);
 //]]>
 </script>
 </div>

@@ -236,7 +236,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
     public function getTemplatesHtml()
     {
         $templates = array();
-        $types = array('select', 'date', 'region');
+        $types = array('select', 'date', 'country');
 
         foreach ($types as $type) {
             $renderer = 'enterprise_giftregistry/adminhtml_giftregistry_edit_attribute_type_' . $type;
@@ -260,7 +260,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
 
         if (is_array($groups)) {
             foreach ($groups as $group) {
-                $attributes = array_merge($attributes, $group);
+                $attributes = array_merge($attributes, (array)$group);
             }
             $attributes = array_reverse($attributes, true);
         } else {
@@ -343,18 +343,5 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
     public function getStaticTypes()
     {
         return new Varien_Object($this->getConfig()->getStaticTypes());
-    }
-
-    /**
-     * Prepare and return static types as comma-separated array
-     *
-     * @return mixed
-     */
-    public function getStaticTypesHtml()
-    {
-        if ($types = $this->getConfig()->getStaticTypes()) {
-            return implode(', ', array_keys($types));
-        }
-        return '';
     }
 }

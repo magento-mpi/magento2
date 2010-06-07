@@ -182,6 +182,17 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
                 if (is_array($fdata)) {
                     $grouped[$fdata['group']][$field] = $fdata;
                     $grouped[$fdata['group']][$field]['id'] = $field;
+
+                    if ($fdata['type'] == 'country' && !empty($fdata['show_region'])) {
+                        $regionCode = 'event_region';
+                        $regionAttribute['label'] = $this->__('State/Province');
+                        $regionAttribute['group'] = $fdata['group'];
+                        $regionAttribute['type'] = 'region';
+                        $regionAttribute['code'] = $regionCode;
+                        $regionAttribute['id'] = $regionCode;
+
+                        $grouped[$fdata['group']][$regionCode] = $regionAttribute;
+                    }
                 }
             }
         }
@@ -259,9 +270,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
                 $name = $this->_prefix. '[' . $name . ']';
             }
             if ($type == 'country') {
-                // only for event_country_code
                 return $this->getCountryHtmlSelect($value, 'event_country_code', 'event_country_code');
-                //    public function getCountryHtmlSelect($defValue=null, $name='country_id', $id='country', $title='Country')
             } else if ($type == 'region') {
                 // only for event_region
                 $this->setRegionJsVisible(true);

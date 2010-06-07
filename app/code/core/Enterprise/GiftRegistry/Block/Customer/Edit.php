@@ -98,6 +98,16 @@ class Enterprise_GiftRegistry_Block_Customer_Edit extends Mage_Directory_Block_D
     }
 
     /**
+     * Return form back link url
+     *
+     * @return string
+     */
+    public function getBackUrl()
+    {
+        return $this->getUrl('giftregistry');
+    }
+
+    /**
      * Return "create giftregistry" form AddPost url
      *
      * @return string

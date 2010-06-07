@@ -133,9 +133,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Enterpris
         if ($data = $this->getRequest()->getPost()) {
             try {
                 $model = $this->_initType();
-                $model->addData($this->getRequest()->getParam('type'));
-                $model->addData(array('attributes' => $this->getRequest()->getParam('attributes')));
-
+                $model->loadPost($data);
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The gift registry type has been saved.'));
 
@@ -143,7 +141,6 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Enterpris
                     $this->_redirect('*/*/edit', array('id' => $model->getId(), 'store' => $model->getStoreId()));
                     return;
                 }
-
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));

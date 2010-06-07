@@ -30,11 +30,13 @@
 class Enterprise_GiftRegistry_Model_Attribute_Config extends Enterprise_Enterprise_Model_Core_Abstract
 {
     protected $_config = null;
+    protected $_staticTypes = null;
 
     /**
-     * Path to attribute groups
+     * Pathes to attribute groups and types nodes
      */
-    const XML_ATTRIBUTE_GROUPS_PATH = 'prototype/registry/attribute_groups';
+    const XML_ATTRIBUTE_GROUPS_PATH = 'prototype/attribute_groups';
+    const XML_ATTRIBUTE_TYPES_PATH = 'prototype/attribute_types';
 
     /**
      * Load config from giftregistry.xml files and try to cache it
@@ -81,7 +83,17 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Enterprise_Enterpri
      */
     public function getAttributeTypesOptions()
     {
-        return array_merge($this->_getDefaultOption(), $this->getAttributeCustomTypesOptions());
+        $options = array_merge($this->_getDefaultOption(), array(
+            array(
+                'label' => Mage::helper('enterprise_giftregistry')->__('Custom Types'),
+                'value' => $this->getAttributeCustomTypesOptions()
+            ),
+            array(
+                'label' => Mage::helper('enterprise_giftregistry')->__('Static Types'),
+                'value' => $this->getAttributeStaticTypesOptions()
+            )
+        ));
+        return $options;
     }
 
     /**
@@ -96,7 +108,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Enterprise_Enterpri
 
         if (is_array($groups)) {
             foreach ($groups as $code => $group) {
-                if ($group['is_custom']) {
+                if ($group['visible']) {
                     $options[] = array(
                         'value' => $code,
                         'label' => $group['label']
@@ -126,13 +138,16 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Enterprise_Enterpri
      */
     public function getStaticTypes()
     {
-        $staticTypes = array();
-        foreach (array('registry', 'registrant') as $node) {
-            if ($node = $this->getXmlConfig()->getNode('prototype/' . $node . '/attributes/static')) {
-                $staticTypes = array_merge($staticTypes, $node->asCanonicalArray());
+        if (is_null($this->_staticTypes)) {
+            $staticTypes = array();
+            foreach (array('registry', 'registrant') as $node) {
+                if ($node = $this->getXmlConfig()->getNode('prototype/' . $node . '/attributes/static')) {
+                    $staticTypes = array_merge($staticTypes, $node->asCanonicalArray());
+                }
             }
+            $this->_staticTypes = $staticTypes;
         }
-        return $staticTypes;
+        return $this->_staticTypes;
     }
 
     /**
@@ -161,33 +176,61 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Enterprise_Enterpri
     }
 
     /**
-     * Return array of static attribute types for using as options
+     * Return code of static region attribute type
+     *
+     * @return null|string
+     */
+    public function getStaticRegionType()
+    {
+        foreach ($this->getStaticTypes() as $code =>$type) {
+            if (isset($type['type']) && $type['type'] == 'region') {
+                return $code;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Return array of custom attribute types for using as options
      *
      * @return array
      */
     public function getAttributeCustomTypesOptions()
     {
-        return array(
-            array(
-                'label' => Mage::helper('enterprise_giftregistry')->__('Text'),
-                'value' => 'text'
-            ),
-            array(
-                'label' => Mage::helper('enterprise_giftregistry')->__('Select'),
-                'value' => 'select'
-            ),
-            array(
-                'label' => Mage::helper('enterprise_giftregistry')->__('Date'),
-                'value' => 'date'
-            ),
-            array(
-                'label' => Mage::helper('enterprise_giftregistry')->__('Region'),
-                'value' => 'region'
-            ),
-            array(
-                'label' => Mage::helper('enterprise_giftregistry')->__('Country'),
-                'value' => 'country'
-            )
-        );
+        $types = $this->getXmlConfig()->getNode(self::XML_ATTRIBUTE_TYPES_PATH);
+        $options = array();
+
+        foreach ($types->asCanonicalArray() as $code => $type) {
+            $options[] = array(
+                'value' => $code,
+                'label' => $type['label']
+            );
+        }
+        return $options;
+    }
+
+    /**
+     * Return array of static attribute types for using as options
+     *
+     * @return array
+     */
+    public function getAttributeStaticTypesOptions()
+    {
+        $options = array();
+        foreach ($this->getStaticTypes() as $code => $type) {
+            if (empty($type['visible'])) {
+                continue;
+            }
+            $valueParts = array($type['type'], $code);
+            if (!empty($type['group'])) {
+                $valueParts[] = $type['group'];
+            }
+
+            $options[] = array(
+                'value' => implode(':', $valueParts),
+                'label' => $type['label']
+            );
+        }
+        return $options;
     }
 }

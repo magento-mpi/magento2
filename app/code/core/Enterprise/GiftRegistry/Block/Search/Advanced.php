@@ -71,8 +71,8 @@ class Enterprise_GiftRegistry_Block_Search_Advanced extends Enterprise_GiftRegis
     {
         if (is_null($this->_attributes)) {
             $type = Mage::registry('current_giftregistry_type');
-            $staticTypes = Mage::getSingleton('enterprise_giftregistry/attribute_config')
-                ->getStaticTypesCodes();
+            $config = Mage::getSingleton('enterprise_giftregistry/attribute_config');
+            $staticTypes = $config->getStaticTypesCodes();
 
             $attributes = array();
             foreach ($type->getAttributes() as $group) {
@@ -80,7 +80,6 @@ class Enterprise_GiftRegistry_Block_Search_Advanced extends Enterprise_GiftRegis
             }
 
             $isDate = false;
-            $isRegion = false;
             $isCountry = false;
 
             foreach ($attributes as $code => $attribute) {
@@ -90,7 +89,6 @@ class Enterprise_GiftRegistry_Block_Search_Advanced extends Enterprise_GiftRegis
                 }
                 switch ($attribute['type']) {
                     case 'date' : $isDate = $code; break;
-                    case 'region' : $isRegion = $code; break;
                     case 'country' : $isCountry = $code; break;
                 }
             }
@@ -111,29 +109,25 @@ class Enterprise_GiftRegistry_Block_Search_Advanced extends Enterprise_GiftRegis
             }
 
             /*
-             * Change type for region select element
-             * if country is not specified or there are not regions for default country
-             */
-            if (!$isCountry && $isRegion) {
-                $country = $attributes[$isRegion]['region_country'];
-                if (!$country || !$this->_getRegionCollection($country)->getSize()) {
-                    $attributes[$isRegion]['type'] = 'text';
-                }
-            }
-
-            /*
              * Add region updater js object to form
              */
-            if ($isCountry && $isRegion) {
+            if ($isCountry && !empty($attributes[$isCountry]['show_region'])) {
+                $region = $config->getStaticRegionType();
                 $this->setRegionJsVisible(true)
                     ->setElementCountry($isCountry)
-                    ->setElementRegion($isRegion)
-                    ->setElementRegionText($isRegion . '_text');
+                    ->setElementRegion($region)
+                    ->setElementRegionText($region . '_text');
 
-                 if ($formValue = $this->getFormData($isCountry)) {
-                     $attributes[$isRegion]['region_country'] = $formValue;
-                 }
+                $regionAttribute['label'] = $this->__('State/Province');
+                $regionAttribute['code'] = $region;
+                $regionAttribute['type'] = 'region';
+
+                if ($formValue = $this->getFormData($isCountry)) {
+                    $regionAttribute['country'] = $formValue;
+                }
+                $attributes[$region] = $regionAttribute;
             }
+
             $this->_attributes = $attributes;
         }
         return $this->_attributes;
@@ -168,7 +162,8 @@ class Enterprise_GiftRegistry_Block_Search_Advanced extends Enterprise_GiftRegis
                 $element = $this->getCalendarDateHtml($code, $code, $value, $attribute['date_format']);
                 break;
             case 'region' :
-                $element = $this->getRegionHtmlSelect($code, $code, $value, $attribute['region_country']);
+                $regionCountry = (isset($attribute['country'])) ? $attribute['country'] : null;
+                $element = $this->getRegionHtmlSelect($code, $code, $value, $regionCountry);
                 if ($this->getRegionJsVisible()) {
                     $code = $this->getElementRegionText();
                     $value = $this->getFormData($code);

@@ -24,7 +24,8 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs extends Enterprise_Enterprise_Block_Adminhtml_Widget_Tabs
+class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs
+    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Tabs
 {
     /**
      * Intialize form
@@ -52,7 +53,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs extends Ent
         ));
 
         $this->addTab('registry_attributes', array(
-            'label'   => Mage::helper('enterprise_giftregistry')->__('Custom Attributes'),
+            'label'   => Mage::helper('enterprise_giftregistry')->__('Attributes'),
             'content' => $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit_tab_registry')->toHtml()
         ));
 

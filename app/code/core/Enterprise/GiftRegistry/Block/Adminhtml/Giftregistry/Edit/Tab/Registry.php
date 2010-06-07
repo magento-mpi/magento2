@@ -30,8 +30,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_Registry
     public function __construct()
     {
         parent::__construct();
-        $this->setFormTitle(Mage::helper('enterprise_giftregistry')->__('Custom Attributes'));
-        $this->setIsRegistryScope(true);
+        $this->setFormTitle(Mage::helper('enterprise_giftregistry')->__('Attributes'));
     }
 
     /**
