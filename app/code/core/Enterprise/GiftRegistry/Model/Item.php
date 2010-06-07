@@ -138,6 +138,9 @@ class Enterprise_GiftRegistry_Model_Item extends Enterprise_Enterprise_Model_Cor
         //bundle product checks
         if (!empty($requestArray['bundle_option'])) {
             foreach ($requestArray['bundle_option'] as $key => $value) {
+                if (empty($value)) {
+                    continue;
+                }
                 if (empty($selfOptions['bundle_option'][$key])
                     || $selfOptions['bundle_option'][$key] != $value
                     || empty($selfOptions['bundle_option_qty'][$key])

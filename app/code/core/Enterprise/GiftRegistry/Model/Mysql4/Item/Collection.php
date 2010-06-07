@@ -99,7 +99,7 @@ class Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
             if (!$currentProduct) {
                 unset($this->_items[$offset]);
             } else {
-                $item->setProduct($currentProduct);
+                $item->setProduct(clone $currentProduct);//clone - prevent bundle collection single attribute attaching
                 $item->setProductName($currentProduct->getName());
                 $item->setProductSku($currentProduct->getSku());
                 $item->setProductPrice($currentProduct->getPrice());
