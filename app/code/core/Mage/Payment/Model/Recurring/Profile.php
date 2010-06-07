@@ -262,9 +262,8 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     public function setNearestStartDatetime(Zend_Date $minAllowed = null)
     {
         // TODO: implement proper logic with invoking payment method instance
-        if ($minAllowed) {
-            $date = $minAllowed;
-        } else {
+        $date = $minAllowed;
+        if (!$date || $date->getTimestamp() < time()) {
             $date = new Zend_Date(time());
         }
         $this->setStartDatetime($date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
@@ -473,7 +472,10 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         }
 
         // automatically determine start date, if not set
-        if (!$this->getStartDatetime()) {
+        if ($this->getStartDatetime()) {
+            $date = new Zend_Date($this->getStartDatetime(), Varien_Date::DATETIME_INTERNAL_FORMAT);
+            $this->setNearestStartDatetime($date);
+        } else {
             $this->setNearestStartDatetime();
         }
 
