@@ -36,7 +36,7 @@ class Enterprise_GiftRegistry_Model_Person extends Enterprise_Enterprise_Model_C
     /**
      * Validate registrant attribute values
      *
-     * @return bool
+     * @return array|bool
      */
     public function validate()
     {
@@ -59,8 +59,10 @@ class Enterprise_GiftRegistry_Model_Person extends Enterprise_Enterprise_Model_C
         $customValues = $this->getCustom();
         $attributes = Mage::getSingleton('enterprise_giftregistry/entity')->getRegistrantAttributes();
 
-        $errors = $helper->validateCustomAttributes($customValues, $attributes);
-
+        $errorsCustom = $helper->validateCustomAttributes($customValues, $attributes);
+        if ($errorsCustom !== true) {
+            $errors = empty($errors) ? $errorsCustom : array_merge($errors, $errorsCustom);
+        }
         if (empty($errors)) {
             return true;
         }

@@ -59,6 +59,14 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
      */
     protected $_attributes = null;
 
+    /**
+     * Static fields id list
+     *
+     * @var array
+     */
+    protected $_staticTypeIds = array(
+       'event_date', 'event_country_code', 'event_region', 'event_region_text', 'event_location');
+
     const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS = 916;
 
    /**
@@ -467,6 +475,16 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     }
 
     /**
+     * Getter, returns all ids for type custom attributes
+     *
+     * @return array
+     */
+    public function getStaticTypeIds()
+    {
+        return $this->_staticTypeIds;
+    }
+
+    /**
      * Getter, returns registrants custom attributes
      *
      * @return array
@@ -478,7 +496,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     }
 
     /**
-     * Getter, return registry custom attributes
+     * Getter, return registry attributes
      *
      * @return array
      */
@@ -506,7 +524,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     /**
      * Validate entity attribute values
      *
-     * @return bool
+     * @return array|bool
      */
     public function validate()
     {
@@ -521,13 +539,24 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
             $errors[] = $helper->__('Please enter the message.');
         }
 
-        if (!key_exists($this->getIsPublic(), $this->_optionsIsPublic)) {
+        if (!Zend_Validate::is($this->getIsPublic(), 'NotEmpty')) {
+            $errors[] = $helper->__('Please enter correct Privacy setting.');
+        } else if (!key_exists($this->getIsPublic(), $this->getOptionsIsPublic())) {
             $errors[] = $helper->__('Please enter correct Privacy setting.');
         }
 
-        $customValues = $this->getCustomValues();
-        $attributes = Mage::getSingleton('enterprise_giftregistry/entity')->getRegistryAttributes();
-        $errors = $helper->validateCustomAttributes($customValues, $attributes);
+        $allCustomValues = $this->getCustomValues();
+        $staticTypeIds = $this->getStaticTypeIds();
+        foreach ($staticTypeIds as $static) {
+            if ($this->hasData($static)) {
+                $allCustomValues[$static] = $this->getData($static);
+            }
+        }
+
+        $errorsCustom = $helper->validateCustomAttributes($allCustomValues, $this->getRegistryAttributes());
+        if ($errorsCustom !== true) {
+            $errors = empty($errors) ? $errorsCustom : array_merge($errors, $errorsCustom);
+        }
         if (empty($errors)) {
             return true;
         }
@@ -559,6 +588,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     /**
      * Import Post data
      *
+     * @param array $data
+     * @param bool $isAddAction
      * @return this
      */
     public function importData ($data, $isAddAction = true)
@@ -571,7 +602,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
                 'event_country_code' => !empty($data['event_country_code']) ? $data['event_country_code'] : null))
 
             ->addData(array(
-                'is_public' => !empty($data['is_public']) ? (bool) (int) $data['is_public'] : null,
+                'is_public' => isset($data['is_public']) ? (int) $data['is_public'] : null,
                 'title' => !empty($data['title']) ? $data['title'] : null,
                 'message' => !empty($data['message']) ? $data['message'] : null,
                 'custom_values' => !empty($data['registry']) ? $data['registry'] : null
@@ -585,7 +616,6 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
                 'created_at' => Mage::getModel('core/date')->date(),
                 'is_add_action' => true
             ));
-
         }
         return $this;
     }
@@ -598,7 +628,12 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     public function getFieldValue($field)
     {
         $data = $this->getData();
-        $value = isset($data[$field]) ? $data[$field] : null;
+        $value = null;
+        if (isset($data[$field])) {
+            $value = $data[$field];
+        } else if (isset($data['custom_values']) && isset($data['custom_values'][$field])) {
+            $value = $data['custom_values'][$field];
+        }
         return $value;
     }
 
@@ -653,20 +688,23 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     }
 
     /**
-     * Fetch array of custom date types fields id
+     * Fetch array of custom date types fields id and their format
      *
      * @return array
      */
-    public function getCustomDateFields()
+    public function getDateFieldArray()
     {
-        $dateFields = array();
-        $attributes = $this->getRegistryAttributes();
-        foreach ($attributes as $id => $attribute) {
-            if ($attribute['type'] == 'date') {
-                $dateFields[] = $id;
+        if (!isset($this->_dateFields)) {
+            $dateFields = array();
+            $attributes = $this->getRegistryAttributes();
+            foreach ($attributes as $id => $attribute) {
+                if (isset($attribute['type']) && ($attribute['type'] == 'date') && isset($attribute['date_format'])) {
+                    $dateFields[$id] = $attribute['date_format'];
+                }
             }
+            $this->_dateFields = $dateFields;
         }
-        return $dateFields;
+        return $this->_dateFields;
     }
 
     /**

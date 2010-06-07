@@ -40,22 +40,6 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registry extends  Enterprise_G
     protected $_prefix = 'registry';
 
     /**
-     * Static types list
-     *
-     * @var array
-     */
-    protected $_staticTypes = array(
-        'event_date', 'event_country_code', 'event_region', 'event_region_text', 'event_location');
-
-    /**
-     * Holds fields which has to be setted up by javascript
-     *
-     * @var array
-     */
-    protected $_staticAttributes = array(
-        'is_public', 'event_region', 'event_region_text' , 'event_date', 'event_location', 'event_country_code');
-
-    /**
      * Return array of attributes groupped by group
      *
      * @return array
@@ -74,15 +58,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registry extends  Enterprise_G
     {
         $options[''] = Mage::helper('enterprise_giftregistry')->__('Please Select');
         $options += $this->getEntity()->getOptionsIsPublic();
-        return $this->getSelectHtml($options, 'is_public', 'is_public', $this->getIsPublic());
-    }
-
-    /**
-     * Getter for static attributes fields
-     */
-    public function getStaticAttributes()
-    {
-        return $this->_staticAttributes;
+        return $this->getSelectHtml($options, 'is_public', 'is_public', $this->getEntity()->getIsPublic());
     }
 
     /**
@@ -92,7 +68,10 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registry extends  Enterprise_G
      * @return string
      */
     public function wrapId($id) {
-        if (!in_array($id, $this->_staticTypes)) {
+        if (!isset($this->_staticTypeIds)) {
+            $this->_staticTypeIds = $this->getEntity()->getStaticTypeIds();
+        }
+        if (!in_array($id, $this->_staticTypeIds)) {
             $id = $this->_prefix . ':' . $id;
         }
         return $id;

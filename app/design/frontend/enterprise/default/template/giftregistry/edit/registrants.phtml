@@ -50,13 +50,14 @@
                 </div>
             </div>
 
-<?php
-        $fields = $this->getGroupedRegistrantAttributes();
-        foreach ($fields as $field => $data) : ?>
+<?php $fields = $this->getGroupedRegistrantAttributes(); ?>
+    <?php foreach ($fields as $field => $data) : ?>
+            <?php $isRequired = $this->isAttributeRequired($data); ?>
             <div class="field">
-                <label for="registrant:custom:<?php echo $field ?>{{index}}" class="required"><em>*</em><?php echo $this->__("%s", $data['label']) ?></label>
+                <label for="registrant:custom:<?php echo $field ?>{{index}}" <?php echo ($isRequired ? 'class="required"' : '')?>>
+                <?php echo ($isRequired ? '<em>*</em>' : '') . $this->__("%s", $data['label']) ?></label>
                 <div class="input-box">
-                    <?php echo $this->renderField($data, '{{index}}][custom][' . $field, 'registrant:custom:' . $field . '{{index}}', '{{' . $field . '_value}}', 'required-entry')?>
+                    <?php echo $this->renderField($data, '{{index}}][custom][' . $field, 'registrant:custom:' . $field . '{{index}}', '{{' . $field . '_value}}', $isRequired ? ' required-entry ' : '')?>
                 </div>
             </div>
 <?php   endforeach; ?>

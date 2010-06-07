@@ -53,15 +53,6 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity extends Enterprise_Enterprise_
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         $customValues = $object->getCustomValues();
-        if ($object->getId()) {
-            $dateFields = $object->getCustomDateFields();
-            foreach ($dateFields as $fieldId) {
-                if (is_array($customValues) && key_exists($fieldId, $customValues)) {
-                    $customValues[$fieldId] = $this->formatDate($customValues[$fieldId]);
-                }
-            }
-
-        }
         $object->setCustomValues(serialize($customValues));
         return parent::_beforeSave($object);
     }
@@ -187,7 +178,6 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity extends Enterprise_Enterprise_
         }
         return $this;
     }
-
 
     /**
      * Load entity by url key

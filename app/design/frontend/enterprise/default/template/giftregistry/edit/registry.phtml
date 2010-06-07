@@ -54,18 +54,20 @@
 <?php
     $attributeGroups = $this->getAttributeGroups();
     $fieldsets = $this->getGroupedRegistryAttributes();
-        foreach ($fieldsets as $fieldset => $fields) : ?>
+    foreach ($fieldsets as $fieldset => $fields) : ?>
 
 <div class="fieldset">
-    <h2> <?php echo $this->getGroupLabel($fieldset);//$attributeGroups[$fieldset]['label'];?></h2>
+    <h2> <?php echo $this->getGroupLabel($fieldset);?></h2>
     <ul class="form-list">
 
-        <?php foreach ($fields as $field => $data) : ?>
+    <?php foreach ($fields as $field => $data) : ?>
+            <?php $isRequired = $this->isAttributeRequired($data); ?>
         <li>
-             <label for="<?php echo $this->wrapId($field) ?>" class="required"><?php echo $this->__($data['label']) ?></label>
-             <?php echo $this->renderField($data, $field, $this->wrapId($field), $this->getEntity()->getFieldValue($field), '')?>
+             <label for="<?php echo $this->wrapId($field) ?>" <?php echo ($isRequired ? 'class="required"' : '')?>><?php echo ($isRequired ? '<em>*</em>' : '') . $this->__($data['label']) ?>
+             </label>
+             <?php echo $this->renderField($data, $field, $this->wrapId($field), $this->getEntity()->getFieldValue($field), ($isRequired ? ' required-entry ' : ''))?>
         </li>
-        <?php endforeach; ?>
+    <?php endforeach; ?>
 
     </ul>
 </div>
@@ -74,30 +76,8 @@
 
 <script type="text/javascript">
 //<![CDATA[
-
 <?php if ($this->getRegionJsVisible()): ?>
     new RegionUpdater('event_country_code', 'event_region_text', 'event_region', regionJSON , undefined, 'zip');
 <?php endif; ?>
-
-document.observe("dom:loaded", function() {
-<?php
-/* @var $this Enterprise_GiftRegistry_Block_Customer_Edit*/
-$staticAttributes = $this->getStaticAttributes();
-$registryData = $this->getEntity()->getData();
-?>
-<?php foreach ($staticAttributes as $field) : ?>
-    <?php if (key_exists($field, $registryData)) : ?>
-        setFieldById(<?php echo "'$field', '" . $this->htmlEscape($registryData[$field]) . "'"?> );
-    <?php endif; ?>
-<?php endforeach; ?>
-<?php
-$customAttributes = (!empty($registryData['custom_values']) && is_array($registryData['custom_values']))
-    ? $registryData['custom_values'] : array();
-?>
-<?php foreach ($customAttributes as $field => $value) : ?>
-    setFieldById(<?php echo "'registry:$field', '" . $this->htmlEscape($value) . "'"?>);
-<?php endforeach; ?>
-
-});
 //]]>
 </script>

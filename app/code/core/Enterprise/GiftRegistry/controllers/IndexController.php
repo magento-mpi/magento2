@@ -450,7 +450,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                     }
                 }
 
-                $data = $this->_filterDates($data, array('event_date'));
+                $data = Mage::helper('enterprise_giftregistry')->filterDatesByFormat($data, $model->getDateFieldArray());
                 $model->importData($data, $isAddAction);
 
                 $registrantsPost = $this->getRequest()->getParam('registrant');
@@ -514,6 +514,13 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                         Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Incorrect address selected.'));
                     }
                     $model->importAddress($address);
+                }
+                $errors = $model->validate();
+                if ($errors !== true) {
+                    foreach ($errors as $err) {
+                        $this->_getSession()->addError($err);
+                    }
+                    $isError = true;
                 }
 
                 if (!$isError) {

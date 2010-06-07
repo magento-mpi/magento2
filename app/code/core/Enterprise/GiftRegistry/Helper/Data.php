@@ -94,14 +94,15 @@ class Enterprise_GiftRegistry_Helper_Data extends Enterprise_Enterprise_Helper_C
      *
      * @param array $customValues
      * @param array $attributes
-     * @return int
+     * @return array|bool
      */
     public function validateCustomAttributes($customValues, $attributes)
     {
         $errors = array();
         foreach ($attributes as $field => $data) {
             if (empty($customValues[$field])) {
-                if (!empty($data['is_required'])) {
+                if ((!empty($data['frontend'])) && is_array($data['frontend'])
+                    && (!empty($data['frontend']['is_required']))) {
                     $errors[] = $this->__('Please enter the "%s".', $data['label']);
                 }
             } else {
@@ -119,6 +120,68 @@ class Enterprise_GiftRegistry_Helper_Data extends Enterprise_Enterprise_Helper_C
                 }
             }
         }
+        if (empty($errors)) {
+            return true;
+        }
         return $errors;
     }
+
+    /**
+     * Format custom dates to internal format
+     *
+     * @param array|string $data
+     * @param array $fieldDateFormats
+     *
+     * @return array|string
+     */
+    public function filterDatesByFormat($data, $fieldDateFormats)
+    {
+        if (!is_array($data)) {
+            return $data;
+        }
+        foreach ($data as $id => $field) {
+            if (!empty($data[$id])) {
+                if (!is_array($field)) {
+                    if (isset($fieldDateFormats[$id])) {
+                        $data[$id] = $this->_filterDate($data[$id], $fieldDateFormats[$id]);
+                    }
+                } else {
+                    foreach ($field as $id2 => $field2) {
+                        if (!empty($data[$id][$id2]) && !is_array($field2) && isset($fieldDateFormats[$id2])) {
+                            $data[$id][$id2] = $this->_filterDate($data[$id][$id2], $fieldDateFormats[$id2]);
+                        }
+                    }
+                }
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Convert date in from <$formatIn> to internal format
+     *
+     * @param   string $value
+     * @param   string $formatIn    -  FORMAT_TYPE_FULL, FORMAT_TYPE_LONG, FORMAT_TYPE_MEDIUM, FORMAT_TYPE_SHORT
+     * @return  string
+     */
+    public function _filterDate($value, $formatIn = false)
+    {
+        if ($formatIn === false) {
+            return $value;
+        } else {
+            $formatIn = Mage::app()->getLocale()->getDateFormat($formatIn);
+        }
+        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
+            'date_format' => $formatIn
+        ));
+        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
+            'date_format' => Varien_Date::DATE_INTERNAL_FORMAT
+        ));
+
+        $value = $filterInput->filter($value);
+        $value = $filterInternal->filter($value);
+
+        return $value;
+    }
+
 }

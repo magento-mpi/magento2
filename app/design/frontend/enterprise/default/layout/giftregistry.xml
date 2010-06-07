@@ -163,6 +163,9 @@
     <enterprise_giftregistry_index_addselect translate="label">
         <label>Customer My Account GiftRegistry Add</label>
         <update handle="customer_account"/>
+        <reference name="customer_account_navigation">
+            <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
+        </reference>
         <reference name="my.account.wrapper">
             <block type="enterprise_giftregistry/customer_edit" name="giftregistry_addselect" template="giftregistry/edit/addselect.phtml"></block>
         </reference>
@@ -172,6 +175,9 @@
         <label>Customer My Account GiftRegistry Edit</label>
         <update handle="customer_account"/>
         <update handle="calendar"/>
+        <reference name="customer_account_navigation">
+            <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
+        </reference>
         <reference name="my.account.wrapper">
             <block type="enterprise_giftregistry/customer_edit" name="giftregistry_edit" template="giftregistry/edit/edit.phtml">
                 <action method="addInputTypeTemplate"><type>text</type><template>giftregistry/attributes/text.phtml</template></action>

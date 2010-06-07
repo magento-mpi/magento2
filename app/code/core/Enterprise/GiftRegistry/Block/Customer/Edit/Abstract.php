@@ -82,13 +82,23 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
     }
 
     /**
+     *
+     * @param array $data
+     */
+    public function isAttributeRequired($data)
+    {
+        if (isset($data['frontend']) && is_array($data['frontend']) && !empty($data['frontend']['is_required'])) {
+            return true;
+        }
+    }
+
+    /**
      * Return array of attribute groups for using as options
      *
      * @return array
      */
     public function getAttributeGroups()
     {
-
         return Mage::getSingleton('enterprise_giftregistry/attribute_config')->getAttributeGroups();
     }
 
@@ -115,22 +125,26 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
     /**
      * JS Calendar html
      *
-     * @param string name   - DOM name
-     * @param string id     - DOM id
-     * @param sting format  - full|long|medium|short
+     * @param string $name   - DOM name
+     * @param string $id     - DOM id
+     * @param string $value
+     * @param string $format  - full|long|medium|short
+     * @param string $class
      *
      * @return string
      */
-    public function getCalendarDateHtml($name, $id, $format = false)
+    public function getCalendarDateHtml($name, $id, $value, $format = false, $class = '')
     {
         if ($format === false) {
             $format = Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM;
         }
+
         $calendar = $this->getLayout()
-            ->createBlock('core/html_date')
+            ->createBlock('enterprise_giftregistry/customer_date')
             ->setId($id)
             ->setName($name)
-            ->setClass('product-custom-option datetime-picker input-text')
+            ->setValue($this->formatDate($value, $format))
+            ->setClass($class . ' product-custom-option datetime-picker input-text')
             ->setImage($this->getSkinUrl('images/calendar.gif'))
             ->setFormat(Mage::app()->getLocale()->getDateStrFormat($format));
         return $calendar->getHtml();
@@ -240,22 +254,25 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
     {
         if (is_array($data) && (count($data)) && $id) {
             $type = $data['type'];
-            if (!in_array($type, $this->_staticTypes)) {
+            $attributeId = $data['id'];
+            if (!in_array($attributeId, $this->getEntity()->getStaticTypeIds())) {
                 $name = $this->_prefix. '[' . $name . ']';
             }
-            if ($type == 'event_country_code') {
+            if ($type == 'country') {
+                // only for event_country_code
                 return $this->getCountryHtmlSelect($value, 'event_country_code', 'event_country_code');
                 //    public function getCountryHtmlSelect($defValue=null, $name='country_id', $id='country', $title='Country')
-            } else if ($type == 'event_region_code') {
+            } else if ($type == 'region') {
+                // only for event_region
                 $this->setRegionJsVisible(true);
-                return $this->getRegionHtmlSelectEmpty('event_region', 'event_region', $value, 'required-entry',
+                return $this->getRegionHtmlSelectEmpty('event_region', 'event_region', $value, 'required-entry', '',
                     $this->__('State/Province'))
                     . $this->_getInputTextHtml('event_region_text', 'event_region_text', '', ' input-text '
                         , 'title="' . $this->__('State/Province') . '" style="display:none;"');
-            } else if ($type == 'event_location' || $type == 'text') {
+            } else if ($type == 'text') {
                 return $this->_getInputTextHtml($name, $id, $value, $class . ' input-text');
-            } else if ($type == 'event_date' || $type == 'date') {
-                return $this->getCalendarDateHtml($name, $id);
+            } else if ($type == 'date') {
+                return $this->getCalendarDateHtml($name, $id, $value, $data['date_format'], $class);
             } else if ($type == 'select') {
                 $options  = $data['options'];
                 return $this->getSelectHtml($this->_convertGroupArray($options), $name, $id, $value);
