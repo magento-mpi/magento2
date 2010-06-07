@@ -56,8 +56,9 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      * array structure:
      *  $index => Varien_Simplexml_Element
      *
-     * @param   mixed $store
-     * @return  array
+     * @param mixed $store
+     * @param Mage_Sales_Model_Quote $quote
+     * @return array
      */
     public function getStoreMethods($store = null, $quote = null)
     {
@@ -130,12 +131,14 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve available billing agreement methods
      *
+     * @param mixed $store
+     * @param Mage_Sales_Model_Quote $quote
      * @return array
      */
-    public function getBillingAgreementMethods()
+    public function getBillingAgreementMethods($store = null, $quote = null)
     {
         $result = array();
-        foreach ($this->getStoreMethods() as $method) {
+        foreach ($this->getStoreMethods($store, $quote) as $method) {
             if ($method->canManageBillingAgreements()) {
                 $result[] = $method;
             }

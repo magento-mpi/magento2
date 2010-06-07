@@ -39,7 +39,7 @@ class Mage_Sales_Block_Payment_Form_Billing_Agreement extends Mage_Payment_Block
     {
         parent::__construct();
         $this->setTemplate('sales/payment/form/billing/agreement.phtml');
-        $this->setTransportBAId(Mage_Paypal_Model_Method_Agreement::TRANSPORT_BILLING_AGREEMENT_ID);
+        $this->setTransportName(Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract::TRANSPORT_BILLING_AGREEMENT_ID);
     }
 
     /**
