@@ -394,7 +394,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
      * @param string $query The raw query string
      * @return boolean|string
      */
-    protected function _searchFacets($query, $params=array())
+    protected function _searchFacets($query, $params = array())
     {
         /**
          * Hard code to prevent Solr bug:
@@ -410,7 +410,6 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         if (is_array($params) && !empty($params)) {
             $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
         }
-
 
         $offset = (int)$_params['offset'];
         $limit  = (int)$_params['limit'];

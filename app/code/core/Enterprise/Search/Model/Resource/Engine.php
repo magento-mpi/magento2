@@ -82,7 +82,7 @@ class Enterprise_Search_Model_Resource_Engine
      * @param string $query
      * @param array $params
      */
-    public function getFacetsByQuery($query, $params=array())
+    public function getFacetsByQuery($query, $params = array())
     {
         return $this->_adapter->getFacetsByQuery($query, $params);
     }

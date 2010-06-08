@@ -111,13 +111,11 @@ class Enterprise_Search_Model_Resource_Facets_Attribute extends Enterprise_Searc
     }
 
     /**
-     * Add filter by indexable attribute
+     * Construct attribute field's solr name 
      *
-     * @param Enterprise_Search_Model_Resource_Collection $collection
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @param string|array $value
      *
-     * @return bool
+     * @return string
      */
     public function getAttributeSolrFieldName($attribute)
     {

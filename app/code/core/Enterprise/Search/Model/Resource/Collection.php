@@ -423,6 +423,7 @@ class Enterprise_Search_Model_Resource_Collection
      * Specify category filter for product collection
      *
      * @param Mage_Catalog_Model_Category $category
+     *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function addCategoryFilter(Mage_Catalog_Model_Category $category)

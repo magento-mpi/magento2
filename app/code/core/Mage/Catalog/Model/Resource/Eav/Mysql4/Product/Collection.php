@@ -1602,4 +1602,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
         return $this;
     }
+
+    /**
+     * Stub method
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function setGeneralDefoultQuery()
+    {
+        return $this;
+    }
 }

@@ -61,6 +61,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             Mage::logException($e);
             return false;
         }
+
         return $category;
     }
 
