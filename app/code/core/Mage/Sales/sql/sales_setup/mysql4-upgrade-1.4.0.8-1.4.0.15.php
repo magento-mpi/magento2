@@ -24,14 +24,89 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$profileTable = $this->getTable('sales_recurring_profile');
-$customerEntityTable = $this->getTable('customer_entity');
-$coreStoreTable = $this->getTable('core_store');
-$profileOrderTable = $this->getTable('sales_recurring_profile_order');
-$orderTable = $this->getTable('sales_flat_order');
+/* @var $installer Mage_Sales_Model_Entity_Setup */
+$installer = $this;
 
-$this->run("DROP TABLE IF EXISTS `{$profileOrderTable}`");
-$this->run("DROP TABLE IF EXISTS `{$profileTable}`");
+$orderGridTable             = $installer->getTable('sales/order_grid');
+$orderTable                 = $installer->getTable('sales/order');
+$paymentTransactionTable    = $installer->getTable('sales/payment_transaction');
+$profileTable               = $installer->getTable('sales_recurring_profile');
+$orderItemTable             = $installer->getTable('sales_flat_order_item');
+$flatOrderTable             = $installer->getTable('sales_flat_order');
+$profileOrderTable          = $installer->getTable('sales_recurring_profile_order');
+$customerEntityTable        = $installer->getTable('customer_entity');
+$coreStoreTable             = $installer->getTable('core_store');
+$billingAgreementTable      = $installer->getTable('sales/billing_agreement');
+$billingAgreementOrderTable = $installer->getTable('sales/billing_agreement_order');
+
+//-------
+$installer->getConnection()->addColumn($orderGridTable,
+    'store_name', 'varchar(255) null default null AFTER `store_id`');
+
+$installer->run("
+    UPDATE {$orderGridTable} AS og
+        INNER JOIN  {$orderTable} AS o on (og.entity_id=o.entity_id)
+    SET
+        og.store_name = o.store_name
+");
+
+//-------
+$installer->getConnection()->addColumn($paymentTransactionTable,
+    'created_at', 'DATETIME NULL');
+
+//-------
+$this->getConnection()->addColumn($orderItemTable, 'is_nominal', 'int NOT NULL DEFAULT \'0\'');
+
+//-------
+$installer->run("
+    CREATE TABLE `{$billingAgreementTable}` (
+      `agreement_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+      `customer_id` int(10) unsigned NOT NULL,
+      `method_code` varchar(32) NOT NULL,
+      `reference_id` varchar(32) NOT NULL,
+      `status` varchar(20) NOT NULL,
+      `created_at` datetime NOT NULL,
+      `updated_at` datetime DEFAULT NULL,
+      PRIMARY KEY (`agreement_id`),
+      KEY `IDX_CUSTOMER` (`customer_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+");
+
+$installer->getConnection()->addConstraint(
+    'FK_BILLING_AGREEMENT_CUSTOMER',
+    $billingAgreementTable,
+    'customer_id',
+    $installer->getTable('customer/entity'),
+    'entity_id'
+
+);
+
+//-------
+$installer->run("
+    CREATE TABLE `{$billingAgreementOrderTable}` (
+      `agreement_id` int(10) unsigned NOT NULL,
+      `order_id` int(10) unsigned NOT NULL,
+      UNIQUE KEY `UNQ_BILLING_AGREEMENT_ORDER` (`agreement_id`,`order_id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+");
+
+$installer->getConnection()->addConstraint(
+    'FK_BILLING_AGREEMENT_ORDER_AGREEMENT',
+    $billingAgreementOrderTable,
+    'agreement_id',
+    $billingAgreementTable,
+    'agreement_id'
+);
+
+$installer->getConnection()->addConstraint(
+    'FK_BILLING_AGREEMENT_ORDER_ORDER',
+    $billingAgreementOrderTable,
+    'order_id',
+    $orderTable,
+    'entity_id'
+);
+
+//-------
 
 $this->run("
 CREATE TABLE `{$profileTable}` (
@@ -98,5 +173,5 @@ $this->getConnection()->addConstraint('FK_RECURRING_PROFILE_ORDER_PROFILE', $pro
 );
 
 $this->getConnection()->addConstraint('FK_RECURRING_PROFILE_ORDER_ORDER', $profileOrderTable, 'order_id',
-    $orderTable, 'entity_id'
+    $flatOrderTable, 'entity_id'
 );
