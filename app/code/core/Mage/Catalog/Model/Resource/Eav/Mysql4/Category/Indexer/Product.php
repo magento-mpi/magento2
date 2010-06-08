@@ -205,9 +205,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
             $this->_getWriteAdapter()->quoteInto('category_id IN(?)', $deleteCategoryIds)
         );
 
+        $currCategoryAnchorIds = array_intersect($anchorIds, $categoryIds);
         $anchorIds = array_diff($anchorIds, $categoryIds);
         $this->_refreshAnchorRelations($anchorIds);
-        $this->_refreshDirectRelations($categoryIds);
+        $currCategoryAnchorIds
+            ? $this->_refreshAnchorRelations($currCategoryAnchorIds)
+            : $this->_refreshDirectRelations($categoryIds);
     }
 
     /**
@@ -295,21 +298,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
         /**
          * Insert anchor categories relations
          */
-        $isParent = new Zend_Db_Expr('0');
-        $position = new Zend_Db_Expr('0');
+        $isParent = new Zend_Db_Expr('IF (cp.category_id=ce.entity_id, 1, 0) AS is_parent');
+        $position = new Zend_Db_Expr('IF (cp.category_id=ce.entity_id, cp.position, 0) AS position');
         $select = $this->_getReadAdapter()->select()
-            ->distinct(true)
-            ->from(array('ce' => $this->_categoryTable), array('entity_id'))
-            ->joinInner(array('cc'   => $this->_categoryTable), 'cc.path LIKE CONCAT(ce.path, \'/%\')', array())
-            ->joinInner(array('cp'   => $this->_categoryProductTable), 'cp.category_id=cc.entity_id', array())
-            ->joinInner(
-                array('pw'  => $this->_productWebsiteTable),
-                'pw.product_id=cp.product_id',
-                array('product_id', $position, $isParent)
-            )
-            ->joinInner(array('g'   => $this->_groupTable), 'g.website_id=pw.website_id', array())
-            ->joinInner(array('s'   => $this->_storeTable), 's.group_id=g.group_id', array('store_id'))
-            ->joinInner(array('rc'  => $this->_categoryTable), 'rc.entity_id=g.root_category_id', array())
+            ->from(array('ce' => $this->_categoryTable), array('entity_id', 'cp.product_id', $position, $isParent))
+            ->joinInner(array('cc' => $this->_categoryTable), 'cc.path LIKE CONCAT(ce.path, \'/%\')', array())
+            ->joinInner(array('cp' => $this->_categoryProductTable), 'cp.category_id=cc.entity_id OR cp.category_id=ce.entity_id', array())
+            ->joinInner(array('pw' => $this->_productWebsiteTable), 'pw.product_id=cp.product_id', array())
+            ->joinInner(array('g'  => $this->_groupTable), 'g.website_id=pw.website_id', array())
+            ->joinInner(array('s'  => $this->_storeTable), 's.group_id=g.group_id', array('store_id'))
+            ->joinInner(array('rc' => $this->_categoryTable), 'rc.entity_id=g.root_category_id', array())
             ->joinLeft(
                 array('dca'=>$anchorInfo['table']),
                 "dca.entity_id=ce.entity_id AND dca.attribute_id={$anchorInfo['id']} AND dca.store_id=0",
@@ -338,8 +336,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
              * Condition for anchor or root category (all products should be assigned to root)
              */
             ->where('(ce.path LIKE CONCAT(rc.path, \'/%\') AND IF(sca.value_id, sca.value, dca.value)=1) OR ce.entity_id=rc.entity_id')
-            ->where('IF(ss.value_id, ss.value, ds.value)=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
-
+            ->where('IF(ss.value_id, ss.value, ds.value)=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+            ->group(array('ce.entity_id', 'cp.product_id', 's.store_id'));
         if ($categoryIds) {
             $select->where('ce.entity_id IN (?)', $categoryIds);
         }
@@ -399,6 +397,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
             ->where('cp.product_id IS NULL')
             ->where('IF(ss.value_id, ss.value, ds.value)=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
             ->where('pw.product_id IN(?)', $productIds);
+                
         $sql = $select->insertFromSelect($this->getMainTable());
         $this->_getWriteAdapter()->query($sql);
         return $this;
