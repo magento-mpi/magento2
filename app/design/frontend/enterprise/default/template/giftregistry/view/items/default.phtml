@@ -46,7 +46,7 @@
                 <div class="truncated_full_value">
                     <dl class="item-options">
                         <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
-                        <dd><?php echo $_formatedOptionValue['full_view'] ?></dd>
+                        <dd><?php echo $this->htmlEscape($_formatedOptionValue['full_view']) ?></dd>
                     </dl>
                 </div>
                 <?php endif; ?>
@@ -71,7 +71,7 @@
     </td>
     <td class="a-right">
         <span class="cart-price">
-        <?php echo $this->helper('core')->currency($_item->getFinalPrice()) ?>
+        <?php echo $this->helper('core')->currency($_item->getGiftRegistryPrice()) ?>
         </span>
     </td>
     <td class="a-center">

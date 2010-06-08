@@ -46,7 +46,11 @@ class Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
      */
     public function addRegistryFilter($entityId)
     {
-        $this->getSelect()->where('main_table.entity_id = ?', $entityId);
+        $this->getSelect()
+            ->join(array('e' => $this->getTable('enterprise_giftregistry/entity')),
+                'e.entity_id = main_table.entity_id', 'website_id')
+            ->where('main_table.entity_id = ?', $entityId);
+
         return $this;
     }
 
@@ -116,12 +120,13 @@ class Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
         foreach ($this->getItems() as $item) {
             $product = $item->getProduct();
             $request = new Varien_Object(unserialize($item->getCustomOptions()));
+            $product->setSkipCheckRequiredOption(true);
+            $product->getStore()->setWebsiteId($item->getWebsiteId());
 
             $candidate = $product->getTypeInstance(true)->prepareForCart($request, $product);
             if (is_array($candidate)) {
                 $candidate = array_shift($candidate);
                 $product->setCustomOptions($candidate->getCustomOptions());
-
                 $item->setPrice($product->getFinalPrice());
                 $item->setSku($product->getSku());
             }

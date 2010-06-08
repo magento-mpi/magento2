@@ -66,13 +66,13 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
 
         $this->addColumn('sku', array(
             'header' => Mage::helper('enterprise_giftregistry')->__('Product SKU'),
-            'index'  => 'product_sku',
+            'index'  => 'sku',
             'width'  => '200px'
         ));
 
         $this->addColumn('price', array(
             'header' => Mage::helper('enterprise_giftregistry')->__('Price'),
-            'index'  => 'product_price',
+            'index'  => 'price',
             'type'  => 'currency',
             'width' => '120px',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),

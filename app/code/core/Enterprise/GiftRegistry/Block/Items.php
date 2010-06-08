@@ -38,18 +38,17 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
     public function getItems()
     {
          if (!$this->hasItemCollection()) {
-             $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
              $collection = Mage::getModel('enterprise_giftregistry/item')->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
 
             $quoteItemsCollection = array();
+            $quote = Mage::getModel('sales/quote')->setItemCount(true);
             foreach ($collection as $item) {
                 $product = $item->getProduct();
                 $request = new Varien_Object(unserialize($item->getCustomOptions()));
 
                 $candidate = $product->getTypeInstance(true)->prepareForCart($request, $product);
 
-                $quote = Mage::getModel('sales/quote')->setItemCount(true);
                 if ($candidate && is_array($candidate)) {
                     $candidate = array_shift($candidate);
                     $options = $candidate->getCustomOptions();
@@ -64,7 +63,7 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
                         $quoteItem->addOption($option);
                     }
                     $product->setCustomOptions($options);
-                    $quoteItem->setFinalPrice($product->getFinalPrice());
+                    $quoteItem->setGiftRegistryPrice($product->getFinalPrice());
 
                     $quoteItemsCollection[] = $quoteItem;
                 }
