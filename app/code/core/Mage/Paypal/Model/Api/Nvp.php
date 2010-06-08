@@ -839,8 +839,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
                 $config['proxy'] = $this->getProxyHost(). ':' . $this->getProxyPort();
             }
             $http->setConfig($config);
-            Mage::log('--------------------------------------------', null, 'call.log');
-            Mage::log($request, null, 'call.log');
             $http->write(Zend_Http_Client::POST, $this->getApiEndpoint(), '1.1', array(), $this->_buildQuery($request));
             $response = $http->read();
         } catch (Exception $e) {
@@ -855,8 +853,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $response = trim($response[1]);
         $response = $this->_deformatNVP($response);
 
-        Mage::log($response, null, 'call.log');
-        
         $debugData['response'] = $response;
         $this->_debug($debugData);
 
