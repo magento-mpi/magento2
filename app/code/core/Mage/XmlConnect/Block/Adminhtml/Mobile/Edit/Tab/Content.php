@@ -23,13 +23,36 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content extends Mage_Adminhtml_Block_Widget_Form
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
+    extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    protected $_pages;
+
     public function __construct()
     {
         parent::__construct();
         $this->setShowGlobalIcon(true);
+    }
+
+    /**
+     * Add page input to fieldset
+     *
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param string $fieldPrefix
+     * @param string $title
+     * @param bool $simple
+     */
+    protected function addPage($fieldset, $fieldPrefix, $title=NULL, $simple=FALSE)
+    {
+        $title = $this->getDefaultTitle($title, $fieldPrefix);
+        $el = $fieldset->addField($fieldPrefix, 'page', array(
+            'name'      => $fieldPrefix,
+        ));
+        $el->initFields(array(
+            'name'      => $fieldPrefix,
+            'values'    => $this->_pages,
+        ));
     }
 
     protected function _prepareForm()
@@ -37,19 +60,18 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content extends Mage_Admin
         $form = new Varien_Data_Form();
         $this->setForm($form);
 
-        $fieldset = $form->addFieldset('content1', array('legend' => $this->__('About Us')));
-        // FIXME: select content from CMS
-        $fieldset->addField('conf[content][aboutUs]', 'textarea', array(
-            'name'      => 'conf[content][aboutUs]',
-            'label'     => $this->__('Content'),
-        ));
+        $pages = Mage::getModel('cms/page')->getResourceCollection()->toOptionIdArray();
+        $dummy = array(array( 'value' => '', 'label' => '' ));
+        $this->_pages = array_merge($dummy, $pages);
 
-        $fieldset = $form->addFieldset('content2', array('legend' => $this->__('Privacy Policy')));
-        // FIXME: select content from CMS
-        $fieldset->addField('conf[content][privacyPolicy]', 'textarea', array(
-            'name'      => 'conf[content][privacyPolicy]',
-            'label'     => $this->__('Content'),
-        ));
+        $fieldset = $form->addFieldset('cmsPages', array('legend' => $this->__('Pages')));
+        $this->_addElementTypes($fieldset);
+        $this->addPage($fieldset, 'conf[pages][0]');
+        $this->addPage($fieldset, 'conf[pages][1]');
+        $this->addPage($fieldset, 'conf[pages][2]');
+        $this->addPage($fieldset, 'conf[pages][3]');
+        $this->addPage($fieldset, 'conf[pages][4]');
+        // FIXME
 
         $model = Mage::registry('current_app');
         $form->setValues($model->getFormData());
