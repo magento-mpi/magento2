@@ -25,9 +25,9 @@
  */
 ?>
 
+<?php if ($this->getEnabled() && $this->getGiftRegistryQuoteItems()) :?>
 <script type="text/javascript">
 //<![CDATA[
-<?php if ($this->getGiftRegistryQuoteItems()) :?>
     function addOption(item, address) {
         var select;
         Form.getElements('checkout_multishipping_form').each(function(element) {
@@ -55,6 +55,6 @@
     <?php foreach ($this->getGiftRegistryQuoteItems() as $itemId => $registryItemId) : ?>
         addOption(<?php echo $itemId; ?>, <?php echo $registryItemId; ?>);
     <?php endforeach; ?>
-<?php endif; ?>
 //]]>
 </script>
+<?php endif; ?>

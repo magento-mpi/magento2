@@ -30,6 +30,19 @@
 class Enterprise_GiftRegistry_SearchController extends Enterprise_Enterprise_Controller_Core_Front_Action
 {
     /**
+     * Check if gift registry is enabled on current store before all other actions
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        if (!Mage::helper('enterprise_giftregistry')->isEnabled()) {
+            $this->norouteAction();
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return;
+        }
+    }
+
+    /**
      * Get current customer session
      *
      * @return Mage_Customer_Model_Session

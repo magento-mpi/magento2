@@ -29,6 +29,18 @@
  */
 class Enterprise_GiftRegistry_ViewController extends Enterprise_Enterprise_Controller_Core_Front_Action
 {
+    /**
+     * Check if gift registry is enabled on current store before all other actions
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        if (!Mage::helper('enterprise_giftregistry')->isEnabled()) {
+            $this->norouteAction();
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return;
+        }
+    }
 
     /**
      * View giftregistry list in 'My Account' section
@@ -77,7 +89,6 @@ class Enterprise_GiftRegistry_ViewController extends Enterprise_Enterprise_Contr
                     continue;
                 }
                 $item->addToCart($cart, $itemInfo['qty']);
-
             }
             $cart->save()->getQuote()->collectTotals();
             $success = true;
@@ -93,6 +104,4 @@ class Enterprise_GiftRegistry_ViewController extends Enterprise_Enterprise_Contr
             $this->_redirect('checkout/cart');
         }
     }
-
-
 }

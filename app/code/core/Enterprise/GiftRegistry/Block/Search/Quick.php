@@ -33,6 +33,16 @@
 class Enterprise_GiftRegistry_Block_Search_Quick extends Enterprise_Enterprise_Block_Core_Template
 {
     /**
+     * Check whether module is available
+     *
+     * @return bool
+     */
+    public function getEnabled()
+    {
+        return  Mage::helper('enterprise_giftregistry')->isEnabled();
+    }
+
+    /**
      * Return available gift registry types collection
      *
      * @return Enterprise_GiftRegistry_Model_Mysql4_Type_Collection

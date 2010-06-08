@@ -48,7 +48,9 @@
                     <th><?php echo $this->__('Product') ?></th>
                     <th><?php echo $this->__('Comment') ?></th>
                     <th class="a-center"><span class="nobr"><?php echo $this->__('Added On') ?></span></th>
-                    <th class="a-center"><span class="nobr"><?php echo $this->__('Add to Gift Registry') ?></span></th>
+                    <?php if ($this->getEnabled()): ?>
+                        <th class="a-center"><span class="nobr"><?php echo $this->__('Add to Gift Registry') ?></span></th>
+                    <?php endif; ?>
                     <th class="a-center"><span class="nobr"><?php echo $this->__('Add to Cart') ?></span></th>
                     <th>&nbsp;</th>
                 </tr>
@@ -67,7 +69,7 @@
                     <td>
                         <span class="nobr"><?php echo $this->getFormatedDate($item->getAddedAt()) ?></span>
                     </td>
-                    <?php if ($entityValues):?>
+                    <?php if ($this->getEnabled() && $entityValues):?>
                     <td>
                         <select id="giftregistry_entity_<?php echo $item->getProductId()?>" name="entity" title="<?php echo $this->__('Gift Registry') ?>" >
                             <?php foreach ($entityValues as $_entity):?>
@@ -79,7 +81,7 @@
                     <?php endif;?>
 
                     <td>
-                    <?php if($item->isSaleable()): ?>
+                    <?php if ($item->isSaleable()): ?>
                         <button type="button" onclick="setLocation('<?php echo $this->getItemAddToCartUrl($item) ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
                     <?php endif; ?>
                     </td>
@@ -111,9 +113,9 @@
     <input type="hidden" name="product" value=""/>
     <input type="hidden" name="entity" value=""/>
 </form>
+
 <script type="text/javascript">
 //<![CDATA[
-
 function addProductToGiftregistry(productId) {
     giftregistryForm = $('giftregistry-form');
     var entity = $('giftregistry_entity_'+productId);
@@ -143,7 +145,5 @@ function updateAction(addAction) {
     viewForm.action = addAction;
     viewForm.submit();
 }
-
-</script>
 //]]>
 </script>

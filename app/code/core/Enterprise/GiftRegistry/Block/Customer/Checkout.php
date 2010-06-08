@@ -40,6 +40,16 @@ class Enterprise_GiftRegistry_Block_Customer_Checkout extends Enterprise_Enterpr
     }
 
     /**
+     * Check whether module is available
+     *
+     * @return bool
+     */
+    public function getEnabled()
+    {
+        return  Mage::helper('enterprise_giftregistry')->isEnabled();
+    }
+
+    /**
      * Get customer quote gift registry items
      *
      * @return array

@@ -30,27 +30,6 @@
 class Enterprise_GiftRegistry_Block_Link extends Enterprise_Enterprise_Block_Core_Template
 {
     /**
-     * Adding link to account links block
-     *
-     * @param string $block
-     * @param string $name
-     * @param string $path
-     * @param string $label
-     * @param array $urlParams
-     * @return Enterprise_GiftRegistry_Block_Link
-     */
-    public function addAccountLink($block, $label, $url='', $title='', $prepare=false, $urlParams=array(),
-        $position=null, $liParams=null, $aParams=null, $beforeText='', $afterText='')
-    {
-        $blockInstance = $this->getLayout()->getBlock($block);
-        if ($blockInstance) {
-            $blockInstance->addLink($label, $url, $title, $prepare, $urlParams,
-                $position, $liParams, $aParams, $beforeText, $afterText);
-        }
-        return $this;
-    }
-
-    /**
      * Adding link to dashboard links block
      *
      * @param string $block
@@ -62,9 +41,11 @@ class Enterprise_GiftRegistry_Block_Link extends Enterprise_Enterprise_Block_Cor
      */
     public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
     {
-        $blockInstance = $this->getLayout()->getBlock($block);
-        if ($blockInstance) {
-            $blockInstance->addLink($name, $path, $label, $urlParams);
+        if (Mage::helper('enterprise_giftregistry')->isEnabled()) {
+            $blockInstance = $this->getLayout()->getBlock($block);
+            if ($blockInstance) {
+                $blockInstance->addLink($name, $path, $label, $urlParams);
+            }
         }
         return $this;
     }

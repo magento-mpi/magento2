@@ -30,16 +30,6 @@
 class Enterprise_GiftRegistry_Block_View extends Enterprise_GiftRegistry_Block_Customer_Items
 {
     /**
-     * Check whether module is available
-     *
-     * @return bool
-     */
-    public function getEnabled()
-    {
-        return  Mage::helper('enterprise_giftregistry')->isEnabled();
-    }
-
-    /**
      * Return current giftregistry entity
      *
      * @return Enterprise_GiftRegistry_Model_Entity

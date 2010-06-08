@@ -25,7 +25,7 @@
  */
 ?>
 
-<?php if($this->getTypesCollection()->getSize()) : ?>
+<?php if ($this->getEnabled() && $this->getTypesCollection()->getSize()) : ?>
 <div class="block">
     <div class="block-title">
         <strong><span><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry Search') ?></span></strong>

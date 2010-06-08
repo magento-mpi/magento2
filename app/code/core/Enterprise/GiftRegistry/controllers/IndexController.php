@@ -36,6 +36,11 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
     public function preDispatch()
     {
         parent::preDispatch();
+        if (!Mage::helper('enterprise_giftregistry')->isEnabled()) {
+            $this->norouteAction();
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return;
+        }
 
         if (!Mage::getSingleton('customer/session')->authenticate($this)) {
             $this->getResponse()->setRedirect(Mage::helper('customer')->getLoginUrl());
