@@ -74,11 +74,13 @@
                     <event_date translate="label" module="enterprise_giftregistry">
                         <label>Event Date</label>
                         <type>date</type>
+                        <group>event_information</group>
                         <visible>1</visible>
                     </event_date>
                     <event_country_code translate="label" module="enterprise_giftregistry">
                         <label>Event Country</label>
                         <type>country</type>
+                        <group>event_information</group>
                         <visible>1</visible>
                     </event_country_code> 
                     <event_region translate="label" module="enterprise_giftregistry">
@@ -89,11 +91,13 @@
                     <event_region_text translate="label" module="enterprise_giftregistry">
                         <label>Event Region Text</label>
                         <type>text</type>
+                        <group>event_information</group>
                         <visible>0</visible>
                     </event_region_text>
                     <event_location translate="label" module="enterprise_giftregistry">
                         <label>Event Location</label>
                         <type>text</type>
+                        <group>event_information</group>
                         <visible>1</visible>
                     </event_location>
                 </static>

@@ -28,10 +28,12 @@
 <script type="text/javascript">
 //<![CDATA[
 OptionTemplateDate =
-'<table class="border" cellpadding="0" cellspacing="0">'+
-    '<tr class="headings">'+
-        '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Date format') ?></th>'+
+'<table cellpadding="0" cellspacing="0" class="option-header">'+
+    '<thead>'+
+    '<tr>'+
+        '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Date Format') ?></th>'+
     '</tr>'+
+    '</thead>'+
     '<tr>'+
         '<td><?php echo $this->getDateFormatSelectHtml() ?></td>'+
     '</tr>'+
