@@ -40,6 +40,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     const STATE_ACTIVE    = 'active';
     const STATE_SUSPENDED = 'suspended';
     const STATE_CANCELED  = 'canceled';
+    const STATE_EXPIRED   = 'expired';
 
     /**
      * Allowed actions matrix
@@ -79,48 +80,96 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
         }
     }
 
-//    public function activate()
-//    {
-//        $this->_checkWorkflow(self::STATE_ACTIVE, false);
-//        $this->_initMethodInstance();
-//        $this->setState(self::STATE_ACTIVE);
-//        $this->_methodInstance->updateRecurringProfileStatus($this);
-//
-//        $refId = $this->getReferenceId();
-//        $sku = $this->getOrderItem()->getSku();
-//        $this->_updateOriginalOrder(
-//            Mage::helper('sales')->__('Activated recurring profile #%s for item "%s".', $refId, $sku)
-//        );
-//    }
-//
+    /**
+     * Activate the suspended profile
+     */
+    public function activate()
+    {
+        $this->_checkWorkflow(self::STATE_ACTIVE, false);
+        $this->setNewState(self::STATE_ACTIVE);
+        $this->getMethodInstance()->updateRecurringProfileStatus($this);
+        $this->setState(self::STATE_ACTIVE)
+            ->save();
+    }
+
+    /**
+     * Check whether the workflow allows to activate the profile
+     *
+     * @return bool
+     */
     public function canActivate()
     {
         return $this->_checkWorkflow(self::STATE_ACTIVE);
     }
-//
-//    public function suspend()
-//    {
-//        $this->_checkWorkflow(self::STATE_SUSPENDED, false);
-//        $this->_initMethodInstance();
-//    }
-//
+
+    /**
+     * Suspend active profile
+     */
+    public function suspend()
+    {
+        $this->_checkWorkflow(self::STATE_SUSPENDED, false);
+        $this->setNewState(self::STATE_SUSPENDED);
+        $this->getMethodInstance()->updateRecurringProfileStatus($this);
+        $this->setState(self::STATE_SUSPENDED)
+            ->save();
+    }
+
+    /**
+     * Check whether the workflow allows to suspend the profile
+     *
+     * @return bool
+     */
     public function canSuspend()
     {
         return $this->_checkWorkflow(self::STATE_SUSPENDED);
     }
-//
-//    public function cancel()
-//    {
-//        $this->_checkWorkflow(self::STATE_CANCELED, false);
-//        $this->_initMethodInstance();
-//    }
-//
+
+    /**
+     * Cancel active or suspended profile
+     */
+    public function cancel()
+    {
+        $this->_checkWorkflow(self::STATE_CANCELED, false);
+        $this->setNewState(self::STATE_CANCELED);
+        $this->getMethodInstance()->updateRecurringProfileStatus($this);
+        $this->setState(self::STATE_CANCELED)
+            ->save();
+    }
+
+    /**
+     * Check whether the workflow allows to cancel the profile
+     *
+     * @return bool
+     */
     public function canCancel()
     {
         return $this->_checkWorkflow(self::STATE_CANCELED);
     }
+
+    public function fetchUpdate()
+    {
+        $result = new Varien_Object();
+        $this->getMethodInstance()->getRecurringProfileDetails($this->getReferenceId(), $result);
+
+        if ($result->getIsProfileActive()) {
+            $this->setState(self::STATE_ACTIVE);
+        } elseif ($result->getIsProfilePending()) {
+            $this->setState(self::STATE_PENDING);
+        } elseif ($result->getIsProfileCanceled()) {
+            $this->setState(self::STATE_CANCELED);
+        } elseif ($result->getIsProfileSuspended()) {
+            $this->setState(self::STATE_SUSPENDED);
+        } elseif ($result->getIsProfileExpired()) {
+            $this->setState(self::STATE_EXPIRED);
+        }
+    }
+
+    public function canFetchUpdate()
+    {
+        return $this->getMethodInstance()->canGetRecurringProfileDetails();
+    }
 //
-////    public function billOutstandingAmount($baseAmount, Mage_Payment_Model_Recurring_Profile_Info $info = null)
+////    public function billOutstandingAmount($baseAmount, Varien_Object $info = null)
 ////    {
 ////
 ////    }
@@ -130,17 +179,17 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
 ////        // check method instance?
 ////    }
 //
-//    public function processSubmissionNotification(Mage_Payment_Model_Recurring_Profile_Info $info)
+//    public function processSubmissionNotification(Varien_Object $info)
 //    {
 //        // confirmation that this profile was created on the gateway
 //    }
 //
-//    public function processPaymentNotification(Mage_Payment_Model_Recurring_Profile_Info $info)
+//    public function processPaymentNotification(Varien_Object $info)
 //    {
 //        // create new order basing on original order item and addresses
 //    }
 //
-//    public function processStateNotification(Mage_Payment_Model_Recurring_Profile_Info $info)
+//    public function processStateNotification(Varien_Object $info)
 //    {
 //        // update self state
 //    }
@@ -340,6 +389,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
             case self::STATE_ACTIVE:    return Mage::helper('sales')->__('Active');
             case self::STATE_SUSPENDED: return Mage::helper('sales')->__('Suspended');
             case self::STATE_CANCELED:  return Mage::helper('sales')->__('Canceled');
+            case self::STATE_EXPIRED:   return Mage::helper('sales')->__('Expired');
             default: return $state;
         }
     }
@@ -497,19 +547,6 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     }
 
     /**
-     * Initialize payment method instance from code
-     *
-     * @param int $storeId
-     */
-    protected function _initMethodInstance($storeId = null)
-    {
-        if (!$storeId && $this->getOriginalOrderItem()) {
-            $storeId = $this->_originalOrderItem->getOrder()->getStoreId();
-        }
-        return parent::_initMethodInstance($storeId);
-    }
-
-    /**
      * Initialize the workflow reference
      */
     protected function _initWorkflow()
@@ -521,6 +558,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
                 'active'    => array('suspended', 'canceled'),
                 'suspended' => array('active', 'canceled'),
                 'canceled'  => array(),
+                'expired'   => array(),
             );
         }
     }

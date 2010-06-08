@@ -105,7 +105,46 @@ class Mage_Sales_Recurring_ProfileController extends Mage_Core_Controller_Front_
         try {
             $profile = $this->_initProfile();
 
+            switch ($this->getRequest()->getParam('action')) {
+                case 'cancel':
+                    $profile->cancel();
+                    break;
+                case 'suspend':
+                    $profile->suspend();
+                    break;
+                case 'activate':
+                    $profile->activate();
+                    break;
+            }
             $this->_session->addSuccess($this->__('The profile state has been updated.'));
+        } catch (Mage_Core_Exception $e) {
+            $this->_session->addError($e->getMessage());
+        } catch (Exception $e) {
+            $this->_session->addError($this->__('Failed to update the profile.'));
+            Mage::logException($e);
+        }
+        if ($profile) {
+            $this->_redirect('*/*/view', array('profile' => $profile->getId()));
+        } else {
+            $this->_redirect('*/*/');
+        }
+    }
+
+    /**
+     * Fetch an update with profile
+     */
+    public function updateProfileAction()
+    {
+        $profile = null;
+        try {
+            $profile = $this->_initProfile();
+            $profile->fetchUpdate();
+            if ($profile->hasDataChanges()) {
+                $profile->save();
+                $this->_session->addSuccess($this->__('The profile has been updated.'));
+            } else {
+                $this->_session->addNotice($this->__('The profile has no changes.'));
+            }
         } catch (Mage_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {

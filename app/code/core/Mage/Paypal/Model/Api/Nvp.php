@@ -165,6 +165,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'FAILEDINITAMTACTION' => 'init_may_fail',
         'PROFILEID'           => 'recurring_profile_id',
         'PROFILESTATUS'       => 'recurring_profile_status',
+        'STATUS'              => 'status',
 
         'BILLINGAGREEMENTID' => 'billing_agreement_id',
         'REFERENCEID' => 'reference_id',
@@ -175,7 +176,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'STATE' => 'state',
         'COUNTRYCODE' => 'countrycode',
         'ZIP' => 'zip',
-        'PAYERBUSINESS' => 'payer_business'
+        'PAYERBUSINESS' => 'payer_business',
     );
 
     /**
@@ -197,7 +198,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         'FAILEDINITAMTACTION' => '_filterInitialAmountMayFail',
         'BILLINGAGREEMENTSTATUS' => '_filterBillingAgreementStatus',
         'NOSHIPPING' => '_filterInt',
-        'ACTION'     => '_filterPaymentReviewAction',
     );
 
     protected $_importFromRequestFilters = array(
@@ -320,6 +320,22 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     protected $_createRecurringPaymentsProfileResponse = array(
         'PROFILEID', 'PROFILESTATUS'
     );
+
+    /**
+     * Request/response for ManageRecurringPaymentsProfileStatus map
+     *
+     * @var array
+     */
+    protected $_manageRecurringPaymentsProfileStatusRequest = array('PROFILEID', 'ACTION');
+//    protected $_manageRecurringPaymentsProfileStatusResponse = array('PROFILEID');
+
+    /**
+     * Request/response for GetRecurringPaymentsProfileDetails
+     *
+     * @var array
+     */
+    protected $_getRecurringPaymentsProfileDetailsRequest = array('PROFILEID');
+    protected $_getRecurringPaymentsProfileDetailsResponse = array('STATUS', /* TODO: lot of other stuff */);
 
     /**
      * Map for billing address import/export
@@ -682,6 +698,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     public function callManagePendingTransactionStatus()
     {
         $request = $this->_exportToRequest($this->_managePendingTransactionStatusRequest);
+        if (isset($request['ACTION'])) {
+            $request['ACTION'] = $this->_filterPaymentReviewAction($request['ACTION']);
+        }
         $response = $this->call('ManagePendingTransactionStatus', $request);
         $this->_importFromResponse($this->_managePendingTransactionStatusResponse, $response);
     }
@@ -752,25 +771,60 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
 
     /**
      * CreateRecurringPaymentsProfile call
-     *
-     * @param Mage_Payment_Model_Recurring_Profile $profile
      */
-    public function callCreateRecurringPaymentsProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    public function callCreateRecurringPaymentsProfile()
     {
-        Varien_Object_Mapper::accumulateByMap($profile, $this, array(
-            'token', // EC fields
-            // TODO: DP fields
-            // profile fields
-            'subscriber_name', 'start_datetime', 'internal_reference_id', 'schedule_description',
-            'suspension_threshold', 'bill_failed_later', 'period_unit', 'period_frequency', 'period_max_cycles',
-            'billing_amount' => 'amount', 'trial_period_unit', 'trial_period_frequency', 'trial_period_max_cycles',
-            'trial_billing_amount', 'currency_code', 'shipping_amount', 'tax_amount', 'init_amount', 'init_may_fail',
-        ));
         $request = $this->_exportToRequest($this->_createRecurringPaymentsProfileRequest);
         $response = $this->call('CreateRecurringPaymentsProfile', $request);
         $this->_importFromResponse($this->_createRecurringPaymentsProfileResponse, $response);
+        $this->_analyzeRecurringProfileStatus($this->getRecurringProfileStatus(), $this);
+    }
 
-        $this->setIsProfileActive('ActiveProfile' === $this->getRecurringProfileStatus());
+    /**
+     * ManageRecurringPaymentsProfileStatus call
+     */
+    public function callManageRecurringPaymentsProfileStatus()
+    {
+        $request = $this->_exportToRequest($this->_manageRecurringPaymentsProfileStatusRequest);
+        if (isset($request['ACTION'])) {
+            $request['ACTION'] = $this->_filterRecurringProfileActionToNvp($request['ACTION']);
+        }
+        try {
+            $response = $this->call('ManageRecurringPaymentsProfileStatus', $request);
+        } catch (Mage_Core_Exception $e) {
+            // trying to cancel already canceled
+            if (in_array(11556, $this->_callErrors)) {
+                if ('Cancel' === $request['ACTION'] && $this->getIsAlreadyCanceled()) {
+                    return;
+                }
+            }
+            // trying to suspend already suspended +
+            // trying to suspend already canceled
+            elseif (in_array(11557, $this->_callErrors)) {
+                if ('Suspend' === $request['ACTION'] && $this->getIsAlreadySuspended()) {
+                    return;
+                }
+            }
+            // trying to activate already active +
+            // trying to activate already canceled
+            elseif (in_array(11558, $this->_callErrors)) {
+                if ('Reactivate' === $request['ACTION'] && $this->getIsAlreadyActive()) {
+                    return;
+                }
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * GetRecurringPaymentsProfileDetails call
+     */
+    public function callGetRecurringPaymentsProfileDetails(Varien_Object $result)
+    {
+        $request = $this->_exportToRequest($this->_getRecurringPaymentsProfileDetailsRequest);
+        $response = $this->call('GetRecurringPaymentsProfileDetails', $request);
+        $this->_importFromResponse($this->_getRecurringPaymentsProfileDetailsResponse, $response);
+        $this->_analyzeRecurringProfileStatus($this->getStatus(), $result);
     }
 
     /**
@@ -1166,6 +1220,52 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
                 return 'Accept';
             case Mage_Paypal_Model_Pro::PAYMENT_REVIEW_DENY:
                 return 'Deny';
+        }
+    }
+
+    /**
+     * Convert RP management action to NVP format
+     *
+     * @param string $value
+     * @return string|null
+     */
+    protected function _filterRecurringProfileActionToNvp($value)
+    {
+        switch ($value) {
+            case 'cancel': return 'Cancel';
+            case 'suspend':  return 'Suspend';
+            case 'activate': return 'Reactivate';
+        }
+    }
+
+    /**
+     * Check the obtained RP status in NVP format and specify the profile state
+     *
+     * @param string $value
+     * @param Varien_Object $result
+     */
+    protected function _analyzeRecurringProfileStatus($value, Varien_Object $result)
+    {
+        switch ($value) {
+            case 'ActiveProfile':
+            case 'Active':
+                $result->setIsProfileActive(true);
+                break;
+            case 'PendingProfile':
+                $result->setIsProfilePending(true);
+                break;
+            case 'CancelledProfile':
+            case 'Cancelled':
+                $result->setIsProfileCanceled(true);
+                break;
+            case 'SuspendedProfile':
+            case 'Suspended':
+                $result->setIsProfileSuspended(true);
+                break;
+            case 'ExpiredProfile':
+            case 'Expired': // ??
+                $result->setIsProfileExpired(true);
+                break;
         }
     }
 

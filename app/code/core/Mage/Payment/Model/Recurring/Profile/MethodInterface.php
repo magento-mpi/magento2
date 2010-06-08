@@ -49,9 +49,16 @@ interface Mage_Payment_Model_Recurring_Profile_MethodInterface
      * Fetch details
      *
      * @param string $referenceId
-     * @param Mage_Payment_Model_Recurring_Profile_Info $result
+     * @param Varien_Object $result
      */
-    public function getRecurringProfileDetails($referenceId, Mage_Payment_Model_Recurring_Profile_Info $result);
+    public function getRecurringProfileDetails($referenceId, Varien_Object $result);
+
+    /**
+     * Check whether can get recurring profile details
+     *
+     * @return bool
+     */
+    public function canGetRecurringProfileDetails();
 
     /**
      * Update data

@@ -68,6 +68,8 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
             'suspend_url'  => $this->getUrl('*/*/updateState', array('profile' => $this->_profile->getId(), 'action' => 'suspend')),
             'can_activate' => $this->_profile->canActivate(),
             'activate_url' => $this->getUrl('*/*/updateState', array('profile' => $this->_profile->getId(), 'action' => 'activate')),
+            'can_update'   => $this->_profile->canFetchUpdate(),
+            'update_url'   => $this->getUrl('*/*/updateProfile', array('profile' => $this->_profile->getId())),
             'back_url'     => $this->getUrl('*/*/'),
             'confirmation_message' => Mage::helper('sales')->__('Are you sure you want to do this?'),
         ));

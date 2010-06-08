@@ -287,11 +287,19 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      * Fetch RP details
      *
      * @param string $referenceId
-     * @param Mage_Payment_Model_Recurring_Profile_Info $result
+     * @param Varien_Object $result
      */
-    public function getRecurringProfileDetails($referenceId, Mage_Payment_Model_Recurring_Profile_Info $result)
+    public function getRecurringProfileDetails($referenceId, Varien_Object $result)
     {
         return $this->_pro->getRecurringProfileDetails($referenceId, $result);
+    }
+
+    /**
+     * Whether can get recurring profile details
+     */
+    public function canGetRecurringProfileDetails()
+    {
+        return true;
     }
 
     /**

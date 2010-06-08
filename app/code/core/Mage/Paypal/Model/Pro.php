@@ -28,7 +28,7 @@
  * PayPal Website Payments Pro implementation for payment method instaces
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
-class Mage_Paypal_Model_Pro implements Mage_Payment_Model_Recurring_Profile_MethodInterface
+class Mage_Paypal_Model_Pro
 {
     /**
      * Possible payment review actions (for FMF only)
@@ -355,22 +355,36 @@ class Mage_Paypal_Model_Pro implements Mage_Payment_Model_Recurring_Profile_Meth
     public function submitRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile, Mage_Payment_Model_Info $paymentInfo)
     {
         $api = $this->getApi();
-        $api->callCreateRecurringPaymentsProfile($profile);
-        $profile->setReferenceId($api->getRecurringProfileId())
-            ->setState($api->getIsProfileActive() ? Mage_Sales_Model_Recurring_Profile::STATE_ACTIVE
-                : Mage_Sales_Model_Recurring_Profile::STATE_SUSPENDED
-            );
+        Varien_Object_Mapper::accumulateByMap($profile, $api, array(
+            'token', // EC fields
+            // TODO: DP fields
+            // profile fields
+            'subscriber_name', 'start_datetime', 'internal_reference_id', 'schedule_description',
+            'suspension_threshold', 'bill_failed_later', 'period_unit', 'period_frequency', 'period_max_cycles',
+            'billing_amount' => 'amount', 'trial_period_unit', 'trial_period_frequency', 'trial_period_max_cycles',
+            'trial_billing_amount', 'currency_code', 'shipping_amount', 'tax_amount', 'init_amount', 'init_may_fail',
+        ));
+        $api->callCreateRecurringPaymentsProfile();
+        $profile->setReferenceId($api->getRecurringProfileId());
+        if ($api->getIsProfileActive()) {
+            $profile->setState(Mage_Sales_Model_Recurring_Profile::STATE_ACTIVE);
+        } elseif ($api->getIsProfilePending()) {
+            $profile->setState(Mage_Sales_Model_Recurring_Profile::STATE_PENDING);
+        }
     }
 
     /**
      * Fetch RP details
      *
      * @param string $referenceId
-     * @param Mage_Payment_Model_Recurring_Profile_Info $result
+     * @param Varien_Object $result
      */
-    public function getRecurringProfileDetails($referenceId, Mage_Payment_Model_Recurring_Profile_Info $result)
+    public function getRecurringProfileDetails($referenceId, Varien_Object $result)
     {
-
+        $api = $this->getApi();
+        $api->setRecurringProfileId($referenceId)
+            ->callGetRecurringPaymentsProfileDetails($result)
+        ;
     }
 
     /**
@@ -380,7 +394,21 @@ class Mage_Paypal_Model_Pro implements Mage_Payment_Model_Recurring_Profile_Meth
      */
     public function updateRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile)
     {
-        // not implemented
+        $api = $this->getApi();
+        $action = null;
+        switch ($profile->getNewState()) {
+            case Mage_Sales_Model_Recurring_Profile::STATE_CANCELED: $action = 'cancel'; break;
+            case Mage_Sales_Model_Recurring_Profile::STATE_SUSPENDED: $action = 'suspend'; break;
+            case Mage_Sales_Model_Recurring_Profile::STATE_ACTIVE: $action = 'activate'; break;
+        }
+        $state = $profile->getState();
+        $api->setRecurringProfileId($profile->getReferenceId())
+            ->setIsAlreadyCanceled($state == Mage_Sales_Model_Recurring_Profile::STATE_CANCELED)
+            ->setIsAlreadySuspended($state == Mage_Sales_Model_Recurring_Profile::STATE_SUSPENDED)
+            ->setIsAlreadyActive($state == Mage_Sales_Model_Recurring_Profile::STATE_ACTIVE)
+            ->setAction($action)
+            ->callManageRecurringPaymentsProfileStatus()
+        ;
     }
 
     /**
