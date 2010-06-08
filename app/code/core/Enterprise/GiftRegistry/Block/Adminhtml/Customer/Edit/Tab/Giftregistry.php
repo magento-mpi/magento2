@@ -65,7 +65,8 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
      */
     public function canShowTab()
     {
-        return true;
+        $customer = Mage::registry('current_customer');
+        return $customer->getId() && Mage::helper('enterprise_giftregistry')->isEnabled();
     }
 
     /**
