@@ -49,6 +49,17 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     protected $_workflow = null;
 
     /**
+     * Load order by system increment identifier
+     *
+     * @param string $incrementId
+     * @return Mage_Sales_Model_Order
+     */
+    public function loadByInternalReferenceId($internalReferenceId)
+    {
+        return $this->load($internalReferenceId, 'internal_reference_id');
+    }
+
+    /**
      * Submit a recurring profile right after an order is placed
      *
      */
@@ -138,6 +149,42 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
 ////    {
 ////
 ////    }
+
+    /**
+     * Register payment notification create and process order
+     *
+     */
+    public function registerNewPayment($amount, $txn_id)
+    {
+        $order = $this->_createOrder();
+
+        $amount = 15.96;
+        $order    
+            ->setBaseGrandTotal(15.96)
+            ->setBaseSubtotal(10.01)
+            ->setBaseShippingAmount(5.12)
+            ->setBaseTaxAmount(0.83)
+            
+            ->setGrandTotal(15.96)
+            ->setSubtotal(10.01)
+            ->setShippingAmount(5.12)
+            ->setTaxAmount(0.83);
+                
+                
+                
+            
+        $payment = $order->getPayment();
+        $payment->setTransactionId($txn_id)
+            //->setPreparedMessage($this->_createIpnComment(''))
+            //->setParentTransactionId($this->getRequestData('parent_txn_id'))
+            //->setShouldCloseParentTransaction('Completed' === $this->getRequestData('auth_status'))
+            //->setIsTransactionClosed(0)
+            ->registerCaptureNotification($amount);
+        
+        $transactionSave = Mage::getModel('core/resource_transaction')
+                ->addObject($order)
+                ->save();
+    }
 
     /**
      * Validate states
@@ -281,6 +328,91 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     }
 
     /**
+     * Create order model with data from current profile
+     * 
+     * @return Sales_Model_Order
+     */
+    protected function _createOrder()
+    {
+        $order = Mage::getModel('sales/order');
+
+        $transactionSave = Mage::getModel('core/resource_transaction')
+            ->addObject($order)
+            ->save();
+
+        $quote = Mage::getModel('sales/quote')
+            ->setStoreId($this->getStoreId())
+            ->reserveOrderId();
+        $orderIncrementId = $quote->getReservedOrderId(); 
+
+        $orderItem = Mage::getModel('sales/order_item')
+            ->setData($this->getOrderItemInfo())
+            ->setId(null);
+
+        $billingAddress = Mage::getModel('sales/order_address')
+            ->setData($this->getBillingAddressInfo())
+            ->setId(null);
+
+        $shippingAddress = Mage::getModel('sales/order_address')
+            ->setData($this->getShippingAddressInfo())
+            ->setId(null);
+
+        $payment = Mage::getModel('sales/order_payment')
+            ->setMethod($this->getMethodCode());
+
+        $transferDataKays = array(
+            'store_id',
+            'store_name',
+            'customer_id',
+            'customer_email',
+            'customer_firstname',
+            'customer_lastname',
+            'customer_middlename',
+            'customer_prefix',  
+            'customer_suffix',
+            'customer_taxvat',
+            'customer_gender',
+            'customer_is_guest',
+            'customer_note_notify',
+            'customer_group_id',
+            'customer_note',
+            'shipping_method',
+            'shipping_description',
+            'base_currency_code',
+            'global_currency_code',
+            'order_currency_code',
+            'store_currency_code',
+            'base_to_global_rate',
+            'base_to_order_rate',
+            'store_to_base_rate',
+            'store_to_order_rate'
+        );
+
+        $orderInfo = $this->getOrderInfo();
+        foreach ($transferDataKays as $kay) {
+            if (isset($orderInfo[$kay])) {
+                $order->setData($kay, $orderInfo[$kay]);
+            }
+        } 
+
+        $order
+            ->setTotalItemCount(1)    
+            ->setIncrementId($orderIncrementId)
+            ->setBillingAddress($billingAddress)
+            ->setShippingAddress($shippingAddress)
+            ->addItem($orderItem)
+            ->setPayment($payment)
+            ->setIsVirtual($orderItem->getIsVirtual())
+            ->setWeight($orderItem->getWeight());
+
+        $transactionSave = Mage::getModel('core/resource_transaction')
+                ->addObject($order)
+                ->save();
+
+        return $order;
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -299,9 +431,6 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
 
         if (!$this->getState()) {
             $this->setState(self::STATE_UNKNOWN);
-        }
-        if (!$this->getCustomerId()) {
-            $this->setCustomerId(null);
         }
 
         return $result;

@@ -41,6 +41,11 @@ class Mage_Paypal_Model_Ipn
      */
     protected $_order = null;
 
+    /*
+     * @param Mage_Sales_Model_Recurring_Profile
+     */
+    protected $_recurringProfile = null;
+
     /**
      *
      * @var Mage_Paypal_Model_Config
@@ -104,9 +109,11 @@ class Mage_Paypal_Model_Ipn
             if ($httpAdapter) {
                 $this->_postBack($httpAdapter);
             }
-            $this->_order = null;
-            $this->_getOrder();
-            $this->_processIpnVerified();
+            if (isset($this->_request['txn_type']) && 'recurring_payment' == $this->_request['txn_type']) {
+                $this->_processRecurringProfile();
+            } else {
+                $this->_processOrder();
+            }
         } catch (Exception $e) {
             $this->_debugData['exception'] = $e->getMessage();
             $this->_debug();
@@ -177,6 +184,31 @@ class Mage_Paypal_Model_Ipn
     }
 
     /**
+     * Load recurring profile
+     *
+     * @return Mage_Sales_Model_Recurring_Profile
+     * @throws Exception
+     */
+    protected function _getRecurringProfile()
+    {
+        if (empty($this->_recurringProfile)) {
+            // get proper recurring profile
+            $internalReferenceId = $this->_request['recurring_payment_id'];
+            $this->_recurringProfile = Mage::getModel('sales/recurring_profile')->loadByInternalReferenceId($internalReferenceId);
+            if (!$this->_recurringProfile->getId()) {
+                throw new Exception(sprintf('Wrong recurring profile INTERNAL_REFERENCE_ID: "%s".', $internalReferenceId));
+            }
+            // re-initialize config with the method code and store id
+            $methodCode = $this->_recurringProfile->getMethodCode();
+            $this->_config = Mage::getModel('paypal/config', array($methodCode, $this->_recurringProfile->getStoreId()));
+            if (!$this->_config->isMethodActive($methodCode) || !$this->_config->isMethodAvailable()) {
+                throw new Exception(sprintf('Method "%s" is not available.', $methodCode));
+            }
+        }
+        return $this->_recurringProfile;
+    }
+
+    /**
      * Validate incoming request data, as PayPal recommends
      *
      * @throws Exception
@@ -202,13 +234,13 @@ class Mage_Paypal_Model_Ipn
      * Everything should be added to order comments. In positive processing cases customer will get email notifications.
      * Admin will be notified on errors.
      */
-    protected function _processIpnVerified()
+    protected function _processOrder()
     {
+        $this->_order = null;
+        $this->_getOrder();
+
         $this->_info = Mage::getSingleton('paypal/info');
         try {
-            // handle txn_type
-            // TODO
-
             // handle payment_status
             $paymentStatus = $this->_filterPaymentStatus($this->_request['payment_status']);
 
@@ -264,6 +296,44 @@ class Mage_Paypal_Model_Ipn
             $comment->save();
             throw $e;
         }
+    }
+
+    /**
+     * Process notification from recurring profile payments
+     */
+    protected function _processRecurringProfile()
+    {
+        $this->_recurringProfile = null;
+        $this->_getRecurringProfile();
+        
+        $this->_info = Mage::getSingleton('paypal/info');
+        try {
+            // handle payment_status
+            $paymentStatus = $this->_filterPaymentStatus($this->_request['payment_status']);
+
+            switch ($paymentStatus) {
+                // paid
+                case Mage_Paypal_Model_Info::PAYMENTSTATUS_COMPLETED:
+                    $this->_registerRecurringProfilePaymentCapture();
+                    break;
+
+                default:
+                    throw new Exception("Cannot handle payment status '{$paymentStatus}'.");
+            }
+        } catch (Mage_Core_Exception $e) {
+            $comment = $this->_createIpnComment(Mage::helper('paypal')->__('Note: %s', $e->getMessage()), true);
+            $comment->save();
+            throw $e;
+        }
+        
+    }
+
+    /**
+     * Register recurring payment notification, create and process order
+     */
+    protected function _registerRecurringProfilePaymentCapture()
+    {
+        $this->_recurringProfile->registerNewPayment($this->getRequestData('mc_gross'), $this->getRequestData('parent_txn_id'));
     }
 
     /**
