@@ -515,6 +515,9 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     public function checkQtyIncrements($qty)
     {
         $result = new Varien_Object();
+        if (!$this->getManageStock() || $this->getSuppressCheckQtyIncrements()) {
+            return $result;
+        }
         $qtyIncrements = $this->getQtyIncrements();
         if ($qtyIncrements && ($qty % $qtyIncrements != 0)) {
             $result->setHasError(true)

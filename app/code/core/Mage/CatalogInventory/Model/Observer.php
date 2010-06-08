@@ -244,6 +244,10 @@ class Mage_CatalogInventory_Model_Observer
                 if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
                     Mage::throwException(Mage::helper('cataloginventory')->__('The stock item for Product in option is not valid.'));
                 }
+                /**
+                 * don't check qty increments value for option product
+                 */
+                $stockItem->setSuppressCheckQtyIncrements(true);
 
                 $qtyForCheck = $this->_getProductQtyForCheck($option->getProduct()->getId(), $increaseOptionQty);
 
