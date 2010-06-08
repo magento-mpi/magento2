@@ -198,7 +198,7 @@
                 <tax_string><to_order_item>*</to_order_item></tax_string>
                 <row_weight><to_order_item>*</to_order_item></row_weight>
                 <row_total><to_order_item>*</to_order_item></row_total>
-                <price><to_order_item>base_original_price</to_order_item></price>
+                <base_original_price><to_order_item>*</to_order_item></base_original_price>
                 <base_tax_amount><to_order_item>*</to_order_item></base_tax_amount>
                 <base_row_total><to_order_item>*</to_order_item></base_row_total>
                 <discount_percent><to_order_item_discount>*</to_order_item_discount></discount_percent>
