@@ -216,16 +216,31 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             if ($sortField == 'relevance') {
                 $sortField = 'score';
             }
-            if (in_array($sortField, $this->_usedFields)) {
-                if ($sortField == 'name') {
-                    $sortField = 'alphaNameSort';
-                }
-                if (in_array($sortField, $this->_searchTextFields)) {
-                    $sortField = $sortField . $languageSuffix;
-                }
-                $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
-                $solrQuery->addSortField($sortField, $sortType);
+//            if (in_array($sortField, $this->_usedFields)) {
+//                if ($sortField == 'name') {
+//                    $sortField = 'alphaNameSort';
+//                }
+//                if (in_array($sortField, $this->_searchTextFields)) {
+//                    $sortField = $sortField . $languageSuffix;
+//                }
+//                $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
+//                $solrQuery->addSortField($sortField, $sortType);
+//            }
+            elseif ($sortField == 'position') {
+                
             }
+            elseif ($sortField == 'price') {
+                $websiteId       = Mage::app()->getStore()->getWebsiteId();
+                $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+
+                $sortField = 'price_'. $customerGroupId .'_'. $websiteId;
+            }
+            else {
+                $sortField = $this->getAttributeSolrFieldName($sortField);
+            }
+
+            $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
+            $solrQuery->addSortField($sortField, $sortType);
         }
 
         /**
@@ -304,12 +319,47 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
     }
 
     /**
+     * Retrive attribute field's name for sorting
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     *
+     * @return string
+     */
+    public function getAttributeSolrFieldName($attributeCode)
+    {
+        $entityType = Mage::getModel('eav/config')
+            ->getEntityType('catalog_product');
+        $attribute = Mage::getModel('eav/config')->getAttribute($entityType, $attributeCode);
+
+        $field = $attributeCode;
+        $fieldType = $attribute->getBackendType();
+        $frontendInput = $attribute->getFrontendInput();
+
+        if ($frontendInput == 'multiselect') {
+            $field = 'attr_multi_'. $field;
+        }
+        elseif ($fieldType == 'decimal') {
+            $field = 'attr_decimal_'. $field;
+        }
+        elseif (in_array($fieldType, $this->_textFieldTypes)) {
+            $languageCode = $this->_getLanguageCodeByLocaleCode(
+                Mage::app()->getStore()
+                ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE));
+            $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+
+            $field .= $languageSuffix;
+        }
+
+        return $field;
+    }
+
+    /**
      * Simple Search suggestions interface
      *
      * @param string $query The raw query string
      * @return boolean|string
      */
-    public function _searchSuggestions($query, $params=array(), $limit=false, $withResultsCounts=false)
+    public function _searchSuggestions($query, $params = array(), $limit = false, $withResultsCounts = false)
     {
          /**
          * @see self::_search()
