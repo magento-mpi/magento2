@@ -147,7 +147,7 @@ AdminOrder.prototype = {
         }
         else {
             this.saveData(data);
-            if (name == 'country_id') {
+            if (name == 'country_id' || name == 'customer_address_id') {
                 this.loadArea(['shipping_method', 'billing_method', 'totals'], true, data);
             }
             // added for reloading of default sender and default recipient for giftmessages
