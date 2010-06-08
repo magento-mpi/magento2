@@ -40,24 +40,22 @@
         <thead>
             <tr class="headings">
                 <th><?php echo $this->helper('sales')->__('Product') ?></th>
-                <th><span class="nobr"><?php echo $this->helper('sales')->__('Item Status') ?></span></th>
-                <th><span class="nobr"><?php echo $this->helper('sales')->__('Original Price') ?></span></th>
-                <th><?php echo $this->helper('sales')->__('Price') ?></th>
+                <th><span class="nobr"><?php echo $this->helper('sales')->__('Price') ?></span></th>
                 <th class="a-center"><?php echo $this->helper('sales')->__('Qty') ?></th>
-                <th><?php echo $this->helper('sales')->__('Subtotal') ?></th>
                 <th><span class="nobr"><?php echo $this->helper('sales')->__('Tax Amount') ?></span></th>
-                <th><span class="nobr"><?php echo $this->helper('sales')->__('Tax Percent') ?></span></th>
-                <th><span class="nobr"><?php echo $this->helper('sales')->__('Discount Amount') ?></span></th>
                 <th class="last"><span class="nobr"><?php echo $this->helper('sales')->__('Row Total') ?></span></th>
             </tr>
         </thead>
-        <?php $_items = $this->getItems() ?>
-        <?php $i=0;foreach ($_items as $_item):?>
-            <?php if ($_item->getParentItem()) continue; else $i++;?>
-            <tbody class="<?php echo $i%2?'even':'odd' ?>">
-                <?php echo $this->getItemHtml($_item) ?>
-            </tbody>
-        <?php endforeach; ?>
+        <?php $_item = $this->getItem() ?>
+        <tbody class="even">
+            <tr class="border">
+                <td class="a-left"><?php echo $_item->getName() ?></td>
+                <td class="a-right"><?php echo $this->formatPrice($_item->getPrice()) ?></td>
+                <td class="a-right"><?php echo $_item->getQty() ?></td>
+                <td class="a-right"><?php echo $this->formatPrice($_item->getTaxAmount()) ?></td>
+                <td class="a-right last"><?php echo $this->formatPrice($_item->getRowTotal()) ?></td>
+            </tr>
+        </tbody>
     </table>
   </div>
 </div>

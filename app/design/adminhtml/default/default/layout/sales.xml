@@ -955,7 +955,12 @@
                 <block type="adminhtml/sales_recurring_profile_view_tab_info" name="recurring_profile_tab_info" template="sales/recurring/profile/view/tab/info.phtml">
                     <block type="adminhtml/sales_recurring_profile_view_info" name="recurring_profile_info" template="sales/recurring/profile/view/info.phtml"></block>
                     <block type="adminhtml/sales_recurring_profile_view_getawayinfo" name="recurring_profile_getawayinfo" template="sales/recurring/profile/view/getawayinfo.phtml"></block>
-                    <block type="adminhtml/sales_recurring_profile_view_items" name="recurring_profile_items" template="sales/recurring/profile/view/items.phtml"></block>
+                    <block type="adminhtml/sales_recurring_profile_view_items" name="recurring_profile_items" template="sales/recurring/profile/view/items.phtml">
+                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_order_view_items_renderer_default</block><template>sales/order/view/items/renderer/default.phtml</template></action>
+                        <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+                    </block>
                 </block>
                 <action method="addTab"><name>recurring_profile_info</name><block>recurring_profile_tab_info</block></action>
                 <action method="addTab"><name>recurring_profile_orders</name><block>adminhtml/sales_recurring_profile_view_tab_orders</block></action>

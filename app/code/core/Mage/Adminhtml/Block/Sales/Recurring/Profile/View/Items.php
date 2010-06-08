@@ -45,13 +45,35 @@ class Mage_Adminhtml_Block_Sales_Recurring_Profile_View_Items extends Mage_Admin
     }
 
     /**
-     * Retrieve recurring profile items
+     * Return current recurring profile
      *
-     * @return array
+     * @return Mage_Sales_Model_Recurring_Profile
      */
-    public function getItems()
+    public function _getRecurringProfile()
     {
-        $recurringProfile = Mage::registry('current_recurring_profile');
-        return $recurringProfile->getItems();
+        return Mage::registry('current_recurring_profile');
+    }
+
+    /**
+     * Retrieve recurring profile item
+     *
+     * @return Mage_Sales_Model_Order_Item
+     */
+    public function getItem()
+    {
+        return $this->_getRecurringProfile()->getItem();
+    }
+
+    /**
+     * Retrieve formated price
+     *
+     * @param   decimal $value
+     * @return  string
+     */
+    public function formatPrice($value)
+    {
+        $store = Mage::app()->getStore($this->_getRecurringProfile()->getStore());
+        return $store->formatPrice($value);
     }
 }
+
