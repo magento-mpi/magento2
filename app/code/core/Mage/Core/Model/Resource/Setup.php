@@ -541,6 +541,14 @@ class Mage_Core_Model_Resource_Setup
         }
         $this->_conn->query($sql);
 
+        if (isset($this->_setupCache[$table][$parentId][$id])) {
+            if (is_array($field)) {
+                $this->_setupCache[$table][$parentId][$id] = array_merge($this->_setupCache[$table][$parentId][$id], $field);
+            } else {
+                $this->_setupCache[$table][$parentId][$id][$field] = $value;
+            }
+        }
+
         return $this;
     }
 
