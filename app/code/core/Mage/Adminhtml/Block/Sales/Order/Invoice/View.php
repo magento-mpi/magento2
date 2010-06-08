@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
                 || !$this->getInvoice()->getIsUsedForRefund())
             {
                 $this->_addButton('capture', array( // capture?
-                    'label'     => Mage::helper('sales')->__('Credit Memo...'),
+                    'label'     => Mage::helper('sales')->__('Credit Memo'),
                     'class'     => 'go',
                     'onclick'   => 'setLocation(\''.$this->getCreditMemoUrl().'\')'
                     )

@@ -85,9 +85,10 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         }
 
         if ($this->_isAllowedAction('creditmemo') && $order->canCreditmemo()) {
+            $message = Mage::helper('sales')->__('This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?');
             $this->_addButton('order_creditmemo', array(
                 'label'     => Mage::helper('sales')->__('Credit Memo'),
-                'onclick'   => 'setLocation(\'' . $this->getCreditmemoUrl() . '\')',
+                'onclick'   => "confirmSetLocation('{$message}', '{$this->getCreditmemoUrl()}')",
                 'class'     => 'go'
             ));
         }
