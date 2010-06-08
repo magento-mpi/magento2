@@ -93,10 +93,10 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
 //        );
 //    }
 //
-//    public function canActivate()
-//    {
-//        $this->_checkWorkflow(self::STATE_ACTIVE);
-//    }
+    public function canActivate()
+    {
+        return $this->_checkWorkflow(self::STATE_ACTIVE);
+    }
 //
 //    public function suspend()
 //    {
@@ -104,10 +104,10 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
 //        $this->_initMethodInstance();
 //    }
 //
-//    public function canSuspend()
-//    {
-//        $this->_checkWorkflow(self::STATE_SUSPENDED);
-//    }
+    public function canSuspend()
+    {
+        return $this->_checkWorkflow(self::STATE_SUSPENDED);
+    }
 //
 //    public function cancel()
 //    {
@@ -115,10 +115,10 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
 //        $this->_initMethodInstance();
 //    }
 //
-//    public function canCancel()
-//    {
-//        $this->_checkWorkflow(self::STATE_CANCELED);
-//    }
+    public function canCancel()
+    {
+        return $this->_checkWorkflow(self::STATE_CANCELED);
+    }
 //
 ////    public function billOutstandingAmount($baseAmount, Mage_Payment_Model_Recurring_Profile_Info $info = null)
 ////    {
@@ -313,18 +313,78 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
      */
     public function getAllStates($withLabels = true)
     {
-        if ($withLabels) {
-            return array(
-                self::STATE_UNKNOWN   => Mage::helper('sales')->__('Not Initialized'),
-                self::STATE_PENDING   => Mage::helper('sales')->__('Pending'),
-                self::STATE_ACTIVE    => Mage::helper('sales')->__('Active'),
-                self::STATE_SUSPENDED => Mage::helper('sales')->__('Suspended'),
-                self::STATE_CANCELED  => Mage::helper('sales')->__('Canceled'),
-            );
-        }
-        return array(
+        $states = array(
             self::STATE_UNKNOWN, self::STATE_PENDING, self::STATE_ACTIVE, self::STATE_SUSPENDED, self::STATE_CANCELED
         );
+        if ($withLabels) {
+            $result = array();
+            foreach ($states as $state) {
+                $result[$state] = $this->getStateLabel($state);
+            }
+            return $result;
+        }
+        return $states;
+    }
+
+    /**
+     * Get state label based on the code
+     *
+     * @param string $state
+     * @return string
+     */
+    public function getStateLabel($state)
+    {
+        switch ($state) {
+            case self::STATE_UNKNOWN:   return Mage::helper('sales')->__('Not Initialized');
+            case self::STATE_PENDING:   return Mage::helper('sales')->__('Pending');
+            case self::STATE_ACTIVE:    return Mage::helper('sales')->__('Active');
+            case self::STATE_SUSPENDED: return Mage::helper('sales')->__('Suspended');
+            case self::STATE_CANCELED:  return Mage::helper('sales')->__('Canceled');
+            default: return $state;
+        }
+    }
+
+    /**
+     * Render state as label
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function renderData($key)
+    {
+        $value = $this->_getData($key);
+        switch ($key) {
+            case 'state':
+                return $this->getStateLabel($value);
+        }
+        return parent::renderData($key);
+    }
+
+    /**
+     * Getter for additional information value
+     * It is assumed that the specified additional info is an object or associative array
+     *
+     * @param string $infoKey
+     * @param string $infoValueKey
+     * @return mixed|null
+     */
+    public function getInfoValue($infoKey, $infoValueKey)
+    {
+        $info = $this->getData($infoKey);
+        if (!$info) {
+            return;
+        }
+        if (!is_object($info)) {
+            if (is_array($info) && isset($info[$infoValueKey])) {
+                return $info[$infoValueKey];
+            }
+        } else {
+            if ($info instanceof Varien_Object) {
+                return $info->getDataUsingMethod($infoValueKey);
+            } elseif (isset($info->$infoValueKey)) {
+                return $info->$infoValueKey;
+            }
+        }
     }
 
     /**

@@ -200,4 +200,21 @@ class Mage_Sales_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Mysql4_C
         )->where('sbao.agreement_id IN(?)', $agreements);
         return $this;
     }
+
+    /**
+     * Add filter by specified recurring profile id(s)
+     *
+     * @param array|int $ids
+     * @return Mage_Sales_Model_Mysql4_Order_Collection
+     */
+    public function addRecurringProfilesFilter($ids)
+    {
+        $ids = (is_array($ids)) ? $ids : array($ids);
+        $this->getSelect()->joinInner(
+            array('srpo' => $this->getTable('sales/recurring_profile_order')),
+            'main_table.entity_id = srpo.order_id',
+            array()
+        )->where('srpo.profile_id IN(?)', $ids);
+        return $this;
+    }
 }

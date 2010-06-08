@@ -66,6 +66,13 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     protected $_store = null;
 
     /**
+     * Payment methods reference
+     *
+     * @var array
+     */
+    protected $_paymentMethods = array();
+
+    /**
      * Check whether the object data is valid
      * Returns true if valid.
      *
@@ -399,7 +406,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
             case 'method_code':
                 return Mage::helper('payment')->__('Payment Method');
             case 'reference_id':
-                return Mage::helper('payment')->__('External Reference ID');
+                return Mage::helper('payment')->__('Payment Reference ID');
         }
     }
 
@@ -433,6 +440,32 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
             case 'init_may_fail':
                 return Mage::helper('payment')->__('Whether to suspend the payment profile if the initial fee fails or add it to the outstanding balance.');
         }
+    }
+
+    /**
+     * Transform some specific data for output
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function renderData($key)
+    {
+        $value = $this->_getData($key);
+        switch ($key) {
+            case 'period_unit':
+                return $this->getPeriodUnitLabel($value);
+            case 'method_code':
+                if (!$this->_paymentMethods) {
+                    $this->_paymentMethods = Mage::helper('payment')->getPaymentMethodList(false);
+                }
+                if (isset($this->_paymentMethods[$value])) {
+                    return $this->_paymentMethods[$value];
+                }
+                break;
+            case 'start_datetime':
+                return $this->exportStartDatetime(true);
+        }
+        return $value;
     }
 
     /**
