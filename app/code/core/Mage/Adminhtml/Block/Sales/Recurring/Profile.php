@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Sales_Recurring_Profile extends Mage_Adminhtml_Block_
     public function __construct()
     {
         $this->_controller = 'sales_recurring_profile';
-        $this->_headerText = Mage::helper('sales')->__('Recurring Profiles');
+        $this->_headerText = Mage::helper('sales')->__('Recurring Profiles (beta)');
         parent::__construct();
         $this->_removeButton('add');
     }

@@ -58,7 +58,7 @@
                     <sort_order>50</sort_order>
                 </transactions>
                 <recurring_profile translate="title" module="sales">
-                    <title>Recurring Profiles</title>
+                    <title>Recurring Profiles (beta)</title>
                     <action>adminhtml/sales_recurring_profile</action>
                     <sort_order>60</sort_order>
                 </recurring_profile>
