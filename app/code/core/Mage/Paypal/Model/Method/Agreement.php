@@ -50,6 +50,8 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
     protected $_canRefundInvoicePartial = true;
     protected $_canVoid                 = true;
     protected $_canUseCheckout          = false;
+    protected $_canFetchTransactionInfo = true;
+    protected $_canReviewPayment        = true;
 
     /**
      * Website Payments Pro instance
@@ -232,6 +234,53 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
     {
         $this->_pro->cancel($payment);
         return $this;
+    }
+
+    /**
+     * Whether payment can be reviewed
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return bool
+     */
+    public function canReviewPayment(Mage_Payment_Model_Info $payment)
+    {
+        return parent::canReviewPayment($payment) && $this->_pro->canReviewPayment($payment);
+    }
+
+    /**
+     * Attempt to accept a pending payment
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return bool
+     */
+    public function acceptPayment(Mage_Payment_Model_Info $payment)
+    {
+        parent::acceptPayment($payment);
+        return $this->_pro->reviewPayment($payment, Mage_Paypal_Model_Pro::PAYMENT_REVIEW_ACCEPT);
+    }
+
+    /**
+     * Attempt to deny a pending payment
+     *
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return bool
+     */
+    public function denyPayment(Mage_Payment_Model_Info $payment)
+    {
+        parent::denyPayment($payment);
+        return $this->_pro->reviewPayment($payment, Mage_Paypal_Model_Pro::PAYMENT_REVIEW_DENY);
+    }
+
+    /**
+     * Fetch transaction details info
+     *
+     * @param Mage_Payment_Model_Info $payment
+     * @param string $transactionId
+     * @return array
+     */
+    public function fetchTransactionInfo(Mage_Payment_Model_Info $payment, $transactionId)
+    {
+        return $this->_pro->fetchTransactionInfo($payment, $transactionId);
     }
 
     /**
