@@ -32,19 +32,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Advanced extends Mage_XmlC
         $this->setShowGlobalIcon(true);
     }
 
-    protected function addTab($fieldset, $fieldPrefix, $title=NULL)
-    {
-        $title = $this->getDefaultTitle($title, $fieldPrefix);
-        $fieldset->addField($fieldPrefix.'[icon]', 'image', array(
-            'name'      => $fieldPrefix.'[icon]',
-            'label'     => $this->__($title.' Tab Icon'),
-        ));
-        $fieldset->addField($fieldPrefix.'[title]', 'text', array(
-            'name'      => $fieldPrefix.'[title]',
-            'label'     => $this->__($title.' Tab Title'),
-        ));
-    }
-
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
@@ -62,14 +49,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Advanced extends Mage_XmlC
         $this->addImage($fieldset, 'conf[native][sortingBar][backgroundImage]');
         $this->addColor($fieldset, 'conf[native][sortingBar][tintColor]');
         $this->addFont($fieldset, 'conf[native][sortingBar][font]');
-
-        $fieldset = $form->addFieldset('tabBar', array('legend' => $this->__('Tab Bar')));
-        $this->_addElementTypes($fieldset);
-        $this->addTab($fieldset, 'conf[native][tabBar][home]');
-        $this->addTab($fieldset, 'conf[native][tabBar][shop]');
-        $this->addTab($fieldset, 'conf[native][tabBar][cart]');
-        $this->addTab($fieldset, 'conf[native][tabBar][search]');
-        $this->addTab($fieldset, 'conf[native][tabBar][more]');
 
         $fieldset = $form->addFieldset('body_section', array('legend' => $this->__('Body')));
         $this->_addElementTypes($fieldset);

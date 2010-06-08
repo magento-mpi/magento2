@@ -50,6 +50,11 @@ class Mage_XmlConnect_Model_Tabs
     {
         $this->_enabledTabs = array(
             array(
+                'label' => 'Home',
+                'image' => 'tab_home.png',
+                'action' => 'Home',
+            ),
+            array(
                 'label' => 'Search',
                 'image' => 'tab_search.png',
                 'action' => 'Search',
@@ -63,6 +68,11 @@ class Mage_XmlConnect_Model_Tabs
                 'label' => 'Account',
                 'image' => 'tab_account.png',
                 'action' => 'Account',
+            ),
+            array(
+                'label' => 'More',
+                'image' => 'tab_more.png',
+                'action' => 'More',
             ),
             array(
                 'label' => 'Browse',
