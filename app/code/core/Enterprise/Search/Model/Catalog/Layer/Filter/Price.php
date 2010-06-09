@@ -47,7 +47,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             return parent::_getResource();
         }
 
-        return Mage::getResourceSingleton('enterprise_search/facets_price');
+        return Mage::getResourceSingleton('enterprise_search/catalog_facets_price');
     }
 
     /**

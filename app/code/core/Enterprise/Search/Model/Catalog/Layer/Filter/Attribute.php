@@ -102,6 +102,6 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
             return parent::_getResource();
         }
 
-        return Mage::getResourceSingleton('enterprise_search/facets_attribute');
+        return Mage::getResourceSingleton('enterprise_search/catalog_facets_attribute');
     }
 }

@@ -25,20 +25,29 @@
  */
 
 /**
- * Catalog layer category filter
+ * Layer price filter
  *
  * @category    Enterprise
  * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Catalog_Layer_Filter_Category extends Mage_Catalog_Block_Layer_Filter_Abstract
+class Enterprise_Search_Model_CatalogSearch_Layer_Filter_Price
+    extends Enterprise_Search_Model_Catalog_Layer_Filter_Price
 {
     /**
-     * Set model name
+     * Retrieve resource model
+     *
+     * @return object
      */
-    public function __construct()
+    protected function _getResource()
     {
-        parent::__construct();
-        $this->_filterModelName = 'enterprise_search/catalog_layer_filter_category';
+        $engineClassName         = get_class(Mage::helper('catalogsearch')->getEngine());
+        $fulltextEngineClassName = get_class(Mage::getResourceSingleton('catalogsearch/fulltext_engine'));
+
+        if ($engineClassName == $fulltextEngineClassName) {
+            return parent::_getResource();
+        }
+
+        return Mage::getResourceSingleton('enterprise_search/catalogsearch_facets_price');
     }
 }

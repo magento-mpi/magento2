@@ -77,11 +77,11 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
             $maxPrice = $this->getMaxPriceInt();
             $index = 1;
             do {
-                $range = pow(10, (strlen(floor($maxPrice))-$index));
+                $range = pow(10, (strlen(floor($maxPrice)) - $index));
                 $items = $this->getRangeItemCounts($range);
                 $index++;
             }
-            while($range>self::MIN_RANGE_POWER && count($items)<2);
+            while($range > self::MIN_RANGE_POWER && count($items) < 1);
 
             $this->setData('price_range', $range);
         }

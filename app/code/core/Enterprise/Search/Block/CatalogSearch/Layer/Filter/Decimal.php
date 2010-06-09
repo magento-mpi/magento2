@@ -24,21 +24,22 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Catalog layer category filter
+ * Catalog Layer Decimal Attribute Filter Block
  *
  * @category    Enterprise
  * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Catalog_Layer_Filter_Category extends Mage_Catalog_Block_Layer_Filter_Abstract
+class Enterprise_Search_Block_CatalogSearch_Layer_Filter_Decimal extends Enterprise_Search_Block_Catalog_Layer_Filter_Decimal
 {
     /**
-     * Set model name
+     * Initialize Decimal Filter Model
      */
     public function __construct()
     {
         parent::__construct();
-        $this->_filterModelName = 'enterprise_search/catalog_layer_filter_category';
+        $this->_filterModelName = 'enterprise_search/catalogsearch_layer_filter_decimal';
     }
 }

@@ -25,20 +25,21 @@
  */
 
 /**
- * Catalog layer category filter
+ * Catalog layer price filter
  *
- * @category    Enterprise
- * @package     Enterprise_Search
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Enterprise
+ * @package    Enterprise_Search
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Catalog_Layer_Filter_Category extends Mage_Catalog_Block_Layer_Filter_Abstract
+class Enterprise_Search_Block_CatalogSearch_Layer_Filter_Price
+    extends Enterprise_Search_Block_Catalog_Layer_Filter_Price
 {
     /**
-     * Set model name
+     * Initialize Price filter module
      */
     public function __construct()
     {
         parent::__construct();
-        $this->_filterModelName = 'enterprise_search/catalog_layer_filter_category';
+        $this->_filterModelName = 'enterprise_search/catalogsearch_layer_filter_price';
     }
 }

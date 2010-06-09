@@ -25,13 +25,14 @@
  */
 
 /**
- * Catalog layer category filter
+ * Catalog attribute layer filter
  *
- * @category    Enterprise
- * @package     Enterprise_Search
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Enterprise
+ * @package    Enterprise_Search
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Catalog_Layer_Filter_Category extends Mage_Catalog_Block_Layer_Filter_Abstract
+class Enterprise_Search_Block_CatalogSearch_Layer_Filter_Attribute
+    extends Enterprise_Search_Block_Catalog_Layer_Filter_Attribute
 {
     /**
      * Set model name
@@ -39,6 +40,6 @@ class Enterprise_Search_Block_Catalog_Layer_Filter_Category extends Mage_Catalog
     public function __construct()
     {
         parent::__construct();
-        $this->_filterModelName = 'enterprise_search/catalog_layer_filter_category';
+        $this->_filterModelName = 'enterprise_search/catalogsearch_layer_filter_attribute';
     }
 }

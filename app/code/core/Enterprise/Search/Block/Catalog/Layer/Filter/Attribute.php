@@ -35,7 +35,6 @@ class Enterprise_Search_Block_Catalog_Layer_Filter_Attribute extends Mage_Catalo
 {
     /**
      * Set model name
-     *
      */
     public function __construct()
     {
