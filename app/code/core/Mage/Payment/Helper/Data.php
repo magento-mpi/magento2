@@ -147,6 +147,24 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get payment methods that implement recurring profilez management
+     *
+     * @param mixed $store
+     * @return array
+     */
+    public function getRecurringProfileMethods($store = null)
+    {
+        $result = array();
+        foreach ($this->getPaymentMethods($store) as $code => $data) {
+            $method = $this->getMethodInstance($code);
+            if ($method->canManageRecurringProfiles()) {
+                $result[] = $method;
+            }
+        }
+        return $result;
+    }
+
+    /**
      * Retrieve all payment methods
      *
      * @param mixed $store

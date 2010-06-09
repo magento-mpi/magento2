@@ -43,6 +43,7 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mep extends Mage_Paypal_Model_
     protected $_canUseForMultishipping  = false;
     protected $_isInitializeNeeded      = false;
     protected $_canUseCheckout          = false;
+    protected $_canManageRecurringProfiles = false;
 
     /**
      * Get config peyment action url

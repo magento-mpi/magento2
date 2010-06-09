@@ -63,6 +63,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     protected $_canFetchTransactionInfo     = false;
     protected $_canReviewPayment            = false;
     protected $_canCreateBillingAgreement   = false;
+    protected $_canManageRecurringProfiles  = true;
     /**
      * TODO: whether a captured transaction may be voided by this gateway
      * This may happen when amount is captured, but not settled
@@ -275,6 +276,16 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function canManageBillingAgreements()
     {
         return ($this instanceof Mage_Payment_Model_Billing_Agreement_MethodInterface);
+    }
+
+    /**
+     * Whether can manage recurring profiles
+     *
+     * @return bool
+     */
+    public function canManageRecurringProfiles()
+    {
+        return $this->_canManageRecurringProfiles && ($this instanceof Mage_Payment_Model_Recurring_Profile_MethodInterface);
     }
 
     /**
@@ -594,7 +605,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
 
         // disable method if it cannot implement recurring profiles management and there are recurring items in quote
         if ($checkResult->isAvailable) {
-            $implementsRecurring = ($this instanceof Mage_Payment_Model_Recurring_Profile_MethodInterface);
+            $implementsRecurring = $this->canManageRecurringProfiles();
             // the $quote->hasRecurringItems() causes big performance impact, thus it has to be called last
             if ($quote && (!$implementsRecurring) && $quote->hasRecurringItems()) {
                 $checkResult->isAvailable = false;
