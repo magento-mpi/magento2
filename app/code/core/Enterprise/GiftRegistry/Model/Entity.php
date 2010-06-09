@@ -86,10 +86,13 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     public function addQuoteItems($itemsIds)
     {
         if (is_array($itemsIds)) {
-            foreach($itemsIds as $itemId) {
-                $quoteItem = Mage::getModel('sales/quote_item')->load($itemId);
-                if ($quoteItem && $quoteItem->getId()) {
-                    $this->addItem($quoteItem);
+            $quote = Mage::getModel('sales/quote');
+            $quote->setWebsite(Mage::app()->getWebsite($this->getWebsiteId()));
+            $quote->loadByCustomer(Mage::getModel('customer/customer')->load($this->getCustomerId()));
+
+            foreach ($quote->getAllVisibleItems() as $item) {
+                if (in_array($item->getId(), $itemsIds)) {
+                    $this->addItem($item);
                 }
             }
         }

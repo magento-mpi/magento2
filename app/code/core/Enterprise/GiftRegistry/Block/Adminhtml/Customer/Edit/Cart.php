@@ -46,6 +46,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
         $quote->loadByCustomer(Mage::getModel('customer/customer')->load($this->getEntity()->getCustomerId()));
 
         $collection = ($quote) ? $quote->getItemsCollection(false) : new Varien_Data_Collection();
+        $collection->addFieldToFilter('parent_item_id', array('null' => true));
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
