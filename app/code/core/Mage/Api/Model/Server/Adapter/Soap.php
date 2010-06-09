@@ -95,7 +95,7 @@ class Mage_Api_Model_Server_Adapter_Soap
     public function run()
     {
         $apiConfigCharset = Mage::getStoreConfig("api/config/charset");
-        
+
         if ($this->getController()->getRequest()->getParam('wsdl') !== null) {
             // Generating wsdl content from template
             $io   = new Varien_Io_File();
@@ -207,7 +207,7 @@ class Mage_Api_Model_Server_Adapter_Soap
         if( $withAuth ) {
             $phpAuthUser = $this->getController()->getRequest()->getServer('PHP_AUTH_USER', false);
             $phpAuthPw = $this->getController()->getRequest()->getServer('PHP_AUTH_PW', false);
-            
+
             $wsdlUrl = ($phpAuthUser && $phpAuthPw)? sprintf("http://%s:%s@%s", $phpAuthUser, $phpAuthPw, str_replace('http://', '', $wsdlUrl ) ): $wsdlUrl;
         }
 

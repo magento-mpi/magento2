@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Rss
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -46,7 +46,7 @@ class Mage_XmlConnect_Block_Catalog_Search_Suggest extends Mage_CatalogSearch_Bl
         $suggestXmlObj = new Varien_Simplexml_Element('<suggestions></suggestions>');
 
         if (!$this->getRequest()->getParam('q', false)) {
-       	    return $suggestXmlObj->asNiceXml();
+               return $suggestXmlObj->asNiceXml();
         }
 
         $suggestData = $this->getSuggestData();

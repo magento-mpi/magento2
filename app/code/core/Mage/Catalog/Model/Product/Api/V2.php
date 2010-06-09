@@ -189,7 +189,7 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
                 );
             }
         }
-        
+
         $this->_prepareDataForSave($product, $productData);
 
         try {

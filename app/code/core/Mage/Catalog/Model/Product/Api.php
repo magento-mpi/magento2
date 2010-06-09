@@ -161,8 +161,8 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
         }
 
         $this->_prepareDataForSave($product, $productData);
-        
-        try {            
+
+        try {
             /**
              * @todo implement full validation process with errors returning which are ignoring now
              * @todo see Mage_Catalog_Model_Product::validate()
@@ -215,7 +215,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
 
         $this->_prepareDataForSave($product, $productData);
 
-        
+
         try {
             /**
              * @todo implement full validation process with errors returning which are ignoring now
@@ -228,7 +228,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
                 }
                 $this->_fault('data_invalid', implode("\n", $strErrors));
             }
-            
+
             $product->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
@@ -270,7 +270,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
         } else {
             $product->setStockData(array('use_config_manage_stock' => 0));
         }
-        
+
         if (isset($productData['tier_price']) && is_array($productData['tier_price'])) {
              $tierPrices = Mage::getModel('catalog/product_attribute_tierprice_api')->prepareTierPrices($product, $productData['tier_price']);
              $product->setData(Mage_Catalog_Model_Product_Attribute_Tierprice_Api::ATTRIBUTE_CODE, $tierPrices);

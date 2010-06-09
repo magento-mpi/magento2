@@ -73,9 +73,9 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Core_Block_Templa
             $fax        = $xmlModel->xmlentities(strip_tags($address->getFax()));
         }
         else {
-        	$firstname = $lastname = $company = $street1 = $street2 = $billingChecked = $shippingChecked = '';
-        	$city = $region = $postcode = $telephone = $fax = '';
-        	$countryId = $regionId = null;
+            $firstname = $lastname = $company = $street1 = $street2 = $billingChecked = $shippingChecked = '';
+            $city = $region = $postcode = $telephone = $fax = '';
+            $countryId = $regionId = null;
         }
 
         $countries = $this->_getCountryOptions();

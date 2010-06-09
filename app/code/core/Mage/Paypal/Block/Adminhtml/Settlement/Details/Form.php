@@ -37,7 +37,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details_Form extends Mage_Adminhtml
      * Prepare read-only data and group it by fieldsets
      * @return Mage_Paypal_Block_Adminhtml_Settlement_Details_Form
      */
-	protected function _prepareForm()
+    protected function _prepareForm()
     {
         $model = Mage::registry('current_transaction');
         /* @var $model Mage_Paypal_Model_Report_Settlement_Row */

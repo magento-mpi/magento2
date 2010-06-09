@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Rss
+ * @package     Mage_XmlConnect
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -48,14 +48,14 @@ class Mage_XmlConnect_Block_Catalog_Filters extends Mage_XmlConnect_Block_Catalo
 
         $filtersXmlObj = $categoryXmlObj->addChild('filters');
         foreach ($filtersCollection->getItems() as $item) {
-        	if (!sizeof($item->getValues())) {
-        		continue;
-        	}
-        	$itemXmlObj = $filtersXmlObj->addChild('item');
-        	$itemXmlObj->addChild('name', $categoryXmlObj->xmlentities(strip_tags($item->getName())));
-        	$itemXmlObj->addChild('code', $categoryXmlObj->xmlentities($item->getCode()));
+            if (!sizeof($item->getValues())) {
+                continue;
+            }
+            $itemXmlObj = $filtersXmlObj->addChild('item');
+            $itemXmlObj->addChild('name', $categoryXmlObj->xmlentities(strip_tags($item->getName())));
+            $itemXmlObj->addChild('code', $categoryXmlObj->xmlentities($item->getCode()));
 
-        	$valuesXmlObj = $itemXmlObj->addChild('values');
+            $valuesXmlObj = $itemXmlObj->addChild('values');
             foreach ($item->getValues() as $value) {
                 $valueXmlObj = $valuesXmlObj->addChild('value');
                 $valueXmlObj->addChild('id', $categoryXmlObj->xmlentities($value->getValueString()));

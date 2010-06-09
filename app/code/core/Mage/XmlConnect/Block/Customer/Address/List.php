@@ -107,7 +107,7 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
     public function prepareAddressData(Mage_Customer_Model_Address $address, Varien_Simplexml_Element $item)
     {
         if (!$address) {
-        	return array();
+            return array();
         }
 
         $address->explodeStreetAddress();
@@ -139,7 +139,7 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
         $data = array_intersect_key($data, array_flip($this->_addressAttributes));
         foreach ($data as $key => $value) {
             if (!empty($value)) {
-            	$item->addChild($key, $value);
+                $item->addChild($key, $value);
             }
         }
     }
