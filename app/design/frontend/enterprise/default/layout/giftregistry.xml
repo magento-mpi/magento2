@@ -106,11 +106,21 @@
         </reference>
     </enterprise_giftregistry_search_index>
 
+    <enterprise_giftregistry_search_results>
+        <update handle="calendar"/>
+        <reference name="left">
+            <remove name="giftregistry.quick.search" />
+        </reference>
+        <reference name="content">
+            <block type="enterprise_giftregistry/search_form" name="giftregistry.search.form" template="giftregistry/search/form.phtml"></block>
+            <block type="enterprise_giftregistry/search_results" name="giftregistry.search.results" template="giftregistry/search/results.phtml"></block>
+        </reference>
+    </enterprise_giftregistry_search_results>
+
     <enterprise_giftregistry_search_advanced>
         <block type="enterprise_giftregistry/search_advanced" name="root" template="giftregistry/search/advanced.phtml"></block>
     </enterprise_giftregistry_search_advanced>
 
-    
     <enterprise_giftregistry_view_index>
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>

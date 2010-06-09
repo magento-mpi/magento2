@@ -76,6 +76,9 @@ class Enterprise_GiftRegistry_SearchController extends Enterprise_Enterprise_Con
      */
     protected function _filterInputParams($params)
     {
+        foreach ($params as $key => $value) {
+            $params[$key] = htmlspecialchars($value);
+        }
         if (isset($params['type_id'])) {
             $type = $this->_initType($params['type_id']);
             $dateType = Mage::getSingleton('enterprise_giftregistry/attribute_config')->getStaticDateType();
@@ -97,6 +100,64 @@ class Enterprise_GiftRegistry_SearchController extends Enterprise_Enterprise_Con
             }
         }
         return $params;
+    }
+
+    /**
+     * Validate input search params
+     *
+     * @param array $params
+     * @return bool
+     */
+    protected function _validateSearchParams($params)
+    {
+        if (empty($params) || !is_array($params) || empty($params['search'])) {
+            $this->_getSession()->addNotice(
+                Mage::helper('enterprise_giftregistry')->__('Please specify correct search options.')
+            );
+            return false;
+        }
+
+        switch ($params['search']) {
+            case 'type':
+                if (empty($params['firstname']) || strlen($params['firstname']) < 2) {
+                    $this->_getSession()->addNotice(
+                        Mage::helper('enterprise_giftregistry')->__('Please enter at least 2 letters of the registrant first name.')
+                    );
+                    return false;
+                }
+                if (empty($params['lastname']) || strlen($params['lastname']) < 2) {
+                    $this->_getSession()->addNotice(
+                        Mage::helper('enterprise_giftregistry')->__('Please enter at least 2 letters of the registrant last name.')
+                    );
+                    return false;
+                }
+                break;
+
+            case 'email':
+                if (empty($params['email']) || !Zend_Validate::is($params['email'], 'EmailAddress')) {
+                    $this->_getSession()->addNotice(
+                        Mage::helper('enterprise_giftregistry')->__('Please input a valid email address.')
+                    );
+                    return false;
+                }
+                break;
+
+            case 'id':
+                if (empty($params['id'])) {
+                    $this->_getSession()->addNotice(
+                        Mage::helper('enterprise_giftregistry')->__('Please specify gift registry ID.')
+                    );
+                    return false;
+                }
+                break;
+
+            default:
+                $this->_getSession()->addNotice(
+                    Mage::helper('enterprise_giftregistry')->__('Please specify correct search options.')
+                );
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -139,6 +200,16 @@ class Enterprise_GiftRegistry_SearchController extends Enterprise_Enterprise_Con
     {
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
+        $this->renderLayout();
+    }
+
+    /**
+     * Index action
+     */
+    public function resultsAction()
+    {
+        $this->loadLayout();
+        $this->_initLayoutMessages('customer/session');
 
         if ($params = $this->getRequest()->getParam('params')) {
             $this->_getSession()->setRegistrySearchData($params);
@@ -146,11 +217,16 @@ class Enterprise_GiftRegistry_SearchController extends Enterprise_Enterprise_Con
             $params = $this->_getSession()->getRegistrySearchData();
         }
 
-        $results = Mage::getModel('enterprise_giftregistry/entity')->getCollection()
-            ->applySearchFilters($this->_filterInputParams($params));
+        if ($this->_validateSearchParams($params)) {
+            $results = Mage::getModel('enterprise_giftregistry/entity')->getCollection()
+                ->applySearchFilters($this->_filterInputParams($params));
 
-        $this->getLayout()->getBlock('giftregistry.search.form')
-            ->setSearchResults($results);
+            $this->getLayout()->getBlock('giftregistry.search.results')
+                ->setSearchResults($results);
+        } else {
+            $this->_redirect('*/*/index', array('_current' => true));
+            return;
+        }
 
         $this->renderLayout();
     }

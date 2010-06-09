@@ -186,6 +186,9 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity_Collection
         if (!empty($params['type_id'])) {
             $select->where('m.type_id=?', $params['type_id']);
         }
+        if (!empty($params['id'])) {
+            $select->where($this->getConnection()->quoteInto('m.url_key =?', $params['id']));
+        }
         if (!empty($params['firstname'])) {
             $select->where($this->getConnection()->quoteInto('p.firstname LIKE ?', $params['firstname'] . '%'));
         }

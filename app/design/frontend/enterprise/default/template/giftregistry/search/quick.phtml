@@ -30,19 +30,45 @@
     <div class="block-title">
         <strong><span><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry Search') ?></span></strong>
     </div>
-    <form id="giftregistry-quick-search" action="<?php echo $this->getActionUrl() ?>" method="post">
+    <form id="gr_quick-search_form" action="<?php echo $this->getActionUrl() ?>" method="post">
         <div class="block-content">
             <?php echo $this->getBlockHtml('formkey')?>
-            <div><?php echo Mage::helper('enterprise_giftregistry')->__('First Name') ?></div>
+            <div><?php echo Mage::helper('enterprise_giftregistry')->__('First Name') ?> <em>*</em></div>
             <div><input type="text" class="input-text required-entry" id="params_firstname" name="params[firstname]" /></div>
 
-            <div><?php echo Mage::helper('enterprise_giftregistry')->__('Last Name') ?></div>
+            <div><?php echo Mage::helper('enterprise_giftregistry')->__('Last Name') ?> <em>*</em></div>
             <div><input type="text" class="input-text required-entry" id="params_lastname" name="params[lastname]" /></div>
+            <div><em>*</em> <?php echo Mage::helper('enterprise_giftregistry')->__('Enter at least two letters of the name') ?></div>
 
             <div><?php echo Mage::helper('enterprise_giftregistry')->__('Type') ?></div>
             <div><?php echo $this->getTypeSelectHtml() ?></div>
 
             <div class="actions">
+                <input type="hidden" name="params[search]" value="type">
+                <button type="submit" title="<?php echo Mage::helper('enterprise_giftregistry')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('enterprise_giftregistry')->__('Go') ?></span></span></button>
+            </div>
+        </div>
+    </form>
+
+    <form id="gr_quick-search_email_form" action="<?php echo $this->getActionUrl() ?>" method="post">
+        <div class="block-content">
+            <?php echo $this->getBlockHtml('formkey')?>
+            <div><?php echo Mage::helper('enterprise_giftregistry')->__('Registrant Email') ?></div>
+            <div><input type="text" class="input-text required-entry validate-email" id="params_email" name="params[email]" /></div>
+            <div class="actions">
+                <input type="hidden" name="params[search]" value="email">
+                <button type="submit" title="<?php echo Mage::helper('enterprise_giftregistry')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('enterprise_giftregistry')->__('Go') ?></span></span></button>
+            </div>
+        </div>
+    </form>
+
+    <form id="gr_quick-search_id_form" action="<?php echo $this->getActionUrl() ?>" method="post">
+        <div class="block-content">
+            <?php echo $this->getBlockHtml('formkey')?>
+            <div><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry ID') ?></div>
+            <div><input type="text" class="input-text required-entry" id="params_id" name="params[id]" /></div>
+            <div class="actions">
+                <input type="hidden" name="params[search]" value="id">
                 <button type="submit" title="<?php echo Mage::helper('enterprise_giftregistry')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('enterprise_giftregistry')->__('Go') ?></span></span></button>
             </div>
         </div>
@@ -50,12 +76,9 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
-    var giftRegistryQuickSearchForm = new VarienForm('giftregistry-quick-search');
-    giftRegistryQuickSearchForm.submit = function() {
-        if(this.validator.validate()) {
-            this.form.submit();
-        }
-    }.bind(giftRegistryQuickSearchForm);
+    var grQuickSearchForm = new VarienForm('gr_quick-search_form');
+    var grQuickSearchEmailForm = new VarienForm('gr_quick-search_email_form');
+    var grQuickSearchIdForm = new VarienForm('gr_quick-search_id_form');
 //]]>
 </script>
 <?php endif; ?>

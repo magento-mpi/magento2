@@ -79,6 +79,6 @@ class Enterprise_GiftRegistry_Block_Search_Quick extends Enterprise_Enterprise_B
      */
     public function getActionUrl()
     {
-        return $this->getUrl('giftregistry/search/index');
+        return $this->getUrl('giftregistry/search/results');
     }
 }
