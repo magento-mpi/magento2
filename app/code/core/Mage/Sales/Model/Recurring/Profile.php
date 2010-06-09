@@ -211,9 +211,11 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     /**
      * Initialize new order based on profile data
      *
+     * Takes arbitrary number of Varien_Object instances to be treated as items for new order
+     *
      * @return Mage_Sales_Model_Order
      */
-    public function initOrder()
+    public function createOrder()
     {
         $items = array();
         $itemInfoObjects = func_get_args();
@@ -261,11 +263,11 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
         );
 
         $orderInfo = $this->getOrderInfo();
-        foreach ($transferDataKays as $kay) {
-            if (isset($orderInfo[$kay])) {
-                $order->setData($kay, $orderInfo[$kay]);
-            } elseif ($shippingInfo[$kay]) {
-                $order->setData($kay, $shippingInfo[$kay]);
+        foreach ($transferDataKays as $key) {
+            if (isset($orderInfo[$key])) {
+                $order->setData($key, $orderInfo[$key]);
+            } elseif ($shippingInfo[$key]) {
+                $order->setData($key, $shippingInfo[$key]);
             }
         }
 
@@ -327,17 +329,17 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
             $this->setMethodInstance($quote->getPayment()->getMethodInstance());
         }
 
-        $orderInfo = array();
-        foreach ($quote->getData() as $kay => $value) {
-            if (!is_object($value)) {
-                $orderInfo[$kay] = $value;
-            }
-        }
+        $orderInfo = $quote->getData();
+        $this->_cleanupArray($orderInfo);
         $this->setOrderInfo($orderInfo);
 
-        $this->setBillingAddressInfo($quote->getBillingAddress()->getData());
+        $addressInfo = $quote->getBillingAddress()->getData();
+        $this->_cleanupArray($addressInfo);
+        $this->setBillingAddressInfo($addressInfo);
         if (!$quote->isVirtual()) {
-            $this->setShippingAddressInfo($quote->getShippingAddress()->getData());
+            $addressInfo = $quote->getShippingAddress()->getData();
+            $this->_cleanupArray($addressInfo);
+            $this->setShippingAddressInfo($addressInfo);
         }
 
         $this->setCurrencyCode($quote->getBaseCurrencyCode());
@@ -366,12 +368,8 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
             $this->setScheduleDescription($item->getName());
         }
 
-        $orderItemInfo = array();
-        foreach ($item->getData() as $kay => $value) {
-            if (!is_object($value)) {
-                $orderItemInfo[$kay] = $value;
-            }
-        }
+        $orderItemInfo = $item->getData();
+        $this->_cleanupArray($orderItemInfo);
         $this->setOrderItemInfo($orderItemInfo);
 
         return $this->_filterValues();
@@ -715,5 +713,24 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
         }
         $options['additional_options'] = $additionalOptions;
         $item->setProductOptions($options);
+    }
+
+    /**
+     * Recursively cleanup array from objects
+     *
+     * @param array &$array
+     */
+    private function _cleanupArray(&$array)
+    {
+        if (!$array) {
+            return;
+        }
+        foreach ($array as $key => $value) {
+            if (is_object($value)) {
+                unset($array[$key]);
+            } elseif (is_array($value)) {
+                $this->_cleanupArray($array[$key]);
+            }
+        }
     }
 }

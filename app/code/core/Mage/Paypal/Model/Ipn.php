@@ -42,7 +42,9 @@ class Mage_Paypal_Model_Ipn
     protected $_order = null;
 
     /*
-     * @param Mage_Sales_Model_Recurring_Profile
+     * Recurring profile instance
+     *
+     * @var Mage_Sales_Model_Recurring_Profile
      */
     protected $_recurringProfile = null;
 
@@ -320,8 +322,9 @@ class Mage_Paypal_Model_Ipn
                     throw new Exception("Cannot handle payment status '{$paymentStatus}'.");
             }
         } catch (Mage_Core_Exception $e) {
-            $comment = $this->_createIpnComment(Mage::helper('paypal')->__('Note: %s', $e->getMessage()), true);
-            $comment->save();
+// TODO: add to payment profile comments
+//            $comment = $this->_createIpnComment(Mage::helper('paypal')->__('Note: %s', $e->getMessage()), true);
+//            $comment->save();
             throw $e;
         }
     }
@@ -342,7 +345,7 @@ class Mage_Paypal_Model_Ipn
         $productItemInfo->setShippingAmount($this->getRequestData('shipping'));
         $productItemInfo->setPrice($price);
 
-        $order = $this->_recurringProfile->initOrder($productItemInfo);
+        $order = $this->_recurringProfile->createOrder($productItemInfo);
 
         $payment = $order->getPayment();
         $payment->setTransactionId($this->getRequestData('txn_id'))
