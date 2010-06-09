@@ -66,11 +66,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
 
         $fieldset = $form->addFieldset('cmsPages', array('legend' => $this->__('Pages')));
         $this->_addElementTypes($fieldset);
-        $this->addPage($fieldset, 'conf[pages][0]');
-        $this->addPage($fieldset, 'conf[pages][1]');
-        $this->addPage($fieldset, 'conf[pages][2]');
-        $this->addPage($fieldset, 'conf[pages][3]');
-        $this->addPage($fieldset, 'conf[pages][4]');
+        $this->addPage($fieldset, 'conf[native][pages][0]');
+        $this->addPage($fieldset, 'conf[native][pages][1]');
+        $this->addPage($fieldset, 'conf[native][pages][2]');
+        $this->addPage($fieldset, 'conf[native][pages][3]');
+        $this->addPage($fieldset, 'conf[native][pages][4]');
         // FIXME
 
         $model = Mage::registry('current_app');

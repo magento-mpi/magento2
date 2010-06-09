@@ -74,6 +74,12 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
                     $font->addAttribute('size', $value['size']);
                     $font->addAttribute('color', $value['color']);
                 }
+                elseif ($key == 'pages') {
+                    $subsection = $section->addChild('content');
+                    foreach($value as $page) {
+                        $this->_buildRecursive($subsection->addChild('page'), $page);
+                    }
+                }
                 else {
                     $subsection = $section->addChild($key);
                     $this->_buildRecursive($subsection, $value);
