@@ -95,7 +95,7 @@ class cu_add_address extends PHPUnit_Extensions_SeleniumTestCase {
         $this->_testid = "CU_ADDR_ADD_0";
         
     }
-/*
+
     function testAddNewCuAddress() {
         $this->_login->doLogin( $this->_baseurl, $this->_username, $this->_password);
         if ($this->_admincustomeraddresshelper->delAddresses(AddrManagePanel, $this->_custid, $this->_testid."1")) {
@@ -131,6 +131,6 @@ class cu_add_address extends PHPUnit_Extensions_SeleniumTestCase {
             }
         }
     }
-*/
+
 }
 ?>
