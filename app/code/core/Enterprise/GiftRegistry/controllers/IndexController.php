@@ -189,7 +189,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                 if ($entity->getId() && $entity->getCustomerId() == $customerId) {
                     $entity->delete();
                     $this->_getSession()->addSuccess(
-                        Mage::helper('enterprise_giftregistry')->__('Gift registry entity has been deleted.')
+                        Mage::helper('enterprise_giftregistry')->__('Gift registry has been deleted.')
                     );
                 }
             } catch (Mage_Core_Exception $e) {
