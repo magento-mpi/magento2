@@ -209,4 +209,10 @@
         <block type="xmlconnect/checkout_shipping_method_avaliable" name="xmlconnect.checkout.shipping.method.avalieble" output="toHtml"/>
     </xmlconnect_paypal_mep_shippingmethods>
 
+    <!-- Cms -->
+
+    <xmlconnect_cms_page>
+        <block type="xmlconnect/cms_page" name="xmlconnect.cms.page" output="toHtml"/>
+    </xmlconnect_cms_page>
+
 </layout>
