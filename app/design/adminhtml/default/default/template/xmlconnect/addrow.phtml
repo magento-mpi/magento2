@@ -1,0 +1,44 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<script type="text/javascript">
+// <![CDATA[
+
+function cms_new_row_html() {
+    html = '<tr>'
+    html += '<td class="label"><span class="field-row"><input type="text" class=" input-text" value="" name="conf[new_pages][labels][]"></span></td>'
+    html += '<td class="value"><span class="field-row"><select class=" select" name="conf[new_pages][ids][]">'
+<?php foreach($this->getOptions() as $page): ?>
+    html += '<option value="<?php echo htmlspecialchars($page['value']); ?>"><?php echo htmlspecialchars($page['label']);?></option>'
+<?php endforeach; ?>
+    html += '</select></span></td>'
+    html += '<td style="width: 5em;" class="label"><input type="button" onclick="this.parentNode.parentNode.innerHTML=\'\'" value="&minus;"></td>'
+    html += '</tr>'
+    return html
+}
+
+// ]]>
+</script>

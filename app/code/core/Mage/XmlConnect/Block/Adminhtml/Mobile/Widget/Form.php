@@ -122,6 +122,7 @@ abstract class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_A
             'tabs'  => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_tabs'),
             'theme' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_theme'),
             'page'  => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_page'),
+            'addrow'=> Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_addrow'),
         );
     }
 }

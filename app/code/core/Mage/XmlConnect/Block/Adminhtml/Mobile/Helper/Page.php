@@ -81,6 +81,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Page extends Varien_Data_For
     public function getElementHtml()
     {
         list($label, $element) = $this->getElements();
-        return $element->toHtml() . '</td><td><input type="button" value="x" />';
+        return $element->toHtml() . '</td><td class="label" style="width: 5em">' .
+'<input type="button" value="&minus;" onclick="this.parentNode.parentNode.innerHTML=\'\'" />';
     }
 }

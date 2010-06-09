@@ -40,6 +40,33 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Prepare post data
+     *
+     * Retains previous data in the object.
+     *
+     * @param array $arr
+     * @return array
+     */
+    public function preparePostData(array $arr)
+    {
+        if (isset($arr['conf']['new_pages'])) {
+            $new_pages = array();
+            foreach ($arr['conf']['new_pages']['ids'] as $key=>$value) {
+                $new_pages[$key]['id'] = $value;
+            }
+            foreach ($arr['conf']['new_pages']['labels'] as $key=>$value) {
+                $new_pages[$key]['label'] = $value;
+            }
+            if (!isset($arr['conf']['native']['pages'])) {
+                $arr['conf']['native']['pages'] = array();
+            }
+            $arr['conf']['native']['pages'] = array_merge($arr['conf']['native']['pages'], $new_pages);
+            unset($arr['conf']['new_pages']);
+        }
+        return $arr;
+    }
+
+    /**
      * Load data (flat array) for Varien_Data_Form
      *
      * @return array
@@ -139,6 +166,19 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
 
         return $result;
+    }
+
+    /**
+     * Return content pages
+     *
+     * @return array
+     */
+    public function getPages()
+    {
+        if (isset($this->_data['conf']['native']['pages'])) {
+            return $this->_data['conf']['native']['pages'];
+        }
+        return array();
     }
 
     /**

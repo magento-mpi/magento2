@@ -57,6 +57,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
 
     protected function _prepareForm()
     {
+        $model = Mage::registry('current_app');
+        $conf = $model->getConf();
         $form = new Varien_Data_Form();
         $this->setForm($form);
 
@@ -66,15 +68,20 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
 
         $fieldset = $form->addFieldset('cmsPages', array('legend' => $this->__('Pages')));
         $this->_addElementTypes($fieldset);
-        $this->addPage($fieldset, 'conf[native][pages][0]');
-        $this->addPage($fieldset, 'conf[native][pages][1]');
-        $this->addPage($fieldset, 'conf[native][pages][2]');
-        $this->addPage($fieldset, 'conf[native][pages][3]');
-        $this->addPage($fieldset, 'conf[native][pages][4]');
-        // FIXME
+        if (isset($conf['native']['pages'])) {
+            foreach($conf['native']['pages'] as $key=>$dummy) {
+                $this->addPage($fieldset, 'conf[native][pages]['.$key.']');
+            }
+        }
 
-        $model = Mage::registry('current_app');
-        $form->setValues($model->getFormData());
+        $fieldset->addField('page_row_add', 'addrow', array(
+            'onclick' => 'this.parentNode.parentNode.parentNode.innerHTML+=cms_new_row_html()',
+            'options' => $this->_pages,
+        ));
+
+        $data = $model->getFormData();
+        $data['page_row_add'] = $this->__('Add page');
+        $form->setValues($data);
         return parent::_prepareForm();
     }
 
