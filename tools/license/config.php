@@ -48,7 +48,7 @@ define('NOTICE_OSL',
  *
  * @category    {category}
  * @package     {package}
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */');
 
@@ -74,7 +74,7 @@ define('NOTICE_AFL',
  *
  * @category    {category}
  * @package     {package}
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */');
 
@@ -100,7 +100,7 @@ define('NOTICE_EE',
  *
  * @category    {category}
  * @package     {package}
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */');
 
@@ -124,7 +124,7 @@ define('NOTICE_PRO',
  *
  * @category    {category}
  * @package     {package}
- * @copyright   Copyright (c) 2010 Magento, Inc.
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/commercial-edition
  */');
 
