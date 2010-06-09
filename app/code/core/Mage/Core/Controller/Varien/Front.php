@@ -169,7 +169,6 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         Varien_Profiler::start('mage::dispatch::config_url_rewrite');
         $this->rewrite();
         Varien_Profiler::stop('mage::dispatch::config_url_rewrite');
-        
         Varien_Profiler::start('mage::dispatch::routers_match');
         $i = 0;
         while (!$request->isDispatched() && $i++<100) {
@@ -183,7 +182,8 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         if ($i>100) {
             Mage::throwException('Front controller reached 100 router match iterations');
         }
-
+        //This event give possibility to launch smth before sending ouptut(Allow cookie setting)
+        Mage::dispatchEvent('controller_front_send_response_before', array('front'=>$this));
         Varien_Profiler::start('mage::app::dispatch::send_response');
         $this->getResponse()->sendResponse();
         Varien_Profiler::stop('mage::app::dispatch::send_response');

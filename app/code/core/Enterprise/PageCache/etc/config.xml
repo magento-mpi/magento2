@@ -185,14 +185,14 @@
                     </enterprise_pagecache>
                 </observers>
             </controller_action_postdispatch_catalog_category_view>
-            <controller_front_send_response_after>
+            <controller_front_send_response_before>
                 <observers>
                     <enterprise_pagecache>
                         <class>enterprise_pagecache/observer</class>
                         <method>cacheResponse</method>
                     </enterprise_pagecache>
                 </observers>
-            </controller_front_send_response_after>
+            </controller_front_send_response_before>
             <core_block_abstract_to_html_after>
                 <observers>
                     <enterprise_pagecache>
