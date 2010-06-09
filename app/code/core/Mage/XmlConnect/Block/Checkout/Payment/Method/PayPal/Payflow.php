@@ -124,7 +124,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Payflow extends Mage_
             $verification =
             '<field name="payment[cc_cid]" type="text" label="' . $helper->__('Card Verification Number') . '" required="true">
                 <validators>
-                    <validator type="credit_card_svn"/>
+                    <validator relation="payment[cc_type]" type="credit_card_svn"/>
                 </validators>
             </field>';
         }
@@ -137,8 +137,8 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Paypal_Payflow extends Mage_
             </values>
         </field>
         <field name="payment[cc_number]" type="text" label="{$helper->__('Credit Card Number')}" required="true">
-            <validators relation="payment[cc_type]">
-                <validator type="credit_card" message="{$helper->__('Credit card number does not match credit card type')}"/>
+            <validators>
+                <validator relation="payment[cc_type]" type="credit_card" message="{$helper->__('Credit card number does not match credit card type')}"/>
             </validators>
         </field>
         <field name="payment[cc_exp_month]" type="select" label="{$helper->__('Expiration Date')}" required="true">
