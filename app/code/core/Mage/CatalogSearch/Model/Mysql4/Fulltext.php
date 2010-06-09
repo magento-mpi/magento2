@@ -600,6 +600,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                 }
                 $index['visibility'] = $this->_prepareProductVisibility($productData['entity_id'], $storeId);
                 $index += $this->_prepareProductPriceIndexing($productData['entity_id']);
+                $index += $this->_prepareProductCategoryPosition($productData['entity_id']);
             }
 
             return $this->_engine->prepareEntityIndex($index, $this->_separator);
@@ -652,6 +653,30 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         $result = array();
         foreach ($this->_getWriteAdapter()->fetchAll($select) as $category) {
             $result[] = $category['category_id'];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Collects information per product about position sort in category
+     *
+     * @param int $productId
+     *
+     * @return array
+     */
+    protected function _prepareProductCategoryPosition($productId)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->distinct()
+            ->from(
+                array($this->getTable('catalog/category_product')),
+                array('category_id', 'position'))
+            ->where('product_id = ?', $productId);
+
+        $result = array();
+        foreach ($this->_getWriteAdapter()->fetchAll($select) as $position) {
+            $result['position_category_' . $position['category_id']] = $position['position'];
         }
 
         return $result;

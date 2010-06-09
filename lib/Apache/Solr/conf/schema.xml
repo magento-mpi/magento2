@@ -220,7 +220,7 @@
                 ignoreCase="true"
                 words="stopwords.txt"
                 enablePositionIncrements="true"
-               />
+                />
         <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="0"/>
         <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
@@ -254,7 +254,7 @@
                 ignoreCase="true"
                 words="stopwords.txt"
                 enablePositionIncrements="true"
-               />
+                />
         <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="0"/>
         <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
@@ -1295,7 +1295,7 @@
         <field name="meta_keyword" type="textgen" indexed="true" stored="true" multiValued="true"/>
 
         <!--A field designed for sorting by name, its value will be pasted from name field-->
-        <field name="alphaNameSort" type="alphaOnlySort" indexed="true" stored="false"/>
+        <field name="alphaNameSort"    type="alphaOnlySort"    indexed="true" stored="false"/>
         <field name="alphaNameSort_en" type="alphaOnlySort_en" indexed="true" stored="false"/>
         <field name="alphaNameSort_fr" type="alphaOnlySort_fr" indexed="true" stored="false"/>
         <field name="alphaNameSort_de" type="alphaOnlySort_de" indexed="true" stored="false"/>
@@ -1319,7 +1319,7 @@
 
         <!-- catchall field, containing all other searchable text fields (implemented
             via copyField further on in this schema  -->
-        <field name="text" type="textgen" indexed="true" stored="false" multiValued="true"/>
+        <field name="text"    type="textgen" indexed="true" stored="false" multiValued="true"/>
         <field name="text_en" type="text_en" indexed="true" stored="false" multiValued="true"/>
         <field name="text_fr" type="text_fr" indexed="true" stored="false" multiValued="true"/>
         <field name="text_de" type="text_de" indexed="true" stored="false" multiValued="true"/>
@@ -1362,6 +1362,7 @@
         <dynamicField name="attr_multi_*" type="textgen" indexed="true" stored="true" multiValued="true"/>
 
         <dynamicField name="price_*" type="tfloat" indexed="true" stored="true"/>
+        <dynamicField name="position_category_*" type="int" indexed="true" stored="true"/>
 
         <dynamicField name="*_en" type="text_en" indexed="true" stored="true"/>
         <dynamicField name="*_fr" type="text_fr" indexed="true" stored="true"/>
@@ -1448,7 +1449,7 @@
     Another way to map multiple source fields to the same 
     destination field is to use the dynamic field syntax. 
     copyField also supports a maxChars to copy setting. 
-    -->   
+    -->
     <copyField source="*_en" dest="text_en"/>
     <copyField source="*_fr" dest="text_fr"/>
     <copyField source="*_de" dest="text_de"/>
@@ -1471,7 +1472,7 @@
     <copyField source="*_ko" dest="text_ko"/>
 
     <!-- copy name to alphaNameSort, a field designed for sorting by name -->
-    <copyField source="name" dest="alphaNameSort"/>
+    <copyField source="name"    dest="alphaNameSort"/>
     <copyField source="name_en" dest="alphaNameSort_en"/>
     <copyField source="name_fr" dest="alphaNameSort_fr"/>
     <copyField source="name_de" dest="alphaNameSort_de"/>

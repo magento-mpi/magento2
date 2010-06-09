@@ -227,7 +227,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
 //                $solrQuery->addSortField($sortField, $sortType);
 //            }
             elseif ($sortField == 'position') {
-                
+                $sortField = 'position_category_' . Mage::registry('current_category')->getId();
             }
             elseif ($sortField == 'price') {
                 $websiteId       = Mage::app()->getStore()->getWebsiteId();

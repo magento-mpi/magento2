@@ -667,7 +667,9 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 $data[$key . $languageSuffix] = $value;
                 unset($data[$key]);
             }
-            elseif ($backendType != 'static' && substr($key, 0, 6) != 'price_') {
+            elseif ($backendType != 'static'
+                && substr($key, 0, 6) != 'price_'
+                && substr($key, 0, 18) != 'position_category_') {
                 if ($backendType == 'datetime') {
                     $value = $this->_getSolrDate($data['store_id'], $value);
                 }
