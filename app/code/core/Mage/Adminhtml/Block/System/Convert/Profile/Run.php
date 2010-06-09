@@ -49,8 +49,9 @@ class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Blo
      */
     protected function _prepareBatchModel()
     {
-        if ($this->_batchModelPrepared)
+        if ($this->_batchModelPrepared) {
             return $this;
+        }
         $this->setShowFinished(true);
         $batchModel = Mage::getSingleton('dataflow/batch');
         $this->_batchModel = $batchModel;
