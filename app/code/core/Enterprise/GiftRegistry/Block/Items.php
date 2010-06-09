@@ -107,4 +107,15 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
     {
         return $this->getUrl('*/*/updateItems', array('_current' => true));
     }
+
+    /**
+     * Return back url
+     *
+     * @return string
+     */
+    public function getBackUrl()
+    {
+        return $this->getUrl('giftregistry');
+    }
+
 }
