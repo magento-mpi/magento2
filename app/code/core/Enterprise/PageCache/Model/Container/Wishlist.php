@@ -62,6 +62,7 @@ class Enterprise_PageCache_Model_Container_Wishlist extends Enterprise_PageCache
 
         $block = new $block;
         $block->setTemplate($template);
+        $block->setLayout(Mage::app()->getLayout());
 
         return $block->toHtml();
     }
