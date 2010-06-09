@@ -26,41 +26,33 @@
 
 /**
  * Recurring profile orders grid
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Sales_Recurring_Profile_View_Tab_Orders
+class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
     extends Mage_Adminhtml_Block_Widget_Grid
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Initialize basic parameters
+     */
     public function __construct()
     {
         parent::__construct();
-        $this->setId('recurring_profile_orders');
-        $this->setUseAjax(true);
-    }
-
-    /**
-     * Retrieve collection class
-     *
-     * @return string
-     */
-    protected function _getCollectionClass()
-    {
-        return 'sales/order_grid_collection';
+        $this->setId('recurring_profile_orders')
+            ->setUseAjax(true)
+            ->setSkipGenerateContent(true)
+        ;
     }
 
     /**
      * Prepare grid collection object
      *
-     * @return Mage_Adminhtml_Block_Sales_Recurring_Profile_View_Tab_Orders
+     * @return Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel($this->_getCollectionClass())
-            ->addAttributeToFilter('entity_id', array('in' => $this->getRecurringProfile()->getChildOrderIds()));
+        $collection = Mage::getResourceModel('sales/order_collection')
+            ->addRecurringProfilesFilter(Mage::registry('current_recurring_profile')->getId())
+        ;
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -68,7 +60,9 @@ class Mage_Adminhtml_Block_Sales_Recurring_Profile_View_Tab_Orders
     /**
      * Prepare grid columns
      *
-     * @return Mage_Adminhtml_Block_Sales_Recurring_Profile_View_Tab_Orders
+     * TODO: fix up this mess
+     *
+     * @return Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
      */
     protected function _prepareColumns()
     {
@@ -153,16 +147,6 @@ class Mage_Adminhtml_Block_Sales_Recurring_Profile_View_Tab_Orders
     }
 
     /**
-     * Retrieve recurring profile model instance
-     *
-     * @return Mage_Sales_Model_Recurring_Profile
-     */
-    public function getRecurringProfile()
-    {
-        return $recurringProfile = Mage::registry('current_recurring_profile');
-    }
-
-    /**
      * Return row url for js event handlers
      *
      * @param Varien_Object
@@ -170,30 +154,70 @@ class Mage_Adminhtml_Block_Sales_Recurring_Profile_View_Tab_Orders
      */
     public function getRowUrl($row)
     {
-        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/view')) {
-            return $this->getUrl('*/sales_order/view', array('order_id' => $row->getId()));
-        }
-        return false;
+        return $this->getUrl('*/sales_order/view', array('order_id' => $row->getId()));
     }
 
     /**
-     * ######################## TAB settings #################################
+     * Url for ajax grid submission
+     *
+     * @return string
+     */
+    public function getGridUrl()
+    {
+        return $this->getTabUrl();
+    }
+
+    /**
+     * Url for ajax tab
+     *
+     * @return string
+     */
+    public function getTabUrl()
+    {
+        return $this->getUrl('*/*/orders', array('profile' => Mage::registry('current_recurring_profile')->getId()));
+    }
+
+    /**
+     * Class for ajax tab
+     *
+     * @return string
+     */
+    public function getTabClass()
+    {
+        return 'ajax';
+    }
+
+    /**
+     * Label getter
+     *
+     * @return string
      */
     public function getTabLabel()
     {
-        return Mage::helper('sales')->__('Orders');
+        return Mage::helper('sales')->__('Related Orders');
     }
 
+    /**
+     * Same as label getter
+     *
+     * @return string
+     */
     public function getTabTitle()
     {
-        return Mage::helper('sales')->__('Recurring_Profile Orders');
+        return $this->getTabLabel();
     }
 
+    /**
+     * @return bool
+     */
     public function canShowTab()
     {
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function isHidden()
     {
         return false;

@@ -25,103 +25,100 @@
  */
 
 /**
- * Adminhtml sales recurring profiles grid
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Recurring profiles grid
  */
-class Mage_Adminhtml_Block_Sales_Recurring_Profile_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-
+    /**
+     * Set ajax/session parameters
+     */
     public function __construct()
     {
         parent::__construct();
         $this->setId('sales_recurring_profile_grid');
         $this->setUseAjax(true);
-        $this->setDefaultSort('created_at');
-        $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
-    }
-
-    /**
-     * Retrieve collection class
-     *
-     * @return string
-     */
-    protected function _getCollectionClass()
-    {
-        return 'sales/recurring_profile_collection';
     }
 
     /**
      * Prepare grid collection object
      *
-     * @return Mage_Adminhtml_Block_Sales_Recurring_Profile_Grid
+     * @return Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel($this->_getCollectionClass());
+        $collection = Mage::getResourceModel('sales/recurring_profile_collection');
         $this->setCollection($collection);
+        if (!$this->getParam($this->getVarNameSort())) {
+            $collection->setOrder('profile_id', 'desc');
+        }
         return parent::_prepareCollection();
     }
 
     /**
      * Prepare grid columns
      *
-     * @return Mage_Adminhtml_Block_Sales_Recurring_Profile_Grid
+     * @return Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid
      */
     protected function _prepareColumns()
     {
+        $profile = Mage::getModel('sales/recurring_profile');
 
-        $_recurringProfileModel = Mage::getSingleton('sales/recurring_profile');
-        
-        $this->addColumn('profile_id', array(
-            'header'=> $_recurringProfileModel->getFieldLabel('profile_id'),
-            'width' => '80px',
-            'type'  => 'text',
-            'index' => 'profile_id',
-        ));
-
-        $this->addColumn('internal_reference_id', array(
-            'header' => $_recurringProfileModel->getFieldLabel('internal_reference_id'),
-            'index' => 'internal_reference_id',
-        ));
-        
-        $this->addColumn('method_code', array(
-            'header' => $_recurringProfileModel->getFieldLabel('method_code'),
-            'index' => 'method_code',
-        ));
-        
         $this->addColumn('reference_id', array(
-            'header' => $_recurringProfileModel->getFieldLabel('reference_id'),
+            'header' => $profile->getFieldLabel('reference_id'),
             'index' => 'reference_id',
+            'html_decorators' => array('nobr'),
+            'width' => 1,
         ));
-        
+
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('store_id', array(
+                'header'     => Mage::helper('adminhtml')->__('Store'),
+                'index'      => 'store_id',
+                'type'       => 'store',
+                'store_view' => true,
+                'display_deleted' => true,
+            ));
+        }
+
         $this->addColumn('state', array(
-            'header' => $_recurringProfileModel->getFieldLabel('state'),
+            'header' => $profile->getFieldLabel('state'),
             'index' => 'state',
             'type'  => 'options',
-            'width' => '70px',
-            'options' => $_recurringProfileModel->getAllStates(),
+            'options' => $profile->getAllStates(),
+            'html_decorators' => array('nobr'),
+            'width' => 1,
         ));
-        
+
         $this->addColumn('created_at', array(
-            'header' => $_recurringProfileModel->getFieldLabel('created_at'),
+            'header' => $profile->getFieldLabel('created_at'),
             'index' => 'created_at',
             'type' => 'datetime',
-            'width' => '100px',
+            'html_decorators' => array('nobr'),
+            'width' => 1,
         ));
-        
+
         $this->addColumn('updated_at', array(
-            'header' => $_recurringProfileModel->getFieldLabel('updated_at'),
+            'header' => $profile->getFieldLabel('updated_at'),
             'index' => 'updated_at',
             'type' => 'datetime',
-            'width' => '100px',
+            'html_decorators' => array('nobr'),
+            'width' => 1,
         ));
-        
+
+        $methods = array();
+        foreach (Mage::helper('payment')->getRecurringProfileMethods() as $method) {
+            $methods[$method->getCode()] = $method->getTitle();
+        }
+        $this->addColumn('method_code', array(
+            'header'  => $profile->getFieldLabel('method_code'),
+            'index'   => 'method_code',
+            'type'    => 'options',
+            'options' => $methods,
+        ));
+
         $this->addColumn('schedule_description', array(
-            'header' => $_recurringProfileModel->getFieldLabel('schedule_description'),
+            'header' => $profile->getFieldLabel('schedule_description'),
             'index' => 'schedule_description',
         ));
 
@@ -136,7 +133,7 @@ class Mage_Adminhtml_Block_Sales_Recurring_Profile_Grid extends Mage_Adminhtml_B
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/sales_recurring_profile/view', array('recurring_profile_id' => $row->getId()));
+        return $this->getUrl('*/sales_recurring_profile/view', array('profile' => $row->getId()));
     }
 
     /**

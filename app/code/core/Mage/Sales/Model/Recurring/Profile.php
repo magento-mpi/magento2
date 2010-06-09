@@ -423,8 +423,8 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
      */
     public function getAllStates($withLabels = true)
     {
-        $states = array(
-            self::STATE_UNKNOWN, self::STATE_PENDING, self::STATE_ACTIVE, self::STATE_SUSPENDED, self::STATE_CANCELED
+        $states = array(self::STATE_UNKNOWN, self::STATE_PENDING, self::STATE_ACTIVE,
+            self::STATE_SUSPENDED, self::STATE_CANCELED, self::STATE_EXPIRED,
         );
         if ($withLabels) {
             $result = array();

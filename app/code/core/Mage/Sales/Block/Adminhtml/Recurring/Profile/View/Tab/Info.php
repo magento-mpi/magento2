@@ -26,31 +26,42 @@
 
 /**
  * Recurring profile information tab
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Sales_Recurring_Profile_View_Tab_Info
+class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Info
     extends Mage_Adminhtml_Block_Widget
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-
+    /**
+     * Label getter
+     *
+     * @return string
+     */
     public function getTabLabel()
     {
-        return Mage::helper('sales')->__('Information');
+        return Mage::helper('sales')->__('Profile Information');
     }
 
+    /**
+     * Also label getter :)
+     *
+     * @return string
+     */
     public function getTabTitle()
     {
-        return Mage::helper('sales')->__('Order Information');
+        return $this->getLabel();
     }
 
+    /**
+     * @return bool
+     */
     public function canShowTab()
     {
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function isHidden()
     {
         return false;
