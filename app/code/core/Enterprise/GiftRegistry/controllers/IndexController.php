@@ -547,7 +547,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                             ->deleteOrphan($entityId, $personLeft);
                     }
                     $this->_getSession()->addSuccess(
-                        Mage::helper('enterprise_giftregistry/data')->__('Data saved succesfully.')
+                        Mage::helper('enterprise_giftregistry/data')->__('Gift registry has been successfully saved.')
                     );
                     if ($isAddAction) {
                         $model->sendNewRegistryEmail();
