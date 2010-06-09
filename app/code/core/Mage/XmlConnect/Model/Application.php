@@ -122,9 +122,18 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
     public function getRenderConf()
     {
-        $result = $this->_data['conf']['native'];
-        $special = $this->_data['conf']['special'];
-        $extra = $this->_data['conf']['extra'];
+        $result = $special = $extra = array();
+        if (isset($this->_data['conf'])) {
+            if (isset($this->_data['conf']['native'])) {
+                $result = $this->_data['conf']['native'];
+            }
+            if (isset($this->_data['conf']['special'])) {
+                $special = $this->_data['conf']['special'];
+            }
+            if (isset($this->_data['conf']['extra'])) {
+                $extra = $this->_data['conf']['extra'];
+            }
+        }
 
         if (!empty($special['primaryBodyColor'])) {
             $result['body']['backgroundColor'] = $special['primaryBodyColor'];
