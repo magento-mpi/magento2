@@ -1625,6 +1625,13 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $this->setStoreName(implode("\n", $name));
         }
 
+        if (!$this->getIncrementId()) {
+            $incrementId = Mage::getSingleton('eav/config')
+                ->getEntityType('order')
+                ->fetchNewIncrementId($this->getStoreId());
+            $this->setIncrementId($incrementId);
+        }
+
         /**
          * Process items dependency for new order
          */

@@ -57,9 +57,27 @@ class Mage_Sales_Model_Mysql4_Recurring_Profile extends Mage_Sales_Model_Mysql4_
     {
         $select = $this->_getReadAdapter()->select()
             ->from(
-                array('main_table' => $this->getTable('recurring_profile_order')),
+                array('main_table' => $this->getTable('sales/recurring_profile_order')),
                 array('order_id'))
             ->where('profile_id=?', $object->getId());
         return $this->_getReadAdapter()->fetchCol($select);
+    }
+
+    /**
+     * Add order relation to recurring profile
+     *
+     * @param int $recurringProfileId
+     * @param int $orderId
+     * @return Mage_Sales_Model_Mysql4_Recurring_Profile
+     */
+    public function addOrderRelation($recurringProfileId, $orderId)
+    {
+        $this->_getWriteAdapter()->insert(
+            $this->getTable('sales/recurring_profile_order'), array(
+                'profile_id'  => $recurringProfileId,
+                'order_id'      => $orderId
+            )
+        );
+        return $this;
     }
 }

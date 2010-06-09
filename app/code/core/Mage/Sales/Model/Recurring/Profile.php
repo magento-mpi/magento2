@@ -43,6 +43,15 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     const STATE_EXPIRED   = 'expired';
 
     /**
+     * Payment types
+     *
+     * @var string
+     */
+    const PAYMENT_TYPE_REGULAR   = 'regular';
+    const PAYMENT_TYPE_TRIAL     = 'trial';
+    const PAYMENT_TYPE_INITIAL   = 'initial';
+
+    /**
      * Allowed actions matrix
      *
      * @var array
@@ -200,39 +209,91 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
 ////    }
 
     /**
-     * Register payment notification create and process order
+     * Initialize new order based on profile data
      *
+     * @return Mage_Sales_Model_Order
      */
-    public function registerNewPayment($amount, $txn_id)
+    public function initOrder()
     {
-        $order = $this->_createOrder();
+        $items = array();
+        $itemInfoObjects = func_get_args();
 
-        $amount = 15.96;
-        $order    
-            ->setBaseGrandTotal(15.96)
-            ->setBaseSubtotal(10.01)
-            ->setBaseShippingAmount(5.12)
-            ->setBaseTaxAmount(0.83)
-            
-            ->setGrandTotal(15.96)
-            ->setSubtotal(10.01)
-            ->setShippingAmount(5.12)
-            ->setTaxAmount(0.83);
-                
-                
-                
-            
-        $payment = $order->getPayment();
-        $payment->setTransactionId($txn_id)
-            //->setPreparedMessage($this->_createIpnComment(''))
-            //->setParentTransactionId($this->getRequestData('parent_txn_id'))
-            //->setShouldCloseParentTransaction('Completed' === $this->getRequestData('auth_status'))
-            //->setIsTransactionClosed(0)
-            ->registerCaptureNotification($amount);
-        
-        $transactionSave = Mage::getModel('core/resource_transaction')
-                ->addObject($order)
-                ->save();
+        $billingAmount = 0;
+        $shippingAmount = 0;
+        $taxAmount = 0;
+        $isVirtual = 1;
+        $weight = 0;
+        foreach ($itemInfoObjects as $itemInfo) {
+            $item = $this->_getItem($itemInfo);
+            $billingAmount += $item->getPrice();
+            $shippingAmount += $item->getShippingAmount();
+            $taxAmount += $item->getTaxAmount();
+            $weight += $item->getWeight();
+            if (!$item->getIsVirtual()) {
+                $isVirtual = 0;
+            }
+            $items[] = $item;
+        }
+        $grandTotal = $billingAmount + $shippingAmount + $taxAmount;
+
+        $order = Mage::getModel('sales/order');
+
+        $billingAddress = Mage::getModel('sales/order_address')
+            ->setData($this->getBillingAddressInfo())
+            ->setId(null);
+
+        $shippingInfo = $this->getShippingAddressInfo();
+        $shippingAddress = Mage::getModel('sales/order_address')
+            ->setData($shippingInfo)
+            ->setId(null);
+
+        $payment = Mage::getModel('sales/order_payment')
+            ->setMethod($this->getMethodCode());
+
+        $transferDataKays = array(
+            'store_id',             'store_name',           'customer_id',          'customer_email',
+            'customer_firstname',   'customer_lastname',    'customer_middlename',  'customer_prefix',
+            'customer_suffix',      'customer_taxvat',      'customer_gender',      'customer_is_guest',
+            'customer_note_notify', 'customer_group_id',    'customer_note',        'shipping_method',
+            'shipping_description', 'base_currency_code',   'global_currency_code', 'order_currency_code',
+            'store_currency_code',  'base_to_global_rate',  'base_to_order_rate',   'store_to_base_rate',
+            'store_to_order_rate'
+        );
+
+        $orderInfo = $this->getOrderInfo();
+        foreach ($transferDataKays as $kay) {
+            if (isset($orderInfo[$kay])) {
+                $order->setData($kay, $orderInfo[$kay]);
+            } elseif ($shippingInfo[$kay]) {
+                $order->setData($kay, $shippingInfo[$kay]);
+            }
+        }
+
+        $order->setStoreId($this->getStoreId())
+            ->setState(Mage_Sales_Model_Order::STATE_NEW)
+            ->setBaseToOrderRate($this->getInfoValue('order_info', 'base_to_quote_rate'))
+            ->setStoreToOrderRate($this->getInfoValue('order_info', 'store_to_quote_rate'))
+            ->setOrderCurrencyCode($this->getInfoValue('order_info', 'quote_currency_code'))
+            ->setBaseSubtotal($billingAmount)
+            ->setSubtotal($billingAmount)
+            ->setBaseShippingAmount($shippingAmount)
+            ->setShippingAmount($shippingAmount)
+            ->setBaseTaxAmount($taxAmount)
+            ->setTaxAmount($taxAmount)
+            ->setBaseGrandTotal($grandTotal)
+            ->setGrandTotal($grandTotal)
+            ->setIsVirtual($isVirtual)
+            ->setWeight($weight)
+            ->setTotalQtyOrdered($this->getInfoValue('order_info', 'items_qty'))
+            ->setBillingAddress($billingAddress)
+            ->setShippingAddress($shippingAddress)
+            ->setPayment($payment);
+
+        foreach ($items as $item) {
+            $order->addItem($item);
+        }
+
+        return $order;
     }
 
     /**
@@ -438,91 +499,6 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     }
 
     /**
-     * Create order model with data from current profile
-     * 
-     * @return Sales_Model_Order
-     */
-    protected function _createOrder()
-    {
-        $order = Mage::getModel('sales/order');
-
-        $transactionSave = Mage::getModel('core/resource_transaction')
-            ->addObject($order)
-            ->save();
-
-        $quote = Mage::getModel('sales/quote')
-            ->setStoreId($this->getStoreId())
-            ->reserveOrderId();
-        $orderIncrementId = $quote->getReservedOrderId(); 
-
-        $orderItem = Mage::getModel('sales/order_item')
-            ->setData($this->getOrderItemInfo())
-            ->setId(null);
-
-        $billingAddress = Mage::getModel('sales/order_address')
-            ->setData($this->getBillingAddressInfo())
-            ->setId(null);
-
-        $shippingAddress = Mage::getModel('sales/order_address')
-            ->setData($this->getShippingAddressInfo())
-            ->setId(null);
-
-        $payment = Mage::getModel('sales/order_payment')
-            ->setMethod($this->getMethodCode());
-
-        $transferDataKays = array(
-            'store_id',
-            'store_name',
-            'customer_id',
-            'customer_email',
-            'customer_firstname',
-            'customer_lastname',
-            'customer_middlename',
-            'customer_prefix',  
-            'customer_suffix',
-            'customer_taxvat',
-            'customer_gender',
-            'customer_is_guest',
-            'customer_note_notify',
-            'customer_group_id',
-            'customer_note',
-            'shipping_method',
-            'shipping_description',
-            'base_currency_code',
-            'global_currency_code',
-            'order_currency_code',
-            'store_currency_code',
-            'base_to_global_rate',
-            'base_to_order_rate',
-            'store_to_base_rate',
-            'store_to_order_rate'
-        );
-
-        $orderInfo = $this->getOrderInfo();
-        foreach ($transferDataKays as $kay) {
-            if (isset($orderInfo[$kay])) {
-                $order->setData($kay, $orderInfo[$kay]);
-            }
-        } 
-
-        $order
-            ->setTotalItemCount(1)    
-            ->setIncrementId($orderIncrementId)
-            ->setBillingAddress($billingAddress)
-            ->setShippingAddress($shippingAddress)
-            ->addItem($orderItem)
-            ->setPayment($payment)
-            ->setIsVirtual($orderItem->getIsVirtual())
-            ->setWeight($orderItem->getWeight());
-
-        $transactionSave = Mage::getModel('core/resource_transaction')
-                ->addObject($order)
-                ->save();
-
-        return $order;
-    }
-
-    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -599,12 +575,145 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     }
 
     /**
-     * Return recurring profile child order items
+     * Add order relation to recurring profile
      *
-     * @return array
+     * @param int $recurringProfileId
+     * @return Mage_Sales_Model_Recurring_Profile
      */
-    public function getItems()
+    public function addOrderRelation($orderId)
     {
-        return array();
+        $this->getResource()->addOrderRelation($this->getId(), $orderId);
+        return $this;
+    }
+
+    /**
+     * Create and return new order item based on profile item data and $itemInfo
+     *
+     * @param Varien_Object $itemInfo
+     * @return Mage_Sales_Model_Order_Item
+     */
+    protected function _getItem($itemInfo)
+    {
+        $paymentType = $itemInfo->getPaymentType();
+        if (!$paymentType) {
+            throw new Exception("Recurring profile payment type is not specified.");
+        }
+
+        switch ($paymentType) {
+            case self::PAYMENT_TYPE_REGULAR: return $this->_getRegularItem($itemInfo);
+            case self::PAYMENT_TYPE_TRIAL: return $this->_getTrialItem($itemInfo);
+            case self::PAYMENT_TYPE_INITIAL: return $this->_getInitialItem($itemInfo);
+            default: new Exception("Invalid recurring profile payment type '{$paymentType}'.");
+        }
+    }
+
+    /**
+     * Create and return new order item based on profile item data and $itemInfo
+     * for regular payment
+     *
+     * @param Varien_Object $itemInfo
+     * @return Mage_Sales_Model_Order_Item
+     */
+    protected function _getRegularItem($itemInfo)
+    {
+        $price = $itemInfo->getPrice() ? $itemInfo->getPrice() : $this->getBillingAmount();
+        $shippingAmount = $itemInfo->getShippingAmount() ? $itemInfo->getShippingAmount() : $this->getShippingAmount();
+        $taxAmount = $itemInfo->getTaxAmount() ? $itemInfo->getTaxAmount() : $this->getTaxAmount();
+
+        $item = Mage::getModel('sales/order_item')
+            ->setData($this->getOrderItemInfo())
+            ->setQtyOrdered($this->getInfoValue('order_item_info', 'qty'))
+            ->setBaseOriginalPrice($this->getInfoValue('order_item_info', 'price'))
+            ->setPrice($price)
+            ->setBasePrice($price)
+            ->setRowTotal($price)
+            ->setBaseRowTotal($price)
+            ->setTaxAmount($taxAmount)
+            ->setShippingAmount($shippingAmount)
+            ->setId(null);
+        return $item;
+    }
+
+    /**
+     * Create and return new order item based on profile item data and $itemInfo
+     * for trial payment
+     *
+     * @param Varien_Object $itemInfo
+     * @return Mage_Sales_Model_Order_Item
+     */
+    protected function _getTrialItem($itemInfo)
+    {
+        $item = $this->_getRegularItem($itemInfo);
+
+        $item->setName(
+            Mage::helper('sales')->__('Trial ') . $item->getName()
+        );
+
+        $option = array(
+            'label' => Mage::helper('sales')->__('Payment type'),
+            'value' => Mage::helper('sales')->__('Trial period payment')
+        );
+
+        $this->_addAdditionalOptionToItem($item, $option);
+
+        return $item;
+    }
+
+    /**
+     * Create and return new order item based on profile item data and $itemInfo
+     * for initial payment
+     *
+     * @param Varien_Object $itemInfo
+     * @return Mage_Sales_Model_Order_Item
+     */
+    protected function _getInitialItem($itemInfo)
+    {
+        $price = $itemInfo->getPrice() ? $itemInfo->getPrice() : $this->getInitAmount();
+        $shippingAmount = $itemInfo->getShippingAmount() ? $itemInfo->getShippingAmount() : 0;
+        $taxAmount = $itemInfo->getTaxAmount() ? $itemInfo->getTaxAmount() : 0;
+        $item = Mage::getModel('sales/order_item')
+            ->setStoreId($this->getStoreId())
+            ->setProductType(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL)
+            ->setIsVirtual(1)
+            ->setSku('initial_fee')
+            ->setName(Mage::helper('sales')->__('Recurring Profile Initial Fee'))
+            ->setDescription('')
+            ->setWeight(0)
+            ->setQtyOrdered(1)
+            ->setPrice($price)
+            ->setOriginalPrice($price)
+            ->setBasePrice($price)
+            ->setBaseOriginalPrice($price)
+            ->setRowTotal($price)
+            ->setBaseRowTotal($price)
+            ->setTaxAmount($taxAmount)
+            ->setShippingAmount($shippingAmount);
+
+        $option = array(
+            'label' => Mage::helper('sales')->__('Payment type'),
+            'value' => Mage::helper('sales')->__('Initial period payment')
+        );
+
+        $this->_addAdditionalOptionToItem($item, $option);
+        return $item;
+    }
+
+    /**
+     * Add additional options suboption into itev
+     *
+     * @param Mage_Sales_Model_Order_Item $itemInfo
+     * @param array $option
+     */
+    protected function _addAdditionalOptionToItem($item, $option)
+    {
+        $options = $item->getProductOptions();
+        $additionalOptions = $item->getProductOptionByCode('additional_options');
+        if (is_array($additionalOptions)) {
+            $additionalOptions[] = $option;
+        } else {
+            $additionalOptions = array($option);
+        }
+        $options['additional_options'] = $additionalOptions;
+        $item->setProductOptions($options);
     }
 }
