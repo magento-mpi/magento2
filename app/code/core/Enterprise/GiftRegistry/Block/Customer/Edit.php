@@ -40,6 +40,20 @@ class Enterprise_GiftRegistry_Block_Customer_Edit extends Mage_Directory_Block_D
     protected $_inputTemplates = array();
 
     /**
+     * Return edit form header
+     *
+     * @return string
+     */
+    public function getFormHeader()
+    {
+        if (Mage::registry('enterprise_giftregistry_entity')->getId()) {
+            return Mage::helper('enterprise_giftregistry')->__('Edit Gift Registry');
+        } else {
+            return Mage::helper('enterprise_giftregistry')->__('Create Gift Registry');
+        }
+    }
+
+    /**
      * Getter for post data, stored in session
      *
      * @return array|null
