@@ -148,6 +148,7 @@ class Mage_Customer_Model_Entity_Attribute_Collection extends Mage_Eav_Model_Mys
                     $alias = sprintf('scope_%s', $columnName);
                     $expression = new Zend_Db_Expr(sprintf('IFNULL(additional_table.%s, scope_table.%s)',
                         $columnName, $columnName));
+                    $this->addFilterToMap($alias, $expression);
                     $scopeColumns[$alias] = $columnName;
                 }
             }

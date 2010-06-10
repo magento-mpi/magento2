@@ -285,13 +285,24 @@ class Mage_Customer_Model_Form
     protected function _getAttributeDataModel(Mage_Eav_Model_Entity_Attribute $attribute)
     {
         /* @var $dataModel Mage_Customer_Model_Attribute_Data_Abstract */
-        if (empty($this->_attributeDataModels[$attribute->getFrontendInput()])) {
-            $dataModelClass = sprintf('customer/attribute_data_%s', $attribute->getFrontendInput());
-            $dataModel      = Mage::getModel($dataModelClass);
-            $this->_attributeDataModels[$attribute->getFrontendInput()] = $dataModel;
+        $dataModelClass = $attribute->getDataModel();
+        if (!empty($dataModelClass)) {
+            if (empty($this->_attributeDataModels[$dataModelClass])) {
+                $dataModel      = Mage::getModel($dataModelClass);
+                $this->_attributeDataModels[$dataModelClass] = $dataModel;
+            } else {
+                $dataModel = $this->_attributeDataModels[$dataModelClass];
+            }
         } else {
-            $dataModel = $this->_attributeDataModels[$attribute->getFrontendInput()];
+            if (empty($this->_attributeDataModels[$attribute->getFrontendInput()])) {
+                $dataModelClass = sprintf('customer/attribute_data_%s', $attribute->getFrontendInput());
+                $dataModel      = Mage::getModel($dataModelClass);
+                $this->_attributeDataModels[$attribute->getFrontendInput()] = $dataModel;
+            } else {
+                $dataModel = $this->_attributeDataModels[$attribute->getFrontendInput()];
+            }
         }
+
         $dataModel->setAttribute($attribute);
         $dataModel->setEntity($this->getEntity());
         $dataModel->setIsAjaxRequest($this->getIsAjaxRequest());
@@ -344,6 +355,7 @@ class Mage_Customer_Model_Form
         $errors = array();
         foreach ($this->getAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
+            $dataModel->setExtractedData($data);
             if (!isset($data[$attribute->getAttributeCode()])) {
                 $data[$attribute->getAttributeCode()] = null;
             }
@@ -370,6 +382,7 @@ class Mage_Customer_Model_Form
     {
         foreach ($this->getAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
+            $dataModel->setExtractedData($data);
             if (!isset($data[$attribute->getAttributeCode()])) {
                 $data[$attribute->getAttributeCode()] = false;
             }
@@ -389,6 +402,7 @@ class Mage_Customer_Model_Form
     {
         foreach ($this->getAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
+            $dataModel->setExtractedData($data);
             if (!isset($data[$attribute->getAttributeCode()])) {
                 $data[$attribute->getAttributeCode()] = false;
             }
@@ -407,6 +421,7 @@ class Mage_Customer_Model_Form
         $data = array();
         foreach ($this->getAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
+            $dataModel->setExtractedData($data);
             $data[$attribute->getAttributeCode()] = $dataModel->outputValue();
         }
         return $data;

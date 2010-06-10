@@ -63,6 +63,14 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
     protected $_isAjax          = false;
 
     /**
+     * Array of full extracted data
+     * Needed for depends attributes
+     *
+     * @var array
+     */
+    protected $_extractedData   = array();
+
+    /**
      * Set attribute instance
      *
      * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
@@ -123,6 +131,35 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
             Mage::throwException(Mage::helper('customer')->__('Entity object is undefined'));
         }
         return $this->_entity;
+    }
+
+    /**
+     * Set array of full extracted data
+     *
+     * @param array $data
+     * @return Mage_Customer_Model_Attribute_Data_Abstract
+     */
+    public function setExtractedData(array $data)
+    {
+        $this->_extractedData = $data;
+        return $this;
+    }
+
+    /**
+     * Return extracted data
+     *
+     * @param string $index
+     * @return mixed
+     */
+    public function getExtractedData($index = null)
+    {
+        if (!is_null($index)) {
+            if (isset($this->_extractedData[$index])) {
+                return $this->_extractedData[$index];
+            }
+            return null;
+        }
+        return $this->_extractedData;
     }
 
     /**

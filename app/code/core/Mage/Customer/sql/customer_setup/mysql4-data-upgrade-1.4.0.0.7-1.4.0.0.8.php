@@ -314,8 +314,6 @@ $attributes = array(
         'sort_order'        => 110,
         'is_required'       => 1,
         'validate_rules'    => array(
-            'max_text_length'   => 10,
-            'min_text_length'   => 2
         ),
     ),
     'telephone'         => array(
