@@ -63,6 +63,13 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_isMaxLength = false;
 
     /**
+     * Search engine model
+     *
+     * @var Mage_CatalogSearch_Model_Mysql4_Fulltext_Engine
+     */
+    protected $_engine;
+
+    /**
      * Retrieve search query parameter name
      *
      * @return string
@@ -330,20 +337,24 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getEngine()
     {
-//        $engine = (string)Mage::getConfig()->getNode('global/search/engine');
-        $engine = Mage::getStoreConfig('catalog/search/engine');
+        if (!$this->_engine) {
+            $engine = Mage::getStoreConfig('catalog/search/engine');
 
-        /**
-         * This needed if there already was saved in configuartion some none-default engine
-         * and module of that engine was disabled after that.
-         * Problem is in this engine in database configuration still set.
-         */
-        if ($engine && Mage::getConfig()->getResourceModelClassName($engine)) {
-            $model = Mage::getResourceSingleton($engine);
-            if ($model && $model->test()) {
-                return $model;
+            /**
+             * This needed if there already was saved in configuartion some none-default engine
+             * and module of that engine was disabled after that.
+             * Problem is in this engine in database configuration still set.
+             */
+            if ($engine && Mage::getConfig()->getResourceModelClassName($engine)) {
+                $model = Mage::getResourceSingleton($engine);
+                if ($model && $model->test()) {
+                    $this->_engine = $model;
+                }
+            }
+            if (!$this->_engine) {
+                $this->_engine = Mage::getResourceSingleton('catalogsearch/fulltext_engine');
             }
         }
-        return Mage::getResourceSingleton('catalogsearch/fulltext_engine');
+        return $this->_engine;
     }
 }
