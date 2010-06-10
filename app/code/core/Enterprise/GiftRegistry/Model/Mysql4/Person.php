@@ -47,7 +47,7 @@ class Enterprise_GiftRegistry_Model_Mysql4_Person extends Enterprise_Enterprise_
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $object->setCustom(serialize($object->getCustom()));
+        $object->setCustomValues(serialize($object->getCustom()));
         return parent::_beforeSave($object);
     }
 
@@ -59,7 +59,7 @@ class Enterprise_GiftRegistry_Model_Mysql4_Person extends Enterprise_Enterprise_
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
-        $object->setCustom(unserialize($object->getCustom()));
+        $object->setCustom(unserialize($object->getCustomValues()));
         return parent::_afterLoad($object);
     }
 

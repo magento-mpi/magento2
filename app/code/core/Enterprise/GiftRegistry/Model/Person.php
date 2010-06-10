@@ -75,8 +75,8 @@ class Enterprise_GiftRegistry_Model_Person extends Enterprise_Enterprise_Model_C
      * @return $this
      */
     public function unserialiseCustom() {
-        if (is_string($this->getCustom())) {
-            $this->setCustom(unserialize($this->getCustom()));
+        if (is_string($this->getCustomValues())) {
+            $this->setCustom(unserialize($this->getCustomValues()));
         }
         return $this;
     }

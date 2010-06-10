@@ -82,14 +82,32 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
     }
 
     /**
+     * Check if attribute is required
      *
      * @param array $data
+     * @return bool
      */
     public function isAttributeRequired($data)
     {
         if (isset($data['frontend']) && is_array($data['frontend']) && !empty($data['frontend']['is_required'])) {
             return true;
         }
+        return false;
+    }
+
+    /**
+     * Check if attribute is static
+     *
+     * @param string $code
+     * @return bool
+     */
+    public function isAttributeStatic($code)
+    {
+        $types = Mage::getSingleton('enterprise_giftregistry/attribute_config')->getStaticTypesCodes();
+        if (in_array($code, $types)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -155,12 +173,12 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
      *
      * @return string
      */
-    public function getSelectHtml($options, $name, $id, $value = false)
+    public function getSelectHtml($options, $name, $id, $value = false, $class = '')
     {
         $select = $this->getLayout()->createBlock('core/html_select')
             ->setData(array(
                 'id'    => $id,
-                'class' => 'select required-entry global-scope'
+                'class' => 'select global-scope '. $class
             ))
             ->setName($name)
             ->setValue($value)
@@ -229,8 +247,9 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
     {
         $data = array();
         if (is_array($selectOptions)) {
-            foreach ($selectOptions as $k => $option) {
-                $data[$k] = array('label' => $option['label'], 'value' => $option['code']);
+            $data[] = array('label' => $this->__('Please Select'), 'value' => '');
+            foreach ($selectOptions as $option) {
+                $data[] = array('label' => $option['label'], 'value' => $option['code']);
             }
         }
         return $data;
@@ -284,7 +303,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
                 return $this->getCalendarDateHtml($name, $id, $value, $data['date_format'], $class);
             } else if ($type == 'select') {
                 $options  = $data['options'];
-                return $this->getSelectHtml($this->_convertGroupArray($options), $name, $id, $value);
+                return $this->getSelectHtml($this->_convertGroupArray($options), $name, $id, $value, $class);
             } else {
                 return $this->_getInputTextHtml($name, $id, $value, $class . ' input-text');
             }
