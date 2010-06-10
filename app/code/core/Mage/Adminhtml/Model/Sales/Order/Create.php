@@ -1212,25 +1212,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     }
 
     /**
-     * Validate customer data
-     *
-     * @param Mage_Customer_Model_Customer $customer
-     * @return Mage_Adminhtml_Model_Sales_Order_Create
-     */
-    protected function _validateCustomer(Mage_Customer_Model_Customer $customer)
-    {
-        $form = $this->_getCustomerForm();
-        $form->setEntity($customer);
-
-        // emulate request
-        $request = $form->prepareRequest($this->getData('account'));
-        $data    = $form->extractData($request);
-
-
-        return $this;
-    }
-
-    /**
      * Set and validate Customer data
      *
      * @param Mage_Customer_Model_Customer $customer
