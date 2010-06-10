@@ -93,29 +93,23 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
         $resource = $this->getResource();
         $select = $resource->createSelect();
 
-        $addressEntityType = Mage::getSingleton('eav/config')->getEntityType('order_address');
-        $orderEntityType = Mage::getSingleton('eav/config')->getEntityType('order');
+        $mainAddressTable   = $this->getResource()->getTable('sales/order_address');
+        $extraAddressTable  = $this->getResource()->getTable('enterprise_customer/sales_order_address');
+        $orderTable         = $this->getResource()->getTable('sales/order');
 
-        $addressTable = $resource->getTable($addressEntityType->getEntityTable());
-        $orderTable = $resource->getTable($orderEntityType->getEntityTable());
-
-        $orderAddressEntityId = $addressEntityType->getId();
-        $addressTypeAttribute = Mage::getSingleton('eav/config')->getAttribute('order_address', 'address_type');
-
-        $select->from(array('order_address' => $addressTable), array(new Zend_Db_Expr(1)));
-        $select->where('order_address.entity_type_id = ?', $orderAddressEntityId);
-
-        $orderJoinConditions = 'order_address.parent_id = order_address_order.entity_id';
-        $select->joinInner(array('order_address_order' => $orderTable), $orderJoinConditions, array());
+        $select
+            ->from(array('order_address' => $mainAddressTable), array(new Zend_Db_Expr(1)))
+            ->join(
+                array('order_address_order' => $orderTable),
+                'order_address.parent_id = order_address_order.entity_id',
+                array())
+            ->joinLeft(
+                array('extra_order_address' => $extraAddressTable),
+                'order_address.entity_id = extra_order_address.entity_id',
+                array())
+            ->where($this->_createCustomerFilter($customer, 'order_address_order.customer_id'))
+            ->limit(1);
         $this->_limitByStoreWebsite($select, $website, 'order_address_order.store_id');
-        $select->joinInner(
-            array('order_address_type' => $addressTypeAttribute->getBackendTable()),
-            'order_address.entity_id = order_address_type.entity_id',
-            array()
-        );
-        $select->where('order_address_type.attribute_id = ?', $addressTypeAttribute->getId());
-        $select->where($this->_createCustomerFilter($customer, 'order_address_order.customer_id'));
-        $select->limit(1);
 
         return $select;
     }

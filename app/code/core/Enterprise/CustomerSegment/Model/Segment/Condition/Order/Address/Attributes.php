@@ -31,6 +31,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     /**
+     * Array of Customer Address attributes used for customer segment
+     *
+     * @var array
+     */
+    protected $_attributes;
+
+    /**
      * Class constructor
      */
     public function __construct()
@@ -60,12 +67,15 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
         $conditions = array();
         foreach ($attributes as $code => $label) {
-            $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
+            $conditions[] = array(
+                'value' => $this->getType() . '|' . $code,
+                'label' => $label
+            );
         }
 
         return array(
             'value' => $conditions,
-            'label'=>Mage::helper('enterprise_customersegment')->__('Order Address Attributes')
+            'label' => Mage::helper('enterprise_customersegment')->__('Order Address Attributes')
         );
     }
 
@@ -76,8 +86,29 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
      */
     public function loadAttributeOptions()
     {
-        $attributes = Mage::getResourceSingleton('sales/order_address')->getAllAttributes();
-        $this->setAttributeOption($attributes);
+        if (is_null($this->_attributes)) {
+            $this->_attributes  = array();
+
+            /* @var $config Mage_Eav_Model_Config */
+            $config     = Mage::getSingleton('eav/config');
+            $attributes = array();
+
+            foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {
+                $attribute = $config->getAttribute('customer_address', $attributeCode);
+                if (!$attribute || !$attribute->getIsUsedForCustomerSegment()) {
+                    continue;
+                }
+                // skip "binary" attributes
+                if (in_array($attribute->getFrontendInput(), array('file', 'image'))) {
+                    continue;
+                }
+                $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
+                $this->_attributes[$attribute->getAttributeCode()] = $attribute;
+            }
+
+            $this->setAttributeOption($attributes);
+        }
+
         return $this;
     }
 
@@ -165,7 +196,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('eav/config')->getAttribute('order_address', $this->getAttribute());
+        $this->loadAttributeOptions();
+        return $this->_attributes[$this->getAttribute()];
     }
 
     /**
@@ -177,20 +209,16 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
      */
     public function getConditionsSql($customer, $website)
     {
-        $select = $this->getResource()->createSelect();
+        if ($this->getAttributeObject()->getIsUserDefined()) {
+            $tableAlias = 'extra_order_address';
+        } else {
+            $tableAlias = 'order_address';
+        }
 
-        $attribute = $this->getAttributeObject();
-
-        $select->from(array('val'=>$attribute->getBackendTable()), array(new Zend_Db_Expr(1)));
-        $select->limit(1);
-
-        $condition = $this->getResource()->createConditionSql(
-            'val.value', $this->getOperator(), $this->getValue()
+        return $this->getResource()->createConditionSql(
+            sprintf('%s.%s', $tableAlias, $this->getAttribute()),
+            $this->getOperator(),
+            $this->getValue()
         );
-        $select->where('val.attribute_id = ?', $attribute->getId())
-            ->where("val.entity_id = order_address.entity_id")
-            ->where($condition);
-
-        return $select;
     }
 }

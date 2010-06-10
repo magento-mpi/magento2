@@ -171,6 +171,10 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Enterprise_Enterpr
                 return 'LIKE';
             case '!{}':
                 return 'NOT LIKE';
+            case '[]':
+                return 'FIND_IN_SET(%s, %s)';
+            case '![]':
+                return 'FIND_IN_SET(%s, %s) IS NULL';
             case 'between':
                 return "BETWEEN '%s' AND '%s'";
             case '>':
@@ -209,6 +213,24 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Enterprise_Enterpr
                     $condition = $this->_getReadAdapter()->quoteInto(
                         $field.' '.$sqlOperator.' ?', '%'.$value.'%'
                     );
+                }
+                break;
+            case '[]':
+            case '![]':
+                if (is_array($value) && !empty($value)) {
+                    $format = 'FIND_IN_SET(%s, %s)';
+                    $conditions = array();
+                    foreach ($value as $v) {
+                        $conditions[] = sprintf($format, $this->_getReadAdapter()->quote($v), $field);
+                    }
+                    $condition  = sprintf('(%s)=%d', join(' AND ', $conditions), $operator == '[]' ? 1 : 0);
+                } else {
+                    if ($operator == '[]') {
+                        $format = 'FIND_IN_SET(%s, %s)';
+                    } else {
+                        $format = 'FIND_IN_SET(%s, %s) IS NULL';
+                    }
+                    $condition = sprintf($format, $this->_getReadAdapter()->quote($value), $field);
                 }
                 break;
             case 'between':

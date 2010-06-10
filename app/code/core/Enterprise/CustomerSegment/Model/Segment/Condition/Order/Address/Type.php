@@ -20,19 +20,31 @@
  *
  * @category    Enterprise
  * @package     Enterprise_CustomerSegment
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+
+
 /**
  * Order address type condition
+ *
+ * @category    Enterprise
+ * @package     Enterprise_CustomerSegment
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
+    /**
+     * Condition Input Type
+     *
+     * @var string
+     */
     protected $_inputType = 'select';
 
     /**
-     * Class constructor
+     * Define Type and value
+     *
      */
     public function __construct()
     {
@@ -97,36 +109,23 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
     {
         return $this->getTypeElementHtml()
             . Mage::helper('enterprise_customersegment')->__('Order Address %s a %s Address',
-                $this->getOperatorElementHtml(), $this->getValueElement()->getHtml()) . $this->getRemoveLinkHtml();
+                $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
+            . $this->getRemoveLinkHtml();
     }
 
     /**
-     * Get type of allowed subfilter
+     * Get condition query for order address attribute
      *
-     * @return string
-     */
-    public function getSubfilterType()
-    {
-        return 'order_address_type';
-    }
-
-    /**
-     * Apply address type subfilter to parent/base condition query
-     *
-     * @param string $fieldName base query field name
-     * @param bool $requireValid strict validation flag
+     * @param $customer
      * @param $website
-     * @return string
+     * @return Varien_Db_Select
      */
-    public function getSubfilterSql($fieldName, $requireValid, $website)
+    public function getConditionsSql($customer, $website)
     {
-        $operator = (($this->getOperator() == '==') == $requireValid);
-        if ($operator) {
-            $operator = '=';
-        } else {
-            $operator = '<>';
-        }
-
-        return sprintf("%s %s '%s'", $fieldName, $operator, $this->getValue());
+        return $this->getResource()->createConditionSql(
+            'order_address.address_type',
+            $this->getOperator(),
+            $this->getValue()
+        );
     }
 }

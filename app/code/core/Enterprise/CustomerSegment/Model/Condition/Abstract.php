@@ -46,8 +46,27 @@ class Enterprise_CustomerSegment_Model_Condition_Abstract extends Enterprise_Ent
             parent::getDefaultOperatorInputByType();
             $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
             $this->_defaultOperatorInputByType['string'] = array('==', '!=', '{}', '!{}');
+            $this->_defaultOperatorInputByType['multiselect'] = array('==', '!=', '[]', '![]');
+
         }
         return $this->_defaultOperatorInputByType;
+    }
+
+    /**
+     * Default operator options getter
+     * Provides all possible operator options
+     *
+     * @return array
+     */
+    public function getDefaultOperatorOptions()
+    {
+        if (null === $this->_defaultOperatorOptions) {
+            $this->_defaultOperatorOptions = parent::getDefaultOperatorOptions();
+
+            $this->_defaultOperatorOptions['[]'] = Mage::helper('rule')->__('contains');
+            $this->_defaultOperatorOptions['![]'] = Mage::helper('rule')->__('does not contains');
+        }
+        return $this->_defaultOperatorOptions;
     }
 
     /**

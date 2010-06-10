@@ -77,12 +77,16 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('customer/address')
+        $customerAttributes = Mage::getResourceSingleton('customer/address')
             ->loadAllAttributes()
             ->getAttributesByCode();
 
         $attributes = array();
-        foreach ($productAttributes as $attribute) {
+        foreach ($customerAttributes as $attribute) {
+            // skip "binary" attributes
+            if (in_array($attribute->getFrontendInput(), array('file', 'image'))) {
+                continue;
+            }
             if ($attribute->getIsUsedForCustomerSegment()) {
                 $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
             }

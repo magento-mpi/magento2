@@ -108,4 +108,21 @@ class Enterprise_CustomerSegment_Model_Observer
             Mage::getSingleton('enterprise_customersegment/customer')->processCustomer($customer, $website);
         }
     }
+
+    /**
+     * Add field "Use in Customer Segment" for Customer and Customer Address attribute edit form
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function enterpiseCustomerAttributeEditPrepareForm(Varien_Event_Observer $observer)
+    {
+        $form       = $observer->getEvent()->getForm();
+        $fieldset   = $form->getElement('base_fieldset');
+        $fieldset->addField('is_used_for_customer_segment', 'select', array(
+            'name'      => 'is_used_for_customer_segment',
+            'label'     => Mage::helper('enterprise_customersegment')->__('Use in Customer Segment'),
+            'title'     => Mage::helper('enterprise_customersegment')->__('Use in Customer Segment'),
+            'values'    => Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray(),
+        ));
+    }
 }

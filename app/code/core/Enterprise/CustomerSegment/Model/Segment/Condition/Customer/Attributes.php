@@ -94,16 +94,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
             if (!$label) {
                 continue;
             }
-            if ($attribute->getIsUsedForCustomerSegment()) {
-                $attributes[$attribute->getAttributeCode()] = $label;
+            // skip "binary" attributes
+            if (in_array($attribute->getFrontendInput(), array('file', 'image'))) {
+                continue;
             }
-
-            /**
-             * Temporary solution.
-             * @todo should be changed after customer attributes management implementation
-             */
-            $config = (bool) Mage::helper('customer/address')->getConfig($attribute->getAttributeCode().'_show');
-            if ($config) {
+            if ($attribute->getIsUsedForCustomerSegment()) {
                 $attributes[$attribute->getAttributeCode()] = $label;
             }
         }
