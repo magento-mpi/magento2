@@ -319,8 +319,19 @@ One page checkout main layout
                         <action method="setMayBeInvisible"><value>1</value></action>
                     </block>
                 </block>
-                <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing" template="checkout/onepage/billing.phtml"/>
-                <block type="checkout/onepage_shipping" name="checkout.onepage.shipping" as="shipping" template="checkout/onepage/shipping.phtml"/>
+                <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing" template="checkout/onepage/billing.phtml">
+                    <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
+                        <action method="setFormCode"><code>checkout_register</code></action>
+                    </block>
+                    <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes">
+                        <action method="setFormCode"><code>customer_register_address</code></action>
+                    </block>
+                </block>
+                <block type="checkout/onepage_shipping" name="checkout.onepage.shipping" as="shipping" template="checkout/onepage/shipping.phtml">
+                    <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
+                        <action method="setFormCode"><code>customer_register_address</code></action>
+                    </block>
+                </block>
                 <block type="checkout/onepage_shipping_method" name="checkout.onepage.shipping_method" as="shipping_method" template="checkout/onepage/shipping_method.phtml">
                     <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method.available" as="available" template="checkout/onepage/shipping_method/available.phtml"/>
                     <block type="checkout/onepage_shipping_method_additional" name="checkout.onepage.shipping_method.additional" as="additional" template="checkout/onepage/shipping_method/additional.phtml"/>
@@ -337,7 +348,7 @@ One page checkout main layout
                 </block>
             </block>
         </reference>
-        
+        <update handle="customer_form_template_handle"/>
     </checkout_onepage_index>
 
 <!--

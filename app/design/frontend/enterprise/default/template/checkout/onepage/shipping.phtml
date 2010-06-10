@@ -115,6 +115,12 @@
                             </div>
                         </div>
                     </li>
+                    <?php $addressAttributes = $this->getChild('customer_form_shipping_address_user_defined_attributes');?>
+                    <?php if ($addressAttributes): ?>
+                        <?php $addressAttributes->setEntity($this->getAddress())->setEntityType('customer_address');?>
+                        <?php $addressAttributes->setFieldIdFormat('shipping:%1$s')->setFieldNameFormat('shipping[%1$s]');?>
+                        <?php echo $addressAttributes->setExcludeFileAttributes(true)->setShowContainer(false)->toHtml()?>
+                    <?php endif;?>
                     <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
                         <li class="control">
                             <div class="input-box">
@@ -134,7 +140,6 @@
                 </ul>
             </div>
         </li>
-
     </ul>
 </fieldset>
 <div class="buttons-set form-buttons" id="shipping-buttons-container">
