@@ -76,16 +76,16 @@ abstract class Enterprise_Customer_Model_Mysql4_Sales_Abstract extends Enterpris
                 $defination = "DATE NULL DEFAULT NULL";
                 break;
             case 'decimal':
-                $defination = "DECIMAL(12,4) NOT NULL DEFAULT '0.0000'";
+                $defination = "DECIMAL(12,4) DEFAULT NULL";
                 break;
             case 'int':
-                $defination = "INT(11) NOT NULL DEFAULT '0'";
+                $defination = "INT(11) DEFAULT NULL";
                 break;
             case 'text':
-                $defination = "TEXT NOT NULL";
+                $defination = "TEXT DEFAULT NULL";
                 break;
             case 'varchar':
-                $defination = "VARCHAR(255) NOT NULL DEFAULT ''";
+                $defination = "VARCHAR(255) DEFAULT NULL";
                 break;
             default:
                 return $this;
