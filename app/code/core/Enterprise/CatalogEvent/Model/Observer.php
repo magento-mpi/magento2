@@ -257,6 +257,7 @@ class Enterprise_CatalogEvent_Model_Observer
         }
 
         $collection = $observer->getEvent()->getCollection();
+        $collection->addCategoryIds();
         foreach ($collection as $product) {
             $this->_applyEventToProduct($product);
         }

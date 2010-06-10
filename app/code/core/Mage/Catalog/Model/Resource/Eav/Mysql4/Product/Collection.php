@@ -1612,4 +1612,39 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     {
         return $this;
     }
+
+    /**
+     * Add category ids to loaded items
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function addCategoryIds()
+    {
+        if ($this->getFlag('category_ids_added')) {
+            return $this;
+        }
+        $ids = array_keys($this->_items);
+        if (empty($ids)) {
+            return $this;
+        }
+        $select = $this->getConnection()->select()
+            ->from($this->_productCategoryTable, array('product_id', 'category_id'))
+            ->where('category_id IN (?)', $ids);
+        $data = $this->getConnection()->fetchAll($select);
+        $categoryIds = array();
+        foreach ($data as $info) {
+            if (isset($categoryIds[$info['product_id']])) {
+                $categoryIds[$info['product_id']][] = $info['category_id'];
+            } else {
+                $categoryIds[$info['product_id']] = array($info['category_id']);
+            }
+        }
+        foreach ($this as $item) {
+            $id = $item->getId();
+            if (isset($categoryIds[$id])) {
+                $item->setCategoryIds($categoryIds[$id]);
+            }
+        }
+        $this->setFlag('category_ids_added', true);
+        return $this;
+    }
 }
