@@ -234,14 +234,6 @@
                     </enterprise_customer>
                 </observers>
             </core_copy_fieldset_checkout_onepage_quote_to_customer>
-            <core_copy_fieldset_checkout_onepage_billing_to_customer>
-                <observers>
-                    <enterprise_customer>
-                        <class>enterprise_customer/observer</class>
-                        <method>coreCopyFieldsetCheckoutOnepageBillingToCustomer</method>
-                    </enterprise_customer>
-                </observers>
-            </core_copy_fieldset_checkout_onepage_billing_to_customer>
         </events>
     </global>
     <adminhtml>
