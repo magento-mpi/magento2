@@ -32,6 +32,7 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Customer/>
+                <Enterprise_Customer/>
                 <Mage_Adminhtml/>
                 <Mage_Catalog/>
                 <Mage_CatalogRule/>
