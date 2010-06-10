@@ -200,9 +200,19 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             if ($_params['sort_by'] == 'relevance') {
                 $_params['sort_by'] = 'score';
             }
-            if ($_params['sort_by'] == 'name') {
+            elseif ($_params['sort_by'] == 'name') {
                 $_params['sort_by'] = 'alphaNameSort';
             }
+            elseif ($_params['sort_by'] == 'position') {
+                $sortField = 'position_category_' . Mage::registry('current_category')->getId();
+            }
+            elseif ($_params['sort_by'] == 'price') {
+                $websiteId       = Mage::app()->getStore()->getWebsiteId();
+                $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+
+                $_params['sort_by'] = 'price_'. $customerGroupId .'_'. $websiteId;
+            }
+
             $_params['sort_by'] = array(array($_params['sort_by'] => SolrQuery::ORDER_ASC));
         }
 
@@ -534,9 +544,19 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             if ($_params['sort_by'] == 'relevance') {
                 $_params['sort_by'] = 'score';
             }
-            if ($_params['sort_by'] == 'name') {
+            elseif ($_params['sort_by'] == 'name') {
                 $_params['sort_by'] = 'alphaNameSort';
             }
+            elseif ($_params['sort_by'] == 'position') {
+                $sortField = 'position_category_' . Mage::registry('current_category')->getId();
+            }
+            elseif ($_params['sort_by'] == 'price') {
+                $websiteId       = Mage::app()->getStore()->getWebsiteId();
+                $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+
+                $_params['sort_by'] = 'price_'. $customerGroupId .'_'. $websiteId;
+            }
+
             $_params['sort_by'] = array(array($_params['sort_by'] => SolrQuery::ORDER_ASC));
         }
 
@@ -550,16 +570,31 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             if ($sortField == 'relevance') {
                 $sortField = 'score';
             }
-            if (in_array($sortField, $this->_usedFields)) {
-                if ($sortField == 'name') {
-                    $sortField = 'alphaNameSort';
-                }
-                if (in_array($sortField, $this->_searchTextFields)) {
-                    $sortField = $sortField . $languageSuffix;
-                }
-                $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
-                $solrQuery->addSortField($sortField, $sortType);
+//            if (in_array($sortField, $this->_usedFields)) {
+//                if ($sortField == 'name') {
+//                    $sortField = 'alphaNameSort';
+//                }
+//                if (in_array($sortField, $this->_searchTextFields)) {
+//                    $sortField = $sortField . $languageSuffix;
+//                }
+//                $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
+//                $solrQuery->addSortField($sortField, $sortType);
+//            }
+            elseif ($sortField == 'position') {
+                $sortField = 'position_category_' . Mage::registry('current_category')->getId();
             }
+            elseif ($sortField == 'price') {
+                $websiteId       = Mage::app()->getStore()->getWebsiteId();
+                $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+
+                $sortField = 'price_'. $customerGroupId .'_'. $websiteId;
+            }
+            else {
+                $sortField = $this->getAttributeSolrFieldName($sortField);
+            }
+
+            $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
+            $solrQuery->addSortField($sortField, $sortType);
         }
 
         /**

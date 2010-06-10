@@ -369,9 +369,9 @@ class Enterprise_Search_Model_Resource_Collection
             $select = $this->getProductCountSelect();
 
             Mage::dispatchEvent('catalog_product_collection_before_add_count_to_categories', array('collection'=>$this));
+            $params = array();
+            $params['facet']['field']  = 'categories';
             if ($isAnchor) {
-                $params = array();
-                $params['facet']['field']  = 'categories';
                 $params['facet']['values'] = $isAnchor;
                 $res = $this->getFacets($params);
 
@@ -379,8 +379,6 @@ class Enterprise_Search_Model_Resource_Collection
                 $anchorStmt = null;
             }
             if ($isNotAnchor) {
-                $params = array();
-                $params['facet']['field']  = 'categories';
                 $params['facet']['values'] = $isNotAnchor;
                 $res = $this->getFacets($params);
                 $productCounts += $res['categories'];

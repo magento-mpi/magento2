@@ -108,10 +108,46 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
      */
     protected function _search($query, $params = array())
     {
-        $query = $this->_prepareQueryText($query);
-        if (!$query) {
+        if (is_array($query)) {
+            $searchConditions = array();
+
+            foreach ($query as $field => $value) {
+                if (is_array($value)) {
+                    if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
+                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
+                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
+                        $fieldCondition = "$field:[$from TO $to]";
+                    }
+                    else {
+                        $fieldCondition = array();
+                        foreach ($value as $part) {
+                            $part = $this->_prepareQueryText($part);
+                            $fieldCondition[] = $field .':'. $part;
+                        }
+                        $fieldCondition = '('. implode(' OR ', $fieldCondition) .')';
+                    }
+                }
+                else {
+                    if ($value != '*') {
+                        $value = $this->_prepareQueryText($value);
+                    }
+
+                    $fieldCondition = $field .':'. $value;
+                }
+
+                $searchConditions[] = $fieldCondition;
+            }
+
+            $searchConditions = implode(' AND ', $searchConditions);
+        }
+        else {
+            $searchConditions = $this->_prepareQueryText($query);
+        }
+
+        if (!$searchConditions) {
             return array();
         }
+
         $_params = $this->_defaultQueryParams;
         if (is_array($params) && !empty($params)) {
             $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
@@ -131,7 +167,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             $_params['fields'] = array($_params['fields']);
         }
 
-        if (!is_array($_params['solr_params'])){
+        if (!is_array($_params['solr_params'])) {
             $_params['solr_params'] = array($_params['solr_params']);
         }
 
@@ -142,9 +178,19 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             if ($_params['sort_by'] == 'relevance') {
                 $_params['sort_by'] = 'score';
             }
-            if ($_params['sort_by'] == 'name') {
+            elseif ($_params['sort_by'] == 'name') {
                 $_params['sort_by'] = 'alphaNameSort';
             }
+            elseif ($_params['sort_by'] == 'position') {
+                $sortField = 'position_category_' . Mage::registry('current_category')->getId();
+            }
+            elseif ($_params['sort_by'] == 'price') {
+                $websiteId       = Mage::app()->getStore()->getWebsiteId();
+                $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+
+                $_params['sort_by'] = 'price_'. $customerGroupId .'_'. $websiteId;
+            }
+
             $_params['sort_by'] = array(array($_params['sort_by'] => 'asc'));
         }
 
@@ -158,16 +204,30 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             if ($sortField == 'relevance') {
                 $sortField = 'score';
             }
-            if (in_array($sortField, $this->_usedFields)) {
-                if ($sortField == 'name') {
-                    $sortField = 'alphaNameSort';
-                }
-                if (in_array($sortField, $this->_searchTextFields)) {
-                    $sortField = $sortField . $languageSuffix;
-                }
-                $sortType = trim(strtolower($sortType)) == 'desc' ? 'desc' : 'asc';
-                $searchParams['sort'][] = $sortField . ' ' . $sortType;
+//            if (in_array($sortField, $this->_usedFields)) {
+//                if ($sortField == 'name') {
+//                    $sortField = 'alphaNameSort';
+//                }
+//                if (in_array($sortField, $this->_searchTextFields)) {
+//                    $sortField = $sortField . $languageSuffix;
+//                }
+//                $sortType = trim(strtolower($sortType)) == 'desc' ? 'desc' : 'asc';
+//                $searchParams['sort'][] = $sortField . ' ' . $sortType;
+//            }
+            elseif ($sortField == 'position') {
+                $sortField = 'position_category_' . Mage::registry('current_category')->getId();
             }
+            elseif ($sortField == 'price') {
+                $websiteId       = Mage::app()->getStore()->getWebsiteId();
+                $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+
+                $sortField = 'price_'. $customerGroupId .'_'. $websiteId;
+            }
+            else {
+                $sortField = $this->getAttributeSolrFieldName($sortField);
+            }
+
+            $searchParams['sort'][] = $sortField . ' ' . $sortType;
         }
 
         /**
@@ -195,25 +255,90 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             }
         }
 
+        $searchParams['fq'] = array();
+        if (!empty($params['filters'])) {
+            foreach ($params['filters'] as $field => $value) {
+                if (is_array($value)) {
+                    if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
+                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
+                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
+                        $fieldCondition = "$field:[$from TO $to]";
+                    }
+                    else {
+                        $fieldCondition = array();
+                        foreach ($value as $part) {
+                            $part = $this->_prepareQueryText($part);
+                            $fieldCondition[] = $field .':'. strtolower($part);
+                        }
+                        $fieldCondition = '(' . implode(' OR ', $fieldCondition) . ')';
+                    }
+                }
+                else {
+                    $value = $this->_prepareQueryText($value);
+                    $fieldCondition = $field .':'. $value;
+                }
+
+                $searchParams['fq'][] = $fieldCondition;
+            }
+        }
+
         /**
          * Store filtering
          */
         if ($_params['store_id'] > 0) {
-            $searchParams['fq'] = 'store_id:' . $_params['store_id'];
+            $searchParams['fq'][] = 'store_id:' . $_params['store_id'];
         }
         if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
-            $searchParams['fq'] .= ' AND in_stock:true';
+            $searchParams['fq'][] = 'in_stock:true';
         }
+
+        $searchParams['fq'] = implode(' AND ', $searchParams['fq']);
 
         try {
             $this->_client->ping();
-            $response = $this->_client->search($query, $offset, $limit, $searchParams);
+            $response = $this->_client->search($searchConditions, $offset, $limit, $searchParams);
             $data = json_decode($response->getRawResponse());
+
             return $this->_prepareQueryResponse($data);
         }
         catch (Exception $e) {
             Mage::logException($e);
         }
+    }
+
+    /**
+     * Retrive attribute field's name for sorting
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     *
+     * @return string
+     */
+    public function getAttributeSolrFieldName($attributeCode)
+    {
+        $entityType = Mage::getModel('eav/config')
+            ->getEntityType('catalog_product');
+        $attribute = Mage::getModel('eav/config')->getAttribute($entityType, $attributeCode);
+
+        $field = $attributeCode;
+        $fieldType = $attribute->getBackendType();
+        $frontendInput = $attribute->getFrontendInput();
+
+        if ($frontendInput == 'multiselect') {
+            $field = 'attr_multi_'. $field;
+        }
+        elseif ($fieldType == 'decimal') {
+            $field = 'attr_decimal_'. $field;
+        }
+        elseif (in_array($fieldType, $this->_textFieldTypes)) {
+            $languageCode = $this->_getLanguageCodeByLocaleCode(
+                Mage::app()->getStore()
+                ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE));
+            $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+
+            $field .= $languageSuffix;
+        }
+
+        return $field;
     }
 
     /**
@@ -234,7 +359,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
-        $solrQuery = new SolrQuery($query);
+//        $solrQuery = new SolrQuery($query);
 
         /**
          * Now supported search only in fulltext and name fields based on dismax requestHandler (named as magento_lng).
@@ -252,21 +377,21 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         /**
          * Specific Solr params
          */
-        if (!empty($_params['solr_params'])) {
-            foreach ($_params['solr_params'] as $name => $value) {
-                $solrQuery->setParam($name, $value);
-            }
-        }
+//        if (!empty($_params['solr_params'])) {
+//            foreach ($_params['solr_params'] as $name => $value) {
+//                $solrQuery->setParam($name, $value);
+//            }
+//        }
 
         /**
          * Store filtering
          */
-        if (!empty($params['store_id'])) {
-            $solrQuery->addFilterQuery('store_id:' . $params['store_id']);
-        }
-        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
-            $solrQuery->addFilterQuery('in_stock:true');
-        }
+//        if (!empty($params['store_id'])) {
+//            $solrQuery->addFilterQuery('store_id:' . $params['store_id']);
+//        }
+//        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
+//            $solrQuery->addFilterQuery('in_stock:true');
+//        }
 
         try {
             $this->_client->ping();
@@ -301,6 +426,234 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
     public function ping()
     {
         return $this->_client->ping();
+    }
+
+    /**
+     * Simple Search facets interface
+     *
+     * @param string $query The raw query string
+     * @return boolean|string
+     */
+    protected function _searchFacets($query, $params = array())
+    {
+        if (is_array($query)) {
+            $searchConditions = array();
+
+            foreach ($query as $field => $value) {
+                if (is_array($value)) {
+                    if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
+                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
+                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
+                        $fieldCondition = "$field:[$from TO $to]";
+                    }
+                    else {
+                        $fieldCondition = array();
+                        foreach ($value as $part) {
+                            $part = $this->_prepareQueryText($part);
+                            $fieldCondition[] = $field .':'. $part;
+                        }
+                        $fieldCondition = '('. implode(' OR ', $fieldCondition) .')';
+                    }
+                }
+                else {
+                    if ($value != '*') {
+                        $value = $this->_prepareQueryText($value);
+                    }
+
+                    $fieldCondition = $field .':'. $value;
+                }
+
+                $searchConditions[] = $fieldCondition;
+            }
+
+            $searchConditions = implode(' AND ', $searchConditions);
+        }
+        else {
+            $searchConditions = $this->_prepareQueryText($query);
+        }
+
+        if (!$searchConditions) {
+            return array();
+        }
+
+        $_params = $this->_defaultQueryParams;
+        if (is_array($params) && !empty($params)) {
+            $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
+        }
+        $offset = (int)$_params['offset'];
+        $limit  = (int)$_params['limit'];
+
+        if (!$limit) {
+            $limit = 100;
+        }
+
+        $searchParams = array();
+        $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
+        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+
+        if (!is_array($_params['fields'])) {
+            $_params['fields'] = array($_params['fields']);
+        }
+
+        if (!is_array($_params['solr_params'])) {
+            $_params['solr_params'] = array($_params['solr_params']);
+        }
+
+        /**
+         * Support specifing sort by field as only string name of field
+         */
+        if (!empty($_params['sort_by']) && !is_array($_params['sort_by'])) {
+            if ($_params['sort_by'] == 'relevance') {
+                $_params['sort_by'] = 'score';
+            }
+            elseif ($_params['sort_by'] == 'name') {
+                $_params['sort_by'] = 'alphaNameSort';
+            }
+            elseif ($_params['sort_by'] == 'position') {
+                $sortField = 'position_category_' . Mage::registry('current_category')->getId();
+            }
+            elseif ($_params['sort_by'] == 'price') {
+                $websiteId       = Mage::app()->getStore()->getWebsiteId();
+                $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+
+                $_params['sort_by'] = 'price_'. $customerGroupId .'_'. $websiteId;
+            }
+
+            $_params['sort_by'] = array(array($_params['sort_by'] => 'asc'));
+        }
+
+        /**
+         * Add sort fields
+         */
+        foreach ($_params['sort_by'] as $_key => $sort) {
+            $_sort = each($sort);
+            $sortField = $_sort['key'];
+            $sortType = $_sort['value'];
+            if ($sortField == 'relevance') {
+                $sortField = 'score';
+            }
+//            if (in_array($sortField, $this->_usedFields)) {
+//                if ($sortField == 'name') {
+//                    $sortField = 'alphaNameSort';
+//                }
+//                if (in_array($sortField, $this->_searchTextFields)) {
+//                    $sortField = $sortField . $languageSuffix;
+//                }
+//                $sortType = trim(strtolower($sortType)) == 'desc' ? 'desc' : 'asc';
+//                $searchParams['sort'][] = $sortField . ' ' . $sortType;
+//            }
+            elseif ($sortField == 'position') {
+                $sortField = 'position_category_' . Mage::registry('current_category')->getId();
+            }
+            elseif ($sortField == 'price') {
+                $websiteId       = Mage::app()->getStore()->getWebsiteId();
+                $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+
+                $sortField = 'price_'. $customerGroupId .'_'. $websiteId;
+            }
+            else {
+                $sortField = $this->getAttributeSolrFieldName($sortField);
+            }
+
+            $searchParams['sort'][] = $sortField . ' ' . $sortType;
+        }
+
+        /**
+         * Fields to retrieve
+         */
+        if (!empty($_params['fields'])) {
+            $searchParams['fl'] = implode(',', $_params['fields']);
+        }
+
+        /**
+         * Now supported search only in fulltext and name fields based on dismax requestHandler.
+         * Using dismax requestHandler for each language make matches in name field
+         * are much more significant than matches in fulltext field.
+         */
+        if ($_params['ignore_handler'] !== true) {
+            $_params['solr_params']['qt'] = 'magento' . $languageSuffix;
+        }
+
+        $searchParams['facet'] = 'on';
+
+        if (isset($params['facet'])) {
+            if (empty($params['facet']['values'])) {
+                $searchParams['facet.field'] = $params['facet']['field'];
+            }
+            else {
+                $searchParams['facet.query'] = array();
+                foreach ($params['facet']['values'] as $key => $value) {
+                    if (is_array($value) && isset($value['from']) && isset($value['to'])) {
+                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
+                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
+                        $fieldCondition = "{$params['facet']['field']}:[$from TO $to]";
+                    }
+                    else {
+                        $fieldCondition = "{$params['facet']['field']}:$value";
+                    }
+                    $searchParams['facet.query'][] =  $fieldCondition;
+                }
+            }
+        }
+
+        /**
+         * Specific Solr params
+         */
+        if (!empty($_params['solr_params'])) {
+            foreach ($_params['solr_params'] as $name => $value) {
+                $searchParams[$name] = $value;
+            }
+        }
+
+        $searchParams['fq'] = array();
+        if (!empty($params['filters'])) {
+            foreach ($params['filters'] as $field => $value) {
+                if (is_array($value)) {
+                    if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
+                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
+                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
+                        $fieldCondition = "$field:[$from TO $to]";
+                    }
+                    else {
+                        $fieldCondition = array();
+                        foreach ($value as $part) {
+                            $part = $this->_prepareQueryText($part);
+                            $fieldCondition[] = $field .':'. strtolower($part);
+                        }
+                        $fieldCondition = '(' . implode(' OR ', $fieldCondition) . ')';
+                    }
+                }
+                else {
+                    $value = $this->_prepareQueryText($value);
+                    $fieldCondition = $field .':'. $value;
+                }
+
+                $searchParams['fq'][] = $fieldCondition;
+            }
+        }
+
+        /**
+         * Store filtering
+         */
+        if ($_params['store_id'] > 0) {
+            $searchParams['fq'][] = 'store_id:' . $_params['store_id'];
+        }
+        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
+            $searchParams['fq'][] = 'in_stock:true';
+        }
+
+        $searchParams['fq'] = implode(' AND ', $searchParams['fq']);
+
+        try {
+            $this->_client->ping();
+            $response = $this->_client->search($searchConditions, $offset, $limit, $searchParams);
+            $data = json_decode($response->getRawResponse());
+
+            return $this->_prepareFacetsQueryResponse($data);
+        }
+        catch (Exception $e) {
+            Mage::logException($e);
+        }
     }
 
     /**
