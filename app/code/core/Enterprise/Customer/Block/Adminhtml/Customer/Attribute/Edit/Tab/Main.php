@@ -57,7 +57,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
         // update Input Types
         $element    = $form->getElement('frontend_input');
         $element->setValues($helper->getFrontendInputOptions());
-        $element->setLabel(Mage::helper('enterprise_customer')->__('Input type'));
+        $element->setLabel(Mage::helper('enterprise_customer')->__('Input Type'));
         $element->setRequired(true);
 
         $fieldset->addField('multiline_count', 'text', array(
@@ -77,22 +77,22 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
 
         $fieldset->addField('min_text_length', 'text', array(
             'name'      => 'min_text_length',
-            'label'     => Mage::helper('enterprise_customer')->__('Minimum Length of Text'),
-            'title'     => Mage::helper('enterprise_customer')->__('Minimum Length of Text'),
+            'label'     => Mage::helper('enterprise_customer')->__('Minimum Text Length'),
+            'title'     => Mage::helper('enterprise_customer')->__('Minimum Text Length'),
             'class'     => 'validate-digits',
         ), 'input_validation');
 
         $fieldset->addField('max_text_length', 'text', array(
             'name'      => 'max_text_length',
-            'label'     => Mage::helper('enterprise_customer')->__('Maximum Length of Text'),
-            'title'     => Mage::helper('enterprise_customer')->__('Maximum Length of Text'),
+            'label'     => Mage::helper('enterprise_customer')->__('Maximum Text Length'),
+            'title'     => Mage::helper('enterprise_customer')->__('Maximum Text Length'),
             'class'     => 'validate-digits',
         ), 'min_text_length');
 
         $fieldset->addField('max_file_size', 'text', array(
             'name'      => 'max_file_size',
-            'label'     => Mage::helper('enterprise_customer')->__('Maximum Size of File (bytes)'),
-            'title'     => Mage::helper('enterprise_customer')->__('Maximum Size of File (bytes)'),
+            'label'     => Mage::helper('enterprise_customer')->__('Maximum File Size (bytes)'),
+            'title'     => Mage::helper('enterprise_customer')->__('Maximum File Size (bytes)'),
             'class'     => 'validate-digits',
         ), 'max_text_length');
 
@@ -100,7 +100,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
             'name'      => 'file_extensions',
             'label'     => Mage::helper('enterprise_customer')->__('File Extensions'),
             'title'     => Mage::helper('enterprise_customer')->__('File Extensions'),
-            'note'      => Mage::helper('enterprise_customer')->__('Comma separate'),
+            'note'      => Mage::helper('enterprise_customer')->__('Comma separated'),
         ), 'max_file_size');
 
         $fieldset->addField('max_image_width', 'text', array(
@@ -132,8 +132,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
 
         $fieldset->addField('is_visible', 'select', array(
             'name'      => 'is_visible',
-            'label'     => Mage::helper('enterprise_customer')->__('Show on the Frontend'),
-            'title'     => Mage::helper('enterprise_customer')->__('Show on the Frontend'),
+            'label'     => Mage::helper('enterprise_customer')->__('Show on Frontend'),
+            'title'     => Mage::helper('enterprise_customer')->__('Show on Frontend'),
             'values'    => $yesnoSource,
         ));
 
@@ -187,6 +187,11 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
                 $form->getElement('input_validation')->setValues($values);
             }
         }
+
+        Mage::dispatchEvent('enterprise_customer_attribute_edit_tab_general_prepare_form', array(
+            'form'      => $form,
+            'attribute' => $attribute
+        ));
 
         return $this;
     }

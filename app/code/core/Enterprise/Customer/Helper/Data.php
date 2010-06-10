@@ -35,7 +35,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Enterprise_Helper_Core_
 {
     /**
      * Array of User Defined attribute codes per entity type code
-     * 
+     *
      * @var array
      */
     protected $_userDefinedAttributeCodes = array();
@@ -66,7 +66,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Enterprise_Helper_Core_
     {
         return array(
             array(
-                'label' => Mage::helper('enterprise_customer')->__('Checkout Register Customer'),
+                'label' => Mage::helper('enterprise_customer')->__('Customer Checkout Register'),
                 'value' => 'checkout_register'
             ),
             array(
@@ -229,7 +229,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Enterprise_Helper_Core_
                 'default_value'     => false,
             ),
             'image'         => array(
-                'label'             => Mage::helper('enterprise_customer')->__('Image file'),
+                'label'             => Mage::helper('enterprise_customer')->__('Image File'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'max_file_size',
@@ -273,9 +273,9 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Enterprise_Helper_Core_
     public function getAttributeValidateFilters()
     {
         return array(
-            'alphanumeric'  => Mage::helper('enterprise_customer')->__('Alpha and Numeric'),
-            'numeric'       => Mage::helper('enterprise_customer')->__('Numeric only'),
-            'alpha'         => Mage::helper('enterprise_customer')->__('Alpha only'),
+            'alphanumeric'  => Mage::helper('enterprise_customer')->__('Alphanumeric'),
+            'numeric'       => Mage::helper('enterprise_customer')->__('Numeric Only'),
+            'alpha'         => Mage::helper('enterprise_customer')->__('Alpha Only'),
             'url'           => Mage::helper('enterprise_customer')->__('URL'),
             'email'         => Mage::helper('enterprise_customer')->__('Email'),
             'date'          => Mage::helper('enterprise_customer')->__('Date'),
