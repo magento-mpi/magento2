@@ -94,6 +94,7 @@ var customAttribute = {
     templateText : attributeTemplate,
     attributeId : 0,
     prefix : '<?php echo $this->getFieldPrefix() ?>',
+    usedMessage : '<?php echo $this->__('Attribute of this type is already used') ?>',
     add : function(data) {
         if(data.id == undefined){
             data = {};
@@ -168,21 +169,22 @@ var customAttribute = {
     },
     addParams : function(element, type){
         var template = this.getOptionTemplate(type);
-        var container = element.id.sub('attribute', 'option').sub('_type', '');
-
         data = {};
         data.id = element.id.sub(this.prefix+'_attribute_', '').sub('_type', '');
         data.type = type;
         data.prefix = this.prefix;
 
-        $$('#'+container+' .type-options').each(function(el){
-            $(el.id).remove();
-        });
-
+        this.clearParams(element);
         this.insertOptionTemplate(template, data);
         if (type == 'select') {
             selectOptionType.bindAddButton();
         }
+    },
+    clearParams : function(element) {
+        var container = element.id.sub('attribute', 'option').sub('_type', '');
+        $$('#'+container+' .type-options').each(function(el){
+            $(el.id).remove();
+        });
     },
     remove : function(event){
         var element = $(Event.findElement(event, 'div'));
@@ -246,30 +248,43 @@ var customAttribute = {
         var type = parts[0];
         var code = (parts[1] != undefined) ? parts[1] : 0;
         var group = (parts[2] != undefined) ? parts[2] : 0;
+        var alreadyUsed = false;
 
-        hiddenTypeInput = $(element.id.sub('_type','_hidden_type'));
+        var codeInput = $(element.id.sub('_type','_code'));
+        var hiddenCodeInput = $(element.id.sub('_type','_hidden_code'));
+        var groupInput = $(element.id.sub('_type','_group'));
+        var hiddenGroupInput = $(element.id.sub('_type','_hidden_group'));
+
+        $$('.attribute-type').each(function(el){
+            if (el.id != element.id && el.value == element.value && code) {
+                alreadyUsed = true;
+            }
+        });
+
+        if (alreadyUsed) {
+            alert(this.usedMessage);
+            element.selectedIndex = 0;
+            this.clearParams(element);
+            this.hideExtBox(element);
+            codeInput.enable();
+            groupInput.enable();
+            return;
+        }
+
+        var hiddenTypeInput = $(element.id.sub('_type','_hidden_type'));
         hiddenTypeInput.value = type;
-
-        extBox = $(element.id.sub('_type','').sub('attribute','option_ext'));
-        codeInput = $(element.id.sub('_type','_code'));
-        hiddenCodeInput = $(element.id.sub('_type','_hidden_code'));
 
         if (code) {
             codeInput.value = code;
             codeInput.disable();
             hiddenCodeInput.value = code;
             hiddenCodeInput.enable();
-            extBox.show();
-            $$('div#'+extBox.id+' .select').each(function(el){el.enable()});
+            this.showExtBox(element);
         } else {
             codeInput.enable();
             hiddenCodeInput.disable();
-            $$('div#'+extBox.id+' .select').each(function(el){el.disable()});
-            extBox.hide();
+            this.hideExtBox(element);
         }
-
-        groupInput = $(element.id.sub('_type','_group'));
-        hiddenGroupInput = $(element.id.sub('_type','_hidden_group'));
 
         if (group) {
             $A(groupInput.options).each(function(option){
@@ -285,6 +300,16 @@ var customAttribute = {
             hiddenGroupInput.disable();
         }
         customAttribute.addParams(element, type);
+    },
+    showExtBox : function(element){
+        var extBox = $(element.id.sub('_type','').sub('attribute','option_ext'));
+        extBox.show();
+        $$('div#'+extBox.id+' .select').each(function(el){el.enable()});
+    },
+    hideExtBox : function(element){
+        var extBox = $(element.id.sub('_type','').sub('attribute','option_ext'));
+        extBox.hide();
+        $$('div#'+extBox.id+' .select').each(function(el){el.disable()});
     },
     getOptionTemplate : function(type){
         var template;
