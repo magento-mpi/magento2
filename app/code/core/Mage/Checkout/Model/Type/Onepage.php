@@ -252,7 +252,8 @@ class Mage_Checkout_Model_Type_Onepage
             $addressForm    = Mage::getModel('customer/form');
             $addressForm->setFormCode('customer_address_edit')
                 ->setEntity($address)
-                ->setEntityType('customer_address');
+                ->setEntityType('customer_address')
+                ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
             // emulate request object
             $addressData    = $addressForm->extractData($addressForm->prepareRequest($data));
             $addressErrors  = $addressForm->validateData($addressData);
@@ -330,7 +331,8 @@ class Mage_Checkout_Model_Type_Onepage
 
         /* @var $customerForm Mage_Customer_Model_Form */
         $customerForm    = Mage::getModel('customer/form');
-        $customerForm->setFormCode('checkout_register');
+        $customerForm->setFormCode('checkout_register')
+            ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
         $customerRequest = $customerForm->prepareRequest($data);
 
         /* @var $customer Mage_Customer_Model_Customer */
@@ -435,7 +437,7 @@ class Mage_Checkout_Model_Type_Onepage
                     'message' => implode(', ', $validationResult)
                 );
             }
-        } elseif(self::METHOD_GUEST == $this->getQuote()->getCheckoutMethod()) {
+        } else if (self::METHOD_GUEST == $this->getQuote()->getCheckoutMethod()) {
             $email = $address->getData('email');
             if (!Zend_Validate::is($email, 'EmailAddress')) {
                 return array(
@@ -477,7 +479,8 @@ class Mage_Checkout_Model_Type_Onepage
             $addressForm    = Mage::getModel('customer/form');
             $addressForm->setFormCode('customer_address_edit')
                 ->setEntity($address)
-                ->setEntityType('customer_address');
+                ->setEntityType('customer_address')
+                ->setIsAjaxRequest(Mage::app()->getRequest()->isAjax());
             // emulate request object
             $addressData    = $addressForm->extractData($addressForm->prepareRequest($data));
             $addressErrors  = $addressForm->validateData($addressData);
@@ -616,22 +619,7 @@ class Mage_Checkout_Model_Type_Onepage
         } else {
             $customerBilling->setIsDefaultShipping(true);
         }
-//        /**
-//         * @todo integration with dynamica attributes customer_dob, customer_taxvat, customer_gender
-//         */
-//        if ($quote->getCustomerDob() && !$billing->getCustomerDob()) {
-//            $billing->setCustomerDob($quote->getCustomerDob());
-//        }
-//
-//        if ($quote->getCustomerTaxvat() && !$billing->getCustomerTaxvat()) {
-//            $billing->setCustomerTaxvat($quote->getCustomerTaxvat());
-//        }
-//
-//        if ($quote->getCustomerGender() && !$billing->getCustomerGender()) {
-//            $billing->setCustomerGender($quote->getCustomerGender());
-//        }
 
-//        Mage::helper('core')->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
         Mage::helper('core')->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
         $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
         $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
@@ -668,7 +656,7 @@ class Mage_Checkout_Model_Type_Onepage
         }
         if ($shipping && isset($customerShipping) && !$customer->getDefaultShipping()) {
             $customerShipping->setIsDefaultShipping(true);
-        } elseif (isset($customerBilling) && !$customer->getDefaultShipping()) {
+        } else if (isset($customerBilling) && !$customer->getDefaultShipping()) {
             $customerBilling->setIsDefaultShipping(true);
         }
         $quote->setCustomer($customer);
@@ -730,8 +718,7 @@ class Mage_Checkout_Model_Type_Onepage
 
         $this->_checkoutSession->setLastQuoteId($this->getQuote()->getId())
             ->setLastSuccessQuoteId($this->getQuote()->getId())
-            ->clearHelperData()
-        ;
+            ->clearHelperData();
 
         $order = $service->getOrder();
         if ($order) {
@@ -745,7 +732,7 @@ class Mage_Checkout_Model_Type_Onepage
             /**
              * we only want to send to customer about new order when there is no redirect to third party
              */
-            if(!$redirectUrl){
+            if (!$redirectUrl) {
                 try {
                     $order->sendNewOrderEmail();
                 } catch (Exception $e) {
@@ -769,7 +756,7 @@ class Mage_Checkout_Model_Type_Onepage
         $profiles = $service->getRecurringPaymentProfiles();
         if ($profiles) {
             $ids = array();
-            foreach($profiles as $profile) {
+            foreach ($profiles as $profile) {
                 $ids[] = $profile->getId();
             }
             $this->_checkoutSession->setLastRecurringProfileIds($ids);
