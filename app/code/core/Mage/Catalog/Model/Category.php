@@ -509,7 +509,10 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function getParentCategory()
     {
-        return Mage::getModel('catalog/category')->load($this->getParentId());
+        if (!$this->hasData('parent_category')) {
+            $this->setData('parent_category', Mage::getModel('catalog/category')->load($this->getParentId()));
+        }
+        return $this->_getData('parent_category');
     }
 
     /**

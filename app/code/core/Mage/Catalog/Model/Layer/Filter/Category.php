@@ -86,6 +86,9 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
         $filter = (int) $request->getParam($this->getRequestVar());
+        if (!$filter) {
+            return $this;
+        }
         $this->_categoryId = $filter;
         $this->_appliedCategory = Mage::getModel('catalog/category')
             ->setStoreId(Mage::app()->getStore()->getId())
