@@ -337,9 +337,9 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
      */
     public function getAttributeSolrFieldName($attributeCode)
     {
-        $entityType = Mage::getModel('eav/config')
+        $entityType = Mage::getSingleton('eav/config')
             ->getEntityType('catalog_product');
-        $attribute = Mage::getModel('eav/config')->getAttribute($entityType, $attributeCode);
+        $attribute = Mage::getSingleton('eav/config')->getAttribute($entityType, $attributeCode);
 
         $field = $attributeCode;
         $fieldType = $attribute->getBackendType();

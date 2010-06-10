@@ -167,7 +167,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     protected function _getIndexableAttributeParams()
     {
         if (empty($this->_searchableAttributeParams)) {
-            $entityTypeId = Mage::getModel('eav/config')
+            $entityTypeId = Mage::getSingleton('eav/config')
                 ->getEntityType('catalog_product')
                 ->getEntityTypeId();
             $items = Mage::getResourceModel('catalog/product_attribute_collection')
