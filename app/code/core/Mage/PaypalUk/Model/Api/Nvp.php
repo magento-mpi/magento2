@@ -500,7 +500,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
      * @param array $requestFields Standard set of values
      * @return array
      */
-    protected function _prepareExpressCheckoutCallRequest($requestFields)
+    protected function _prepareExpressCheckoutCallRequest(&$requestFields)
     {
         return $requestFields;
     }
