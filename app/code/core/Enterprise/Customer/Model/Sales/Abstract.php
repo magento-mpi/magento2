@@ -31,16 +31,6 @@
 abstract class Enterprise_Customer_Model_Sales_Abstract extends Enterprise_Enterprise_Model_Core_Abstract
 {
     /**
-     * Resource wrapper
-     * 
-     * @return Enterprise_Customer_Model_Mysql4_Sales_Abstract
-     */
-    protected function _getResource()
-    {
-        return parent::_getResource();
-    }
-
-    /**
      * Save new attribute
      *
      * @param Mage_Customer_Model_Attribute $attribute
