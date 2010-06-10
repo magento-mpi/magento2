@@ -107,48 +107,4 @@ abstract class Enterprise_Customer_Model_Mysql4_Sales_Abstract extends Enterpris
         $this->_getWriteAdapter()->dropColumn($this->getMainTable(), $this->_getColumnName($attribute));
         return $this;
     }
-
-    /**
-     * CopyFieldset converts customer attributes from source object to target object
-     *
-     * @param Mage_Core_Model_Abstract $source
-     * @param Mage_Core_Model_Abstract $target
-     * @param array $fields
-     * @param bool $useColumnPrefix
-     * @return Enterprise_Customer_Model_Sales_Abstract
-     */
-    public function copyFieldsetSourceToTarget(
-        Mage_Core_Model_Abstract $source,
-        Mage_Core_Model_Abstract $target,
-        array                    $fields = null,
-                                 $useColumnPrefix = false
-    ){
-        if ($fields === null) {
-            $fields = $this->describeTable();
-        }
-        unset($fields[$this->getIdFieldName()]);
-        if ($useColumnPrefix) {
-            foreach ($fields as $key => $data ) {
-                $keyCut = substr($key, strlen($this->_columnPrefix) + 1, strlen($key));
-                if ($source->hasData($keyCut)) {
-                    $target->setData($key, $source->getData($keyCut));
-                }
-            }
-        } else {
-            $sourceIntersect = array_intersect_key($source->getData(), $fields);
-            $target->addData($sourceIntersect);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Describe table
-     *
-     * @return array
-     */
-    public function describeTable()
-    {
-        return $this->_getReadAdapter()->describeTable($this->getMainTable());
-    }
 }

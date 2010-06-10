@@ -78,7 +78,7 @@
                 <observers>
                     <enterprise_customer>
                         <class>enterprise_customer/observer</class>
-                        <method>afterLoadSalesQuote</method>
+                        <method>salesQuoteAfterLoad</method>
                     </enterprise_customer>
                 </observers>
             </sales_quote_load_after>
@@ -86,7 +86,7 @@
                 <observers>
                     <enterprise_customer>
                         <class>enterprise_customer/observer</class>
-                        <method>afterLoadSalesQuoteAddressCollection</method>
+                        <method>salesQuoteAddressCollectionAfterLoad</method>
                     </enterprise_customer>
                 </observers>
             </sales_quote_address_collection_load_after>
@@ -94,7 +94,7 @@
                 <observers>
                     <enterprise_customer>
                         <class>enterprise_customer/observer</class>
-                        <method>afterSaveSalesQuote</method>
+                        <method>salesQuoteAfterSave</method>
                     </enterprise_customer>
                 </observers>
             </sales_quote_save_after>
@@ -102,7 +102,7 @@
                 <observers>
                     <enterprise_customer>
                         <class>enterprise_customer/observer</class>
-                        <method>afterSaveSalesQuoteAddress</method>
+                        <method>salesQuoteAddressAfterSave</method>
                     </enterprise_customer>
                 </observers>
             </sales_quote_address_save_after>
@@ -110,7 +110,7 @@
                 <observers>
                     <enterprise_customer>
                         <class>enterprise_customer/observer</class>
-                        <method>afterLoadSalesOrder</method>
+                        <method>salesOrderAfterLoad</method>
                     </enterprise_customer>
                 </observers>
             </sales_order_load_after>
@@ -118,7 +118,7 @@
                 <observers>
                     <enterprise_customer>
                         <class>enterprise_customer/observer</class>
-                        <method>afterLoadSalesOrderAddressCollection</method>
+                        <method>salesOrderAddressCollectionAfterLoad</method>
                     </enterprise_customer>
                 </observers>
             </sales_order_address_collection_load_after>
@@ -126,7 +126,7 @@
                 <observers>
                     <enterprise_customer>
                         <class>enterprise_customer/observer</class>
-                        <method>afterSaveSalesOrder</method>
+                        <method>salesOrderAfterSave</method>
                     </enterprise_customer>
                 </observers>
             </sales_order_save_after>
@@ -134,7 +134,7 @@
                 <observers>
                     <enterprise_customer>
                         <class>enterprise_customer/observer</class>
-                        <method>afterSaveSalesOrderAddress</method>
+                        <method>salesOrderAddressAfterSave</method>
                     </enterprise_customer>
                 </observers>
             </sales_order_address_save_after>
@@ -142,7 +142,7 @@
                 <observers>
                     <enterprise_customer>
                         <class>enterprise_customer/observer</class>
-                        <method>EnterpriseCustomerAttributeSave</method>
+                        <method>enterpriseCustomerAttributeSave</method>
                     </enterprise_customer>
                 </observers>
             </enterprise_customer_attribute_save>
@@ -150,7 +150,7 @@
                 <observers>
                     <enterprise_customer>
                         <class>enterprise_customer/observer</class>
-                        <method>EnterpriseCustomerAttributeDelete</method>
+                        <method>enterpriseCustomerAttributeDelete</method>
                     </enterprise_customer>
                 </observers>
             </enterprise_customer_attribute_delete>
@@ -158,7 +158,7 @@
                 <observers>
                     <enterprise_customer>
                         <class>enterprise_customer/observer</class>
-                        <method>EnterpriseCustomerAddressAttributeSave</method>
+                        <method>enterpriseCustomerAddressAttributeSave</method>
                     </enterprise_customer>
                 </observers>
             </enterprise_customer_address_attribute_save>
@@ -166,7 +166,7 @@
                 <observers>
                     <enterprise_customer>
                         <class>enterprise_customer/observer</class>
-                        <method>EnterpriseCustomerAddressAttributeDelete</method>
+                        <method>enterpriseCustomerAddressAttributeDelete</method>
                     </enterprise_customer>
                 </observers>
             </enterprise_customer_address_attribute_delete>
@@ -226,6 +226,22 @@
                     </enterprise_customer>
                 </observers>
             </core_copy_fieldset_customer_address_to_quote_address>
+            <core_copy_fieldset_checkout_onepage_quote_to_customer>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>coreCopyFieldsetCheckoutOnepageQuoteToCustomer</method>
+                    </enterprise_customer>
+                </observers>
+            </core_copy_fieldset_checkout_onepage_quote_to_customer>
+            <core_copy_fieldset_checkout_onepage_billing_to_customer>
+                <observers>
+                    <enterprise_customer>
+                        <class>enterprise_customer/observer</class>
+                        <method>coreCopyFieldsetCheckoutOnepageBillingToCustomer</method>
+                    </enterprise_customer>
+                </observers>
+            </core_copy_fieldset_checkout_onepage_billing_to_customer>
         </events>
     </global>
     <adminhtml>

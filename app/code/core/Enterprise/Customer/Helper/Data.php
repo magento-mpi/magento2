@@ -34,6 +34,13 @@
 class Enterprise_Customer_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
     /**
+     * Array of User Defined attribute codes per entity type code
+     * 
+     * @var array
+     */
+    protected $_userDefinedAttributeCodes = array();
+
+    /**
      * Return form types ids of given attribute
      *
      * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
@@ -371,5 +378,36 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Enterprise_Helper_Core_
             return $inputTypes[$inputType]['backend_type'];
         }
         return null;
+    }
+
+    /**
+     * Returns array of user defined attribute codes
+     *
+     * @return array
+     */
+    protected function _getUserDefinedAttributeCodes($entityTypeCode)
+    {
+        if (empty($this->_userDefinedAttributeCodes[$entityTypeCode])) {
+            $this->_userDefinedAttributeCodes[$entityTypeCode] = array();
+            /* @var $config Mage_Eav_Model_Config */
+            $config = Mage::getSingleton('eav/config');
+            foreach ($config->getEntityAttributeCodes($entityTypeCode) as $attributeCode) {
+                $attribute = $config->getAttribute($entityTypeCode, $attributeCode);
+                if ($attribute && $attribute->getIsUserDefined()) {
+                    $this->_userDefinedAttributeCodes[$entityTypeCode][] = $attributeCode;
+                }
+            }
+        }
+        return $this->_userDefinedAttributeCodes[$entityTypeCode];
+    }
+
+    public function getCustomerUserDefinedAttributeCodes()
+    {
+        return $this->_getUserDefinedAttributeCodes('customer');
+    }
+
+    public function getCustomerAddressUserDefinedAttributeCodes()
+    {
+        return $this->_getUserDefinedAttributeCodes('customer_address');
     }
 }
