@@ -273,7 +273,6 @@ class Enterprise_Customer_Model_Observer
             self::CONVERT_TYPE_CUSTOMER
         );
 
-
         return $this;
     }
 
@@ -290,7 +289,6 @@ class Enterprise_Customer_Model_Observer
             self::CONVERT_ALGORITM_SOURCE_TARGET_WITH_PREFIX,
             self::CONVERT_TYPE_CUSTOMER_ADDRESS
         );
-
 
         return $this;
     }
@@ -410,15 +408,15 @@ class Enterprise_Customer_Model_Observer
         $source = $observer->getEvent()->getSource();
         $target = $observer->getEvent()->getTarget();
         
-        if ($source instanceof Mage_Core_Model_Abstract
-            && $target instanceof Mage_Core_Model_Abstract
-        ) {
+        if ($source instanceof Mage_Core_Model_Abstract && $target instanceof Mage_Core_Model_Abstract) {
             if ($convertType == self::CONVERT_TYPE_CUSTOMER) {
                 $attributes = Mage::helper('enterprise_customer')->getCustomerUserDefinedAttributeCodes();
                 $prefix     = 'customer_';
             } else if ($convertType == self::CONVERT_TYPE_CUSTOMER_ADDRESS) {
                 $attributes = Mage::helper('enterprise_customer')->getCustomerAddressUserDefinedAttributeCodes();
                 $prefix     = '';
+            } else {
+                return $this;
             }
 
             foreach ($attributes as $attribute){
@@ -435,9 +433,13 @@ class Enterprise_Customer_Model_Observer
                         $sourceAttribute = $prefix . $attribute;
                         $targetAttribute = $attribute;
                         break;
+                    default:
+                        return $this;
                 }
                 $target->setData($targetAttribute, $source->getData($sourceAttribute));
             }
         }
+
+        return $this;
     }
 }
