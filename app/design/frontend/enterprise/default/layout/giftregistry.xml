@@ -90,12 +90,6 @@
         </block>
     </customer_account>
 
-    <default>
-        <reference name="left">
-            <block type="enterprise_giftregistry/search_quick" name="giftregistry.quick.search" template="giftregistry/search/quick.phtml"></block>
-        </reference>
-    </default>
-
     <enterprise_giftregistry_search_index>
         <update handle="calendar"/>
         <reference name="left">
