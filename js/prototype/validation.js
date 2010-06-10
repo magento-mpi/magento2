@@ -141,14 +141,12 @@ Validation.prototype = {
                 }, this).all();
             }
         } catch (e) {
-
         }
         if(!result && this.options.focusOnError) {
             try{
                 Form.getElements(this.form).findAll(function(elm){return $(elm).hasClassName('validation-failed')}).first().focus()
             }
             catch(e){
-
             }
         }
         this.options.onFormValidate(result, this.form);
@@ -682,15 +680,20 @@ Validation.addAllThese([
                 }
                 return true;
             }],
-     ['validate-length', 'Maximum length exceeded.', function (v, elm) {
-                var re = new RegExp(/^maximum-length-[0-9]+$/);
+     ['validate-length', 'Length don\'t satisfy limits.', function (v, elm) {
+                var reMax = new RegExp(/^maximum-length-[0-9]+$/);
+                var reMin = new RegExp(/^minimum-length-[0-9]+$/);
                 var result = true;
                 $w(elm.className).each(function(name, index) {
-                        if (name.match(re) && result) {
-                           var length = name.split('-')[2];
-                           result = (v.length <= length);
-                        }
-                    });
+                    if (name.match(reMax) && result) {
+                       var length = name.split('-')[2];
+                       result = (v.length <= length);
+                    }
+                    if (name.match(reMin) && result && !Validation.get('IsEmpty').test(v)) {
+                        var length = name.split('-')[2];
+                        result = (v.length >= length);
+                    }
+                });
                 return result;
             }],
      ['validate-percents', 'Please enter a number lower than 100', {max:100}],
