@@ -36,9 +36,9 @@
     <h2 class="legend"><?php echo $this->__('General Information') ?></h2>
     <ul class="form-list">
         <li>
-            <label for="type_id"><?php echo $this->__('Select Type') ?></label>
+            <label for="type_id"><?php echo $this->__('Gift Registry Type') ?></label>
             <select class="required-entry" name="type_id" id="type_id">
-                    <option id="type_id" value=""><?php echo $this->__('Please Select Type') ?></option>
+                    <option id="type_id" value=""><?php echo $this->__('Please select gift registry type') ?></option>
                 <?php foreach ($this->getTypeList() as $type):?>
                     <option id="type_id" value="<?php echo $type['value']?>"><?php echo $type['label'] ?></option>
                 <?php endforeach; ?>
