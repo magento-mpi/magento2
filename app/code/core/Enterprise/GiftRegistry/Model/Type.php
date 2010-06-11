@@ -198,7 +198,9 @@ class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Cor
 
         if (is_array($groups)) {
             foreach ($groups as $group => $attributes) {
-                $storeData[$group] = $this->getAttributesStoreData($attributes);
+                if (!empty($attributes)) {
+                    $storeData[$group] = $this->getAttributesStoreData($attributes);
+                }
             }
         }
         $this->setAttributes($storeData);
