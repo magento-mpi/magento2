@@ -123,7 +123,7 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity_Collection
         $select = $this->getConnection()->select()
             ->from($this->getTable('enterprise_giftregistry/person'), array(
                 'entity_id',
-                'registrants' => new Zend_Db_Expr("GROUP_CONCAT(firstname,' ',lastname)")
+                'registrants' => new Zend_Db_Expr("GROUP_CONCAT(firstname,' ',lastname SEPARATOR ', ')")
             ))
             ->group('entity_id');
 
