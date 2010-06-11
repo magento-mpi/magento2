@@ -92,6 +92,13 @@
             </p>
         </li>
         <li>
+            <input type="checkbox" name="config[enable_charts]" id="enable_charts" value="1" <?php if($this->getFormData()->getEnableCharts()): ?>checked="checked"<?php endif; ?> />
+            <label for="enable_charts"><?php echo $this->__('Enable Charts.') ?></label><br />
+            <p style="margin-top:4px; line-height:1.3em; color:#666;">
+                <small><?php echo $this->__('Enables Charts on the dashboard.') ?></small>
+            </p>
+        </li>
+        <li>
             <input type="checkbox" name="skip_base_url_validation" id="skip_base_url_validation" value="1" <?php if($this->getSkipBaseUrlValidation()): ?>checked="checked"<?php endif; ?> />
             <label for="skip_base_url_validation"><?php echo $this->__('Skip Base URL Validation Before the Next Step') ?></label><br />
             <p style="margin-top:4px; line-height:1.3em; color:#666;">

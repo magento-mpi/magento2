@@ -103,6 +103,8 @@
  *                              // Provide a complete base URL for SSL connection.
  *                              // For example: https://www.mydomain.com/magento/
  * --use_secure_admin           // optional, Run admin interface with SSL
+ * Backend interface options:
+ * --enable_charts              // optional, Enables Charts on the backend's dashboard
  * Admin user personal information:
  * --admin_lastname             // required, admin user last name
  * --admin_firstname            // required, admin user first name

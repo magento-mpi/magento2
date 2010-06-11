@@ -163,6 +163,9 @@
                 <forgot_email_template>system_emails_forgot_email_template</forgot_email_template>
                 <forgot_email_identity>general</forgot_email_identity>
             </emails>
+            <dashboard>
+                <enable_charts>1</enable_charts>
+            </dashboard>
         </system>
     </default>
     <stores>
