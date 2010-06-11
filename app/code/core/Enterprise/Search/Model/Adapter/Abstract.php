@@ -497,6 +497,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         foreach ($_docs as $doc) {
             $result[] = Mage::helper('enterprise_search')->objectToArray($doc);
         }
+
         return $result;
     }
 

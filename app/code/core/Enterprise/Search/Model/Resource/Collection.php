@@ -86,18 +86,23 @@ class Enterprise_Search_Model_Resource_Collection
     protected $_sortBy = array();
 
     /**
-     * Retrived faceted data for filters
+     * Faceted search result data
      *
      * @var array
      */
     protected $_facetedData = array();
 
+    /**
+     * Conditions for faceted search
+     *
+     * @var array
+     */
     protected $_facetedConditions = array();
 
     /**
-     * Return field facated data
+     * Return field facated data from faceted search result
      *
-     * @param $field
+     * @param string $field
      *
      * @return array | false
      */
@@ -106,9 +111,18 @@ class Enterprise_Search_Model_Resource_Collection
         if (isset($this->_facetedData[$field])){
             return $this->_facetedData[$field];
         }
+
         return false;
     }
 
+    /**
+     * Allow to set faceted search conditions to retrive result by single query
+     * 
+     * @param string $field
+     * @param string | array $condition
+     *
+     * @return Enterprise_Search_Model_Resource_Collection
+     */
     public function setFacetCondition($field, $condition = null)
     {
         if (array_key_exists($field, $this->_facetedConditions)) {
@@ -129,6 +143,7 @@ class Enterprise_Search_Model_Resource_Collection
      * Set search query
      *
      * @param   string $query
+     *
      * @return  Enterprise_Search_Model_Resource_Collection
      */
     public function addSearchFilter($query)
@@ -267,6 +282,11 @@ class Enterprise_Search_Model_Resource_Collection
 
             list($ids, $this->_facetedData) = $this->_engine->getIdsByQuery($query, $params);
             $ids = (array)$ids;
+
+            /*
+             * Save total number of records here to avoid separate query for this operation
+             */
+            $this->_totalRecords = $this->_engine->getLastNumFound();
         }
 
         $this->_searchedEntityIds = &$ids;

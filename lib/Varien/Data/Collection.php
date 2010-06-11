@@ -83,7 +83,7 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      *
      * if page size is false, then we works with all items
      *
-     * @var int || false
+     * @var int | false
      */
     protected $_pageSize = false;
 
