@@ -73,7 +73,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             }
 
             $websiteId       = Mage::app()->getStore()->getWebsiteId();
-            $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
             $priceField      = 'price_'. $customerGroupId .'_'. $websiteId;
 
 //            $params['facet'] = array(
@@ -124,7 +124,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         }
 
         $websiteId       = Mage::app()->getStore()->getWebsiteId();
-        $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
         $priceField      = 'price_'. $customerGroupId .'_'. $websiteId;
 
 //        $params['facet'] = array(
@@ -180,7 +180,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         $productCollection = $filter->getLayer()->getProductCollection();
         $attribute         = $filter->getAttributeModel();
         $websiteId         = Mage::app()->getStore()->getWebsiteId();
-        $customerGroupId   = Mage::getModel('customer/session')->getCustomerGroupId();
+        $customerGroupId   = Mage::getSingleton('customer/session')->getCustomerGroupId();
         $priceField        = 'price_'. $customerGroupId .'_'. $websiteId;
 
         $value = array(
@@ -248,7 +248,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
 //        $productCollection = $this->getLayer()->getProductCollection();
 //
 //        $websiteId       = Mage::app()->getStore()->getWebsiteId();
-//        $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+//        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 //        $priceField      = 'price_'. $customerGroupId .'_'. $websiteId;
 //
 //        return $productCollection->getFacetedData($priceField);
