@@ -213,6 +213,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         if ($clear) {
             $messages = clone $this->getData('messages');
             $this->getData('messages')->clear();
+            Mage::dispatchEvent('core_session_abstract_clear_messages');
             return $messages;
         }
         return $this->getData('messages');

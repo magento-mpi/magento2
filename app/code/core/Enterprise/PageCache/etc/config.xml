@@ -265,6 +265,14 @@
                     </enterprise_pagecache>
                 </observers>
             </core_session_abstract_add_message>
+            <core_session_abstract_clear_messages>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>enterprise_pagecache/observer</class>
+                        <method>processMessageClearing</method>
+                    </enterprise_pagecache>
+                </observers>
+            </core_session_abstract_clear_messages>
             <wishlist_add_product>
                 <observers>
                     <enterprise_pagecache>

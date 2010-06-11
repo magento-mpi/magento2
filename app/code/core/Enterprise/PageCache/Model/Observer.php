@@ -430,6 +430,20 @@ class Enterprise_PageCache_Model_Observer
     }
 
     /**
+     * Remove new message cookie on clearing session messages.
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function processMessageClearing(Varien_Event_Observer $observer)
+    {
+        if (!$this->isCacheEnabled()) {
+            return $this;
+        }
+        $this->_getCookie()->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
+        return $this;
+    }
+
+    /**
      * Retrieve cookie instance
      *
      * @return Enterprise_PageCache_Model_Cookie
