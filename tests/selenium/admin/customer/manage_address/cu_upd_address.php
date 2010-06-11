@@ -6,7 +6,6 @@ define ( "EditAddrFieldsTable", "//div[@id='address_form_container']//div[contai
 define ( "AddrManagePanel", "//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li[contains(@class,'on')]");
 
 class Example extends PHPUnit_Extensions_SeleniumTestCase {
-    protected $_login;
     protected $_admincustomeraddresshelper;
 
     //  Place Test Data here...
@@ -99,8 +98,6 @@ class Example extends PHPUnit_Extensions_SeleniumTestCase {
         $this->setBrowser("*chrome");
         $this->setBrowserUrl("http://kq.varien.com/");
         $this->_admincustomeraddresshelper = new AdminCustomerAddressHelper($this);
-        $this->_login = new Login($this);
-
 
         // Get test parameters....
         //
@@ -112,7 +109,7 @@ class Example extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
     function testUpdateCuAdress() {
-        $this->_login->doLogin( $this->_baseurl, $this->_username, $this->_password);
+        $this->_admincustomeraddresshelper->adminhelper->doLogin( $this->_baseurl, $this->_username, $this->_password);
 
         if ($this->updateAddress($this->_custid, $this->_testid."1", false, false)) {
             $this->verifyAddress($this->_custid, $this->_testid."1"." Changed", false, false);
@@ -120,7 +117,7 @@ class Example extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
     function testUpdateCuAdress_Billing() {
-        $this->_login->doLogin( $this->_baseurl, $this->_username, $this->_password);
+        $this->_admincustomeraddresshelper->adminhelper->doLogin( $this->_baseurl, $this->_username, $this->_password);
 
         if ($this->updateAddress($this->_custid, $this->_testid."2", true, false)) {
             $this->verifyAddress($this->_custid, $this->_testid."2"." Changed", true, false);
@@ -128,7 +125,7 @@ class Example extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
     function testUpdateCuAdress_Shipping() {
-        $this->_login->doLogin( $this->_baseurl, $this->_username, $this->_password);
+        $this->_admincustomeraddresshelper->adminhelper->doLogin( $this->_baseurl, $this->_username, $this->_password);
 
         if ($this->updateAddress($this->_custid, $this->_testid."3", false, true)) {
             $this->verifyAddress($this->_custid, $this->_testid."3"." Changed", false, true);
@@ -136,7 +133,7 @@ class Example extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
     function testUpdateCuAdress_BillingShipping() {
-        $this->_login->doLogin( $this->_baseurl, $this->_username, $this->_password);
+        $this->_admincustomeraddresshelper->adminhelper->doLogin( $this->_baseurl, $this->_username, $this->_password);
 
         if ($this->updateAddress($this->_custid, $this->_testid."4", true, true)) {
             $this->verifyAddress($this->_custid, $this->_testid."4"." Changed", true, true);

@@ -5,7 +5,6 @@ define ( "EditAddrFieldsTable", "//div[@id='address_form_container']//div[contai
 define ( "AddrManagePanel", "//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li[contains(@class,'on')]");
 
 class cu_add_address extends PHPUnit_Extensions_SeleniumTestCase {
-    protected $_login;
     protected $_admincustomeraddresshelper;
 
     // Place Test Data here...
@@ -83,7 +82,6 @@ class cu_add_address extends PHPUnit_Extensions_SeleniumTestCase {
 
         $this->setBrowser("*chrome");
         $this->setBrowserUrl("http://kq.varien.com/");
-        $this->_login = new Login($this);
         $this->_admincustomeraddresshelper = new AdminCustomerAddressHelper($this);
 
         // Get test parameters....
@@ -97,7 +95,7 @@ class cu_add_address extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
     function testAddNewCuAddress() {
-        $this->_login->doLogin( $this->_baseurl, $this->_username, $this->_password);
+        $this->_admincustomeraddresshelper->adminhelper->doLogin( $this->_baseurl, $this->_username, $this->_password);
         if ($this->_admincustomeraddresshelper->delAddresses(AddrManagePanel, $this->_custid, $this->_testid."1")) {
             if ($this->addAddress($this->_custid, $this->_testid."1", false, false)) {
                 $this->verifyAddress($this->_custid, $this->_testid."1", false, false);
@@ -106,7 +104,7 @@ class cu_add_address extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
     function testAddNewCuAddress_Billing() {
-        $this->_login->doLogin( $this->_baseurl, $this->_username, $this->_password);
+        $this->_admincustomeraddresshelper->adminhelper->doLogin( $this->_baseurl, $this->_username, $this->_password);
         if ($this->_admincustomeraddresshelper->delAddresses(AddrManagePanel, $this->_custid, $this->_testid."2")) {
             if ($this->addAddress($this->_custid, $this->_testid."2", true, false)) {
                 $this->verifyAddress($this->_custid, $this->_testid."2", true, false);
@@ -115,7 +113,7 @@ class cu_add_address extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
     function testAddNewCuAddress_Shipping() {
-        $this->_login->doLogin( $this->_baseurl, $this->_username, $this->_password);
+        $this->_admincustomeraddresshelper->adminhelper->doLogin( $this->_baseurl, $this->_username, $this->_password);
         if ($this->_admincustomeraddresshelper->delAddresses(AddrManagePanel, $this->_custid, $this->_testid."3")) {
             if ($this->addAddress($this->_custid, $this->_testid."3", false, true)) {
                 $this->verifyAddress($this->_custid, $this->_testid."3", false, true);
@@ -124,7 +122,7 @@ class cu_add_address extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
     function testAddNewCuAddress_ShippingBilling() {
-        $this->_login->doLogin( $this->_baseurl, $this->_username, $this->_password);
+        $this->_admincustomeraddresshelper->adminhelper->doLogin( $this->_baseurl, $this->_username, $this->_password);
         if ($this->_admincustomeraddresshelper->delAddresses(AddrManagePanel, $this->_custid, $this->_testid."4")) {
             if (   $this->addAddress($this->_custid, $this->_testid."4", true, true)) {
                 $this->verifyAddress($this->_custid, $this->_testid."4", true, true);

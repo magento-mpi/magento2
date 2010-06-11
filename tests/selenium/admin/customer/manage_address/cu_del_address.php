@@ -7,7 +7,6 @@ define ( "AddrManagePanelActive", "//table[contains(@class,'form-edit')]//td[con
 define ( "AddrManagePanel", "//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]");
 
 class cu_del_address extends PHPUnit_Extensions_SeleniumTestCase {
-    protected $_login;
     protected $_admincustomeraddresshelper;
 
     // Test Data
@@ -45,7 +44,6 @@ class cu_del_address extends PHPUnit_Extensions_SeleniumTestCase {
 
         $this->setBrowser("*chrome");
         $this->setBrowserUrl("http://kq.varien.com/");
-        $this->_login = new Login($this);
         $this->_admincustomeraddresshelper = new AdminCustomerAddressHelper($this);
 
         // Get test parameters....
@@ -59,7 +57,7 @@ class cu_del_address extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
     function testDelCuAddress() {
-        $this->_login->doLogin( $this->_baseurl, $this->_username, $this->_password);
+        $this->_admincustomeraddresshelper->adminhelper->doLogin( $this->_baseurl, $this->_username, $this->_password);
         if ($this->checkAndDelAddress(AddrManagePanel,$this->_custid,$this->_testid."1")) {
             if ($this->_admincustomeraddresshelper -> isCustomerAddressPresent(AddrManagePanel,$this->_custid,$this->_testid."1")) {
                 $this->setVerificationErrors ("Address ".$this->_testid."1"." still exists");
@@ -68,7 +66,7 @@ class cu_del_address extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
     function testDelCuAddress_Billing() {
-        $this->_login->doLogin( $this->_baseurl, $this->_username, $this->_password);
+        $this->_admincustomeraddresshelper->adminhelper->doLogin( $this->_baseurl, $this->_username, $this->_password);
         if ($this->checkAndDelAddress(AddrManagePanel,$this->_custid,$this->_testid."2")) {
             if ($this->_admincustomeraddresshelper -> isCustomerAddressPresent(AddrManagePanel,$this->_custid,$this->_testid."2")) {
                 $this->setVerificationErrors ("Address ".$this->_testid."2"." still exists");
@@ -77,7 +75,7 @@ class cu_del_address extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
     function testDelCuAddress_Shipping() {
-        $this->_login->doLogin( $this->_baseurl, $this->_username, $this->_password);
+        $this->_admincustomeraddresshelper->adminhelper->doLogin( $this->_baseurl, $this->_username, $this->_password);
         if ($this->checkAndDelAddress(AddrManagePanel,$this->_custid,$this->_testid."3")) {
             if ($this->_admincustomeraddresshelper -> isCustomerAddressPresent(AddrManagePanel,$this->_custid,$this->_testid."3")) {
                 $this->setVerificationErrors ("Address ".$this->_testid."3"." still exists");
@@ -86,7 +84,7 @@ class cu_del_address extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
     function testDelCuAddress_BillingShipping() {
-        $this->_login->doLogin( $this->_baseurl, $this->_username, $this->_password);
+        $this->_admincustomeraddresshelper->adminhelper->doLogin( $this->_baseurl, $this->_username, $this->_password);
         if ($this->checkAndDelAddress(AddrManagePanel,$this->_custid,$this->_testid."4")) {
             if ($this->_admincustomeraddresshelper -> isCustomerAddressPresent(AddrManagePanel,$this->_custid,$this->_testid."4")) {
                 $this->setVerificationErrors ("Address ".$this->_testid."4"." still exists");

@@ -2,32 +2,17 @@
 
 class AdminCustomerAddressHelper {
     protected $_object;
+    public  $adminhelper;
 
     public function  __construct($object = null) {
         $this->_object = $object;
+        $this->adminhelper =  new AdminHelper($this->_object);
     }
 
-    public function pleaseWait() {
-        for ($second = 0; ; $second++) {
-            if ($second >= 60)  break; //fail("timeout");
-            try {
-                if (!$this->_object->isElementPresent("//div[@id='loading-mask' and contains(@style,'display: none')]")) break;
-            } catch (Exception $e) {
-
-            }
-            sleep(1);
-        }
-
-        for ($second = 0; ; $second++) {
-            if ($second >= 60)break;
-            try {
-                if ($this->_object->isElementPresent("//div[@id='loading-mask' and contains(@style,'display: none')]")) break;
-            } catch (Exception $e) {
-
-            }
-            sleep(1);
-        }
+    public  function getAdminHelper() {
+        return  $this->adminhelper;
     }
+
 
     public function doAdminSaveCustomer() {
         for ($second = 0; ; $second++) {
@@ -54,7 +39,7 @@ class AdminCustomerAddressHelper {
         $this->_object->type("filter_entity_id_to", $CustID);
         $this->_object->click("//div[@id='customerGrid']//button[span='Search']");
 
-        $this->pleaseWait();
+        $this->adminhelper->pleaseWait();
         $loaded=false;
 
         for ($second = 0; ; $second++) {
