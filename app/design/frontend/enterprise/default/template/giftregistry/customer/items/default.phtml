@@ -26,13 +26,13 @@
 ?>
 <?php $_item = $this->getItem()?>
 <tr>
-    <td><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->htmlEscape($this->getProductName()) ?>"><?php endif;?><img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
+    <td><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->escapeHtml($this->getProductName()) ?>"><?php endif;?><img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
     <td>
         <h2 class="product-name">
         <?php if ($this->hasProductUrl()):?>
-            <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->htmlEscape($this->getProductName()) ?></a>
+            <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
         <?php else: ?>
-            <?php echo $this->htmlEscape($this->getProductName()) ?>
+            <?php echo $this->escapeHtml($this->getProductName()) ?>
         <?php endif; ?>
         </h2>
         <?php if ($_options = $this->getOptionList()):?>
@@ -40,13 +40,13 @@
         <dl class="item-options">
             <?php foreach ($_options as $_option) : ?>
             <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
-            <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
+            <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
             <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated"<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
                 <?php if (isset($_formatedOptionValue['full_view'])): ?>
                 <div class="truncated_full_value">
                     <dl class="item-options">
-                        <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
-                        <dd><?php echo $this->htmlEscape($_formatedOptionValue['full_view']) ?></dd>
+                        <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
+                        <dd><?php echo $this->escapeHtml($_formatedOptionValue['full_view']) ?></dd>
                     </dl>
                 </div>
                 <?php endif; ?>
