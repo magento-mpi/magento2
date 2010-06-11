@@ -25,21 +25,20 @@
  */
 
 /**
- * Solr search engine adapter that perform raw queries to Solr server based on Conduit solr client library
- * and basic solr adapter
+ * Solr search engine adapter
  *
  * @category   Enterprise
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_Model_Adapter_Solr_Abstract
+class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Model_Adapter_Solr_Abstract
 {
     /**
      * Object name used to create solr document object
      *
      * @var string
      */
-    protected $_clientDocObjectName = 'Apache_Solr_Document';
+    protected $_clientDocObjectName = 'SolrInputDocument';
 
     /**
      * Initialize connect to Solr Client
@@ -49,10 +48,14 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
     public function __construct($options = array())
     {
         try {
+            if (!extension_loaded('solr')) {
+                throw new Exception('Solr extension not enabled!');
+            }
             $this->_connect($options);
         }
         catch (Exception $e){
             Mage::logException($e);
+            Mage::throwException(Mage::helper('enterprise_search')->__('Unable to perform search because of search engine missed configuration.'));
         }
     }
 
@@ -60,7 +63,7 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
      * Connect to Solr Client by specified options that will be merged with default
      *
      * @param array $options
-     * @return Apache_Solr_Service
+     * @return SolrClient
      */
     protected function _connect($options = array())
     {
@@ -76,7 +79,7 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
         );
         $options = array_merge($def_options, $options);
         try {
-            $this->_client = Mage::getSingleton('enterprise_search/client_solr', $options);
+            $this->_client = new SolrClient($options);
         }
         catch (Exception $e)
         {
@@ -88,25 +91,59 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
     /**
      * Simple Search interface
      *
-     * @param string $query The raw query string
-     * @param array $params Params can be specified like this:
-     *        'offset'      - The starting offset for result documents
-     *        'limit        - The maximum number of result documents to return
-     *        'sort_by'     - Sort field, can be just sort field name (and asceding order will be used by default),
-     *                        or can be an array of arrays like this: array('sort_field_name' => 'asc|desc')
-     *                        to define sort order and sorting fields.
-     *                        If sort order not asc|desc - asceding will used by default
-     *        'fields'      - Fields names which are need to be retrieved from found documents
-     *        'solr_params' - Key / value pairs for other query parameters (see Solr documentation),
-     *                        use arrays for parameter keys used more than once (e.g. facet.field)
-     *        'locale_code' - Locale code, it used to define what suffix is needed for text fields,
-     *                        by which will be performed search request and sorting
+     * @param string|array $query   The raw query string
+     * @param array $params Params  can be specified like this:
+     *        'offset'            - The starting offset for result documents
+     *        'limit              - The maximum number of result documents to return
+     *        'sort_by'           - Sort field, can be just sort field name (and asceding order will be used by default),
+     *                              or can be an array of arrays like this: array('sort_field_name' => 'asc|desc')
+     *                              to define sort order and sorting fields.
+     *                              If sort order not asc|desc - asceding will used by default
+     *        'fields'            - Fields names which are need to be retrieved from found documents
+     *        'solr_params'       - Key / value pairs for other query parameters (see Solr documentation),
+     *                              use arrays for parameter keys used more than once (e.g. facet.field)
+     *        'locale_code'       - Locale code, it used to define what suffix is needed for text fields,
+     *                              by which will be performed search request and sorting
+     *        'ignore_handler'    - Flag that allows to ignore handler (qt) and make multifield search
      *
      * @see Enterprise_Search_Model_Adapter_HttpStream::_getLanguageCodeByLocaleCode()
      * @return array
      */
     protected function _search($query, $params = array())
     {
+        /**
+         * Hard code to prevent Solr bug:
+         * Bug #17009 Creating two SolrQuery objects leads to wrong query value
+         * @see http://pecl.php.net/bugs/bug.php?id=17009&edit=1
+         * @see http://svn.php.net/viewvc?view=revision&revision=293379
+         */
+        if ((int)('1' . str_replace('.', '', solr_get_version())) < 1099) {
+            $this->_connect();
+        }
+
+        $_params = $this->_defaultQueryParams;
+        if (is_array($params) && !empty($params)) {
+            $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
+        }
+
+        $offset = (int)$_params['offset'];
+        $limit  = (int)$_params['limit'];
+
+        if (!$limit) {
+            $limit = 100;
+        }
+
+        /**
+         * Now supported search only in fulltext field
+         * By default in Solr  set <defaultSearchField> is "fulltext"
+         * When language fields need to be used, then perform search in appropriate field
+         */
+        $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
+        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+
+        $solrQuery = new SolrQuery();
+        $solrQuery->setStart($offset)->setRows($limit);
+
         if (is_array($query)) {
             $searchConditions = array();
 
@@ -146,27 +183,13 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
         if (!$searchConditions) {
             return array();
         }
-
-        $_params = $this->_defaultQueryParams;
-        if (is_array($params) && !empty($params)) {
-            $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
-        }
-        $offset = (int)$_params['offset'];
-        $limit  = (int)$_params['limit'];
-
-        if (!$limit) {
-            $limit = 100;
-        }
-
-        $searchParams = array();
-        $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
-        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+        $solrQuery->setQuery($searchConditions);
 
         if (!is_array($_params['fields'])) {
             $_params['fields'] = array($_params['fields']);
         }
 
-        if (!is_array($_params['solr_params'])) {
+        if (!is_array($_params['solr_params'])){
             $_params['solr_params'] = array($_params['solr_params']);
         }
 
@@ -190,7 +213,7 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
                 $_params['sort_by'] = 'price_'. $customerGroupId .'_'. $websiteId;
             }
 
-            $_params['sort_by'] = array(array($_params['sort_by'] => 'asc'));
+            $_params['sort_by'] = array(array($_params['sort_by'] => SolrQuery::ORDER_ASC));
         }
 
         /**
@@ -210,8 +233,8 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
 //                if (in_array($sortField, $this->_searchTextFields)) {
 //                    $sortField = $sortField . $languageSuffix;
 //                }
-//                $sortType = trim(strtolower($sortType)) == 'desc' ? 'desc' : 'asc';
-//                $searchParams['sort'][] = $sortField . ' ' . $sortType;
+//                $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
+//                $solrQuery->addSortField($sortField, $sortType);
 //            }
             elseif ($sortField == 'position') {
                 $sortField = 'position_category_' . Mage::registry('current_category')->getId();
@@ -226,18 +249,21 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
                 $sortField = $this->getAttributeSolrFieldName($sortField);
             }
 
-            $searchParams['sort'][] = $sortField . ' ' . $sortType;
+            $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
+            $solrQuery->addSortField($sortField, $sortType);
         }
 
         /**
          * Fields to retrieve
          */
         if (!empty($_params['fields'])) {
-            $searchParams['fl'] = implode(',', $_params['fields']);
+            foreach ($_params['fields'] as $field) {
+                $solrQuery->addField($field);
+            }
         }
 
         /**
-         * Now supported search only in fulltext and name fields based on dismax requestHandler.
+         * Now supported search only in fulltext and name fields based on dismax requestHandler (named as magento_lng).
          * Using dismax requestHandler for each language make matches in name field
          * are much more significant than matches in fulltext field.
          */
@@ -246,14 +272,14 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
         }
 
         if (isset($params['solr_params']['facet']) && $params['solr_params']['facet'] == 'on') {
-            $searchParams['facet'] = 'on';
+            $_params['solr_params']['facet'] = 'on';
             if (isset($params['facet'])) {
                 foreach ($params['facet'] as $facetField => $facetFieldConditions) {
                     if (empty($facetFieldConditions)) {
-                        $searchParams['facet.field'] = $facetField;
+                        $_params['solr_params']['facet.field'] = $facetField;
                     }
                     else {
-                        $searchParams['facet.query'] = array();
+                        $_params['solr_params']['facet.query'] = array();
                         foreach ($facetFieldConditions as $facetCondition) {
                             if (is_array($facetCondition) && isset($facetCondition['from']) && isset($facetCondition['to'])) {
                                 $from = (isset($facetCondition['from']) && !empty($facetCondition['from']))
@@ -269,7 +295,7 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
                                 $fieldCondition = "$facetField:$facetCondition";
                             }
 
-                            $searchParams['facet.query'][] = $fieldCondition;
+                            $_params['solr_params']['facet.query'][] = $fieldCondition;
                         }
                     }
                 }
@@ -281,11 +307,17 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
          */
         if (!empty($_params['solr_params'])) {
             foreach ($_params['solr_params'] as $name => $value) {
-                $searchParams[$name] = $value;
+                if (is_array($value)) {
+                    foreach ($value as $val) {
+                        $solrQuery->addParam($name, $val);
+                    }
+                }
+                else {
+                    $solrQuery->addParam($name, $value);
+                }
             }
         }
 
-        $searchParams['fq'] = array();
         if (!empty($params['filters'])) {
             foreach ($params['filters'] as $field => $value) {
                 if (is_array($value)) {
@@ -308,7 +340,7 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
                     $fieldCondition = $field .':'. $value;
                 }
 
-                $searchParams['fq'][] = $fieldCondition;
+                $solrQuery->addFilterQuery($fieldCondition);
             }
         }
 
@@ -316,23 +348,20 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
          * Store filtering
          */
         if ($_params['store_id'] > 0) {
-            $searchParams['fq'][] = 'store_id:' . $_params['store_id'];
+            $solrQuery->addFilterQuery('store_id:' . $_params['store_id']);
         }
         if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
-            $searchParams['fq'][] = 'in_stock:true';
+            $solrQuery->addFilterQuery('in_stock:true');
         }
-
-        $searchParams['fq'] = implode(' AND ', $searchParams['fq']);
 
         try {
             $this->ping();
-            $response = $this->_client->search($searchConditions, $offset, $limit, $searchParams);
-            $data = json_decode($response->getRawResponse());
+            $response = $this->_client->query($solrQuery);
 
-            $result = array('ids' => $this->_prepareQueryResponse($data));
+            $result = array('ids' => $this->_prepareQueryResponse($response->getResponse()));
 
             if (isset($params['solr_params']['facet']) && $params['solr_params']['facet'] == 'on'){
-                $result['facets'] = $this->_prepareFacetsQueryResponse($data);
+                $result['facets'] = $this->_prepareFacetsQueryResponse($response->getResponse());
             }
             else {
                 $result['facets'] = array();
@@ -386,19 +415,27 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
      * @param string $query The raw query string
      * @return boolean|string
      */
-    public function _searchSuggestions($query, $params=array(), $limit=false, $withResultsCounts=false)
+    public function _searchSuggestions($query, $params = array(), $limit = false, $withResultsCounts = false)
     {
-        $query = $this->_prepareQueryText($query);
-        if (!$query) {
-            return array();
+         /**
+         * @see self::_search()
+         */
+        if ((int)('1' . str_replace('.', '', solr_get_version())) < 1099) {
+            $this->_connect();
         }
 
+        $query = $this->_escapePhrase($query);
+
+        if (!$query) {
+            return false;
+        }
         $_params = array();
+
 
         $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
-//        $solrQuery = new SolrQuery($query);
+        $solrQuery = new SolrQuery($query);
 
         /**
          * Now supported search only in fulltext and name fields based on dismax requestHandler (named as magento_lng).
@@ -416,27 +453,27 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
         /**
          * Specific Solr params
          */
-//        if (!empty($_params['solr_params'])) {
-//            foreach ($_params['solr_params'] as $name => $value) {
-//                $solrQuery->setParam($name, $value);
-//            }
-//        }
+        if (!empty($_params['solr_params'])) {
+            foreach ($_params['solr_params'] as $name => $value) {
+                $solrQuery->setParam($name, $value);
+            }
+        }
 
+        $this->_client->setServlet(SolrClient::SEARCH_SERVLET_TYPE, 'spell');
         /**
          * Store filtering
          */
-//        if (!empty($params['store_id'])) {
-//            $solrQuery->addFilterQuery('store_id:' . $params['store_id']);
-//        }
-//        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
-//            $solrQuery->addFilterQuery('in_stock:true');
-//        }
+        if (!empty($params['store_id'])) {
+            $solrQuery->addFilterQuery('store_id:' . $params['store_id']);
+        }
+        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
+            $solrQuery->addFilterQuery('in_stock:true');
+        }
 
         try {
             $this->ping();
-            $response = $this->_client->searchSuggestions($query, $_params['solr_params']);
-            $result = $this->_prepareSuggestionsQueryResponse( json_decode($response->getRawResponse()) );
-
+            $response = $this->_client->query($solrQuery);
+            $result = $this->_prepareSuggestionsQueryResponse($response->getResponse());
             if ($limit) {
                 $result = array_slice($result, 0, $limit);
             }
@@ -465,6 +502,39 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
      */
     protected function _searchFacets($query, $params = array())
     {
+        /**
+         * Hard code to prevent Solr bug:
+         * Bug #17009 Creating two SolrQuery objects leads to wrong query value
+         * @see http://pecl.php.net/bugs/bug.php?id=17009&edit=1
+         * @see http://svn.php.net/viewvc?view=revision&revision=293379
+         */
+        if ((int)('1' . str_replace('.', '', solr_get_version())) < 1099) {
+            $this->_connect();
+        }
+
+        $_params = $this->_defaultQueryParams;
+        if (is_array($params) && !empty($params)) {
+            $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
+        }
+
+        $offset = (int)$_params['offset'];
+        $limit  = (int)$_params['limit'];
+
+        if (!$limit) {
+            $limit = 100;
+        }
+
+        /**
+         * Now supported search only in fulltext field
+         * By default in Solr  set <defaultSearchField> is "fulltext"
+         * When language fields need to be used, then perform search in appropriate field
+         */
+        $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
+        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+
+        $solrQuery = new SolrQuery();
+        $solrQuery->setStart($offset)->setRows($limit);
+
         if (is_array($query)) {
             $searchConditions = array();
 
@@ -488,7 +558,6 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
                     if ($value != '*') {
                         $value = $this->_prepareQueryText($value);
                     }
-
                     $fieldCondition = $field .':'. $value;
                 }
 
@@ -504,27 +573,13 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
         if (!$searchConditions) {
             return array();
         }
-
-        $_params = $this->_defaultQueryParams;
-        if (is_array($params) && !empty($params)) {
-            $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
-        }
-        $offset = (int)$_params['offset'];
-        $limit  = (int)$_params['limit'];
-
-        if (!$limit) {
-            $limit = 100;
-        }
-
-        $searchParams = array();
-        $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
-        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+        $solrQuery->setQuery($searchConditions);
 
         if (!is_array($_params['fields'])) {
             $_params['fields'] = array($_params['fields']);
         }
 
-        if (!is_array($_params['solr_params'])) {
+        if (!is_array($_params['solr_params'])){
             $_params['solr_params'] = array($_params['solr_params']);
         }
 
@@ -548,7 +603,7 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
                 $_params['sort_by'] = 'price_'. $customerGroupId .'_'. $websiteId;
             }
 
-            $_params['sort_by'] = array(array($_params['sort_by'] => 'asc'));
+            $_params['sort_by'] = array(array($_params['sort_by'] => SolrQuery::ORDER_ASC));
         }
 
         /**
@@ -568,8 +623,8 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
 //                if (in_array($sortField, $this->_searchTextFields)) {
 //                    $sortField = $sortField . $languageSuffix;
 //                }
-//                $sortType = trim(strtolower($sortType)) == 'desc' ? 'desc' : 'asc';
-//                $searchParams['sort'][] = $sortField . ' ' . $sortType;
+//                $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
+//                $solrQuery->addSortField($sortField, $sortType);
 //            }
             elseif ($sortField == 'position') {
                 $sortField = 'position_category_' . Mage::registry('current_category')->getId();
@@ -584,18 +639,21 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
                 $sortField = $this->getAttributeSolrFieldName($sortField);
             }
 
-            $searchParams['sort'][] = $sortField . ' ' . $sortType;
+            $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
+            $solrQuery->addSortField($sortField, $sortType);
         }
 
         /**
          * Fields to retrieve
          */
         if (!empty($_params['fields'])) {
-            $searchParams['fl'] = implode(',', $_params['fields']);
+            foreach ($_params['fields'] as $field) {
+                $solrQuery->addField($field);
+            }
         }
 
         /**
-         * Now supported search only in fulltext and name fields based on dismax requestHandler.
+         * Now supported search only in fulltext and name fields based on dismax requestHandler (named as magento_lng).
          * Using dismax requestHandler for each language make matches in name field
          * are much more significant than matches in fulltext field.
          */
@@ -603,24 +661,22 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
             $_params['solr_params']['qt'] = 'magento' . $languageSuffix;
         }
 
-        $searchParams['facet'] = 'on';
+        $_params['solr_params']['facet'] = 'on';
 
         if (isset($params['facet'])) {
             if (empty($params['facet']['values'])) {
-                $searchParams['facet.field'] = $params['facet']['field'];
-            }
-            else {
-                $searchParams['facet.query'] = array();
+                $_params['solr_params']['facet.field'] = $params['facet']['field'];
+            } else {
+                $_params['solr_params']['facet.query'] = array();
                 foreach ($params['facet']['values'] as $key => $value) {
                     if (is_array($value) && isset($value['from']) && isset($value['to'])) {
                         $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
                         $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
                         $fieldCondition = "{$params['facet']['field']}:[$from TO $to]";
-                    }
-                    else {
+                    } else {
                         $fieldCondition = "{$params['facet']['field']}:$value";
                     }
-                    $searchParams['facet.query'][] =  $fieldCondition;
+                    $_params['solr_params']['facet.query'][]= $fieldCondition;
                 }
             }
         }
@@ -630,11 +686,16 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
          */
         if (!empty($_params['solr_params'])) {
             foreach ($_params['solr_params'] as $name => $value) {
-                $searchParams[$name] = $value;
+                if (is_array($value)) {
+                    foreach ($value as $multiValue) {
+                        $solrQuery->addParam($name, $multiValue);
+                    }
+                } else {
+                    $solrQuery->addParam($name, $value);
+                }
             }
         }
 
-        $searchParams['fq'] = array();
         if (!empty($params['filters'])) {
             foreach ($params['filters'] as $field => $value) {
                 if (is_array($value)) {
@@ -657,7 +718,7 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
                     $fieldCondition = $field .':'. $value;
                 }
 
-                $searchParams['fq'][] = $fieldCondition;
+                $solrQuery->addFilterQuery($fieldCondition);
             }
         }
 
@@ -665,23 +726,31 @@ class Enterprise_Search_Model_Adapter_Solr_HttpStream extends Enterprise_Search_
          * Store filtering
          */
         if ($_params['store_id'] > 0) {
-            $searchParams['fq'][] = 'store_id:' . $_params['store_id'];
+            $solrQuery->addFilterQuery('store_id:' . $_params['store_id']);
         }
         if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
-            $searchParams['fq'][] = 'in_stock:true';
+            $solrQuery->addFilterQuery('in_stock:true');
         }
-
-        $searchParams['fq'] = implode(' AND ', $searchParams['fq']);
 
         try {
             $this->ping();
-            $response = $this->_client->search($searchConditions, $offset, $limit, $searchParams);
-            $data = json_decode($response->getRawResponse());
-
-            return $this->_prepareFacetsQueryResponse($data);
+            $response = $this->_client->query($solrQuery);
+            $result = $this->_prepareFacetsQueryResponse($response->getResponse());
+            return $result;
         }
         catch (Exception $e) {
             Mage::logException($e);
         }
+    }
+
+    /**
+     * Checks if Solr server is still up
+     *
+     * @return bool
+     */
+    public function ping()
+    {
+        Mage::helper('enterprise_search')->getSolrSupportedLanguages();
+        return parent::ping();
     }
 }
