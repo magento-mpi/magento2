@@ -37,6 +37,21 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * Preparing global layout
+     *
+     * @return Mage_Core_Block_Abstract
+     */
+    protected function _prepareLayout()
+    {
+        $result = parent::_prepareLayout();
+        $renderer = $this->getLayout()->getBlock('fieldset_element_renderer');
+        if ($renderer instanceof Varien_Data_Form_Element_Renderer_Interface) {
+            Varien_Data_Form::setFieldsetElementRenderer($renderer);
+        }
+        return $result;
+    }
+
+    /**
      * Adding customer address attribute form elements for edit form
      *
      * @return Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
@@ -189,6 +204,17 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
             }
         }
 
+        // apply scopes
+        foreach ($helper->getAttributeElementScopes() as $elementId => $scope) {
+            $element = $form->getElement($elementId);
+            $element->setScope($scope);
+            if ($this->getAttributeObject()->getWebsite()->getId()) {
+                $element->setName('scope_' . $element->getName());
+            }
+        }
+
+        $this->getForm()->setDataObject($this->getAttributeObject());
+
         Mage::dispatchEvent('enterprise_customer_address_attribute_edit_tab_general_prepare_form', array(
             'form'      => $form,
             'attribute' => $attribute
@@ -208,7 +234,16 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
         if ($attribute->getId() && $attribute->getValidateRules()) {
             $this->getForm()->addValues($attribute->getValidateRules());
         }
-        return parent::_initFormValues();
+        $result = parent::_initFormValues();
+
+        // get data using methods to apply scope
+        $formValues = $this->getAttributeObject()->getData();
+        foreach ($formValues as $key => $value) {
+            $formValues[$key] = $this->getAttributeObject()->getDataUsingMethod($key);
+        }
+        $this->getForm()->addValues($formValues);
+
+        return $result;
     }
 
     /**

@@ -140,8 +140,9 @@ function switchDefaultValueField()
 
     setRowVisibility('multiline_count', show_multiline_count);
     if ($('multiline_count')) {
+        var use_default_multiline_count = ($$('[name="use_default[]"][value="multiline_count"]:checked').length > 0);
         if (show_multiline_count) {
-            $('multiline_count').disabled = false;
+            $('multiline_count').disabled = use_default_multiline_count;
         } else {
             $('multiline_count').disabled = true;
         }

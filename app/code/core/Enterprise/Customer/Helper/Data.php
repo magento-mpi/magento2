@@ -291,6 +291,19 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Enterprise_Helper_Core_
         );
     }
 
+    public function getAttributeElementScopes()
+    {
+        return array(
+            'is_required'            => 'website',
+            'is_visible'             => 'website',
+            'multiline_count'        => 'website',
+            'default_value_text'     => 'website',
+            'default_value_yesno'    => 'website',
+            'default_value_date'     => 'website',
+            'default_value_textarea' => 'website'
+        );
+    }
+
     /**
      * Return default value field name by attribute input type
      *

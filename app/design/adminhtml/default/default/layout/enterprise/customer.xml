@@ -31,13 +31,13 @@
             <block type="enterprise_customer/adminhtml_customer_formtype" name="enterprise_customer_formtype" />
         </reference>
     </adminhtml_customer_formtype_index>
-    
+
     <adminhtml_customer_formtype_new>
         <reference name="content">
             <block type="enterprise_customer/adminhtml_customer_formtype_edit" name="enterprise_customer_formtype_new" />
         </reference>
     </adminhtml_customer_formtype_new>
-    
+
     <adminhtml_customer_formtype_edit>
         <reference name="head">
             <action method="setCanLoadExtJs"><flag>1</flag></action>
@@ -60,15 +60,27 @@
             </block>
         </reference>
     </adminhtml_customer_formtype_edit>
-    
+
+    <!-- shared scope (website) switcher -->
+    <scope_switcher>
+        <block type="enterprise_customer/adminhtml_form_renderer_fieldset_element" name="fieldset_element_renderer" template="enterprise/customer/form/renderer/fieldset/element.phtml" />
+        <reference name="left">
+            <block type="adminhtml/store_switcher" name="website_switcher" before="-" template="enterprise/customer/website/switcher.phtml">
+                <action method="setStoreVarName"><value>website</value></action>
+                <action method="setDefaultStoreName" translate="name"><name>Default Values</name></action>
+            </block>
+        </reference>
+    </scope_switcher>
+
     <!-- customer attributes -->
     <adminhtml_customer_attribute_index>
         <reference name="content">
             <block type="enterprise_customer/adminhtml_customer_attribute" name="enterprise_customer_attribute" />
         </reference>
     </adminhtml_customer_attribute_index>
-    
+
     <adminhtml_customer_attribute_edit>
+        <update handle="scope_switcher"/>
         <reference name="content">
             <block type="enterprise_customer/adminhtml_customer_attribute_edit" name="enterprise_customer_attribute_edit" />
         </reference>
@@ -84,15 +96,20 @@
             <block type="enterprise_customer/adminhtml_customer_attribute_edit_js" template="enterprise/customer/attribute/js.phtml" />
         </reference>
     </adminhtml_customer_attribute_edit>
-    
+
+    <adminhtml_customer_attribute_new>
+        <remove name="website_switcher" />
+    </adminhtml_customer_attribute_new>
+
     <!-- customer address attributes -->
     <adminhtml_customer_address_attribute_index>
         <reference name="content">
             <block type="enterprise_customer/adminhtml_customer_address_attribute" name="enterprise_customer_address_attribute" />
         </reference>
     </adminhtml_customer_address_attribute_index>
-    
+
     <adminhtml_customer_address_attribute_edit>
+        <update handle="scope_switcher"/>
         <reference name="content">
             <block type="enterprise_customer/adminhtml_customer_address_attribute_edit" name="enterprise_customer_address_attribute_edit" />
         </reference>
@@ -108,4 +125,8 @@
             <block type="enterprise_customer/adminhtml_customer_attribute_edit_js" template="enterprise/customer/attribute/js.phtml" />
         </reference>
     </adminhtml_customer_address_attribute_edit>
+
+    <adminhtml_customer_address_attribute_new>
+        <remove name="website_switcher" />
+    </adminhtml_customer_address_attribute_new>
 </layout>

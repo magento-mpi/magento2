@@ -69,6 +69,21 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
     }
 
     /**
+     * Retrieve customer attribute object
+     *
+     * @return Mage_Customer_Model_Attribute
+     */
+    protected function _initAttribute()
+    {
+        $attribute = Mage::getModel('customer/attribute');
+        $websiteId = $this->getRequest()->getParam('website');
+        if ($websiteId) {
+            $attribute->setWebsite($websiteId);
+        }
+        return $attribute;
+    }
+
+    /**
      * Attributes grid
      *
      */
@@ -84,6 +99,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
      */
     public function newAction()
     {
+        $this->addActionLayoutHandles();
         $this->_forward('edit');
     }
 
@@ -95,7 +111,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
     {
         /* @var $attributeObject Mage_Customer_Model_Attribute */
         $attributeId = $this->getRequest()->getParam('attribute_id');
-        $attributeObject = Mage::getModel('customer/attribute')
+        $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
 
         if ($attributeId) {
@@ -138,7 +154,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
         $attributeId        = $this->getRequest()->getParam('attribute_id');
         if (!$attributeId) {
             $attributeCode      = $this->getRequest()->getParam('attribute_code');
-            $attributeObject    = Mage::getModel('customer/attribute')
+            $attributeObject    = $this->_initAttribute()
                 ->loadByCode($this->_getEntityType()->getId(), $attributeCode);
             if ($attributeObject->getId()) {
                 $this->_getSession()->addError(
@@ -162,7 +178,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
         $data = $this->getRequest()->getPost();
         if ($this->getRequest()->isPost() && $data) {
             /* @var $attributeObject Mage_Customer_Model_Attribute */
-            $attributeObject = Mage::getModel('customer/attribute');
+            $attributeObject = $this->_initAttribute();
             /* @var $helper Enterprise_Customer_Helper_Data */
             $helper = Mage::helper('enterprise_customer');
 
@@ -202,13 +218,23 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
 
             $defaultValueField = $helper->getAttributeDefaultValueByInput($data['frontend_input']);
             if ($defaultValueField) {
-                $data['default_value'] = $this->getRequest()->getParam($defaultValueField);
+                $scopeKeyPrefix = ($this->getRequest()->getParam('website') ? 'scope_' : '');
+                $data[$scopeKeyPrefix . 'default_value'] = $this->getRequest()->getParam($scopeKeyPrefix . $defaultValueField);
             }
 
             $data['entity_type_id']     = $this->_getEntityType()->getId();
             $data['validate_rules']     = $helper->getAttributeValidateRules($data['frontend_input'], $data);
 
             $attributeObject->addData($data);
+
+            /**
+             * Check "Use Default Value" checkboxes values
+             */
+            if ($useDefaults = $this->getRequest()->getPost('use_default')) {
+                foreach ($useDefaults as $key) {
+                    $attributeObject->setData('scope_' . $key, null);
+                }
+            }
 
             try {
                 $attributeObject->save();
@@ -255,7 +281,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
     {
         $attributeId = $this->getRequest()->getParam('attribute_id');
         if ($attributeId) {
-            $attributeObject = Mage::getModel('customer/attribute')->load($attributeId);
+            $attributeObject = $this->_initAttribute()->load($attributeId);
             if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()
                 || !$attributeObject->getIsUserDefined())
             {
