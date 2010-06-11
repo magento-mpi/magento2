@@ -1527,6 +1527,7 @@ f/********** Product Prices > */
 .product-review dd { font-size:13px; margin:5px 0 0; }
 
 /* Billing Agreements */
+.billing-agreements .info-box{ margin:15px 0; }
 .billing-agreements .info-box p { margin:0 0 5px; }
 .billing-agreements .form-list li select { float:left; margin:3px 10px 0 0; }
 .billing-agreements .table-caption { font-weight:bold; font-size:13px; }

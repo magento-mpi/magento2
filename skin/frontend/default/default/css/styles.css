@@ -1572,6 +1572,7 @@ tr.summary-details-excluded { font-style:italic; }
 .product-review dd { font-size:13px; margin:5px 0 0; }
 
 /* Billing Agreements */
+.billing-agreements .info-box{ margin:15px 0; }
 .billing-agreements .form-list li select { float:left; }
 .billing-agreements .form-list li button.button { float:left; margin-left:10px; }
 .billing-agreements .table-caption { font-weight:bold; font-size:13px; }
