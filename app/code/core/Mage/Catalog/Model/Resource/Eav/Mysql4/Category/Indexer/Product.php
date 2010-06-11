@@ -302,7 +302,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
         $position = new Zend_Db_Expr('IF (cp.category_id=ce.entity_id, cp.position, 0) AS position');
         $select = $this->_getReadAdapter()->select()
             ->from(array('ce' => $this->_categoryTable), array('entity_id', 'cp.product_id', $position, $isParent))
-            ->joinInner(array('cc' => $this->_categoryTable), 'cc.path LIKE CONCAT(ce.path, \'/%\')', array())
+            ->joinLeft(array('cc' => $this->_categoryTable), 'cc.path LIKE CONCAT(ce.path, \'/%\')', array())
             ->joinInner(array('cp' => $this->_categoryProductTable), 'cp.category_id=cc.entity_id OR cp.category_id=ce.entity_id', array())
             ->joinInner(array('pw' => $this->_productWebsiteTable), 'pw.product_id=cp.product_id', array())
             ->joinInner(array('g'  => $this->_groupTable), 'g.website_id=pw.website_id', array())
