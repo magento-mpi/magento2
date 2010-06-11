@@ -45,7 +45,7 @@ class Mage_XmlConnect_Block_Customer_Order_List extends Mage_Core_Block_Template
      */
     protected function _toHtml()
     {
-        $ordersXmlObj = new Varien_Simplexml_Element('<orders></orders>');
+        $ordersXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<orders></orders>');
 
         $orders = Mage::getResourceModel('sales/order_collection')
             ->addFieldToSelect('*')

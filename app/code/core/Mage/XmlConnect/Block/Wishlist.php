@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
      */
     protected function _toHtml()
     {
-        $wishlistXmlObj = new Varien_Simplexml_Element('<wishlist></wishlist>');
+        $wishlistXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<wishlist></wishlist>');
         $wishlistXmlObj->addAttribute('items_count', $this->getWishlistItemsCount());
         if ($this->hasWishlistItems()) {
 

@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Checkout_Shipping_Method_Avaliable extends Mage_Chec
      */
     protected function _toHtml()
     {
-        $methodsXmlObj = new Varien_Simplexml_Element('<shipping_methods></shipping_methods>');
+        $methodsXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<shipping_methods></shipping_methods>');
         $_shippingRateGroups = $this->getShippingRates();
         if ($_shippingRateGroups){
             $store = Mage::app()->getStore();

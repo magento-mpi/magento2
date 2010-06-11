@@ -41,14 +41,9 @@ class Mage_XmlConnect_Block_Cms_Page extends Mage_Cms_Block_Page
      */
     protected function _toHtml()
     {
-        $pageXmlObj = new Varien_Simplexml_Element('<page></page>');
+        $pageXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<page></page>');
         $html = parent::_toHtml();
-        $page = $this->getPage();
-        $pageXmlObj->addChild('title',$page->getTitle());
-        $pageXmlObj->addChild('meta_keywords',$page->getMetaKeywords());
-        $pageXmlObj->addChild('meta_description',$page->getMetaDescription());
-        $pageXmlObj->addChild('html', $html);
-        return $pageXmlObj->asNiceXml();
+        return $html;
     }
 
     /**

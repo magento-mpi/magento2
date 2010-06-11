@@ -126,7 +126,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
         $data = $this->getRequest()->getPost('shipping_method', '');
         $result = $this->_checkout->saveShippingMethod($data);
         if (!isset($result['error'])) {
-            $message = new Varien_Simplexml_Element('<message></message>');
+            $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
             $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
             $message->addChild('text', $this->__('Shipping method was successfully set.'));
             if ($this->_getQuote()->isVirtual()) {
@@ -177,7 +177,7 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             /**
              * Format success report
              */
-            $message = new Varien_Simplexml_Element('<message></message>');
+            $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
             $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
 
             $orderId = $this->_checkout->getLastOrderId();

@@ -38,11 +38,11 @@ class Mage_XmlConnect_Block_Catalog_Category_Info extends Mage_XmlConnect_Block_
     /**
      * Produce category info xml object
      *
-     * @return Varien_Simplexml_Element
+     * @return Mage_XmlConnect_Model_Simplexml_Element
      */
     public function getCategoryInfoXmlObject()
     {
-        $infoXmlObj = new Varien_Simplexml_Element('<category_info></category_info>');
+        $infoXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<category_info></category_info>');
         $category   = $this->getCategory();
         if ($category && is_object($category) && $category->getId()) {
             $title = $infoXmlObj->xmlentities(strip_tags($category->getParentCategory()->getName()));

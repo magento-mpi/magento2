@@ -46,7 +46,7 @@ class Mage_XmlConnect_Block_Catalog_Category extends Mage_XmlConnect_Block_Catal
         $offset = (int)$request->getParam('offset', 0);
         $count  = (int)$request->getParam('count', 0);
         $count  = $count <= 0 ? 1 : $count;
-        $categoryXmlObj = new Varien_Simplexml_Element('<category></category>');
+        $categoryXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<category></category>');
         $categoryId     = $this->getRequest()->getParam('id', null);
         $categoryModel  = Mage::getModel('catalog/category')->load($categoryId);
         if ($categoryModel->getId()) {

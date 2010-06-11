@@ -62,7 +62,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
      */
     protected function _toHtml()
     {
-        $methodsXmlObj = new Varien_Simplexml_Element('<payment_methods></payment_methods>');
+        $methodsXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<payment_methods></payment_methods>');
 
         $methodBlocks = $this->getChild();
         foreach ($methodBlocks as $block) {

@@ -40,7 +40,7 @@ class Mage_XmlConnect_Block_Cart_Crosssell extends Mage_Checkout_Block_Cart_Cros
      */
     protected function _toHtml()
     {
-        $crossSellXmlObj = new Varien_Simplexml_Element('<crosssell></crosssell>');
+        $crossSellXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<crosssell></crosssell>');
         if(!$this->getItemCount()){
             return $crossSellXmlObj->asNiceXml();
         }

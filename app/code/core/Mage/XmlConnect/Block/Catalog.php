@@ -46,11 +46,11 @@ class Mage_XmlConnect_Block_Catalog extends Mage_Core_Block_Template
     /**
      * Retrieve product sort fields as xml object
      *
-     * @return Varien_Simplexml_Element
+     * @return Mage_XmlConnect_Model_Simplexml_Element
      */
     public function getProductSortFeildsXmlObject()
     {
-        $ordersXmlObject  = new Varien_Simplexml_Element('<orders></orders>');
+        $ordersXmlObject  = new Mage_XmlConnect_Model_Simplexml_Element('<orders></orders>');
         $sortOptions      = Mage::getModel('catalog/category')->getAvailableSortByOptions();
         $sortOptions      = array_slice($sortOptions, 0, self::PRODUCT_SORT_FIELDS_NUMBER);
         foreach ($sortOptions as $code => $name) {

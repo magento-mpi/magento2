@@ -32,6 +32,16 @@
 
 class Mage_XmlConnect_CmsController extends Mage_XmlConnect_Controller_Action
 {
+
+    /**
+     * Declare content type header
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        $this->getResponse()->setHeader('Content-type', 'text/html; charset=UTF-8');
+    }
+
     /**
      * Category list
      *

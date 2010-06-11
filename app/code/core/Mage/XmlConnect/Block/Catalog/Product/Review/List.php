@@ -44,11 +44,11 @@ class Mage_XmlConnect_Block_Catalog_Product_Review_List extends Mage_XmlConnect_
     /**
      * Produce reviews list xml object
      *
-     * @return Varien_Simplexml_Element
+     * @return Mage_XmlConnect_Model_Simplexml_Element
      */
     public function getReviewsXmlObject()
     {
-        $reviewsXmlObj = new Varien_Simplexml_Element('<reviews></reviews>');
+        $reviewsXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<reviews></reviews>');
         $collection     = $this->_getReviewCollection();
 
         if (!$collection) {

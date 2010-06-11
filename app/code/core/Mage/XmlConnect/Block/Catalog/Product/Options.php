@@ -61,14 +61,14 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
     }
 
     /**
-     * Create produc custom options Varien_Simplexml_Element object
+     * Create produc custom options Mage_XmlConnect_Model_Simplexml_Element object
      *
      * @param Mage_Catalog_Model_Product $product
-     * @return Varien_Simplexml_Element
+     * @return Mage_XmlConnect_Model_Simplexml_Element
      */
     public function getProductCustomOptionsXmlObject(Mage_Catalog_Model_Product $product)
     {
-        $xmlModel = new Varien_Simplexml_Element('<product></product>');
+        $xmlModel = new Mage_XmlConnect_Model_Simplexml_Element('<product></product>');
         $optionsNode = $xmlModel->addChild('options');
 
         if (!$product->getId()) {

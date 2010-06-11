@@ -38,9 +38,9 @@ class Mage_XmlConnect_Block_Catalog_Product_Price_Bundle extends Mage_Bundle_Blo
      * Collect product prices to specified item xml object
      *
      * @param Mage_Catalog_Model_Product $product
-     * @param Varien_Simplexml_Element $item
+     * @param Mage_XmlConnect_Model_Simplexml_Element $item
      */
-    public function collectProductPrices(Mage_Catalog_Model_Product $product, Varien_Simplexml_Element $item)
+    public function collectProductPrices(Mage_Catalog_Model_Product $product, Mage_XmlConnect_Model_Simplexml_Element $item)
     {
         $this->setProduct($product)
             ->setDisplayMinimalPrice(true)

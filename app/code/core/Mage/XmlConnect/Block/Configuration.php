@@ -56,10 +56,10 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
     /**
      * Recursively build XML configuration tree
      *
-     * @param Varien_Simplexml_Element $section
+     * @param Mage_XmlConnect_Model_Simplexml_Element $section
      * @param array $subtree
      * @param string $prefix
-     * @return Varien_Simplexml_Element
+     * @return Mage_XmlConnect_Model_Simplexml_Element
      */
     protected function _buildRecursive($section, $subtree)
     {
@@ -111,7 +111,7 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
      */
     protected function _toHtml()
     {
-        $xml = new Varien_Simplexml_Element('<configuration></configuration>');
+        $xml = new Mage_XmlConnect_Model_Simplexml_Element('<configuration></configuration>');
         $this->_buildRecursive($xml, $this->_app->getRenderConf());
 
         $xml->addChild('updateTimeUTC', strtotime($this->_app->getUpdatedAt()));

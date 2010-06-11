@@ -42,7 +42,7 @@ class Mage_XmlConnect_Block_Customer_Address_Form extends Mage_Core_Block_Templa
     {
         $helper   = Mage::helper('xmlconnect');
         $address  = $this->getAddress();
-        $xmlModel = new Varien_Simplexml_Element('<node></node>');
+        $xmlModel = new Mage_XmlConnect_Model_Simplexml_Element('<node></node>');
 
         /**
          * Init address object and save its data to variables

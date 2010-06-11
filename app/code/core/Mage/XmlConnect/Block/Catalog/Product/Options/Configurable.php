@@ -149,7 +149,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
     /**
      * Add recursively relations on each option
      *
-     * @param Varien_Simplexml_Element $valueNode value node object
+     * @param Mage_XmlConnect_Model_Simplexml_Element $valueNode value node object
      * @param array $attributes all products attributes (options)
      * @param array $productIds prodcuts to search in next levels attributes
      * @param int $cycle

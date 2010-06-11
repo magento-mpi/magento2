@@ -182,7 +182,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             }
 
             if (!empty($errors)) {
-                $message = new Varien_Simplexml_Element('<message></message>');
+                $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
                 $message->addChild('status', self::MESSAGE_STATUS_ERROR);
                 $message->addChild('text', implode(' ', $errors));
                 $this->getResponse()->setBody($message->asNiceXml());
@@ -274,7 +274,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                     if ($customer->isConfirmationRequired()) {
                         $customer->sendNewAccountEmail('confirmation', $session->getBeforeAuthUrl());
                         $message = $this->__('Account confirmation is required. Please, check your email for the confirmation link.');
-                        $messageXmlObj = new Varien_Simplexml_Element('<message></message>');
+                        $messageXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
                         $messageXmlObj->addChild('status', self::MESSAGE_STATUS_SUCCESS);
                         $messageXmlObj->addChild('text', $message);
                         $messageXmlObj->addChild('confirmation', 1);
@@ -370,7 +370,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             $this->renderLayout();
         }
         else {
-            $message = new Varien_Simplexml_Element('<message></message>');
+            $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
             $message->addChild('status', self::MESSAGE_STATUS_ERROR);
             $message->addChild('is_empty_address_book', 1);
             $this->getResponse()->setBody($message->asNiceXml());
@@ -471,7 +471,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 if (true === $addressValidation) {
                     $address->save();
 
-                    $message = new Varien_Simplexml_Element('<message></message>');
+                    $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
                     $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
                     $message->addChild('text', $this->__('The address has been saved.'));
                     $message->addChild('address_id', $address->getId());
@@ -518,7 +518,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
      */
     public function isLogginedAction()
     {
-        $message = new Varien_Simplexml_Element('<message></message>');
+        $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
         $message->addChild('is_loggined', (int)$this->_getSession()->isLoggedIn());
         $this->getResponse()->setBody($message->asNiceXml());
     }

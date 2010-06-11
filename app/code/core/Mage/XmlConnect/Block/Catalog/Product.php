@@ -51,11 +51,11 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
      * @param Mage_Catalog_Model_Product $product
      * @param string $itemNodeName
      *
-     * @return Varien_Simplexml_Element
+     * @return Mage_XmlConnect_Model_Simplexml_Element
      */
     public function productToXmlObject(Mage_Catalog_Model_Product $product, $itemNodeName = 'item')
     {
-        $item = new Varien_Simplexml_Element('<' . $itemNodeName . '></' . $itemNodeName . '>');
+        $item = new Mage_XmlConnect_Model_Simplexml_Element('<' . $itemNodeName . '></' . $itemNodeName . '>');
         if ($product->getId()) {
             $item->addChild('entity_id', $product->getId());
             $item->addChild('name', $item->xmlentities(strip_tags($product->getName())));

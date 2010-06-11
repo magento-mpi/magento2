@@ -63,10 +63,10 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Checkmo extends Mage_Payment
     /**
      * Add cc save payment method form to payment XML object
      *
-     * @param Varien_Simplexml_Element $paymentItemXmlObj
-     * @return Varien_Simplexml_Element
+     * @param Mage_XmlConnect_Model_Simplexml_Element $paymentItemXmlObj
+     * @return Mage_XmlConnect_Model_Simplexml_Element
      */
-    public function addPaymentFormToXmlObj(Varien_Simplexml_Element $paymentItemXmlObj)
+    public function addPaymentFormToXmlObj(Mage_XmlConnect_Model_Simplexml_Element $paymentItemXmlObj)
     {
         return $paymentItemXmlObj;
     }

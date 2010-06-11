@@ -38,12 +38,12 @@ class Mage_XmlConnect_Block_Catalog_Product_Related extends Mage_XmlConnect_Bloc
     /**
      * Retrieve related products xml object based on current product
      *
-     * @return Varien_Simplexml_Element
+     * @return Mage_XmlConnect_Model_Simplexml_Element
      * @see $this->getProduct()
      */
     public function getRelatedProductsXmlObj()
     {
-        $relatedXmlObj = new Varien_Simplexml_Element('<related_products></related_products>');
+        $relatedXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<related_products></related_products>');
         if ($this->getParentBlock()->getProduct()->getId() > 0) {
             $collection = $this->_getProductCollection();
             if (!$collection) {

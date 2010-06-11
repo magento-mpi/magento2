@@ -42,7 +42,7 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
     {
         $cartMessages   = $this->getMessages();
         $quote          = $this->getQuote();
-        $xmlObject      = new Varien_Simplexml_Element('<cart></cart>');
+        $xmlObject      = new Mage_XmlConnect_Model_Simplexml_Element('<cart></cart>');
         $xmlObject->addAttribute('is_virtual', (int)$this->helper('checkout/cart')->getIsVirtualQuote());
         $xmlObject->addAttribute('summary_qty', (int)$this->helper('checkout/cart')->getSummaryCount());
         if (strlen($quote->getCouponCode())) {
@@ -214,7 +214,7 @@ class Mage_XmlConnect_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
         /**
          * Cross Sell Products
          */
-        $crossSellXmlObj = new Varien_Simplexml_Element($this->getChildHtml('crosssell'));
+        $crossSellXmlObj = new Mage_XmlConnect_Model_Simplexml_Element($this->getChildHtml('crosssell'));
         $xmlObject->appendChild($crossSellXmlObj);
 
         return $xmlObject->asNiceXml();

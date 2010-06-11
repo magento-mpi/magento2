@@ -264,7 +264,7 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             }
             $this->getOnepage()->saveOrder();
 
-            $message = new Varien_Simplexml_Element('<message></message>');
+            $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
             $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
 
             $orderId = $this->getOnepage()->getLastOrderId();

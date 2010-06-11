@@ -289,7 +289,7 @@ class Mage_XmlConnect_WishlistController extends Mage_XmlConnect_Controller_Acti
                      $e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_IS_GROUPED_PRODUCT) {
                 $item->delete();
 
-                $message = new Varien_Simplexml_Element('<message></message>');
+                $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
                 $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
                 $message->addChild('has_required_options', 1);
                 $message->addChild('product_id', $item->getProductId());

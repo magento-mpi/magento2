@@ -36,6 +36,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
 
     /**
      * Declare content type header
+     * Validate current application
      */
     public function preDispatch()
     {
@@ -86,7 +87,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
      */
     protected function _message($text, $status, $type='', $action='')
     {
-        $message = new Varien_Simplexml_Element('<message></message>');
+        $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
         $message->addChild('status', $status);
         $message->addChild('text', $text);
         $this->getResponse()->setBody($message->asNiceXml());

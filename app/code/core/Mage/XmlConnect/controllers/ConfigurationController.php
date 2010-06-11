@@ -86,7 +86,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
                 $updated_at = strtotime($app->getUpdatedAt());
                 $loaded_at = (int) $this->getRequest()->getParam('updated_at');
                 if($loaded_at >= $updated_at) {
-                    $message = new Varien_Simplexml_Element('<message></message>');
+                    $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
                     $message->addChild('status', Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_SUCCESS);
                     $message->addChild('no_changes', '1');
                     $this->getResponse()->setBody($message->asNiceXml());
@@ -97,14 +97,14 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
             $this->renderLayout();
         }
         catch (Mage_Core_Exception $e) {
-            $message = new Varien_Simplexml_Element('<message></message>');
+            $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
             $message->addChild('status', Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR);
             $message->addChild('text', $e->getMessage());
             $this->getResponse()->setBody($message->asNiceXml());
         }
         catch (Exception $e) {
         var_dump($e); die();
-            $message = new Varien_Simplexml_Element('<message></message>');
+            $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
             $message->addChild('status', Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR);
             $message->addChild('text', $this->__('Cannot show configuration.'));
             $this->getResponse()->setBody($message->asNiceXml());

@@ -44,12 +44,12 @@ class Mage_XmlConnect_Block_Catalog_Product_Review extends Mage_XmlConnect_Block
      *
      * @param Mage_Review_Model_Review $review
      * @param string $itemNodeName
-     * @return Varien_Simplexml_Element
+     * @return Mage_XmlConnect_Model_Simplexml_Element
      */
     public function reviewToXmlObject(Mage_Review_Model_Review $review, $itemNodeName = 'item')
     {
         $rating = 0;
-        $item = new Varien_Simplexml_Element('<' . $itemNodeName . '></' . $itemNodeName . '>');
+        $item = new Mage_XmlConnect_Model_Simplexml_Element('<' . $itemNodeName . '></' . $itemNodeName . '>');
         if ($review->getId()) {
             $item->addChild('review_id', $review->getId());
             $item->addChild('created_at', $review->getCreatedAt());
