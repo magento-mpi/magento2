@@ -44,63 +44,6 @@ class Enterprise_Search_Model_Resource_Catalog_Facets_Price extends Mage_Catalog
         return Mage::getSingleton('catalog/layer');
     }
 
-    /**
-     * Retrieve array with products counts per price range
-     *
-     * @param Mage_Catalog_Model_Layer_Filter_Price $filter
-     * @param int $range
-     * @param array $params
-     *
-     * @return array
-     */
-    public function getCount($filter, $range, $params = array())
-    {
-        $attribute = $filter->getAttributeModel();
-        $productCollection = $this->getLayer()->getProductCollection();
-        $facets = $productCollection->getFacets($params);
-
-        $paramName = $params['facet']['field'];
-        $res = array();
-        if (isset($facets[$paramName])) {
-            foreach ($facets[$paramName] as $key => $value) {
-                preg_match('/TO (\d+)\]$/', $key, $rangeKey);
-                $rangeKey = $rangeKey[1] / $range;
-                if ($value > 0) {
-                    $res[$rangeKey] = $value;
-                }
-            }
-        }
-
-        return $res;
-    }
-
-    /**
-     * Apply attribute filter to product collection
-     *
-     * @param Mage_Catalog_Model_Layer_Filter_Price $filter
-     * @param int $range
-     * @param int $index    the range factor
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Layer_Filter_Attribute
-     */
-    public function applyFilterToCollection($filter, $range, $index)
-    {
-        $productCollection = $filter->getLayer()->getProductCollection();
-        $attribute         = $filter->getAttributeModel();
-        $websiteId         = Mage::app()->getStore()->getWebsiteId();
-        $customerGroupId   = Mage::getModel('customer/session')->getCustomerGroupId();
-        $priceField        = 'price_'. $customerGroupId .'_'. $websiteId;
-
-        $value = array(
-            $priceField => array(
-                'from' => ($range * ($index - 1)),
-                'to'   => $range * $index
-            )
-        );
-        $productCollection->addPriceQfFilter($value);
-
-        return $this;
-    }
-
    /**
      * Retrieve clean select with joined price index table
      *

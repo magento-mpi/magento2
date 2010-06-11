@@ -86,6 +86,45 @@ class Enterprise_Search_Model_Resource_Collection
     protected $_sortBy = array();
 
     /**
+     * Retrived faceted data for filters
+     *
+     * @var array
+     */
+    protected $_facetedData = array();
+
+    protected $_facetedConditions = array();
+
+    /**
+     * Return field facated data
+     *
+     * @param $field
+     *
+     * @return array | false
+     */
+    public function getFacetedData($field)
+    {
+        if (isset($this->_facetedData[$field])){
+            return $this->_facetedData[$field];
+        }
+        return false;
+    }
+
+    public function setFacetCondition($field, $condition = null)
+    {
+        if (array_key_exists($field, $this->_facetedConditions)) {
+            if (!empty($this->_facetedConditions[$field])){
+                $this->_facetedConditions[$field] = array($this->_facetedConditions[$field]);
+            }
+            $this->_facetedConditions[$field][] = $condition;
+        }
+        else {
+            $this->_facetedConditions[$field] = $condition;
+        }
+
+        return $this;
+    }
+
+    /**
      * Add search query filter
      * Set search query
      *
@@ -139,7 +178,7 @@ class Enterprise_Search_Model_Resource_Collection
         elseif (isset($value)) {
             if (isset($this->_searchQueryFilters[$param]) && !is_array($this->_searchQueryFilters[$param])) {
                 $this->_searchQueryFilters[$param] = array($this->_searchQueryFilters[$param]);
-                $this->_searchQueryFilters[$param][]=$value;
+                $this->_searchQueryFilters[$param][] = $value;
             }
             else {
                 $this->_searchQueryFilters[$param] = $value;
@@ -223,7 +262,11 @@ class Enterprise_Search_Model_Resource_Collection
                 $query = $this->_searchQueryText;
             }
 
-            $ids = (array)$this->_engine->getIdsByQuery($query, $params);
+            $params['solr_params']['facet'] = 'on';
+            $params['facet'] = $this->_facetedConditions;
+
+            list($ids, $this->_facetedData) = $this->_engine->getIdsByQuery($query, $params);
+            $ids = (array)$ids;
         }
 
         $this->_searchedEntityIds = &$ids;

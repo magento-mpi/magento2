@@ -72,20 +72,23 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
      */
     public function getPriceRange()
     {
-        $range = $this->getData('price_range');
-        if (is_null($range)) {
-            $maxPrice = $this->getMaxPriceInt();
-            $index = 1;
-            do {
-                $range = pow(10, (strlen(floor($maxPrice)) - $index));
-                $items = $this->getRangeItemCounts($range);
-                $index++;
-            }
-            while($range > self::MIN_RANGE_POWER && count($items) < 1);
+        $range = Mage::getStoreConfig('catalog/price/range');
 
-            $this->setData('price_range', $range);
-        }
-        return $range;
+        return $range; 
+//        $range = $this->getData('price_range');
+//        if (is_null($range)) {
+//            $maxPrice = $this->getMaxPriceInt();
+//            $index = 1;
+//            do {
+//                $range = pow(10, (strlen(floor($maxPrice)) - $index));
+//                $items = $this->getRangeItemCounts($range);
+//                $index++;
+//            }
+//            while($range > self::MIN_RANGE_POWER && count($items) < 1);
+//
+//            $this->setData('price_range', $range);
+//        }
+//        return $range;
     }
 
     /**
@@ -183,6 +186,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
             $tags = $this->getLayer()->getStateTags($tags);
             $this->getLayer()->getAggregator()->saveCacheData($data, $key, $tags);
         }
+
         return $data;
     }
 

@@ -728,6 +728,7 @@
             </sitemap>
             <price>
                 <scope>0</scope>
+                <range>1000000</range>
             </price>
 
             <product>

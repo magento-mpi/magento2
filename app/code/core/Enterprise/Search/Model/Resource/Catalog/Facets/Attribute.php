@@ -44,40 +44,6 @@ class Enterprise_Search_Model_Resource_Catalog_Facets_Attribute extends Enterpri
     }
 
     /**
-     * Retrieve count products for attribute filter filter
-     *
-     * @param object $attribute
-     *
-     * @return array
-     */
-    public function getCount($attribute)
-    {
-        $attribute = $attribute->getAttributeModel();
-        $params = array();
-
-        $params['facet'] = array(
-            'field'  => $this->getAttributeSolrFieldName($attribute),
-            'values' => array()
-        );
-
-        $productCollection = $this->getLayer()->getProductCollection();
-        $facets = $productCollection->getFacets($params);
-
-        $facet = !empty($facets[$params['facet']['field']]) ? $facets[$params['facet']['field']] : array();
-
-        $resultFacet = array();
-        $options = $attribute->getFrontend()->getSelectOptions();
-        foreach ($options as $option) {
-            $optionLabel = $this->_prepareOptionLabel($option['label']);
-            if (isset($facet[$optionLabel])) {
-                $resultFacet[$option['value']]=$facet[$optionLabel];
-            }
-        }
-
-        return $resultFacet;
-    }
-
-    /**
      * Apply attribute filter to solr query
      *
      * @param Mage_Catalog_Model_Layer_Filter_Attribute $filter
@@ -93,7 +59,11 @@ class Enterprise_Search_Model_Resource_Catalog_Facets_Attribute extends Enterpri
 
         $productCollection = Mage::getSingleton('catalog/layer')->getProductCollection();
         $attribute  = $filter->getAttributeModel();
-        $this->addSearchQfFilter($productCollection, $attribute, $value);
+
+        $param = $this->_getSearchParam($productCollection, $attribute, $value);
+        $productCollection->addSearchQfFilter($param);
+
+        return $this;
     }
 
     /**
@@ -105,12 +75,12 @@ class Enterprise_Search_Model_Resource_Catalog_Facets_Attribute extends Enterpri
      *
      * @return bool
      */
-    public function addSearchQfFilter($collection, $attribute, $value)
-    {
-        $param = $this->_getSearchParam($collection, $attribute, $value);
-        $collection->addSearchQfFilter($param);
-        return true;
-    }
+//    public function addSearchQfFilter($collection, $attribute, $value)
+//    {
+//        $param = $this->_getSearchParam($collection, $attribute, $value);
+//        $collection->addSearchQfFilter($param);
+//        return true;
+//    }
 
     /**
      * Construct attribute field's solr name 
@@ -152,5 +122,40 @@ class Enterprise_Search_Model_Resource_Catalog_Facets_Attribute extends Enterpri
     protected function _prepareOptionLabel($label)
     {
         return strtolower(str_replace(':', '', $label));
+    }
+    
+    /**
+     * Retrieve count products for attribute filter
+     *
+     * @param object $attribute
+     *
+     * @return array
+     */
+    public function getCount($attribute)
+    {
+        $attribute = $attribute->getAttributeModel();
+        $params = array();
+
+//        $params['facet'] = array(
+//            'field'  => $this->getAttributeSolrFieldName($attribute),
+//            'values' => array()
+//        );
+
+        $productCollection = $this->getLayer()->getProductCollection();
+        //$facets = $productCollection->getFacets($params);
+        $facet = $productCollection->getFacetedData($this->getAttributeSolrFieldName($attribute));
+
+        //$facet = !empty($facets[$params['facet']['field']]) ? $facets[$params['facet']['field']] : array();
+
+        $resultFacet = array();
+        $options = $attribute->getFrontend()->getSelectOptions();
+        foreach ($options as $option) {
+            $optionLabel = $this->_prepareOptionLabel($option['label']);
+            if (isset($facet[$optionLabel])) {
+                $resultFacet[$option['value']] = $facet[$optionLabel];
+            }
+        }
+
+        return $resultFacet;
     }
 }

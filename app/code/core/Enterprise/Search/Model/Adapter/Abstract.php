@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Magento Enterprise Edition
  *
@@ -144,13 +143,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         'solr_params'    => array(),
         'ignore_handler' => false
     );
-
-    /**
-     * Array of Zend_Date objects per store
-     *
-     * @var array
-     */
-    protected $_dateFormats = array();
 
     /**
      * Searchable attribute params
@@ -364,12 +356,13 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
         $_result = $this->_search($query, $params);
 
-        if(!empty($_result)) {
-            foreach ($_result as $_id) {
+        if(!empty($_result['ids'])) {
+            foreach ($_result['ids'] as $_id) {
                 $ids[] = $_id['id'];
             }
         }
-        return $ids;
+
+        return array($ids, $_result['facets']);
     }
 
     /**
@@ -682,37 +675,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     }
 
     /**
-     * Retrieve date value in solr format (ISO 8601) with Z
-     * Example: 1995-12-31T23:59:59Z
-     *
-     * @param int $storeId
-     * @param string $date
-     *
-     * @return string
-     */
-    protected function _getSolrDate($storeId, $date = null)
-    {
-        if (!isset($this->_dateFormats[$storeId])) {
-            $timezone = Mage::getStoreConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE, $storeId);
-            $locale   = Mage::getStoreConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE, $storeId);
-            $locale   = new Zend_Locale($locale);
-
-            $dateObj  = new Zend_Date(null, null, $locale);
-            $dateObj->setTimezone($timezone);
-            $this->_dateFormats[$storeId] = array($dateObj, $locale->getTranslation(null, 'date', $locale));
-        }
-
-        if (is_empty_date($date)) {
-            return null;
-        }
-
-        list($dateObj, $localeDateFormat) = $this->_dateFormats[$storeId];
-        $dateObj->setDate($date, $localeDateFormat);
-
-        return $dateObj->toString(Zend_Date::ISO_8601) . 'Z';
-    }
-
-    /**
      * Retrieve default searchable fields
      *
      * @return array
@@ -791,14 +753,5 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     public function _phrase($value)
     {
         return '"' . $this->_escapePhrase($value) . '"';
-    }
-
-    /**
-     * Enter description here...
-     *
-     */
-    public function addFilter()
-    {
-
     }
 }
