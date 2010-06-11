@@ -95,6 +95,6 @@ class Enterprise_GiftRegistry_Block_Cart_Product_Mark extends Enterprise_Enterpr
      */
     public function getGiftregistryUrl()
     {
-        return $this->getUrl('enterprise_giftregistry/view/index', array('id' => $this->getEntity()->getId()));
+        return $this->getUrl('enterprise_giftregistry/view/index', array('id' => $this->getEntity()->getUrlKey()));
     }
 }
