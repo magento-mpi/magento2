@@ -34,7 +34,7 @@
 abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_Search_Model_Adapter_Abstract
 {
     /**
-     * Define ping status 
+     * Define ping status
      *
      * @var float | bool
      */
@@ -126,4 +126,43 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
 
         return $dateObj->toString(Zend_Date::ISO_8601) . 'Z';
     }
+
+    /**
+     * Retrive attribute field's name for sorting
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     *
+     * @return string
+     */
+    public function getAttributeSolrFieldName($attributeCode)
+    {
+        if ($attributeCode == 'score') {
+            return $attributeCode;
+        }
+        $entityType = Mage::getSingleton('eav/config')
+            ->getEntityType('catalog_product');
+        $attribute = Mage::getModel('eav/config')->getAttribute($entityType, $attributeCode);
+
+        $field = $attributeCode;
+        $fieldType = $attribute->getBackendType();
+        $frontendInput = $attribute->getFrontendInput();
+
+        if ($frontendInput == 'multiselect') {
+            $field = 'attr_multi_'. $field;
+        }
+        elseif ($fieldType == 'decimal') {
+            $field = 'attr_decimal_'. $field;
+        }
+        elseif (in_array($fieldType, $this->_textFieldTypes)) {
+            $languageCode = $this->_getLanguageCodeByLocaleCode(
+                Mage::app()->getStore()
+                ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE));
+            $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+
+            $field .= $languageSuffix;
+        }
+
+        return $field;
+    }
+
 }

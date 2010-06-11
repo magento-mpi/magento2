@@ -185,7 +185,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             }
             elseif ($_params['sort_by'] == 'price') {
                 $websiteId       = Mage::app()->getStore()->getWebsiteId();
-                $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+                $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
                 $_params['sort_by'] = 'price_'. $customerGroupId .'_'. $websiteId;
             }
@@ -218,7 +218,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             }
             elseif ($sortField == 'price') {
                 $websiteId       = Mage::app()->getStore()->getWebsiteId();
-                $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+                $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
                 $sortField = 'price_'. $customerGroupId .'_'. $websiteId;
             }
@@ -343,41 +343,6 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         catch (Exception $e) {
             Mage::logException($e);
         }
-    }
-
-    /**
-     * Retrive attribute field's name for sorting
-     *
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
-     *
-     * @return string
-     */
-    public function getAttributeSolrFieldName($attributeCode)
-    {
-        $entityType = Mage::getModel('eav/config')
-            ->getEntityType('catalog_product');
-        $attribute = Mage::getModel('eav/config')->getAttribute($entityType, $attributeCode);
-
-        $field = $attributeCode;
-        $fieldType = $attribute->getBackendType();
-        $frontendInput = $attribute->getFrontendInput();
-
-        if ($frontendInput == 'multiselect') {
-            $field = 'attr_multi_'. $field;
-        }
-        elseif ($fieldType == 'decimal') {
-            $field = 'attr_decimal_'. $field;
-        }
-        elseif (in_array($fieldType, $this->_textFieldTypes)) {
-            $languageCode = $this->_getLanguageCodeByLocaleCode(
-                Mage::app()->getStore()
-                ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE));
-            $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
-
-            $field .= $languageSuffix;
-        }
-
-        return $field;
     }
 
     /**
@@ -543,7 +508,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             }
             elseif ($_params['sort_by'] == 'price') {
                 $websiteId       = Mage::app()->getStore()->getWebsiteId();
-                $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+                $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
                 $_params['sort_by'] = 'price_'. $customerGroupId .'_'. $websiteId;
             }
@@ -576,7 +541,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             }
             elseif ($sortField == 'price') {
                 $websiteId       = Mage::app()->getStore()->getWebsiteId();
-                $customerGroupId = Mage::getModel('customer/session')->getCustomerGroupId();
+                $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
                 $sortField = 'price_'. $customerGroupId .'_'. $websiteId;
             }
