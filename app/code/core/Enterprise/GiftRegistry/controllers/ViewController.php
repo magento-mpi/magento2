@@ -83,15 +83,21 @@ class Enterprise_GiftRegistry_ViewController extends Enterprise_Enterprise_Contr
         $success = false;
 
         try {
+            $count = 0;
             foreach ($items as $itemId => $itemInfo) {
                 $item = Mage::getModel('enterprise_giftregistry/item')->load($itemId);
                 if (!$item->getId() || $itemInfo['qty'] < 1) {
                     continue;
                 }
                 $item->addToCart($cart, $itemInfo['qty']);
+                $count += $itemInfo['qty'];
             }
             $cart->save()->getQuote()->collectTotals();
             $success = true;
+            if (!$count) {
+                $success = false;
+                $session->addError(Mage::helper('enterprise_giftregistry')->__('Please specify the quantity of items that you want to add to cart.'));
+            }
         } catch (Mage_Core_Exception $e) {
             $session->addError(Mage::helper('enterprise_giftregistry')->__($e->getMessage()));
         } catch (Exception $e) {
