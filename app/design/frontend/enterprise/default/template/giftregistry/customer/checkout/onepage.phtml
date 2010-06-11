@@ -28,34 +28,81 @@
 <?php if ($this->getEnabled() && $this->getItem()) : ?>
 <script type="text/javascript">
 //<![CDATA[
-var elementTemplate =
-    '<input type="checkbox" onclick="checkAddress()" value="<?php echo $this->getAddressIdPrefix(); ?><?php echo $this->getItem(); ?>" id="use_gr_address" name="shipping_address_id"> ' +
+
+var elementRadioTemplate =
+    '<div class="input-box">'+
+         '<input name="billing[use_for_shipping]" id="billing:use_gift_registry_address" value="2" onclick="$(\'shipping:same_as_billing\').checked = false;" class="radio" type="radio">'+
+    '</div>'+
+    '<label for="billing:use_gift_registry_address">'+
+        '<?php echo $this->__('Ship to gift registry address') ?>'+
+     '</label>';
+
+var elementCheckboxTemplate =
+    '<input type="checkbox" onclick="giftregistry.checkAddress()" value="<?php echo $this->getAddressIdPrefix(); ?><?php echo $this->getItem(); ?>" id="use_gr_address" name="shipping_address_id"> ' +
     '<?php echo $this->__('Use gift registry shipping address') ?>';
 
-    var addressSelect = 'shipping-address-select';
-    var addressForm = 'shipping-new-address-form';
+var GiftRegistryCheckout = Class.create();
+GiftRegistryCheckout.prototype = {
+    initialize: function() {
+       this.shippingAddressSelect = $('shipping-address-select');
+       this.shippingAddressForm = $('shipping-new-address-form');
+       this.billingAddressForm = $('billing-new-address-form');
+    },
 
-    var el = new Element( 'li' );
-    el.update(elementTemplate);
-    $(addressForm).insert({'before' : el});
+    addElements : function() {
+        var checkBox = new Element('li');
+        checkBox.update(elementCheckboxTemplate);
+        this.shippingAddressForm.insert({'before' : checkBox});
 
-    function checkAddress() {
-        var checkbox = $('use_gr_address');
-        var select = $(addressSelect);
+        var radioButton = new Element('li');
+        radioButton.update(elementRadioTemplate);
+        radioButton.addClassName('control');
+        this.billingAddressForm.up().insert({'bottom' : radioButton});
+    },
 
-        if (checkbox.checked) {
-            if (select) {
-                select.disable();
+    checkAddress : function() {
+        if ($('use_gr_address').checked) {
+            if (this.shippingAddressSelect) {
+                this.shippingAddressSelect.disable();
             }
-            $(addressForm).hide();
+            this.shippingAddressForm.hide();
         } else {
-            if (select) {
-                select.enable();
+            if (this.shippingAddressSelect) {
+                this.shippingAddressSelect.enable();
             } else {
-                $(addressForm).show();
+                this.shippingAddressForm.show();
             }
         }
+    },
+
+    getRadioButton : function() {
+        return Form.getInputs('co-billing-form','radio','billing[use_for_shipping]').find(function(radio) {
+            return radio.checked;
+        }).value;
     }
+}
+
+var giftregistry = new GiftRegistryCheckout();
+giftregistry.addElements();
+
+billing.onComplete = function(){
+    checkout.setLoadWaiting(false);
+
+    if (giftregistry.getRadioButton() == 2){
+        var checkbox = $('use_gr_address');
+        checkbox.checked = true;
+        giftregistry.checkAddress();
+        shipping.save();
+        $('opc-shipping').addClassName('allow');
+    }
+}
+
+billing.onSave = function(transport){
+    if (giftregistry.getRadioButton() == 2){
+        transport.responseText = transport.responseText.sub('shipping', 'shipping_method');
+    }
+    billing.nextStep(transport);
+}
 //]]>
 </script>
 <?php endif; ?>
