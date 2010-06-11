@@ -65,14 +65,18 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
     {
         foreach ($subtree as $key => $value) {
             if (is_array($value)) {
-                if (strtolower(substr($key, -4)) == 'font') {
-                    if (empty($value['name']) || empty($value['size']) || empty($value['color'])) {
-                        continue;
+                if ($key == 'fonts') {
+                    $subsection = $section->addChild('fonts');
+                    foreach($value as $label=>$v) {
+                        if (empty($v['name']) || empty($v['size']) || empty($v['color'])) {
+                            continue;
+                        }
+                        $font = $subsection->addChild('font');
+                        $font->addAttribute('label', $label);
+                        $font->addAttribute('name', $v['name']);
+                        $font->addAttribute('size', $v['size']);
+                        $font->addAttribute('color', $v['color']);
                     }
-                    $font = $section->addChild($key);
-                    $font->addAttribute('name', $value['name']);
-                    $font->addAttribute('size', $value['size']);
-                    $font->addAttribute('color', $value['color']);
                 }
                 elseif ($key == 'pages') {
                     $subsection = $section->addChild('content');

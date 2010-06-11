@@ -27,6 +27,74 @@
 class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
 {
     /**
+     * Default application configuration
+     *
+     * @return array
+     */
+     public function getDefaultConfiguration()
+     {
+        return array(
+            'native' => array(
+                'navigationBar' => array(
+                    'backgroundColor' => '#000000',
+                ),
+                'fonts' => array(
+                    'Title1' => array(
+                        'name' => 'HelveticaNeue-Bold',
+                        'size' => '14',
+                        'color' => '#FEFEFE',
+                    ),
+                    'Title2' => array(
+                        'name' => 'HelveticaNeue-Bold',
+                        'size' => '12',
+                        'color' => '#222222',
+                    ),
+                    'Title3' => array(
+                        'name' => 'HelveticaNeue',
+                        'size' => '13',
+                        'color' => '#000000',
+                    ),
+                    'Title4' => array(
+                        'name' => 'HelveticaNeue',
+                        'size' => '12',
+                        'color' => '#FFFFFF',
+                    ),
+                    'Title5' => array(
+                        'name' => 'HelveticaNeue-Bold',
+                        'size' => '13',
+                        'color' => '#dc5f02',
+                    ),
+                    'Title6' => array(
+                        'name' => 'HelveticaNeue-Bold',
+                        'size' => '16',
+                        'color' => '#222222',
+                    ),
+                    'Title7' => array(
+                        'name' => 'HelveticaNeue-Bold',
+                        'size' => '13',
+                        'color' => '#000000',
+                    ),
+                    'Title8' => array(
+                        'name' => 'HelveticaNeue-Bold',
+                        'size' => '9',
+                        'color' => '#FFFFFF',
+                    ),
+                    'Text1' => array(
+                        'name' => 'HelveticaNeue-Bold',
+                        'size' => '12',
+                        'color' => '#777777',
+                    ),
+                    'Text2' => array(
+                        'name' => 'HelveticaNeue',
+                        'size' => '10',
+                        'color' => '#555555',
+                    ),
+                ),
+            ),
+        );
+     }
+
+    /**
      * List of allowed fonts for iPhone application
      *
      * @return array
@@ -34,10 +102,6 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
     public function getFontList()
     {
         return array(
-            array(
-                'value' => '',
-                'label' => '',
-            ),
             array(
                 'value' => 'HiraKakuProN-W3',
                 'label' => 'HiraKakuProN-W3',
@@ -256,7 +320,7 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
      */
     public function getFontSizes()
     {
-        $result = array( array( 'value' => '', 'label' => '', ) );
+        $result = array( );
         for ($i = 6; $i < 32; $i++) {
             $result[] = array(
                 'value' => $i,

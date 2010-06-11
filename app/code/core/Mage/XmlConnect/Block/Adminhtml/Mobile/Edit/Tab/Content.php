@@ -68,16 +68,17 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
 
         $fieldset = $form->addFieldset('cmsPages', array('legend' => $this->__('Pages')));
         $this->_addElementTypes($fieldset);
-        if (isset($conf['native']['pages'])) {
-            foreach($conf['native']['pages'] as $key=>$dummy) {
-                $this->addPage($fieldset, 'conf[native][pages]['.$key.']');
-            }
-        }
 
         $fieldset->addField('page_row_add', 'addrow', array(
             'onclick' => 'this.parentNode.parentNode.parentNode.innerHTML+=cms_new_row_html()',
             'options' => $this->_pages,
         ));
+
+        if (isset($conf['native']['pages'])) {
+            foreach($conf['native']['pages'] as $key=>$dummy) {
+                $this->addPage($fieldset, 'conf[native][pages]['.$key.']');
+            }
+        }
 
         $data = $model->getFormData();
         $data['page_row_add'] = $this->__('Add page');

@@ -108,6 +108,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function loadDefaultConfiguration()
     {
         $this->setType('iPhone');
+        $this->setConf(Mage::helper('xmlconnect/iphone')->getDefaultConfiguration());
     }
 
     /**
@@ -122,56 +123,16 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
     public function getRenderConf()
     {
-        $result = $special = $extra = array();
+        $result = $extra = array();
         if (isset($this->_data['conf'])) {
             if (isset($this->_data['conf']['native'])) {
                 $result = $this->_data['conf']['native'];
             }
-            if (isset($this->_data['conf']['special'])) {
-                $special = $this->_data['conf']['special'];
-            }
             if (isset($this->_data['conf']['extra'])) {
                 $extra = $this->_data['conf']['extra'];
+                $tabs = new Mage_XmlConnect_Model_Tabs($extra['tabs']);
+                $result['tabBar']['tabs'] = $tabs;
             }
-        }
-
-        if (!empty($special['primaryBodyColor'])) {
-            $result['body']['backgroundColor'] = $special['primaryBodyColor'];
-        }
-
-        if (!empty($special['secondaryBodyColor'])) {
-            $result['body']['scrollBackgroundColor'] = $special['secondaryBodyColor'];
-        }
-
-        if (!empty($special['bodyTextFont']['name'])) {
-            $result['body']['categoryItemFont'] = $special['bodyTextFont'];
-            $result['body']['copyrightFont'] = $special['bodyTextFont'];
-            $result['body']['versionFont'] = $special['bodyTextFont'];
-            $result['body']['productButtonFont'] = $special['bodyTextFont'];
-            $result['body']['nameFont'] = $special['bodyTextFont'];
-            $result['body']['priceFont'] = $special['bodyTextFont'];
-            $result['body']['plainFont'] = $special['bodyTextFont'];
-            $result['body']['textFont'] = $special['bodyTextFont'];
-            $result['body']['ratingHeaderFont'] = $special['bodyTextFont'];
-            $result['body']['ratingHeaderFont'] = $special['bodyTextFont'];
-            $result['filters']['nameFont'] = $special['bodyTextFont'];
-            $result['filters']['valueFont'] = $special['bodyTextFont'];
-            $result['appliedFilters']['font'] = $special['bodyTextFont'];
-            $result['appliedFilters']['counfFont'] = $special['bodyTextFont'];
-            $result['appliedFilters']['titleFont'] = $special['bodyTextFont'];
-        }
-
-        if (!empty($special['headerBackgroundColor'])) {
-            $result['navigationBar']['backgroundColor'] = $special['headerBackgroundColor'];
-        }
-
-        if (!empty($special['headerTextFont']['name'])) {
-            $result['navigationBar']['font'] = $special['headerTextFont'];
-        }
-
-        if (!empty($extra['tabs'])) {
-            $tabs = new Mage_XmlConnect_Model_Tabs($extra['tabs']);
-            $result['tabBar']['tabs'] = $tabs;
         }
 
         return $result;
@@ -220,6 +181,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
     /**
      * Process uploaded file
+     * setup filenames to the configuration
      *
      * @param string $field
      */
@@ -233,6 +195,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
         /**
          * Ugly hack to avoid $_FILES[..]['name'][..][..]
+         *
+         * e.g., variable name in $_POST: 'conf/native/navigationBar/icon' ==>
+         * file name stored in $this->_data['conf']['native']['navigationBar']['icon']
+         * here icon - filename like 'logo_23.gif'
          */
         $nameParts = explode('/', $field);
         array_shift($nameParts);

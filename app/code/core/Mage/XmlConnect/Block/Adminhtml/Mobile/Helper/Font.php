@@ -40,44 +40,24 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Font extends Varien_Data_For
 
     public function initFields($conf)
     {
-        /**
-        * TODO RTFS Varien_Data_Form_Element_Time
-        */
-
         $name = $conf['name'];
 
-        if (isset($conf['is_simple']) && $conf['is_simple']) {
-            $el = new Varien_Data_Form_Element_Select(array(
-                'name' => $name . '[name]',
-                'values' => $conf['fontNames'],
-            ));
-            $el->setNoSpan(true);
-            $el->setStyle('width: 206px; margin: 0'); // FIXME
-            $this->addElement($el);
+        $this->addElement(new Varien_Data_Form_Element_Select(array(
+            'name' => $name . '[name]',
+            'values' => $conf['fontNames'],
+            'style' => 'width: 206px; margin: 0',
+        )));
 
-            $el = new Varien_Data_Form_Element_Select(array(
-                'name' => $name . '[size]',
-                'values' => $conf['fontSizes'],
-            ));
-            $el->setNoSpan(true);
-            $el->setStyle('width: 70px; margin: 0'); // FIXME
-            $this->addElement($el);
-        }
-        else {
-            $this->addElement(new Varien_Data_Form_Element_Select(array(
-                'name' => $name . '[name]',
-                'values' => $conf['fontNames'],
-            )));
+        $this->addElement(new Varien_Data_Form_Element_Select(array(
+            'name' => $name . '[size]',
+            'values' => $conf['fontSizes'],
+            'style' => 'width: 70px; margin: 0',
+        )));
 
-            $this->addElement(new Varien_Data_Form_Element_Select(array(
-                'name' => $name . '[size]',
-                'values' => $conf['fontSizes'],
-            )));
-
-            $this->addElement(new Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Color(array(
-                'name' => $name . '[color]',
-            )));
-        }
+        $this->addElement(new Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Color(array(
+            'name'  => $name . '[color]',
+            'style' => 'width: 60px; margin: 0'
+        )));
     }
 
     /**
@@ -89,6 +69,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Font extends Varien_Data_For
     public function addElement(Varien_Data_Form_Element_Abstract $element, $after=false)
     {
         $element->setId($element->getData('name'));
+        $element->setNoSpan(TRUE);
         parent::addElement($element, $after);
     }
 
@@ -99,10 +80,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Font extends Varien_Data_For
      */
     public function getElementHtml()
     {
-        $html = '';
+        $el = array();
         foreach ($this->getElements() as $element) {
-            $html .= $element->toHtml();
+            $el[] .= $element->toHtml();
         }
-        return $html;
+        return $el[0] . $el[1] . '</td><td class="label" style="width: 2em !important">' . $el[2];
     }
 }

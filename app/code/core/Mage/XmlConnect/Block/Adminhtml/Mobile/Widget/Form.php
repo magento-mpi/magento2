@@ -82,7 +82,7 @@ abstract class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_A
      * @param string $title
      * @param bool $simple
      */
-    protected function addFont($fieldset, $fieldPrefix, $title=NULL, $simple=FALSE)
+    protected function addFont($fieldset, $fieldPrefix, $title=NULL)
     {
         $title = $this->getDefaultTitle($title, $fieldPrefix);
         $el = $fieldset->addField($fieldPrefix, 'font', array(
@@ -93,20 +93,7 @@ abstract class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_A
             'name'      => $fieldPrefix,
             'fontNames' => Mage::helper('xmlconnect/iphone')->getFontList(),
             'fontSizes' => Mage::helper('xmlconnect/iphone')->getFontSizes(),
-            'is_simple' => $simple,
         ));
-    }
-
-    /**
-     * Add font selector (without color) to fieldset
-     *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
-     * @param string $fieldPrefix
-     * @param string $title
-     */
-    protected function addFontSimple($fieldset, $fieldPrefix, $title=NULL)
-    {
-        $this->addFont($fieldset, $fieldPrefix, $title, TRUE);
     }
 
     /**
