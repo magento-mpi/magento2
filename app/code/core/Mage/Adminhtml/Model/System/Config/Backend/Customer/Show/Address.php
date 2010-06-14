@@ -31,51 +31,18 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Address extends Mage_Core_Model_Config_Data
+class Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Address
+    extends Mage_Adminhtml_Model_System_Config_Backend_Customer_Show_Customer
 {
     /**
-     * Actions after save
+     * Retrieve attribute objects
      *
-     * @return Mage_Adminhtml_Model_System_Config_Backend_Customer_Address_Street
+     * @return array
      */
-    protected function _afterSave()
+    protected function _getAttributeObjects()
     {
-        $field         = $this->getField();
-        $attributeCode = str_replace('_show', '', $field);
-
-        $attributeObjects = array(
-            Mage::getSingleton('eav/config')->getAttribute('customer_address', $attributeCode),
-            Mage::getSingleton('eav/config')->getAttribute('customer', $attributeCode)
-        );
-        $valueConfig = array(
-            ''    => array('is_required' => 0, 'is_visible' => 0),
-            'opt' => array('is_required' => 0, 'is_visible' => 1),
-            '1'   => array('is_required' => 0, 'is_visible' => 1),
-            'req' => array('is_required' => 1, 'is_visible' => 1),
-        );
-
-        $value  = $this->getValue();
-
-        foreach ($attributeObjects as $attributeObject) {
-            if ($this->getScope() == 'websites') {
-                $website = Mage::app()->getWebsite($this->getWebsiteCode());
-                $attributeObject->setWebsite($website);
-                $dataFieldPrefix = 'scope_';
-            } else {
-                $dataFieldPrefix = '';
-            }
-
-            if (isset($valueConfig[$value])) {
-                $data = $valueConfig[$value];
-            } else {
-                $data = $valueConfig[''];
-            }
-
-            $attributeObject->setData("{$dataFieldPrefix}is_required", $data['is_required']);
-            $attributeObject->setData("{$dataFieldPrefix}is_visible",  $data['is_visible']);
-
-            $attributeObject->save();
-        }
-        return $this;
+        $result = parent::_getAttributeObjects();
+        $result[] = Mage::getSingleton('eav/config')->getAttribute('customer_address', $this->_getAttributeCode());
+        return $result;
     }
 }

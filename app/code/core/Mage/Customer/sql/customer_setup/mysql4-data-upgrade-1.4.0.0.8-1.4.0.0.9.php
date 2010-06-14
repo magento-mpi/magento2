@@ -110,7 +110,7 @@ foreach ($websites as $website) {
     }
 
     $attribute = $eavConfig->getAttribute('customer_address', 'street');
-    $value     = $addressHelper->getStreetLines($store);
+    $value     = $addressHelper->getConfig('street_lines', $store);
     if ($attribute->getData('multiline_count') != $value) {
         $attribute->setWebsite($website);
         $attribute->setScopeMultilineCount($value);

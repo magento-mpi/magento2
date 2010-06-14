@@ -178,16 +178,16 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function getName()
     {
         $name = '';
-        $helper = Mage::helper('customer/address');
-        if ($helper->canShowConfig('prefix_show') && $this->getPrefix()) {
+        $config = Mage::getSingleton('eav/config');
+        if ($config->getAttribute('customer', 'prefix')->getIsVisible() && $this->getPrefix()) {
             $name .= $this->getPrefix() . ' ';
         }
         $name .= $this->getFirstname();
-        if ($helper->canShowConfig('middlename_show') && $this->getMiddlename()) {
+        if ($config->getAttribute('customer', 'middlename')->getIsVisible() && $this->getMiddlename()) {
             $name .= ' ' . $this->getMiddlename();
         }
         $name .=  ' ' . $this->getLastname();
-        if ($helper->canShowConfig('suffix_show')&& $this->getSuffix()) {
+        if ($config->getAttribute('customer', 'suffix')->getIsVisible() && $this->getSuffix()) {
             $name .= ' ' . $this->getSuffix();
         }
         return $name;
@@ -713,7 +713,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     {
         $errors = array();
         $customerHelper = Mage::helper('customer');
-        $addressHelper = Mage::helper('customer/address');
         if (!Zend_Validate::is( trim($this->getFirstname()) , 'NotEmpty')) {
             $errors[] = $customerHelper->__('The first name cannot be empty.');
         }
@@ -738,16 +737,17 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             $errors[] = $customerHelper->__('Please make sure your passwords match.');
         }
 
-        if (('req' === $addressHelper->getConfig('dob_show'))
-            && '' == trim($this->getDob())) {
+        $entityType = Mage::getSingleton('eav/config')->getEntityType('customer');
+        $attribute = Mage::getModel('customer/attribute')->loadByCode($entityType, 'dob');
+        if ($attribute->getIsRequired() && '' == trim($this->getDob())) {
             $errors[] = $customerHelper->__('The Date of Birth is required.');
         }
-        if (('req' === $addressHelper->getConfig('taxvat_show'))
-            && '' == trim($this->getTaxvat())) {
+        $attribute = Mage::getModel('customer/attribute')->loadByCode($entityType, 'taxvat');
+        if ($attribute->getIsRequired() && '' == trim($this->getTaxvat())) {
             $errors[] = $customerHelper->__('The TAX/VAT number is required.');
         }
-        if (('req' === $addressHelper->getConfig('gender_show'))
-            && '' == trim($this->getGender())) {
+        $attribute = Mage::getModel('customer/attribute')->loadByCode($entityType, 'gender');
+        if ($attribute->getIsRequired() && '' == trim($this->getGender())) {
             $errors[] = $customerHelper->__('Gender is required.');
         }
 
