@@ -38,6 +38,7 @@ class Mage_Customer_Model_Attribute_Data
     const OUTPUT_FORMAT_TEXT    = 'text';
     const OUTPUT_FORMAT_HTML    = 'html';
     const OUTPUT_FORMAT_PDF     = 'pdf';
+    const OUTPUT_FORMAT_ONELINE = 'oneline';
 
     /**
      * Array of attribute data models by input type

@@ -136,10 +136,12 @@ class Mage_Customer_Model_Attribute_Data_Multiline extends Mage_Customer_Model_A
         }
         $values = array_map(array($this, '_applyOutputFilter'), $values);
         switch ($format) {
-            case Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON:
-                $output = implode("\n", $values);
+            case Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_HTML:
+                $output = implode("<br />", $values);
+            case Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_ONELINE:
+                $output = implode(" ", $values);
             default:
-                $output = $values;
+                $output = implode("\n", $values);
                 break;
         }
         return $output;

@@ -126,6 +126,7 @@ class Mage_Customer_Model_Entity_Form_Attribute_Collection extends Mage_Core_Mod
      */
     public function setSortOrder($direction = self::SORT_ORDER_ASC)
     {
+        $this->setOrder('ea.is_user_defined', self::SORT_ORDER_ASC);
         return $this->setOrder('ca.sort_order', $direction);
     }
 

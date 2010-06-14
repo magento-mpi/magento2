@@ -85,6 +85,9 @@ class Mage_Customer_Block_Address_Renderer_Default extends Mage_Core_Block_Abstr
             case 'pdf':
                 $dataFormat = Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_PDF;
                 break;
+            case 'oneline':
+                $dataFormat = Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_ONELINE;
+                break;
             default:
                 $dataFormat = Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_TEXT;
                 break;
