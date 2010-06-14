@@ -1291,7 +1291,7 @@
         <field name="meta_keyword_ko" type="text_ko" indexed="true" stored="true" multiValued="true"/>-->
 
         <field name="name" type="textgen" indexed="true" stored="true"/>
-        <!--<field name="fulltext" type="textgen" indexed="true" stored="true"/>-->
+        <field name="fulltext" type="textgen" indexed="true" stored="true"/>
         <!--<field name="description" type="textgen" indexed="true" stored="true" multiValued="true"/>-->
         <!--<field name="meta_keyword" type="textgen" indexed="true" stored="true" multiValued="true"/>-->
 
@@ -1360,7 +1360,7 @@
 
         <dynamicField name="attr_decimal_*" type="float" indexed="true" stored="true"/>
         <dynamicField name="attr_datetime_*" type="date" indexed="true" stored="true"/>
-        <dynamicField name="attr_multi_*" type="text" indexed="true" stored="true" multiValued="true"/>
+        <dynamicField name="attr_multi_*" type="textgen" indexed="true" stored="true" multiValued="true"/>
 
         <dynamicField name="price_*" type="tfloat" indexed="true" stored="true"/>
         <dynamicField name="position_category_*" type="int" indexed="true" stored="true"/>
@@ -1393,7 +1393,7 @@
     <uniqueKey>unique</uniqueKey>
 
     <!-- field for the QueryParser to use when an explicit fieldname is absent. -->
-    <defaultSearchField>fulltext1</defaultSearchField>
+    <defaultSearchField>fulltext</defaultSearchField>
 
     <!-- SolrQueryParser configuration: defaultOperator="AND|OR". -->
     <solrQueryParser defaultOperator="OR"/>
