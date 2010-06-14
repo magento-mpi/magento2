@@ -26,32 +26,14 @@
 abstract class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
-     * If title is empty, construct it from field name ('backgroundImage' => 'Background Image')
-     *
-     * @param string $title
-     * @param string $field
-     * @return string
-     */
-    protected function getDefaultTitle($title, $field)
-    {
-        if (!is_null($title)) {
-            return $title;
-        }
-        $field = preg_replace('/^.+?\[([^\]]+)\]$/', '$1', $field);
-        $field = preg_replace('/([a-z])([A-Z])/', '$1 $2', $field);
-        return ucwords($field);
-    }
-
-    /**
      * Add color chooser to fieldset
      *
      * @param Varien_Data_Form_Element_Fieldset $fieldset
      * @param string $fieldName
      * @param string $title
      */
-    protected function addColor($fieldset, $fieldName, $title=NULL)
+    protected function addColor($fieldset, $fieldName, $title)
     {
-        $title = $this->getDefaultTitle($title, $fieldName);
         $fieldset->addField($fieldName, 'color', array(
             'name'      => $fieldName,
             'label'     => $title,
@@ -65,9 +47,8 @@ abstract class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_A
      * @param string $fieldName
      * @param string $title
      */
-    protected function addImage($fieldset, $fieldName, $title=NULL)
+    protected function addImage($fieldset, $fieldName, $title)
     {
-        $title = $this->getDefaultTitle($title, $fieldName);
         $fieldset->addField($fieldName, 'image', array(
             'name'      => $fieldName,
             'label'     => $title,
@@ -82,9 +63,8 @@ abstract class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_A
      * @param string $title
      * @param bool $simple
      */
-    protected function addFont($fieldset, $fieldPrefix, $title=NULL)
+    protected function addFont($fieldset, $fieldPrefix, $title)
     {
-        $title = $this->getDefaultTitle($title, $fieldPrefix);
         $el = $fieldset->addField($fieldPrefix, 'font', array(
             'name'      => $fieldPrefix,
             'label'     => $title,
