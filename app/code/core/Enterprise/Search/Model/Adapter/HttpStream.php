@@ -363,39 +363,12 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         $languageCode = $this->_getLanguageCodeByLocaleCode($params['locale_code']);
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
-//        $solrQuery = new SolrQuery($query);
-
-        /**
-         * Now supported search only in fulltext and name fields based on dismax requestHandler (named as magento_lng).
-         * Using dismax requestHandler for each language make matches in name field
-         * are much more significant than matches in fulltext field.
-         */
-
         $_params['solr_params'] = array (
             'spellcheck'                 => 'true',
             'spellcheck.collate'         => 'true',
             'spellcheck.dictionary'      => 'magento_spell' . $languageSuffix,
             'spellcheck.extendedResults' => 'true'
         );
-
-        /**
-         * Specific Solr params
-         */
-//        if (!empty($_params['solr_params'])) {
-//            foreach ($_params['solr_params'] as $name => $value) {
-//                $solrQuery->setParam($name, $value);
-//            }
-//        }
-
-        /**
-         * Store filtering
-         */
-//        if (!empty($params['store_id'])) {
-//            $solrQuery->addFilterQuery('store_id:' . $params['store_id']);
-//        }
-//        if (!Mage::helper('cataloginventory')->isShowOutOfStock()) {
-//            $solrQuery->addFilterQuery('in_stock:true');
-//        }
 
         try {
             $this->ping();
