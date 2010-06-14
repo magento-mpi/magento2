@@ -40,6 +40,11 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     const XML_PATH_UPDATE_EMAIL_TEMPLATE = 'enterprise_giftregistry/update_email/template';
 
     /**
+     * Exception code
+     */
+    const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS = 916;
+
+    /**
      * Type object
      * @var Enterprise_GiftRegistry_Model_Type
      */
@@ -58,16 +63,6 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
      * @var array
      */
     protected $_attributes = null;
-
-    /**
-     * Static fields id list
-     *
-     * @var array
-     */
-    protected $_staticTypeIds = array(
-       'event_date', 'event_country_code', 'event_region', 'event_region_text', 'event_location');
-
-    const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS = 916;
 
    /**
      * Init resource model
@@ -489,7 +484,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
      */
     public function getStaticTypeIds()
     {
-        return $this->_staticTypeIds;
+        return Mage::getSingleton('enterprise_giftregistry/attribute_config')
+            ->getStaticTypesCodes();
     }
 
     /**
@@ -554,8 +550,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
         }
 
         $allCustomValues = $this->getCustomValues();
-        $staticTypeIds = $this->getStaticTypeIds();
-        foreach ($staticTypeIds as $static) {
+        foreach ($this->getStaticTypeIds() as $static) {
             if ($this->hasData($static)) {
                 $allCustomValues[$static] = $this->getData($static);
             }
@@ -594,22 +589,21 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     }
 
     /**
-     * Import Post data
+     * Import POST data to entity model
      *
      * @param array $data
      * @param bool $isAddAction
      * @return this
      */
-    public function importData ($data, $isAddAction = true)
+    public function importData($data, $isAddAction = true)
     {
-        $this->addData(array(
-                'event_region' => !empty($data['event_region']) ? $data['event_region'] : null,
-                'event_region_text' => !empty($data['event_region_text']) ? $data['event_region_text'] : null,
-                'event_date' => !empty($data['event_date']) ? $data['event_date'] : null,
-                'event_location' => !empty($data['event_location']) ? $data['event_location'] : null,
-                'event_country_code' => !empty($data['event_country_code']) ? $data['event_country_code'] : null))
+        foreach ($this->getStaticTypeIds() as $code){
+            if (isset($data[$code])) {
+                $this->setData($code, $data[$code]);
+            }
+        }
 
-            ->addData(array(
+        $this->addData(array(
                 'is_public' => isset($data['is_public']) ? (int) $data['is_public'] : null,
                 'title' => !empty($data['title']) ? $data['title'] : null,
                 'message' => !empty($data['message']) ? $data['message'] : null,
@@ -643,46 +637,6 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
             $value = $data['custom_values'][$field];
         }
         return $value;
-    }
-
-    /**
-     * Retrieve region name
-     *
-     * @return string
-     */
-    public function getEventRegionText()
-    {
-
-        $regionId = $this->getData('event_region');
-        $region   = $this->getData('event_region_text');
-        $country_id = $this->getData('event_country_code');
-
-        $regionModelId = Mage::getModel('directory/region')->load($regionId);
-        $regionModelName = Mage::getModel('directory/region')->load($region);
-
-        if ($regionId) {
-            if ($regionModelId->getCountryId() == $country_id) {
-               $region = $regionModelId->getName();
-                $this->setData('region', $region);
-            }
-        }
-
-        if (!empty($region) && is_string($region)) {
-            $this->setData('event_region_text', $region);
-        }
-        elseif (!$regionId && is_numeric($region)) {
-            if ($regionModelName->getCountryId() == $country_id) {
-                $this->setData('event_region_text', $regionModelName->getName());
-                $this->setData('event_region', $region);
-            }
-        }
-        elseif ($regionId && !$region) {
-               if ($regionModelId->getCountryId() == $country_id) {
-                $this->setData('event_region_text', $regionModelId->getName());
-            }
-        }
-
-        return $this->getData('event_region_text');
     }
 
     /**

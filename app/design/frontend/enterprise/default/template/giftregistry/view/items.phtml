@@ -26,13 +26,14 @@
 ?>
 <?php
 /**
- * Shopping items template
+ * Gift registry items template
  *
- * @see Mage_Checkout_Block_Cart
+ * @see Enterprise_GiftRegistry_Block_Items
  */
 ?>
 <?php
     $_itemsCount = count($this->getItems());
+    if ($_itemsCount) :
 ?>
 <div>
     <h1><?php echo $this->__('Gift Registry Items') ?></h1>
@@ -58,26 +59,22 @@
                     </tr>
                 </thead>
                 <tfoot>
-                    <?php if ($_itemsCount > 0): ?>
                     <tr>
                         <td colspan="50" class="a-right">
                             <button type="submit" class="button btn-update"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
                         </td>
                     </tr>
-                    <?php endif ?>
                 </tfoot>
                 <tbody>
-                <?php if ($_itemsCount > 0): ?>
                     <?php foreach($this->getItems() as $_item): ?>
                         <?php echo $this->getItemHtml($_item) ?>
                     <?php endforeach ?>
-                <?php endif ?>
                 </tbody>
             </table>
             <script type="text/javascript">decorateTable('shopping-cart-table')</script>
         </fieldset>
     </form>
-    <?php if (!$_itemsCount): ?>
-        <p><?php echo $this->__('Gift Registry has no items.') ?></p>
-    <?php endif ?>
 </div>
+<?php else: ?>
+    <p><?php echo $this->__('Gift Registry has no items.') ?></p>
+<?php endif ?>

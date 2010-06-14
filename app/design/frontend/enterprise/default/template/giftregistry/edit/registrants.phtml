@@ -58,7 +58,7 @@
                 <label for="registrant:custom:<?php echo $field ?>{{index}}" <?php echo ($isRequired ? 'class="required"' : '')?>>
                 <?php echo ($isRequired ? '<em>*</em>' : '') . $this->__("%s", $data['label']) ?></label>
                 <div class="input-box">
-                    <?php echo $this->renderField($data, '{{index}}]'.(($isStatic) ? '' : '[custom]') . '[' . $field, 'registrant:' . (($isStatic) ? '' : ':custom:') . $field . '{{index}}', '{{' . $field . '_value}}', $isRequired ? ' required-entry ' : '')?>
+                    <?php echo $this->renderField($data, 'registrant[{{index}}]'.(($isStatic) ? '' : '[custom]') . '[' . $field .']', 'registrant:' . (($isStatic) ? '' : ':custom:') . $field . '{{index}}', '{{' . $field . '_value}}', $isRequired ? ' required-entry ' : '')?>
                 </div>
             </div>
 <?php   endforeach; ?>

@@ -30,7 +30,7 @@
     <div class="block-title">
         <strong><span><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry Search') ?></span></strong>
     </div>
-    <form id="gr_quick-search_form" action="<?php echo $this->getActionUrl() ?>" method="post">
+    <form id="gr-quick-search-form" action="<?php echo $this->getActionUrl() ?>" method="post">
         <div class="block-content">
             <?php echo $this->getBlockHtml('formkey')?>
             <div><?php echo Mage::helper('enterprise_giftregistry')->__('First Name') ?> <em>*</em></div>
@@ -50,7 +50,7 @@
         </div>
     </form>
 
-    <form id="gr_quick-search_email_form" action="<?php echo $this->getActionUrl() ?>" method="post">
+    <form id="gr-quick-search-email-form" action="<?php echo $this->getActionUrl() ?>" method="post">
         <div class="block-content">
             <?php echo $this->getBlockHtml('formkey')?>
             <div><?php echo Mage::helper('enterprise_giftregistry')->__('Registrant Email') ?></div>
@@ -62,7 +62,7 @@
         </div>
     </form>
 
-    <form id="gr_quick-search_id_form" action="<?php echo $this->getActionUrl() ?>" method="post">
+    <form id="gr-quick-search-id-form" action="<?php echo $this->getActionUrl() ?>" method="post">
         <div class="block-content">
             <?php echo $this->getBlockHtml('formkey')?>
             <div><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry ID') ?></div>
@@ -76,9 +76,9 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
-    var grQuickSearchForm = new VarienForm('gr_quick-search_form');
-    var grQuickSearchEmailForm = new VarienForm('gr_quick-search_email_form');
-    var grQuickSearchIdForm = new VarienForm('gr_quick-search_id_form');
+    var grQuickSearchForm = new VarienForm('gr-quick-search-form');
+    var grQuickSearchEmailForm = new VarienForm('gr-quick-search-email-form');
+    var grQuickSearchIdForm = new VarienForm('gr-quick-search-id-form');
 //]]>
 </script>
 <?php endif; ?>

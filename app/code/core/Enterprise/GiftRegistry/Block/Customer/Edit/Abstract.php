@@ -202,7 +202,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
                     $grouped[$fdata['group']][$field]['id'] = $field;
 
                     if ($fdata['type'] == 'country' && !empty($fdata['show_region'])) {
-                        $regionCode = 'event_region';
+                        $regionCode = $field . '_region';
                         $regionAttribute['label'] = $this->__('State/Province');
                         $regionAttribute['group'] = $fdata['group'];
                         $regionAttribute['type'] = 'region';
@@ -285,29 +285,52 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
         if (is_array($data) && (count($data)) && $id) {
             $type = $data['type'];
             $attributeId = $data['id'];
-            if (!in_array($attributeId, $this->getEntity()->getStaticTypeIds())) {
-                $name = $this->_prefix. '[' . $name . ']';
-            }
+            $name = $this->getElementName($attributeId, $name);
+            $value = $this->getEntity()->getFieldValue($attributeId);
+
             if ($type == 'country') {
-                return $this->getCountryHtmlSelect($value, 'event_country_code', 'event_country_code');
+                return $this->getCountryHtmlSelect($value, $name, $id);
             } else if ($type == 'region') {
-                // only for event_region
                 $this->setRegionJsVisible(true);
-                return $this->getRegionHtmlSelectEmpty('event_region', 'event_region', $value, 'required-entry', '',
-                    $this->__('State/Province'))
-                    . $this->_getInputTextHtml('event_region_text', 'event_region_text', '', ' input-text '
-                        , 'title="' . $this->__('State/Province') . '" style="display:none;"');
+                $regionSelect = $this->getRegionHtmlSelectEmpty($name, $id, $value, 'required-entry');
+
+                $name = $this->getElementName($attributeId, $id.'_text');
+                $value = $this->getEntity()->getFieldValue($id.'_text');
+
+                $regionSelectText = $this->_getInputTextHtml($name, $id.'_text', $value, ' input-text ',
+                    '" style="display:none;"'
+                );
+                return $regionSelect . $regionSelectText;
+
             } else if ($type == 'text') {
                 return $this->_getInputTextHtml($name, $id, $value, $class . ' input-text');
             } else if ($type == 'date') {
                 return $this->getCalendarDateHtml($name, $id, $value, $data['date_format'], $class);
             } else if ($type == 'select') {
                 $options  = $data['options'];
+                if (empty($value)) {
+                    $value = (isset($data['default'])) ? $data['default'] : '';
+                }
                 return $this->getSelectHtml($this->_convertGroupArray($options), $name, $id, $value, $class);
             } else {
                 return $this->_getInputTextHtml($name, $id, $value, $class . ' input-text');
             }
         }
+    }
+
+    /**
+     * Get html element name
+     *
+     * @param int $attributeId
+     * @param string $name
+     * @return string
+     */
+    public function getElementName($attributeId, $name)
+    {
+        if (!in_array($attributeId, $this->getEntity()->getStaticTypeIds())) {
+            $name = $this->_prefix. '[' . $name . ']';
+        }
+        return $name;
     }
 
     /**
@@ -322,7 +345,6 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
      */
     protected function _getInputTextHtml($name, $id, $value = '', $class = '', $params = '')
     {
-
         $template = $this->getLayout()->getBlock('giftregistry_edit')->getInputTypeTemplate('text');
         $this->setInputName($name)
             ->setInputId($id)

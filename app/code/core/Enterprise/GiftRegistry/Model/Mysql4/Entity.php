@@ -93,12 +93,13 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity extends Enterprise_Enterprise_
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $data = array(
-            'event_region' => $object->getEventRegion(),
-            'event_region_text' => $object->getEventRegionText(),
-            'event_date' => $object->getEventDate(),
-            'event_location' => $object->getEventLocation(),
-            'event_country_code'  => $object->getEventCountryCode());
+        foreach ($object->getStaticTypeIds() as $code) {
+            $objectData = $object->getData($code);
+            if ($objectData) {
+                $data[$code] = $objectData;
+            }
+        }
+
         $updateFields = array_keys($data);
         if ($object->getId()) {
             $data['entity_id'] = $object->getId();
