@@ -85,8 +85,8 @@
             ));
             foreach ($this->getCustomer()->getAddresses() as $address) {
                 $options[] = array(
-                    'value'=>$address->getId(),
-                    'label'=>$address->format('oneline')
+                    'value' => $address->getId(),
+                    'label' => $address->format('oneline')
                 );
             }
             $options[] = array(
