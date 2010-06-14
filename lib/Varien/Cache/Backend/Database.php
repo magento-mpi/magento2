@@ -158,7 +158,6 @@ class Varien_Cache_Backend_Database extends Zend_Cache_Backend implements Zend_C
             ->from($this->_getDataTable(), 'update_time')
             ->where('id=:cache_id')
             ->where('expire_time=0 OR expire_time>?', time());
-            return false;
         return $this->_getAdapter()->fetchOne($select, array('cache_id'=>$id));
     }
 
