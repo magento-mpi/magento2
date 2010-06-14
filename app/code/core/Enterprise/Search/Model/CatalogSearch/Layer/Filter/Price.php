@@ -34,20 +34,5 @@
 class Enterprise_Search_Model_CatalogSearch_Layer_Filter_Price
     extends Enterprise_Search_Model_Catalog_Layer_Filter_Price
 {
-    /**
-     * Retrieve resource model
-     *
-     * @return object
-     */
-    protected function _getResource()
-    {
-        $engineClassName         = get_class(Mage::helper('catalogsearch')->getEngine());
-        $fulltextEngineClassName = get_class(Mage::getResourceSingleton('catalogsearch/fulltext_engine'));
 
-        if ($engineClassName == $fulltextEngineClassName) {
-            return parent::_getResource();
-        }
-
-        return Mage::getResourceSingleton('enterprise_search/catalogsearch_facets_price');
-    }
 }

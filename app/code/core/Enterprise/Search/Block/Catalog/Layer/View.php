@@ -41,7 +41,7 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
         parent::_construct();
 
         Mage::getSingleton('catalog/layer')->getProductCollection()
-            ->setGeneralDefoultQuery()
+            ->setGeneralDefaultQuery()
             ->addCategoryFilter( Mage::registry('current_category'));
     }
 

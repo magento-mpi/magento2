@@ -379,7 +379,7 @@ class Enterprise_Search_Model_Resource_Collection
      *
      * @return Enterprise_Search_Model_Resource_Collection
      */
-    public function setGeneralDefoultQuery()
+    public function setGeneralDefaultQuery()
     {
         $this->_searchQueryParams = array('*' => '*');
         return $this;

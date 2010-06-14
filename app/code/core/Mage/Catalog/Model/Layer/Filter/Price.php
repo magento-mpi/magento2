@@ -193,6 +193,9 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
     /**
      * Apply price range filter to collection
      *
+     * @param Zend_Controller_Request_Abstract $request
+     * @param $filterBlock
+     *
      * @return Mage_Catalog_Model_Layer_Filter_Price
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)

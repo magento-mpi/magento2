@@ -34,23 +34,6 @@
 class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Filter_Price
 {
     /**
-     * Retrieve resource model
-     *
-     * @return object
-     */
-    protected function _getResource()
-    {
-        $engineClassName         = get_class(Mage::helper('catalogsearch')->getEngine());
-        $fulltextEngineClassName = get_class(Mage::getResourceSingleton('catalogsearch/fulltext_engine'));
-
-        if ($engineClassName == $fulltextEngineClassName) {
-            return parent::_getResource();
-        }
-
-        return Mage::getResourceSingleton('enterprise_search/catalog_facets_price');
-    }
-
-    /**
      * Get information about products count in range
      *
      * @param   int $range
@@ -97,6 +80,14 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         return $items;
     }
 
+    /**
+     * Apply price range filter to collection
+     *
+     * @param Zend_Controller_Request_Abstract $request
+     * @param $filterBlock
+     *
+     * @return Enterprise_Search_Model_Catalog_Layer_Filter_Price
+     */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
         $range      = $this->getPriceRange();
@@ -156,6 +147,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
      * @param Mage_Catalog_Model_Layer_Filter_Price $filter
      * @param int $range
      * @param int $index    the range factor
+     *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Layer_Filter_Attribute
      */
     public function applyFilterToCollection($filter, $range, $index)

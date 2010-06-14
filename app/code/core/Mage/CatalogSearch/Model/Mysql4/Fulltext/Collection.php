@@ -83,7 +83,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext_Collection
      *
      * @return Mage_CatalogSearch_Model_Mysql4_Fulltext_Collection
      */
-    public function setGeneralDefoultQuery()
+    public function setGeneralDefaultQuery()
     {
         return $this;
     }
