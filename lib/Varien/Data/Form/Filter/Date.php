@@ -42,16 +42,25 @@ class Varien_Data_Form_Filter_Date implements Varien_Data_Form_Filter_Interface
     protected $_dateFormat;
 
     /**
+     * Local
+     *
+     * @var Zend_Locale
+     */
+    protected $_locale;
+
+    /**
      * Initialize filter
      *
      * @param string $format    Zend_Date input/output format
+     * @param Zend_Locale $locale
      */
-    public function __construct($format = null)
+    public function __construct($format = null, $locale = null)
     {
         if (is_null($format)) {
             $format = Varien_Date::DATE_INTERNAL_FORMAT;
         }
-        $this->_dateFormat = $format;
+        $this->_dateFormat  = $format;
+        $this->_locale      = $locale;
     }
 
     /**
@@ -63,10 +72,12 @@ class Varien_Data_Form_Filter_Date implements Varien_Data_Form_Filter_Interface
     public function inputFilter($value)
     {
         $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => $this->_dateFormat
+            'date_format'   => $this->_dateFormat,
+            'locale'        => $this->_locale
         ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => Varien_Date::DATE_INTERNAL_FORMAT
+            'date_format'   => Varien_Date::DATE_INTERNAL_FORMAT,
+            'locale'        => $this->_locale
         ));
 
         $value = $filterInput->filter($value);
@@ -83,10 +94,12 @@ class Varien_Data_Form_Filter_Date implements Varien_Data_Form_Filter_Interface
     public function outputFilter($value)
     {
         $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => Varien_Date::DATE_INTERNAL_FORMAT
+            'date_format'   => Varien_Date::DATE_INTERNAL_FORMAT,
+            'locale'        => $this->_locale
         ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => $this->_dateFormat
+            'date_format'   => $this->_dateFormat,
+            'locale'        => $this->_locale
         ));
 
         $value = $filterInput->filter($value);
