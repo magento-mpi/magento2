@@ -726,11 +726,18 @@ class Mage_Core_Model_Design_Package
     {
         // check absolute or relative url
         if (!preg_match('/^[http|https]/i', $uri) && !preg_match('/^\//i', $uri)) {
-
             $fileDir = '';
             $pathParts = explode(DS, $uri);
             $fileDirParts = explode(DS, $this->_callbackFileDir);
-            $baseUrl = Mage::getBaseUrl('web');
+            if ('skin' == $fileDirParts[0]) {
+                $baseUrl = Mage::getBaseUrl('skin');
+                $fileDirParts = array_slice($fileDirParts, 1);
+            } elseif ('media' == $fileDirParts[0]) {
+                $baseUrl = Mage::getBaseUrl('media');
+                $fileDirParts = array_slice($fileDirParts, 1);
+            } else {
+                $baseUrl = Mage::getBaseUrl('web');
+            }
 
             foreach ($pathParts as $key=>$part) {
                 if ($part == '.' || $part == '..') {
