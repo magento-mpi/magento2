@@ -33,29 +33,6 @@
  */
 class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Template
 {
-
-    /**
-     * Address attribute list to retrieve
-     *
-     * @var array
-     */
-    protected $_addressAttributes = array(
-        'entity_id',
-        'firstname',
-        'lastname',
-        'company',
-        'street1',
-        'street2',
-        'city',
-        'region',
-        'region_id',
-        'postcode',
-        'country',
-        'country_id',
-        'telephone',
-        'fax'
-    );
-
     /**
      * Render customer address list xml
      *
@@ -102,7 +79,6 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
      *
      * @param Mage_Customer_Model_Address $address
      * @return array
-     * @see $this->_addressAttributes
      */
     public function prepareAddressData(Mage_Customer_Model_Address $address, Mage_XmlConnect_Model_Simplexml_Element $item)
     {
@@ -110,33 +86,37 @@ class Mage_XmlConnect_Block_Customer_Address_List extends Mage_Core_Block_Templa
             return array();
         }
 
-        $address->explodeStreetAddress();
-        $data = $address->getData();
-        $data['country'] = $address->getCountryModel()->getName();
+        $attributes = Mage::helper('customer/address')->getAttributes();
 
-        foreach ($data as $key => $value) {
-            if (is_object($value)) {
-                unset($data[$key]);
+        $data = array(
+            'entity_id' => $address->getId()
+        );
+
+        foreach ($attributes as $attribute) {
+            /* @var $attribute Mage_Customer_Model_Attribute */
+            if (!$attribute->getIsVisible()) {
+                continue;
             }
-            else {
-                $data[$key] = $item->xmlentities(strip_tags($value));
+            if ($attribute->getAttributeCode() == 'country_id') {
+                $data['country'] = $address->getCountryModel()->getName();
+                $data['country_id'] = $address->getCountryId();
+            } else if ($attribute->getAttributeCode() == 'region') {
+                $data['region'] = $address->getRegion();
+            } else {
+                $dataModel = Mage_Customer_Model_Attribute_Data::factory($attribute, $address);
+                $value     = $dataModel->outputValue(Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_ONELINE);
+                if ($attribute->getFrontendInput() == 'multiline') {
+                    $values    = $dataModel->outputValue(Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_ARRAY);
+                    // explode lines
+                    foreach ($values as $k => $v) {
+                        $key = sprintf('%s%d', $attribute->getAttributeCode(), $k + 1);
+                        $data[$key] = $v;
+                    }
+                }
+                $data[$attribute->getAttributeCode()] = $value;
             }
         }
 
-        /**
-         * Remove data that mustn't show
-         */
-//        if (!$this->helper('customer/address')->canShowConfig('prefix_show')) {
-//            unset($data['prefix']);
-//        }
-//        if (!$this->helper('customer/address')->canShowConfig('middlename_show')) {
-//            unset($data['middlename']);
-//        }
-//        if (!$this->helper('customer/address')->canShowConfig('suffix_show')) {
-//            unset($data['suffix']);
-//        }
-
-        $data = array_intersect_key($data, array_flip($this->_addressAttributes));
         foreach ($data as $key => $value) {
             if (!empty($value)) {
                 $item->addChild($key, $value);

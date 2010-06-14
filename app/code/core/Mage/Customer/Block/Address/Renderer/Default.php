@@ -109,10 +109,11 @@ class Mage_Customer_Block_Address_Renderer_Default extends Mage_Core_Block_Abstr
             } else {
                 $dataModel = Mage_Customer_Model_Attribute_Data::factory($attribute, $address);
                 $value     = $dataModel->outputValue($dataFormat);
-                if ($attribute->getFrontendInput() == 'multiline' && is_array($value)) {
+                if ($attribute->getFrontendInput() == 'multiline') {
+                    $values    = $dataModel->outputValue(Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_ARRAY);
                     // explode lines
-                    foreach ($value as $k => $v) {
-                        $key = sprintf('%s_%d', $attribute->getAttributeCode(), $k + 1);
+                    foreach ($values as $k => $v) {
+                        $key = sprintf('%s%d', $attribute->getAttributeCode(), $k + 1);
                         $data[$key] = $v;
                     }
                 }

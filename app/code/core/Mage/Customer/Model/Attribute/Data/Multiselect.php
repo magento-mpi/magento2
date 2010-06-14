@@ -77,6 +77,7 @@ class Mage_Customer_Model_Attribute_Data_Multiselect extends Mage_Customer_Model
 
         switch ($format) {
             case Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON:
+            case Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_ARRAY:
                 $output = $values;
             default:
                 $output = array();
