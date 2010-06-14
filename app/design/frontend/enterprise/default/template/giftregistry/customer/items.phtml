@@ -25,52 +25,45 @@
  */
 ?>
 <div class="page-title">
-    <h1><?php echo $this->getFormHeader() ?></h1>
+    <h1><?php echo $this->__('Gift Registry Items') ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 
 <?php if (count($this->getItems()) > 0): ?>
-<div>
-    <h1><?php echo $this->__('Gift Registry Items') ?></h1>
-    <form action="<?php echo $this->getActionUpdateUrl() ?>" method="post">
-        <fieldset>
-            <?php echo $this->getBlockHtml('formkey')?>
-            <table id="shopping-cart-table" class="data-table cart-table">
-                <col width="1" />
-                <col />
-                <col width="1" />
-                <col width="1" />
-                <col width="1" />
-                <col width="1" />
-                <col width="1" />
-                <thead>
-                    <tr>
-                        <th>&nbsp;</th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Note') ?></span></th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Added On') ?></span></th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Qty') ?></span></th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Qty Fulfilled') ?></span></th>
-                        <th class="a-center"><?php echo $this->__('Delete') ?></th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <td colspan="50" class="a-right">
-                            <button type="submit" class="button btn-update"><span><span><?php echo $this->__('Update Gift Registry') ?></span></span></button>
-                        </td>
-                    </tr>
-                </tfoot>
-                <tbody>
-                <?php foreach($this->getItems() as $_item): ?>
-                    <?php echo $this->getItemHtml($_item) ?>
-                <?php endforeach ?>
-                </tbody>
-            </table>
-            <script type="text/javascript">decorateTable('shopping-cart-table')</script>
-        </fieldset>
-    </form>
-</div>
+<form action="<?php echo $this->getActionUpdateUrl() ?>" method="post">
+    <fieldset>
+        <?php echo $this->getBlockHtml('formkey')?>
+        <table id="shopping-cart-table" class="data-table">
+            <col width="1" />
+            <col width="170" />
+            <col />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <thead>
+                <tr>
+                    <th><span class="nobr"><?php echo $this->__('Product') ?></span></th>
+                    <th><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
+                    <th><span class="nobr"><?php echo $this->__('Note') ?></span></th>
+                    <th class="a-center"><span class="nobr"><?php echo $this->__('Added On') ?></span></th>
+                    <th class="a-center"><span class="nobr"><?php echo $this->__('Qty') ?></span></th>
+                    <th class="a-center"><span class="nobr"><?php echo $this->__('Qty Fulfilled') ?></span></th>
+                    <th class="a-center"><?php echo $this->__('Delete') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach($this->getItems() as $_item): ?>
+                <?php echo $this->getItemHtml($_item) ?>
+            <?php endforeach ?>
+            </tbody>
+        </table>
+        <script type="text/javascript">decorateTable('shopping-cart-table')</script>
+        <div class="buttons-set2">
+            <button type="submit" class="button btn-update"><span><span><?php echo $this->__('Update Gift Registry') ?></span></span></button>
+        </div>
+    </fieldset>
+</form>
 <?php else: ?>
     <p><?php echo $this->__('Gift Registry has no items.') ?></p>
 <?php endif ?>
