@@ -32,9 +32,9 @@
 
 class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Action
 {
-
     /**
      * Customer authentification action
+     *
      */
     public function loginAction()
     {
@@ -54,12 +54,10 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                         $session->getCustomer()->sendNewAccountEmail('confirmed');
                     }
                     $this->_message($this->__('Authentification complete.'), self::MESSAGE_STATUS_SUCCESS);
-                }
-                else {
+                } else {
                     $this->_message($this->__('Invalid login or password.'), self::MESSAGE_STATUS_ERROR);
                 }
-            }
-            catch (Mage_Core_Exception $e) {
+            } catch (Mage_Core_Exception $e) {
                 switch ($e->getCode()) {
                     case Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
                         // TODO: resend configmation email message with action
@@ -71,12 +69,10 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                         $message = $e->getMessage();
                 }
                 $this->_message($message, self::MESSAGE_STATUS_ERROR);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $this->_message($this->__('Customer authentification problem.'), self::MESSAGE_STATUS_ERROR);
             }
-        }
-        else {
+        } else {
             $this->_message($this->__('Login and password are required.'), self::MESSAGE_STATUS_ERROR);
         }
     }
@@ -91,21 +87,19 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             if ($this->_getSession()->isLoggedIn()) {
                 $this->_getSession()->logout();
                 $this->_message($this->__('Logout complete.'), self::MESSAGE_STATUS_SUCCESS);
-            }
-            else {
+            } else {
                 $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
             }
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_message($this->__('Customer logout problem.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
     /**
      * Customer registration/edit account form
+     *
      */
     public function formAction()
     {
@@ -129,6 +123,27 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     public function editAction()
     {
         if ($this->getRequest()->isPost()) {
+            $customer = $this->_getSession()->getCustomer();
+
+            /* @var $customerForm Mage_Customer_Model_Form */
+            $customerForm = Mage::getModel('customer/form');
+            $customerForm->setFormCode('customer_account_edit')
+                ->setEntity($customer);
+
+            $customerData = $customerForm->extractData($this->getRequest());
+
+            $errors = array();
+            $customerErrors = $customerForm->validateData($customerData);
+            if ($customerErrors !== true) {
+                $errors = array_merge($customerErrors, $errors);
+            } else {
+                $customerForm->compactData($customerData);
+                $customerErrors = $customer->validate();
+                if (is_array($customerErrors)) {
+                    $errors = array_merge($customerErrors, $errors);
+                }
+            }
+
             $customer = Mage::getModel('customer/customer')
                 ->setId($this->_getSession()->getCustomerId())
                 ->setWebsiteId($this->_getSession()->getCustomer()->getWebsiteId());
@@ -136,28 +151,10 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             $fields = Mage::getConfig()->getFieldset('customer_account');
             $data = $this->_filterPostData($this->getRequest()->getPost());
 
-            foreach ($fields as $code=>$node) {
-                if ($node->is('update') && isset($data[$code])) {
-                    $customer->setData($code, $data[$code]);
-                }
-            }
-
-            $errors = $customer->validate();
-            if (!is_array($errors)) {
-                $errors = array();
-            }
-
-            /**
-             * we would like to preserver the existing group id
-             */
-            if ($this->_getSession()->getCustomerGroupId()) {
-                $customer->setGroupId($this->_getSession()->getCustomerGroupId());
-            }
-
             if ($this->getRequest()->getParam('change_password')) {
-                $currPass = $this->getRequest()->getPost('current_password');
-                $newPass  = $this->getRequest()->getPost('password');
-                $confPass  = $this->getRequest()->getPost('confirmation');
+                $currPass   = $this->getRequest()->getPost('current_password');
+                $newPass    = $this->getRequest()->getPost('password');
+                $confPass   = $this->getRequest()->getPost('confirmation');
 
                 if (empty($currPass) || empty($newPass) || empty($confPass)) {
                     $errors[] = $this->__('The password fields cannot be empty.');
@@ -194,21 +191,19 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 $this->_getSession()->setCustomer($customer);
                 $this->_message($this->__('The account information has been saved.'), self::MESSAGE_STATUS_SUCCESS);
                 return;
-            }
-            catch (Mage_Core_Exception $e) {
+            } catch (Mage_Core_Exception $e) {
                 $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $this->_message($this->__('Cannot save the customer.'), self::MESSAGE_STATUS_ERROR);
             }
-        }
-        else {
+        } else {
             $this->_message($this->__('POST data is not valid.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
     /**
      * Save customer account
+     *
      */
     public function saveAction()
     {
@@ -223,22 +218,20 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
         if ($request->isPost()) {
             $errors = array();
 
-            if (!$customer = Mage::registry('current_customer')) {
-                $customer = Mage::getModel('customer/customer')->setId(null);
+            /* @var $customer Mage_Customer_Model_Customer */
+            $customer = Mage::registry('current_customer');
+            if (is_null($customer)) {
+                $customer = Mage::getModel('customer/customer');
             }
 
-            $data = $this->_filterPostData($request->getPost());
+            /* @var $customerForm Mage_Customer_Model_Form */
+            $customerForm = Mage::getModel('customer/form');
+            $customerForm->setFormCode('customer_account_create')
+                ->setEntity($customer);
 
-            foreach (Mage::getConfig()->getFieldset('customer_account') as $code=>$node) {
-                if ($node->is('create') && isset($data[$code])) {
-                    if ($code == 'email') {
-                        $data[$code] = trim($data[$code]);
-                    }
-                    $customer->setData($code, $data[$code]);
-                }
-            }
+            $customerData = $customerForm->extractData($this->getRequest());
 
-            if ($request->getParam('is_subscribed', false)) {
+            if ($this->getRequest()->getParam('is_subscribed', false)) {
                 $customer->setIsSubscribed(1);
             }
 
@@ -247,27 +240,21 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
              */
             $customer->getGroupId();
 
-//            if ($request->getPost('create_address')) {
-//                $address = Mage::getModel('customer/address')
-//                    ->setData($request->getPost())
-//                    ->setIsDefaultBilling($request->getParam('default_billing', false))
-//                    ->setIsDefaultShipping($request->getParam('default_shipping', false))
-//                    ->setId(null);
-//                $customer->addAddress($address);
-//
-//                $errors = $address->validate();
-//                if (!is_array($errors)) {
-//                    $errors = array();
-//                }
-//            }
-
             try {
-                $validationCustomer = $customer->validate();
-                if (is_array($validationCustomer)) {
-                    $errors = array_merge($validationCustomer, $errors);
+                $customerErrors = $customerForm->validateData($customerData);
+                if ($customerErrors !== true) {
+                    $errors = array_merge($customerErrors, $errors);
+                } else {
+                    $customerForm->compactData($customerData);
+                    $customer->setPassword($this->getRequest()->getPost('password'));
+                    $customer->setConfirmation($this->getRequest()->getPost('confirmation'));
+                    $customerErrors = $customer->validate();
+                    if (is_array($customerErrors)) {
+                        $errors = array_merge($customerErrors, $errors);
+                    }
                 }
-                $validationResult = count($errors) == 0;
 
+                $validationResult = count($errors) == 0;
                 if (true === $validationResult) {
                     $customer->save();
 
@@ -280,36 +267,30 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                         $messageXmlObj->addChild('confirmation', 1);
                         $this->getResponse()->setBody($messageXmlObj->asNiceXml());
                         return;
-                    }
-                    else {
+                    } else {
                         $session->setCustomerAsLoggedIn($customer);
                         $customer->sendNewAccountEmail('registered');
                         $this->_message($this->__('Register and Authentification complete.'), self::MESSAGE_STATUS_SUCCESS);
                         return;
                     }
-                }
-                else {
+                } else {
                     if (is_array($errors)) {
                         $message = implode("\n", $errors);
-                    }
-                    else {
+                    } else {
                         $message = $this->__('Invalid customer data.');
                     }
                     $this->_message($message, self::MESSAGE_STATUS_ERROR);
                     return ;
                 }
-            }
-            catch (Mage_Core_Exception $e) {
+            } catch (Mage_Core_Exception $e) {
                 if ($e->getCode() === Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS) {
                     $message = $this->__('There is already an account with this email address.');
                     $session->setEscapeMessages(false);
-                }
-                else {
+                } else {
                     $message = $e->getMessage();
                 }
                 $this->_message($message, self::MESSAGE_STATUS_ERROR);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $this->_message($this->__('Cannot save the customer.'), self::MESSAGE_STATUS_ERROR);
             }
         }
@@ -317,6 +298,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
     /**
      * Send new password to customer by specified email
+     *
      */
     public function forgotPasswordAction()
     {
@@ -338,25 +320,22 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                     $this->_message($this->__('A new password has been sent.'), self::MESSAGE_STATUS_SUCCESS);
 
                     return;
-                }
-                catch (Mage_Core_Exception $e) {
+                } catch (Mage_Core_Exception $e) {
                     $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-                }
-                catch (Exception $e) {
+                } catch (Exception $e) {
                     $this->_message($this->__('Sending/Changing new password problem.'), self::MESSAGE_STATUS_ERROR);
                 }
-            }
-            else {
+            } else {
                 $this->_message($this->__('This email address was not found in our records.'), self::MESSAGE_STATUS_ERROR);
             }
-        }
-        else {
+        } else {
             $this->_message($this->__('Customer email not specified.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
     /**
      * Customer addresses list
+     *
      */
     public function addressAction()
     {
@@ -368,8 +347,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
         if (count($this->_getSession()->getCustomer()->getAddresses())) {
             $this->loadLayout(false);
             $this->renderLayout();
-        }
-        else {
+        } else {
             $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
             $message->addChild('status', self::MESSAGE_STATUS_ERROR);
             $message->addChild('is_empty_address_book', 1);
@@ -429,8 +407,8 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             try {
                 $address->delete();
                 $this->_message($this->__('The address has been deleted.'), self::MESSAGE_STATUS_SUCCESS);
-            }
-            catch (Exception $e){
+            } catch (Exception $e){
+                Mage::logException($e);
                 $this->_message($this->__('An error occurred while deleting the address.'), self::MESSAGE_STATUS_ERROR);
             }
         }
@@ -438,6 +416,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
     /**
      * Add/Save customer address
+     *
      */
     public function saveAddressAction()
     {
@@ -448,26 +427,43 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
         // Save data
         if ($this->getRequest()->isPost()) {
-            $address = Mage::getModel('customer/address')
-                ->setData($this->getRequest()->getPost())
-                ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
-                ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
-                ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
-            $addressId = $this->getRequest()->getParam('id');
+            $customer = $this->_getSession()->getCustomer();
+            /* @var $address Mage_Customer_Model_Address */
+            $address    = Mage::getModel('customer/address');
+            $addressId  = $this->getRequest()->getParam('id');
             if ($addressId) {
-                $customerAddress = $this->_getSession()->getCustomer()->getAddressById($addressId);
-                if ($customerAddress->getId() && $customerAddress->getCustomerId() == $this->_getSession()->getCustomerId()) {
-                    $address->setId($addressId);
-                }
-                else {
-                    $address->setId(null);
+                $existsAddress = $customer->getAddressById($addressId);
+                if ($existsAddress->getId() && $existsAddress->getCustomerId() == $customer->getId()) {
+                    $address->setId($existsAddress->getId());
                 }
             }
-            else {
-                $address->setId(null);
-            }
+
+            $errors = array();
+
+            /* @var $addressForm Mage_Customer_Model_Form */
+            $addressForm = Mage::getModel('customer/form');
+            $addressForm->setFormCode('customer_address_edit')
+                ->setEntity($address);
+            $addressData    = $addressForm->extractData($this->getRequest());
+            $addressErrors  = $addressForm->validateData($addressData);
+
             try {
-                $addressValidation = $address->validate();
+                if ($addressErrors === true) {
+                    $addressForm->compactData($addressData);
+                    $address->setCustomerId($customer->getId())
+                        ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
+                        ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
+                } else {
+                    $errors = array_merge($errors, $addressErrors);
+                }
+
+                $addressErrors = $address->validate();
+                if ($addressErrors !== true) {
+                    $errors = array_merge($errors, $addressErrors);
+                }
+
+                $addressValidation = count($errors) == 0;
+
                 if (true === $addressValidation) {
                     $address->save();
 
@@ -477,30 +473,27 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                     $message->addChild('address_id', $address->getId());
                     $this->getResponse()->setBody($message->asNiceXml());
                     return;
-                }
-                else {
+                } else {
                     if (is_array($addressValidation)) {
                         $this->_message(implode('. ', $addressValidation), self::MESSAGE_STATUS_ERROR);
-                    }
-                    else {
+                    } else {
                         $this->_message($this->__('Cannot save address.'), self::MESSAGE_STATUS_ERROR);
                     }
                 }
-            }
-            catch (Mage_Core_Exception $e) {
+            } catch (Mage_Core_Exception $e) {
                 $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
+                Mage::log($e);
                 $this->_message($this->__('Cannot save address.'), self::MESSAGE_STATUS_ERROR);
             }
-        }
-        else {
+        } else {
             $this->_message($this->__('Adddress data not specified.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
     /**
      * Customer orders list
+     *
      */
     public function orderListAction()
     {

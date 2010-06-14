@@ -175,14 +175,14 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             // Redirect customer to the last page visited after logging in
             if ($session->isLoggedIn()) {
                 if (!Mage::getStoreConfigFlag('customer/startup/redirect_dashboard')) {
-                    if ($referer = $this->getRequest()->getParam(Mage_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME)) {
+                    $referer = $this->getRequest()->getParam(Mage_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME);
+                    if ($referer) {
                         $referer = Mage::helper('core')->urlDecode($referer);
                         if ($this->_isUrlInternal($referer)) {
                             $session->setBeforeAuthUrl($referer);
                         }
                     }
-                }
-                else if ($session->getAfterAuthUrl()) {
+                } else if ($session->getAfterAuthUrl()) {
                     $session->setBeforeAuthUrl($session->getAfterAuthUrl(true));
                 }
             } else {
@@ -458,14 +458,13 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 if ($customer->getConfirmation()) {
                     $customer->sendNewAccountEmail('confirmation');
                     $this->_getSession()->addSuccess($this->__('Please, check your email for confirmation key.'));
-                }
-                else {
+                } else {
                     $this->_getSession()->addSuccess($this->__('This email does not require confirmation.'));
                 }
                 $this->_getSession()->setUsername($email);
                 $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure' => true)));
             } catch (Exception $e) {
-                $this->_getSession()->addError($this->__('Wrong email.'));
+                $this->_getSession()->addException($e, $this->__('Wrong email.'));
                 $this->_redirectError(Mage::getUrl('*/*/*', array('email' => $email, '_secure' => true)));
             }
             return;
@@ -528,8 +527,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 catch (Exception $e){
                     $this->_getSession()->addError($e->getMessage());
                 }
-            }
-            else {
+            } else {
                 $this->_getSession()->addError($this->__('This email address was not found in our records.'));
                 $this->_getSession()->setForgottenEmail($email);
             }
@@ -551,7 +549,8 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('catalog/session');
 
-        if ($block = $this->getLayout()->getBlock('customer_edit')) {
+        $block = $this->getLayout()->getBlock('customer_edit');
+        if ($block) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
         $data = $this->_getSession()->getCustomerFormData(true);
@@ -559,7 +558,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         if (!empty($data)) {
             $customer->addData($data);
         }
-        if($this->getRequest()->getParam('changepass')==1){
+        if ($this->getRequest()->getParam('changepass')==1){
             $customer->setChangePassword(1);
         }
 
@@ -580,10 +579,6 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         if ($this->getRequest()->isPost()) {
             $customer = $this->_getSession()->getCustomer();
 
-//            $customer = Mage::getModel('customer/customer')
-//                ->setId($this->_getSession()->getCustomerId())
-//                ->setWebsiteId($this->_getSession()->getCustomer()->getWebsiteId());
-
             /* @var $customerForm Mage_Customer_Model_Form */
             $customerForm = Mage::getModel('customer/form');
             $customerForm->setFormCode('customer_account_edit')
@@ -603,31 +598,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 }
             }
 
-//            $fields = Mage::getConfig()->getFieldset('customer_account');
-//            $data = $this->_filterPostData($this->getRequest()->getPost());
-
-//            foreach ($fields as $code=>$node) {
-//                if ($node->is('update') && isset($data[$code])) {
-//                    $customer->setData($code, $data[$code]);
-//                }
-//            }
-//
-//            $errors = $customer->validate();
-//            if (!is_array($errors)) {
-//                $errors = array();
-//            }
-
-//            /**
-//             * we would like to preserver the existing group id
-//             */
-//            if ($this->_getSession()->getCustomerGroupId()) {
-//                $customer->setGroupId($this->_getSession()->getCustomerGroupId());
-//            }
-
             if ($this->getRequest()->getParam('change_password')) {
-                $currPass = $this->getRequest()->getPost('current_password');
-                $newPass  = $this->getRequest()->getPost('password');
-                $confPass  = $this->getRequest()->getPost('confirmation');
+                $currPass   = $this->getRequest()->getPost('current_password');
+                $newPass    = $this->getRequest()->getPost('password');
+                $confPass   = $this->getRequest()->getPost('confirmation');
 
                 if (empty($currPass) || empty($newPass) || empty($confPass)) {
                     $errors[] = $this->__('The password fields cannot be empty.');

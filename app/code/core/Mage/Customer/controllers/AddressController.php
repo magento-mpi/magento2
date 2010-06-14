@@ -63,12 +63,12 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $this->_initLayoutMessages('customer/session');
             $this->_initLayoutMessages('catalog/session');
 
-            if ($block = $this->getLayout()->getBlock('address_book')) {
+            $block = $this->getLayout()->getBlock('address_book');
+            if ($block) {
                 $block->setRefererUrl($this->_getRefererUrl());
             }
             $this->renderLayout();
-        }
-        else {
+        } else {
             $this->getResponse()->setRedirect(Mage::getUrl('*/*/new'));
         }
     }
@@ -90,7 +90,8 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
     {
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
-        if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
+        $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
+        if ($navigationBlock) {
             $navigationBlock->setActive('customer/address');
         }
         $this->renderLayout();
@@ -123,26 +124,6 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             $addressData    = $addressForm->extractData($this->getRequest());
             $addressErrors  = $addressForm->validateData($addressData);
 
-//
-//
-//            $address = Mage::getModel('customer/address')
-//                ->setData($this->getRequest()->getPost())
-//                ->setCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
-//                ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
-//                ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
-//            $addressId = $this->getRequest()->getParam('id');
-//            if ($addressId) {
-//                $customerAddress = $this->_getSession()->getCustomer()->getAddressById($addressId);
-//                if ($customerAddress->getId() && $customerAddress->getCustomerId() == $this->_getSession()->getCustomerId()) {
-//                    $address->setId($addressId);
-//                }
-//                else {
-//                    $address->setId(null);
-//                }
-//            }
-//            else {
-//                $address->setId(null);
-//            }
             try {
                 if ($addressErrors === true) {
                     $addressForm->compactData($addressData);
@@ -153,9 +134,9 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                     $errors = array_merge($errors, $addressErrors);
                 }
 
-                $errors = $address->validate();
-                if (!is_array($errors)) {
-                    $errors = array();
+                $addressErrors = $address->validate();
+                if ($addressErrors !== true) {
+                    $errors = array_merge($errors, $addressErrors);
                 }
 
                 $addressValidation = count($errors) == 0;
@@ -182,7 +163,8 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
                     ->addException($e, $this->__('Cannot save address.'));
             }
         }
-        $this->_redirectError(Mage::getUrl('*/*/edit', array('id'=>$address->getId())));
+
+        return $this->_redirectError(Mage::getUrl('*/*/edit', array('id' => $address->getId())));
     }
 
     public function deleteAction()
@@ -202,9 +184,8 @@ class Mage_Customer_AddressController extends Mage_Core_Controller_Front_Action
             try {
                 $address->delete();
                 $this->_getSession()->addSuccess($this->__('The address has been deleted.'));
-            }
-            catch (Exception $e){
-                $this->_getSession()->addError($this->__('An error occurred while deleting the address.'));
+            } catch (Exception $e){
+                $this->_getSession()->addException($e, $this->__('An error occurred while deleting the address.'));
             }
         }
         $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
