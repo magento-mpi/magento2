@@ -68,12 +68,28 @@ class Mage_Customer_Model_Attribute_Data_Multiselect extends Mage_Customer_Model
      *
      * @return string|array
      */
-    public function outputValue()
+    public function outputValue($format = Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
     {
         $values = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         if (!is_array($values)) {
             $values = explode(',', $values);
         }
-        return $values;
+
+        switch ($format) {
+            case Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON:
+                $output = $values;
+            default:
+                $output = array();
+                foreach ($values as $value) {
+                    if (!$value) {
+                        continue;
+                    }
+                    $output[] = $this->getAttribute()->getSource()->getOptionText($value);
+                }
+                $output = implode(', ', $output);
+                break;
+        }
+
+        return $output;
     }
 }

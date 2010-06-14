@@ -71,6 +71,13 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
     protected $_extractedData   = array();
 
     /**
+     * Mage_Core_Model_Locale FORMAT
+     *
+     * @var string
+     */
+    protected $_dateFilterFormat;
+
+    /**
      * Set attribute instance
      *
      * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
@@ -193,14 +200,37 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
         if ($filterCode) {
             $filterClass = 'Varien_Data_Form_Filter_' . ucfirst($filterCode);
             if ($filterCode == 'date') {
-                $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
-                $filter = new $filterClass($format);
+                $filter = new $filterClass($this->_dateFilterFormat(), Mage::app()->getLocale()->getLocale());
             } else {
                 $filter = new $filterClass();
             }
             return $filter;
         }
         return false;
+    }
+
+    /**
+     * Get/Set/Reset date filter format
+     *
+     * @param string|null|false $format
+     * @return Mage_Customer_Model_Attribute_Data_Abstract|string
+     */
+    protected function _dateFilterFormat($format = null)
+    {
+        if (is_null($format)) {
+            // get format
+            if (is_null($this->_dateFilterFormat)) {
+                $this->_dateFilterFormat = Mage_Core_Model_Locale::FORMAT_TYPE_SHORT;
+            }
+            return Mage::app()->getLocale()->getDateFormat($this->_dateFilterFormat);
+        } else if ($format === false) {
+            // reset value
+            $this->_dateFilterFormat = null;
+            return $this;
+        }
+
+        $this->_dateFilterFormat = $format;
+        return $this;
     }
 
     /**
@@ -240,15 +270,15 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
                 case 'alphanumeric':
                     $validator = new Zend_Validate_Alnum(true);
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" invalid type given', $label),
+                        Mage::helper('customer')->__('"%s" invalid type entered.', $label),
                         Zend_Validate_Alnum::INVALID
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" has not only alphabetic and digit characters', $label),
+                        Mage::helper('customer')->__('"%s" has not only alphabetic and digit characters.', $label),
                         Zend_Validate_Alnum::NOT_ALNUM
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" is an empty string', $label),
+                        Mage::helper('customer')->__('"%s" is an empty string.', $label),
                         Zend_Validate_Alnum::STRING_EMPTY
                     );
                     if (!$validator->isValid($value)) {
@@ -258,15 +288,15 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
                 case 'numeric':
                     $validator = new Zend_Validate_Digits();
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" invalid type given', $label),
+                        Mage::helper('customer')->__('"%s" invalid type entered.', $label),
                         Zend_Validate_Digits::INVALID
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" contains not only digit characters', $label),
+                        Mage::helper('customer')->__('"%s" contains not only digit characters.', $label),
                         Zend_Validate_Digits::NOT_DIGITS
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" is an empty string', $label),
+                        Mage::helper('customer')->__('"%s" is an empty string.', $label),
                         Zend_Validate_Digits::STRING_EMPTY
                     );
                     if (!$validator->isValid($value)) {
@@ -276,15 +306,15 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
                 case 'alpha':
                     $validator = new Zend_Validate_Alpha(true);
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" invalid type given', $label),
+                        Mage::helper('customer')->__('"%s" invalid type entered.', $label),
                         Zend_Validate_Alpha::INVALID
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" has not only alphabetic characters', $label),
+                        Mage::helper('customer')->__('"%s" has not only alphabetic characters.', $label),
                         Zend_Validate_Alpha::NOT_ALPHA
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" is an empty string', $label),
+                        Mage::helper('customer')->__('"%s" is an empty string.', $label),
                         Zend_Validate_Alpha::STRING_EMPTY
                     );
                     if (!$validator->isValid($value)) {
@@ -294,39 +324,39 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
                 case 'email':
                     $validator = new Zend_Validate_EmailAddress();
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" invalid type given', $label),
+                        Mage::helper('customer')->__('"%s" invalid type entered.', $label),
                         Zend_Validate_EmailAddress::INVALID
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" is not a valid email address', $label),
+                        Mage::helper('customer')->__('"%s" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::INVALID_FORMAT
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" is not a valid hostname', $label),
+                        Mage::helper('customer')->__('"%s" is not a valid hostname.', $label),
                         Zend_Validate_EmailAddress::INVALID_HOSTNAME
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" is not a valid hostname', $label),
+                        Mage::helper('customer')->__('"%s" is not a valid hostname.', $label),
                         Zend_Validate_EmailAddress::INVALID_MX_RECORD
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" is not a valid hostname', $label),
+                        Mage::helper('customer')->__('"%s" is not a valid hostname.', $label),
                         Zend_Validate_EmailAddress::INVALID_MX_RECORD
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" is not a valid email address', $label),
+                        Mage::helper('customer')->__('"%s" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::DOT_ATOM
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" is not a valid email address', $label),
+                        Mage::helper('customer')->__('"%s" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::QUOTED_STRING
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" is not a valid email address', $label),
+                        Mage::helper('customer')->__('"%s" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::INVALID_LOCAL_PART
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" exceeds the allowed length', $label),
+                        Mage::helper('customer')->__('"%s" exceeds the allowed length.', $label),
                         Zend_Validate_EmailAddress::LENGTH_EXCEEDED
                     );
                     if (!$validator->isValid($value)) {
@@ -335,29 +365,27 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
                     break;
                 case 'url':
                     $parsedUrl = parse_url($value);
-                    Mage::log($value);
-                    Mage::log($parsedUrl);
                     if ($parsedUrl === false || empty($parsedUrl['scheme']) || empty($parsedUrl['host'])) {
-                        return array(Mage::helper('customer')->__('"%s" is not a valid URL', $label));
+                        return array(Mage::helper('customer')->__('"%s" is not a valid URL.', $label));
                     }
                     $validator = new Zend_Validate_Hostname();
                     if (!$validator->isValid($parsedUrl['host'])) {
-                        return array(Mage::helper('customer')->__('"%s" is not a valid URL', $label));
+                        return array(Mage::helper('customer')->__('"%s" is not a valid URL.', $label));
                     }
                     break;
                 case 'date':
                     $format = Mage::app()->getLocale()->getDateFormat(Varien_Date::DATE_INTERNAL_FORMAT);
                     $validator = new Zend_Validate_Date($format);
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" invalid type given', $label),
+                        Mage::helper('customer')->__('"%s" invalid type entered.', $label),
                         Zend_Validate_Date::INVALID
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" does not appear to be a valid date', $label),
+                        Mage::helper('customer')->__('"%s" is not a valid date.', $label),
                         Zend_Validate_Date::INVALID_DATE
                     );
                     $validator->setMessage(
-                        Mage::helper('customer')->__('"%s" does not fit given date format', $label),
+                        Mage::helper('customer')->__('"%s" does not fit the entered date format.', $label),
                         Zend_Validate_Date::FALSEFORMAT
                     );
                     break;
@@ -459,7 +487,8 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
     /**
      * Return formated attribute value from entity model
      *
+     * @param string $format
      * @return string|array
      */
-    abstract public function outputValue();
+    abstract public function outputValue($format = Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_TEXT);
 }

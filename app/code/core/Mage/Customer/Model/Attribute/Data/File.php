@@ -108,21 +108,21 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
             $extensions = array_map('trim', $extensions);
             if (!in_array($extension, $extensions)) {
                 return array(
-                    Mage::helper('customer')->__('"%s" is not a valid file extension', $label)
+                    Mage::helper('customer')->__('"%s" is not a valid file extension.', $label)
                 );
             }
         }
 
         if (!is_uploaded_file($value['tmp_name'])) {
             return array(
-                Mage::helper('customer')->__('"%s" is not a valid file', $label)
+                Mage::helper('customer')->__('"%s" is not a valid file.', $label)
             );
         }
 
         if (!empty($rules['max_file_size'])) {
             if ($rules['max_file_size'] < $value['size']) {
                 return array(
-                    Mage::helper('customer')->__('"%s" is not a valid file size', $label)
+                    Mage::helper('customer')->__('"%s" is not a valid file size.', $label)
                 );
             };
         }
@@ -244,16 +244,21 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
      *
      * @return string|array
      */
-    public function outputValue()
+    public function outputValue($format = Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
     {
-        $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
+        $output = '';
+        $value  = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         if ($value) {
-            return array(
-                'value'     => $value,
-                'url_key'   => Mage::helper('core')->urlEncode($value)
-            );
+            switch ($format) {
+                case Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON:
+                    $output = array(
+                        'value'     => $value,
+                        'url_key'   => Mage::helper('core')->urlEncode($value)
+                    );
+                    break;
+            }
         }
 
-        return '';
+        return $output;
     }
 }

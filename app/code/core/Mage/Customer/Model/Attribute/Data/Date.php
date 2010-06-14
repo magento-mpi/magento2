@@ -113,9 +113,22 @@ class Mage_Customer_Model_Attribute_Data_Date extends Mage_Customer_Model_Attrib
      *
      * @return string|array
      */
-    public function outputValue()
+    public function outputValue($format = Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
-        return $this->_applyOutputFilter($value);
+        if ($value) {
+            switch ($format) {
+                case Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_TEXT:
+                case Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_HTML:
+                case Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_PDF:
+                    $this->_dateFilterFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+                    break;
+            }
+            $value = $this->_applyOutputFilter($value);
+        }
+
+        $this->_dateFilterFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+
+        return $value;
     }
 }

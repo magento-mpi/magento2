@@ -128,13 +128,20 @@ class Mage_Customer_Model_Attribute_Data_Multiline extends Mage_Customer_Model_A
      *
      * @return string|array
      */
-    public function outputValue()
+    public function outputValue($format = Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
     {
         $values = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         if (!is_array($values)) {
             $values = explode("\n", $values);
         }
         $values = array_map(array($this, '_applyOutputFilter'), $values);
-        return implode("\n", $values);
+        switch ($format) {
+            case Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON:
+                $output = implode("\n", $values);
+            default:
+                $output = $values;
+                break;
+        }
+        return $output;
     }
 }

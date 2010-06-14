@@ -32,6 +32,13 @@
 class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
 {
     /**
+     * Array of Customer Address Attributes
+     *
+     * @var array
+     */
+    protected $_attributes;
+
+    /**
      * Customer address config node per website
      *
      * @var array
@@ -130,5 +137,23 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
             return false;
         }
         return true;
+    }
+
+    /**
+     * Return array of Customer Address Attributes
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        if (is_null($this->_attributes)) {
+            $this->_attributes = array();
+            /* @var $config Mage_Eav_Model_Config */
+            $config = Mage::getSingleton('eav/config');
+            foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {
+                $this->_attributes[$attributeCode] = $config->getAttribute('customer_address', $attributeCode);
+            }
+        }
+        return $this->_attributes;
     }
 }

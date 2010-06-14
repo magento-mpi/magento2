@@ -108,8 +108,21 @@ class Mage_Customer_Model_Attribute_Data_Select extends Mage_Customer_Model_Attr
      *
      * @return string|array
      */
-    public function outputValue()
+    public function outputValue($format = Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
     {
-        return $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
+        $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
+        switch ($format) {
+            case Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON:
+                $output = $value;
+            default:
+                if ($value) {
+                    $output = $this->getAttribute()->getSource()->getOptionText($value);
+                } else {
+                    $output = '';
+                }
+                break;
+        }
+
+        return $output;
     }
 }

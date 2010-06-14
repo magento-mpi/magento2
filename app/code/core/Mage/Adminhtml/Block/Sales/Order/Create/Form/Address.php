@@ -75,8 +75,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
         $data = array();
         foreach ($this->getAddressCollection() as $address) {
             $addressForm->setEntity($address);
-            $data[$address->getId()] = $addressForm->outputData();
-//            $data[$address->getId()] = $address->getData();
+            $data[$address->getId()] = $addressForm->outputData(Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON);
         }
         return Mage::helper('core')->jsonEncode($data);
     }

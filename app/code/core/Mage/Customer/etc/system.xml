@@ -347,7 +347,7 @@
                             <show_in_store>1</show_in_store>
                         </pdf>
                         <js_template>
-                            <label>Javascript Template</label>    
+                            <label>JavaScript Template</label>    
                             <frontend_type>textarea</frontend_type>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>

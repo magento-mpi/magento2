@@ -84,13 +84,6 @@ class Mage_Customer_Model_Form
     protected $_userAttributes;
 
     /**
-     * Array of attribute data models by input type
-     *
-     * @var array
-     */
-    protected $_attributeDataModels     = array();
-
-    /**
      * Is AJAX request flag
      *
      * @var boolean
@@ -284,27 +277,7 @@ class Mage_Customer_Model_Form
      */
     protected function _getAttributeDataModel(Mage_Eav_Model_Entity_Attribute $attribute)
     {
-        /* @var $dataModel Mage_Customer_Model_Attribute_Data_Abstract */
-        $dataModelClass = $attribute->getDataModel();
-        if (!empty($dataModelClass)) {
-            if (empty($this->_attributeDataModels[$dataModelClass])) {
-                $dataModel      = Mage::getModel($dataModelClass);
-                $this->_attributeDataModels[$dataModelClass] = $dataModel;
-            } else {
-                $dataModel = $this->_attributeDataModels[$dataModelClass];
-            }
-        } else {
-            if (empty($this->_attributeDataModels[$attribute->getFrontendInput()])) {
-                $dataModelClass = sprintf('customer/attribute_data_%s', $attribute->getFrontendInput());
-                $dataModel      = Mage::getModel($dataModelClass);
-                $this->_attributeDataModels[$attribute->getFrontendInput()] = $dataModel;
-            } else {
-                $dataModel = $this->_attributeDataModels[$attribute->getFrontendInput()];
-            }
-        }
-
-        $dataModel->setAttribute($attribute);
-        $dataModel->setEntity($this->getEntity());
+        $dataModel = Mage_Customer_Model_Attribute_Data::factory($attribute, $this->getEntity());
         $dataModel->setIsAjaxRequest($this->getIsAjaxRequest());
 
         return $dataModel;
@@ -414,15 +387,16 @@ class Mage_Customer_Model_Form
     /**
      * Return array of entity formated values
      *
+     * @param string $format
      * @return array
      */
-    public function outputData()
+    public function outputData($format = Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
     {
         $data = array();
         foreach ($this->getAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setExtractedData($data);
-            $data[$attribute->getAttributeCode()] = $dataModel->outputValue();
+            $data[$attribute->getAttributeCode()] = $dataModel->outputValue($format);
         }
         return $data;
     }

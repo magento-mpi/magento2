@@ -112,7 +112,7 @@
                         <title>PDF</title>
                     </pdf>
                     <js_template template="title" module="customer">
-                        <title>Javascript Template</title>
+                        <title>JavaScript Template</title>
                     </js_template>
                 </formats>
             </address>

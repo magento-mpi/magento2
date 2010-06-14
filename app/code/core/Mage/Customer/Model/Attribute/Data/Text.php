@@ -122,11 +122,14 @@ class Mage_Customer_Model_Attribute_Data_Text extends Mage_Customer_Model_Attrib
     /**
      * Return formated attribute value from entity model
      *
+     * @param string $format
      * @return string|array
      */
-    public function outputValue()
+    public function outputValue($format = Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
-        return $this->_applyOutputFilter($value);
+        $value = $this->_applyOutputFilter($value);
+
+        return $value;
     }
 }

@@ -75,18 +75,18 @@ class Mage_Customer_Model_Attribute_Data_Image extends Mage_Customer_Model_Attri
         $errors = array();
         if (!empty($rules['max_file_size'])) {
             if ($rules['max_file_size'] < $value['size']) {
-                $errors[] = Mage::helper('customer')->__('"%s" is not a valid file size', $label);
+                $errors[] = Mage::helper('customer')->__('"%s" is not a valid file size.', $label);
             };
         }
 
         if (!empty($rules['max_image_width'])) {
             if ($rules['max_image_width'] < $imageProp[0]) {
-                $errors[] = Mage::helper('customer')->__('"%s" width greatest %s px', $label, $rules['max_image_width']);
+                $errors[] = Mage::helper('customer')->__('"%s" width exceeds allowed value of %s px.', $label, $rules['max_image_width']);
             };
         }
         if (!empty($rules['max_image_heght'])) {
             if ($rules['max_image_heght'] < $imageProp[1]) {
-                $errors[] = Mage::helper('customer')->__('"%s" height greatest %s px', $label, $rules['max_image_heght']);
+                $errors[] = Mage::helper('customer')->__('"%s" height exceeds allowed value of %s px.', $label, $rules['max_image_heght']);
             };
         }
 
