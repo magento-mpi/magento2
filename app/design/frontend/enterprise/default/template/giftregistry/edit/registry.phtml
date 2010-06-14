@@ -68,7 +68,7 @@
     <?php endforeach; ?>
 
     <?php foreach ($fields as $field => $data) : ?>
-        <?php if ($data['type'] == 'country') : ?>
+        <?php if ($this->useRegionUpdater($data)) : ?>
             <script type="text/javascript">
                 //<![CDATA[
                     new RegionUpdater('<?php echo $field ?>', '<?php echo $field ?>_region_text', '<?php echo $field ?>_region', regionJSON);

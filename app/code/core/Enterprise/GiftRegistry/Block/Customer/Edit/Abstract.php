@@ -96,6 +96,17 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
     }
 
     /**
+     * Check if attribute needs region updater js object
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function useRegionUpdater($data)
+    {
+        return ($data['type'] == 'country' && !empty($data['show_region']));
+    }
+
+    /**
      * Check if attribute is static
      *
      * @param string $code
