@@ -7,6 +7,7 @@
             <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
             <complexType name="customerCustomerEntityToCreate">
                 <all>
+                    <element name="customer_id" type="xsd:int" minOccurs="0" />
                     <element name="email" type="xsd:string" minOccurs="0" />
                     <element name="firstname" type="xsd:string" minOccurs="0" />
                     <element name="lastname" type="xsd:string" minOccurs="0" />
