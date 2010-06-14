@@ -29,33 +29,28 @@
 <script type="text/javascript">
 //<![CDATA[
     function addOption(item, address) {
-        var select;
         Form.getElements('checkout_multishipping_form').each(function(element) {
             if (element.type == 'select-one') {
                 arr = element.id.split('_');
+
                 if (arr[2] && arr[2] == item) {
-                    select = element;
+                    var option = document.createElement('OPTION');
+                    option.value = '<?php echo $this->getAddressIdPrefix(); ?>' + address;
+                    option.text = '<?php echo $this->__('Use gift registry shipping address') ?>';
+
+                    if (element.options.add) {
+                        element.options.add(option);
+                    } else {
+                        element.appendChild(option);
+                    }
+                    var qtyElement = element.up('tr').down('input[type="text"]');
+                    Event.observe(qtyElement, 'change', function(){
+                        qtyElement.value = qtyElement.defaultValue;
+                        alert('<?php echo $this->__('It is not possible to change quantity for gift registry items') ?>')
+                    });
                 }
             }
         });
-
-        if (select) {
-            var option = document.createElement('OPTION');
-            option.value = '<?php echo $this->getAddressIdPrefix(); ?>' + address;
-            option.text = '<?php echo $this->__('Use gift registry shipping address') ?>';
-
-            if (select.options.add) {
-                select.options.add(option);
-            } else {
-                select.appendChild(option);
-            }
-
-            var qtyElement = select.up('tr').down('input[type="text"]');
-            Event.observe(qtyElement, 'change', function(){
-                qtyElement.value = qtyElement.defaultValue;
-                alert('<?php echo $this->__('It is not possible to change quantity for gift registry items') ?>')
-            });
-        }
     }
 
     <?php foreach ($this->getGiftRegistryQuoteItems() as $itemId => $registryItemId) : ?>

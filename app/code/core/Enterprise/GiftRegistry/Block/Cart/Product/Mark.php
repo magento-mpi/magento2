@@ -43,8 +43,9 @@ class Enterprise_GiftRegistry_Block_Cart_Product_Mark extends Enterprise_Enterpr
      */
     protected function _toHtml()
     {
+        $this->setData('item', null);
         $item = $this->getLayout()->getBlock('additional.product.info')->getItem();
-        if (!$item) {
+        if (!$item || !$item->getGiftregistryItemId()) {
             return '';
         }
 

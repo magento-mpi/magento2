@@ -97,9 +97,8 @@ class Enterprise_GiftRegistry_Model_Observer
         if ($registryItemId = $object->getGiftregistryItemId()) {
             $model = Mage::getModel('enterprise_giftregistry/entity')
                 ->loadByEntityItem($registryItemId);
-
             if ($model->getId()) {
-                $object->setId(rand(1, 100)); //???
+                $object->setId('gr_' . $model->getId());
                 $object->setCustomerId($this->_getSession()->getCustomer()->getId());
                 $object->addData($model->exportAddress()->getData());
             }
