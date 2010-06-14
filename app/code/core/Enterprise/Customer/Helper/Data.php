@@ -93,11 +93,11 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Enterprise_Helper_Core_
     {
         return array(
             array(
-                'label' => Mage::helper('enterprise_customer')->__('Customer Registration Address'),
+                'label' => Mage::helper('enterprise_customer')->__('Customer Address Registration'),
                 'value' => 'customer_register_address'
             ),
             array(
-                'label' => Mage::helper('enterprise_customer')->__('Customer Account Edit Address'),
+                'label' => Mage::helper('enterprise_customer')->__('Customer Account Address'),
                 'value' => 'customer_address_edit'
             ),
         );
