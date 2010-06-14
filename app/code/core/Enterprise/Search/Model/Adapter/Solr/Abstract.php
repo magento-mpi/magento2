@@ -50,25 +50,6 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
 
 
     /**
-     * Retrive Solr server status
-     *
-     * @return float Actual time taken to ping the server, FALSE if timeout or HTTP error status occurs
-     */
-    public function ping()
-    {
-        if (is_null($this->_ping)){
-            try {
-                $this->_ping = $this->_client->ping();
-            }
-            catch (Exception $e){
-                $this->_ping = false;
-            }
-        }
-
-        return $this->_ping;
-    }
-
-    /**
      * Retrieve language code by specified locale code if this locale is supported by Solr
      *
      * @param string $localeCode
@@ -128,6 +109,98 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     }
 
     /**
+     * Prepare index data for using in Solr metadata
+     * Add language code suffix to text fields
+     * and type suffix for not text dynamic fields
+     *
+     * @see $this->_usedFields, $this->_searchTextFields
+     *
+     * @param array $data
+     * @param array $attributesParams
+     * @param string|null $localCode
+     *
+     * @return array
+     */
+    protected function _prepareIndexData($data, $attributesParams, $localeCode = null)
+    {
+        if (!is_array($data) || empty($data)) {
+            return array();
+        }
+
+        $languageCode = $this->_getLanguageCodeByLocaleCode($localeCode);
+        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+
+        foreach ($data as $key => $value) {
+
+            if (in_array($key, $this->_usedFields) && !in_array($key, $this->_searchTextFields)) {
+                continue;
+            }
+            elseif ($key == 'options') {
+                unset($data[$key]);
+                continue;
+            }
+
+            if (!array_key_exists($key, $attributesParams)) {
+                $backendType = (substr($key, 0, 8) == 'fulltext') ? 'text' : null;
+                $frontendInput = null;
+            }
+            else {
+                $backendType = $attributesParams[$key]['backendType'];
+                $frontendInput = $attributesParams[$key]['frontendInput'];
+            }
+
+            if ($frontendInput == 'multiselect') {
+                if (!is_array($value)) {
+                    $value = explode(' ', $value);
+                }
+                $data['attr_multi_'. $key] = $value;
+                unset($data[$key]);
+            }
+            elseif (in_array($backendType, $this->_textFieldTypes) || in_array($key, $this->_searchTextFields)) {
+                /*
+                 * for groupped products imploding all posible unique values
+                 */
+                if (is_array($value)) {
+                    $value = implode(' ', array_unique($value));
+                }
+
+                $data[$key . $languageSuffix] = $value;
+                unset($data[$key]);
+            }
+            elseif ($backendType != 'static'
+                && substr($key, 0, 6) != 'price_'
+                && substr($key, 0, 18) != 'position_category_') {
+                if ($backendType == 'datetime') {
+                    $value = $this->_getSolrDate($data['store_id'], $value);
+                }
+                $data['attr_'. $backendType .'_'. $key] = $value;
+                unset($data[$key]);
+            }
+        }
+
+        return $data;
+    }
+
+        /**
+     * Retrive Solr server status
+     *
+     * @return float Actual time taken to ping the server, FALSE if timeout or HTTP error status occurs
+     */
+    public function ping()
+    {
+        if (is_null($this->_ping)){
+            try {
+                $this->_ping = $this->_client->ping();
+            }
+            catch (Exception $e){
+                $this->_ping = false;
+            }
+        }
+
+        return $this->_ping;
+    }
+
+    /**
      * Retrive attribute field's name for sorting
      *
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
@@ -141,7 +214,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         }
         $entityType = Mage::getSingleton('eav/config')
             ->getEntityType('catalog_product');
-        $attribute = Mage::getModel('eav/config')->getAttribute($entityType, $attributeCode);
+        $attribute = Mage::getSingleton('eav/config')->getAttribute($entityType, $attributeCode);
 
         $field = $attributeCode;
         $fieldType = $attribute->getBackendType();
@@ -164,5 +237,4 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
 
         return $field;
     }
-
 }

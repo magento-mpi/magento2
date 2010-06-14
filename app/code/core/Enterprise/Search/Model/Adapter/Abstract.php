@@ -79,10 +79,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         'name',
         'sku',
         'price',
-        'description',
-        'meta_keyword',
+        //'description',
+        //'meta_keyword',
         'store_id',
         'categories',
+        'show_in_categories',
         'visibility',
         'in_stock',
         //'fulltext',
@@ -96,8 +97,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected $_searchTextFields = array(
         'name',
-        'description',
-        'meta_keyword',
+        //'description',
+        //'meta_keyword',
         //'fulltext',
         'alphaNameSort' //used to implement more right sorting by name field
     );
@@ -112,7 +113,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         'id',
         'store_id',
         'in_stock',
-        'categories'
+        'categories',
+        'show_in_categories'
     );
 
     /**
@@ -162,7 +164,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $entityTypeId = Mage::getSingleton('eav/config')
                 ->getEntityType('catalog_product')
                 ->getEntityTypeId();
-            $items = Mage::getResourceModel('catalog/product_attribute_collection')
+            $items = Mage::getResourceSingleton('catalog/product_attribute_collection')
                 ->setEntityTypeFilter($entityTypeId)
                 //->addVisibleFilter()
                 ->addToIndexFilter()
@@ -522,8 +524,9 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         }
         // It is assumed that the frequency corresponds to the number of results
         if (count($suggestions) > 0) {
-            usort($suggestions, array(get_class($this), "sortSuggestions"));
+            usort($suggestions, array(get_class($this), 'sortSuggestions'));
         }
+
         return $suggestions;
     }
 
@@ -602,76 +605,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 }
             }
         }
-        return $data;
-    }
-
-    /**
-     * Prepare index data for using in Solr metadata
-     * Add language code suffix to text fields
-     * and type suffix for not text dynamic fields
-     *
-     * @see $this->_usedFields, $this->_searchTextFields
-     *
-     * @param array $data
-     * @param array $attributesParams
-     * @param string|null $localCode
-     *
-     * @return array
-     */
-    protected function _prepareIndexData($data, $attributesParams, $localeCode = null)
-    {
-        if (!is_array($data) || empty($data)) {
-            return array();
-        }
-
-        $languageCode = $this->_getLanguageCodeByLocaleCode($localeCode);
-        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
-
-        foreach ($data as $key => $value) {
-
-            if (in_array($key, $this->_usedFields) && !in_array($key, $this->_searchTextFields)) {
-                continue;
-            }
-            elseif ($key == 'options') {
-                unset($data[$key]);
-                continue;
-            }
-
-            if (!array_key_exists($key, $attributesParams)) {
-                $backendType = (substr($key, 0, 8) == 'fulltext') ? 'text' : null;
-                $frontendInput = null;
-            }
-            else {
-                $backendType = $attributesParams[$key]['backendType'];
-                $frontendInput = $attributesParams[$key]['frontendInput'];
-            }
-
-            if ($frontendInput == 'multiselect') {
-                if (!is_array($value)) {
-                    $value = explode(' ', $value);
-                }
-                $data['attr_multi_'. $key] = $value;
-                unset($data[$key]);
-            } elseif (in_array($backendType, $this->_textFieldTypes) || in_array($key, $this->_searchTextFields)) {
-                //for groupped products
-                if (is_array($value)) {
-                    $value = implode(' ', array_unique($value));
-                }
-
-                $data[$key . $languageSuffix] = $value;
-                unset($data[$key]);
-            }
-            elseif ($backendType != 'static'
-                && substr($key, 0, 6) != 'price_'
-                && substr($key, 0, 18) != 'position_category_') {
-                if ($backendType == 'datetime') {
-                    $value = $this->_getSolrDate($data['store_id'], $value);
-                }
-                $data['attr_'. $backendType .'_'. $key] = $value;
-                unset($data[$key]);
-            }
-        }
-
         return $data;
     }
 
