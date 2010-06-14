@@ -76,20 +76,9 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
             $priceField      = 'price_'. $customerGroupId .'_'. $websiteId;
 
-//            $params['facet'] = array(
-//                'field'  => $priceField,
-//                'values' => $priceFacets
-//            );
-
-            //$items = $this->getCount($this, $range, $params);
-
-            //$attribute = $filter->getAttributeModel();
             $productCollection = $this->getLayer()->getProductCollection();
-            //$facets = $productCollection->getFacets($params);
             $facets = $productCollection->getFacetedData($priceField);
-            //mage::log($facets);die;
 
-            //$paramName = $params['facet']['field'];
             $res = array();
             if (!empty($facets)) {
                 foreach ($facets as $key => $count) {
@@ -127,13 +116,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
         $priceField      = 'price_'. $customerGroupId .'_'. $websiteId;
 
-//        $params['facet'] = array(
-//            'field'  => $priceField,
-//            'values' => $priceFacets
-//        );
-
         $productCollection = $this->getLayer()->getProductCollection();
-        //$productCollection->setFacetCondition($params['facet']);
         $productCollection->setFacetCondition($priceField, $priceFacets);
 
 
@@ -194,63 +177,4 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
 
         return $this;
     }
-
-    /**
-     * Retrieve array with products counts per price range
-     *
-     * @param Mage_Catalog_Model_Layer_Filter_Price $filter
-     * @param int $range
-     * @param array $params
-     *
-     * @return array
-     */
-//    public function getCount($filter, $range, $params = array())
-//    {
-//        $attribute = $filter->getAttributeModel();
-//        $productCollection = $this->getLayer()->getProductCollection();
-//        $facets = $productCollection->getFacets($params);
-//
-//        $paramName = $params['facet']['field'];
-//        $res = array();
-//        if (isset($facets[$paramName])) {
-//            foreach ($facets[$paramName] as $key => $value) {
-//                preg_match('/TO (\d+)\]$/', $key, $rangeKey);
-//                $rangeKey = $rangeKey[1] / $range;
-//                if ($value > 0) {
-//                    $res[$rangeKey] = $value;
-//                }
-//            }
-//        }
-//
-//        return $res;
-//    }
-
-        /**
-     * Get data for build price filter items
-     *
-     * @return array
-     */
-//    protected function _getItemsData()
-//    {
-//        $range      = $this->getPriceRange();
-//        $dbRanges   = $this->getRangeItemCounts($range);
-//        $data = array();
-//
-//        foreach ($dbRanges as $index => $count) {
-//            $data[] = array(
-//                'label' => $this->_renderItemLabel($range, $index),
-//                'value' => $index . ',' . $range,
-//                'count' => $count,
-//            );
-//        }
-//
-//        //mage::log(magedebugbacktrace(1));die;
-//        $productCollection = $this->getLayer()->getProductCollection();
-//
-//        $websiteId       = Mage::app()->getStore()->getWebsiteId();
-//        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-//        $priceField      = 'price_'. $customerGroupId .'_'. $websiteId;
-//
-//        return $productCollection->getFacetedData($priceField);
-//    }
 }

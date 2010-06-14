@@ -256,7 +256,7 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
 
         if ($engine && Mage::getConfig()->getResourceModelClassName($engine)) {
             $model = Mage::getResourceSingleton($engine);
-            if ($model && $model->test() && !$model->allowAdvancedIndex()) {
+            if ($model && $model->test() && $model->allowAdvancedIndex()) {
                 return true;
             }
         }
