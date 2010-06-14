@@ -49,7 +49,9 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function preparePostData(array $arr)
     {
-        if (isset($arr['conf']['new_pages'])) {
+        if (isset($arr['conf']['new_pages'])
+            && isset($arr['conf']['new_pages']['ids'])
+            && isset($arr['conf']['new_pages']['labels'])) {
             $new_pages = array();
             foreach ($arr['conf']['new_pages']['ids'] as $key=>$value) {
                 $new_pages[$key]['id'] = $value;

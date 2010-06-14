@@ -54,7 +54,7 @@ abstract class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_A
         $title = $this->getDefaultTitle($title, $fieldName);
         $fieldset->addField($fieldName, 'color', array(
             'name'      => $fieldName,
-            'label'     => $this->__($title),
+            'label'     => $title,
         ));
     }
 
@@ -70,7 +70,7 @@ abstract class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_A
         $title = $this->getDefaultTitle($title, $fieldName);
         $fieldset->addField($fieldName, 'image', array(
             'name'      => $fieldName,
-            'label'     => $this->__($title),
+            'label'     => $title,
         ));
     }
 
@@ -87,7 +87,7 @@ abstract class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_A
         $title = $this->getDefaultTitle($title, $fieldPrefix);
         $el = $fieldset->addField($fieldPrefix, 'font', array(
             'name'      => $fieldPrefix,
-            'label'     => $this->__($title),
+            'label'     => $title,
         ));
         $el->initFields(array(
             'name'      => $fieldPrefix,
