@@ -190,6 +190,9 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function handleUpload($field)
     {
         $upload_dir = Mage::getBaseDir('media') . DS . 'xmlconnect';
+
+        $this->_forcedConvertPng($field);
+
         $uploader = new Varien_File_Uploader($field);
         $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
         $uploader->setAllowRenameFiles(true);
@@ -214,6 +217,34 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $target = $uploader->getUploadedFileName();
 
         $this->_handleResize($nameParts, $upload_dir . DS . $uploader->getUploadedFileName());
+    }
+
+    /**
+     * Convert uploaded file to PNG
+     *
+     * @param string $field
+     */
+    protected function _forcedConvertPng($field)
+    {
+        $file =& $_FILES[$field];
+
+        $file['name'] = preg_replace('/\.(gif|jp[e]g)$/i', '.png', $file['name']);
+
+        list($x, $x, $fileType) = getimagesize($file['tmp_name']);
+        if ($fileType != IMAGETYPE_PNG ) {
+            switch( $fileType ) {
+                case IMAGETYPE_GIF:
+                    $img = imagecreatefromgif($file['tmp_name']);
+                    break;
+                case IMAGETYPE_JPEG:
+                    $img = imagecreatefromjpeg($file['tmp_name']);
+                    break;
+                default:
+                    return;
+            }
+            imagepng($img, $file['tmp_name']);
+            imagedestroy($img);
+        }
     }
 
     /**
