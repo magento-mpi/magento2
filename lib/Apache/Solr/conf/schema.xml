@@ -1239,6 +1239,7 @@
         <field name="price" type="tfloat" indexed="true" stored="true" multiValued="true"/>
         <field name="store_id" type="int" indexed="true" stored="true"/>
         <field name="categories" type="int" indexed="true" stored="true" multiValued="true"/>
+        <field name="show_in_categories" type="int" indexed="true" stored="true" multiValued="true"/>
         <field name="in_stock" type="boolean" indexed="true" stored="true"/>
         <field name="visibility" type="int" indexed="true" stored="true"/>
 
@@ -1248,7 +1249,7 @@
 
         <field name="sku" type="textTight_en" indexed="true" stored="true" omitNorms="true"/>
 
-        <field name="description_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
+        <!--<field name="description_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
         <field name="meta_keyword_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
         <field name="description_fr" type="text_fr" indexed="true" stored="true" multiValued="true"/>
         <field name="meta_keyword_fr" type="text_fr" indexed="true" stored="true" multiValued="true"/>
@@ -1287,12 +1288,12 @@
         <field name="description_ja" type="text_ja" indexed="true" stored="true" multiValued="true"/>
         <field name="meta_keyword_ja" type="text_ja" indexed="true" stored="true" multiValued="true"/>
         <field name="description_ko" type="text_ko" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_ko" type="text_ko" indexed="true" stored="true" multiValued="true"/>
+        <field name="meta_keyword_ko" type="text_ko" indexed="true" stored="true" multiValued="true"/>-->
 
         <field name="name" type="textgen" indexed="true" stored="true"/>
-        <field name="fulltext" type="textgen" indexed="true" stored="true"/>
-        <field name="description" type="textgen" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword" type="textgen" indexed="true" stored="true" multiValued="true"/>
+        <!--<field name="fulltext" type="textgen" indexed="true" stored="true"/>-->
+        <!--<field name="description" type="textgen" indexed="true" stored="true" multiValued="true"/>-->
+        <!--<field name="meta_keyword" type="textgen" indexed="true" stored="true" multiValued="true"/>-->
 
         <!--A field designed for sorting by name, its value will be pasted from name field-->
         <field name="alphaNameSort"    type="alphaOnlySort"    indexed="true" stored="false"/>
@@ -1319,7 +1320,7 @@
 
         <!-- catchall field, containing all other searchable text fields (implemented
             via copyField further on in this schema  -->
-        <field name="text"    type="textgen" indexed="true" stored="false" multiValued="true"/>
+        <!--<field name="text"    type="textgen" indexed="true" stored="false" multiValued="true"/>
         <field name="text_en" type="text_en" indexed="true" stored="false" multiValued="true"/>
         <field name="text_fr" type="text_fr" indexed="true" stored="false" multiValued="true"/>
         <field name="text_de" type="text_de" indexed="true" stored="false" multiValued="true"/>
@@ -1339,7 +1340,7 @@
         <field name="text_th" type="text_th" indexed="true" stored="false" multiValued="true"/>
         <field name="text_zh" type="text_zh" indexed="true" stored="false" multiValued="true"/>
         <field name="text_ja" type="text_ja" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_ko" type="text_ko" indexed="true" stored="false" multiValued="true"/>
+        <field name="text_ko" type="text_ko" indexed="true" stored="false" multiValued="true"/>-->
 
         <!-- The following will create a "timestamp" field using
             a default value of "NOW" to indicate when each document was indexed.
@@ -1359,7 +1360,7 @@
 
         <dynamicField name="attr_decimal_*" type="float" indexed="true" stored="true"/>
         <dynamicField name="attr_datetime_*" type="date" indexed="true" stored="true"/>
-        <dynamicField name="attr_multi_*" type="textgen" indexed="true" stored="true" multiValued="true"/>
+        <dynamicField name="attr_multi_*" type="text" indexed="true" stored="true" multiValued="true"/>
 
         <dynamicField name="price_*" type="tfloat" indexed="true" stored="true"/>
         <dynamicField name="position_category_*" type="int" indexed="true" stored="true"/>
@@ -1392,7 +1393,7 @@
     <uniqueKey>unique</uniqueKey>
 
     <!-- field for the QueryParser to use when an explicit fieldname is absent. -->
-    <defaultSearchField>fulltext</defaultSearchField>
+    <defaultSearchField>fulltext1</defaultSearchField>
 
     <!-- SolrQueryParser configuration: defaultOperator="AND|OR". -->
     <solrQueryParser defaultOperator="OR"/>
@@ -1400,7 +1401,7 @@
       <!-- copyField commands copy one field to another at the time a document
             is added to the index.  It's used either to index the same field differently,
             or to add multiple fields to the same field for easier/faster searching. -->
-    <copyField source="sku" dest="text"/>
+    <!--<copyField source="sku" dest="text"/>
     <copyField source="price" dest="text"/>
     <copyField source="sku" dest="text_en"/>
     <copyField source="price" dest="text_en"/>
@@ -1441,7 +1442,7 @@
     <copyField source="sku" dest="text_ja"/>
     <copyField source="price" dest="text_ja"/>
     <copyField source="sku" dest="text_ko"/>
-    <copyField source="price" dest="text_ko"/>
+    <copyField source="price" dest="text_ko"/>-->
    
 
     <!-- 
@@ -1450,7 +1451,7 @@
     destination field is to use the dynamic field syntax. 
     copyField also supports a maxChars to copy setting. 
     -->
-    <copyField source="*_en" dest="text_en"/>
+    <!-- <copyField source="*_en" dest="text_en"/>
     <copyField source="*_fr" dest="text_fr"/>
     <copyField source="*_de" dest="text_de"/>
     <copyField source="*_da" dest="text_da"/>
@@ -1469,7 +1470,7 @@
     <copyField source="*_th" dest="text_th"/>
     <copyField source="*_zh" dest="text_zh"/>
     <copyField source="*_ja" dest="text_ja"/>
-    <copyField source="*_ko" dest="text_ko"/>
+    <copyField source="*_ko" dest="text_ko"/>-->
 
     <!-- copy name to alphaNameSort, a field designed for sorting by name -->
     <copyField source="name"    dest="alphaNameSort"/>
