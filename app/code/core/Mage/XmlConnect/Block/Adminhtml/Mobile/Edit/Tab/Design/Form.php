@@ -38,8 +38,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_X
         $this->_addElementTypes($fieldset);
         $this->addImage($fieldset, 'conf[native][navigationBar][icon]', 'Logo in header');
         $this->addImage($fieldset, 'conf[native][body][bannerImage]', 'Banner on Home Screen');
-        $this->addImage($fieldset, 'conf[native][body][backgroundImage]', 'Categories Background');
-        $this->addImage($fieldset, 'conf[native][body][itemBackgroundIcon]', 'Item Background');
+        $this->addImage($fieldset, 'conf[native][body][backgroundImage]', 'Application Background');
+        $this->addImage($fieldset, 'conf[native][body][itemBackgroundIcon]', 'Category Background');
 
         $fieldset = $form->addFieldset('fieldColors', array('legend' => $this->__('Color Themes')));
         $this->_addElementTypes($fieldset);

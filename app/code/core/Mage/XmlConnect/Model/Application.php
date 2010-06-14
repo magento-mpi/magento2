@@ -130,8 +130,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             }
             if (isset($this->_data['conf']['extra'])) {
                 $extra = $this->_data['conf']['extra'];
-                $tabs = new Mage_XmlConnect_Model_Tabs($extra['tabs']);
-                $result['tabBar']['tabs'] = $tabs;
+                if (isset($extra['tabs'])) {
+                    $tabs = new Mage_XmlConnect_Model_Tabs($extra['tabs']);
+                    $result['tabBar']['tabs'] = $tabs;
+                }
             }
         }
 
