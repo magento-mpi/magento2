@@ -42,14 +42,8 @@
  * @package    Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Email_Template extends Mage_Core_Model_Abstract
+class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
 {
-    /**
-     * Types of template
-     */
-    const TYPE_TEXT = 1;
-    const TYPE_HTML = 2;
-
     /**
      * Configuration path for default email templates
      *
@@ -63,13 +57,6 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Abstract
     protected $_mail;
 
     static protected $_defaultTemplates;
-
-    /**
-     * Configuration of desing package for template
-     *
-     * @var Varien_Object
-     */
-    protected $_designConfig;
 
     /**
      * Initialize email template model
@@ -252,13 +239,12 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Return true if template type eq text
+     * Getter for template type
      *
-     * @return boolean
+     * @return int|string
      */
-    public function isPlain()
-    {
-        return $this->getTemplateType() == self::TYPE_TEXT;
+    public function getType(){
+        return $this->getTemplateType();
     }
 
     /**
@@ -275,6 +261,10 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Abstract
 
         if(!$this->_preprocessFlag) {
             $variables['this'] = $this;
+        }
+
+        if(isset($variables['subscriber']) && ($variables['subscriber'] instanceof Mage_Newsletter_Model_Subscriber)) {
+            $processor->setStoreId($variables['subscriber']->getStoreId());
         }
 
         $processor->setIncludeProcessor(array($this, 'getInclude'))
@@ -472,81 +462,6 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Abstract
         }
         $this->_cancelDesignConfig();
         return $processedResult;
-    }
-
-    /**
-     * Initialize design information for email template and subject processing
-     *
-     * @param   array $config
-     * @return  Mage_Core_Model_Email_Template
-     */
-    public function setDesignConfig(array $config)
-    {
-        $this->getDesignConfig()->setData($config);
-        return $this;
-    }
-
-    /**
-     * Get design configuration data
-     *
-     * @return Varien_Object
-     */
-    public function getDesignConfig()
-    {
-        if(is_null($this->_designConfig)) {
-            $this->_designConfig = new Varien_Object();
-        }
-        return $this->_designConfig;
-    }
-
-    /**
-     * Apply declared configuration for design
-     *
-     * @return Mage_Core_Model_Email_Template
-     */
-    protected function _applyDesignConfig()
-    {
-        if ($this->getDesignConfig()) {
-            $design = Mage::getDesign();
-            $this->getDesignConfig()
-                ->setOldArea($design->getArea())
-                ->setOldStore($design->getStore());
-
-            if ($this->getDesignConfig()->getArea()) {
-                Mage::getDesign()->setArea($this->getDesignConfig()->getArea());
-            }
-
-            if ($this->getDesignConfig()->getStore()) {
-                Mage::app()->getLocale()->emulate($this->getDesignConfig()->getStore());
-                $design->setStore($this->getDesignConfig()->getStore());
-                $design->setTheme('');
-                $design->setPackageName('');
-            }
-
-        }
-        return $this;
-    }
-
-    /**
-     * Revert design settings to previous
-     *
-     * @return Mage_Core_Model_Email_Template
-     */
-    protected function _cancelDesignConfig()
-    {
-        if ($this->getDesignConfig()) {
-            if ($this->getDesignConfig()->getOldArea()) {
-                Mage::getDesign()->setArea($this->getDesignConfig()->getOldArea());
-            }
-
-            if ($this->getDesignConfig()->getOldStore()) {
-                Mage::getDesign()->setStore($this->getDesignConfig()->getOldStore());
-                Mage::getDesign()->setTheme('');
-                Mage::getDesign()->setPackageName('');
-            }
-        }
-        Mage::app()->getLocale()->revert();
-        return $this;
     }
 
     public function addBcc($bcc)

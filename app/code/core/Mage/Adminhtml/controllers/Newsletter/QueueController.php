@@ -63,7 +63,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
      */
     public function previewAction()
     {
-        $this->loadLayout('preview');
+        $this->loadLayout('newsletter_queue_preview');
         $this->renderLayout();
     }
 

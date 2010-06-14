@@ -23,6 +23,7 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+/* @var $this Mage_Adminhtml_Block_Newsletter_Template_Edit */
 ?>
 <div class="content-header">
    <h3 class="icon-head head-newsletter-list"><?php echo $this->getHeaderText() ?></h3>
@@ -36,13 +37,15 @@
                 <?php if($this->getEditMode()): ?>
                 <?php echo $this->getDeleteButtonHtml(); ?>
                 <?php endif ?>
-                <?php echo $this->getPreviewButtonHtml(); ?>
                 <?php if($this->getEditMode()): ?>
                 <?php echo $this->getSaveAsButtonHtml(); ?>
                 <?php endif ?>
                 <?php echo $this->getSaveButtonHtml(); ?>
     </p>
 </div>
+<?php if( !$this->isSingleStoreMode() ): ?>
+<?php echo $this->getChildHtml('store_switcher');?>
+<?php endif;?>
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="newsletter_template_edit_form">
     <?php echo $this->getBlockHtml('formkey')?>
     <div class="no-display">
@@ -57,10 +60,24 @@
         <input type="hidden" id="preview_type" name="type" value="<?php echo $this->isTextType()?1:2 ?>" />
         <input type="hidden" id="preview_text" name="text" value="" />
         <input type="hidden" id="preview_styles" name="styles" value="" />
+<?php if (!$this->isSingleStoreMode()): ?>
+        <input type="hidden" id="preview_store_id" name="store_id" value="" />
+<?php endif; ?>
     </div>
 </form>
 <script type="text/javascript">
 //<![CDATA[
+    Event.observe($('store_switcher'), 'change', switchStore(this));
+    
+    function switchStore(obj){
+        if(obj.value) {
+            $('preview_store_id').value = obj.value;
+            templateControl.preview();
+        }else{
+            return false;
+        }
+    }
+
     var templateForm = new varienForm('newsletter_template_edit_form');
     var templatePreviewForm = new varienForm('newsletter_template_preview_form');
     var templateControl = {
@@ -151,7 +168,9 @@
                 $('preview_type').value = 2;
             }
             if (this.isEditor() && tinyMCE.get(this.id)) {
-                $('preview_text').value = tinyMCE.get(this.id).getContent();
+                tinyMCE.triggerSave();
+                $('preview_text').value = $(this.id).value;
+                tinyMCE.triggerSave();
             } else {
                 $('preview_text').value = $(this.id).value;
             }

@@ -200,6 +200,25 @@ Base preview layout (?)
         </block>
     </preview>
 
+    <newsletter_template_preview>
+        <block type="core/template" name="root" output="toHtml" template="newsletter/template/preview.phtml">
+            <block type="adminhtml/newsletter_template_preview" name="content" as="content"></block>
+        </block>
+    </newsletter_template_preview>
+
+    <newsletter_template_preview_switcher>
+        <block type="core/template" name="root" output="toHtml" template="newsletter/template/preview/iframeswitcher.phtml">
+            <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher" />
+            <block type="adminhtml/newsletter_template_preview_form" name="preview_form" />
+        </block>
+    </newsletter_template_preview_switcher>
+
+    <newsletter_queue_preview>
+        <block type="core/template" name="root" output="toHtml" template="newsletter/queue/preview.phtml">
+            <block type="adminhtml/newsletter_queue_preview" name="content" as="content"></block>
+        </block>
+    </newsletter_queue_preview>
+
 <!--
 Base customer alerts preview layout (?)
 -->

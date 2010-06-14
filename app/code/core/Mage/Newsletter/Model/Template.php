@@ -31,19 +31,12 @@
  * @package    Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Template extends Mage_Core_Model_Abstract
+class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
 {
-    /**
-     * Types of template
-     */
-    const TYPE_TEXT = 1;
-    const TYPE_HTML = 2;
-
     /**
      * Template Text Preprocessed flag
      *
      * @var bool
-     * @deprecated since 1.4.0.1
      */
     protected $_preprocessFlag = false;
 
@@ -138,21 +131,18 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Return true if template type eq text
+     * Getter for template type
      *
-     * @return boolean
-     * @deprecated since 1.4.0.1
+     * @return int|string
      */
-    public function isPlain()
-    {
-        return $this->getTemplateType() == self::TYPE_TEXT;
+    public function getType(){
+        return $this->getTemplateType();
     }
 
     /**
      * Check is Preprocessed
      *
      * @return bool
-     * @deprecated since 1.4.0.1
      */
     public function isPreprocessed()
     {
@@ -163,7 +153,6 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Abstract
      * Check Template Text Preprocessed
      *
      * @return bool
-     * @deprecated since 1.4.0.1
      */
     public function getTemplateTextPreprocessed()
     {
@@ -180,7 +169,6 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Abstract
      * @param array $variables
      * @param bool $usePreprocess
      * @return string
-     * @deprecated since 1.4.0.1
      */
     public function getProcessedTemplate(array $variables = array(), $usePreprocess = false)
     {
@@ -190,6 +178,12 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Abstract
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
         }
+
+        if (Mage::app()->isSingleStoreMode()) {
+            $processor->setStoreId(Mage::app()->getStore());
+        } else {
+            $processor->setStoreId(Mage::app()->getRequest()->getParam('store_id'));
+        } 
 
         $processor
             ->setIncludeProcessor(array($this, 'getInclude'))
@@ -207,7 +201,6 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Abstract
      *
      * @param bool $usePreprocess Use Preprocessed text or original text
      * @return string
-     * @deprecated since 1.4.0.1
      */
     public function getPreparedTemplateText($usePreprocess = false)
     {
@@ -348,7 +341,6 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Abstract
      *
      * @param array $variables
      * @return string
-     * @deprecated since 1.4.0.1
      */
     public function getProcessedTemplateSubject(array $variables)
     {

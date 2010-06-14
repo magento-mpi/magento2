@@ -31,7 +31,7 @@
  * @package    Mage_Newsletter
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
+class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
 {
     /**
      * Newsletter Template object
@@ -68,22 +68,11 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
      */
     protected $_stores = array();
 
-    /**
-     * Design changes object instance
-     * @var Varien_Object
-     */
-    protected $_designConfig;
-
     const STATUS_NEVER = 0;
     const STATUS_SENDING = 1;
     const STATUS_CANCEL = 2;
     const STATUS_SENT = 3;
     const STATUS_PAUSE = 4;
-
-    /**
-     * Default design area for emulation
-     */
-    const DEFAULT_DESIGN_AREA = 'frontend';
 
     /**
      * Initialize resource model
@@ -138,17 +127,17 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
     /**
      * Set $_data['queue_start'] based on string from backend, which based on locale.
      * 
-     * @param string|null $start_at
+     * @param string|null $startAt start date of the mailing queue
      * @return Mage_Newsletter_Model_Queue
      */
-    public function setQueueStartAtByString($start_at)
+    public function setQueueStartAtByString($startAt)
     {
-        if(is_null($start_at)) {
+        if(is_null($startAt) || $startAt == '') {
             $this->setQueueStartAt(null);
         } else {
             $locale = Mage::app()->getLocale();
             $format = $locale->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
-            $time = $locale->date($start_at, $format)->getTimestamp();
+            $time = $locale->date($startAt, $format)->getTimestamp();
             $this->setQueueStartAt(Mage::getModel('core/date')->gmtDate(null, $time));
         }
         return $this;
@@ -178,29 +167,24 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
             ->setCurPage(1)
             ->load();
 
-        // save current design settings
-        $currentDesignConfig = clone $this->_getDesignConfig();
-
         /* @var $sender Mage_Core_Model_Email_Template */
         $sender = Mage::getModel('core/email_template');
         $sender->setSenderName($this->getNewsletterSenderName())
             ->setSenderEmail($this->getNewsletterSenderEmail())
-            ->setTemplateType(Mage_Core_Model_Email_Template::TYPE_HTML)
+            ->setTemplateType(self::TYPE_HTML)
             ->setTemplateSubject($this->getNewsletterSubject())
             ->setTemplateText($this->getNewsletterText())
             ->setTemplateStyles($this->getNewsletterStyles())
             ->setTemplateFilter(Mage::helper('newsletter')->getTemplateProcessor());
 
         foreach($collection->getItems() as $item) {
-            if ($this->_getDesignConfig()->getStore() != $item->getStoreId()) {
-                $this->_setDesignConfig(array('area' => self::DEFAULT_DESIGN_AREA, 'store' => $item->getStoreId()));
-                $this->_applyDesignConfig();
-            }
-
             $email = $item->getSubscriberEmail();
             $name = $item->getSubscriberFullName();
 
+            $sender->emulateDesign($item->getStoreId());
             $successSend = $sender->send($email, $name, array('subscriber'=>$item));
+            $sender->revertDesign();
+            
             if($successSend) {
                 $item->received($this);
             } else {
@@ -213,10 +197,6 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
                 $item->received($this);
             }
         }
-
-        // restore previous design settings
-        $this->_setDesignConfig($currentDesignConfig->getData());
-        $this->_applyDesignConfig();
 
         if(count($collection->getItems()) < $count-1 || count($collection->getItems()) == 0) {
             $this->setQueueFinishAt(now());
@@ -343,72 +323,12 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Setter for design changes
+     * Getter for template type
      *
-     * @param   array $config
-     * @return  Mage_Newsletter_Model_Queue
+     * @return int|string
      */
-    protected function _setDesignConfig(array $config)
-    {
-        $this->_getDesignConfig()->setData($config);
-        return $this;
+    public function getType(){
+        return $this->getNewsletterType();
     }
 
-    /**
-     * Getter for design changes
-     *
-     * @return Varien_Object
-     */
-    protected function _getDesignConfig()
-    {
-        if(is_null($this->_designConfig)) {
-
-            $store = is_object(Mage::getDesign()->getStore())
-                ? Mage::getDesign()->getStore()->getId()
-                : Mage::getDesign()->getStore();
-
-            $this->_designConfig = new Varien_Object(array(
-                'area' => Mage::getDesign()->getArea(),
-                'store' => $store
-            ));
-        }
-        return $this->_designConfig;
-    }
-
-    /**
-     * Applying of design config
-     * 
-     * @return  Mage_Newsletter_Model_Queue 
-     */
-    protected function _applyDesignConfig()
-    {
-        $designConfig = $this->_getDesignConfig();
-
-        $design = Mage::getDesign();
-        $designConfig->setOldArea($design->getArea())
-            ->setOldStore($design->getStore());
-
-        if ($designConfig->hasData('area')) {
-            Mage::getDesign()->setArea($designConfig->getArea());
-        }
-
-        if ($designConfig->hasData('store')) {
-            $store = $designConfig->getStore();
-            Mage::app()->setCurrentStore($store);
-
-            $locale = new Zend_Locale(Mage::getStoreConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE, $store));
-            Mage::app()->getLocale()->setLocale($locale);
-            Mage::app()->getLocale()->setLocaleCode($locale->toString());
-            if ($designConfig->hasData('area')) {
-                Mage::getSingleton('core/translate')->setLocale($locale)
-                    ->init($designConfig->getArea(), true);
-            }
-
-            $design->setStore($store);
-            $design->setTheme('');
-            $design->setPackageName('');
-        }
-
-        return $this;
-    }
 }

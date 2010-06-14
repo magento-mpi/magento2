@@ -31,7 +31,8 @@ $templateTable = $installer->getTable('newsletter_template');
 $conn = $installer->getConnection();
 
 
-$conn->addColumn($queueTable, 'newsletter_text', "text AFTER `template_id`");
+$conn->addColumn($queueTable, 'newsletter_type', "int(3) default NULL AFTER `template_id`");
+$conn->addColumn($queueTable, 'newsletter_text', "text AFTER `newsletter_type`");
 $conn->addColumn($queueTable, 'newsletter_styles', "text AFTER `newsletter_text`");
 $conn->addColumn($queueTable, 'newsletter_subject', "varchar(200) default NULL AFTER `newsletter_styles`");
 $conn->addColumn($queueTable, 'newsletter_sender_name', "varchar(200) default NULL AFTER `newsletter_subject`");
@@ -49,6 +50,7 @@ try {
             $templateTable, 
             "$templateTable.template_id = main_table.template_id", 
             array(
+                'template_type',
                 'template_text',
                 'template_styles',
                 'template_subject',
@@ -67,6 +69,7 @@ try {
                 ->update(
                     $queueTable,
                     array(
+                        'newsletter_type'           => $row['template_type'],
                         'newsletter_text'           => $row['template_text'],
                         'newsletter_styles'         => $row['template_styles'],
                         'newsletter_subject'        => $row['template_subject'],
