@@ -86,7 +86,7 @@ class Enterprise_GiftRegistry_ViewController extends Enterprise_Enterprise_Contr
             $count = 0;
             foreach ($items as $itemId => $itemInfo) {
                 $item = Mage::getModel('enterprise_giftregistry/item')->load($itemId);
-                if (!$item->getId() || $itemInfo['qty'] < 1) {
+                if (!$item->getId() || $itemInfo['qty'] < 1 || ($item->getQty() <= $item->getQtyFulfilled())) {
                     continue;
                 }
                 $item->addToCart($cart, $itemInfo['qty']);
