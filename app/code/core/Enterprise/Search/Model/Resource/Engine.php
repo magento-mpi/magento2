@@ -282,6 +282,23 @@ class Enterprise_Search_Model_Resource_Engine
     }
 
     /**
+     * Prepare advanced index for products
+     *
+     * @see Mage_CatalogSearch_Model_Mysql4_Fulltext->_getSearchableProducts()
+     *
+     * @param array $index
+     * @param int $storeId
+     * @param array | null $productIds
+     *
+     * @return array
+     */
+    public function addAdvancedIndex($index, $storeId, $productIds = null)
+    {
+        return Mage::getResourceSingleton('enterprise_search/index')
+            ->addAdvancedIndex($index, $storeId, $productIds);
+    }
+
+    /**
      * Prepare index array
      *
      * @param array $index
