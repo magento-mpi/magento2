@@ -1005,4 +1005,23 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         return true;
     }
 
+    /**
+     * Validate customer attribute actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     * @return bool
+     */
+    public function validateCustomerAttributeActions($controller)
+    {
+        $actionName = $this->_request->getActionName();
+        $attributeId = $this->_request->getParam('attribute_id');
+        $websiteId = $this->_request->getParam('website');
+        if (in_array($actionName, array('new', 'delete'))
+            || (in_array($actionName, array('edit', 'save')) && !$attributeId)
+            || ($websiteId && !$this->_role->hasWebsiteAccess($websiteId, true))) {
+            $this->_forward();
+            return false;
+        }
+        return true;
+    }
 }

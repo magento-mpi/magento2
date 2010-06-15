@@ -322,6 +322,7 @@
                     <store_level>
                         <!-- the same, but if store-level permissions. Amplifies with website_level denies -->
                         <sales_order_create>admin/sales/order/actions/create</sales_order_create>
+                        <customer_attributes>admin/customer/attributes</customer_attributes>
                     </store_level>
                 </acl_deny>
 <!-- all callbacks support absoulute naming with factory_classname::method, for example enterprise_admingws/collections::limitStores -->
@@ -388,6 +389,7 @@
                     <catalog__product>catalogProductSaveBefore</catalog__product>
                     <catalog__category>catalogCategorySaveBefore</catalog__category>
                     <customer__customer>customerSaveBefore</customer__customer>
+                    <customer__attribute>customerAttributeSaveBefore</customer__attribute>
                     <enterprise_catalogevent__event>catalogEventSaveBefore</enterprise_catalogevent__event>
                     <core__website>coreWebsiteSaveBefore</core__website>
                     <core__store_group>coreStoreGroupSaveBefore</core__store_group>
@@ -411,6 +413,7 @@
                     <catalog__product>catalogProductDeleteBefore</catalog__product>
                     <catalog__category>catalogCategoryDeleteBefore</catalog__category>
                     <customer__customer>customerDeleteBefore</customer__customer>
+                    <customer__attribute>customerAttributeDeleteBefore</customer__attribute>
                     <enterprise_catalogevent__event>catalogEventDeleteBefore</enterprise_catalogevent__event>
                     <core__website>coreWebsiteDeleteBefore</core__website>
                     <core__store_group>coreStoreGroupDeleteBefore</core__store_group>
@@ -559,6 +562,9 @@
                     <adminhtml__giftregistry_customer__edit>validateGiftregistryEntityAction</adminhtml__giftregistry_customer__edit>
                     <adminhtml__giftregistry_customer__delete>validateGiftregistryEntityAction</adminhtml__giftregistry_customer__delete>
                     <adminhtml__giftregistry_customer__share>validateGiftregistryEntityAction</adminhtml__giftregistry_customer__share>
+
+                    <adminhtml__customer_attribute__>validateCustomerAttributeActions</adminhtml__customer_attribute__>
+                    <adminhtml__customer_address_attribute__>validateCustomerAttributeActions</adminhtml__customer_address_attribute__>
                 </controller_predispatch>
                 <block_html_before>
                     <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>
@@ -618,6 +624,11 @@
                     <adminhtml__tax_rate_ImportExport>removeTaxRateImport</adminhtml__tax_rate_ImportExport>
                     <adminhtml__tax_class>removeTaxRuleAddButton</adminhtml__tax_class>
                     <adminhtml__tax_class_edit>removeTaxRuleControlButtons</adminhtml__tax_class_edit>
+
+                    <enterprise_customer__adminhtml_customer_attribute>removeAddNewCustomerAttributeButton</enterprise_customer__adminhtml_customer_attribute>
+                    <enterprise_customer__adminhtml_customer_address_attribute>removeAddNewCustomerAttributeButton</enterprise_customer__adminhtml_customer_address_attribute>
+                    <enterprise_customer__adminhtml_customer_attribute_edit>removeDeleteCustomerAttributeButton</enterprise_customer__adminhtml_customer_attribute_edit>
+                    <enterprise_customer__adminhtml_customer_address_attribute_edit>removeDeleteCustomerAttributeButton</enterprise_customer__adminhtml_customer_address_attribute_edit>
                 </block_html_before>
             </admingws>
         </enterprise>

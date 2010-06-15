@@ -245,6 +245,34 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Remove customer attribute creation button from grid container
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function removeAddNewCustomerAttributeButton($observer)
+    {
+        if ($this->_role->getIsAll()) { // because observer is passed through directly
+            return;
+        }
+        $block = $observer->getEvent()->getBlock();
+        $block->removeButton('add');
+    }
+
+    /**
+     * Remove customer attribute deletion button from form container
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function removeDeleteCustomerAttributeButton($observer)
+    {
+        if ($this->_role->getIsAll()) { // because observer is passed through directly
+            return;
+        }
+        $block = $observer->getEvent()->getBlock();
+        $block->removeButton('delete');
+    }
+
+    /**
      * Remove edit buttons on catalog events page and catalog event edit page
      *
      * @param Varien_Event_Observer $observer

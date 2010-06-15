@@ -110,7 +110,9 @@ class Mage_Customer_Model_Attribute extends Mage_Eav_Model_Entity_Attribute
     public function getValidateRules()
     {
         $rules = $this->getData('validate_rules');
-        if (!empty($rules)) {
+        if (is_array($rules)) {
+            return $rules;
+        } else if (!empty($rules)) {
             return unserialize($rules);
         }
         return array();

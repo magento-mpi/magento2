@@ -415,6 +415,37 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Customer attribute validate before save
+     *
+     * @param Mage_Customer_Model_Attribute $model
+     * @return void
+     */
+    public function customerAttributeSaveBefore($model)
+    {
+        foreach (array_keys($model->getData()) as $key) {
+            $isScopeKey = (strpos($key, 'scope_') === 0);
+            if (!$isScopeKey && $key != $model->getIdFieldName()) {
+                $model->unsetData($key);
+            }
+        }
+        $modelWebsiteId = ($model->getWebsite() ? $model->getWebsite()->getId() : null);
+        if (!$modelWebsiteId || !$this->_role->hasWebsiteAccess($modelWebsiteId, true)) {
+            $this->_throwSave();
+        }
+    }
+
+    /**
+     * Customer attribute validate before delete
+     *
+     * @param Mage_Customer_Model_Attribute $model
+     * @return void
+     */
+    public function customerAttributeDeleteBefore($model)
+    {
+        $this->_throwDelete();
+    }
+
+    /**
      * Order validate after load
      *
      * @param Mage_Sales_Model_Order $model
