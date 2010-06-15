@@ -63,6 +63,11 @@
                 </setup>
             </xmlconnect_setup>
         </resources>
+        <request>
+            <direct_front_name>
+                <xmlconnect/>
+            </direct_front_name>
+        </request>
     </global>
     <admin>
          <routers>
