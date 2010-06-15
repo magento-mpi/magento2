@@ -199,9 +199,11 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
     {
         if (is_array($info)) {
             $allQty = 0;
+            $itemsInfo = array();
             foreach ($info as $itemData) {
                 foreach ($itemData as $quoteItemId => $data) {
                     $allQty += $data['qty'];
+                    $itemsInfo[$quoteItemId] = $data;
                 }
             }
 
@@ -244,8 +246,8 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                     continue;
                 }
 
-                if (isset($itemData[$_item->getId()]['qty'])) {
-                    if ($qty = (int)$itemData[$_item->getId()]['qty']) {
+                if (isset($itemsInfo[$_item->getId()]['qty'])) {
+                    if ($qty = (int)$itemsInfo[$_item->getId()]['qty']) {
                         $_item->setQty($qty);
                         $quote->getBillingAddress()->addItem($_item);
                     } else {
