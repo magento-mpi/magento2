@@ -31,6 +31,7 @@
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
+
 class Enterprise_Search_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
     /**
@@ -76,10 +77,13 @@ class Enterprise_Search_Helper_Data extends Enterprise_Enterprise_Helper_Core_Ab
         }
 
         foreach ($object['facet_queries'] as $attr => $val) {
-            $attrArray = explode(':', $attr);
-            $res[$attrArray[0]][$attrArray[1]] = $val;
+            if (preg_match('/\(categories:(\d)+ OR show_in_categories\:\d+\)/', $attr, $matches)) {
+                $res['categories'][$matches[1]]    = $val;
+            } else {
+                $attrArray = explode(':', $attr);
+                $res[$attrArray[0]][$attrArray[1]] = $val;
+            }
         }
-
         return $res;
     }
 
