@@ -53,7 +53,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             }
             $this->_connect($options);
         }
-        catch (Exception $e){
+        catch (Exception $e) {
             Mage::logException($e);
             Mage::throwException(Mage::helper('enterprise_search')->__('Unable to perform search because of search engine missed configuration.'));
         }

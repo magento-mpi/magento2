@@ -184,7 +184,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     }
 
     /**
-     * Create Solr Input Documents by specified data
+     * Create Input Documents by specified data
      *
      * @param array $docData
      * @param string|null $localeCode
@@ -605,6 +605,20 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 }
             }
         }
+        return $data;
+    }
+
+    /**
+     * Prepare index data for using in search engine metadata
+     *
+     * @param array $data
+     * @param array $attributesParams
+     * @param string|null $localCode
+     *
+     * @return array
+     */
+    protected function _prepareIndexData($data, $attributesParams, $localeCode = null)
+    {
         return $data;
     }
 

@@ -185,6 +185,100 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     }
 
     /**
+     * Prepare advanced index for products
+     *
+     * @see Mage_CatalogSearch_Model_Mysql4_Fulltext->_getSearchableProducts()
+     *
+     * @param array $index
+     * @param int $storeId
+     * @param array | null $productIds
+     *
+     * @return array
+     */
+    protected function _addAdvancedIndex($index, $storeId, $productIds = null)
+    {
+        if (is_null($productIds) || is_array($productIds)) {
+            $productIds = array();
+            foreach ($index as $productData) {
+                $productIds[] = $productData['entity_id'];
+            }
+        }
+
+        $fieldPrefix = $this->_engine->getFieldsPrefix();
+
+        $categoriesExpr = new Zend_Db_Expr(
+            $this->_getWriteAdapter()->quoteInto('GROUP_CONCAT(
+                IF(is_parent = 1, category_id, \'\') SEPARATOR ?)', ' '));
+        $showInCategoriesExpr = new Zend_Db_Expr(
+            $this->_getWriteAdapter()->quoteInto('GROUP_CONCAT(
+                IF(is_parent = 0, category_id, \'\') SEPARATOR ?)', ' '));
+        $positionsExpr = new Zend_Db_Expr(
+            $this->_getWriteAdapter()->quoteInto('GROUP_CONCAT(
+                CONCAT(category_id, \'_\', position) SEPARATOR ?)', ' '));
+
+        $select = $this->_getWriteAdapter()->select()
+            ->from(
+                array($this->getTable('catalog/category_product_index')),
+                array(
+                    'product_id',
+                    'categories' => $categoriesExpr,
+                    'show_in_categories' => $showInCategoriesExpr,
+                    'positions' => $positionsExpr,
+                    'visibility'))
+            ->where('product_id IN (?)', $productIds)
+            ->where('store_id = ?', $storeId)
+            ->group('product_id');
+
+        $additionalIndexData = array();
+        foreach ($this->_getWriteAdapter()->fetchAll($select) as $data) {
+            $additionalIndexData[$data['product_id']] = $data;
+        }
+
+        $select->reset()
+            ->from(
+                array($this->getTable('catalog/product_index_price')),
+                array('entity_id', 'customer_group_id', 'website_id', 'min_price'))
+            ->where('entity_id IN (?)', $productIds);
+
+        $additionalPriceData = array();
+        foreach ($this->_getWriteAdapter()->fetchAll($select) as $price) {
+            $key = $fieldPrefix . 'price_' . $price['customer_group_id'] . '_' . $price['website_id'];
+            $additionalPriceData[$price['entity_id']][$key] = $price['min_price'];
+        }
+
+        foreach ($index as &$productData) {
+            $productId = $productData['entity_id'];
+
+            $productData[$fieldPrefix . 'categories'] = array();
+            foreach (explode(' ', $additionalIndexData[$productId]['categories']) as $category_id) {
+                if (!empty($category_id)) {
+                    $productData[$fieldPrefix . 'categories'][] = $category_id;
+                }
+            }
+
+            $productData[$fieldPrefix . 'show_in_categories'] = array();
+            foreach (explode(' ', $additionalIndexData[$productId]['show_in_categories']) as $category_id) {
+                if (!empty($category_id)) {
+                    $productData[$fieldPrefix . 'show_in_categories'][] = $category_id;
+                }
+            }
+
+            foreach (explode(' ', $additionalIndexData[$productId]['positions']) as $position) {
+                $categoryPosition = explode('_', $position);
+                $productData[$fieldPrefix . 'position_category_' . $categoryPosition[0]] = $categoryPosition[1];
+            }
+
+            $productData[$fieldPrefix . 'visibility'] = $additionalIndexData[$productId]['visibility'];
+
+            $productData += $additionalPriceData[$productId];
+        }
+        unset($additionalIndexData);
+        unset($additionalPriceData);
+
+        return $index;
+    }
+
+    /**
      * Retrieve searchable products per store
      *
      * @param int $storeId
@@ -220,7 +314,14 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         $select->where('e.entity_id>?', $lastProductId)
             ->limit($limit)
             ->order('e.entity_id');
-        return $this->_getWriteAdapter()->fetchAll($select);
+
+        $result = $this->_getWriteAdapter()->fetchAll($select);
+        if ($this->_engine->allowAdvancedIndex()) {
+            return $this->_addAdvancedIndex($result, $storeId, $productIds);
+        }
+        else {
+            return $result;
+        }
     }
 
     /**
@@ -233,7 +334,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         $this->beginTransaction();
         try {
             $this->_getWriteAdapter()->update($this->getTable('catalogsearch/search_query'), array('is_processed' => 0));
-            $this->_getWriteAdapter()->query("TRUNCATE TABLE {$this->getTable('catalogsearch/result')}");
+            $this->_getWriteAdapter()->query('TRUNCATE TABLE ' . $this->getTable('catalogsearch/result'));
 
             $this->commit();
         }
@@ -593,114 +694,13 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
 
         if ($this->_engine) {
             if ($this->_engine->allowAdvancedIndex()) {
-                //unset($index['price']);
-                $categories = $this->_prepareProductCategories($productData['entity_id'], $storeId);
-                if (!empty($categories)) {
-                    $index['categories'] = $categories;
-                }
-                $index['visibility'] = $this->_prepareProductVisibility($productData['entity_id'], $storeId);
-                $index += $this->_prepareProductPriceIndexing($productData['entity_id']);
-                $index += $this->_prepareProductCategoryPosition($productData['entity_id']);
+                $index += $this->_engine->addAllowedAdvancedIndexField($productData);
             }
 
             return $this->_engine->prepareEntityIndex($index, $this->_separator);
         }
+
         return Mage::helper('catalogsearch')->prepareIndexdata($index, $this->_separator);
-    }
-
-    /**
-     * Prepare product price indexing: currency and customers groups
-     * Index field key format:
-     * price_{customer_group_id}_{website_id}
-     *
-     * @param int $productId
-     *
-     * @return array
-     */
-    protected function _prepareProductPriceIndexing($productId)
-    {
-        $select = $this->_getWriteAdapter()->select()
-            ->from(
-                array($this->getTable('catalog/product_index_price')),
-                array('customer_group_id', 'website_id', 'min_price'))
-            ->where('entity_id = ?', $productId);
-
-        $result = array();
-        foreach($this->_getWriteAdapter()->fetchAll($select) as $index) {
-            $result['price_' . $index['customer_group_id'] . '_' . $index['website_id']] = $index['min_price'];
-        }
-
-        return $result;
-    }
-
-    /**
-     * Collect all categories ids where product should be represented
-     *
-     * @param int $productId
-     *
-     * @return array
-     */
-    protected function _prepareProductCategories($productId, $storeId)
-    {
-        $select = $this->_getWriteAdapter()->select()
-            ->distinct()
-            ->from(
-                array($this->getTable('catalog/category_product_index')),
-                array('category_id'))
-            ->where('product_id = ?', $productId)
-            ->where('store_id = ?', $storeId);
-
-        $result = array();
-        foreach ($this->_getWriteAdapter()->fetchAll($select) as $category) {
-            $result[] = $category['category_id'];
-        }
-
-        return $result;
-    }
-
-    /**
-     * Collects information per product about position sort in category
-     *
-     * @param int $productId
-     *
-     * @return array
-     */
-    protected function _prepareProductCategoryPosition($productId)
-    {
-        $select = $this->_getWriteAdapter()->select()
-            ->distinct()
-            ->from(
-                array($this->getTable('catalog/category_product')),
-                array('category_id', 'position'))
-            ->where('product_id = ?', $productId);
-
-        $result = array();
-        foreach ($this->_getWriteAdapter()->fetchAll($select) as $position) {
-            $result['position_category_' . $position['category_id']] = $position['position'];
-        }
-
-        return $result;
-    }
-
-    /**
-     * Return visibility condition id for product displaying in search results 
-     * and in catalog
-     *
-     * @param int $productId
-     * @param int $storeId
-     *
-     * @return int
-     */
-    protected function _prepareProductVisibility($productId, $storeId)
-    {
-        $select = $this->_getWriteAdapter()->select()
-            ->from(
-                array($this->getTable('catalog/category_product_index')),
-                array('visibility'))
-            ->where('product_id = ?', $productId)
-            ->where('store_id = ?', $storeId);
-
-        return $this->_getWriteAdapter()->fetchOne($select);
     }
 
     /**
@@ -790,8 +790,10 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         if (!is_empty_date($date)) {
             list($dateObj, $format) = $this->_dates[$storeId];
             $dateObj->setDate($date, Varien_Date::DATETIME_INTERNAL_FORMAT);
+
             return $dateObj->toString($format);
         }
+
         return null;
     }
 }

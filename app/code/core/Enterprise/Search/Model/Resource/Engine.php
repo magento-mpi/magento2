@@ -33,12 +33,51 @@ class Enterprise_Search_Model_Resource_Engine
     protected $_adapter = null;
 
     /**
+     * Advanced index fields prefix
+     *
+     * @var string
+     */
+    protected $_advancedIndexFieldsPrefix = '#';
+
+    /**
+     * 
+     * @var array
+     */
+    protected $_advancedStaticIndexFields = array(
+        '#categories',
+        '#show_in_categories',
+        '#visibility'
+    );
+
+    /**
+     * 
+     * @var array
+     */
+    protected $_advancedDynamicIndexFields = array(
+        '#position_category_',
+        '#price_'
+    );
+
+
+
+    /**
      * Set search engine adapter
      *
      */
     public function __construct()
     {
         $this->_adapter = $this->_getAdapterModel('solr');
+        $this->_adapter->setAdvancedIndexFieldPrefix($this->getFieldsPrefix());
+    }
+
+    /**
+     * Returns advanced index fields prefix
+     *
+     * @return string
+     */
+    public function getFieldsPrefix()
+    {
+        return $this->_advancedIndexFieldsPrefix;
     }
 
     /**
@@ -198,6 +237,48 @@ class Enterprise_Search_Model_Resource_Engine
     public function allowAdvancedIndex()
     {
         return true;
+    }
+
+    /**
+     * Add to index fields that allowed in advanced index
+     *
+     * @param array $productData
+     *
+     * @return array
+     */
+    public function addAllowedAdvancedIndexField($productData)
+    {
+        $advancedIndex = array();
+
+        foreach ($productData as $field => $value) {
+            if (in_array($field, $this->_advancedStaticIndexFields)
+                || $this->_isDynamicField($field)) {
+                    if (!empty($value)){
+                        $advancedIndex[$field] = $value;
+                    }
+                }
+        }
+
+        return $advancedIndex;
+    }
+
+    /**
+     * Define if field is dynamic index field
+     *
+     * @param string $field
+     *
+     * @return bool
+     */
+    protected function _isDynamicField($field)
+    {
+        foreach ($this->_advancedDynamicIndexFields as $dynamicField) {
+            $length = strlen($dynamicField);
+            if (substr($field, 0, $length) == $dynamicField) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

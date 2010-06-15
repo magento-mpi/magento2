@@ -47,7 +47,24 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      */
     protected $_dateFormats = array();
 
+    /**
+     * Advanced index fields prefix
+     *
+     * @var string
+     */
+    protected $_advancedIndexFieldsPrefix = '';
 
+
+
+    /**
+     * Set advanced index fields prefix
+     *
+     * @param string $prefix
+     */
+    public function setAdvancedIndexFieldPrefix($prefix)
+    {
+        $this->_advancedIndexFieldsPrefix = $prefix;
+    }
 
     /**
      * Retrieve language code by specified locale code if this locale is supported by Solr
@@ -127,6 +144,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
             return array();
         }
 
+        $fieldPrefix = $this->_advancedIndexFieldsPrefix;
         $languageCode = $this->_getLanguageCodeByLocaleCode($localeCode);
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
@@ -167,9 +185,13 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 $data[$key . $languageSuffix] = $value;
                 unset($data[$key]);
             }
-            elseif ($backendType != 'static'
-                && substr($key, 0, 6) != 'price_'
-                && substr($key, 0, 18) != 'position_category_') {
+            elseif ($backendType != 'static') {
+                if (substr($key, 0, strlen($fieldPrefix)) == $fieldPrefix) {
+                    $data[substr($key, strlen($fieldPrefix))] = $value;
+                    unset($data[$key]);
+                    continue;
+                }
+
                 if ($backendType == 'datetime') {
                     $value = $this->_getSolrDate($data['store_id'], $value);
                 }
