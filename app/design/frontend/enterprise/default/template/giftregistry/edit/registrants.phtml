@@ -50,18 +50,18 @@
                 </div>
             </div>
 
-<?php $fields = $this->getGroupedRegistrantAttributes(); ?>
+    <?php $fields = $this->getGroupedRegistrantAttributes(); ?>
     <?php foreach ($fields as $field => $data) : ?>
         <?php $isRequired = $this->isAttributeRequired($data); ?>
-        <?php $isStatic = $this->isAttributeStatic($field); ?>
-            <div class="field">
-                <label for="registrant:custom:<?php echo $field ?>{{index}}" <?php echo ($isRequired ? 'class="required"' : '')?>>
-                <?php echo ($isRequired ? '<em>*</em>' : '') . $this->__("%s", $data['label']) ?></label>
-                <div class="input-box">
-                    <?php echo $this->renderField($data, 'registrant[{{index}}]'.(($isStatic) ? '' : '[custom]') . '[' . $field .']', 'registrant:' . (($isStatic) ? '' : ':custom:') . $field . '{{index}}', '{{' . $field . '_value}}', $isRequired ? ' required-entry ' : '')?>
-                </div>
+        <div class="field">
+            <label for="registrant:custom:<?php echo $field ?>{{index}}" <?php echo ($isRequired ? 'class="required"' : '') ?>>
+                <?php echo ($isRequired ? '<em>*</em>' : '') . $this->__("%s", $data['label']) ?>
+            </label>
+            <div class="input-box">
+                <?php echo $this->renderField($data, $field, '{{' . $field . '_value}}') ?>
             </div>
-<?php   endforeach; ?>
+        </div>
+    <?php endforeach; ?>
     </div>
 </div>
 <script type="text/javascript">

@@ -82,11 +82,36 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registrants extends  Enterpris
             foreach ($attributes as $field => $fdata){
                 if (is_array($fdata)) {
                     $grouped[$field] = $fdata;
-                    $grouped[$field]['id'] = $field;
+                    $grouped[$field]['id'] = $this->_getElementId($field);
+                    $grouped[$field]['name'] = $this->_getElementName($field);
                 }
             }
         }
         return $grouped;
+    }
+
+    /**
+     * Prepare html element name
+     *
+     * @param string $code
+     * @return string
+     */
+    protected function _getElementName($code)
+    {
+        $custom = ($this->isAttributeStatic($code)) ? '' : '[custom]';
+        return $this->_prefix . '[{{index}}]'. $custom . '[' . $code . ']';
+    }
+
+    /**
+     * Prepare html element id
+     *
+     * @param string $code
+     * @return string
+     */
+    protected function _getElementId($code)
+    {
+        $custom = ($this->isAttributeStatic($code)) ? '' : 'custom:';
+        return $this->_prefix . ':'. $custom . $code . '{{index}}';
     }
 
     /**

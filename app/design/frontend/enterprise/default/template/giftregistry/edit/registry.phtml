@@ -28,7 +28,7 @@
 <input type="hidden" name="entity_id" id="entity_id" value="<?php echo $this->getEntity()->getEntityId(); ?>"/>
 <input type="hidden" name="type_id" id="type_id" value="<?php echo $this->getTypeId(); ?>"/>
 <div class="fieldset">
-    <h2 class="legend"><?php echo $this->__('Main Data') ?></h2>
+    <h2 class="legend"><?php echo $this->__('General Information') ?></h2>
     <ul class="form-list">
         <li>
             <label for="type_id"><?php echo $this->__('Gift Registry Type') ?></label>
@@ -51,9 +51,8 @@
     </ul>
 </div>
 <?php
-    $fieldsets = $this->getGroupedRegistryAttributes();
-    foreach ($fieldsets as $fieldset => $fields) : ?>
-
+$fieldsets = $this->getGroupedRegistryAttributes();
+foreach ($fieldsets as $fieldset => $fields) : ?>
 <div class="fieldset">
     <h2> <?php echo $this->getGroupLabel($fieldset);?></h2>
     <ul class="form-list">
@@ -61,9 +60,10 @@
     <?php foreach ($fields as $field => $data) : ?>
         <?php $isRequired = $this->isAttributeRequired($data); ?>
         <li>
-             <label for="<?php echo $field ?>" <?php echo ($isRequired ? 'class="required"' : '')?>><?php echo ($isRequired ? '<em>*</em>' : '') . $this->__($data['label']) ?>
+             <label for="<?php echo $field ?>" <?php echo ($isRequired ? 'class="required"' : '')?>>
+                 <?php echo ($isRequired ? '<em>*</em>' : '') . $this->__($data['label']) ?>
              </label>
-             <?php echo $this->renderField($data, $field, $field, null, ($isRequired ? ' required-entry ' : ''))?>
+             <?php echo $this->renderField($data, $field) ?>
         </li>
     <?php endforeach; ?>
 
@@ -78,6 +78,4 @@
     <?php endforeach; ?>
     </ul>
 </div>
-
 <?php endforeach; ?>
-

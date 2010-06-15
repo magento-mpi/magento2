@@ -53,7 +53,7 @@ class Enterprise_GiftRegistry_Model_Person extends Enterprise_Enterprise_Model_C
         }
 
         if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            $errors[] = $helper->__('Please enter correct Email.');
+            $errors[] = $helper->__('"Email" is not a valid email address.');
         }
 
         $customValues = $this->getCustom();

@@ -198,7 +198,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
     }
 
     /**
-     * Reorder attributes array  by group
+     * Reorder attributes array by group
      *
      * @param array $attributes
      * @return array
@@ -210,22 +210,47 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
             foreach ($attributes as $field => $fdata){
                 if (is_array($fdata)) {
                     $grouped[$fdata['group']][$field] = $fdata;
-                    $grouped[$fdata['group']][$field]['id'] = $field;
+                    $grouped[$fdata['group']][$field]['id'] = $this->_getElementId($field);
+                    $grouped[$fdata['group']][$field]['name'] = $this->_getElementName($field);
 
                     if ($fdata['type'] == 'country' && !empty($fdata['show_region'])) {
                         $regionCode = $field . '_region';
                         $regionAttribute['label'] = $this->__('State/Province');
                         $regionAttribute['group'] = $fdata['group'];
                         $regionAttribute['type'] = 'region';
-                        $regionAttribute['code'] = $regionCode;
-                        $regionAttribute['id'] = $regionCode;
-
+                        $regionAttribute['id'] = $this->_getElementId($regionCode);
+                        $regionAttribute['name'] = $this->_getElementName($regionCode);
                         $grouped[$fdata['group']][$regionCode] = $regionAttribute;
                     }
                 }
             }
         }
         return $grouped;
+    }
+
+    /**
+     * Prepare html element name
+     *
+     * @param string $code
+     * @return string
+     */
+    protected function _getElementName($code)
+    {
+        if (!$this->isAttributeStatic($code)) {
+            return $this->_prefix . '[' . $code . ']';
+        }
+        return $code;
+    }
+
+    /**
+     * Prepare html element id
+     *
+     * @param string $code
+     * @return string
+     */
+    protected function _getElementId($code)
+    {
+        return $code;
     }
 
     /**
@@ -268,80 +293,53 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
 
     /**
      * Render input field of the specific type : text, select, date, region, country
-     * @param array  data    - description how to render this field
-     * @param string name   - field DOM name
-     * @param string id     - field DOM id
-     * @param value  string  - preseted value
-     * @param class  string  - class
      *
+     * @param array $data
+     * @param string $field
+     * @param string $value
      * @return string
      */
-    public function renderField($data, $name, $id, $value = null, $class = null)
+    public function renderField($data, $field, $value = null)
     {
-        return $this->_renderField($data, $name, $id, $value, $class);
-    }
+        $element = '';
+        if ($field && is_array($data)) {
+            $type  = $data['type'];
+            $name  = $data['name'];
+            $id    = $data['id'];
+            $value = $this->getEntity()->getFieldValue($id);
+            $class = ($this->isAttributeRequired($data)) ? 'required-entry' : '';
 
-    /**
-     * Render input field of the specific type : text, select, date, region, country
-     * @param array  data    - description how to render this field
-     * @param string name   - field DOM name
-     * @param string id     - field DOM id
-     * @param value  string  - preseted value
-     * @param class  string  - class
-     *
-     * @return string
-     */
-    public function _renderField($data, $name, $id, $value = null, $class = null)
-    {
-        if (is_array($data) && (count($data)) && $id) {
-            $type = $data['type'];
-            $attributeId = $data['id'];
-            $name = $this->getElementName($attributeId, $name);
-            $value = $this->getEntity()->getFieldValue($attributeId);
+            switch ($type) {
+                case 'country' :
+                    $element = $this->getCountryHtmlSelect($value, $name, $id, $class);
+                    break;
 
-            if ($type == 'country') {
-                return $this->getCountryHtmlSelect($value, $name, $id);
-            } else if ($type == 'region') {
-                $this->setRegionJsVisible(true);
-                $regionSelect = $this->getRegionHtmlSelectEmpty($name, $id, $value, 'required-entry');
+                case 'region' :
+                    $element = $this->getRegionHtmlSelectEmpty($name, $id, $value, $class);
+                    $id = $this->_getElementId($id . '_text');
+                    $name = $this->_getElementName($id);
+                    $value = $this->getEntity()->getFieldValue($id);
+                    $element .= $this->_getInputTextHtml($name, $id, $value, $class);
+                    break;
 
-                $name = $this->getElementName($attributeId, $id.'_text');
-                $value = $this->getEntity()->getFieldValue($id.'_text');
+               case 'date' :
+                   $format = (isset($data['date_format'])) ? $data['date_format'] : '';
+                   $element = $this->getCalendarDateHtml($name, $id, $value, $format, $class);
+                   break;
 
-                $regionSelectText = $this->_getInputTextHtml($name, $id.'_text', $value, ' input-text ',
-                    '" style="display:none;"'
-                );
-                return $regionSelect . $regionSelectText;
+               case 'select' :
+                   $options = $this->_convertGroupArray($data['options']);
+                   if (empty($value)) {
+                       $value = (isset($data['default'])) ? $data['default'] : '';
+                   }
+                   $element = $this->getSelectHtml($options, $name, $id, $value, $class);
+                   break;
 
-            } else if ($type == 'text') {
-                return $this->_getInputTextHtml($name, $id, $value, $class . ' input-text');
-            } else if ($type == 'date') {
-                return $this->getCalendarDateHtml($name, $id, $value, $data['date_format'], $class);
-            } else if ($type == 'select') {
-                $options  = $data['options'];
-                if (empty($value)) {
-                    $value = (isset($data['default'])) ? $data['default'] : '';
-                }
-                return $this->getSelectHtml($this->_convertGroupArray($options), $name, $id, $value, $class);
-            } else {
-                return $this->_getInputTextHtml($name, $id, $value, $class . ' input-text');
+               default :
+                   $element = $this->_getInputTextHtml($name, $id, $value, $class);
             }
         }
-    }
-
-    /**
-     * Get html element name
-     *
-     * @param int $attributeId
-     * @param string $name
-     * @return string
-     */
-    public function getElementName($attributeId, $name)
-    {
-        if (!in_array($attributeId, $this->getEntity()->getStaticTypeIds())) {
-            $name = $this->_prefix. '[' . $name . ']';
-        }
-        return $name;
+        return $element;
     }
 
     /**
