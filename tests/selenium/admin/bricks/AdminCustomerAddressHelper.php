@@ -13,7 +13,6 @@ class AdminCustomerAddressHelper {
         return  $this->adminhelper;
     }
 
-
     public function doAdminSaveCustomer() {
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->_object->fail("pleasewait timeout");
