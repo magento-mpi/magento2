@@ -50,7 +50,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_X
         $this->addColor($fieldset, 'conf[native][navigationBar][tintColor]', $this->__('Header Background Color'));
         $this->addImage($fieldset, 'conf[native][body][rowBackgroundIcon]', $this->__('Primary Background Image'));
         $this->addImage($fieldset, 'conf[native][sortingBar][backgroundImage]', $this->__('Title Background Image'));
-        $this->addImage($fieldset, 'conf[native][body][addToCartBackgroundIcon]', $this->__('Button Background Image'));
+        $this->addColor($fieldset, 'conf[native][body][buttonBackgroundColor]', $this->__('Button Background Color'));
         $this->addImage($fieldset, 'conf[native][itemActions][backgroundImage]', $this->__('Context Menu Background Image'));
 
         $fieldset = $form->addFieldset('fieldFonts', array('legend' => $this->__('Fonts')));
