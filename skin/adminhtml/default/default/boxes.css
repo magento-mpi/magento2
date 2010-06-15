@@ -400,7 +400,10 @@ select.multiselect option       { padding:3px 4px; border-bottom:1px solid #ddd;
 .grid tr.on-mouse .form-list tr { background:#fcf5dd !important; } /* Follows grid row background-color */
 .grid tr .form-list             { margin:8px 0; }
 .field-row                      { display:block; margin-bottom:5px; }
-span.delete-image               { display:block; white-space:nowrap; padding-left:25px; }
+span.delete-image,
+span.delete-file                { display:block; white-space:nowrap; padding-left:25px; }
+span.delete-file				{ padding:0; }
+
 
 /* Back compatibility with span forms */
 .entry-edit .field-row          { display:block; }
