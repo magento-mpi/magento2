@@ -110,12 +110,11 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         $productCollection = $this->getLayer()->getProductCollection();
         $productCollection->setFacetCondition($priceField, $priceFacets);
 
-
-
         /**
          * Filter must be string: $index,$range
          */
         $filter = $request->getParam($this->getRequestVar());
+
         if (!$filter) {
             return $this;
         }
@@ -165,7 +164,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             )
         );
 
-        $productCollection->addPriceQfFilter($value);
+        $productCollection->addFqFilter($value);
 
         return $this;
     }

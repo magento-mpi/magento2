@@ -34,31 +34,133 @@
  */
 class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_Filter_Decimal
 {
-
-    /**
-     * Retrieve data for build decimal filter items
+/**
+     * Get information about products count in range
      *
-     * @return array
+     * @param   int $range
+     * @return  int
      */
-    protected function _getItemsData()
+    public function getRangeItemCounts($range)
     {
-        $key = $this->_getCacheKey();
-        $data = $this->getLayer()->getAggregator()->getCacheData($key);
-        if ($data === null) {
-            $data       = array();
-            $range      = $this->getRange();
-            $dbRanges   = $this->getRangeItemCounts($range);
+        $attributeCode = $this->getAttributeModel()->getAttributeCode();
+        $rangeKey = $attributeCode . '_item_counts_' . $range;
+        $items = $this->getData($rangeKey);
+        if (is_null($items)) {
+            $maxValue    = $this->getMaxValue();
+            $facets = array();
+            $facetCount  = ceil($maxValue / $range);
 
-            foreach ($dbRanges as $index => $count) {
-                $data[] = array(
-                    'label' => $this->_renderItemLabel($range, $index),
-                    'value' => $index . ',' . $range,
-                    'count' => $count,
+            for ($i = 0; $i < $facetCount; $i++) {
+                $facets[] = array(
+                    'from' => $i * $range,
+                    'to'   => ($i + 1) * $range
                 );
             }
 
+            $field = 'attr_decimal_'. $attributeCode;
 
+            $productCollection = $this->getLayer()->getProductCollection();
+            $facets = $productCollection->getFacetedData($field);
+
+            $res = array();
+            if (!empty($facets)) {
+                foreach ($facets as $key => $count) {
+                    preg_match('/TO (\d+)\]$/', $key, $rangeKey);
+                    $rangeKey = $rangeKey[1] / $range;
+                    if ($count > 0) {
+                        $res[$rangeKey] = $count;
+                    }
+                }
+            }
+            $items = $res;
+
+            $this->setData($rangeKey, $items);
         }
-        return $data;
+
+        return $items;
     }
+
+
+    /**
+     * Apply decimal range filter to product collection
+     *
+     * @param Zend_Controller_Request_Abstract $request
+     * @param Mage_Catalog_Block_Layer_Filter_Decimal $filterBlock
+     * @return Mage_Catalog_Model_Layer_Filter_Decimal
+     */
+    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
+    {
+        $range      = $this->getRange();
+        $maxValue    = $this->getMaxValue();
+        $facets = array();
+        $facetCount  = ceil($maxValue / $range);
+
+        for ($i = 0; $i < $facetCount; $i++) {
+            $facets[] = array(
+                'from' => $i * $range,
+                'to'   => ($i + 1) * $range
+            );
+        }
+
+        $attributeCode = $this->getAttributeModel()->getAttributeCode();
+        $field      = 'attr_decimal_' . $attributeCode;
+
+        $productCollection = $this->getLayer()->getProductCollection();
+        $productCollection->setFacetCondition($field, $facets);
+
+        /**
+         * Filter must be string: $index, $range
+         */
+        $filter = $request->getParam($this->getRequestVar());
+
+
+        if (!$filter) {
+            return $this;
+        }
+        $filter = explode(',', $filter);
+        if (count($filter) != 2) {
+            return $this;
+        }
+
+        list($index, $range) = $filter;
+        if ((int)$index && (int)$range) {
+            $this->setRange((int)$range);
+
+            $this->applyFilterToCollection($this, $range, $index);
+            $this->getLayer()->getState()->addFilter(
+                $this->_createItem($this->_renderItemLabel($range, $index), $filter)
+            );
+
+            $this->_items = array();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Apply attribute filter to product collection
+     *
+     * @param Mage_Catalog_Model_Layer_Filter_Price $filter
+     * @param int $range
+     * @param int $index    the range factor
+     *
+     * @return Enterprise_Search_Model_Catalog_Layer_Filter_Decimal
+     */
+    public function applyFilterToCollection($filter, $range, $index)
+    {
+        $productCollection = $filter->getLayer()->getProductCollection();
+        $attributeCode     = $filter->getAttributeModel()->getAttributeCode();
+        $field             = 'attr_decimal_'. $attributeCode;
+
+        $value = array(
+            $field => array(
+                'from' => ($range * ($index - 1)),
+                'to'   => $range * $index
+            )
+        );
+
+        $productCollection->addFqFilter($value);
+        return $this;
+    }
+
 }

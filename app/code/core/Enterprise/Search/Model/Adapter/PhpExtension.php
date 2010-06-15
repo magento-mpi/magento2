@@ -144,6 +144,8 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         $solrQuery = new SolrQuery();
         $solrQuery->setStart($offset)->setRows($limit);
 
+
+
         if (is_array($query)) {
             $searchConditions = array();
 
@@ -279,7 +281,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
                         $_params['solr_params']['facet.field'] = $facetField;
                     }
                     else {
-                        $_params['solr_params']['facet.query'] = array();
+                       // $_params['solr_params']['facet.query'] = array();
                         foreach ($facetFieldConditions as $facetCondition) {
                             if (is_array($facetCondition) && isset($facetCondition['from']) && isset($facetCondition['to'])) {
                                 $from = (isset($facetCondition['from']) && !empty($facetCondition['from']))
@@ -292,7 +294,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
                             }
                             else {
                                 $facetCondition = $this->_prepareQueryText($facetCondition);
-                                $fieldCondition = "$facetField:$facetCondition";
+                                $fieldCondition = $this->_prepareFieldCondition($facetField, $facetCondition);
                             }
 
                             $_params['solr_params']['facet.query'][] = $fieldCondition;
@@ -330,16 +332,18 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
                         $fieldCondition = array();
                         foreach ($value as $part) {
                             $part = $this->_prepareQueryText($part);
-                            $fieldCondition[] = $field .':'. strtolower($part);
+                            //$fieldCondition[] = $field .':'. strtolower($part);
+                            $fieldCondition[] = $this->_prepareFieldCondition($field, strtolower($part));
+
                         }
                         $fieldCondition = '(' . implode(' OR ', $fieldCondition) . ')';
                     }
                 }
                 else {
                     $value = $this->_prepareQueryText($value);
-                    $fieldCondition = $field .':'. $value;
+                    //$fieldCondition = $field .':'. $value;
+                    $fieldCondition = $this->_prepareFieldCondition($field, $value);
                 }
-
                 $solrQuery->addFilterQuery($fieldCondition);
             }
         }
@@ -382,7 +386,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
      */
     public function _searchSuggestions($query, $params = array(), $limit = false, $withResultsCounts = false)
     {
-         /**
+        /**
          * @see self::_search()
          */
         if ((int)('1' . str_replace('.', '', solr_get_version())) < 1099) {
@@ -467,6 +471,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
      */
     protected function _searchFacets($query, $params = array())
     {
+
         /**
          * Hard code to prevent Solr bug:
          * Bug #17009 Creating two SolrQuery objects leads to wrong query value

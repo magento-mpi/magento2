@@ -117,7 +117,7 @@ class Enterprise_Search_Model_Resource_Collection
 
     /**
      * Allow to set faceted search conditions to retrive result by single query
-     * 
+     *
      * @param string $field
      * @param string | array $condition
      *
@@ -204,13 +204,13 @@ class Enterprise_Search_Model_Resource_Collection
     }
 
     /**
-     * Add price search query filter (qf)
+     * Add search query filter (fq)
      *
      * @param   string|array $param
      *
      * @return  Enterprise_Search_Model_Resource_Collection
      */
-    public function addPriceQfFilter($param)
+    public function addFqFilter($param)
     {
         if (is_array($param)) {
             foreach ($param as $field => $value)
@@ -418,6 +418,8 @@ class Enterprise_Search_Model_Resource_Collection
      */
     public function addCountToCategories($categoryCollection)
     {
+        return $this;
+        /*
         $isAnchor = array();
         $isNotAnchor = array();
         foreach ($categoryCollection as $category) {
@@ -429,7 +431,6 @@ class Enterprise_Search_Model_Resource_Collection
         }
         $productCounts = array();
         if ($isAnchor || $isNotAnchor) {
-            $select = $this->getProductCountSelect();
 
             Mage::dispatchEvent('catalog_product_collection_before_add_count_to_categories', array('collection'=>$this));
             $params = array();
@@ -449,7 +450,6 @@ class Enterprise_Search_Model_Resource_Collection
                 $notAnchorStmt = null;
             }
             $select = null;
-            $this->unsProductCountSelect();
         }
 
         foreach ($categoryCollection as $category) {
@@ -461,6 +461,7 @@ class Enterprise_Search_Model_Resource_Collection
         }
 
         return $this;
+        */
     }
 
     /**
@@ -489,7 +490,7 @@ class Enterprise_Search_Model_Resource_Collection
      */
     public function addCategoryFilter(Mage_Catalog_Model_Category $category)
     {
-        $this->addSearchQfFilter('categories', $category->getId());
+     //   $this->addSearchQfFilter('categories', $category->getId());
         return $this;
     }
 }
