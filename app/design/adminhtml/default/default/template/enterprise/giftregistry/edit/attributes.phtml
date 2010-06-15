@@ -43,12 +43,12 @@ var attributeTemplate =
     '<table id="{{prefix}}_attribute_{{id}}" class="option-header" cellpadding="0" cellspacing="0">'+
     '<thead>'+
         '<tr>'+
-            '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Code') ?> <span class="required">*</span></th>'+
-            '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Input Type') ?> <span class="required">*</span></th>'+
-            '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Attribute Group') ?> <span class="required">*</span></th>'+
-            '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Label') ?> <span class="required">*</span></th>'+
-            '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Sort Order') ?></th>'+
-            '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Is Required') ?></th>'+
+            '<th class="opt-title"><?php echo Mage::helper('enterprise_giftregistry')->__('Code') ?> <span class="required">*</span></th>'+
+            '<th class="opt-type"><?php echo Mage::helper('enterprise_giftregistry')->__('Input Type') ?> <span class="required">*</span></th>'+
+            '<th class="opt-type"><?php echo Mage::helper('enterprise_giftregistry')->__('Attribute Group') ?> <span class="required">*</span></th>'+
+            '<th class="opt-title"><?php echo Mage::helper('enterprise_giftregistry')->__('Label') ?> <span class="required">*</span></th>'+
+            '<th class="opt-req"><?php echo Mage::helper('enterprise_giftregistry')->__('Is Required') ?></th>'+
+            '<th class="opt-order"><?php echo Mage::helper('enterprise_giftregistry')->__('Sort Order') ?></th>'+
             '<th class="a-right"><?php echo $this->jsQuoteEscape($this->getDeleteButtonHtml()) ?></th>'+
         '</tr>'+
     '</thead>'+
@@ -57,8 +57,8 @@ var attributeTemplate =
         '<td><?php echo $this->getTypeSelectHtml() ?></td>'+
         '<td><?php echo $this->getGroupSelectHtml() ?></td>'+
         '<td><input type="text" class="required-entry input-text" id="{{prefix}}_attribute_{{id}}_label" name="attributes[{{prefix}}][{{id}}][label]" value="{{label}}">{{checkbox_scope}}</td>'+
-        '<td><input type="text" class="input-text global-scope" id="{{prefix}}_attribute_{{id}}_sort_order" name="attributes[{{prefix}}][{{id}}][sort_order]" value="{{sort_order}}"></td>'+
         '<td><?php echo $this->getRequiredSelectHtml() ?></td>'+
+        '<td><input type="text" class="input-text global-scope" id="{{prefix}}_attribute_{{id}}_sort_order" name="attributes[{{prefix}}][{{id}}][sort_order]" value="{{sort_order}}"></td>'+
         '<td>'+
             '<input type="hidden" id="{{prefix}}_attribute_{{id}}_is_deleted" name="attributes[{{prefix}}][{{id}}][is_deleted]">'+
             '<input type="hidden" id="{{prefix}}_attribute_{{id}}_hidden_type" name="attributes[{{prefix}}][{{id}}][type]" value="{{type}}">'+
@@ -68,14 +68,14 @@ var attributeTemplate =
     '</tr>'+
     '</table>'+
 
-    '<div>'+
+    '<div class="giftregistry-custom-attributes">'+
         '<div id="{{prefix}}_attribute_{{id}}_options"></div>'+
-        '<div id="{{prefix}}_option_ext_{{id}}" class="box-right">'+
+        '<div id="{{prefix}}_option_ext_{{id}}">'+
             '<table cellpadding="0" cellspacing="0" class="option-header">'+
              '<thead>'+
              '<tr>'+
-                '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Is Searcheable') ?> </th>'+
-                '<th><?php echo Mage::helper('enterprise_giftregistry')->__('Is Listed') ?></th>'+
+                '<th class="opt-title"><?php echo Mage::helper('enterprise_giftregistry')->__('Is Searcheable') ?> </th>'+
+                '<th class="opt-title"><?php echo Mage::helper('enterprise_giftregistry')->__('Is Listed') ?></th>'+
             '</tr>'+
             '</thead>'+
             '<tr>'+
@@ -84,7 +84,6 @@ var attributeTemplate =
             '</tr>'+
             '</table>'+
         '</div>'+
-        '<div class="clear"></div>'+
     '</div>'+
     '</div>';
 
@@ -332,7 +331,7 @@ var customAttribute = {
     insertOptionTemplate : function(template, data){
         var id = data.prefix+'_'+data.id+'_type_'+data.type;
         if (!$(id)) {
-            var output = '<div id="'+id+'" class="type-options box-left">'+template+'</div>';
+            var output = '<div id="'+id+'" class="type-options">'+template+'</div>';
             this.secondTemplate = new Template(output, this.templateSyntax);
 
             element='registry_attribute_'+data.id+'_options';
