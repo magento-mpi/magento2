@@ -81,7 +81,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
             'label'     => Mage::helper('enterprise_customer')->__('Lines Count'),
             'title'     => Mage::helper('enterprise_customer')->__('Lines Count'),
             'required'  => true,
-            'class'     => 'validate-digits',
+            'class'     => 'validate-digits-range digits-range-2-20',
+            'note'      => Mage::helper('enterprise_customer')->__('Valid range 2-20')
         ), 'frontend_input');
 
         $fieldset->addField('input_validation', 'select', array(
@@ -238,8 +239,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
 
         // get data using methods to apply scope
         $formValues = $this->getAttributeObject()->getData();
-        foreach ($formValues as $key => $value) {
-            $formValues[$key] = $this->getAttributeObject()->getDataUsingMethod($key);
+        foreach (array_keys($formValues) as $idx) {
+            $formValues[$idx] = $this->getAttributeObject()->getDataUsingMethod($idx);
         }
         $this->getForm()->addValues($formValues);
 

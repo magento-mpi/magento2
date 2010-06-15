@@ -419,6 +419,18 @@ Validation.addAllThese([
     ['validate-digits', 'Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.', function(v) {
                 return Validation.get('IsEmpty').test(v) ||  !/[^\d]/.test(v);
             }],
+    ['validate-digits-range', 'Value don\'t satisfy limits.', function(v, elm) {
+                var result = Validation.get('IsEmpty').test(v) ||  !/[^\d]/.test(v);
+                var reRange = new RegExp(/^digits-range-[0-9]+-[0-9]+$/);
+                $w(elm.className).each(function(name, index) {
+                    if (name.match(reRange) && result) {
+                       var min = name.split('-')[2];
+                       var max = name.split('-')[3];
+                       result = (v >= min) && (v <= max);
+                    }
+                });
+                return result;
+            }],
     ['validate-alpha', 'Please use letters only (a-z or A-Z) in this field.', function (v) {
                 return Validation.get('IsEmpty').test(v) ||  /^[a-zA-Z]+$/.test(v)
             }],
