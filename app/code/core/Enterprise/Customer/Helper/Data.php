@@ -396,6 +396,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Enterprise_Helper_Core_
     /**
      * Returns array of user defined attribute codes
      *
+     * @param string $entityTypeCode
      * @return array
      */
     protected function _getUserDefinedAttributeCodes($entityTypeCode)
@@ -414,11 +415,21 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Enterprise_Helper_Core_
         return $this->_userDefinedAttributeCodes[$entityTypeCode];
     }
 
+    /**
+     * Returns array of user defined attribute codes for customer entity type
+     *
+     * @return array
+     */
     public function getCustomerUserDefinedAttributeCodes()
     {
         return $this->_getUserDefinedAttributeCodes('customer');
     }
 
+    /**
+     * Returns array of user defined attribute codes for customer address entity type
+     *
+     * @return array
+     */
     public function getCustomerAddressUserDefinedAttributeCodes()
     {
         return $this->_getUserDefinedAttributeCodes('customer_address');
