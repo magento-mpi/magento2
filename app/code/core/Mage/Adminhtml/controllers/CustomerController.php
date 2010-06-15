@@ -105,7 +105,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
         // restore data from SESSION
         if ($data) {
-            Mage::log(var_export($data, true));
             $request = clone $this->getRequest();
             $request->setParams($data);
 
@@ -218,8 +217,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
             $modifiedAddresses = array();
             if (!empty($data['address'])) {
-                Mage::log(var_export($data['address'], true));
-
                 /* @var $addressForm Mage_Customer_Model_Form */
                 $addressForm = Mage::getModel('customer/form');
                 $addressForm->setFormCode('adminhtml_customer_address');

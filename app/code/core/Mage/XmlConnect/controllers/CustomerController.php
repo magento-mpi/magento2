@@ -483,7 +483,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             } catch (Mage_Core_Exception $e) {
                 $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
             } catch (Exception $e) {
-                Mage::log($e);
+                Mage::logException($e);
                 $this->_message($this->__('Cannot save address.'), self::MESSAGE_STATUS_ERROR);
             }
         } else {

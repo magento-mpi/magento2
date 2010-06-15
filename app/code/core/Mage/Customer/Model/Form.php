@@ -447,7 +447,7 @@ class Mage_Customer_Model_Form
         if (!$this->getEntity()->getId()) {
             foreach ($this->getAttributes() as $attribute) {
                 $default = $attribute->getDefaultValue();
-                if ($default) {
+                if ($default != '') {
                     $this->getEntity()->setData($attribute->getAttributeCode(), $default);
                 }
             }

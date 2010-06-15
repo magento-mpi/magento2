@@ -120,7 +120,8 @@ class Mage_Customer_Model_Attribute_Data_File extends Mage_Customer_Model_Attrib
         }
 
         if (!empty($rules['max_file_size'])) {
-            if ($rules['max_file_size'] < $value['size']) {
+            $size = filesize($value['tmp_name']);
+            if ($rules['max_file_size'] < $size) {
                 return array(
                     Mage::helper('customer')->__('"%s" is not a valid file size.', $label)
                 );
