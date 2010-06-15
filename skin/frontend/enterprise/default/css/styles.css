@@ -1841,6 +1841,10 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .centinel .authentication iframe { width:99%; height:400px; background:transparent !important; margin:0 !important; padding:0 !important; border:0 !important; }
 
 .opc .centinel { margin:0; padding:20px; }
+
+/* Checkout Success */
+.checkout-onepage-success .col-main { font-size:12px; }
+.checkout-onepage-success .col-main p { margin:0 0 10px; }
 /********** Common Checkout Styles > */
 /* ======================================================================================= */
 
