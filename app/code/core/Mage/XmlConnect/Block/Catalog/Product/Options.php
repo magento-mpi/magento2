@@ -91,7 +91,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options extends Mage_XmlConnect_Bloc
             $optionNode->addAttribute('type', $type);
             $optionNode->addAttribute('label', $xmlModel->xmlentities(strip_tags($option->getTitle())));
             if ($option->getIsRequire()) {
-                $optionNode->addAttribute('is_require', 1);
+                $optionNode->addAttribute('is_required', 1);
             }
 
             /**

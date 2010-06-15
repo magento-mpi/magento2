@@ -81,7 +81,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Bundle extends Mage_XmlConne
             $optionNode->addAttribute('type', $type);
             $optionNode->addAttribute('label', $optionsXmlObj->xmlentities(strip_tags($_option->getTitle())));
             if ($_option->getRequired()) {
-                $optionNode->addAttribute('is_require', 1);
+                $optionNode->addAttribute('is_required', 1);
             }
 
 //            $_default = $_option->getDefaultSelection();
