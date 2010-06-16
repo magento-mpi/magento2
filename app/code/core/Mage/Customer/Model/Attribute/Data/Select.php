@@ -63,7 +63,7 @@ class Mage_Customer_Model_Attribute_Data_Select extends Mage_Customer_Model_Attr
             $value = $this->getEntity()->getData($attribute->getAttributeCode());
         }
 
-        if ($attribute->getIsRequired() && empty($value)) {
+        if ($attribute->getIsRequired() && empty($value) && $value != '0') {
             $errors[] = Mage::helper('customer')->__('"%s" is required value', $label);
         }
 

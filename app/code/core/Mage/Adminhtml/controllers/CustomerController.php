@@ -278,14 +278,15 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
             $isNewCustomer = $customer->isObjectNew();
             try {
-                if ($customer->getPassword() == 'auto') {
-                    $sendPassToEmail = true;
-                    $customer->setPassword($customer->generatePassword());
-                }
-
+                $sendPassToEmail = false;
                 // force new customer active
                 if ($isNewCustomer) {
+                    $customer->setPassword($data['account']['password']);
                     $customer->setForceConfirmed(true);
+                    if ($customer->getPassword() == 'auto') {
+                        $sendPassToEmail = true;
+                        $customer->setPassword($customer->generatePassword());
+                    }
                 }
 
                 Mage::dispatchEvent('adminhtml_customer_prepare_save', array(
