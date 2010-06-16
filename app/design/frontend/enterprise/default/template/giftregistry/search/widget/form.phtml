@@ -37,16 +37,33 @@
                 <label for="search_by" class="required"><strong><?php echo Mage::helper('enterprise_giftregistry')->__('Search By'); ?></strong> <em>*</em></label>
                 <div class="input-box">
                     <select id="search_by">
-                        <option><?php echo Mage::helper('enterprise_giftregistry')->__('Select Search Type'); ?></option>
-                        <option><?php echo Mage::helper('enterprise_giftregistry')->__('Registrant Name'); ?></option>
-                        <option><?php echo Mage::helper('enterprise_giftregistry')->__('Registrant Email'); ?></option>
-                        <option><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry ID'); ?></option>
+                        <option value=""><?php echo Mage::helper('enterprise_giftregistry')->__('Select Search Type'); ?></option>
+                        <option value="name"><?php echo Mage::helper('enterprise_giftregistry')->__('Registrant Name'); ?></option>
+                        <option value="email"><?php echo Mage::helper('enterprise_giftregistry')->__('Registrant Email'); ?></option>
+                        <option value="id"><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry ID'); ?></option>
                     </select>
                 </div>
             </li>
         </ul>
+
+        <script type="text/javascript">
+        //<![CDATA[
+            var searchType = $('search_by');
+            function showForm(){
+                $$('.search-form').each(function(form){
+                    form.hide();
+                });
+                formId = 'gr-quick-search-widget-' + searchType.value + '-form';
+                if ($(formId)) {
+                    $(formId).show();
+                }
+            }
+            Event.observe(searchType, 'change', showForm);
+        //]]>
+        </script>
+
 <?php if ($this->useTypeForm()) : ?>
-    <form id="gr-quick-search-widget-form" action="<?php echo $this->getActionUrl() ?>" method="post" style="display:none;">
+    <form id="gr-quick-search-widget-name-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="search-form" style="display:none;">
         <ul class="form-alt">
             <li>
                 <?php echo $this->getBlockHtml('formkey')?>
@@ -74,7 +91,7 @@
     </form>
     <script type="text/javascript">
     //<![CDATA[
-        var grQuickSearchWidgetForm = new VarienForm('gr-quick-search-widget-form');
+        var grQuickSearchWidgetForm = new VarienForm('gr-quick-search-widget-name-form');
 
         Validation.addAllThese([
             ['validate-name-length', '<?php echo $this->__('Please enter at least 2 letters.') ?>', function(v, elm) {
@@ -86,7 +103,7 @@
 <?php endif; ?>
 
 <?php if ($this->useEmailForm()) : ?>
-    <form id="gr-quick-search-widget-email-form" action="<?php echo $this->getActionUrl() ?>" method="post" style="display:none;">
+    <form id="gr-quick-search-widget-email-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="search-form" style="display:none;">
         <ul class="form-alt">
             <li>
                 <?php echo $this->getBlockHtml('formkey')?>
@@ -109,7 +126,7 @@
 <?php endif; ?>
 
 <?php if ($this->useIdForm()) : ?>
-    <form id="gr-quick-search-widget-id-form" action="<?php echo $this->getActionUrl() ?>" method="post" style="display:none;">
+    <form id="gr-quick-search-widget-id-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="search-form" style="display:none;">
         <ul class="form-alt">
             <li>
                 <?php echo $this->getBlockHtml('formkey')?>
