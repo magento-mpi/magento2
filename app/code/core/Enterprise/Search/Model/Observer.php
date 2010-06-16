@@ -52,14 +52,12 @@ class Enterprise_Search_Model_Observer
                 'label'       => Mage::helper('catalog')->__('Search Weight'),
                 'values'      => Mage::getModel("enterprise_search/source_weight")->getOptions(),
             ), 'is_searchable');
-
             /**
              * Disable default search fields
              */
             $attributeCode = $attribute->getAttributeCode();
-            $searchModel = Mage::getModel('enterprise_search/adapter_phpExtension');
-            $defaultSearchTextFields = $searchModel->getSearchTextFields();
-            if (in_array($attributeCode, $defaultSearchTextFields)) {
+
+            if ($attributeCode == 'name') {
                 $form->getElement('is_searchable')->setDisabled(1);
             }
         }
