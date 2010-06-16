@@ -310,6 +310,8 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         if ($this->getStatusId() !== self::STATUS_CANCELED) {
             Mage::dispatchEvent('sales_order_item_cancel', array('item'=>$this));
             $this->setQtyCanceled($this->getQtyToCancel());
+            $this->setTaxCanceled($this->getTaxCanceled() + $this->getBaseTaxAmount() * $this->getQtyCanceled() / $this->getQtyOrdered());
+            $this->setHiddenTaxCanceled($this->getHiddenTaxCanceled() + $this->getHiddenTaxAmount() * $this->getQtyCanceled() / $this->getQtyOrdered());
         }
         return $this;
     }
