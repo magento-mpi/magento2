@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.4.0.0.29</version>
+            <version>1.4.0.0.30</version>
         </Mage_Catalog>
     </modules>
 
@@ -726,11 +726,6 @@
                 <tree_mode>0</tree_mode>
                 <lines_perpage>30</lines_perpage>
             </sitemap>
-            <price>
-                <scope>0</scope>
-                <range>1000000</range>
-            </price>
-
             <product>
                 <default_tax_group>2</default_tax_group>
             </product>
