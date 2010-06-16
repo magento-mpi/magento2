@@ -97,16 +97,19 @@ class Enterprise_Search_Model_Resource_Catalog_Facets_Attribute extends Enterpri
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
         $field = $attribute->getAttributeCode();
-        $fieldType = $attribute->getBackendType();
+        $backendType = $attribute->getBackendType();
         $frontendInput = $attribute->getFrontendInput();
 
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
         }
-        elseif ($fieldType == 'decimal') {
+        elseif ($backendType == 'int') {
+            $field = 'attr_select_'. $field;
+        }
+        elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;
         }
-        elseif (in_array($fieldType, $this->_textFieldTypes)) {
+        elseif (in_array($backendType, $this->_textFieldTypes)) {
             $field .= $languageSuffix;
         }
 

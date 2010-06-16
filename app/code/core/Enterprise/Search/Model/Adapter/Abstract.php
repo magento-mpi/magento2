@@ -700,7 +700,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected function _prepareFieldCondition($field, $value)
     {
-        if ($field == "categories") {
+        if ($field == 'categories') {
             $fieldCondition = "(categories:{$value} OR show_in_categories:{$value})";
         } else {
             $fieldCondition = $field .':'. $value;

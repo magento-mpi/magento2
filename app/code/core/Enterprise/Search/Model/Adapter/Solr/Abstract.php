@@ -250,7 +250,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
             $field = 'attr_multi_'. $field;
         }
         elseif ($backendType == 'int') {
-            $data['attr_select_'. $key] = $value;
+            $field = 'attr_select_'. $field;
         }
         elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;
