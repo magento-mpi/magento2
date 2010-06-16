@@ -281,7 +281,7 @@ ul.tabs-horiz li a.active       { border-bottom:1px solid #fff; background:#fff;
 .mm-pager ul li a { float:left; margin:0 0 0 5px; text-decoration:none; display:block; padding:0 5px; color:#303030; border:1px solid #aaa; }
 .mm-pager ul li a.active { border:1px solid #6c8991; background:#6c8991; color:#fff; }
 #fieldTabs { padding:0 !important; }
-#fieldTabs .mm-tabs-title { background:#ececec; padding:4px 10px; margin:0 0 15px 0; font-weight:bold; }
+#fieldTabs .mm-tabs-title { background:#ececec; padding:4px 10px; margin:0 -10px 15px; font-weight:bold; }
 #fieldTabs table { width:500px !important; margin:0 10px 20px 10px; }
 
 /* MESSAGES

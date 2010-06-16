@@ -24,6 +24,10 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<div class="box-left" style="min-width:540px;"><?php echo $this->getChildHtml('edit_form'); ?></div>
-<div class="box-right" style="width:360px;"><?php echo $this->getChildHtml('app_preview'); ?></div>
-<div class="box-clear"></div>
+<table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td valign="top" width="540px"><?php echo $this->getChildHtml('edit_form'); ?></td>
+        <td width="20px"> </td>
+        <td valign="top" width="360px"><?php echo $this->getChildHtml('app_preview'); ?></td>
+    </tr>
+</table>
