@@ -26,6 +26,6 @@
 ?>
 <?php if ($this->getEnabled()): ?>
 <div>
-    <a href="<?php echo $this->getGiftregistryUrl() ?>" title="<?php echo $this->getGiftregistryTitle() ?>"><?php echo $this->getGiftregistryTitle() ?></a>
+    <a href="<?php echo $this->getGiftregistryUrl() ?>" title="<?php echo $this->getGiftregistryTitle() ?>"><?php echo $this->helper('core/string')->truncate($this->getGiftregistryTitle(), 50) ?></a>
 </div>
 <?php endif; ?>
