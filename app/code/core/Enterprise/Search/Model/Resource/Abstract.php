@@ -107,6 +107,9 @@ class Enterprise_Search_Model_Resource_Abstract extends Mage_Core_Model_Resource
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
         }
+        elseif ($backendType == 'int') {
+            $field = 'attr_select_'. $field;
+        }
         elseif ($fieldType == 'decimal') {
             $field = 'attr_decimal_'. $field;
         }

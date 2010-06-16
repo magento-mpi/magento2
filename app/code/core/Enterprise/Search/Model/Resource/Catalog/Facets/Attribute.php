@@ -147,6 +147,10 @@ class Enterprise_Search_Model_Resource_Catalog_Facets_Attribute extends Enterpri
         $productCollection = $this->getLayer()->getProductCollection();
         //$facets = $productCollection->getFacets($params);
         $facet = $productCollection->getFacetedData($this->getAttributeSolrFieldName($attribute));
+        foreach ($facet as $key => $val) {
+            $facet[strtolower($key)] = $val;
+            unset($facet[$key]);
+        }
 
         //$facet = !empty($facets[$params['facet']['field']]) ? $facets[$params['facet']['field']] : array();
 
