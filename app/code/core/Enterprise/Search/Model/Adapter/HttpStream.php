@@ -253,7 +253,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                         $searchParams['facet.field'] = $facetField;
                     }
                     else {
-                        $searchParams['facet.query'] = array();
+                        //$searchParams['facet.query'] = array();
                         foreach ($facetFieldConditions as $facetCondition) {
                             if (is_array($facetCondition) && isset($facetCondition['from']) && isset($facetCondition['to'])) {
                                 $from = (isset($facetCondition['from']) && !empty($facetCondition['from']))
@@ -266,7 +266,8 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                             }
                             else {
                                 $facetCondition = $this->_prepareQueryText($facetCondition);
-                                $fieldCondition = "$facetField:$facetCondition";
+                                //$fieldCondition = "$facetField:$facetCondition";
+                                $fieldCondition = $this->_prepareFieldCondition($facetField, $facetCondition);
                             }
 
                             $searchParams['facet.query'][] = $fieldCondition;
@@ -298,14 +299,16 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                         $fieldCondition = array();
                         foreach ($value as $part) {
                             $part = $this->_prepareQueryText($part);
-                            $fieldCondition[] = $field .':'. strtolower($part);
+                            //$fieldCondition[] = $field .':'. strtolower($part);
+                            $fieldCondition[] = $this->_prepareFieldCondition($field, strtolower($part));
                         }
                         $fieldCondition = '(' . implode(' OR ', $fieldCondition) . ')';
                     }
                 }
                 else {
                     $value = $this->_prepareQueryText($value);
-                    $fieldCondition = $field .':'. $value;
+                    //$fieldCondition = $field .':'. $value;
+                    $fieldCondition = $this->_prepareFieldCondition($field, $value);
                 }
 
                 $searchParams['fq'][] = $fieldCondition;
