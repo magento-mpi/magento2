@@ -126,24 +126,18 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
                     <td class="label"><label><?php echo Mage::helper('sales')->__('Email') ?></label></td>
                     <td><a href="mailto:<?php echo $_order->getCustomerEmail() ?>"><strong><?php echo $_order->getCustomerEmail() ?></strong></a></td>
                 </tr>
-                <?php if ($_groupName=$this->getCustomerGroupName()) : ?>
+                <?php if ($_groupName = $this->getCustomerGroupName()) : ?>
                 <tr>
                     <td class="label"><label><?php echo Mage::helper('sales')->__('Customer Group') ?></label></td>
                     <td><strong><?php echo $_groupName ?></strong></td>
                 </tr>
                 <?php endif; ?>
-                <?php if ($_dob=$this->getOrder()->getCustomerDob()) : ?>
+                <?php foreach ($this->getCustomerAccountData() as $data):?>
                 <tr>
-                    <td class="label"><label><?php echo Mage::helper('sales')->__('Date of Birth') ?></label></td>
-                    <td><strong><?php echo Mage::helper('core')->formatDate($_dob, 'medium') ?></strong></td>
+                    <td class="label"><label><?php echo $data['label'] ?></label></td>
+                    <td><strong><?php echo $data['value'] ?></strong></td>
                 </tr>
-                <?php endif; ?>
-                <?php if ($_taxvat = $_order->getCustomerTaxvat()):?>
-                <tr>
-                    <td class="label"><label><?php echo Mage::helper('sales')->__('TAX/VAT Number') ?></label></td>
-                    <td><strong><?php echo $this->htmlEscape($_taxvat)?></strong></td>
-                </tr>
-                <?php endif;?>
+                <?php endforeach;?>
                 </table>
             </div>
         </div>

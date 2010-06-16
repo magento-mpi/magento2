@@ -104,6 +104,17 @@ class Mage_Customer_Model_Attribute_Data_Select extends Mage_Customer_Model_Attr
     }
 
     /**
+     * Return a text for option value
+     *
+     * @param int $value
+     * @return string
+     */
+    protected function _getOptionText($value)
+    {
+        return $this->getAttribute()->getSource()->getOptionText($value);
+    }
+
+    /**
      * Return formated attribute value from entity model
      *
      * @return string|array
@@ -115,8 +126,8 @@ class Mage_Customer_Model_Attribute_Data_Select extends Mage_Customer_Model_Attr
             case Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON:
                 $output = $value;
             default:
-                if ($value) {
-                    $output = $this->getAttribute()->getSource()->getOptionText($value);
+                if ($value != '') {
+                    $output = $this->_getOptionText($value);
                 } else {
                     $output = '';
                 }
