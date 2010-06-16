@@ -142,6 +142,10 @@ New customer registration
                     <action method="setFormCode"><code>customer_account_create</code></action>
                     <action method="setEntityModelClass"><code>customer/customer</code></action>
                 </block>
+                <block type="enterprise_customer/form" template="customer/form/userattributes.phtml" name="customer_form_address_user_attributes">
+                    <action method="setFormCode"><code>customer_register_address</code></action>
+                    <action method="setEntityModelClass"><code>customer/address</code></action>
+                </block>
             </block>
         </reference>
         <update handle="customer_form_template_handle"/>
