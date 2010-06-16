@@ -55,7 +55,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
             $data = array();
             foreach ($categories as $category) {
                 $categoryId = $category->getId();
-                if (!empty($facets[$categoryId])) {
+                if (isset($facets[$categoryId])) {
                     $category->setProductCount($facets[$categoryId]);
                 }
                 if ($category->getIsActive() && $category->getProductCount()) {
