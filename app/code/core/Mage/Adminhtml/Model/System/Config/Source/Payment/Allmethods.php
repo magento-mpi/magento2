@@ -26,16 +26,21 @@
 
 class Mage_Adminhtml_Model_System_Config_Source_Payment_Allmethods
 {
+    const XML_PATH_PAYMENT_METHODS = 'payment';
+
     protected function _getPaymentMethods()
     {
-        return Mage::getSingleton('payment/config')->getAllMethods();
+        return Mage::getSingleton(self::XML_PATH_PAYMENT_METHODS.'/config')->getAllMethods();
     }
 
     public function toOptionArray()
     {
         $methods = array(array('value'=>'', 'label'=>''));
         foreach ($this->_getPaymentMethods() as $paymentCode=>$paymentModel) {
-            $paymentTitle = Mage::getStoreConfig('payment/'.$paymentCode.'/title');
+            $paymentTitle = Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS.'/'.$paymentCode.'/title');
+            if (empty($paymentTitle)){
+                $paymentTitle = Mage::helper('payment')->getMethodInstance($paymentCode)->getConfigData('title');
+            }
             $methods[$paymentCode] = array(
                 'label'   => $paymentTitle,
                 'value' => $paymentCode,
