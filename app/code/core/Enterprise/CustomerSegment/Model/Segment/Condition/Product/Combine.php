@@ -124,7 +124,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
         $gotConditions = false;
         foreach ($this->getConditions() as $condition) {
             if ($condition->getSubfilterType() == 'product') {
-                $subfilter = $condition->getSubfilterSql('product.entity_id', ($this->getValue() == 1), $website);
+                $subfilter = $condition->getSubfilterSql('main.entity_id', ($this->getValue() == 1), $website);
                 if ($subfilter) {
                     $select->$whereFunction($subfilter);
                     $gotConditions = true;
