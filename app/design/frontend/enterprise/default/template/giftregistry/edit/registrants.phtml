@@ -25,9 +25,9 @@
  */
 ?>
 
-<div id="template_container" style="display:none" class="template">
+<div id="template_container" class="template" style="display:none;">
     <div id="template_registrant">
-            <input name="registrant[{{index}}][person_id]" value="" id="registrant:person_id{{index}}" type="hidden"/>
+            <input name="registrant[{{index}}][person_id]" value="" id="registrant:person_id{{index}}" type="hidden" />
             <p class="btn-remove" id="btn-remove{{index}}"><a href="#" onclick="removeRegistrant({{index}}); return false" class="btn-remove">
                 <img src="<?php echo $this->getSkinUrl('images/btn_remove.gif') ?>" alt="<?php echo $this->__('Remove') ?>" /></a>
             </p>
@@ -113,6 +113,7 @@
     <div class="fieldset">
         <h2 class="legend"><?php echo $this->__('Registrants Information') ?></h2>
         <ul class="form-list" id="registrant_options">
+            <li class="no-display">&nbsp;</li>
         </ul>
     </div>
 

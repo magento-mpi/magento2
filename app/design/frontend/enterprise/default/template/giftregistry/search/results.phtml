@@ -57,5 +57,5 @@
 <script type="text/javascript">decorateTable('giftregistry-search-results')</script>
 <?php echo $this->getChildHtml('pager') ?>
 <?php else: ?>
-    <?php echo $this->__('Your search returned no results.') ?>
+    <p class="error-msg"><?php echo $this->__('Your search returned no results.') ?></p>
 <?php endif; ?>

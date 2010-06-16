@@ -40,6 +40,9 @@
         <table class="data-table" id="wishlist-table">
         <col width="1" />
         <col />
+        <?php if ($this->getEnabled()): ?>
+        <col width="1" />
+        <?php endif; ?>
         <col width="1" />
         <col width="1" />
         <col width="1" />
@@ -64,19 +67,23 @@
                         <?php echo $this->getPriceHtml($item) ?>
                     </td>
                     <td>
-                        <textarea name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="5" style="width:99%; height:10em;" onfocus="focusComment(this)" onblur="focusComment(this)"><?php echo ( $this->getEscapedDescription($item) ) ? $this->getEscapedDescription($item) : $this->helper('wishlist')->defaultCommentString() ?></textarea>
+                        <textarea name="description[<?php echo $item->getWishlistItemId() ?>]" rows="3" cols="5" style="width:99%; height:109px;" onfocus="focusComment(this)" onblur="focusComment(this)"><?php echo ( $this->getEscapedDescription($item) ) ? $this->getEscapedDescription($item) : $this->helper('wishlist')->defaultCommentString() ?></textarea>
                     </td>
                     <td>
                         <span class="nobr"><?php echo $this->getFormatedDate($item->getAddedAt()) ?></span>
                     </td>
                     <?php if ($this->getEnabled() && $entityValues):?>
                     <td>
-                        <select id="giftregistry_entity_<?php echo $item->getProductId()?>" name="entity" title="<?php echo $this->__('Gift Registry') ?>" >
-                            <?php foreach ($entityValues as $_entity):?>
-                                <option value="<?php echo $_entity->getValue()?>"><?php echo $_entity->getTitle()?></option>
-                            <?php endforeach;?>
-                        </select>
-                        <button type="button" onclick="addProductToGiftregistry('<?php echo $item->getProductId() ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
+                        <div class="btn-gift-registry">
+                            <div class="input-box">
+                                <select id="giftregistry_entity_<?php echo $item->getProductId()?>" name="entity" title="<?php echo $this->__('Gift Registry') ?>" >
+                                    <?php foreach ($entityValues as $_entity):?>
+                                        <option value="<?php echo $_entity->getValue()?>"><?php echo $_entity->getTitle()?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </div>
+                            <button type="button" onclick="addProductToGiftregistry('<?php echo $item->getProductId() ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
+                        </div>
                     </td>
                     <?php endif;?>
 
@@ -110,8 +117,10 @@
     <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
 </div>
 <form action="<?php echo $this->getAddUrl();?>" method="post" id="giftregistry-form">
-    <input type="hidden" name="product" value=""/>
-    <input type="hidden" name="entity" value=""/>
+    <div class="no-display">
+        <input type="hidden" name="product" value="" />
+        <input type="hidden" name="entity" value="" />
+    </div>
 </form>
 
 <script type="text/javascript">

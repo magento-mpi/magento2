@@ -201,6 +201,8 @@ p.required { margin:0; padding:5px 0 0 0; text-align:right; width:620px; font-si
 
 .form-list li { margin:0 0 9px; vertical-align:top; }
 .form-list label { float:left; width:225px; padding:2px 15px 0 0; font-size:12px; font-weight:bold; color:#444; text-align:right; }
+.form-list .value { float:left; padding:2px 0 0; }
+.form-list .note { clear:both; width:380px; margin:0; padding:3px 0 0 240px; }
 .form-list span.label { font-weight:normal; }
 .form-list .input-box { float:left; /* width:256px; */ }
 .form-list .input-box a { font-size:11px; margin-top:4px; }
@@ -256,7 +258,7 @@ ul.add-row .btn-remove,
 a.back-link { color:#999; }
 .buttons-set p.back-link a { color:#999; }
 .buttons-set a.button,
-.buttons-set button.button { float:right; }
+.buttons-set button.button { float:right; margin-left:7px; }
 .buttons-set2 { clear:both; margin:5px 0 0; padding:5px; background-color:#ededed; text-align:right; }
 
 .form-buttons { margin:0; width:620px; } /* for button containing block under the general form */
@@ -266,6 +268,7 @@ a.back-link { color:#999; }
 .btn-only { /* padding-left:240px; */ }
 
 /* Overrides for 3columns */
+.col3-layout .form-list .note { padding-left:165px; width:280px; }
 .col3-layout .form-buttons p.back-link,
 .col3-layout .form-list label { width:150px; }
 .col3-layout .form-list input.input-text,
@@ -908,6 +911,12 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .block-progress dt { font-weight:bold; }
 .block-progress dt.complete,
 .block-progress dd.complete { background-color:#f6f6f6; }
+
+/* Gift Registry Search */
+.sidebar .block-gr-search .form-alt .input-box { width:148px; margin:3px 0 0; padding:0; }
+.sidebar .block-gr-search .form-alt input.input-text { width:142px; }
+.sidebar .block-gr-search .form-alt select { width:148px; }
+.block-gr-search p.note { margin:0 0 3px; text-align:right; color:#f15c22; }
 
 /* Paypal */
 .sidebar .paypal-logo { display:block; margin:10px 0; text-align:center; }
@@ -2015,6 +2024,11 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .billing-agreements .info-box { margin:15px 0; }
 .billing-agreements .info-box p { margin:0 0 9px; }
 .billing-agreements .form-list li button.button { float:left; margin-left:10px; }
+
+/* Gift Registry */
+.btn-gift-registry { background:url(../images/i_gift-registry1.gif) 0 0 no-repeat; padding-left:30px; text-align:left; }
+.btn-gift-registry .input-box { margin:0 0 7px; }
+.cart .checkout-types .btn-gift-registry select { width:100%; }
 /* ======================================================================================= */
 
 

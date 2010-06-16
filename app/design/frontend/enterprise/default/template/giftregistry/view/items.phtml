@@ -35,46 +35,44 @@
     $_itemsCount = count($this->getItems());
     if ($_itemsCount) :
 ?>
-<div>
-    <h1><?php echo $this->__('Gift Registry Items') ?></h1>
-    <form action="<?php echo $this->getActionUrl() ?>" method="post">
-        <fieldset>
-            <table id="shopping-cart-table" class="data-table cart-table">
-                <col width="1" />
-                <col />
-                <col width="1" />
-                <col width="1" />
-                <col width="1" />
-                <col width="1" />
-                <col width="1" />
-                <thead>
-                    <tr>
-                        <th>&nbsp;</th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Requested') ?></span></th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Fulfilled') ?></span></th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Remaining') ?></span></th>
-                        <th class="a-center"><span class="nobr"><?php echo $this->__('Unit Price') ?></span></th>
-                        <th class="a-center"><?php echo $this->__('Qty') ?></th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <td colspan="50" class="a-right">
-                            <button type="submit" class="button btn-update"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
-                        </td>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <?php foreach($this->getItems() as $_item): ?>
-                        <?php echo $this->getItemHtml($_item) ?>
-                    <?php endforeach ?>
-                </tbody>
-            </table>
-            <script type="text/javascript">decorateTable('shopping-cart-table')</script>
-        </fieldset>
-    </form>
-</div>
+<h2 class="subtitle"><?php echo $this->__('Gift Registry Items') ?></h2>
+<form action="<?php echo $this->getActionUrl() ?>" method="post">
+    <fieldset>
+        <table id="shopping-cart-table" class="data-table cart-table">
+            <col width="1" />
+            <col />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <col width="1" />
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th class="a-center"><span class="nobr"><?php echo $this->__('Product Name') ?></span></th>
+                    <th class="a-center"><span class="nobr"><?php echo $this->__('Requested') ?></span></th>
+                    <th class="a-center"><span class="nobr"><?php echo $this->__('Fulfilled') ?></span></th>
+                    <th class="a-center"><span class="nobr"><?php echo $this->__('Remaining') ?></span></th>
+                    <th class="a-center"><span class="nobr"><?php echo $this->__('Unit Price') ?></span></th>
+                    <th class="a-center"><?php echo $this->__('Qty') ?></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="50" class="a-right">
+                        <button type="submit" class="button btn-update"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <?php foreach($this->getItems() as $_item): ?>
+                    <?php echo $this->getItemHtml($_item) ?>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+        <script type="text/javascript">decorateTable('shopping-cart-table')</script>
+    </fieldset>
+</form>
 <?php else: ?>
     <p><?php echo $this->__('Gift Registry has no items.') ?></p>
 <?php endif ?>

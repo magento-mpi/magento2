@@ -316,7 +316,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                             Mage::helper('enterprise_giftregistry')->__('The gift registry has been shared for %d emails.', $count)
                         );
                     } else {
-                        $this->_getSession()->addNotice(
+                        $this->_getSession()->addError(
                             Mage::helper('enterprise_giftregistry')->__('Failed to share gift registry.')
                         );
                     }

@@ -28,49 +28,51 @@
 <?php $entity = $this->getEntity() ?>
 <?php if ($entity): ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<h2 ><?php echo $this->__('Gift Registry Info') ?></h2>
+<div class="page-title">
+    <h1><?php echo $this->__('Gift Registry Info') ?></h1>
+</div>
 <form>
     <div class="fieldset">
-        <ul>
+        <ul class="form-list">
             <li>
                 <label for="view_title"><?php echo $this->__('Title:') ?></label>
-                 <div class="input-box">
+                <div class="input-box">
                     <input id="view_title" type="text" class="input-text " readonly="readonly" value="<?php echo $this->escapeHtml($entity->getTitle()) ?>"/>
                 </div>
             </li>
             <li>
                 <label for="view_customer"><?php echo $this->__('Registrant:') ?></label>
-                 <div class="input-box">
+                <div class="input-box">
                     <input id="view_customer" type="text" class="input-text " readonly="readonly" value="<?php echo $this->escapeHtml($entity->getRegistrants()) ?>"/>
                 </div>
             </li>
             <li>
                 <label for="view_registry_type"><?php echo $this->__('Registry type:') ?></label>
-                 <div class="input-box">
+                <div class="input-box">
                     <input id="view_registry_type" type="text" class="input-text " readonly="readonly" value="<?php echo $this->escapeHtml($entity->getTypeLabel()) ?>"/>
                 </div>
             </li>
             <li>
                 <label for="view_registry_date"><?php echo $this->__('Event Date:') ?></label>
-                 <div class="input-box">
+                <div class="input-box">
                     <input id="view_registry_date" type="text" class="input-text " readonly="readonly" value="<?php echo $this->getFormattedDate($entity) ?>"/>
                 </div>
             </li>
             <li>
                 <label for="view_registry_location"><?php echo $this->__('Location:') ?></label>
-                 <div class="input-box">
+                <div class="input-box">
                     <input id="view_registry_location" type="text" class="input-text " readonly="readonly" value="<?php echo $this->escapeHtml($entity->getEventLocation()) ?>"/>
                 </div>
             </li>
             <li>
                 <label for="view_registry_owner"><?php echo $this->__('Registry owner:') ?></label>
-                 <div class="input-box">
+                <div class="input-box">
                     <input id="view_registry_owner" type="text" class="input-text " readonly="readonly" value="<?php echo $this->escapeHtml($entity->getCustomer()->getName()) ?>"/>
                 </div>
             </li>
             <li>
                 <label for="view_registry_message"><?php echo $this->__('Message:') ?></label>
-                 <div class="input-box">
+                <div class="input-box">
                     <textarea id="view_registry_message" class="input-text" readonly="readonly"><?php echo $this->escapeHtml($entity->getMessage()) ?></textarea>
                 </div>
             </li>
