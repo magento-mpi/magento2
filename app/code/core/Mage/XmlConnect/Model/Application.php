@@ -132,16 +132,39 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
     public function getRenderConf()
     {
-        $result = $extra = array();
+        $result = Mage::helper('xmlconnect/iphone')->getDefaultConfiguration();
+        $result = $result['native'];
+        $extra = array();
         if (isset($this->_data['conf'])) {
             if (isset($this->_data['conf']['native'])) {
-                $result = $this->_data['conf']['native'];
+                $result = array_merge_recursive($result, $this->_data['conf']['native']);
             }
             if (isset($this->_data['conf']['extra'])) {
                 $extra = $this->_data['conf']['extra'];
                 if (isset($extra['tabs'])) {
                     $tabs = new Mage_XmlConnect_Model_Tabs($extra['tabs']);
                     $result['tabBar']['tabs'] = $tabs;
+                }
+                if (isset($extra['fontColors'])) {
+                    if (isset($extra['fontColors']['header'])) {
+                        $result['fonts']['Title1']['color'] = $extra['fontColors']['header'];
+                    }
+                    if (isset($extra['fontColors']['primary'])) {
+                        $result['fonts']['Title2']['color'] = $extra['fontColors']['primary'];
+                        $result['fonts']['Title3']['color'] = $extra['fontColors']['primary'];
+                        $result['fonts']['Text1']['color'] = $extra['fontColors']['primary'];
+                        $result['fonts']['Text2']['color'] = $extra['fontColors']['primary'];
+                    }
+                    if (isset($extra['fontColors']['secondary'])) {
+                        $result['fonts']['Title4']['color'] = $extra['fontColors']['secondary'];
+                        $result['fonts']['Title6']['color'] = $extra['fontColors']['secondary'];
+                        $result['fonts']['Title8']['color'] = $extra['fontColors']['secondary'];
+                        $result['fonts']['Title7']['color'] = $extra['fontColors']['secondary'];
+                        $result['fonts']['Title9']['color'] = $extra['fontColors']['secondary'];
+                    }
+                    if (isset($extra['fontColors']['price'])) {
+                        $result['fonts']['Title5']['color'] = $extra['fontColors']['price'];
+                    }
                 }
             }
         }

@@ -45,8 +45,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Advanced extends Mage_XmlC
 
         $fieldset = $form->addFieldset('sortingBar', array('legend' => $this->__('Sorting Bar')));
         $this->_addElementTypes($fieldset);
-        //$this->addImage($fieldset, 'conf[native][sortingBar][backgroundImage]', $this->__('Background Image'));
+        $this->addColor($fieldset, 'conf[native][sortingBar][backgroundColor]', $this->__('Background Color'));
         $this->addColor($fieldset, 'conf[native][sortingBar][tintColor]', $this->__('Tint Color'));
+
+        $fieldset = $form->addFieldset('categoryItem', array('legend' => $this->__('Category Item')));
+        $this->_addElementTypes($fieldset);
+        $this->addColor($fieldset, 'conf[native][categoryItem][backgroundColor]', $this->__('Background Color'));
+        $this->addColor($fieldset, 'conf[native][categoryItem][tintColor]', $this->__('Tint Color'));
 
         $fieldset = $form->addFieldset('body_section', array('legend' => $this->__('Body')));
         $this->_addElementTypes($fieldset);
@@ -81,6 +86,20 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Advanced extends Mage_XmlC
         $this->addColor($fieldset, 'conf[native][itemActions][relatedProductBackgroundColor]', $this->__('Related Product Background Color'));
         $this->addColor($fieldset, 'conf[native][itemActions][configHeaderBackgroundColor]', $this->__('Config Header Background Color'));
         $this->addColor($fieldset, 'conf[native][itemActions][configContentBackgroundColor]', $this->__('Config Content Background Color'));
+
+        /*
+        $this->addFont($fieldset, 'conf[native][fonts][Title1]', $this->__('Navigation bar title'));
+        $this->addFont($fieldset, 'conf[native][fonts][Title2]', $this->__('Main header font'));
+        $this->addFont($fieldset, 'conf[native][fonts][Title3]', $this->__('Applied filters values'));
+        $this->addFont($fieldset, 'conf[native][fonts][Title4]', $this->__('Applied filters title'));
+        $this->addFont($fieldset, 'conf[native][fonts][Title5]', $this->__('Price'));
+        $this->addFont($fieldset, 'conf[native][fonts][Title6]', $this->__('Add to cart button label'));
+        $this->addFont($fieldset, 'conf[native][fonts][Title7]', $this->__('Related products label'));
+        $this->addFont($fieldset, 'conf[native][fonts][Title8]', $this->__('Item actions font'));
+        $this->addFont($fieldset, 'conf[native][fonts][Text1]', $this->__('Version number'));
+        $this->addFont($fieldset, 'conf[native][fonts][Text2]', $this->__('Main description text'));
+        */
+
         $model = Mage::registry('current_app');
         $form->setValues($model->getFormData());
         return parent::_prepareForm();

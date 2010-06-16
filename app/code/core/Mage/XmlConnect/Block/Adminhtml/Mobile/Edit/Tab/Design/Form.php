@@ -39,7 +39,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_X
         $this->addImage($fieldset, 'conf[native][navigationBar][icon]', 'Logo in header');
         $this->addImage($fieldset, 'conf[native][body][bannerImage]', 'Banner on Home Screen');
         $this->addImage($fieldset, 'conf[native][body][backgroundImage]', 'Application Background');
-        $this->addImage($fieldset, 'conf[native][body][itemBackgroundIcon]', 'Category Background');
 
         $fieldset = $form->addFieldset('fieldColors', array('legend' => $this->__('Color Themes')));
         $this->_addElementTypes($fieldset);
@@ -48,23 +47,16 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_X
             'themes'    => Mage::helper('xmlconnect/data')->getThemes(),
         ));
         $this->addColor($fieldset, 'conf[native][navigationBar][tintColor]', $this->__('Header Background Color'));
-        $this->addImage($fieldset, 'conf[native][body][rowBackgroundIcon]', $this->__('Primary Background Image'));
-        $this->addImage($fieldset, 'conf[native][sortingBar][backgroundImage]', $this->__('Title Background Image'));
+        $this->addColor($fieldset, 'conf[native][body][primaryColor]', $this->__('Primary Color'));
+        $this->addColor($fieldset, 'conf[native][body][secondaryColor]', $this->__('Secondary Color'));
         $this->addColor($fieldset, 'conf[native][body][buttonBackgroundColor]', $this->__('Button Background Color'));
-        $this->addImage($fieldset, 'conf[native][itemActions][backgroundImage]', $this->__('Context Menu Background Image'));
 
         $fieldset = $form->addFieldset('fieldFonts', array('legend' => $this->__('Fonts')));
         $this->_addElementTypes($fieldset);
-        $this->addFont($fieldset, 'conf[native][fonts][Title1]', $this->__('Navigation bar title'));
-        $this->addFont($fieldset, 'conf[native][fonts][Title2]', $this->__('Main header font'));
-        $this->addFont($fieldset, 'conf[native][fonts][Title3]', $this->__('Applied filters values'));
-        $this->addFont($fieldset, 'conf[native][fonts][Title4]', $this->__('Applied filters title'));
-        $this->addFont($fieldset, 'conf[native][fonts][Title5]', $this->__('Price'));
-        $this->addFont($fieldset, 'conf[native][fonts][Title6]', $this->__('Add to cart button label'));
-        $this->addFont($fieldset, 'conf[native][fonts][Title7]', $this->__('Related products label'));
-        $this->addFont($fieldset, 'conf[native][fonts][Title8]', $this->__('Item actions font'));
-        $this->addFont($fieldset, 'conf[native][fonts][Text1]', $this->__('Version number'));
-        $this->addFont($fieldset, 'conf[native][fonts][Text2]', $this->__('Main description text'));
+        $this->addColor($fieldset, 'conf[extra][fontColors][header]', $this->__('Header font color'));
+        $this->addColor($fieldset, 'conf[extra][fontColors][primary]', $this->__('Primary font color'));
+        $this->addColor($fieldset, 'conf[extra][fontColors][secondary]', $this->__('Secondary font color'));
+        $this->addColor($fieldset, 'conf[extra][fontColors][price]', $this->__('Price font color'));
 
         $fieldset = $form->addFieldset('fieldTabs', array('legend' => $this->__('Tabs')));
         $this->_addElementTypes($fieldset);

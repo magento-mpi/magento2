@@ -35,9 +35,6 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
      {
         return array(
             'native' => array(
-                'navigationBar' => array(
-                    'backgroundColor' => '#000000',
-                ),
                 'fonts' => array(
                     'Title1' => array(
                         'name' => 'HelveticaNeue-Bold',
@@ -77,6 +74,11 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
                     'Title8' => array(
                         'name' => 'HelveticaNeue-Bold',
                         'size' => '9',
+                        'color' => '#FFFFFF',
+                    ),
+                    'Title9' => array(
+                        'name' => 'HelveticaNeue-Bold',
+                        'size' => '12',
                         'color' => '#FFFFFF',
                     ),
                     'Text1' => array(
