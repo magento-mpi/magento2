@@ -28,7 +28,7 @@
 <img src="<?php echo $this->getThemeImage(); ?>"
     id="XmlconnectThemePreview" width="320" height="481" alt="Theme Preview" title="Theme Preview" />
 <div class="mm-box-blue a-center" style="width:280px;">
-    <button type="button" class="scalable" onclick=""><span>Update Preview</span></button>
+    <button type="button" class="scalable" onclick="updatePreview()"><span>Update Preview</span></button>
 </div>
 <div class="mm-pager">
     <strong>Screens:</strong>
@@ -40,6 +40,9 @@
     </ul>
 </div>
 <script type="text/javascript">
+    function updatePreview() {
+        editForm.submit($('edit_form').action + 'preview/1/')
+    }
     $('mmPager').childElements().each(function(t){
         Event.observe(t.down('a'), 'click', function(e){
             e.stop();

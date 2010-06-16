@@ -101,6 +101,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     {
         $data = $this->getRequest()->getPost();
         $redirectBack = $this->getRequest()->getParam('back', false);
+        $previewMode = $this->getRequest()->getParam('preview', false);
         $app = false;
         if ($data) {
             try {
@@ -113,8 +114,16 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                         }
                     }
                 }
-                $app->save();
-                $this->_getSession()->addSuccess($this->__('Application has been saved.'));
+                if ($previewMode) {
+                    //var_dump($app->getConf());
+                    $block = new Mage_XmlConnect_Block_Configuration;
+                    echo '<pre>'.htmlspecialchars($block->toHtml());
+                    die();
+                }
+                else {
+                    $app->save();
+                    $this->_getSession()->addSuccess($this->__('Application has been saved.'));
+                }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addException($e, $e->getMessage());
                 $redirectBack = true;
