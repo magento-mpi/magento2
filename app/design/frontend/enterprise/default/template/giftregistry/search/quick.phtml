@@ -34,11 +34,10 @@
         <div class="block-content">
             <?php echo $this->getBlockHtml('formkey')?>
             <div><?php echo Mage::helper('enterprise_giftregistry')->__('First Name') ?> <em>*</em></div>
-            <div><input type="text" class="input-text required-entry" id="params_firstname" name="params[firstname]" /></div>
+            <div><input type="text" class="input-text required-entry validate-name-length" id="params_firstname" name="params[firstname]" /></div>
 
             <div><?php echo Mage::helper('enterprise_giftregistry')->__('Last Name') ?> <em>*</em></div>
-            <div><input type="text" class="input-text required-entry" id="params_lastname" name="params[lastname]" /></div>
-            <div><em>*</em> <?php echo Mage::helper('enterprise_giftregistry')->__('Enter at least two letters of the name') ?></div>
+            <div><input type="text" class="input-text required-entry validate-name-length" id="params_lastname" name="params[lastname]" /></div>
 
             <div><?php echo Mage::helper('enterprise_giftregistry')->__('Type') ?></div>
             <div><?php echo $this->getTypeSelectHtml() ?></div>
@@ -79,6 +78,12 @@
     var grQuickSearchForm = new VarienForm('gr-quick-search-form');
     var grQuickSearchEmailForm = new VarienForm('gr-quick-search-email-form');
     var grQuickSearchIdForm = new VarienForm('gr-quick-search-id-form');
+
+    Validation.addAllThese([
+        ['validate-name-length', '<?php echo $this->__('Please enter at least 2 letters.') ?>', function(v, elm) {
+            return (v.length >= 2);
+        }]
+    ]);
 //]]>
 </script>
 <?php endif; ?>

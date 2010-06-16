@@ -121,13 +121,13 @@ class Enterprise_GiftRegistry_SearchController extends Enterprise_Enterprise_Con
             case 'type':
                 if (empty($params['firstname']) || strlen($params['firstname']) < 2) {
                     $this->_getSession()->addNotice(
-                        Mage::helper('enterprise_giftregistry')->__('Please enter at least 2 letters of the registrant first name.')
+                        Mage::helper('enterprise_giftregistry')->__('Please enter at least 2 letters of the first name.')
                     );
                     return false;
                 }
                 if (empty($params['lastname']) || strlen($params['lastname']) < 2) {
                     $this->_getSession()->addNotice(
-                        Mage::helper('enterprise_giftregistry')->__('Please enter at least 2 letters of the registrant last name.')
+                        Mage::helper('enterprise_giftregistry')->__('Please enter at least 2 letters of the last name.')
                     );
                     return false;
                 }
