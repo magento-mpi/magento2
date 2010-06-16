@@ -202,7 +202,7 @@ p.required { margin:0; padding:5px 0 0 0; text-align:right; width:620px; font-si
 .form-list li { margin:0 0 9px; vertical-align:top; }
 .form-list label { float:left; width:225px; padding:2px 15px 0 0; font-size:12px; font-weight:bold; color:#444; text-align:right; }
 .form-list .value { float:left; padding:2px 0 0; }
-.form-list .note { clear:both; width:380px; margin:0; padding:3px 0 0 240px; }
+.form-list .note { clear:both; font-size:11px; width:380px; margin:0; padding:3px 0 0 240px; }
 .form-list span.label { font-weight:normal; }
 .form-list .input-box { float:left; /* width:256px; */ }
 .form-list .input-box a { font-size:11px; margin-top:4px; }
@@ -911,12 +911,6 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .block-progress dt { font-weight:bold; }
 .block-progress dt.complete,
 .block-progress dd.complete { background-color:#f6f6f6; }
-
-/* Gift Registry Search */
-.sidebar .block-gr-search .form-alt .input-box { width:148px; margin:3px 0 0; padding:0; }
-.sidebar .block-gr-search .form-alt input.input-text { width:142px; }
-.sidebar .block-gr-search .form-alt select { width:148px; }
-.block-gr-search p.note { margin:0 0 3px; text-align:right; color:#f15c22; }
 
 /* Paypal */
 .sidebar .paypal-logo { display:block; margin:10px 0; text-align:center; }
@@ -1957,6 +1951,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 /* Wishlist */
 #wishlist-table td { text-align:center; }
 #wishlist-table .price-box { margin:3px 0; }
+#wishlist-table button.btn-cart { margin-top:3px; }
 
 /* Store credit */
 .storecredit .account-balance { margin:0 0 20px; padding:0 0 10px; font-size:12px; background:url(../images/bkg_dots.gif) repeat-x 0 100%; }
@@ -2025,10 +2020,16 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .billing-agreements .info-box p { margin:0 0 9px; }
 .billing-agreements .form-list li button.button { float:left; margin-left:10px; }
 
-/* Gift Registry */
-.btn-gift-registry { background:url(../images/i_gift-registry1.gif) 0 0 no-repeat; padding-left:30px; text-align:left; }
+/* Gift Registry Functionality */
+.btn-gift-registry { background:url(../images/i_gift-registry3.gif) 0 0 no-repeat; padding:3px 0 0 33px; text-align:left; }
 .btn-gift-registry .input-box { margin:0 0 7px; }
-.cart .checkout-types .btn-gift-registry select { width:100%; }
+.btn-gift-registry select { width:100%; }
+.gift-registry-name { background:url(../images/i_gift-registry2.gif) 0 0 no-repeat; margin:3px 0 0; padding:0 0 0 20px; line-height:18px; }
+/* Block: Gift Registry Search */
+.sidebar .block-gr-search .form-alt .input-box { width:148px; margin:3px 0 0; padding:0; }
+.sidebar .block-gr-search .form-alt input.input-text { width:142px; }
+.sidebar .block-gr-search .form-alt select { width:148px; }
+.block-gr-search p.note { margin:0 0 3px; text-align:right; color:#f15c22; }
 /* ======================================================================================= */
 
 

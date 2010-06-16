@@ -28,13 +28,13 @@
 <tr>
     <td><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->escapeHtml($this->getProductName()) ?>"><?php endif;?><img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
     <td>
-        <h2 class="product-name">
+        <h3 class="product-name">
         <?php if ($this->hasProductUrl()):?>
             <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
         <?php else: ?>
             <?php echo $this->escapeHtml($this->getProductName()) ?>
         <?php endif; ?>
-        </h2>
+        </h3>
         <?php if ($_options = $this->getOptionList()):?>
 
         <dl class="item-options">
@@ -81,7 +81,4 @@
             <input name="items[<?php echo $_item->getItemId() ?>][qty]" value="0" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" />
         <?php endif;?>
     </td>
-
-
-
 </tr>

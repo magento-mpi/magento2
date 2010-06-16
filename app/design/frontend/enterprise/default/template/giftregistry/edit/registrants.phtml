@@ -115,19 +115,18 @@
         <ul class="form-list" id="registrant_options">
             <li class="no-display">&nbsp;</li>
         </ul>
-    </div>
-
-    <div class="buttons-set form-buttons">
-        <p class="back-link">
-            <span id="max_registrant_message" style="display:none;">
-                <?php if ($this->getMaxRegistrant()): ?>
-                    <?php echo $this->__('Maximum %d email addresses allowed.', $this->getMaxRegistrant()) ?>
-                <?php endif; ?>
-            </span>&nbsp;
-        </p>
-        <?php if (1 < $this->getMaxRegistrant()): ?>
-            <button type="button" id="add_registrant_button" onclick="addRegistrant();" class="button"><span><span><?php echo $this->__('Add Registrant') ?></span></span></button>
-        <?php endif; ?>
+        <div class="buttons-set form-buttons">
+            <p class="back-link">
+                <span id="max_registrant_message" style="display:none;">
+                    <?php if ($this->getMaxRegistrant()): ?>
+                        <?php echo $this->__('Maximum %d email addresses allowed.', $this->getMaxRegistrant()) ?>
+                    <?php endif; ?>
+                </span>&nbsp;
+            </p>
+            <?php if (1 < $this->getMaxRegistrant()): ?>
+                <button type="button" id="add_registrant_button" onclick="addRegistrant();" class="button"><span><span><?php echo $this->__('Add Registrant') ?></span></span></button>
+            <?php endif; ?>
+        </div>
     </div>
 
 <script type="text/javascript">
