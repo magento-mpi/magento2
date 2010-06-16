@@ -119,15 +119,12 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
     /**
      * Defines text type fields
-     * Integer attributes are saved at metadata as text because in fact they are values for
-     * options of select type inputs but their values are presented as text aliases
      *
      * @var array
      */
     protected $_textFieldTypes = array(
         'text',
-        'varchar',
-        'int'
+        'varchar'
     );
 
     /**
@@ -341,6 +338,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $this->optimize();
 
         }
+
         return $this;
     }
 
@@ -362,6 +360,10 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             foreach ($_result['ids'] as $_id) {
                 $ids[] = $_id['id'];
             }
+        }
+
+        if (!isset($_result['facets'])) {
+            $_result['facets'] = array();
         }
 
         return array($ids, $_result['facets']);

@@ -174,9 +174,13 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 $data['attr_multi_'. $key] = $value;
                 unset($data[$key]);
             }
+            elseif ($backendType == 'int') {
+                $data['attr_select_'. $key] = $value;
+                unset($data[$key]);
+            }
             elseif (in_array($backendType, $this->_textFieldTypes) || in_array($key, $this->_searchTextFields)) {
                 /*
-                 * for groupped products imploding all posible unique values
+                 * for groupped products imploding all possible unique values
                  */
                 if (is_array($value)) {
                     $value = implode(' ', array_unique($value));
@@ -239,16 +243,19 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         $attribute = Mage::getSingleton('eav/config')->getAttribute($entityType, $attributeCode);
 
         $field = $attributeCode;
-        $fieldType = $attribute->getBackendType();
+        $backendType = $attribute->getBackendType();
         $frontendInput = $attribute->getFrontendInput();
 
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
         }
-        elseif ($fieldType == 'decimal') {
+        elseif ($backendType == 'int') {
+            $data['attr_select_'. $key] = $value;
+        }
+        elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;
         }
-        elseif (in_array($fieldType, $this->_textFieldTypes)) {
+        elseif (in_array($backendType, $this->_textFieldTypes)) {
             $languageCode = $this->_getLanguageCodeByLocaleCode(
                 Mage::app()->getStore()
                 ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE));

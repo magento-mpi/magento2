@@ -248,7 +248,7 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
     /**
      * Check if engine is available
      *
-     * @return string|string
+     * @return bool
      */
     protected function _checkEngine()
     {

@@ -70,6 +70,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
             $tags = $this->getLayer()->getStateTags();
             $this->getLayer()->getAggregator()->saveCacheData($data, $key, $tags);
         }
+
         return $data;
     }
 
@@ -139,9 +140,10 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
     {
         $productCollection = $this->getLayer()->getProductCollection();
         $value = array(
-            "categories" => $category->getId()
+            'categories' => $category->getId()
         );
         $productCollection->addFqFilter($value);
+
         return $this;
     }
 }

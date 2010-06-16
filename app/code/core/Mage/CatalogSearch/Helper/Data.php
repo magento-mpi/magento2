@@ -357,43 +357,4 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $this->_engine;
     }
-
-    /**
-     * Get search engine for navigation
-     *
-     * @return object|false
-     */
-    public function getEngineForNavigation()
-    {
-        $taxCondition = Mage::helper('tax')->getPriceTaxSql();
-        if ($taxCondition != '' && Mage::getSingleton('customer/session')->isLoggedIn()) {
-            return Mage::getResourceSingleton('catalogsearch/fulltext_engine');
-        }
-        else {
-            $tax = Mage::getSingleton('tax/calculation')
-                ->getRate(
-                    Mage::getSingleton('tax/calculation')
-                        ->getRateOriginRequest(
-                            Mage::app()->getStore()->getId()));
-            if (Mage::helper('tax')->priceIncludesTax()) {
-                if (Mage::helper('tax')->displayPriceExcludingTax()) {
-                    if ($tax != 0) {
-                        $rate = 1 / $tax;
-                    }
-                    else {
-                        $rate = 0;
-                    }
-                }
-            }
-            else {
-                if (!Mage::helper('tax')->displayPriceExcludingTax()) {
-                    $rate = $tax;
-                }
-            }
-
-            $this->getEngine()->getResultCollection()->setPriceCorrelation($rate);
-
-            return $this->getEngine();
-        }
-    }
 }

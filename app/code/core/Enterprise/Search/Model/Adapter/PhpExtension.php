@@ -278,7 +278,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             if (isset($params['facet'])) {
                 foreach ($params['facet'] as $facetField => $facetFieldConditions) {
                     if (empty($facetFieldConditions)) {
-                        $_params['solr_params']['facet.field'] = $facetField;
+                        $_params['solr_params']['facet.field'][] = $facetField;
                     }
                     else {
                        // $_params['solr_params']['facet.query'] = array();

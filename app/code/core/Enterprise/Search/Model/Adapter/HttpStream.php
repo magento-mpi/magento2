@@ -250,7 +250,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             if (isset($params['facet'])) {
                 foreach ($params['facet'] as $facetField => $facetFieldConditions) {
                     if (empty($facetFieldConditions)) {
-                        $searchParams['facet.field'] = $facetField;
+                        $searchParams['facet.field'][] = $facetField;
                     }
                     else {
                         //$searchParams['facet.query'] = array();
