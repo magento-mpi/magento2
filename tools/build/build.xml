@@ -1,36 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Magento" basedir=".">
-    <!-- DB properties -->
-    <property name="src.dir"     value="src"/>
-    <property name="build.dir"   value="build"/>
-    <property name="classes.dir" value="${build.dir}/classes"/>
-    <property name="jar.dir"     value="${build.dir}/jar"/>
-    <property name="main-class"  value="oata.HelloWorld"/>
+<project name="magento">
+    
+    <target name="install" description="Installing Magento instance.">
+        <exec executable="/bin/sh" failonerror="true">
+    	    <arg value="install.sh"/>
+    	    <arg value="${teamcity.buildConfName}"/>
+            <arg value="${build.number}"/>
+	</exec>
+    </target>
+    
+    <target name="prepare-env" description="prepare basic (clean) ENV for instance.">
+        <exec executable="/bin/sh" failonerror="true">
+            <arg value="prepare.sh"/>
+            <arg value="${teamcity.buildConfName}"/>
+            <arg value="${build.number}"/>
+        </exec>
+    </target>
+    
+    <target name="prepare-env-previous" depends="prepare-env" description="Prepare ENV (DB, websites folder) from previous instance.">
+        <exec executable="/bin/sh" failonerror="true">
+            <arg value="prepare-previous.sh"/>
+            <arg value="${teamcity.buildConfName}"/>
+            <arg value="${build.number}"/>
+        </exec>
+    </target>
+    
+    <target name="prepare-env-sample-data-ce" depends="prepare-env" description="Prepare ENV with sample data for CE instance."/>
+    <target name="prepare-env-sample-data-ee" depends="prepare-env" description="Prepare ENV with sample data for EE instance."/>
+    <target name="prepare-env-sample-data-pe" depends="prepare-env" description="Prepare ENV with sample data for PE instance."/>
 
-    <target name="install-clean">
-        <delete dir="${build.dir}"/>
+    <target name="brutetest" description="Basic validation for Magento installation.">
+        <exec executable="/bin/sh" failonerror="true">
+            <arg value="brutetest.sh"/>
+            <arg value="${teamcity.buildConfName}"/>
+            <arg value="${build.number}"/>
+        </exec>	
+    </target>
+    
+    <target name="finalize" description="Update 'current' symlink and successful in scope of build name.">
+        <exec executable="/bin/sh" failonerror="true">
+            <arg value="finalize.sh"/>
+            <arg value="${teamcity.buildConfName}"/>
+            <arg value="${build.number}"/>
+        </exec> 
+    </target>
+    
+    <target name="archive-builds" description="Arcvhive all builds in scope of build name.">
+	<exec executable="/bin/sh" failonerror="true">
+            <arg value="archive.sh"/>
+            <arg value="${teamcity.buildConfName}"/>
+            <arg value="${build.number}"/>
+        </exec>    
     </target>
 
-    <target name="compile">
-        <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}"/>
+    <!-- targets to clean current checkout for specific build type -->
+    <target name="prepare-trunk" description="Prepare trunk checkout.">
+        <copy file="XEnterprise_Enabler.xml" tofile="${teamcity.build.checkoutDir}/app/etc/modules/XEnterprise_Enabler.xml" failonerror="true"/>
     </target>
+    <target name="prepare-ce" description="Prepare CE checkout (remove unneed files, etc)"/>
+    <target name="prepare-ee" description="Prepare EE checkout (remove unneed files, fix license, etc)"/>
+    <target name="prepare-pe" description="Prepare PE checkout (remove unneed files, fix licemse, etc)"/>
+    
+    <target name="tag" description="Create tag for this build."/>
 
-    <target name="jar" depends="compile">
-        <mkdir dir="${jar.dir}"/>
-        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
-            <manifest>
-                <attribute name="Main-Class" value="${main-class}"/>
-            </manifest>
-        </jar>
-    </target>
-
-    <target name="run" depends="jar">
-        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
-    </target>
-
-    <target name="clean-build" depends="clean,jar"/>
-
-    <target name="main" depends="clean,run"/>
+    <target name="nightly-build" description="Installs Magento nightly build." depends="prepare-env-previous, install, brutetest, finalize, archive-builds"/>
 
 </project>
