@@ -100,8 +100,10 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->loadLayout();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/sales_order_grid')->toHtml()
+        );
     }
 
     /**
