@@ -77,7 +77,7 @@ class Enterprise_Search_Helper_Data extends Enterprise_Enterprise_Helper_Core_Ab
         }
 
         foreach ($object['facet_queries'] as $attr => $val) {
-            if (preg_match('/\(categories:(\d)+ OR show_in_categories\:\d+\)/', $attr, $matches)) {
+            if (preg_match('/\(categories:(\d+) OR show_in_categories\:\d+\)/', $attr, $matches)) {
                 $res['categories'][$matches[1]]    = $val;
             } else {
                 $attrArray = explode(':', $attr);
