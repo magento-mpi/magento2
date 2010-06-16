@@ -132,8 +132,10 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
         $email = $xml->addChild('emailToFriend');
         $email->addChild('maxRecepients', $maxRecepients);
 
-        $xml->addChild('paypalBusinessAccount', Mage::getStoreConfig('paypal/general/business_account'));
-        $xml->addChild('paypalMerchantLabel', $this->_app->getData('conf/special/merchantLabel'));
+        $paypal = $xml->addChild('paypal');
+        $paypal->addChild('isActive', 1);
+        $paypal->addChild('businessAccount', Mage::getStoreConfig('paypal/general/business_account'));
+        $paypal->addChild('merchantLabel', $this->_app->getData('conf/special/merchantLabel'));
 
         return $xml->asNiceXml();
     }
