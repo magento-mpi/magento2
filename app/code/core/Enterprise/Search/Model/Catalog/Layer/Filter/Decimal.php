@@ -46,17 +46,6 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
         $rangeKey = $attributeCode . '_item_counts_' . $range;
         $items = $this->getData($rangeKey);
         if (is_null($items)) {
-            $maxValue    = $this->getMaxValue();
-            $facets = array();
-            $facetCount  = ceil($maxValue / $range);
-
-            for ($i = 0; $i < $facetCount; $i++) {
-                $facets[] = array(
-                    'from' => $i * $range,
-                    'to'   => ($i + 1) * $range
-                );
-            }
-
             $field = 'attr_decimal_'. $attributeCode;
 
             $productCollection = $this->getLayer()->getProductCollection();
@@ -65,10 +54,10 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
             $res = array();
             if (!empty($facets)) {
                 foreach ($facets as $key => $count) {
-                    preg_match('/TO (\d+)\]$/', $key, $rangeKey);
+                    preg_match('/TO ([\d\.]+)\]$/', $key, $rangeKey);
                     $rangeKey = $rangeKey[1] / $range;
                     if ($count > 0) {
-                        $res[$rangeKey] = $count;
+                        $res[round($rangeKey)] = $count;
                     }
                 }
             }
@@ -98,7 +87,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
         for ($i = 0; $i < $facetCount; $i++) {
             $facets[] = array(
                 'from' => $i * $range,
-                'to'   => ($i + 1) * $range
+                'to'   => ($i + 1) * $range - 0.001
             );
         }
 
@@ -155,7 +144,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
         $value = array(
             $field => array(
                 'from' => ($range * ($index - 1)),
-                'to'   => $range * $index
+                'to'   => $range * $index - 0.001
             )
         );
 

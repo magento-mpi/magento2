@@ -44,17 +44,6 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         $rangeKey = 'range_item_counts_' . $range;
         $items = $this->getData($rangeKey);
         if (is_null($items)) {
-            $maxPrice    = $this->getMaxPriceInt();
-            $priceFacets = array();
-            $facetCount  = ceil($maxPrice / $range);
-
-            for ($i = 0; $i < $facetCount; $i++) {
-                $priceFacets[] = array(
-                    'from' => $i * $range,
-                    'to'   => ($i + 1) * $range
-                );
-            }
-
             $websiteId       = Mage::app()->getStore()->getWebsiteId();
             $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
             $priceField      = 'price_'. $customerGroupId .'_'. $websiteId;
@@ -65,15 +54,14 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             $res = array();
             if (!empty($facets)) {
                 foreach ($facets as $key => $count) {
-                    preg_match('/TO (\d+)\]$/', $key, $rangeKey);
+                    preg_match('/TO ([\d\.]+)\]$/', $key, $rangeKey);
                     $rangeKey = $rangeKey[1] / $range;
                     if ($count > 0) {
-                        $res[$rangeKey] = $count;
+                        $res[round($rangeKey)] = $count;
                     }
                 }
             }
             $items = $res;
-
             $this->setData($rangeKey, $items);
         }
 
@@ -99,7 +87,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         for ($i = 0; $i < $facetCount; $i++) {
             $priceFacets[] = array(
                 'from' => $i * $range,
-                'to'   => ($i + 1) * $range
+                'to'   => (($i + 1) * $range) - 0.001
             );
         }
 
@@ -160,7 +148,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
         $value = array(
             $priceField => array(
                 'from' => ($range * ($index - 1)),
-                'to'   => $range * $index
+                'to'   => $range * $index - 0.001
             )
         );
 
