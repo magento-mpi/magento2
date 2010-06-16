@@ -170,6 +170,19 @@ class Mage_Catalog_Model_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_F
      */
     public function getRange()
     {
+        $currentCategory = Mage::registry('current_category_filter');
+        if ($currentCategory === null) {
+            $currentCategory = Mage::registry('current_category');
+        }
+        $range = $currentCategory->getData('layered_navigation_price_filter_range');
+        if (!$range) {
+            // Get default attribute value
+            $attributeModel = Mage::getModel('catalog/resource_eav_attribute');
+            $attributeModel->loadByCode('catalog_category', 'layered_navigation_price_filter_range');
+            $range = $attributeModel->getData('default_value');
+        }
+        return $range;
+        /*
         $range = $this->getData('range');
         if (is_null($range)) {
             $max = $this->getMaxValue();
@@ -184,6 +197,7 @@ class Mage_Catalog_Model_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_F
             $this->setData('range', $range);
         }
         return $range;
+        */
     }
 
     /**

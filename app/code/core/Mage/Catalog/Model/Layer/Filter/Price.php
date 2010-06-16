@@ -72,9 +72,19 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
      */
     public function getPriceRange()
     {
-        $range = Mage::getStoreConfig('catalog/price/range');
+        $currentCategory = Mage::registry('current_category_filter');
+        if ($currentCategory === null) {
+            $currentCategory = Mage::registry('current_category');
+        }
+        $range = $currentCategory->getData('layered_navigation_price_filter_range');
+        if (!$range) {
+            // Get default attribute value
+            $attributeModel = Mage::getModel('catalog/resource_eav_attribute');
+            $attributeModel->loadByCode('catalog_category', 'layered_navigation_price_filter_range');
+            $range = $attributeModel->getData('default_value');
+        }
 
-        return $range; 
+        return $range;
 //        $range = $this->getData('price_range');
 //        if (is_null($range)) {
 //            $maxPrice = $this->getMaxPriceInt();
