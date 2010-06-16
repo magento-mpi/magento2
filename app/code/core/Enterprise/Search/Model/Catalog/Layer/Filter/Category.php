@@ -90,7 +90,14 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
         $category   = $this->getCategory();
         Mage::register('current_category_filter', $category);
 
-        $categories = array_keys($category->getChildrenCategories()->toArray());
+        $childrenCategories = $category->getChildrenCategories();
+
+        $useFlat = Mage::getStoreConfig('catalog/frontend/flat_catalog_category');
+        if ($useFlat) {
+            $categories = array_keys($childrenCategories);
+        } else {
+            $categories = array_keys($childrenCategories->toArray());
+        }
 
         $productCollection = $this->getLayer()->getProductCollection();
         $productCollection->setFacetCondition('categories', $categories);
