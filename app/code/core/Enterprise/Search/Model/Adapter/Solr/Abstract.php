@@ -54,8 +54,6 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      */
     protected $_advancedIndexFieldsPrefix = '';
 
-
-
     /**
      * Set advanced index fields prefix
      *
@@ -85,8 +83,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 if (in_array($localeCode, $locales)) {
                     return $code;
                 }
-            }
-            elseif ($localeCode == $locales) {
+            } elseif ($localeCode == $locales) {
                 return $code;
             }
         }
@@ -152,8 +149,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
 
             if (in_array($key, $this->_usedFields) && !in_array($key, $this->_searchTextFields)) {
                 continue;
-            }
-            elseif ($key == 'options') {
+            } elseif ($key == 'options') {
                 unset($data[$key]);
                 continue;
             }
@@ -161,8 +157,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
             if (!array_key_exists($key, $attributesParams)) {
                 $backendType = (substr($key, 0, 8) == 'fulltext') ? 'text' : null;
                 $frontendInput = null;
-            }
-            else {
+            } else {
                 $backendType = $attributesParams[$key]['backendType'];
                 $frontendInput = $attributesParams[$key]['frontendInput'];
             }
@@ -173,12 +168,10 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 }
                 $data['attr_multi_'. $key] = $value;
                 unset($data[$key]);
-            }
-            elseif ($backendType == 'int') {
+            } elseif ($backendType == 'int') {
                 $data['attr_select_'. $key] = $value;
                 unset($data[$key]);
-            }
-            elseif (in_array($backendType, $this->_textFieldTypes) || in_array($key, $this->_searchTextFields)) {
+            } elseif (in_array($backendType, $this->_textFieldTypes) || in_array($key, $this->_searchTextFields)) {
                 /*
                  * for groupped products imploding all possible unique values
                  */
@@ -188,8 +181,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
 
                 $data[$key . $languageSuffix] = $value;
                 unset($data[$key]);
-            }
-            elseif ($backendType != 'static') {
+            } elseif ($backendType != 'static') {
                 if (substr($key, 0, strlen($fieldPrefix)) == $fieldPrefix) {
                     $data[substr($key, strlen($fieldPrefix))] = $value;
                     unset($data[$key]);
@@ -207,7 +199,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         return $data;
     }
 
-        /**
+    /**
      * Retrive Solr server status
      *
      * @return float Actual time taken to ping the server, FALSE if timeout or HTTP error status occurs
@@ -217,12 +209,10 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         if (is_null($this->_ping)){
             try {
                 $this->_ping = $this->_client->ping();
-            }
-            catch (Exception $e){
+            } catch (Exception $e){
                 $this->_ping = false;
             }
         }
-
         return $this->_ping;
     }
 
@@ -238,24 +228,19 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         if ($attributeCode == 'score') {
             return $attributeCode;
         }
-        $entityType = Mage::getSingleton('eav/config')
-            ->getEntityType('catalog_product');
-        $attribute = Mage::getSingleton('eav/config')->getAttribute($entityType, $attributeCode);
-
-        $field = $attributeCode;
-        $backendType = $attribute->getBackendType();
-        $frontendInput = $attribute->getFrontendInput();
+        $entityType     = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
+        $attribute      = Mage::getSingleton('eav/config')->getAttribute($entityType, $attributeCode);
+        $field          = $attributeCode;
+        $backendType    = $attribute->getBackendType();
+        $frontendInput  = $attribute->getFrontendInput();
 
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
-        }
-        elseif ($backendType == 'int') {
+        } elseif ($backendType == 'int') {
             $field = 'attr_select_'. $field;
-        }
-        elseif ($backendType == 'decimal') {
+        } elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;
-        }
-        elseif (in_array($backendType, $this->_textFieldTypes)) {
+        } elseif (in_array($backendType, $this->_textFieldTypes)) {
             $languageCode = $this->_getLanguageCodeByLocaleCode(
                 Mage::app()->getStore()
                 ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE));

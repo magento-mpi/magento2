@@ -38,13 +38,7 @@ class Enterprise_Search_Model_Source_Weight
      *
      * @var array
      */
-    protected $_weights = array(
-        1,
-        2,
-        3,
-        4,
-        5
-    );
+    protected $_weights = array(1, 2, 3, 4, 5);
 
     /**
      * Retrieve search weights as options array

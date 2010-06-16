@@ -79,15 +79,12 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         'name',
         'sku',
         'price',
-        //'description',
-        //'meta_keyword',
         'store_id',
         'categories',
         'show_in_categories',
         'visibility',
         'in_stock',
-        //'fulltext',
-        'score' //used to support sorting by this field
+        'score'
     );
 
     /**
@@ -95,13 +92,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      *
      * @var array
      */
-    protected $_searchTextFields = array(
-        'name',
-        //'description',
-        //'meta_keyword',
-        //'fulltext',
-        'alphaNameSort' //used to implement more right sorting by name field
-    );
+    protected $_searchTextFields = array('name', 'alphaNameSort');
 
     /**
      * Fields which must be are not included in fulltext field
@@ -122,10 +113,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      *
      * @var array
      */
-    protected $_textFieldTypes = array(
-        'text',
-        'varchar'
-    );
+    protected $_textFieldTypes = array('text', 'varchar');
 
     /**
      * Search query params with their default values
@@ -163,7 +151,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 ->getEntityTypeId();
             $items = Mage::getResourceSingleton('catalog/product_attribute_collection')
                 ->setEntityTypeFilter($entityTypeId)
-                //->addVisibleFilter()
                 ->addToIndexFilter()
                 ->getItems();
 
@@ -199,11 +186,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         foreach ($docData as $entityId => $index) {
             $doc = new $this->_clientDocObjectName;
 
-            /**
-             * Set unique field
-             */
-            $index[self::getUniqueKey()] = $entityId . '|' . $index['store_id'];
-
+            $index[self::UNIQUE_KEY] = $entityId . '|' . $index['store_id'];
             $index['id'] = $entityId;
 
             /**
@@ -245,18 +228,28 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                             $doc->addField($name, $val);
                         }
                     }
-                }
-                else {
+                } else {
                     $doc->addField($name, $value);
                 }
             }
             $docs[] = $doc;
         }
-
         return $docs;
     }
 
-
+    /**
+     * Ability extend document index data.
+     *
+     * @param array $data
+     * @param array $attributesParams
+     * @param string|null $localCode
+     *
+     * @return array
+     */
+    protected function _prepareIndexData($data, $attributesParams, $localeCode = null)
+    {
+        return $data;
+    }
 
     /**
      * Add prepared Solr Input documents to Solr index
@@ -269,12 +262,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         if (empty($docs)) {
             return $this;
         }
-        $_docs = array();
-
         if (!is_array($docs)) {
             $docs = array($docs);
         }
 
+        $_docs = array();
         foreach ($docs as $doc) {
             if ($doc instanceof $this->_clientDocObjectName) {
                $_docs[] = $doc;
@@ -288,8 +280,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         try {
             $this->_client->ping();
             $response = $this->_client->addDocuments($_docs);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->rollback();
             Mage::logException($e);
         }
@@ -313,8 +304,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
                 $docIDs = array($docIDs);
             }
             $params = $docIDs;
-        }
-        elseif (!empty($queries)) {
+        } elseif (!empty($queries)) {
             if ($queries == 'all') {
                 $queries = array('*:*');
             }
@@ -330,13 +320,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             try {
                 $this->_client->ping();
                 $response = $this->_client->$deleteMethod($params);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $this->rollback();
                 Mage::logException($e);
             }
             $this->optimize();
-
         }
 
         return $this;
@@ -457,7 +445,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     }
 
     /**
-     * Connect to Search Engine Client by specified options
+     * Connect to Search Engine Client by specified options.
+     * Should initialize _client
      *
      * @param array $options
      */
@@ -643,8 +632,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         foreach ($indexData as $key => $value) {
             if (!is_array($value)) {
                 $_index[] = $value;
-            }
-            else {
+            } else {
                 $_index = array_merge($_index, $value);
             }
         }

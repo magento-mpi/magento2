@@ -29,7 +29,6 @@ $installer = $this;
 
 // Create search recommendations table
 $installer->run("
-DROP TABLE IF EXISTS `{$this->getTable('enterprise_search/recommendations')}`;
 CREATE TABLE `{$this->getTable('enterprise_search/recommendations')}` (
     `id` int(10) unsigned NOT NULL auto_increment,
     `query_id` int(10) unsigned NOT NULL,

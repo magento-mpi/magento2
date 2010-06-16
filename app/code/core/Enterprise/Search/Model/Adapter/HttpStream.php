@@ -50,8 +50,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
     {
         try {
             $this->_connect($options);
-        }
-        catch (Exception $e){
+        } catch (Exception $e){
             Mage::logException($e);
         }
     }
@@ -65,8 +64,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
     protected function _connect($options = array())
     {
         $helper = Mage::helper('enterprise_search');
-        $def_options = array
-        (
+        $def_options = array(
             'hostname' => $helper->getSolrConfigData('server_hostname'),
             'login'    => $helper->getSolrConfigData('server_username'),
             'password' => $helper->getSolrConfigData('server_password'),
@@ -116,8 +114,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                         $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
                         $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
                         $fieldCondition = "$field:[$from TO $to]";
-                    }
-                    else {
+                    } else {
                         $fieldCondition = array();
                         foreach ($value as $part) {
                             $part = $this->_prepareQueryText($part);
@@ -125,8 +122,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                         }
                         $fieldCondition = '('. implode(' OR ', $fieldCondition) .')';
                     }
-                }
-                else {
+                } else {
                     if ($value != '*') {
                         $value = $this->_prepareQueryText($value);
                     }
@@ -138,8 +134,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             }
 
             $searchConditions = implode(' AND ', $searchConditions);
-        }
-        else {
+        } else {
             $searchConditions = $this->_prepareQueryText($query);
         }
 
@@ -176,14 +171,11 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
         if (!empty($_params['sort_by']) && !is_array($_params['sort_by'])) {
             if ($_params['sort_by'] == 'relevance') {
                 $_params['sort_by'] = 'score';
-            }
-            elseif ($_params['sort_by'] == 'name') {
+            } elseif ($_params['sort_by'] == 'name') {
                 $_params['sort_by'] = 'alphaNameSort';
-            }
-            elseif ($_params['sort_by'] == 'position') {
+            } elseif ($_params['sort_by'] == 'position') {
                 $sortField = 'position_category_' . Mage::registry('current_category')->getId();
-            }
-            elseif ($_params['sort_by'] == 'price') {
+            } elseif ($_params['sort_by'] == 'price') {
                 $websiteId       = Mage::app()->getStore()->getWebsiteId();
                 $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
@@ -215,14 +207,12 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
 //            }
             elseif ($sortField == 'position') {
                 $sortField = 'position_category_' . Mage::registry('current_category')->getId();
-            }
-            elseif ($sortField == 'price') {
+            } elseif ($sortField == 'price') {
                 $websiteId       = Mage::app()->getStore()->getWebsiteId();
                 $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
                 $sortField = 'price_'. $customerGroupId .'_'. $websiteId;
-            }
-            else {
+            } else {
                 $sortField = $this->getAttributeSolrFieldName($sortField);
             }
 
@@ -251,8 +241,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                 foreach ($params['facet'] as $facetField => $facetFieldConditions) {
                     if (empty($facetFieldConditions)) {
                         $searchParams['facet.field'][] = $facetField;
-                    }
-                    else {
+                    } else {
                         //$searchParams['facet.query'] = array();
                         foreach ($facetFieldConditions as $facetCondition) {
                             if (is_array($facetCondition) && isset($facetCondition['from']) && isset($facetCondition['to'])) {
@@ -263,8 +252,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                                     ? $this->_prepareQueryText($facetCondition['to'])
                                     : '*';
                                 $fieldCondition = "$facetField:[$from TO $to]";
-                            }
-                            else {
+                            } else {
                                 $facetCondition = $this->_prepareQueryText($facetCondition);
                                 //$fieldCondition = "$facetField:$facetCondition";
                                 $fieldCondition = $this->_prepareFieldCondition($facetField, $facetCondition);
@@ -294,8 +282,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                         $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
                         $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
                         $fieldCondition = "$field:[$from TO $to]";
-                    }
-                    else {
+                    } else {
                         $fieldCondition = array();
                         foreach ($value as $part) {
                             $part = $this->_prepareQueryText($part);
@@ -304,8 +291,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                         }
                         $fieldCondition = '(' . implode(' OR ', $fieldCondition) . ')';
                     }
-                }
-                else {
+                } else {
                     $value = $this->_prepareQueryText($value);
                     //$fieldCondition = $field .':'. $value;
                     $fieldCondition = $this->_prepareFieldCondition($field, $value);
@@ -336,14 +322,12 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
 
             if (isset($params['solr_params']['facet']) && $params['solr_params']['facet'] == 'on'){
                 $result['facets'] = $this->_prepareFacetsQueryResponse($data);
-            }
-            else {
+            } else {
                 $result['facets'] = array();
             }
 
             return $result;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
         }
     }
@@ -391,8 +375,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
                 $this->_lastNumFound = $tmp; //Revert store value for main search query
             }
             return $result;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
             return array();
         }
