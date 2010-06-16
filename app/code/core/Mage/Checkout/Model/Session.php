@@ -134,6 +134,9 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function loadCustomerQuote()
     {
+        if (!Mage::getSingleton('customer/session')->getCustomerId()) {
+            return $this;
+        }
         $customerQuote = Mage::getModel('sales/quote')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->loadByCustomer(Mage::getSingleton('customer/session')->getCustomerId());
