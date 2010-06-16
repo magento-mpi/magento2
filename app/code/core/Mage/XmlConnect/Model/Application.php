@@ -146,23 +146,23 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                     $result['tabBar']['tabs'] = $tabs;
                 }
                 if (isset($extra['fontColors'])) {
-                    if (isset($extra['fontColors']['header'])) {
+                    if (!empty($extra['fontColors']['header'])) {
                         $result['fonts']['Title1']['color'] = $extra['fontColors']['header'];
                     }
-                    if (isset($extra['fontColors']['primary'])) {
+                    if (!empty($extra['fontColors']['primary'])) {
                         $result['fonts']['Title2']['color'] = $extra['fontColors']['primary'];
                         $result['fonts']['Title3']['color'] = $extra['fontColors']['primary'];
                         $result['fonts']['Text1']['color'] = $extra['fontColors']['primary'];
                         $result['fonts']['Text2']['color'] = $extra['fontColors']['primary'];
                     }
-                    if (isset($extra['fontColors']['secondary'])) {
+                    if (!empty($extra['fontColors']['secondary'])) {
                         $result['fonts']['Title4']['color'] = $extra['fontColors']['secondary'];
                         $result['fonts']['Title6']['color'] = $extra['fontColors']['secondary'];
                         $result['fonts']['Title8']['color'] = $extra['fontColors']['secondary'];
                         $result['fonts']['Title7']['color'] = $extra['fontColors']['secondary'];
                         $result['fonts']['Title9']['color'] = $extra['fontColors']['secondary'];
                     }
-                    if (isset($extra['fontColors']['price'])) {
+                    if (!empty($extra['fontColors']['price'])) {
                         $result['fonts']['Title5']['color'] = $extra['fontColors']['price'];
                     }
                 }
