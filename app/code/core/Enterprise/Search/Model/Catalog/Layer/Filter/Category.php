@@ -88,6 +88,8 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
         }
 
         $category   = $this->getCategory();
+        Mage::register('current_category_filter', $category);
+
         $categories = array_keys($category->getChildrenCategories()->toArray());
 
         $productCollection = $this->getLayer()->getProductCollection();
