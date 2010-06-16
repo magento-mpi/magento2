@@ -46,6 +46,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
 
         if ($data === null) {
             $category   = $this->getCategory();
+
             /** @var $category Mage_Catalog_Model_Categeory */
             $categories = $category->getChildrenCategories();
 
@@ -81,19 +82,23 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
+        $filter = (int) $request->getParam($this->getRequestVar());
+        if (isset($filter)) {
+            $this->_categoryId = $filter;
+        }
+
         $category   = $this->getCategory();
         $categories = array_keys($category->getChildrenCategories()->toArray());
 
         $productCollection = $this->getLayer()->getProductCollection();
         $productCollection->setFacetCondition('categories', $categories);
 
-        $filter = (int) $request->getParam($this->getRequestVar());
 
         if (!$filter) {
             return $this;
         }
 
-        $this->_categoryId = $filter;
+
         $this->_appliedCategory = Mage::getModel('catalog/category')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($filter);
