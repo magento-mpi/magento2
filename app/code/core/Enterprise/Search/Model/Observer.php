@@ -57,7 +57,7 @@ class Enterprise_Search_Model_Observer
              * Disable default search fields
              */
             $attributeCode = $attribute->getAttributeCode();
-            $searchModel = Mage::getModel('enterprise_search/adapter_phpextension');
+            $searchModel = Mage::getModel('enterprise_search/adapter_phpExtension');
             $defaultSearchTextFields = $searchModel->getSearchTextFields();
             if (in_array($attributeCode, $defaultSearchTextFields)) {
                 $form->getElement('is_searchable')->setDisabled(1);
