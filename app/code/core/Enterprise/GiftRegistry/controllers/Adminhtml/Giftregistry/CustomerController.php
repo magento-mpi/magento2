@@ -53,8 +53,14 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
      */
     public function editAction()
     {
-        $this->_initEntity();
-        $this->_title($this->__('Gift Registry Entity'));
+        $model = $this->_initEntity();
+        $customer = Mage::getModel('customer/customer')->load($model->getCustomerId());
+
+        $this->_title($this->__('Customers'));
+        $this->_title($this->__('Manage Customers'));
+        $this->_title($this->__($customer->getName()));
+        $this->_title($this->__("Edit '%s' Gift Registry", $model->getTitle()));
+
         $this->loadLayout()->renderLayout();
     }
 

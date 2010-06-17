@@ -28,7 +28,7 @@
  * Column renderer for gift registry item grid qty column
  */
 class Enterprise_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Qty
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Column_Renderer_Abstract
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Render gift registry item qty as input html element

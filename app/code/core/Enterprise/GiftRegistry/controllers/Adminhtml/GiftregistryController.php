@@ -40,7 +40,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
                 Mage::helper('enterprise_giftregistry')->__('Gift Registry')
             );
 
-        $this->_title($this->__('Customers'))->_title($this->__('Gift Registry'));
+        $this->_title($this->__('Customers'))->_title($this->__('Manage Gift Registry Types'));
         return $this;
     }
 
@@ -88,7 +88,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
         }
 
         $this->_initAction();
-        $this->_title($this->__('New Type'));
+        $this->_title($this->__('New Gift Registry Type'));
 
         $block = $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
@@ -114,7 +114,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
         }
 
         $this->_initAction();
-        $this->_title($model->getId() ? $model->getName() : $this->__('Edit Type'));
+        $this->_title($this->__("Edit '%s' Gift Registry Type", $model->getLabel()));
 
         $block = $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_giftregistry_edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
