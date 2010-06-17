@@ -31,8 +31,7 @@
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_CatalogSearch_Layer_Filter_Price
-    extends Enterprise_Search_Block_Catalog_Layer_Filter_Price
+class Enterprise_Search_Block_CatalogSearch_Layer_Filter_Price extends Mage_Catalog_Block_Layer_Filter_Abstract
 {
     /**
      * Initialize Price filter module
@@ -41,5 +40,16 @@ class Enterprise_Search_Block_CatalogSearch_Layer_Filter_Price
     {
         parent::__construct();
         $this->_filterModelName = 'enterprise_search/catalogsearch_layer_filter_price';
+    }
+
+    /**
+     * Prepare filter process
+     *
+     * @return Mage_Catalog_Block_Layer_Filter_Price
+     */
+    protected function _prepareFilter()
+    {
+        $this->_filter->setAttributeModel($this->getAttributeModel());
+        return $this;
     }
 }

@@ -169,6 +169,9 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 $data['attr_multi_'. $key] = $value;
                 unset($data[$key]);
             } elseif ($backendType == 'int') {
+                if (is_array($value)) {
+                    $value = implode(' ', array_unique($value));
+                }
                 $data['attr_select_'. $key] = $value;
                 unset($data[$key]);
             } elseif (in_array($backendType, $this->_textFieldTypes) || in_array($key, $this->_searchTextFields)) {
@@ -197,6 +200,52 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         }
 
         return $data;
+    }
+
+    /**
+     * Prepare search conditions from query
+     *
+     * @param string|array $query
+     *
+     * @return string
+     */
+    protected function prepareSearchConditions($query)
+    {
+        if (is_array($query)) {
+            $searchConditions = array();
+            foreach ($query as $field => $value) {
+                if (is_array($value)) {
+                    if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
+                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
+                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
+                        $fieldCondition = "$field:[$from TO $to]";
+                    }
+                    else {
+                        $fieldCondition = array();
+                        foreach ($value as $part) {
+                            $part = $this->_prepareQueryText($part);
+                            $fieldCondition[] = $field .':'. $part;
+                        }
+                        $fieldCondition = '('. implode(' OR ', $fieldCondition) .')';
+                    }
+                }
+                else {
+                    if ($value != '*') {
+                        $value = $this->_prepareQueryText($value);
+                    }
+                    $fieldCondition = $field .':'. $value;
+                }
+
+                $searchConditions[] = $fieldCondition;
+            }
+
+            $searchConditions = implode(' AND ', $searchConditions);
+        }
+        else {
+            $searchConditions = $this->_prepareQueryText($query);
+        }
+
+        return $searchConditions;
     }
 
     /**

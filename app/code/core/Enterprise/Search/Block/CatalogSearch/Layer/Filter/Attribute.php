@@ -31,8 +31,7 @@
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_CatalogSearch_Layer_Filter_Attribute
-    extends Enterprise_Search_Block_Catalog_Layer_Filter_Attribute
+class Enterprise_Search_Block_CatalogSearch_Layer_Filter_Attribute extends Mage_Catalog_Block_Layer_Filter_Abstract
 {
     /**
      * Set model name
@@ -41,5 +40,16 @@ class Enterprise_Search_Block_CatalogSearch_Layer_Filter_Attribute
     {
         parent::__construct();
         $this->_filterModelName = 'enterprise_search/catalogsearch_layer_filter_attribute';
+    }
+
+    /**
+     * Set attribute model
+     *
+     * @return Enterprise_Search_Block_Catalog_Layer_Filter_Attribute
+     */
+    protected function _prepareFilter()
+    {
+        $this->_filter->setAttributeModel($this->getAttributeModel());
+        return $this;
     }
 }

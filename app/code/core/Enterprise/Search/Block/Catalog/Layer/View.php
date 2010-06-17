@@ -50,13 +50,34 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
      */
     protected function _initBlocks()
     {
-        parent::_initBlocks();
-
         if ($this->_checkEngine()) {
+            $this->_stateBlockName = 'catalog/layer_state';
             $this->_categoryBlockName = 'enterprise_search/catalog_layer_filter_category';
             $this->_attributeFilterBlockName = 'enterprise_search/catalog_layer_filter_attribute';
             $this->_priceFilterBlockName = 'enterprise_search/catalog_layer_filter_price';
             $this->_decimalFilterBlockName = 'enterprise_search/catalog_layer_filter_decimal';
         }
+        else {
+            parent::_initBlocks();
+        }
+    }
+
+    /**
+     * Check if engine is available
+     *
+     * @return bool
+     */
+    protected function _checkEngine()
+    {
+        $engine = Mage::getStoreConfig('catalog/search/engine');
+
+        if ($engine && Mage::getConfig()->getResourceModelClassName($engine)) {
+            $model = Mage::getResourceSingleton($engine);
+            if ($model && $model->test() && $model->allowAdvancedIndex()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

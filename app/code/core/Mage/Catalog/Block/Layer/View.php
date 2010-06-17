@@ -244,23 +244,4 @@ class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
     {
         return $this->getChild('_price_filter');
     }
-
-    /**
-     * Check if engine is available
-     *
-     * @return bool
-     */
-    protected function _checkEngine()
-    {
-        $engine = Mage::getStoreConfig('catalog/search/engine');
-
-        if ($engine && Mage::getConfig()->getResourceModelClassName($engine)) {
-            $model = Mage::getResourceSingleton($engine);
-            if ($model && $model->test() && $model->allowAdvancedIndex()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }

@@ -32,7 +32,7 @@
  * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_CatalogSearch_Layer_Filter_Decimal extends Enterprise_Search_Block_Catalog_Layer_Filter_Decimal
+class Enterprise_Search_Block_CatalogSearch_Layer_Filter_Decimal extends Mage_Catalog_Block_Layer_Filter_Abstract
 {
     /**
      * Initialize Decimal Filter Model
@@ -41,5 +41,16 @@ class Enterprise_Search_Block_CatalogSearch_Layer_Filter_Decimal extends Enterpr
     {
         parent::__construct();
         $this->_filterModelName = 'enterprise_search/catalogsearch_layer_filter_decimal';
+    }
+
+    /**
+     * Prepare filter process
+     *
+     * @return Mage_Catalog_Block_Layer_Filter_Decimal
+     */
+    protected function _prepareFilter()
+    {
+        $this->_filter->setAttributeModel($this->getAttributeModel());
+        return $this;
     }
 }
