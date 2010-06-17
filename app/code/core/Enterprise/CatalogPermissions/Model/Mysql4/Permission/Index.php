@@ -767,7 +767,8 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Enterp
                 ->where('permission_index.grant_catalog_category_view = ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
         } else {
             $collection->getSelect()
-                ->where('permission_index.grant_catalog_category_view != ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
+                ->where('permission_index.grant_catalog_category_view != ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY . '
+                             OR permission_index_product.grant_catalog_category_view IS NULL');
         }
 
         return $this;
