@@ -998,7 +998,7 @@ ul.tabs a.paypal-section:hover span { background:url(images/paypal_section.png) 
 
 .custom-options .giftregistry-custom-attributes { overflow:hidden; width:100%; }
 .custom-options .giftregistry-custom-attributes .option-header { border-bottom:none; float:left; margin-right:10px; width:auto; }
-.custom-options .giftregistry-custom-attributes .grid { float:left; margin-right:10px; padding:0; }
+.custom-options .giftregistry-custom-attributes .grid { clear:left; padding:1em 0 0; }
 
 /* Bundle product */
 .bundle .option-box  {padding-bottom:2em; }
