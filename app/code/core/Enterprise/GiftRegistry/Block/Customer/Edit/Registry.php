@@ -58,22 +58,7 @@ class Enterprise_GiftRegistry_Block_Customer_Edit_Registry extends  Enterprise_G
     {
         $options[''] = Mage::helper('enterprise_giftregistry')->__('Please Select');
         $options += $this->getEntity()->getOptionsIsPublic();
-        return $this->getSelectHtml($options, 'is_public', 'is_public', $this->getEntity()->getIsPublic());
-    }
-
-    /**
-     * Wrap field id by scope
-     *
-     * @param string id     - DOM element id
-     * @return string
-     */
-    public function wrapId($id) {
-        if (!isset($this->_staticTypeIds)) {
-            $this->_staticTypeIds = $this->getEntity()->getStaticTypeIds();
-        }
-        if (!in_array($id, $this->_staticTypeIds)) {
-            $id = $this->_prefix . ':' . $id;
-        }
-        return $id;
+        $value = $this->getEntity()->getIsPublic();
+        return $this->getSelectHtml($options, 'is_public', 'is_public', $value, 'required-entry');
     }
 }

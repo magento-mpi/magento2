@@ -147,38 +147,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
     }
 
     /**
-     * Update gift registry list, set selected entity as active
-     */
-    public function updateAction()
-    {
-        if (!$this->_validateFormKey()) {
-            return $this->_redirect('*/*/');
-        }
-        $active = $this->getRequest()->getParam('active');
-        $entity = $this->_initEntity()->load($active);
-        try {
-            $customerId = $this->_getSession()->getCustomerId();
-
-            if ($entity->getId() && $entity->getCustomerId() == $customerId) {
-                $entity->setActiveEntity($customerId, (int)$active);
-                $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_giftregistry')->__('Gift registry list has been updated successfully.')
-                );
-            }
-        }
-        catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
-        }
-        catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Failed to update gift registry list.'));
-        }
-
-        $this->_redirect('giftregistry');
-    }
-
-    /**
      * Delete selected gift registry entity
-     *
      */
     public function deleteAction()
     {

@@ -70,6 +70,7 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
              <?php echo $this->renderField($data, $field) ?>
         </li>
     <?php endforeach; ?>
+    </ul>
 
     <?php foreach ($fields as $field => $data) : ?>
         <?php if ($this->useRegionUpdater($data)) : ?>
@@ -80,6 +81,5 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
             </script>
         <?php endif; ?>
     <?php endforeach; ?>
-    </ul>
 </div>
 <?php endforeach; ?>
