@@ -372,7 +372,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             return false;
         }
 
-        if ($this->getIsVirtual()) {
+        if ($this->getIsVirtual() || $this->isCanceled()) {
             return false;
         }
 
