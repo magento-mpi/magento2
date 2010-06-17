@@ -333,7 +333,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
                         foreach ($value as $part) {
                             $part = $this->_prepareQueryText($part);
                             //$fieldCondition[] = $field .':'. strtolower($part);
-                            $fieldCondition[] = $this->_prepareFieldCondition($field, strtolower($part));
+                            $fieldCondition[] = $this->_prepareFieldCondition($field, $part);
 
                         }
                         $fieldCondition = '(' . implode(' OR ', $fieldCondition) . ')';

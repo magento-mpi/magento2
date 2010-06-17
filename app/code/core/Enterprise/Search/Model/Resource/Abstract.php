@@ -101,7 +101,7 @@ class Enterprise_Search_Model_Resource_Abstract extends Mage_Core_Model_Resource
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
         $field = $attribute->getAttributeCode();
-        $fieldType = $attribute->getBackendType();
+        $backendType = $attribute->getBackendType();
         $frontendInput = $attribute->getFrontendInput();
 
         if ($frontendInput == 'multiselect') {
@@ -110,10 +110,10 @@ class Enterprise_Search_Model_Resource_Abstract extends Mage_Core_Model_Resource
         elseif ($backendType == 'int') {
             $field = 'attr_select_'. $field;
         }
-        elseif ($fieldType == 'decimal') {
+        elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;
         }
-        elseif ($fieldType == 'datetime') {
+        elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
             if (is_array($value)) {
                 foreach ($value as &$val) {
@@ -136,7 +136,7 @@ class Enterprise_Search_Model_Resource_Abstract extends Mage_Core_Model_Resource
                 }
             }
         }
-        elseif (in_array($fieldType, $this->_textFieldTypes)) {
+        elseif (in_array($backendType, $this->_textFieldTypes)) {
             $field .= $languageSuffix;
         }
 
