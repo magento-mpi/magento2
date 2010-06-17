@@ -48,6 +48,12 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
         $this->setChild('entity_items', $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_customer_edit_items'));
         $this->setChild('cart_items', $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_customer_edit_cart'));
         $this->setChild('sharing_form', $this->getLayout()->createBlock('enterprise_giftregistry/adminhtml_customer_edit_sharing'));
+        $this->setChild('update_button', $this->getLayout()->createBlock('adminhtml/widget_button')
+            ->addData(array(
+                'label' => $this->helper('enterprise_giftregistry')->__('Update Items and Qty\'s'),
+                'type'  => 'submit'
+            ))
+        );
 
         return parent::_prepareLayout();
     }
@@ -158,5 +164,15 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
         return $this->formatDate($this->getEntity()->getCreatedAt(),
             Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true
         );
+    }
+
+    /**
+     * Return update items form action url
+     *
+     * @return string
+     */
+    public function getActionUrl()
+    {
+        return $this->getUrl('*/*/update', array('_current' => true));
     }
 }

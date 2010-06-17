@@ -81,6 +81,46 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
     }
 
     /**
+     * Update gift registry items qty
+     */
+    public function updateAction()
+    {
+        $items = $this->getRequest()->getParam('items');
+        $entity = $this->_initEntity();
+        $updatedCount = 0;
+
+        if (is_array($items)) {
+            try {
+                foreach ($items as $itemId => $data) {
+                    if (!empty($data['action'])) {
+                        $model = Mage::getModel('enterprise_giftregistry/item')->load($itemId);
+                        if ($model->getId() && $model->getEntityId() == $entity->getId()) {
+                            if ($data['action'] == 'remove') {
+                                $model->delete();
+                            } else {
+                                $model->setQty($data['qty']);
+                                $model->save();
+                            }
+                        }
+                        $updatedCount++;
+                    }
+                }
+                if ($updatedCount) {
+                    Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Gift registry items have been updated.'));
+                }
+            } catch (Mage_Core_Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+                $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                return;
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($this->__('Failed to update gift registry items.'));
+                Mage::logException($e);
+            }
+        }
+        $this->_redirect('*/*/edit', array('id' => $entity->getId()));
+    }
+
+    /**
      * Share gift registry action
      */
     public function shareAction()

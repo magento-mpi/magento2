@@ -89,7 +89,11 @@
 <div class="entry-edit">
     <div class="entry-edit-head"><h4 ><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry Items') ?></h4></div>
         <fieldset>
-            <?php echo $this->getChildHtml('entity_items'); ?>
+            <form id="update_form" method="post" action="<?php echo $this->getActionUrl() ?>">
+                <?php echo $this->getBlockHtml('formkey')?>
+                <?php echo $this->getChildHtml('entity_items'); ?>
+                <div align="right"><?php echo $this->getChildHtml('update_button'); ?></div>
+            </form>
         </fieldset>
     </div>
 </div>

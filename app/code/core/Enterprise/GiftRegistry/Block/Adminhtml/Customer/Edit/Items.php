@@ -79,10 +79,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
         ));
 
         $this->addColumn('qty', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Desired Quantity'),
-            'index'  => 'qty',
-            'type'   => 'number',
-            'width'  => '120px'
+            'header'   => Mage::helper('enterprise_giftregistry')->__('Desired Quantity'),
+            'index'    => 'qty',
+            'width'    => '120px',
+            'renderer' => 'enterprise_giftregistry/adminhtml_widget_grid_column_renderer_qty'
         ));
 
         $this->addColumn('qty_fulfilled', array(
@@ -98,17 +98,37 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
             'width'  => '120px'
         ));
 
+        $this->addColumn('action', array(
+            'header' => Mage::helper('enterprise_giftregistry')->__('Action'),
+            'width'  => '120px',
+            'options'   => array(
+                 0 => Mage::helper('enterprise_giftregistry')->__('Action'),
+                'update' => Mage::helper('enterprise_giftregistry')->__('Update Qty'),
+                'remove' => Mage::helper('enterprise_giftregistry')->__('Remove Item')
+            ),
+            'renderer' => 'enterprise_giftregistry/adminhtml_widget_grid_column_renderer_action'
+        ));
+
         return parent::_prepareColumns();
     }
 
+    /**
+     * Return grid row url
+     *
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('*/catalog_product/edit', array('id' => $row->getProductId()));
     }
 
+    /**
+     * Return gift registry entity object
+     *
+     * @return Enterprise_GiftRegistry_Model_Entity
+     */
     public function getEntity()
     {
         return Mage::registry('current_giftregistry_entity');
     }
 }
-
