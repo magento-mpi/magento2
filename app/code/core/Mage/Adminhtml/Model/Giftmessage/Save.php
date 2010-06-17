@@ -122,8 +122,12 @@ class Mage_Adminhtml_Model_Giftmessage_Save extends Varien_Object
             $this->_saved = false;
         } elseif (!$giftmessageModel->isMessageEmpty()) {
             $giftmessageModel->save();
-            $entityModel->setGiftMessageId($giftmessageModel->getId())
-                ->save();
+            if ($this->_getMappedType($giftmessage['type']) == 'quote') {
+                $this->_getQuote()->setGiftMessageId($giftmessageModel->getId());
+            } else {
+                $entityModel->setGiftMessageId($giftmessageModel->getId())
+                    ->save();
+            }
             $this->_saved = true;
         }
 
