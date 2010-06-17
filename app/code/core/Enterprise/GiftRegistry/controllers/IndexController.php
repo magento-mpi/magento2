@@ -442,7 +442,7 @@ class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Cont
                             if (!empty($registrant[$idField])) {
                                 $person->load($registrant[$idField]);
                                 if (!$person->getId()) {
-                                    Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Incorrect registrant data.'));
+                                    Mage::throwException(Mage::helper('enterprise_giftregistry')->__('Incorrect recipient data.'));
                                 }
                             } else {
                                 unset($registrant['person_id']);

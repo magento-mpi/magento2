@@ -51,11 +51,11 @@ class Enterprise_GiftRegistry_Model_Source_Search
             ),
             array(
                 'value' => self::SEARCH_TYPE_FORM,
-                'label' => Mage::helper('enterprise_giftregistry')->__('Registrant Name/Registry Type Search')
+                'label' => Mage::helper('enterprise_giftregistry')->__('Recipient Name/Registry Type Search')
             ),
             array(
                 'value' => self::SEARCH_EMAIL_FORM,
-                'label' => Mage::helper('enterprise_giftregistry')->__('Registrant Email Search')
+                'label' => Mage::helper('enterprise_giftregistry')->__('Recipient Email Search')
             ),
             array(
                 'value' => self::SEARCH_ID_FORM,

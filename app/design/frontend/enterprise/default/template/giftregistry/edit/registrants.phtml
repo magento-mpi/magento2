@@ -25,12 +25,8 @@
  */
 ?>
 
-<div id="template_container" class="template" style="display:none;">
-
-</div>
 <script type="text/javascript">
 //<![CDATA[
-
     var registrantTemplate =
     '<div id="template_registrant">' +
     '<input name="registrant[{{index}}][person_id]" value="" id="registrant:person_id{{index}}" type="hidden" />' +
@@ -119,12 +115,12 @@
             <p class="back-link">
                 <span id="max_registrant_message" style="display:none;">
                     <?php if ($this->getMaxRegistrant()): ?>
-                        <?php echo $this->__('Maximum %d email addresses allowed.', $this->getMaxRegistrant()) ?>
+                        <?php echo $this->__('Maximum %d recipients allowed.', $this->getMaxRegistrant()) ?>
                     <?php endif; ?>
                 </span>&nbsp;
             </p>
             <?php if (1 < $this->getMaxRegistrant()): ?>
-                <button type="button" id="add_registrant_button" onclick="addRegistrant();" class="button"><span><span><?php echo $this->__('Add Registrant') ?></span></span></button>
+                <button type="button" id="add_registrant_button" onclick="addRegistrant();" class="button"><span><span><?php echo $this->__('Add Recipient') ?></span></span></button>
             <?php endif; ?>
         </div>
     </div>

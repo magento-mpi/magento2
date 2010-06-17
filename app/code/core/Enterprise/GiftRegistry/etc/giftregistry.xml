@@ -58,7 +58,7 @@
                 <visible>1</visible>
             </privacy>
             <registrant translate="label" module="enterprise_giftregistry">
-                <label>Registrants Information</label>
+                <label>Recipients Information</label>
                 <sort_order>20</sort_order>
                 <visible>1</visible>
             </registrant>

@@ -67,7 +67,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid extends Enterprise_E
         ));
 
         $this->addColumn('registrants', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Registrants'),
+            'header' => Mage::helper('enterprise_giftregistry')->__('Recipients'),
             'index'  => 'registrants'
         ));
 
