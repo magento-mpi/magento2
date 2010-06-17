@@ -209,7 +209,9 @@ class Mage_Api_Model_Server_Adapter_Soap
             $phpAuthUser = $this->getController()->getRequest()->getServer('PHP_AUTH_USER', false);
             $phpAuthPw = $this->getController()->getRequest()->getServer('PHP_AUTH_PW', false);
 
-            $wsdlUrl = ($phpAuthUser && $phpAuthPw)? sprintf("http://%s:%s@%s", $phpAuthUser, $phpAuthPw, str_replace('http://', '', $wsdlUrl ) ): $wsdlUrl;
+            if ($phpAuthUser && $phpAuthPw) {
+                $wsdlUrl = sprintf("http://%s:%s@%s", $phpAuthUser, $phpAuthPw, str_replace('http://', '', $wsdlUrl ) );
+            }
         }
 
         return $wsdlUrl;
