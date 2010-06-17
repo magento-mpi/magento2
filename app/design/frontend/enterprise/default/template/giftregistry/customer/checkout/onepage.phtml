@@ -33,7 +33,7 @@ var elementRadioTemplate =
     '<div class="input-box">'+
          '<input name="billing[use_for_shipping]" id="billing:use_gift_registry_address" value="2" onclick="$(\'shipping:same_as_billing\').checked = false;" class="radio" type="radio">'+
     '<\/div>'+
-    '<label for="billing:use_gift_registry_address"><?php echo $this->__('Ship to gift registry address') ?><\/label>';
+    '<label for="billing:use_gift_registry_address"><?php echo $this->__('Ship to recipient\'s address') ?><\/label>';
 
 var elementCheckboxTemplate =
     '<input type="checkbox" title="<?php echo $this->__('Use gift registry shipping address') ?>" class="checkbox" onclick="giftregistry.checkAddress()" value="<?php echo $this->getAddressIdPrefix(); ?><?php echo $this->getItem(); ?>" id="use_gr_address" name="shipping_address_id" \/> ' +
