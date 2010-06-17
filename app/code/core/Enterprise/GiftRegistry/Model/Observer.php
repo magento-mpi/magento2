@@ -121,7 +121,7 @@ class Enterprise_GiftRegistry_Model_Observer
             if (!$type->getPrevFormat()) {
                 $type->setPrevFormat($type->getDefaultFormat());
             }
-            $type->setDefaultFormat(Mage::helper('enterprise_giftregistry')->__('Ship to recipient\'s address.'));
+            $type->setDefaultFormat(Mage::helper('enterprise_giftregistry')->__("Ship to recipient's address."));
         } elseif ($type->getPrevFormat()) {
             $type->setDefaultFormat($type->getPrevFormat());
         }
