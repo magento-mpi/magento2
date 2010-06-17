@@ -76,7 +76,7 @@ class Mage_Customer_Model_Attribute_Data_Image extends Mage_Customer_Model_Attri
         if (!empty($rules['max_file_size'])) {
             $size = filesize($value['tmp_name']);
             if ($rules['max_file_size'] < $size) {
-                $errors[] = Mage::helper('customer')->__('"%s" is not a valid file size.', $label);
+                $errors[] = Mage::helper('customer')->__('"%s" exceeds the allowed file size.', $label);
             };
         }
 
