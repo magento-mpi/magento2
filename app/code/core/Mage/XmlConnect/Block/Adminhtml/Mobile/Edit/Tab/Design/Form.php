@@ -49,14 +49,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_X
         $this->addColor($fieldset, 'conf[native][navigationBar][tintColor]', $this->__('Header Background Color'));
         $this->addColor($fieldset, 'conf[native][body][primaryColor]', $this->__('Primary Color'));
         $this->addColor($fieldset, 'conf[native][body][secondaryColor]', $this->__('Secondary Color'));
-        $this->addColor($fieldset, 'conf[native][body][buttonBackgroundColor]', $this->__('Button Background Color'));
+        $this->addColor($fieldset, 'conf[native][categoryItem][backgroundColor]', $this->__('Category Item Background Color'));
+        $this->addColor($fieldset, 'conf[native][categoryItem][tintColor]', $this->__('Category Button Color'));
 
         $fieldset = $form->addFieldset('fieldFonts', array('legend' => $this->__('Fonts')));
         $this->_addElementTypes($fieldset);
-        $this->addColor($fieldset, 'conf[extra][fontColors][header]', $this->__('Header font color'));
-        $this->addColor($fieldset, 'conf[extra][fontColors][primary]', $this->__('Primary font color'));
-        $this->addColor($fieldset, 'conf[extra][fontColors][secondary]', $this->__('Secondary font color'));
-        $this->addColor($fieldset, 'conf[extra][fontColors][price]', $this->__('Price font color'));
+        $this->addColor($fieldset, 'conf[extra][fontColors][header]', $this->__('Header Font Color'));
+        $this->addColor($fieldset, 'conf[extra][fontColors][primary]', $this->__('Primary Font Color'));
+        $this->addColor($fieldset, 'conf[extra][fontColors][secondary]', $this->__('Secondary Font Color'));
+        $this->addColor($fieldset, 'conf[extra][fontColors][price]', $this->__('Price Font Color'));
 
         $fieldset = $form->addFieldset('fieldTabs', array('legend' => $this->__('Tabs')));
         $this->_addElementTypes($fieldset);

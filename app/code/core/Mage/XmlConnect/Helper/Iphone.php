@@ -35,6 +35,13 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
      {
         return array(
             'native' => array(
+                'body' => array(
+                    'backgroundColor' => '#ABABAB',
+                    'scrollBackgroundColor' => '#EDEDED',
+                ),
+                'itemActions' => array(
+                    'relatedProductBackgroundColor' => '#404040',
+                ),
                 'fonts' => array(
                     'Title1' => array(
                         'name' => 'HelveticaNeue-Bold',

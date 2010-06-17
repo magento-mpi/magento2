@@ -114,6 +114,34 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         return $result;
     }
 
+    /**
+     * Like array_merge_recursive(), but string values is replaced
+     *
+     * @param array $a
+     * @param array $b
+     * @return array
+     */
+    protected function _configMerge (array $a, array $b)
+    {
+        $result = array();
+        $keys = array_unique(array_merge(array_keys($a), array_keys($b)));
+        foreach ($keys as $key) {
+            if (!isset($a[$key])) {
+                $result[$key] = $b[$key];
+            }
+            elseif (!isset($b[$key])) {
+                $result[$key] = $a[$key];
+            }
+            elseif (is_scalar($a[$key]) || is_scalar($b[$key])) {
+                $result[$key] = $b[$key];
+            }
+            else {
+                $result[$key] = $this->_configMerge($a[$key], $b[$key]);
+            }
+        }
+        return $result;
+    }
+
     public function loadDefaultConfiguration()
     {
         $this->setType('iPhone');
@@ -137,7 +165,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $extra = array();
         if (isset($this->_data['conf'])) {
             if (isset($this->_data['conf']['native'])) {
-                $result = array_merge_recursive($result, $this->_data['conf']['native']);
+                $result = $this->_configMerge($result, $this->_data['conf']['native']);
             }
             if (isset($this->_data['conf']['extra'])) {
                 $extra = $this->_data['conf']['extra'];
