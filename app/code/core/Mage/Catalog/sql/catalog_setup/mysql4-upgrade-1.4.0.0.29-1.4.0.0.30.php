@@ -31,7 +31,7 @@ $installer->addAttribute('catalog_category', 'layered_navigation_price_filter_ra
         'group'             => 'Display Settings',
         'type'              => 'int',
         'label'             => 'Layered Navigation Price Filter Range',
-        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
         'visible'           => true,
         'required'          => false,
         'default'           => $range,
