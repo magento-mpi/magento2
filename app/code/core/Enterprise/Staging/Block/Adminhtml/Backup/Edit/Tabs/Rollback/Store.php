@@ -30,7 +30,7 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Store extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Store extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Keep main translate helper instance

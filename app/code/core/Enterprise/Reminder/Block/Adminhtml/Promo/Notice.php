@@ -27,7 +27,7 @@
 /**
  * Reminder adminhtml promo rules notice block
  */
-class Enterprise_Reminder_Block_Adminhtml_Promo_Notice extends Enterprise_Enterprise_Block_Adminhtml_Template
+class Enterprise_Reminder_Block_Adminhtml_Promo_Notice extends Mage_Adminhtml_Block_Template
 {
     /**
      * Preparing block layout

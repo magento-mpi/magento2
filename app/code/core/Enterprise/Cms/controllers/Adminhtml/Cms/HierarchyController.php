@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Enterprise_Enterprise_Controller_Adminhtml_Action
+class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Controller pre dispatch method

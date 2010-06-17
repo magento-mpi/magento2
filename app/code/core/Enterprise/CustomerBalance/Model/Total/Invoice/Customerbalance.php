@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_CustomerBalance_Model_Total_Invoice_Customerbalance extends Enterprise_Enterprise_Model_Sales_Order_Invoice_Total_Abstract
+class Enterprise_CustomerBalance_Model_Total_Invoice_Customerbalance extends Mage_Sales_Model_Order_Invoice_Total_Abstract
 {
     /**
      * Collect customer balance totals for invoice

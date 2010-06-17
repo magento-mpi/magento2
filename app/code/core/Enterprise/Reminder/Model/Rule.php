@@ -27,7 +27,7 @@
 /**
  * Reminder rules processing model
  */
-class Enterprise_Reminder_Model_Rule extends Enterprise_Enterprise_Model_Rule_Rule
+class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
 {
     const XML_PATH_EMAIL_TEMPLATE  = 'enterprise_reminder_email_template';
 

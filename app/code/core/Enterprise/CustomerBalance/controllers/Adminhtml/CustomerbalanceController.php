@@ -28,7 +28,7 @@
  * Controller for Customer account -> Store Credit ajax tab and all its contents
  *
  */
-class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Enterprise_Enterprise_Controller_Adminhtml_Action
+class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Check is enabled module in config

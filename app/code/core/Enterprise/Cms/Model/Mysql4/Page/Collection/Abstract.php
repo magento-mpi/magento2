@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-abstract class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
+abstract class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     /**
      * Array of admin users in loaded collection

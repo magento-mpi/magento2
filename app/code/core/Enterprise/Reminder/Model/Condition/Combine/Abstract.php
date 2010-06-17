@@ -27,7 +27,7 @@
 /**
  * Abstract class for combine rule condition
  */
-abstract class Enterprise_Reminder_Model_Condition_Combine_Abstract extends Enterprise_Enterprise_Model_Rule_Condition_Combine
+abstract class Enterprise_Reminder_Model_Condition_Combine_Abstract extends Mage_Rule_Model_Condition_Combine
 {
     /**
      * Customize default operator input by type mapper for some types

@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_TargetRule
  */
-abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends Enterprise_Enterprise_Block_Catalog_Product_Abstract
+abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends Mage_Catalog_Block_Product_Abstract
 {
     /**
      * Catalog Product Link Collection

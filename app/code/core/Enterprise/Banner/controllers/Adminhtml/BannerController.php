@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Banner_Adminhtml_BannerController extends Enterprise_Enterprise_Controller_Adminhtml_Action
+class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Banners list

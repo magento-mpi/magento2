@@ -25,7 +25,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_Select
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+    extends Mage_Adminhtml_Block_Widget_Form
 {
     public function __construct()
     {

@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Model_Mysql4_Setup extends Enterprise_Enterprise_Model_Sales_Mysql4_Setup
+class Enterprise_GiftCardAccount_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
 {
 
 }

@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_Banner_Model_Mysql4_Setup extends Enterprise_Enterprise_Model_Sales_Mysql4_Setup
+class Enterprise_Banner_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
 {
 
 }

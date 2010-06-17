@@ -32,7 +32,7 @@
  * @package    Enterprise_Cms
  */
 class Enterprise_Cms_Block_Widget_Node
-    extends Enterprise_Enterprise_Block_Core_Html_Link
+    extends Mage_Core_Block_Html_Link
     implements Mage_Widget_Block_Interface
 {
     /**

@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Enterprise_Enterprise_Model_Rule_Condition_Combine
+abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_Rule_Model_Condition_Combine
 {
     /**
      * Get array of event names where segment with such conditions combine can be matched

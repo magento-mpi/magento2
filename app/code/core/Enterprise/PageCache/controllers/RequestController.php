@@ -23,7 +23,7 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-class Enterprise_PageCache_RequestController extends Enterprise_Enterprise_Controller_Core_Front_Action
+class Enterprise_PageCache_RequestController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Request processing action

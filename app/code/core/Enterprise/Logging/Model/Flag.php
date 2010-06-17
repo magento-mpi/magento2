@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Logging_Model_Flag extends Enterprise_Enterprise_Model_Core_Flag
+class Enterprise_Logging_Model_Flag extends Mage_Core_Model_Flag
 {
     protected $_flagCode = 'log_rotation';
 

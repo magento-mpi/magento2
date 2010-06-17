@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Set defaults

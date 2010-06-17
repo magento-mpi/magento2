@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_TargetRule
  */
-class Enterprise_TargetRule_Model_Mysql4_Rule extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+class Enterprise_TargetRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 {
    /**
     * Constructor

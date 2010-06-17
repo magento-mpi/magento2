@@ -27,7 +27,7 @@
 /**
  * Reminder Adminhtml Block
  */
-class Enterprise_Reminder_Block_Adminhtml_Reminder extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Container
+class Enterprise_Reminder_Block_Adminhtml_Reminder extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Initialize invitation manage page

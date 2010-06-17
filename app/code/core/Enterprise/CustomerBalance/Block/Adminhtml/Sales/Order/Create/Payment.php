@@ -29,7 +29,7 @@
  *
  */
 class Enterprise_CustomerBalance_Block_Adminhtml_Sales_Order_Create_Payment
-extends Enterprise_Enterprise_Block_Core_Template
+extends Mage_Core_Block_Template
 {
     /**
      * @var Enterprise_CustomerBalance_Model_Balance

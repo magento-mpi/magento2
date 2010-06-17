@@ -28,7 +28,7 @@
  * Locked administrators controller
  *
  */
-class Enterprise_Pci_Adminhtml_LocksController extends Enterprise_Enterprise_Controller_Adminhtml_Action
+class Enterprise_Pci_Adminhtml_LocksController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Render page with grid

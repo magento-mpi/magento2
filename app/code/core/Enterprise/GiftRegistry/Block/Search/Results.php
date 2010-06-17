@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_GiftRegistry
  */
-class Enterprise_GiftRegistry_Block_Search_Results extends Enterprise_Enterprise_Block_Core_Template
+class Enterprise_GiftRegistry_Block_Search_Results extends Mage_Core_Block_Template
 {
     /**
      * Set search results and create html pager block

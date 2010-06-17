@@ -27,7 +27,7 @@
 /**
  * Reminder rules grid block
  */
-class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Intialize grid

@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_TargetRule_Model_Rule extends Enterprise_Enterprise_Model_Rule_Rule
+class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
 {
     const BOTH_SELECTED_AND_RULE_BASED  = 0;
     const SELECTED_ONLY                 = 1;

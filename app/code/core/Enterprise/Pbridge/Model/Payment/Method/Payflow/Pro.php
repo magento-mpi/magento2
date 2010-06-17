@@ -32,7 +32,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Enterprise_Enterprise_Model_Paypal_Payflow_Pro
+class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Mage_Paypal_Model_Payflowpro
 {
     /**
      * Form block type for the frontend

@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Banner_Model_Mysql4_Banner extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Sales rule table name
@@ -494,7 +494,7 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Enterprise_Enterprise_Model_
      * Add customer segment ids to banner data, cast banner types to array
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+     * @return Mage_Core_Model_Mysql4_Abstract
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {

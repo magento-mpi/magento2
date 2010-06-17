@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Banner_Model_Mysql4_Banner_Collection extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
+class Enterprise_Banner_Model_Mysql4_Banner_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     /**
      * Initialize banner resource model

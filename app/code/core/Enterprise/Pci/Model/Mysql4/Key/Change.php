@@ -29,7 +29,7 @@
  *
  * The operation must be done in one transaction
  */
-class Enterprise_Pci_Model_Mysql4_Key_Change extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+class Enterprise_Pci_Model_Mysql4_Key_Change extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * @var Enterprise_Pci_Model_Encryption

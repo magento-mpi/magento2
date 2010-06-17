@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Currently selected store in store switcher

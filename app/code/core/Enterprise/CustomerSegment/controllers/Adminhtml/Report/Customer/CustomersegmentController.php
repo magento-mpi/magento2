@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_CustomerSegment
  */
-class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentController extends Enterprise_Enterprise_Controller_Adminhtml_Action
+class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Admin session

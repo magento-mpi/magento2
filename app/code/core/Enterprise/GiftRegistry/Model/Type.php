@@ -27,7 +27,7 @@
 /**
  * Gift registry types processing model
  */
-class Enterprise_GiftRegistry_Model_Type extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
 {
     protected $_store = null;
     protected $_storeData = null;

@@ -28,7 +28,7 @@
  * Customer balance model
  *
  */
-class Enterprise_CustomerBalance_Model_Balance extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
 {
     /**
      * @var Mage_Customer_Model_Customer
@@ -281,7 +281,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Enterprise_Enterprise_Mod
     /**
      * Public version of afterLoad
      *
-     * @return Enterprise_Enterprise_Model_Core_Abstract
+     * @return Mage_Core_Model_Abstract
      */
     public function afterLoad()
     {

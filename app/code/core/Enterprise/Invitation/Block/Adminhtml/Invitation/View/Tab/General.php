@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Enterprise_Enterprise_Block_Adminhtml_Template
+class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mage_Adminhtml_Block_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**

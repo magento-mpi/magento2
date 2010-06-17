@@ -27,7 +27,7 @@
 /**
  * Entity data model
  */
-class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
 {
     /**
      * XML configuration paths

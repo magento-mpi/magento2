@@ -33,7 +33,7 @@
  */
 
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+    extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {

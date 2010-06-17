@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_CustomerSegment
  */
-class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Intialize grid

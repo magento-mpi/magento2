@@ -29,7 +29,7 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_General extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_General extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Keep main translate helper instance
@@ -50,7 +50,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_General extends Enterp
     /**
      * Prepare form fieldset and form values
      *
-     * @return Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+     * @return Mage_Adminhtml_Block_Widget_Form
      */
     protected function _prepareForm()
     {

@@ -27,7 +27,7 @@
 /**
  * Customer gift registry checkout abstract block
  */
-class Enterprise_GiftRegistry_Block_Customer_Checkout extends Enterprise_Enterprise_Block_Core_Template
+class Enterprise_GiftRegistry_Block_Customer_Checkout extends Mage_Core_Block_Template
 {
     /**
      * Get current checkout session

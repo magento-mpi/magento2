@@ -32,7 +32,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
+class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
      * Payment Bridge action name to fetch Payment Bridge gateway form

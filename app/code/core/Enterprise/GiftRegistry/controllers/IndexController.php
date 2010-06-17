@@ -27,7 +27,7 @@
 /**
  * Gift registry frontend controller
  */
-class Enterprise_GiftRegistry_IndexController extends Enterprise_Enterprise_Controller_Core_Front_Action
+class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Only logged in users can use this functionality,

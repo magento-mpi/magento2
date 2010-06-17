@@ -30,7 +30,7 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Adminhtml_Staging_Merge_Settings_Website extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+class Enterprise_Staging_Block_Adminhtml_Staging_Merge_Settings_Website extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {
@@ -46,7 +46,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Merge_Settings_Website extends 
     /**
      * prepare layout
      *
-     * @return Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+     * @return Mage_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareLayout()
     {

@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Container
+    extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Define controller, block and labels

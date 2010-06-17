@@ -25,7 +25,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Tabs
+    extends Mage_Adminhtml_Block_Widget_Tabs
 {
     /**
      * Intialize form

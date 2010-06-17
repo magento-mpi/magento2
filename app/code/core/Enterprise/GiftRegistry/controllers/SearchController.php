@@ -27,7 +27,7 @@
 /**
  * Gift registry frontend search controller
  */
-class Enterprise_GiftRegistry_SearchController extends Enterprise_Enterprise_Controller_Core_Front_Action
+class Enterprise_GiftRegistry_SearchController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Check if gift registry is enabled on current store before all other actions

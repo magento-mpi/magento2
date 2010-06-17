@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_TargetRule
  */
-class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare target rule actions form before rendering HTML

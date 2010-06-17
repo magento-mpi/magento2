@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Grid extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Set default sort

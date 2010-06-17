@@ -29,7 +29,7 @@
  *
  */
 class Enterprise_SalesArchive_Model_Mysql4_Order_Collection
-    extends Enterprise_Enterprise_Model_Sales_Mysql4_Order_Grid_Collection
+    extends Mage_Sales_Model_Mysql4_Order_Grid_Collection
 {
     protected function _construct()
     {

@@ -32,7 +32,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_SalesPool_Block_Adminhtml_System_Config_Form_Field_Allow_Method extends Enterprise_Enterprise_Block_Adminhtml_System_Config_Form_Field
+class Enterprise_SalesPool_Block_Adminhtml_System_Config_Form_Field_Allow_Method extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
 
     /**

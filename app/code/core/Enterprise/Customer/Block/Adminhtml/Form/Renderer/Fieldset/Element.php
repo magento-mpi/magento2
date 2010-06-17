@@ -31,7 +31,7 @@
  * @package    Enterprise_Customer
  */
 class Enterprise_Customer_Block_Adminhtml_Form_Renderer_Fieldset_Element
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form_Renderer_Fieldset_Element
+    extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {
     /**
      * Retrieve data object related with form

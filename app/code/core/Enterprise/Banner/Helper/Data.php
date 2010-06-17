@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Banner_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
+class Enterprise_Banner_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
 }

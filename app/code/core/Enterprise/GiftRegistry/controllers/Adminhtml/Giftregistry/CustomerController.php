@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends Enterprise_Enterprise_Controller_Adminhtml_Action
+class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends Mage_Adminhtml_Controller_Action
 {
     protected function _initEntity($requestParam = 'id')
     {

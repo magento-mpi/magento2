@@ -27,7 +27,7 @@
 /**
  * CustomerSegment resource setup
  */
-class Enterprise_CustomerSegment_Model_Mysql4_Setup extends Enterprise_Enterprise_Model_Eav_Entity_Setup
+class Enterprise_CustomerSegment_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
 {
 
 }

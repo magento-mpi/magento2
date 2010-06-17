@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Block_Hierarchy_Pagination extends Enterprise_Enterprise_Block_Core_Template
+class Enterprise_Cms_Block_Hierarchy_Pagination extends Mage_Core_Block_Template
 {
     /**
      * Current Hierarchy Node Page Instance
@@ -67,7 +67,7 @@ class Enterprise_Cms_Block_Hierarchy_Pagination extends Enterprise_Enterprise_Bl
     /**
      * Add context menu params to block data
      *
-     * @return Enterprise_Enterprise_Block_Core_Template
+     * @return Mage_Core_Block_Template
      */
     protected function _loadNodePaginationParams()
     {

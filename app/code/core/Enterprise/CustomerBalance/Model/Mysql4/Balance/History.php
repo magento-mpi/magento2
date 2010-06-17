@@ -28,7 +28,7 @@
  * Customerbalance history resource model
  *
  */
-class Enterprise_CustomerBalance_Model_Mysql4_Balance_History extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+class Enterprise_CustomerBalance_Model_Mysql4_Balance_History extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Initialize resource

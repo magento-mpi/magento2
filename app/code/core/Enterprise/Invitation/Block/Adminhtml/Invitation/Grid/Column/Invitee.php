@@ -29,7 +29,7 @@
  *
  */
 class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Column_Renderer_Abstract
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Render invitee email linked to its account edit page

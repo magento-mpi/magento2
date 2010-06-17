@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCard_Model_CatalogIndex_Data_Giftcard extends Enterprise_Enterprise_Model_CatalogIndex_Data_Simple
+class Enterprise_GiftCard_Model_CatalogIndex_Data_Giftcard extends Mage_CatalogIndex_Model_Data_Simple
 {
     protected $_haveChildren = false;
 

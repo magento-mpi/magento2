@@ -28,7 +28,7 @@
  * Customer Sales Mysql4 abstract resource
  *
  */
-abstract class Enterprise_Customer_Model_Mysql4_Sales_Abstract extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+abstract class Enterprise_Customer_Model_Mysql4_Sales_Abstract extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Used us prefix to name of column table

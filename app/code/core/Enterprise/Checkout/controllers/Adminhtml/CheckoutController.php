@@ -31,7 +31,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Adminhtml_CheckoutController extends Enterprise_Enterprise_Controller_Adminhtml_Action
+class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Flag that indicates whether page must be reloaded with correct params or not

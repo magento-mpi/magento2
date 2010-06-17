@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogEvent_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
+class Enterprise_CatalogEvent_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const XML_PATH_ENABLED = 'catalog/enterprise_catalogevent/enabled';
 

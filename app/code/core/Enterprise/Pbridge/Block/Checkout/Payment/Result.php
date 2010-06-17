@@ -32,7 +32,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Block_Checkout_Payment_Result extends Enterprise_Enterprise_Block_Core_Template
+class Enterprise_Pbridge_Block_Checkout_Payment_Result extends Mage_Core_Block_Template
 {
     /**
      * Return JSON array of Payment Bridge incoming data

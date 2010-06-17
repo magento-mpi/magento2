@@ -31,7 +31,7 @@
  * @package    Enterprise_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Adminhtml_Banner_WidgetController extends Enterprise_Enterprise_Controller_Adminhtml_Action
+class Enterprise_Banner_Adminhtml_Banner_WidgetController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Chooser Source action

@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Initialize Grid Block

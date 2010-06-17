@@ -27,7 +27,7 @@
 /**
  * Gift registry entity resource model
  */
-class Enterprise_GiftRegistry_Model_Mysql4_Entity extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+class Enterprise_GiftRegistry_Model_Mysql4_Entity extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Event table name

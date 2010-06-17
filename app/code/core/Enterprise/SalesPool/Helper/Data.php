@@ -28,7 +28,7 @@
  * Base sales pool helper
  *
  */
-class Enterprise_SalesPool_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
+class Enterprise_SalesPool_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
 }

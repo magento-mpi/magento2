@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance_Grid
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+    extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Flag to store if customer has orphan points

@@ -25,7 +25,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+    extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Return current gift registry type instance

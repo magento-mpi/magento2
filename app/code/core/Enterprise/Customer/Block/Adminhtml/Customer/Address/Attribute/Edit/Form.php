@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Form
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+    extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare form before rendering HTML

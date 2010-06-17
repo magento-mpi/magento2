@@ -32,7 +32,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Enterprise_Enterprise_Model_PaypalUk_Direct
+class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Model_Direct
 {
     /**
      * Form block type for the frontend

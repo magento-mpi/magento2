@@ -28,7 +28,7 @@
  * Resource collection of customers matched by reminder rule
  */
 class Enterprise_Reminder_Model_Mysql4_Customer_Collection
-    extends Enterprise_Enterprise_Model_Customer_Entity_Customer_Collection
+    extends Mage_Customer_Model_Entity_Customer_Collection
 {
     /**
      * Instantiate select to get matched customers

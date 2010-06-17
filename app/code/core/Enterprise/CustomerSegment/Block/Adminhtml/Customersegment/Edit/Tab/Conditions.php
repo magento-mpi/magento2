@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Conditions extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Conditions extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare conditions form

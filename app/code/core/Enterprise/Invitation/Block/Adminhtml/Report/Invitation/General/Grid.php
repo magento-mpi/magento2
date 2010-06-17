@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid extends Enterprise_Enterprise_Block_Adminhtml_Report_Grid
+class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid extends Mage_Adminhtml_Block_Report_Grid
 {
 
     /**

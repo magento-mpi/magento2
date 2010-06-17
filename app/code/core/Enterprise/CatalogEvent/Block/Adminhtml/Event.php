@@ -32,7 +32,7 @@
  * @package    Enterprise_CatalogEvent
  */
 
-class Enterprise_CatalogEvent_Block_Adminhtml_Event extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Container
+class Enterprise_CatalogEvent_Block_Adminhtml_Event extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     public function __construct()
     {

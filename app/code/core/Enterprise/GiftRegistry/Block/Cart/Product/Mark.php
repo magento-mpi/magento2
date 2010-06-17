@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftRegistry_Block_Cart_Product_Mark extends Enterprise_Enterprise_Block_Core_Template
+class Enterprise_GiftRegistry_Block_Cart_Product_Mark extends Mage_Core_Block_Template
 {
     /**
      * Check whether module is available

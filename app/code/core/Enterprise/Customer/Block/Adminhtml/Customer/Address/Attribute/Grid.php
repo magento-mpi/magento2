@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Grid
-    extends Enterprise_Enterprise_Block_Eav_Adminhtml_Attribute_Grid_Abstract
+    extends Mage_Eav_Block_Adminhtml_Attribute_Grid_Abstract
 {
     /**
      * Initialize grid, set grid Id

@@ -28,7 +28,7 @@
  * Segment/customer relatio model. Model working in website scope. If website is not declared
  * all methods are working in current ran website scoupe
  */
-class Enterprise_CustomerSegment_Model_Customer extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
 {
     /**
      * Array of Segments collections per event name

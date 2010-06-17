@@ -27,7 +27,7 @@
 /**
  * Gift registry type data resource model
  */
-class Enterprise_GiftRegistry_Model_Mysql4_Type extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+class Enterprise_GiftRegistry_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_Abstract
 {
     protected $_infoTable;
     protected $_labelTable;
@@ -49,7 +49,7 @@ class Enterprise_GiftRegistry_Model_Mysql4_Type extends Enterprise_Enterprise_Mo
      * Add store date to registry type data
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+     * @return Mage_Core_Model_Mysql4_Abstract
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {

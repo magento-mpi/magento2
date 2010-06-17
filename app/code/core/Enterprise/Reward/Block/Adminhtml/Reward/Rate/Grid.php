@@ -32,7 +32,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Internal constructor

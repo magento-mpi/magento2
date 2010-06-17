@@ -29,7 +29,7 @@
  *
  */
 class Enterprise_Logging_Block_Adminhtml_Details_Renderer_Sourcename
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Column_Renderer_Abstract
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Render the grid cell value

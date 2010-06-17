@@ -31,7 +31,7 @@
  * @package    Enterprise_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions extends Enterprise_Enterprise_Block_Adminhtml_Template
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions extends Mage_Adminhtml_Block_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**

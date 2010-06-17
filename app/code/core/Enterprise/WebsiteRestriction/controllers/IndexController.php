@@ -28,7 +28,7 @@
  * Website stub controller
  *
  */
-class Enterprise_WebsiteRestriction_IndexController extends Enterprise_Enterprise_Controller_Core_Front_Action
+class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller_Front_Action
 {
     protected $_stubPageIdentifier = 'general/restriction/cms_page';
 

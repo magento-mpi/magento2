@@ -32,7 +32,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Adminhtml_PbridgeController extends Enterprise_Enterprise_Controller_Adminhtml_Action
+class Enterprise_Pbridge_Adminhtml_PbridgeController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Load only action layout handles

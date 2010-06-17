@@ -28,7 +28,7 @@
  * GiftRegistry entity item collection
  */
 class Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
-    extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
+    extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     /**
      * Internal constructor

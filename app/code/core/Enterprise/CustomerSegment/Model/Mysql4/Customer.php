@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_CustomerSegment_Model_Mysql4_Customer extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+class Enterprise_CustomerSegment_Model_Mysql4_Customer extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Intialize resource model

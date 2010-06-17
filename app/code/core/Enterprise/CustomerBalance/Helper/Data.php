@@ -28,7 +28,7 @@
  * Customerbalance helper
  *
  */
-class Enterprise_CustomerBalance_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
+class Enterprise_CustomerBalance_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
      * Check whether customer balance functionality should be enabled

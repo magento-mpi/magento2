@@ -28,7 +28,7 @@
  * PayPal Website Payments Pro implementation for payment method instaces
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
-class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Enterprise_Enterprise_Model_Paypal_Pro
+class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Model_Pro
 {
 
     /**

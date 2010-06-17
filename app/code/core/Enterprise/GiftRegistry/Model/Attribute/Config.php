@@ -27,7 +27,7 @@
 /**
  * Gift registry custom attribute config model
  */
-class Enterprise_GiftRegistry_Model_Attribute_Config extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abstract
 {
     protected $_config = null;
     protected $_staticTypes = null;

@@ -31,7 +31,7 @@
  * @package    Enterprise_Invitation
  */
 
-class Enterprise_Invitation_Block_Adminhtml_Invitation extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Container
+class Enterprise_Invitation_Block_Adminhtml_Invitation extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Initialize invitation manage page

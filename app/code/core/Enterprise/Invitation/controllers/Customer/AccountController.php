@@ -32,7 +32,7 @@ require_once  'Enterprise/Enterprise/controllers/Customer/AccountController.php'
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Customer_AccountController extends Enterprise_Enterprise_Customer_AccountController
+class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_AccountController
 {
     /**
      * Action list where need check enabled cookie

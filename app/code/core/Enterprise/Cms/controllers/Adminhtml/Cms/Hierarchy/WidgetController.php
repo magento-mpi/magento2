@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Adminhtml_Cms_Hierarchy_WidgetController extends Enterprise_Enterprise_Controller_Adminhtml_Action
+class Enterprise_Cms_Adminhtml_Cms_Hierarchy_WidgetController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Chooser Source action

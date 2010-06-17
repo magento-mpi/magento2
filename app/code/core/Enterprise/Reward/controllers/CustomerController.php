@@ -32,7 +32,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_CustomerController extends Enterprise_Enterprise_Controller_Core_Front_Action
+class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Predispatch

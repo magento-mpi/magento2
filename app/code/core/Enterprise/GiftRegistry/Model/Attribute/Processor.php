@@ -27,7 +27,7 @@
 /**
  * Gift registry custom attribute processor model
  */
-class Enterprise_GiftRegistry_Model_Attribute_Processor extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_GiftRegistry_Model_Attribute_Processor extends Mage_Core_Model_Abstract
 {
     const XML_PROTOTYPE_NODE  = 'prototype';
     const XML_REGISTRY_NODE   = 'registry';

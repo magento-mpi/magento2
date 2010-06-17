@@ -33,7 +33,7 @@
  */
 
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+    extends Mage_Adminhtml_Block_Widget_Grid
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**

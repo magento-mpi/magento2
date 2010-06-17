@@ -23,7 +23,7 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-class Enterprise_Reward_Block_Checkout_Total extends Enterprise_Enterprise_Block_Checkout_Total_Default
+class Enterprise_Reward_Block_Checkout_Total extends Mage_Checkout_Block_Total_Default
 {
     protected $_template = 'reward/checkout/total.phtml';
 

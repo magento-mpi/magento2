@@ -31,7 +31,7 @@
  * @package    Enterprise_CatalogEvent
  */
 
-class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Enterprise_Enterprise_Controller_Adminhtml_Action
+class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Check is enabled module in config

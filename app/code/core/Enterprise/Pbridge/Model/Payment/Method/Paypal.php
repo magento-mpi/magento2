@@ -32,7 +32,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Enterprise_Enterprise_Model_Paypal_Direct
+class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_Direct
 {
     /**
      * Form block type for the frontend

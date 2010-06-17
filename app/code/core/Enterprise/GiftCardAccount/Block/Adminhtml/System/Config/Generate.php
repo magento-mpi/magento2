@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_System_Config_Generate extends Enterprise_Enterprise_Block_Adminhtml_System_Config_Form_Field
+class Enterprise_GiftCardAccount_Block_Adminhtml_System_Config_Generate extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
     public function __construct()
     {

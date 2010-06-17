@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_TargetRule_Model_Rule_Condition_Combine extends Enterprise_Enterprise_Model_Rule_Condition_Combine
+class Enterprise_TargetRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Condition_Combine
 {
     /**
      * Set condition type

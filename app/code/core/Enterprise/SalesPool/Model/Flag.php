@@ -28,7 +28,7 @@
  * Pool flag model
  *
  */
-class Enterprise_SalesPool_Model_Flag extends Enterprise_Enterprise_Model_Core_Flag
+class Enterprise_SalesPool_Model_Flag extends Mage_Core_Model_Flag
 {
     /**
      * Flag code

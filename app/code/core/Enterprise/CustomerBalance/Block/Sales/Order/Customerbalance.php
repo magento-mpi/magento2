@@ -28,7 +28,7 @@
  * Customer balance block for order
  *
  */
-class Enterprise_CustomerBalance_Block_Sales_Order_Customerbalance extends Enterprise_Enterprise_Block_Core_Template
+class Enterprise_CustomerBalance_Block_Sales_Order_Customerbalance extends Mage_Core_Block_Template
 {
     /**
      * Retrieve current order model instance

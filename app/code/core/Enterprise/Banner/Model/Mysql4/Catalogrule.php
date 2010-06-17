@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Banner_Model_Mysql4_Catalogrule extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+class Enterprise_Banner_Model_Mysql4_Catalogrule extends Mage_Core_Model_Mysql4_Abstract
 {
 
     /**

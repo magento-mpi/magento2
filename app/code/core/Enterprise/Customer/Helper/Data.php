@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
+class Enterprise_Customer_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
      * Array of User Defined attribute codes per entity type code

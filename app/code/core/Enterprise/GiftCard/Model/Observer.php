@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCard_Model_Observer extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
 {
     const ATTRIBUTE_CODE = 'giftcard_amounts';
 

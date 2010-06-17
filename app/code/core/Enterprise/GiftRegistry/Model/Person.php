@@ -27,7 +27,7 @@
 /**
  * Entity registrants data model
  */
-class Enterprise_GiftRegistry_Model_Person extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_GiftRegistry_Model_Person extends Mage_Core_Model_Abstract
 {
     function _construct() {
         $this->_init('enterprise_giftregistry/person');

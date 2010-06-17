@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_GiftRegistry
  */
-class Enterprise_GiftRegistry_Block_Search_Form extends Enterprise_Enterprise_Block_Core_Template
+class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
 {
     protected $_formData = null;
 

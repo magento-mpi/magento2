@@ -32,7 +32,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
+class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const XML_PATH_SECTION_GENERAL = 'enterprise_reward/general/';
     const XML_PATH_SECTION_POINTS = 'enterprise_reward/points/';

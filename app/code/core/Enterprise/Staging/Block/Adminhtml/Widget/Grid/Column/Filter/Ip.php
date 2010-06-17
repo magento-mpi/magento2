@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Staging_Block_Adminhtml_Widget_Grid_Column_Filter_Ip extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Column_Filter_Text
+class Enterprise_Staging_Block_Adminhtml_Widget_Grid_Column_Filter_Ip extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Text
 {
     /**
      * ip filter method

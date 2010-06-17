@@ -31,7 +31,7 @@
  * @package    Enterprise_Staging
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Adminhtml_Widget_Grid_Column_Renderer_Action extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Column_Renderer_Action
+class Enterprise_Staging_Block_Adminhtml_Widget_Grid_Column_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
 {
     /**
      * Renders column

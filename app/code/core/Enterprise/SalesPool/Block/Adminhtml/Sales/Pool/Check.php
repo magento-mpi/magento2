@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_SalesPool_Block_Adminhtml_Sales_Pool_Check extends Enterprise_Enterprise_Block_Adminhtml_Template
+class Enterprise_SalesPool_Block_Adminhtml_Sales_Pool_Check extends Mage_Adminhtml_Block_Template
 {
     /**
      * Get list of potential problems

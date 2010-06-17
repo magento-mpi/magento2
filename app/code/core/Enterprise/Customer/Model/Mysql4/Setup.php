@@ -31,6 +31,6 @@
  * @category   Enterprise
  * @package    Enterprise_Package
  */
-class Enterprise_Customer_Model_Mysql4_Setup extends Enterprise_Enterprise_Model_Customer_Entity_Setup
+class Enterprise_Customer_Model_Mysql4_Setup extends Mage_Customer_Model_Entity_Setup
 {
 }

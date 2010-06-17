@@ -27,7 +27,7 @@
 /**
  * Gift registry entity registrants resource model
  */
-class Enterprise_GiftRegistry_Model_Mysql4_Person extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+class Enterprise_GiftRegistry_Model_Mysql4_Person extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Intialize resource model
@@ -43,7 +43,7 @@ class Enterprise_GiftRegistry_Model_Mysql4_Person extends Enterprise_Enterprise_
      * Serialization for custom attributes
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+     * @return Mage_Core_Model_Mysql4_Abstract
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
@@ -55,7 +55,7 @@ class Enterprise_GiftRegistry_Model_Mysql4_Person extends Enterprise_Enterprise_
      * Deserialization for custom attributes
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+     * @return Mage_Core_Model_Mysql4_Abstract
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {

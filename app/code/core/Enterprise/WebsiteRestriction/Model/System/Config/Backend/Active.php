@@ -28,7 +28,7 @@
  * Cleanup blocks HTML cache
  *
  */
-class Enterprise_WebsiteRestriction_Model_System_Config_Backend_Active extends Enterprise_Enterprise_Model_Core_Config_Data
+class Enterprise_WebsiteRestriction_Model_System_Config_Backend_Active extends Mage_Core_Model_Config_Data
 {
     /**
      * Cleanup blocks HTML cache if a value was changed

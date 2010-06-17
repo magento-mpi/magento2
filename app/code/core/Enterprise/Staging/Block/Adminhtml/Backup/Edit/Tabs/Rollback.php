@@ -30,7 +30,7 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback extends Mage_Adminhtml_Block_Widget_Form
 {
     public function __construct()
     {
@@ -47,7 +47,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback extends Enter
     /**
      * Prepare layout
      *
-     * @return Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+     * @return Mage_Adminhtml_Block_Widget_Form
      */
     protected function _prepareLayout()
     {

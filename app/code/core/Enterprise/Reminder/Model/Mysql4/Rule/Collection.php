@@ -27,7 +27,7 @@
 /**
  * Reminder rules resource collection
  */
-class Enterprise_Reminder_Model_Mysql4_Rule_Collection extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
+class Enterprise_Reminder_Model_Mysql4_Rule_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
    /**
      * Intialize collection

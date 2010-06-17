@@ -32,7 +32,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_PbridgeController extends Enterprise_Enterprise_Controller_Core_Front_Action
+class Enterprise_Pbridge_PbridgeController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Load only action layout handles

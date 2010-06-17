@@ -29,7 +29,7 @@
  * - generate/check hashes of different versions
  * - use different encryption ciphers
  */
-class Enterprise_Pci_Model_Encryption extends Enterprise_Enterprise_Model_Core_Encryption
+class Enterprise_Pci_Model_Encryption extends Mage_Core_Model_Encryption
 {
     const HASH_VERSION_MD5    = 0;
     const HASH_VERSION_SHA256 = 1;

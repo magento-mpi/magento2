@@ -31,7 +31,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Enterprise_Enterprise_Block_Adminhtml_Template
+class Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon extends Mage_Adminhtml_Block_Template
 {
     /**
      * Return applied coupon code for current quote

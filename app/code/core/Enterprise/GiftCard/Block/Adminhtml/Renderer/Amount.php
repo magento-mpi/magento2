@@ -25,7 +25,7 @@
  */
 
 class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
- extends Enterprise_Enterprise_Block_Adminhtml_Widget
+ extends Mage_Adminhtml_Block_Widget
  implements Varien_Data_Form_Element_Renderer_Interface
 {
     protected $_element = null;

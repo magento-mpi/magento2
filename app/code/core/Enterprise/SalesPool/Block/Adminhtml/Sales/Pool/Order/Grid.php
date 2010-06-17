@@ -28,7 +28,7 @@
  * Pool orders grid
  *
  */
-class Enterprise_SalesPool_Block_Adminhtml_Sales_Pool_Order_Grid extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+class Enterprise_SalesPool_Block_Adminhtml_Sales_Pool_Order_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {

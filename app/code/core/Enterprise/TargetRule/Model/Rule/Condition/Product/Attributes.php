@@ -26,7 +26,7 @@
 
 
 class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
-    extends Enterprise_Enterprise_Model_CatalogRule_Rule_Condition_Product
+    extends Mage_CatalogRule_Model_Rule_Condition_Product
 {
     /**
      * Attribute property that defines whether to use it for target rules

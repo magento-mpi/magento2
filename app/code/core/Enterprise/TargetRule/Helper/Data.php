@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_TargetRule
  */
-class Enterprise_TargetRule_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
+class Enterprise_TargetRule_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const XML_PATH_TARGETRULE_CONFIG    = 'catalog/enterprise_targetrule/';
 

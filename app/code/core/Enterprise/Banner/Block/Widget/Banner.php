@@ -32,7 +32,7 @@
  * @package    Enterprise_Banner
  */
 class Enterprise_Banner_Block_Widget_Banner
-    extends Enterprise_Enterprise_Block_Core_Template
+    extends Mage_Core_Block_Template
     implements Mage_Widget_Block_Interface
 {
     /**

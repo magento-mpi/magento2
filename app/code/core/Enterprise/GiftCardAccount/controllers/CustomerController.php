@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_CustomerController extends Enterprise_Enterprise_Controller_Core_Front_Action
+class Enterprise_GiftCardAccount_CustomerController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Only logged in users can use this functionality,

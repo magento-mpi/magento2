@@ -27,7 +27,7 @@
 /**
  * Logging event changes model
  */
-class Enterprise_Logging_Model_Event_Changes extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_Logging_Model_Event_Changes extends Mage_Core_Model_Abstract
 {
     /**
      * Config path to fields that must be not be logged for all models

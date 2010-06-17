@@ -29,7 +29,7 @@
  *
  */
 class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget
+    extends Mage_Adminhtml_Block_Widget
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**

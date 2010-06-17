@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount extends Enterprise_Enterprise_Model_Catalog_Product_Attribute_Backend_Price
+class Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount extends Mage_Catalog_Model_Product_Attribute_Backend_Price
 {
     /**
      * Retrieve resource model

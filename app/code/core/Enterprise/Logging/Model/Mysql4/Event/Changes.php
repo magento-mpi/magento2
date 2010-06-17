@@ -27,7 +27,7 @@
 /**
  * Logging event changes model
  */
-class Enterprise_Logging_Model_Mysql4_Event_Changes extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+class Enterprise_Logging_Model_Mysql4_Event_Changes extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Initialize resource

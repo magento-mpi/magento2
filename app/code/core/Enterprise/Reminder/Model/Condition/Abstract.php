@@ -27,7 +27,7 @@
 /**
  * Abstract class for rule condition
  */
-class Enterprise_Reminder_Model_Condition_Abstract extends Enterprise_Enterprise_Model_Rule_Condition_Abstract
+class Enterprise_Reminder_Model_Condition_Abstract extends Mage_Rule_Model_Condition_Abstract
 {
     /**
      * Customize default operator input by type mapper for some types

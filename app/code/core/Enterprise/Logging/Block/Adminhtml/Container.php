@@ -27,7 +27,7 @@
 /**
  * General Logging container
  */
-class Enterprise_Logging_Block_Adminhtml_Container extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Container
+class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Curent event data storage

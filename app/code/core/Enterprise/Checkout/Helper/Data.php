@@ -31,6 +31,6 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
+class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 {
 }

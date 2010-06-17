@@ -27,7 +27,7 @@
 /**
  * Logging helper
  */
-class Enterprise_Logging_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
+class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
      * Join array into string except empty values

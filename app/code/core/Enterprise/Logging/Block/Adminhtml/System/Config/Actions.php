@@ -28,7 +28,7 @@
  * Action group checkboxes renderer for system configuration
  */
 class Enterprise_Logging_Block_Adminhtml_System_Config_Actions
-    extends Enterprise_Enterprise_Block_Adminhtml_System_Config_Form_Field
+    extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
     /**
      * Set template

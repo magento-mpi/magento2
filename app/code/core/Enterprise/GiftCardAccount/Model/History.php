@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_GiftCardAccount_Model_History extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
 {
     const ACTION_CREATED  = 0;
     const ACTION_USED     = 1;

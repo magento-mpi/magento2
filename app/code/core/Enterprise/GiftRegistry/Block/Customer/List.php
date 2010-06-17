@@ -31,7 +31,7 @@
  * @package    Enterprise_GiftRegistry
  */
 class Enterprise_GiftRegistry_Block_Customer_List
-    extends Enterprise_Enterprise_Block_Customer_Account_Dashboard
+    extends Mage_Customer_Block_Account_Dashboard
 {
     /**
      * Return list of gift registries

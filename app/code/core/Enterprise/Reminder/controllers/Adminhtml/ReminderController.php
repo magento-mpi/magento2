@@ -27,7 +27,7 @@
 /**
  * Reminder grid and edit controller
  */
-class Enterprise_Reminder_Adminhtml_ReminderController extends Enterprise_Enterprise_Controller_Adminhtml_Action
+class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Init active menu and set breadcrumb

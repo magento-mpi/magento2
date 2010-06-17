@@ -27,7 +27,7 @@
 /**
  * Abstract block to render form elements
  */
-class Enterprise_GiftRegistry_Block_Form_Element extends Enterprise_Enterprise_Block_Core_Template
+class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Template
 {
     protected $_countryCollection;
     protected $_regionCollection;

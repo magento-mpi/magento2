@@ -27,7 +27,7 @@
 /**
  * Reminder rules edit block
  */
-class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form_Container
+class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
 
     /**

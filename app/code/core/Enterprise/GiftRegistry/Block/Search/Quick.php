@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_GiftRegistry
  */
-class Enterprise_GiftRegistry_Block_Search_Quick extends Enterprise_Enterprise_Block_Core_Template
+class Enterprise_GiftRegistry_Block_Search_Quick extends Mage_Core_Block_Template
 {
     /**
      * Check whether module is available

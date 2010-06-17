@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract implements Enterprise_Staging_Model_Mysql4_Adapter_Interface
+abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Core_Model_Mysql4_Abstract implements Enterprise_Staging_Model_Mysql4_Adapter_Interface
 {
     /**
      * Staging instance

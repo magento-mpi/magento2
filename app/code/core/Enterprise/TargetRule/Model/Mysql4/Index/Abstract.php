@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_TargetRule
  */
-abstract class Enterprise_TargetRule_Model_Mysql4_Index_Abstract extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+abstract class Enterprise_TargetRule_Model_Mysql4_Index_Abstract extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Product List Type identifier

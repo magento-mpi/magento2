@@ -28,7 +28,7 @@
  * Controller for Customer Attributes Management
  */
 class Enterprise_Customer_Adminhtml_Customer_AttributeController
-    extends Enterprise_Enterprise_Controller_Adminhtml_Action
+    extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Customer Address Entity Type instance

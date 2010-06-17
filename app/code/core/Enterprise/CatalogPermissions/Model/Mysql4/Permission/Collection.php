@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogPermissions
  */
-class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Collection extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
+class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
 
     /**

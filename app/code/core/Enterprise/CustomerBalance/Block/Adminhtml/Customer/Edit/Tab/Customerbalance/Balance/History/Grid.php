@@ -28,7 +28,7 @@
  * Customer balance history grid
  */
 class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+    extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * @var Enterprise_CustomerBalance_Model_Mysql4_Balance_Collection

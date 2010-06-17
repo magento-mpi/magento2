@@ -30,7 +30,7 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Adminhtml_Staging_Merge extends Enterprise_Enterprise_Block_Adminhtml_Widget
+class Enterprise_Staging_Block_Adminhtml_Staging_Merge extends Mage_Adminhtml_Block_Widget
 {
     /**
      * merge settinggs blocks

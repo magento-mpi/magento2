@@ -31,7 +31,7 @@
  * @package    Enterprise_CatalogEvent
  */
 
-class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons extends Enterprise_Enterprise_Block_Adminhtml_Catalog_Category_Abstract
+class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons extends Mage_Adminhtml_Block_Catalog_Category_Abstract
 {
     /**
      * Retrieve category event

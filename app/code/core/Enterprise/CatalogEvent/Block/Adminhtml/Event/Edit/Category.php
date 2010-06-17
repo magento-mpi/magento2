@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Enterprise_Enterprise_Block_Adminhtml_Catalog_Category_Abstract
+class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_Adminhtml_Block_Catalog_Category_Abstract
 {
     /**
      * Set custom template for the block

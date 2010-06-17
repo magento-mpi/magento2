@@ -25,7 +25,7 @@
  */
 
 class Enterprise_GiftRegistry_Block_Adminhtml_Customer_View
-    extends Enterprise_Enterprise_Block_Adminhtml_Template
+    extends Mage_Adminhtml_Block_Template
 {
     /**
      * Intialize form

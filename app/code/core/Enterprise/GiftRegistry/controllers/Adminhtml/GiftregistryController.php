@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Enterprise_Enterprise_Controller_Adminhtml_Action
+class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Init active menu and set breadcrumb

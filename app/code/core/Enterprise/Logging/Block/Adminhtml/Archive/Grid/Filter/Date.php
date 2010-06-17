@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Logging
  */
-class Enterprise_Logging_Block_Adminhtml_Archive_Grid_Filter_Date extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Column_Filter_Date
+class Enterprise_Logging_Block_Adminhtml_Archive_Grid_Filter_Date extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Date
 {
     /**
      * Convert date from localized to internal format

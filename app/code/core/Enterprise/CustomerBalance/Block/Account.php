@@ -28,7 +28,7 @@
  * Customer balance block for My Account
  *
  */
-class Enterprise_CustomerBalance_Block_Account extends Enterprise_Enterprise_Block_Core_Template
+class Enterprise_CustomerBalance_Block_Account extends Mage_Core_Block_Template
 {
 
 }

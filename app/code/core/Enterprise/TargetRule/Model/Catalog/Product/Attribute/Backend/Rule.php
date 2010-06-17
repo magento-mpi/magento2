@@ -32,7 +32,7 @@
  * @package    Enterprise_TargetRule
  */
 class Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule
-    extends Enterprise_Enterprise_Model_Eav_Entity_Attribute_Backend_Abstract
+    extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
      * Before attribute save prepare data

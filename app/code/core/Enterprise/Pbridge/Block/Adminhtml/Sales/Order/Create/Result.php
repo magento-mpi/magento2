@@ -32,7 +32,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Result extends Enterprise_Enterprise_Block_Adminhtml_Template
+class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Result extends Mage_Adminhtml_Block_Template
 {
     /**
      * Return JSON array of Payment Bridge incoming data

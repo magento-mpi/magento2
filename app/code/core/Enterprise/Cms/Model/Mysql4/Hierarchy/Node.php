@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Primary key auto increment flag

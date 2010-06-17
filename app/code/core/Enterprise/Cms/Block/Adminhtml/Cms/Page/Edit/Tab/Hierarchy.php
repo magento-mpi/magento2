@@ -32,7 +32,7 @@
  * @package    Enterprise_Cms
  */
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
-    extends Enterprise_Enterprise_Block_Adminhtml_Template
+    extends Mage_Adminhtml_Block_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**

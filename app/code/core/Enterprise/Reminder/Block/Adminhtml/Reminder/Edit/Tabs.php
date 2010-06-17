@@ -28,7 +28,7 @@
  * Reminder rules edit tabs block
  */
 class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Tabs
+    extends Mage_Adminhtml_Block_Widget_Tabs
 {
 
     /**

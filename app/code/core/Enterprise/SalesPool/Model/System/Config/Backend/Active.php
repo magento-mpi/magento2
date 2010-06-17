@@ -28,7 +28,7 @@
  * Pool configuration active flag backend
  *
  */
-class Enterprise_SalesPool_Model_System_Config_Backend_Active extends Enterprise_Enterprise_Model_Core_Config_Data
+class Enterprise_SalesPool_Model_System_Config_Backend_Active extends Mage_Core_Model_Config_Data
 {
     /**
      * Checks configuration value and run flush and sync actions if it changed

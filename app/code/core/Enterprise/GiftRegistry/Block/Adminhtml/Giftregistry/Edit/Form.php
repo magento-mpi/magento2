@@ -27,7 +27,7 @@
 /**
  * Gift registry type edit form block
  */
-class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Intialize form

@@ -24,7 +24,7 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Initialize grid, set defaults
@@ -47,7 +47,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
     /**
      * Set sales rule collection to grid data
      *
-     * @return Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+     * @return Mage_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {
@@ -88,7 +88,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
     /**
      * Create grid columns
      *
-     * @return Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+     * @return Mage_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {

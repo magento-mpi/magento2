@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_GiftCardAccount_Model_Mysql4_History_Collection extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
+class Enterprise_GiftCardAccount_Model_Mysql4_History_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     protected function _construct()
     {

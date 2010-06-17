@@ -25,6 +25,6 @@
  */
 
 
-class Enterprise_GiftCardAccount_Block_Checkout_Cart_Giftcardaccount extends Enterprise_Enterprise_Block_Checkout_Cart_Abstract
+class Enterprise_GiftCardAccount_Block_Checkout_Cart_Giftcardaccount extends Mage_Checkout_Block_Cart_Abstract
 {
 }

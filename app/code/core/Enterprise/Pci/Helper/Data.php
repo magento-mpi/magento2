@@ -28,7 +28,7 @@
  * Pci helper
  *
  */
-class Enterprise_Pci_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
+class Enterprise_Pci_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
 }

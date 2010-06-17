@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Customer_Form_Register extends Enterprise_Enterprise_Block_Customer_Form_Register
+class Enterprise_Invitation_Block_Customer_Form_Register extends Mage_Customer_Block_Form_Register
 {
     /**
      * Retrieve form data

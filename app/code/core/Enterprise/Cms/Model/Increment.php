@@ -45,7 +45,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Increment extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_Cms_Model_Increment extends Mage_Core_Model_Abstract
 {
     /*
      * Increment types

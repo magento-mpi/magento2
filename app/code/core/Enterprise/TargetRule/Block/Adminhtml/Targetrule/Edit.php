@@ -29,7 +29,7 @@
  *
  */
 
-class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form_Container
+class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     protected $_blockGroup = 'enterprise_targetrule';
     protected $_controller = 'adminhtml_targetrule';

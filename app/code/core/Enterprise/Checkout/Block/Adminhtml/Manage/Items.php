@@ -31,7 +31,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Enterprise_Enterprise_Block_Adminhtml_Template
+class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Mage_Adminhtml_Block_Template
 {
     public function getJsObjectName()
     {

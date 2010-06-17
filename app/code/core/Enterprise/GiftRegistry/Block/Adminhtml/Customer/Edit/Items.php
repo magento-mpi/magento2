@@ -28,7 +28,7 @@
  * Adminhtml customer view gift registry items block
  */
 class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+    extends Mage_Adminhtml_Block_Widget_Grid
 {
 
     public function __construct()

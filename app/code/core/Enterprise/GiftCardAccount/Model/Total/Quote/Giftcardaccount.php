@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Enterprise_Enterprise_Model_Sales_Quote_Address_Total_Abstract
+class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
      * Init total model, set total code

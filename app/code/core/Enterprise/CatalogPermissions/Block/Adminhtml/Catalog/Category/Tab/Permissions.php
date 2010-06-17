@@ -31,7 +31,7 @@
  * @package    Enterprise_CatalogPermissions
  */
 class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions
-    extends Enterprise_Enterprise_Block_Adminhtml_Catalog_Category_Abstract
+    extends Mage_Adminhtml_Block_Catalog_Category_Abstract
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     public function __construct()

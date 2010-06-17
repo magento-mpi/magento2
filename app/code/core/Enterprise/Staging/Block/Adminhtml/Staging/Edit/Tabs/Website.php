@@ -29,7 +29,7 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Constructor

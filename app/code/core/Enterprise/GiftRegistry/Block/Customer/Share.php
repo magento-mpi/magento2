@@ -28,7 +28,7 @@
  * Customer gift registry share block
  */
 class Enterprise_GiftRegistry_Block_Customer_Share
-    extends Enterprise_Enterprise_Block_Customer_Account_Dashboard
+    extends Mage_Customer_Block_Account_Dashboard
 {
     protected $_formData = null;
 

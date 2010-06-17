@@ -33,7 +33,7 @@
  */
 
 class Enterprise_Search_Model_Resource_Collection
-    extends Enterprise_Enterprise_Model_Catalog_Resource_Eav_Mysql4_Product_Collection
+    extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
 
     /**

@@ -31,7 +31,7 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid
+abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Collection field name for using in controls

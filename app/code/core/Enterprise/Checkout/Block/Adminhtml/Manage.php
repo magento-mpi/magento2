@@ -31,7 +31,7 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Block_Adminhtml_Manage extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form_Container
+class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     public function __construct()
     {

@@ -28,7 +28,7 @@
  * Pool order model (for pool orders grid)
  *
  */
-class Enterprise_SalesPool_Model_Pool_Order extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_SalesPool_Model_Pool_Order extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {

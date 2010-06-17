@@ -28,7 +28,7 @@
  * Reminder rules edit form conditions
  */
 class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Form
+    extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare conditions form

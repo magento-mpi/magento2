@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogPermissions
  */
-class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_Core_Model_Mysql4_Abstract
 {
     const XML_PATH_GRANT_BASE = 'catalog/enterprise_catalogpermissions/';
 

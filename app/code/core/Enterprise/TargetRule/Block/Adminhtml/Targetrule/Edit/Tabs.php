@@ -28,7 +28,7 @@
  * Enterprise TargetRule left-navigation block
  *
  */
-class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs extends Enterprise_Enterprise_Block_Adminhtml_Widget_Tabs
+class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
 
     public function __construct()

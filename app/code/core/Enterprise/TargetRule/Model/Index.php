@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_TargetRule
  */
-class Enterprise_TargetRule_Model_Index extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_TargetRule_Model_Index extends Mage_Core_Model_Abstract
 {
     /**
      * Initialize resource model

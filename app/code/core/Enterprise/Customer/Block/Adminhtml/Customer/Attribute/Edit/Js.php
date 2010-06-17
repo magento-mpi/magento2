@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Js
-    extends Enterprise_Enterprise_Block_Adminhtml_Template
+    extends Mage_Adminhtml_Block_Template
 {
     /**
      * Retrieve allowed Input Validate Filters in JSON format

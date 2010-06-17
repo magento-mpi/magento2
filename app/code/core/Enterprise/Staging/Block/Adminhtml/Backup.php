@@ -30,7 +30,7 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Adminhtml_Backup extends Enterprise_Enterprise_Block_Adminhtml_Widget_Grid_Container
+class Enterprise_Staging_Block_Adminhtml_Backup extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     public function __construct()
     {

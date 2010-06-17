@@ -28,7 +28,7 @@
  * Customer abstract model
  *
  */
-abstract class Enterprise_Customer_Model_Sales_Abstract extends Enterprise_Enterprise_Model_Core_Abstract
+abstract class Enterprise_Customer_Model_Sales_Abstract extends Mage_Core_Model_Abstract
 {
     /**
      * Save new attribute

@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Model_Hierarchy_Node extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
 {
     /**
      *

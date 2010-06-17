@@ -32,7 +32,7 @@
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Customer_Block_Form_Renderer_Abstract extends Enterprise_Enterprise_Block_Core_Template
+abstract class Enterprise_Customer_Block_Form_Renderer_Abstract extends Mage_Core_Block_Template
 {
     /**
      * Attribute instance

@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_Staging_Model_Staging_Log extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
 {
     /**
      * Staging instance

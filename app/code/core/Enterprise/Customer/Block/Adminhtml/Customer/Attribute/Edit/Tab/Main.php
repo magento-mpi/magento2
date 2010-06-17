@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
-    extends Enterprise_Enterprise_Block_Eav_Adminhtml_Attribute_Edit_Main_Abstract
+    extends Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**

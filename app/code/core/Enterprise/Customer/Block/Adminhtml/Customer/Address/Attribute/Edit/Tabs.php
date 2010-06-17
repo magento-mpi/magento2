@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tabs
-    extends Enterprise_Enterprise_Block_Adminhtml_Widget_Tabs
+    extends Mage_Adminhtml_Block_Widget_Tabs
 {
     /**
      * Initialize edit tabs

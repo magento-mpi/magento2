@@ -31,7 +31,7 @@
  * @category   Enterprise
  * @package    Enterprise_TargetRule
  */
-class Enterprise_TargetRule_Model_Mysql4_Index extends Enterprise_Enterprise_Model_Core_Mysql4_Abstract
+class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Increment value for generate unique bind names

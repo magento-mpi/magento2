@@ -23,7 +23,7 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-class Enterprise_Reward_Block_Sales_Order_Total extends Enterprise_Enterprise_Block_Core_Template
+class Enterprise_Reward_Block_Sales_Order_Total extends Mage_Core_Block_Template
 {
     /**
      * Get label cell tag properties

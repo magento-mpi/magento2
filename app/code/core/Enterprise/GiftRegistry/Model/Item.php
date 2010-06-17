@@ -27,7 +27,7 @@
 /**
  * Entity items data model
  */
-class Enterprise_GiftRegistry_Model_Item extends Enterprise_Enterprise_Model_Core_Abstract
+class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
 {
     function _construct() {
         $this->_init('enterprise_giftregistry/item');
