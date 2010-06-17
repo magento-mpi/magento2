@@ -212,6 +212,18 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfig($path, $storeId);
     }
 
+    /**
+     * Return true if third part search engine used
+     *
+     */
+    public function isThirdPartSearchEngine()
+    {
+        $engine = $this->getSearchConfigData('engine');
+        if ($engine == 'enterprise_search/engine') {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Retrieve language code by specified locale code if this locale is supported
@@ -340,7 +352,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         } elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;
         } elseif (in_array($backendType, $this->_textFieldTypes)) {
-            $languageCode = $this->_getLanguageCodeByLocaleCode(
+            $languageCode = $this->getLanguageCodeByLocaleCode(
                 Mage::app()->getStore()
                 ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE));
             $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
