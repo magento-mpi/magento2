@@ -135,7 +135,8 @@ class Enterprise_GiftRegistry_Helper_Data extends Enterprise_Enterprise_Helper_C
     {
         $result = array();
         $entityCollection = Mage::getModel('enterprise_giftregistry/entity')->getCollection()
-            ->filterByCustomerId(Mage::getSingleton('customer/session')->getCustomerId());
+            ->filterByCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+            ->filterByIsActive(1);
 
         if (count($entityCollection)) {
             $result[] = new Varien_Object(array('value' => '', 'title' => $this->__('Select Gift Registry')));

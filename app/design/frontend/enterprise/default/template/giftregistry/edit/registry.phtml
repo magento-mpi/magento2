@@ -52,6 +52,12 @@
                 <?php echo $this->getIsPublicHtml()?>
             </div>
         </li>
+        <li>
+            <label for="is_active" class="required"><em>*</em><?php echo $this->__('Status') ?></label>
+            <div class="input-box">
+                <?php echo $this->getStatusHtml()?>
+            </div>
+        </li>
     </ul>
 </div>
 <?php

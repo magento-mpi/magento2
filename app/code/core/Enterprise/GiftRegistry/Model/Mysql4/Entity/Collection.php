@@ -236,4 +236,16 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity_Collection
         $this->getSelect()->where('main_table.website_id IN (?)', $websiteIds);
         return $this;
     }
+
+    /**
+     * Filter collection by specified status
+     *
+     * @param int $status
+     * @return Enterprise_GiftRegistry_Model_Mysql4_Entity_Collection
+     */
+    public function filterByIsActive($status)
+    {
+        $this->getSelect()->where('main_table.is_active = ?', $status);
+        return $this;
+    }
 }

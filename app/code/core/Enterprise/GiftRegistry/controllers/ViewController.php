@@ -49,9 +49,9 @@ class Enterprise_GiftRegistry_ViewController extends Enterprise_Enterprise_Contr
     {
         $entity = Mage::getModel('enterprise_giftregistry/entity');
         $entity->loadByUrlKey($this->getRequest()->getParam('id'));
-
-        if (!$entity->getId() || !$entity->getCustomerId() || !$entity->getTypeId()) {
-            $this->_forward('404');
+        if (!$entity->getId() || !$entity->getCustomerId() || !$entity->getTypeId() ||
+            (!$entity->getIsActive() && Mage::getSingleton('customer/session')->getId() == $entity->getCustomerId())) {
+            $this->_forward('noroute');
             return;
         }
 

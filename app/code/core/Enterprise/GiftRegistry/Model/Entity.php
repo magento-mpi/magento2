@@ -526,6 +526,21 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
     }
 
     /**
+     * Getter, return array of valid values for status field
+     *
+     * @return array
+     */
+    public function getOptionsStatus()
+    {
+        if (!isset($this->_optionsStatus)) {
+            $this->_optionsStatus = array(
+                '0' => Mage::helper('enterprise_giftregistry')->__('Inactive'),
+                '1' => Mage::helper('enterprise_giftregistry')->__('Active'));
+        }
+        return $this->_optionsStatus;
+    }
+
+    /**
      * Validate entity attribute values
      *
      * @return array|bool
@@ -607,7 +622,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Enterprise_Enterprise_Model_C
                 'is_public' => isset($data['is_public']) ? (int) $data['is_public'] : null,
                 'title' => !empty($data['title']) ? $data['title'] : null,
                 'message' => !empty($data['message']) ? $data['message'] : null,
-                'custom_values' => !empty($data['registry']) ? $data['registry'] : null
+                'custom_values' => !empty($data['registry']) ? $data['registry'] : null,
+                'is_active' => !empty($data['is_active']) ? $data['is_active'] : 0,
             ));
 
         if ($isAddAction) {
