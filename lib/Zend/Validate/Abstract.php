@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 18688 2009-10-25 16:08:24Z thomas $
+ * @version    $Id: Abstract.php 21726 2010-03-31 19:57:27Z rob $
  */
 
 /**
@@ -27,7 +27,7 @@
 /**
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Validate_Abstract implements Zend_Validate_Interface
@@ -251,11 +251,11 @@ abstract class Zend_Validate_Abstract implements Zend_Validate_Interface
     }
 
     /**
-     * @param  string $messageKey OPTIONAL
+     * @param  string $messageKey
      * @param  string $value      OPTIONAL
      * @return void
      */
-    protected function _error($messageKey = null, $value = null)
+    protected function _error($messageKey, $value = null)
     {
         if ($messageKey === null) {
             $keys = array_keys($this->_messageTemplates);
@@ -353,6 +353,16 @@ abstract class Zend_Validate_Abstract implements Zend_Validate_Interface
     }
 
     /**
+     * Does this validator have its own specific translator?
+     * 
+     * @return bool
+     */
+    public function hasTranslator()
+    {
+        return (bool)$this->_translator;
+    }  
+    
+    /**
      * Set default translation object for all validate objects
      *
      * @param  Zend_Translate|Zend_Translate_Adapter|null $translator
@@ -392,6 +402,16 @@ abstract class Zend_Validate_Abstract implements Zend_Validate_Interface
         return self::$_defaultTranslator;
     }
 
+    /**
+     * Is there a default translation object set?
+     * 
+     * @return boolean
+     */
+    public static function hasDefaultTranslator()
+    { 
+        return (bool)self::$_defaultTranslator;
+    }
+    
     /**
      * Indicate whether or not translation should be disabled
      *

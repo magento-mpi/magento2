@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Element
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Captcha.php 17616 2009-08-15 03:28:29Z yoshida@zend.co.jp $
+ * @version    $Id: Captcha.php 22275 2010-05-24 18:17:35Z alab $
  */
 
 /** @see Zend_Form_Element_Xhtml */
@@ -38,7 +38,7 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Element
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Form_Element_Captcha extends Zend_Form_Element_Xhtml
@@ -163,7 +163,8 @@ class Zend_Form_Element_Captcha extends Zend_Form_Element_Xhtml
             }
             unset($options['captcha']);
         }
-        return parent::setOptions($options);
+        parent::setOptions($options);
+        return $this;
     }
 
     /**
