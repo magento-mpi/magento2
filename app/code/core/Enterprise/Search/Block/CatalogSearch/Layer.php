@@ -38,15 +38,13 @@ class Enterprise_Search_Block_CatalogSearch_Layer extends Mage_CatalogSearch_Blo
      */
     protected function _initBlocks()
     {
-        if ($this->_checkEngine()) {
-            $this->_stateBlockName = 'catalog/layer_state';
-            $this->_categoryBlockName = 'enterprise_search/catalogsearch_layer_filter_category';
-            $this->_attributeFilterBlockName = 'enterprise_search/catalogsearch_layer_filter_attribute';
-            $this->_priceFilterBlockName = 'enterprise_search/catalogsearch_layer_filter_price';
-            $this->_decimalFilterBlockName = 'enterprise_search/catalogsearch_layer_filter_decimal';
-        }
-        else {
-            parent::_initBlocks();
+        parent::_initBlocks();
+
+        if ($this->_isActiveEngine()) {
+            $this->_categoryBlockName = 'enterprise_search/catalog_layer_filter_category';
+            $this->_attributeFilterBlockName = 'enterprise_search/catalog_layer_filter_attribute';
+            $this->_priceFilterBlockName = 'enterprise_search/catalog_layer_filter_price';
+            $this->_decimalFilterBlockName = 'enterprise_search/catalog_layer_filter_decimal';
         }
     }
 
@@ -55,7 +53,7 @@ class Enterprise_Search_Block_CatalogSearch_Layer extends Mage_CatalogSearch_Blo
      *
      * @return bool
      */
-    protected function _checkEngine()
+    protected function _isActiveEngine()
     {
         $engine = Mage::helper('enterprise_search')->getSearchConfigData('engine');
 
