@@ -70,9 +70,6 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
                 continue;
             }
             $method = $block->getMethod();
-            if (!$method) {
-                continue;
-            }
             if (!$this->_canUseMethod($method)) {
                 continue;
             }
@@ -98,9 +95,19 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_List extends Mage_Payment_Bl
      */
     protected function _canUseMethod($method)
     {
-        if (!$method->canUseForMultishipping()) {
+        if (!$method || !$method->canUseCheckout() || !$method->canUseForMultishipping() || !$this->isAvailable($method)) {
             return false;
         }
         return parent::_canUseMethod($method);
+    }
+
+    /**
+     * Check whether payment method can be used
+     * @param $method Mage_Payment_Model_Method_Abstract
+     * @return bool
+     */
+    public function isAvailable($method)
+    {
+        return (bool)(int)$method->getConfigData('active', ($this->getQuote() ? $this->getQuote()->getStoreId() : null));
     }
 }
