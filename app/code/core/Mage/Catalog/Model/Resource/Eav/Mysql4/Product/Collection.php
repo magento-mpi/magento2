@@ -858,6 +858,21 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     }
 
     /**
+     * Return array of unique product type ids in collection
+     *
+     * @return array
+     */
+    public function getProductTypeIds()
+    {
+        $select = clone $this->getSelect();
+        /* @var $select Zend_Db_Select */
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->distinct(true);
+        $select->columns('type_id');
+        return $this->getConnection()->fetchCol($select);
+    }
+
+    /**
      * Joins url rewrite rules to collection
      *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection

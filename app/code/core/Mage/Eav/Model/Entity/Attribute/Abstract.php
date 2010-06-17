@@ -378,7 +378,8 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
 
     public function usesSource()
     {
-        return $this->getFrontendInput()==='select' || $this->getFrontendInput()==='multiselect';
+        return $this->getFrontendInput() === 'select' || $this->getFrontendInput() === 'multiselect'
+            || $this->getData('source_model') != '';
     }
 
     protected function _getDefaultBackendModel()
