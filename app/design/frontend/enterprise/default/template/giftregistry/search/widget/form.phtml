@@ -38,8 +38,8 @@
                 <div class="input-box">
                     <select id="search_by">
                         <option value=""><?php echo Mage::helper('enterprise_giftregistry')->__('Select Search Type'); ?></option>
-                        <option value="name"><?php echo Mage::helper('enterprise_giftregistry')->__('Registrant Name'); ?></option>
-                        <option value="email"><?php echo Mage::helper('enterprise_giftregistry')->__('Registrant Email'); ?></option>
+                        <option value="name"><?php echo Mage::helper('enterprise_giftregistry')->__('Recipient Name'); ?></option>
+                        <option value="email"><?php echo Mage::helper('enterprise_giftregistry')->__('Recipient Email'); ?></option>
                         <option value="id"><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry ID'); ?></option>
                     </select>
                 </div>
@@ -107,7 +107,7 @@
         <ul class="form-alt">
             <li>
                 <?php echo $this->getBlockHtml('formkey')?>
-                <label for="params_email" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('Registrant Email') ?> <em>*</em></label>
+                <label for="params_email" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('Recipient Email') ?> <em>*</em></label>
                 <div class="input-box">
                     <input type="text" class="input-text required-entry validate-email" id="params_email" name="params[email]" />
                 </div>
