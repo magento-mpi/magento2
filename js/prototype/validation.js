@@ -419,7 +419,7 @@ Validation.addAllThese([
     ['validate-digits', 'Please use numbers only in this field. please avoid spaces or other characters such as dots or commas.', function(v) {
                 return Validation.get('IsEmpty').test(v) ||  !/[^\d]/.test(v);
             }],
-    ['validate-digits-range', 'Value don\'t satisfy limits.', function(v, elm) {
+    ['validate-digits-range', 'The value is not within the specified range.', function(v, elm) {
                 var result = Validation.get('IsEmpty').test(v) ||  !/[^\d]/.test(v);
                 var reRange = new RegExp(/^digits-range-[0-9]+-[0-9]+$/);
                 $w(elm.className).each(function(name, index) {
