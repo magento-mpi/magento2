@@ -147,17 +147,14 @@ class Enterprise_Search_Model_Resource_Catalog_Facets_Attribute extends Enterpri
         $productCollection = $this->getLayer()->getProductCollection();
         //$facets = $productCollection->getFacets($params);
         $facet = $productCollection->getFacetedData($this->getAttributeSolrFieldName($attribute));
-        foreach ($facet as $key => $val) {
-            $facet[strtolower($key)] = $val;
-            unset($facet[$key]);
-        }
 
         //$facet = !empty($facets[$params['facet']['field']]) ? $facets[$params['facet']['field']] : array();
 
         $resultFacet = array();
         $options = $attribute->getFrontend()->getSelectOptions();
         foreach ($options as $option) {
-            $optionLabel = $this->_prepareOptionLabel($option['label']);
+            //$optionLabel = $this->_prepareOptionLabel($option['label']);
+            $optionLabel = $option['label'];
             if (isset($facet[$optionLabel])) {
                 $resultFacet[$option['value']] = $facet[$optionLabel];
             }
