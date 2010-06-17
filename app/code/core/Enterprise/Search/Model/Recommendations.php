@@ -47,8 +47,11 @@ class Enterprise_Search_Model_Recommendations
             'store_id' => $productCollection->getStoreId(),
         );
 
-        $searchRecommendationsEnabled = (boolean)Mage::getStoreConfig('catalog/search/search_recommendations_enabled');
-        $searchRecommendationsCount   = (int)Mage::getStoreConfig('catalog/search/search_recommendations_count');
+        $searchRecommendationsEnabled = (boolean)Mage::helper('enterprise_search')
+            ->getSearchConfigData('search_recommendations_enabled');
+        $searchRecommendationsCount   = (int)Mage::helper('enterprise_search')
+            ->getSearchConfigData('search_recommendations_count');
+
         if ($searchRecommendationsCount < 1) {
             $searchRecommendationsCount = 1;
         }

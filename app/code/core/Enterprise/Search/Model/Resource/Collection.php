@@ -111,7 +111,6 @@ class Enterprise_Search_Model_Resource_Collection
         if (isset($this->_facetedData[$field])){
             return $this->_facetedData[$field];
         }
-
         return false;
     }
 
@@ -419,49 +418,6 @@ class Enterprise_Search_Model_Resource_Collection
     public function addCountToCategories($categoryCollection)
     {
         return $this;
-        /*
-        $isAnchor = array();
-        $isNotAnchor = array();
-        foreach ($categoryCollection as $category) {
-            if ($category->getIsAnchor()) {
-                $isAnchor[] = $category->getId();
-            } else {
-                $isNotAnchor[] = $category->getId();
-            }
-        }
-        $productCounts = array();
-        if ($isAnchor || $isNotAnchor) {
-
-            Mage::dispatchEvent('catalog_product_collection_before_add_count_to_categories', array('collection'=>$this));
-            $params = array();
-            $params['facet']['field']  = 'categories';
-            if ($isAnchor) {
-                $params['facet']['values'] = $isAnchor;
-                $res = $this->getFacets($params);
-
-                $productCounts += $res['categories'];
-                $anchorStmt = null;
-            }
-            if ($isNotAnchor) {
-                $params['facet']['values'] = $isNotAnchor;
-                $res = $this->getFacets($params);
-                $productCounts += $res['categories'];
-
-                $notAnchorStmt = null;
-            }
-            $select = null;
-        }
-
-        foreach ($categoryCollection as $category) {
-            $_count = 0;
-            if (isset($productCounts[$category->getId()])) {
-                $_count = $productCounts[$category->getId()];
-            }
-            $category->setProductCount($_count);
-        }
-
-        return $this;
-        */
     }
 
     /**

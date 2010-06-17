@@ -114,9 +114,11 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
         $model->loadByQuery($query);
         $termId = $model->getId();
         $relatedQueriesIds = $this->getRelatedQueries($termId);
+
         // Automatic recommendations
         if (strpos($query, " ") !== false && count($relatedQueriesIds < $searchRecommendationsCount)) {
-            $queryWords = preg_split("/ +/", $query);
+            $queryWords = explode(" ", $query);
+            $queryWords = array_unique($queryWords);
             foreach ($queryWords as $word) {
                 $model->loadByQuery($word);
                 $wordTermId = $model->getId();

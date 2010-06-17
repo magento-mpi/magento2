@@ -35,6 +35,19 @@
 class Enterprise_Search_Helper_Data extends Enterprise_Enterprise_Helper_Core_Abstract
 {
     /**
+     * Defines text type fields
+     * Integer attributes are saved at metadata as text because in fact they are values for
+     * options of select type inputs but their values are presented as text aliases
+     *
+     * @var array
+     */
+    protected $_textFieldTypes = array(
+        'text',
+        'varchar',
+        'int'
+    );
+
+    /**
      * Convert an object to an array
      *
      * @param object $object The object to convert
@@ -183,7 +196,158 @@ class Enterprise_Search_Helper_Data extends Enterprise_Enterprise_Helper_Core_Ab
      */
     public function getSolrConfigData($field, $storeId = null)
     {
-        $path = 'catalog/search/solr_'.$field;
+        return $this->getSearchConfigData('solr_' . $field, $storeId);
+    }
+
+    /**
+     * Retrieve information from search engine configuration
+     *
+     * @param string $field
+     * @param int $storeId
+     * @return string|int
+     */
+    public function getSearchConfigData($field, $storeId = null)
+    {
+        $path = 'catalog/search/' . $field;
         return Mage::getStoreConfig($path, $storeId);
+    }
+
+
+    /**
+     * Retrieve language code by specified locale code if this locale is supported
+     *
+     * @param string $localeCode
+     *
+     * @return false|string
+     */
+    public function getLanguageCodeByLocaleCode($localeCode)
+    {
+        $localeCode = (string)$localeCode;
+        if (!$localeCode) {
+            return false;
+        }
+        $languages = $this->getSolrSupportedLanguages();
+        foreach ($languages as $code => $locales) {
+            if (is_array($locales)) {
+                if (in_array($localeCode, $locales)) {
+                    return $code;
+                }
+            }
+            elseif ($localeCode == $locales) {
+                return $code;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Retrieve filter array
+     *
+     * @param Enterprise_Search_Model_Resource_Collection $collection
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param string|array $value
+     * @return array
+     */
+    public function getSearchParam($collection, $attribute, $value)
+    {
+        if (empty($value) ||
+            (isset($value['from']) && empty($value['from']) &&
+            isset($value['to']) && empty($value['to']))) {
+            return false;
+        }
+
+        $languageCode = $this->getLanguageCodeByLocaleCode(
+            Mage::app()->getStore()
+            ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE));
+        $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+
+        $field = $attribute->getAttributeCode();
+        $fieldType = $attribute->getBackendType();
+        $frontendInput = $attribute->getFrontendInput();
+
+        if ($frontendInput == 'multiselect') {
+            $field = 'attr_multi_'. $field;
+        }
+        elseif ($fieldType == 'decimal') {
+            $field = 'attr_decimal_'. $field;
+        }
+        elseif ($fieldType == 'int') {
+            $field = 'attr_select_'. $field;
+        }
+        elseif ($fieldType == 'datetime') {
+            $field = 'attr_datetime_'. $field;
+            if (is_array($value)) {
+                foreach ($value as &$val) {
+                    if (!is_empty_date($val)) {
+                        $date = new Zend_Date(
+                            $val,
+                            Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+                        );
+                        $val = $date->toString(Zend_Date::ISO_8601) . 'Z';
+                    }
+                }
+            }
+            else {
+                if (!is_empty_date($value)) {
+                    $date = new Zend_Date(
+                        $value,
+                        Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+                    );
+                    $value = $date->toString(Zend_Date::ISO_8601) . 'Z';
+                }
+            }
+        }
+        elseif (in_array($fieldType, $this->_textFieldTypes)) {
+            $field .= $languageSuffix;
+        }
+
+        if ($attribute->usesSource()) {
+            $attribute->setStoreId(
+                Mage::app()->getStore()->getId()
+            );
+
+            foreach ($value as &$val) {
+                $val = $attribute->getSource()->getOptionText($val);
+            }
+        }
+
+        return array($field => $value);
+    }
+
+    /**
+     * Retrive attribute field's name for sorting
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     *
+     * @return string
+     */
+    public function getAttributeSolrFieldName($attribute)
+    {
+        $attributeCode = $attribute->getAttributeCode();
+        if ($attributeCode == 'score') {
+            return $attributeCode;
+        }
+        $entityType     = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
+        $attribute      = Mage::getSingleton('eav/config')->getAttribute($entityType, $attributeCode);
+        $field          = $attributeCode;
+        $backendType    = $attribute->getBackendType();
+        $frontendInput  = $attribute->getFrontendInput();
+
+        if ($frontendInput == 'multiselect') {
+            $field = 'attr_multi_'. $field;
+        } elseif ($backendType == 'int') {
+            $field = 'attr_select_'. $field;
+        } elseif ($backendType == 'decimal') {
+            $field = 'attr_decimal_'. $field;
+        } elseif (in_array($backendType, $this->_textFieldTypes)) {
+            $languageCode = $this->_getLanguageCodeByLocaleCode(
+                Mage::app()->getStore()
+                ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE));
+            $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+
+            $field .= $languageSuffix;
+        }
+
+        return $field;
     }
 }

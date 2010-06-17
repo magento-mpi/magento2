@@ -69,7 +69,7 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
      */
     protected function _checkEngine()
     {
-        $engine = Mage::getStoreConfig('catalog/search/engine');
+        $engine = Mage::helper('enterprise_search')->getSearchConfigData('engine');
 
         if ($engine && Mage::getConfig()->getResourceModelClassName($engine)) {
             $model = Mage::getResourceSingleton($engine);

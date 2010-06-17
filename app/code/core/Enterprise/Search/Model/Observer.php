@@ -41,7 +41,7 @@ class Enterprise_Search_Model_Observer
      */
     public function eavAttributeEditFormInit(Varien_Event_Observer $observer)
     {
-        $engine = Mage::getStoreConfig('catalog/search/engine');
+        $engine = Mage::helper('enterprise_search')->getSearchConfigData('engine');
         if ($engine == 'enterprise_search/engine') {
             $form      = $observer->getEvent()->getForm();
             $attribute = $observer->getEvent()->getAttribute();

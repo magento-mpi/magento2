@@ -48,10 +48,12 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
 
         if ($data === null) {
             $options = $attribute->getFrontend()->getSelectOptions();
-            $optionsCount = $this->_getResource()->getCount($this);
+            $fieldName = Mage::helper('enterprise_search')->getAttributeSolrFieldName($attribute);
+
+			$productCollection = $this->getLayer()->getProductCollection();
+        	$optionsCount = $productCollection->getFacetedData($fieldName);
 
             $data = array();
-
             foreach ($options as $option) {
                 if (is_array($option['value'])) {
                     continue;
@@ -60,11 +62,11 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
                 if (Mage::helper('core/string')->strlen($option['value'])) {
                     // Check filter type
                     if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
-                        if (!empty($optionsCount[$option['value']])) {
+                        if (!empty($optionsCount[$option['label']])) {
                             $data[] = array(
                                 'label' => $option['label'],
                                 'value' => $option['value'],
-                                'count' => $optionsCount[$option['value']],
+                                'count' => $optionsCount[$option['label']],
                             );
                         }
                     }
@@ -72,7 +74,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
                         $data[] = array(
                             'label' => $option['label'],
                             'value' => $option['value'],
-                            'count' => isset($optionsCount[$option['value']]) ? $optionsCount[$option['value']] : 0,
+                            'count' => isset($optionsCount[$option['label']]) ? $optionsCount[$option['label']] : 0,
                         );
                     }
                 }
@@ -85,11 +87,23 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
             $tags = $this->getLayer()->getStateTags($tags);
             $this->getLayer()->getAggregator()->saveCacheData($data, $key, $tags);
         }
+
         return $data;
     }
 
+    /**
+     * Apply attribute filter to layer
+     *
+     * @param Zend_Controller_Request_Abstract $request
+     * @param object $filterBlock
+     * @return Enterprise_Search_Model_Catalog_Layer_Filter_Attribute
+     */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
+        $facetField = Mage::helper('enterprise_search')->getAttributeSolrFieldName($this->getAttributeModel());
+        $productCollection = $this->getLayer()->getProductCollection();
+        $productCollection->setFacetCondition($facetField);
+
         $filter = $request->getParam($this->_requestVar);
         if (is_array($filter)) {
             return $this;
@@ -97,33 +111,34 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
 
         $text = $this->_getOptionText($filter);
         if ($filter && $text) {
-            $this->_getResource()->applyFilterToCollection($this, $filter);
+            $this->applyFilterToCollection($this, $filter);
             $this->getLayer()->getState()->addFilter($this->_createItem($text, $filter));
             $this->_items = array();
         }
-
-        $facetField = $this->_getResource()->getAttributeSolrFieldName($this->getAttributeModel());
-
-        $productCollection = $this->getLayer()->getProductCollection();
-        $productCollection->setFacetCondition($facetField);
 
         return $this;
     }
 
     /**
-     * Retrieve resource model
+     * Apply attribute filter to solr query
      *
-     * @return object
+     * @param Mage_Catalog_Model_Layer_Filter_Attribute $filter
+     * @param int $value
      */
-    protected function _getResource()
+    public function applyFilterToCollection($filter, $value)
     {
-        $engineClassName         = get_class(Mage::helper('catalogsearch')->getEngine());
-        $fulltextEngineClassName = get_class(Mage::getResourceSingleton('catalogsearch/fulltext_engine'));
-
-        if ($engineClassName == $fulltextEngineClassName) {
-            return parent::_getResource();
+        if (empty($value)) {
+            $value = array();
+        } else if (!is_array($value)) {
+            $value = array($value);
         }
 
-        return Mage::getResourceSingleton('enterprise_search/catalog_facets_attribute');
+        $productCollection = Mage::getSingleton('catalog/layer')->getProductCollection();
+        $attribute  = $filter->getAttributeModel();
+
+        $param = Mage::helper('enterprise_search')->getSearchParam($productCollection, $attribute, $value);
+        $productCollection->addSearchQfFilter($param);
+
+        return $this;
     }
 }
