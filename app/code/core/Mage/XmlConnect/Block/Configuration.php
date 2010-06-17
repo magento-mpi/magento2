@@ -97,11 +97,6 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
             }
             else {
                 if (!empty($value)) {
-                    if ((substr($key, -4) == 'icon') ||
-                        (substr($key, -4) == 'Icon') ||
-                        (substr($key, -5) == 'Image')) {
-                        $value = Mage::getBaseUrl('media') . 'xmlconnect/' . $value;
-                    }
                     $section->addChild($key, $value);
                 }
             }

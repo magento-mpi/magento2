@@ -196,8 +196,31 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                 }
             }
         }
-
+        $result = $this->_absPath($result);
         return $result;
+    }
+
+    /**
+     * Change URLs to absolue
+     *
+     * @param array $subtree
+     * @return array
+     */
+    protected function _absPath($subtree)
+    {
+        foreach ($subtree as $key => $value) {
+            if (!empty($value)) {
+                if (is_array($value)) {
+                    $subtree[$key] = $this->_absPath($value);
+                }
+                elseif ((substr($key, -4) == 'icon') ||
+                    (substr($key, -4) == 'Icon') ||
+                    (substr($key, -5) == 'Image')) {
+                    $subtree[$key] = Mage::getBaseUrl('media') . 'xmlconnect/' . $value;
+                }
+            }
+        }
+        return $subtree;
     }
 
     /**

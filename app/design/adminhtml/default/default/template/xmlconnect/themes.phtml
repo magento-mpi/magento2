@@ -27,7 +27,8 @@
 
 <script type="text/javascript">
     function XmlconnectPreviewImage(url) {
-        document.getElementById('XmlconnectThemePreview').src=url
+        html = '<img src="'+url+'" width="320" height="481" alt="Theme Preview" title="Theme Preview" />'
+        document.getElementById('XmlconnectThemePreview').innerHTML = html
     }
 </script>
 

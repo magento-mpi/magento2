@@ -58,5 +58,8 @@
     <adminhtml_mobile_grid>
         <block type="xmlconnect/adminhtml_mobile_grid" name="mobile_grid" output="toHtml"/>
     </adminhtml_mobile_grid>
-    
+
+    <adminhtml_mobile_save>
+        <block type="xmlconnect/adminhtml_mobile_preview" name="preview_iframe" output="toHtml"/>
+    </adminhtml_mobile_save>
 </layout>

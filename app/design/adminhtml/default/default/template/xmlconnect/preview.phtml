@@ -25,8 +25,10 @@
  */
 ?>
 
-<img src="<?php echo $this->getThemeImage(); ?>"
-    id="XmlconnectThemePreview" width="320" height="481" alt="Theme Preview" title="Theme Preview" />
+<div id="XmlconnectThemePreview">
+    <img src="<?php echo $this->getThemeImage(); ?>"
+        width="320" height="481" alt="Theme Preview" title="Theme Preview" />
+</div>
 <div class="mm-box-blue a-center" style="width:280px;">
     <button type="button" class="scalable" onclick="updatePreview()"><span>Update Preview</span></button>
 </div>
@@ -40,14 +42,28 @@
     </ul>
 </div>
 <script type="text/javascript">
+    mmPreviewPage = 1
     function updatePreview() {
-        editForm.submit($('edit_form').action + 'preview/1/')
+        if (!$('XmlconnectThemePreviewIframe')) {
+            html = '<iframe src="" id="XmlconnectThemePreviewIframe"'
+            html += ' name="XmlconnectThemePreviewIframe" scrolling="no"'
+            html += ' style="width: 320px; height: 481px; border: 0; "></iframe>';
+            $('XmlconnectThemePreview').innerHTML = html
+        }
+        saveAction = $('edit_form').action
+        $('edit_form').action += 'preview/'+mmPreviewPage+'/';
+        $('edit_form').target = 'XmlconnectThemePreviewIframe'
+        $('edit_form').submit()
+        // FIXME
+        $('edit_form').action = saveAction
+        $('edit_form').target = ''
     }
     $('mmPager').childElements().each(function(t){
         Event.observe(t.down('a'), 'click', function(e){
             e.stop();
             resetPager();
             t.down('a').addClassName('active');
+            mmPreviewPage = t.down('a').innerHTML
         });
     });
     function resetPager(){

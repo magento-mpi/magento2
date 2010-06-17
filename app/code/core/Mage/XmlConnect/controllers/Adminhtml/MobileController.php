@@ -115,10 +115,11 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     }
                 }
                 if ($previewMode) {
-                    //var_dump($app->getConf());
-                    $block = new Mage_XmlConnect_Block_Configuration;
-                    echo '<pre>'.htmlspecialchars($block->toHtml());
-                    die();
+                    $preview = $this->loadLayout(FALSE)->getLayout()->getBlock('preview_iframe');
+                    $preview->setConf($app->getRenderConf());
+                    $preview->setPreviewScreen($previewMode);
+                    $this->renderLayout();
+                    return;
                 }
                 else {
                     $app->save();
