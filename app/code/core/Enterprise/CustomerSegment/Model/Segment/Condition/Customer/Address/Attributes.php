@@ -143,10 +143,23 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
      */
     public function getInputType()
     {
-        switch ($this->getAttribute()) {
-            case 'country_id': case 'region_id':
-                return 'select';
+        if (in_array($this->getAttribute(), array('country_id', 'region_id'))) {
+            return 'select';
         }
+        if (!is_object($this->getAttributeObject())) {
+            return 'string';
+        }
+
+        $input = $this->getAttributeObject()->getFrontendInput();
+        switch ($input) {
+            case 'boolean':
+                return 'select';
+            case 'select':
+            case 'multiselect':
+            case 'date':
+                return $input;
+        }
+
         return 'string';
     }
 
@@ -157,10 +170,23 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
      */
     public function getValueElementType()
     {
-        switch ($this->getAttribute()) {
-            case 'country_id': case 'region_id':
-                return 'select';
+        if (in_array($this->getAttribute(), array('country_id', 'region_id'))) {
+            return 'select';
         }
+        if (!is_object($this->getAttributeObject())) {
+            return 'text';
+        }
+
+        $input = $this->getAttributeObject()->getFrontendInput();
+        switch ($input) {
+            case 'boolean':
+                return 'select';
+            case 'select':
+            case 'multiselect':
+            case 'date':
+                return $input;
+        }
+
         return 'text';
     }
 

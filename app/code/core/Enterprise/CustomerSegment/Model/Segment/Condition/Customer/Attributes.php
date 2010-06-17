@@ -115,7 +115,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     public function getValueSelectOptions()
     {
         if (!$this->getData('value_select_options') && is_object($this->getAttributeObject())) {
-
             if ($this->getAttributeObject()->usesSource()) {
                 if ($this->getAttributeObject()->getFrontendInput() == 'multiselect') {
                     $addEmptyOption = false;
@@ -124,14 +123,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
                 }
                 $optionsArr = $this->getAttributeObject()->getSource()->getAllOptions($addEmptyOption);
                 $this->setData('value_select_options', $optionsArr);
-               }
+            }
 
             if ($this->_isCurrentAttributeDefaultAddress()) {
                 $optionsArr = $this->_getOptionsForAttributeDefaultAddress();
                 $this->setData('value_select_options', $optionsArr);
             }
-
         }
+
         return $this->getData('value_select_options');
     }
 
@@ -150,6 +149,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         }
         $input = $this->getAttributeObject()->getFrontendInput();
         switch ($input) {
+            case 'boolean':
+                return 'select';
             case 'select':
             case 'multiselect':
             case 'date':
@@ -174,6 +175,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         }
         $input = $this->getAttributeObject()->getFrontendInput();
         switch ($input) {
+            case 'boolean':
+                return 'select';
             case 'select':
             case 'multiselect':
             case 'date':
