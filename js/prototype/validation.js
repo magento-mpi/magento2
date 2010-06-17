@@ -424,9 +424,10 @@ Validation.addAllThese([
                 var reRange = new RegExp(/^digits-range-[0-9]+-[0-9]+$/);
                 $w(elm.className).each(function(name, index) {
                     if (name.match(reRange) && result) {
-                       var min = name.split('-')[2];
-                       var max = name.split('-')[3];
-                       result = (v >= min) && (v <= max);
+                        var min = parseInt(name.split('-')[2], 10);
+                        var max = parseInt(name.split('-')[3], 10);
+                        var val = parseInt(v, 10);
+                        result = (v >= min) && (v <= max);
                     }
                 });
                 return result;
