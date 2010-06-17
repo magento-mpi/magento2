@@ -62,7 +62,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid extends Enterprise_E
     protected function _prepareColumns()
     {
         $this->addColumn('title', array(
-            'header' => Mage::helper('enterprise_giftregistry')->__('Title'),
+            'header' => Mage::helper('enterprise_giftregistry')->__('Event'),
             'index'  => 'title'
         ));
 
