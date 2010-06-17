@@ -133,7 +133,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
             $value = array($value);
         }
 
-        $productCollection = Mage::getSingleton('catalog/layer')->getProductCollection();
+        $productCollection = $this->getLayer()->getProductCollection();
         $attribute  = $filter->getAttributeModel();
 
         $param = Mage::helper('enterprise_search')->getSearchParam($productCollection, $attribute, $value);
