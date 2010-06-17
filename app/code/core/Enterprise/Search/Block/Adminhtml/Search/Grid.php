@@ -63,6 +63,11 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
 
         $collection = Mage::getModel('catalogsearch/query')
             ->getResourceCollection();
+
+        $queryId = $this->getQuery()->getId();
+        if ($queryId) {
+            $collection->addFieldToFilter('query_id', array('nin' => $this->getQuery()->getId()));
+        }
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
