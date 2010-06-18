@@ -370,18 +370,6 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     }
 
     /**
-     * Retrieve data from solr facet search
-     *
-     * @param string $query
-     * @param array $params
-     * @return array
-     */
-    public function getFacetsByQuery($query, $params = array())
-    {
-        return $this->_searchFacets($query, $params);
-    }
-
-    /**
      * Search documents in Solr index sorted by relevance
      *
      * @param string $query
