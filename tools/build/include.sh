@@ -30,10 +30,13 @@ SB=""
 
 NUM_BUILDS=10
 
-failure() {
-    cd $OLDPWD
-    IFS=$OLDIFS
-    exit 1
+check_failure () {
+    if [ "${1}" -ne "0" ]; then
+        echo "ERROR # ${1} : ${2}"
+        cd $OLDPWD
+        IFS=$OLDIFS
+        exit 1
+    fi  
 }
 
 log() {
@@ -43,26 +46,26 @@ log() {
 ch_baseurl() {
     log "Updating unsecure base url..."
     echo "USE $2; UPDATE prefix_core_config_data SET value = 'http://kq.varien.com/builds/$BUILD_NAME/$1/' WHERE path like 'web/unsecure/base_url';" | mysql -u root
-    [ ! "$?" -eq 0 ] && failure
+    check_failure $?
     log "Updating secure base url..."
     echo "USE $2; UPDATE prefix_core_config_data SET value = 'https://kq.varien.com/builds/$BUILD_NAME/$1/' WHERE path like 'web/secure/base_url';" | mysql -u root
-    [ ! "$?" -eq 0 ] && failure
+    check_failure $?
 }
 
 clean_cache() {
     log "Clearing cache..."
     rm -rf $1/var/cache/*
-    [ ! "$?" -eq 0 ] && failure
+    check_failure $?
 }
 
 if [ ! -d "$SUCCESSFUL_BUILDS" ] ; then
     log "Creating folder for flags..."
     mkdir "$SUCCESSFUL_BUILDS"
-    [ ! "$?" -eq 0 ] && failure
+    check_failure $?
 fi
 
 if [ ! -d "$LOGS" ] ; then
     log "Creating folder for logs..."
     mkdir "$LOGS"
-    [ ! "$?" -eq 0 ] && failure
+    check_failure $?
 fi

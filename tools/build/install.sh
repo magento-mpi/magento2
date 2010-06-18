@@ -7,7 +7,7 @@ cd "$PWD"
 
 # Copying local.xml.template
 cp -f "$BUILD_TOOLS/local.xml.template" "$BUILD_NUMBER/app/etc/local.xml.template"
-[ ! "$?" -eq 0 ] && failure
+check_failure $?
 
 # Installing build...
 $PHP_BIN -f $BUILD_NUMBER/install.php -- --license_agreement_accepted yes \
@@ -23,10 +23,10 @@ $PHP_BIN -f $BUILD_NUMBER/install.php -- --license_agreement_accepted yes \
 --admin_lastname "$MAGENTO_LASTNAME" --admin_firstname "$MAGENTO_FIRSTNAME" --admin_email "$MAGENTO_EMAIL" \
 --admin_username "$MAGENTO_USERNAME" --admin_password "$MAGENTO_PASSWORD" \
 --encryption_key "$ENCRYPTION_KEY" 
-[ ! "$?" -eq 0 ] && failure
+check_failure $?
 
 # Reverting local.xml.template 
 svn revert $BUILD_NUMBER/app/etc/local.xml.template
-[ ! "$?" -eq 0 ] && failure
+check_failure $?
 
 cd $OLDPWD

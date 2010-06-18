@@ -13,10 +13,10 @@ do
         if [ ! -d ../archive/$BUILD_NAME ] ; then
     	    log "Creating ../archive/$BUILD_NAME"
 	    mkdir ../archive/$BUILD_NAME
-	    [ ! "$?" -eq 0 ] && failure
+            check_failure $?
 	fi
 	tar -czf ../archive/$BUILD_NAME/"$file".tgz $file
-	[ ! "$?" -eq 0 ] && failure
+	check_failure $?
 
 	DB_ARCH_PRE_NAME="builds-$1_$file"
 	echo $DB_ARCH_PRE_NAME
@@ -25,18 +25,18 @@ do
         if [ ! -d ../archive/$BUILD_NAME/sql ] ; then
     	    log "Creating ../archive/$BUILD_NAME/sql"
 	    mkdir ../archive/$BUILD_NAME/sql
-	    [ ! "$?" -eq 0 ] && failure
+	    check_failure $?
 	fi
 	mysqldump -u root $DB_ARCH_NAME | gzip > ../archive/$BUILD_NAME/sql/$DB_ARCH_NAME.sql.gz
-	[ ! "$?" -eq 0 ] && failure	
+	check_failure $?	
 	
         log "Deleting $file" 	
 	rm -rf $file
-	[ ! "$?" -eq 0 ] && failure	
+	check_failure $?	
 	
         log "Dropping DB $DB_ARCH_NAME"
 	echo "DROP DATABASE IF EXISTS $DB_ARCH_NAME;" | mysql -u root                                                                                                                                                                                                     
-	[ ! "$?" -eq 0 ] && failure	
+	check_failure $?	
     else 
 	log "Nothing to archive."	
     fi

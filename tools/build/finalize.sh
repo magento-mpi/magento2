@@ -11,11 +11,11 @@ clean_cache $BUILD_NUMBER
 if [ -L "current" ]; then 
     log "Removing previous 'current' link..."
     rm current
-    [ ! "$?" -eq 0 ] && failure
+    check_failure $?
 fi
 log "Creating 'currect' link..."
 ln -sf $BUILD_NUMBER current
-[ ! "$?" -eq 0 ] && failure
+check_failure $?
 
 if [ "$SB" != "" ]; then
     log "Cleaning previous build..."
@@ -25,6 +25,6 @@ fi
 
 log "Saving last successful build flag..."
 echo "$BUILD_NUMBER" > "$SUCCESSFUL_BUILDS/$BUILD_NAME"
-[ ! "$?" -eq 0 ] && failure
+check_failure $?
 
 cd $OLDPWD
