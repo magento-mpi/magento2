@@ -40,7 +40,7 @@ class Enterprise_Search_Model_Resource_Engine
     protected $_advancedIndexFieldsPrefix = '#';
 
     /**
-     * 
+     *
      * @var array
      */
     protected $_advancedStaticIndexFields = array(
@@ -50,7 +50,7 @@ class Enterprise_Search_Model_Resource_Engine
     );
 
     /**
-     * 
+     *
      * @var array
      */
     protected $_advancedDynamicIndexFields = array(
@@ -113,17 +113,6 @@ class Enterprise_Search_Model_Resource_Engine
     public function getSuggestionsByQuery($query, $params=array(), $limit=false, $withResultsCounts=false)
     {
         return $this->_adapter->getSuggestionsByQuery($query, $params, $limit, $withResultsCounts);
-    }
-
-    /**
-     * Retrieve search facets
-     *
-     * @param string $query
-     * @param array $params
-     */
-    public function getFacetsByQuery($query, $params = array())
-    {
-        return $this->_adapter->getFacetsByQuery($query, $params);
     }
 
     /**
