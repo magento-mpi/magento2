@@ -77,4 +77,16 @@ final class Core
         return self::$_context;
     }
 
+    /**
+     * Return a helper Singleton instance
+     *
+     * @param string $helperName
+     * @return Helper_Abstract
+     */
+    public static function getHelper($helperName)
+    {
+        $helperClassName = 'Helper_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', $helperName)));
+        return $helperClassName::getInstance();
+    }
+
 }

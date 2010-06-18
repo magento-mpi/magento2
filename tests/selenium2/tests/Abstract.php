@@ -28,18 +28,18 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
     protected $_password = '';
 
     /**
-     * Customer ID
-     * 
-     * @var int
-     */
-    protected $_customerId;
-
-    /**
      * Test ID
      * 
      * @var string
      */
     protected $_testId;
+
+    /**
+     * Helper local instance
+     *
+     * @var Helper_Admin
+     */
+    protected $_helper = null;
 
     /**
      * Add an error to the stack
@@ -59,13 +59,9 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
     {
         $this->setBrowser("*chrome");
         $this->setBrowserUrl("http://kq.varien.com/");
-        $this->_admincustomeraddresshelper = new AdminCustomerAddressHelper($this);
-
-        // Get test parameters....
-//        $this->_baseurl = "http://kq.varien.com/enterprise/1.8.0.0/index.php/control/index/";
-//        $this->_username = "admin";
-//        $this->_password = "123123q";
         $this->_testId = strtoupper(get_class($this));
+
+        Core::setContext($this);
     }
 
 }
