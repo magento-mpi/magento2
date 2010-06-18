@@ -407,7 +407,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     /**
      * Send HTTP POST request to magentocommerce.com
      *
-     * @param array $request
+     * @param array $params
      *
      * @throws Exception
      */
@@ -468,53 +468,5 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
         return Mage::app()->getStore()->getId();
     }
-
-
-    /**
-     * Send HTTP POST request to magentocommerce.com
-     *
-     * @param array $params
-     *
-     * @throws Exception
-     */
-    public function processPostRequest($params = array())
-    {
-        try {
-            $params['name'] = $this->getName();
-            $params['app_code'] = $this->getCode();
-            $params['url'] = Mage::helper('xmlconnect/data')->getUrl('*/*', array('app_code' => $this->getCode()));
-
-            $confSubmit = $this->_data['conf']['submit'];
-            $dir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS;
-            $params['appIcon'] = '@' . $dir . $confSubmit['appIcon'];
-            $params['loaderImage'] = '@' . $dir . $confSubmit['loaderImage'];
-            $params['logo'] = '@' . $dir . $confSubmit['logo'];
-            $params['big_logo'] = '@' . $dir . $confSubmit['big_logo'];
-
-            $ch = curl_init(self::APP_CONNECTOR_URL . $params['key']);
-            // set URL and other appropriate options
-            curl_setopt($ch, CURLOPT_POST,1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,  2);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-
-            // Execute the request.
-            $result = curl_exec($ch);
-            $succeeded  = curl_errno($ch) == 0 ? true : false;
-
-            // close cURL resource, and free up system resources
-            curl_close($ch);
-
-            // Assert that we received an expected Centinel Message in reponse.
-            if ($result != '{"message":"","success":true}') {
-                throw new Exception('Submit Application postback failure.');
-            }
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-
 
 }
