@@ -34,6 +34,19 @@ class Enterprise_GiftRegistry_Block_Customer_List
     extends Mage_Customer_Block_Account_Dashboard
 {
     /**
+     * Instantiate pagination
+     *
+     * @return Enterprise_GiftRegistry_Block_Customer_List
+     */
+    protected function _prepareLayout()
+    {
+        $pager = $this->getLayout()->createBlock('page/html_pager', 'giftregistry.list.pager')
+            ->setCollection($this->getEntityCollection())->setIsOutputRequired(false);
+        $this->setChild('pager', $pager);
+        return parent::_prepareLayout();
+    }
+
+    /**
      * Return list of gift registries
      *
      * @return Enterprise_GiftRegistry_Model_Mysql4_GiftRegistry_Collection
@@ -49,16 +62,17 @@ class Enterprise_GiftRegistry_Block_Customer_List
     }
 
     /**
-     * Instantiate pagination
+     * Check exist listed gift registry types on the current store
      *
-     * @return Enterprise_GiftRegistry_Block_Customer_List
+     * @return bool
      */
-    protected function _prepareLayout()
+    public function canAddNewEntity()
     {
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'giftregistry.list.pager')
-            ->setCollection($this->getEntityCollection())->setIsOutputRequired(false);
-        $this->setChild('pager', $pager);
-        return parent::_prepareLayout();
+        $collection = Mage::getModel('enterprise_giftregistry/type')->getCollection()
+            ->addStoreData(Mage::app()->getStore()->getId())
+            ->applyListedFilter();
+
+        return (bool)$collection->getSize();
     }
 
     /**
