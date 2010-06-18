@@ -267,10 +267,8 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
             isset($value['to']) && empty($value['to']))) {
             return false;
         }
-
-        $languageCode = $this->getLanguageCodeByLocaleCode(
-            Mage::app()->getStore()
-            ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE));
+        $locale = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+        $languageCode = $this->getLanguageCodeByLocaleCode($locale);
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
         $field = $attribute->getAttributeCode();
@@ -279,48 +277,36 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
 
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
-        }
-        elseif ($fieldType == 'decimal') {
+        } elseif ($fieldType == 'decimal') {
             $field = 'attr_decimal_'. $field;
-        }
-        elseif ($fieldType == 'int') {
+        } elseif ($fieldType == 'int') {
             $field = 'attr_select_'. $field;
-        }
-        elseif ($fieldType == 'datetime') {
+        } elseif ($fieldType == 'datetime') {
             $field = 'attr_datetime_'. $field;
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!is_empty_date($val)) {
-                        $date = new Zend_Date(
-                            $val,
-                            Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
-                        );
+                        $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+                        $date = new Zend_Date($val, $format);
                         $val = $date->toString(Zend_Date::ISO_8601) . 'Z';
                     }
                 }
-            }
-            else {
+            } else {
                 if (!is_empty_date($value)) {
-                    $date = new Zend_Date(
-                        $value,
-                        Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
-                    );
+                    $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+                    $date = new Zend_Date($value, $format);
                     $value = $date->toString(Zend_Date::ISO_8601) . 'Z';
                 }
             }
-        }
-        elseif (in_array($fieldType, $this->_textFieldTypes)) {
+        } elseif (in_array($fieldType, $this->_textFieldTypes)) {
             $field .= $languageSuffix;
         }
 
         if ($attribute->usesSource()) {
-            $attribute->setStoreId(
-                Mage::app()->getStore()->getId()
-            );
-
-            foreach ($value as &$val) {
-                $val = $attribute->getSource()->getOptionText($val);
-            }
+            $attribute->setStoreId(Mage::app()->getStore()->getId());
+//            foreach ($value as &$val) {
+//                $val = $attribute->getSource()->getOptionText($val);
+//            }
         }
 
         return array($field => $value);
@@ -340,7 +326,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
             return $attributeCode;
         }
         $entityType     = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
-        $attribute      = Mage::getSingleton('eav/config')->getAttribute($entityType, $attributeCode);
+        //$attribute      = Mage::getSingleton('eav/config')->getAttribute($entityType, $attributeCode);
         $field          = $attributeCode;
         $backendType    = $attribute->getBackendType();
         $frontendInput  = $attribute->getFrontendInput();

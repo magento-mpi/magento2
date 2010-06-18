@@ -43,49 +43,30 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         $attribute = $this->getAttributeModel();
         $this->_requestVar = $attribute->getAttributeCode();
 
-        $key = $this->getLayer()->getStateKey().'_'.$this->_requestVar;
-        $data = $this->getLayer()->getAggregator()->getCacheData($key);
+        $fieldName = Mage::helper('enterprise_search')->getAttributeSolrFieldName($attribute);
+        $productCollection = $this->getLayer()->getProductCollection();
+        $options = $productCollection->getFacetedData($fieldName);
 
-        if ($data === null) {
-            $options = $attribute->getFrontend()->getSelectOptions();
-            $fieldName = Mage::helper('enterprise_search')->getAttributeSolrFieldName($attribute);
-
-			$productCollection = $this->getLayer()->getProductCollection();
-        	$optionsCount = $productCollection->getFacetedData($fieldName);
-
-            $data = array();
-            foreach ($options as $option) {
-                if (is_array($option['value'])) {
-                    continue;
-                }
-
-                if (Mage::helper('core/string')->strlen($option['value'])) {
-                    // Check filter type
-                    if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
-                        if (!empty($optionsCount[$option['label']])) {
-                            $data[] = array(
-                                'label' => $option['label'],
-                                'value' => $option['value'],
-                                'count' => $optionsCount[$option['label']],
-                            );
-                        }
-                    }
-                    else {
+        $data = array();
+        foreach ($options as $label => $count) {
+            if (Mage::helper('core/string')->strlen($label)) {
+                // Check filter type
+                if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
+                    if (!empty($count)) {
                         $data[] = array(
-                            'label' => $option['label'],
-                            'value' => $option['value'],
-                            'count' => isset($optionsCount[$option['label']]) ? $optionsCount[$option['label']] : 0,
+                            'label' => $label,
+                            'value' => $label,
+                            'count' => $count,
                         );
                     }
+                } else {
+                    $data[] = array(
+                        'label' => $label,
+                        'value' => $label,
+                        'count' => (int) $count,
+                    );
                 }
             }
-
-            $tags = array(
-                Mage_Eav_Model_Entity_Attribute::CACHE_TAG .':'. $attribute->getId()
-            );
-
-            $tags = $this->getLayer()->getStateTags($tags);
-            $this->getLayer()->getAggregator()->saveCacheData($data, $key, $tags);
         }
 
         return $data;
@@ -109,10 +90,10 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
             return $this;
         }
 
-        $text = $this->_getOptionText($filter);
-        if ($filter && $text) {
+        if ($filter) {
+            $text = $this->_getOptionText($filter);
             $this->applyFilterToCollection($this, $filter);
-            $this->getLayer()->getState()->addFilter($this->_createItem($text, $filter));
+            $this->getLayer()->getState()->addFilter($this->_createItem($filter, $filter));
             $this->_items = array();
         }
 
@@ -138,7 +119,6 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
 
         $param = Mage::helper('enterprise_search')->getSearchParam($productCollection, $attribute, $value);
         $productCollection->addSearchQfFilter($param);
-
         return $this;
     }
 }

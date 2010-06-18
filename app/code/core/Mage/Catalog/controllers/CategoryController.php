@@ -76,11 +76,9 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
      */
     protected function _applyCustomDesignSettings($category, $update)
     {
-        if ($category->getCustomUseParentSettings()) {
+        if ($category->getCustomUseParentSettings() && $category->getLevel() > 1) {
             $parentCategory = $category->getParentCategory();
-            if ($parentCategory &&
-                $parentCategory->getId() &&
-                $parentCategory->getId() != Mage_Catalog_Model_Category::TREE_ROOT_ID) {
+            if ($parentCategory && $parentCategory->getId()) {
                 return $this->_applyCustomDesignSettings($parentCategory, $update);
             }
         }

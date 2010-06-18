@@ -84,7 +84,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
         $filter = (int) $request->getParam($this->getRequestVar());
-        if (isset($filter)) {
+        if ($filter) {
             $this->_categoryId = $filter;
         }
 
