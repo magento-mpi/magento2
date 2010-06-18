@@ -174,6 +174,16 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
     }
 
     /**
+     * Retrieve additional blocks html
+     *
+     * @return string
+     */
+    public function getAdditionalHtml()
+    {
+        return $this->getChildHtml('additional');
+    }
+
+    /**
      * Retrieve list toolbar HTML
      *
      * @return string
