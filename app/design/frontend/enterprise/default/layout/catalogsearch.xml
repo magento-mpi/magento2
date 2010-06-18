@@ -53,6 +53,10 @@
                     <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
                         <block type="page/html_pager" name="product_list_toolbar_pager"/>
                     </block>
+                    <block type="core/text_list" name="additional">
+                        <block type='enterprise_search/suggestions' name='search_suggestions' template="search/suggestions.phtml"></block>
+                        <block type='enterprise_search/recommendations' name='search_recommendations' template="search/recommendations.phtml"></block>
+                    </block>
                     <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
                     <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
@@ -64,9 +68,7 @@
                 <action method="setListOrders"/>
                 <action method="setListModes"/>
                 <action method="setListCollection"/>
-            </block>
-            <block type='enterprise_search/suggestions' name='search_suggestions' template="search/suggestions.phtml"></block>
-            <block type='enterprise_search/recommendations' name='search_recommendations' template="search/recommendations.phtml"></block>
+            </block>            
         </reference>
     </catalogsearch_result_index>
 
