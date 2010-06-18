@@ -53,10 +53,11 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
     {
         $adapter = $this->_getWriteAdapter();
         if (count($relatedQueries) > 0) {
-            $inCond = implode(",", $relatedQueries);
-            $whereCond = "(query_id={$queryId} AND relation_id NOT IN({$inCond})) OR (relation_id={$queryId} AND query_id NOT IN({$inCond}))";
+            $inCond = $adapter->quoteInto('NOT IN(?)', $relatedQueries);
+            $whereCond = "(query_id={$adapter->quote($queryId)} AND relation_id {$inCond})
+                       OR (relation_id={$adapter->quote($queryId)} AND query_id {$inCond})";
         } else {
-            $whereCond = "(query_id={$queryId}) OR (relation_id={$queryId})";
+            $whereCond = "(query_id={$adapter->quote($queryId)}) OR (relation_id={$adapter->quote($queryId)})";
         }
 
         $adapter->delete($this->getMainTable(), $whereCond);
@@ -75,17 +76,23 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
     /**
      * Retrieve related search queries
      *
-     * @param int $queryId
+     * @param int|array $queryId
      * @return array
      */
     public function getRelatedQueries($queryId, $limit = false, $order = false)
     {
         $queryIds = array();
         $collection = Mage::getModel('catalogsearch/query')->getResourceCollection();
+        $adapter = $this->_getReadAdapter();
+        if (is_array($queryId)) {
+            $queryIdCond = $adapter->quoteInto('main_table.query_id IN (?)', $queryId);
+        } else {
+            $queryIdCond = $adapter->quoteInto('main_table.query_id=?', $queryId);
+        }
         $collection->getSelect()
             ->join(array("sr" => $collection->getTable("enterprise_search/recommendations")),
                  "(sr.query_id=main_table.query_id OR sr.relation_id=main_table.query_id)
-                   AND main_table.query_id={$queryId}")
+                   AND {$queryIdCond}")
             ->reset(Zend_Db_Select::COLUMNS)
             ->columns(array(
                  "rel_id" => new Zend_Db_Expr("IF(main_table.query_id=sr.query_id, sr.relation_id, sr.query_id)")
@@ -93,7 +100,9 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
         if (!empty($limit)) {
             $collection->getSelect()->limit($limit);
         }
+
         $res = $collection->toArray();
+
         foreach ($res["items"] as $id) {
             $queryIds[] = (int)$id["rel_id"];
         }
@@ -111,21 +120,16 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
         if (isset($params['store_id'])) {
             $model->setStoreId($params['store_id']);
         }
-        $model->loadByQuery($query);
-        $termId = $model->getId();
-        $relatedQueriesIds = $this->getRelatedQueries($termId);
-
-        // Automatic recommendations
-        if (strpos($query, " ") !== false && count($relatedQueriesIds < $searchRecommendationsCount)) {
-            $queryWords = explode(" ", $query);
-            $queryWords = array_unique($queryWords);
-            foreach ($queryWords as $word) {
-                $model->loadByQuery($word);
-                $wordTermId = $model->getId();
-                $wordRelatedQueriesIds = $this->getRelatedQueries($wordTermId);
-                $relatedQueriesIds = array_merge($relatedQueriesIds, $wordRelatedQueriesIds);
-            }
+        $queryWords = array($query);
+        if (strpos($query, " ") !== false) {
+            $queryWords = array_merge($queryWords, explode(" ", $query));
         }
+        foreach ($queryWords as $word) {
+            $model->loadByQuery($word);
+            $wordTermIds[]= $model->getId();
+        }
+        $relatedQueriesIds = $this->getRelatedQueries($wordTermIds);
+
         $relatedQueriesIds = array_unique($relatedQueriesIds);
         $relatedQueries = array();
         if (count($relatedQueriesIds)) {
