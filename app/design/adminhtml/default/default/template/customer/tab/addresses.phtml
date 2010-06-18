@@ -375,8 +375,8 @@ addressesModel.prototype = {
                             var l = fields[i].options.length;
                             for (j=0; j<l; j++) {
                                 var o = fields[i].options[j];
-                                if (o.selected) {
-                                    values[j] = o.text.escapeHTML();
+                                if (o.selected === true) {
+                                    values[values.length] = o.text.escapeHTML();
                                 }
                             }
                             data[id] = values.join(', ');

@@ -186,11 +186,11 @@ class Mage_Customer_Model_Entity_Form_Attribute_Collection extends Mage_Core_Mod
             } else {
                 if (isset($eaColumns[$columnName])) {
                     $code = sprintf('scope_%s', $columnName);
-                    $saColumns[$code] = new Zend_Db_Expr(sprintf('IFNULL(ea.%s, sa.%s)',
+                    $saColumns[$code] = new Zend_Db_Expr(sprintf('IFNULL(sa.%s, ea.%s)',
                         $columnName, $columnName));
                 } else if (isset($caColumns[$columnName])) {
                     $code = sprintf('scope_%s', $columnName);
-                    $saColumns[$code] = new Zend_Db_Expr(sprintf('IFNULL(ca.%s, sa.%s)',
+                    $saColumns[$code] = new Zend_Db_Expr(sprintf('IFNULL(sa.%s, ca.%s)',
                         $columnName, $columnName));
                 }
             }
