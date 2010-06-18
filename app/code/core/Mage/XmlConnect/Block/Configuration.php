@@ -112,26 +112,6 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
     {
         $xml = new Mage_XmlConnect_Model_Simplexml_Element('<configuration></configuration>');
         $this->_buildRecursive($xml, $this->_app->getRenderConf());
-
-        $xml->addChild('updateTimeUTC', strtotime($this->_app->getUpdatedAt()));
-
-        $storeId = $this->_app->getStoreId();
-        $currencyCode = Mage::app()->getStore($storeId)->getBaseCurrencyCode();
-        $xml->addChild('currencyCode', $currencyCode);
-        $xml->addChild('secureBaseUrl', Mage::getStoreConfig('web/secure/base_url', $storeId));
-
-        $maxRecepients = 0;
-        if ( Mage::getStoreConfig('sendfriend/email/enabled') ) {
-            $maxRecepients = Mage::getStoreConfig('sendfriend/email/max_recipients');
-        }
-        $email = $xml->addChild('emailToFriend');
-        $email->addChild('maxRecepients', $maxRecepients);
-
-        $paypal = $xml->addChild('paypal');
-        $paypal->addChild('isActive', 1);
-        $paypal->addChild('businessAccount', Mage::getStoreConfig('paypal/general/business_account'));
-        $paypal->addChild('merchantLabel', $this->_app->getData('conf/special/merchantLabel'));
-
         return $xml->asNiceXml();
     }
 }

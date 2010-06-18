@@ -197,6 +197,20 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             }
         }
         $result = $this->_absPath($result);
+
+        $result['updateTimeUTC'] = strtotime($this->getUpdatedAt());
+        $result['currencyCode'] = Mage::app()->getStore($this->getStoreId())->getBaseCurrencyCode();
+        $result['secureBaseUrl'] = Mage::getStoreConfig('web/secure/base_url', $this->getStoreId());
+
+        $maxRecepients = 0;
+        if ( Mage::getStoreConfig('sendfriend/email/enabled') ) {
+            $maxRecepients = Mage::getStoreConfig('sendfriend/email/max_recipients');
+        }
+        $result['emailToFriend']['maxRecepients'] = $maxRecepients;
+
+        $result['paypal']['businessAccount'] = Mage::getStoreConfig('paypal/general/business_account');
+        $result['paypal']['merchantLabel'] = $this->getData('conf/special/merchantLabel');
+
         return $result;
     }
 
