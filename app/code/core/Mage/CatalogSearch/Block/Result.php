@@ -81,6 +81,16 @@ class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
     }
 
     /**
+     * Retrieve additional blocks html
+     *
+     * @return string
+     */
+    public function getAdditionalHtml()
+    {
+        return $this->getLayout()->getBlock('search_result_list')->getChildHtml('additional');
+    }
+
+    /**
      * Retrieve search list toolbar block
      *
      * @return Mage_Catalog_Block_Product_List
