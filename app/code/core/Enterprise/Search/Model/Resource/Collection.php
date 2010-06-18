@@ -281,11 +281,6 @@ class Enterprise_Search_Model_Resource_Collection
 
             list($ids, $this->_facetedData) = $this->_engine->getIdsByQuery($query, $params);
             $ids = (array)$ids;
-
-            /*
-             * Save total number of records here to avoid separate query for this operation
-             */
-            $this->_totalRecords = $this->_engine->getLastNumFound();
         }
 
         $this->_searchedEntityIds = &$ids;

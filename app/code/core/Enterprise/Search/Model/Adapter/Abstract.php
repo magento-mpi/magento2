@@ -488,7 +488,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         $this->_lastNumFound = (int)$realResponse->numFound;
         $result = array();
         foreach ($_docs as $doc) {
-            $result[] = Mage::helper('enterprise_search')->objectToArray($doc);
+            $result[] = $this->_objectToArray($doc);
         }
 
         return $result;
@@ -502,7 +502,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected function _prepareSuggestionsQueryResponse($response)
     {
-        $arrayResponse = Mage::helper('enterprise_search')->objectToArray($response->spellcheck->suggestions);
+        $arrayResponse = $this->_objectToArray($response->spellcheck->suggestions);
         $suggestions = array();
         if (is_array($arrayResponse)) {
             foreach ($arrayResponse as $item) {
@@ -529,7 +529,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected function _prepareFacetsQueryResponse($response)
     {
-        return  Mage::helper('enterprise_search')->facetObjectToArray($response->facet_counts);
+        return $this->_facetObjectToArray($response->facet_counts);
     }
 
     /**
@@ -694,5 +694,58 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $fieldCondition = $field .':'. $value;
         }
         return $fieldCondition;
+    }
+
+    /**
+     * Convert an object to an array
+     *
+     * @param object $object The object to convert
+     * @return array
+     */
+    protected function _objectToArray($object)
+    {
+        if(!is_object($object) && !is_array($object)){
+            return $object;
+        }
+        if(is_object($object)){
+            $object = get_object_vars($object);
+        }
+
+        return array_map(array($this, '_objectToArray'), $object);
+    }
+
+    /**
+     * Convert facet results object to an array
+     *
+     * @param object $object
+     * @return array
+     */
+    protected function _facetObjectToArray($object)
+    {
+        if(!is_object($object) && !is_array($object)){
+            return $object;
+        }
+
+        if(is_object($object)){
+            $object = get_object_vars($object);
+        }
+
+        $res = array();
+
+        foreach ($object['facet_fields'] as $attr => $val) {
+            foreach ($val as $key => $value) {
+                $res[$attr][$key] = $value;
+            }
+        }
+
+        foreach ($object['facet_queries'] as $attr => $val) {
+            if (preg_match('/\(categories:(\d+) OR show_in_categories\:\d+\)/', $attr, $matches)) {
+                $res['categories'][$matches[1]]    = $val;
+            } else {
+                $attrArray = explode(':', $attr);
+                $res[$attrArray[0]][$attrArray[1]] = $val;
+            }
+        }
+        return $res;
     }
 }

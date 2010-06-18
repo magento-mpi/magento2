@@ -168,7 +168,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 }
                 $data['attr_multi_'. $key] = $value;
                 unset($data[$key]);
-            } elseif ($backendType == 'int') {
+            } elseif ($frontendInput == 'select') {
                 if (is_array($value)) {
                     $value = implode(' ', array_unique($value));
                 }
@@ -258,7 +258,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         if (is_null($this->_ping)){
             try {
                 $this->_ping = $this->_client->ping();
-            } catch (Exception $e){
+            } catch (Exception $e) {
                 $this->_ping = false;
             }
         }
@@ -285,7 +285,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
 
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
-        } elseif ($backendType == 'int') {
+        } elseif ($frontendInput == 'select') {
             $field = 'attr_select_'. $field;
         } elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;

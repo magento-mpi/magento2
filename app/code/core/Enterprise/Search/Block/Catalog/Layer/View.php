@@ -52,7 +52,7 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
     {
         parent::_initBlocks();
 
-        if ($this->_isActiveEngine()) {
+        if (Mage::helper('enterprise_search')->isActiveEngine()) {
             $this->_categoryBlockName = 'enterprise_search/catalog_layer_filter_category';
             $this->_attributeFilterBlockName = 'enterprise_search/catalog_layer_filter_attribute';
             $this->_priceFilterBlockName = 'enterprise_search/catalog_layer_filter_price';
@@ -60,22 +60,5 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
         }
     }
 
-    /**
-     * Check if engine is available
-     *
-     * @return bool
-     */
-    protected function _isActiveEngine()
-    {
-        $engine = Mage::helper('enterprise_search')->getSearchConfigData('engine');
 
-        if ($engine && Mage::getConfig()->getResourceModelClassName($engine)) {
-            $model = Mage::getResourceSingleton($engine);
-            if ($model && $model->test() && $model->allowAdvancedIndex()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }

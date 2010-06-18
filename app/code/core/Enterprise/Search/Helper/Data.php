@@ -43,62 +43,18 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected $_textFieldTypes = array(
         'text',
-        'varchar',
-        'int'
+        'varchar'
     );
 
     /**
-     * Convert an object to an array
+     * Retrive text field types
      *
-     * @param object $object The object to convert
      * @return array
      */
-    public function objectToArray($object)
-    {
-        if(!is_object($object) && !is_array($object)){
-            return $object;
-        }
-        if(is_object($object)){
-            $object = get_object_vars($object);
-        }
-
-        return array_map(array($this, 'objectToArray'), $object);
-    }
-
-    /**
-     * Convert facet results object to an array
-     *
-     * @param object $object
-     * @return array
-     */
-    public function facetObjectToArray($object)
-    {
-        if(!is_object($object) && !is_array($object)){
-            return $object;
-        }
-
-        if(is_object($object)){
-            $object = get_object_vars($object);
-        }
-
-        $res = array();
-
-        foreach ($object['facet_fields'] as $attr => $val) {
-            foreach ($val as $key => $value) {
-                $res[$attr][$key] = $value;
-            }
-        }
-
-        foreach ($object['facet_queries'] as $attr => $val) {
-            if (preg_match('/\(categories:(\d+) OR show_in_categories\:\d+\)/', $attr, $matches)) {
-                $res['categories'][$matches[1]]    = $val;
-            } else {
-                $attrArray = explode(':', $attr);
-                $res[$attrArray[0]][$attrArray[1]] = $val;
-            }
-        }
-        return $res;
-    }
+//    public function getTextFieldTypes()
+//    {
+//        return $this->_textFieldTypes;
+//    }
 
     /**
      * Retrive supported by Solr languages including locale codes (language codes) that are specified in configuration
@@ -230,7 +186,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param string $localeCode
      *
-     * @return false|string
+     * @return false | string
      */
     public function getLanguageCodeByLocaleCode($localeCode)
     {
@@ -238,6 +194,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         if (!$localeCode) {
             return false;
         }
+
         $languages = $this->getSolrSupportedLanguages();
         foreach ($languages as $code => $locales) {
             if (is_array($locales)) {
@@ -249,6 +206,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
                 return $code;
             }
         }
+
         return false;
     }
 
@@ -272,33 +230,33 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
         $field = $attribute->getAttributeCode();
-        $fieldType = $attribute->getBackendType();
+        $backendType = $attribute->getBackendType();
         $frontendInput = $attribute->getFrontendInput();
 
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
-        } elseif ($fieldType == 'decimal') {
+        } elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;
-        } elseif ($fieldType == 'int') {
+        } elseif ($frontendInput == 'select') {
             $field = 'attr_select_'. $field;
-        } elseif ($fieldType == 'datetime') {
+        } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
+
+            $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!is_empty_date($val)) {
-                        $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
                         $date = new Zend_Date($val, $format);
                         $val = $date->toString(Zend_Date::ISO_8601) . 'Z';
                     }
                 }
             } else {
                 if (!is_empty_date($value)) {
-                    $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
                     $date = new Zend_Date($value, $format);
                     $value = $date->toString(Zend_Date::ISO_8601) . 'Z';
                 }
             }
-        } elseif (in_array($fieldType, $this->_textFieldTypes)) {
+        } elseif (in_array($backendType, $this->_textFieldTypes)) {
             $field .= $languageSuffix;
         }
 
@@ -325,15 +283,13 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         if ($attributeCode == 'score') {
             return $attributeCode;
         }
-        $entityType     = Mage::getSingleton('eav/config')->getEntityType('catalog_product');
-        //$attribute      = Mage::getSingleton('eav/config')->getAttribute($entityType, $attributeCode);
         $field          = $attributeCode;
         $backendType    = $attribute->getBackendType();
         $frontendInput  = $attribute->getFrontendInput();
 
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
-        } elseif ($backendType == 'int') {
+        } elseif ($frontendInput == 'select') {
             $field = 'attr_select_'. $field;
         } elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;
@@ -347,5 +303,24 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return $field;
+    }
+
+    /**
+     * Check if enterprise engine is available
+     *
+     * @return bool
+     */
+    public function isActiveEngine()
+    {
+        $engine = Mage::helper('enterprise_search')->getSearchConfigData('engine');
+
+        if ($engine && Mage::getConfig()->getResourceModelClassName($engine)) {
+            $model = Mage::getResourceSingleton($engine);
+            if ($model && $model->test() && $model->allowAdvancedIndex()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

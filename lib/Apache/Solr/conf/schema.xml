@@ -1248,52 +1248,8 @@
         -->
 
         <field name="sku" type="textTight_en" indexed="true" stored="true" omitNorms="true"/>
-
-        <!--<field name="description_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_fr" type="text_fr" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_fr" type="text_fr" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_de" type="text_de" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_de" type="text_de" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_da" type="text_da" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_da" type="text_da" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_nl" type="text_nl" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_nl" type="text_nl" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_fi" type="text_fi" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_fi" type="text_fi" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_it" type="text_it" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_it" type="text_it" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_nb" type="text_nb" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_nb" type="text_nb" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_pt" type="text_pt" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_pt" type="text_pt" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_ro" type="text_ro" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_ro" type="text_ro" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_ru" type="text_ru" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_ru" type="text_ru" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_es" type="text_es" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_es" type="text_es" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_sv" type="text_sv" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_sv" type="text_sv" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_tr" type="text_tr" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_tr" type="text_tr" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_cs" type="text_cs" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_cs" type="text_cs" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_el" type="text_el" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_el" type="text_el" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_th" type="text_th" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_th" type="text_th" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_zh" type="text_zh" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_zh" type="text_zh" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_ja" type="text_ja" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_ja" type="text_ja" indexed="true" stored="true" multiValued="true"/>
-        <field name="description_ko" type="text_ko" indexed="true" stored="true" multiValued="true"/>
-        <field name="meta_keyword_ko" type="text_ko" indexed="true" stored="true" multiValued="true"/>-->
-
         <field name="name" type="textgen" indexed="true" stored="true"/>
         <field name="fulltext" type="textgen" indexed="true" stored="true"/>
-        <!--<field name="description" type="textgen" indexed="true" stored="true" multiValued="true"/>-->
-        <!--<field name="meta_keyword" type="textgen" indexed="true" stored="true" multiValued="true"/>-->
 
         <!--A field designed for sorting by name, its value will be pasted from name field-->
         <field name="alphaNameSort"    type="alphaOnlySort"    indexed="true" stored="false"/>
@@ -1317,30 +1273,6 @@
         <field name="alphaNameSort_zh" type="alphaOnlySort_zh" indexed="true" stored="false"/>
         <field name="alphaNameSort_ja" type="alphaOnlySort_ja" indexed="true" stored="false"/>
         <field name="alphaNameSort_ko" type="alphaOnlySort_ko" indexed="true" stored="false"/>
-
-        <!-- catchall field, containing all other searchable text fields (implemented
-            via copyField further on in this schema  -->
-        <!--<field name="text"    type="textgen" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_en" type="text_en" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_fr" type="text_fr" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_de" type="text_de" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_da" type="text_da" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_nl" type="text_nl" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_fi" type="text_fi" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_it" type="text_it" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_nb" type="text_nb" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_pt" type="text_pt" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_ro" type="text_ro" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_ru" type="text_ru" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_es" type="text_es" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_sv" type="text_sv" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_tr" type="text_tr" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_cs" type="text_cs" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_el" type="text_el" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_th" type="text_th" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_zh" type="text_zh" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_ja" type="text_ja" indexed="true" stored="false" multiValued="true"/>
-        <field name="text_ko" type="text_ko" indexed="true" stored="false" multiValued="true"/>-->
 
         <!-- The following will create a "timestamp" field using
             a default value of "NOW" to indicate when each document was indexed.
@@ -1399,80 +1331,6 @@
 
     <!-- SolrQueryParser configuration: defaultOperator="AND|OR". -->
     <solrQueryParser defaultOperator="OR"/>
-
-      <!-- copyField commands copy one field to another at the time a document
-            is added to the index.  It's used either to index the same field differently,
-            or to add multiple fields to the same field for easier/faster searching. -->
-    <!--<copyField source="sku" dest="text"/>
-    <copyField source="price" dest="text"/>
-    <copyField source="sku" dest="text_en"/>
-    <copyField source="price" dest="text_en"/>
-    <copyField source="sku" dest="text_fr"/>
-    <copyField source="price" dest="text_fr"/>
-    <copyField source="sku" dest="text_de"/>
-    <copyField source="price" dest="text_de"/>
-    <copyField source="sku" dest="text_da"/>
-    <copyField source="price" dest="text_da"/>
-    <copyField source="sku" dest="text_nl"/>
-    <copyField source="price" dest="text_nl"/>
-    <copyField source="sku" dest="text_fi"/>
-    <copyField source="price" dest="text_fi"/>
-    <copyField source="sku" dest="text_it"/>
-    <copyField source="price" dest="text_it"/>
-    <copyField source="sku" dest="text_nb"/>
-    <copyField source="price" dest="text_nb"/>
-    <copyField source="sku" dest="text_pt"/>
-    <copyField source="price" dest="text_pt"/>
-    <copyField source="sku" dest="text_ro"/>
-    <copyField source="price" dest="text_ro"/>
-    <copyField source="sku" dest="text_ru"/>
-    <copyField source="price" dest="text_ru"/>
-    <copyField source="sku" dest="text_es"/>
-    <copyField source="price" dest="text_es"/>
-    <copyField source="sku" dest="text_sv"/>
-    <copyField source="price" dest="text_sv"/>
-    <copyField source="sku" dest="text_tr"/>
-    <copyField source="price" dest="text_tr"/>
-    <copyField source="sku" dest="text_cs"/>
-    <copyField source="price" dest="text_cs"/>
-    <copyField source="sku" dest="text_el"/>
-    <copyField source="price" dest="text_el"/>
-    <copyField source="sku" dest="text_th"/>
-    <copyField source="price" dest="text_th"/>
-    <copyField source="sku" dest="text_zh"/>
-    <copyField source="price" dest="text_zh"/>
-    <copyField source="sku" dest="text_ja"/>
-    <copyField source="price" dest="text_ja"/>
-    <copyField source="sku" dest="text_ko"/>
-    <copyField source="price" dest="text_ko"/>-->
-   
-
-    <!-- 
-    Above, multiple source fields are copied to the [text] field. 
-    Another way to map multiple source fields to the same 
-    destination field is to use the dynamic field syntax. 
-    copyField also supports a maxChars to copy setting. 
-    -->
-    <!-- <copyField source="*_en" dest="text_en"/>
-    <copyField source="*_fr" dest="text_fr"/>
-    <copyField source="*_de" dest="text_de"/>
-    <copyField source="*_da" dest="text_da"/>
-    <copyField source="*_nl" dest="text_nl"/>
-    <copyField source="*_fi" dest="text_fi"/>
-    <copyField source="*_it" dest="text_it"/>
-    <copyField source="*_nb" dest="text_nb"/>
-    <copyField source="*_pt" dest="text_pt"/>
-    <copyField source="*_ro" dest="text_ro"/>
-    <copyField source="*_ru" dest="text_ru"/>
-    <copyField source="*_es" dest="text_es"/>
-    <copyField source="*_sv" dest="text_sv"/>
-    <copyField source="*_tr" dest="text_tr"/>
-    <copyField source="*_cs" dest="text_cs"/>
-    <copyField source="*_el" dest="text_el"/>
-    <copyField source="*_th" dest="text_th"/>
-    <copyField source="*_zh" dest="text_zh"/>
-    <copyField source="*_ja" dest="text_ja"/>
-    <copyField source="*_ko" dest="text_ko"/>-->
 
     <!-- copy name to alphaNameSort, a field designed for sorting by name -->
     <copyField source="name"    dest="alphaNameSort"/>
