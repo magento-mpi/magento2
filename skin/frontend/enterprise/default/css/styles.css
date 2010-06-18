@@ -928,6 +928,7 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .category-description { padding:20px; }
 
 .results-view { margin:0 -20px -20px; }
+.results-view .recommendations { padding:20px 20px 0; }
 .catalogsearch-result-index .page-title { margin-bottom:0; }
 .catalogsearch-result-index .note-msg { margin:20px 0; }
 
