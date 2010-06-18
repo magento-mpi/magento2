@@ -97,9 +97,10 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
 
         if (is_array($items)) {
             try {
+                $model = Mage::getModel('enterprise_giftregistry/item');
                 foreach ($items as $itemId => $data) {
                     if (!empty($data['action'])) {
-                        $model = Mage::getModel('enterprise_giftregistry/item')->load($itemId);
+                        $model->load($itemId);
                         if ($model->getId() && $model->getEntityId() == $entity->getId()) {
                             if ($data['action'] == 'remove') {
                                 $model->delete();
@@ -116,7 +117,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
                 }
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                $this->_redirect('*/*/edit', array('id' => $entity->getId()));
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($this->__('Failed to update gift registry items.'));
