@@ -310,6 +310,9 @@ class Mage_Customer_Model_Form
     {
         $data = array();
         foreach ($this->getAttributes() as $attribute) {
+            if (!$attribute->getIsVisible()) {
+                continue;
+            }
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setRequestScope($scope);
             $data[$attribute->getAttributeCode()] = $dataModel->extractValue($request);
@@ -327,6 +330,9 @@ class Mage_Customer_Model_Form
     {
         $errors = array();
         foreach ($this->getAttributes() as $attribute) {
+            if (!$attribute->getIsVisible()) {
+                continue;
+            }
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setExtractedData($data);
             if (!isset($data[$attribute->getAttributeCode()])) {
@@ -354,6 +360,9 @@ class Mage_Customer_Model_Form
     public function compactData(array $data)
     {
         foreach ($this->getAttributes() as $attribute) {
+            if (!$attribute->getIsVisible()) {
+                continue;
+            }
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setExtractedData($data);
             if (!isset($data[$attribute->getAttributeCode()])) {
@@ -374,6 +383,9 @@ class Mage_Customer_Model_Form
     public function restoreData(array $data)
     {
         foreach ($this->getAttributes() as $attribute) {
+            if (!$attribute->getIsVisible()) {
+                continue;
+            }
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setExtractedData($data);
             if (!isset($data[$attribute->getAttributeCode()])) {
@@ -394,6 +406,9 @@ class Mage_Customer_Model_Form
     {
         $data = array();
         foreach ($this->getAttributes() as $attribute) {
+            if (!$attribute->getIsVisible()) {
+                continue;
+            }
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setExtractedData($data);
             $data[$attribute->getAttributeCode()] = $dataModel->outputValue($format);
@@ -409,6 +424,9 @@ class Mage_Customer_Model_Form
     public function resetEntityData()
     {
         foreach ($this->getAttributes() as $attribute) {
+            if (!$attribute->getIsVisible()) {
+                continue;
+            }
             $value = $this->getEntity()->getOrigData($attribute->getAttributeCode());
             $this->getEntity()->setData($attribute->getAttributeCode(), $value);
         }

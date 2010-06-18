@@ -92,6 +92,9 @@ class Mage_Customer_Model_Attribute_Data_Date extends Mage_Customer_Model_Attrib
     public function compactValue($value)
     {
         if ($value !== false) {
+            if (empty($value)) {
+                $value = null;
+            }
             $this->getEntity()->setDataUsingMethod($this->getAttribute()->getAttributeCode(), $value);
         }
         return $this;
