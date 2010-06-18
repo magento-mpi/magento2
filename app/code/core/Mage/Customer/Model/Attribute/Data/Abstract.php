@@ -55,12 +55,14 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
      */
     protected $_requestScope;
 
+    protected $_requestScopeOnly    = true;
+
     /**
      * Is AJAX request flag
      *
      * @var boolean
      */
-    protected $_isAjax          = false;
+    protected $_isAjax              = false;
 
     /**
      * Array of full extracted data
@@ -68,7 +70,7 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
      *
      * @var array
      */
-    protected $_extractedData   = array();
+    protected $_extractedData       = array();
 
     /**
      * Mage_Core_Model_Locale FORMAT
@@ -112,6 +114,19 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
     public function setRequestScope($scope)
     {
         $this->_requestScope = $scope;
+        return $this;
+    }
+
+    /**
+     * Set scope visibility
+     * Search value only in scope or search value in scope and global
+     *
+     * @param boolean $flag
+     * @return Mage_Customer_Model_Attribute_Data_Abstract
+     */
+    public function setRequestScopeOnly($flag)
+    {
+        $this->_requestScopeOnly = (bool)$flag;
         return $this;
     }
 
@@ -444,6 +459,10 @@ abstract class Mage_Customer_Model_Attribute_Data_Abstract
                 $value = $params[$attrCode];
             } else {
                 $value = false;
+            }
+
+            if (!$this->_requestScopeOnly && $value === false) {
+                $value = $request->getParam($attrCode, false);
             }
         } else {
             $value = $request->getParam($attrCode, false);

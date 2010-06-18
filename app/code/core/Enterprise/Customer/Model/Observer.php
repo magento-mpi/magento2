@@ -102,7 +102,7 @@ class Enterprise_Customer_Model_Observer
             Mage::getModel('enterprise_customer/sales_quote_address')
                 ->saveAttributeData($quoteAddress);
         }
-        
+
         return $this;
     }
 
@@ -205,7 +205,7 @@ class Enterprise_Customer_Model_Observer
     public function enterpriseCustomerAttributeDelete(Varien_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        if ($attribute instanceof Mage_Customer_Model_Attribute 
+        if ($attribute instanceof Mage_Customer_Model_Attribute
             && !$attribute->isObjectNew()
         ) {
             Mage::getModel('enterprise_customer/sales_quote')
@@ -255,7 +255,7 @@ class Enterprise_Customer_Model_Observer
             Mage::getModel('enterprise_customer/sales_order_address')
                 ->deleteAttribute($attribute);
         }
-        
+
         return $this;
     }
 
@@ -407,7 +407,7 @@ class Enterprise_Customer_Model_Observer
     {
         $source = $observer->getEvent()->getSource();
         $target = $observer->getEvent()->getTarget();
-        
+
         if ($source instanceof Mage_Core_Model_Abstract && $target instanceof Mage_Core_Model_Abstract) {
             if ($convertType == self::CONVERT_TYPE_CUSTOMER) {
                 $attributes = Mage::helper('enterprise_customer')->getCustomerUserDefinedAttributeCodes();
@@ -419,7 +419,7 @@ class Enterprise_Customer_Model_Observer
                 return $this;
             }
 
-            foreach ($attributes as $attribute){
+            foreach ($attributes as $attribute) {
                 switch ($algoritm) {
                     case self::CONVERT_ALGORITM_SOURCE_TARGET_WITH_PREFIX:
                         $sourceAttribute = $prefix . $attribute;

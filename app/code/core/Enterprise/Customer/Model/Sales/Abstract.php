@@ -74,10 +74,10 @@ abstract class Enterprise_Customer_Model_Sales_Abstract extends Mage_Core_Model_
      */
     public function saveAttributeData(Mage_Core_Model_Abstract $sales)
     {
-        $this->setId($sales->getId())
-             ->addData($sales->getData())
-             ->save();
-        
+        $this->addData($sales->getData())
+            ->setId($sales->getId())
+            ->save();
+
         return $this;
     }
 }

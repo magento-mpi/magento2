@@ -261,6 +261,10 @@ class Mage_Checkout_Model_Type_Onepage
                 return array('error' => 1, 'message' => $addressErrors);
             }
             $addressForm->compactData($addressData);
+
+            if (!empty($data['save_in_address_book'])) {
+                $address->setSaveInAddressBook(1);
+            }
         }
 
         // validate billing address

@@ -277,20 +277,22 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 $addressForm = Mage::getModel('customer/form');
                 $addressForm->setFormCode('customer_register_address')
                     ->setEntity($address);
-                $addressData    = $addressForm->extractData($this->getRequest(), 'create_address');
+
+                $addressData    = $addressForm->extractData($this->getRequest(), 'address', false);
                 $addressErrors  = $addressForm->validateData($addressData);
                 if ($addressErrors === true) {
                     $address->setId(null)
                         ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
                         ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
+                    $addressForm->compactData($addressData);
                     $customer->addAddress($address);
+
+                    $addressErrors = $address->validate();
+                    if (is_array($addressErrors)) {
+                        $errors = array_merge($errors, $addressErrors);
+                    }
                 } else {
                     $errors = array_merge($errors, $addressErrors);
-                }
-
-                $errors = $address->validate();
-                if (!is_array($errors)) {
-                    $errors = array();
                 }
             }
 

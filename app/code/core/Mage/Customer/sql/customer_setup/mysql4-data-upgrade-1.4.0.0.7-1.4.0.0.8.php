@@ -210,7 +210,6 @@ $attributes = array(
         'is_visible'        => $addressHelper->getConfig('prefix_show', $store) == '' ? 0 : 1,
         'sort_order'        => 10,
         'is_required'       => $addressHelper->getConfig('prefix_show', $store) == 'req' ? 1 : 0,
-        'is_customer'       => true,
     ),
     'firstname'         => array(
         'is_user_defined'   => 0,
@@ -222,7 +221,6 @@ $attributes = array(
             'max_text_length'   => 255,
             'min_text_length'   => 1
         ),
-        'is_customer'       => true,
     ),
     'middlename'        => array(
         'is_user_defined'   => 0,
@@ -230,7 +228,6 @@ $attributes = array(
         'is_visible'        => $addressHelper->getConfig('middlename_show', $store) == '' ? 0 : 1,
         'sort_order'        => 30,
         'is_required'       => $addressHelper->getConfig('middlename_show', $store) == 'req' ? 1 : 0,
-        'is_customer'       => true,
     ),
     'lastname'          => array(
         'is_user_defined'   => 0,
@@ -242,7 +239,6 @@ $attributes = array(
             'max_text_length'   => 255,
             'min_text_length'   => 1
         ),
-        'is_customer'       => true,
     ),
     'suffix'            => array(
         'is_user_defined'   => 0,
@@ -250,7 +246,6 @@ $attributes = array(
         'is_visible'        => $addressHelper->getConfig('suffix_show', $store) == '' ? 0 : 1,
         'sort_order'        => 50,
         'is_required'       => $addressHelper->getConfig('suffix_show', $store) == 'req' ? 1 : 0,
-        'is_customer'       => true,
     ),
     'company'           => array(
         'is_user_defined'   => 0,
@@ -347,11 +342,9 @@ foreach ($attributes as $attributeCode => $data) {
     if (false === ($data['is_system'] == 1 && $data['is_visible'] == 0)) {
         $usedInForms = array(
             'adminhtml_customer_address',
-            'customer_address_edit'
+            'customer_address_edit',
+            'customer_register_address'
         );
-        if (empty($data['is_customer'])) {
-            $usedInForms[] = 'customer_register_address';
-        }
         $attribute->setData('used_in_forms', $usedInForms);
     }
     $attribute->save();

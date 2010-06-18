@@ -262,7 +262,7 @@ class Mage_Customer_Model_Form
      */
     public function getSystemAttributes()
     {
-        if (is_null($this->_userAttributes)) {
+        if (is_null($this->_systemAttributes)) {
             // load attributes
             $this->getAttributes();
         }
@@ -304,9 +304,10 @@ class Mage_Customer_Model_Form
      *
      * @param Zend_Controller_Request_Http $request
      * @param string $scope the request scope
+     * @param boolean $scopeOnly search value only in scope or search value in global too
      * @return array
      */
-    public function extractData(Zend_Controller_Request_Http $request, $scope = null)
+    public function extractData(Zend_Controller_Request_Http $request, $scope = null, $scopeOnly = true)
     {
         $data = array();
         foreach ($this->getAttributes() as $attribute) {
@@ -315,6 +316,7 @@ class Mage_Customer_Model_Form
             }
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setRequestScope($scope);
+            $dataModel->setRequestScopeOnly($scopeOnly);
             $data[$attribute->getAttributeCode()] = $dataModel->extractValue($request);
         }
         return $data;
