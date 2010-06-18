@@ -40,6 +40,7 @@
 <?php else: ?>
 <div class="category-products">
     <?php echo $this->getToolbarHtml() ?>
+    <?php echo $this->getAdditionalHtml() ?>
     <?php // List mode ?>
     <?php if($this->getMode()!='grid'): ?>
     <?php $_iterator = 0; ?>
