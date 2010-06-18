@@ -24,6 +24,8 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+require_once  'Mage/Adminhtml/controllers/Catalog/SearchController.php';
+
  /**
  * Admin search controller(ajax grid)
  *
