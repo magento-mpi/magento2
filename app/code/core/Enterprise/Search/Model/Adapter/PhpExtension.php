@@ -339,6 +339,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
      */
     public function _searchSuggestions($query, $params = array(), $limit = false, $withResultsCounts = false)
     {
+
         /**
          * @see self::_search()
          */
@@ -396,19 +397,26 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             $this->ping();
             $response = $this->_client->query($solrQuery);
             $result = $this->_prepareSuggestionsQueryResponse($response->getResponse());
-            if ($limit) {
-                $result = array_slice($result, 0, $limit);
-            }
+            $resultLimit = array();
             // Calc results count for each suggestion
-            if ($withResultsCounts) {
+            if ($withResultsCounts && $limit) {
                 $tmp = $this->_lastNumFound; //Temporary store value for main search query
                 foreach ($result as $key => $item) {
                     $this->search($item['word'], $params);
-                    $result[$key]['num_results'] = $this->_lastNumFound;
+                    if ($this->_lastNumFound) {
+                        $result[$key]['num_results'] = $this->_lastNumFound;
+                        $resultLimit[]= $result[$key];
+                        $limit--;
+                    }
+                    if ($limit <= 0) {
+                        break;
+                    }
                 }
                 $this->_lastNumFound = $tmp; //Revert store value for main search query
+            } else {
+                $resultLimit = array_slice($result, 0, $limit);
             }
-            return $result;
+            return $resultLimit;
         }
         catch (Exception $e) {
             Mage::logException($e);
