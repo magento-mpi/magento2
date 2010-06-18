@@ -59,6 +59,12 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_X
         $this->addColor($fieldset, 'conf[extra][fontColors][secondary]', $this->__('Secondary Font Color'));
         $this->addColor($fieldset, 'conf[extra][fontColors][price]', $this->__('Price Font Color'));
 
+        $fieldset = $form->addFieldset('fieldAdvanced', array('legend' => $this->__('Advanced Settings')));
+        $this->_addElementTypes($fieldset);
+        $this->addColor($fieldset, 'conf[native][body][backgroundColor]', $this->__('Background Color'));
+        $this->addColor($fieldset, 'conf[native][body][scrollBackgroundColor]', $this->__('Scroll Background Color'));
+        $this->addColor($fieldset, 'conf[native][itemActions][relatedProductBackgroundColor]', $this->__('Related Product Background Color'));
+
         $fieldset = $form->addFieldset('fieldTabs', array('legend' => $this->__('Tabs')));
         $this->_addElementTypes($fieldset);
         $fieldset->addField('conf[extra][tabs]', 'tabs', array('name' => 'conf[extra][tabs]'));

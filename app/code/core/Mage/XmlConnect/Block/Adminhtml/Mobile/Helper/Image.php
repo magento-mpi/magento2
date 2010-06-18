@@ -70,5 +70,4 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Image extends Varien_Data_Fo
 
         return $html;
     }
-
 }

@@ -28,7 +28,7 @@
 <config>
     <menu>
         <mobile translate="title" module="xmlconnect">
-            <title>Mobile Apps</title>
+            <title>Mobile</title>
             <sort_order>35</sort_order>
             <action>adminhtml/mobile</action>
         </mobile>
