@@ -33,7 +33,6 @@
 ?>
 <?php
     $_itemsCount = count($this->getItems());
-    if ($_itemsCount) :
 ?>
 <h2 class="subtitle"><?php echo $this->__('Gift Registry Items') ?></h2>
 <form action="<?php echo $this->getActionUrl() ?>" method="post">
@@ -58,11 +57,13 @@
                 </tr>
             </thead>
             <tfoot>
+                <?php if ($_itemsCount): ?>
                 <tr>
                     <td colspan="50" class="a-right">
                         <button type="submit" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-update"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
                     </td>
                 </tr>
+                <?php endif; ?>
             </tfoot>
             <tbody>
                 <?php foreach($this->getItems() as $_item): ?>
@@ -73,6 +74,6 @@
         <script type="text/javascript">decorateTable('shopping-cart-table')</script>
     </fieldset>
 </form>
-<?php else: ?>
+<?php if (!$_itemsCount): ?>
     <p><?php echo $this->__('Gift Registry has no items.') ?></p>
-<?php endif ?>
+<?php endif; ?>
