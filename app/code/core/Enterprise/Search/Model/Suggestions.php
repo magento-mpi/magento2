@@ -47,8 +47,7 @@ class Enterprise_Search_Model_Suggestions
             'store_id' => $productCollection->getStoreId(),
         );
 
-        $searchEngine = Mage::helper('enterprise_search')->getSearchConfigData('engine');
-        if ($searchEngine != 'enterprise_search/engine') {
+        if (!Mage::helper('enterprise_search')->isThirdPartSearchEngine()) {
             return array();
         }
 
