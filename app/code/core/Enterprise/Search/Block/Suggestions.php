@@ -41,8 +41,7 @@ class Enterprise_Search_Block_Suggestions extends Mage_Core_Block_Template
     public function getSuggestions()
     {
         $searchSuggestionsEnabled = Mage::helper('enterprise_search')->getSolrConfigData("server_suggestion_enabled");
-        $engine = Mage::helper('enterprise_search')->getSearchConfigData('engine');
-        if ($engine != 'enterprise_search/engine' || !$searchSuggestionsEnabled) {
+        if (!Mage::helper('enterprise_search')->isThirdPartSearchEngine() || !$searchSuggestionsEnabled) {
             return array();
         }
 
