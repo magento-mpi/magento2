@@ -174,13 +174,13 @@ class Mage_Catalog_Model_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_F
         if ($currentCategory === null) {
             $currentCategory = Mage::registry('current_category');
         }
-
-        if ($currentCategory === null) {
+        if ($currentCategory !== null) {
+            $range = $currentCategory->getData('layered_navigation_price_filter_range');
+        }
+        if (empty($range)) {
             $attribute = Mage::getModel('eav/entity_attribute')
                 ->loadByCode('catalog_category', 'layered_navigation_price_filter_range');
             $range = $attribute->getDefaultValue();
-        } else {
-            $range = $currentCategory->getData('layered_navigation_price_filter_range');
         }
 
         return $range;
