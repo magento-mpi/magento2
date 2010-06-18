@@ -164,4 +164,15 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
         return $this->getUrl('*/*/customerGrid',
             array('segment_id' => Mage::registry('current_customer_segment')->getId()));
     }
+
+    /**
+     * Mock function to prevent grid row highlight
+     *
+     * @param $item
+     * @return null
+     */
+    public function getRowUrl($item)
+    {
+        return null;
+    }
 }
