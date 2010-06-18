@@ -24,8 +24,6 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-require_once  'Enterprise/Enterprise/controllers/Customer/AccountController.php';
-
 /**
  * Invitation customer account frontend controller
  *

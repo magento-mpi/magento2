@@ -31,8 +31,6 @@
  * @package     Enterprise_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-require_once  'Enterprise/Enterprise/controllers/Adminhtml/Sales/OrderController.php';
-
 class Enterprise_SalesArchive_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Sales_OrderController
 {
     /**

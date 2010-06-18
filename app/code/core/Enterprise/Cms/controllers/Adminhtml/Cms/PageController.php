@@ -32,9 +32,6 @@
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-require_once  'Enterprise/Enterprise/controllers/Adminhtml/Cms/PageController.php';
-
 class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_PageController
 {
     protected $_handles = array();
