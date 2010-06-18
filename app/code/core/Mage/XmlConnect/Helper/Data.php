@@ -62,4 +62,17 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return Mage::getModel($filterModelName);
     }
+
+    /**
+     * Exports $this->_getUrl() function to public
+     * 
+     * @param string $route
+     * @param array $params
+     * 
+     * @return array
+     */
+    public function getUrl($route, $params = array()) 
+    {
+        return $this->_getUrl($route, $params);
+    }
 }

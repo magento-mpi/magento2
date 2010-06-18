@@ -23,31 +23,15 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Model_Mysql4_Application extends Mage_Core_Model_Mysql4_Abstract
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Submission extends Mage_Adminhtml_Block_Widget_Tabs
 {
-    protected function _construct()
+    public function __construct()
     {
-        $this->_init('xmlconnect/application', 'application_id');
+        parent::__construct();
+        $this->setId('mobile_app_submit');
+        $this->setDestElementId('content');
+//        $this->setTitle(Mage::helper('xmlconnect')->__('Manage Mobile App'));
+        //$this->setTemplate('xmlconnect/tabs_left.phtml'); // FIXME
     }
 
-    /**
-     * Load application by code
-     *
-     * @param Mage_XmlConnect_Model_Application $application
-     * @param string $code
-     * @return Mage_XmlConnect_Model_Mysql4_Application
-     */
-    public function loadByCode(Mage_XmlConnect_Model_Application $application, $code)
-    {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), array($this->getIdFieldName()))
-            ->where('code=:application_code');
-
-        if ($id = $this->_getReadAdapter()->fetchOne($select, array('application_code' => $code))) {
-            $this->load($application, $id);
-        } else {
-            $application->setData(array());
-        }
-        return $this;
-    }
 }

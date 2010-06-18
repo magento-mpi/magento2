@@ -1,3 +1,5 @@
+
+
 <?php
 /**
  * Magento
@@ -32,6 +34,21 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
         $this->setShowGlobalIcon(true);
     }
 
+
+    protected function _prepareLayout()
+    {
+        $application = Mage::registry('current_app');
+
+        $block = $this->getLayout()->createBlock('adminhtml/template')
+            ->setTemplate('xmlconnect/resubmit.phtml')
+            ->setActionUrl($this->getUrl('xmlconnect/mobile/submit', array('application_id', $application->getId())))
+            ->setActionvationKey($application->getActivationKey())
+            ->setResubmissionName('conf[submit_text][resubmission_activation_key]');
+        $this->setChild('resubmit', $block);
+        parent::_prepareLayout();
+    }
+
+
     /**
      * Add image uploader to fieldset
      *
@@ -52,20 +69,102 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
         $form = new Varien_Data_Form();
         $this->setForm($form);
 
-        $fieldset = $form->addFieldset('submit1', array('legend' => $this->__('Resubmission Fields')));
-        $this->addImage($fieldset, 'conf[submit][appIcon]', 'Application Icon');
-        $this->addImage($fieldset, 'conf[submit][loaderImage]', 'Loader Splash Screen');
+        $fieldset = $form->addFieldset('submit0', array('legend' => $this->__('Submission Fields')));
+        $fieldset->addField('conf[submit_text][title]', 'text', array(
+            'name'      => 'conf[submit_text][title]',
+            'label'     => $this->__('Title'),
+            'maxlength' => '200',
+//            'required'  => true,
+
+        ));
+
+        $fieldset->addField('conf[submit_text][description]', 'textarea', array(
+            'name'      => 'conf[submit_text][description]',
+            'label'     => $this->__('Description'),
+            'maxlength' => '500',
+//            'required'  => true,
+        ));
+
+        $fieldset->addField('conf[submit_text][username]', 'text', array(
+            'name'      => 'conf[submit_text][username]',
+            'label'     => $this->__('Username'),
+            'maxlength' => '40',
+//            'required'  => true,
+        ));
+
+        $fieldset->addField('conf[submit_text][email]', 'text', array(
+            'name'      => 'conf[submit_text][email]',
+            'label'     => $this->__('Email'),
+            'class'     => 'email',
+            'maxlength' => '40',
+//            'required'  => true,
+        ));
+
+        $fieldset->addField('conf[submit_text][paypal_is_active]', 'checkbox', array(
+            'name'      => 'conf[submit_text][paypa_is_active]',
+            'label'     => $this->__('Activate paypal for this store'),
+        ));
+
+        $fieldset->addField('conf[submit_text][price]', 'text', array(
+            'name'      => 'conf[submit_text][price]',
+            'label'     => $this->__('Price'),
+            'maxlength' => '40',
+        ));
+
+        $fieldset->addField('conf[submit_text][copyright]', 'text', array(
+            'name'      => 'conf[submit_text][copyright]',
+            'label'     => $this->__('Copyright'),
+            'maxlength' => '200',
+//            'required'  => true,
+        ));
+
+        $fieldset->addField('conf[submit_text][push_notification]', 'checkbox', array(
+            'name'      => 'conf[submit_text][push_notification]',
+            'label'     => $this->__('Push Notification'),
+//            'options'   => array('-1' => 'Please Select', '1' => $this->__('Yes'), '0' => $this->__('No')),
+//            'value'     => '-1',
+
+        ));
+
+        $fieldset = $form->addFieldset('submit1', array('legend' => $this->__('Submission Fields')));
+        $this->addImage($fieldset, 'conf/submit/appIcon', 'Application Icon');
+        $this->addImage($fieldset, 'conf/submit/loaderImage', 'Loader Splash Screen');
+
+        $this->addImage($fieldset, 'conf/submit/logo', 'Logo');
+        $this->addImage($fieldset, 'conf/submit/big_logo', 'Big Logo');
 
         $fieldset = $form->addFieldset('submit2', array('legend' => $this->__('Key')));
-        $fieldset->addField('conf[submit][key]', 'text', array(
-            'name'      => 'conf[submit][key]',
+        $fieldset->addField('conf[submit_text][key]', 'text', array(
+            'name'      => 'conf[submit_text][key]',
             'label'     => $this->__('Activation Key'),
         ));
 
-        // FIXME: submit button (here!)
-
         $model = Mage::registry('current_app');
+
+        $form->setAction($this->getUrl('*/*/editPost', array('key' => $model->getId())));
+        $form->setMethod('post');
+
         $form->setValues($model->getFormData());
+        $form->setId('submit_form');
+        $form->setEnctype('multipart/form-data');
+        $form->setUseContainer(true);
+
+        // put it after $form->setValues()
+        if (!$model->getIsResubmitAction()) {
+            $fieldset->addField('submit', 'submit', array(
+                'name' => 'submit_form',
+                'label'=>$this->__('Submit'),
+                'value' => $this->__('Submit Application')
+            ));
+        } else {
+            $fieldset->addField('submit', 'submit', array(
+                'name' => 'submit_form',
+                'label'=>$this->__('Resubmit'),
+                'value' => $this->__('Resubmit Application'),
+                'onclick' =>  'resubmit(); return false;'
+            ));
+        }
+
         return parent::_prepareForm();
     }
 
@@ -118,5 +217,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
         return array(
             'image' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_image'),
         );
+
+    }
+
+    protected function _toHtml()
+    {
+        return parent::_toHtml()
+            . $this->getChildHtml('mobile_edit_tab_submission_history')
+            . $this->getChildHtml('resubmit');
     }
 }

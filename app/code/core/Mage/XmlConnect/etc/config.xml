@@ -41,6 +41,7 @@
                 <class>Mage_XmlConnect_Model_Mysql4</class>
                 <entities>
                     <application><table>xmlconnect_application</table></application>
+                    <history><table>xmlconnect_history</table></history>
                     <application_design><table>xmlconnect_application</table></application_design>
                 </entities>
             </xmlconnect_mysql4>

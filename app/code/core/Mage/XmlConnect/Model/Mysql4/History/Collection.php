@@ -23,31 +23,35 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Model_Mysql4_Application extends Mage_Core_Model_Mysql4_Abstract
+
+
+/**
+ * History resource collection
+ *
+ * @category   Mage
+ * @package    Mage_XmlConnect
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_XmlConnect_Model_Mysql4_History_Collection
+    extends Enterprise_Enterprise_Model_Core_Mysql4_Collection_Abstract
 {
+    /**
+     * Internal constructor
+     */
     protected function _construct()
     {
-        $this->_init('xmlconnect/application', 'application_id');
+        $this->_init('xmlconnect/history');
     }
 
-    /**
-     * Load application by code
-     *
-     * @param Mage_XmlConnect_Model_Application $application
-     * @param string $code
-     * @return Mage_XmlConnect_Model_Mysql4_Application
-     */
-    public function loadByCode(Mage_XmlConnect_Model_Application $application, $code)
+    public function addStoreFilter($storeId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), array($this->getIdFieldName()))
-            ->where('code=:application_code');
+        $this->addFieldToFilter('store_id', $storeId);
+        return $this;
+    }
 
-        if ($id = $this->_getReadAdapter()->fetchOne($select, array('application_code' => $code))) {
-            $this->load($application, $id);
-        } else {
-            $application->setData(array());
-        }
+    public function addApplicationFilter($applicationId)
+    {
+        $this->addFieldToFilter('application_id', $applicationId);
         return $this;
     }
 }

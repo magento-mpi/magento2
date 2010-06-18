@@ -95,6 +95,54 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     }
 
     /**
+     * Submit application
+     */
+    public function editPostAction()
+    {
+
+        $data = $this->getRequest()->getPost();
+        try {
+
+            /** @var $app Mage_XmlConnect_Model_Application */
+            $app = $this->_initApp('key');
+
+            if (!empty($_FILES)) {
+                foreach ($_FILES as $field=>$file) {
+                    if (!empty($file['name']) && is_scalar($file['name'])) {
+                        $uploadedFiles[] = $app->handleUpload($field);
+                    }
+                }
+            }
+
+            if (isset($data['conf']) && is_array($data['conf'])) {
+                $conf = $data['conf'];
+                if (isset($conf['submit_text']) && is_array($conf['submit_text'])) {
+                    $params = $conf['submit_text'];
+                }
+            }
+            $app->processPostRequest($params);
+            $history = Mage::getModel('xmlconnect/history');
+            $history->setData(array(
+                'params' => $params,
+                'application_id' => $app->getId(),
+                'created_at' => Mage::getModel('core/date')->date(),
+                'store_id' => Mage::app()->getStore()->getId()
+            ));
+            $history->save();
+            $this->_getSession()->addSuccess($this->__('Application has been submitted.'));
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect($this->getUrl('*/*/edit', array('application_id' => $app->getId())));
+        } catch (Exception $e) {
+            $this->_getSession()->addException($e, $this->__('Can\'t submit application.'));
+            Mage::logException($e);
+            $this->_redirect($this->getUrl('*/*/edit', array('application_id' => $app->getId())));
+            $this->_redirect('*/*/');
+        }
+        $this->_redirect('*/*/');
+    }
+
+    /**
      * Save action
      */
     public function saveAction()

@@ -42,11 +42,19 @@
                 </block>
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_advanced" name="mobile_edit_tab_advanced"/>
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_content" name="mobile_edit_tab_content"/>
-                <block type="xmlconnect/adminhtml_mobile_edit_tab_submission" name="mobile_edit_tab_submission"/>
+                <block type="xmlconnect/adminhtml_mobile_edit_tab_payment" name="mobile_edit_tab_payment"/>
                 <action method="addTab"><name>general_section</name><block>mobile_edit_tab_general</block></action>
                 <action method="addTab"><name>design_section</name><block>mobile_edit_tab_design</block></action>
                 <action method="addTab"><name>advanced_section</name><block>mobile_edit_tab_advanced</block></action>
                 <action method="addTab"><name>content_section</name><block>mobile_edit_tab_content</block></action>
+                <action method="addTab"><name>payment_methods</name><block>mobile_edit_tab_payment</block></action>
+<!--             </block>
+            <block type="xmlconnect/adminhtml_mobile_edit_submission" name="mobile_edit_submission">
+            -->
+                <block type="xmlconnect/adminhtml_mobile_edit_tab_submission" name="mobile_edit_tab_submission">
+                    <block type="xmlconnect/adminhtml_mobile_edit_tab_submission_history" name="mobile_edit_tab_submission_history"/>
+                    <block type="xmlconnect/adminhtml_mobile_edit_tab_submission_resubmit" name="mobile_edit_tab_submission_resubmit" template="xmlconnect/resubmit"/>
+                </block>
                 <action method="addTab"><name>submission_section</name><block>mobile_edit_tab_submission</block></action>
             </block>
         </reference>
