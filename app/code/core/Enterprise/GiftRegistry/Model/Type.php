@@ -306,7 +306,9 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
     {
         $type = $data['type'];
         $this->setCode($type['code']);
-        $this->setAttributes($data['attributes']);
+
+        $attributes = (isset($data['attributes'])) ? $data['attributes'] : null;
+        $this->setAttributes($attributes);
 
         $label = (isset($type['label'])) ? $type['label'] : null;
         $this->setLabel($label);
@@ -319,5 +321,4 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
 
         return $this;
     }
-
 }
