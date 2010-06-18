@@ -33,7 +33,7 @@ require_once  'Mage/Adminhtml/controllers/Catalog/SearchController.php';
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Catalog_SearchController
+class Enterprise_Search_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Ajax grid action
