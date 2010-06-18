@@ -51,10 +51,10 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return array
      */
-//    public function getTextFieldTypes()
-//    {
-//        return $this->_textFieldTypes;
-//    }
+    public function getTextFieldTypes()
+    {
+        return $this->_textFieldTypes;
+    }
 
     /**
      * Retrive supported by Solr languages including locale codes (language codes) that are specified in configuration
@@ -312,7 +312,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isActiveEngine()
     {
-        $engine = Mage::helper('enterprise_search')->getSearchConfigData('engine');
+        $engine = $this->getSearchConfigData('engine');
 
         if ($engine && Mage::getConfig()->getResourceModelClassName($engine)) {
             $model = Mage::getResourceSingleton($engine);
