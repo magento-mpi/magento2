@@ -41,8 +41,7 @@ class Enterprise_Search_Model_Observer
      */
     public function eavAttributeEditFormInit(Varien_Event_Observer $observer)
     {
-        $engine = Mage::helper('enterprise_search')->getSearchConfigData('engine');
-        if ($engine == 'enterprise_search/engine') {
+        if (Mage::helper('enterprise_search')->isThirdPartSearchEngine()) {
             $form      = $observer->getEvent()->getForm();
             $attribute = $observer->getEvent()->getAttribute();
             $fieldset  = $form->getElement('front_fieldset');
