@@ -199,7 +199,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $result = $this->_absPath($result);
 
         $result['updateTimeUTC'] = strtotime($this->getUpdatedAt());
-        $result['currencyCode'] = Mage::app()->getStore($this->getStoreId())->getBaseCurrencyCode();
+        $result['currencyCode'] = Mage::app()->getStore($this->getStoreId())->getDefaultCurrencyCode();
         $result['secureBaseUrl'] = Mage::getStoreConfig('web/secure/base_url', $this->getStoreId());
 
         $maxRecepients = 0;
@@ -402,13 +402,13 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $this->_getResource()->loadByCode($this, $code);
         return $this;
     }
-    
+
 
     /**
      * Send HTTP POST request to magentocommerce.com
      *
      * @param array $request
-     * 
+     *
      * @throws Exception
      */
     public function processPostRequest($params = array())
