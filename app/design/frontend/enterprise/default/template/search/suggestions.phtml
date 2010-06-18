@@ -29,7 +29,7 @@ $countResultsEnabled = $this->isCountResultsEnabled();
 $suggestions = $this->getSuggestions();
 $suggestionsCount = count($suggestions);
 if ($suggestionsCount):?>
-<div>
+<div class="recommendations">
     <?php echo $this->__('Did you mean:');?>
     <?php for($i=0; $i<$suggestionsCount; $i++) :?>
     <a href='<?php echo $suggestions[$i]['link']?>'><?php echo $suggestions[$i]['word']?></a><?php if($countResultsEnabled) :?>(<?php echo $suggestions[$i]['num_results']?>)<?php endif;?><?php if ($i != $suggestionsCount-1) echo ","?>
