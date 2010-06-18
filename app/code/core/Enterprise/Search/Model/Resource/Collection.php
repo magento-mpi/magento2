@@ -111,7 +111,7 @@ class Enterprise_Search_Model_Resource_Collection
         if (isset($this->_facetedData[$field])){
             return $this->_facetedData[$field];
         }
-        return false;
+        return array();
     }
 
     /**
