@@ -43,3 +43,6 @@
     <?php endforeach; ?>
 </dl>
 <?php endif; ?>
+<?php if ($addtInfoBlock = $this->getProductAdditionalInformationBlock()):?>
+    <?php echo $addtInfoBlock->setItem($this->getItem())->toHtml() ?>
+<?php endif;?>

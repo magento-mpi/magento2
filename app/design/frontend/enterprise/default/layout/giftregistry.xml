@@ -164,7 +164,21 @@
         <reference name="content">
             <block type="enterprise_giftregistry/customer_checkout" name="giftregistry.customer.checkout" template="giftregistry/customer/checkout/multishipping.phtml"/>
         </reference>
+        <reference name="additional.product.info">
+            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="giftregistry/cart/product/mark.phtml"/>
+        </reference>
     </checkout_multishipping_addresses>
+    
+    <checkout_multishipping_shipping>
+        <reference name="additional.product.info">
+            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="giftregistry/cart/product/mark.phtml"/>
+        </reference>
+    </checkout_multishipping_shipping>
+    <checkout_multishipping_overview>
+        <reference name="additional.product.info">
+            <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="giftregistry/cart/product/mark.phtml"/>
+        </reference>
+    </checkout_multishipping_overview>
 
     <enterprise_giftregistry_index_addselect translate="label">
         <label>Customer My Account GiftRegistry Add</label>

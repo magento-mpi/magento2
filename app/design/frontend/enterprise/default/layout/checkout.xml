@@ -207,6 +207,7 @@ Multi address shipping checkout address page
                 <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/multishipping/item/default.phtml</template></action>
             </block>
         </reference>
+        <block type="core/text_list" name="additional.product.info"/>
     </checkout_multishipping_addresses>
 
 <!--
@@ -230,6 +231,7 @@ Multi address shipping checkout shipping information
                 </block>
             </block>
         </reference>
+        <block type="core/text_list" name="additional.product.info"/>
     </checkout_multishipping_shipping>
 
 <!--
@@ -279,6 +281,7 @@ Multi address shipping checkout overview
                 <block type="core/text_list" name="checkout.multishipping.overview.items.after" as="items_after"/>
             </block>
         </reference>
+        <block type="core/text_list" name="additional.product.info"/>
     </checkout_multishipping_overview>
 
 <!--
