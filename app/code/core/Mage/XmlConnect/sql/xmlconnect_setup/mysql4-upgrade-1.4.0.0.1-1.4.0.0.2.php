@@ -39,7 +39,7 @@ CREATE TABLE `{$installer->getTable('xmlconnect_history')}` (
   KEY `FK_XMLCONNECT_HISTORY_APPLICATION` (`application_id`),
   CONSTRAINT `FK_XMLCONNECT_HISTORY_APPLICATION`
     FOREIGN KEY (`application_id`) REFERENCES `{$installer->getTable('xmlconnect_application')}` (`application_id`)
-    ON DELETE SET NULL ON UPDATE SET NULL
+     ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 ");
