@@ -62,6 +62,10 @@ class Mage_Catalog_Block_Product_View_Attributes extends Mage_Core_Block_Templat
 
                 $value = $attribute->getFrontend()->getValue($product);
 
+                if ((string)$value == '') {
+                    $value = Mage::helper('catalog')->__('No');
+                }
+
                 // TODO this is temporary skipping eco taxes
                 if (is_string($value)) {
                     if (strlen($value) && $product->hasData($attribute->getAttributeCode())) {
