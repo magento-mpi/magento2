@@ -26,22 +26,25 @@
 
 /* @var $installer Mage_XmlConnect_Model_Mysql4_Setup */
 $installer = $this;
-$installer->startSetup();
 
 $installer->run("
-CREATE TABLE `{$installer->getTable('xmlconnect_history')}` (
+CREATE TABLE `{$installer->getTable('xmlconnect/history')}` (
   `history_id` INT NOT NULL AUTO_INCREMENT,
   `application_id` SMALLINT(5) UNSIGNED NOT NULL,
   `created_at` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `store_id` SMALLINT(5) UNSIGNED DEFAULT NULL,
   `params` BLOB DEFAULT NULL,
   PRIMARY KEY (`history_id`),
-  KEY `FK_XMLCONNECT_HISTORY_APPLICATION` (`application_id`),
-  CONSTRAINT `FK_XMLCONNECT_HISTORY_APPLICATION`
-    FOREIGN KEY (`application_id`) REFERENCES `{$installer->getTable('xmlconnect_application')}` (`application_id`)
-     ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `FK_XMLCONNECT_HISTORY_APPLICATION` (`application_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
-
 ");
 
-$installer->endSetup();
+$installer->getConnection()->addConstraint(
+    'FK_XMLCONNECT_HISTORY_APPLICATION',
+    $installer->getTable('xmlconnect/history'),
+    'application_id',
+    $installer->getTable('xmlconnect/application'),
+    'application_id'
+);
+
+
