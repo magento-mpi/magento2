@@ -55,6 +55,11 @@ class Mage_XmlConnect_Model_Tabs
                 'action' => 'Home',
             ),
             array(
+                'label' => 'Shop',
+                'image' => 'tab_shop.png',
+                'action' => 'Shop',
+            ),
+            array(
                 'label' => 'Search',
                 'image' => 'tab_search.png',
                 'action' => 'Search',
@@ -73,11 +78,6 @@ class Mage_XmlConnect_Model_Tabs
                 'label' => 'More',
                 'image' => 'tab_more.png',
                 'action' => 'More',
-            ),
-            array(
-                'label' => 'Browse',
-                'image' => 'tab_home.png',
-                'action' => 'Browse',
             ),
             array(
                 'label' => 'About Us',
