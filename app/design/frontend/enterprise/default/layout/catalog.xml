@@ -77,8 +77,7 @@ Category default layout
     <catalog_category_default translate="label">
         <label>Catalog Category (Non-Anchor)</label>
         <reference name="left">
-            <remove name="catalog.leftnav"/>
-            <block type="enterprise_search/catalog_layer_view" name="enterprisecatalog.leftnav" before="-" template="catalog/layer/view.phtml"/>
+            <block type="catalog/navigation" name="catalog.leftnav" before="-" template="catalog/navigation/left.phtml"/>
         </reference>
         <reference name="breadcrumbs.container">
             <block type="catalog/category_view" name="category.title" after="breadcrumbs" template="catalog/category/title.phtml"/>
@@ -117,8 +116,7 @@ Category layered navigation layout
     <catalog_category_layered translate="label">
         <label>Catalog Category (Anchor)</label>
         <reference name="left">
-            <remove name="catalog.leftnav"/>
-            <block type="enterprise_search/catalog_layer_view" name="enterprisecatalog.leftnav" before="-" template="catalog/layer/view.phtml"/>
+            <block type="catalog/layer_view" name="catalog.leftnav" before="-" template="catalog/layer/view.phtml"/>
         </reference>
         <reference name="breadcrumbs.container">
             <block type="catalog/category_view" name="category.title" after="breadcrumbs" template="catalog/category/title.phtml"/>
