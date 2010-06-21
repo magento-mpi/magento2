@@ -29,7 +29,6 @@
         <messages>
             <block>core/messages</block>
             <placeholder>MESSAGES</placeholder>
-            <name>messages</name>
             <container>Enterprise_PageCache_Model_Container_Messages</container>
             <cache_lifetime>86400</cache_lifetime>
         </messages>
