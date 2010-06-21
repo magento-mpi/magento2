@@ -37,34 +37,12 @@
             <col width="1" />
             <col />
             <tbody>
+                <?php foreach ($this->getAttributesToDisplay() as $attributeInfo): ?>
                 <tr>
-                    <th><?php echo $this->__('Event:') ?></th>
-                    <td><?php echo $this->escapeHtml($entity->getTitle()) ?></td>
+                    <th><span class="nobr"><?php echo $attributeInfo['title'] ?></span></th>
+                    <td><?php echo $attributeInfo['value'] ?></td>
                 </tr>
-                <tr>
-                    <th><?php echo $this->__('Recipient:') ?></th>
-                    <td><?php echo $this->escapeHtml($entity->getRegistrants()) ?></td>
-                </tr>
-                <tr>
-                    <th><span class="nobr"><?php echo $this->__('Registry type:') ?></span></th>
-                    <td><?php echo $this->escapeHtml($entity->getTypeLabel()) ?></td>
-                </tr>
-                <tr>
-                    <th><span class="nobr"><?php echo $this->__('Event Date:') ?></span></th>
-                    <td><?php echo $this->getFormattedDate($entity) ?></td>
-                </tr>
-                <tr>
-                    <th><?php echo $this->__('Location:') ?></th>
-                    <td><?php echo $this->escapeHtml($entity->getEventLocation()) ?></td>
-                </tr>
-                <tr>
-                    <th><span class="nobr"><?php echo $this->__('Registry owner:') ?></span></th>
-                    <td><?php echo $this->escapeHtml($entity->getCustomer()->getName()) ?></td>
-                </tr>
-                <tr>
-                    <th><?php echo $this->__('Message:') ?></th>
-                    <td><?php echo $this->escapeHtml($entity->getMessage()) ?></td>
-                </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>

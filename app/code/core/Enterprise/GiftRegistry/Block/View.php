@@ -59,4 +59,41 @@ class Enterprise_GiftRegistry_Block_View extends Enterprise_GiftRegistry_Block_C
     {
         return ($this->getItemQty($item) - $this->getItemQtyFulfilled($item)) * 1;
     }
+
+    /**
+     * Retrieve attributes to display info array
+     *
+     * @return array
+     */
+    public function getAttributesToDisplay()
+    {
+        $attributes = array(
+            'title'          => $this->__('Event'),
+            'registrants'    => $this->__('Recipient'),
+            'created_at'     => $this->__('Event Date'),
+            'event_location' => $this->__('Location'),
+            'customer_name'  => $this->__('Registry owner'),
+            'message'        => $this->__('Message'),
+        );
+        $result = array();
+        foreach ($attributes as $attributeCode => $attributeTitle) {
+            if ($attributeCode == 'customer_name') {
+                $attributeValue = $this->getEntity()->getCustomer()->getName();
+            } else {
+                $attributeValue = $this->getEntity()->getDataUsingMethod($attributeCode);
+            }
+            if ((string)$attributeValue == '') {
+                continue;
+            }
+            if ($attributeCode == 'created_at') {
+                $attributeValue = $this->getFormattedDate($this->getEntity());
+            }
+            $attributeValue = $this->escapeHtml($attributeValue);
+            $result[] = array(
+                'title' => $attributeTitle,
+                'value' => $attributeValue
+            );
+        }
+        return $result;
+    }
 }
