@@ -205,4 +205,15 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $value;
     }
+
+    /**
+     * Return frontend registry link
+     *
+     * @param Enterprise_GiftRegistry_Model_Entity $entity
+     * @return string
+     */
+    public function getRegistryLink($entity)
+    {
+        return $this->_getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
+    }
 }

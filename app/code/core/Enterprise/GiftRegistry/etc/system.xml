@@ -53,7 +53,7 @@
                             <show_in_store>1</show_in_store>
                         </enabled>
                         <max_registrant translate="label" module="enterprise_giftregistry">
-                            <label>Max Registrants Limit</label>
+                            <label>Max Recipients Limit</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>

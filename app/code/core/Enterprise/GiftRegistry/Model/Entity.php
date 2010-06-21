@@ -179,7 +179,10 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         $translate = Mage::getSingleton('core/translate');
         $translate->setTranslateInline(false);
 
-        $store = Mage::app()->getStore($this->getStoreId());
+        if (is_null($storeId)) {
+            $storeId = $this->getStoreId();
+        }
+        $store = Mage::app()->getStore($storeId);
         $mail  = Mage::getModel('core/email_template');
 
         if (is_array($recipient)) {
@@ -197,9 +200,11 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         }
 
         $templateVars = array(
-            'store'   => $store,
+            'store' => $store,
+            'entity' => $this,
             'message' => $message,
-            'registry_link' => $this->getRegistryLink()
+            'recipient_name' => $recipientName,
+            'url' => Mage::helper('enterprise_giftregistry')->getRegistryLink($this)
         );
 
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $storeId));
@@ -230,23 +235,24 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         $translate = Mage::getSingleton('core/translate');
         $translate->setTranslateInline(false);
 
-        $customer = Mage::getModel('customer/customer')
+        $owner = Mage::getModel('customer/customer')
             ->load($this->getCustomerId());
 
-        $store = Mage::app()->getStore($customer->getStoreId());
+        $store = Mage::app()->getStore($owner->getStoreId());
         $mail = Mage::getModel('core/email_template');
 
         $templateVars = array(
-            'store'   => $store,
-            'customer' => $customer
+            'store' => $store,
+            'owner' => $owner,
+            'entity' => $this
         );
 
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $store->getId()));
         $mail->sendTransactional(
             $store->getConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE),
             $store->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY),
-            $customer->getEmail(),
-            $customer->getName(),
+            $owner->getEmail(),
+            $owner->getName(),
             $templateVars
         );
 
@@ -268,23 +274,25 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         $translate = Mage::getSingleton('core/translate');
         $translate->setTranslateInline(false);
 
-        $customer = Mage::getModel('customer/customer')
+        $owner = Mage::getModel('customer/customer')
             ->load($this->getCustomerId());
 
-        $store = Mage::app()->getStore($customer->getStoreId());
+        $store = Mage::app()->getStore($owner->getStoreId());
         $mail = Mage::getModel('core/email_template');
 
         $templateVars = array(
-            'store'   => $store,
-            'customer' => $customer
+            'store' => $store,
+            'owner' => $owner,
+            'entity' => $this,
+            'url' => Mage::helper('enterprise_giftregistry')->getRegistryLink($this)
         );
 
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $store->getId()));
         $mail->sendTransactional(
             $store->getConfig(self::XML_PATH_OWNER_EMAIL_TEMPLATE),
             $store->getConfig(self::XML_PATH_OWNER_EMAIL_IDENTITY),
-            $customer->getEmail(),
-            $customer->getName(),
+            $owner->getEmail(),
+            $owner->getName(),
             $templateVars
        );
 

@@ -208,9 +208,14 @@
             </block>
         </reference>
     </enterprise_giftregistry_index_edit>
+
     <checkout_onepage_review>
         <reference name="additional.product.info">
             <block type="enterprise_giftregistry/cart_product_mark" name="giftregistry.product.mark" template="giftregistry/cart/product/mark.phtml"/>
         </reference>
     </checkout_onepage_review>
+
+    <enterprise_giftregistry_email_entity_items>
+        <block type="core/template" name="giftregistry.email.items" template="giftregistry/email/items.phtml"></block>
+    </enterprise_giftregistry_email_entity_items>
 </layout>
