@@ -336,12 +336,11 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     public function useEngineInLayeredNavigation()
     {
         if (is_null($this->_useEngineInLayeredNavigation)) {
-            //$taxCondition = Mage::helper('tax')->getPriceTaxSql();
+            $taxCondition = Mage::helper('tax')->getPriceTaxSql('price', 'tax');
             $allowedInLayeredNavigation = Mage::helper('enterprise_search')
                 ->getSolrConfigData('server_use_in_catalog_navigation');
 
-            //if ($allowedInLayeredNavigation && !$taxCondition) {
-            if ($allowedInLayeredNavigation) {
+            if ($allowedInLayeredNavigation && !$taxCondition) {
                 $this->_useEngineInLayeredNavigation = true;
             } else {
                 $this->_useEngineInLayeredNavigation = false;

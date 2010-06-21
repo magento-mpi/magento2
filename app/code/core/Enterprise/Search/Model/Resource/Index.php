@@ -56,18 +56,18 @@ class Enterprise_Search_Model_Resource_Index
         }
 
         $fieldPrefix = $this->_engine->getFieldsPrefix();
+        $adapter = $this->_getWriteAdapter();
 
-        $categoriesExpr = new Zend_Db_Expr(
-            $this->_getWriteAdapter()->quoteInto('GROUP_CONCAT(
-                IF(is_parent = 1, category_id, \'\') SEPARATOR ?)', ' '));
-        $showInCategoriesExpr = new Zend_Db_Expr(
-            $this->_getWriteAdapter()->quoteInto('GROUP_CONCAT(
-                IF(is_parent = 0, category_id, \'\') SEPARATOR ?)', ' '));
-        $positionsExpr = new Zend_Db_Expr(
-            $this->_getWriteAdapter()->quoteInto('GROUP_CONCAT(
-                CONCAT(category_id, \'_\', position) SEPARATOR ?)', ' '));
+        $categoriesExpr = $adapter->quoteInto('GROUP_CONCAT(IF(is_parent = 1, category_id, \'\') SEPARATOR ?)', ' ');
+        $categoriesExpr = new Zend_Db_Expr($categoriesExpr);
 
-        $select = $this->_getWriteAdapter()->select()
+        $showInCategoriesExpr = $adapter->quoteInto('GROUP_CONCAT(IF(is_parent = 0, category_id, \'\') SEPARATOR ?)', ' ');
+        $showInCategoriesExpr = new Zend_Db_Expr($showInCategoriesExpr);
+
+        $positionsExpr = $adapter->quoteInto('GROUP_CONCAT(CONCAT(category_id, \'_\', position) SEPARATOR ?)', ' ');
+        $positionsExpr = new Zend_Db_Expr($positionsExpr);
+
+        $select = $adapter->select()
             ->from(
                 array($this->getTable('catalog/category_product_index')),
                 array(
@@ -81,7 +81,7 @@ class Enterprise_Search_Model_Resource_Index
             ->group('product_id');
 
         $additionalIndexData = array();
-        foreach ($this->_getWriteAdapter()->fetchAll($select) as $data) {
+        foreach ($adapter->fetchAll($select) as $data) {
             $additionalIndexData[$data['product_id']] = $data;
         }
 
@@ -92,29 +92,32 @@ class Enterprise_Search_Model_Resource_Index
             ->where('entity_id IN (?)', $productIds);
 
         $additionalPriceData = array();
-        foreach ($this->_getWriteAdapter()->fetchAll($select) as $price) {
+        foreach ($adapter->fetchAll($select) as $price) {
             $key = $fieldPrefix . 'price_' . $price['customer_group_id'] . '_' . $price['website_id'];
             $additionalPriceData[$price['entity_id']][$key] = $price['min_price'];
         }
 
         foreach ($index as &$productData) {
             $productId = $productData['entity_id'];
-            /*
-             * If there is no info about product price in
-             * catalog_product_index_price table then skip it
-             */
-            if (!isset($additionalPriceData[$productId])) {
+
+            if (isset($additionalPriceData[$productId])) {
+                $productData += $additionalPriceData[$productId];
+            }
+
+            $productData[$fieldPrefix . 'categories']           = array();
+            $productData[$fieldPrefix . 'show_in_categories']   = array();
+            $productData[$fieldPrefix . 'visibility']           = 0;
+
+            if (!isset($additionalIndexData[$productId])) {
                 continue;
             }
 
-            $productData[$fieldPrefix . 'categories'] = array();
             foreach (explode(' ', $additionalIndexData[$productId]['categories']) as $category_id) {
                 if (!empty($category_id)) {
                     $productData[$fieldPrefix . 'categories'][] = $category_id;
                 }
             }
 
-            $productData[$fieldPrefix . 'show_in_categories'] = array();
             foreach (explode(' ', $additionalIndexData[$productId]['show_in_categories']) as $category_id) {
                 if (!empty($category_id)) {
                     $productData[$fieldPrefix . 'show_in_categories'][] = $category_id;
@@ -128,7 +131,6 @@ class Enterprise_Search_Model_Resource_Index
 
             $productData[$fieldPrefix . 'visibility'] = $additionalIndexData[$productId]['visibility'];
 
-            $productData += $additionalPriceData[$productId];
         }
         unset($additionalIndexData);
         unset($additionalPriceData);
