@@ -410,10 +410,10 @@ class Enterprise_Search_Model_Resource_Collection
      * @param   Mage_Eav_Model_Entity_Collection_Abstract $categoryCollection
      * @return  Mage_Eav_Model_Entity_Collection_Abstract
      */
-    public function addCountToCategories($categoryCollection)
-    {
-        return $this;
-    }
+//    public function addCountToCategories($categoryCollection)
+//    {
+//        return $this;
+//    }
 
     /**
      * Set product visibility filter for enabled products

@@ -35,6 +35,13 @@
 class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
+     * Define if search engine is used for layered navigation
+     *
+     * @var null | bool
+     */
+    protected $_useEngineInLayeredNavigation = null;
+
+    /**
      * Defines text type fields
      * Integer attributes are saved at metadata as text because in fact they are values for
      * options of select type inputs but their values are presented as text aliases
@@ -262,9 +269,6 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
 
         if ($attribute->usesSource()) {
             $attribute->setStoreId(Mage::app()->getStore()->getId());
-//            foreach ($value as &$val) {
-//                $val = $attribute->getSource()->getOptionText($val);
-//            }
         }
 
         return array($field => $value);
@@ -322,5 +326,24 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return false;
+    }
+
+    /**
+     * Check if search engine is used for layered navigation
+     *
+     * @return bool
+     */
+    public function useEngineInLayeredNavigation()
+    {
+        if (is_null($this->_useEngineInLayeredNavigation)) {
+            if (Mage::helper('enterprise_search')
+                ->getSolrConfigData('server_use_in_catalog_navigation')) {
+                $this->_useEngineInLayeredNavigation = true;
+            } else {
+                $this->_useEngineInLayeredNavigation = false;
+            }
+        }
+
+        return $this->_useEngineInLayeredNavigation;
     }
 }
