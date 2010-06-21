@@ -48,4 +48,14 @@ class Enterprise_Search_Block_Catalogsearch_Layer extends Mage_CatalogSearch_Blo
             $this->_decimalFilterBlockName = 'enterprise_search/catalog_layer_filter_decimal';
         }
     }
+
+    /**
+     * Check availability display layer block
+     *
+     * @return bool
+     */
+    public function canShowBlock()
+    {
+        return $this->canShowOptions() || count($this->getLayer()->getState()->getFilters());
+    }
 }
