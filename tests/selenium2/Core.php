@@ -95,7 +95,7 @@ final class Core
     {
         $helperClassName = 'Helper_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', $helperName)));
 
-        if (null === self::$_helperInstances[$helperClassName]) {
+        if (!isset(self::$_helperInstances[$helperClassName])) {
             self::$_helperInstances[$helperClassName] = new $helperClassName();
         }
 
