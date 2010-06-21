@@ -112,6 +112,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->loadLayoutUpdates();
+        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('enterprise_invitation')->__('Send Invitations'));
         $this->renderLayout();
     }
 
@@ -127,6 +128,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
         if ($block = $this->getLayout()->getBlock('invitations_list')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
+        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('enterprise_invitation')->__('My Invitations'));
         $this->renderLayout();
     }
 }

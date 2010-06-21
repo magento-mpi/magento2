@@ -59,6 +59,7 @@ class Enterprise_Reward_CustomerController extends Mage_Core_Controller_Front_Ac
         Mage::register('current_reward', $this->_getReward());
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
+        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('enterprise_reward')->__('Reward Points'));
         $this->renderLayout();
     }
 

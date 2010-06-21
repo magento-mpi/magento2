@@ -69,6 +69,7 @@ class Enterprise_GiftCardAccount_CustomerController extends Mage_Core_Controller
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->loadLayoutUpdates();
+        $this->getLayout()->getBlock('head')->setTitle($this->__('Gift Card'));
         $this->renderLayout();
     }
 }

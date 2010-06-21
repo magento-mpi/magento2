@@ -200,6 +200,9 @@ class Enterprise_GiftRegistry_SearchController extends Mage_Core_Controller_Fron
     {
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
+        $this->getLayout()->getBlock('head')->setTitle(
+            Mage::helper('enterprise_giftregistry')->__('Gift Registry Search')
+        );
         $this->renderLayout();
     }
 
@@ -227,7 +230,9 @@ class Enterprise_GiftRegistry_SearchController extends Mage_Core_Controller_Fron
             $this->_redirect('*/*/index', array('_current' => true));
             return;
         }
-
+        $this->getLayout()->getBlock('head')->setTitle(
+            Mage::helper('enterprise_giftregistry')->__('Gift Registry Search')
+        );
         $this->renderLayout();
     }
 
