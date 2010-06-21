@@ -23,55 +23,56 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_Core_Block_Abstract
 {
     /**
-     * Prepare form
+     * Preparing form layout
      *
-     * @return Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form
+     * @return Mage_Core_Block_Abstract
      */
-    protected function _prepareForm()
+    protected function _prepareLayout()
     {
-        $form = new Varien_Data_Form();
+        $accordion = $this->getLayout()
+            ->createBlock('adminhtml/widget_accordion')
+            ->setId('mobile_edit_tab_design_accordion');
 
-        $fieldset = $form->addFieldset('fieldLogo', array('legend' => $this->__('Images')));
-        $this->_addElementTypes($fieldset);
-        $this->addImage($fieldset, 'conf[native][navigationBar][icon]', 'Logo in header');
-        $this->addImage($fieldset, 'conf[native][body][bannerImage]', 'Banner on Home Screen');
-        $this->addImage($fieldset, 'conf[native][body][backgroundImage]', 'Application Background');
-
-        $fieldset = $form->addFieldset('fieldColors', array('legend' => $this->__('Color Themes')));
-        $this->_addElementTypes($fieldset);
-        $fieldset->addField('conf[extra][theme]', 'theme', array(
-            'name'      => 'conf[extra][theme]',
-            'themes'    => Mage::helper('xmlconnect/data')->getThemes(),
+        $accordion->addItem('images', array(
+            'title'   => $this->__('Images'),
+            'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images,
+            'open'    => true,
         ));
-        $this->addColor($fieldset, 'conf[native][navigationBar][tintColor]', $this->__('Header Background Color'));
-        $this->addColor($fieldset, 'conf[native][body][primaryColor]', $this->__('Primary Color'));
-        $this->addColor($fieldset, 'conf[native][body][secondaryColor]', $this->__('Secondary Color'));
-        $this->addColor($fieldset, 'conf[native][categoryItem][backgroundColor]', $this->__('Category Item Background Color'));
-        $this->addColor($fieldset, 'conf[native][categoryItem][tintColor]', $this->__('Category Button Color'));
 
-        $fieldset = $form->addFieldset('fieldFonts', array('legend' => $this->__('Fonts')));
-        $this->_addElementTypes($fieldset);
-        $this->addColor($fieldset, 'conf[extra][fontColors][header]', $this->__('Header Font Color'));
-        $this->addColor($fieldset, 'conf[extra][fontColors][primary]', $this->__('Primary Font Color'));
-        $this->addColor($fieldset, 'conf[extra][fontColors][secondary]', $this->__('Secondary Font Color'));
-        $this->addColor($fieldset, 'conf[extra][fontColors][price]', $this->__('Price Font Color'));
+        $accordion->addItem('colors', array(
+            'title'   => $this->__('Color Themes'),
+            'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Colors,
+            'open'    => true,
+        ));
 
-        $fieldset = $form->addFieldset('fieldAdvanced', array('legend' => $this->__('Advanced Settings')));
-        $this->_addElementTypes($fieldset);
-        $this->addColor($fieldset, 'conf[native][body][backgroundColor]', $this->__('Background Color'));
-        $this->addColor($fieldset, 'conf[native][body][scrollBackgroundColor]', $this->__('Scroll Background Color'));
-        $this->addColor($fieldset, 'conf[native][itemActions][relatedProductBackgroundColor]', $this->__('Related Product Background Color'));
+        $accordion->addItem('fonts', array(
+            'title'   => $this->__('Fonts'),
+            'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Fonts,
+            'open'    => true,
+        ));
 
-        $fieldset = $form->addFieldset('fieldTabs', array('legend' => $this->__('Tabs')));
-        $this->_addElementTypes($fieldset);
-        $fieldset->addField('conf[extra][tabs]', 'tabs', array('name' => 'conf[extra][tabs]'));
+        $accordion->addItem('advanced', array(
+            'title'   => $this->__('Advanced Settings'),
+            'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Advanced,
+            'open'    => false,
+        ));
 
-        $model = Mage::registry('current_app');
-        $form->setValues($model->getFormData());
-        $this->setForm($form);
-        return parent::_prepareForm();
+        $accordion->addItem('tabs', array(
+            'title'   => $this->__('Tabs'),
+            'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Tabs,
+            'open'    => true,
+        ));
+
+        $this->setChild('accordion', $accordion);
+
+        return $this;
+    }
+
+    protected function _toHtml()
+    {
+        return $this->getChildHtml('accordion');
     }
 }
