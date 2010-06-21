@@ -144,6 +144,7 @@
                 <search_recommendations_enabled>1</search_recommendations_enabled>
                 <search_recommendations_count>5</search_recommendations_count>
                 <search_recommendations_count_results_enabled>1</search_recommendations_count_results_enabled>
+                <solr_server_use_in_catalog_navigation>1</solr_server_use_in_catalog_navigation>
             </search>
         </catalog>
     </default>
