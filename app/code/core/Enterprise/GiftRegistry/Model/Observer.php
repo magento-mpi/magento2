@@ -107,12 +107,38 @@ class Enterprise_GiftRegistry_Model_Observer
     }
 
     /**
+     * Hide customer address on the frontend if it is gift registry shipping address
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftRegistry_Model_Observer
+     */
+    public function addressFormatFront($observer)
+    {
+        $this->_addressFormat($observer);
+        return $this;
+    }
+
+    /**
+     * Hide customer address in admin panel if it is gift registry shipping address
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftRegistry_Model_Observer
+     */
+    public function addressFormatAdmin($observer)
+    {
+        if (Mage::getDesign()->getArea() == 'frontend') {
+            $this->_addressFormat($observer);
+        }
+        return $this;
+    }
+
+    /**
      * Hide customer address if it is gift registry shipping address
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_GiftRegistry_Model_Observer
      */
-    public function addressFormat($observer)
+    protected function _addressFormat($observer)
     {
         $type = $observer->getEvent()->getType();
         $address = $observer->getEvent()->getAddress();
