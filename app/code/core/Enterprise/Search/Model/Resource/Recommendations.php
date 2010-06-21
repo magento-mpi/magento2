@@ -33,6 +33,7 @@
  */
 class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_Mysql4_Abstract
 {
+    protected $_searchQueryModel;
     /**
      * Init main table
      *
@@ -82,7 +83,7 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
     public function getRelatedQueries($queryId, $limit = false, $order = false)
     {
         $queryIds = array();
-        $collection = Mage::getModel('catalogsearch/query')->getResourceCollection();
+        $collection = $this->_getSearchQueryModel()->getResourceCollection();
         $adapter = $this->_getReadAdapter();
         if (is_array($queryId)) {
             $queryIdCond = $adapter->quoteInto('main_table.query_id IN (?)', $queryId);
@@ -116,35 +117,81 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
      */
     public function getRecommendationsByQuery($query, $params, $searchRecommendationsCount)
     {
-        $model = Mage::getModel('catalogsearch/query');
+        $model = $this->_getSearchQueryModel();
+        $model->loadByQuery($query);
+
         if (isset($params['store_id'])) {
             $model->setStoreId($params['store_id']);
         }
         $queryWords = array($query);
         if (strpos($query, " ") !== false) {
-            $queryWords = array_merge($queryWords, explode(" ", $query));
+            $queryWords = array_unique(array_merge($queryWords, explode(" ", $query)));
         }
-        foreach ($queryWords as $word) {
-            $model->loadByQuery($word);
-            $wordTermIds[]= $model->getId();
-        }
-        $relatedQueriesIds = $this->getRelatedQueries($wordTermIds);
+        $relatedQueriesIds = $this->loadByQuery($queryWords);
 
-        $relatedQueriesIds = array_unique($relatedQueriesIds);
         $relatedQueries = array();
         if (count($relatedQueriesIds)) {
-            $collection = Mage::getModel('catalogsearch/query')
+            $collection = $model
                 ->getResourceCollection();
             $collection
                 ->addFieldToFilter("query_id", $relatedQueriesIds)
                 ->getSelect()
                     ->reset(Zend_Db_Select::COLUMNS)
                     ->columns(array('query_text', 'num_results'))
+                    ->where('main_table.num_results>0')
                     ->order("main_table.num_results DESC")
                     ->limit($searchRecommendationsCount)
             ;
             $relatedQueries = $collection->toArray();
         }
         return $relatedQueries;
+    }
+
+    /**
+     * Retrieve search terms which are started with $queryWords
+     *
+     * @param array $queryWords
+     * @return array
+     */
+    protected function loadByQuery($queryWords)
+    {
+        $adapter = $this->_getReadAdapter();
+        $model = $this->_getSearchQueryModel();
+
+        $likeCondition = array();
+        foreach ($queryWords as $word) {
+            $likeCondition[] = $adapter->quoteInto("query_text LIKE ?", $word . '%');
+        }
+        $likeCondition = implode(" OR ", $likeCondition);
+
+        $select = $adapter->select()
+            ->from($model->getResource()->getMainTable(), array(
+                'query_id'
+            ))
+            ->where(new Zend_Db_Expr($likeCondition))
+            ->where('store_id=?', $model->getStoreId())
+            ->where('query_id!=?', $model->getId())
+            ->order('query_text ASC')
+            ;
+        $ids = $adapter->fetchCol($select);
+        if (!is_array($ids)) {
+            $ids = array();
+        }
+
+        $ids = array_unique(array_merge($this->getRelatedQueries($model->getId()), $ids));
+        return $ids;
+    }
+
+    /**
+     * Retrieve search query model
+     *
+     * @return object
+     */
+    protected function _getSearchQueryModel()
+    {
+        if (!$this->_searchQueryModel) {
+            $this->_searchQueryModel = Mage::getModel('catalogsearch/query');
+        }
+        return $this->_searchQueryModel;
     }
 }
