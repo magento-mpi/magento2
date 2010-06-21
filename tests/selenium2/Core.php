@@ -25,6 +25,14 @@ final class Core
      */
     private static $_context = null;
 
+
+    /**
+     * Helper instances for their Singleton implementation
+     *
+     * @var array
+     */
+    private static $_helperInstances = array();
+
     /**
      * Must be run in the Bootstrap before any other code running
      */
@@ -86,7 +94,12 @@ final class Core
     public static function getHelper($helperName)
     {
         $helperClassName = 'Helper_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', $helperName)));
-        return $helperClassName::getInstance();
+
+        if (null === self::$_helperInstances[$helperClassName]) {
+            self::$_helperInstances[$helperClassName] = new $helperClassName();
+        }
+
+        return self::$_helperInstances[$helperClassName];
     }
 
 }

@@ -72,7 +72,7 @@ class Admin_Customer_Address_Add extends Test_Admin_Customer_Abstract
     }
 
     function testAddNewCuAddress() {
-        $this->_helper->doLogin( $this->_baseurl, $this->_username, $this->_password);
+        $this->_helper->doLogin( $this->_baseUrl, $this->_username, $this->_password);
         if ($this->_helper->delAddresses(AddrManagePanel, $this->_customerId, $this->_testId."1")) {
             if ($this->addAddress($this->_customerId, $this->_testId."1", false, false)) {
                 $this->verifyAddress($this->_customerId, $this->_testId."1", false, false);

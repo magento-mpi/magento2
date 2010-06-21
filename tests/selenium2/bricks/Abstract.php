@@ -9,13 +9,6 @@ class Helper_Abstract {
     protected $_context;
 
     /**
-     * Helper instance for Singleton implementation
-     *
-     * @var Helper_Abstract
-     */
-    protected static $_instance = null;
-
-    /**
      * UIMap container
      *
      * @var array
@@ -26,24 +19,9 @@ class Helper_Abstract {
     /**
      * Constructor
      * Initialize a TestCase context
-     * Is protected for Singleton implementation
      */
-    protected function  __construct() {
+    public function  __construct() {
         $this->_context = Core::getContext();
-    }
-
-    /**
-     * Fetch the helper instance
-     *
-     * @return Helper_Abstract
-     */
-    public static function getInstance()
-    {
-        if (null === self::$_instance) {
-            self::$_instance = new self;
-        }
-
-        return self::$_instance;
     }
 
     /**
