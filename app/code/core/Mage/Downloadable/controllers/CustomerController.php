@@ -59,6 +59,7 @@ class Mage_Downloadable_CustomerController extends Mage_Core_Controller_Front_Ac
         if ($block = $this->getLayout()->getBlock('downloadable_customer_products_list')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
+        $this->getLayout()->getBlock('head')->setTitle(Mage::helper('downloadable')->__('My Downloadable Products'));
         $this->renderLayout();
     }
 
