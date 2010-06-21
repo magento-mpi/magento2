@@ -98,6 +98,7 @@
                         <solr_server_suggestion_enabled translate="label">
                             <label>Enable Search Suggestions</label>
                             <frontend_type>select</frontend_type>
+                            <comment>Note: Enabling this option affects the perfomance.</comment>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>57</sort_order>
                             <show_in_default>1</show_in_default>
@@ -129,6 +130,7 @@
                         <search_recommendations_enabled translate="label">
                             <label>Enable Search Recommendations</label>
                             <frontend_type>select</frontend_type>
+                            <comment>Note: Enabling this option affects the perfomance.</comment>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
