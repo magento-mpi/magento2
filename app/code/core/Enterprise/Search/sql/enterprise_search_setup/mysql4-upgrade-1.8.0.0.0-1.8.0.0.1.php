@@ -54,5 +54,6 @@ $installer->getConnection()->addConstraint(
 );
 
 $installer->getConnection()->query("ALTER TABLE {$this->getTable('catalogsearch_query')} ADD KEY (num_results)");
+$installer->getConnection()->query("ALTER TABLE {$this->getTable('catalogsearch_query')} ADD KEY (query_text)");
 
 
