@@ -153,7 +153,9 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                  * If using advanced index and there is no required fields - do not add to index.
                  * Skipping out of stock products if there are no prices for them in catalog_product_index_price table
                  */
-                if ($this->_engine->allowAdvancedIndex() && !isset($productData[$this->_engine->getFieldsPrefix() . 'categories'])) {
+                if ($this->_engine->allowAdvancedIndex() && 
+                    (!isset($productData[$this->_engine->getFieldsPrefix() . 'categories']) || 
+                        empty($productData[$this->_engine->getFieldsPrefix() . 'categories']))) {
                     continue;
                 }
                 if (!isset($productAttributes[$productData['entity_id']])) {
