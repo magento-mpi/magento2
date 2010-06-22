@@ -191,7 +191,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </api_signature>
-                        <api_wizard translate="button_label">
+                        <api_wizard translate="button_label sandbox_button_label">
                             <label></label>
                             <button_label>Get Credentials from PayPal</button_label>
                             <button_url><![CDATA[https://www.paypal.com/us/cgi-bin/webscr?cmd=_login-api-run]]></button_url>
