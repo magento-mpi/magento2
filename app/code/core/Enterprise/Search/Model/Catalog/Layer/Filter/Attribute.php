@@ -40,33 +40,38 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
      */
     protected function _getItemsData()
     {
-        $attribute = $this->getAttributeModel();
-        $this->_requestVar = $attribute->getAttributeCode();
+        $useInCatalogNavigation = Mage::helper('enterprise_search')->useEngineInLayeredNavigation();
+        if ($useInCatalogNavigation) {
+            $attribute = $this->getAttributeModel();
+            $this->_requestVar = $attribute->getAttributeCode();
 
-        $fieldName = Mage::helper('enterprise_search')->getAttributeSolrFieldName($attribute);
-        $productCollection = $this->getLayer()->getProductCollection();
-        $options = $productCollection->getFacetedData($fieldName);
+            $fieldName = Mage::helper('enterprise_search')->getAttributeSolrFieldName($attribute);
+            $productCollection = $this->getLayer()->getProductCollection();
+            $options = $productCollection->getFacetedData($fieldName);
 
-        $data = array();
-        foreach ($options as $label => $count) {
-            if (Mage::helper('core/string')->strlen($label)) {
-                // Check filter type
-                if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
-                    if (!empty($count)) {
+            $data = array();
+            foreach ($options as $label => $count) {
+                if (Mage::helper('core/string')->strlen($label)) {
+                    // Check filter type
+                    if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
+                        if (!empty($count)) {
+                            $data[] = array(
+                                'label' => $label,
+                                'value' => $label,
+                                'count' => $count,
+                            );
+                        }
+                    } else {
                         $data[] = array(
                             'label' => $label,
                             'value' => $label,
-                            'count' => $count,
+                            'count' => (int) $count,
                         );
                     }
-                } else {
-                    $data[] = array(
-                        'label' => $label,
-                        'value' => $label,
-                        'count' => (int) $count,
-                    );
                 }
             }
+        } else {
+            $data = parent::_getItemsData();
         }
 
         return $data;
@@ -81,9 +86,14 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
-        $facetField = Mage::helper('enterprise_search')->getAttributeSolrFieldName($this->getAttributeModel());
-        $productCollection = $this->getLayer()->getProductCollection();
-        $productCollection->setFacetCondition($facetField);
+        $useInCatalogNavigation = Mage::helper('enterprise_search')->useEngineInLayeredNavigation();
+        if ($useInCatalogNavigation) {
+            $facetField = Mage::helper('enterprise_search')->getAttributeSolrFieldName($this->getAttributeModel());
+            $productCollection = $this->getLayer()->getProductCollection();
+            $productCollection->setFacetCondition($facetField);
+        } else {
+            parent::apply($request, $filterBlock);
+        }
 
         $filter = $request->getParam($this->_requestVar);
         if (is_array($filter)) {
@@ -93,7 +103,9 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         if ($filter) {
             $text = $this->_getOptionText($filter);
             $this->applyFilterToCollection($this, $filter);
-            $this->getLayer()->getState()->addFilter($this->_createItem($filter, $filter));
+            if ($useInCatalogNavigation) {
+                $this->getLayer()->getState()->addFilter($this->_createItem($filter, $filter));
+            }
             $this->_items = array();
         }
 
