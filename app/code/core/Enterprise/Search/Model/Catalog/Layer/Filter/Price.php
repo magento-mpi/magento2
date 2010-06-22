@@ -34,37 +34,44 @@
 class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Filter_Price
 {
     /**
-     * Get information about products count in range
+     * Get facet field name based on current website and customer group
      *
-     * @param   int $range
-     * @return  int
+     * @return string
      */
-    public function getRangeItemCounts($range)
+    protected function _getFilterField()
     {
-        $rangeKey = 'range_item_counts_' . $range;
-        $items = $this->getData($rangeKey);
-        if (is_null($items)) {
-            $websiteId       = Mage::app()->getStore()->getWebsiteId();
-            $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-            $priceField      = 'price_'. $customerGroupId .'_'. $websiteId;
+        $websiteId       = Mage::app()->getStore()->getWebsiteId();
+        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+        $priceField      = 'price_'. $customerGroupId .'_'. $websiteId;
+        return $priceField;
+    }
 
-            $productCollection = $this->getLayer()->getProductCollection();
-            $facets = $productCollection->getFacetedData($priceField);
+    /**
+     * Get data for build price filter items
+     *
+     * @return array
+     */
+    protected function _getItemsData()
+    {
+        $range      = $this->getPriceRange();
+        $facets = $this->getLayer()->getProductCollection()->getFacetedData($this->_getFilterField());
 
-            $res = array();
-            if (!empty($facets)) {
-                foreach ($facets as $key => $count) {
-                    preg_match('/TO ([\d\.]+)\]$/', $key, $rangeKey);
-                    $rangeKey = $rangeKey[1] / $range;
-                    if ($count > 0) {
-                        $res[round($rangeKey)] = $count;
-                    }
+        $data = array();
+        if (!empty($facets)) {
+            foreach ($facets as $key => $count) {
+                preg_match('/TO ([\d\.]+)\]$/', $key, $rangeKey);
+                $rangeKey = $rangeKey[1] / $range;
+                if ($count > 0) {
+                    $rangeKey = round($rangeKey);
+                    $data[] = array(
+                        'label' => $this->_renderItemLabel($range, $rangeKey),
+                        'value' => $rangeKey . ',' . $range,
+                        'count' => $count,
+                    );
                 }
             }
-            $items = $res;
-            $this->setData($rangeKey, $items);
         }
-        return $items;
+        return $data;
     }
 
     /**
@@ -89,68 +96,26 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
             );
         }
 
-        $websiteId       = Mage::app()->getStore()->getWebsiteId();
-        $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-        $priceField      = 'price_'. $customerGroupId .'_'. $websiteId;
-
-        $productCollection = $this->getLayer()->getProductCollection();
-        $productCollection->setFacetCondition($priceField, $priceFacets);
-
-        /**
-         * Filter must be string: $index,$range
-         */
-        $filter = $request->getParam($this->getRequestVar());
-
-        if (!$filter) {
-            return $this;
-        }
-
-        $filter = explode(',', $filter);
-        if (count($filter) != 2) {
-            return $this;
-        }
-
-        list($index, $range) = $filter;
-
-        if ((int)$index && (int)$range) {
-            $this->setPriceRange((int)$range);
-
-            $this->applyFilterToCollection($this, $range, $index);
-
-            $this->getLayer()->getState()->addFilter(
-                $this->_createItem($this->_renderItemLabel($range, $index), $filter)
-            );
-            $this->_items = array();
-        }
-
-        return $this;
+        $this->getLayer()->getProductCollection()->setFacetCondition($this->_getFilterField(), $priceFacets);
+        return parent::apply($request, $filterBlock);
     }
 
     /**
-     * Apply attribute filter to product collection
+     * Apply filter value to product collection based on filter range and selected value
      *
-     * @param Mage_Catalog_Model_Layer_Filter_Price $filter
      * @param int $range
-     * @param int $index    the range factor
-     *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Layer_Filter_Attribute
+     * @param int $index
+     * @return Mage_Catalog_Model_Layer_Filter_Price
      */
-    public function applyFilterToCollection($filter, $range, $index)
+    protected function _applyToCollection($range, $index)
     {
-        $productCollection = $filter->getLayer()->getProductCollection();
-        $attribute         = $filter->getAttributeModel();
-        $websiteId         = Mage::app()->getStore()->getWebsiteId();
-        $customerGroupId   = Mage::getSingleton('customer/session')->getCustomerGroupId();
-        $priceField        = 'price_'. $customerGroupId .'_'. $websiteId;
-
         $value = array(
-            $priceField => array(
+            $this->_getFilterField() => array(
                 'from' => ($range * ($index - 1)),
                 'to'   => $range * $index - 0.001
             )
         );
-
-        $productCollection->addFqFilter($value);
+        $this->getLayer()->getProductCollection()->addFqFilter($value);
         return $this;
     }
 }

@@ -25,26 +25,12 @@
  */
 
 $installer = $this;
-$range = 100;
-/* @var $installer Mage_Eav_Model_Entity_Setup */
-$installer->addAttribute('catalog_category', 'layered_navigation_price_filter_range', array(
-        'group'             => 'Display Settings',
-        'type'              => 'int',
-        'label'             => 'Layered Navigation Price Filter Range',
-        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-        'visible'           => true,
-        'required'          => false,
-        'default'           => $range,
-        'sort_order'        => 60,
+$installer->addAttribute('catalog_category', 'filter_price_range', array(
+    'group'         => 'Display Settings',
+    'type'          => 'int',
+    'label'         => 'Layered Navigation Price Step',
+    'required'      => false,
+    'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+    'visible'       => 1,
+    'input_renderer'=> 'adminhtml/catalog_category_helper_pricestep',
 ));
-$attribute = $installer->getAttribute('catalog_category', 'layered_navigation_price_filter_range');
-
-$installer->getConnection()
-    ->query("
-        INSERT IGNORE INTO {$installer->getTable('catalog_category_entity_int')} (entity_type_id, attribute_id, entity_id, value)
-        SELECT {$attribute['entity_type_id']}, {$attribute['attribute_id']}, entity_id, {$range}
-        FROM {$installer->getTable('catalog_category_entity')}
-    ")
-;
-
-

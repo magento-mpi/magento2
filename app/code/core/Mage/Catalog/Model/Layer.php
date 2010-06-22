@@ -98,19 +98,10 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     {
         if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
-        }
-        else {
-            $engine = Mage::helper('catalogsearch')->getEngine();
-            $currentCategory = $this->getCurrentCategory();
-
-            $collection = $engine->getResultCollection();
-            $collection
-                ->setStoreId($currentCategory->getStoreId())
-                ->addCategoryFilter($currentCategory)
-                ;
-            //$collection = $this->getCurrentCategory()->getProductCollection();
+        } else {
+            $collection = $this->getCurrentCategory()->getProductCollection();
             $this->prepareProductCollection($collection);
-            $this->_productCollections[$currentCategory->getId()] = $collection;
+            $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
         }
 
         return $collection;
@@ -125,9 +116,7 @@ class Mage_Catalog_Model_Layer extends Varien_Object
     public function prepareProductCollection($collection)
     {
         $collection
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')
-                ->getProductAttributes())
-            ->setGeneralDefoultQuery()
+            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()

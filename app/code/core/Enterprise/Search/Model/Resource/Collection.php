@@ -129,8 +129,7 @@ class Enterprise_Search_Model_Resource_Collection
                 $this->_facetedConditions[$field] = array($this->_facetedConditions[$field]);
             }
             $this->_facetedConditions[$field][] = $condition;
-        }
-        else {
+        } else {
             $this->_facetedConditions[$field] = $condition;
         }
 
@@ -166,8 +165,7 @@ class Enterprise_Search_Model_Resource_Collection
             foreach ($param as $field => $value) {
                 $this->addSearchParam($field, $value);
             }
-        }
-        elseif (!empty($value)) {
+        } elseif (!empty($value)) {
             $this->_searchQueryParams[$param] = $value;
         }
 
@@ -188,13 +186,11 @@ class Enterprise_Search_Model_Resource_Collection
             foreach ($param as $field => $value) {
                 $this->addSearchQfFilter($field, $value);
             }
-        }
-        elseif (isset($value)) {
+        } elseif (isset($value)) {
             if (isset($this->_searchQueryFilters[$param]) && !is_array($this->_searchQueryFilters[$param])) {
                 $this->_searchQueryFilters[$param] = array($this->_searchQueryFilters[$param]);
                 $this->_searchQueryFilters[$param][] = $value;
-            }
-            else {
+            } else {
                 $this->_searchQueryFilters[$param] = $value;
             }
         }
@@ -271,8 +267,7 @@ class Enterprise_Search_Model_Resource_Collection
             if (!empty($this->_searchQueryParams)) {
                 $params['ignore_handler'] = true;
                 $query = $this->_searchQueryParams;
-            }
-            else {
+            } else {
                 $query = $this->_searchQueryText;
             }
 
@@ -330,8 +325,7 @@ class Enterprise_Search_Model_Resource_Collection
             if (!empty($this->_searchQueryParams)) {
                 $params['ignore_handler'] = true;
                 $query = $this->_searchQueryParams;
-            }
-            else {
+            } else {
                 $query = $this->_searchQueryText;
             }
             $params['filters'] = $this->_searchQueryFilters;

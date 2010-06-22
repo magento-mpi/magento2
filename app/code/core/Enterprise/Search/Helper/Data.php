@@ -309,11 +309,9 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         } elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;
         } elseif (in_array($backendType, $this->_textFieldTypes)) {
-            $languageCode = $this->getLanguageCodeByLocaleCode(
-                Mage::app()->getStore()
-                ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE));
+            $locale = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+            $languageCode = $this->getLanguageCodeByLocaleCode($locale);
             $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
-
             $field .= $languageSuffix;
         }
 

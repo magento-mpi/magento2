@@ -56,7 +56,7 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
     protected function _getProductCollection()
     {
         if (is_null($this->_productCollection)) {
-            $layer = Mage::getSingleton('catalog/layer');
+            $layer = $this->getLayer();
             /* @var $layer Mage_Catalog_Model_Layer */
             if ($this->getShowRootCategory()) {
                 $this->setCategoryId(Mage::app()->getStore()->getRootCategoryId());
@@ -93,6 +93,20 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
         }
 
         return $this->_productCollection;
+    }
+
+    /**
+     * Get catalog layer model
+     *
+     * @return Mage_Catalog_Model_Layer
+     */
+    public function getLayer()
+    {
+        $layer = Mage::registry('current_layer');
+        if ($layer) {
+            return $layer;
+        }
+        return Mage::getSingleton('catalog/layer');
     }
 
     /**

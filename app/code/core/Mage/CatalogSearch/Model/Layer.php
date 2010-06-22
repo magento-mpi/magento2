@@ -37,15 +37,11 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
     {
         if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
-        }
-        else {
-            $engine = Mage::helper('catalogsearch')->getEngine();
-            $collection = $engine->getResultCollection();
-
+        } else {
+            $collection = Mage::getResourceModel('catalogsearch/fulltext_collection');
             $this->prepareProductCollection($collection);
             $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
         }
-
         return $collection;
     }
 
@@ -58,8 +54,7 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
     public function prepareProductCollection($collection)
     {
         $collection
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')
-                ->getProductAttributes())
+            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
             ->addSearchFilter(Mage::helper('catalogsearch')->getQuery()->getQueryText())
             ->setStore(Mage::app()->getStore())
             ->addMinimalPrice()
@@ -109,7 +104,8 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
      */
     protected function _prepareAttributeCollection($collection)
     {
-        $collection->addIsFilterableInSearchFilter();
+        $collection->addIsFilterableInSearchFilter()
+            ->addVisibleFilter();
         return $collection;
     }
 

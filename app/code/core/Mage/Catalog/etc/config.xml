@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.4.0.0.30</version>
+            <version>1.4.0.0.31</version>
         </Mage_Catalog>
     </modules>
 
@@ -744,6 +744,10 @@
                 <time_format>12h</time_format>
                 <forbidden_extensions>php,exe</forbidden_extensions>
             </custom_options>
+            <layered_navigation>
+                <price_range_calculation>auto</price_range_calculation>
+                <price_range_step>100</price_range_step>
+            </layered_navigation>
 <!--
             <layer>
                 <configurable_children>1</configurable_children>

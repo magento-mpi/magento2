@@ -57,4 +57,18 @@ class Enterprise_Search_Block_Catalogsearch_Layer extends Mage_CatalogSearch_Blo
     {
         return $this->canShowOptions() || count($this->getLayer()->getState()->getFilters());
     }
+
+    /**
+     * Get layer object
+     *
+     * @return Mage_Catalog_Model_Layer
+     */
+    public function getLayer()
+    {
+        if (Mage::helper('enterprise_search')->isActiveEngine()) {
+            return Mage::getSingleton('enterprise_search/search_layer');
+        }
+        return parent::getLayer();
+    }
+
 }
