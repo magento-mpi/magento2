@@ -45,7 +45,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
 
         if ($useInCatalogNavigation) {
             $key = $this->getLayer()->getStateKey().'_SUBCATEGORIES';
-            $data = $this->getLayer()->getAggregator()->getCacheData($key);
+            $data = $this->getLayer()->getCacheData($key);
 
             if ($data === null) {
                 $category   = $this->getCategory();
