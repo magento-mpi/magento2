@@ -101,11 +101,16 @@ class Mage_Catalog_Model_Layer extends Varien_Object
         }
         else {
             $engine = Mage::helper('catalogsearch')->getEngine();
-            $collection = $engine->getResultCollection();
+            $currentCategory = $this->getCurrentCategory();
 
+            $collection = $engine->getResultCollection();
+            $collection
+                ->setStoreId($currentCategory->getStoreId())
+                ->addCategoryFilter($currentCategory)
+                ;
             //$collection = $this->getCurrentCategory()->getProductCollection();
             $this->prepareProductCollection($collection);
-            $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
+            $this->_productCollections[$currentCategory->getId()] = $collection;
         }
 
         return $collection;
