@@ -914,7 +914,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         $transactionId = $this->getTransactionId();
         if (null !== $transactionId) {
             // set transaction parameters
-            $transaction = $this->_lookupTransaction($transactionId);
+            $transaction = false;
+            if ($this->getOrder()->getId()) {
+                $transaction = $this->_lookupTransaction($transactionId);
+            }
             if (!$transaction) {
                 $transaction = Mage::getModel('sales/order_payment_transaction')->setTxnId($transactionId);
             }
