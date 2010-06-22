@@ -403,11 +403,11 @@ Varien.DateElement.prototype = {
     initialize: function(type, content, required, format) {
         if (type == 'id') {
             // id prefix
-            this.day    = $(content + '_day');
-            this.month  = $(content + '_month');
-            this.year   = $(content + '_year');
-            this.full   = $(content + '_full');
-            this.advice = $(content + '_advice');
+            this.day    = $(content + 'day');
+            this.month  = $(content + 'month');
+            this.year   = $(content + 'year');
+            this.full   = $(content + 'full');
+            this.advice = $(content + 'advice');
         } else if (type == 'container') {
             // content must be container with data
             this.day    = content.day;
@@ -418,7 +418,7 @@ Varien.DateElement.prototype = {
         } else {
             return;
         }
-        
+
         this.required = required;
         this.format   = format;
         
@@ -485,9 +485,9 @@ Varien.DateElement.prototype = {
 Varien.DOB = Class.create();
 Varien.DOB.prototype = {
     initialize: function(selector, required, format) {
-        var el = $$(selector)[0];    
+        var el = $$(selector)[0];
         var container       = {};
-        container.day       = Element.select(el, '.dob-day input')[0];;
+        container.day       = Element.select(el, '.dob-day input')[0];
         container.month     = Element.select(el, '.dob-month input')[0];
         container.year      = Element.select(el, '.dob-year input')[0];
         container.full      = Element.select(el, '.dob-full input')[0];
