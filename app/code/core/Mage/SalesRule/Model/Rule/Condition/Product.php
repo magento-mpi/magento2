@@ -47,8 +47,8 @@ class Mage_SalesRule_Model_Rule_Condition_Product extends Mage_CatalogRule_Model
         $product = Mage::getModel('catalog/product')
             ->load($object->getProductId())
             ->setQuoteItemQty($object->getQty())
-            ->setQuoteItemPrice($object->getPrice())
-            ->setQuoteItemRowTotal($object->getRowTotal());
+            ->setQuoteItemPrice($object->getPrice()) // possible bug: need to use $object->getBasePrice()
+            ->setQuoteItemRowTotal($object->getBaseRowTotal());
 
         return parent::validate($product);
     }
