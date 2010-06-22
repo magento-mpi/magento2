@@ -42,6 +42,13 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_useEngineInLayeredNavigation = null;
 
     /**
+     * Store languag codes for local code
+     *
+     * @var null | string
+     */
+    protected $_languageCode = null;
+
+    /**
      * Defines text type fields
      * Integer attributes are saved at metadata as text because in fact they are values for
      * options of select type inputs but their values are presented as text aliases
@@ -197,24 +204,28 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getLanguageCodeByLocaleCode($localeCode)
     {
-        $localeCode = (string)$localeCode;
-        if (!$localeCode) {
-            return false;
-        }
+        if (is_null($this->_languageCode)) {
+            $localeCode = (string)$localeCode;
+            if (!$localeCode) {
+                return false;
+            }
 
-        $languages = $this->getSolrSupportedLanguages();
-        foreach ($languages as $code => $locales) {
-            if (is_array($locales)) {
-                if (in_array($localeCode, $locales)) {
-                    return $code;
+            $languages = $this->getSolrSupportedLanguages();
+            foreach ($languages as $code => $locales) {
+                if (is_array($locales)) {
+                    if (in_array($localeCode, $locales)) {
+                        $this->_languageCode = $code;
+                    }
+                }
+                elseif ($localeCode == $locales) {
+                    $this->_languageCode = $code;
                 }
             }
-            elseif ($localeCode == $locales) {
-                return $code;
-            }
+
+            $this->_languageCode = false;
         }
 
-        return false;
+        return $this->_languageCode;
     }
 
     /**

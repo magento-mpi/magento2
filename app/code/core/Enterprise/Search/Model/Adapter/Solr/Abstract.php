@@ -73,22 +73,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      */
     protected function _getLanguageCodeByLocaleCode($localeCode)
     {
-        $localeCode = (string)$localeCode;
-        if (!$localeCode) {
-            return false;
-        }
-        $languages = Mage::helper('enterprise_search')->getSolrSupportedLanguages();
-        foreach ($languages as $code => $locales) {
-            if (is_array($locales)) {
-                if (in_array($localeCode, $locales)) {
-                    return $code;
-                }
-            } elseif ($localeCode == $locales) {
-                return $code;
-            }
-        }
-
-        return false;
+        return Mage::helper('enterprise_search')->getLanguageCodeByLocaleCode($localeCode);
     }
 
     /**
