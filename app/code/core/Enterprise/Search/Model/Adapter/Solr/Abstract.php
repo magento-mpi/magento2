@@ -168,7 +168,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 }
                 $data['attr_multi_'. $key] = $value;
                 unset($data[$key]);
-            } elseif ($frontendInput == 'select') {
+            } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
                 if (is_array($value)) {
                     $value = implode(' ', array_unique($value));
                 }
@@ -285,7 +285,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
 
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
-        } elseif ($frontendInput == 'select') {
+        } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
             $field = 'attr_select_'. $field;
         } elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;

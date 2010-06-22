@@ -244,7 +244,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
             $field = 'attr_multi_'. $field;
         } elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;
-        } elseif ($frontendInput == 'select') {
+        } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
             $field = 'attr_select_'. $field;
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
@@ -293,7 +293,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
 
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
-        } elseif ($frontendInput == 'select') {
+        } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
             $field = 'attr_select_'. $field;
         } elseif ($backendType == 'decimal') {
             $field = 'attr_decimal_'. $field;
