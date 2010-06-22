@@ -33,34 +33,36 @@ class Enterprise_GiftRegistry_Model_Source_Search
      * Quick search form types
      */
     const SEARCH_ALL_FORM   = 'all';
-    const SEARCH_TYPE_FORM  = 'type';
+    const SEARCH_NAME_FORM  = 'name';
     const SEARCH_EMAIL_FORM = 'email';
     const SEARCH_ID_FORM    = 'id';
 
     /**
-     * Return form types as option array
+     * Return search form types as option array
      *
      * @return array
      */
     public function toOptionArray()
     {
+        $result = array();
+        foreach ($this->getTypes() as $key => $label) {
+            $result[] = array('value' => $key, 'label' => $label);
+        }
+        return $result;
+    }
+
+    /**
+     * Return array of search form types
+     *
+     * @return array
+     */
+    public function getTypes()
+    {
         return array(
-            array(
-                'value' => self::SEARCH_ALL_FORM,
-                'label' => Mage::helper('enterprise_giftregistry')->__('All Forms')
-            ),
-            array(
-                'value' => self::SEARCH_TYPE_FORM,
-                'label' => Mage::helper('enterprise_giftregistry')->__('Recipient Name/Registry Type Search')
-            ),
-            array(
-                'value' => self::SEARCH_EMAIL_FORM,
-                'label' => Mage::helper('enterprise_giftregistry')->__('Recipient Email Search')
-            ),
-            array(
-                'value' => self::SEARCH_ID_FORM,
-                'label' => Mage::helper('enterprise_giftregistry')->__('Gift Registry ID Search')
-            )
+            self::SEARCH_ALL_FORM => Mage::helper('enterprise_giftregistry')->__('All Forms'),
+            self::SEARCH_NAME_FORM => Mage::helper('enterprise_giftregistry')->__('Recipient Name Search'),
+            self::SEARCH_EMAIL_FORM => Mage::helper('enterprise_giftregistry')->__('Recipient Email Search'),
+            self::SEARCH_ID_FORM => Mage::helper('enterprise_giftregistry')->__('Gift Registry ID Search')
         );
     }
 }

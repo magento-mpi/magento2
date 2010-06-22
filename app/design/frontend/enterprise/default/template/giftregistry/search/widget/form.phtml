@@ -32,19 +32,16 @@
         <strong><span><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry Search') ?></span></strong>
     </div>
     <div class="block-content">
+        <?php if ($this->useSearchFormSelect()) : ?>
         <ul class="form-alt">
             <li>
                 <label for="search_by" class="required"><strong><?php echo Mage::helper('enterprise_giftregistry')->__('Search By'); ?></strong> <em>*</em></label>
                 <div class="input-box">
-                    <select id="search_by">
-                        <option value=""><?php echo Mage::helper('enterprise_giftregistry')->__('Select Search Type'); ?></option>
-                        <option value="name"><?php echo Mage::helper('enterprise_giftregistry')->__('Recipient Name'); ?></option>
-                        <option value="email"><?php echo Mage::helper('enterprise_giftregistry')->__('Recipient Email'); ?></option>
-                        <option value="id"><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry ID'); ?></option>
-                    </select>
+                    <?php echo $this->getSearchFormSelect() ?>
                 </div>
             </li>
         </ul>
+        <?php endif;?>
 
         <script type="text/javascript">
         //<![CDATA[
@@ -58,24 +55,26 @@
                     $(formId).show();
                 }
             }
-            Event.observe(searchType, 'change', showForm);
+            if (searchType) {
+                Event.observe(searchType, 'change', showForm);
+            }
         //]]>
         </script>
 
-<?php if ($this->useTypeForm()) : ?>
-    <form id="gr-quick-search-widget-name-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="search-form" style="display:none;">
+<?php if ($this->useNameForm()) : ?>
+    <form id="gr-quick-search-widget-name-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="search-form" <?php if ($this->useSearchFormSelect()) : ?>style="display:none;"<?php endif;?>>
         <ul class="form-alt">
             <li>
                 <?php echo $this->getBlockHtml('formkey')?>
-                <label for="params_firstname" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('First Name') ?> <em>*</em></label>
+                <label for="quick_search_firstname" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('First Name') ?> <em>*</em></label>
                 <div class="input-box">
-                    <input type="text" class="input-text required-entry validate-name-length" id="params_firstname" name="params[firstname]" />
+                    <input type="text" class="input-text required-entry validate-name-length" id="quick_search_firstname" name="params[firstname]" />
                 </div>
             </li>
             <li>
-                <label for="params_lastname" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('Last Name') ?> <em>*</em></label>
+                <label for="quick_search_lastname" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('Last Name') ?> <em>*</em></label>
                 <div class="input-box">
-                    <input type="text" class="input-text required-entry validate-name-length" id="params_lastname" name="params[lastname]" />
+                    <input type="text" class="input-text required-entry validate-name-length" id="quick_search_lastname" name="params[lastname]" />
                 </div>
             </li>
             <li>
@@ -103,13 +102,13 @@
 <?php endif; ?>
 
 <?php if ($this->useEmailForm()) : ?>
-    <form id="gr-quick-search-widget-email-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="search-form" style="display:none;">
+    <form id="gr-quick-search-widget-email-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="search-form" <?php if ($this->useSearchFormSelect()) : ?>style="display:none;"<?php endif;?>>
         <ul class="form-alt">
             <li>
                 <?php echo $this->getBlockHtml('formkey')?>
-                <label for="params_email" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('Recipient Email') ?> <em>*</em></label>
+                <label for="quick_search_email" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('Recipient Email') ?> <em>*</em></label>
                 <div class="input-box">
-                    <input type="text" class="input-text required-entry validate-email" id="params_email" name="params[email]" />
+                    <input type="text" class="input-text required-entry validate-email" id="quick_search_email" name="params[email]" />
                 </div>
             </li>
         </ul>
@@ -126,13 +125,13 @@
 <?php endif; ?>
 
 <?php if ($this->useIdForm()) : ?>
-    <form id="gr-quick-search-widget-id-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="search-form" style="display:none;">
+    <form id="gr-quick-search-widget-id-form" action="<?php echo $this->getActionUrl() ?>" method="post" class="search-form" <?php if ($this->useSearchFormSelect()) : ?>style="display:none;"<?php endif;?>>
         <ul class="form-alt">
             <li>
                 <?php echo $this->getBlockHtml('formkey')?>
-                <label for="params_id" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry ID') ?> <em>*</em></label>
+                <label for="quick_search_id" class="required"><?php echo Mage::helper('enterprise_giftregistry')->__('Gift Registry ID') ?> <em>*</em></label>
                 <div class="input-box">
-                    <input type="text" class="input-text required-entry" id="params_id" name="params[id]" />
+                    <input type="text" class="input-text required-entry" id="quick_search_id" name="params[id]" />
                 </div>
             </li>
         </ul>

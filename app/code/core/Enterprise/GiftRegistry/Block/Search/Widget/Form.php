@@ -35,6 +35,11 @@ class Enterprise_GiftRegistry_Block_Search_Widget_Form
     implements Mage_Widget_Block_Interface
 {
     /**
+     * Search form select options
+     */
+    protected $_selectOptions;
+
+    /**
      * Make form types getter always return array
      *
      * @return array
@@ -58,7 +63,7 @@ class Enterprise_GiftRegistry_Block_Search_Widget_Form
     /**
      * Check if specified form must be available as part of quick search form
      *
-     * @return string
+     * @return bool
      */
     protected function _checkForm($code)
     {
@@ -68,7 +73,7 @@ class Enterprise_GiftRegistry_Block_Search_Widget_Form
     /**
      * Check if all quick search forms must be used
      *
-     * @return string
+     * @return bool
      */
     public function useAllForms()
     {
@@ -77,13 +82,13 @@ class Enterprise_GiftRegistry_Block_Search_Widget_Form
     }
 
     /**
-     * Check if type quick search form must be used
+     * Check if name quick search form must be used
      *
-     * @return string
+     * @return bool
      */
-    public function useTypeForm()
+    public function useNameForm()
     {
-        $code = Enterprise_GiftRegistry_Model_Source_Search::SEARCH_TYPE_FORM;
+        $code = Enterprise_GiftRegistry_Model_Source_Search::SEARCH_NAME_FORM;
         return $this->useAllForms() || $this->_checkForm($code);
     }
 
@@ -101,11 +106,78 @@ class Enterprise_GiftRegistry_Block_Search_Widget_Form
     /**
      * Check if id quick search form must be used
      *
-     * @return string
+     * @return bool
      */
     public function useIdForm()
     {
         $code = Enterprise_GiftRegistry_Model_Source_Search::SEARCH_ID_FORM;
         return $this->useAllForms() || $this->_checkForm($code);
+    }
+
+    /**
+     * Retrieve HTML for search form select
+     *
+     * @return string
+     */
+    public function getSearchFormSelect()
+    {
+        $options = array_merge(array(
+            array(
+                'value' => '',
+                'label' => Mage::helper('enterprise_giftregistry')->__('Select Search Type'))
+            ),
+            $this->getSearchFormOptions()
+        );
+
+        $select = $this->getLayout()->createBlock('core/html_select')
+            ->setName('search_by')
+            ->setId('search_by')
+            ->setOptions($options);
+
+        return $select->getHtml();
+    }
+
+    /**
+     * Retrieve options for search form select
+     *
+     * @param bool $withEmpty
+     * @return array
+     */
+    public function getSearchFormOptions()
+    {
+        if (is_null($this->_selectOptions)) {
+            $allForms = Mage::getSingleton('enterprise_giftregistry/source_search')->getTypes();
+            $useForms = $this->_getFormTypes();
+            $codeAll = Enterprise_GiftRegistry_Model_Source_Search::SEARCH_ALL_FORM;
+
+            if (in_array($codeAll, $useForms)) {
+                unset($allForms[$codeAll]);
+            } else {
+                 foreach ($allForms as $type => $label) {
+                     if (!in_array($type, $useForms)) {
+                         unset($allForms[$type]);
+                    }
+                }
+            }
+            $options = array();
+            foreach ($allForms as $type => $label) {
+                $options[] = array(
+                    'value' => $type,
+                    'label' => $label
+                );
+            }
+            $this->_selectOptions = $options;
+        }
+        return $this->_selectOptions;
+    }
+
+    /**
+     * Use search form select in quick search form
+     *
+     * @return array
+     */
+    public function useSearchFormSelect()
+    {
+        return count($this->getSearchFormOptions()) > 1;
     }
 }
