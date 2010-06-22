@@ -58,9 +58,10 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
         if ($block = $this->getLayout()->getBlock('giftregistry_list')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
-        $this->getLayout()->getBlock('head')->setTitle(
-            Mage::helper('enterprise_giftregistry')->__('Gift Registry')
-        );
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
+            $headBlock->setTitle(Mage::helper('enterprise_giftregistry')->__('Gift Registry'));
+        }
         $this->renderLayout();
     }
 
@@ -182,9 +183,10 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
         $this->_initLayoutMessages('customer/session');
         $this->getLayout()->getBlock('giftregistry.customer.share')
             ->setEntity($this->_initEntity());
-        $this->getLayout()->getBlock('head')->setTitle(
-            Mage::helper('enterprise_giftregistry')->__('Share Gift Registry')
-        );
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
+            $headBlock->setTitle(Mage::helper('enterprise_giftregistry')->__('Share Gift Registry'));
+        }
         $this->renderLayout();
     }
 
@@ -197,9 +199,10 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
 
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
-        $this->getLayout()->getBlock('head')->setTitle(
-            Mage::helper('enterprise_giftregistry')->__('Gift Registry Items')
-        );
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
+            $headBlock->setTitle(Mage::helper('enterprise_giftregistry')->__('Gift Registry Items'));
+        }
         $this->renderLayout();
     }
 
@@ -355,9 +358,10 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
         if ($block = $this->getLayout()->getBlock('giftregistry_addselect')) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
-        $this->getLayout()->getBlock('head')->setTitle(
-            Mage::helper('enterprise_giftregistry')->__('Create Gift Registry')
-        );
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
+            $headBlock->setTitle(Mage::helper('enterprise_giftregistry')->__('Create Gift Registry'));
+        }
         $this->renderLayout();
     }
 
@@ -404,7 +408,10 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             } else {
                 $pageTitle = Mage::helper('enterprise_giftregistry')->__('Create Gift Registry');
             }
-            $this->getLayout()->getBlock('head')->setTitle($pageTitle);
+            $headBlock = $this->getLayout()->getBlock('head');
+            if ($headBlock) {
+                $headBlock->setTitle($pageTitle);
+            }
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
