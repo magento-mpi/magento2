@@ -284,7 +284,11 @@ class Enterprise_Search_Model_Resource_Collection
         }
 
         $this->_searchedEntityIds = &$ids;
-        $this->getSelect()->where('e.entity_id IN (?)', $this->_searchedEntityIds);
+        $useInCatalogNavigation = Mage::helper('enterprise_search')->useEngineInLayeredNavigation();
+        if ($useInCatalogNavigation) {
+            $this->getSelect()->where('e.entity_id IN (?)', $this->_searchedEntityIds);
+        }
+
         /**
          * To prevent limitations to the collection, because of new data logic
          */
@@ -403,17 +407,20 @@ class Enterprise_Search_Model_Resource_Collection
         return $this;
     }
 
-
     /**
      * Adding product count to categories collection
      *
      * @param   Mage_Eav_Model_Entity_Collection_Abstract $categoryCollection
      * @return  Mage_Eav_Model_Entity_Collection_Abstract
      */
-//    public function addCountToCategories($categoryCollection)
-//    {
-//        return $this;
-//    }
+    public function addCountToCategories($categoryCollection)
+    {
+        $useInCatalogNavigation = Mage::helper('enterprise_search')->useEngineInLayeredNavigation();
+        if ($useInCatalogNavigation) {
+            return $this;
+        }
+        return parent::addCountToCategories($categoryCollection);
+    }
 
     /**
      * Set product visibility filter for enabled products
@@ -423,25 +430,17 @@ class Enterprise_Search_Model_Resource_Collection
      */
     public function setVisibility($visibility)
     {
+        $useInCatalogNavigation = Mage::helper('enterprise_search')->useEngineInLayeredNavigation();
+        if (!$useInCatalogNavigation) {
+            parent::setVisibility($visibility);
+        }
+
         if (is_array($visibility)) {
             foreach ($visibility as $visibilityId) {
                 $this->addSearchQfFilter('visibility', $visibilityId);
             }
         }
 
-        return $this;
-    }
-
-    /**
-     * Specify category filter for product collection
-     *
-     * @param Mage_Catalog_Model_Category $category
-     *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
-     */
-    public function addCategoryFilter(Mage_Catalog_Model_Category $category)
-    {
-     //   $this->addSearchQfFilter('categories', $category->getId());
         return $this;
     }
 }
