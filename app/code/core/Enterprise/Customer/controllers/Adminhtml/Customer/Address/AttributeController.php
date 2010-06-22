@@ -94,6 +94,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
      */
     public function indexAction()
     {
+        $this->_title($this->__('Manage Customer Address Attributes'));
         $this->_initAction()
             ->renderLayout();
     }
@@ -119,6 +120,8 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
         $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
 
+        $this->_title($this->__('Manage Customer Address Attributes'));
+
         if ($attributeId) {
             $attributeObject->load($attributeId);
             if (!$attributeObject->getId()) {
@@ -135,6 +138,10 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
                 $this->_redirect('*/*/');
                 return;
             }
+
+            $this->_title($attributeObject->getFrontendLabel());
+        } else {
+            $this->_title($this->__('New Attribute'));
         }
 
         // restore attribute data

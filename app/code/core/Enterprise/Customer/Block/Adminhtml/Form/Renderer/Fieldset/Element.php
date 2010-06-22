@@ -50,12 +50,10 @@ class Enterprise_Customer_Block_Adminhtml_Form_Renderer_Fieldset_Element
      */
     public function canDisplayUseDefault()
     {
-        if ($element = $this->getElement()) {
-            if ($element->getScope() != 'global'
-                && $element->getScope() != null
-                && $this->getDataObject()
-                && $this->getDataObject()->getId()
-                && $this->getDataObject()->getWebsite()->getId()) {
+        $element = $this->getElement();
+        if ($element) {
+            if ($element->getScope() != 'global' && $element->getScope() != null && $this->getDataObject()
+                && $this->getDataObject()->getId() && $this->getDataObject()->getWebsite()->getId()) {
                 return true;
             }
         }
@@ -104,14 +102,13 @@ class Enterprise_Customer_Block_Adminhtml_Form_Renderer_Fieldset_Element
         if (Mage::app()->isSingleStoreMode()) {
             return $html;
         }
+
         if ($element->getScope() == 'global' || $element->getScope() === null) {
-            $html .= '[GLOBAL]';
-        }
-        elseif ($element->getScope() == 'website') {
-            $html .= '[WEBSITE]';
-        }
-        elseif ($element->getScope() == 'store') {
-            $html .= '[STORE VIEW]';
+            $html = Mage::helper('enterprise_customer')->__('[GLOBAL]');
+        } else if ($element->getScope() == 'website') {
+            $html = Mage::helper('enterprise_customer')->__('[WEBSITE]');
+        } else if ($element->getScope() == 'store') {
+            $html = Mage::helper('enterprise_customer')->__('[STORE VIEW]');
         }
 
         return $html;

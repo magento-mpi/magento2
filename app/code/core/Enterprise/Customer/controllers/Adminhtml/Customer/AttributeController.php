@@ -89,6 +89,7 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
      */
     public function indexAction()
     {
+        $this->_title($this->__('Manage Customer Attributes'));
         $this->_initAction()
             ->renderLayout();
     }
@@ -114,6 +115,8 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
         $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
 
+        $this->_title($this->__('Manage Customer Attributes'));
+
         if ($attributeId) {
             $attributeObject->load($attributeId);
             if (!$attributeObject->getId()) {
@@ -127,7 +130,12 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController
                 $this->_redirect('*/*/');
                 return;
             }
+
+            $this->_title($attributeObject->getFrontendLabel());
+        } else {
+            $this->_title($this->__('New Attribute'));
         }
+
         $attributeData = $this->_getSession()->getAttributeData(true);
         if (!empty($attributeData)) {
             $attributeObject->setData($attributeData);
