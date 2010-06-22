@@ -26,9 +26,11 @@
 ?>
 
 <div id="XmlconnectThemePreview">
-    <img src="<?php echo $this->getThemeImage(); ?>"
-        width="320" height="481" alt="Theme Preview" title="Theme Preview" />
+<iframe src="about:blank" id="XmlconnectThemePreviewIframe"
+    name="XmlconnectThemePreviewIframe" scrolling="no"
+    style="width: 320px; height: 481px; border: 0; "></iframe>
 </div>
+
 <div class="mm-box-blue a-center" style="width:280px;">
     <button type="button" class="scalable" onclick="updatePreview()"><span>Update Preview</span></button>
 </div>
@@ -37,19 +39,15 @@
     <ul id="mmPager">
         <li><a class="active" href="#">1</a></li>
         <li><a href="#">2</a></li>
+        <!--
         <li><a href="#">3</a></li>
         <li><a href="#">4</a></li>
+        -->
     </ul>
 </div>
 <script type="text/javascript">
     mmPreviewPage = 1
     function updatePreview() {
-        if (!$('XmlconnectThemePreviewIframe')) {
-            html = '<iframe src="" id="XmlconnectThemePreviewIframe"'
-            html += ' name="XmlconnectThemePreviewIframe" scrolling="no"'
-            html += ' style="width: 320px; height: 481px; border: 0; "></iframe>';
-            $('XmlconnectThemePreview').innerHTML = html
-        }
         saveAction = $('edit_form').action
         $('edit_form').action += 'preview/'+mmPreviewPage+'/';
         $('edit_form').target = 'XmlconnectThemePreviewIframe'

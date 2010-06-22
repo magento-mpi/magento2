@@ -26,17 +26,51 @@
 ?>
 
 <script type="text/javascript">
-    function XmlconnectPreviewImage(url) {
-        html = '<img src="'+url+'" width="320" height="481" alt="Theme Preview" title="Theme Preview" />'
-        document.getElementById('XmlconnectThemePreview').innerHTML = html
+// <![CDATA[
+
+mmColorUpdate = false
+
+mmColorThemes = {
+    'Theme1': {
+        'conf[native][navigationBar][tintColor]': '#D010DE',
+        'conf[native][body][primaryColor]': '#FFFFFF',
+    },
+    'Theme2': {
+        'conf[native][navigationBar][tintColor]': '#FAC0FF',
+        'conf[native][body][primaryColor]': '#EDAEDA',
     }
+}
+
+function mmSetTheme(theme) {
+    if (mmColorThemes[theme]) {
+        mmColorUpdate = true
+        for (var key in mmColorThemes[theme]) {
+            $(key).color.fromString(mmColorThemes[theme][key])
+        }
+        mmColorUpdate = false
+    }
+}
+
+function mmSetColor() {
+    if (!mmColorUpdate) {
+        $('mmThemeCustom').checked='checked'
+    }
+}
+
+Event.observe(window, 'load', function() { 
+    $$('.color').each(function(t){
+        t.onchange=mmSetColor
+    })
+})
+
+// ]]>
 </script>
 
 <?php foreach ($this->getThemes() as $theme): ?>
     <div style="line-height: 3em">
     <label>
         <input type="radio"
-            onclick="XmlconnectPreviewImage('<?php echo $theme->getPreviewUrl(); ?>')"
+            onclick="mmSetTheme('<?php echo $theme->getName(); ?>')"
             <?php if ($theme->getName() == $this->getValue()) echo 'checked="checked"'; ?>
             name="<?php echo htmlspecialchars($this->getName()); ?>"
             value="<?php echo htmlspecialchars($theme->getName()); ?>" />
@@ -49,8 +83,7 @@
 
 <div style="line-height: 3em">
 <label>
-    <input type="radio"
-        onclick="XmlconnectPreviewImage('<?php echo Mage::getBaseUrl('skin') ?>xmlconnect/empty.png')"
+    <input type="radio" id="mmThemeCustom"
         <?php if (!$this->getValue()) echo 'checked="checked"'; ?>
         name="<?php echo htmlspecialchars($this->getName()); ?>"
         value="" style="margin-right: 2em;" />
