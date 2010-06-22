@@ -195,6 +195,8 @@
                             <label></label>
                             <button_label>Get Credentials from PayPal</button_label>
                             <button_url><![CDATA[https://www.paypal.com/us/cgi-bin/webscr?cmd=_login-api-run]]></button_url>
+                            <sandbox_button_label>Sandbox Credentials</sandbox_button_label>
+                            <sandbox_button_url><![CDATA[https://www.sandbox.paypal.com/us/cgi-bin/webscr?cmd=_login-api-run]]></sandbox_button_url>
                             <frontend_model>paypal/adminhtml_system_config_apiWizard</frontend_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
