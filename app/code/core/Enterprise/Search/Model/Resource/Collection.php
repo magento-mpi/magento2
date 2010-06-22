@@ -284,10 +284,7 @@ class Enterprise_Search_Model_Resource_Collection
         }
 
         $this->_searchedEntityIds = &$ids;
-        $useInCatalogNavigation = Mage::helper('enterprise_search')->useEngineInLayeredNavigation();
-        if ($useInCatalogNavigation) {
-            $this->getSelect()->where('e.entity_id IN (?)', $this->_searchedEntityIds);
-        }
+        $this->getSelect()->where('e.entity_id IN (?)', $this->_searchedEntityIds);
 
         /**
          * To prevent limitations to the collection, because of new data logic
@@ -415,11 +412,7 @@ class Enterprise_Search_Model_Resource_Collection
      */
     public function addCountToCategories($categoryCollection)
     {
-        $useInCatalogNavigation = Mage::helper('enterprise_search')->useEngineInLayeredNavigation();
-        if ($useInCatalogNavigation) {
-            return $this;
-        }
-        return parent::addCountToCategories($categoryCollection);
+        return $this;
     }
 
     /**
@@ -430,11 +423,6 @@ class Enterprise_Search_Model_Resource_Collection
      */
     public function setVisibility($visibility)
     {
-        $useInCatalogNavigation = Mage::helper('enterprise_search')->useEngineInLayeredNavigation();
-        if (!$useInCatalogNavigation) {
-            parent::setVisibility($visibility);
-        }
-
         if (is_array($visibility)) {
             foreach ($visibility as $visibilityId) {
                 $this->addSearchQfFilter('visibility', $visibilityId);

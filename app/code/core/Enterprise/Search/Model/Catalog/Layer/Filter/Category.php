@@ -41,41 +41,34 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
      */
     protected function _getItemsData()
     {
-        $useInCatalogNavigation = Mage::helper('enterprise_search')->useEngineInLayeredNavigation();
+        $key = $this->getLayer()->getStateKey().'_SUBCATEGORIES';
+        $data = $this->getLayer()->getCacheData($key);
 
-        if ($useInCatalogNavigation) {
-            $key = $this->getLayer()->getStateKey().'_SUBCATEGORIES';
-            $data = $this->getLayer()->getCacheData($key);
+        if ($data === null) {
+            $category   = $this->getCategory();
 
-            if ($data === null) {
-                $category   = $this->getCategory();
+            /** @var $category Mage_Catalog_Model_Categeory */
+            $categories = $category->getChildrenCategories();
 
-                /** @var $category Mage_Catalog_Model_Categeory */
-                $categories = $category->getChildrenCategories();
+            $productCollection = $this->getLayer()->getProductCollection();
+            $facets = $productCollection->getFacetedData('categories');
 
-                $productCollection = $this->getLayer()->getProductCollection();
-                $facets = $productCollection->getFacetedData('categories');
-    
-                $data = array();
-                foreach ($categories as $category) {
-                    $categoryId = $category->getId();
-                    if (isset($facets[$categoryId])) {
-                        $category->setProductCount($facets[$categoryId]);
-                    }
-                    if ($category->getIsActive() && $category->getProductCount()) {
-                        $data[] = array(
-                            'label' => Mage::helper('core')->htmlEscape($category->getName()),
-                            'value' => $categoryId,
-                            'count' => $category->getProductCount(),
-                        );
-                    }
+            $data = array();
+            foreach ($categories as $category) {
+                $categoryId = $category->getId();
+                if (isset($facets[$categoryId])) {
+                    $category->setProductCount($facets[$categoryId]);
                 }
-                $tags = $this->getLayer()->getStateTags();
-                $this->getLayer()->getAggregator()->saveCacheData($data, $key, $tags);
+                if ($category->getIsActive() && $category->getProductCount()) {
+                    $data[] = array(
+                        'label' => Mage::helper('core')->htmlEscape($category->getName()),
+                        'value' => $categoryId,
+                        'count' => $category->getProductCount(),
+                    );
+                }
             }
-        }
-        else {
-            $data = parent::_getItemsData();
+            $tags = $this->getLayer()->getStateTags();
+            $this->getLayer()->getAggregator()->saveCacheData($data, $key, $tags);
         }
 
         return $data;
@@ -90,12 +83,6 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
-        $useInCatalogNavigation = Mage::helper('enterprise_search')->useEngineInLayeredNavigation();
-
-        if (!$useInCatalogNavigation) {
-            parent::apply($request, $filterBlock);
-        }
-
         $filter = (int) $request->getParam($this->getRequestVar());
         if ($filter) {
             $this->_categoryId = $filter;
@@ -106,19 +93,18 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
             Mage::register('current_category_filter', $category);
         }
 
-        if ($useInCatalogNavigation) {
-            $childrenCategories = $category->getChildrenCategories();
+        $childrenCategories = $category->getChildrenCategories();
 
-            $useFlat = Mage::getStoreConfig('catalog/frontend/flat_catalog_category');
-            if ($useFlat) {
-                $categories = array_keys($childrenCategories);
-            } else {
-                $categories = array_keys($childrenCategories->toArray());
-            }
-
-            $productCollection = $this->getLayer()->getProductCollection();
-            $productCollection->setFacetCondition('categories', $categories);
+        $useFlat = Mage::getStoreConfig('catalog/frontend/flat_catalog_category');
+        if ($useFlat) {
+            $categories = array_keys($childrenCategories);
+        } else {
+            $categories = array_keys($childrenCategories->toArray());
         }
+
+        $productCollection = $this->getLayer()->getProductCollection();
+        $productCollection->setFacetCondition('categories', $categories);
+
 
         if (!$filter) {
             $this->addCategoryFilter($category, null);
@@ -136,12 +122,9 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
                 ->addCategoryFilter($this->_appliedCategory);
             */
             $this->addCategoryFilter($this->_appliedCategory, $filter);
-
-            if ($useInCatalogNavigation) {
-                $this->getLayer()->getState()->addFilter(
-                    $this->_createItem($this->_appliedCategory->getName(), $filter)
-                );
-            }
+            $this->getLayer()->getState()->addFilter(
+                $this->_createItem($this->_appliedCategory->getName(), $filter)
+            );
         }
 
         return $this;

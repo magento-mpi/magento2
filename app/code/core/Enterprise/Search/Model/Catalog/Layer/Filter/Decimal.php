@@ -42,35 +42,29 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
      */
     public function getRangeItemCounts($range)
     {
-        $useInCatalogNavigation = Mage::helper('enterprise_search')->useEngineInLayeredNavigation();
-        if ($useInCatalogNavigation) {
-            $attributeCode = $this->getAttributeModel()->getAttributeCode();
-            $rangeKey = $attributeCode . '_item_counts_' . $range;
-            $items = $this->getData($rangeKey);
-            if (is_null($items)) {
-                $field = 'attr_decimal_'. $attributeCode;
+        $attributeCode = $this->getAttributeModel()->getAttributeCode();
+        $rangeKey = $attributeCode . '_item_counts_' . $range;
+        $items = $this->getData($rangeKey);
+        if (is_null($items)) {
+            $field = 'attr_decimal_'. $attributeCode;
 
-                $productCollection = $this->getLayer()->getProductCollection();
-                $facets = $productCollection->getFacetedData($field);
+            $productCollection = $this->getLayer()->getProductCollection();
+            $facets = $productCollection->getFacetedData($field);
 
-                $res = array();
-                if (!empty($facets)) {
-                    foreach ($facets as $key => $count) {
-                        preg_match('/TO ([\d\.]+)\]$/', $key, $rangeKey);
-                        $rangeKey = $rangeKey[1] / $range;
-                        if ($count > 0) {
-                            $res[round($rangeKey)] = $count;
-                        }
+            $res = array();
+            if (!empty($facets)) {
+                foreach ($facets as $key => $count) {
+                    preg_match('/TO ([\d\.]+)\]$/', $key, $rangeKey);
+                    $rangeKey = $rangeKey[1] / $range;
+                    if ($count > 0) {
+                        $res[round($rangeKey)] = $count;
                     }
                 }
-                $items = $res;
-
-                $this->setData($rangeKey, $items);
             }
-        } else {
-            $items = parent::getRangeItemCounts($range);
-        }
+            $items = $res;
 
+            $this->setData($rangeKey, $items);
+        }
         return $items;
     }
 
@@ -84,28 +78,23 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
-        $useInCatalogNavigation = Mage::helper('enterprise_search')->useEngineInLayeredNavigation();
         $range      = $this->getRange();
-        if ($useInCatalogNavigation) {
-            $maxValue    = $this->getMaxValue();
-            $facets = array();
-            $facetCount  = ceil($maxValue / $range);
+        $maxValue    = $this->getMaxValue();
+        $facets = array();
+        $facetCount  = ceil($maxValue / $range);
 
-            for ($i = 0; $i < $facetCount; $i++) {
-                $facets[] = array(
-                    'from' => $i * $range,
-                    'to'   => ($i + 1) * $range - 0.001
-                );
-            }
-
-            $attributeCode = $this->getAttributeModel()->getAttributeCode();
-            $field      = 'attr_decimal_' . $attributeCode;
-
-            $productCollection = $this->getLayer()->getProductCollection();
-            $productCollection->setFacetCondition($field, $facets);
-        } else {
-            parent::apply($request, $filterBlock);
+        for ($i = 0; $i < $facetCount; $i++) {
+            $facets[] = array(
+                'from' => $i * $range,
+                'to'   => ($i + 1) * $range - 0.001
+            );
         }
+
+        $attributeCode = $this->getAttributeModel()->getAttributeCode();
+        $field      = 'attr_decimal_' . $attributeCode;
+
+        $productCollection = $this->getLayer()->getProductCollection();
+        $productCollection->setFacetCondition($field, $facets);
 
         /**
          * Filter must be string: $index, $range
@@ -126,11 +115,9 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
             $this->setRange((int)$range);
 
             $this->applyFilterToCollection($this, $range, $index);
-            if ($useInCatalogNavigation) {
-                $this->getLayer()->getState()->addFilter(
-                    $this->_createItem($this->_renderItemLabel($range, $index), $filter)
-                );
-            }
+            $this->getLayer()->getState()->addFilter(
+                $this->_createItem($this->_renderItemLabel($range, $index), $filter)
+            );
             $this->_items = array();
         }
 
