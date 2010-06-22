@@ -50,6 +50,28 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Mage_Co
     }
 
     /**
+     * Join website table if needed before load
+     *
+     * @return Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection
+     */
+    protected function _beforeLoad()
+    {
+        $isFilteredByWebsite = $this->getFlag('is_filtered_by_website');
+        $isOrderedByWebsite = array_key_exists('website_ids', $this->_orders);
+        if (($isFilteredByWebsite || $isOrderedByWebsite) && !$this->getFlag('is_website_table_joined')) {
+            $this->setFlag('is_website_table_joined', true);
+            $join = ($isFilteredByWebsite ? 'joinInner' : 'joinLeft');
+            $cols = ($isOrderedByWebsite ? array('website_ids' => 'website.website_id') : array());
+            $this->getSelect()->$join(
+                array('website' => $this->getTable('enterprise_customersegment/website')),
+                'main_table.segment_id = website.segment_id',
+                $cols
+            );
+        }
+        return parent::_beforeLoad();
+    }
+
+    /**
      * Redeclare after load method for adding website ids to items
      *
      * @return Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection
@@ -117,15 +139,7 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Mage_Co
      */
     public function addWebsiteFilter($websiteId)
     {
-        if (!$this->getFlag('is_website_table_joined')) {
-            $this->setFlag('is_website_table_joined', true);
-            $this->getSelect()->joinInner(
-                array('website'=>$this->getTable('enterprise_customersegment/website')),
-                'main_table.segment_id = website.segment_id',
-                array()
-            );
-        }
-
+        $this->setFlag('is_filtered_by_website', true);
         if ($websiteId instanceof Mage_Core_Model_Website) {
             $websiteId = $websiteId->getId();
         }
@@ -144,6 +158,8 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Mage_Co
     {
         if ($field == 'website_ids') {
             return $this->addWebsiteFilter($condition);
+        } else if ($field == $this->getResource()->getIdFieldName()) {
+            $field = 'main_table.' . $field;
         }
         return parent::addFieldToFilter($field, $condition);
     }
@@ -208,5 +224,22 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Mage_Co
         $this->getSelect()
             ->having('`customer_count` = ?', $customerCount);
         return $this;
+    }
+
+    /**
+     * Retrive all ids for collection
+     *
+     * @return array
+     */
+    public function getAllIds()
+    {
+        $idsSelect = clone $this->getSelect();
+        $idsSelect->reset(Zend_Db_Select::ORDER);
+        $idsSelect->reset(Zend_Db_Select::LIMIT_COUNT);
+        $idsSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $select = $this->getConnection()->select()->from(array('t' => $idsSelect), array(
+            't.' . $this->getResource()->getIdFieldName()
+        ));
+        return $this->getConnection()->fetchCol($select, $this->_bindParams);
     }
 }
