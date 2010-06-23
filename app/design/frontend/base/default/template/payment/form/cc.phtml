@@ -96,7 +96,7 @@
                     <input type="text" title="<?php echo $this->__('Issue Number') ?>" class="input-text validate-cc-ukss cvv" id="<?php echo $_code ?>_cc_issue" name="payment[cc_ss_issue]" value="" />
                 </span>
             </li>
-    
+
             <li>
                 <label for="<?php echo $_code ?>_start_month"><?php echo $this->__('Start Date') ?>:</label>
                 <div class="input-box">
@@ -127,19 +127,19 @@
                 <?php if($this->hasVerification()): ?>
                     $('<?php echo $_code ?>_cc_type_cvv_div').hide();
                 <?php endif; ?>
-                $('<?php echo $_code ?>_cc_type_exp_div').hide();
+                //$('<?php echo $_code ?>_cc_type_exp_div').hide();
             } else {
                 $('<?php echo $_code ?>_cc_type_ss_div').hide();
                 <?php if($this->hasVerification()): ?>
                     $('<?php echo $_code ?>_cc_type_cvv_div').show();
                 <?php endif; ?>
-                $('<?php echo $_code ?>_cc_type_exp_div').show();
+                //$('<?php echo $_code ?>_cc_type_exp_div').show();
             }
         };
-    
+
         Event.observe($('<?php echo $_code ?>_cc_type'), 'change', SSChecked<?php echo $_code ?>);
         SSChecked<?php echo $_code ?>();
-    
+
         Validation.addAllThese([
             ['validate-cc-ukss', 'Please enter issue number or start date for switch/solo card type.', function(v,elm) {
                       var endposition;
