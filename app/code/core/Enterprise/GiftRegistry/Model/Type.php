@@ -283,6 +283,21 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve attribute label by code
+     *
+     * @param string $code
+     * @return string
+     */
+    public function getAttributeLabel($code)
+    {
+        $attribute = $this->getAttributeByCode($code);
+        if ($attribute && isset($attribute['label'])) {
+            return $attribute['label'];
+        }
+        return '';
+    }
+
+    /**
      * Custom handler for giftregistry type save action
      *
      * @param Varien_Simplexml_Element $config

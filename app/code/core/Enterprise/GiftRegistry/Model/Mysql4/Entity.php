@@ -67,8 +67,23 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity extends Mage_Core_Model_Mysql4
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-        $select->joinLeft(array('event_table' => $this->_eventTable),
-            'event_table.'.$this->getIdFieldName().'='.$this->getMainTable().'.'.$this->getIdFieldName(), '*');
+        $this->_joinEventData($select);
+
+        return $select;
+    }
+
+    /**
+     * Join event table to select object
+     *
+     * @param  Zend_Db_Select $select
+     * @return Zend_Db_Select
+     */
+    protected function _joinEventData($select)
+    {
+        $select->joinLeft(array(
+            'e' => $this->_eventTable),
+            'e.' . $this->getIdFieldName() . '=' . $this->getMainTable() . '.' . $this->getIdFieldName(), '*'
+        );
         return $select;
     }
 
@@ -193,6 +208,8 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity extends Mage_Core_Model_Mysql4
         $select  = $adapter->select()
             ->from($this->getMainTable())
             ->where('url_key=?', $urlKey);
+
+        $this->_joinEventData($select);
 
         if ($data = $adapter->fetchRow($select)) {
             $object->setData($data);

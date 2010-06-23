@@ -42,22 +42,12 @@ class Enterprise_GiftRegistry_Block_View extends Enterprise_GiftRegistry_Block_C
     /**
      * Retrieve entity formated date
      *
+     * @param string $date
      * @return string
      */
-    public function getFormattedDate($item)
+    public function getFormattedDate($date)
     {
-        return $this->formatDate($item->getCreatedAt(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
-    }
-
-    /**
-     * Retrieve item remaining qty
-     *
-     * @param Enterprise_GiftRegistry_Model_Item $item
-     * @return string
-     */
-    public function getItemQtyRemaining($item)
-    {
-        return ($this->getItemQty($item) - $this->getItemQtyFulfilled($item)) * 1;
+        return $this->formatDate($date, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
     }
 
     /**
@@ -67,31 +57,37 @@ class Enterprise_GiftRegistry_Block_View extends Enterprise_GiftRegistry_Block_C
      */
     public function getAttributesToDisplay()
     {
+        $typeId = $this->getEntity()->getTypeId();
+        $type = Mage::getModel('enterprise_giftregistry/type')->load($typeId);
+
         $attributes = array(
             'title'          => $this->__('Event'),
             'registrants'    => $this->__('Recipient'),
-            'created_at'     => $this->__('Event Date'),
-            'event_location' => $this->__('Location'),
+            'event_date'     => $type->getAttributeLabel('event_date'),
+            'event_location' => $type->getAttributeLabel('event_location'),
             'customer_name'  => $this->__('Registry owner'),
             'message'        => $this->__('Message'),
         );
+
         $result = array();
         foreach ($attributes as $attributeCode => $attributeTitle) {
-            if ($attributeCode == 'customer_name') {
-                $attributeValue = $this->getEntity()->getCustomer()->getName();
-            } else {
-                $attributeValue = $this->getEntity()->getDataUsingMethod($attributeCode);
+            switch($attributeCode) {
+                case 'customer_name' :
+                    $attributeValue = $this->getEntity()->getCustomer()->getName();
+                    break;
+                case 'event_date' :
+                    $attributeValue = $this->getFormattedDate($this->getEntity()->getEventDate());
+                    break;
+                default :
+                    $attributeValue = $this->getEntity()->getDataUsingMethod($attributeCode);
             }
+
             if ((string)$attributeValue == '') {
                 continue;
             }
-            if ($attributeCode == 'created_at') {
-                $attributeValue = $this->getFormattedDate($this->getEntity());
-            }
-            $attributeValue = $this->escapeHtml($attributeValue);
             $result[] = array(
                 'title' => $attributeTitle,
-                'value' => $attributeValue
+                'value' => $this->escapeHtml($attributeValue)
             );
         }
         return $result;
