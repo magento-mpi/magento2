@@ -118,6 +118,15 @@
                 </observers>
             </catalogsearch_query_save_after>
         </events>
+        <translate>
+            <modules>
+                <Enterprise_Search>
+                     <files>
+                          <default>Enterprise_Search.csv</default>
+                     </files>
+                </Enterprise_Search>
+            </modules>
+        </translate>
     </adminhtml>
 
     <frontend>
@@ -128,6 +137,15 @@
                 </enterprise_search>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Enterprise_Search>
+                     <files>
+                          <default>Enterprise_Search.csv</default>
+                     </files>
+                </Enterprise_Search>
+            </modules>
+        </translate>
     </frontend>
 
     <default>
