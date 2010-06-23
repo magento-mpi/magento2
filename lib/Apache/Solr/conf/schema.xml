@@ -67,6 +67,9 @@
     -->
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
 
+    <!-- Field type foe bundle products options -->
+    <fieldType name="option_string" class="solr.StrField" sortMissingLast="true" omitNorms="true" multiValued="true"/>
+
     <!-- boolean type: "true" or "false" -->
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
     <!--Binary data type. The data should be sent/retrieved in as Base64 encoded Strings -->
@@ -1294,7 +1297,7 @@
         <dynamicField name="attr_datetime_*" type="date" indexed="true" stored="true"/>
         <dynamicField name="attr_multi_*" type="textgen" indexed="true" stored="true" multiValued="true"/>
 
-        <dynamicField name="attr_select_*" type="string" indexed="true" stored="true"/>
+        <dynamicField name="attr_select_*" type="option_string" indexed="true" stored="true"/>
 
         <dynamicField name="price_*" type="tfloat" indexed="true" stored="true"/>
         <dynamicField name="position_category_*" type="int" indexed="true" stored="true"/>
