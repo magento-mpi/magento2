@@ -70,14 +70,14 @@ class Mage_XmlConnect_Model_Tabs
                 'action' => 'Cart',
             ),
             array(
-                'label' => 'Account',
-                'image' => 'tab_account.png',
-                'action' => 'Account',
-            ),
-            array(
                 'label' => 'More',
                 'image' => 'tab_more.png',
                 'action' => 'More',
+            ),
+            array(
+                'label' => 'Account',
+                'image' => 'tab_account.png',
+                'action' => 'Account',
             ),
             array(
                 'label' => 'About Us',
