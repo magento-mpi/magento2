@@ -125,6 +125,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
             $selects[] = "SELECT * FROM ({$sql}) AS inoptionsql"; // inheritant unions may be inside
         }
         $sql = implode(' UNION ', $selects);
+        return $sql;
     }
 
     /**
