@@ -78,7 +78,8 @@ class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Laye
     {
         if (!$this->hasData('is_engine_available')) {
             $available = Mage::helper('enterprise_search')->isActiveEngine()
-                && Mage::helper('enterprise_search')->getSearchConfigData('solr_server_use_in_catalog_navigation');
+                && Mage::helper('enterprise_search')->getSearchConfigData('solr_server_use_in_catalog_navigation')
+                && !Mage::helper('enterprise_search')->getTaxInfluence();
             $this->setData('is_engine_available', $available);
         }
         return $this->_getData('is_engine_available');

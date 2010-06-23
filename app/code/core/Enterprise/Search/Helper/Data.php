@@ -49,6 +49,13 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_languageCode = array();
 
     /**
+     * Show if taxes have influence on price
+     *
+     * @var null | bool
+     */
+    protected $_taxInfluence = null;
+
+    /**
      * Defines text type fields
      * Integer attributes are saved at metadata as text because in fact they are values for
      * options of select type inputs but their values are presented as text aliases
@@ -338,24 +345,21 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Check if search engine is used for layered navigation
+     * Check if taxes have influence on price
      *
      * @return bool
      */
-    public function useEngineInLayeredNavigation()
+    public function getTaxInfluence()
     {
-        if (is_null($this->_useEngineInLayeredNavigation)) {
+        if (is_null($this->_taxInfluence)) {
             $taxCondition = Mage::helper('tax')->getPriceTaxSql('price', 'tax');
-            $allowedInLayeredNavigation = Mage::helper('enterprise_search')
-                ->getSolrConfigData('server_use_in_catalog_navigation');
-
-            if ($allowedInLayeredNavigation && !$taxCondition) {
-                $this->_useEngineInLayeredNavigation = true;
+            if ($taxCondition) {
+                $this->_taxInfluence = true;
             } else {
-                $this->_useEngineInLayeredNavigation = false;
+                $this->_taxInfluence = false;
             }
         }
 
-        return $this->_useEngineInLayeredNavigation;
+        return $this->_taxInfluence;
     }
 }
