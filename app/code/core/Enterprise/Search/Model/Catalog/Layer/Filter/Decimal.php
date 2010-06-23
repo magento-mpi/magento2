@@ -52,6 +52,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
             $facets = $productCollection->getFacetedData($field);
 
             $res = array();
+
             if (!empty($facets)) {
                 foreach ($facets as $key => $count) {
                     preg_match('/TO ([\d\.]+)\]$/', $key, $rangeKey);
@@ -80,21 +81,22 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
     {
         $range      = $this->getRange();
         $maxValue    = $this->getMaxValue();
-        $facets = array();
-        $facetCount  = ceil($maxValue / $range);
+        if ($maxValue > 0) {
+            $facets = array();
+            $facetCount  = ceil($maxValue / $range);
+            for ($i = 0; $i < $facetCount; $i++) {
+                $facets[] = array(
+                    'from' => $i * $range,
+                    'to'   => ($i + 1) * $range - 0.001
+                );
+            }
 
-        for ($i = 0; $i < $facetCount; $i++) {
-            $facets[] = array(
-                'from' => $i * $range,
-                'to'   => ($i + 1) * $range - 0.001
-            );
+            $attributeCode = $this->getAttributeModel()->getAttributeCode();
+            $field      = 'attr_decimal_' . $attributeCode;
+
+            $productCollection = $this->getLayer()->getProductCollection();
+            $productCollection->setFacetCondition($field, $facets);
         }
-
-        $attributeCode = $this->getAttributeModel()->getAttributeCode();
-        $field      = 'attr_decimal_' . $attributeCode;
-
-        $productCollection = $this->getLayer()->getProductCollection();
-        $productCollection->setFacetCondition($field, $facets);
 
         /**
          * Filter must be string: $index, $range

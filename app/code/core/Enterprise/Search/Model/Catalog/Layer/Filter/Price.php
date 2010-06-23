@@ -84,19 +84,21 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
-        $range      = $this->getPriceRange();
+        $range       = $this->getPriceRange();
         $maxPrice    = $this->getMaxPriceInt();
-        $priceFacets = array();
-        $facetCount  = ceil($maxPrice / $range);
+        if ($maxPrice > 0) {
+            $priceFacets = array();
+            $facetCount  = ceil($maxPrice / $range);
 
-        for ($i = 0; $i < $facetCount; $i++) {
-            $priceFacets[] = array(
-                'from' => $i * $range,
-                'to'   => (($i + 1) * $range) - 0.001
-            );
+            for ($i = 0; $i < $facetCount; $i++) {
+                $priceFacets[] = array(
+                    'from' => $i * $range,
+                    'to'   => (($i + 1) * $range) - 0.001
+                );
+            }
+
+            $this->getLayer()->getProductCollection()->setFacetCondition($this->_getFilterField(), $priceFacets);
         }
-
-        $this->getLayer()->getProductCollection()->setFacetCondition($this->_getFilterField(), $priceFacets);
         return parent::apply($request, $filterBlock);
     }
 
