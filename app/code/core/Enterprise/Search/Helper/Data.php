@@ -211,6 +211,8 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
 
         if (!isset($this->_languageCode[$localeCode])) {
             $languages = $this->getSolrSupportedLanguages();
+
+            $this->_languageCode[$localeCode] = false;
             foreach ($languages as $code => $locales) {
                 if (is_array($locales)) {
                     if (in_array($localeCode, $locales)) {
@@ -221,8 +223,6 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
                     $this->_languageCode[$localeCode] = $code;
                 }
             }
-
-            $this->_languageCode[$localeCode] = false;
         }
 
         return $this->_languageCode[$localeCode];
