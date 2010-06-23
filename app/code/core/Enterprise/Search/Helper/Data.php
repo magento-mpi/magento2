@@ -42,11 +42,11 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_useEngineInLayeredNavigation = null;
 
     /**
-     * Store languag codes for local code
+     * Store languag codes for local codes
      *
-     * @var null | string
+     * @var array
      */
-    protected $_languageCode = null;
+    protected $_languageCode = array();
 
     /**
      * Defines text type fields
@@ -204,28 +204,28 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getLanguageCodeByLocaleCode($localeCode)
     {
-        if (is_null($this->_languageCode)) {
-            $localeCode = (string)$localeCode;
-            if (!$localeCode) {
-                return false;
-            }
+        $localeCode = (string)$localeCode;
+        if (!$localeCode) {
+            return false;
+        }
 
+        if (!isset($this->_languageCode[$localeCode])) {
             $languages = $this->getSolrSupportedLanguages();
             foreach ($languages as $code => $locales) {
                 if (is_array($locales)) {
                     if (in_array($localeCode, $locales)) {
-                        $this->_languageCode = $code;
+                        $this->_languageCode[$localeCode] = $code;
                     }
                 }
                 elseif ($localeCode == $locales) {
-                    $this->_languageCode = $code;
+                    $this->_languageCode[$localeCode] = $code;
                 }
             }
 
-            $this->_languageCode = false;
+            $this->_languageCode[$localeCode] = false;
         }
 
-        return $this->_languageCode;
+        return $this->_languageCode[$localeCode];
     }
 
     /**

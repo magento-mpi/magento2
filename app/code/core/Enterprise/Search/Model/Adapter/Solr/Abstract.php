@@ -155,7 +155,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 unset($data[$key]);
             } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
                 if (is_array($value)) {
-                    $value = implode(' ', array_unique($value));
+                    unset($data[$key]);
                 }
                 $data['attr_select_'. $key] = $value;
                 unset($data[$key]);
