@@ -94,7 +94,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         // get store switcher or a hidden field with its id
         if (!Mage::app()->isSingleStoreMode()) {
             $stores  = Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm();
-            Mage::log($stores);
 
             //showing websites that only associated to products
             if ($product && $product->getId()) {
@@ -120,8 +119,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
                     }
                 }
             }
-
-            Mage::log($stores);
 
             $element = $fieldset->addField('store_id', 'select', array(
                 'label'     => Mage::helper('adminhtml')->__('Store'),
