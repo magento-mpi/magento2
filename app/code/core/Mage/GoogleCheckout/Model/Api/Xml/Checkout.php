@@ -101,6 +101,10 @@ EOT;
         $billingDiscount = (float)$this->getQuote()->getBillingAddress()->getBaseDiscountAmount();
         $discount = $billingDiscount + $shippingDiscount;
 
+        // exclude shipping discount
+        // discount is negative value
+        $discount += $this->getQuote()->getShippingAddress()->getBaseShippingDiscountAmount();
+
         $discountItem = new Varien_Object(array(
                 'price' => $discount,
                 'name'  => $this->__('Cart Discount'),

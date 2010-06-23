@@ -406,7 +406,8 @@ class Enterprise_GiftCardAccount_Model_Observer
     {
         $quote = $observer->getEvent()->getQuote();
         $discountItem = $observer->getEvent()->getDiscountItem();
-        $discountItem->setPrice($discountItem->getPrice() + $quote->getBaseGiftCardsAmountUsed());
+        // discount price is negative value
+        $discountItem->setPrice($discountItem->getPrice() - $quote->getBaseGiftCardsAmountUsed());
 
         return $this;
     }
