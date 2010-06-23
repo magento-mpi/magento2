@@ -157,7 +157,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                         $rewrite = Mage::getResourceModel('catalog/url')
                             ->getRewriteByIdPath($idPath, $model->getStoreId());
                         if (!$rewrite) {
-                            Mage::throwException('Chosen product does not associate to the Chosetn store');
+                            Mage::throwException('Chosen product does not associated with the chosen store.');
                         }
                         if($rewrite->getId() && $rewrite->getId() != $model->getId()) {
                             $model->setIdPath($idPath);
