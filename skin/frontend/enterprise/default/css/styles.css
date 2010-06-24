@@ -1221,6 +1221,8 @@ button.btn-cart span {}
 .add-to-cart button.btn-cart span { background-image:url(../images/bkg_btn-co.gif); padding:0 0 0 13px !important; height:27px!important; }
 .product-view .product-essential button.btn-cart span span,
 .add-to-cart button.btn-cart span span { border:0; background-image:url(../images/bkg_btn-co.gif); padding:1px 32px 0 19px !important; color:#fff; font:bold 15px/26px Arial, Helvetica, sans-serif !important; height:26px; text-transform:none; }
+.product-view .product-essential button.btn-gr span span,
+.add-to-cart button.btn-gr span span { font-size:14px !important; padding:1px 18px 0 10px !important; }
 .product-view .add-to-cart .paypal-logo { margin:0; }
 
 /* Add to Links + Add to Cart */
