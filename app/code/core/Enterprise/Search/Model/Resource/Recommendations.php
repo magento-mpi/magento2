@@ -192,8 +192,9 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
         if (!is_array($ids)) {
             $ids = array();
         }
+
         $key = array_search($queryId, $ids);
-        if ($key) {
+        if ($key !== false) {
             unset($ids[$key]);
         }
         $ids = array_unique(array_merge($relatedQueries, $ids));
