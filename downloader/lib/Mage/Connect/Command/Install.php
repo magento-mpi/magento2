@@ -64,6 +64,37 @@ extends Mage_Connect_Command
                 $config = $this->config();
                 $cache = $this->getSconfig();
             }
+            if(empty($config->magento_root)){
+                $config->magento_root=dirname(dirname($_SERVER['SCRIPT_FILENAME']));
+            }
+            if($ftp) {
+                $cwd=$ftpObj->getcwd();
+                $dirCache=$config->downloader_path . DIRECTORY_SEPARATOR . $config::DEFAULT_CACHE_PATH;
+                $dir=$cwd . DIRECTORY_SEPARATOR . $dirCache;// echo($dir);exit();
+                $ftpObj->mkdirRecursive($dir,0777);
+                $ftpObj->chdir($cwd);
+                $dirTmp=DIRECTORY_SEPARATOR.Mage_Connect_Package_Reader::PATH_TO_TEMPORARY_DIRECTORY;
+                $ftpObj->mkdirRecursive($cwd.$dirTmp,0777);
+                $ftpObj->chdir($cwd);
+                $ftpObj->mkdirRecursive($cwd.DIRECTORY_SEPARATOR.'media',0777);
+                $ftpObj->chdir($cwd);
+                chdir($config->magento_root);
+                $isWritable = is_writable($config->magento_root.DIRECTORY_SEPARATOR.'media')
+                              && is_writable($config->magento_root . DIRECTORY_SEPARATOR . $dirCache)
+                              && is_writable($config->magento_root . DIRECTORY_SEPARATOR . $dirTmp);
+                $err = "Please check for sufficient ftp write file permissions.";
+                $this->doError($command, $err);
+            } else {
+                $isWritable = is_writable($config->magento_root)
+                              && is_writable($config->magento_root . DIRECTORY_SEPARATOR . $config->downloader_path);
+                if(!$isWritable){
+                    $err = "Please check for sufficient write file permissions.";
+                    $this->doError($command, $err);
+                }
+            }
+            if(!$isWritable){
+                throw new Exception('Your Magento folder does not have sufficient write permissions, which downloader requires.');
+            }
             if($installFileMode) {
                 if(count($params) < 1) {
                     throw new Exception("Argument should be: filename");
@@ -266,15 +297,8 @@ extends Mage_Connect_Command
 
                     if($ftp) {
                         $cwd=$ftpObj->getcwd();
-                        $dir=$config->downloader_path . DIRECTORY_SEPARATOR . $config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( $pChan, "\\/");
-                        $dir=$cwd . DIRECTORY_SEPARATOR . $dir;// echo($dir);exit();
+                        $dir=$cwd . DIRECTORY_SEPARATOR .$config->downloader_path . DIRECTORY_SEPARATOR . $config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( $pChan, "\\/");
                         $ftpObj->mkdirRecursive($dir,0777);
-                        $ftpObj->mkdirRecursive($cwd.DIRECTORY_SEPARATOR.Mage_Connect_Package_Reader::PATH_TO_TEMPORARY_DIRECTORY,0777);
-                        $ftpObj->chdir($cwd);
-                        if(empty($config->magento_root)){
-                            $config->magento_root=dirname(dirname($_SERVER['SCRIPT_FILENAME']));
-                        }
-                        chdir($config->magento_root);
                     } else {
                         $dir = $config->getChannelCacheDir($pChan);
                         @mkdir($dir, 0777, true);

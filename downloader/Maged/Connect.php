@@ -325,7 +325,7 @@ function console_scroll()
 
             if ($this->getFrontend()->hasErrors()) {
                 echo "<br/>CONNECT ERROR: ";
-                foreach ($this->getFrontend()->getErrors() as $error) {
+                foreach ($this->getFrontend()->getErrors(false) as $error) {
                     echo nl2br($error[1]);
                     echo '<br/>';
                 }
@@ -336,6 +336,7 @@ function console_scroll()
                     if (is_array($callback)) {
                         call_user_func_array($callback, array($result));
                     } else {
+                        call_user_func($callback, $result);
                         echo $callback;
                     }
                 }
