@@ -27,6 +27,35 @@
 $installer = $this;
 /* @var $installer Enterprise_Reminder_Model_Mysql4_Setup */
 
+// Create search recommendations table
+$installer->run("
+CREATE TABLE `{$this->getTable('enterprise_search/recommendations')}` (
+    `id` int(10) unsigned NOT NULL auto_increment,
+    `query_id` int(10) unsigned NOT NULL,
+    `relation_id` int(10) unsigned NOT NULL,
+    PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+");
+
+$installer->getConnection()->addConstraint(
+    'FK_EE_REMINDER_SEARCH_QUERY',
+    $this->getTable('enterprise_search/recommendations'),
+    'query_id',
+    $this->getTable('catalogsearch_query'),
+    'query_id'
+);
+
+$installer->getConnection()->addConstraint(
+    'FK_EE_REMINDER_SEARCH_RELATION',
+    $this->getTable('enterprise_search/recommendations'),
+    'relation_id',
+    $this->getTable('catalogsearch_query'),
+    'query_id'
+);
+
+$installer->getConnection()->query("ALTER TABLE {$this->getTable('catalogsearch_query')} ADD KEY (num_results)");
+$installer->getConnection()->query("ALTER TABLE {$this->getTable('catalogsearch_query')} ADD KEY (query_text)");
+
 $installer->getConnection()->query("ALTER TABLE {$this->getTable('catalogsearch_query')}
     ADD INDEX `IDX_SARCH_REC` (`query_text`, `store_id`, `num_results`)");
 
