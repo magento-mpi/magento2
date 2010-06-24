@@ -101,6 +101,9 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
         if (!empty($limit)) {
             $collection->getSelect()->limit($limit);
         }
+        if (!empty($order)) {
+            $collection->getSelect()->order($order);
+        }
 
         $res = $adapter->fetchAll($collection->getSelect());
 
@@ -135,7 +138,8 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
             $select = $adapter->select()
                 ->from(array('main_table' => $mainTable),
                     array('query_text', 'num_results'))
-                ->where("query_id IN(?)", $relatedQueriesIds);
+                ->where('query_id IN(?)', $relatedQueriesIds)
+                ->where('num_results>0');
             $relatedQueries = $adapter->fetchAll($select);
         }
 
@@ -153,7 +157,7 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
         $adapter = $this->_getReadAdapter();
         $model = $this->_getSearchQueryModel();
         $queryId = $model->getId();
-        $relatedQueries = $this->getRelatedQueries($queryId, $searchRecommendationsCount);
+        $relatedQueries = $this->getRelatedQueries($queryId, $searchRecommendationsCount, 'num_results DESC');
         if ($searchRecommendationsCount - count($relatedQueries) < 1) {
             return $relatedQueries;
         }
@@ -161,6 +165,12 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
         $queryWords = array($query);
         if (strpos($query, " ") !== false) {
             $queryWords = array_unique(array_merge($queryWords, explode(" ", $query)));
+            foreach ($queryWords as $key => $word) {
+                $queryWords[$key] = trim($word);
+                if (strlen($word) < 3) {
+                    unset($queryWords[$key]);
+                }
+            }
         }
 
         $likeCondition = array();
@@ -178,15 +188,14 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
             ->order('num_results DESC')
             ->limit($searchRecommendationsCount + 1);
         $ids = $adapter->fetchCol($select);
+
         if (!is_array($ids)) {
             $ids = array();
         }
-
         $key = array_search($queryId, $ids);
         if ($key) {
             unset($ids[$key]);
         }
-
         $ids = array_unique(array_merge($relatedQueries, $ids));
         $ids = array_slice($ids, 0, $searchRecommendationsCount);
         return $ids;
