@@ -40,18 +40,18 @@ extends Mage_Connect_Command
         try {
             $title = "Available channels:";
             $aliasT = "Available aliases:";
-            $ftp = empty($options['ftp']) ? null: $options['ftp'];
-            $packager = $this->getPackager($ftp);
-            
+            $packager = $this->getPackager();
+            $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
-                list($cache, $config, $ftpObj) = $packager->getRemoteConf();
+                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
+                $data = $cache->getData();
                 @unlink($config->getFilename());
                 @unlink($cache->getFilename());
             } else {
                 $cache = $this->getSconfig();
                 $config = $this->config();
+                $data = $cache->getData();
             }            
-            $data = $cache->getData();
             $out = array($command => array('data'=>$data, 'title'=>$title, 'title_aliases'=>$aliasT));
             $this->ui()->output($out);
         } catch (Exception $e) {
@@ -72,13 +72,13 @@ extends Mage_Connect_Command
             if(count($params) != 1) {
                 throw new Exception("Parameters count should be equal to 1");
             }
+            $packager = $this->getPackager();
 
-            $ftp = empty($options['ftp']) ? null : $options['ftp'];
-            $packager = $this->getPackager($ftp);
+            $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
-                list($cache, $config, $ftpObj) = $packager->getRemoteConf();
+                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
                 $cache->deleteChannel($params[0]);                
-                $packager->writeToRemoteCache();
+                $packager->writeToRemoteCache($cache, $ftpObj);
                 @unlink($config->getFilename());
             } else {
                 $config = $this->config();
@@ -111,15 +111,16 @@ extends Mage_Connect_Command
             $data = $rest->getChannelInfo();
             $data->url = $url;
                         
-            $ftp = empty($options['ftp']) ? null : $options['ftp'];
-            $packager = $this->getPackager($ftp);
-            $cache = $this->getCache($ftp);
-            $config = $this->getConfig($ftp);
-            $cache->addChannel($data->name, $url);
+            $packager = $this->getPackager();
+            $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
-                 $packager->writeToRemoteCache(); 
+                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
+                 $cache->addChannel($data->name, $url);
+                 $packager->writeToRemoteCache($cache, $ftpObj); 
                  @unlink($config->getFilename());                 
             } else {
+                $cache = $this->getSconfig();               
+                $config = $this->config();   
                 $cache->addChannel($data->name, $url);
             }
             
@@ -155,14 +156,14 @@ extends Mage_Connect_Command
                 throw new Exception("Parameters count should be equal to 2");
             }
 
+            $packager = $this->getPackager();
             $chanUrl = $params[0];
             $alias = $params[1];            
-            $ftp = empty($options['ftp']) ? null : $options['ftp'];
-            $packager = $this->getPackager($ftp);
+            $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
-                list($cache, $config,  $ftpObj) = $packager->getRemoteConf();
+                list($cache, $config,  $ftpObj) = $packager->getRemoteConf($ftp);
                 $cache->addChannelAlias($chanUrl, $alias);
-                $packager->writeToRemoteCache();
+                $packager->writeToRemoteCache($cache, $ftpObj);
                 @unlink($config->getFilename());
             } else {                
                 $cache = $this->getSconfig();

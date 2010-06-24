@@ -170,7 +170,7 @@ final class Maged_Controller
     public function indexAction()
     {
         if (!$this->isInstalled()) {
-            if (!$this->isWritable()) {
+            if (false&&!$this->isWritable()) {
                 echo $this->view()->template('install/writable.phtml');
             } else {
                 $this->view()->set('mage_url', dirname(dirname($_SERVER['SCRIPT_NAME'])));
@@ -182,7 +182,7 @@ final class Maged_Controller
                 echo $this->view()->template('install/download.phtml');
             }
         } else {
-            if (!$this->isWritable()) {
+            if (false&&!$this->isWritable()) {
                 echo $this->view()->template('writable.phtml');
             } else {
                 $this->forward('connectPackages');
@@ -205,12 +205,28 @@ final class Maged_Controller
      */
     public function connectInstallAllAction()
     {
+        if( 1 == $_POST['inst_protocol']){
+            $p=$_POST;
+            $p['ftp_proto']='ftp://';
+            if($start=stripos($p['ftp_path'],'ftp://')!==false){
+                $p['ftp_proto']='ftp://';
+                $p['ftp_path']=substr($p['ftp_path'], $start+6-1);
+            }
+            if($start=stripos($p['ftp_path'],'ftps://')!==false){
+                $p['ftp_proto']='ftps://';
+                $p['ftp_path']=substr($p['ftp_path'], $start+7-1);
+            }
+            $ftp=sprintf("%s%s:%s@%s", $p['ftp_proto'], $p['ftp_user'],$p['ftp_pswd'],$p['ftp_path']);
+            $_POST['ftp'] = $ftp;
+            $this->model('connect', true)->connect()->setRemoteConfig($ftp);
+        }
         $this->config()->saveConfigPost($_POST);
         $chan = $this->config()->get('root_channel');
         if(empty($chan)) {
-            $chan = 'core';
+            $chan = 'community';
         }
         $this->model('connect', true)->saveConfigPost($_POST);
+        $this->config()->save();
         $this->model('connect', true)->installAll(!empty($_GET['force']), $chan);
     }
 
@@ -296,6 +312,16 @@ final class Maged_Controller
         $this->view()->set('mkdir_mode', $this->config()->get('mkdir_mode'));
         $this->view()->set('chmod_file_mode', $this->config()->get('chmod_file_mode'));
 
+        $fs_disabled=!$this->isWritable();
+        $ftpParams=@parse_url($this->config()->get('ftp'));
+
+        $this->view()->set('fs_disabled', $fs_disabled);
+        $this->view()->set('deployment_type', ($fs_disabled||!empty($ftpParams)>0?'ftp':'fs'));
+        
+        $this->view()->set('ftp_host',  sprintf("%s://%s%s",$ftpParams['scheme'],$ftpParams['host'],$ftpParams['path']));
+        $this->view()->set('ftp_login', $ftpParams['user']);
+        $this->view()->set('ftp_password', $ftpParams['pass']);
+
         echo $this->view()->template('settings.phtml');
     }
 
@@ -305,7 +331,31 @@ final class Maged_Controller
      */
     public function settingsPostAction()
     {
+        if(!strlen($this->config()->get('downloader_path'))){
+            $this->config()->set('downloader_path', $this->model('connect', true)->connect()->getConfig()->downloader_path);
+        }
         if ($_POST) {
+            if( 'ftp' == $_POST['deployment_type']&&!empty($_POST['ftp_host'])){
+                $p=$_POST;
+                $p['ftp_proto']='ftp://';
+                if($start=stripos($p['ftp_host'],'ftp://')!==false){
+                    $p['ftp_proto']='ftp://';
+                    $p['ftp_host']=substr($p['ftp_host'], $start+6-1);
+                }
+                if($start=stripos($p['ftp_host'],'ftps://')!==false){
+                    $p['ftp_proto']='ftps://';
+                    $p['ftp_host']=substr($p['ftp_host'], $start+7-1);
+                }
+                if(!empty($p['ftp_login'])&&!empty($p['ftp_password'])){
+                    $ftp=sprintf("%s%s:%s@%s", $p['ftp_proto'], $p['ftp_login'],$p['ftp_password'],$p['ftp_host']);
+                }elseif(!empty($p['ftp_login'])){
+                    $ftp=sprintf("%s%s@%s", $p['ftp_proto'], $p['ftp_login'],$p['ftp_host']);
+                }else{
+                    $ftp=sprintf("%s%s", $p['ftp_proto'], $p['ftp_login'],$p['ftp_password'],$p['ftp_host']);
+                }
+                $_POST['ftp'] = $ftp;
+                $this->model('connect', true)->connect()->setRemoteConfig($ftp);
+            }
             $this->config()->saveConfigPost($_POST);
             $this->model('connect', true)->saveConfigPost($_POST);
         }
@@ -598,7 +648,7 @@ final class Maged_Controller
 
         $this->setAction();
 
-        if (!$this->isWritable() || !$this->isInstalled()) {
+        if (!$this->isInstalled()) {
             if (!in_array($this->getAction(), array('index', 'connectInstallAll', 'empty'))) {
                 $this->setAction('index');
             }
@@ -696,7 +746,17 @@ final class Maged_Controller
     public function startInstall()
     {
         if ($this->_getMaintenanceFlag()) {
-            @file_put_contents($this->_getMaintenanceFilePath(), 'maintenance');
+            $maintenance_filename='maintenance.flag';
+            if(!$this->isWritable()||strlen($this->config()->get('ftp'))>0){
+                $ftpObj = new Mage_Connect_Ftp();
+                $ftpObj->connect($this->config()->get('ftp'));
+                $tempFile = tempnam(sys_get_temp_dir(),'maintenance');
+                @file_put_contents($tempFile, 'maintenance');
+                $ret=$ftpObj->upload($maintenance_filename, $tempFile);
+                $ftpObj->close();
+            }else{
+                @file_put_contents($this->_getMaintenanceFilePath(), 'maintenance');
+            }
         }
     }
 
@@ -721,7 +781,15 @@ final class Maged_Controller
         Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
 
         if ($this->_getMaintenanceFlag()) {
-            @unlink($this->_getMaintenanceFilePath());
+            $maintenance_filename='maintenance.flag';
+            if(!$this->isWritable()&&strlen($this->config()->get('ftp'))>0){
+                $ftpObj = new Mage_Connect_Ftp();
+                $ftpObj->connect($this->config()->get('ftp'));
+                $ftpObj->delete($maintenance_filename);
+                $ftpObj->close();
+            }else{
+                @unlink($this->_getMaintenanceFilePath());
+            }
         }
     }
 }

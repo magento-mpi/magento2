@@ -62,12 +62,27 @@ implements Iterator
                 'doc' => "Location of magento",
                 'possible' => '/path',
         ),
-            'root_channel' => array(
+            'root_channel_uri' => array(
                 'type' => 'string',
-                'value' => 'core',
+//                'value' => 'http://connect20.magentocommerce.com/',
+                'value' => 'http://connect.kiev-dev/',
                 'prompt' => '',
                 'doc' => "",
                 'possible' => '',
+        ),
+            'root_channel' => array(
+                'type' => 'string',
+                'value' => 'community',
+                'prompt' => '',
+                'doc' => "",
+                'possible' => '',
+        ),
+            'remote_config' => array(
+                'type' => 'string',
+                'value' => '',
+                'prompt' => '',
+                'doc' => "",
+                'possible' => 'ftp://name:password@host.com:port/path/to/folder/',
         ),
         
         );
@@ -110,43 +125,59 @@ implements Iterator
          * place pointer to begin
          * create if not exists
          */
-        $f = fopen($this->_configFile, "a+");
-        fseek($f, 0, SEEK_SET);
-        $size = filesize($this->_configFile);
-        if(!$size) {
-            $this->store();
-            return;
-        }
+        if(is_file($this->_configFile)){
+            $f = fopen($this->_configFile, "r");
+            fseek($f, 0, SEEK_SET);
+            $size = filesize($this->_configFile);
+            if(!$size) {
+                $this->store();
+                return;
+            }
 
-        $headerLen = strlen(self::HEADER);
-        $contents = fread($f, $headerLen);
+            $headerLen = strlen(self::HEADER);
+            $contents = fread($f, $headerLen);
 
-        if(self::HEADER != $contents) {
-            $this->store();
-            return;
-        }
+            if(self::HEADER != $contents) {
+                $this->store();
+                return;
+            }
 
-        $size -= $headerLen;
-        $contents = fread($f, $size);
+            $size -= $headerLen;
+            $contents = fread($f, $size);
 
-        $data = @unserialize($contents);
-        if($data === unserialize(false)) {
-            $this->store();
-            return;
+            $data = @unserialize($contents);
+            if($data === unserialize(false)) {
+                $this->store();
+                return;
+            }
+            foreach($data as $k=>$v) {
+                $this->$k = $v;
+            }
+            fclose($f);
         }
-        foreach($data as $k=>$v) {
-            $this->$k = $v;
-        }
-        fclose($f);
     }
 
     public function store()
     {
+        // @TODO: use ftp to save config
         $data = serialize($this->toArray());
-        $f = @fopen($this->_configFile, "w+");
-        @fwrite($f, self::HEADER);
-        @fwrite($f, $data);
-        @fclose($f);
+        if(strlen($this->remote_config)>0){
+            $confFile=$this->downloader_path.DIRECTORY_SEPARATOR."connect.cfg";
+            $ftpObj = new Mage_Connect_Ftp();
+            $ftpObj->connect($this->remote_config);
+            $tempFile = tempnam(sys_get_temp_dir(),'config');
+            $f = @fopen($tempFile, "w+");
+            @fwrite($f, self::HEADER);
+            @fwrite($f, $data);
+            @fclose($f);
+            $ret=$ftpObj->upload($confFile, $tempFile);
+            $ftpObj->close();
+        }elseif(is_writable($this->_configFile)) {
+            $f = @fopen($this->_configFile, "w+");
+            @fwrite($f, self::HEADER);
+            @fwrite($f, $data);
+            @fclose($f);
+        }
     }
 
 

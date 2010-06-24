@@ -136,7 +136,7 @@ class Mage_Connect_Singleconfig
             return;
         }
 
-        if(!file_exists($file)) {
+        if(!file_exists($file)||filesize($file)==0) {
             $this->save($file);
             return;
         }
@@ -196,7 +196,10 @@ class Mage_Connect_Singleconfig
         if(!$this->_debug) {
             $data = @gzcompress($data);
         }
-        $res = @file_put_contents($file, $data);
+        $res=true;
+        if(is_writable($file)){
+            $res = @file_put_contents($file, $data);
+        }
         if(!$res) {
             $this->doError("Cannot save: '{$file}'");
         }

@@ -50,7 +50,7 @@
         <div class="main">
         <?php if ($this->controller()->getAction()!='login' && !$this->get('exception')): ?>
             <div class="nav">
-            <?php if ($this->controller()->isWritable()): ?>
+            <?php if (true||$this->controller()->isWritable()): ?>
                 <?php if ($this->controller()->session()->getUserId()): ?>
                     <a href="<?php echo $this->url('logout') ?>" class="f-right" style="margin:0px 10px;">Log Out</a>
                     <?php if ($returnUrl = $this->controller()->session()->getReturnUrl()): ?>

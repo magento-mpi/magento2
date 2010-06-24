@@ -78,7 +78,7 @@ class Mage_Connect_Ftp
     public function mkdirRecursive($path, $mode = 0777)
     {
         $this->checkConnected();
-        $dir = split("/", $path);
+        $dir = explode('/', $path);
         $path= "";
         $ret = true;
         for ($i=0; $i < count($dir); $i++) {
@@ -414,10 +414,10 @@ class Mage_Connect_Ftp
         $globalPathMode = substr($path, 0, 1) == "/";
 
         $file = basename($path);
-        $dir = $globalPathMode ? dirname($path) : $this->getcwd()."/".$path;
+        $dir = $globalPathMode ? dirname($path) : $this->getcwd()."/".($path==basename($path)?'':$path);
         $data = $this->ls($dir);                
         foreach($data as $row) {
-            if($file == $row['name']) {
+            if($file == basename($row['name'])) {
                 if($excludeIfIsDir && $row['dir']) {
                     continue;
                 }                

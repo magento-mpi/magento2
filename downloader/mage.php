@@ -59,7 +59,7 @@ class __cli_Mage_Connect
 		if (defined('DEVELOPMENT_MODE')) {
 			$libPath = PS . dirname(BP) . DS . 'lib';
 		} else {
-			$libPath = PS . BP . DS . 'lib';
+			$libPath = PS . BP . DS . 'downloader' . DS . 'lib';
 		}
 		$includePath = BP . DS . 'app'
 		. $libPath
@@ -146,5 +146,7 @@ class __cli_Mage_Connect
 
 }
 
-if (defined('STDIN') && defined('STDOUT') && (defined('STDERR'))) 
+if (defined('STDIN') && defined('STDOUT') && (defined('STDERR'))) {
+    //var_dump($argv);
     __cli_Mage_Connect::instance()->init($argv)->run();
+}

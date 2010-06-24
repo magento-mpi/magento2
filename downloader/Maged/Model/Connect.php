@@ -78,7 +78,8 @@ class Maged_Model_Connect extends Maged_Model
         $connectConfig = $this->connect()->getConfig();
         //$uri = "var-dev.varien.com/dev/evgeniy.lamskoy/channels/channels/{$chanName}/";
         //$uri = "http://connect2.0/channel/channels/{$chanName}/";
-        $uri = "http://connect20.local.net/channel/channels/{$chanName}/";
+        //$uri = "http://connect20.local.net/channel/channels/{$chanName}/";
+        $uri="http://connect.kiev-dev/community/";
         $connectConfig->root_channel = $chanName;        
         foreach ($packages as $package) {
             $params[] = $uri;
@@ -119,7 +120,7 @@ class Maged_Model_Connect extends Maged_Model
                 $channelData = $output;
                 if (empty($channelData['list-upgrades']['data']) || !is_array($channelData['list-upgrades']['data'])) {
                     continue;
-                }
+                }//var_dump($channelData['list-upgrades']['data']);exit();
                 foreach ($channelData['list-upgrades']['data'] as $channel=>$package) {
                     foreach ($package as $name=>$data) {
                         if (!isset($packages[$channel][$name])) {
@@ -213,6 +214,9 @@ class Maged_Model_Connect extends Maged_Model
         if (!empty($ignoreLocalModification)) {
             $options = array('ignorelocalmodification'=>1);
         }
+        if(!$this->controller()->isWritable()||strlen($this->controller()->config()->get('ftp'))>0){
+            $options['ftp'] = $this->controller()->config()->get('ftp');
+        }
 
         foreach ($actions as $action=>$packages) {
             foreach ($packages as $package) {
@@ -245,6 +249,9 @@ class Maged_Model_Connect extends Maged_Model
         $this->controller()->startInstall();
 
         $options = array();
+        if(!$this->controller()->isWritable()||strlen($this->controller()->config()->get('ftp'))>0){
+            $options['ftp'] = $this->controller()->config()->get('ftp');
+        }
         $this->connect()->runHtmlConsole(array(
             'command'=>'install-file',
             'options'=>$options,
@@ -262,13 +269,16 @@ class Maged_Model_Connect extends Maged_Model
     public function installPackage($id, $force=false)
     {
         $match = array();
-        if (!preg_match('#^([^ ]+) ([^-]+)(-[^-]+)?$#', $id, $match)) {
+        //if (!preg_match('#^([^ ]+) ([^-]+)(-[^-]+)?$#', $id, $match)) {// there is bug? space not used as separator "/" must be there. Version number part (-[^-]+) may be optional?
+        //if (!preg_match('#^([^\/]+)\/([^-]+)?$#', $id, $match)&&!preg_match('#^([^ ]+)\/([^-]+)(-[^-]+)?$#', $id, $match)&&!preg_match('#^([^ ]+) ([^-]+)(-[^-]+)?$#', $id, $match)) {
+        if (!preg_match('#^([^ ]+)\/([^-]+)(-[^-]+)?$#', $id, $match)) {
             $this->connect()->runHtmlConsole('Invalid package identifier provided: '.$id);
             exit;
         }
 
         $channel = $match[1];
-        $package = $match[2].(!empty($match[3]) ? $match[3] : '');
+        $package = $match[2];//.(!empty($match[3]) ? $match[3] : '');
+        $version = (!empty($match[3]) ? trim($match[3],'/\-') : '');
 
         $this->controller()->startInstall();
 
@@ -276,11 +286,14 @@ class Maged_Model_Connect extends Maged_Model
         if ($force) {
             $options['force'] = 1;
         }
+        if(!$this->controller()->isWritable()||strlen($this->controller()->config()->get('ftp'))>0){
+            $options['ftp'] = $this->controller()->config()->get('ftp');
+        }
 
         $this->connect()->runHtmlConsole(array(
             'command'=>'install',
             'options'=>$options,
-            'params'=>array(0=>$channel, 1=>$package),
+            'params'=>array(0=>$channel, 1=>$package, 2=>$version),
         ));
 
         $this->controller()->endInstall();
@@ -321,21 +334,15 @@ class Maged_Model_Connect extends Maged_Model
      */
     public function saveConfigPost($p)
     {
-        $this->connect()->getConfig()->preferred_state = $p['preferred_state'];
-        $this->connect()->getConfig()->protocol = $p['protocol'];
-        if( 1 == $p['inst_protocol'])
-            $this->set('ftp',sprintf("%s:%s@%s", $p['ftp_user'],$p['ftp_pswd'],$p['ftp_path']));
-        else
-            $this->set('ftp', false);
-        /*        $result1 = $this->connect()->run('config-set', array(), array('preferred_state', $p['preferred_state']));
-         $result2 = $this->connect()->run('config-set', array(), array('protocol', $p['protocol']));
-         $noError = $result1 && $result2;
-         if (!$noError) {*/
+        if( 1 == $p['inst_protocol']){
+            $this->connect()->getConfig()->remote_config=$p['ftp'];
+            $this->connect()->getConfig()->preferred_state = $p['preferred_state'];
+            $this->connect()->getConfig()->protocol = $p['protocol'];
+        }else{
+            $this->connect()->getConfig()->preferred_state = $p['preferred_state'];
+            $this->connect()->getConfig()->protocol = $p['protocol'];
+        }
         $this->controller()->session()->addMessage('success', 'Settings has been successfully saved');
-        //$this->controller()->session()->addMessage('success', $this->connect()->getConfig()->protocol);
-        
-        //var_dump($this->connect()->getConfig()->protocol);
-        //}
         return $this;
     }
 

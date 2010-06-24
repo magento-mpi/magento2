@@ -93,7 +93,7 @@ function addParamToUrl(url, param, value)
         url = url.substr(0, anchorPos);
     }
     getPos = url.search(/\?/);
-    console.log(getPos);
+    //console.log(getPos);
     if (getPos != -1) {
         url.substr(getPos + 1).split('&').each(function(pv){
             pv = pv.split('=');

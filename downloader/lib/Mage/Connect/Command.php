@@ -149,16 +149,6 @@ class Mage_Connect_Command
         return self::$_sconfig;
     }
     
-    public function getCache ($ftp)
-    {
-        if(!is_null($ftp)) {
-            $cache= $this->getPackager($ftp)->getRemoteCache();
-        } else {
-            $cache = $this->getSconfig();
-        }
-        return $cache;
-    }
-    
     
     /**
      * Sets frontend object for all commands
@@ -190,17 +180,6 @@ class Mage_Connect_Command
     public function config()
     {
         return self::$_config;
-    }
-    
-    public function getConfig ($ftp)
-    {
-        if(!is_null($ftp)) {
-            $config = $this->getPackager($ftp)->getRemoteConfig();
-        } else {
-            $config = $this->config();
-        }
-        return $config;
-
     }
 
     /**
@@ -400,11 +379,10 @@ class Mage_Connect_Command
      * Get packager instance
      * @return Mage_Connect_Pacakger
      */
-    public function getPackager($ftpString=null) 
+    public function getPackager() 
     {
-        $ftpString = ($ftpString !== false) ? $ftpString : null;
         if(!self::$_packager) {
-            self::$_packager = new Mage_Connect_Packager($ftpString);
+            self::$_packager = new Mage_Connect_Packager();
         }
         return self::$_packager;    
     }

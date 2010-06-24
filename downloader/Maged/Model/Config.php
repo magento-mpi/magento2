@@ -50,7 +50,10 @@ class Maged_Model_Config extends Maged_Model
             'mkdir_mode',
             'chmod_file_mode',
             'magento_root',
-            'root_channel'
+            'downloader_path',
+            'root_channel_uri',
+            'root_channel',
+            'ftp'
         );
         foreach ($configParams as $paramName){
             if (isset($p[$paramName])) {
@@ -108,15 +111,32 @@ class Maged_Model_Config extends Maged_Model
     public function save()
     {
         if (!is_writable($this->getFilename())) {
-            $this->controller()->session()
-                ->addMessage('error', 'Invalid file permissions, could not save configuration.');
-            return $this;
+            if(isset($this->_data['ftp'])&&strlen($this->get('downloader_path'))>0){
+                $confFile=$this->get('downloader_path').DIRECTORY_SEPARATOR.basename($this->getFilename());
+                $ftpObj = new Mage_Connect_Ftp();
+                $ftpObj->connect($this->_data['ftp']);
+                $tempFile = tempnam(sys_get_temp_dir(),'configini');
+                $fp = fopen($tempFile, 'w');
+                foreach ($this->_data as $k=>$v) {
+                    fwrite($fp, $k.'='.$v."\n");
+                }
+                fclose($fp);
+                $ret=$ftpObj->upload($confFile, $tempFile);
+                $ftpObj->close();
+            }else{
+                /* @TODO: show Warning message*/
+                $this->controller()->session()
+                    ->addMessage('warning', 'Invalid file permissions, could not save configuration.');
+                return $this;
+            }
+            /**/
+        }else{
+            $fp = fopen($this->getFilename(), 'w');
+            foreach ($this->_data as $k=>$v) {
+                fwrite($fp, $k.'='.$v."\n");
+            }
+            fclose($fp);
         }
-        $fp = fopen($this->getFilename(), 'w');
-        foreach ($this->_data as $k=>$v) {
-            fwrite($fp, $k.'='.$v."\n");
-        }
-        fclose($fp);
         return $this;
     }
 

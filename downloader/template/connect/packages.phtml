@@ -40,7 +40,9 @@
 <ul class="bare-list">
 <li><span class="step-count">1</span> &nbsp; Search for modules via <a href="http://connect.magentocommerce.com/" target="Magento_Connect">Magento Connect</a>.</li>
 <li><span class="step-count">2</span> &nbsp;
-    <form action="<?php echo $this->url('connectInstallPackagePost')?>" method="post" target="connect_iframe" onsubmit="onSubmit(this)">
+    <form action="<?php 
+    /** @TODO: clear hardcode url*/
+    echo $this->url('connectInstallPackagePost')?>" method="post" target="connect_iframe" onsubmit="onSubmit(this)">
         <label for="uri">Paste extension key to install:</label> <input id="install_package_id" name="install_package_id" style="width:300px"/>
         <button type="submit">Install</button>
     </form></li>
@@ -70,8 +72,6 @@
     <?php endif; ?>
 </div>
 <?php $packages = $this->get('connect')->getAllInstalledPackages(); $i = 0; $cnt = count($packages); ?>
-<?php foreach ($packages as $channel=>$pkgs): ?>
-
 <script type="text/javascript">
     function formSubmit(id)
     {
@@ -81,6 +81,7 @@
         }
     }
 </script>
+<?php foreach ($packages as $channel=>$pkgs): ?>
 
 <form id="connect_packages_<?php echo $i ?>" class="connect-packages" action="<?php echo $this->url('connectPackagesPost')?>" method="post" target="connect_iframe">
     <input type="hidden" id="ignore_local_modification" name="ignore_local_modification" value=""/>

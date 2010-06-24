@@ -33,7 +33,6 @@ extends Mage_Connect_Command
     const PARAM_VAL = 1;
 
 
-
     /**
      * Show config variable
      * @param string $command
@@ -48,8 +47,13 @@ extends Mage_Connect_Command
         try {
             $values = array();
 
-            $ftp = empty($options['ftp']) ? null : $options['ftp'];
-            $config = $this->getConfig($ftp);
+            $packager = $this->getPackager();
+            $ftp = empty($options['ftp']) ? false : $options['ftp'];
+            if($ftp) {
+                list($config,  $ftpObj) = $packager->getRemoteConfig($ftp);
+            } else {
+                $config = $this->config();
+            }
             foreach( $config as $k=>$v ) {
                 $values[$k] = $v;
             }
@@ -84,11 +88,16 @@ extends Mage_Connect_Command
             }
             $key = strtolower($params[self::PARAM_KEY]);
             $val = strval($params[self::PARAM_VAL]);
+            $packager = $this->getPackager();
 
-            $ftp = empty($options['ftp']) ? null : $options['ftp'];
-            $config = $this->getConfig($ftp);
-            $packager = $this->getPackager($ftp);
-            $ftpObj = $packager->getFtpObj();
+            $ftp = empty($options['ftp']) ? false : $options['ftp'];
+            if(!$ftp) {
+                $config = $this->config();
+                $ftp=$config->remote_config;
+            }
+            if($ftp) {
+                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
+            }
 
             if(!$config->hasKey($key)) {
                 throw new Exception ("No such config variable: {$key}!");
@@ -127,8 +136,13 @@ extends Mage_Connect_Command
             if(count($params) < 1) {
                 throw new Exception("Parameters count should be >= 1");
             }
-            $ftp = empty($options['ftp']) ? null : $options['ftp'];
-            $config = $this->getConfig($ftp);
+            $packager = $this->getPackager();
+            $ftp = empty($options['ftp']) ? false : $options['ftp'];
+            if($ftp) {
+                list($config,  $ftpObj) = $packager->getRemoteConfig($ftp);
+            } else {
+                $config = $this->config();
+            }
             $key = strtolower($params[self::PARAM_KEY]);
             if(!$config->hasKey($key)) {
                 throw new Exception("No such config variable '{$key}'!");
@@ -159,8 +173,13 @@ extends Mage_Connect_Command
             if(count($params) < 1) {
                 throw new Exception( "Parameters count should be >= 1");
             }
-            $ftp = empty($options['ftp']) ? null : $options['ftp'];
-            $config = $this->getConfig($ftp);
+            $packager = $this->getPackager();
+            $ftp = empty($options['ftp']) ? false : $options['ftp'];
+            if($ftp) {
+                list($config,  $ftpObj) = $packager->getRemoteConfig($ftp);
+            } else {
+                $config = $this->config();
+            }
 
             $key = strtolower($params[self::PARAM_KEY]);
             if(!$this->config()->hasKey($key)) {

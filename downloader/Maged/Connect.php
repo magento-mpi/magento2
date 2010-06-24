@@ -121,6 +121,13 @@ class Maged_Connect
     {
         if (!$this->_config) {
             $this->_config = new Mage_Connect_Config();
+            $ftp=$this->_config->__get('remote_config');
+            if(!empty($ftp)){
+                $packager = new Mage_Connect_Packager();
+                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
+                $this->_config=$config;
+                //$this->_sconfig=$cache;
+            }
             $this->_config->magento_root = dirname(dirname(__FILE__)).DS.'..';
             Mage_Connect_Command::setConfigObject($this->_config);
         }
@@ -237,6 +244,10 @@ class Maged_Connect
             */
             $cmd = $this->_cmdCache[$command];
         }
+        $ftp=$this->getConfig()->remote_config;
+        if(strlen($ftp)>0){
+            $options=array_merge($options, array('ftp'=>$ftp));
+        }
         $cmd->run($command, $options, $params);
         if ($cmd->ui()->hasErrors()) {
             return false;
@@ -248,7 +259,9 @@ class Maged_Connect
     public function setRemoteConfig($uri) #$host, $user, $password, $path='', $port=null)
     {
         #$uri = 'ftp://' . $user . ':' . $password . '@' . $host . (is_numeric($port) ? ':' . $port : '') . '/' . trim($path, '/') . '/';
-        $this->run('config-set', array(), array('remote_config', $uri));
+        //$this->run('config-set', array(), array('remote_config', $uri));
+        //$this->run('config-set', array('ftp'=>$uri), array('remote_config', $uri));
+        $this->getConfig()->remote_config=$uri;
         return $this;
     }
 

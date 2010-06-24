@@ -352,6 +352,8 @@ implements Mage_HTTP_IClient
     {
         $this->_ch = curl_init();
         $this->curlOption(CURLOPT_URL, $uri);
+        $this->curlOption(CURLOPT_SSL_VERIFYPEER, FALSE);
+        $this->curlOption(CURLOPT_SSL_VERIFYHOST, 2);
         if($method == 'POST') {
             $this->curlOption(CURLOPT_POST, 1);
             $this->curlOption(CURLOPT_POSTFIELDS, http_build_query($params));

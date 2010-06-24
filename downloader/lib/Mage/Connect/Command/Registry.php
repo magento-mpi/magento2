@@ -39,8 +39,13 @@ extends Mage_Connect_Command
     {
         $this->cleanupParams($params);
         try {
-            $ftp = empty($options['ftp']) ? null : $options['ftp'];
-            $cache = $this->getCache($ftp);
+            $packager = $this->getPackager();
+            $ftp = empty($options['ftp']) ? false : $options['ftp'];
+            if($ftp) {
+                list($cache, $ftpObj) = $packager->getRemoteCache($ftp);
+            } else {
+                $cache = $this->getSconfig();
+            }
             if(!empty($params[0])) {
                 $chanName = $conf->chanName($params[0]);
                 $data = $cache->getInstalledPackages($chanName);
@@ -79,10 +84,10 @@ extends Mage_Connect_Command
             $channel = $params[0];
             $package = $params[1];
 
-            $ftp = empty($options['ftp']) ? null : $options['ftp'];
-            $packager = $this->getPackager($ftp);
+            $packager = $this->getPackager();
+            $ftp = empty($options['ftp']) ? false : $options['ftp'];
             if($ftp) {
-                list($cache, $config, $ftpObj) = $packager->getRemoteConf();
+                list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
             } else {
                 $cache = $this->getSconfig();
                 $confif = $this->config();
@@ -137,8 +142,13 @@ extends Mage_Connect_Command
             }
             $channel = $params[0];
             $package = $params[1];
-            $ftp = empty($options['ftp']) ? null : $options['ftp'];
-            $cache = $this->getCache($ftp);
+            $packager = $this->getPackager();
+            $ftp = empty($options['ftp']) ? false : $options['ftp'];
+            if($ftp) {
+                list($cache, $ftpObj) = $packager->getRemoteCache($ftp);
+            } else {
+                $cache = $this->getSconfig();
+            }
 
             if(!$cache->isChannel($channel)) {
                 throw new Exception("'{$channel}' is not a valid installed channel name/uri");

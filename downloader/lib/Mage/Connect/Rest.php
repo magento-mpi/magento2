@@ -204,15 +204,14 @@ class Mage_Connect_Rest
         }
         if(isset($out['data']['p'][0])) {
             $return = $out['data']['p'];
-        }
-        if(is_array($out['data']['p'])) {
+        }elseif(is_array($out['data']['p'])) {
             $return = array($out['data']['p']);
         }
         $c  = count($return);
         if($c) {
             $output = array();
-            for($i=0,$c=count($return[0]); $i<$c; $i++) {
-                $element = $return[0][$i];
+            for($i=0; $i<$c; $i++) {
+                $element = $return[$i];
                 $output[$element['n']] = $element['r'];
             }
             $return = $output;
