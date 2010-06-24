@@ -355,7 +355,8 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         }
 
         if ($returnPathEmail !== null) {
-            $mail->setReturnPath($returnPathEmail);
+            $mailTransport = new Zend_Mail_Transport_Sendmail($returnPathEmail);
+            Zend_Mail::setDefaultTransport($mailTransport);
         }
 
         if (is_array($email)) {
