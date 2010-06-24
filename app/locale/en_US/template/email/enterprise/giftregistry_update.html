@@ -1,9 +1,9 @@
-<!--@subject Gift Registry updated at {{var store.getFrontendName()|escape}} @-->
+<!--@subject Gift Registry updated at {{var store.getFrontendName()}} @-->
 <!--@vars
 {"store url=\"\"":"Store Url",
 "store url=\"customer/account/\"":"Customer Account Url",
 "skin url=\"images/logo_email.gif\" _area='frontend'":"Email Logo Image",
-"var store.getFrontendName()|escape":"Store Name",
+"var store.getFrontendName()":"Store Name",
 "var owner.getName()|escape":"Owner Name",
 "var entity.getTitle()|escape":"Registry Title"}
 @-->
@@ -18,7 +18,7 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
             <table bgcolor="FFFFFF" cellspacing="0" cellpadding="10" border="0" width="650" style="border:1px solid #E0E0E0;">
                 <tr>
                     <td valign="top">
-                        <a href="{{store url=""}}" style="color:#1E7EC8;"><img src="{{skin url="images/logo_email.gif" _area='frontend'}}" alt="{{var store.getFrontendName()|escape}}" border="0"/></a>
+                        <a href="{{store url=""}}" style="color:#1E7EC8;"><img src="{{skin url="images/logo_email.gif" _area='frontend'}}" alt="{{var store.getFrontendName()}}" border="0"/></a>
                     </td>
                 </tr>
                 <tr>
@@ -26,11 +26,11 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                         <h1 style="font-size:22px; font-weight:normal; line-height:22px; margin:0 0 11px 0;"">Hello, {{var owner.getName()|escape}}</h1>
 
                         <p style="font-size:12px; line-height:16px; margin:0 0 16px 0;">
-                        The following item(s) just was bought from your Gift Registry "{{var entity.getTitle()|escape}}":
+                        The following items have been just bought from your gift registry "{{var entity.getTitle()|escape}}":
                         
                         <p>{{layout handle="enterprise_giftregistry_email_entity_items" entity=$entity}}</p><br/>
                         
-                        <p style="font-size:12px; line-height:16px; margin:0 0 16px 0;">You can log into your account to view more details about this Gift Registry.</p>
+                        <p style="font-size:12px; line-height:16px; margin:0 0 16px 0;">You can log into your account to view more details about this gift registry.</p>
                    </td>
                 </tr>
                 <tr>

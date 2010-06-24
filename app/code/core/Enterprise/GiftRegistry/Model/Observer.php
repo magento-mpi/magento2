@@ -192,7 +192,6 @@ class Enterprise_GiftRegistry_Model_Observer
 
         $giftRegistries = array();
         $item = Mage::getModel('enterprise_giftregistry/item');
-
         foreach ($order->getAllVisibleItems() as $orderItem) {
             if ($registryItemId = $orderItem->getGiftregistryItemId()) {
                 $item->load($registryItemId);
@@ -204,7 +203,8 @@ class Enterprise_GiftRegistry_Model_Observer
             }
         }
 
-        if (count(array_unique($giftRegistries))) {
+        $giftRegistries = array_unique($giftRegistries);
+        if (count($giftRegistries)) {
             $entity = Mage::getModel('enterprise_giftregistry/entity');
             foreach ($giftRegistries as $registryId) {
                 $entity->load($registryId);
