@@ -277,7 +277,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         $owner = Mage::getModel('customer/customer')
             ->load($this->getCustomerId());
 
-        $store = Mage::app()->getStore($owner->getStoreId());
+        $store = Mage::app()->getStore();
         $mail = Mage::getModel('core/email_template');
 
         $templateVars = array(
