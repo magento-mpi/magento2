@@ -102,9 +102,9 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
             $collection->getSelect()->limit($limit);
         }
 
-        $res = $collection->toArray();
+        $res = $adapter->fetchAll($collection->getSelect());
 
-        foreach ($res["items"] as $id) {
+        foreach ($res as $id) {
             $queryIds[] = (int)$id["rel_id"];
         }
         return $queryIds;
@@ -123,11 +123,8 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
         if (isset($params['store_id'])) {
             $model->setStoreId($params['store_id']);
         }
-        $queryWords = array($query);
-        if (strpos($query, " ") !== false) {
-            $queryWords = array_unique(array_merge($queryWords, explode(" ", $query)));
-        }
-        $relatedQueriesIds = $this->loadByQuery($queryWords);
+
+        $relatedQueriesIds = $this->loadByQuery($query, $searchRecommendationsCount);
 
         $relatedQueries = array();
 
@@ -138,12 +135,8 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
             $select = $adapter->select()
                 ->from(array('main_table' => $mainTable),
                     array('query_text', 'num_results'))
-                ->where("query_id IN(?)", $relatedQueriesIds)
-                ->where("main_table.num_results>0")
-                ->order("main_table.num_results DESC")
-                ->limit($searchRecommendationsCount)
-            ;
-            $relatedQueries = $adapter->fetchAll($select);;
+                ->where("query_id IN(?)", $relatedQueriesIds);
+            $relatedQueries = $adapter->fetchAll($select);
         }
 
         return $relatedQueries;
@@ -155,10 +148,20 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
      * @param array $queryWords
      * @return array
      */
-    protected function loadByQuery($queryWords)
+    protected function loadByQuery($query, $searchRecommendationsCount)
     {
         $adapter = $this->_getReadAdapter();
         $model = $this->_getSearchQueryModel();
+        $queryId = $model->getId();
+        $relatedQueries = $this->getRelatedQueries($queryId, $searchRecommendationsCount);
+        if ($searchRecommendationsCount - count($relatedQueries) < 1) {
+            return $relatedQueries;
+        }
+
+        $queryWords = array($query);
+        if (strpos($query, " ") !== false) {
+            $queryWords = array_unique(array_merge($queryWords, explode(" ", $query)));
+        }
 
         $likeCondition = array();
         foreach ($queryWords as $word) {
@@ -172,15 +175,20 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
             ))
             ->where(new Zend_Db_Expr($likeCondition))
             ->where('store_id=?', $model->getStoreId())
-            ->where('query_id!=?', $model->getId())
-            ->order('query_text ASC')
-            ;
+            ->order('num_results DESC')
+            ->limit($searchRecommendationsCount + 1);
         $ids = $adapter->fetchCol($select);
         if (!is_array($ids)) {
             $ids = array();
         }
 
-        $ids = array_unique(array_merge($this->getRelatedQueries($model->getId()), $ids));
+        $key = array_search($queryId, $ids);
+        if ($key) {
+            unset($ids[$key]);
+        }
+
+        $ids = array_unique(array_merge($relatedQueries, $ids));
+        $ids = array_slice($ids, 0, $searchRecommendationsCount);
         return $ids;
     }
 
