@@ -1679,7 +1679,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             && !$this->canUnhold()
             && !$this->canInvoice()
             && !$this->canShip()) {
-            if ($this->canCreditmemo()) {
+            if (0 == $this->getBaseGrandTotal() || $this->canCreditmemo()) {
                 if ($this->getState() !== self::STATE_COMPLETE) {
                     $this->_setState(self::STATE_COMPLETE, true, '', $userNotification);
                 }
