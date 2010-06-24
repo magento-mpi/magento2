@@ -55,6 +55,44 @@ class Mage_XmlConnect_Model_Mysql4_History extends Mage_Core_Model_Mysql4_Abstra
         return parent::_afterLoad($object);
     }
 
+    /**
+     * Returns array of existing images
+     *
+     * @param int $id   -  application instance Id
+     *
+     * @return array
+     */
+    public function getLastParams($id)
+    {
+        $paramArray = array();
+        $idFieldName = Mage::getModel('xmlconnect/application')->getIdFieldName();
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable(), 'params')
+            ->where($idFieldName . '=?', $id)
+            ->order(array('created_at DESC'));
+
+        $params = $this->_getReadAdapter()->fetchOne($select);
+
+        if (isset($params)) {
+            $paramArray = unserialize($params);
+        }
+        return $paramArray;
+    }
+
+    /**
+     * Fetches websiteId for entity
+     *
+     * @param int
+     * @return string
+     */
+    public function getParams2($entityId)
+    {
+        return $this->_getReadAdapter()->fetchOne(
+            $this->_getReadAdapter()->select()
+                ->from($this->getMainTable(), 'website_id')
+                ->where($this->getIdFieldName() . ' = ?', $entityId));
+    }
+
 //    /**
 //     * Save Application submition history
 //     *

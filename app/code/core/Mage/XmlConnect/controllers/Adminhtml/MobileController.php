@@ -78,6 +78,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         try {
             $app = $this->_initApp();
             $this->_title($app->getId() ? $app->getName() : $this->__('New Application'));
+
+            $app->loadSubmit();
             $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
             if (!empty($data)) {
                 $app->addData($data);
@@ -105,7 +107,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
             /** @var $app Mage_XmlConnect_Model_Application */
             $app = $this->_initApp('key');
-
+            $app->loadSubmit();
             if (!empty($_FILES)) {
                 foreach ($_FILES as $field=>$file) {
                     if (!empty($file['name']) && is_scalar($file['name'])) {
@@ -114,22 +116,28 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 }
             }
 
-            if (isset($data['conf']) && is_array($data['conf'])) {
-                $conf = $data['conf'];
-                if (isset($conf['submit_text']) && is_array($conf['submit_text'])) {
-                    $params = $conf['submit_text'];
+            $params = $app->prepareSubmitParams($data);
+            $errors = $app->validateSubmit($params);
+            if ($errors !== true) {
+                foreach ($errors as $err) {
+                    $this->_getSession()->addError($err);
                 }
+                $isError = true;
             }
-            $app->processPostRequest($params);
-            $history = Mage::getModel('xmlconnect/history');
-            $history->setData(array(
-                'params' => $params,
-                'application_id' => $app->getId(),
-                'created_at' => Mage::getModel('core/date')->date(),
-                'store_id' => Mage::app()->getStore()->getId()
-            ));
-            $history->save();
-            $this->_getSession()->addSuccess($this->__('Application has been submitted.'));
+
+            if (!$isError) {
+                $app->processPostRequest();
+                $history = Mage::getModel('xmlconnect/history');
+                $history->setData(array(
+                    'params' => $params,
+                    'application_id' => $app->getId(),
+                    'created_at' => Mage::getModel('core/date')->date(),
+                    'store_id' => $app->getStoreId(),
+                    'title' => isset($params['title']) ? $params['title'] : '',
+                ));
+                $history->save();
+                $this->_getSession()->addSuccess($this->__('Application has been submitted.'));
+            }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect($this->getUrl('*/*/edit', array('application_id' => $app->getId())));

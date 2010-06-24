@@ -39,6 +39,12 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     const APP_CONNECTOR_URL = 'www.magentocommerce.com/mobile/activate/';
 
     /**
+     * Images in "Params" history table
+     *
+     * @var array
+     */
+    protected $_imageIds = array('appIcon', 'loaderImage', 'logo', 'big_logo');
+    /**
      * Initialize application
      */
     protected function _construct()
@@ -403,6 +409,165 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Loads submit tab data from xmlconnect/history table
+     *
+     * @return bool
+     */
+    public function loadSubmit()
+    {
+        $isResubmitAction = false;
+        if ($this->getId()) {
+            $params = $this->getLastParams();
+            if (!empty($params)) {
+                // Using Pointer !
+                $conf = &$this->_data['conf'];
+                if (!isset($conf['submit_text']) || !is_array($conf['submit_text'])) {
+                    $conf['submit_text'] = array();
+                }
+                if (!isset($conf['submit_restore']) || !is_array($conf['submit_restore'])) {
+                    $conf['submit_restore'] = array();
+                }
+                foreach ($params as $id => $value) {
+                    if (!in_array($id, $this->_imageIds)) {
+                        $conf['submit_text'][$id] = $value;
+                    } else {
+                        $conf['submit_restore'][$id] = $value;
+                    }
+                    $isResubmitAction = true;
+                }
+            }
+        }
+        $this->setIsResubmitAction($isResubmitAction);
+        return $isResubmitAction;
+    }
+
+    /**
+     * Returns ( image[ ID ] => "SRC" )  array
+     *
+     * @return array
+     */
+    public function getImages()
+    {
+        $images = array();
+        $params = $this->getLastParams();
+
+        if (!empty($params)) {
+            foreach ($this->_imageIds as $id) {
+                if (isset($params[$id])) {
+                    $path = substr($params[$id], 1);
+                    // converting :  @D:\wamp\www4\media\xmlconnect\form_icon_6.png
+                    // to  http://locahost.com/media/xmlconnect/forn_icon_6.png
+                    $images['conf/submit/'.$id] = Mage::getBaseUrl('media').'xmlconnect/'.basename(substr($params[$id], 1));
+                }
+            }
+        }
+        return $images;
+    }
+
+    /**
+     * Return last submited data from history table
+     *
+     * @return array
+     */
+    public function getLastParams() {
+        if (!isset($this->_lastParams)) {
+            $this->_lastParams = Mage::getModel('xmlconnect/history')->getLastParams($this->getId());
+        }
+        return $this->_lastParams;
+    }
+
+
+    /**
+     * Validate submit application data
+     *
+     * @return array|bool
+     */
+    public function validateSubmit($params)
+    {
+        $errors = array();
+
+        if (!Zend_Validate::is(isset($params['title']) ? $params['title'] : null, 'NotEmpty')) {
+            $errors[] = $helper->__('Please enter the Title.');
+        }
+
+        if (!Zend_Validate::is(isset($params['copyright']) ? $params['copyright'] : null, 'NotEmpty')) {
+            $errors[] = $helper->__('Please enter the Copyright.');
+        }
+
+        if (!Zend_Validate::is(isset($params['price']) ? $params['price'] : null, 'NotEmpty')) {
+            $errors[] = $helper->__('Please enter the Price.');
+        }
+
+        if ($this->getIsResubmitAction()) {
+            if (!Zend_Validate::is(
+                    isset($params['resubmission_activation_key']) ? $params['resubmission_activation_key'] : null,
+                    'NotEmpty')) {
+                $errors[] = $helper->__('Please enter the Resubmission Key.');
+            }
+        } else {
+            if (!Zend_Validate::is(isset($params['key']) ? $params['key'] : null, 'NotEmpty')) {
+                    $errors[] = $helper->__('Please enter the Activation Key.');
+            }
+        }
+
+        if (empty($errors)) {
+            return true;
+        }
+        return $errors;
+    }
+
+    /**
+     * Imports post/get data into the model
+     *
+     * @param array $data    - $_REQUEST[]
+     *
+     * @return array
+     */
+    public function prepareSubmitParams($data) {
+
+        $params = array();
+        if (isset($data['conf']) && is_array($data['conf'])) {
+
+            if (isset($data['conf']['submit_text']) && is_array($data['conf']['submit_text'])) {
+                $params = $data['conf']['submit_text'];
+            }
+
+            $params['name'] = $this->getName();
+            $params['app_code'] = $this->getCode();
+            $params['url'] = Mage::helper('xmlconnect/data')->getUrl('*/*', array('app_code' => $this->getCode()));
+            if (isset($params['country']) && is_array($params['country'])) {
+                $params['country'] = json_encode($params['country']);
+            } else {
+                Mage::throwException(Mage::helper('xmlconnect')->__('Please select at least one Country.'));
+            }
+            if ($this->getIsResubmitAction()) {
+                $params['key'] = $params['resubmission_activation_key'];
+            }
+            // processing files :
+            $submit = array();
+            if (isset($this->_data['conf']['submit']) && is_array($this->_data['conf']['submit'])) {
+                 $submit = $this->_data['conf']['submit'];
+            }
+
+            $submitRestore  = array();
+            if (isset($this->_data['conf']['submit_restore']) && is_array($this->_data['conf']['submit_restore'])) {
+                $submitRestore = $this->_data['conf']['submit_restore'];
+            }
+
+            $dir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS;
+
+            foreach ($this->_imageIds as $id) {
+                if (isset($submit[$id])) {
+                    $params[$id] = '@' . $dir . $submit[$id];
+                } else if (isset($submitRestore[$id])) {
+                    $params[$id] = $submitRestore[$id];
+                }
+            }
+        }
+        $this->setSubmitParams($params);
+        return $params;
+    }
 
     /**
      * Send HTTP POST request to magentocommerce.com
@@ -411,21 +576,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      *
      * @throws Exception
      */
-    public function processPostRequest($params = array())
+    public function processPostRequest()
     {
         try {
-            $params['name'] = $this->getName();
-            $params['app_code'] = $this->getCode();
-            $params['url'] = Mage::helper('xmlconnect/data')->getUrl('*/*', array('app_code' => $this->getCode()));
-
-            $confSubmit = $this->_data['conf']['submit'];
-            $dir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS;
-            $params['appIcon'] = '@' . $dir . $confSubmit['appIcon'];
-            $params['loaderImage'] = '@' . $dir . $confSubmit['loaderImage'];
-            $params['logo'] = '@' . $dir . $confSubmit['logo'];
-            $params['big_logo'] = '@' . $dir . $confSubmit['big_logo'];
-
-            $this->setSubmitParams($params);
+            $params = $this->getSubmitParams();
             $ch = curl_init(self::APP_CONNECTOR_URL . $params['key']);
             // set URL and other appropriate options
             curl_setopt($ch, CURLOPT_POST, 1);
@@ -445,9 +599,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             // Assert that we received an expected message in reponse.
             $resultArray = json_decode($result, true);
             $this->setResult($result);
-            $this->setSuccess(isset($result['success']) && $result['success'] !== true);
-            // default success message - '{"message":"","success":true}'
-            if ($this->getSuccess()) {
+
+            $this->setSuccess(isset($resultArray['success']) && $resultArray['success'] !== true);
+            $this->setSuccess(true);
+            if (!$this->getSuccess()) {
                 $message = isset($result['message']) ? $result['message']: '';
                 throw new Exception('Submit Application postback failure.' . $message);
             }
@@ -469,4 +624,20 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         return Mage::app()->getStore()->getId();
     }
 
+    /**
+     * Getter, returns activation key for current application
+     *
+     * @return string|null
+     */
+    public function getActivationKey()
+    {
+        $key = null;
+        if (isset($this->_data['conf']) && is_array($this->_data['conf']) &&
+            isset($this->_data['conf']['submit_text']) && is_array($this->_data['conf']['submit_text']) &&
+            isset($this->_data['conf']['submit_text']['key'])) {
+
+            $key = $this->_data['conf']['submit_text']['key'];
+        }
+        return $key;
+    }
 }

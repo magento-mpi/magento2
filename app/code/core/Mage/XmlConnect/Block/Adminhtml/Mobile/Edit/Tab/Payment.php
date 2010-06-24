@@ -40,25 +40,25 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
         $form = new Varien_Data_Form();
         $this->setForm($form);
 
-        $fieldset = $form->addFieldset('payment', array('legend' => $this->__('Payment Methods')));
-
-        $fieldset->addField('conf[paypal][isActive]', 'checkbox', array(
-            'name'      => 'conf[paypal][isActive]',
-            'label'     => 'Activate paypal for this store',
-
-        ));
-
-        $fieldset->addField('conf[defaultCheckout][isActive]', 'checkbox', array(
-            'name'      => 'conf[defaultCheckout][isActive]',
-            'label'     => 'Use Default Checkout method',
-
-        ));
-
         $model = Mage::registry('current_app');
-
         $data = $model->getFormData();
 
-        $form->setValues($data);
+        $fieldset = $form->addFieldset('payment', array('legend' => $this->__('Payment Methods')));
+
+        $fieldset->addField('conf[native][paypal][isActive]', 'checkbox', array(
+            'name'      => 'conf[native][paypal][isActive]',
+            'label'     => 'Activate paypal for this store',
+            'value'     => 1,
+            'checked'   => isset($data['conf[native][paypal][isActive]']),
+        ));
+
+        $fieldset->addField('conf[native][defaultCheckout][isActive]', 'checkbox', array(
+            'name'      => 'conf[native][defaultCheckout][isActive]',
+            'label'     => 'Use Default Checkout method',
+            'value'     => 1,
+            'checked'   => isset($data['conf[native][defaultCheckout][isActive]']),
+        ));
+
         return parent::_prepareForm();
     }
 

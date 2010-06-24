@@ -23,25 +23,8 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Model_History extends Mage_Core_Model_Abstract
-{
-    /**
-     * Initialize application
-     */
-    protected function _construct()
-    {
-        $this->_init('xmlconnect/history');
-    }
 
-    /**
-     * Returns array of existing images
-     *
-     * @param int $id   -  application instance Id
-     *
-     * @return array
-     */
-    public function getLastParams($id)
-    {
-        return $this->_getResource()->getLastParams($id);
-    }
-}
+/* @var $installer Mage_XmlConnect_Model_Mysql4_Setup */
+$installer = $this;
+
+$installer->getConnection()->addColumn($this->getTable('xmlconnect/history'), 'title', 'VARCHAR(200) NULL');

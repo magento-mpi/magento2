@@ -65,14 +65,40 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Exports $this->_getUrl() function to public
-     * 
+     *
      * @param string $route
      * @param array $params
-     * 
+     *
      * @return array
      */
-    public function getUrl($route, $params = array()) 
+    public function getUrl($route, $params = array())
     {
         return $this->_getUrl($route, $params);
+    }
+
+
+    /**
+     * Return country options array
+     *
+     * @return array
+     */
+    public function getCountryOptionsArray()
+    {
+        Varien_Profiler::start('TEST: '.__METHOD__);
+
+        $cacheKey = 'XMLCONNECT_COUNTRY_SELECT_STORE_'.Mage::app()->getStore()->getCode();
+        if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
+            $options = unserialize($cache);
+        } else {
+            $options = Mage::getModel('directory/country')
+                ->getResourceCollection()
+                ->loadByStore()
+                ->toOptionArray();
+            if (Mage::app()->useCache('config')) {
+                Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
+            }
+        }
+        Varien_Profiler::stop('TEST: '.__METHOD__);
+        return $options;
     }
 }
