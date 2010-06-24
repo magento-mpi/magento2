@@ -130,20 +130,22 @@ class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_M
         $relatedQueriesIds = $this->loadByQuery($queryWords);
 
         $relatedQueries = array();
+
         if (count($relatedQueriesIds)) {
-            $collection = $model
-                ->getResourceCollection();
-            $collection
-                ->addFieldToFilter("query_id", $relatedQueriesIds)
-                ->getSelect()
-                    ->reset(Zend_Db_Select::COLUMNS)
-                    ->columns(array('query_text', 'num_results'))
-                    ->where('main_table.num_results>0')
-                    ->order("main_table.num_results DESC")
-                    ->limit($searchRecommendationsCount)
+            $adapter = $this->_getReadAdapter();
+            $mainTable = $model
+                ->getResourceCollection()->getMainTable();
+            $select = $adapter->select()
+                ->from(array('main_table' => $mainTable),
+                    array('query_text', 'num_results'))
+                ->where("query_id IN(?)", $relatedQueriesIds)
+                ->where("main_table.num_results>0")
+                ->order("main_table.num_results DESC")
+                ->limit($searchRecommendationsCount)
             ;
-            $relatedQueries = $collection->toArray();
+            $relatedQueries = $adapter->fetchAll($select);;
         }
+
         return $relatedQueries;
     }
 

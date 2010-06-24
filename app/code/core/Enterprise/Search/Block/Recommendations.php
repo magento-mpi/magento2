@@ -54,7 +54,7 @@ class Enterprise_Search_Block_Recommendations extends Mage_Core_Block_Template
             return array();
         }
         $result = array();
-        foreach ($recommendations['items'] as $recommendation) {
+        foreach ($recommendations as $recommendation) {
             $result[] = array(
                 'word'        => $recommendation['query_text'],
                 'num_results' => $recommendation['num_results'],
