@@ -49,22 +49,6 @@ class Enterprise_Search_Block_Catalogsearch_Layer extends Mage_CatalogSearch_Blo
     }
 
     /**
-     * Prepare child blocks
-     *
-     * @return Mage_Catalog_Block_Layer_View
-     */
-    protected function _prepareLayout()
-    {
-        parent::_prepareLayout();
-
-        if (Mage::helper('enterprise_search')->getTaxInfluence()) {
-            $this->unsetChild('price_filter');
-        }
-
-        return $this;
-    }
-
-    /**
      * Check availability display layer block
      *
      * @return bool

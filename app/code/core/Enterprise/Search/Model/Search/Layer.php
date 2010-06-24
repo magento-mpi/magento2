@@ -33,7 +33,7 @@ class Enterprise_Search_Model_Search_Layer extends Mage_CatalogSearch_Model_Laye
     /**
      * Retrieve current layer product collection
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
      */
     public function getProductCollection()
     {
@@ -45,6 +45,37 @@ class Enterprise_Search_Model_Search_Layer extends Mage_CatalogSearch_Model_Laye
             $this->prepareProductCollection($collection);
             $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
         }
+
+        return $collection;
+    }
+
+    /**
+     * Get collection of all filterable attributes for layer products set
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection
+     */
+    public function getFilterableAttributes()
+    {
+        $setIds = $this->_getSetIds();
+        if (!$setIds) {
+            return array();
+        }
+        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection */
+        $collection = Mage::getResourceModel('catalog/product_attribute_collection')
+            ->setItemObjectClass('catalog/resource_eav_attribute');
+
+        $collection->getSelect()->distinct(true);
+
+        if (Mage::helper('enterprise_search')->getTaxInfluence()) {
+            $collection->removePriceFilter();
+        }
+
+        $collection
+            ->setAttributeSetFilter($setIds)
+            ->addStoreLabel(Mage::app()->getStore()->getId())
+            ->setOrder('position', 'ASC');
+        $collection = $this->_prepareAttributeCollection($collection);
+        $collection->load();
 
         return $collection;
     }

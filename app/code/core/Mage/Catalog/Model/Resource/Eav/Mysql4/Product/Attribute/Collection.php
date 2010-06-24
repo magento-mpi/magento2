@@ -76,6 +76,17 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection extend
     }
 
     /**
+     * Remove price from attribute list
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
+     */
+    public function removePriceFilter()
+    {
+        $this->getSelect()->where('main_table.attribute_code <> ?', 'price');
+        return $this;
+    }
+
+    /**
      * Specify "is_visible_in_advanced_search" filter
      *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
