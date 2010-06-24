@@ -36,7 +36,7 @@ class Enterprise_PageCache_Model_Container_Welcome extends Enterprise_PageCache_
      */
     protected function _getIdentifier()
     {
-        return ($this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER) ? '1' : '');
+        return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER, '');
     }
 
     /**

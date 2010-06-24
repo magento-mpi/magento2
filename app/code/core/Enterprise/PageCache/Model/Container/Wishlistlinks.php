@@ -37,7 +37,7 @@ class Enterprise_PageCache_Model_Container_Wishlistlinks extends Enterprise_Page
     protected function _getIdentifier()
     {
         return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST_ITEMS, '')
-            . ($this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER) ? '1' : '');
+            . $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER, '');
     }
 
     /**

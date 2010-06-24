@@ -37,7 +37,7 @@ class Enterprise_PageCache_Model_Container_Sidebar_Recentlycompared extends Ente
     protected function _getIdentifier()
     {
         return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_RECENTLY_COMPARED, '')
-            . ($this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER) ? '1' : '');
+            . $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER, '');
     }
 
     /**

@@ -39,7 +39,7 @@ class Enterprise_PageCache_Model_Container_Sidebar_Cart extends Enterprise_PageC
     protected function _getIdentifier()
     {
         return $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CART, '')
-            . ($this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER) ? '1' : '');
+            . $this->_getCookieValue(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER, '');
     }
 
     /**
