@@ -41,7 +41,12 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit
 
         $this->_removeButton('reset');
         $this->_removeButton('save');
+
+        $confirmMessage = Mage::helper('enterprise_giftregistry')->__('Are you sure you want to delete this gift registry?');
         $this->_updateButton('delete', 'label', Mage::helper('enterprise_giftregistry')->__('Delete Registry'));
+        $this->_updateButton('delete', 'onclick',
+                'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
+            );
     }
 
     /**
