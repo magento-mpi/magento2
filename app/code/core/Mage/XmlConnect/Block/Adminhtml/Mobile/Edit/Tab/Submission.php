@@ -79,7 +79,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
         $formData = $application->getFormData();
 
         $fieldset = $form->addFieldset('submit0', array('legend' => $this->__('Submission Fields')));
-        $fieldset->addField('conf[submit_text][title]', 'text', array(
+        $fieldset->addField('conf/submit_text/title', 'text', array(
             'name'      => 'conf[submit_text][title]',
             'label'     => $this->__('Title'),
             'maxlength' => '200',
@@ -88,7 +88,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
 //            'required'  => true,
         ));
 
-        $field = $fieldset->addField('conf[submit_text][description]', 'textarea', array(
+        $field = $fieldset->addField('conf/submit_text/description', 'textarea', array(
             'name'      => 'conf[submit_text][description]',
             'label'     => $this->__('Description'),
             'maxlength' => '500',
@@ -98,7 +98,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
         ));
         $field->setRows(15);
 
-        $fieldset->addField('conf[submit_text][username]', 'text', array(
+        $fieldset->addField('conf/submit_text/username/', 'text', array(
             'name'      => 'conf[submit_text][username]',
             'label'     => $this->__('Username'),
             'maxlength' => '40',
@@ -107,7 +107,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
 //            'required'  => true,
         ));
 
-        $fieldset->addField('conf[submit_text][email]', 'text', array(
+        $fieldset->addField('conf/submit_text/email', 'text', array(
             'name'      => 'conf[submit_text][email]',
             'label'     => $this->__('Email'),
             'class'     => 'email',
@@ -117,14 +117,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
 //            'required'  => true,
         ));
 
-        $fieldset->addField('conf[submit_text][paypal_is_active]', 'checkbox', array(
+        $fieldset->addField('conf/submit_text/paypal_is_active', 'checkbox', array(
             'name'      => 'conf[submit_text][paypa_is_active]',
             'label'     => $this->__('Activate paypal for this store'),
             'checked'   => isset($formData['conf[submit_text][paypal_is_active]']),
             'value'     => '1',
         ));
 
-        $fieldset->addField('conf[submit_text][price]', 'text', array(
+        $fieldset->addField('conf/submit_text/price', 'text', array(
             'name'      => 'conf[submit_text][price]',
             'label'     => $this->__('Price'),
             'maxlength' => '40',
@@ -133,7 +133,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
         ));
 
         $selected = isset($formData['conf[submit_text][country]']) ? json_decode($formData['conf[submit_text][country]']) : null;
-        $fieldset->addField('conf[submit_text][country]', 'multiselect', array(
+        $fieldset->addField('conf/submit_text/country', 'multiselect', array(
             'name'      => 'conf[submit_text][country][]',
             'label'     => $this->__('Country'),
             'values'    => Mage::helper('xmlconnect')->getCountryOptionsArray(),
@@ -141,7 +141,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
             'note'      => $this->__('Make this app available in the following territories'),
         ));
 
-        $fieldset->addField('conf[submit_text][copyright]', 'textarea', array(
+        $fieldset->addField('conf/submit_text/copyright', 'textarea', array(
             'name'      => 'conf[submit_text][copyright]',
             'label'     => $this->__('Copyright'),
             'maxlength' => '200',
@@ -151,7 +151,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
 //            'required'  => true,
         ));
 
-        $fieldset->addField('conf[submit_text][push_notification]', 'checkbox', array(
+        $fieldset->addField('conf/submit_text/push_notification', 'checkbox', array(
             'name'      => 'conf[submit_text][push_notification]',
             'label'     => $this->__('Push Notification'),
             'checked'   => isset($formData['conf[submit_text][push_notification]']),

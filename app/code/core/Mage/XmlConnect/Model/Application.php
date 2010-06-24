@@ -37,7 +37,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      * @var string
      */
     const APP_CONNECTOR_URL = 'www.magentocommerce.com/mobile/activate/';
-
     /**
      * Images in "Params" history table
      *
@@ -536,8 +535,9 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $params['name'] = $this->getName();
             $params['app_code'] = $this->getCode();
             $params['url'] = Mage::helper('xmlconnect/data')->getUrl('*/*', array('app_code' => $this->getCode()));
+
             if (isset($params['country']) && is_array($params['country'])) {
-                $params['country'] = json_encode($params['country']);
+                $params['country'] = implode(',', $params['country']);
             } else {
                 Mage::throwException(Mage::helper('xmlconnect')->__('Please select at least one Country.'));
             }
@@ -598,13 +598,17 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
             // Assert that we received an expected message in reponse.
             $resultArray = json_decode($result, true);
-            $this->setResult($result);
 
-            $this->setSuccess(isset($resultArray['success']) && $resultArray['success'] !== true);
-            $this->setSuccess(true);
+            $this->setResult($result);
+            $success = (isset($resultArray['success'])) && ($resultArray['success'] === true);
+            $this->setSuccess($success);
             if (!$this->getSuccess()) {
-                $message = isset($result['message']) ? $result['message']: '';
-                throw new Exception('Submit Application postback failure.' . $message);
+                $message = '';
+                $message = isset($resultArray['message']) ? $resultArray['message']: '';
+                if (is_array($message)) {
+                    $message = implode(' ,', $message);
+                }
+                Mage::throwException('Submit Application failure. ' . $message);
             }
         } catch (Exception $e) {
             throw $e;
