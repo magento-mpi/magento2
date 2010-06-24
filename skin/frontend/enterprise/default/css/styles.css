@@ -1211,7 +1211,8 @@ a.minimal-price-link:hover { text-decoration:underline; }
 .add-to-cart {}
 .add-to-cart label { font-size:12px; vertical-align:middle; font-weight:bold; margin-right:5px; text-transform:capitalize; }
 .add-to-cart .qty { vertical-align:middle; margin-right:10px; width:60px; }
-.add-to-cart .paypal-logo { clear:left; padding:10px 0 0; }
+.add-to-cart .paypal-logo { clear:left; text-align:right; }
+.add-to-cart .paypal-logo .paypal-or { clear:both; display:block; margin:5px 60px 5px 0; }
 
 button.btn-cart span {}
 
