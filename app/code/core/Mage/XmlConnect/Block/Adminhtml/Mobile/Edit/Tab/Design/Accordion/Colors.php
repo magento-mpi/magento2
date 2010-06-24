@@ -38,7 +38,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Colors ex
         $this->_addElementTypes($fieldset);
         $fieldset->addField('conf[extra][theme]', 'theme', array(
             'name'      => 'conf[extra][theme]',
-            'themes'    => Mage::helper('xmlconnect/data')->getThemes(),
+            'themes'    => Mage_XmlConnect_Model_Theme::getAllThemes(),
         ));
         $this->addColor($fieldset, 'conf[native][navigationBar][tintColor]', $this->__('Header Background Color'));
         $this->addColor($fieldset, 'conf[native][body][primaryColor]', $this->__('Primary Color'));

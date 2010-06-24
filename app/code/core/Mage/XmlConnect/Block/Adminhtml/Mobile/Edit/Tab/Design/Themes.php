@@ -25,6 +25,15 @@
  */
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage_Core_Block_Template
 {
+    protected function getAllThemes()
+    {
+        $result = array();
+        foreach ($this->getThemes() as $theme) {
+            $result[$theme->getName()] = $theme->getFormData();
+        }
+        return $result;
+    }
+
     public function __construct()
     {
         parent::__construct();

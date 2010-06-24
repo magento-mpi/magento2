@@ -162,6 +162,16 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if ($data) {
             try {
                 $app = $this->_initApp();
+
+                // FIXME: ONLY FOR DEVELOPMENT
+                if ($this->getRequest()->getParam('saveTheme', false)) {
+                    Mage_XmlConnect_Model_Theme::savePost($this->getRequest()->getParam('saveTheme'), $data);
+                    $this->_getSession()->addSuccess('Theme has been saved.');
+                    $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
+                    return;
+                }
+                // END FIXME
+
                 $app->addData($app->preparePostData($data));
                 if (!empty($_FILES)) {
                     foreach ($_FILES as $field=>$file) {

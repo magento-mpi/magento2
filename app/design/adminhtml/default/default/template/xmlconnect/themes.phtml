@@ -30,16 +30,8 @@
 
 mmColorUpdate = false
 
-mmColorThemes = {
-    'Theme1': {
-        'conf[native][navigationBar][tintColor]': '#D010DE',
-        'conf[native][body][primaryColor]': '#FFFFFF',
-    },
-    'Theme2': {
-        'conf[native][navigationBar][tintColor]': '#FAC0FF',
-        'conf[native][body][primaryColor]': '#EDAEDA',
-    }
-}
+mmColorThemes = <?php echo json_encode($this->getAllThemes()); ?>
+
 
 function mmSetTheme(theme) {
     if (mmColorThemes[theme]) {
@@ -68,16 +60,18 @@ Event.observe(window, 'load', function() {
 
 <?php foreach ($this->getThemes() as $theme): ?>
     <div style="line-height: 3em">
-    <label>
-        <input type="radio"
-            onclick="mmSetTheme('<?php echo $theme->getName(); ?>')"
-            <?php if ($theme->getName() == $this->getValue()) echo 'checked="checked"'; ?>
-            name="<?php echo htmlspecialchars($this->getName()); ?>"
-            value="<?php echo htmlspecialchars($theme->getName()); ?>" />
-        <img src="<?php echo $theme->getColorbarUrl(); ?>" alt=""
-            style="margin: 0 2em; vertical-align: middle" />
-        <?php echo $theme->getLabel(); ?>
-    </label>
+        <button type="button" class="scalable" style="margin: 0 2em 0 0"
+        onclick="editForm.submit($('edit_form').action + 'saveTheme/<?php echo $theme->getName(); ?>/')">
+            <span>Save</span>
+        </button>
+        <label>
+            <input type="radio" style="margin-right: 2em;"
+                onclick="mmSetTheme('<?php echo $theme->getName(); ?>')"
+                <?php if ($theme->getName() == $this->getValue()) echo 'checked="checked"'; ?>
+                name="<?php echo htmlspecialchars($this->getName()); ?>"
+                value="<?php echo htmlspecialchars($theme->getName()); ?>" />
+            <?php echo $theme->getLabel(); ?>
+        </label>
     </div>
 <?php endforeach; ?>
 

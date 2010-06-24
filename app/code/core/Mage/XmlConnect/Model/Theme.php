@@ -25,32 +25,174 @@
  */
 class Mage_XmlConnect_Model_Theme
 {
-    protected $_name;
-    protected $_label;
+    protected $_file;
+    protected $_xml;
+    protected $_conf;
 
-    public function __construct($name, $label)
+    protected function __construct($file)
     {
-        $this->_name = $name;
-        $this->_label = $label;
+        $this->_file = $file;
+        $text = file_get_contents($file);
+        $this->_xml = simplexml_load_string($text);
+        if (empty($this->_xml)) {
+            throw new Exception('Invalid XML');
+        }
+        $this->_conf = $this->_xmlToArray($this->_xml->configuration);
+        $this->_conf = $this->_conf['configuration'];
+        if (!is_array($this->_conf)) {
+            throw new Exception('Wrong theme format');
+        }
+    }
+
+    protected function _xmlToArray($xml)
+    {
+        $result = array();
+        foreach ($xml as $key => $value) {
+            if ($value->count()) {
+                $result[$key] = $this->_xmlToArray($value);
+            } else {
+                $result[$key] = (string) $value;
+            }
+        }
+        return $result;
     }
 
     public function getName()
     {
-        return $this->_name;
+        return (string) $this->_xml->manifest->name;
     }
 
     public function getLabel()
     {
-        return $this->_label;
+        return (string) $this->_xml->manifest->label;
     }
 
-    public function getColorbarUrl()
+    /**
+     * Load data (flat array) for Varien_Data_Form
+     *
+     * @return array
+     */
+    public function getFormData()
     {
-        return Mage::getBaseUrl('skin').'xmlconnect/'.$this->_name.'/colorbar.png';
+        return $this->_flatArray($this->_conf, 'conf');
     }
 
-    public function getPreviewUrl()
+    /**
+     * Load data (flat array) for Varien_Data_Form
+     *
+     * @param array $subtree
+     * @param string $prefix
+     * @return array
+     */
+    protected function _flatArray($subtree, $prefix=null)
     {
-        return Mage::getBaseUrl('skin').'xmlconnect/'.$this->_name.'/preview.jpg';
+        $result = array();
+        foreach ($subtree as $key => $value) {
+            if (is_null($prefix)) {
+                $name = $key;
+            }
+            else {
+                $name = $prefix . '[' . $key . ']';
+            }
+
+            if (is_array($value)) {
+                $result = array_merge($result, $this->_flatArray($value, $name));
+            }
+            else {
+                $result[$name] = $value;
+            }
+        }
+        return $result;
     }
+
+    public static function getAllThemes()
+    {
+        $save_libxml_errors = libxml_use_internal_errors(TRUE);
+        $result = array();
+        $themeDir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'themes';
+
+        $d = opendir($themeDir);
+        while (($f = readdir($d)) !== FALSE) {
+            $f = $themeDir . DS . $f;
+            if (is_file($f) && is_readable($f)) {
+                try {
+                    $result[] = new Mage_XmlConnect_Model_Theme($f);
+                } catch (Exception $e) {
+                }
+            }
+        }
+        closedir($d);
+
+        libxml_use_internal_errors($save_libxml_errors);
+        usort($result, array('Mage_XmlConnect_Model_Theme', 'sortThemes'));
+        return $result;
+    }
+
+    public static function sortThemes($a, $b)
+    {
+        if ($a->getName() == 'default') {
+            return -1;
+        }
+        elseif ($b->getName() == 'default') {
+            return 1;
+        }
+        else {
+            return ($a->getName() < $b->getName()) ? -1: 1;
+        }
+    }
+
+    // FIXME: ONLY FOR DEVELOPMENT
+    public static function savePost($name, $data)
+    {
+        $themes = self::getAllThemes();
+        foreach ($themes as $theme) {
+            if ($name == $theme->getName()) {
+                $theme->importAndSaveData($data['conf']);
+            }
+        }
+    }
+
+    private function _validateFormInput($data, $xml=NULL) {
+        $root = FALSE;
+        $result = array();
+        if (is_null($xml)) {
+            $root = TRUE;
+            $data = array('configuration' => $data);
+            $xml = $this->_xml->configuration;
+        }
+        foreach ($xml as $key => $value) {
+            if (isset($data[$key])) {
+                if (is_array($data[$key])) {
+                    $result[$key] = $this->_validateFormInput($data[$key], $value);
+                }
+                else {
+                    $result[$key] = $data[$key];
+                }
+            }
+        }
+        if ($root) {
+            $result = $result['configuration'];
+        }
+        return $result;
+    }
+
+    private function _buildRecursive($parent, $data)
+    {
+        foreach ($data as $key=>$value) {
+            if (is_array($value)) {
+                $this->_buildRecursive($parent->addChild($key), $value);
+            }
+            else {
+                $parent->addChild($key, $value);
+            }
+        }
+    }
+
+    public function importAndSaveData($data)
+    {
+        $xml = new SimpleXMLElement('<theme>'.$this->_xml->manifest->asXML().'</theme>');
+        $this->_buildRecursive($xml->addChild('configuration'), $this->_validateFormInput($data));
+        file_put_contents($this->_file, $xml->asXML());
+    }
+    // END FIXME
 }

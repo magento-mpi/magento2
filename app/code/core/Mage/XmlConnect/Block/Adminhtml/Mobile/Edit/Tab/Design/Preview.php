@@ -30,22 +30,4 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Preview extends Mag
         parent::__construct();
         $this->setTemplate('xmlconnect/preview.phtml');
     }
-
-    protected function _beforeToHtml()
-    {
-        $model = Mage::registry('current_app');
-        $this->setThemeImage(Mage::getBaseUrl('skin') . 'xmlconnect/empty.png');
-        if ($model) {
-            $formData = $model->getFormData();
-            if (isset($formData['conf[extra][theme]'])) {
-                $index = $formData['conf[extra][theme]'];
-                $themes = Mage::helper('xmlconnect/data')->getThemes();
-                if (isset($themes[$index])) {
-                    $theme = $themes[$index];
-                    $this->setThemeImage($theme->getPreviewUrl());
-                }
-            }
-        }
-        return parent::_beforeToHtml();
-    }
 }
