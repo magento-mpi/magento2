@@ -82,12 +82,13 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                     $entity->addItem($request->getParam('product'), new Varien_Object($request->getParams()));
                     $count = $request->getParam('qty');
                 } else {//Adding from cart
-                    $quote = Mage::getSingleton('checkout/cart')->getQuote();
-                    foreach ($quote->getAllVisibleItems() as $item) {
+                    $cart = Mage::getSingleton('checkout/cart');
+                    foreach ($cart->getQuote()->getAllVisibleItems() as $item) {
                         $entity->addItem($item);
                         $count += $item->getQty();
-                        Mage::getSingleton('checkout/cart')->removeItem($item->getId())->save();
+                        $cart->removeItem($item->getId());
                     }
+                    $cart->save();
                 }
 
                 if ($count > 0) {
