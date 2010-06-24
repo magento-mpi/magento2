@@ -145,7 +145,7 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity_Collection
     {
         $select = $this->getConnection()->select();
         $select->from(array('m' => $this->getMainTable()), array('*'))
-            ->where('m.is_public = 1')
+            ->where('m.is_public = 1 AND m.is_active = 1')
             ->where('m.website_id=?', Mage::app()->getStore()->getWebsiteId());
 
         /*
