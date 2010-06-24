@@ -79,7 +79,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
         ));
 
         $this->addColumn('qty', array(
-            'header'   => Mage::helper('enterprise_giftregistry')->__('Desired Quantity'),
+            'header'   => Mage::helper('enterprise_giftregistry')->__('Requested Quantity'),
             'index'    => 'qty',
             'width'    => '120px',
             'renderer' => 'enterprise_giftregistry/adminhtml_widget_grid_column_renderer_qty'
