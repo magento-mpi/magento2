@@ -104,7 +104,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
         $data = $this->getRequest()->getPost();
         try {
-
+            $isError = false;
             /** @var $app Mage_XmlConnect_Model_Application */
             $app = $this->_initApp('key');
             $app->loadSubmit();
