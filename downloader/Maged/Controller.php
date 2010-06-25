@@ -306,17 +306,18 @@ final class Maged_Controller
     public function settingsAction()
     {
         $connectConfig = $this->model('connect', true)->connect()->getConfig();
+        $config = $this->config();
         $this->view()->set('preferred_state', $connectConfig->__get('preferred_state'));
         $this->view()->set('protocol', $connectConfig->__get('protocol'));
-        $this->view()->set('use_custom_permissions_mode', $this->config()->get('use_custom_permissions_mode'));
-        $this->view()->set('mkdir_mode', $this->config()->get('mkdir_mode'));
-        $this->view()->set('chmod_file_mode', $this->config()->get('chmod_file_mode'));
+        $this->view()->set('use_custom_permissions_mode', $config->get('use_custom_permissions_mode'));
+        $this->view()->set('mkdir_mode', $config->get('mkdir_mode'));
+        $this->view()->set('chmod_file_mode', $config->get('chmod_file_mode'));
 
-        $fs_disabled=!$this->isWritable()||!strlen($this->config()->get('ftp'));
-        $ftpParams=@parse_url($this->config()->get('ftp'));
+        $fs_disabled=!$this->isWritable();
+        $ftpParams=$config->get('ftp')?@parse_url($config->get('ftp')):'';
 
         $this->view()->set('fs_disabled', $fs_disabled);
-        $this->view()->set('deployment_type', ($fs_disabled||!empty($ftpParams)>0?'ftp':'fs'));
+        $this->view()->set('deployment_type', ($fs_disabled||!empty($ftpParams)?'ftp':'fs'));
         
         $this->view()->set('ftp_host',  sprintf("%s://%s%s",$ftpParams['scheme'],$ftpParams['host'],$ftpParams['path']));
         $this->view()->set('ftp_login', $ftpParams['user']);
