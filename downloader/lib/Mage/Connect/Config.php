@@ -172,7 +172,7 @@ implements Iterator
             @fclose($f);
             $ret=$ftpObj->upload($confFile, $tempFile);
             $ftpObj->close();
-        }elseif(is_writable($this->_configFile)) {
+        }elseif(is_file($this->_configFile)&&is_writable($this->_configFile)||is_writable(getcwd())) {
             $f = @fopen($this->_configFile, "w+");
             @fwrite($f, self::HEADER);
             @fwrite($f, $data);
