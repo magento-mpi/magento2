@@ -27,6 +27,12 @@
 class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
+     * Delimiter for packing store-device pair
+     * @var unknown_type
+     */
+    const APP_DELIMITER = ',';
+
+    /**
      * Create filter object by key
      *
      * @param string $key
@@ -88,6 +94,84 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         Varien_Profiler::stop('TEST: '.__METHOD__);
+        return $options;
+    }
+
+    /**
+     * Returns list of predefined and supported Devices
+     * @return multitype:string
+     */
+    public function getSupportedDevices()
+    {
+        $devices = array (
+            'iphone' => Mage::helper('xmlconnect')->__('Iphone'),
+// not supported yet
+//            'ipad' => Mage::helper('xmlconnect')->__('Ipad'),
+//            'android' => Mage::helper('xmlconnect')->__('Android'),
+        );
+        return $devices;
+    }
+
+    /**
+     * Pack Store and Device to "store-device CS value" like - "1,iphone"
+     *
+     * @param string $storeId
+     * @param string $deviceId
+     *
+     * @return string
+     */
+
+    public function packStoreDevice($storeId = '', $deviceId = '')
+    {
+        return $storeId . self::APP_DELIMITER . $deviceId;
+    }
+
+    /**
+     * Unpack store-device CS value  :  "1,iphone" to array
+     *
+     * @param string $storeDevice
+     *
+     * @return array
+     */
+    public function unpackStoreDevice($storeDevice)
+    {
+        $params = array();
+        $arr = explode(self::APP_DELIMITER, $storeDevice);
+        if (is_array($arr)) {
+            $params['store_id'] = isset($arr[0]) ? $arr[0] : '';
+            $params['type'] = isset($arr[1]) ? $arr[1] : '';
+        }
+        return $params;
+    }
+
+    /**
+     * Return modifien select option array for stores
+     *
+     * @return array
+     */
+    public function getStoreDeviceValuesForForm()
+    {
+        $options = Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(true, false);
+        $devices = self::getSupportedDevices();
+        foreach ($options as $id => $option) {
+            if (is_array($option)) {
+                if (!empty($option['value']) && is_array($option['value'])) {
+                    $storeValueArray = array();
+                    $oldStore = current($option['value']);
+                    if (isset($oldStore['label']) && isset($oldStore['value'])) {
+                        $label = $oldStore['label'];
+                        $value = $oldStore['value'];
+                        foreach ($devices as $deviceCode => $deviceName) {
+                            $storeValueArray[] = array (
+                                'label' => $label . ' - ' . $deviceName,
+                                'value' => self::packStoreDevice($value, $deviceCode),
+                            );
+                        }
+                    }
+                    $options[$id]['value'] = $storeValueArray;
+                }
+            }
+        }
         return $options;
     }
 }

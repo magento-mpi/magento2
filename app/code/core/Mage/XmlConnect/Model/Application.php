@@ -37,12 +37,13 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      * @var string
      */
     const APP_CONNECTOR_URL = 'www.magentocommerce.com/mobile/activate/';
+
     /**
      * Images in "Params" history table
      *
      * @var array
      */
-    protected $_imageIds = array('appIcon', 'loaderImage', 'logo', 'big_logo');
+    protected $_imageIds = array('icon', 'loader_image', 'logo', 'big_logo');
     /**
      * Initialize application
      */
@@ -50,7 +51,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     {
         $this->_init('xmlconnect/application');
     }
-
     /**
      * Prepare post data
      *
@@ -61,9 +61,9 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function preparePostData(array $arr)
     {
-        if (isset($arr['conf']['new_pages'])
-            && isset($arr['conf']['new_pages']['ids'])
+        if (isset($arr['conf']['new_pages']) && isset($arr['conf']['new_pages']['ids'])
             && isset($arr['conf']['new_pages']['labels'])) {
+
             $new_pages = array();
             foreach ($arr['conf']['new_pages']['ids'] as $key=>$value) {
                 $new_pages[$key]['id'] = $value;
@@ -77,6 +77,14 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $arr['conf']['native']['pages'] = array_merge($arr['conf']['native']['pages'], $new_pages);
             unset($arr['conf']['new_pages']);
         }
+
+        // unpacking store - device value
+        if (isset($arr['store_id'])) {
+            $storeDevice = Mage::helper('xmlconnect')->unpackStoreDevice($arr['store_id']);
+            foreach ($storeDevice as $k => $v) {
+                $arr[$k] = $v;
+            }
+        }
         return $arr;
     }
 
@@ -88,6 +96,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function getFormData()
     {
         $data = $this->getData();
+        $data['store_id'] = Mage::helper('xmlconnect')->packStoreDevice($this->getStoreId(), $this->getType());
         return $this->_flatArray($data);
     }
 
@@ -533,8 +542,8 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             }
 
             $params['name'] = $this->getName();
-            $params['app_code'] = $this->getCode();
-            $params['url'] = Mage::helper('xmlconnect/data')->getUrl('*/*', array('app_code' => $this->getCode()));
+            $params['code'] = $this->getCode();
+            $params['url'] = Mage::helper('xmlconnect/data')->getUrl('*/*', array('code' => $this->getCode()));
 
             if (isset($params['country']) && is_array($params['country'])) {
                 $params['country'] = implode(',', $params['country']);
@@ -601,6 +610,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
             $this->setResult($result);
             $success = (isset($resultArray['success'])) && ($resultArray['success'] === true);
+
             $this->setSuccess($success);
             if (!$this->getSuccess()) {
                 $message = '';
@@ -608,7 +618,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                 if (is_array($message)) {
                     $message = implode(' ,', $message);
                 }
-                Mage::throwException('Submit Application failure. ' . $message);
+                Mage::throwException($this->__('Submit Application failure. %s', $message));
             }
         } catch (Exception $e) {
             throw $e;

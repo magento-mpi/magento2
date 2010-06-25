@@ -76,6 +76,14 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
             ));
         }
 
+        $this->addColumn('status', array(
+            'header'    => Mage::helper('xmlconnect')->__('Status'),
+            'index'     => 'status',
+            'width'     => '50',
+            'renderer'  => 'xmlconnect/adminhtml_mobile_grid_renderer_bool',
+            'align'     => 'center',
+        ));
+
         $this->addColumn('active_from', array(
             'header'    => Mage::helper('xmlconnect')->__('Active From'),
             'index'     => 'active_from',

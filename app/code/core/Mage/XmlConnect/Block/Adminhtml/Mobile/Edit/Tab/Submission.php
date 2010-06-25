@@ -23,7 +23,9 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Adminhtml_Block_Widget_Form
+
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
+    extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     public function __construct()
@@ -79,6 +81,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
         $formData = $application->getFormData();
 
         $fieldset = $form->addFieldset('submit0', array('legend' => $this->__('Submission Fields')));
+
         $fieldset->addField('conf/submit_text/title', 'text', array(
             'name'      => 'conf[submit_text][title]',
             'label'     => $this->__('Title'),
@@ -124,12 +127,21 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
             'value'     => '1',
         ));
 
+        $fieldset->addField('conf/submit_text/price_free', 'radio', array(
+            'name'      => 'conf[submit_text][price_free]',
+            'label'     => $this->__('Price'),
+            'maxlength' => '40',
+            'note'      => $this->__('Free'),
+            'onclick'    => "$('conf/submit_text/price').setValue('')",
+        ));
+
         $fieldset->addField('conf/submit_text/price', 'text', array(
             'name'      => 'conf[submit_text][price]',
-            'label'     => $this->__('Price'),
+            'label'     => $this->__(' '),
             'maxlength' => '40',
             'value'     => isset($formData['conf[submit_text][price]']) ? $formData['conf[submit_text][price]'] : null,
             'note'      => $this->__('You can set any price you want for your app, or you can give it away for free. Most apps range from $0.99 - $4.99'),
+            'onchange'  => "$('conf/submit_text/price_free').checked = false",
         ));
 
         $selected = isset($formData['conf[submit_text][country]']) ? json_decode($formData['conf[submit_text][country]']) : null;
@@ -139,6 +151,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
             'values'    => Mage::helper('xmlconnect')->getCountryOptionsArray(),
             'value'     => $selected,
             'note'      => $this->__('Make this app available in the following territories'),
+        ));
+
+        $fieldset->addField('conf/submit_text/country_additional', 'text', array(
+            'name'      => 'conf[submit_text][country_additional]',
+            'label'     => $this->__('Additional Countries'),
+            'maxlength' => '200',
+            'value'     => isset($formData['conf[submit_text][country_additional]']) ? $formData['conf[submit_text][country_additional]'] : null,
+            'note'      => $this->__('You can set any additional countries added by Apple Store.'),
+
         ));
 
         $fieldset->addField('conf/submit_text/copyright', 'textarea', array(
@@ -159,9 +180,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
         ));
 
         $fieldset = $form->addFieldset('submit1', array('legend' => $this->__('Icons')));
-        $this->addImage($fieldset, 'conf/submit/appIcon', 'Application Icon',
+        $this->addImage($fieldset, 'conf/submit/icon', 'Application Icon',
             $this->__('Apply will automatically resize this image for display in the App Store and on users’ devices.  A gloss (i.e. gradient) will also be applied, so you do not need to apply a gradient.  Image must be at least 512x512'));
-        $this->addImage($fieldset, 'conf/submit/loaderImage', 'Loader Splash Screen',
+        $this->addImage($fieldset, 'conf/submit/loader_image', 'Loader Splash Screen',
             $this->__('Users will see this image as the first screen while your application is loading.  It is a 320x460 image.'));
 
         $this->addImage($fieldset, 'conf/submit/logo', 'Logo');
@@ -189,6 +210,22 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission extends Mage_Ad
                 'onclick' =>  'resubmit(); return false;',
             ));
         }
+
+        $fieldset = $form->addFieldset('payment', array('legend' => $this->__('Payment Methods')));
+
+        $fieldset->addField('conf/native/paypal/isActive', 'checkbox', array(
+            'name'      => 'conf[native][paypal][isActive]',
+            'label'     => 'Activate paypal for this store',
+            'value'     => 1,
+            'checked'   => isset($data['conf[native][paypal][isActive]']),
+        ));
+
+        $fieldset->addField('conf/native/defaultCheckout/isActive', 'checkbox', array(
+            'name'      => 'conf[native][defaultCheckout][isActive]',
+            'label'     => 'Use Default Checkout method',
+            'value'     => 1,
+            'checked'   => isset($data['conf[native][defaultCheckout][isActive]']),
+        ));
 
         $form->setAction($this->getUrl('*/*/editPost', array('key' => $application->getId())));
         $form->setMethod('post');

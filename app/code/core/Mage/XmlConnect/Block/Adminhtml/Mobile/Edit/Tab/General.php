@@ -67,12 +67,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
          * Check is single store mode
          */
         if (!Mage::app()->isSingleStoreMode()) {
+            $options = Mage::helper('xmlconnect')->getStoreDeviceValuesForForm();
             $fieldset->addField('store_id', 'select', array(
                 'name'      => 'store_id',
                 'label'     => $this->__('Store View'),
                 'title'     => $this->__('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(true, false),
+                'values'    => $options,
             ));
         }
         else {
@@ -100,7 +101,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
      */
     public function getTabLabel()
     {
-        return $this->__('Account Dashboard');
+        return $this->__('General');
     }
 
     /**
@@ -110,7 +111,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
      */
     public function getTabTitle()
     {
-        return $this->__('Account Dashboard');
+        return $this->__('General');
     }
 
     /**
