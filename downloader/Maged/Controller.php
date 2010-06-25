@@ -288,7 +288,7 @@ final class Maged_Controller
             return;
         }
 
-        $target = "var/".uniqid().$info['name'];
+        $target = $this->_mageDir . DS . "var/".uniqid().$info['name'];
         $res = move_uploaded_file($info['tmp_name'], $target);
         if(false === $res) {
             echo "Error moving uploaded file";
