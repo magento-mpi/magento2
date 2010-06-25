@@ -78,8 +78,8 @@ abstract class Mage_Payment_Model_Billing_AgreementAbstract extends Mage_Core_Mo
     {
         if (is_null($this->_paymentMethodInstance)) {
             $this->_paymentMethodInstance = Mage::helper('payment')->getMethodInstance($this->getMethodCode());
-            $this->_paymentMethodInstance->setStore($this->getStoreId());
         }
+        $this->_paymentMethodInstance->setStore($this->getStoreId());
         return $this->_paymentMethodInstance;
     }
 
