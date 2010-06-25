@@ -288,7 +288,6 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
                         foreach ($value as $part) {
                             $part = $this->_prepareQueryText($part);
                             $fieldCondition[] = $this->_prepareFieldCondition($field, $part);
-
                         }
                         $fieldCondition = '(' . implode(' OR ', $fieldCondition) . ')';
                     }
@@ -297,6 +296,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
                     $value = $this->_prepareQueryText($value);
                     $fieldCondition = $this->_prepareFieldCondition($field, $value);
                 }
+
                 $solrQuery->addFilterQuery($fieldCondition);
             }
         }
@@ -320,8 +320,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
 
             if (isset($params['solr_params']['facet']) && $params['solr_params']['facet'] == 'on'){
                 $result['facets'] = $this->_prepareFacetsQueryResponse($response->getResponse());
-            }
-            else {
+            } else {
                 $result['facets'] = array();
             }
 

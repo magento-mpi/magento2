@@ -35,7 +35,7 @@ class Enterprise_Search_Model_Observer
 {
     /**
      * Add search weight field to attribute edit form (only for quick search)
-     * (see Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main)
+     * @see Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
      *
      * @param Varien_Event_Observer $observer
      */
@@ -49,7 +49,7 @@ class Enterprise_Search_Model_Observer
             $fieldset->addField('search_weight', 'select', array(
                 'name'        => 'search_weight',
                 'label'       => Mage::helper('catalog')->__('Search Weight'),
-                'values'      => Mage::getModel("enterprise_search/source_weight")->getOptions(),
+                'values'      => Mage::getModel('enterprise_search/source_weight')->getOptions(),
             ), 'is_searchable');
             /**
              * Disable default search fields
@@ -72,11 +72,13 @@ class Enterprise_Search_Model_Observer
         $searchQuryModel = $observer->getEvent()->getDataObject();
         $queryId         = $searchQuryModel->getId();
         $relatedQueries  = $searchQuryModel->getSelectedQueriesGrid();
+
         if (strlen($relatedQueries) == 0) {
             $relatedQueries = array();
         } else {
-            $relatedQueries = explode("&", $relatedQueries);
+            $relatedQueries = explode('&', $relatedQueries);
         }
+
         Mage::getResourceModel('enterprise_search/recommendations')
             ->saveRelatedQueries($queryId, $relatedQueries);
     }

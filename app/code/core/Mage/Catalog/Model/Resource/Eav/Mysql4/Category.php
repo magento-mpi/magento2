@@ -356,13 +356,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         }
 
         if (!empty($insert) || !empty($update) || !empty($delete)) {
-
             $category->setIsChangedProductList(true);
             /**
              * Moved to index
              */
             //$categoryIds = explode('/', $category->getPath());
             //$this->refreshProductIndex($categoryIds);
+
+            /**
+             * Setting affected products to category for third party engine index refresh
+             */
+            $productIds = array_keys($insert + $delete + $update);
+            $category->setAffectedProductIds($productIds);
         }
 
         return $this;

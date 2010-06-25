@@ -108,7 +108,7 @@
                     </enterprise_search>
                 </observers>
             </adminhtml_catalog_product_attribute_edit_prepare_form>
-            
+
             <catalogsearch_query_save_after>
                 <observers>
                     <enterprise_search>

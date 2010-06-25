@@ -157,6 +157,37 @@ class Enterprise_Search_Model_Resource_Engine
     }
 
     /**
+     * Stub method
+     *
+     * @param null | int $storeId
+     * @param array $productIds
+     * @param array $categoryIds
+     * @return Enterprise_Search_Model_Resource_Engine
+     */
+    public function updateCategoryIndex($productIds, $categoryIds)
+    {
+        if (!is_array($productIds) || empty($productIds)) {
+            $productIds = array();
+            $category = Mage::getModel('catalog/category');
+            foreach ($categoryIds as $categoryId) {
+                $productIds = array_merge(
+                    $category->unsetData()->load($categoryId)
+                        ->getProductCollection()
+                        ->getAllIds(),
+                    $productIds);
+            }
+            $productIds = array_unique($productIds);
+        }
+
+        if (!empty($productIds)) {
+            Mage::getResourceSingleton('enterprise_search/index')->
+                updateCategoryIndexData($productIds);
+        }
+
+        return $this;
+    }
+
+    /**
      * Remove entity data from search index
      *
      * @param int $storeId
@@ -168,14 +199,11 @@ class Enterprise_Search_Model_Resource_Engine
     {
         if (is_null($storeId) && is_null($entityId)) {
             $this->_adapter->deleteDocs(array(), 'all');
-        }
-        elseif (is_null($storeId) && !is_null($entityId)) {
+        } else if (is_null($storeId) && !is_null($entityId)) {
             $this->_adapter->deleteDocs($entityId);
-        }
-        elseif (!is_null($storeId) && is_null($entityId)) {
+        } else if (!is_null($storeId) && is_null($entityId)) {
             $this->_adapter->deleteDocs(array(), array('store_id:' . $storeId));
-        }
-        elseif (!is_null($storeId) && !is_null($entityId)) {
+        } else if (!is_null($storeId) && !is_null($entityId)) {
             $idsQuery = array();
             if (!is_array($entityId)) {
                 $entityId = array($entityId);

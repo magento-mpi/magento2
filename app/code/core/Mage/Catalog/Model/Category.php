@@ -183,6 +183,11 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     public function move($parentId, $afterCategoryId)
     {
         /**
+         * Setting affected category ids for third party engine index refresh
+        */
+        $this->setIndexAffectedCategoryIds($this->getAllChildren(true));
+
+        /**
          * Validate new parent category id. (category model is used for backward
          * compatibility in event params)
          */
@@ -585,7 +590,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     /**
      * Get all children categories IDs
      *
-     * @param boolean $asArray return resul as array instead of comma-separated list of IDs
+     * @param boolean $asArray return result as array instead of comma-separated list of IDs
      * @return array|string
      */
     public function getAllChildren($asArray = false)

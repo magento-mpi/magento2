@@ -136,7 +136,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext_Engine extends Mage_Core_Model_My
 
     /**
      * Stub method for compatibility with other search engines
-     * 
+     *
      * @return null
      */
     public function getResourceName()

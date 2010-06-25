@@ -184,7 +184,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
         /**
          * retrieve anchor category id
          */
-        $anchorInfo     = $this->_getAnchorAttributeInfo();
+        $anchorInfo = $this->_getAnchorAttributeInfo();
         $select = $this->_getReadAdapter()->select()
             ->distinct(true)
             ->from(array('ce' => $this->_categoryTable), array('entity_id'))
@@ -397,7 +397,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
             ->where('cp.product_id IS NULL')
             ->where('IF(ss.value_id, ss.value, ds.value)=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
             ->where('pw.product_id IN(?)', $productIds);
-                
+
         $sql = $select->insertFromSelect($this->getMainTable());
         $this->_getWriteAdapter()->query($sql);
         return $this;

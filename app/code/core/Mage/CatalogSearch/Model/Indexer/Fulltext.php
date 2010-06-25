@@ -61,6 +61,9 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
         ),
         Mage_Catalog_Model_Convert_Adapter_Product::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
+        ),
+        Mage_Catalog_Model_Category::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
         )
     );
 
@@ -192,7 +195,39 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                 break;
+            case Mage_Catalog_Model_Category::ENTITY:
+                $this->_registerCatalogCategoryEvent($event);
+                break;
         }
+    }
+
+    /**
+     * Get data required for category'es products reindex
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return Mage_CatalogSearch_Model_Indexer_Search
+     */
+    protected function _registerCatalogCategoryEvent(Mage_Index_Model_Event $event)
+    {
+        switch ($event->getType()) {
+            case Mage_Index_Model_Event::TYPE_SAVE:
+                /* @var $category Mage_Catalog_Model_Category */
+                $category   = $event->getDataObject();
+                $productIds = $category->getAffectedProductIds();
+                if ($productIds) {
+                    $event->addNewData('catalogsearch_category_update_product_ids', $productIds);
+                    $event->addNewData('catalogsearch_category_update_category_ids', array($category->getId()));
+                } else {
+                    $categoryIds = $category->getIndexAffectedCategoryIds();
+                    if ($categoryIds) {
+                        $event->addNewData('catalogsearch_category_update_product_ids', array());
+                        $event->addNewData('catalogsearch_category_update_category_ids', $categoryIds);
+                    }
+                }
+                break;
+        }
+
+        return $this;
     }
 
     /**
@@ -303,6 +338,12 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
                         ->resetSearchResults();
                 }
             }
+        } else if (isset($data['catalogsearch_category_update_product_ids'])) {
+            $productIds = $data['catalogsearch_category_update_product_ids'];
+            $categoryIds = $data['catalogsearch_category_update_category_ids'];
+
+            $this->_getIndexer()
+                ->updateCategoryIndex($productIds, $categoryIds);
         }
     }
 

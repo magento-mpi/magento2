@@ -77,6 +77,22 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     }
 
     /**
+     * Update category'es products indexes
+     *
+     * @param array $productIds
+     * @param array $categoryIds
+     * @return Mage_CatalogSearch_Model_Mysql4_Fulltext
+     */
+    public function updateCategoryIndex($productIds, $categoryIds)
+    {
+        if ($this->_engine && $this->_engine->allowAdvancedIndex()) {
+            $this->_engine->updateCategoryIndex($productIds, $categoryIds);
+        }
+
+        return $this;
+    }
+
+    /**
      * Regenerate search index for store(s)
      *
      * @param int $storeId Store View Id
@@ -153,8 +169,8 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                  * If using advanced index and there is no required fields - do not add to index.
                  * Skipping out of stock products if there are no prices for them in catalog_product_index_price table
                  */
-                if ($this->_engine->allowAdvancedIndex() && 
-                    (!isset($productData[$this->_engine->getFieldsPrefix() . 'categories']) || 
+                if ($this->_engine->allowAdvancedIndex() &&
+                    (!isset($productData[$this->_engine->getFieldsPrefix() . 'categories']) ||
                         empty($productData[$this->_engine->getFieldsPrefix() . 'categories']))) {
                     continue;
                 }
@@ -396,7 +412,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
 //                )
 //                ->where('main_table.entity_type_id=?', $entityType->getEntityTypeId())
 //                ->where(join(' OR ', $whereCond));
-//                
+//
 //            $attributesData = $this->_getWriteAdapter()->fetchAll($select);
 //
 //            $this->getEavConfig()->importAttributesData($entityType, $attributesData);

@@ -105,7 +105,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         'store_id',
         'in_stock',
         'categories',
-        'show_in_categories'
+        'show_in_categories',
+        'visibility'
     );
 
     /**
@@ -190,9 +191,11 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
             $index['id'] = $entityId;
 
             /**
-             * Merge name field if it has multimple values
+             * Merge name field if it has multiple values
              */
-            $index['name'] = $this->_implodeIndexData($index['name']);
+            if (isset($index['name'])) {
+                $index['name'] = $this->_implodeIndexData($index['name']);
+            }
 
             $fulltext = $index;
             foreach ($this->_notInFulltextField as $field) {
