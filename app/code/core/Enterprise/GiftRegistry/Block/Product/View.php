@@ -35,6 +35,20 @@ class Enterprise_GiftRegistry_Block_Product_View extends Mage_Catalog_Block_Prod
      */
     const FLAG = 'giftregistry';
 
+    /**
+     * Prepare layout
+     *
+     * @return Enterprise_GiftRegistry_Block_Product_View
+     */
+    protected function _prepareLayout()
+    {
+        $block = $this->getLayout()->getBlock('customize.button');
+        if ($block && $this->_isGiftRegistryRedirect()) {
+            $block->setTemplate('giftregistry/product/customize.phtml');
+        }
+        return parent::_prepareLayout();
+    }
+
     public function __construct()
     {
         if ($this->_isGiftRegistryRedirect()) {
