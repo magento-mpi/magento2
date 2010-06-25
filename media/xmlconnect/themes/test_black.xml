@@ -27,7 +27,7 @@
 -->
 <theme>
     <manifest>
-        <name>test_white</name>
+        <name>test_black</name>
         <label>(Testing) Plain Black</label>
         <version>1.0</version>
         <requires>1.4.0.2</requires>
