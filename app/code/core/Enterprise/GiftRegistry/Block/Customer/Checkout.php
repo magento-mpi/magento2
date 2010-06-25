@@ -59,9 +59,14 @@ class Enterprise_GiftRegistry_Block_Customer_Checkout extends Mage_Core_Block_Te
         $items = array();
         if ($this->_getCheckoutSession()->getQuoteId()) {
             $quote = $this->_getCheckoutSession()->getQuote();
+            $model = Mage::getModel('enterprise_giftregistry/entity');
             foreach ($quote->getItemsCollection() as $quoteItem) {
                 if ($registryItemId = $quoteItem->getGiftregistryItemId()) {
-                    $items[$quoteItem->getId()] = $registryItemId;
+                    $model->loadByEntityItem($registryItemId);
+                    if ($model->getShippingAddress()) {
+                        $items[$quoteItem->getId()]['entity_id'] = $model->getId();
+                        $items[$quoteItem->getId()]['item_id'] = $registryItemId;
+                    }
                 }
             }
         }
@@ -76,15 +81,11 @@ class Enterprise_GiftRegistry_Block_Customer_Checkout extends Mage_Core_Block_Te
     public function getItem()
     {
         $items = array();
-        foreach ($this->getGiftRegistryQuoteItems() as $registryItemId) {
-            $model = Mage::getModel('enterprise_giftregistry/entity')
-                ->loadByEntityItem($registryItemId);
-            $items[$model->getId()] = $registryItemId;
+        foreach ($this->getGiftRegistryQuoteItems() as $registryItem) {
+            $items[$registryItem['entity_id']] = $registryItem['item_id'];
         }
         if (count($items) == 1) {
-            foreach ($items as $item) {
-                return $item;
-            }
+            return array_shift($items);
         }
         return false;
     }

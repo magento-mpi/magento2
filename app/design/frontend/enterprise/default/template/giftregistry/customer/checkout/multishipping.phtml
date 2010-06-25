@@ -53,8 +53,8 @@
         });
     }
 
-    <?php foreach ($this->getGiftRegistryQuoteItems() as $itemId => $registryItemId) : ?>
-        addOption(<?php echo $itemId; ?>, <?php echo $registryItemId; ?>);
+    <?php foreach ($this->getGiftRegistryQuoteItems() as $itemId => $registryItem) : ?>
+        addOption(<?php echo $itemId; ?>, <?php echo $registryItem['item_id']; ?>);
     <?php endforeach; ?>
 //]]>
 </script>
