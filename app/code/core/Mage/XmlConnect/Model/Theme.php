@@ -48,7 +48,7 @@ class Mage_XmlConnect_Model_Theme
     {
         $result = array();
         foreach ($xml as $key => $value) {
-            if ($value->count()) {
+            if (count($value)) {
                 $result[$key] = $this->_xmlToArray($value);
             } else {
                 $result[$key] = (string) $value;
