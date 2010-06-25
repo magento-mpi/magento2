@@ -334,11 +334,12 @@ class Maged_Model_Connect extends Maged_Model
      */
     public function saveConfigPost($p)
     {
-        if( 1 == $p['inst_protocol']){
+        if( 'ftp' == $p['deployment_type']){
             $this->connect()->getConfig()->remote_config=$p['ftp'];
             $this->connect()->getConfig()->preferred_state = $p['preferred_state'];
             $this->connect()->getConfig()->protocol = $p['protocol'];
         }else{
+            $this->connect()->getConfig()->remote_config='';
             $this->connect()->getConfig()->preferred_state = $p['preferred_state'];
             $this->connect()->getConfig()->protocol = $p['protocol'];
         }

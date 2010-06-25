@@ -318,10 +318,12 @@ final class Maged_Controller
 
         $this->view()->set('fs_disabled', $fs_disabled);
         $this->view()->set('deployment_type', ($fs_disabled||!empty($ftpParams)?'ftp':'fs'));
-        
-        $this->view()->set('ftp_host',  sprintf("%s://%s%s",$ftpParams['scheme'],$ftpParams['host'],$ftpParams['path']));
-        $this->view()->set('ftp_login', $ftpParams['user']);
-        $this->view()->set('ftp_password', $ftpParams['pass']);
+
+        if(!empty($ftpParams)){
+            $this->view()->set('ftp_host', sprintf("%s://%s%s",$ftpParams['scheme'],$ftpParams['host'],$ftpParams['path']));
+            $this->view()->set('ftp_login', $ftpParams['user']);
+            $this->view()->set('ftp_password', $ftpParams['pass']);
+        }
 
         echo $this->view()->template('settings.phtml');
     }
@@ -352,7 +354,7 @@ final class Maged_Controller
                 }elseif(!empty($p['ftp_login'])){
                     $ftp=sprintf("%s%s@%s", $p['ftp_proto'], $p['ftp_login'],$p['ftp_host']);
                 }else{
-                    $ftp=sprintf("%s%s", $p['ftp_proto'], $p['ftp_login'],$p['ftp_password'],$p['ftp_host']);
+                    $ftp=$p['ftp_proto'].$p['ftp_host'];
                 }
                 $_POST['ftp'] = $ftp;
                 $this->model('connect', true)->connect()->setRemoteConfig($ftp);
