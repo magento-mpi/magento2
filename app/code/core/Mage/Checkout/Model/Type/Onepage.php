@@ -272,16 +272,16 @@ class Mage_Checkout_Model_Type_Onepage
             return array('error' => 1, 'message' => $validateRes);
         }
 
-        if (!$this->getQuote()->getCustomerId() && self::METHOD_REGISTER == $this->getQuote()->getCheckoutMethod()) {
-            if ($this->_customerEmailExists($address->getEmail(), Mage::app()->getWebsite()->getId())) {
-                return array('error' => 1, 'message' => $this->_customerEmailExistsMessage);
-            }
-        }
-
         $address->implodeStreetAddress();
 
         if (true !== ($result = $this->_validateCustomerData($data))) {
             return $result;
+        }
+
+        if (!$this->getQuote()->getCustomerId() && self::METHOD_REGISTER == $this->getQuote()->getCheckoutMethod()) {
+            if ($this->_customerEmailExists($address->getEmail(), Mage::app()->getWebsite()->getId())) {
+                return array('error' => 1, 'message' => $this->_customerEmailExistsMessage);
+            }
         }
 
         if (!$this->getQuote()->isVirtual()) {
