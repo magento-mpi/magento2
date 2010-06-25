@@ -84,10 +84,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
             $model->setStoreId(Mage::app()->getStore(true)->getId());
         }
 
-        $fieldset->addField('device_type', 'note', array(
-            'text'      => $model->getType(),
-            'label'     => $this->__('Device type'),
-        ));
+//        $fieldset->addField('device_type', 'note', array(
+//            'text'      => $model->getType(),
+//            'label'     => $this->__('Device type'),
+//        ));
 
         $form->setValues($model->getFormData());
         $this->setForm($form);

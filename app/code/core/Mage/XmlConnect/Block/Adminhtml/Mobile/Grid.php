@@ -76,6 +76,13 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
             ));
         }
 
+        $this->addColumn('type', array(
+            'header'    => Mage::helper('xmlconnect')->__('Device'),
+            'index'     => 'type',
+            'align'     => 'left',
+            'renderer'  => 'xmlconnect/adminhtml_mobile_grid_renderer_type',
+        ));
+
         $this->addColumn('status', array(
             'header'    => Mage::helper('xmlconnect')->__('Status'),
             'index'     => 'status',
