@@ -80,7 +80,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                 $request = $this->getRequest();
                 if ($request->getParam('product')) {//Adding from product page
                     $entity->addItem($request->getParam('product'), new Varien_Object($request->getParams()));
-                    $count = $request->getParam('qty');
+                    $count = ($request->getParam('qty')) ? $request->getParam('qty') : 1;
                 } else {//Adding from cart
                     $cart = Mage::getSingleton('checkout/cart');
                     foreach ($cart->getQuote()->getAllVisibleItems() as $item) {
@@ -93,7 +93,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
 
                 if ($count > 0) {
                     Mage::getSingleton('checkout/session')->addSuccess(
-                        Mage::helper('enterprise_giftregistry')->__('%d shopping cart item(s) have been added to gift registry.', $count)
+                        Mage::helper('enterprise_giftregistry')->__('%d item(s) have been added to gift registry.', $count)
                     );
                 } else {
                     Mage::getSingleton('checkout/session')->addNotice(
