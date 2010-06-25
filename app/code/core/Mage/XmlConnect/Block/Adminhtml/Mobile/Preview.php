@@ -30,4 +30,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview extends Mage_Core_Block_Tem
         parent::__construct();
         $this->setTemplate('xmlconnect/preview_iframe.phtml');
     }
+
+    public function setConf($conf)
+    {
+        $tabs = $conf['tabBar']['tabs'];
+        foreach ($tabs->getEnabledTabs() as $tab) {
+            $conf['tabBar'][$tab->action]['label'] = $tab->label;
+            $conf['tabBar'][$tab->action]['image'] = 
+                Mage::getBaseUrl('skin') . 'xmlconnect/' . $tab->image;
+        }
+        parent::setConf($conf);
+    }
 }
