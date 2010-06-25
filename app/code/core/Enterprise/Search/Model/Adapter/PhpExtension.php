@@ -401,6 +401,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             // Calc results count for each suggestion
             if ($withResultsCounts && $limit) {
                 $tmp = $this->_lastNumFound; //Temporary store value for main search query
+                $this->_lastNumFound = 0;
                 foreach ($result as $key => $item) {
                     $this->search($item['word'], $params);
                     if ($this->_lastNumFound) {
