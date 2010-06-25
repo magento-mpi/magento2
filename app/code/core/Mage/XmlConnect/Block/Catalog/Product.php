@@ -64,7 +64,15 @@ class Mage_XmlConnect_Block_Catalog_Product extends Mage_XmlConnect_Block_Catalo
 
             $icon = clone Mage::helper('catalog/image')->init($product, 'image')
                 ->resize($itemNodeName == 'item' ? self::PRODUCT_IMAGE_SMALL_RESIZE_PARAM : self::PRODUCT_IMAGE_BIG_RESIZE_PARAM);
-            $item->addChild('icon', $icon);
+
+            $iconXml = $item->addChild('icon', $icon);
+
+            $baseUrl = Mage::getBaseUrl('media');
+            $path = str_replace($baseUrl, '', $icon);
+            $file = Mage::getBaseDir('media') . DS . str_replace('/', DS, $path);
+
+            $iconXml->addAttribute('modification_time', filemtime($file));
+
             $item->addChild('in_strock', (int)$product->isInStock());
             /**
              * By default all products has gallery (because of collection not load gallery attribute)

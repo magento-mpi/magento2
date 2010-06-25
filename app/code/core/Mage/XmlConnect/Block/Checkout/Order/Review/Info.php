@@ -58,7 +58,15 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
             $itemXml->addChild('item_id', $item->getId());
             $itemXml->addChild('name', $itemsXmlObj->xmlentities(strip_tags($renderer->getProductName())));
             $itemXml->addChild('qty', $renderer->getQty());
-            $itemXml->addChild('icon', $renderer->getProductThumbnail()->resize(Mage_XmlConnect_Block_Catalog_Product::PRODUCT_IMAGE_SMALL_RESIZE_PARAM));
+            $icon = $renderer->getProductThumbnail()->resize(Mage_XmlConnect_Block_Catalog_Product::PRODUCT_IMAGE_SMALL_RESIZE_PARAM);
+
+            $iconXml = $itemXml->addChild('icon', $icon);
+
+            $baseUrl = Mage::getBaseUrl('media');
+            $path = str_replace($baseUrl, '', $icon);
+            $file = Mage::getBaseDir('media') . DS . str_replace('/', DS, $path);
+
+            $iconXml->addAttribute('modification_time', filemtime($file));
 
             /**
              * Price

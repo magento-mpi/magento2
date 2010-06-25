@@ -65,7 +65,14 @@ class Mage_XmlConnect_Block_Home extends Mage_XmlConnect_Block_Catalog
             $itemXmlObj->addChild('content_type', $item->hasChildren() ? 'categories' : 'products');
             $icon = Mage::helper('xmlconnect/catalog_category_image')->initialize($item, 'thumbnail')
                 ->resize(Mage_XmlConnect_Block_Catalog_Category::CATEGORY_IMAGE_RESIZE_PARAM);
-            $itemXmlObj->addChild('icon', $icon);
+
+            $iconXml = $itemXmlObj->addChild('icon', $icon);
+
+            $baseUrl = Mage::getBaseUrl('media');
+            $path = str_replace($baseUrl, '', $icon);
+            $file = Mage::getBaseDir('media') . DS . str_replace('/', DS, $path);
+
+            $iconXml->addAttribute('modification_time', filemtime($file));
         }
 
         $homeXmlObj->addChild('home_banner', '/current/media/catalog/category/banner_home.png');

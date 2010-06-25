@@ -50,7 +50,15 @@ class Mage_XmlConnect_Block_Cart_Crosssell extends Mage_Checkout_Block_Cart_Cros
             $itemXmlObj->addChild('name', $crossSellXmlObj->xmlentities(strip_tags($_item->getName())));
             $icon = $this->helper('catalog/image')->init($_item, 'thumbnail')
                 ->resize(Mage_XmlConnect_Block_Catalog_Product::PRODUCT_IMAGE_SMALL_RESIZE_PARAM);
-            $itemXmlObj->addChild('icon', $icon);
+
+            $iconXml = $itemXmlObj->addChild('icon', $icon);
+
+            $baseUrl = Mage::getBaseUrl('media');
+            $path = str_replace($baseUrl, '', $icon);
+            $file = Mage::getBaseDir('media') . DS . str_replace('/', DS, $path);
+
+            $iconXml->addAttribute('modification_time', filemtime($file));
+
             $itemXmlObj->addChild('entity_id', $_item->getId());
             $itemXmlObj->addChild('entity_type', $_item->getTypeId());
 

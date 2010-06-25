@@ -56,7 +56,16 @@ class Mage_XmlConnect_Block_Wishlist extends Mage_Wishlist_Block_Customer_Wishli
                 $itemXmlObj->addChild('name', $wishlistXmlObj->xmlentities(strip_tags($item->getName())));
                 $icon = $this->helper('catalog/image')->init($item, 'small_image')
                     ->resize(Mage_XmlConnect_Block_Catalog_Product::PRODUCT_IMAGE_SMALL_RESIZE_PARAM);
-                $itemXmlObj->addChild('icon', $icon);
+
+                $iconXml = $itemXmlObj->addChild('icon', $icon);
+
+                $baseUrl = Mage::getBaseUrl('media');
+                $path = str_replace($baseUrl, '', $icon);
+                $file = Mage::getBaseDir('media') . DS . str_replace('/', DS, $path);
+
+                $iconXml->addAttribute('modification_time', filemtime($file));
+
+
                 $itemXmlObj->addChild('description', $wishlistXmlObj->xmlentities(strip_tags($item->getWishlistItemDescription())));
                 $itemXmlObj->addChild('added_date', $wishlistXmlObj->xmlentities($this->getFormatedDate($item->getAddedAt())));
 
