@@ -120,13 +120,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
 //            'required'  => true,
         ));
 
-        $fieldset->addField('conf/submit_text/paypal_is_active', 'checkbox', array(
-            'name'      => 'conf[submit_text][paypa_is_active]',
-            'label'     => $this->__('Activate paypal for this store'),
-            'checked'   => isset($formData['conf[submit_text][paypal_is_active]']),
-            'value'     => '1',
-        ));
-
         $fieldset->addField('conf/submit_text/price_free', 'radio', array(
             'name'      => 'conf[submit_text][price_free]',
             'label'     => $this->__('Price'),
