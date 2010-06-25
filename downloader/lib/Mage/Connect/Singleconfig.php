@@ -197,7 +197,7 @@ class Mage_Connect_Singleconfig
             $data = @gzcompress($data);
         }
         $res=true;
-        if(is_writable($file)){
+        if(!file_exists($file)||(file_exists($file)&&is_writable($file))){
             $res = @file_put_contents($file, $data);
         }
         if(!$res) {

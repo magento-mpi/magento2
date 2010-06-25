@@ -69,7 +69,7 @@ extends Mage_Connect_Command
             }
             if($ftp) {
                 $cwd=$ftpObj->getcwd();
-                $dirCache=$config->downloader_path . DIRECTORY_SEPARATOR . $config::DEFAULT_CACHE_PATH;
+                $dirCache=$config->downloader_path . DIRECTORY_SEPARATOR . Mage_Connect_Config::DEFAULT_CACHE_PATH;
                 $dir=$cwd . DIRECTORY_SEPARATOR . $dirCache;// echo($dir);exit();
                 $ftpObj->mkdirRecursive($dir,0777);
                 $ftpObj->chdir($cwd);
@@ -297,7 +297,7 @@ extends Mage_Connect_Command
 
                     if($ftp) {
                         $cwd=$ftpObj->getcwd();
-                        $dir=$cwd . DIRECTORY_SEPARATOR .$config->downloader_path . DIRECTORY_SEPARATOR . $config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( $pChan, "\\/");
+                        $dir=$cwd . DIRECTORY_SEPARATOR .$config->downloader_path . DIRECTORY_SEPARATOR . Mage_Connect_Config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( $pChan, "\\/");
                         $ftpObj->mkdirRecursive($dir,0777);
                         $ftpObj->chdir($cwd);
                     } else {
