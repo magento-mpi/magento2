@@ -55,6 +55,25 @@
                     </select>
                 </td>
             </tr>
+            <!--<tr>
+                <td class="addfields" colpan="2">
+                    <table cellspacing="0" style="display:none" class="form-list" id="protocol_panel">
+                        <tr>
+                            <td class="label">User:</td>
+                            <td class="value">
+                                <input type="text" id="mcmlogin" value="" name="ftp_user" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Password:</td>
+                            <td class="value">
+                                <input type="password" id="mcmpass" value="" name="ftp_pswd" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>-->
             <tr>
                 <td class="label">Use custom permissions:</td>
                 <td class="value">
@@ -63,7 +82,25 @@
                         <option value="0" <?php if ($this->get('use_custom_permissions_mode')=='0'):?>selected="selected"<?php endif ?>>No</option>
                     </select>
                 </td>
-            </tr>          
+            </tr>
+            <tr>
+                <td class="addfields" colpan="2">
+                    <table cellspacing="0" class="form-list" id="use_custom_permissions_mode_panel" <?php if ($this->get('use_custom_permissions_mode')=='0'):?>style="display:none;"<?php endif ?>>
+                        <tr>
+                            <td class="label">Folders:</td>
+                            <td class="value">
+                                <input id="mkdir_mode" name="mkdir_mode" value="<?php echo($this->get('mkdir_mode'));?>" style="width:50px;" type="text"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">Files:</td>
+                            <td class="value">
+                                <input id="chmod_file_mode" name="chmod_file_mode" value="<?php echo($this->get('chmod_file_mode'));?>" style="width:50px;" type="text"></input>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
             <tr>
                 <td class="label">Installation protocol</td>
                 <td class="value">
@@ -73,41 +110,31 @@
                     </select>
                 </td>
             </tr>
-            
-        </table>
-        <table cellspacing="0" class="form-list" id="use_custom_permissions_mode_panel" <?php if ($this->get('use_custom_permissions_mode')=='0'):?>style="display:none;"<?php endif ?>>
             <tr>
-                <td class="label">Folders:</td>
-                <td class="value">
-                    <input id="mkdir_mode" name="mkdir_mode" value="<?php echo($this->get('mkdir_mode'));?>" style="width:50px;" type="text"></input>
-                </td>
-            </tr>
-            <tr>
-                <td class="label">Files:</td>
-                <td class="value">
-                    <input id="chmod_file_mode" name="chmod_file_mode" value="<?php echo($this->get('chmod_file_mode'));?>" style="width:50px;" type="text"></input>
-                </td>
-            </tr>
-        </table>
-        <table cellspacing="0" style="display:none" class="form-list" id="inst_protocol_panel">
-            <tr>
-                <td class="label">User:</td>
-                <td class="value">
-                    <input type="text" id="ftp_user" value="" name="ftp_user" />
-                </td>
-            </tr>
-            
-            <tr>
-                <td class="label">Password:</td>
-                <td class="value">
-                    <input type="password" id="ftp_pswd" value="" name="ftp_pswd" />
-                </td>
-            </tr>
-            
-            <tr>
-                <td class="label">Host:</td>
-                <td class="value">
-                    <input type="text" id="ftp_path" value="" name="ftp_path" />
+                <td class="addfields" colpan="2">
+                    <table cellspacing="0" style="display:none" class="form-list" id="inst_protocol_panel">
+                        <tr>
+                            <td class="label">User:</td>
+                            <td class="value">
+                                <input type="text" id="ftp_user" value="" name="ftp_user" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Password:</td>
+                            <td class="value">
+                                <input type="password" id="ftp_pswd" value="" name="ftp_pswd" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Host:</td>
+                            <td class="value">
+                                <input type="text" id="ftp_path" value="" name="ftp_path" />
+                            </td>
+                        </tr>
+
+                    </table>
                 </td>
             </tr>
             
@@ -154,6 +181,8 @@ function togglePanel (element)
     }
     document.getElementById(element.id+'_panel').style.display = disabledMode;
 }
+togglePanel(document.getElementById('use_custom_permissions_mode'));
+togglePanel(document.getElementById('inst_protocol'));
 </script>
 
 <script type="text/javascript">

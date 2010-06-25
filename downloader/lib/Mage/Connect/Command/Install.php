@@ -299,6 +299,7 @@ extends Mage_Connect_Command
                         $cwd=$ftpObj->getcwd();
                         $dir=$cwd . DIRECTORY_SEPARATOR .$config->downloader_path . DIRECTORY_SEPARATOR . $config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( $pChan, "\\/");
                         $ftpObj->mkdirRecursive($dir,0777);
+                        $ftpObj->chdir($cwd);
                     } else {
                         $dir = $config->getChannelCacheDir($pChan);
                         @mkdir($dir, 0777, true);

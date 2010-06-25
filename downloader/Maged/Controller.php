@@ -312,7 +312,7 @@ final class Maged_Controller
         $this->view()->set('mkdir_mode', $this->config()->get('mkdir_mode'));
         $this->view()->set('chmod_file_mode', $this->config()->get('chmod_file_mode'));
 
-        $fs_disabled=!$this->isWritable();
+        $fs_disabled=!$this->isWritable()||!strlen($this->config()->get('ftp'));
         $ftpParams=@parse_url($this->config()->get('ftp'));
 
         $this->view()->set('fs_disabled', $fs_disabled);
@@ -355,6 +355,9 @@ final class Maged_Controller
                 }
                 $_POST['ftp'] = $ftp;
                 $this->model('connect', true)->connect()->setRemoteConfig($ftp);
+            }else{
+                $this->model('connect', true)->connect()->setRemoteConfig('');
+                $_POST['ftp'] = '';
             }
             $this->config()->saveConfigPost($_POST);
             $this->model('connect', true)->saveConfigPost($_POST);
