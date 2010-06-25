@@ -301,6 +301,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             }
         }
 
+        $this->_client->setServlet(SolrClient::SEARCH_SERVLET_TYPE, 'select');
         /**
          * Store filtering
          */
