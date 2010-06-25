@@ -3,7 +3,7 @@ body { margin: 0; padding: 0 }
 .main-block 
 {
 	width: 320px;
-	height: 480px;
+	height: 450px;
 }
 .header-sign-1
 {
@@ -78,7 +78,7 @@ body { margin: 0; padding: 0 }
 	text-align: center;
 	float: left;
 	margin: 0 0 0 15px;
-	background:url('../img/btn-l.png') center center no-repeat;
+	background:url('btn-l.png') center center no-repeat;
 }
 
 .btn-r
@@ -91,7 +91,7 @@ body { margin: 0; padding: 0 }
 	text-align: center;
 	float: right;
 	margin: 0 20px 0 0;
-	background:url('../img/btn-r.png') center center no-repeat;
+	background:url('btn-r.png') center center no-repeat;
 }
 .main-header-text 
 {
@@ -130,7 +130,7 @@ body { margin: 0; padding: 0 }
 {
 	width: 18px;
 	height: 18px;
-	background:url('../img/circle.png') center center no-repeat;
+	background:url('circle.png') center center no-repeat;
 }
 .filter-text
 {
@@ -143,7 +143,7 @@ body { margin: 0; padding: 0 }
 	width: 25px;
 	height: 25px;
 	padding: 0 25px 0 0;
-	background:url('../img/lines-h.png') center center no-repeat;
+	background:url('lines-h.png') center center no-repeat;
 }
 .sort-block 
 {
@@ -193,7 +193,7 @@ body { margin: 0; padding: 0 }
 
 .slider-item
 {
-	background: url('../img/actionsBg.png') left center repeat-x; 
+	background: url('actionsBg.png') left center repeat-x; 
 	width: 20%; 
 	height: 100%;
 	float: left;
@@ -215,14 +215,14 @@ body { margin: 0; padding: 0 }
 {
 	height: 91px;
 	width: 20px;
-	background: url('../img/lines-v.png') center center no-repeat;
+	background: url('lines-v.png') center center no-repeat;
 	float: left;
 }
 .arrow 
 {
 	height: 91px;
 	width: 20px;
-	background: url('../img/arrow.png') center center no-repeat;
+	background: url('arrow.png') center center no-repeat;
 	float: right;
 }
 .item-image 
