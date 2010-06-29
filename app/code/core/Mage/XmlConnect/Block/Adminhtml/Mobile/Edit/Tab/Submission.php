@@ -124,7 +124,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
             'name'      => 'conf[submit_text][price_free]',
             'label'     => $this->__('Price'),
             'maxlength' => '40',
-            'note'      => $this->__('Free'),
+            'after_element_html' => $this->__('Free'),
             'onclick'    => "$('conf/submit_text/price').setValue('')",
         ));
 
@@ -135,6 +135,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
             'value'     => isset($formData['conf[submit_text][price]']) ? $formData['conf[submit_text][price]'] : null,
             'note'      => $this->__('You can set any price you want for your app, or you can give it away for free. Most apps range from $0.99 - $4.99'),
             'onchange'  => "$('conf/submit_text/price_free').checked = false",
+
         ));
 
         $selected = isset($formData['conf[submit_text][country]']) ? json_decode($formData['conf[submit_text][country]']) : null;
@@ -210,14 +211,16 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
             'name'      => 'conf[native][paypal][isActive]',
             'label'     => 'Activate paypal for this store',
             'value'     => 1,
-            'checked'   => isset($data['conf[native][paypal][isActive]']),
+            'checked'   => isset($formData['conf[native][paypal][isActive]']),
+            'disabled'  => 'disabled',
         ));
 
         $fieldset->addField('conf/native/defaultCheckout/isActive', 'checkbox', array(
             'name'      => 'conf[native][defaultCheckout][isActive]',
             'label'     => 'Use Default Checkout method',
             'value'     => 1,
-            'checked'   => isset($data['conf[native][defaultCheckout][isActive]']),
+            'checked'   => isset($formData['conf[native][defaultCheckout][isActive]']),
+            'disabled'  => 'disabled',
         ));
 
         $form->setAction($this->getUrl('*/*/editPost', array('key' => $application->getId())));

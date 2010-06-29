@@ -25,6 +25,13 @@
  */
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview extends Mage_Core_Block_Template
 {
+   /**
+    * path to preview media folder
+    *
+    * @var string
+    */
+    const XMLCONNECT_MEDIA_PREVIEW = 'xmlconnect/mobile-preview/';
+
     public function __construct()
     {
         parent::__construct();
@@ -36,9 +43,25 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview extends Mage_Core_Block_Tem
         $tabs = $conf['tabBar']['tabs'];
         foreach ($tabs->getEnabledTabs() as $tab) {
             $conf['tabBar'][$tab->action]['label'] = $tab->label;
-            $conf['tabBar'][$tab->action]['image'] = 
+            $conf['tabBar'][$tab->action]['image'] =
                 Mage::getBaseUrl('skin') . 'xmlconnect/' . $tab->image;
         }
         parent::setConf($conf);
     }
+
+   /**
+    * Returns url for skin folder
+    *
+    * @param string $name  - file name
+    *
+    * @return string
+    */
+    protected function getPreviewUrl($name = '')
+    {
+        if (!isset($this->_skinFolder)) {
+            $this->_skinFolder = Mage::getBaseUrl('skin');
+        }
+        return  $this->_skinFolder . self::XMLCONNECT_MEDIA_PREVIEW . $name;
+    }
+
 }
