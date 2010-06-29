@@ -793,6 +793,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         foreach (explode("\n", $additionalOptions) as $_additionalOption) {
             if (strlen(trim($_additionalOption))) {
                 try {
+                    if (strpos($_additionalOption, ':') === false) {
+                        Mage::throwException(Mage::helper('adminhtml')->__('There is an error in one of the option rows.'));
+                    }
                     list($label,$value) = explode(':', $_additionalOption, 2);
                 } catch (Exception $e) {
                     Mage::throwException(Mage::helper('adminhtml')->__('There is an error in one of the option rows.'));
