@@ -868,6 +868,8 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .top-cart .actions button { float:none; }
 .top-cart .actions button.button span,
 .top-cart .actions button.button span span { background-image:url(../images/bkg_btn-onbg.gif); background-repeat:no-repeat; }
+.top-cart .paypal-logo a { float:right; }
+.top-cart .paypal-logo .paypal-or { clear:both; display:block; margin: 5px 33px 5px 0px; }
 
 /* Block: Wishlist */
 .block-wishlist {}
