@@ -800,7 +800,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 $label = trim($label);
                 $value = trim($value);
                 if (empty($value)) {
-                    die($label);
                     continue;
                 }
 
