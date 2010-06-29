@@ -25,7 +25,7 @@
  */
 
 /**
- * Enterprise search collection resource model
+ * Enterprise search index resource model
  *
  * @category   Enterprise
  * @package    Enterprise_Search

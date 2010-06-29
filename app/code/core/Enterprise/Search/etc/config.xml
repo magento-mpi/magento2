@@ -171,7 +171,7 @@
         <jobs>
             <enterprise_search_index_price_reindex_all>
                 <schedule><cron_expr>0 3 * * *</cron_expr></schedule>
-                <run><model>enterprise_search/index::updatePriceIndexData</model></run>
+                <run><model>enterprise_search/indexer_price::updatePriceIndexData</model></run>
             </enterprise_search_index_price_reindex_all>
         </jobs>
     </crontab>

@@ -26,7 +26,7 @@
 
 
 /**
- * Catalog Layer Decimal Attribute Filter Model
+ * Layer decimal attribute filter
  *
  * @category    Enterprise
  * @package     Enterprise_Search
