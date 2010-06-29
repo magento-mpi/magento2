@@ -71,7 +71,7 @@ class Maged_Model_Connect extends Maged_Model
         $packages = array(
             'Mage_All_Latest',
         );
-        $ftp = $this->get('ftp'); 
+        $ftp = $this->controller()->config()->get('ftp');
         if(!empty($ftp))
             $options['ftp'] = $ftp;
         $params = array();
@@ -79,7 +79,8 @@ class Maged_Model_Connect extends Maged_Model
         //$uri = "var-dev.varien.com/dev/evgeniy.lamskoy/channels/channels/{$chanName}/";
         //$uri = "http://connect2.0/channel/channels/{$chanName}/";
         //$uri = "http://connect20.local.net/channel/channels/{$chanName}/";
-        $uri="http://connect.kiev-dev/community/";
+        //$uri="connect.kiev-dev/community";
+        $uri="connect.kiev-dev/enterprise";
         $connectConfig->root_channel = $chanName;        
         foreach ($packages as $package) {
             $params[] = $uri;
@@ -118,15 +119,14 @@ class Maged_Model_Connect extends Maged_Model
             $output = $connect->getOutput();
             if (is_array($output)) {
                 $channelData = $output;
-                if (empty($channelData['list-upgrades']['data']) || !is_array($channelData['list-upgrades']['data'])) {
-                    continue;
-                }//var_dump($channelData['list-upgrades']['data']);exit();
-                foreach ($channelData['list-upgrades']['data'] as $channel=>$package) {
-                    foreach ($package as $name=>$data) {
-                        if (!isset($packages[$channel][$name])) {
-                            continue;
+                if (!empty($channelData['list-upgrades']['data']) && is_array($channelData['list-upgrades']['data'])) {
+                    foreach ($channelData['list-upgrades']['data'] as $channel=>$package) {
+                        foreach ($package as $name=>$data) {
+                            if (!isset($packages[$channel][$name])) {
+                                continue;
+                            }
+                            $packages[$channel][$name]['upgrade_latest'] = $data['to'].' ('.$data['from'].')';
                         }
-                        $packages[$channel][$name]['upgrade_latest'] = $data['to'].' ('.$data['from'].')';
                     }
                 }
             }
@@ -338,6 +338,7 @@ class Maged_Model_Connect extends Maged_Model
             $this->connect()->getConfig()->remote_config=$p['ftp'];
             $this->connect()->getConfig()->preferred_state = $p['preferred_state'];
             $this->connect()->getConfig()->protocol = $p['protocol'];
+            $this->set('ftp',$p['ftp']);
         }else{
             $this->connect()->getConfig()->remote_config='';
             $this->connect()->getConfig()->preferred_state = $p['preferred_state'];
