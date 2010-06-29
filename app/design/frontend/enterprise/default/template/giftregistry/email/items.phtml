@@ -38,12 +38,12 @@
         </tr>
     </thead>
     <tbody>
-    <?php foreach ($this->getEntity()->getItemsCollection() as $item): ?>
+    <?php foreach ($this->getItems() as $item): ?>
     <tr>
         <td><?php echo $item->getProductName() ?></td>
-        <td><?php echo ($item->getQty() * 1) ?></td>
-        <td><?php echo ($item->getQtyFulfilled() * 1) ?></td>
-        <td><?php echo (($item->getQty() - $item->getQtyFulfilled())*1) ?></td>
+        <td><?php echo $this->getQty($item) ?></td>
+        <td><?php echo $this->getQtyFulfilled($item) ?></td>
+        <td><?php echo $this->getRemainedQty($item) ?></td>
     </tr>
     <?php endforeach; ?>
     </tbody>

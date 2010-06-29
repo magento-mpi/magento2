@@ -34,6 +34,20 @@ class Enterprise_GiftRegistry_Model_Mysql4_Item extends Mage_Core_Model_Mysql4_A
     }
 
     /**
+     * Add creation date to object
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Mage_Core_Model_Mysql4_Abstract
+     */
+    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    {
+        if (!$object->getAddedAt()) {
+            $object->setAddedAt($this->formatDate(time()));
+        }
+        return parent::_beforeSave($object);
+    }
+
+    /**
      * Load item by registry id and product id
      *
      * @param Enterprise_GiftRegistry_Model_Item $object

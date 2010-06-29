@@ -53,11 +53,16 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
                     $candidate = array_shift($candidate);
                     $options = $candidate->getCustomOptions();
 
+                    $remainingQty = $item->getQty() - $item->getQtyFulfilled();
+                    if ($remainingQty < 0) {
+                        $remainingQty = 0;
+                    }
+
                     $quoteItem = Mage::getModel('sales/quote_item')
                         ->addData($item->getData())
                         ->setQuote($quote)
                         ->setProduct($product)
-                        ->setRemainingQty($item->getQty() - $item->getQtyFulfilled());
+                        ->setRemainingQty($remainingQty);
 
                     foreach ($options as $code => $option) {
                         $quoteItem->addOption($option);

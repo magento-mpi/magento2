@@ -222,6 +222,6 @@
     </checkout_onepage_review>
 
     <enterprise_giftregistry_email_entity_items>
-        <block type="core/template" name="giftregistry.email.items" template="giftregistry/email/items.phtml"></block>
+        <block type="enterprise_giftregistry/email_items" name="giftregistry.email.items" template="giftregistry/email/items.phtml"></block>
     </enterprise_giftregistry_email_entity_items>
 </layout>
