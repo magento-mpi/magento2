@@ -35,7 +35,7 @@
 class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Mysql4_Fulltext
 {
     /**
-     * Update Category'es products indexes
+     * Update category'es products indexes
      *
      * @param array $productIds
      * @return Enterprise_Search_Model_Resource_Index
@@ -44,6 +44,23 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_My
     {
         foreach (Mage::app()->getStores(false) as $store) {
             $index = $this->_getCatalogCategoryData($store->getId(), $productIds, false);
+            foreach (array_chunk($index, 100, true) as $indexPart) {
+                $this->_engine->saveEntityIndexes($store->getId(), $indexPart, $entityType = 'product');
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Update category'es products price index
+     *
+     * @return Enterprise_Search_Model_Resource_Index
+     */
+    public function updatePriceIndexData()
+    {
+        foreach (Mage::app()->getStores(false) as $store) {
+            $index = $this->_getCatalogProductPriceData();
             foreach (array_chunk($index, 100, true) as $indexPart) {
                 $this->_engine->saveEntityIndexes($store->getId(), $indexPart, $entityType = 'product');
             }
@@ -105,17 +122,20 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_My
     /**
      * Return array of price data per customer and website by products
      *
-     * @param array $productIds
+     * @param null | array $productIds
      * @return array
      */
-    protected function _getCatalogProductPriceData($productIds)
+    protected function _getCatalogProductPriceData($productIds = null)
     {
         $adapter = $this->_getWriteAdapter();
         $prefix  = $this->_engine->getFieldsPrefix();
         $select = $adapter->select()
             ->from($this->getTable('catalog/product_index_price'),
-                array('entity_id', 'customer_group_id', 'website_id', 'min_price'))
-            ->where('entity_id IN (?)', $productIds);
+                array('entity_id', 'customer_group_id', 'website_id', 'min_price'));
+
+        if ($productIds) {
+            $select->where('entity_id IN (?)', $productIds);
+        }
 
         $result = array();
         foreach ($adapter->fetchAll($select) as $row) {
