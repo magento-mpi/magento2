@@ -218,10 +218,10 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
                     $event->addNewData('catalogsearch_category_update_product_ids', $productIds);
                     $event->addNewData('catalogsearch_category_update_category_ids', array($category->getId()));
                 } else {
-                    $categoryIds = $category->getIndexAffectedCategoryIds();
-                    if ($categoryIds) {
+                    $movedCategoryId = $category->getMovedCategoryId();
+                    if ($movedCategoryId) {
                         $event->addNewData('catalogsearch_category_update_product_ids', array());
-                        $event->addNewData('catalogsearch_category_update_category_ids', $categoryIds);
+                        $event->addNewData('catalogsearch_category_update_category_ids', array($movedCategoryId));
                     }
                 }
                 break;

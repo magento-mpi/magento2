@@ -185,7 +185,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         /**
          * Setting affected category ids for third party engine index refresh
         */
-        $this->setIndexAffectedCategoryIds($this->getAllChildren(true));
+        $this->setMovedCategoryId($this->getId());
 
         /**
          * Validate new parent category id. (category model is used for backward

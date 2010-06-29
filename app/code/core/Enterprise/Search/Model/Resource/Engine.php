@@ -167,21 +167,13 @@ class Enterprise_Search_Model_Resource_Engine
     public function updateCategoryIndex($productIds, $categoryIds)
     {
         if (!is_array($productIds) || empty($productIds)) {
-            $productIds = array();
-            $category = Mage::getModel('catalog/category');
-            foreach ($categoryIds as $categoryId) {
-                $productIds = array_merge(
-                    $category->unsetData()->load($categoryId)
-                        ->getProductCollection()
-                        ->getAllIds(),
-                    $productIds);
-            }
-            $productIds = array_unique($productIds);
+            $productIds = Mage::getResourceSingleton('enterprise_search/index')
+                ->getMovedCategoryProductIds($categoryIds[0]);
         }
 
         if (!empty($productIds)) {
-            Mage::getResourceSingleton('enterprise_search/index')->
-                updateCategoryIndexData($productIds);
+            Mage::getResourceSingleton('enterprise_search/index')
+                ->updateCategoryIndexData($productIds);
         }
 
         return $this;
@@ -270,10 +262,10 @@ class Enterprise_Search_Model_Resource_Engine
         foreach ($productData as $field => $value) {
             if (in_array($field, $this->_advancedStaticIndexFields)
                 || $this->_isDynamicField($field)) {
-                    if (!empty($value)){
-                        $advancedIndex[$field] = $value;
-                    }
+                if (!empty($value)){
+                    $advancedIndex[$field] = $value;
                 }
+            }
         }
 
         return $advancedIndex;

@@ -171,4 +171,31 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_My
 
         return $index;
     }
+
+    /**
+     * Retrieve moved categories product ids
+     *
+     * @param int $categoryId
+     * @return array
+     */
+    public function getMovedCategoryProductIds($categoryId)
+    {
+        $adapter = $this->_getWriteAdapter();
+
+        $select = $adapter->select()
+            ->distinct()
+            ->from(
+                array('c_p' => $this->getTable('catalog/category_product')),
+                array('product_id')
+            )
+            ->join(
+                array('c_e' => $this->getTable('catalog/category')),
+                'c_p.category_id = c_e.entity_id',
+                array()
+            )
+            ->where($adapter->quoteInto('c_e.path LIKE ?', '%/' . $categoryId . '/%'))
+            ->orWhere('c_p.category_id = ?', $categoryId);
+
+        return $adapter->fetchCol($select);
+    }
 }
