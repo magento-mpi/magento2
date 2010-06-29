@@ -74,11 +74,14 @@ class Mage_Connect_Rest
     public function __construct($protocol="http")
     {
         switch ($protocol) {
-            case 'http':default:
-                $this->_protocol = 'http';
-                break;
             case 'ftp':
                 $this->_protocol = 'ftp';
+                break;
+            case 'http':
+                $this->_protocol = 'http';
+                break;
+            default:
+                $this->_protocol = 'http';
                 break;
         }
     }
@@ -98,7 +101,7 @@ class Mage_Connect_Rest
      * Get HTTP loader
      * @return Mage_Connect_Loader
      */
-    protected function getLoader()
+    public function getLoader()
     {
         if(is_null($this->_loader)) {
             $this->_loader = Mage_Connect_Loader::getInstance($this->_protocol);

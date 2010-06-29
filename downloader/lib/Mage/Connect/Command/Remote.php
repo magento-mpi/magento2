@@ -55,7 +55,8 @@ extends Mage_Connect_Command
             } else {
                 $channels = $cache->getChannelNames();
             }
-            $ups = $packager->getUpgradesList($channels, $cache, $config);
+            $rest = $this->rest();
+            $ups = $packager->getUpgradesList($channels, $cache, $config, $rest);
 
             if(count($ups)) {
                 $data = array($command => array('data'=>$ups));

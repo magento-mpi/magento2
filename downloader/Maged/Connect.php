@@ -336,7 +336,6 @@ function console_scroll()
                     if (is_array($callback)) {
                         call_user_func_array($callback, array($result));
                     } else {
-                        call_user_func($callback, $result);
                         echo $callback;
                     }
                 }

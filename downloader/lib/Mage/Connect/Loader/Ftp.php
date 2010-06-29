@@ -36,9 +36,9 @@ class Mage_Connect_Loader_Ftp
 
     const TEMPORARY_DIR = 'var/package/tmp';
 
-    const FTP_USER = 'magconnect';
+    const FTP_USER = 'anonymous';
 
-    const FTP_PASS = '4SyTUxPts0o2';
+    const FTP_PASS = 'test@gmail.com';
 
     /**
     * Object of Ftp
@@ -46,6 +46,18 @@ class Mage_Connect_Loader_Ftp
     * @var Mage_Connect_Ftp
     */
     protected $_ftp = null;
+
+    /**
+     * User name
+     * @var string
+     */
+    protected $_ftpUser = '';
+
+    /**
+     * User password
+     * @var string
+     */
+    protected $_ftpPassword = '';
 
     /**
      * Response body
@@ -65,6 +77,8 @@ class Mage_Connect_Loader_Ftp
     public function __construct()
     {
         $this->_ftp = new Mage_Connect_Ftp();
+        $this->_ftpUser = self::FTP_USER;
+        $this->_ftpPassword = self::FTP_PASS;
     }
 
     public function getFtp()
@@ -83,8 +97,9 @@ class Mage_Connect_Loader_Ftp
         $remoteFile = basename($uri);
         $uri = dirname($uri);
         $uri = str_replace('http://', '', $uri);
+        $uri = str_replace('https://', '', $uri);
         $uri = str_replace('ftp://', '', $uri);
-        $uri = self::FTP_USER.":".self::FTP_PASS."@".$uri;
+        $uri = $this->_ftpUser.":".$this->_ftpPassword."@".$uri;
         $this->getFtp()->connect("ftp://".$uri);
         $this->getFtp()->pasv(true);
         $localFile = self::TEMPORARY_DIR.DS.time().".xml";
@@ -95,7 +110,7 @@ class Mage_Connect_Loader_Ftp
         }
         @unlink($localFile);
         $this->getFtp()->close();
-        return $out;
+        return $this;
     }
 
     /**
@@ -116,6 +131,18 @@ class Mage_Connect_Loader_Ftp
     public function getBody()
     {
         return $this->_responseBody;
+    }
+
+    /**
+    * Set login credentials for ftp auth.
+    * @param string $ftpLogin Ftp User account name
+    * @param string $ftpPassword User password
+    * @return string
+    */
+    public function setCredentials($ftpLogin, $ftpPassword)
+    {
+        $this->_ftpUser = $ftpLogin;
+        $this->_ftpPassword = $ftpPassword;
     }
 
 }

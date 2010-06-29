@@ -94,6 +94,7 @@ class Mage_Connect_Singleconfig
     {        
         $uri = rtrim($uri, "/");
         $uri = str_replace("http://", '', $uri);
+        $uri = str_replace("https://", '', $uri);
         $uri = str_replace("ftp://", '', $uri);
         return $uri;
     }

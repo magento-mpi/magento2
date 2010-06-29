@@ -496,9 +496,12 @@ class Mage_Connect_Packager
      * @param Mage_Connect_Config $config
      * @param mixed $versionMax
      * @param mixed $versionMin
+     * @param boolean $withDepsRecursive
+     * @param boolean $forceRemote
+     * @param Mage_Connect_Rest $rest
      * @return mixed
      */
-    public function getDependenciesList( $chanName, $package, $cache, $config, $versionMax = false, $versionMin = false, $withDepsRecursive = true, $forceRemote = false)
+    public function getDependenciesList( $chanName, $package, $cache, $config, $versionMax = false, $versionMin = false, $withDepsRecursive = true, $forceRemote = false, $rest = null)
     {
 
         static $level = 0;
@@ -511,7 +514,9 @@ class Mage_Connect_Packager
         try {
             $chanName = $cache->chanName($chanName);
 
-            $rest = new Mage_Connect_Rest($config->protocol);
+            if(!$rest){
+                $rest = new Mage_Connect_Rest($config->protocol);
+            }
             $rest->setChannel($cache->chanUrl($chanName));
             $releases = $rest->getReleases($package);
             if(!$releases || !count($releases)) {
@@ -526,7 +531,6 @@ class Mage_Connect_Packager
             if(false === $packageInfo) {
                 throw new Exception("Package release '{$package}' not found on server");
             }
-            unset($rest);
             $dependencies = $packageInfo->getDependencyPackages();
             $keyOuter = $chanName . "/" . $package;
 
@@ -553,7 +557,7 @@ class Mage_Connect_Packager
                     if(!isset($_depsHash[$keyInner])) {
                         $_deps[] = $row;
                         $this->$method($pChannel, $pName, $cache, $config,
-                        $pMax, $pMin, $withDepsRecursive, $forceRemote, false);
+                        $pMax, $pMin, $withDepsRecursive, $forceRemote, $rest);
                     } else {
                         $downloaded = $_depsHash[$keyInner]['downloaded_version'];
                         $hasMin = $_depsHash[$keyInner]['min'];
@@ -591,10 +595,11 @@ class Mage_Connect_Packager
                         $forceMin = $newMinIsGreater ? $pMin : $hasMin;
                         //var_dump("Trying to process {$pName} : max {$forceMax} - min {$forceMin}");
                         $this->$method($pChannel, $pName, $cache, $config,
-                        $forceMax, $forceMin, $withDepsRecursive, $forceRemote);
+                        $forceMax, $forceMin, $withDepsRecursive, $forceRemote, $rest);
                     }
                 }
             }
+            unset($rest);
         } catch (Exception $e) {
             $_failed[] = array('name'=>$package, 'channel'=>$chanName, 'max'=>$versionMax, 'min'=>$versionMin, 'reason'=>$e->getMessage());
         }
