@@ -154,6 +154,7 @@ class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_My
         $priceData      = $this->_getCatalogProductPriceData($productIds);
 
         foreach ($index as $productId => &$productData) {
+            $productId = $productData['entity_id'];
             if (isset($categoryData[$productId]) && isset($priceData[$productId])) {
                 $productData += $categoryData[$productId];
                 $productData += $priceData[$productId];
