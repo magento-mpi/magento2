@@ -68,26 +68,30 @@ extends Mage_Connect_Command
                 $config->magento_root=dirname(dirname($_SERVER['SCRIPT_FILENAME']));
             }
             chdir($config->magento_root);
+            $dirCache = DIRECTORY_SEPARATOR . $config->downloader_path . DIRECTORY_SEPARATOR . Mage_Connect_Config::DEFAULT_CACHE_PATH;
+            $dirTmp = DIRECTORY_SEPARATOR . Mage_Connect_Package_Reader::PATH_TO_TEMPORARY_DIRECTORY;
+            $dirMedia = DIRECTORY_SEPARATOR . 'media';
+            $isWritable = true;
             if($ftp) {
                 $cwd=$ftpObj->getcwd();
-                $dirCache=$config->downloader_path . DIRECTORY_SEPARATOR . Mage_Connect_Config::DEFAULT_CACHE_PATH;
-                $dir=$cwd . DIRECTORY_SEPARATOR . $dirCache;
-                $ftpObj->mkdirRecursive($dir,0777);
+                $ftpObj->mkdirRecursive($cwd . $dirCache,0777);
                 $ftpObj->chdir($cwd);
-                $dirTmp=DIRECTORY_SEPARATOR.Mage_Connect_Package_Reader::PATH_TO_TEMPORARY_DIRECTORY;
-                $ftpObj->mkdirRecursive($cwd.$dirTmp,0777);
+                $ftpObj->mkdirRecursive($cwd . $dirTmp,0777);
                 $ftpObj->chdir($cwd);
-                $ftpObj->mkdirRecursive($cwd.DIRECTORY_SEPARATOR.'media',0777);
+                $ftpObj->mkdirRecursive($cwd . $dirMedia,0777);
                 $ftpObj->chdir($cwd);
-                $isWritable = is_writable($config->magento_root.DIRECTORY_SEPARATOR.'media')
-                              && is_writable($config->magento_root . DIRECTORY_SEPARATOR . $dirCache)
-                              && is_writable($config->magento_root . DIRECTORY_SEPARATOR . $dirTmp);
                 $err = "Please check for sufficient ftp write file permissions.";
             } else {
+                mkdir($config->magento_root . $dirCache,0777,true);
+                mkdir($config->magento_root . $dirTmp,0777,true);
+                mkdir($config->magento_root . $dirMedia,0777,true);
                 $isWritable = is_writable($config->magento_root)
                               && is_writable($config->magento_root . DIRECTORY_SEPARATOR . $config->downloader_path);
                 $err = "Please check for sufficient write file permissions.";
             }
+            $isWritable = $isWritable && is_writable($config->magento_root . $dirMedia)
+                          && is_writable($config->magento_root . $dirCache)
+                          && is_writable($config->magento_root . $dirTmp);
             if(!$isWritable){
                 $this->doError($command, $err);
                 throw new Exception('Your Magento folder does not have sufficient write permissions, which downloader requires.');
