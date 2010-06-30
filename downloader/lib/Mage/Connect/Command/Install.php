@@ -233,7 +233,7 @@ extends Mage_Connect_Command
                         if($showError){
                             $this->doError($command, $msg);
                         }else{
-                            $this->ui()->output($msg);
+                            //$this->ui()->output($msg);
                         }
                     }
                 }
