@@ -29,7 +29,7 @@
  * Catalog Inventory Stock Model
  *
  * @category   Mage
- * @package    Mage_CatalogInvemtory
+ * @package    Mage_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
