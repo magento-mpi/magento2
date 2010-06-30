@@ -67,7 +67,7 @@ class Mage_XmlConnect_Model_Catalog_Category_Image extends Mage_Catalog_Model_Pr
             else {
                 // replace file with skin or default skin placeholder
                 $skinBaseDir     = Mage::getDesign()->getSkinBaseDir();
-                $skinPlaceholder = "/images/catalog/category/placeholder/{$this->getDestinationSubdir()}.jpg";
+                $skinPlaceholder = "/images/xmlconnect/catalog/category/placeholder/{$this->getDestinationSubdir()}.jpg";
                 $file = $skinPlaceholder;
                 if (file_exists($skinBaseDir . $file)) {
                     $baseDir = $skinBaseDir;
