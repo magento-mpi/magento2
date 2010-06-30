@@ -46,7 +46,9 @@ class Enterprise_Pbridge_Model_Observer
         /* @var $quote Mage_Sales_Model_Quote */
         $quote = $observer->getEvent()->getData('quote');
         $result = $observer->getEvent()->getData('result');
-        if (((bool)$method->getConfigData('using_pbridge', ($quote ? $quote->getStoreId() : null)) === true)
+        $storeId = $quote ? $quote->getStoreId() : null;
+
+        if (((bool)$this->_getMethodConfigData('using_pbridge', $method, $storeId) === true)
             && ((bool)$method->getIsDummy() === false)) {
             $result->isAvailable = false;
         }
@@ -54,15 +56,19 @@ class Enterprise_Pbridge_Model_Observer
     }
 
     /**
-     * Initialize payment method to control it's availability
+     * Return system config value by key for specified payment method
      *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_Pbridge_Model_Observer
+     * @param string $key
+     * @param Mage_Payment_Model_Method_Abstract $method
+     * @param int $storeId
+     *
+     * @return string
      */
-    public function initPaymentMethod(Varien_Event_Observer $observer)
+    protected function _getMethodConfigData($key, Mage_Payment_Model_Method_Abstract $method, $storeId = null)
     {
-//        $quote = $observer->getEvent()->getData('payment')->getQuote();
-//        $quote->setIsPaymentBridgeInitialized(true);
-        return $this;
+        if (!$method->getCode()) {
+            return null;
+        }
+        return Mage::getStoreConfig("payment/{$method->getCode()}/$key", $storeId);
     }
 }

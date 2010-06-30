@@ -266,7 +266,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
             $api->getData(Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro::TRANSPORT_PAYFLOW_TXN_ID)
         ));
 
-        Mage::getModel($this->_infoType)->importToPayment($api, $payment);
+        $this->_pro->importPaymentInfo($api, $payment);
     }
 
     /**
