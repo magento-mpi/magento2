@@ -56,7 +56,5 @@ $installer->getConnection()->addConstraint(
 $installer->getConnection()->query("ALTER TABLE {$this->getTable('catalogsearch_query')} ADD KEY (num_results)");
 $installer->getConnection()->query("ALTER TABLE {$this->getTable('catalogsearch_query')} ADD KEY (query_text)");
 
-$installer->getConnection()->query("ALTER TABLE {$this->getTable('catalogsearch_query')}
-    ADD INDEX `IDX_SARCH_REC` (`query_text`, `store_id`, `num_results`)");
 
 
