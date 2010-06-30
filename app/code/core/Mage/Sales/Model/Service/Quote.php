@@ -160,7 +160,6 @@ class Mage_Sales_Model_Service_Quote
             }
             $order->addItem($orderItem);
         }
-        $quote->setIsActive(false);
 
         $transaction->addObject($order);
         $transaction->addCommitCallback(array($order, 'place'));
@@ -173,6 +172,7 @@ class Mage_Sales_Model_Service_Quote
         Mage::dispatchEvent('sales_model_service_quote_submit_before', array('order'=>$order, 'quote'=>$quote));
         try {
             $transaction->save();
+            $quote->setIsActive(false);
             Mage::dispatchEvent('sales_model_service_quote_submit_success', array('order'=>$order, 'quote'=>$quote));
         } catch (Exception $e) {
             Mage::dispatchEvent('sales_model_service_quote_submit_failure', array('order'=>$order, 'quote'=>$quote));
