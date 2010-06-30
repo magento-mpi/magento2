@@ -1413,6 +1413,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if ($this->getSendConfirmation()) {
             $order->sendNewOrderEmail();
         }
+
+        Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
+
         return $order;
     }
 
