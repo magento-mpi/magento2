@@ -508,17 +508,24 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
             $anchorProductsTable = $this->_getAnchorCategoriesProductsTemporaryTable();
             $idxAdapter->delete($anchorProductsTable);
 
+            $position = new Zend_Db_Expr('IF (ca.category_id=ce.entity_id,
+                cp.position,
+                ROUND((ce.position + 1) * (ce.level + 1) * 10000) + cp.position)
+            AS position');
+
             $sql = "SELECT
                     STRAIGHT_JOIN DISTINCT
-                    ca.category_id, cp.product_id
+                    ca.category_id, cp.product_id, $position
                 FROM {$anchorTable} AS ca
                   INNER JOIN {$this->_categoryTable} AS ce
                     ON ce.path LIKE ca.path OR ce.entity_id = ca.category_id
                   INNER JOIN {$this->_categoryProductTable} AS cp
                     ON cp.category_id = ce.entity_id
                   INNER JOIN {$enabledTable} as pv
-                    ON pv.product_id = cp.product_id";
-            $this->insertFromSelect($sql, $anchorProductsTable, array('category_id' , 'product_id'));
+                    ON pv.product_id = cp.product_id
+                  GROUP BY ca.category_id, cp.product_id";
+            $this->insertFromSelect($sql, $anchorProductsTable, array('category_id', 'product_id', 'position'));
+
             /**
              * Add anchor categories products to index
              */
