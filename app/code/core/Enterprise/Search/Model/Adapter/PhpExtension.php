@@ -162,53 +162,12 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         }
 
         /**
-         * Support specifing sort by field as only string name of field
-         */
-        if (!empty($_params['sort_by']) && !is_array($_params['sort_by'])) {
-            if ($_params['sort_by'] == 'relevance') {
-                $_params['sort_by'] = 'score';
-            }
-            elseif ($_params['sort_by'] == 'name') {
-                $_params['sort_by'] = 'alphaNameSort';
-            }
-            elseif ($_params['sort_by'] == 'position') {
-                $sortField = 'position_category_' . Mage::registry('current_category')->getId();
-            }
-            elseif ($_params['sort_by'] == 'price') {
-                $websiteId       = Mage::app()->getStore()->getWebsiteId();
-                $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-
-                $_params['sort_by'] = 'price_'. $customerGroupId .'_'. $websiteId;
-            }
-
-            $_params['sort_by'] = array(array($_params['sort_by'] => SolrQuery::ORDER_ASC));
-        }
-
-        /**
          * Add sort fields
          */
-        foreach ($_params['sort_by'] as $_key => $sort) {
-            $_sort = each($sort);
-            $sortField = $_sort['key'];
-            $sortType = $_sort['value'];
-            if ($sortField == 'relevance') {
-                $sortField = 'score';
-            }
-            elseif ($sortField == 'position') {
-                $sortField = 'position_category_' . Mage::registry('current_category')->getId();
-            }
-            elseif ($sortField == 'price') {
-                $websiteId       = Mage::app()->getStore()->getWebsiteId();
-                $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-
-                $sortField = 'price_'. $customerGroupId .'_'. $websiteId;
-            }
-            else {
-                $sortField = $this->getAttributeSolrFieldName($sortField);
-            }
-
-            $sortType = trim(strtolower($sortType)) == 'desc' ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
-            $solrQuery->addSortField($sortField, $sortType);
+        $sortFields = $this->_prepareSortFields($_params['sort_by']);
+        foreach ($sortFields as $sortField) {
+            $sortField['sortType'] = ($sortField['sortType'] == 'desc') ? SolrQuery::ORDER_DESC : SolrQuery::ORDER_ASC;
+            $solrQuery->addSortField($sortField['sortField'], $sortField['sortType']);
         }
 
         /**
@@ -230,33 +189,7 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
         }
 
         if (isset($params['solr_params']['facet']) && $params['solr_params']['facet'] == 'on') {
-            $_params['solr_params']['facet'] = 'on';
-            if (isset($params['facet'])) {
-                foreach ($params['facet'] as $facetField => $facetFieldConditions) {
-                    if (empty($facetFieldConditions)) {
-                        $_params['solr_params']['facet.field'][] = $facetField;
-                    }
-                    else {
-                        foreach ($facetFieldConditions as $facetCondition) {
-                            if (is_array($facetCondition) && isset($facetCondition['from']) && isset($facetCondition['to'])) {
-                                $from = (isset($facetCondition['from']) && !empty($facetCondition['from']))
-                                    ? $this->_prepareQueryText($facetCondition['from'])
-                                    : '*';
-                                $to = (isset($facetCondition['to']) && !empty($facetCondition['to']))
-                                    ? $this->_prepareQueryText($facetCondition['to'])
-                                    : '*';
-                                $fieldCondition = "$facetField:[$from TO $to]";
-                            }
-                            else {
-                                $facetCondition = $this->_prepareQueryText($facetCondition);
-                                $fieldCondition = $this->_prepareFieldCondition($facetField, $facetCondition);
-                            }
-
-                            $_params['solr_params']['facet.query'][] = $fieldCondition;
-                        }
-                    }
-                }
-            }
+            $_params['solr_params'] += $this->_prepareFacetConditions($params['facet']);
         }
 
         /**
@@ -275,30 +208,9 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             }
         }
 
-        if (!empty($params['filters'])) {
-            foreach ($params['filters'] as $field => $value) {
-                if (is_array($value)) {
-                    if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
-                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
-                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
-                        $fieldCondition = "$field:[$from TO $to]";
-                    }
-                    else {
-                        $fieldCondition = array();
-                        foreach ($value as $part) {
-                            $part = $this->_prepareQueryText($part);
-                            $fieldCondition[] = $this->_prepareFieldCondition($field, $part);
-                        }
-                        $fieldCondition = '(' . implode(' OR ', $fieldCondition) . ')';
-                    }
-                }
-                else {
-                    $value = $this->_prepareQueryText($value);
-                    $fieldCondition = $this->_prepareFieldCondition($field, $value);
-                }
-
-                $solrQuery->addFilterQuery($fieldCondition);
-            }
+        $filtersConditions = $this->_prepareFilters($params['filters']);
+        foreach ($filtersConditions as $condition) {
+            $solrQuery->addFilterQuery($condition);
         }
 
         $this->_client->setServlet(SolrClient::SEARCH_SERVLET_TYPE, 'select');

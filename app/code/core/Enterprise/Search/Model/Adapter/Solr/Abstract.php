@@ -234,6 +234,139 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     }
 
     /**
+     * Prepare facet fields conditions
+     *
+     * @param array $facetFields
+     * @return array
+     */
+    protected function _prepareFacetConditions($facetFields)
+    {
+        $result = array();
+
+        if (is_array($facetFields)) {
+            $result['facet'] = 'on';
+            foreach ($facetFields as $facetField => $facetFieldConditions) {
+                if (empty($facetFieldConditions)) {
+                    $result['facet.field'][] = $facetField;
+                }
+                else {
+                    foreach ($facetFieldConditions as $facetCondition) {
+                        if (is_array($facetCondition) && isset($facetCondition['from']) && isset($facetCondition['to'])) {
+                            $from = (isset($facetCondition['from']) && !empty($facetCondition['from']))
+                                ? $this->_prepareQueryText($facetCondition['from'])
+                                : '*';
+                            $to = (isset($facetCondition['to']) && !empty($facetCondition['to']))
+                                ? $this->_prepareQueryText($facetCondition['to'])
+                                : '*';
+                            $fieldCondition = "$facetField:[$from TO $to]";
+                        }
+                        else {
+                            $facetCondition = $this->_prepareQueryText($facetCondition);
+                            $fieldCondition = $this->_prepareFieldCondition($facetField, $facetCondition);
+                        }
+
+                        $result['facet.query'][] = $fieldCondition;
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Prepare fq filter conditions
+     *
+     * @param array $filters
+     * @return array
+     */
+    protected function _prepareFilters($filters)
+    {
+        $result = array();
+
+        if (is_array($filters) && !empty($filters)) {
+            foreach ($filters as $field => $value) {
+                if (is_array($value)) {
+                    if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
+                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
+                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
+                        $fieldCondition = "$field:[$from TO $to]";
+                    }
+                    else {
+                        $fieldCondition = array();
+                        foreach ($value as $part) {
+                            $part = $this->_prepareQueryText($part);
+                            $fieldCondition[] = $this->_prepareFieldCondition($field, $part);
+                        }
+                        $fieldCondition = '(' . implode(' OR ', $fieldCondition) . ')';
+                    }
+                }
+                else {
+                    $value = $this->_prepareQueryText($value);
+                    $fieldCondition = $this->_prepareFieldCondition($field, $value);
+                }
+
+                $result[] = $fieldCondition;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Prepare sort fields
+     *
+     * @param array $sortBy
+     * @return array
+     */
+    protected function _prepareSortFields($sortBy)
+    {
+        $result = array();
+
+        /**
+         * Support specifing sort by field as only string name of field
+         */
+        if (!empty($sortBy) && !is_array($sortBy)) {
+            if ($sortBy == 'relevance') {
+                $sortBy = 'score';
+            } elseif ($sortBy == 'name') {
+                $sortBy = 'alphaNameSort';
+            } elseif ($sortBy == 'position') {
+                $sortBy = 'position_category_' . Mage::registry('current_category')->getId();
+            } elseif ($sortBy == 'price') {
+                $websiteId       = Mage::app()->getStore()->getWebsiteId();
+                $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+
+                $sortBy = 'price_'. $customerGroupId .'_'. $websiteId;
+            }
+
+            $sortBy = array(array($sortBy => 'asc'));
+        }
+
+        foreach ($sortBy as $sort) {
+            $_sort = each($sort);
+            $sortField = $_sort['key'];
+            $sortType = $_sort['value'];
+            if ($sortField == 'relevance') {
+                $sortField = 'score';
+            } elseif ($sortField == 'position') {
+                $sortField = 'position_category_' . Mage::registry('current_category')->getId();
+            } elseif ($sortField == 'price') {
+                $websiteId       = Mage::app()->getStore()->getWebsiteId();
+                $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+
+                $sortField = 'price_'. $customerGroupId .'_'. $websiteId;
+            } else {
+                $sortField = $this->getAttributeSolrFieldName($sortField);
+            }
+
+            $result[] = array('sortField' => $sortField, 'sortType' => trim(strtolower($sortType)));
+        }
+
+        return $result;
+    }
+
+    /**
      * Retrive Solr server status
      *
      * @return float Actual time taken to ping the server, FALSE if timeout or HTTP error status occurs
