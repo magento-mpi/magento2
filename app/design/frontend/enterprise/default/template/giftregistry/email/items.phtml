@@ -24,28 +24,24 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<table class="data-table" summary="<?php echo $this->__('Gift Registry Items Updated') ?>">
-    <col />
-    <col width="1" />
-    <col width="1" />
-    <col width="1" />
+<table cellspacing="0" cellpadding="0" border="0" width="650" style="border:1px solid #EAEAEA;" summary="<?php echo $this->__('Gift Registry Items Updated') ?>">
     <thead>
         <tr>
-            <th><?php echo $this->__('Product Name') ?></th>
-            <th><?php echo $this->__('Desired Quantity') ?></th>
-            <th class="a-right"><?php echo $this->__('Fulfilled Quantity') ?></th>
-            <th class="a-center"><?php echo $this->__('Remained Quantity ') ?></th>
+            <th align="left" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Product Name') ?></th>
+            <th align="center" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Desired Quantity') ?></th>
+            <th align="center" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Fulfilled Quantity') ?></th>
+            <th align="center" bgcolor="#EAEAEA" style="font-size:13px; padding:3px 9px"><?php echo $this->__('Remained Quantity ') ?></th>
         </tr>
     </thead>
     <tbody>
-    <?php foreach ($this->getItems() as $item): ?>
-    <tr>
-        <td><?php echo $item->getProductName() ?></td>
-        <td><?php echo $this->getQty($item) ?></td>
-        <td><?php echo $this->getQtyFulfilled($item) ?></td>
-        <td><?php echo $this->getRemainedQty($item) ?></td>
+    <?php $i=0; foreach ($this->getItems() as $item): ?>
+    <tr<?php echo $i%2 ? ' bgcolor="#F6F6F6"' : '' ?>>
+        <td align="left" style="font-size:11px; padding:3px 9px"><strong><?php echo $item->getProductName() ?></strong></td>
+        <td align="center" style="font-size:11px; padding:3px 9px"><?php echo $this->getQty($item) ?></td>
+        <td align="center" style="font-size:11px; padding:3px 9px"><?php echo $this->getQtyFulfilled($item) ?></td>
+        <td align="center" style="font-size:11px; padding:3px 9px"><?php echo $this->getRemainedQty($item) ?></td>
     </tr>
-    <?php endforeach; ?>
+    <?php $i++; endforeach; ?>
     </tbody>
 </table>
 
