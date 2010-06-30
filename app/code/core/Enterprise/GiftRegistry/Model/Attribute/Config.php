@@ -161,6 +161,22 @@ class Enterprise_GiftRegistry_Model_Attribute_Config extends Mage_Core_Model_Abs
     }
 
     /**
+     * Check if attribute is in registrant group
+     *
+     * @param string $attribute
+     * @return bool
+     */
+    public function isRegistrantAttribute($attribute)
+    {
+        foreach ($this->getStaticTypes() as $code => $data) {
+            if ($attribute == $code && $data['group'] == 'registrant') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Return code of static date attribute type
      *
      * @return null|string

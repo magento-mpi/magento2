@@ -173,4 +173,30 @@ class Enterprise_GiftRegistry_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_A
 
         $this->_getWriteAdapter()->delete($this->_labelTable, $where);
     }
+
+    /**
+     * Delete attribute values
+     *
+     * @param int $typeId
+     * @param string $attributeCode
+     * @param bool $personValue
+     */
+    public function deleteAttributeValues($typeId, $attributeCode, $personValue = false)
+    {
+        $entityTable = $this->getTable('enterprise_giftregistry/entity');
+        $select = $this->_getReadAdapter()->select();
+        $select->from(array('e' => $entityTable), array('entity_id'))
+            ->where('type_id = ?', $typeId);
+
+        if ($personValue) {
+            $table = $this->getTable('enterprise_giftregistry/person');
+        } else {
+            $table = $this->getTable('enterprise_giftregistry/data');
+        }
+
+        $this->_getWriteAdapter()->update($table,
+            array($attributeCode => ''),
+            array('entity_id IN (?)' => $select)
+        );
+    }
 }

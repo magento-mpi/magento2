@@ -160,10 +160,18 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
     {
         if ($groups = $this->getAttributes()) {
             $attributesToSave = array();
+            $config = Mage::getSingleton('enterprise_giftregistry/attribute_config');
             foreach ((array)$groups as $group => $attributes) {
                 foreach ((array)$attributes as $attribute) {
                     if ($attribute['is_deleted']) {
                         $this->_getResource()->deleteAttributeStoreData($this->getId(), $attribute['code']);
+                        if (in_array($attribute['code'], $config->getStaticTypesCodes())) {
+                            $this->_getResource()->deleteAttributeValues(
+                                $this->getId(),
+                                $attribute['code'],
+                                $config->isRegistrantAttribute($attribute['code'])
+                            );
+                        }
                     } else {
                         if (isset($attribute['options']) && is_array($attribute['options'])) {
                             $optionsToSave = array();
