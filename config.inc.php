@@ -349,6 +349,12 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/widget.xml',
         'app/design/adminhtml/default/default/template/widget/',
     ),
+    'Mage_XmlConnect' => array(
+        'app/code/core/Mage/XmlConnect/',
+        'app/design/adminhtml/default/default/layout/xmlconnect.xml',
+        'app/design/adminhtml/default/default/template/xmlconnect/',
+        'app/design/frontend/base/default/layout/xmlconnect.xml'
+    ),
     'translate' => array(
         'app/design/frontend/base/default/template/callouts/',
     ),
@@ -554,6 +560,7 @@ $CONFIG['helpers']  = array(
     'weee'              => 'Mage_Weee',
     'wishlist'          => 'Mage_Wishlist',
     'widget'            => 'Mage_Widget',
+    'xmlconnect'        => 'Mage_XmlConnect',
     'moneybookers'      => 'Phoenix_Moneybookers',
     'enterprise_admingws'           => 'Enterprise_AdminGws',
     'enterprise_banner'             => 'Enterprise_Banner',
