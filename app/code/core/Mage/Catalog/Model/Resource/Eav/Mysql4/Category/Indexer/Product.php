@@ -299,7 +299,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
          * Insert anchor categories relations
          */
         $isParent = new Zend_Db_Expr('IF (cp.category_id=ce.entity_id, 1, 0) AS is_parent');
-        $position = new Zend_Db_Expr('IF (cp.category_id=ce.entity_id, cp.position, 0) AS position');
+        $position = new Zend_Db_Expr('IF (cp.category_id=ce.entity_id,
+        cp.position,
+        ROUND((cc.position + 1) * (cc.level + 1) * 10000) + cp.position) AS position');
         $select = $this->_getReadAdapter()->select()
             ->from(array('ce' => $this->_categoryTable), array('entity_id', 'cp.product_id', $position, $isParent))
             ->joinLeft(array('cc' => $this->_categoryTable), 'cc.path LIKE CONCAT(ce.path, \'/%\')', array())
@@ -531,7 +533,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
              */
             $sql = "INSERT INTO {$idxTable}
                 SELECT
-                    ap.category_id, ap.product_id, cp.position,
+                    ap.category_id, ap.product_id, ap.position,
                     IF(cp.product_id, 1, 0), {$storeId}, pv.visibility
                 FROM
                     {$anchorProductsTable} AS ap
