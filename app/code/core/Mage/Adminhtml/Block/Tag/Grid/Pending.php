@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
             'header'        => Mage::helper('tag')->__('Products'),
             'width'         => '140px',
             'align'         => 'right',
-            'index'         => 'summary.products',
+            'index'         => 'products',
             'type'          => 'number'
         ));
 
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
             'header'        => Mage::helper('tag')->__('Customers'),
             'width'         => '140px',
             'align'         => 'right',
-            'index'         => 'summary.customers',
+            'index'         => 'customers',
             'type'          => 'number'
         ));
 
