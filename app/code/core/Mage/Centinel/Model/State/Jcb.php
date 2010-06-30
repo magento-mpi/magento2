@@ -106,7 +106,7 @@ class Mage_Centinel_Model_State_Jcb extends Mage_Centinel_Model_StateAbstract
 
             //Test case 5
             if ($paResStatus == 'U' && $signatureVerification == 'Y' && $eciFlag == '07' &&
-                $xid != '' && $cavv == '' && $errorNo == '') {
+                $xid != '' && $cavv == '' && $errorNo == '0') {
                 if ($this->getIsModeStrict()) {
                     return false;
                 } else {
@@ -116,7 +116,7 @@ class Mage_Centinel_Model_State_Jcb extends Mage_Centinel_Model_StateAbstract
 
             //Test case 10
             if ($paResStatus == '' && $signatureVerification == '' && $eciFlag == '07' &&
-                $xid == '' && $cavv == '' && $errorNo != '') {
+                $xid == '' && $cavv == '' && $errorNo != '0') {
                 return false;
             }
 
@@ -170,7 +170,7 @@ class Mage_Centinel_Model_State_Jcb extends Mage_Centinel_Model_StateAbstract
         }
 
         //Test cases 8,9
-        if ($enrolled == '' && $acsUrl == '' && $payload == '' && $errorNo != '') {
+        if ($enrolled == '' && $acsUrl == '' && $payload == '' && $errorNo != '0') {
             return true;
         }
 
