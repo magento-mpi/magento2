@@ -27,11 +27,18 @@
 -->
 
 <layout>
+    <default>
+        <reference name="head">
+            <action method="addCss"><name>xmlconnect/boxes.css</name></action>
+        </reference>
+    </default>
+
     <adminhtml_mobile_index>
         <reference name="content">
             <block type="xmlconnect/adminhtml_mobile" name="applications"/>
         </reference>
     </adminhtml_mobile_index>
+
     <adminhtml_mobile_edit>
         <reference name="left">
             <block type="xmlconnect/adminhtml_mobile_edit_tabs" name="mobile_edit_tabs">
@@ -64,7 +71,11 @@
         <block type="xmlconnect/adminhtml_mobile_grid" name="mobile_grid" output="toHtml"/>
     </adminhtml_mobile_grid>
 
-    <adminhtml_mobile_save>
-        <block type="xmlconnect/adminhtml_mobile_preview" name="preview_iframe" output="toHtml"/>
-    </adminhtml_mobile_save>
+    <adminhtml_mobile_previewhome>
+        <block type="xmlconnect/adminhtml_mobile_preview_home" name="preview_iframe_home" output="toHtml"/>
+    </adminhtml_mobile_previewhome>
+
+    <adminhtml_mobile_previewcatalog>
+        <block type="xmlconnect/adminhtml_mobile_preview_catalog" name="preview_iframe_catalog" output="toHtml"/>
+    </adminhtml_mobile_previewcatalog>
 </layout>

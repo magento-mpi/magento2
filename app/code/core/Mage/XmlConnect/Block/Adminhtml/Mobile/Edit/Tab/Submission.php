@@ -51,6 +51,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
                 ->setImages($application->getImages());
             $this->setChild('images', $block);
         }
+        $this->setChild('payment_disabled', $this->getLayout()->createBlock('adminhtml/template')
+            ->setTabsPrefix(Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tabs::XMLCONNECT_MOBILE_APP_TABS_ID)
+            ->setTemplate('xmlconnect/payment_disabled.phtml'));
+
         parent::_prepareLayout();
     }
 
@@ -205,7 +209,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
             ));
         }
 
-        $fieldset = $form->addFieldset('payment', array('legend' => $this->__('Payment Methods')));
+        $fieldset = $form->addFieldset('payment_disabled_fieldset', array('legend' => $this->__('Payment Methods')));
 
         $fieldset->addField('conf/native/paypal/isActive', 'checkbox', array(
             'name'      => 'conf[native][paypal][isActive]',
@@ -287,6 +291,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
     protected function _toHtml()
     {
         return parent::_toHtml()
+            . $this->getChildHtml('payment_disabled')
             . (!Mage::registry('current_app')->getIsResubmitAction() ? '' :
                 ($this->getChildHtml('mobile_edit_tab_submission_history')
                 . $this->getChildHtml('resubmit')

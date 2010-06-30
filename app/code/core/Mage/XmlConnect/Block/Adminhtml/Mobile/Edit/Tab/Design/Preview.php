@@ -30,4 +30,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Preview extends Mag
         parent::__construct();
         $this->setTemplate('xmlconnect/preview.phtml');
     }
+
+    public function getPreviewActionUrl($page = 'home')
+    {
+        return $this->getUrl('*/*/preview'.$page, array('application_id' => Mage::registry('current_app')->getId()));
+    }
 }

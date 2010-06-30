@@ -32,13 +32,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     const APP_CODE_COOKIE_NAME = 'app_code';
 
     /**
-     * Url link to our aggregator.
-     * We can't change it lately.
-     * @var string
-     */
-    const APP_CONNECTOR_URL = 'www.magentocommerce.com/mobile/activate/';
-
-    /**
      * Images in "Params" history table
      *
      * @var array
@@ -589,7 +582,9 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     {
         try {
             $params = $this->getSubmitParams();
-            $ch = curl_init(self::APP_CONNECTOR_URL . $params['key']);
+
+            $appConnectorUrl = Mage::getStoreConfig('xmlconnect/mobile_application/magentocommerce_url');
+            $ch = curl_init($appConnectorUrl . $params['key']);
             // set URL and other appropriate options
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $params);

@@ -37,8 +37,8 @@
 <div class="mm-pager">
     <strong>Screens:</strong>
     <ul id="mmPager">
-        <li><a class="active" href="#">1</a></li>
-        <li><a href="#">2</a></li>
+        <li><a class="active" href="<?php echo $this->getPreviewActionUrl('home'); ?>">1</a></li>
+        <li><a href="<?php echo $this->getPreviewActionUrl('catalog'); ?>">2</a></li>
         <!--
         <li><a href="#">3</a></li>
         <li><a href="#">4</a></li>
@@ -46,22 +46,22 @@
     </ul>
 </div>
 <script type="text/javascript">
-    mmPreviewPage = 1
+    mmPreviewPage = '<?php echo $this->getPreviewActionUrl('home'); ?>';
     function updatePreview() {
-        saveAction = $('edit_form').action
-        $('edit_form').action += 'preview/'+mmPreviewPage+'/';
-        $('edit_form').target = 'XmlconnectThemePreviewIframe'
-        $('edit_form').submit()
+        saveAction = $('edit_form').action;
+        $('edit_form').action = mmPreviewPage;
+        $('edit_form').target = 'XmlconnectThemePreviewIframe';
+        $('edit_form').submit();
         // FIXME
-        $('edit_form').action = saveAction
-        $('edit_form').target = ''
+        $('edit_form').action = saveAction;
+        $('edit_form').target = '';
     }
     $('mmPager').childElements().each(function(t){
         Event.observe(t.down('a'), 'click', function(e){
             e.stop();
             resetPager();
             t.down('a').addClassName('active');
-            mmPreviewPage = t.down('a').innerHTML
+            mmPreviewPage = t.down('a').href;
         });
     });
     function resetPager(){

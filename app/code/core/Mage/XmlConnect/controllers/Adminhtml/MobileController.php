@@ -157,7 +157,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     {
         $data = $this->getRequest()->getPost();
         $redirectBack = $this->getRequest()->getParam('back', false);
-        $previewMode = $this->getRequest()->getParam('preview', false);
         $app = false;
         if ($data) {
             try {
@@ -180,17 +179,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                         }
                     }
                 }
-                if ($previewMode) {
-                    $preview = $this->loadLayout(FALSE)->getLayout()->getBlock('preview_iframe');
-                    $preview->setConf($app->getRenderConf());
-                    $preview->setPreviewScreen($previewMode);
-                    $this->renderLayout();
-                    return;
-                }
-                else {
-                    $app->save();
-                    $this->_getSession()->addSuccess($this->__('Application has been saved.'));
-                }
+                $app->save();
+                $this->_getSession()->addSuccess($this->__('Application has been saved.'));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addException($e, $e->getMessage());
                 $redirectBack = true;
@@ -198,6 +188,44 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $this->_getSession()->addException($e, $this->__('Unable to save application.'));
                 $redirectBack = true;
             }
+        }
+        if ($app && $redirectBack) {
+            $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
+        } else {
+            $this->_redirect('*/*/');
+        }
+    }
+
+    public function previewHomeAction()
+    {
+        $this->_previewAction('preview_iframe_home');
+    }
+
+    public function previewCatalogAction()
+    {
+        $this->_previewAction('preview_iframe_catalog');
+    }
+
+    /**
+     * Preview action
+     */
+    protected function _previewAction($block)
+    {
+        $redirectBack = false;
+        $app = false;
+        try {
+            $app = $this->_initApp();
+            $this->loadLayout(FALSE);
+            $preview = $this->getLayout()->getBlock($block);
+            $preview->setConf($app->getRenderConf());
+            $this->renderLayout();
+            return;
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addException($e, $e->getMessage());
+            $redirectBack = true;
+        } catch (Exception $e) {
+            $this->_getSession()->addException($e, $this->__('Unable to process preview.'));
+            $redirectBack = true;
         }
         if ($app && $redirectBack) {
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));

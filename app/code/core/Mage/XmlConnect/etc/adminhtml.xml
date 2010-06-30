@@ -41,6 +41,17 @@
                         <title>Mobile</title>
                         <sort_order>100</sort_order>
                     </mobile>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <xmlconnect translate="title" module="enterprise_giftregistry">
+                                        <title>Mobile Application</title>
+                                    </xmlconnect>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
                 </children>
             </admin>
         </resources>

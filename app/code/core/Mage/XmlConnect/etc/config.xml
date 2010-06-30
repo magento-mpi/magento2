@@ -178,5 +178,10 @@
                 </itemActions>
             </iPhone>
         </imageLimits>
+        <xmlconnect>
+            <mobile_application>
+                <magentocommerce_url>www.magentocommerce.com/mobile/activate/</magentocommerce_url>
+            </mobile_application>
+        </xmlconnect>
     </default>
 </config>

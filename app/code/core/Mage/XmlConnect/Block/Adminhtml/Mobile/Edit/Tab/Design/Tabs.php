@@ -36,4 +36,20 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Tabs extends Mage_C
         $this->setTabs(new Mage_XmlConnect_Model_Tabs($this->getValue()));
         return parent::_beforeToHtml();
     }
+
+   /**
+    * Returns url for skin folder
+    *
+    * @param string $name  - file name
+    *
+    * @return string
+    */
+    protected function getImageUrl($name = '')
+    {
+        if (!isset($this->_skinFolder)) {
+            $this->_skinFolder = Mage::getBaseUrl('skin');
+        }
+        return  $this->_skinFolder . Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Abstract::XMLCONNECT_ADMIN_DEFAULT_IMAGES . $name;
+    }
+
 }

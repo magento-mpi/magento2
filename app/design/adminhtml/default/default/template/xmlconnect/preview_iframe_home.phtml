@@ -1,0 +1,87 @@
+
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getPreviewCssUrl('mobile-home.css'); ?>" media="all" />
+<div class="main-block" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>;">
+	<div class="top-header" style="background: #000;">
+		<div class="volume" style="background:url('<?php echo $this->getPreviewUrl('1.gif'); ?>') bottom left no-repeat;"></div>
+		<div class="header-sign-1"><?php echo $this->__("Carrier"); ?></div>
+		<div class="antenna" style="background:url('<?php echo $this->getPreviewUrl('3.gif'); ?>') bottom right no-repeat;"></div>
+		<div class="time"><?php echo $this->getData('conf/Time'); ?></div>
+		<div class="battery" style="background:url('<?php echo $this->getPreviewUrl('2.gif'); ?>') bottom right no-repeat;"></div>
+	</div>
+	<div class="main-header"  style="background: <?php echo $this->getData('conf/navigationBar/tintColor'); ?>;  color: #f3f3f3;">
+		<div class="info"><img src="<?php echo $this->getPreviewUrl('info.png') ?>" width="20" height="20" alt="" /></div>
+		<div class="logo-small">
+			<img src="<?php echo $this->getData('conf/navigationBar/icon'); ?>" height="30" alt="" >
+		</div>
+		<div class="login-btn">
+			<div class="login-left">&nbsp;</div>
+			<div class="login-body"><span><?php echo $this->__("Log In"); ?></span></div>
+			<div class="login-right">&nbsp;</div>
+		</div>
+	</div>
+	<div class="clearB"></div>
+	<div class="big-logo" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>;">
+		<img src="<?php echo $this->getData('conf/body/bannerImage'); ?>" />
+	</div>
+	<div class="catalog" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>">
+		<div class="item">
+			<div class="item-image" style="background: <?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
+				<img src="<?php echo $this->getPreviewUrl('men.png') ?>" width="63" height="74" alt="" />
+			</div>
+			<div class="item-text" style="font: bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px
+			    <?php echo $this->getData('conf/fonts/Title9/name'); ?>; 	color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;
+			    background: <?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo $this->__("MEN"); ?></div>
+		</div>
+		<div class="item">
+			<div class="item-image" style="background: <?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
+				<img src="<?php echo $this->getPreviewUrl('women.png'); ?>" width="63" height="74" alt="" />
+			</div>
+			<div class="item-text" style="font: bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name');?>;
+			color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;
+			background: <?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo $this->__("WOMEN"); ?></div>
+		</div>
+		<div class="item">
+			<div class="item-image" style="background: <?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
+				<img src="<?php echo $this->getPreviewUrl('youth.png'); ?>" style=-moz-opacity:0.6" width="63" height="74" alt="" />
+			</div>
+			<div class="item-text" style="font: bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;
+			color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;
+			background: <?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo $this->__("YOUTH"); ?></div>
+		</div>
+	</div>
+<div class="clearB"></div>
+    <div class="bottom-buttons" style="background: #363d40;">
+        <div class="bottom-button" style="background:url('<?php echo $this->getPreviewUrl('icons/home.png'); ?>') top center no-repeat;">
+            <p><?php echo $this->__("Home"); ?></p>
+        </div>
+        <div class="bottom-button" style="background:url('<?php echo $this->getPreviewUrl('icons/page.png'); ?>') top center no-repeat;">
+            <p><?php echo $this->__("Shop"); ?></p>
+        </div>
+        <div class="bottom-button" style="background:url('<?php echo $this->getPreviewUrl('icons/search.png'); ?>') top center no-repeat;">
+            <p><?php echo $this->__("Search"); ?></p>
+        </div>
+        <div class="bottom-button" style="background:url('<?php echo $this->getPreviewUrl('icons/more.png'); ?>') top center no-repeat;">
+            <p><?php echo $this->__("Cart"); ?></p>
+        </div>
+        <div class="bottom-button" style="background:url('<?php echo $this->getPreviewUrl('icons/account.png'); ?>') top center no-repeat;">
+            <p><?php echo $this->__("Account"); ?></p>
+        </div>
+    </div>
+    <!--<div class="bottom-buttons"  style="background: #363d40;">
+        <div class="bottom-button"  style="background:url('<?php echo $this->getData('conf/tabBar/tab/Home/image'); ?>') top center no-repeat;">
+            <p><?php echo $this->getData('conf/tabBar/tab/Home/label'); ?></p>
+        </div>
+        <div class="bottom-button"  style="background:url('[tabBar-tab-About Us-image]') top center no-repeat;">
+            <p>[tabBar-tab-About Us-label]</p>
+        </div>
+        <div class="bottom-button"  style="background:url('<?php echo $this->getData('conf/tabBar/tab/Search/image'); ?>') top center no-repeat;">
+            <p><?php echo $this->getData('conf/tabBar/tab/Home/label'); ?></p>
+        </div>
+        <div class="bottom-button"  style="background:url('<?php echo $this->getData('conf/tabBar/tab/Cart/image'); ?>') top center no-repeat;">
+            <p><?php echo $this->getData('conf/tabBar/tab/Cart/label'); ?></p>
+        </div>
+        <div class="bottom-button"  style="background:url('<?php echo $this->getData('conf/tabBar/tab/Account/image'); ?>') top center no-repeat;">
+            <p><?php echo $this->getData('conf/tabBar/tab/Account/label'); ?></p>
+        </div>
+    </div>-->
+</div>
