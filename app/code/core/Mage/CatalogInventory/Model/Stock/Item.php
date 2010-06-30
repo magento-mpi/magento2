@@ -382,7 +382,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function checkQty($qty)
     {
-        if (!$this->getManageStock()) {
+        if (!$this->getManageStock() || Mage::app()->getStore()->isAdmin()) {
             return true;
         }
         if ($this->getQty() - $qty < 0) {
@@ -399,6 +399,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                     else {
                         Mage::throwException(Mage::helper('cataloginventory')->__('The requested quantity is not available.'));
                     }*/
+
                     return false;
                     break;
             }
@@ -416,7 +417,6 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function checkQuoteItemQty($qty, $summaryQty, $origQty = 0)
     {
-
         $result = new Varien_Object();
         $result->setHasError(false);
 
@@ -475,6 +475,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
 
         $result->addData($this->checkQtyIncrements($qty)->getData());
+
         if ($result->getHasError()) {
             return $result;
         }
@@ -519,6 +520,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             return $result;
         }
         $qtyIncrements = $this->getQtyIncrements();
+
         if ($qtyIncrements && ($qty % $qtyIncrements != 0)) {
             $result->setHasError(true)
                 ->setMessage(Mage::helper('cataloginventory')->__('This product is available for purchase in increments of %s only.', $qtyIncrements * 1))
