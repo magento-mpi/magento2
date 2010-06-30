@@ -126,7 +126,7 @@ class Maged_Connect
                 $packager = new Mage_Connect_Packager();
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
                 $this->_config=$config;
-                //$this->_sconfig=$cache;
+                $this->_sconfig=$cache;
             }
             $this->_config->magento_root = dirname(dirname(__FILE__)).DS.'..';
             Mage_Connect_Command::setConfigObject($this->_config);
@@ -142,7 +142,7 @@ class Maged_Connect
     public function getSingleConfig()
     {
         if(!$this->_sconfig) {
-            $this->_sconfig = new Mage_Connect_Singleconfig();
+            $this->_sconfig = new Mage_Connect_Singleconfig($this->getConfig()->magento_root . DIRECTORY_SEPARATOR . $this->getConfig()->downloader_path . DIRECTORY_SEPARATOR . Mage_Connect_Singleconfig::DEFAULT_SCONFIG_FILENAME);
         }
         Mage_Connect_Command::setSconfig($this->_sconfig);
         return $this->_sconfig;

@@ -34,6 +34,11 @@
 
 class Mage_Connect_Singleconfig
 {
+    /**
+     * Default single config filename
+     * 'cache.cfg'
+     */
+    const DEFAULT_SCONFIG_FILENAME = 'cache.cfg';
 
     /**
      * Cache data
@@ -113,7 +118,7 @@ class Mage_Connect_Singleconfig
      * @param srting $file
      * @return void
      */
-    public function __construct($file = "cache.cfg")
+    public function __construct($file = self::DEFAULT_SCONFIG_FILENAME)
     {
         $this->setEmptyConfig();
         if($file) {
@@ -198,9 +203,8 @@ class Mage_Connect_Singleconfig
             $data = @gzcompress($data);
         }
         $res=true;
-        if(!file_exists($file)||(file_exists($file)&&is_writable($file))){
+        if((!file_exists($file)&&is_writable(dirname($file)))||(file_exists($file)&&is_writable($file))){
             $res = @file_put_contents($file, $data);
-            $res=true;
         }
         if(!$res) {
             $this->doError("Cannot save: '{$file}'");

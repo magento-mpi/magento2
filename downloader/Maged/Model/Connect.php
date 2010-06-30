@@ -61,7 +61,7 @@ class Maged_Model_Connect extends Maged_Model
      *
      * @param boolean $force
      */
-    public function installAll($force=false, $chanName)
+    public function installAll($force=false, $chanName='')
     {
         $options = array();
         if ($force) {
@@ -79,8 +79,8 @@ class Maged_Model_Connect extends Maged_Model
         //$uri = "var-dev.varien.com/dev/evgeniy.lamskoy/channels/channels/{$chanName}/";
         //$uri = "http://connect2.0/channel/channels/{$chanName}/";
         //$uri = "http://connect20.local.net/channel/channels/{$chanName}/";
-        //$uri="connect.kiev-dev/community";
-        $uri="connect.kiev-dev/enterprise";
+        $uri="connect.kiev-dev/community";
+        //$uri="connect.kiev-dev/enterprise";
         $connectConfig->root_channel = $chanName;        
         foreach ($packages as $package) {
             $params[] = $uri;

@@ -218,6 +218,21 @@ extends Mage_Connect_Command
                 }
                 $channelName = $cache->chanName($channel);
                 $packagesToInstall = $packager->getDependenciesList( $channelName, $package, $cache, $config, $argVersionMax, $argVersionMin, $withDepsMode, false, $rest);
+                /*
+                 * @TODO: process 'failed' results
+                 */
+                if(count($packagesToInstall['failed'])) {
+                    $showError=!count($packagesToInstall['result']);
+                    foreach($packagesToInstall['failed'] as $failed){
+                        //$failed = array('name'=>$package, 'channel'=>$chanName, 'max'=>$versionMax, 'min'=>$versionMin, 'reason'=>$e->getMessage());
+                        $msg="Package {$failed['channel']}/{$failed['name']} failed: ".$failed['reason'];
+                        if($showError){
+                            $this->doError($command, $msg);
+                        }else{
+                            $this->ui()->output($msg);
+                        }
+                    }
+                }
                 $packagesToInstall = $packagesToInstall['result'];
             } else {
                 if(empty($params[0])) {

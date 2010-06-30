@@ -520,7 +520,7 @@ class Mage_Connect_Packager
             $rest->setChannel($cache->chanUrl($chanName));
             $releases = $rest->getReleases($package);
             if(!$releases || !count($releases)) {
-                throw new Exception("No releases for: '{$package}', skipping");
+                throw new Exception("No releases for '{$package}', skipping");
             }
             $state = $config->preffered_state ? $confg->preffered_state : 'devel';
             $version = $cache->detectVersionFromRestArray($releases, $versionMin, $versionMax, $state);
