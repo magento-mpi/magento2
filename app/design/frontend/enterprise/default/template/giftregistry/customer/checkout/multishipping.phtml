@@ -25,7 +25,7 @@
  */
 ?>
 
-<?php if ($this->getEnabled() && $this->getGiftRegistryQuoteItems()) :?>
+<?php if ($this->getEnabled() && $this->getItems()) :?>
 <script type="text/javascript">
 //<![CDATA[
     function addOption(item, address) {
@@ -53,7 +53,7 @@
         });
     }
 
-    <?php foreach ($this->getGiftRegistryQuoteItems() as $itemId => $registryItem) : ?>
+    <?php foreach ($this->getItems() as $itemId => $registryItem) : ?>
         addOption(<?php echo $itemId; ?>, <?php echo $registryItem['item_id']; ?>);
     <?php endforeach; ?>
 //]]>

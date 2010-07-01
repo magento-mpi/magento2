@@ -54,38 +54,58 @@ class Enterprise_GiftRegistry_Block_Customer_Checkout extends Mage_Core_Block_Te
      *
      * @return array
      */
-    public function getGiftRegistryQuoteItems()
+    protected function _getGiftRegistryQuoteItems()
     {
         $items = array();
         if ($this->_getCheckoutSession()->getQuoteId()) {
             $quote = $this->_getCheckoutSession()->getQuote();
             $model = Mage::getModel('enterprise_giftregistry/entity');
             foreach ($quote->getItemsCollection() as $quoteItem) {
+                $item = array();
                 if ($registryItemId = $quoteItem->getGiftregistryItemId()) {
                     $model->loadByEntityItem($registryItemId);
-                    if ($model->getShippingAddress()) {
-                        $items[$quoteItem->getId()]['entity_id'] = $model->getId();
-                        $items[$quoteItem->getId()]['item_id'] = $registryItemId;
-                    }
+                    $item['entity_id'] = $model->getId();
+                    $item['item_id'] = $registryItemId;
+                    $item['is_address'] = ($model->getShippingAddress()) ? 1 : 0;
+                    $items[$quoteItem->getId()] = $item;
                 }
             }
         }
         return $items;
     }
 
+   /**
+     * Get quote gift registry items for multishipping checkout
+     *
+     * @return array
+     */
+    public function getItems()
+    {
+        $items = array();
+        foreach ($this->_getGiftRegistryQuoteItems() as $quoteItemId => $item) {
+            if ($item['is_address']) {
+                $items[$quoteItemId] = $item;
+            }
+        }
+        return $items;
+    }
+
     /**
-     * Get customer quote unique gift registry item
+     * Get quote unique gift registry item for onepage checkout
      *
      * @return false|int
      */
     public function getItem()
     {
         $items = array();
-        foreach ($this->getGiftRegistryQuoteItems() as $registryItem) {
-            $items[$registryItem['entity_id']] = $registryItem['item_id'];
+        foreach ($this->_getGiftRegistryQuoteItems() as $registryItem) {
+            $items[$registryItem['entity_id']] = $registryItem;
         }
         if (count($items) == 1) {
-            return array_shift($items);
+            $item = array_shift($items);
+            if ($item['is_address']) {
+                return $item['item_id'];
+            }
         }
         return false;
     }
