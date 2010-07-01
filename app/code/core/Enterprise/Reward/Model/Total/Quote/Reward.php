@@ -20,7 +20,7 @@
  *
  * @category    Enterprise
  * @package     Enterprise_Reward
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
@@ -53,7 +53,7 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
             return $this;
         }
 
-        if (!$quote->getRewardPointsTotalReseted() && $address->getBaseGrandTotal() > 0) {           
+        if (!$quote->getRewardPointsTotalReseted() && $address->getBaseGrandTotal() > 0) {
             $quote->setRewardPointsBalance(0)
                 ->setRewardCurrencyAmount(0)
                 ->setBaseRewardCurrencyAmount(0);
@@ -64,7 +64,7 @@ class Enterprise_Reward_Model_Total_Quote_Reward extends Mage_Sales_Model_Quote_
         }
 
         if ($address->getBaseGrandTotal() && $quote->getCustomer()->getId() && $quote->getUseRewardPoints()) {
-            /* @var $reward Enterprise_Reward_Model_Reward */            
+            /* @var $reward Enterprise_Reward_Model_Reward */
             $reward = $quote->getRewardInstance();
             if (!$reward || !$reward->getId()) {
                 $reward = Mage::getModel('enterprise_reward/reward')
