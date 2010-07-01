@@ -41,6 +41,18 @@ class Enterprise_GiftRegistry_Block_Email_Items extends Mage_Core_Block_Template
     }
 
     /**
+     * Count gift registry items in last order
+     *
+     * @param object $item
+     * @return int
+     */
+    public function getQtyOrdered($item)
+    {
+        $ordered = $this->getEntity()->getOrderedQty();
+        return isset($ordered[$item->getId()]) ? (int)$ordered[$item->getId()] : 0;
+    }
+
+    /**
      * Return gift registry entity remained item qty
      *
      * @return int

@@ -235,7 +235,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      *
      * @return bool
      */
-    public function sendUpdateRegistryEmail()
+    public function sendUpdateRegistryEmail($ordered)
     {
         $translate = Mage::getSingleton('core/translate');
         $translate->setTranslateInline(false);
@@ -245,6 +245,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
 
         $store = Mage::app()->getStore();
         $mail = Mage::getModel('core/email_template');
+
+        $this->setOrderedQty($ordered);
 
         $templateVars = array(
             'store' => $store,

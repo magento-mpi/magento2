@@ -191,11 +191,13 @@ class Enterprise_GiftRegistry_Model_Observer
         }
 
         $giftRegistries = array();
+        $ordered = array();
         $item = Mage::getModel('enterprise_giftregistry/item');
         foreach ($order->getAllVisibleItems() as $orderItem) {
             if ($registryItemId = $orderItem->getGiftregistryItemId()) {
                 $item->load($registryItemId);
                 if ($item->getId()) {
+                    $ordered[$registryItemId] = $orderItem->getQtyOrdered();
                     $newQty = $item->getQtyFulfilled() + $orderItem->getQtyOrdered();
                     $item->setQtyFulfilled($newQty)->save();
                     $giftRegistries[] = $item->getEntityId();
@@ -208,7 +210,7 @@ class Enterprise_GiftRegistry_Model_Observer
             $entity = Mage::getModel('enterprise_giftregistry/entity');
             foreach ($giftRegistries as $registryId) {
                 $entity->load($registryId);
-                $entity->sendUpdateRegistryEmail();
+                $entity->sendUpdateRegistryEmail($ordered);
             }
         }
 
