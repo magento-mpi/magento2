@@ -195,7 +195,7 @@ class Enterprise_GiftRegistry_Model_Mysql4_Type extends Mage_Core_Model_Mysql4_A
         }
 
         $this->_getWriteAdapter()->update($table,
-            array($attributeCode => ''),
+            array($attributeCode => new Zend_Db_Expr('NULL')),
             array('entity_id IN (?)' => $select)
         );
     }
