@@ -57,14 +57,6 @@
                     </enterprise_pbridge>
                 </observers>
             </payment_method_is_active>
-            <sales_quote_payment_import_data_before>
-                <observers>
-                    <enterprise_pbridge>
-                        <class>enterprise_pbridge/observer</class>
-                        <method>initPaymentMethod</method>
-                    </enterprise_pbridge>
-                </observers>
-            </sales_quote_payment_import_data_before>
         </events>
     </global>
     <frontend>
