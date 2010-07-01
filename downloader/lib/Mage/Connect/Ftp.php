@@ -235,10 +235,10 @@ class Mage_Connect_Ftp
      * @param srting $remote
      * @param string $local
      * @param int $dirMode
-     * @param int $ftpMode
+     * @param int $fileMode
      * @return unknown_type
      */
-    public function upload($remote, $local, $dirMode = 0777, $ftpMode = FTP_BINARY, $fileMode=0)
+    public function upload($remote, $local, $dirMode = 0777, $fileMode=0)
     {
         $this->checkConnected();
 
@@ -269,13 +269,13 @@ class Mage_Connect_Ftp
         if(!$res) {
             return false;
         }
-        $res = $this->put($remote, $local, $ftpMode);
+        $res = $this->put($remote, $local);
 
         if(!$res) {
             return false;
         }
 
-        if($fileMode!=0){
+        if($fileMode){
             $res=$this->chmod($fileMode, $remote);
         }
         return $res;
