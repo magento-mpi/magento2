@@ -115,8 +115,9 @@ class Mage_Payment_Block_Form_Container extends Mage_Core_Block_Template
         if (is_null($methods)) {
             $store = $this->getQuote() ? $this->getQuote()->getStoreId() : null;
             $methods = $this->helper('payment')->getStoreMethods($store, $this->getQuote());
+            $total = $this->getQuote()->getBaseGrandTotal();
             foreach ($methods as $key => $method) {
-                if ($this->_canUseMethod($method)) {
+                if ($this->_canUseMethod($method) && ($total != 0 || $method->getCode() == 'free')) {
                     $this->_assignMethod($method);
                 }
                 else {
