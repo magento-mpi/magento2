@@ -126,27 +126,6 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     }
 
     /**
-     * Custom getter for payment configuration
-     *
-     * @param string $field
-     * @param int $storeId
-     * @return mixed
-     */
-    public function getConfigData($field, $storeId = null)
-    {
-        $value = null;
-        switch ($field)
-        {
-            case 'url':
-                $value = $this->_getTransactionUrl();
-                break;
-            default:
-                $value = parent::getConfigData($field, $storeId);
-        }
-        return $value;
-    }
-
-    /**
      * Payment action getter compatible with payment model
      *
      * @see Mage_Sales_Model_Payment::place()
@@ -305,7 +284,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
             $_config['proxytype'] = CURLPROXY_HTTP;
         }
 
-        $uri = $this->getConfigData('url');
+        $uri = $this->_getTransactionUrl();
         $client->setUri($uri)
             ->setConfig($_config)
             ->setMethod(Zend_Http_Client::POST)
@@ -355,7 +334,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
       *
       * @return Varien_Object
       */
-    protected function _buildManageRequest()
+    protected function _buildManageRequest($payment)
     {
         return $this->_buildBasicRequest($payment);
     }
@@ -401,7 +380,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
                     ->setShiptolastname($shipping->getLastname())
                     ->setShiptostreet($shipping->getStreet(1))
                     ->setShiptocity($shipping->getCity())
-                    ->setShiptostate($billing->getRegionCode())
+                    ->setShiptostate($shipping->getRegionCode())
                     ->setShiptozip($shipping->getPostcode())
                     ->setShiptocountry($shipping->getCountry());
             }
@@ -463,7 +442,6 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
      /**
       * If response is failed throw exception
       *
-      * @return Mage_Paypal_Model_Payflowpro
       * @throws Mage_Core_Exception
       */
     protected function _processErrors(Varien_Object $response)
@@ -472,6 +450,5 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
             && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER) {
             Mage::throwException($response->getRespmsg());
         }
-        return $this;
     }
 }
