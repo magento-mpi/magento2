@@ -36,7 +36,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Abstract extends Mage_Core_
 
     public function setConf($conf)
     {
-        $tabs = $conf['tabBar']['tabs'];
+        $tabs = isset($conf['tabBar']) && isset($conf['tabBar']['tabs']) ? $conf['tabBar']['tabs'] : array();
         foreach ($tabs->getEnabledTabs() as $tab) {
             $conf['tabBar'][$tab->action]['label'] = $tab->label;
             $conf['tabBar'][$tab->action]['image'] =

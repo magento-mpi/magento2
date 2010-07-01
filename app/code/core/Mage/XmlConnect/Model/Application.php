@@ -32,6 +32,13 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     const APP_CODE_COOKIE_NAME = 'app_code';
 
     /**
+     * Application status succes value
+     *
+     * @var int
+     */
+    const APP_STATUS_SUCCESS = 1;
+
+    /**
      * Images in "Params" history table
      *
      * @var array
@@ -54,6 +61,9 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function preparePostData(array $arr)
     {
+        if (isset($arr['code'])) {
+            unset($arr['code']);
+        }
         if (isset($arr['conf']['new_pages']) && isset($arr['conf']['new_pages']['ids'])
             && isset($arr['conf']['new_pages']['labels'])) {
 
@@ -152,7 +162,13 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function loadDefaultConfiguration()
     {
         $this->setType('iPhone');
+        $this->setCode($this->getCodePrefix());
         $this->setConf(Mage::helper('xmlconnect/iphone')->getDefaultConfiguration());
+    }
+
+    public function getCodePrefix()
+    {
+        return substr(Mage::app()->getStore()->getCode(), 0, 3) . substr($this->getType(),0,3);
     }
 
     /**
@@ -487,7 +503,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function validateSubmit($params)
     {
         $errors = array();
-
+        $helper = Mage::helper('xmlconnect');
         if (!Zend_Validate::is(isset($params['title']) ? $params['title'] : null, 'NotEmpty')) {
             $errors[] = $helper->__('Please enter the Title.');
         }
@@ -613,7 +629,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
                 if (is_array($message)) {
                     $message = implode(' ,', $message);
                 }
-                Mage::throwException($this->__('Submit Application failure. %s', $message));
+                Mage::throwException(Mage::helper('xmlconnect')->__('Submit Application failure. %s', $message));
             }
         } catch (Exception $e) {
             throw $e;

@@ -56,17 +56,25 @@
         $('edit_form').action = saveAction;
         $('edit_form').target = '';
     }
-    $('mmPager').childElements().each(function(t){
-        Event.observe(t.down('a'), 'click', function(e){
-            e.stop();
-            resetPager();
-            t.down('a').addClassName('active');
-            mmPreviewPage = t.down('a').href;
-        });
-    });
-    function resetPager(){
+    function resetPager() {
         $('mmPager').childElements().each(function(t){
             t.down('a').removeClassName('active');
         });
     }
+
+    $("mobile_app_tabs_design_section").observe('click', function() {
+        updatePreview();
+    })
+
+    document.observe("dom:loaded", function() {
+        $('mmPager').childElements().each(function(t){
+            Event.observe(t.down('a'), 'click', function(e){
+                e.stop();
+                resetPager();
+                t.down('a').addClassName('active');
+                mmPreviewPage = t.down('a').href;
+            });
+        });
+    });
+
 </script>

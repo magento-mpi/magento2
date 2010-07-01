@@ -99,7 +99,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      */
     public function editPostAction()
     {
-
         $data = $this->getRequest()->getPost();
         try {
             $isError = false;
@@ -134,7 +133,11 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     'title' => isset($params['title']) ? $params['title'] : '',
                 ));
                 $history->save();
+                $app->getResource()->updateApplicationStatus($app->getId(),
+                    Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS);
                 $this->_getSession()->addSuccess($this->__('Application has been submitted.'));
+            } else {
+                $this->_redirect($this->getUrl('*/*/edit', array('application_id' => $app->getId())));
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());

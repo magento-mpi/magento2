@@ -3,7 +3,7 @@ body { margin: 0; padding: 0 }
 .main-block 
 {
 	width: 320px;
-	height: 450px;
+	height: 480px;
 }
 .header-sign-1
 {
@@ -261,7 +261,8 @@ body { margin: 0; padding: 0 }
 	height: 50px;
 	width: 320px;
 	clear: left;	
-	margin-top: -30px;
+	position:relative;
+	top:-35px;
 }
 .bottom-button 
 {

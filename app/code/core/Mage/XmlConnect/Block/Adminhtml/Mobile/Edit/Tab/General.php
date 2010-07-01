@@ -47,14 +47,16 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
             'required'  => true,
         ));
 
-        $fieldset->addField('code', 'text', array(
-            'name'      => 'code',
-            'label'     => $this->__('Application Code'),
-            'title'     => $this->__('Application Code'),
-            'required'  => true,
-            'class'     => 'validate-identifier',
-        ));
-
+        if ($model->getId()) {
+            $fieldset->addField('code', 'text', array(
+                'name'      => 'code',
+                'label'     => $this->__('Application Code'),
+                'title'     => $this->__('Application Code'),
+                'required'  => true,
+                'class'     => 'validate-identifier',
+                'disabled'  => 'disabled',
+            ));
+        }
 
         $fieldset->addField('conf[special][merchantLabel]', 'text', array(
             'name'      => 'conf[special][merchantLabel]',

@@ -46,7 +46,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Bool extends Mage_Adm
             $url = Mage::getBaseUrl('media') . 'xmlconnect/system/ok.gif';
         }
         $status = $row->getData($this->getColumn()->getIndex());
-        if (!empty($status)) {
+        if ($status == Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS) {
             $result = '<img src="' . $url . '" >';
         } else {
             $result = '&nbsp;';

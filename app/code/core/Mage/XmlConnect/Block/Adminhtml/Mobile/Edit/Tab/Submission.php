@@ -70,7 +70,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
     {
         $fieldset->addField($fieldName, 'image', array(
             'name'      => $fieldName,
-            'label'     => $this->__($title),
+            'label'     => $title,
             'note'      => !empty($note) ? $note : null,
         ));
     }
@@ -183,8 +183,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
         $this->addImage($fieldset, 'conf/submit/loader_image', 'Loader Splash Screen',
             $this->__('Users will see this image as the first screen while your application is loading.  It is a 320x460 image.'));
 
-        $this->addImage($fieldset, 'conf/submit/logo', 'Logo');
-        $this->addImage($fieldset, 'conf/submit/big_logo', 'Big Logo');
+        $this->addImage($fieldset, 'conf/submit/logo', $this->__('Custom application icon'),
+            $this->__('This icon will be  used for users’ devices in case if different than AppSore icon needed. '));
+        $this->addImage($fieldset, 'conf/submit/big_logo', $this->__('Copyright page logo'),
+            $this->__('Store logo that will be displayed on copyright page of application '));
 
         $fieldset = $form->addFieldset('submit2', array('legend' => $this->__('Key')));
         $fieldset->addField('conf[submit_text][key]', 'text', array(
@@ -209,14 +211,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
             ));
         }
 
-        $fieldset = $form->addFieldset('payment_disabled_fieldset', array('legend' => $this->__('Payment Methods')));
-
+        $fieldset = $form->addFieldset('payment_disabled_fieldset', array('legend' => $this->__('Payment Methods (click to change)')));
         $fieldset->addField('conf/native/paypal/isActive', 'checkbox', array(
             'name'      => 'conf[native][paypal][isActive]',
             'label'     => 'Activate paypal for this store',
             'value'     => 1,
             'checked'   => isset($formData['conf[native][paypal][isActive]']),
             'disabled'  => 'disabled',
+            'after_element_html' => '<a href="'.Mage::getStoreConfig('xmlconnect/mobile_application/get_activation_key_url').'">' . $this->__('Get Activation Key'). '</a>',
         ));
 
         $fieldset->addField('conf/native/defaultCheckout/isActive', 'checkbox', array(

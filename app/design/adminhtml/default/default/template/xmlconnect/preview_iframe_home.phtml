@@ -10,8 +10,8 @@
 	</div>
 	<div class="main-header"  style="background: <?php echo $this->getData('conf/navigationBar/tintColor'); ?>;  color: #f3f3f3;">
 		<div class="info"><img src="<?php echo $this->getPreviewUrl('info.png') ?>" width="20" height="20" alt="" /></div>
-		<div class="logo-small">
-			<img src="<?php echo $this->getData('conf/navigationBar/icon'); ?>" height="30" alt="" >
+		<div class="logo-small" style="float:left; width: 20px;">
+			<img src="<?php echo $this->getData('conf/navigationBar/icon') ? $this->getData('conf/navigationBar/icon') : $this->getPreviewUrl('smallIcon.png'); ?>" height="30" alt="" >
 		</div>
 		<div class="login-btn">
 			<div class="login-left">&nbsp;</div>
@@ -21,7 +21,7 @@
 	</div>
 	<div class="clearB"></div>
 	<div class="big-logo" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>;">
-		<img src="<?php echo $this->getData('conf/body/bannerImage'); ?>" />
+		<img src="<?php echo $this->getData('conf/body/bannerImage') ? $this->getData('conf/body/bannerImage') : $this->getPreviewUrl('banner.png'); ?>" />
 	</div>
 	<div class="catalog" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>">
 		<div class="item">
