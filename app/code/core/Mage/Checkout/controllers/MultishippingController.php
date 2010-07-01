@@ -63,7 +63,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
 
     /**
      * Retrieve checkout session
-     * 
+     *
      * @return Mage_Checkout_Model_Session
      */
     protected function _getCheckoutSession()
@@ -92,7 +92,8 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
             $this->_getCheckoutSession()->setCheckoutState(
                 Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN
             );
-        } elseif (!$this->_getCheckoutSession()->getQuote()->getIsMultiShipping()) {
+        } else if (!$this->_getCheckoutSession()->getQuote()->getIsMultiShipping()
+            && !preg_match('#^success#', $action)) {
             $this->_redirect('*/*/index');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return $this;
