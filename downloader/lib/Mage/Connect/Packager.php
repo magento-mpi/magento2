@@ -238,8 +238,9 @@ class Mage_Connect_Packager
             $source = $tar.DS.$file;
             if (file_exists($source) && is_file($source)) {
                 $args = array(ltrim($file,"/"), $source);
-                if($modeDir) {
+                if($modeDir||$modeFile) {
                     $args[] = $modeDir;
+                    $args[] = $modeFile;
                 }
                 call_user_func_array(array($ftp,'upload'), $args);
             }

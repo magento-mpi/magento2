@@ -334,15 +334,18 @@ class Maged_Model_Connect extends Maged_Model
      */
     public function saveConfigPost($p)
     {
+        $configObj=$this->connect()->getConfig();
         if( 'ftp' == $p['deployment_type']){
-            $this->connect()->getConfig()->remote_config=$p['ftp'];
-            $this->connect()->getConfig()->preferred_state = $p['preferred_state'];
-            $this->connect()->getConfig()->protocol = $p['protocol'];
             $this->set('ftp',$p['ftp']);
         }else{
-            $this->connect()->getConfig()->remote_config='';
-            $this->connect()->getConfig()->preferred_state = $p['preferred_state'];
-            $this->connect()->getConfig()->protocol = $p['protocol'];
+            $p['ftp']='';
+        }
+        $configObj->remote_config=$p['ftp'];
+        $configObj->preferred_state = $p['preferred_state'];
+        $configObj->protocol = $p['protocol'];
+        if(1==$p['use_custom_permissions_mode']){
+            $configObj->global_dir_mode=$p['mkdir_mode'];
+            $configObj->global_file_mode=$p['chmod_file_mode'];
         }
         $this->controller()->session()->addMessage('success', 'Settings has been successfully saved');
         return $this;

@@ -356,6 +356,9 @@ extends Mage_Connect_Command
                         }
                     }
 
+                    /**
+                     * @todo: make "Use custom permissions" functionality working
+                     */
                     if(!$noFilesInstall) {
                         if($ftp) {
                             $packager->processInstallPackageFtp($package, $file, $config, $ftpObj);
