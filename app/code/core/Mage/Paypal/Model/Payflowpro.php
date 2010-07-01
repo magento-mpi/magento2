@@ -224,6 +224,17 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     }
 
     /**
+     * Attempt to void the authorization on cancelling
+     *
+     * @param Varien_Object $payment
+     * @return Mage_Paypal_Model_Payflowpro
+     */
+    public function cancel(Varien_Object $payment)
+    {
+        return $this->void($payment);
+    }
+
+    /**
      * Refund capture
      *
      * @param Mage_Sales_Model_Order_Payment $payment
