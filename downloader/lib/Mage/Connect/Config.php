@@ -4,6 +4,7 @@ class Mage_Connect_Config
 implements Iterator
 {
     protected $_configFile;
+    protected $_configLoaded;
     const HEADER = "::ConnectConfig::v::1.0::";
     const DEFAULT_DOWNLOADER_PATH = "downloader";
     const DEFAULT_CACHE_PATH = ".cache";
@@ -120,6 +121,7 @@ implements Iterator
     
     public function load()
     {
+        $this->_configLoaded=false;
         /**
          * Trick: open in append mode to read,
          * place pointer to begin
@@ -155,28 +157,31 @@ implements Iterator
             }
             fclose($f);
         }
+        $this->_configLoaded=true;
     }
 
     public function store()
     {
-        // @TODO: use ftp to save config
-        $data = serialize($this->toArray());
-        if(strlen($this->remote_config)>0){
-            $confFile=$this->downloader_path.DIRECTORY_SEPARATOR."connect.cfg";
-            $ftpObj = new Mage_Connect_Ftp();
-            $ftpObj->connect($this->remote_config);
-            $tempFile = tempnam(sys_get_temp_dir(),'config');
-            $f = @fopen($tempFile, "w+");
-            @fwrite($f, self::HEADER);
-            @fwrite($f, $data);
-            @fclose($f);
-            $ret=$ftpObj->upload($confFile, $tempFile);
-            $ftpObj->close();
-        }elseif(is_file($this->_configFile)&&is_writable($this->_configFile)||is_writable(getcwd())) {
-            $f = @fopen($this->_configFile, "w+");
-            @fwrite($f, self::HEADER);
-            @fwrite($f, $data);
-            @fclose($f);
+        if($this->_configLoaded||strlen($this->remote_config)>0){
+            // @TODO: use ftp to save config
+            $data = serialize($this->toArray());
+            if(strlen($this->remote_config)>0){
+                $confFile=$this->downloader_path.DIRECTORY_SEPARATOR."connect.cfg";
+                $ftpObj = new Mage_Connect_Ftp();
+                $ftpObj->connect($this->remote_config);
+                $tempFile = tempnam(sys_get_temp_dir(),'config');
+                $f = @fopen($tempFile, "w+");
+                @fwrite($f, self::HEADER);
+                @fwrite($f, $data);
+                @fclose($f);
+                $ret=$ftpObj->upload($confFile, $tempFile);
+                $ftpObj->close();
+            }elseif(is_file($this->_configFile)&&is_writable($this->_configFile)||is_writable(getcwd())) {
+                $f = @fopen($this->_configFile, "w+");
+                @fwrite($f, self::HEADER);
+                @fwrite($f, $data);
+                @fclose($f);
+            }
         }
     }
 

@@ -335,7 +335,7 @@ class Maged_Model_Connect extends Maged_Model
     public function saveConfigPost($p)
     {
         $configObj=$this->connect()->getConfig();
-        if( 'ftp' == $p['deployment_type']){
+        if('ftp' == $p['deployment_type'] || '1' == $p['inst_protocol']){
             $this->set('ftp',$p['ftp']);
         }else{
             $p['ftp']='';
