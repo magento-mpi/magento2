@@ -176,7 +176,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     public function capture(Varien_Object $payment, $amount)
     {
         if ($payment->getParentTransactionId()) {
-            $request = $this->_buildBasicRequest();
+            $request = $this->_buildBasicRequest($payment);
             $request->setTrxtype(self::TRXTYPE_DELAYED_CAPTURE);
             $request->setOrigid($payment->getParentTransactionId());
         } else {
@@ -208,7 +208,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
      */
     public function void(Varien_Object $payment)
     {
-        $request = $this->_buildBasicRequest();
+        $request = $this->_buildBasicRequest($payment);
         $request->setTrxtype(self::TRXTYPE_DELAYED_VOID);
         $request->setOrigid($payment->getParentTransactionId());
         $response = $this->_postRequest($request);
@@ -231,7 +231,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
      */
     public function refund(Varien_Object $payment, $amount)
     {
-        $request = $this->_buildBasicRequest();
+        $request = $this->_buildBasicRequest($payment);
         $request->setTrxtype(self::TRXTYPE_CREDIT);
         $request->setOrigid($payment->getParentTransactionId());
         $response = $this->_postRequest($request);
