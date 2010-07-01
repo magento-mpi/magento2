@@ -83,7 +83,12 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                     $count = ($request->getParam('qty')) ? $request->getParam('qty') : 1;
                 } else {//Adding from cart
                     $cart = Mage::getSingleton('checkout/cart');
+                    $skippedItems = 0;
                     foreach ($cart->getQuote()->getAllVisibleItems() as $item) {
+                        if (!Mage::helper('enterprise_giftregistry')->checkProductType($item->getProductType())) {
+                            $skippedItems++;
+                            continue;
+                        }
                         $entity->addItem($item);
                         $count += $item->getQty();
                         $cart->removeItem($item->getId());
@@ -98,6 +103,11 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                 } else {
                     Mage::getSingleton('checkout/session')->addNotice(
                         Mage::helper('enterprise_giftregistry')->__('Nothing to add to gift registry.')
+                    );
+                }
+                if ($skippedItems) {
+                    Mage::getSingleton('checkout/session')->addNotice(
+                        Mage::helper('enterprise_giftregistry')->__('Virtual, Downloadable, and Gift Card products cannot be added to gift registries.')
                     );
                 }
             }
@@ -200,6 +210,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
 
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
+        $this->_initLayoutMessages('checkout/session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(Mage::helper('enterprise_giftregistry')->__('Gift Registry Items'));

@@ -76,10 +76,11 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      * Add items to registry
      *
      * @param array $itemsIds
-     * @return Enterprise_GiftRegistry_Model_Entity
+     * @return int
      */
     public function addQuoteItems($itemsIds)
     {
+        $skippedItems = 0;
         if (is_array($itemsIds)) {
             $quote = Mage::getModel('sales/quote');
             $quote->setWebsite(Mage::app()->getWebsite($this->getWebsiteId()));
@@ -87,11 +88,15 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
 
             foreach ($quote->getAllVisibleItems() as $item) {
                 if (in_array($item->getId(), $itemsIds)) {
+                    if (!Mage::helper('enterprise_giftregistry')->checkProductType($item->getProductType())) {
+                        $skippedItems++;
+                        continue;
+                    }
                     $this->addItem($item);
                 }
             }
         }
-        return $this;
+        return $skippedItems;
     }
 
     /**

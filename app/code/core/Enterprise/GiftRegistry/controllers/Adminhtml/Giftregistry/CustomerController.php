@@ -72,8 +72,17 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
         if ($quoteIds = $this->getRequest()->getParam('products')){
             $model = $this->_initEntity();
             try {
-                $model->addQuoteItems($quoteIds);
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Shopping cart items have been added to gift registry.'));
+                $skippedItems = $model->addQuoteItems($quoteIds);
+                if (count($quoteIds) - $skippedItems > 0) {
+                    Mage::getSingleton('adminhtml/session')->addSuccess(
+                        $this->__('Shopping cart items have been added to gift registry.')
+                    );
+                }
+                if ($skippedItems) {
+                    Mage::getSingleton('adminhtml/session')->addNotice(
+                        $this->__('Virtual, Downloadable, and Gift Card products cannot be added to gift registries.')
+                    );
+                }
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
