@@ -62,7 +62,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
         $form = new Varien_Data_Form();
         $this->setForm($form);
 
-        $pages = Mage::getModel('cms/page')->getResourceCollection()->toOptionIdArray();
+        $pages = Mage::getResourceModel('xmlconnect/cms_page_collection')->toOptionIdArray();
         $dummy = array(array( 'value' => '', 'label' => '' ));
         $this->_pages = array_merge($dummy, $pages);
 

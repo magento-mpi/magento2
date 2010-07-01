@@ -56,7 +56,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      */
     public function indexAction()
     {
-        $this->_title($this->__('Mobile Apps'));
         $this->loadLayout();
         $this->_setActiveMenu('mobile/app');
         $this->renderLayout();
@@ -77,7 +76,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     {
         try {
             $app = $this->_initApp();
-            $this->_title($app->getId() ? $app->getName() : $this->__('New Application'));
 
             $app->loadSubmit();
             $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
