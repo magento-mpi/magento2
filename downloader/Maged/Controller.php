@@ -314,7 +314,7 @@ final class Maged_Controller
         $this->view()->set('chmod_file_mode', $config->get('chmod_file_mode'));
 
         $fs_disabled=!$this->isWritable();
-        $ftpParams=$config->get('ftp')?@parse_url($config->get('ftp')):'';
+        $ftpParams=$connectConfig->__get('remote_config')?@parse_url($connectConfig->__get('remote_config')):'';
 
         $this->view()->set('fs_disabled', $fs_disabled);
         $this->view()->set('deployment_type', ($fs_disabled||!empty($ftpParams)?'ftp':'fs'));
@@ -753,9 +753,10 @@ final class Maged_Controller
     {
         if ($this->_getMaintenanceFlag()) {
             $maintenance_filename='maintenance.flag';
-            if(!$this->isWritable()||strlen($this->config()->get('ftp'))>0){
+            $connectConfig = $this->model('connect', true)->connect()->getConfig();
+            if(!$this->isWritable()||strlen($connectConfig->__get('remote_config'))>0){
                 $ftpObj = new Mage_Connect_Ftp();
-                $ftpObj->connect($this->config()->get('ftp'));
+                $ftpObj->connect($connectConfig->__get('remote_config'));
                 $tempFile = tempnam(sys_get_temp_dir(),'maintenance');
                 @file_put_contents($tempFile, 'maintenance');
                 $ret=$ftpObj->upload($maintenance_filename, $tempFile);
@@ -788,9 +789,10 @@ final class Maged_Controller
 
         if ($this->_getMaintenanceFlag()) {
             $maintenance_filename='maintenance.flag';
-            if(!$this->isWritable()&&strlen($this->config()->get('ftp'))>0){
+            $connectConfig = $this->model('connect', true)->connect()->getConfig();
+            if(!$this->isWritable()&&strlen($connectConfig->__get('remote_config'))>0){
                 $ftpObj = new Mage_Connect_Ftp();
-                $ftpObj->connect($this->config()->get('ftp'));
+                $ftpObj->connect($connectConfig->__get('remote_config'));
                 $ftpObj->delete($maintenance_filename);
                 $ftpObj->close();
             }else{
