@@ -176,7 +176,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     public function capture(Varien_Object $payment, $amount)
     {
         if ($payment->getParentTransactionId()) {
-            $request = $this->_buildManageRequest();
+            $request = $this->_buildBasicRequest();
             $request->setTrxtype(self::TRXTYPE_DELAYED_CAPTURE);
             $request->setOrigid($payment->getParentTransactionId());
         } else {
@@ -208,7 +208,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
      */
     public function void(Varien_Object $payment)
     {
-        $request = $this->_buildManageRequest();
+        $request = $this->_buildBasicRequest();
         $request->setTrxtype(self::TRXTYPE_DELAYED_VOID);
         $request->setOrigid($payment->getParentTransactionId());
         $response = $this->_postRequest($request);
@@ -231,7 +231,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
      */
     public function refund(Varien_Object $payment, $amount)
     {
-        $request = $this->_buildManageRequest();
+        $request = $this->_buildBasicRequest();
         $request->setTrxtype(self::TRXTYPE_CREDIT);
         $request->setOrigid($payment->getParentTransactionId());
         $response = $this->_postRequest($request);
@@ -270,12 +270,9 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
         $debugData = array('request' => $request->getData());
 
         $client = new Varien_Http_Client();
-        $result = $this->_getResultObject();
+        $result = new Varien_Object();
 
-        $_config = array(
-                        'maxredirects'=>5,
-                        'timeout'=>30,
-                    );
+        $_config = array('maxredirects'=>5, 'timeout'=>30);
 
         $_isProxy = $this->getConfigData('use_proxy', false);
         if($_isProxy){
@@ -284,8 +281,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
             $_config['proxytype'] = CURLPROXY_HTTP;
         }
 
-        $uri = $this->_getTransactionUrl();
-        $client->setUri($uri)
+        $client->setUri($this->_getTransactionUrl())
             ->setConfig($_config)
             ->setMethod(Zend_Http_Client::POST)
             ->setParameterPost($request->getData())
@@ -327,16 +323,6 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
         $this->_debug($debugData);
 
         return $result;
-    }
-
-     /**
-      * Return request object with information for manage transaction request
-      *
-      * @return Varien_Object
-      */
-    protected function _buildManageRequest($payment)
-    {
-        return $this->_buildBasicRequest($payment);
     }
 
      /**
@@ -396,7 +382,8 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
       */
     protected function _buildBasicRequest(Varien_Object $payment)
     {
-        $request = $this->_getRequestObject()
+        $request = new Varien_Object();
+        $request
             ->setUser($this->getConfigData('user'))
             ->setVendor($this->getConfigData('vendor'))
             ->setPartner($this->getConfigData('partner'))
@@ -415,28 +402,6 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     protected function _generateRequestId()
     {
         return Mage::helper('core')->uniqHash();
-    }
-
-     /**
-      * Return generic object instance for API requests
-      *
-      * @return Varien_Object
-      */
-    protected function _getRequestObject()
-    {
-        $request = new Varien_Object();
-        return $request;
-    }
-
-     /**
-      * Return wrapper object instance for API response results
-      *
-      * @return Varien_Object
-      */
-    protected function _getResultObject()
-    {
-        $result = new Varien_Object();
-        return $result;
     }
 
      /**
