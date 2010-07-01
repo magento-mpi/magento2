@@ -128,7 +128,12 @@ class Enterprise_GiftRegistry_Model_Mysql4_Item_Collection
                 $candidate = array_shift($candidate);
                 $product->setCustomOptions($candidate->getCustomOptions());
                 $item->setPrice($product->getFinalPrice());
-                $item->setSku($product->getSku());
+
+                if ($simpleOption = $product->getCustomOption('simple_product')) {
+                    $item->setSku($simpleOption->getProduct()->getSku());
+                } else {
+                    $item->setSku($product->getSku());
+                }
             }
         }
     }
