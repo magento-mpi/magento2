@@ -41,6 +41,7 @@
 "Store Credit Update Email Sender","Store Credit Update Email Sender"
 "Store Credit Update Email Template","Store Credit Update Email Template"
 "Store Credit payment is not being used in your shopping cart.","Store Credit payment is not being used in your shopping cart."
+"Store credit amount can not exceed order amount.","Store credit amount can not exceed order amount."
 "The store credit payment has been removed from shopping cart.","The store credit payment has been removed from shopping cart."
 "There is no creditmemo set to balance model.","There is no creditmemo set to balance model."
 "There is no order set to balance model.","There is no order set to balance model."
