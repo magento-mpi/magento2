@@ -226,7 +226,6 @@ final class Maged_Controller
             $chan = 'community';
         }
         $this->model('connect', true)->saveConfigPost($_POST);
-        $this->config()->save();
         $this->model('connect', true)->installAll(!empty($_GET['force']), $chan);
     }
 

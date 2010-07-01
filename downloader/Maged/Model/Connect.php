@@ -343,9 +343,9 @@ class Maged_Model_Connect extends Maged_Model
         $configObj->remote_config=$p['ftp'];
         $configObj->preferred_state = $p['preferred_state'];
         $configObj->protocol = $p['protocol'];
-        if(1==$p['use_custom_permissions_mode']){
-            $configObj->global_dir_mode=$p['mkdir_mode'];
-            $configObj->global_file_mode=$p['chmod_file_mode'];
+        if('1'==$p['use_custom_permissions_mode']){
+            $configObj->global_dir_mode=decoct(intval($p['mkdir_mode']));
+            $configObj->global_file_mode=decoct(intval($p['chmod_file_mode']));
         }
         $this->controller()->session()->addMessage('success', 'Settings has been successfully saved');
         return $this;
