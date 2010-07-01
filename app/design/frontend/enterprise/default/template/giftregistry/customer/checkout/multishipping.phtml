@@ -28,7 +28,7 @@
 <?php if ($this->getEnabled() && $this->getItems()) :?>
 <script type="text/javascript">
 //<![CDATA[
-    function addOption(item, address) {
+    function addGiftregistryAddressOption(item, address, selectedIndexes) {
         Form.getElements('checkout_multishipping_form').each(function(element) {
             if (element.type == 'select-one') {
                 arr = element.id.split('_');
@@ -37,6 +37,13 @@
                     var option = document.createElement('OPTION');
                     option.value = '<?php echo $this->getAddressIdPrefix(); ?>' + address;
                     option.text = '<?php echo $this->__('Use gift registry shipping address') ?>';
+
+                    for (var i = 0; i < selectedIndexes.length; i++) {
+                        if (selectedIndexes[i] == arr[1]) {
+                            option.selected = 'selected';
+                            break;
+                        }
+                    }
 
                     if (element.options.add) {
                         element.options.add(option);
@@ -53,8 +60,14 @@
         });
     }
 
+    <?php $selectedGrAddressesIndexes = $this->getGiftregistrySelectedAddressesIndexes(); ?>
+    <?php $selectedGrAddressesIndexesJson = '[' . implode(',', $selectedGrAddressesIndexes) . ']'; ?>
     <?php foreach ($this->getItems() as $itemId => $registryItem) : ?>
-        addOption(<?php echo $itemId; ?>, <?php echo $registryItem['item_id']; ?>);
+        addGiftregistryAddressOption(
+            <?php echo $itemId; ?>,
+            <?php echo $registryItem['item_id']; ?>,
+            <?php echo $selectedGrAddressesIndexesJson; ?>
+        );
     <?php endforeach; ?>
 //]]>
 </script>

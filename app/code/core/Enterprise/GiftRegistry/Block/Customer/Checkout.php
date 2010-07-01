@@ -119,4 +119,23 @@ class Enterprise_GiftRegistry_Block_Customer_Checkout extends Mage_Core_Block_Te
     {
         return Mage::helper('enterprise_giftregistry')->getAddressIdPrefix();
     }
+
+    /**
+     * Retrieve giftregistry selected addresses indexes
+     *
+     * @return array
+     */
+    public function getGiftregistrySelectedAddressesIndexes()
+    {
+        $result = array();
+        $registryQuoteItemIds = array_keys($this->getItems());
+        $quoteAddressItems = Mage::getSingleton('checkout/type_multishipping')->getQuoteShippingAddressesItems();
+        foreach ($quoteAddressItems as $index => $quoteAddressItem) {
+            $quoteItemId = $quoteAddressItem->getQuoteItem()->getId();
+            if (!$quoteAddressItem->getCustomerAddressId() && in_array($quoteItemId, $registryQuoteItemIds)) {
+                $result[] = $index;
+            }
+        }
+        return $result;
+    }
 }

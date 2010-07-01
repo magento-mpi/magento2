@@ -33,6 +33,16 @@
  */
 class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Abstract
 {
+    /**
+     * Quote shipping addresses items cache
+     *
+     * @var array
+     */
+    protected $_quoteShippingAddressesItems;
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -105,6 +115,9 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
      */
     public function getQuoteShippingAddressesItems()
     {
+        if ($this->_quoteShippingAddressesItems !== null) {
+            return $this->_quoteShippingAddressesItems;
+        }
         $items = array();
         $addresses  = $this->getQuote()->getAllAddresses();
         foreach ($addresses as $address) {
@@ -134,6 +147,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 }
             }
         }
+        $this->_quoteShippingAddressesItems = $items;
         return $items;
     }
 
