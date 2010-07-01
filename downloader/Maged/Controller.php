@@ -173,11 +173,12 @@ final class Maged_Controller
             if (false&&!$this->isWritable()) {
                 echo $this->view()->template('install/writable.phtml');
             } else {
+                $config=$this->config();
                 $this->view()->set('mage_url', dirname(dirname($_SERVER['SCRIPT_NAME'])));
-                $this->view()->set('use_custom_permissions_mode', $this->config()->get('use_custom_permissions_mode'));
-                $this->view()->set('mkdir_mode', $this->config()->get('mkdir_mode'));
-                $this->view()->set('chmod_file_mode', $this->config()->get('chmod_file_mode'));
-                $this->view()->set('protocol', $this->config()->get('protocol'));
+                $this->view()->set('use_custom_permissions_mode', $config->get('use_custom_permissions_mode')?$config->get('use_custom_permissions_mode'):'0');
+                $this->view()->set('mkdir_mode', $config->get('mkdir_mode'));
+                $this->view()->set('chmod_file_mode', $config->get('chmod_file_mode'));
+                $this->view()->set('protocol', $config->get('protocol'));
 
                 echo $this->view()->template('install/download.phtml');
             }
