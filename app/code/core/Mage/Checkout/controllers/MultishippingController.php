@@ -92,8 +92,9 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
             $this->_getCheckoutSession()->setCheckoutState(
                 Mage_Checkout_Model_Session::CHECKOUT_STATE_BEGIN
             );
-        } else if (!$this->_getCheckoutSession()->getQuote()->getIsMultiShipping()
-            && !preg_match('#^success#', $action)) {
+        }
+        else if (!$this->_getCheckoutSession()->getQuote()->getIsMultiShipping()
+            && !preg_match('#^(login|register|success)#', $action)) {
             $this->_redirect('*/*/index');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return $this;
