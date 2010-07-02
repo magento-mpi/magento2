@@ -116,7 +116,7 @@ class Mage_XmlConnect_Model_Tabs
     {
         $result = array();
         foreach ($this->_enabledTabs as $tab) {
-            $tab->image = Mage::getBaseUrl('skin') . 'xmlconnect/' . $tab->image;
+            $tab->image = Mage::getDesign()->getSkinBaseUrl() . 'images/xmlconnect/' . $tab->image;
             $result[] = $tab;
         }
         return $result;
