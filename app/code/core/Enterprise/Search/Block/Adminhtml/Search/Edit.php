@@ -41,7 +41,7 @@ class Enterprise_Search_Block_Adminhtml_Search_Edit extends Mage_Adminhtml_Block
     {
         $this->_blockGroup = 'enterprise_search';
         $this->_controller = 'adminhtml_search';
-        $this->_headerText = Mage::helper('enterprise_search')->__('Related searches');
+        $this->_headerText = Mage::helper('enterprise_search')->__('Related Search Terms');
         $this->_addButtonLabel = Mage::helper('enterprise_search')->__('Add New Search Term');
         parent::__construct();
         $this->_removeButton('add');
