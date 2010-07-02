@@ -77,7 +77,7 @@ class Mage_XmlConnect_Model_Mysql4_Application extends Mage_Core_Model_Mysql4_Ab
         if (!$object->getId()) {
             $object->setCode($object->getCodePrefix());
         }
-        return parent::_beforeSave();
+        return parent::_beforeSave($object);
     }
 
     /**
@@ -97,7 +97,7 @@ class Mage_XmlConnect_Model_Mysql4_Application extends Mage_Core_Model_Mysql4_Ab
                 $this->_getWriteAdapter->quoteInto($this->getIdFieldName() . '=?', $object->getIdFieldName())
             );
         }
-        return parent::_afterSave();;
+        return parent::_afterSave($object);
     }
 
 }
