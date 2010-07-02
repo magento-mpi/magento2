@@ -35,6 +35,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile extends Mage_Adminhtml_Block_Widget
         $this->_blockGroup = 'xmlconnect';
         $this->_headerText = Mage::helper('xmlconnect')->__('Manage Applications');
         $this->_addButtonLabel = Mage::helper('xmlconnect')->__('Add Application');
+
         parent::__construct();
+
+        $this->addButton('save_and_edit_button', array(
+            'label'     => Mage::helper('tag')->__('Create App for All Stores and Devices'),
+            'onclick'   => "setLocation('" . $this->getUrl('*/*/fill') . "')",
+            'sort_order' => '1',
+        ), 1);
     }
+
 }

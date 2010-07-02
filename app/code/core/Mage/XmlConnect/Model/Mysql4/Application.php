@@ -89,15 +89,27 @@ class Mage_XmlConnect_Model_Mysql4_Application extends Mage_Core_Model_Mysql4_Ab
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         $appCode = $object->getCode();
-        $increment = substr($appCode, sizeof('StrDev'));
-        if (empty($increment)) {
+        $isCodePrefixed = $object->isCodePrefixed();
+        if (!$isCodePrefixed) {
             $this->_getWriteAdapter()->update(
                 $this->getMainTable(),
-                array('code' => $this->_getWriteAdapter()->quoteInto('`code`=CONCAT(code, ?)', $object->getId())),
-                $this->_getWriteAdapter->quoteInto($this->getIdFieldName() . '=?', $object->getIdFieldName())
+                array('code' => $this->_getWriteAdapter()->quoteInto($appCode . $object->getId())),
+                $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . '=?', $object->getId())
             );
         }
         return parent::_afterSave($object);
     }
 
+   /**
+    * Returns array of existing stores and type unique pairs
+    *
+    * @return array
+    */
+    public function getExistingStoreDeviceType() {
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getMainTable(), array('store_id', 'type'))
+            ->group(array('store_id', 'type'))
+            ->order(array('store_id', 'type'));
+        return $this->_getReadAdapter()->fetchAll($select, array('store_id', 'type'));
+    }
 }

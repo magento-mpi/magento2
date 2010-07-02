@@ -127,6 +127,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
         $fieldset->addField('conf/submit_text/price_free', 'radio', array(
             'name'      => 'conf[submit_text][price_free]',
             'label'     => $this->__('Price'),
+            'value'     => '1',
             'maxlength' => '40',
             'after_element_html' => $this->__('Free'),
             'onclick'    => "$('conf/submit_text/price').setValue('')",
@@ -194,6 +195,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
             'label'     => $this->__('Activation Key'),
             'value'     => isset($formData['conf[submit_text][key]']) ? $formData['conf[submit_text][key]'] : null,
             'disabled'  => $isResubmit,
+            'after_element_html' => '<a href="'.Mage::getStoreConfig('xmlconnect/mobile_application/get_activation_key_url').'">' . $this->__('Get Activation Key'). '</a>',
         ));
 
         if (!$isResubmit) {
@@ -218,7 +220,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
             'value'     => 1,
             'checked'   => isset($formData['conf[native][paypal][isActive]']),
             'disabled'  => 'disabled',
-            'after_element_html' => '<a href="'.Mage::getStoreConfig('xmlconnect/mobile_application/get_activation_key_url').'">' . $this->__('Get Activation Key'). '</a>',
+
         ));
 
         $fieldset->addField('conf/native/defaultCheckout/isActive', 'checkbox', array(

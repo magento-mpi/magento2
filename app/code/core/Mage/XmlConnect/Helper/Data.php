@@ -149,7 +149,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return array
      */
-    public function getStoreDeviceValuesForForm()
+    public function getStoreDeviceValuesForForm($filter = false)
     {
         $options = Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(true, false);
         $devices = self::getSupportedDevices();
@@ -162,10 +162,12 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
                         $label = $oldStore['label'];
                         $value = $oldStore['value'];
                         foreach ($devices as $deviceCode => $deviceName) {
-                            $storeValueArray[] = array (
-                                'label' => $label . ' - ' . $deviceName,
-                                'value' => self::packStoreDevice($value, $deviceCode),
-                            );
+                            if (($filter === false) || !((isset($filter[$id]) && ($filter[$id] == $deviceCode)))) {
+                                $storeValueArray[] = array (
+                                    'label' => $label . ' - ' . $deviceName,
+                                    'value' => self::packStoreDevice($value, $deviceCode),
+                                );
+                            }
                         }
                     }
                     $options[$id]['value'] = $storeValueArray;
@@ -174,4 +176,38 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $options;
     }
+
+    /**
+     * Returns array of store & type pairs to create
+     *
+     * @return array
+     */
+    public function getStoreDeviceIdsToCreate() {
+        $correctIds = array();
+        $stores = Mage::app()->getStores();
+        $storeIds = array_keys($stores);
+
+        $supportedDevices = Mage::helper('xmlconnect')->getSupportedDevices();
+        $existingApplications = Mage::getModel('xmlconnect/application')->getResource()->getExistingStoreDeviceType();
+
+        $filterArray = array();
+        if (is_array($existingApplications)) {
+            foreach ($existingApplications as $app) {
+                if (!isset($filterArray[$app['type']])) {
+                    $filterArray[$app['type']] = array();
+                }
+                $filterArray[$app['type']][$app['store_id']] = 1;
+            }
+        }
+
+        foreach ($supportedDevices as $deviceType => $deviceName) {
+            foreach ($storeIds as $storeId) {
+                if (!(isset($filterArray[$deviceType]) && (isset($filterArray[$deviceType][$storeId])))) {
+                    $correctIds[$storeId] = $deviceType;
+                }
+            }
+        }
+        return $correctIds;
+    }
+
 }

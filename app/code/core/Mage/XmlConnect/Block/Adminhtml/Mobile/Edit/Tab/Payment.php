@@ -59,7 +59,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
             'label'     => 'Use Default Checkout method',
             'value'     => 1,
             'checked'   => isset($data['conf[native][defaultCheckout][isActive]']),
-            'after_element_html' => '<a href="'.Mage::getStoreConfig('xmlconnect/mobile_application/get_activation_key_url').'">' . $this->__('Get Activation Key'). '</a>',
         ));
         return parent::_prepareForm();
     }

@@ -197,6 +197,45 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         }
     }
 
+    /**
+     * Save action
+     */
+    public function fillAction()
+    {
+        try {
+            $correctIds = Mage::helper('xmlconnect')->getStoreDeviceIdsToCreate();
+            $i = 0;
+            foreach ($correctIds as $storeId => $deviceType) {
+                $desc = $i++;
+                $this->_createOneApplication($storeId, $deviceType);
+            }
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addException($e, $e->getMessage());
+            $this->_redirect($this->getUrl('*/*/'));
+            return;
+        } catch (Exception $e) {
+            $this->_getSession()->addException($e, $e->getMessage());
+            $this->_redirect($this->getUrl('*/*/'));
+            return;
+        }
+        $message = $i ? $this->__('Applications has been created.') : $this->__('No Applications has been created.');
+        $this->_getSession()->addSuccess($message);
+        $this->_redirect('*/*/');
+    }
+
+    protected function _createOneApplication($storeId, $deviceType)
+    {
+        $app = $this->_initApp();
+        $app->setStoreId($storeId);
+        $app->setType($deviceType);
+
+        $supportedDevices = Mage::helper('xmlconnect')->getSupportedDevices();
+        $storeName = Mage::app()->getStore($storeId)->getFrontendName();
+        $deviceName = $supportedDevices[$deviceType];
+        $app->setName(substr($storeName, 0, 6) . "-" . substr($deviceName, 0, 6));
+        $app->save();
+    }
+
     public function previewHomeAction()
     {
         $this->_previewAction('preview_iframe_home');

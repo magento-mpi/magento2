@@ -39,11 +39,20 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     const APP_STATUS_SUCCESS = 1;
 
     /**
+     * Application prefix length of cutted part of deviceType and storeCode
+     *
+     * @var int
+     */
+    const APP_PREFIX_CUT_LENGTH = 3;
+
+    /**
      * Images in "Params" history table
      *
      * @var array
      */
     protected $_imageIds = array('icon', 'loader_image', 'logo', 'big_logo');
+
+
     /**
      * Initialize application
      */
@@ -166,9 +175,22 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $this->setConf(Mage::helper('xmlconnect/iphone')->getDefaultConfiguration());
     }
 
+    /**
+     * Return first part for application code field
+     */
     public function getCodePrefix()
     {
-        return substr(Mage::app()->getStore()->getCode(), 0, 3) . substr($this->getType(),0,3);
+        return substr(Mage::app()->getStore($this->getStoreId())->getCode(), 0, self::APP_PREFIX_CUT_LENGTH)
+            . substr($this->getType(), 0, self::APP_PREFIX_CUT_LENGTH);
+    }
+
+    /**
+     * Checks if application code field has autoincrement
+     */
+    public function isCodePrefixed()
+    {
+        $suffix = substr($this->getCode(), self::APP_PREFIX_CUT_LENGTH * 2);
+        return !empty($suffix);
     }
 
     /**
@@ -503,6 +525,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function validateSubmit($params)
     {
         $errors = array();
+        $validateConf = $this->_validateConf();
+        if ($validateConf !== true) {
+            $errors = $validateConf;
+        }
         $helper = Mage::helper('xmlconnect');
         if (!Zend_Validate::is(isset($params['title']) ? $params['title'] : null, 'NotEmpty')) {
             $errors[] = $helper->__('Please enter the Title.');
@@ -512,8 +538,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $errors[] = $helper->__('Please enter the Copyright.');
         }
 
-        if (!Zend_Validate::is(isset($params['price']) ? $params['price'] : null, 'NotEmpty')) {
-            $errors[] = $helper->__('Please enter the Price.');
+        if (empty($params['price_free'])) {
+            if (!Zend_Validate::is(isset($params['price']) ? $params['price'] : null, 'NotEmpty')) {
+                $errors[] = $helper->__('Please enter the Price.');
+            }
         }
 
         if ($this->getIsResubmitAction()) {
@@ -526,6 +554,40 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             if (!Zend_Validate::is(isset($params['key']) ? $params['key'] : null, 'NotEmpty')) {
                     $errors[] = $helper->__('Please enter the Activation Key.');
             }
+        }
+
+        if (empty($errors)) {
+            return true;
+        }
+        return $errors;
+    }
+
+    protected function _validateConf()
+    {
+        $errors = array();
+        $helper = Mage::helper('xmlconnect');
+        $conf = $this->getConf();
+        $native = isset($conf['native']) && is_array($conf['native']) ? $conf['native'] : false;
+
+        if ( ($native === false)
+            || (!isset($native['navigationBar']) || !is_array($native['navigationBar'])
+            || !isset($native['navigationBar']['icon'])
+            || !Zend_Validate::is($native['navigationBar']['icon'], 'NotEmpty'))) {
+            $errors[] = $helper->__('Please enter "Logo in header" on Desing Tab, and save Application before submit.');
+        }
+
+        if ( ($native === false)
+            || (!isset($native['body']) || !is_array($native['body'])
+            || !isset($native['body']['bannerImage'])
+            || !Zend_Validate::is($native['body']['bannerImage'], 'NotEmpty'))) {
+            $errors[] = $helper->__('Please enter "Banner on Home Screen" on Desing Tab, and save Application before submit.');
+        }
+
+        if (($native === false)
+            || (!isset($native['body']) || !is_array($native['body'])
+            || !isset($native['body']['backgroundImage'])
+            || !Zend_Validate::is($native['body']['backgroundImage'], 'NotEmpty'))) {
+            $errors[] = $helper->__('Please enter "Application Background" on Desing Tab, and save Application before submit.');
         }
 
         if (empty($errors)) {

@@ -54,7 +54,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
                 'title'     => $this->__('Application Code'),
                 'required'  => true,
                 'class'     => 'validate-identifier',
-                'disabled'  => 'disabled',
+                'readonly'  => 'true',
             ));
         }
 
@@ -68,23 +68,23 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+//        if (!Mage::app()->isSingleStoreMode()) {
             $options = Mage::helper('xmlconnect')->getStoreDeviceValuesForForm();
             $fieldset->addField('store_id', 'select', array(
                 'name'      => 'store_id',
-                'label'     => $this->__('Store View'),
-                'title'     => $this->__('Store View'),
+                'label'     => $this->__('Store View / Device Type'),
+                'title'     => $this->__('Store View / Device Type'),
                 'required'  => true,
                 'values'    => $options,
             ));
-        }
-        else {
-            $fieldset->addField('store_id', 'hidden', array(
-                'name'      => 'store_id',
-                'value'     => Mage::app()->getStore(true)->getId()
-            ));
-            $model->setStoreId(Mage::app()->getStore(true)->getId());
-        }
+//        }
+//        else {
+//            $fieldset->addField('store_id', 'hidden', array(
+//                'name'      => 'store_id',
+//                'value'     => Mage::app()->getStore(true)->getId()
+//            ));
+//            $model->setStoreId(Mage::app()->getStore(true)->getId());
+//        }
 
 //        $fieldset->addField('device_type', 'note', array(
 //            'text'      => $model->getType(),
