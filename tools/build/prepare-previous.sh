@@ -3,16 +3,17 @@
 . include.sh
 . take-previous.sh
 
-if [ "$SB" != "" ]; then
+cd $PWD
+
     if [ -d "$SB/websites" ]; then
         log "Copying websites..."
-	cp -a "$SB/websites" "$BUILD_NUMBER"
+	cp -af "$SB/websites" "$BUILD_NUMBER"
 	check_failure $?
     fi
 
     if [ -d "$SB/media" ]; then
         log "Copying media..."
-	cp -a "$SB/media" "$BUILD_NUMBER" 
+	cp -af "$SB/media" "$BUILD_NUMBER" 
         check_failure $?
     fi
 
@@ -23,4 +24,5 @@ if [ "$SB" != "" ]; then
         check_failure $? 
         ch_baseurl $BUILD_NUMBER $DB_NAME
     fi
-fi
+
+cd $OLDPWD

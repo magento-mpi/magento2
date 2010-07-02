@@ -20,23 +20,24 @@ DB_PASS="qa_setup"
 DB_PREFIX="prefix_"
 
 BUILD_TOOLS="/opt/builds/build"
-SUCCESSFUL_BUILDS="/opt/builds/build/successful"
-LOGS="/opt/builds/build/logs"
 
-DB_PRE_NAME="builds-$BUILD_NAME-$BUILD_NUMBER"
-DB_NAME=${DB_PRE_NAME//-/_}
-
+DB_NAME="builds-$BUILD_NAME-$BUILD_NUMBER"
+DB_NAME=${DB_NAME//-/_}
 SB=""
 
 NUM_BUILDS=10
 
-check_failure () {
+check_failure() {
     if [ "${1}" -ne "0" ]; then
-        echo "ERROR # ${1} : ${2}"
         cd $OLDPWD
         IFS=$OLDIFS
-        exit 1
+        failed "ERROR # ${1} : ${2}"
     fi  
+}
+
+failed() {
+   log "$1"
+   exit 1
 }
 
 log() {
@@ -57,15 +58,3 @@ clean_cache() {
     rm -rf $1/var/cache/*
     check_failure $?
 }
-
-if [ ! -d "$SUCCESSFUL_BUILDS" ] ; then
-    log "Creating folder for flags..."
-    mkdir "$SUCCESSFUL_BUILDS"
-    check_failure $?
-fi
-
-if [ ! -d "$LOGS" ] ; then
-    log "Creating folder for logs..."
-    mkdir "$LOGS"
-    check_failure $?
-fi

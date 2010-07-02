@@ -15,6 +15,10 @@ do
 	    mkdir ../archive/$BUILD_NAME
             check_failure $?
 	fi
+	
+        rm -rf $file/var/cache
+	rm -rf $file/var/session
+	
 	tar -czf ../archive/$BUILD_NAME/"$file".tgz $file
 	check_failure $?
 

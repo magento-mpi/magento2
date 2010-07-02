@@ -23,8 +23,8 @@ if [ "$SB" != "" ]; then
     clean_cache $SB
 fi
 
-log "Saving last successful build flag..."
-echo "$BUILD_NUMBER" > "$SUCCESSFUL_BUILDS/$BUILD_NAME"
-check_failure $?
+#log "Saving last successful build flag..."
+#echo "$BUILD_NUMBER" > "$SUCCESSFUL_BUILDS/$BUILD_NAME"
+#check_failure $?
 
 cd $OLDPWD

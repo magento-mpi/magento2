@@ -1,9 +1,10 @@
 #!/bin/bash
 
+cd $PWD
+
 log "Searching for last successful build..."
-if [ -f  $SUCCESSFUL_BUILDS/$BUILD_NAME ]; then
-    SB=`cat $SUCCESSFUL_BUILDS/$BUILD_NAME`
-    check_failure $?
+SB=`wget -q -O - http://guest:@kn.varien.com/teamcity/httpAuth/app/rest/buildTypes/id:$3/builds/status:SUCCESS/number`
+if [ -d $SB ]; then
     log "Searching for DB..."
     SB_DB_TEMP="builds-$BUILD_NAME-$SB"
     SB_DB=${SB_DB_TEMP//-/_}
@@ -11,5 +12,8 @@ if [ -f  $SUCCESSFUL_BUILDS/$BUILD_NAME ]; then
     check_failure $?
 else
     log "Not found"
+    exit 1
 fi
+
+cd $OLDPWD
 

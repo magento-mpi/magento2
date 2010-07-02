@@ -25,6 +25,11 @@ $PHP_BIN -f $BUILD_NUMBER/install.php -- --license_agreement_accepted yes \
 --encryption_key "$ENCRYPTION_KEY" 
 check_failure $?
 
+# Changing permission to cache folder as it was created by user which runs install
+log "Changing permission for var/cache folder"
+chmod -R 777 $BUILD_NUMBER/var/cache
+check_failure $?
+
 # Reverting local.xml.template 
 svn revert $BUILD_NUMBER/app/etc/local.xml.template
 check_failure $?
