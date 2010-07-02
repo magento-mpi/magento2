@@ -41,6 +41,8 @@ class Mage_CatalogInventory_Model_Observer
      */
     protected $_checkedProductsQty = array();
 
+    protected $_itemsForReindex = array();
+
     /**
      * Add stock information to product
      *
@@ -368,14 +370,19 @@ class Mage_CatalogInventory_Model_Observer
     }
 
     /**
-     * Subtrack quote items qtys from stock items related with quote items products
+     * Subtrack quote items qtys from stock items related with quote items products.
+     * Used before order placing to make order save/place transaction smaller
+     *
      * @param Varien_Event_Observer $observer
      */
     public function subtractQuoteInventory(Varien_Event_Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $items = $this->_getProductsQty($quote->getAllItems());
-        Mage::getSingleton('cataloginventory/stock')->registerProductsSale($items);
+        /**
+         * Remember items
+         */
+        $this->_itemsForReindex = Mage::getSingleton('cataloginventory/stock')->registerProductsSale($items);
         return $this;
     }
 
@@ -449,7 +456,8 @@ class Mage_CatalogInventory_Model_Observer
     }
 
     /**
-     * Refresh stock index for specific stock items
+     * Refresh stock index for specific stock items after succesful order placement
+     *
      * @param $observer
      */
     public function reindexQuoteInventory($observer)
@@ -466,6 +474,12 @@ class Mage_CatalogInventory_Model_Observer
             }
         }
         Mage::getResourceSingleton('cataloginventory/indexer_stock')->reindexProducts($productIds);
+        $productIds = array();
+        foreach ($this->_itemsForReindex as $item) {
+            $item->save();
+            $productIds[] = $item->getProductId();
+        }
+        Mage::getResourceSingleton('catalog/product_indexer_price')->reindexProductIds($productIds);
         return $this;
     }
 

@@ -144,15 +144,20 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function subtractQty($qty)
     {
-        if (!$this->getManageStock()) {
-            return $this;
+        if ($this->canSubtractQty()) {
+            $this->setQty($this->getQty()-$qty);
         }
-        $config = Mage::getStoreConfigFlag(self::XML_PATH_CAN_SUBTRACT);
-        if (!$config) {
-            return $this;
-        }
-        $this->setQty($this->getQty()-$qty);
         return $this;
+    }
+
+    /**
+     * Check if is possible subtract value from item qty
+     *
+     * @return bool
+     */
+    public function canSubtractQty()
+    {
+        return $this->getManageStock() && Mage::getStoreConfigFlag(self::XML_PATH_CAN_SUBTRACT);
     }
 
     /**
@@ -572,19 +577,18 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if ($productTypeId = $this->getProductTypeId()) {
             $typeId = $productTypeId;
         }
+
         $isQty = Mage::helper('catalogInventory')->isQty($typeId);
 
         if ($isQty) {
-            if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO) {
-                if ($this->getQty() <= $this->getMinQty()) {
-                    $this->setIsInStock(false)
-                        ->setStockStatusChangedAutomaticallyFlag(true);
-                }
+            if (!$this->verifyStock()) {
+                $this->setIsInStock(false)
+                    ->setStockStatusChangedAutomaticallyFlag(true);
             }
 
             // if qty is below notify qty, update the low stock date to today date otherwise set null
             $this->setLowStockDate(null);
-            if ((float)$this->getQty() < $this->getNotifyStockQty()) {
+            if ($this->verifyNotification()) {
                 $this->setLowStockDate(Mage::app()->getLocale()->date(null, null, null, false)
                     ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
                 );
@@ -594,12 +598,42 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             if ($this->hasStockStatusChangedAutomaticallyFlag()) {
                 $this->setStockStatusChangedAutomatically((int)$this->getStockStatusChangedAutomaticallyFlag());
             }
-        }
-        else {
+        } else {
             $this->setQty(0);
         }
 
         return $this;
+    }
+
+    /**
+     * Chceck if item should be in stock or out of stock based on $qty param of existing item qty
+     *
+     * @param float|null $qty
+     * @return bool true - item in stock | false - item out of stock
+     */
+    public function verifyStock($qty = null)
+    {
+        if ($qty === null) {
+            $qty = $this->getQty();
+        }
+        if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO && $qty <= $this->getMinQty()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check if item qty require stock status notification
+     *
+     * @param float | null $qty
+     * @return bool (true - if require, false - if not require)
+     */
+    public function verifyNotification($qty = null)
+    {
+        if ($qty === null) {
+            $qty = $this->getQty();
+        }
+        return (float)$qty < $this->getNotifyStockQty();
     }
 
     /**
