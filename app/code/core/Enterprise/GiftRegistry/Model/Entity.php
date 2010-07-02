@@ -122,50 +122,56 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
-        $item = Mage::getModel('enterprise_giftregistry/item');
-        $item->loadByProductRegistry($this->getId(), $productId);
-
         if ($itemToAdd instanceof Mage_Sales_Model_Quote_Item) {
             $cartCandidate = $itemToAdd->getProduct();
             $cartCandidate->setCustomOptions($itemToAdd->getOptionsByCode());
+            $cartCandidates = array($cartCandidate);
         } else {
             if (!$request) {
                 $request = new Varien_Object();
                 $request->setBundleOption(array());//Bundle options mocking for compatibility
             }
-            $cartCandidate = $product->getTypeInstance(true)->prepareForCart($request, $product);
-            if (is_array($cartCandidate)) {
-                $cartCandidate = array_shift($cartCandidate);
-            }
+            $cartCandidates = $product->getTypeInstance(true)->prepareForCart($request, $product);
         }
 
-        if (is_string($cartCandidate)) { //prepare process has error, seems like we have bundle
+        if (is_string($cartCandidates)) { //prepare process has error, seems like we have bundle
             throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
-        $alreadyExists = false;
-        if ($cartCandidate) {
-            $items = $item->getCollection()->addRegistryFilter($this->getId());
+        $item = Mage::getModel('enterprise_giftregistry/item');
+        $items = $item->getCollection()->addRegistryFilter($this->getId());
+
+        foreach ($cartCandidates as $currentCandidate) {
+            $alreadyExists = false;
+            $productId = $currentCandidate->getId();
+
             foreach ($items as $itemForCheck) {
-                if ($itemForCheck->isRepresentProduct($cartCandidate)) {
+                if ($itemForCheck->isRepresentProduct($currentCandidate)) {
                     $alreadyExists = true;
-                    $item = $itemForCheck;
+                    $matchedItem = $itemForCheck;
                     break;
                 }
             }
-        }
 
-        if ($alreadyExists) {
-            $item->setQty($item->getQty() + $qty)
-                ->save();
-        } else {
-            $customOptions = $cartCandidate->getCustomOptions();
-            $item = Mage::getModel('enterprise_giftregistry/item');
-            $item->setEntityId($this->getId())
-                ->setProductId($productId)
-                ->setCustomOptions($customOptions['info_buyRequest']->getValue())
-                ->setQty($qty)
-                ->save();
+            $candidateQty = $currentCandidate->getCartQty();
+            if (!empty($candidateQty)) {
+                $qty = $candidateQty;
+            }
+
+            if ($alreadyExists) {
+                $matchedItem->setQty($matchedItem->getQty() + $qty)
+                    ->save();
+            } else {
+                $customOptions = $currentCandidate->getCustomOptions();
+
+                $item = Mage::getModel('enterprise_giftregistry/item');
+
+                $item->setEntityId($this->getId())
+                    ->setProductId($productId)
+                    ->setCustomOptions($customOptions['info_buyRequest']->getValue())
+                    ->setQty($qty)
+                    ->save();
+            }
         }
 
         return $item;
