@@ -136,7 +136,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Info extends Mage_Adminhtml_Block_Sa
                 $sortOrder  = $this->_prepareAccountDataSortOrder($accountData, $sortOrder);
                 $accountData[$sortOrder] = array(
                     'label' => $attribute->getFrontendLabel(),
-                    'value' => $this->htmlEscape($value)
+                    'value' => $this->escapeHtml($value, array('br'))
                 );
             }
         }
