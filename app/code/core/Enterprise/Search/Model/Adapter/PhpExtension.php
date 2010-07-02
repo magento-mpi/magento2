@@ -208,11 +208,9 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             }
         }
 
-        if (!empty($params['filters'])) {
-            $filtersConditions = $this->_prepareFilters($params['filters']);
-            foreach ($filtersConditions as $condition) {
-                $solrQuery->addFilterQuery($condition);
-            }
+        $filtersConditions = $this->_prepareFilters($_params['filters']);
+        foreach ($filtersConditions as $condition) {
+            $solrQuery->addFilterQuery($condition);
         }
 
         $this->_client->setServlet(SolrClient::SEARCH_SERVLET_TYPE, 'select');

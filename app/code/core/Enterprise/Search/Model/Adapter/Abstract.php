@@ -129,7 +129,8 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         'locale_code'    => null,
         'fields'         => array(),
         'solr_params'    => array(),
-        'ignore_handler' => false
+        'ignore_handler' => false,
+        'filters'        => array()
     );
 
     /**

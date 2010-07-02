@@ -171,7 +171,7 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             }
         }
 
-        $searchParams['fq'] = $this->_prepareFilters($params['filters']);
+        $searchParams['fq'] = $this->_prepareFilters($_params['filters']);
 
         /**
          * Store filtering
@@ -233,20 +233,27 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
             $this->ping();
             $response = $this->_client->searchSuggestions($query, $_params['solr_params']);
             $result = $this->_prepareSuggestionsQueryResponse( json_decode($response->getRawResponse()) );
-
-            if ($limit) {
-                $result = array_slice($result, 0, $limit);
-            }
+            $resultLimit = array();
             // Calc results count for each suggestion
-            if ($withResultsCounts) {
+            if ($withResultsCounts && $limit) {
                 $tmp = $this->_lastNumFound; //Temporary store value for main search query
+                $this->_lastNumFound = 0;
                 foreach ($result as $key => $item) {
                     $this->search($item['word'], $params);
-                    $result[$key]['num_results'] = $this->_lastNumFound;
+                    if ($this->_lastNumFound) {
+                        $result[$key]['num_results'] = $this->_lastNumFound;
+                        $resultLimit[]= $result[$key];
+                        $limit--;
+                    }
+                    if ($limit <= 0) {
+                        break;
+                    }
                 }
                 $this->_lastNumFound = $tmp; //Revert store value for main search query
+            } else {
+                $resultLimit = array_slice($result, 0, $limit);
             }
-            return $result;
+            return $resultLimit;
         } catch (Exception $e) {
             Mage::logException($e);
             return array();
