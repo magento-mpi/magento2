@@ -88,7 +88,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
 
             foreach ($quote->getAllVisibleItems() as $item) {
                 if (in_array($item->getId(), $itemsIds)) {
-                    if (!Mage::helper('enterprise_giftregistry')->checkProductType($item->getProductType())) {
+                    if ($item->getIsVirtual()) {
                         $skippedItems++;
                         continue;
                     }

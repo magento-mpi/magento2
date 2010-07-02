@@ -85,16 +85,20 @@ class Enterprise_GiftRegistry_Model_Mysql4_Entity_Collection
      */
     protected function _addQtyItemsData()
     {
-        $this->getSelect()->joinLeft(
-            array('item' => $this->getTable('enterprise_giftregistry/item')),
-            'main_table.entity_id = item.entity_id',
-            array(
+        $select = $this->getConnection()->select()
+            ->from(array('item' => $this->getTable('enterprise_giftregistry/item')), array(
+                'entity_id',
                 'qty' => new Zend_Db_Expr('SUM(item.qty)'),
                 'qty_fulfilled' => new Zend_Db_Expr('SUM(item.qty_fulfilled)'),
                 'qty_remaining' => new Zend_Db_Expr('SUM(item.qty - item.qty_fulfilled)')
-            )
+            ))
+            ->group('entity_id');
+
+        $this->getSelect()->joinLeft(
+            array('items' => $select),
+            'main_table.entity_id = items.entity_id',
+            array('qty', 'qty_fulfilled', 'qty_remaining')
         );
-        $this->getSelect()->group(array('main_table.entity_id'));
         return $this;
     }
 

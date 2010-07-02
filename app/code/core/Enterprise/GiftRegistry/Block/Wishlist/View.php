@@ -59,15 +59,4 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Cu
     {
         return Mage::helper('enterprise_giftregistry')->getCurrentCustomerEntityOptions();
     }
-
-    /**
-     * Check if wishlist item can be added to gift registry
-     *
-     * @param Mage_Catalog_Model_Product $item
-     * @return bool
-     */
-    public function checkProductType($item)
-    {
-        return Mage::helper('enterprise_giftregistry')->checkProductType($item->getTypeId());
-    }
 }

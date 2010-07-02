@@ -85,7 +85,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                     $cart = Mage::getSingleton('checkout/cart');
                     $skippedItems = 0;
                     foreach ($cart->getQuote()->getAllVisibleItems() as $item) {
-                        if (!Mage::helper('enterprise_giftregistry')->checkProductType($item->getProductType())) {
+                        if ($item->getIsVirtual()) {
                             $skippedItems++;
                             continue;
                         }

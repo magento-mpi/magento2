@@ -216,20 +216,4 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
     }
-
-    /**
-     * Check if product can be added to gift registry
-     *
-     * @param string $productType
-     * @return bool
-     */
-    public function checkProductType($productType)
-    {
-        $notSupportedTypes = array(
-            Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL,
-            Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE,
-            Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD
-        );
-        return !in_array($productType, $notSupportedTypes);
-    }
 }
