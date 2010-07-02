@@ -25,19 +25,19 @@
  */
 ?>
 <script type="text/javascript">
-// <![CDATA[
+//<![CDATA[
 
 function cms_new_row_html() {
-    html = '<tr>'
-    html += '<td class="label"><span class="field-row"><input type="text" class=" input-text" value="" name="conf[new_pages][labels][]"></span></td>'
-    html += '<td class="value"><span class="field-row"><select class=" select" name="conf[new_pages][ids][]">'
+    html = '<tr>';
+    html += '<td class="label"><span class="field-row"><input type="text" class=" input-text" value="" name="conf[new_pages][labels][]"></span></td>';
+    html += '<td class="value"><span class="field-row"><select class=" select" name="conf[new_pages][ids][]">';
 <?php foreach($this->getOptions() as $page): ?>
-    html += '<option value="<?php echo htmlspecialchars($page['value']); ?>"><?php echo htmlspecialchars($page['label']);?></option>'
+    html += '<option value="<?php echo $this->jsQuoteEscape($this->htmlEscape($page['value'])); ?>"><?php echo $this->jsQuoteEscape($this->htmlEscape($page['label']));?></option>';
 <?php endforeach; ?>
-    html += '</select></span></td>'
-    html += '<td style="width: 5em;" class="label"><input type="button" onclick="this.parentNode.parentNode.innerHTML=\'\'" value="&minus;"></td>'
-    html += '</tr>'
-    return html
+    html += '</select></span></td>';
+    html += '<td style="width: 5em;" class="label"><input type="button" onclick="this.parentNode.parentNode.innerHTML=\'\'" value="&minus;"></td>';
+    html += '</tr>';
+    return html;
 }
 
 // ]]>
