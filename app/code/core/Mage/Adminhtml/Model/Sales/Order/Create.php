@@ -70,6 +70,13 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     protected $_needCollect;
 
     /**
+     * Re-collect cart flag
+     *
+     * @var boolean
+     */
+    protected $_needCollectCart = false;
+
+    /**
      * Collect (import) data and validate it flag
      *
      * @var boolean
@@ -172,6 +179,18 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     public function setRecollect($flag)
     {
         $this->_needCollect = $flag;
+        return $this;
+    }
+
+    /**
+     * Set collect totals flag for cart
+     *
+     * @param   bool $flag
+     * @return  Mage_Adminhtml_Model_Sales_Order_Create
+     */
+    public function setCartRecollect($flag)
+    {
+        $this->_needCollectCart = $flag;
         return $this;
     }
 
@@ -493,12 +512,16 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     $product->setSkipCheckRequiredOption(true);
 
                     $newItem = $this->getQuote()->addProduct($product, $info);
+
+                    $this->removeItem($item->getId(), 'cart');
+
                     if (is_string($newItem)) {
                         Mage::throwException($newItem);
                     }
                     $product->unsSkipCheckRequiredOption();
                     $newItem->checkData();
                     $newItem->setQty($qty);
+                    $this->setCartRecollect(true);
                     break;
                 case 'cart':
                     if (($cart = $this->getCustomerCart()) && is_null($item->getOptionByCode('additional_options'))) {
@@ -529,8 +552,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                         $product->unsSkipCheckRequiredOption();
                         $cartItem->setQty($qty);
                         $cartItem->setPrice($item->getProduct()->getPrice());
-                        $cart->collectTotals()
-                            ->save();
+                        $this->setCartRecollect(true);
                     }
                     break;
                 case 'wishlist':
@@ -575,7 +597,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     if ($infobuyRequest === null || !in_array($infobuyRequest->getValue(), $infoBuyRequests)) {
                         $this->moveQuoteItem($item, 'order', $qty);
                     }
-//                    $this->removeItem($itemId, 'cart');
+                    $this->removeItem($itemId, 'cart');
                 }
             }
         }
@@ -769,6 +791,11 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 else {
                     $this->moveQuoteItem($itemId, $info['action'], $itemQty);
                 }
+            }
+            if ($this->_needCollectCart === true) {
+                $this->getCustomerCart()
+                    ->collectTotals()
+                    ->save();
             }
             $this->setRecollect(true);
         }
@@ -1381,7 +1408,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if (! $quote->getCustomer()->getId() || ! $quote->getCustomer()->isInStore($this->getSession()->getStore())) {
             $quote->getCustomer()->sendNewAccountEmail('registered', '', $quote->getStoreId());
         }
-
         $service = Mage::getModel('sales/service_quote', $quote);
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
@@ -1396,6 +1422,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $quote->setReservedOrderId($orderData['increment_id']);
             $service->setOrderData($orderData);
         }
+
         $order = $service->submit();
         if (!$quote->getCustomer()->getId() || !$quote->getCustomer()->isInStore($this->getSession()->getStore())) {
             $quote->getCustomer()->setCreatedAt($order->getCreatedAt());
