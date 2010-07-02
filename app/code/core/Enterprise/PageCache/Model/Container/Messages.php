@@ -75,7 +75,8 @@ class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache
     {
         Mage::getSingleton('core/cookie')->delete(Enterprise_PageCache_Model_Cookie::COOKIE_MESSAGE);
 
-        $block = Mage::app()->getLayout()->getMessagesBlock();
+        $block = $this->_placeholder->getAttribute('block');
+        $block = new $block;
 
         foreach ($this->_messageStoreTypes as $type) {
             $this->_addMessagesToBlock($type, $block);
