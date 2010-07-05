@@ -1038,6 +1038,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if (is_array($address)) {
             $address['save_in_address_book'] = isset($address['save_in_address_book']) ? (empty($address['save_in_address_book']) ? 0 : 1) : 0;
             $shippingAddress = Mage::getModel('sales/quote_address')
+                ->setData($address)
                 ->setAddressType(Mage_Sales_Model_Quote_Address::TYPE_SHIPPING);
             $this->_setQuoteAddress($shippingAddress, $address);
             $shippingAddress->implodeStreetAddress();
@@ -1079,6 +1080,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
         if (is_array($address)) {
             $address['save_in_address_book'] = isset($address['save_in_address_book']) ? 1 : 0;
             $billingAddress = Mage::getModel('sales/quote_address')
+                ->setData($address)
                 ->setAddressType(Mage_Sales_Model_Quote_Address::TYPE_BILLING);
             $this->_setQuoteAddress($billingAddress, $address);
             $billingAddress->implodeStreetAddress();
