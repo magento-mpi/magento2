@@ -132,8 +132,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         $address = $isOrderVirtual ? $order->getBillingAddress() : $order->getShippingAddress();
         if ($isOrderVirtual) {
             $api->setNoShipping(true);
-        }
-        elseif ($address->getEmail()) {
+        } elseif ($address->validate()) {
             $api->setAddress($address);
         }
 
