@@ -42,7 +42,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
 
     /**
      * Current search engine
-     * 
+     *
      * @var object | Mage_CatalogSearch_Model_Mysql4_Fulltext_Engine | Enterprise_Search_Model_Resource_Engine
      */
     protected $_engine = null;
@@ -107,7 +107,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
 
     /**
      * Prepare search condition for attribute
-     * 
+     *
      * @deprecated after 1.4.1.0 - use Mage_CatalogSearch_Model_Mysql4_Advanced->_prepareCondition()
      *
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
@@ -139,7 +139,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
             $value = $values[$attribute->getAttributeCode()];
 
             if ($attribute->getAttributeCode() == 'price') {
-                if ((isset($value['from']) && !empty($value['from'])) || 
+                if ((isset($value['from']) && !empty($value['from'])) ||
                     (isset($value['to']) && !empty($value['to']))) {
                     if (isset($value['currency']) && !empty($value['currency'])) {
                         $rate = Mage::app()->getStore()->getBaseCurrency()->getRate($value['currency']);
@@ -200,33 +200,40 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     {
         $name = $attribute->getStoreLabel();
 
-        if (is_array($value) && (isset($value['from']) || isset($value['to']))){
-            if (isset($value['currency'])) {
-                $currencyModel = Mage::getModel('directory/currency')->load($value['currency']);
-                $from = $currencyModel->format($value['from'], array(), false);
-                $to = $currencyModel->format($value['to'], array(), false);
-            } else {
-                $currencyModel = null;
-            }
+        if (is_array($value)) {
+            if (isset($value['from']) && isset($value['to'])) {
+                if (!empty($value['from']) || !empty($value['to'])) {
+                    if (isset($value['currency'])) {
+                        $currencyModel = Mage::getModel('directory/currency')->load($value['currency']);
+                        $from = $currencyModel->format($value['from'], array(), false);
+                        $to = $currencyModel->format($value['to'], array(), false);
+                    } else {
+                        $currencyModel = null;
+                    }
 
-            if (strlen($value['from']) > 0 && strlen($value['to']) > 0) {
-                // -
-                $value = sprintf('%s - %s', ($currencyModel ? $from : $value['from']), ($currencyModel ? $to : $value['to']));
-            } elseif (strlen($value['from']) > 0) {
-                // and more
-                $value = Mage::helper('catalogsearch')->__('%s and greater', ($currencyModel ? $from : $value['from']));
-            } elseif (strlen($value['to']) > 0) {
-                // to
-                $value = Mage::helper('catalogsearch')->__('up to %s', ($currencyModel ? $to : $value['to']));
+                    if (strlen($value['from']) > 0 && strlen($value['to']) > 0) {
+                        // -
+                        $value = sprintf('%s - %s', ($currencyModel ? $from : $value['from']), ($currencyModel ? $to : $value['to']));
+                    } elseif (strlen($value['from']) > 0) {
+                        // and more
+                        $value = Mage::helper('catalogsearch')->__('%s and greater', ($currencyModel ? $from : $value['from']));
+                    } elseif (strlen($value['to']) > 0) {
+                        // to
+                        $value = Mage::helper('catalogsearch')->__('up to %s', ($currencyModel ? $to : $value['to']));
+                    }
+                } else {
+                    return $this;
+                }
             }
         }
 
         if (($attribute->getFrontendInput() == 'select' || $attribute->getFrontendInput() == 'multiselect') && is_array($value)) {
-            foreach ($value as $k=>$v){
-                $value[$k] = $attribute->getSource()->getOptionText($v);
+            foreach ($value as $key => $val){
+                $value[$key] = $attribute->getSource()->getOptionText($val);
 
-                if (is_array($value[$k]))
-                    $value[$k] = $value[$k]['label'];
+                if (is_array($value[$key])) {
+                    $value[$key] = $value[$key]['label'];
+                }
             }
             $value = implode(', ', $value);
         } else if ($attribute->getFrontendInput() == 'select' || $attribute->getFrontendInput() == 'multiselect') {
@@ -239,13 +246,13 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
                 : Mage::helper('catalogsearch')->__('No');
         }
 
-        $this->_searchCriterias[] = array('name'=>$name, 'value'=>$value);
+        $this->_searchCriterias[] = array('name' => $name, 'value' => $value);
         return $this;
     }
 
     /**
      * Returns prepared search criterias in text
-     * 
+     *
      * @return array
      */
     public function getSearchCriterias()

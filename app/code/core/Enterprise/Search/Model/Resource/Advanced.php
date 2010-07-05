@@ -62,34 +62,12 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
     public function addIndexableAttributeFilter($collection, $attribute, $value)
     {
         $param = $this->_getSearchParam($collection, $attribute, $value);
-        $collection->addSearchParam($param);
-        return true;
-    }
 
-    /**
-     * Retrieve language code by specified locale code if this locale is supported
-     *
-     * @param string $localeCode
-     *
-     * @return false|string
-     */
-    protected function _getLanguageCodeByLocaleCode($localeCode)
-    {
-        $localeCode = (string)$localeCode;
-        if (!$localeCode) {
-            return false;
+        if (!empty($param)) {
+            $collection->addSearchParam($param);
+            return true;
         }
-        $languages = Mage::helper('enterprise_search')->getSolrSupportedLanguages();
-        foreach ($languages as $code => $locales) {
-            if (is_array($locales)) {
-                if (in_array($localeCode, $locales)) {
-                    return $code;
-                }
-            }
-            elseif ($localeCode == $locales) {
-                return $code;
-            }
-        }
+
         return false;
     }
 
@@ -105,13 +83,12 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
     {
         if (empty($value) ||
             (isset($value['from']) && empty($value['from']) &&
-            isset($value['to']) && empty($value['to']))) {
+                isset($value['to']) && empty($value['to']))) {
             return false;
         }
 
-        $languageCode = $this->_getLanguageCodeByLocaleCode(
-            Mage::app()->getStore()
-            ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE));
+        $localeCode = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+        $languageCode = Mage::helper('enterprise_search')->getLanguageCodeByLocaleCode($localeCode);
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
         $field = $attribute->getAttributeCode();
@@ -121,7 +98,7 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
         if ($frontendInput == 'multiselect') {
             $field = 'attr_multi_'. $field;
         }
-        elseif ($backendType == 'int') {
+        elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
             $field = 'attr_select_'. $field;
         }
         elseif ($backendType == 'decimal') {
@@ -164,7 +141,11 @@ class Enterprise_Search_Model_Resource_Advanced extends Mage_Core_Model_Resource
             }
         }
 
-        return array($field => $value);
+        if (empty($value)){
+            return array();
+        } else {
+            return array($field => $value);
+        }
     }
 
     /**

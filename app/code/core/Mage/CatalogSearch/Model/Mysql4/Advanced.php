@@ -80,11 +80,11 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced extends Mage_Core_Model_Mysql4_Ab
 
     /**
      * Prepare search condition for attribute
-     * 
+     *
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
      * @param Mage_CatalogSearch_Model_Mysql4_Advanced_Collection $collection
-     * 
+     *
      * @return mixed
      */
     public function prepareCondition($attribute, $value, $collection)
@@ -120,7 +120,7 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced extends Mage_Core_Model_Mysql4_Ab
      * @param Mage_CatalogSearch_Model_Advanced $object
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
-     * 
+     *
      * @return bool
      */
     public function addPriceFilter($object, $attribute, $value)
@@ -167,7 +167,7 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced extends Mage_Core_Model_Mysql4_Ab
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
      * @param int $rate
-     * 
+     *
      * @return bool
      */
     public function addRatedPriceFilter($collection, $attribute, $value, $rate = 1)
@@ -206,21 +206,20 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced extends Mage_Core_Model_Mysql4_Ab
      * @param Mage_CatalogSearch_Model_Advanced $object
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
-     * 
+     *
      * @return bool
      */
     public function addIndexableAttributeFilter($object, $attribute, $value)
     {
-        $collection = $object->getProductCollection();
-        return $this->addIndexableAttributeModifiedFilter($collection, $attribute, $value);
+        return $this->addIndexableAttributeModifiedFilter($object, $attribute, $value);
     }
 
     /**
-     * 
+     *
      * @param Mage_CatalogSearch_Model_Mysql4_Advanced_Collection $collection
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
-     * 
+     *
      * @return bool
      */
     public function addIndexableAttributeModifiedFilter($collection, $attribute, $value)
@@ -234,6 +233,14 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced extends Mage_Core_Model_Mysql4_Ab
         $tableAlias = 'ast_' . $attribute->getAttributeCode();
         $storeId    = Mage::app()->getStore()->getId();
         $select     = $collection->getSelect();
+
+        if (is_array($value)) {
+            if (isset($value['from']) && isset($value['to'])) {
+                if (empty($value['from']) && empty($value['to'])) {
+                    return false;
+                }
+            }
+        }
 
         $select->distinct(true);
         $select->join(
