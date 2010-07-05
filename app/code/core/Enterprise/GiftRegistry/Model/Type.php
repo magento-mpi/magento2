@@ -293,16 +293,58 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
     /**
      * Retrieve attribute label by code
      *
-     * @param string $code
+     * @param string $attributeCode
      * @return string
      */
-    public function getAttributeLabel($code)
+    public function getAttributeLabel($attributeCode)
     {
-        $attribute = $this->getAttributeByCode($code);
+        $attribute = $this->getAttributeByCode($attributeCode);
         if ($attribute && isset($attribute['label'])) {
             return $attribute['label'];
         }
         return '';
+    }
+
+    /**
+     * Retrieve attribute option label by code
+     *
+     * @param string $attributeCode
+     * @param string $optionCode
+     * @return string
+     */
+    public function getOptionLabel($attributeCode, $optionCode)
+    {
+        $attribute = $this->getAttributeByCode($attributeCode);
+        if ($attribute && isset($attribute['options']) && is_array($attribute['options'])) {
+            foreach ($attribute['options'] as $option) {
+                if ($option['code'] == $optionCode) {
+                    return $option['label'];
+                }
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Retrieve listed static attributes list from type attributes list
+     *
+     * @return array
+     */
+    public function getListedAttributes()
+    {
+        $listedAttributes = array();
+        if ($this->getAttributes()) {
+            $staticCodes = Mage::getSingleton('enterprise_giftregistry/attribute_config')
+                ->getStaticTypesCodes();
+            foreach ($this->getAttributes() as $group) {
+                foreach ($group as $code => $attribute) {
+                    if (in_array($code, $staticCodes) && !empty($attribute['frontend']['is_listed'])) {
+                        $listedAttributes[$code] = $attribute['label'];
+                    }
+                }
+            }
+        }
+        return $listedAttributes;
     }
 
     /**

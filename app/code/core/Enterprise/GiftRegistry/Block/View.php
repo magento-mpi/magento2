@@ -54,6 +54,44 @@ class Enterprise_GiftRegistry_Block_View extends Enterprise_GiftRegistry_Block_C
     }
 
     /**
+     * Retrieve entity country name
+     *
+     * @param string $countryCode
+     * @return string
+     */
+    public function getCountryName($countryCode)
+    {
+        if ($countryCode) {
+            $country = Mage::getModel('directory/country')->loadByCode($countryCode);
+            return $country->getName();
+        }
+        return '';
+    }
+
+    /**
+     * Retrieve comma-separated list of entity registrant roles
+     *
+     * @param string $attributeCode
+     * @param Enterprise_GiftRegistry_Model_Type $type
+     * @return string
+     */
+    public function getRegistrantRoles($attributeCode, $type)
+    {
+        if ($registrantRoles = $this->getEntity()->getRegistrantRoles()) {
+            $roles = array();
+            foreach ($registrantRoles as $code) {
+                if ($label = $type->getOptionLabel($attributeCode, $code)) {
+                    $roles[] = $label;
+                }
+            }
+            if (count($roles)) {
+                return implode(', ', $roles);
+            }
+        }
+        return '';
+    }
+
+    /**
      * Retrieve attributes to display info array
      *
      * @return array
@@ -63,13 +101,16 @@ class Enterprise_GiftRegistry_Block_View extends Enterprise_GiftRegistry_Block_C
         $typeId = $this->getEntity()->getTypeId();
         $type = Mage::getModel('enterprise_giftregistry/type')->load($typeId);
 
-        $attributes = array(
-            'title'          => $this->__('Event'),
-            'registrants'    => $this->__('Recipient'),
-            'event_date'     => $type->getAttributeLabel('event_date'),
-            'event_location' => $type->getAttributeLabel('event_location'),
-            'customer_name'  => $this->__('Registry owner'),
-            'message'        => $this->__('Message'),
+        $attributes = array_merge(
+            array(
+                'title' => $this->__('Event'),
+                'registrants' => $this->__('Recipient')
+            ),
+            $type->getListedAttributes(),
+            array(
+                'customer_name' => $this->__('Registry owner'),
+                'message' => $this->__('Message')
+            )
         );
 
         $result = array();
@@ -80,6 +121,12 @@ class Enterprise_GiftRegistry_Block_View extends Enterprise_GiftRegistry_Block_C
                     break;
                 case 'event_date' :
                     $attributeValue = $this->getFormattedDate($this->getEntity()->getEventDate());
+                    break;
+                 case 'event_country' :
+                    $attributeValue = $this->getCountryName($this->getEntity()->getEventCountry());
+                    break;
+                 case 'role' :
+                    $attributeValue = $this->getRegistrantRoles($attributeCode, $type);
                     break;
                 default :
                     $attributeValue = $this->getEntity()->getDataUsingMethod($attributeCode);

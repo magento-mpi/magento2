@@ -115,7 +115,7 @@ selectOptionType = {
 
 Validation.addAllThese([
     ['required-option-select-rows', '<?php echo $this->__('Please add rows to option.') ?>', function(v, elm) {
-        var optionContainerElm = elm.up('div.grid');
+        var optionContainerElm = elm.up(2);
         var resultFlag = false;
         $$('#'+optionContainerElm.id+' .select-option-code').each(function(elm){
             resultFlag = true;

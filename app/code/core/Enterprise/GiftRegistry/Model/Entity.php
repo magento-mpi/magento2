@@ -318,7 +318,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Return comma-separated list of entitity registrants
+     * Return comma-separated list of entity registrants
      *
      * @return string
      */
@@ -333,6 +333,23 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             return implode(', ', $registrants);
         }
         return '';
+    }
+
+    /**
+     * Return array of entity registrant roles
+     *
+     * @return string
+     */
+    public function getRegistrantRoles()
+    {
+        $collection = $this->getRegistrantsCollection();
+        $roles = array();
+        if ($collection->getSize()) {
+            foreach($collection as $item) {
+                $roles[] = $item->getRole();
+            }
+        }
+        return $roles;
     }
 
     /**
