@@ -176,6 +176,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Mage_Paypal_Mo
     {
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
+        $payment->setIsTransactionClosed(0);
         return $this;
     }
 
@@ -193,6 +194,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Mage_Paypal_Mo
             $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         }
         $payment->addData((array)$response);
+        $payment->setIsTransactionClosed(0);
         return $this;
     }
 
