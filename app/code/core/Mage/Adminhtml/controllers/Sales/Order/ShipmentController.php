@@ -257,6 +257,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
                     ->setTitle($title);
                 $shipment->addTrack($track)
                     ->save();
+                $track->save();
 
                 $this->loadLayout();
                 $response = $this->getLayout()->getBlock('shipment_tracking')->toHtml();
