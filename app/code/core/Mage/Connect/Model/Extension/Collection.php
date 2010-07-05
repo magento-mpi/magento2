@@ -29,7 +29,6 @@
  *
  * @category    Mage
  * @package     Mage_Connect
- * @subpackage  Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Connect_Model_Extension_Collection extends Varien_Data_Collection_Filesystem

@@ -29,7 +29,6 @@
  *
  * @category    Mage
  * @package     Mage_Connect
- * @subpackage  Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mage_Adminhtml_Block_Widget_Grid

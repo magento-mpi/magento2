@@ -31,7 +31,6 @@ require_once 'Mage/Connect/Package.php'; // TODO
  *
  * @category    Mage
  * @package     Mage_Connect
- * @subpackage  Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Connect_Model_Extension extends Varien_Object
