@@ -56,8 +56,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             array('legend'=>Mage::helper('customer')->__('Account Information'))
         );
 
-
-        $this->_setFieldset($customerForm->getAttributes(), $fieldset);
+        $attributes = $customerForm->getAttributes();
+        foreach ($attributes as $attribute) {
+            $attribute->unsIsVisible();
+        }
+        $this->_setFieldset($attributes, $fieldset);
 
         if ($customer->getId()) {
             $form->getElement('website_id')->setDisabled('disabled');

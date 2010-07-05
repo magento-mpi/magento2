@@ -120,9 +120,11 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         $addressForm->setFormCode('adminhtml_customer_address')
             ->setEntity($addressModel);
 
-//        $this->_setFieldset($addressModel->getAttributes(), $fieldset);
-        $this->_setFieldset($addressForm->getAttributes(), $fieldset);
-
+        $attributes = $addressForm->getAttributes();
+        foreach ($attributes as $attribute) {
+            $attribute->unsIsVisible();
+        }
+        $this->_setFieldset($attributes, $fieldset);
 
         $regionElement = $form->getElement('region');
         if ($regionElement) {
