@@ -64,6 +64,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtm
         /* @var $customerForm Mage_Customer_Model_Form */
         $customerForm   = Mage::getModel('customer/form');
         $customerForm->setFormCode('adminhtml_checkout')
+            ->setStore($this->getStore())
             ->setEntity($customerModel);
 
         // prepare customer attributes to show

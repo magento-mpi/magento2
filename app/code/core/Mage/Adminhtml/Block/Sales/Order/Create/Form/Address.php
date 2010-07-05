@@ -58,8 +58,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
     protected function _getAddressForm()
     {
         if (is_null($this->_addressForm)) {
-            $this->_addressForm = Mage::getModel('customer/form');
-            $this->_addressForm->setFormCode('adminhtml_customer_address');
+            $this->_addressForm = Mage::getModel('customer/form')
+                ->setFormCode('adminhtml_customer_address')
+                ->setStore($this->getStore());
         }
         return $this->_addressForm;
     }
