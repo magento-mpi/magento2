@@ -133,6 +133,38 @@ final class Maged_Controller
 
     //////////////////////////// ACTIONS
 
+
+    /**
+     * Get ftp string from post data
+     * @param array $post post data
+     * @return string FTP Url
+     */
+    private function getFtpPost($post){
+        if(!empty($post['ftp_path'])&&strpos($post['ftp_path'], '/')!==0){
+            $post['ftp_path']='/'.$post['ftp_path'];
+        }
+        if(!empty($post['ftp_path'])&&substr($post['ftp_path'], -1)!='/'){
+            $post['ftp_path'].='/';
+        }
+        $post['ftp_proto']='ftp://';
+        if($start=stripos($post['ftp_host'],'ftp://')!==false){
+            $post['ftp_proto']='ftp://';
+            $post['ftp_host']=substr($post['ftp_host'], $start+6-1);
+        }
+        if($start=stripos($post['ftp_host'],'ftps://')!==false){
+            $post['ftp_proto']='ftps://';
+            $post['ftp_host']=substr($post['ftp_host'], $start+7-1);
+        }
+        if(!empty($post['ftp_login'])&&!empty($post['ftp_password'])){
+            $ftp=sprintf("%s%s:%s@%s%s", $post['ftp_proto'], $post['ftp_login'],$post['ftp_password'],$post['ftp_host'],$post['ftp_path']);
+        }elseif(!empty($post['ftp_login'])){
+            $ftp=sprintf("%s%s@%s%s", $post['ftp_proto'], $post['ftp_login'],$post['ftp_host'],$post['ftp_path']);
+        }else{
+            $ftp=$post['ftp_proto'].$post['ftp_host'].$post['ftp_path'];
+        }
+        $_POST['ftp'] = $ftp;
+        return $ftp;
+    }
     /**
      * NoRoute
      *
@@ -208,18 +240,7 @@ final class Maged_Controller
     {
         $p=$_POST;
         if( 1 == $p['inst_protocol']){
-            $p['ftp_proto']='ftp://';
-            if($start=stripos($p['ftp_path'],'ftp://')!==false){
-                $p['ftp_proto']='ftp://';
-                $p['ftp_path']=substr($p['ftp_path'], $start+6-1);
-            }
-            if($start=stripos($p['ftp_path'],'ftps://')!==false){
-                $p['ftp_proto']='ftps://';
-                $p['ftp_path']=substr($p['ftp_path'], $start+7-1);
-            }
-            $ftp=sprintf("%s%s:%s@%s", $p['ftp_proto'], $p['ftp_user'],$p['ftp_pswd'],$p['ftp_path']);
-            $_POST['ftp'] = $ftp;
-            $this->model('connect', true)->connect()->setRemoteConfig($ftp);
+            $this->model('connect', true)->connect()->setRemoteConfig($this->getFtpPost($p));
         }
 
         /* EE_CHANNEL */
@@ -360,9 +381,10 @@ final class Maged_Controller
         $this->view()->set('deployment_type', ($fs_disabled||!empty($ftpParams)?'ftp':'fs'));
 
         if(!empty($ftpParams)){
-            $this->view()->set('ftp_host', sprintf("%s://%s%s",$ftpParams['scheme'],$ftpParams['host'],$ftpParams['path']));
+            $this->view()->set('ftp_host', sprintf("%s://%s",$ftpParams['scheme'],$ftpParams['host']));
             $this->view()->set('ftp_login', $ftpParams['user']);
             $this->view()->set('ftp_password', $ftpParams['pass']);
+            $this->view()->set('ftp_path', $ftpParams['path']);
         }
 
         echo $this->view()->template('settings.phtml');
@@ -378,30 +400,8 @@ final class Maged_Controller
             $this->config()->set('downloader_path', $this->model('connect', true)->connect()->getConfig()->downloader_path);
         }
         if ($_POST) {
-            $p=$_POST;
-            if (isset($p['auth_username']) && isset($p['auth_password'])) {
-                $_POST['auth'] = $p['auth_username'] . '@' . $p['auth_password'];
-            }
-            if( 'ftp' == $p['deployment_type']&&!empty($p['ftp_host'])){
-
-                $p['ftp_proto']='ftp://';
-                if($start=stripos($p['ftp_host'],'ftp://')!==false){
-                    $p['ftp_proto']='ftp://';
-                    $p['ftp_host']=substr($p['ftp_host'], $start+6-1);
-                }
-                if($start=stripos($p['ftp_host'],'ftps://')!==false){
-                    $p['ftp_proto']='ftps://';
-                    $p['ftp_host']=substr($p['ftp_host'], $start+7-1);
-                }
-                if(!empty($p['ftp_login'])&&!empty($p['ftp_password'])){
-                    $ftp=sprintf("%s%s:%s@%s", $p['ftp_proto'], $p['ftp_login'],$p['ftp_password'],$p['ftp_host']);
-                }elseif(!empty($p['ftp_login'])){
-                    $ftp=sprintf("%s%s@%s", $p['ftp_proto'], $p['ftp_login'],$p['ftp_host']);
-                }else{
-                    $ftp=$p['ftp_proto'].$p['ftp_host'];
-                }
-                $_POST['ftp'] = $ftp;
-                $this->model('connect', true)->connect()->setRemoteConfig($ftp);
+            if( 'ftp' == $_POST['deployment_type']&&!empty($_POST['ftp_host'])){
+                $this->model('connect', true)->connect()->setRemoteConfig($this->getFtpPost($_POST));
             }else{
                 $this->model('connect', true)->connect()->setRemoteConfig('');
                 $_POST['ftp'] = '';

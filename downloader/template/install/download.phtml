@@ -49,7 +49,7 @@
           <tr>
                 <td class="label">Magento Connect Loader Protocol:</td>
                 <td class="value">
-                    <select id="protocol" name="protocol" style="width:150px;">
+                    <select id="protocol" name="protocol" style="width:250px;">
                         <option value="http" <?php if ($this->get('protocol')=='http'):?>selected="selected"<?php endif ?>>Http</option>
                         <option value="ftp" <?php if ($this->get('protocol')=='ftp'):?>selected="selected"<?php endif ?>>Ftp</option>
                     </select>
@@ -59,13 +59,13 @@
           <tr>
                 <td class="label">User Login:</td>
                 <td class="value">
-                    <input id="auth_username" name="auth_username" value="<?php echo($this->get('auth_username'));?>" type="text"/>
+                    <input id="auth_username" name="auth_username" value="<?php echo($this->get('auth_username'));?>" type="text" style="width:250px;"/>
                 </td>
           </tr>
           <tr>
                 <td class="label">User Password:</td>
                 <td class="value">
-                    <input id="auth_password" name="auth_password" value="<?php echo($this->get('auth_password'));?>" type="password"/>
+                    <input id="auth_password" name="auth_password" value="<?php echo($this->get('auth_password'));?>" type="password" style="width:250px;"/>
                 </td>
           </tr>
           <!-- //EE_CHANNEL -->
@@ -75,14 +75,14 @@
                         <tr>
                             <td class="label">User:</td>
                             <td class="value">
-                                <input type="text" id="mcmlogin" value="" name="ftp_user" />
+                                <input type="text" id="mcmlogin" value="" name="ftp_user" style="width:250px;"/>
                             </td>
                         </tr>
 
                         <tr>
                             <td class="label">Password:</td>
                             <td class="value">
-                                <input type="password" id="mcmpass" value="" name="ftp_pswd" />
+                                <input type="password" id="mcmpass" value="" name="ftp_pswd" style="width:250px;"/>
                             </td>
                         </tr>
                     </table>
@@ -91,69 +91,65 @@
             <tr>
                 <td class="label">Use custom permissions:</td>
                 <td class="value">
-                    <select onchange="togglePanel(this)" id="use_custom_permissions_mode" name="use_custom_permissions_mode" style="width:150px;">
+                    <select onchange="togglePanel(this)" id="use_custom_permissions_mode" name="use_custom_permissions_mode" style="width:250px;">
                         <option value="1" <?php if ($this->get('use_custom_permissions_mode')=='1'):?>selected="selected"<?php endif ?>>Yes</option>
                         <option value="0" <?php if ($this->get('use_custom_permissions_mode')=='0'):?>selected="selected"<?php endif ?>>No</option>
                     </select>
                 </td>
             </tr>
-            <tr>
-                <td class="addfields" colpan="2">
-                    <table cellspacing="0" class="form-list" id="use_custom_permissions_mode_panel" <?php if ($this->get('use_custom_permissions_mode')=='0'):?>style="display:none;"<?php endif ?>>
-                        <tr>
-                            <td class="label">Folders:</td>
-                            <td class="value">
-                                <input id="mkdir_mode" name="mkdir_mode" value="<?php echo($this->get('mkdir_mode'));?>" style="width:50px;" type="text"></input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">Files:</td>
-                            <td class="value">
-                                <input id="chmod_file_mode" name="chmod_file_mode" value="<?php echo($this->get('chmod_file_mode'));?>" style="width:50px;" type="text"></input>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
+            <tbody id="use_custom_permissions_mode_panel" <?php if ($this->get('use_custom_permissions_mode')=='0'):?>style="display:none;"<?php endif ?>>
+                <tr>
+                    <td class="label">Folders:</td>
+                    <td class="value">
+                        <input id="mkdir_mode" name="mkdir_mode" value="<?php echo($this->get('mkdir_mode'));?>" style="width:250px;" type="text"></input>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">Files:</td>
+                    <td class="value">
+                        <input id="chmod_file_mode" name="chmod_file_mode" value="<?php echo($this->get('chmod_file_mode'));?>" style="width:250px;" type="text"></input>
+                    </td>
+                </tr>
+            </tbody>
             <tr>
                 <td class="label">Installation protocol</td>
                 <td class="value">
-                    <select id="inst_protocol" onchange="togglePanel(this)" name="inst_protocol">
+                    <select id="inst_protocol" onchange="togglePanel(this)" name="inst_protocol" style="width:250px;">
                         <option value="0">Standard</option>
                         <option value="1">FTP</option>
                     </select>
                 </td>
             </tr>
+            <tbody id="inst_protocol_panel">
             <tr>
-                <td class="addfields" colpan="2">
-                    <table cellspacing="0" style="display:none" class="form-list" id="inst_protocol_panel">
-                        <tr>
-                            <td class="label">User:</td>
-                            <td class="value">
-                                <input type="text" id="ftp_user" value="" name="ftp_user" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="label">Password:</td>
-                            <td class="value">
-                                <input type="password" id="ftp_pswd" value="" name="ftp_pswd" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="label">Host:</td>
-                            <td class="value">
-                                <input type="text" id="ftp_path" value="" name="ftp_path" />
-                            </td>
-                        </tr>
-
-                    </table>
+                <td class="label">Host:</td>
+                <td class="value">
+                    <input type="text" id="ftp_host" value="" name="ftp_host" style="width:250px;"/>
                 </td>
             </tr>
 
-        </table>
+            <tr>
+                <td class="label">User:</td>
+                <td class="value">
+                    <input type="text" id="ftp_login" value="" name="ftp_login" style="width:250px;"/>
+                </td>
+            </tr>
 
+            <tr>
+                <td class="label">Password:</td>
+                <td class="value">
+                    <input type="password" id="ftp_password" value="" name="ftp_password" style="width:250px;"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label">Installation Path:</td>
+                <td class="value">
+                    <input id="ftp_path" name="ftp_path" value="" type="text" style="width:250px;"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
 <?php if (!$this->controller()->isDownloaded()): ?>
             <button class="form-button" type="submit">Start the download process</button>
@@ -189,7 +185,7 @@
 function togglePanel (element)
 {
     if (element.value == '1') {
-        disabledMode = 'block';
+        disabledMode = '';
     } else {
         disabledMode = 'none';
     }
