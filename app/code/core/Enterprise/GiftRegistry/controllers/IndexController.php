@@ -70,20 +70,19 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
      */
     public function cartAction()
     {
-        $count  = 0;
+        $count = 0;
         try {
             $entity = Mage::getModel('enterprise_giftregistry/entity')
                 ->load($this->getRequest()->getParam('entity'));
 
             if ($entity && $entity->getId()) {
-
+                $skippedItems = 0;
                 $request = $this->getRequest();
                 if ($request->getParam('product')) {//Adding from product page
                     $entity->addItem($request->getParam('product'), new Varien_Object($request->getParams()));
                     $count = ($request->getParam('qty')) ? $request->getParam('qty') : 1;
                 } else {//Adding from cart
                     $cart = Mage::getSingleton('checkout/cart');
-                    $skippedItems = 0;
                     foreach ($cart->getQuote()->getAllVisibleItems() as $item) {
                         if ($item->getIsVirtual()) {
                             $skippedItems++;

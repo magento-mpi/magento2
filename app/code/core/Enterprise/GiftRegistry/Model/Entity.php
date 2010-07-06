@@ -142,6 +142,9 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         $items = $item->getCollection()->addRegistryFilter($this->getId());
 
         foreach ($cartCandidates as $currentCandidate) {
+            if ($currentCandidate->getParentProductId()) {
+                continue;
+            }
             $alreadyExists = false;
             $productId = $currentCandidate->getId();
 
