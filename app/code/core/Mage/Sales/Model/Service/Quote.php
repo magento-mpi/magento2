@@ -65,6 +65,13 @@ class Mage_Sales_Model_Service_Quote
     protected $_order = null;
 
     /**
+     * If it is true, quote will be inactivate after submitting order or nominal items
+     *
+     * @var bool
+     */
+    protected $_shouldInactivateQuote = true;
+
+    /**
      * Class constructor
      *
      * @param Mage_Sales_Model_Quote $quote
@@ -161,6 +168,10 @@ class Mage_Sales_Model_Service_Quote
             $order->addItem($orderItem);
         }
 
+        if ($this->_shouldInactivateQuote) {
+            $quote->setIsActive(false);
+        }
+
         $transaction->addObject($order);
         $transaction->addCommitCallback(array($order, 'place'));
         $transaction->addCommitCallback(array($order, 'save'));
@@ -192,6 +203,10 @@ class Mage_Sales_Model_Service_Quote
     {
         $this->_validate();
         $this->_submitRecurringPaymentProfiles();
+        if ($this->_shouldInactivateQuote) {
+            $quote = $this->_quote;
+            $quote->setIsActive(false);
+        }
         $this->_deleteNominalItems();
     }
 
