@@ -84,11 +84,6 @@ class Mage_XmlConnect_Model_Tabs
                 'image' => 'tab_page.png',
                 'action' => 'AboutUs',
             ),
-            array(
-                'label' => Mage::helper('xmlconnect')->__('Contact Us'),
-                'image' => 'tab_page.png',
-                'action' => 'ContactUs',
-            ),
         );
         $this->_disabledTabs = array();
     }
