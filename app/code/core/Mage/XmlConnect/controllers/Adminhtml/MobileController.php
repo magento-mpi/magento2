@@ -31,9 +31,13 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      * @param string $paramName
      * @return Mage_XmlConnect_Model_Application
      */
-    protected function _initApp($paramName = 'application_id')
+    protected function _initApp($paramName = 'application_id', $applicationIdOverride = false)
     {
-        $id = (int) $this->getRequest()->getParam($paramName);
+        if ($applicationIdOverride === false) {
+            $id = (int) $this->getRequest()->getParam($paramName);
+        } else {
+            $id = (int) $applicationIdOverride;
+        }
         $app = Mage::getModel('xmlconnect/application');
         if ($id) {
             $app->load($id);
@@ -75,7 +79,17 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     public function editAction()
     {
         try {
-            $app = $this->_initApp();
+
+            if ($this->getRequest()->getParam('store')) {
+                Mage::log('Has param StoreID = '.$this->getRequest()->getParam('store'));
+                $id = Mage::getModel('xmlconnect/application')->getIdByStoreId(
+                    $this->getRequest()->getParam('application_id'),
+                    $this->getRequest()->getParam('store')
+                );
+                $app = $this->_initApp(false, $id);
+            } else {
+                $app = $this->_initApp();
+            }
 
             $app->loadSubmit();
             $data = Mage::getSingleton('adminhtml/session')->getFormData(true);

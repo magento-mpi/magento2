@@ -120,7 +120,6 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return string
      */
-
     public function packStoreDevice($storeId = '', $deviceId = '')
     {
         return $storeId . self::APP_DELIMITER . $deviceId;
@@ -176,6 +175,25 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $options;
     }
+
+    /**
+     * Returns array of supported device types as "html select options"
+     *
+     * @return array
+     */
+    public function getDeviceValuesForForm()
+    {
+        $devices = self::getSupportedDevices();
+        $options = array();
+        if (count($devices) > 1) {
+            $options[] = array('value' => '', 'label' => $this->__('Please Select Device Type'));
+        }
+        foreach ($devices as $type => $label) {
+            $options[] = array('value' => $type, 'label' => $label);
+        }
+        return $options;
+    }
+
 
     /**
      * Returns array of store & type pairs to create

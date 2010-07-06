@@ -41,6 +41,7 @@
 
     <adminhtml_mobile_edit>
         <reference name="left">
+            <block type="xmlconnect/adminhtml_mobile_edit_store_switcher" name="store_switcher" before="-"></block>
             <block type="xmlconnect/adminhtml_mobile_edit_tabs" name="mobile_edit_tabs">
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_general" name="mobile_edit_tab_general"/>
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_design" name="mobile_edit_tab_design">

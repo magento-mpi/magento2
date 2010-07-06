@@ -60,6 +60,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     {
         $this->_init('xmlconnect/application');
     }
+
     /**
      * Prepare post data
      *
@@ -89,14 +90,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $arr['conf']['native']['pages'] = array_merge($arr['conf']['native']['pages'], $new_pages);
             unset($arr['conf']['new_pages']);
         }
-
-        // unpacking store - device value
-        if (isset($arr['store_id'])) {
-            $storeDevice = Mage::helper('xmlconnect')->unpackStoreDevice($arr['store_id']);
-            foreach ($storeDevice as $k => $v) {
-                $arr[$k] = $v;
-            }
-        }
         return $arr;
     }
 
@@ -108,7 +101,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     public function getFormData()
     {
         $data = $this->getData();
-        $data['store_id'] = Mage::helper('xmlconnect')->packStoreDevice($this->getStoreId(), $this->getType());
         return $this->_flatArray($data);
     }
 
@@ -170,7 +162,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
     public function loadDefaultConfiguration()
     {
-        $this->setType('iPhone');
+        $this->setType('iphone');
         $this->setCode($this->getCodePrefix());
         $this->setConf(Mage::helper('xmlconnect/iphone')->getDefaultConfiguration());
     }
@@ -257,6 +249,29 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $result['paypal']['merchantLabel'] = $this->getData('conf/special/merchantLabel');
 
         return $result;
+    }
+
+    /**
+     * Return Enabled Tabs array from actual config
+     *
+     * @return array:
+     */
+    public function getEnabledTabsArray()
+    {
+        $tabs = array();
+        $tabsObject = null;
+        if (isset($this->_data['conf'])) {
+            if (isset($this->_data['conf']['extra'])) {
+                $extra = $this->_data['conf']['extra'];
+                if (isset($extra['tabs'])) {
+                    $tabsObject = new Mage_XmlConnect_Model_Tabs($extra['tabs']);
+                }
+            }
+        }
+        if ($tabsObject instanceof Mage_XmlConnect_Model_Tabs) {
+            $tabs = $tabsObject->getRenderTabs();
+        }
+        return $tabs;
     }
 
     /**
@@ -726,5 +741,19 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $key = $this->_data['conf']['submit_text']['key'];
         }
         return $key;
+    }
+
+
+    /**
+     * Returns ApplicationId by applicationId and storeId for save storeId as current Application
+     *
+     * @param int   $applicationId
+     * @param int   $storeId
+     *
+     * @return string
+     */
+    public function getIdByStoreId($applicationId, $storeId)
+    {
+        return $this->_getResource()->getIdByStoreId($this, $applicationId, $storeId);
     }
 }

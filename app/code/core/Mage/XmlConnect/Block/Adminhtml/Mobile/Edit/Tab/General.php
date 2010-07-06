@@ -68,29 +68,38 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
         /**
          * Check is single store mode
          */
-//        if (!Mage::app()->isSingleStoreMode()) {
-            $options = Mage::helper('xmlconnect')->getStoreDeviceValuesForForm();
-            $fieldset->addField('store_id', 'select', array(
+        if (!Mage::app()->isSingleStoreMode()) {
+            $storeElement = $fieldset->addField('store_id', 'select', array(
                 'name'      => 'store_id',
-                'label'     => $this->__('Store View / Device Type'),
-                'title'     => $this->__('Store View / Device Type'),
+                'label'     => $this->__('Store View'),
+                'title'     => $this->__('Store View'),
                 'required'  => true,
-                'values'    => $options,
+                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(true, false),
             ));
-//        }
-//        else {
-//            $fieldset->addField('store_id', 'hidden', array(
-//                'name'      => 'store_id',
-//                'value'     => Mage::app()->getStore(true)->getId()
-//            ));
-//            $model->setStoreId(Mage::app()->getStore(true)->getId());
-//        }
+        } else {
+            $storeElement = $fieldset->addField('store_id', 'hidden', array(
+                'name'      => 'store_id',
+                'value'     => Mage::app()->getStore(true)->getId()
+            ));
+            $model->setStoreId(Mage::app()->getStore(true)->getId());
+        }
 
-//        $fieldset->addField('device_type', 'note', array(
-//            'text'      => $model->getType(),
-//            'label'     => $this->__('Device type'),
-//        ));
+        if ($model->getId()) {
+            $storeElement->setDisabled(true);
 
+            $fieldset->addField('device_type', 'note', array(
+                'text'      => $model->getType(),
+                'label'     => $this->__('Device type'),
+            ));
+        } else {
+            $fieldset->addField('type', 'select', array(
+                'name'      => 'type',
+                'label'     => $this->__('Device Type'),
+                'title'     => $this->__('Device Type'),
+                'required'  => true,
+                'values'    => Mage::helper('xmlconnect')->getDeviceValuesForForm(),
+            ));
+        }
         $form->setValues($model->getFormData());
         $this->setForm($form);
         return parent::_prepareForm();

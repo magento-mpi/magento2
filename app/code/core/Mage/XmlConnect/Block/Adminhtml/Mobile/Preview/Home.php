@@ -29,6 +29,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Home extends Mage_XmlConnec
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('xmlconnect/preview_iframe_home.phtml');
+        $this->setTemplate('xmlconnect/preview/iframe_home.phtml');
     }
 }

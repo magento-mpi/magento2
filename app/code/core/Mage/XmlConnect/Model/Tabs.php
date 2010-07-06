@@ -50,42 +50,42 @@ class Mage_XmlConnect_Model_Tabs
     {
         $this->_enabledTabs = array(
             array(
-                'label' => 'Home',
+                'label' => Mage::helper('xmlconnect')->__('Home'),
                 'image' => 'tab_home.png',
                 'action' => 'Home',
             ),
             array(
-                'label' => 'Shop',
+                'label' => Mage::helper('xmlconnect')->__('Shop'),
                 'image' => 'tab_shop.png',
                 'action' => 'Shop',
             ),
             array(
-                'label' => 'Search',
+                'label' => Mage::helper('xmlconnect')->__('Search'),
                 'image' => 'tab_search.png',
                 'action' => 'Search',
             ),
             array(
-                'label' => 'Cart',
+                'label' => Mage::helper('xmlconnect')->__('Cart'),
                 'image' => 'tab_cart.png',
                 'action' => 'Cart',
             ),
             array(
-                'label' => 'More',
+                'label' => Mage::helper('xmlconnect')->__('More'),
                 'image' => 'tab_more.png',
                 'action' => 'More',
             ),
             array(
-                'label' => 'Account',
+                'label' => Mage::helper('xmlconnect')->__('Account'),
                 'image' => 'tab_account.png',
                 'action' => 'Account',
             ),
             array(
-                'label' => 'About Us',
+                'label' => Mage::helper('xmlconnect')->__('About Us'),
                 'image' => 'tab_page.png',
                 'action' => 'AboutUs',
             ),
             array(
-                'label' => 'Contact Us',
+                'label' => Mage::helper('xmlconnect')->__('Contact Us'),
                 'image' => 'tab_page.png',
                 'action' => 'ContactUs',
             ),

@@ -183,6 +183,11 @@
                 <magentocommerce_url>www.magentocommerce.com/mobile/activate/</magentocommerce_url>
                 <get_activation_key_url>http://www.magentocommerce.com/store/</get_activation_key_url>
             </mobile_application>
+            <devices>
+                <iphone>
+                    <tab_limit>5</tab_limit>
+                </iphone>
+            </devices>
         </xmlconnect>
     </default>
 </config>

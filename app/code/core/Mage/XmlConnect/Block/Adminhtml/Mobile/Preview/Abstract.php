@@ -67,4 +67,40 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Abstract extends Mage_Core_
     {
         return  Mage::getDesign()->getSkinUrl('xmlconnect/' . $name);
     }
+
+    /**
+     * Returns Tab buttons array
+     *
+     * @return array
+     */
+    public function getTabButtons()
+    {
+        $buttons = array();
+        $model = Mage::registry('current_app');
+        $tabs = $model->getEnabledTabsArray();
+
+        $tabLimit = (int) Mage::getStoreConfig('xmlconnect/devices/'.$model->getType().'/tab_limit');
+        $showedTabs = 0;
+        foreach ($tabs as $tab) {
+            if (++$showedTabs > $tabLimit) {
+                break;
+            }
+            $buttons[] = array('label' => $tab->label, 'image' => $tab->image);
+        }
+        return $buttons;
+    }
+
+    /**
+     * Add tab buttons block to template
+     *
+     * @return Mage_Core_Block_Abstract
+     */
+    protected function _beforeToHtml()
+    {
+        $block = $this->getLayout()->createBlock('adminhtml/template')
+            ->setTemplate('xmlconnect/preview/buttons.phtml')
+            ->setTabButtons($this->getTabButtons());
+        $this->setChild('tabButtons', $block);
+        return parent::_beforeToHtml();
+    }
 }

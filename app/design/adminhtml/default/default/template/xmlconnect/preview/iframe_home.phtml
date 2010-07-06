@@ -75,38 +75,5 @@
 		</div>
 	</div>
 <div class="clearB"></div>
-    <div class="bottom-buttons" style="background: #363d40;">
-        <div class="bottom-button" style="background:url('<?php echo $this->getPreviewUrl('icons/home.png'); ?>') top center no-repeat;">
-            <p><?php echo $this->__("Home"); ?></p>
-        </div>
-        <div class="bottom-button" style="background:url('<?php echo $this->getPreviewUrl('icons/page.png'); ?>') top center no-repeat;">
-            <p><?php echo $this->__("Shop"); ?></p>
-        </div>
-        <div class="bottom-button" style="background:url('<?php echo $this->getPreviewUrl('icons/search.png'); ?>') top center no-repeat;">
-            <p><?php echo $this->__("Search"); ?></p>
-        </div>
-        <div class="bottom-button" style="background:url('<?php echo $this->getPreviewUrl('icons/more.png'); ?>') top center no-repeat;">
-            <p><?php echo $this->__("Cart"); ?></p>
-        </div>
-        <div class="bottom-button" style="background:url('<?php echo $this->getPreviewUrl('icons/account.png'); ?>') top center no-repeat;">
-            <p><?php echo $this->__("Account"); ?></p>
-        </div>
-    </div>
-    <!--<div class="bottom-buttons"  style="background: #363d40;">
-        <div class="bottom-button"  style="background:url('<?php echo $this->getData('conf/tabBar/tab/Home/image'); ?>') top center no-repeat;">
-            <p><?php echo $this->getData('conf/tabBar/tab/Home/label'); ?></p>
-        </div>
-        <div class="bottom-button"  style="background:url('[tabBar-tab-About Us-image]') top center no-repeat;">
-            <p>[tabBar-tab-About Us-label]</p>
-        </div>
-        <div class="bottom-button"  style="background:url('<?php echo $this->getData('conf/tabBar/tab/Search/image'); ?>') top center no-repeat;">
-            <p><?php echo $this->getData('conf/tabBar/tab/Home/label'); ?></p>
-        </div>
-        <div class="bottom-button"  style="background:url('<?php echo $this->getData('conf/tabBar/tab/Cart/image'); ?>') top center no-repeat;">
-            <p><?php echo $this->getData('conf/tabBar/tab/Cart/label'); ?></p>
-        </div>
-        <div class="bottom-button"  style="background:url('<?php echo $this->getData('conf/tabBar/tab/Account/image'); ?>') top center no-repeat;">
-            <p><?php echo $this->getData('conf/tabBar/tab/Account/label'); ?></p>
-        </div>
-    </div>-->
+<?php echo $this->getChildHtml('tabButtons'); ?>
 </div>
