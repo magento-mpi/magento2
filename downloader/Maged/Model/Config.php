@@ -53,7 +53,8 @@ class Maged_Model_Config extends Maged_Model
             'downloader_path',
             'root_channel_uri',
             'root_channel',
-            'ftp'
+            'ftp',
+            'auth',
         );
         foreach ($configParams as $paramName){
             if (isset($p[$paramName])) {

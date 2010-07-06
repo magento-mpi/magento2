@@ -371,19 +371,21 @@ implements Mage_HTTP_IClient
         $this->curlOption(CURLOPT_SSL_VERIFYPEER, FALSE);
         $this->curlOption(CURLOPT_SSL_VERIFYHOST, 2);
 
+        /* EE_CHANNEL */
 //        TODO:
 //        if ($this->_connect()) {
 //            throw new Exception(sprintf('Access denied for %s@%s', $_SESSION['auth']['login'], $_SESSION['auth']['password']));
 //        }
-
         // force method to POST if secured
         if ($this->isAuthorizationRequired()) {
             $method = 'POST';
         }
+        /* //EE_CHANNEL */
 
         if($method == 'POST') {
             $this->curlOption(CURLOPT_POST, 1);
             $postFields = is_array($params) ? $params : array();
+            /* EE_CHANNEL */
             if ($this->isAuthorizationRequired()) {
                 $this->curlOption(CURLOPT_COOKIEJAR, self::COOKIE_FILE);
                 $this->curlOption(CURLOPT_COOKIEFILE, self::COOKIE_FILE);
@@ -394,6 +396,7 @@ implements Mage_HTTP_IClient
                     )
                 );
             }
+            /* //EE_CHANNEL */
             if (!empty($postFields)) {
                 $this->curlOption(CURLOPT_POSTFIELDS, $postFields);
             }

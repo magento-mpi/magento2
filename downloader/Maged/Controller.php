@@ -276,6 +276,25 @@ final class Maged_Controller
             echo "INVALID POST DATA";
             return;
         }
+
+        /* EE_CHANNEL */
+        // TODO: avoid hardcode
+        if (strpos(trim($_POST['install_package_id'], '/'), 'community') !== 0) {
+            $auth = $this->config()->get('auth');
+            $auth = explode('@', $auth);
+            if (isset($auth[0]) && isset($auth[1]) && !empty($auth[0])) {
+                $this->session()->set('auth', array(
+                    'username' => $auth[0],
+                    'password' => $auth[1],
+                ));
+            } else {
+                $this->session()->set('auth', array());
+            }
+        } else {
+            $this->session()->set('auth', array());
+        }
+        /* //EE_CHANNEL */
+
         $this->model('connect', true)->installPackage($_POST['install_package_id']);
     }
 
@@ -326,6 +345,13 @@ final class Maged_Controller
         $this->view()->set('use_custom_permissions_mode', $config->get('use_custom_permissions_mode'));
         $this->view()->set('mkdir_mode', $config->get('mkdir_mode'));
         $this->view()->set('chmod_file_mode', $config->get('chmod_file_mode'));
+        /* EE_CHANNEL */
+        if ($config->get('auth')) {
+            $auth = explode('@', $config->get('auth'));
+            $this->view()->set('auth_username', isset($auth[0]) ? $auth[0] : '');
+            $this->view()->set('auth_password', isset($auth[1]) ? $auth[1] : '');
+        }
+        /* //EE_CHANNEL */
 
         $fs_disabled=!$this->isWritable();
         $ftpParams=$connectConfig->__get('remote_config')?@parse_url($connectConfig->__get('remote_config')):'';
@@ -352,8 +378,12 @@ final class Maged_Controller
             $this->config()->set('downloader_path', $this->model('connect', true)->connect()->getConfig()->downloader_path);
         }
         if ($_POST) {
-            if( 'ftp' == $_POST['deployment_type']&&!empty($_POST['ftp_host'])){
-                $p=$_POST;
+            $p=$_POST;
+            if (isset($p['auth_username']) && isset($p['auth_password'])) {
+                $_POST['auth'] = $p['auth_username'] . '@' . $p['auth_password'];
+            }
+            if( 'ftp' == $p['deployment_type']&&!empty($p['ftp_host'])){
+
                 $p['ftp_proto']='ftp://';
                 if($start=stripos($p['ftp_host'],'ftp://')!==false){
                     $p['ftp_proto']='ftp://';
