@@ -206,8 +206,8 @@ final class Maged_Controller
      */
     public function connectInstallAllAction()
     {
-        if( 1 == $_POST['inst_protocol']){
-            $p=$_POST;
+        $p=$_POST;
+        if( 1 == $p['inst_protocol']){
             $p['ftp_proto']='ftp://';
             if($start=stripos($p['ftp_path'],'ftp://')!==false){
                 $p['ftp_proto']='ftp://';
@@ -221,6 +221,20 @@ final class Maged_Controller
             $_POST['ftp'] = $ftp;
             $this->model('connect', true)->connect()->setRemoteConfig($ftp);
         }
+
+        /* EE_CHANNEL */
+        if (isset($p['auth_username']) && isset($p['auth_password']) && !empty($p['auth_username'])) {
+            $auth = array(
+                'username' => $p['auth_username'],
+                'password' => $p['auth_password'],
+            );
+            $this->session()->set('auth', $auth);
+
+        } else {
+            $this->session()->set('auth', array());
+        }
+        /* //EE_CHANNEL */
+
         $this->config()->saveConfigPost($_POST);
         $chan = $this->config()->get('root_channel');
         if(empty($chan)) {

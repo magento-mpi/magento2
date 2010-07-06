@@ -82,11 +82,14 @@ extends Mage_Connect_Command
                 $ftpObj->chdir($cwd);
                 $err = "Please check for sufficient ftp write file permissions.";
             } else {
-                mkdir($config->magento_root . $dirCache,0777,true);
-                mkdir($config->magento_root . $dirTmp,0777,true);
-                mkdir($config->magento_root . $dirMedia,0777,true);
+                @mkdir($config->magento_root . $dirCache,0777,true);
+                @mkdir($config->magento_root . $dirTmp,0777,true);
+                @mkdir($config->magento_root . $dirMedia,0777,true);
                 $isWritable = is_writable($config->magento_root)
-                              && is_writable($config->magento_root . DIRECTORY_SEPARATOR . $config->downloader_path);
+                              && is_writable($config->magento_root . DIRECTORY_SEPARATOR . $config->downloader_path)
+                              && is_writable($config->magento_root . $dirCache)
+                              && is_writable($config->magento_root . $dirTmp)
+                              && is_writable($config->magento_root . $dirMedia);
                 $err = "Please check for sufficient write file permissions.";
             }
             $isWritable = $isWritable && is_writable($config->magento_root . $dirMedia)
@@ -294,7 +297,7 @@ extends Mage_Connect_Command
                         }
                     }
 
-                     
+
                     /**
                      * Modifications
                      */
@@ -336,7 +339,7 @@ extends Mage_Connect_Command
 
 
                     $conflicts = $package->checkPhpDependencies();
-                    if(true !== $conflicts) {                       
+                    if(true !== $conflicts) {
                         $confilcts = implode(",",$conflicts);
                         $err = "Package {$pChan}/{$pName} {$pVer} depends on PHP extensions: ".$conflicts;
                         if($forceMode) {

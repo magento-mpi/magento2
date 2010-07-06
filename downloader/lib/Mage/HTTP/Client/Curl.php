@@ -35,6 +35,12 @@ class Mage_HTTP_Client_Curl
 implements Mage_HTTP_IClient
 {
     /**
+     * Session Cookie storage, magento_root/var directory used
+     * @var string
+     */
+    const COOKIE_FILE = 'var/cookie';
+
+    /**
      * Hostname
      * @var string
      */
@@ -117,14 +123,6 @@ implements Mage_HTTP_IClient
      */
     protected $_curlUserOptions = array();
 
-
-    /**
-     * Header count, used while parsing headers
-     * in CURL callback function
-     * @var int
-     */
-    protected $_headerCount = 0;
-
     /**
      * Set request timeout, msec
      *
@@ -141,6 +139,17 @@ implements Mage_HTTP_IClient
     public function __construct()
     {
 
+    }
+
+    /**
+     * Destructor
+     * Removes temporary environment
+     */
+    public function __destruct()
+    {
+        if (is_file(self::COOKIE_FILE)) {
+            @unlink(self::COOKIE_FILE);
+        }
     }
 
     /**
@@ -351,12 +360,43 @@ implements Mage_HTTP_IClient
     protected function makeRequest($method, $uri, $params = array())
     {
         $this->_ch = curl_init();
+
+        // make request via secured layer
+        if ($this->isAuthorizationRequired() && strpos($uri, 'https://') !== 0) {
+            $uri = str_replace('http://', '', $uri);
+            $uri = 'https://' . $uri;
+        }
+
         $this->curlOption(CURLOPT_URL, $uri);
         $this->curlOption(CURLOPT_SSL_VERIFYPEER, FALSE);
         $this->curlOption(CURLOPT_SSL_VERIFYHOST, 2);
+
+//        TODO:
+//        if ($this->_connect()) {
+//            throw new Exception(sprintf('Access denied for %s@%s', $_SESSION['auth']['login'], $_SESSION['auth']['password']));
+//        }
+
+        // force method to POST if secured
+        if ($this->isAuthorizationRequired()) {
+            $method = 'POST';
+        }
+
         if($method == 'POST') {
             $this->curlOption(CURLOPT_POST, 1);
-            $this->curlOption(CURLOPT_POSTFIELDS, http_build_query($params));
+            $postFields = is_array($params) ? $params : array();
+            if ($this->isAuthorizationRequired()) {
+                $this->curlOption(CURLOPT_COOKIEJAR, self::COOKIE_FILE);
+                $this->curlOption(CURLOPT_COOKIEFILE, self::COOKIE_FILE);
+                $postFields = array_merge($postFields,
+                    array(
+                        'login'     => $_SESSION['auth']['username'],
+                        'password'  => $_SESSION['auth']['password']
+                    )
+                );
+            }
+            if (!empty($postFields)) {
+                $this->curlOption(CURLOPT_POSTFIELDS, $postFields);
+            }
         } elseif($method == "GET") {
             $this->curlOption(CURLOPT_HTTPGET, 1);
         } else {
@@ -378,7 +418,7 @@ implements Mage_HTTP_IClient
             }
             $this->curlOption(CURLOPT_COOKIE, implode(";", $cookies));
         }
-         
+
         if($this->_timeout) {
             $this->curlOption(CURLOPT_TIMEOUT, $this->_timeout);
         }
@@ -387,10 +427,8 @@ implements Mage_HTTP_IClient
             $this->curlOption(CURLOPT_PORT, $this->_port);
         }
 
-        //$this->curlOption(CURLOPT_HEADER, 1);
         $this->curlOption(CURLOPT_RETURNTRANSFER, 1);
         $this->curlOption(CURLOPT_HEADERFUNCTION, array($this,'parseHeaders'));
-         
 
         if(count($this->_curlUserOptions)) {
             foreach($this->_curlUserOptions as $k=>$v) {
@@ -398,14 +436,29 @@ implements Mage_HTTP_IClient
             }
         }
 
-        $this->_headerCount = 0;
         $this->_responseHeaders = array();
         $this->_responseBody = curl_exec($this->_ch);
         $err = curl_errno($this->_ch);
         if($err) {
             $this->doError(curl_error($this->_ch));
         }
+        if(!$this->getStatus()) {
+            return $this->doError("Invalid response headers returned from server.");
+        }
         curl_close($this->_ch);
+    }
+
+    /**
+     * Throw error excpetion
+     * @param $string
+     * @throws Exception
+     */
+    public function isAuthorizationRequired()
+    {
+        if (isset($_SESSION['auth']['username']) && isset($_SESSION['auth']['password']) && !empty($_SESSION['auth']['username'])) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -428,15 +481,11 @@ implements Mage_HTTP_IClient
      */
     protected function parseHeaders($ch, $data)
     {
-        if($this->_headerCount == 0) {
-
-            $line = explode(" ", trim($data), 3);
-            if(count($line) != 3) {
-                return $this->doError("Invalid response line returned from server: ".$data);
+        if(preg_match('/^HTTP\/[\d\.x]+ (\d+)/', $data, $m)) {
+            if (isset($m[1])) {
+                $this->_responseStatus = (int)$m[1];
             }
-            $this->_responseStatus = intval($line[1]);
         } else {
-            //var_dump($data);
             $name = $value = '';
             $out = explode(": ", trim($data), 2);
             if(count($out) == 2) {
@@ -454,10 +503,7 @@ implements Mage_HTTP_IClient
                     $this->_responseHeaders[$name] = $value;
                 }
             }
-
         }
-        $this->_headerCount++;
-         
 
         return strlen($data);
     }

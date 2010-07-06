@@ -54,7 +54,21 @@
                         <option value="ftp" <?php if ($this->get('protocol')=='ftp'):?>selected="selected"<?php endif ?>>Ftp</option>
                     </select>
                 </td>
-            </tr>
+          </tr>
+          <!-- EE_CHANNEL -->
+          <tr>
+                <td class="label">User Login:</td>
+                <td class="value">
+                    <input id="auth_username" name="auth_username" value="<?php echo($this->get('auth_username'));?>" type="text"/>
+                </td>
+          </tr>
+          <tr>
+                <td class="label">User Password:</td>
+                <td class="value">
+                    <input id="auth_password" name="auth_password" value="<?php echo($this->get('auth_password'));?>" type="password"/>
+                </td>
+          </tr>
+          <!-- //EE_CHANNEL -->
             <!--<tr>
                 <td class="addfields" colpan="2">
                     <table cellspacing="0" style="display:none" class="form-list" id="protocol_panel">
@@ -137,9 +151,9 @@
                     </table>
                 </td>
             </tr>
-            
+
         </table>
-        
+
 
 <?php if (!$this->controller()->isDownloaded()): ?>
             <button class="form-button" type="submit">Start the download process</button>
@@ -193,7 +207,7 @@ function installAll(force)
             return false;
         }
     }
-    
+
     return onSubmit();
 }
 </script>
