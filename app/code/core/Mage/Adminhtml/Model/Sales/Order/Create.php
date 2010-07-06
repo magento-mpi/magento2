@@ -188,7 +188,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
      * @param   bool $flag
      * @return  Mage_Adminhtml_Model_Sales_Order_Create
      */
-    public function setCartRecollect($flag)
+    protected function _setCartRecollect($flag)
     {
         $this->_needCollectCart = $flag;
         return $this;
@@ -521,7 +521,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     $product->unsSkipCheckRequiredOption();
                     $newItem->checkData();
                     $newItem->setQty($qty);
-                    $this->setCartRecollect(true);
+                    $this->_setCartRecollect(true);
                     break;
                 case 'cart':
                     if (($cart = $this->getCustomerCart()) && is_null($item->getOptionByCode('additional_options'))) {
@@ -552,7 +552,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                         $product->unsSkipCheckRequiredOption();
                         $cartItem->setQty($qty);
                         $cartItem->setPrice($item->getProduct()->getPrice());
-                        $this->setCartRecollect(true);
+                        $this->_setCartRecollect(true);
                     }
                     break;
                 case 'wishlist':
