@@ -118,7 +118,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
                 );
             }
 
-            $addressId = $this->getAddress()->getId();
+            $addressId = $this->getAddress()->getCustomerAddressId();
             if (empty($addressId)) {
                 if ($type=='billing') {
                     $address = $this->getCustomer()->getPrimaryBillingAddress();
