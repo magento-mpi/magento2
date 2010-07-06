@@ -112,14 +112,14 @@
                     </enterprise_giftregistry>
                 </observers>
             </sales_convert_quote_item_to_order_item>
-            <sales_order_save_after>
+            <sales_order_place_after>
                 <observers>
                     <enterprise_giftregistry>
                         <class>enterprise_giftregistry/observer</class>
                         <method>orderPlaced</method>
                     </enterprise_giftregistry>
                 </observers>
-            </sales_order_save_after>
+            </sales_order_place_after>
         </events>
         <fieldsets>
             <customer_address>
