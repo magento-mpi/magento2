@@ -59,9 +59,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
      */
     public function addToCart(Mage_Checkout_Model_Cart $cart, $qty)
     {
-
         $product = $this->_getProduct();
-
         $storeId = $this->getStoreId();
 
         if ($this->getQty() < ($qty + $this->getQtyFulfilled())) {
@@ -94,6 +92,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
         }
 
         $product->setGiftregistryItemId($this->getId());
+        $product->addCustomOption('giftregistry_id', $this->getEntityId());
         $request = unserialize($this->getCustomOptions());
         $request['qty'] = $qty;
 
