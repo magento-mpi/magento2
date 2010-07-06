@@ -151,6 +151,7 @@ class Mage_Connect_Ftp
         if(!$this->_conn) {
             throw new Exception("Cannot connect to host: {$params['host']}");
         }
+        ftp_pasv($this->_conn, true);
         if(isset($params['user']) && isset($params['pass'])) {
             $this->login($params['user'], $params['pass']);
         } else {
