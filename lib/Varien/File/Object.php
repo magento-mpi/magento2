@@ -1,4 +1,36 @@
 <?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Varien
+ * @package    Varien_File
+ * @copyright  Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/**
+ * File Object
+ * *
+ * @category   Varien
+ * @package    Varien_File
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 
 require_once("Varien/Object.php");
 require_once('Varien/Directory/IFactory.php');
@@ -9,13 +41,13 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 	protected $_filter;
 	protected $_isCorrect=true; # - pass or not filter checking
 	protected $filtered;
-	
+
 	/**
      * Constructor
      *
      * @param   string $path - path to directory
      * @return  none
-     */	
+     */
 	public function __construct($path)
 	{
 		parent::__construct($path);
@@ -25,9 +57,9 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 	/**
      * add file name to array
      *
-     * @param   array &$files - array of files 
+     * @param   array &$files - array of files
      * @return  none
-     */	
+     */
 	public function getFilesName(&$files)
 	{
 		$this->getFileName(&$files);
@@ -35,9 +67,9 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 	/**
      * add file name to array
      *
-     * @param   array &$files - array of files 
+     * @param   array &$files - array of files
      * @return  none
-     */	
+     */
 	public function getFileName(&$files=null)
 	{
 		if($this->_isCorrect){
@@ -49,9 +81,9 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 	/**
      * add file path to array
      *
-     * @param   array &$paths - array of paths 
+     * @param   array &$paths - array of paths
      * @return  none
-     */	
+     */
 	public function getFilesPaths(&$paths)
 	{
 		if($this->_isCorrect){
@@ -61,9 +93,9 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 	/**
      * add file path to array
      *
-     * @param   array &$paths - array of paths 
+     * @param   array &$paths - array of paths
      * @return  none
-     */	
+     */
 	public function getFilePath(&$path=null)
 	{
 		if($this->_isCorrect){
@@ -77,7 +109,7 @@ class Varien_File_Object extends SplFileObject implements IFactory {
      *
      * @param   bool $useFilter - use or not filter
      * @return  none
-     */	
+     */
 	public function useFilter($useFilter)
 	{
 		if($useFilter){
@@ -86,14 +118,14 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 			$this->_isCorrect = true;
 			$this->filtered = false;
 		}
-		
+
 	}
 	/**
      * add file object to array
      *
      * @param   array &$objs - array of gile objects
      * @return  none
-     */	
+     */
 	public function getFilesObj(&$objs)
 	{
 		if($this->_isCorrect){
@@ -103,9 +135,9 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 	/**
      * nothing
      *
-     * @param   array &$dirs - array of dirs 
+     * @param   array &$dirs - array of dirs
      * @return  none
-     */	
+     */
 	public function getDirsName(&$dirs)
 	{
 		return Varien_Directory_Collection::getLastDir($this->_path);
@@ -113,9 +145,9 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 	/**
      * nothing
      *
-     * @param   array &$dirs - array of dirs 
+     * @param   array &$dirs - array of dirs
      * @return  none
-     */	
+     */
 	public function getDirName()
 	{
 		return Varien_Directory_Collection::lastDir($this->_path);
@@ -123,9 +155,9 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 	/**
      * set file filter
      *
-     * @param   array $filter - array of filter 
+     * @param   array $filter - array of filter
      * @return  none
-     */	
+     */
 	public function setFilesFilter($filter)
 	{
 		$this->addFilter($filter);
@@ -133,9 +165,9 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 	/**
      * set file filter
      *
-     * @param   array $filter - array of filter 
+     * @param   array $filter - array of filter
      * @return  none
-     */	
+     */
 	public function addFilter($filter)
 	{
 		$this->_filter = $filter;
@@ -144,7 +176,7 @@ class Varien_File_Object extends SplFileObject implements IFactory {
      * get extension of file
      *
      * @return  string - extension of file
-     */	
+     */
 	public function getExtension()
 	{
 		return self::getExt($this->_filename);
@@ -154,7 +186,7 @@ class Varien_File_Object extends SplFileObject implements IFactory {
      *
      * @param   string $fileName - name of file
      * @return  string - extension of file
-     */	
+     */
 	static public function getExt($fileName)
 	{
 		if($fileName === ''){
@@ -165,7 +197,7 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 		if(isset($path_parts["extension"]))
 			return $path_parts["extension"];
 		else
-			return '';			
+			return '';
 	}
 	/**
      * get name of file
@@ -214,17 +246,17 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 					}
 				}
 			}
-			
+
 			if(isset($this->_filter['regName'])){
 				$filter = $this->_filter['regName'];
-				
+
 				if($filter!=null){
 					foreach ($filter as $value) {
 						if(!preg_match($value,$this->getName())){
 							$this->_isCorrect = false;
-						}	
+						}
 					}
-					
+
 				}
 			}
 		}
@@ -256,7 +288,7 @@ class Varien_File_Object extends SplFileObject implements IFactory {
 			$xml .=str_repeat("\t",$recursionLevel+2).'<fileName>'.$this->_filename.'</fileName>'."\n";
 		}
 	}
-	
+
 }
 
 ?>
