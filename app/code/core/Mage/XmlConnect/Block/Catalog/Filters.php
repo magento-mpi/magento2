@@ -44,7 +44,7 @@ class Mage_XmlConnect_Block_Catalog_Filters extends Mage_XmlConnect_Block_Catalo
     {
         $categoryId         = $this->getRequest()->getParam('category_id', null);
         $categoryXmlObj     = new Mage_XmlConnect_Model_Simplexml_Element('<category></category>');
-        $filtersCollection  = Mage::getModel('xmlconnect/filter_collection')->setCategoryId($categoryId);
+        $filtersCollection  = Mage::getResourceModel('xmlconnect/filter_collection')->setCategoryId($categoryId);
 
         $filtersXmlObj = $categoryXmlObj->addChild('filters');
         foreach ($filtersCollection->getItems() as $item) {

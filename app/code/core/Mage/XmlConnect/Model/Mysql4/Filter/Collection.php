@@ -32,7 +32,7 @@
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
+class Mage_XmlConnect_Model_Mysql4_Filter_Collection extends Varien_Data_Collection
 {
 
     public function setCategoryId($categoryId)
@@ -43,9 +43,9 @@ class Mage_XmlConnect_Model_Filter_Collection extends Varien_Data_Collection
         return $this;
     }
 
-    public function loadData($printQuery = false, $logQuery = false)
+    public function load($printQuery = false, $logQuery = false)
     {
-        if (empty($this->_items)) {   
+        if (empty($this->_items)) {
             $layer = Mage::getSingleton('catalog/layer');
             foreach ($this->_filters as $filter) {
                 if ('category_id' == $filter['field']) {

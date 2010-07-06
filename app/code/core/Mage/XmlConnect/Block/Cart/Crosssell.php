@@ -61,6 +61,7 @@ class Mage_XmlConnect_Block_Cart_Crosssell extends Mage_Checkout_Block_Cart_Cros
 
             $itemXmlObj->addChild('entity_id', $_item->getId());
             $itemXmlObj->addChild('entity_type', $_item->getTypeId());
+            $itemXmlObj->addChild('has_options', (int)$_item->getHasOptions());
 
             if ($this->getChild('product_price')) {
                 $this->getChild('product_price')->setProduct($_item)

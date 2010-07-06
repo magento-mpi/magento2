@@ -34,7 +34,6 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 {
     /**
      * Category list
-     *
      */
     public function categoryAction()
     {
@@ -44,17 +43,24 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 
     /**
      * Filter product list
-     *
      */
     public function filtersAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        try{
+            $this->loadLayout(false);
+            $this->renderLayout();
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_message($this->__($e->getMessage()), self::MESSAGE_STATUS_ERROR);
+        }
+        catch (Exception $e) {
+            Mage::logException($e);
+            $this->_message($this->__('There are apear some errors while loading category filters.'), self::MESSAGE_STATUS_ERROR);
+        }
     }
 
     /**
      * Product information
-     *
      */
     public function productAction()
     {
@@ -64,7 +70,6 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 
     /**
      * Product options list
-     *
      */
     public function productOptionsAction()
     {
@@ -75,7 +80,6 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 
     /**
      * Product gallery images list
-     *
      */
     public function productGalleryAction()
     {
@@ -85,7 +89,6 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 
     /**
      * Product reviews list
-     *
      */
     public function productReviewsAction()
     {
@@ -95,7 +98,6 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
 
     /**
      * Add new review
-     *
      */
     public function productReviewAction()
     {
