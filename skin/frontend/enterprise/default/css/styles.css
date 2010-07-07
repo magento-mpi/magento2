@@ -354,6 +354,7 @@ p.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
 .pager p { margin:0 !important; }
 .pager select { padding:0; margin-bottom:1px; }
 .pager .amount { float:left; line-height:20px; }
+.pager .amount strong { font-weight:normal; }
 .pager .limiter { float:right; line-height:20px; }
 .pager .pages { margin:0 135px; text-align:center; color:#333; line-height:20px; }
 .pager .pages a { color:#8c8c8c; text-decoration:underline; }
@@ -361,6 +362,8 @@ p.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
 .pager .pages ol,
 .pager .pages li { display:inline; padding:0 2px; }
 .pager .pages .current { font-weight:bold; }
+.pager .pages .i-previous,
+.pager .pages .i-next { text-decoration:none !important; vertical-align:middle; }
 .pager-only { clear:both; }
 .pager-only .pages { margin:0; }
 
@@ -422,7 +425,7 @@ p.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
 .data-table th .tax-flag { white-space:nowrap; font-weight:normal; }
 .data-table td.label,
 .data-table th.label { font-weight:bold; text-transform:none; border-color:#fff; background-color:#f7f7f7; }
-.data-table td.value {}
+.data-table td.value { float:none !important; }
 .data-table .link-rss { display:block; }
 
 .page-popup .data-table td,
@@ -835,7 +838,7 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .mini-products-list .product-details h4 {}
 .mini-products-list .product-details .btn-remove { font-size:11px; }
 
-.sidebar .mini-products-images-list li.item { float:left; padding:5px 5px; text-align:center; }
+.sidebar .mini-products-images-list li.item { float:left; padding:5px; text-align:center; }
 
 .block-products .mini-products-list .product-details { margin-left:65px; }
 
@@ -875,7 +878,7 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .block-wishlist {}
 
 /* Block: Compare Products */
-.block-compare li { padding:5px 0; }
+.block-compare li {}
 
 /* Block: List */
 .block-list .block-content ol { margin:-5px -13px; }
@@ -907,12 +910,6 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .block-banner { border:0; margin:10px 0; }
 .block-banner .block-content { border-top:0; padding:0; background:#cbcbcb; text-align:center; }
 .top-container .block-banner { background:#d0d0d0; margin:0; }
-
-/* Block: Checkout Progress */
-.block-progress {}
-.block-progress dt { font-weight:bold; }
-.block-progress dt.complete,
-.block-progress dd.complete { background-color:#f6f6f6; }
 
 /* Paypal */
 .sidebar .paypal-logo { display:block; margin:10px 0; text-align:center; }
@@ -1557,8 +1554,9 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .search-summary li { margin:2px 0; }
 
 /* Sitemap */
-.page-sitemap {}
-.page-sitemap .sitemap { font-size:12px; }
+.page-sitemap .links { display:block; text-align:right; margin:0 20px -36px 0; }
+.page-sitemap .links a { position:relative; }
+.page-sitemap .sitemap { padding:0 20px; margin:15px 0; font-size:12px; }
 .page-sitemap .sitemap li { margin:3px 0; }
 /* ======================================================================================= */
 
@@ -1583,6 +1581,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .cart-table .item-msg { font-size:10px; }
 .cart-table thead th { vertical-align:bottom; }
 .cart-table tbody td { padding:12px; }
+.cart-table .btn-remove { display:block; margin:0 auto; width:13px; height:12px; font-size:0; line-height:0; background:url(../images/btn_remove.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
+.cart-table .btn-remove2 {}
 .cart-table .btn-continue { float:left; background:none; border:none; }
 .cart-table .btn-continue span { background:none; border:none; text-transform:none; color:#444; text-decoration:underline; font-weight:normal; padding:0; }
 .cart-table .btn-update { float:right; }
@@ -1666,6 +1666,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .opc-wrapper .page-title { margin:0; position:relative; z-index:1; }
 .opc-wrapper .page-title .callout { position:absolute; top:7px; right:20px; z-index:1; }
 
+/* Block: Checkout Progress */
 .opc-progress-container { float:left; width:182px; }
 .opc-progress-container .opc-block-progress { background:#fff; }
 .opc-progress-container .opc-block-progress .block-title { padding:17px 11px 10px 17px; background:none; border:0; border-bottom:1px solid #cfcfcf; }
@@ -1831,11 +1832,10 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .gift-message-form .gift-item .fieldset { float:left; background:url(../images/bkg_dots.gif) repeat-y 0 0; padding:20px 0 10px 10px; margin:0; }
 .gift-message-form .gift-item .fieldset label { width:80px; }
 
-
 .gift-message-link { display:block; background:url(../images/bkg_collapse.gif) 0 4px no-repeat; padding-left:20px; }
 .gift-message-link.expanded { background-position:0 -53px; }
 .gift-message-row {}
-.gift-message-row .btn-close { float:right; }
+.gift-message-row .btn-close { float:right; width:13px; height:12px; background:url(../images/gift-message-close.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
 .gift-message dt strong { font-weight:bold; }
 
 /* Checkout Agreements */
@@ -1932,6 +1932,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .order-page {}
 .order-page .order-date { margin:0 0 20px; color:#6c6c6c; font-size:11px; }
 .order-page .col2-set { padding-bottom:20px; }
+
+.order-details .link-print { background:none; padding:0; }
 .order-details .order-additional,
 .order-details .data-table { margin-bottom:20px; }
 .order-details .order-additional dt { font-weight:bold; background:url(../images/bkg_dots.gif) repeat-x 0 100%; padding:0 0 5px; margin:0 0 5px; }
@@ -2006,6 +2008,8 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .page-print .price-incl-tax .price { display:inline; }
 
 /* Tagged products */
+.my-tag-edit { float:left; }
+.my-tag-edit .btn-remove { float:right; margin:-3px 0 0 5px; position:relative; }
 #my-tags-table .price-box { margin:5px 0; }
 #my-tags-table .last { text-align:center; }
 #my-tags-table .last p { margin:10px 0; }

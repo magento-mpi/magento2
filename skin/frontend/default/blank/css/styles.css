@@ -302,7 +302,8 @@ p.required { font-size:10px; text-align:right; color:#f00; }
 .title-buttons h5,
 .title-buttons h6 { float:left; }
 
-.subtitle { clear:both; }
+.subtitle,
+.sub-title { clear:both; }
 
 /* Pager */
 .pager { border:1px solid #ddd; padding:5px; margin:5px 0; text-align:center; }
@@ -617,7 +618,7 @@ tr.summary-details-excluded { font-style:italic; }
 .products-list .price-box { float:left; margin:3px 13px 5px 0; }
 .products-list .availability { float:left; margin:3px 0 0; }
 .products-list .desc { clear:both; padding:6px 0 0; margin:0 0 15px; line-height:1.35; }
-.products-list .desc .link-more { font-size:11px; }
+.products-list .desc .link-learn { font-size:11px; }
 .products-list .add-to-links { clear:both; }
 .products-list .add-to-links li { display:inline; }
 .products-list .add-to-links .separator { display:inline; margin:0 2px; }
@@ -783,7 +784,8 @@ tr.summary-details-excluded { font-style:italic; }
 .product-view .product-img-box .more-views li { float:left; padding:1px; background-color:#ddd; margin:0 0 8px 4px ; }
 
 .product-image-popup { margin:0 auto; }
-.product-image-popup .nav { text-align:center; }
+.product-image-popup .buttons-set { float:right; clear:none; border:0; margin:0; padding:0; }
+.product-image-popup .nav { margin:0 100px; text-align:center; }
 .product-image-popup .image { display:block; }
 .product-image-popup .image-label {}
 
@@ -1079,18 +1081,16 @@ tr.summary-details-excluded { font-style:italic; }
 
 .order-items { width:100%; overflow-x:auto; }
 
-.order-gift-message { margin:15px 0; }
+.order-additional { margin:15px 0; }
+/* Order Gift Message */
 .gift-message dt strong { color:#666; }
-.gift-message dd { margin:5px 0 0; font-size:13px; }
-
-.order-about { margin:15px 0; }
+.gift-message dd { font-size:13px; margin:5px 0 0; }
+/* Order Comments */
 .order-about dt { font-weight:bold; }
 .order-about dd { font-size:13px; margin:0 0 7px; }
 
 .tracking-table { margin:0 0 15px; }
 .tracking-table th { font-weight:bold; white-space:nowrap; }
-.tracking-table th,
-.tracking-table td { padding:1px 5px 0 0; }
 
 .tracking-table-popup { width:100%; }
 .tracking-table-popup th { font-weight:bold; white-space:nowrap; }
