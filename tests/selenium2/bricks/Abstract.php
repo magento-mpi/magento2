@@ -24,8 +24,9 @@ class Helper_Abstract {
             "msgCategorySaved" => "//div[@id='messages']//*[contains(text(),'category has been saved')]",
             "NewAddrFieldsTable" =>  "//div[@id='address_form_container']//div[contains(@id,'form_new_item')     and not(contains(@style,'display: none'))]//table[contains(@class,'form-list')]/tbody",
             "EditAddrFieldsTable" => "//div[@id='address_form_container']//div[contains(@id,'form_address_item') and not(contains(@style,'display: none'))]//table[contains(@class,'form-list')]/tbody",
-            "AddrManagePanel" => "//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li[contains(@class,'on')]",
             //
+            "admin/customer/address/activemanagepanel" => "//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li[contains(@class,'on')]",
+            "admin/customer/address/managepanel" => "//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]",
             "admin/customer/button/savecustomer" => "//div[contains(@id,'page:main-container')]//div[contains(@class,'content-header')]//p[contains(@class,'form-buttons')]//button[contains(span,'Save Customer')]",
             "admin/customer/message/customersaved" => "The customer has been saved.",
             "admin/topmenu/customer/managecustomers" => "//div[@class=\"nav-bar\"]//a[span=\"Manage Customers\"]",
