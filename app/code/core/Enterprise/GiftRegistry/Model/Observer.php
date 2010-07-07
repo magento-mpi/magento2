@@ -186,13 +186,10 @@ class Enterprise_GiftRegistry_Model_Observer
     public function orderPlaced($observer)
     {
         $order = $observer->getEvent()->getOrder();
-        if (!$order->dataHasChangedFor($order->getIdFieldName()) || $order->getRegistryProcessed()) {
-            return $this;
-        }
-
+        $item = Mage::getModel('enterprise_giftregistry/item');
         $giftRegistries = array();
         $ordered = array();
-        $item = Mage::getModel('enterprise_giftregistry/item');
+
         foreach ($order->getAllVisibleItems() as $orderItem) {
             if ($registryItemId = $orderItem->getGiftregistryItemId()) {
                 $item->load($registryItemId);
@@ -213,8 +210,6 @@ class Enterprise_GiftRegistry_Model_Observer
                 $entity->sendUpdateRegistryEmail($ordered);
             }
         }
-
-        $order->setRegistryProcessed(true);
         return $this;
     }
 
