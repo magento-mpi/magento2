@@ -590,7 +590,7 @@ class Mage_Paypal_Model_Express_Checkout
         foreach ($address->getGroupedAllShippingRates() as $group) {
             foreach ($group as $rate) {
                 $amount = (float)$rate->getPrice();
-                if (!$rate->getMethodTitle() || 0.00 == $amount) {
+                if ($rate->getErrorMessage()) {
                     continue;
                 }
                 $isDefault = $address->getShippingMethod() === $rate->getCode();
