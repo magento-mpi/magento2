@@ -26,10 +26,10 @@
 
 
 /**
- * System congifuration shipping methods allow all countries selec
+ * System configuration shipping methods allow all countries select
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category    Enterprise
+ * @package     Enterprise_SalesPool
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_SalesPool_Block_Adminhtml_System_Config_Form_Field_Allow_Method extends Mage_Adminhtml_Block_System_Config_Form_Field

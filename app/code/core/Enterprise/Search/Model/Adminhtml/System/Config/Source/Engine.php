@@ -28,8 +28,8 @@
 /**
  * Catalog search types
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category    Enterprise
+ * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine

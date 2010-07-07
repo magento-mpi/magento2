@@ -27,8 +27,8 @@
 /**
  * Catalog layered navigation view block
  *
- * @category    Mage
- * @package     Mage_Catalog
+ * @category    Enterprise
+ * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Search_Block_Catalog_Layer_View extends Mage_Catalog_Block_Layer_View
