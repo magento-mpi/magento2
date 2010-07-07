@@ -21,8 +21,12 @@ class Helper_Admin_Customer_Address extends Helper_Admin
      * @returns true on success
      *
      */
-    public function doOpenCustomer($CustID)
+    public function doOpenCustomer($CustID = null)
     {
+        if (null === $CustID) {
+            $CustID = $this->_context->getCustomerId();
+        }
+
         $this->_context->click($this->getUiElement("admin/topmenu/customer/managecustomers"));
         $this->_context->waitForPageToLoad("90000");
         $this->_context->type("filter_entity_id_from", $CustID);

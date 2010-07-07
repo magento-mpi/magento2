@@ -12,6 +12,16 @@ abstract class Test_Admin_Customer_Abstract extends Test_Admin_Abstract
      * @var int
      */
     protected $_customerId;
+    
+    /**
+     * Fetches the customer id
+     *
+     * @return int
+     */
+    public function getCustomerId()
+    {
+        return $this->_customerId;
+    }
 
     /**
      * Setup procedure.
