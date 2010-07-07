@@ -48,13 +48,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
         ));
 
         if ($model->getId()) {
-            $fieldset->addField('code', 'text', array(
+            $fieldset->addField('code', 'label', array(
                 'name'      => 'code',
                 'label'     => $this->__('Application Code'),
                 'title'     => $this->__('Application Code'),
-                'required'  => true,
-                'class'     => 'validate-identifier',
-                'readonly'  => 'true',
             ));
         }
 
@@ -87,7 +84,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
         if ($model->getId()) {
             $storeElement->setDisabled(true);
 
-            $fieldset->addField('device_type', 'note', array(
+            $fieldset->addField('type', 'label', array(
                 'text'      => $model->getType(),
                 'label'     => $this->__('Device type'),
             ));
