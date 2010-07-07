@@ -16,7 +16,9 @@ class Helper_Admin_Customer_Address extends Helper_Admin
     }
 
     /**
-     * Click button "Save Customer". Asserting "The Customer has been saved" text
+     * Open customer for the editing
+     * @param $CustID - contains reurn
+     * @returns true on success
      *
      */
     public function doOpenCustomer($CustID)
@@ -29,23 +31,29 @@ class Helper_Admin_Customer_Address extends Helper_Admin
 
         $this->pleaseWait();
 
-        if (waitForElementNsec("//table[@id='customerGrid_table']//td[contains(text(),\"$CustID\")]",30)) {
+        if ($this->waitForElementNsec("//table[@id='customerGrid_table']//td[contains(text(),\"$CustID\")]",30)) {
             $this->_context->click("//table[@id='customerGrid_table']//td[contains(text(),\"$CustID\")]");
             $this->_context->waitForPageToLoad("90000");
+            return true;
         } else {
             $this->_context->setVerificationErrors("Customer ".$CustID." could not be loaded");
+            return false;
         }
-        return $loaded;
     }
 
+    /**
+     * Determine existing of customer with ID = $CustID
+     * @param $CustID - customer ID
+     * @returns true if exists
+     *
+     */
     public function isCustomerPresent($CustID)
     {
-        echo ("isCustomerPresent started...");
-        $this->_context->click("//div[@class=\"nav-bar\"]//a[span=\"Manage Customers\"]");
+        $this->_context->click($this->getUiElement("admin/topmenu/customer/managecustomers"));
         $this->_context->waitForPageToLoad("90000");
         $this->_context->type("filter_entity_id_from", $CustID);
         $this->_context->type("filter_entity_id_to", $CustID);
-        $this->_context->click("//div[@id='customerGrid']//button[span='Search']");
+        $this->_context->click($this->getUiElement("admin/customer/button/search"));
 
         $this->pleaseWait();
         sleep(1);
@@ -53,37 +61,53 @@ class Helper_Admin_Customer_Address extends Helper_Admin
         return $this->_context->isElementPresent("//table[@id='customerGrid_table']//td[contains(text(),\"$CustID\")]");
     }
 
-    public function isAddressPresent($CustID,$TestID)
-    {
-        return $this->_context->isElementPresent("//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li[contains(address,'".$TestID."')]");
-    }
-
-    public function isCustomerAddressPresent($AddrManagePanel,$CustID,$TestID) {
-        $this->doOpenCustomer($CustID);
+    /**
+     * Determine existing address with FirstName containing $FirstName in customer with ID = $CustID
+     * @param $CustID - customer ID
+     * @param $FirstName - part of "First name" field
+     * @returns true such sddress exists
+     *
+     */
+    public function isCustomerAddressPresent($CustID, $FirstName) {
+        if ($this->doOpenCustomer($this->$CustID)) {
         // Open Address Tab
         $this->_context->click("//a[@id='customer_info_tabs_addresses']/span");
-        //echo($AddrManagePanel."//li[contains(address, '".$TestID." Lname')]");
-        return $this->_context->isElementPresent($AddrManagePanel."//li[contains(address, '".$TestID." Lname')]");
+        return $this->_context->isElementPresent($this->getUiElement("admin/customer/address/managepanel")."//li[contains(address, '".$FirstName." Lname')]");
+        } else {
+            return false;
+        }
+
     }
 
+    /**
+     * Try to delete all addresses of customer with ID=$CustID
+     * @param $CustID - customer ID
+     *
+     */
     public function delAllAddresses($AddrManagePanel, $CustID)
     {
         if ($this->doOpenCustomer($CustID)) {
             // Remove All Addresses
-            while ($this->_context->isElementPresent("//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li//img[@alt='Remove address']")) {
-                $this->_context->click("//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li//img[@alt='Remove address']");
+            while ($this->_context->isElementPresent($this->getUiElement("admin/customer/address/managepanel")."//ul[contains(@id,'address_list')]//li//img[@alt='Remove address']")) {
+                $this->_context->click($this->getUiElement("admin/customer/address/managepanel")."//ul[contains(@id,'address_list')]//li//img[@alt='Remove address']");
                 $this->_context->getConfirmation();
             };
             $this->doAdminSaveCustomer();
         }
     }
 
-    public function delAddresses($AddrManagePanel, $CustID, $TestID)
+    /**
+     * Deletes address with FirstName containing $FirstName in customer with ID = $CustID
+     * @param $CustID - customer ID
+     * @param $FirstName - part of "First name" field*
+     *
+     */
+    public function delAddresses($CustID, $FirstName)
     {
         if ($this->doOpenCustomer($CustID)) {
             // Remove Test Addresses
-            while ($this->_context->isElementPresent("//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li[contains(address,'".$TestID."')]//img[@alt='Remove address']")) {
-                $this->_context->click("//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li[contains(address,'".$TestID."')]//img[@alt='Remove address']");
+            while ($this->_context->isElementPresent($this->getUiElement("admin/customer/address/managepanel")."//ul[contains(@id,'address_list')]//li[contains(address,'".$FirstName."')]//img[@alt='Remove address']")) {
+                $this->_context->click($this->getUiElement("admin/customer/address/managepanel")."//ul[contains(@id,'address_list')]//li[contains(address,'".$FirstName."')]//img[@alt='Remove address']");
                 $this->_context->getConfirmation();
             };
             $this->doAdminSaveCustomer();
