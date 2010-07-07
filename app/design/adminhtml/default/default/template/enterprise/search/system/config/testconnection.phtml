@@ -32,7 +32,7 @@
 <script type="text/javascript">
     function testConnection() {
         var elem = $('<?php echo $this->getHtmlId() ?>');
-    
+
         params = {
             host: $('catalog_search_solr_server_hostname').value,
             port: $('catalog_search_solr_server_port').value,
@@ -42,17 +42,16 @@
         new Ajax.Request('<?php echo $this->getAjaxUrl() ?>', {
             parameters: params,
             onSuccess: function(response) {
+                result = '<?php echo $this->__('Connection failed! Test again?') ?>';
                 try {
                     response = response.responseText;
                     if (response == 1) {
-                        result = 'Successful! Test again?';
+                        result = '<?php echo $this->__('Successful! Test again?') ?>';
                         elem.removeClassName('fail').addClassName('success')
                     } else {
-                        result = 'Connection failed! Test again?';
                         elem.removeClassName('success').addClassName('fail')
                     }
                 } catch (e) {
-                    result = 'Connection failed! Test again?';
                     elem.removeClassName('success').addClassName('fail')
                 }
                 $('connection_test_result').update(result);
