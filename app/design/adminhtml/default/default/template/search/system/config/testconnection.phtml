@@ -31,6 +31,8 @@
 ?>
 <script type="text/javascript">
     function testConnection() {
+        var elem = $('<?php echo $this->getHtmlId() ?>');
+    
         params = {
             host: $('catalog_search_solr_server_hostname').value,
             port: $('catalog_search_solr_server_port').value,
@@ -43,12 +45,15 @@
                 try {
                     response = response.responseText;
                     if (response == 1) {
-                        result = 'Test connection was successful';
+                        result = 'Successful! Test again?';
+                        elem.removeClassName('fail').addClassName('success')
                     } else {
-                        result = 'Test connection failed';
+                        result = 'Connection failed! Test again?';
+                        elem.removeClassName('success').addClassName('fail')
                     }
                 } catch (e) {
-                    result = 'Test connection failed';
+                    result = 'Connection failed! Test again?';
+                    elem.removeClassName('success').addClassName('fail')
                 }
                 $('connection_test_result').update(result);
             }
@@ -56,7 +61,5 @@
     }
 </script>
 <button style="" onclick="javascript:testConnection(); return false;" class="scalable" type="button" id="<?php echo $this->getHtmlId() ?>">
-    <span><?php echo $this->escapeHtml($this->getButtonLabel()) ?></span>
+    <span id="connection_test_result"><?php echo $this->escapeHtml($this->getButtonLabel()) ?></span>
 </button>
-<br />
-<span id="connection_test_result"></span>
