@@ -1,6 +1,8 @@
 <?php
 
-class Helper_Admin extends Helper_Abstract {
+class Helper_Admin extends Helper_Abstract
+{
+
     public function doLogin($baseurl, $username, $password) {
         $this->_context->open($baseurl);
         $this->_context->waitForPageToLoad("10000");
@@ -10,7 +12,8 @@ class Helper_Admin extends Helper_Abstract {
         $this->_context->waitForPageToLoad("90000");
     }
 
-    public  function pleaseWait() {
+    public  function pleaseWait()
+    {
         //
         // await for appear and disappear "Please wait" animated gif...
         for ($second = 0; ; $second++) {
