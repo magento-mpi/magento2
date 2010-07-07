@@ -145,8 +145,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Layer_Filter_Price extends Mage_Cor
         $select     = $this->_getSelect($filter);
         $connection = $this->_getReadAdapter();
         $response   = $this->_dispatchPreparePriceEvent($filter, $select);
-
-        $table = $this->_getIndexTableAlias();
+        $table      = $this->_getIndexTableAlias();
 
         $additional = join('', $response->getAdditionalCalculations());
         $rate       = $filter->getCurrencyRate();
@@ -175,6 +174,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Layer_Filter_Price extends Mage_Cor
     {
         $collection = $filter->getLayer()->getProductCollection();
         $collection->addPriceData($filter->getCustomerGroupId(), $filter->getWebsiteId());
+
         $select     = $collection->getSelect();
         $response   = $this->_dispatchPreparePriceEvent($filter, $select);
 

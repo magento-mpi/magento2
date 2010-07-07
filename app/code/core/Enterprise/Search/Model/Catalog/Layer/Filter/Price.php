@@ -53,7 +53,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Price extends Mage_Catalog_Mo
      */
     protected function _getItemsData()
     {
-        $range      = $this->getPriceRange();
+        $range  = $this->getPriceRange();
         $facets = $this->getLayer()->getProductCollection()->getFacetedData($this->_getFilterField());
 
         $data = array();

@@ -40,35 +40,64 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
      * @param   int $range
      * @return  int
      */
-    public function getRangeItemCounts($range)
+//    public function getRangeItemCounts($range)
+//    {
+//        $attributeCode = $this->getAttributeModel()->getAttributeCode();
+//        $rangeKey = $attributeCode . '_item_counts_' . $range;
+//        $items = $this->getData($rangeKey);
+//        if (is_null($items)) {
+//            $field = 'attr_decimal_'. $attributeCode;
+//
+//            $productCollection = $this->getLayer()->getProductCollection();
+//            $facets = $productCollection->getFacetedData($field);
+//
+//            $res = array();
+//
+//            if (!empty($facets)) {
+//                foreach ($facets as $key => $count) {
+//                    preg_match('/TO ([\d\.]+)\]$/', $key, $rangeKey);
+//                    $rangeKey = $rangeKey[1] / $range;
+//                    if ($count > 0) {
+//                        $res[round($rangeKey)] = $count;
+//                    }
+//                }
+//            }
+//            $items = $res;
+//
+//            $this->setData($rangeKey, $items);
+//        }
+//        return $items;
+//    }
+
+    /**
+     * Get data for build decimal filter items
+     *
+     * @return array
+     */
+    protected function _getItemsData()
     {
-        $attributeCode = $this->getAttributeModel()->getAttributeCode();
-        $rangeKey = $attributeCode . '_item_counts_' . $range;
-        $items = $this->getData($rangeKey);
-        if (is_null($items)) {
-            $field = 'attr_decimal_'. $attributeCode;
+        $range = $this->getPriceRange();
+        $attribute_code = $this->getAttributeModel()->getAttributeCode();
+        $facets = $this->getLayer()->getProductCollection()->getFacetedData('attr_decimal_' . $attribute_code);
 
-            $productCollection = $this->getLayer()->getProductCollection();
-            $facets = $productCollection->getFacetedData($field);
-
-            $res = array();
-
-            if (!empty($facets)) {
-                foreach ($facets as $key => $count) {
-                    preg_match('/TO ([\d\.]+)\]$/', $key, $rangeKey);
-                    $rangeKey = $rangeKey[1] / $range;
-                    if ($count > 0) {
-                        $res[round($rangeKey)] = $count;
-                    }
+        $data = array();
+        if (!empty($facets)) {
+            foreach ($facets as $key => $count) {
+                preg_match('/TO ([\d\.]+)\]$/', $key, $rangeKey);
+                $rangeKey = $rangeKey[1] / $range;
+                if ($count > 0) {
+                    $rangeKey = round($rangeKey);
+                    $data[] = array(
+                        'label' => $this->_renderItemLabel($range, $rangeKey),
+                        'value' => $rangeKey . ',' . $range,
+                        'count' => $count,
+                    );
                 }
             }
-            $items = $res;
-
-            $this->setData($rangeKey, $items);
         }
-        return $items;
-    }
 
+        return $data;
+    }
 
     /**
      * Apply decimal range filter to product collection
@@ -79,8 +108,8 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
     {
-        $range      = $this->getRange();
-        $maxValue    = $this->getMaxValue();
+        $range    = $this->getRange();
+        $maxValue = $this->getMaxValue();
         if ($maxValue > 0) {
             $facets = array();
             $facetCount  = ceil($maxValue / $range);
@@ -92,7 +121,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
             }
 
             $attributeCode = $this->getAttributeModel()->getAttributeCode();
-            $field      = 'attr_decimal_' . $attributeCode;
+            $field         = 'attr_decimal_' . $attributeCode;
 
             $productCollection = $this->getLayer()->getProductCollection();
             $productCollection->setFacetCondition($field, $facets);
