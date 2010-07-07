@@ -93,7 +93,7 @@ class Mage_XmlConnect_Model_Mysql4_Application extends Mage_Core_Model_Mysql4_Ab
         if (!$isCodePrefixed) {
             $this->_getWriteAdapter()->update(
                 $this->getMainTable(),
-                array('code' => $this->_getWriteAdapter()->quoteInto($appCode . $object->getId())),
+                array('code' => $this->_getWriteAdapter()->quote($appCode . $object->getId())),
                 $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . '=?', $object->getId())
             );
         }
