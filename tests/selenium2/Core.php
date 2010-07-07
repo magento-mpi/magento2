@@ -80,8 +80,7 @@ final class Core
     {
         if ((null === self::$_context) || !(self::$_context instanceof Test_Abstract)) {
             throw new Exception('Testing context has not been set');
-        }
-     
+        }    
         return self::$_context;
     }
 
@@ -97,9 +96,22 @@ final class Core
 
         if (!isset(self::$_helperInstances[$helperClassName])) {
             self::$_helperInstances[$helperClassName] = new $helperClassName();
-        }
-
+        } 
         return self::$_helperInstances[$helperClassName];
+    }
+
+/**
+     * R a helper Singleton instance
+     *
+     * @param string $helperName
+     * @return Helper_Abstract
+     */
+    public static function resetHelper($helperName)
+    {
+        $helperClassName = 'Helper_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', $helperName)));
+
+        self::$_helperInstances = array ();
+        return self;
     }
 
 }
