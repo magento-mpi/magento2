@@ -241,7 +241,25 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
             }
         }
 
+        return $this;
+    }
 
+    /**
+     * Process `giftcard_amounts` attribute afterLoad logic on loading by collection
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftCard_Model_Observer
+     */
+    public function loadAttributesAfterCollectionLoad(Varien_Event_Observer $observer)
+    {
+        $collection = $observer->getEvent()->getCollection();
+
+        foreach ($collection as $item) {
+            $attribute = $item->getResource()->getAttribute('giftcard_amounts');
+            if ($attribute->getId()) {
+                $attribute->getBackend()->afterLoad($item);
+            }
+        }
         return $this;
     }
 }

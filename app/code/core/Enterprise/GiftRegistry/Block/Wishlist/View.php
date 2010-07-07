@@ -59,4 +59,27 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Cu
     {
         return Mage::helper('enterprise_giftregistry')->getCurrentCustomerEntityOptions();
     }
+
+    /**
+     * Retrieve Wishlist Product Items collection
+     *
+     * @return Mage_Wishlist_Model_Mysql4_Product_Collection
+     */
+    public function getWishlistItems()
+    {
+        if (is_null($this->_collection)) {
+            $this->_collection = $this->_getWishlist()
+                ->getProductCollection()
+                ->addAttributeToSelect(Mage::getSingleton('sales/quote_config')->getProductAttributes())
+                ->addStoreFilter()
+                ->addUrlRewrite();
+
+            Mage::getSingleton('catalog/product_visibility')
+                ->addVisibleInSiteFilterToCollection($this->_collection);
+
+            $this->_prepareCollection($this->_collection);
+        }
+
+        return $this->_collection;
+    }
 }

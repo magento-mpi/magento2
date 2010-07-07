@@ -101,6 +101,10 @@
                 <item>
                     <product_attributes>
                         <giftcard_type />
+                        <giftcard_amounts />
+                        <allow_open_amount />
+                        <open_amount_min />
+                        <open_amount_max />
                         <use_config_lifetime />
                         <lifetime />
                         <use_config_is_redeemable />
@@ -129,6 +133,14 @@
                     </enterprise_giftcard_generate_giftcardaccounts>
                 </observers>
             </sales_order_save_after>
+            <catalog_product_collection_load_after>
+                <observers>
+                    <enterprise_giftcard>
+                        <class>enterprise_giftcard/observer</class>
+                        <method>loadAttributesAfterCollectionLoad</method>
+                    </enterprise_giftcard>
+                </observers>
+            </catalog_product_collection_load_after>
         </events>
     </global>
     <frontend>
