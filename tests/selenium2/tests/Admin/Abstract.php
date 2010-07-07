@@ -20,8 +20,8 @@ abstract class Test_Admin_Abstract extends Test_Abstract
 
         // Get test parameters
         // Should be loaded from some config
-        $this->_baseurl = "http://kq.varien.com/enterprise/1.8.0.0/index.php/control/index/";
-        $this->_username = "admin";
+        $this->_baseUrl = "http://kq.varien.com/enterprise/1.8.0.0/index.php/control/index/";
+        $this->_userName = "admin";
         $this->_password = "123123q";
     }
 

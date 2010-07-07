@@ -21,6 +21,7 @@ abstract class Test_Admin_Customer_Abstract extends Test_Admin_Abstract
     {
         parent::setUp();
         $this->_helper = Core::getHelper('admin_customer_address');
+        $this->_helper -> updateContex();
         $this->_customerId = "102";
     }
 
