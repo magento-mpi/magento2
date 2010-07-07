@@ -441,6 +441,17 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
     }
 
     /**
+     * Check whether the price can be shown for the specified product
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    public function getCanShowProductPrice($product)
+    {
+        return $product->getCanShowPrice() !== false;
+    }
+
+    /**
      * If exists price template block, retrieve price blocks from it
      *
      * @return Mage_Catalog_Block_Product_Abstract

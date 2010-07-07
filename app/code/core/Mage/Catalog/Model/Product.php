@@ -1188,7 +1188,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             'product'   => $this
         ));
 
-        $salable = $this->getTypeInstance(true)->isSalable($this);
+        $salable = $this->isAvailable();
 
         $object = new Varien_Object(array(
             'product'    => $this,
@@ -1199,6 +1199,16 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             'salable'   => $object
         ));
         return $object->getIsSalable();
+    }
+
+    /**
+     * Check whether the product type or stock allows to purchase the product
+     *
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        return $this->getTypeInstance(true)->isSalable($this);
     }
 
     /**
