@@ -76,11 +76,15 @@ class Maged_Model_Connect extends Maged_Model
             $options['ftp'] = $ftp;
         $params = array();
         $connectConfig = $this->connect()->getConfig();
-        //$uri = "var-dev.varien.com/dev/evgeniy.lamskoy/channels/channels/{$chanName}/";
-        //$uri = "http://connect2.0/channel/channels/{$chanName}/";
-        //$uri = "http://connect20.local.net/channel/channels/{$chanName}/";
+        /** CE */
         $uri="connect.kiev-dev/community";
-        //$uri="connect.kiev-dev/enterprise";
+        /* */
+        /** PE
+        $uri="connect.kiev-dev/enterprise";
+        /* */
+        /** EE 
+        $uri="connect.kiev-dev/professional";
+        /* */
         $connectConfig->root_channel = $chanName;        
         foreach ($packages as $package) {
             $params[] = $uri;

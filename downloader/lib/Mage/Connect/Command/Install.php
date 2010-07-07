@@ -100,8 +100,6 @@ extends Mage_Connect_Command
                 throw new Exception('Your Magento folder does not have sufficient write permissions, which downloader requires.');
             }
             if('ftp'==$config->protocol){
-                $_SESSION['auth']['username']='25679';
-                $_SESSION['auth']['password']='VMtclRaFbLhFaH7ztZe5LzoK4WHZafz8';
                 if(isset($_SESSION['auth']['username'])){
                     $login=$_SESSION['auth']['username'];
                     $pass=$_SESSION['auth']['password'];
@@ -330,6 +328,7 @@ extends Mage_Connect_Command
                         $dir = $config->getChannelCacheDir($pChan);
                         @mkdir($dir, 0777, true);
                     }
+                    $dir = $config->getChannelCacheDir($pChan);
                     $file = $dir.DIRECTORY_SEPARATOR.$pName."-".$pVer.".tgz";
                     if(!@file_exists($file)) {
                         $rest->downloadPackageFileOfRelease($pName, $pVer, $file);
