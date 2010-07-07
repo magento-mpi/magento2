@@ -300,7 +300,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     private function _initCheckout()
     {
         $quote = $this->_getQuote();
-        if (!$quote->hasItems()) {
+        if (!$quote->hasItems() || $quote->getHasError()) {
             $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
             Mage::throwException(Mage::helper('paypal')->__('Unable to initialize Express Checkout.'));
         }
