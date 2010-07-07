@@ -170,9 +170,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
     {
-        $payment->setTransactionId($api->getRefundTransactionId())
+        $payment->setTransactionId($api->getTransactionId())
                 ->setIsTransactionClosed(1) // refund initiated by merchant
-                ->setShouldCloseParentTransaction(!$canRefundMore);
+                ->setShouldCloseParentTransaction(!$canRefundMore)
+                ->setTransactionAdditionalInfo(self::TRANSPORT_PAYFLOW_TXN_ID, $api->getPayflowTrxid());
+
         $payment->setPreparedMessage(Mage::helper('enterprise_pbridge')->__(
             'Payflow PNREF: #%s.',
             $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID)
