@@ -1075,6 +1075,20 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     }
 
     /**
+     * Adopt specified request array to be compatible with Paypal
+     * Puerto Rico should be as state of USA and not as a country
+     *
+     * @param array $request
+     */
+    protected function _applyCountryWorkarounds(&$request)
+    {
+        if (isset($request['SHIPTOCOUNTRYCODE']) && $request['SHIPTOCOUNTRYCODE'] == 'PR') {
+            $request['SHIPTOCOUNTRYCODE'] = 'US';
+            $request['SHIPTOSTATE']       = 'PR';
+        }
+    }
+
+    /**
      * Prepare request data basing on provided address
      *
      * @param Varien_Object $address
@@ -1096,6 +1110,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $this->_importStreetFromAddress($address, $to, 'STREET', 'STREET2');
             $to['SHIPTONAME'] = $address->getName();
         }
+        $this->_applyCountryWorkarounds($to);
         return $to;
     }
 

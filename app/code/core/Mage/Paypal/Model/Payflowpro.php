@@ -373,6 +373,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
             }
             $shipping = $order->getShippingAddress();
             if (!empty($shipping)) {
+                $this->_applyCountryWorkarounds($shipping);
                 $request->setShiptofirstname($shipping->getFirstname())
                     ->setShiptolastname($shipping->getLastname())
                     ->setShiptostreet($shipping->getStreet(1))
@@ -425,6 +426,20 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
         if ($response->getResultCode() != self::RESPONSE_CODE_APPROVED
             && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER) {
             Mage::throwException($response->getRespmsg());
+        }
+    }
+
+    /**
+     * Adopt specified address object to be compatible with Paypal
+     * Puerto Rico should be as state of USA and not as a country
+     *
+     * @param Varien_Object $address
+     */
+    protected function _applyCountryWorkarounds(Varien_Object $address)
+    {
+        if ($address->getCountry() == 'PR') {
+            $address->setCountry('US');
+            $address->setRegionCode('PR');
         }
     }
 }
