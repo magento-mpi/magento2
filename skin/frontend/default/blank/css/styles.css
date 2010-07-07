@@ -650,8 +650,6 @@ tr.summary-details-excluded { font-style:italic; }
 .availability.out-of-stock span { color:#d83820; }
 
 .availability-only { margin:0 0 7px; }
-.availability-only span,
-.availability-only a { cursor:help; }
 .availability-only a { background:url(../images/i_availability_only_arrow.gif) 100% 0 no-repeat; cursor:pointer; padding-right:15px; }
 .availability-only .expanded { background-position:100% -15px; }
 .availability-only strong {}
