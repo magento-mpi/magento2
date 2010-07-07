@@ -18,7 +18,7 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @var string
      */
-    protected $_username = '';
+    protected $_userName = '';
 
     /**
      * User password
@@ -32,7 +32,7 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
      * 
      * @var string
      */
-    protected $_testId;
+    protected $_testId = "";
 
     /**
      * Helper local instance
@@ -51,6 +51,7 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
         array_push($this->verificationErrors, $error);
     }
 
+
     /**
      * Setup procedure.
      * Must be overriden in the children having any additional code prepended with parent::setUp();
@@ -61,7 +62,12 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
         $this->setBrowserUrl("http://kq.varien.com/");
         $this->_testId = strtoupper(get_class($this));
 
-        Core::setContext($this);
+        Core::setContext($this);       
+    }
+
+    function tearDown()
+    {
+        parent::tearDown();
     }
 
 }
