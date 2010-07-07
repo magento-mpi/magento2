@@ -402,7 +402,7 @@ class Mage_Paypal_Model_Express_Checkout
                 foreach ($address->getExportedKeys() as $key) {
                     $quoteAddress->setDataUsingMethod($key, $address->getData($key));
                 }
-                $quoteAddress->setCollectShippingRates(true)->collectShippingRates();
+                $quoteAddress->setCollectShippingRates(true)->collectTotals();
                 $options = $this->_prepareShippingOptions($quoteAddress, false);
             }
             $response = $this->_api->setShippingOptions($options)->formatShippingOptionsCallback();
