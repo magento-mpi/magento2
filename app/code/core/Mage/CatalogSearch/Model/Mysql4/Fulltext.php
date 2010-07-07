@@ -248,7 +248,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             ->order('e.entity_id');
 
         $result = $this->_getWriteAdapter()->fetchAll($select);
-        if ($this->_engine && $this->_engine->allowAdvancedIndex()) {
+        if ($this->_engine && $this->_engine->allowAdvancedIndex() && count($result) > 0) {
             return $this->_engine->addAdvancedIndex($result, $storeId, $productIds);
         }
         else {
