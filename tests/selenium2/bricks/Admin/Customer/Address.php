@@ -1,54 +1,35 @@
 <?php
 
-class Helper_Admin_Customer_Address extends Helper_Admin {
-    protected $_uiMap = array(
-        "NewAddrFieldsTable"    => "//div[@id='address_form_container']//div[contains(@id,'form_new_item')     and not(contains(@style,'display: none'))]//table[contains(@class,'form-list')]/tbody",
-        "EditAddrFieldsTable"   => "//div[@id='address_form_container']//div[contains(@id,'form_address_item') and not(contains(@style,'display: none'))]//table[contains(@class,'form-list')]/tbody",
-        "AddrManagePanelActive" => "//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li[contains(@class,'on')]",
-        "AddrManagePanel"       => "//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li[contains(@class,'on')]"
-    );
+class Helper_Admin_Customer_Address extends Helper_Admin
+{
 
-    public function doAdminSaveCustomer() {
-        for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->_context->fail("pleasewait timeout");
-            try {
-                if ($this->_context->isElementPresent("//div[contains(@id,'page:main-container')]//div[contains(@class,'content-header')]//p[contains(@class,'form-buttons')]//button[contains(span,'Save Customer')]")) break;
-            } catch (Exception $e) {
-
-            }
-            sleep(1);
-        }
-
-        $this->_context->click("//div[contains(@id,'page:main-container')]//div[contains(@class,'content-header')]//p[contains(@class,'form-buttons')]//button[contains(span,'Save Customer')]");
+    /**
+     * Click button "Save Customer". Asserting "The Customer has been saved" text
+     *
+     */
+    public function doAdminSaveCustomer()
+    {
+        $this->waitForElementNsec($this->getUiElement("admin/customer/button/savecustomer"),20);
+        $this->_context->click($this->getUiElement("admin/customer/button/savecustomer"));
         $this->_context->waitForPageToLoad("90000");
-        $this->_context->assertTrue($this->_context->isTextPresent("The customer has been saved."));
-        return true;
+        return $this->_context->assertTrue($this->_context->isTextPresent($this->getUiElement("admin/customer/message/customersaved")));
     }
 
-    public function doOpenCustomer($CustID) {
-        $this->_context->click("//div[@class=\"nav-bar\"]//a[span=\"Manage Customers\"]");
+    /**
+     * Click button "Save Customer". Asserting "The Customer has been saved" text
+     *
+     */
+    public function doOpenCustomer($CustID)
+    {
+        $this->_context->click($this->getUiElement("admin/topmenu/customer/managecustomers"));
         $this->_context->waitForPageToLoad("90000");
         $this->_context->type("filter_entity_id_from", $CustID);
         $this->_context->type("filter_entity_id_to", $CustID);
-        $this->_context->click("//div[@id='customerGrid']//button[span='Search']");
+        $this->_context->click($this->getUiElement("admin/customer/button/search"));
 
         $this->pleaseWait();
-        $loaded=false;
 
-        for ($second = 0; ; $second++) {
-            if ($second >= 30) break;//$this->_context->fail("timeout for ".$CustID." customer loading");
-            try {
-                if ($this->_context->isElementPresent("//table[@id='customerGrid_table']//td[contains(text(),\"$CustID\")]")) {
-                    $loaded=true;
-                    break;
-                }
-            } catch (Exception $e) {
-
-            }
-            sleep(1);
-        }
-
-        if ($loaded) {
+        if (waitForElementNsec("//table[@id='customerGrid_table']//td[contains(text(),\"$CustID\")]",30)) {
             $this->_context->click("//table[@id='customerGrid_table']//td[contains(text(),\"$CustID\")]");
             $this->_context->waitForPageToLoad("90000");
         } else {
@@ -57,8 +38,9 @@ class Helper_Admin_Customer_Address extends Helper_Admin {
         return $loaded;
     }
 
-    public function isCustomerPresent($CustID) {
-         echo ("isCustomerPresent started...");
+    public function isCustomerPresent($CustID)
+    {
+        echo ("isCustomerPresent started...");
         $this->_context->click("//div[@class=\"nav-bar\"]//a[span=\"Manage Customers\"]");
         $this->_context->waitForPageToLoad("90000");
         $this->_context->type("filter_entity_id_from", $CustID);
@@ -71,7 +53,8 @@ class Helper_Admin_Customer_Address extends Helper_Admin {
         return $this->_context->isElementPresent("//table[@id='customerGrid_table']//td[contains(text(),\"$CustID\")]");
     }
 
-    public function isAddressPresent($CustID,$TestID) {
+    public function isAddressPresent($CustID,$TestID)
+    {
         return $this->_context->isElementPresent("//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li[contains(address,'".$TestID."')]");
     }
 
@@ -83,20 +66,20 @@ class Helper_Admin_Customer_Address extends Helper_Admin {
         return $this->_context->isElementPresent($AddrManagePanel."//li[contains(address, '".$TestID." Lname')]");
     }
 
-    public function delAllAddresses($AddrManagePanel, $CustID) {
-
+    public function delAllAddresses($AddrManagePanel, $CustID)
+    {
         if ($this->doOpenCustomer($CustID)) {
-        // Remove All Addresses
-        while ($this->_context->isElementPresent("//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li//img[@alt='Remove address']")) {
-            $this->_context->click("//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li//img[@alt='Remove address']");
-            $this->_context->getConfirmation();
-        };
-        $this->doAdminSaveCustomer();
+            // Remove All Addresses
+            while ($this->_context->isElementPresent("//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li//img[@alt='Remove address']")) {
+                $this->_context->click("//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li//img[@alt='Remove address']");
+                $this->_context->getConfirmation();
+            };
+            $this->doAdminSaveCustomer();
         }
     }
 
-    public function delAddresses($AddrManagePanel, $CustID, $TestID) {
-
+    public function delAddresses($AddrManagePanel, $CustID, $TestID)
+    {
         if ($this->doOpenCustomer($CustID)) {
             // Remove Test Addresses
             while ($this->_context->isElementPresent("//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li[contains(address,'".$TestID."')]//img[@alt='Remove address']")) {
@@ -110,7 +93,8 @@ class Helper_Admin_Customer_Address extends Helper_Admin {
         }
     }
 
-    public function selectCountry($tableBaseURL, $countryName) {
+    public function selectCountry($tableBaseURL, $countryName)
+    {
         if (!$this->_context->isElementPresent($tableBaseURL."//tr[contains(td,'Country')]/td[contains(@class,'value')]//option[@selected='selected' and text()='".$countryName."']")) {
             $this->_context->select($tableBaseURL."//tr[contains(td,'Country')]/td[contains(@class,'value')]/select", $countryName);
             for ($second = 0; ; $second++) {
@@ -135,20 +119,24 @@ class Helper_Admin_Customer_Address extends Helper_Admin {
         }
     }
 
-    public function selectState($tableBaseURL, $state) {
+    public function selectState($tableBaseURL, $state)
+    {
         $this->_context->select($tableBaseURL . "//tr[contains(td,'State/Province')]/td[contains(@class,'value')]/select", $state);
     }
 
-    public function fillAddressLines($tableBaseURL, $Line1,$Line2) {
+    public function fillAddressLines($tableBaseURL, $Line1,$Line2)
+    {
         $this->_context->type($tableBaseURL."//tr[contains(td,'Street Address')]/td[contains(@class,'value')]//div[1]/input", $Line1);
         $this->_context->type($tableBaseURL."//tr[contains(td,'Street Address')]/td[contains(@class,'value')]//div[2]/input", $Line2);
     }
-    
-    public function fillTextField($tableBaseURL,$fieldName, $fieldValue) {
+
+    public function fillTextField($tableBaseURL,$fieldName, $fieldValue)
+    {
         $this->_context->type($tableBaseURL."//tr[contains(td,'".$fieldName."')]/td[contains(@class,'value')]/input", $fieldValue);
     }
 
-    public function checkTextField($tableBaseURL,$fieldName, $fieldValue) {
+    public function checkTextField($tableBaseURL,$fieldName, $fieldValue)
+    {
         try {
             $this->_context->assertTrue($this->_context->isElementPresent($tableBaseURL .  "//tr[contains(td,'".$fieldName."')]/td[contains(@class,'value')]/input[@value='".$fieldValue."']"));
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
@@ -156,7 +144,8 @@ class Helper_Admin_Customer_Address extends Helper_Admin {
         }
     }
 
-    public function checkAddressLines($tableBaseURL, $Line1,$Line2) {
+    public function checkAddressLines($tableBaseURL, $Line1,$Line2)
+    {
         try {
             $this->_context->assertTrue($this->_context->isElementPresent($tableBaseURL .  "//tr[contains(td,'Street Address')]/td[contains(@class,'value')]//div[1]/input[@value='".$Line1."']"));
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
@@ -170,7 +159,8 @@ class Helper_Admin_Customer_Address extends Helper_Admin {
         }
     }
 
-    public function checkCountry ($tableBaseURL, $country) {
+    public function checkCountry ($tableBaseURL, $country)
+    {
         try {
             $this->_context->assertTrue($this->_context->isElementPresent($tableBaseURL."//tr[contains(td,'Country')]/td[contains(@class,'value')]//option[@selected='selected' and text()='".$country."']"));
             //$this->assertTrue($this->isElementPresent($AddrFieldsTable .  "//tr[contains(td,'State/Province')]/td[contains(@class,'value')]/input[@value='London']"));
@@ -180,7 +170,8 @@ class Helper_Admin_Customer_Address extends Helper_Admin {
 
     }
 
-    public function checkState ($tableBaseURL, $state) {
+    public function checkState ($tableBaseURL, $state)
+    {
         try {
             $this->_context->assertTrue($this->_context->isElementPresent( $tableBaseURL. "//tr[contains(td,'State/Province')]/td[contains(@class,'value')]//option[@selected='selected' and text()='".$state."']"));
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
@@ -188,7 +179,8 @@ class Helper_Admin_Customer_Address extends Helper_Admin {
         }
     }
 
-    public function checkIsDefaultState ($AddrManagePanel, $isBilling, $isShipping) {
+    public function checkIsDefaultState ($AddrManagePanel, $isBilling, $isShipping)
+    {
         if ($isBilling) {
             // isBilling...
             try {
