@@ -41,7 +41,7 @@ class Mage_ProductAlert_Block_Product_View extends Mage_Core_Block_Template
      */
     public function prepareStockAlertData()
     {
-        if (!Mage::getStoreConfig('catalog/productalert/allow_stock')
+        if (!Mage::getStoreConfigFlag(Mage_ProductAlert_Model_Observer::XML_PATH_STOCK_ALLOW)
             || !$this->_product || $this->_product->isAvailable()
         ) {
             $this->setTemplate('');
@@ -55,7 +55,7 @@ class Mage_ProductAlert_Block_Product_View extends Mage_Core_Block_Template
      */
     public function preparePriceAlertData()
     {
-        if (!Mage::getStoreConfig('catalog/productalert/allow_price')
+        if (!Mage::getStoreConfigFlag(Mage_ProductAlert_Model_Observer::XML_PATH_PRICE_ALLOW)
             || !$this->_product || false === $this->_product->getCanShowPrice()
         ) {
             $this->setTemplate('');
