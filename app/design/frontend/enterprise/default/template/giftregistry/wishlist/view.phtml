@@ -74,7 +74,7 @@
                     </td>
                     <?php if ($this->getEnabled() && $entityValues):?>
                     <td>
-                        <?php if (!$item->getIsVirtual()): ?>
+                        <?php if ($this->checkProductType($item)): ?>
                         <div class="btn-gift-registry">
                             <div class="input-box">
                                 <select id="giftregistry_entity_<?php echo $item->getProductId()?>" name="entity" title="<?php echo $this->__('Gift Registry') ?>" >

@@ -216,4 +216,33 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
     }
+
+    /**
+     * Check if product can be added to gift registry
+     *
+     * @param mixed $item
+     * @return bool
+     */
+    public function canAddToGiftRegistry($item)
+    {
+        if ($item->getIsVirtual()){
+            return false;
+        }
+
+        if ($item instanceof Mage_Sales_Model_Quote_Item) {
+            $productType = $item->getProductType();
+        } else {
+            $productType = $item->getTypeId();
+        }
+
+        if ($productType == Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD) {
+            if ($item instanceof Mage_Sales_Model_Quote_Item) {
+                $product = Mage::getModel('catalog/product')->load($item->getProductId());
+            } else {
+                $product = $item;
+            }
+            return $product->getTypeInstance()->isTypePhysical();
+        }
+        return true;
+    }
 }

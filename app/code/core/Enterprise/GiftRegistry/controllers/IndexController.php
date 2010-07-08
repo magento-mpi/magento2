@@ -84,7 +84,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                 } else {//Adding from cart
                     $cart = Mage::getSingleton('checkout/cart');
                     foreach ($cart->getQuote()->getAllVisibleItems() as $item) {
-                        if ($item->getIsVirtual()) {
+                        if (!Mage::helper('enterprise_giftregistry')->canAddToGiftRegistry($item)) {
                             $skippedItems++;
                             continue;
                         }
