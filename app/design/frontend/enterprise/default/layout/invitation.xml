@@ -74,10 +74,9 @@
         <reference name="content">
             <remove name="customer_form_register" />
             <block type="enterprise_invitation/customer_form_register" name="customer_form_register_invitation" template="customer/form/register.phtml">
-                <block type="page/html_wrapper" name="customer.form.register.invitation.fields.before" as="form_fields_before">
-                    <!--action method="setMayBeInvisible"><value>1</value></action-->
-                    <action method="setElementClass"><value>rewards</value></action>
-                </block>
+                <action method="append"><block>customer.form.register.fields.before</block><alias>form_fields_before</alias></action>
+                <action method="append"><block>customer_form_user_attributes</block></action>
+                <action method="append"><block>customer_form_address_user_attributes</block></action>
             </block>
         </reference>
     </enterprise_invitation_customer_account_create>
