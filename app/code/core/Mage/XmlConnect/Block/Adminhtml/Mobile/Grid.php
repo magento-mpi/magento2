@@ -79,30 +79,15 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
         $this->addColumn('type', array(
             'header'    => Mage::helper('xmlconnect')->__('Device'),
             'index'     => 'type',
-            'align'     => 'left',
+            'align'     => 'center',
             'renderer'  => 'xmlconnect/adminhtml_mobile_grid_renderer_type',
         ));
 
         $this->addColumn('status', array(
             'header'    => Mage::helper('xmlconnect')->__('Status'),
             'index'     => 'status',
-            'width'     => '50',
             'renderer'  => 'xmlconnect/adminhtml_mobile_grid_renderer_bool',
             'align'     => 'center',
-        ));
-
-        $this->addColumn('active_from', array(
-            'header'    => Mage::helper('xmlconnect')->__('Active From'),
-            'index'     => 'active_from',
-            'type'      => 'date',
-            'width'     => '150',
-        ));
-
-        $this->addColumn('active_to', array(
-            'header'    => Mage::helper('xmlconnect')->__('Active To'),
-            'index'     => 'active_to',
-            'type'      => 'date',
-            'width'     => '150',
         ));
 
         return parent::_prepareColumns();

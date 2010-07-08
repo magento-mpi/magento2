@@ -47,9 +47,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Bool extends Mage_Adm
         }
         $status = $row->getData($this->getColumn()->getIndex());
         if ($status == Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS) {
-            $result = '<img src="' . $url . '" >';
+            $result = '<img src="' . $url . '" >&nbsp;' . Mage::helper('xmlconnect')->__('Active');
         } else {
-            $result = '&nbsp;';
+            $result = '&nbsp;' . Mage::helper('xmlconnect')->__('Inactive');
         }
         return $result;
     }
