@@ -185,7 +185,7 @@ div.validation-passed { background:url(../images/icon_ok.gif) 100% 2px no-repeat
 span.validation-error,
 div.validation-error { background:url(../images/icon_error.gif) 100% 2px no-repeat; padding-right:20px; }
 .required em { color:#f15c22; margin-right:4px; }
-p.required { margin:0; padding:5px 0 0 0; text-align:right; width:620px; font-size:11px; color:#f02800; }
+p.required { margin:0; padding:5px 0 7px; text-align:right; width:620px; font-size:11px; color:#f02800; }
 .form-list .validation-advice { width:250px; margin-right:-250px; }
 /* Expiration date and CVV number validation fix */
 .v-fix { float:left; }
@@ -506,6 +506,9 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .link-print { background:url(../images/icon_printer.gif) 0 1px no-repeat; padding:2px 0 2px 25px; white-space:nowrap; }
 .link-cart { font-size:11px; font-weight:bold; color:#c73615; text-decoration:underline; }
 .link-cart:hover { color:#c73615; text-decoration:none; }
+
+.data-table .btn-remove { display:block; margin:0 auto; width:13px; height:12px; font-size:0; line-height:0; background:url(../images/btn_remove.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
+.data-table .btn-remove2 {}
 
 .divider { margin:16px 0; background:#e7e7e7; font-size:0; line-height:0; height:1px; overflow:hidden; }
 
@@ -1581,8 +1584,6 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .cart-table .item-msg { font-size:10px; }
 .cart-table thead th { vertical-align:bottom; }
 .cart-table tbody td { padding:12px; }
-.cart-table .btn-remove { display:block; margin:0 auto; width:13px; height:12px; font-size:0; line-height:0; background:url(../images/btn_remove.gif) 0 0 no-repeat; text-indent:-999em; overflow:hidden; }
-.cart-table .btn-remove2 {}
 .cart-table .btn-continue { float:left; background:none; border:none; }
 .cart-table .btn-continue span { background:none; border:none; text-transform:none; color:#444; text-decoration:underline; font-weight:normal; padding:0; }
 .cart-table .btn-update { float:right; }
@@ -1959,9 +1960,9 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .newsletter-manage-index .form-buttons .button { float:left; margin:0; }
 
 /* Wishlist */
-#wishlist-table td { text-align:center; }
+.my-wishlist textarea { width:99%; height:10em; }
 #wishlist-table .price-box { margin:3px 0; }
-#wishlist-table button.btn-cart { margin-top:3px; }
+#wishlist-table button.btn-cart { margin:3px 0; }
 
 /* Store credit */
 .storecredit .account-balance { margin:0 0 20px; padding:0 0 10px; font-size:12px; background:url(../images/bkg_dots.gif) repeat-x 0 100%; }
