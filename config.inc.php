@@ -399,6 +399,13 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/cms.xml',
         'app/design/frontend/enterprise/default/template/cms/'
     ),
+    'Enterprise_Customer' => array(
+        'app/code/core/Enterprise/Customer/',
+        'app/design/adminhtml/default/default/layout/enterprise/customer.xml',
+        'app/design/adminhtml/default/default/template/enterprise/customerbalance/',
+        'app/design/frontend/enterprise/default/layout/customer.xml',
+        'app/design/frontend/enterprise/default/template/customer/'
+    ),
     'Enterprise_CustomerBalance' => array(
         'app/code/core/Enterprise/CustomerBalance/',
         'app/design/adminhtml/default/default/layout/enterprise/customerbalance.xml',
@@ -426,6 +433,13 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/enterprise/giftcardaccount/',
         'app/design/frontend/enterprise/default/layout/giftcardaccount.xml',
         'app/design/frontend/enterprise/default/template/giftcardaccount/'
+    ),
+    'Enterprise_GiftRegistry' => array(
+        'app/code/core/Enterprise/GiftRegistry/',
+        'app/design/adminhtml/default/default/layout/enterprise/giftregistry.xml',
+        'app/design/adminhtml/default/default/template/enterprise/giftregistry/',
+        'app/design/frontend/enterprise/default/layout/giftregistry.xml',
+        'app/design/frontend/enterprise/default/template/giftregistry/'
     ),
     'Enterprise_Invitation' => array(
         'app/code/core/Enterprise/Invitation/',
@@ -568,11 +582,13 @@ $CONFIG['helpers']  = array(
     'enterprise_catalogpermissions' => 'Enterprise_CatalogPermissions',
     'enterprise_checkout'           => 'Enterprise_Checkout',
     'enterprise_cms'                => 'Enterprise_Cms',
+    'enterprise_customer'    => 'Enterprise_Customer',
     'enterprise_customerbalance'    => 'Enterprise_CustomerBalance',
     'enterprise_customersegment'    => 'Enterprise_CustomerSegment',
     'enterprise_enterprise'         => 'Enterprise_Enterprise',
     'enterprise_giftcard'           => 'Enterprise_GiftCard',
     'enterprise_giftcardaccount'    => 'Enterprise_GiftCardAccount',
+    'enterprise_giftregistry'       => 'Enterprise_GiftRegistry',
     'enterprise_invitation'         => 'Enterprise_Invitation',
     'enterprise_license'            => 'Enterprise_License',
     'enterprise_logging'            => 'Enterprise_Logging',
