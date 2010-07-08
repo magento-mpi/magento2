@@ -165,6 +165,22 @@ final class Maged_Controller
         $_POST['ftp'] = $ftp;
         return $ftp;
     }
+
+    /**
+     * Generates auth string from post data and puts back it into post
+     * 
+     * @param array $post post data
+     * @return string auth Url
+     */
+    private function reformAuthPost(&$post) 
+    {
+        if (!empty($post['auth_username']) and isset($post['auth_password'])) {
+            $post['auth'] = $post['auth_username'] .'@'. $post['auth_password'];
+            return true;
+        }
+        return false;
+    }
+
     /**
      * NoRoute
      *
@@ -406,6 +422,7 @@ final class Maged_Controller
                 $this->model('connect', true)->connect()->setRemoteConfig('');
                 $_POST['ftp'] = '';
             }
+            $this->reformAuthPost($_POST);
             $this->config()->saveConfigPost($_POST);
             $this->model('connect', true)->saveConfigPost($_POST);
         }
