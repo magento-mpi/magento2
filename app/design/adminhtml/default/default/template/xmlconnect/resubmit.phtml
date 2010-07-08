@@ -25,7 +25,6 @@
  */
 ?>
 
-
 <script type="text/javascript">
 // <![CDATA[
 form_text = '<form id="resubmit_form" class="loader" action="<?php echo $this->getActionUrl() ?>">'
@@ -36,14 +35,17 @@ form_text = '<form id="resubmit_form" class="loader" action="<?php echo $this->g
     +'<input type="submit" id="resubmit" name="resubmit" value="<?php echo $this->__('Resubmit'); ?>" onclick="resubmitOk();return false"/>'
 +'</form>';
 
-function resubmit() {
-    if (!$('resubmit_div')) {
-        var div = new Element('div', {id:'resubmit_div'});
-        div.innerHTML = form_text;
-        mask = $('loading-mask');
-        mask.appendChild(div);
-        mask.show();
-    }
+function displayLoadingMask()
+{
+    // Do not remove, this filter cause IE8 incompability !!!
+    $('loading-mask').setStyle({filter: ''});
+    Element.show('loading-mask');
+}
+
+function resubmitAction(){
+    mask = $('loading-mask');
+    mask.innerHTML = form_text;
+    displayLoadingMask();
     return false;
 }
 
@@ -53,11 +55,10 @@ function resubmitOk() {
         'name' : '<?php echo $this->getResubmissionName()?>',
         'value': $('resubmission_key').getValue()
     });
-    $('submit').onclick = '';
-    $('submit_form').appendChild(inp);
-    $('submit').click();
+    $('submit_application').onclick = '';
+    $('edit_form').appendChild(inp);
+    submitApplication();
     return false;
-
 };
 
 // ]]>

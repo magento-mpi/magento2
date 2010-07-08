@@ -53,6 +53,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
         }
         $this->setChild('payment_disabled', $this->getLayout()->createBlock('adminhtml/template')
             ->setTabsPrefix(Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tabs::XMLCONNECT_MOBILE_APP_TABS_ID)
+            ->setSubmitActionUrl($this->getUrl('*/*/editPost', array('key' => $application->getId())))
             ->setTemplate('xmlconnect/payment_disabled.phtml'));
 
         parent::_prepareLayout();
@@ -195,21 +196,24 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
             'label'     => $this->__('Activation Key'),
             'value'     => isset($formData['conf[submit_text][key]']) ? $formData['conf[submit_text][key]'] : null,
             'disabled'  => $isResubmit,
-            'after_element_html' => '<a href="'.Mage::getStoreConfig('xmlconnect/mobile_application/get_activation_key_url').'">' . $this->__('Get Activation Key'). '</a>',
+            'after_element_html' => '<a href="' .
+                Mage::getStoreConfig('xmlconnect/mobile_application/get_activation_key_url') . '" target="_blank">'
+                . $this->__('Get Activation Key'). '</a>',
         ));
 
         if (!$isResubmit) {
-            $fieldset->addField('submit', 'submit', array(
-                'name' => 'submit_form',
+            $fieldset->addField('submit_application', 'button', array(
+                'name' => 'submit_application',
                 'label'=>$this->__('Submit'),
                 'value' => $this->__('Submit Application'),
+                'onclick' => 'submitApplication()',
             ));
         } else {
-            $fieldset->addField('submit', 'submit', array(
-                'name' => 'submit_form',
+            $fieldset->addField('submit_application', 'button', array(
+                'name' => 'submit_application',
                 'label'=> $this->__('Resubmit'),
                 'value' => $this->__('Resubmit Application'),
-                'onclick' =>  'resubmit(); return false;',
+                'onclick' =>  'resubmitAction(); return false;',
             ));
         }
 
@@ -230,13 +234,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
             'checked'   => isset($formData['conf[native][defaultCheckout][isActive]']),
             'disabled'  => 'disabled',
         ));
-
-        $form->setAction($this->getUrl('*/*/editPost', array('key' => $application->getId())));
-        $form->setMethod('post');
-
-        $form->setId('submit_form');
-        $form->setEnctype('multipart/form-data');
-        $form->setUseContainer(true);
 
         return parent::_prepareForm();
     }

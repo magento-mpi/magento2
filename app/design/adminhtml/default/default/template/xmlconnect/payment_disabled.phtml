@@ -29,5 +29,14 @@
 $('payment_disabled_fieldset').observe('click', function() {
     <?php echo $this->getTabsPrefix(); ?>JsTabs.showTabContent($('<?php echo $this->getTabsPrefix(); ?>_payment_methods'));
 });
+
+var submitActionUrl = '<?php echo $this->getSubmitActionUrl(); ?>';
+
+function submitApplication() {
+    saveAction = $('edit_form').action;
+    $('edit_form').action = submitActionUrl;
+    $('edit_form').submit();
+}
+
 // ]]>
 </script>
