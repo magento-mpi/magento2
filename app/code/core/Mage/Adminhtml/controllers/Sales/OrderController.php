@@ -85,6 +85,18 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     }
 
     /**
+     * Return order collection
+     *
+     * @param array $orderIds
+     * @return Mage_Sales_Model_Mysql4_Order_Collection
+     */
+    protected function _getOrderCollection($orderIds)
+    {
+        return Mage::getResourceModel('sales/order_collection')
+            ->addFieldToFilter('entity_id', array('in' => $orderIds));
+    }
+
+    /**
      * Orders grid
      */
     public function indexAction()
@@ -456,14 +468,11 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $orderIds = $this->getRequest()->getPost('order_ids');
         $flag = false;
         if (!empty($orderIds)) {
-            $order = Mage::getModel('sales/order');
-            foreach ($orderIds as $orderId) {
-                $order->load($orderId);
-                if ($order->getId() && $order->getStoreId()) {
-                    Mage::app()->setCurrentStore($order->getStoreId());
-                }
+            $orders = $this->_getOrderCollection($orderIds);
+            foreach ($orders as $order) {
+                Mage::app()->setCurrentStore($order->getStoreId());
                 $invoices = Mage::getResourceModel('sales/order_invoice_collection')
-                    ->setOrderFilter($orderId)
+                    ->setOrderFilter($order->getId())
                     ->load();
                 if ($invoices->getSize() > 0) {
                     $flag = true;
@@ -492,14 +501,11 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $orderIds = $this->getRequest()->getPost('order_ids');
         $flag = false;
         if (!empty($orderIds)) {
-            $order = Mage::getModel('sales/order');
-            foreach ($orderIds as $orderId) {
-                $order->load($orderId);
-                if ($order->getId() && $order->getStoreId()) {
-                    Mage::app()->setCurrentStore($order->getStoreId());
-                }
+            $orders = $this->_getOrderCollection($orderIds);
+            foreach ($orders as $order) {
+                Mage::app()->setCurrentStore($order->getStoreId());
                 $shipments = Mage::getResourceModel('sales/order_shipment_collection')
-                    ->setOrderFilter($orderId)
+                    ->setOrderFilter($order->getId())
                     ->load();
                 if ($shipments->getSize()) {
                     $flag = true;
@@ -528,14 +534,11 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $orderIds = $this->getRequest()->getPost('order_ids');
         $flag = false;
         if (!empty($orderIds)) {
-            $order = Mage::getModel('sales/order');
-            foreach ($orderIds as $orderId) {
-                $order->load($orderId);
-                if ($order->getId() && $order->getStoreId()) {
-                    Mage::app()->setCurrentStore($order->getStoreId());
-                }
+            $orders = $this->_getOrderCollection($orderIds);
+            foreach ($orders as $order) {
+                Mage::app()->setCurrentStore($order->getStoreId());
                 $creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
-                    ->setOrderFilter($orderId)
+                    ->setOrderFilter($order->getId())
                     ->load();
                 if ($creditmemos->getSize()) {
                     $flag = true;
@@ -564,14 +567,11 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $orderIds = $this->getRequest()->getPost('order_ids');
         $flag = false;
         if (!empty($orderIds)) {
-            $order = Mage::getModel('sales/order');
-            foreach ($orderIds as $orderId) {
-                $order->load($orderId);
-                if ($order->getId() && $order->getStoreId()) {
-                    Mage::app()->setCurrentStore($order->getStoreId());
-                }
+            $orders = $this->_getOrderCollection($orderIds);
+            foreach ($orders as $order) {
+                Mage::app()->setCurrentStore($order->getStoreId());
                 $invoices = Mage::getResourceModel('sales/order_invoice_collection')
-                    ->setOrderFilter($orderId)
+                    ->setOrderFilter($order->getId())
                     ->load();
                 if ($invoices->getSize()){
                     $flag = true;
@@ -584,7 +584,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 }
 
                 $shipments = Mage::getResourceModel('sales/order_shipment_collection')
-                    ->setOrderFilter($orderId)
+                    ->setOrderFilter($order->getId())
                     ->load();
                 if ($shipments->getSize()){
                     $flag = true;
@@ -597,7 +597,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 }
 
                 $creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
-                    ->setOrderFilter($orderId)
+                    ->setOrderFilter($order->getId())
                     ->load();
                 if ($creditmemos->getSize()) {
                     $flag = true;
