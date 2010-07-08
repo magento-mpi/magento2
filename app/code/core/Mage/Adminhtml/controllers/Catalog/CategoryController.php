@@ -272,14 +272,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 $parentCategory = Mage::getModel('catalog/category')->load($parentId);
                 $category->setPath($parentCategory->getPath());
             }
-            /**
-             * Check "Use Default Value" checkboxes values
-             */
-            if ($useDefaults = $this->getRequest()->getPost('use_default')) {
-                foreach ($useDefaults as $attributeCode) {
-                    $category->setData($attributeCode, false);
-                }
-            }
 
             /**
              * Process "Use Config Settings" checkboxes
@@ -312,13 +304,13 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 'category' => $category,
                 'request' => $this->getRequest()
             ));
-            
+
             /**
              * Proceed with $_POST['use_config']
              * set into category model for proccessing through validation
              */
             $category->setData("use_post_data_config", $this->getRequest()->getPost('use_config'));
-            
+
             try {
                 $validate = $category->validate();
                 if ($validate !== true) {
@@ -331,6 +323,16 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                         }
                     }
                 }
+
+                /**
+                 * Check "Use Default Value" checkboxes values
+                 */
+                if ($useDefaults = $this->getRequest()->getPost('use_default')) {
+                    foreach ($useDefaults as $attributeCode) {
+                        $category->setData($attributeCode, false);
+                    }
+                }
+
                 /**
                  * Unset $_POST['use_config'] before save
                  */
@@ -345,7 +347,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                     ->setCategoryData($data);
                 $refreshTree = 'false';
             }
-        }      
+        }
         $url = $this->getUrl('*/*/edit', array('_current' => true, 'id' => $category->getId()));
         $this->getResponse()->setBody(
             '<script type="text/javascript">parent.updateContent("' . $url . '", {}, '.$refreshTree.');</script>'
