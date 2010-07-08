@@ -193,6 +193,10 @@
         <?php if($this->getShowAddressFields()): ?>
         new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'zip');
         <?php endif; ?>
+
+        Form.getElements('form-validate').each(function(element) {
+            element.setAttribute('autocomplete', 'off');
+        });
     //]]>
     </script>
 </div>
