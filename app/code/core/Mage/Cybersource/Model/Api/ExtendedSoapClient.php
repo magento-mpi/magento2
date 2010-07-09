@@ -75,7 +75,7 @@ class Mage_Cybersource_Model_Api_ExtendedSoapClient extends SoapClient
         return Mage::getSingleton('cybersource/soap');
     }
 
-    public function __doRequest($request, $location, $action, $version)
+    public function __doRequest($request, $location, $action, $version, $oneWay = 0)
     {
         $api = $this->getBaseApi();
         $user = $api->getConfigData('merchant_id', $this->getStoreId());
@@ -101,7 +101,7 @@ class Mage_Cybersource_Model_Api_ExtendedSoapClient extends SoapClient
 
         $debugData = array('request' => $requestDOM->saveXML());
         try {
-            $response = parent::__doRequest($request, $location, $action, $version);
+            $response = parent::__doRequest($request, $location, $action, $version, $oneWay);
         }
         catch (Exception $e) {
             $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
