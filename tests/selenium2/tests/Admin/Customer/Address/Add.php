@@ -18,7 +18,7 @@ class Admin_Customer_Address_Add extends Test_Admin_Customer_Abstract
         $this->click("add_address_button");
         
         // Fill New Address
-        $elementXpath = $this->_helper->getUiElement('NewAddrFieldsTable');
+        $elementXpath = $this->_helper->getUiElement("admin/customer/address/newaddrfieldstable");
         
         $this->_helper->fillTextField($elementXpath, "Prefix", "Prefix Sample Value");
         $this->_helper->fillTextField($elementXpath, "First Name", $subTestID);
@@ -64,7 +64,7 @@ class Admin_Customer_Address_Add extends Test_Admin_Customer_Abstract
        
         $this->click($this->_helper->getUiElement("AddrManagePanel")."//li[contains(address, '". $subTestID." Lname')]//img[@alt='Edit address']");
 
-        $elementXpath = $this->_helper->getUiElement('EditAddrFieldsTable');
+        $elementXpath = $this->_helper->getUiElement("admin/customer/address/editdfields");
 
         $this->_helper->checkTextField($elementXpath, "Prefix","Prefix Sample Value");
         $this->_helper->checkTextField($elementXpath,"First Name", $subTestID);
@@ -102,9 +102,8 @@ class Admin_Customer_Address_Add extends Test_Admin_Customer_Abstract
      *
      */
     function runSingleTest($subTestID, $isBilling, $isShipping) {
-        echo ("\nStarting ".$subTestID." test \n");
         $this->_helper->doLogin( $this->_baseUrl, $this->_userName, $this->_password);
-        if ($this->_helper->delAddresses($this->_helper->getUiElement("AddrManagePanel"), $this->_customerId, $this->_testId.$subTestID)) {
+        if ($this->_helper->delAddresses( $this->_testId.$subTestID)) {
             if ($this->addAddress( $this->_testId.$subTestID, $isBilling, $isShipping)) {
                 $this->verifyAddress( $this->_testId.$subTestID, $isBilling, $isShipping);
             }
@@ -125,7 +124,7 @@ class Admin_Customer_Address_Add extends Test_Admin_Customer_Abstract
      *
      */
     function testAddNewCuAddress_Billing() {
-//        $this->runSingleTest("2",true, false);
+        $this->runSingleTest("2",true, false);
     }
 
     /**
@@ -133,7 +132,7 @@ class Admin_Customer_Address_Add extends Test_Admin_Customer_Abstract
      *
      */
     function testAddNewCuAddress_Shipping() {
-  //      $this->runSingleTest("3",false, true);
+       $this->runSingleTest("3",false, true);
     }
 
     /**
@@ -141,7 +140,7 @@ class Admin_Customer_Address_Add extends Test_Admin_Customer_Abstract
      *
      */
     function testAddNewCuAddress_ShippingBilling() {
-//        $this->runSingleTest("4",true, true);
+        $this->runSingleTest("4",true, true);
     }
 
 }
