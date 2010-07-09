@@ -266,7 +266,7 @@ class Enterprise_PageCache_Model_Observer
 
         $cacheTag = md5(Enterprise_PageCache_Model_Container_Sidebar_Cart::CACHE_TAG_PREFIX
             . $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CART)
-            . ($this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER) ? '1' : ''));
+            . $this->_getCookie()->get(Enterprise_PageCache_Model_Cookie::COOKIE_CUSTOMER));
         Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($cacheTag));
 
         return $this;
