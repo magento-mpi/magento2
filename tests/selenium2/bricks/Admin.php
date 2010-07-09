@@ -2,7 +2,10 @@
 
 class Helper_Admin extends Helper_Abstract
 {
-
+    /**
+     * Performs login into the BackEnd
+     * 
+     */
     public function doLogin($baseurl, $username, $password) {
         $this->_context->open($baseurl);
         $this->_context->waitForPageToLoad("10000");
@@ -12,6 +15,10 @@ class Helper_Admin extends Helper_Abstract
         $this->_context->waitForPageToLoad("90000");
     }
 
+    /**
+     * Await appearing "Please wait" gif-image and disappearing
+     *
+     */
     public  function pleaseWait()
     {
         //
@@ -35,6 +42,7 @@ class Helper_Admin extends Helper_Abstract
             }
             sleep(1);
         }
+        sleep(1);
     }
 
 }

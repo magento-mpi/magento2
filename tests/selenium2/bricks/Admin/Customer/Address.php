@@ -51,8 +51,11 @@ class Helper_Admin_Customer_Address extends Helper_Admin
      * @returns true if exists
      *
      */
-    public function isCustomerPresent($CustID)
+    public function isCustomerPresent($CustID = null)
     {
+        if (null === $CustID) {
+            $CustID = $this->_context->getCustomerId();
+        }
         $this->_context->click($this->getUiElement("admin/topmenu/customer/managecustomers"));
         $this->_context->waitForPageToLoad("90000");
         $this->_context->type("filter_entity_id_from", $CustID);
@@ -72,7 +75,11 @@ class Helper_Admin_Customer_Address extends Helper_Admin
      * @returns true such sddress exists
      *
      */
-    public function isCustomerAddressPresent($CustID, $FirstName) {
+    public function isCustomerAddressPresent($FirstName, $CustID = null)
+    {
+        if (null === $CustID) {
+            $CustID = $this->_context->getCustomerId();
+        }
         if ($this->doOpenCustomer($this->$CustID)) {
         // Open Address Tab
         $this->_context->click("//a[@id='customer_info_tabs_addresses']/span");
@@ -84,12 +91,15 @@ class Helper_Admin_Customer_Address extends Helper_Admin
     }
 
     /**
-     * Try to delete all addresses of customer with ID=$CustID
+     * Delete all addresses of customer with ID=$CustID
      * @param $CustID - customer ID
      *
      */
-    public function delAllAddresses($AddrManagePanel, $CustID)
+    public function delAllAddresses($CustID = null)
     {
+        if (null === $CustID) {
+            $CustID = $this->_context->getCustomerId();
+        }
         if ($this->doOpenCustomer($CustID)) {
             // Remove All Addresses
             while ($this->_context->isElementPresent($this->getUiElement("admin/customer/address/managepanel")."//ul[contains(@id,'address_list')]//li//img[@alt='Remove address']")) {
@@ -101,13 +111,16 @@ class Helper_Admin_Customer_Address extends Helper_Admin
     }
 
     /**
-     * Deletes address with FirstName containing $FirstName in customer with ID = $CustID
+     * Delete address with FirstName containing $FirstName in customer with ID = $CustID
      * @param $CustID - customer ID
      * @param $FirstName - part of "First name" field*
-     *
+     * @return false if customer doesnot exisrs
      */
-    public function delAddresses($CustID, $FirstName)
+    public function delAddresses($FirstName, $CustID = null)
     {
+        if (null === $CustID) {
+            $CustID = $this->_context->getCustomerId();
+        }
         if ($this->doOpenCustomer($CustID)) {
             // Remove Test Addresses
             while ($this->_context->isElementPresent($this->getUiElement("admin/customer/address/managepanel")."//ul[contains(@id,'address_list')]//li[contains(address,'".$FirstName."')]//img[@alt='Remove address']")) {
@@ -121,49 +134,71 @@ class Helper_Admin_Customer_Address extends Helper_Admin
         }
     }
 
+    /**
+     * Select $countryName in countries dropdown
+     * @param $tableBaseURL - xpath for table with address fields
+     * @param $countryName - country name
+     * @return boolean
+     */
     public function selectCountry($tableBaseURL, $countryName)
     {
         if (!$this->_context->isElementPresent($tableBaseURL."//tr[contains(td,'Country')]/td[contains(@class,'value')]//option[@selected='selected' and text()='".$countryName."']")) {
             $this->_context->select($tableBaseURL."//tr[contains(td,'Country')]/td[contains(@class,'value')]/select", $countryName);
-            for ($second = 0; ; $second++) {
-                if ($second >= 60) $this->_context->fail("timeout");
-                try {
-                    if (!$this->_context->isElementPresent("//div[@id='loading-mask' and contains(@style,'display: none')]")) break;
-                } catch (Exception $e) {
-
-                }
-                sleep(1);
-            }
-
-            for ($second = 0; ; $second++) {
-                if ($second >= 60) $this->_context->fail("timeout");
-                try {
-                    if ($this->_context->isElementPresent("//div[@id='loading-mask' and contains(@style,'display: none')]")) break;
-                } catch (Exception $e) {
-
-                }
-                sleep(1);
-            }
+            $this->pleaseWait();
+            return true;
+        } else {
+           return false;
         }
     }
 
-    public function selectState($tableBaseURL, $state)
+    /**
+     * Select $stateName in States dropdown
+     *
+     * @param $tableBaseURL - xpath for table with address fields
+     * @param $stateName - state name
+     * @return boolean
+     */
+    public function selectState($tableBaseURL, $stateName)
     {
-        $this->_context->select($tableBaseURL . "//tr[contains(td,'State/Province')]/td[contains(@class,'value')]/select", $state);
+        $this->_context->select($tableBaseURL . "//tr[contains(td,'State/Province')]/td[contains(@class,'value')]/select", $stateName);
     }
 
-    public function fillAddressLines($tableBaseURL, $Line1,$Line2)
+    /**
+     * Fill Address Line1 and Address Line2 with $line1 and $line2 values
+     *
+     * @param $tableBaseURL - xpath for table with address fields
+     * @param $line1 - address line1 value
+     * @param $line2 - address line1 value
+     */
+    public function fillAddressLines($tableBaseURL, $line1, $line2)
     {
-        $this->_context->type($tableBaseURL."//tr[contains(td,'Street Address')]/td[contains(@class,'value')]//div[1]/input", $Line1);
-        $this->_context->type($tableBaseURL."//tr[contains(td,'Street Address')]/td[contains(@class,'value')]//div[2]/input", $Line2);
+        $this->_context->type($tableBaseURL."//tr[contains(td,'Street Address')]/td[contains(@class,'value')]//div[1]/input", $line1);
+        $this->_context->type($tableBaseURL."//tr[contains(td,'Street Address')]/td[contains(@class,'value')]//div[2]/input", $line2);
     }
 
-    public function fillTextField($tableBaseURL,$fieldName, $fieldValue)
+    /**
+     * Place $fieldValue to the text input corresponding to $fieldName description
+     *
+     * @param $tableBaseURL - xpath for table with address fields
+     * @param $fieldValue - value to fill
+     * @param $fieldName - name of corresponding field
+     */
+    public function fillTextField($tableBaseURL, $fieldName, $fieldValue)
     {
         $this->_context->type($tableBaseURL."//tr[contains(td,'".$fieldName."')]/td[contains(@class,'value')]/input", $fieldValue);
     }
 
-    public function checkTextField($tableBaseURL,$fieldName, $fieldValue)
+
+   /**
+     * Check existence $fieldValue in the text input corresponding to $fieldName description
+     *
+     * @param $tableBaseURL - xpath for table with address fields
+     * @param $fieldValue -  value to fill
+     * @param $fieldName - name of corresponding field
+     *
+     * @return setVerificationErrors if not matched
+     */
+    public function checkTextField($tableBaseURL, $fieldName, $fieldValue)
     {
         try {
             $this->_context->assertTrue($this->_context->isElementPresent($tableBaseURL .  "//tr[contains(td,'".$fieldName."')]/td[contains(@class,'value')]/input[@value='".$fieldValue."']"));
@@ -172,32 +207,56 @@ class Helper_Admin_Customer_Address extends Helper_Admin
         }
     }
 
-    public function checkAddressLines($tableBaseURL, $Line1,$Line2)
+    /**
+     * Check existence Address $Line1 and $Line2 in the Address fields
+     *
+     * @param $tableBaseURL - xpath for table with address fields
+     * @param $line1 - value to fill
+     * @param $line2 - name of corresponding field
+     *
+     * @return setVerificationErrors if not matched
+     */
+    public function checkAddressLines($tableBaseURL, $line1, $line2)
     {
         try {
-            $this->_context->assertTrue($this->_context->isElementPresent($tableBaseURL .  "//tr[contains(td,'Street Address')]/td[contains(@class,'value')]//div[1]/input[@value='".$Line1."']"));
+            $this->_context->assertTrue($this->_context->isElementPresent($tableBaseURL .  "//tr[contains(td,'Street Address')]/td[contains(@class,'value')]//div[1]/input[@value='".$line1."']"));
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
-            $this->_context->setVerificationErrors("checkAddressLine1 failed: is not equal to ".$Line1);
+            $this->_context->setVerificationErrors("checkAddressLine1 failed: is not equal to ".$line1);
         }
 
         try {
-            $this->_context->assertTrue($this->_context->isElementPresent($tableBaseURL .  "//tr[contains(td,'Street Address')]/td[contains(@class,'value')]//div[2]/input[@value='".$Line2."']"));
+            $this->_context->assertTrue($this->_context->isElementPresent($tableBaseURL .  "//tr[contains(td,'Street Address')]/td[contains(@class,'value')]//div[2]/input[@value='".$line2."']"));
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
-            $this->_context->setVerificationErrors("checkAddressLine2 failed: is not equal to ".$Line2);
+            $this->_context->setVerificationErrors("checkAddressLine2 failed: is not equal to ".$line2);
         }
     }
 
+    /**
+     * Check existence country selector with $country selected items
+     *
+     * @param $tableBaseURL - xpath for table with address fields
+     * @param $country -  Country name
+     *
+     * @return setVerificationErrors if not matched
+     */
     public function checkCountry ($tableBaseURL, $country)
     {
         try {
             $this->_context->assertTrue($this->_context->isElementPresent($tableBaseURL."//tr[contains(td,'Country')]/td[contains(@class,'value')]//option[@selected='selected' and text()='".$country."']"));
-            //$this->assertTrue($this->isElementPresent($AddrFieldsTable .  "//tr[contains(td,'State/Province')]/td[contains(@class,'value')]/input[@value='London']"));
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             $this->_context->setVerificationErrors("checkCountry failed: is not equal to ".$country);
         }
 
     }
 
+    /**
+     * Check existence state selector with $state selected items
+     *
+     * @param $tableBaseURL - xpath for table with address fields
+     * @param $state -  State name
+     *
+     * @return setVerificationErrors if not matched
+     */
     public function checkState ($tableBaseURL, $state)
     {
         try {
@@ -207,6 +266,14 @@ class Helper_Admin_Customer_Address extends Helper_Admin
         }
     }
 
+    /**
+     * Check $isBilling, $isShipping attributes in opened customer address
+     *
+     * @param $tableBaseURL - xpath for table with address fields
+     * @param $state -  State name
+     *
+     * @return setVerificationErrors if not matched
+     */
     public function checkIsDefaultState ($AddrManagePanel, $isBilling, $isShipping)
     {
         if ($isBilling) {

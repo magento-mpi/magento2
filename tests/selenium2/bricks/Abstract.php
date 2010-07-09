@@ -22,8 +22,8 @@ class Helper_Abstract {
             //"btnSaveCategory" => "//div[@id='category-edit-container']//button[contains(span,'Save Category')]",
             "btnSaveCategory" => "//button[contains(span,'Save Category')]",
             "msgCategorySaved" => "//div[@id='messages']//*[contains(text(),'category has been saved')]",
-            "NewAddrFieldsTable" =>  "//div[@id='address_form_container']//div[contains(@id,'form_new_item')     and not(contains(@style,'display: none'))]//table[contains(@class,'form-list')]/tbody",
-            "EditAddrFieldsTable" => "//div[@id='address_form_container']//div[contains(@id,'form_address_item') and not(contains(@style,'display: none'))]//table[contains(@class,'form-list')]/tbody",
+            "admin/customer/address/newaddrfieldstable" =>  "//div[@id='address_form_container']//div[contains(@id,'form_new_item')     and not(contains(@style,'display: none'))]//table[contains(@class,'form-list')]/tbody",
+            "admin/customer/address/editdfields" => "//div[@id='address_form_container']//div[contains(@id,'form_address_item') and not(contains(@style,'display: none'))]//table[contains(@class,'form-list')]/tbody",
             //
             "admin/customer/address/activemanagepanel" => "//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]//ul[contains(@id,'address_list')]//li[contains(@class,'on')]",
             "admin/customer/address/managepanel" => "//table[contains(@class,'form-edit')]//td[contains(@class,'address-list')]",
