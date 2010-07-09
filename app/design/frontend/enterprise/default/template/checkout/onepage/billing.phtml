@@ -150,13 +150,13 @@
                                 </div>
                     <?php endif ?>
                 </li>
+                <?php endif; ?>
                 <?php $customerAttributes = $this->getChild('customer_form_customer_user_defined_attributes');?>
                 <?php if ($customerAttributes): ?>
                     <?php $customerAttributes->setEntityModelClass('customer/customer')->setFieldIdFormat('billing:%1$s');?>
                     <?php $customerAttributes->setFieldNameFormat('billing[%1$s]')->setShowContainer(false);?>
                     <?php echo $customerAttributes->setExcludeFileAttributes(true)->toHtml()?>
                 <?php endif;?>
-                <?php endif ?>
                 <li class="fields" id="register-customer-password">
                     <div class="field">
                         <label for="billing:customer_password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
