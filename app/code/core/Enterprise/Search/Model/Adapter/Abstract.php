@@ -545,10 +545,18 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     protected function _prepareQueryText($text)
     {
         $words = explode(' ', $text);
-        foreach ($words as &$word) {
-            $word = $this->_escape($word);
+        if (count($words) > 1) {
+            foreach ($words as $key => &$val) {
+                if (!empty($val)) {
+                    $val = $this->_escape($val);
+                } else {
+                    unset($words[$key]);
+                }
+            }
+            $text = '(' . implode(' ', $words) . ')';
+        } else {
+            $text = $this->_escape($text);
         }
-        $text = implode(' ', $words);
 
         return $text;
     }
