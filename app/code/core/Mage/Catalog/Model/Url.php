@@ -416,10 +416,8 @@ class Mage_Catalog_Model_Url
             foreach ($categories as $category) {
                 $subRoot = strpos($category['path'], $storeRootCategoryPath . '/') === 0;
                 if ($category['path'] != $storeRootCategoryPath && $subRoot) {
-                    continue;
+                    $this->_refreshProductRewrite($product, $category);
                 }
-
-                $this->_refreshProductRewrite($product, $category);
             }
 
             $this->getResource()->clearProductRewrites($productId, $storeId, array_keys($categories));
