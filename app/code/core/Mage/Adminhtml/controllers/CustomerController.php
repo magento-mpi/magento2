@@ -276,6 +276,10 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $customer->setIsSubscribed(false);
             }
 
+            if (isset($data['account']['sendemail_store_id'])) {
+                $customer->setSendemailStoreId($data['account']['sendemail_store_id']);
+            }
+
             $isNewCustomer = $customer->isObjectNew();
             try {
                 $sendPassToEmail = false;
