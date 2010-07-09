@@ -96,7 +96,7 @@ class Mage_Catalog_Model_Layer_Filter_Price extends Mage_Catalog_Model_Layer_Fil
                         $items = $this->getRangeItemCounts($range);
                         $index++;
                     }
-                    while($range > self::MIN_RANGE_POWER && count($items) < 1);
+                    while($range > self::MIN_RANGE_POWER && count($items) < 2);
                 } else {
                     $range = Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_STEP);
                 }

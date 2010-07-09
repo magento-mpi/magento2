@@ -34,41 +34,6 @@
  */
 class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_Filter_Decimal
 {
-/**
-     * Get information about products count in range
-     *
-     * @param   int $range
-     * @return  int
-     */
-//    public function getRangeItemCounts($range)
-//    {
-//        $attributeCode = $this->getAttributeModel()->getAttributeCode();
-//        $rangeKey = $attributeCode . '_item_counts_' . $range;
-//        $items = $this->getData($rangeKey);
-//        if (is_null($items)) {
-//            $field = 'attr_decimal_'. $attributeCode;
-//
-//            $productCollection = $this->getLayer()->getProductCollection();
-//            $facets = $productCollection->getFacetedData($field);
-//
-//            $res = array();
-//
-//            if (!empty($facets)) {
-//                foreach ($facets as $key => $count) {
-//                    preg_match('/TO ([\d\.]+)\]$/', $key, $rangeKey);
-//                    $rangeKey = $rangeKey[1] / $range;
-//                    if ($count > 0) {
-//                        $res[round($rangeKey)] = $count;
-//                    }
-//                }
-//            }
-//            $items = $res;
-//
-//            $this->setData($rangeKey, $items);
-//        }
-//        return $items;
-//    }
-
     /**
      * Get data for build decimal filter items
      *
@@ -76,7 +41,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Decimal extends Mage_Catalog_
      */
     protected function _getItemsData()
     {
-        $range = $this->getPriceRange();
+        $range = $this->getRange();
         $attribute_code = $this->getAttributeModel()->getAttributeCode();
         $facets = $this->getLayer()->getProductCollection()->getFacetedData('attr_decimal_' . $attribute_code);
 
