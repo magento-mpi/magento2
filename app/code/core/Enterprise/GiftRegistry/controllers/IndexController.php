@@ -106,7 +106,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                 }
                 if (!empty($skippedItems)) {
                     Mage::getSingleton('checkout/session')->addNotice(
-                        Mage::helper('enterprise_giftregistry')->__('Virtual, Downloadable, and Gift Card products cannot be added to gift registries.')
+                        Mage::helper('enterprise_giftregistry')->__('Virtual, Downloadable, and virtual Gift Card products cannot be added to gift registries.')
                     );
                 }
             }

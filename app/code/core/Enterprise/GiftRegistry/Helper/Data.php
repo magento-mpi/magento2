@@ -214,7 +214,8 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getRegistryLink($entity)
     {
-        return $this->_getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
+        return Mage::getModel('core/url')->setStore($entity->getStoreId())
+            ->getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
     }
 
     /**

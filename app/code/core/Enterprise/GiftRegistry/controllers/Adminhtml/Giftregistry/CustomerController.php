@@ -80,7 +80,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
                 }
                 if ($skippedItems) {
                     Mage::getSingleton('adminhtml/session')->addNotice(
-                        $this->__('Virtual, Downloadable, and Gift Card products cannot be added to gift registries.')
+                        $this->__('Virtual, Downloadable, and virtual Gift Card products cannot be added to gift registries.')
                     );
                 }
             } catch (Mage_Core_Exception $e) {
@@ -152,6 +152,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
             } else {
                 $storeId = $this->getRequest()->getParam('store_id');
             }
+            $model->setStoreId($storeId);
 
             try {
                 $sentCount   = 0;
