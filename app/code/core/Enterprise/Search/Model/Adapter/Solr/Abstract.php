@@ -177,7 +177,13 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 }
 
                 if ($backendType == 'datetime') {
-                    $value = $this->_getSolrDate($data['store_id'], $value);
+                    if (is_array($value)) {
+                        foreach ($value as &$val) {
+                            $val = $this->_getSolrDate($data['store_id'], $val);
+                        }
+                    } else {
+                        $value = $this->_getSolrDate($data['store_id'], $value);
+                    }
                 }
                 $data['attr_'. $backendType .'_'. $key] = $value;
                 unset($data[$key]);
