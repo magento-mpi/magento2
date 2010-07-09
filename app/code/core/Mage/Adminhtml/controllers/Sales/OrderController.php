@@ -92,8 +92,12 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
      */
     protected function _getOrderCollection($orderIds)
     {
-        return Mage::getResourceModel('sales/order_collection')
-            ->addFieldToFilter('entity_id', array('in' => $orderIds));
+        $collection = Mage::getResourceModel('sales/order_collection');
+        $collection->addFieldToFilter(
+            $collection->getResource()->getIdFieldName(),
+            array('in' => $orderIds)
+        );
+        return $collection;
     }
 
     /**
