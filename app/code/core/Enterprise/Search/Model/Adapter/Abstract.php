@@ -544,13 +544,12 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
      */
     protected function _prepareQueryText($text)
     {
-        $_moreThenOneWord = sizeof(explode(' ', $text)) > 1;
-        if ($_moreThenOneWord) {
-            $text = $this->_phrase($text);
+        $words = explode(' ', $text);
+        foreach ($words as &$word) {
+            $word = $this->_escape($word);
         }
-        else {
-            $text = $this->_escape($text);
-        }
+        $text = implode(' ', $words);
+
         return $text;
     }
 
