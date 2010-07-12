@@ -273,6 +273,11 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
         return $this->getData($this->getPrefix());
     }
 
+    public function setConditions(array $conditions)
+    {
+        return $this->setData($this->getPrefix(), $conditions);
+    }
+
     /**
      * Getter for "Conditions Combination" select option for recursive combines
      */
