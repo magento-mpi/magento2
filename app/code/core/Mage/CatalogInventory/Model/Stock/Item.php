@@ -220,14 +220,14 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     /**
      * Retrieve minimal quantity available for item status in stock
      *
-     * @return decimal
+     * @return float
      */
     public function getMinQty()
     {
         if ($this->getUseConfigMinQty()) {
             return (float) Mage::getStoreConfig(self::XML_PATH_MIN_QTY);
         }
-        return $this->getData('min_qty');
+        return (float) $this->getData('min_qty');
     }
 
     /**
@@ -282,14 +282,14 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
     /**
      * Retrieve Maximum Qty Allowed in Shopping Cart data wraper
      *
-     * @return unknown
+     * @return float
      */
     public function getMaxSaleQty()
     {
         if ($this->getUseConfigMaxSaleQty()) {
             return (float) Mage::getStoreConfig(self::XML_PATH_MAX_SALE_QTY);
         }
-        return $this->getData('max_sale_qty');
+        return (float) $this->getData('max_sale_qty');
     }
 
     /**
@@ -302,7 +302,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if ($this->getUseConfigNotifyStockQty()) {
             return (float) Mage::getStoreConfig(self::XML_PATH_NOTIFY_STOCK_QTY);
         }
-        return (float)$this->getData('notify_stock_qty');
+        return (float) $this->getData('notify_stock_qty');
     }
 
     /**
@@ -315,7 +315,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if ($this->getUseConfigEnableQtyIncrements()) {
             return Mage::getStoreConfigFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS);
         }
-        return (bool)$this->getData('enable_qty_increments');
+        return (bool) $this->getData('enable_qty_increments');
     }
 
     /**
