@@ -203,6 +203,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
                 'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 AND url_rewrite.product_id IS NULL AND url_rewrite.store_id="'.$storeId.'" AND url_rewrite.id_path LIKE "category/%"',
                 array('request_path' => 'url_rewrite.request_path'))
             ->where('main_table.is_active = ?', '1')
+            ->where('main_table.include_in_menu', '1')
 //            ->order('main_table.path', 'ASC')
             ->order('main_table.position', 'ASC');
 
