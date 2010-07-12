@@ -45,7 +45,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <xmlconnect translate="title" module="enterprise_giftregistry">
+                                    <xmlconnect translate="title" module="xmlconnect">
                                         <title>Mobile Application</title>
                                     </xmlconnect>
                                 </children>
