@@ -107,6 +107,11 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/compiler/',
         'app/design/adminhtml/default/default/layout/compiler.xml',
     ),
+    'Mage_Connect' => array(
+        'app/code/core/Mage/Connect/',
+        'app/design/adminhtml/default/default/template/connect/',
+        'app/design/adminhtml/default/default/layout/connect.xml',
+    ),
     'Mage_Contacts' => array(
         'app/code/core/Mage/Contacts/',
         'app/design/frontend/base/default/template/contacts/',
@@ -463,7 +468,7 @@ $CONFIG['translates'] = array(
     ),
     'Enterprise_Pbridge' => array(
         'app/code/core/Enterprise/Pbridge/',
-        'app/design/adminhtml/default/default/layout/enterprise/pridge.xml',
+        'app/design/adminhtml/default/default/layout/enterprise/pbridge.xml',
         'app/design/adminhtml/default/default/template/enterprise/pbridge/',
         'app/design/frontend/enterprise/default/layout/pbridge.xml',
         'app/design/frontend/enterprise/default/template/pbridge/'
@@ -523,6 +528,7 @@ $CONFIG['helpers']  = array(
     'chronopay'         => 'Mage_Chronopay',
     'cms'               => 'Mage_Cms',
     'compiler'          => 'Mage_Compiler',
+    'connect'           => 'Mage_Connect',
     'contacts'          => 'Mage_Contacts',
     'core'              => 'Mage_Core',
     'cron'              => 'Mage_Cron',
