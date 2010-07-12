@@ -47,6 +47,11 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
     const COOKIE_WISHLIST_ITEMS     = 'WISHLIST_CNT';
 
     /**
+     * Subprocessors cookie names
+     */
+    const COOKIE_CATEGORY_PROCESSOR = 'CATEGORY_INFO';
+
+    /**
      * Encryption salt value
      *
      * @var sting
@@ -134,5 +139,25 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
         $cookieIds = array_slice($cookieIds, 0, $countLimit);
         $cookieIds = implode(',', $cookieIds);
         setcookie(Enterprise_PageCache_Model_Container_Viewedproducts::COOKIE_NAME, $cookieIds, 0, '/');
+    }
+
+    /**
+     * Set catalog cookie
+     *
+     * @param string $value
+     */
+    public static function setCategoryCookieValue($value)
+    {
+        setcookie(self::COOKIE_CATEGORY_PROCESSOR, $value, 0, '/');
+    }
+
+    /**
+     * Get catalog cookie
+     *
+     * @param string $value
+     */
+    public static function getCategoryCookieValue()
+    {
+        return $_COOKIE[self::COOKIE_CATEGORY_PROCESSOR];
     }
 }

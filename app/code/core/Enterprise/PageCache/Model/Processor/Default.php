@@ -32,18 +32,6 @@ class Enterprise_PageCache_Model_Processor_Default
     private $_placeholder;
 
     /**
-     * Get request uri based on HTTP request uri and visitor session state
-     *
-     * @param Enterprise_PageCache_Model_Processor $processor
-     * @param Zend_Controller_Request_Http $request
-     * @return string
-     */
-    public function getRequestUri(Enterprise_PageCache_Model_Processor $processor, Zend_Controller_Request_Http $request)
-    {
-        return $processor->getRequestId();
-    }
-
-    /**
      * Check if request can be cached
      *
      * @param Zend_Controller_Request_Http $request
@@ -106,5 +94,32 @@ class Enterprise_PageCache_Model_Processor_Default
             $container->saveCache($blockContent);
         }
         return $this->_placeholder->getReplacer();
+    }
+
+
+    /**
+     * Return cache page id with application. Depends on GET super global array.
+     *
+     * @param Enterprise_PageCache_Model_Processor $processor
+     * @param Zend_Controller_Request_Http $request
+     * @return string
+     */
+    public function getPageIdInApp(Enterprise_PageCache_Model_Processor $processor)
+    {
+        return $this->getPageIdWithoutApp($processor);
+    }
+
+    /**
+     * Return cache page id without application. Depends on GET super global array.
+     *
+     * @param Enterprise_PageCache_Model_Processor $processor
+     * @return string
+     */
+    public function getPageIdWithoutApp(Enterprise_PageCache_Model_Processor $processor)
+    {
+        $queryParams = $_GET;
+        ksort($queryParams);
+        $queryParamsHash = md5(serialize($queryParams));
+        return $processor->getRequestId() . '_' . $queryParamsHash;
     }
 }

@@ -40,6 +40,8 @@ class Enterprise_PageCache_Model_Processor
      */
     const LAST_PRODUCT_COOKIE           = 'LAST_PRODUCT';
 
+    const METADATA_CACHE_SUFFIX        = '_metadata';
+
     /**
      * Request identifier
      *
@@ -61,39 +63,21 @@ class Enterprise_PageCache_Model_Processor
     protected $_requestTags;
 
     /**
+     * Cache service info
+     * @var mixed
+     */
+    protected $_metaData = null;
+
+    /**
      * Class constructor
      */
     public function __construct()
     {
-        $uri = false;
-        /**
-         * Define server HTTP HOST
-         */
-        if (isset($_SERVER['HTTP_HOST'])) {
-            $uri = $_SERVER['HTTP_HOST'];
-        } elseif (isset($_SERVER['SERVER_NAME'])) {
-            $uri = $_SERVER['SERVER_NAME'];
-        }
+        $uri = $this->_getFullPageUrl();
 
-        /**
-         * Define request URI
-         */
-        if ($uri) {
-            if (isset($_SERVER['HTTP_X_REWRITE_URL'])) {
-                $uri.= $_SERVER['HTTP_X_REWRITE_URL'];
-            } elseif (isset($_SERVER['REQUEST_URI'])) {
-                $uri.= $_SERVER['REQUEST_URI'];
-            } elseif (!empty($_SERVER['IIS_WasUrlRewritten']) && !empty($_SERVER['UNENCODED_URL'])) {
-                $uri.= $_SERVER['UNENCODED_URL'];
-            } elseif (isset($_SERVER['ORIG_PATH_INFO'])) {
-                $uri.= $_SERVER['ORIG_PATH_INFO'];
-                if (!empty($_SERVER['QUERY_STRING'])) {
-                    $uri.= $_SERVER['QUERY_STRING'];
-                }
-            } else {
-                $uri = false;
-            }
-        }
+        //Removing get params
+        $pieces = explode('?', $uri);
+        $uri = array_shift($pieces);
 
         /**
          * Define COOKIE state
@@ -122,7 +106,7 @@ class Enterprise_PageCache_Model_Processor
      */
     public function prepareCacheId($id)
     {
-        return self::REQUEST_ID_PREFIX.md5($id);
+        return self::REQUEST_ID_PREFIX.($id);
     }
 
     /**
@@ -175,21 +159,37 @@ class Enterprise_PageCache_Model_Processor
      */
     public function extractContent($content)
     {
+        Mage::app()->getRequest();
+
         if (!$content && $this->isAllowed()) {
-            $content = Mage::app()->loadCache($this->getRequestCacheId());
+
+            $subprocessorClass = $this->getMetadata('cache_subprocessor');
+            if (!$subprocessorClass) {
+                return $content;
+            }
+
+            /*
+             * @var Enterprise_PageCache_Model_Processor_Default
+             */
+            $subprocessor = new $subprocessorClass;
+            $cacheId = $this->prepareCacheId($subprocessor->getPageIdWithoutApp($this));
+
+            $content = Mage::app()->loadCache($cacheId);
+
             if ($content) {
                 if (function_exists('gzuncompress')) {
                     $content = gzuncompress($content);
                 }
                 $content = $this->_processContent($content);
+
+                // renew recently viewed products
+                $productId = Mage::app()->loadCache($this->getRequestCacheId() . '_current_product_id');
+                $countLimit = Mage::app()->loadCache($this->getRecentlyViewedCountCacheId());
+                if ($productId && $countLimit) {
+                    Enterprise_PageCache_Model_Cookie::registerViewedProducts($productId, $countLimit);
+                }
             }
-            // renew recently viewed products
-            $productId = Mage::app()->loadCache($this->getRequestCacheId() . '_current_product_id');
-            $countLimit = Mage::app()->loadCache($this->getRecentlyViewedCountCacheId());
-            if ($productId && $countLimit) {
-                $cookie = new Enterprise_PageCache_Model_Cookie;
-                Enterprise_PageCache_Model_Cookie::registerViewedProducts($productId, $countLimit);
-            }
+
         }
         return $content;
     }
@@ -272,12 +272,14 @@ class Enterprise_PageCache_Model_Processor
                 ->isStraight(true);
 
             // restore original routing info
-            $routingInfo = Mage::app()->loadCache($this->getRequestCacheId() . '_routing_info');
-            if ($routingInfo) {
-                $routingInfo = unserialize($routingInfo);
-                Mage::app()->getRequest()->setRoutingInfo($routingInfo);
-            }
+            $routingInfo = array(
+                    'aliases'              => $this->getMetadata('routing_aliases'),
+                    'requested_route'      => $this->getMetadata('routing_requested_route'),
+                    'requested_controller' => $this->getMetadata('routing_requested_controller'),
+                    'requested_action'     => $this->getMetadata('routing_requested_action')
+                );
 
+            Mage::app()->getRequest()->setRoutingInfo($routingInfo);
             return false;
         }
     }
@@ -322,22 +324,24 @@ class Enterprise_PageCache_Model_Processor
         if ($this->canProcessRequest($request)) {
             $processor = $this->getRequestProcessor($request);
             if ($processor && $processor->allowCache($request)) {
-                $cacheId = $this->prepareCacheId($processor->getRequestUri($this, $request));
+                $this->setMetadata('cache_subprocessor', get_class($processor));
+
+                $cacheId = $this->prepareCacheId($processor->getPageIdInApp($this));
                 $content = $processor->prepareContent($response);
 
                 if (function_exists('gzcompress')) {
                     $content = gzcompress($content);
                 }
-                Mage::app()->saveCache($content, $cacheId, $this->getRequestTags());
 
+                Mage::app()->saveCache($content, $cacheId, $this->getRequestTags());
                 // save original routing info
-                $routingInfo = array(
-                    'aliases'              => Mage::app()->getRequest()->getAliases(),
-                    'requested_route'      => Mage::app()->getRequest()->getRequestedRouteName(),
-                    'requested_controller' => Mage::app()->getRequest()->getRequestedControllerName(),
-                    'requested_action'     => Mage::app()->getRequest()->getRequestedActionName()
-                );
-                Mage::app()->saveCache(serialize($routingInfo), $cacheId . '_routing_info', $this->getRequestTags());
+                $this->setMetadata('routing_aliases', Mage::app()->getRequest()->getAliases());
+                $this->setMetadata('routing_requested_route', Mage::app()->getRequest()->getRequestedRouteName());
+                $this->setMetadata('routing_requested_controller',
+                    Mage::app()->getRequest()->getRequestedControllerName());
+                $this->setMetadata('routing_requested_action', Mage::app()->getRequest()->getRequestedActionName());
+
+                $this->_saveMetadata();
             }
         }
         return $this;
@@ -400,5 +404,95 @@ class Enterprise_PageCache_Model_Processor
             }
         }
         return $processor;
+    }
+
+    /**
+     * Set metadata value for specified key
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return Enterprise_PageCache_Model_Processor
+     */
+    public function setMetadata($key, $value)
+    {
+        $this->_loadMetadata();
+        $this->_metaData[$key] = $value;
+        return $this;
+    }
+
+    /**
+     * Get metadata value for specified key
+     *
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function getMetadata($key)
+    {
+        $this->_loadMetadata();
+        return (isset($this->_metaData[$key])) ? $this->_metaData[$key] : null;
+    }
+
+    /**
+     * Return current page base url
+     *
+     * @return string
+     */
+    protected function _getFullPageUrl()
+    {
+        $uri = false;
+        /**
+         * Define server HTTP HOST
+         */
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $uri = $_SERVER['HTTP_HOST'];
+        } elseif (isset($_SERVER['SERVER_NAME'])) {
+            $uri = $_SERVER['SERVER_NAME'];
+        }
+
+        /**
+         * Define request URI
+         */
+        if ($uri) {
+            if (isset($_SERVER['REQUEST_URI'])) {
+                $uri.= $_SERVER['REQUEST_URI'];
+            } elseif (!empty($_SERVER['IIS_WasUrlRewritten']) && !empty($_SERVER['UNENCODED_URL'])) {
+                $uri.= $_SERVER['UNENCODED_URL'];
+            } elseif (isset($_SERVER['ORIG_PATH_INFO'])) {
+                $uri.= $_SERVER['ORIG_PATH_INFO'];
+                if (!empty($_SERVER['QUERY_STRING'])) {
+                    $uri.= $_SERVER['QUERY_STRING'];
+                }
+            }
+        }
+        return $uri;
+    }
+
+
+    /**
+     * Save metadata for cache in cache storage
+     */
+    protected function _saveMetadata()
+    {
+        Mage::app()->saveCache(
+            serialize($this->_metaData),
+            $this->getRequestCacheId() . self::METADATA_CACHE_SUFFIX,
+            $this->getRequestTags()
+            );
+    }
+
+    /**
+     * Load cache metadata from storage
+     */
+    protected function _loadMetadata()
+    {
+        if ($this->_metaData === null) {
+            $cacheMetadata = Mage::app()->loadCache($this->getRequestCacheId() . self::METADATA_CACHE_SUFFIX);
+            if ($cacheMetadata) {
+                $cacheMetadata = unserialize($cacheMetadata);
+            }
+            $this->_metaData = (empty($cacheMetadata) || !is_array($cacheMetadata)) ? array() : $cacheMetadata;
+        }
     }
 }

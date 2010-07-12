@@ -32,31 +32,51 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
         'sort_order'    => 'order',
         'sort_direction'=> 'dir',
     );
+
     /**
-     * Get request uri based on HTTP request uri and visitor session state
+     * Return cache page id with application. Depends on catalog session and GET super global array.
      *
      * @param Enterprise_PageCache_Model_Processor $processor
-     * @param Zend_Controller_Request_Http $request
      * @return string
      */
-    public function getRequestUri(Enterprise_PageCache_Model_Processor $processor, Zend_Controller_Request_Http $request)
+    public function getPageIdInApp(Enterprise_PageCache_Model_Processor $processor)
     {
-        $requestId = $processor->getRequestId();
-        $params = $this->_getSessionParams();
-        $queryParams = $request->getQuery();
-        $queryParams = array_merge($params, $queryParams);
-        ksort($queryParams);
+        $this->_prepareCatalogSession();
 
-        $origQuery= http_build_query($request->getQuery());
-        $newQuery = http_build_query($queryParams);
-        if ($origQuery) {
-            $requestId = str_replace($origQuery, $newQuery, $requestId);
-        } else {
-            if ($newQuery) {
-                $requestId = $requestId . '?' . $newQuery;
+        $queryParams = array_merge($this->_getSessionParams(), $_GET);
+        ksort($queryParams);
+        $queryParams = json_encode($queryParams);
+
+        Enterprise_PageCache_Model_Cookie::setCategoryCookieValue($queryParams);
+
+        return $processor->getRequestId() . '_' . md5($queryParams);
+    }
+
+    /**
+     * Return cache page id without application. Depends on GET super global array.
+     *
+     * @param Enterprise_PageCache_Model_Processor $processor
+     * @return string
+     */
+    public function getPageIdWithoutApp(Enterprise_PageCache_Model_Processor $processor)
+    {
+        $queryParams = $_GET;
+
+        $sessionParams = Enterprise_PageCache_Model_Cookie::getCategoryCookieValue();
+        if ($sessionParams) {
+            $sessionParams = (array)json_decode($sessionParams);
+            foreach ($sessionParams as $key => $value) {
+                if (in_array($key, $this->_paramsMap) && !isset($queryParams[$key])) {
+                    $queryParams[$key] = $value;
+                }
             }
         }
-        return $requestId;
+        ksort($queryParams);
+        $queryParams = json_encode($queryParams);
+
+        Enterprise_PageCache_Model_Cookie::setCategoryCookieValue($queryParams);
+
+        return $processor->getRequestId() . '_' . md5($queryParams);
     }
 
     /**
@@ -91,5 +111,22 @@ class Enterprise_PageCache_Model_Processor_Category extends Enterprise_PageCache
             }
         }
         return $params;
+    }
+
+    /**
+     * Update catalog session from cookies
+     */
+    protected function _prepareCatalogSession()
+    {
+        $sessionParams = Enterprise_PageCache_Model_Cookie::getCategoryCookieValue();
+        if ($sessionParams) {
+            $session = Mage::getSingleton('catalog/session');
+            $sessionParams = (array)json_decode($sessionParams);
+            foreach ($sessionParams as $key => $value) {
+                if (in_array($key, $this->_paramsMap)) {
+                    $session->setData($key, $value);
+                }
+            }
+        }
     }
 }
