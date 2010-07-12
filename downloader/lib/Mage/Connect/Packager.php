@@ -216,11 +216,28 @@ class Mage_Connect_Packager
         $ftp->chdir($ftpDir);
     }
 
+    /**
+     * Validation of mode permissions
+     *
+     * @param int $mode
+     * @throws Exception
+     * @return int mode 
+     */
+    protected function validPermMode ($mode)
+    {
+        $mode = intval($mode);
+        if ($mode < 73 || $mode > 511) {
+            throw new Exception("Invalid mode permissions");
+        }
+
+        return $mode;
+    }
+
     protected function convertFtpPath($str)
     {
         return str_replace("\\", "/", $str);
     }
-
+    
     public function processInstallPackageFtp($package, $file, $configObj, $ftp)
     {
         $ftpDir = $ftp->getcwd();
@@ -228,10 +245,9 @@ class Mage_Connect_Packager
         $arc = $this->getArchiver();
         $target = dirname($file).DS.$package->getReleaseFilename();
         @mkdir($target, 0777, true);
-        $mode = $configObj->global_dir_mode;
         $tar = $arc->unpack($file, $target);
-        $modeFile = $configObj->global_file_mode;
-        $modeDir = $configObj->global_dir_mode;
+        $modeFile = decoct($this->validPermMode($configObj->global_file_mode));
+        $modeDir = decoct($this->validPermMode($configObj->global_dir_mode));
         foreach($contents as $file) {
             $fileName = basename($file);
             $filePath = $this->convertFtpPath(dirname($file));
@@ -262,10 +278,9 @@ class Mage_Connect_Packager
         $arc = $this->getArchiver();
         $target = dirname($file).DS.$package->getReleaseFilename();
         @mkdir($target, 0777, true);
-        $mode = $configObj->global_dir_mode;
         $tar = $arc->unpack($file, $target);
-        $modeFile = $configObj->global_file_mode;
-        $modeDir = $configObj->global_dir_mode;
+        $modeFile = decoct($this->validPermMode($configObj->global_file_mode));
+        $modeDir = decoct($this->validPermMode($configObj->global_dir_mode));
         foreach($contents as $file) {
             $fileName = basename($file);
             $filePath = dirname($file);
