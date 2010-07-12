@@ -122,4 +122,16 @@ class Enterprise_PageCache_Model_Processor_Default
         $queryParamsHash = md5(serialize($queryParams));
         return $processor->getRequestId() . '_' . $queryParamsHash;
     }
+
+    /**
+     * Get request uri based on HTTP request uri and visitor session state
+     *
+     * @deprecated after 1.8
+     * @param Enterprise_PageCache_Model_Processor $processor
+     * @param Zend_Controller_Request_Http $request
+     * @return string
+     */
+    public function getRequestUri(Enterprise_PageCache_Model_Processor $processor, Zend_Controller_Request_Http $request)
+    {
+    }
 }

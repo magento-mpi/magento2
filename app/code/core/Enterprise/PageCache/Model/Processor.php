@@ -106,7 +106,7 @@ class Enterprise_PageCache_Model_Processor
      */
     public function prepareCacheId($id)
     {
-        return self::REQUEST_ID_PREFIX.($id);
+        return self::REQUEST_ID_PREFIX . md5($id);
     }
 
     /**
