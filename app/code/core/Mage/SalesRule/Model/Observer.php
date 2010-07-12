@@ -158,7 +158,7 @@ class Mage_SalesRule_Model_Observer
 
             if ($hasRule) {
                 Mage::getSingleton('adminhtml/session')->addWarning(
-                    Mage::helper('catalogrule')->__('Shopping Cart Price Rules based on deleted attribute "%s" has been disabled.', $attributeCode));
+                    Mage::helper('salesrule')->__('Shopping Cart Price Rules based on deleted attribute "%s" has been disabled.', $attributeCode));
             }
         }
 
