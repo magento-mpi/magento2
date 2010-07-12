@@ -43,23 +43,27 @@ class Enterprise_GiftRegistry_Block_Email_Items extends Mage_Core_Block_Template
     /**
      * Count gift registry items in last order
      *
-     * @param object $item
-     * @return int
+     * @param Enterprise_GiftRegistry_Model_Mysql4_Item $item
+     * @return mixed
      */
     public function getQtyOrdered($item)
     {
-        $ordered = $this->getEntity()->getOrderedQty();
-        return isset($ordered[$item->getId()]) ? (int)$ordered[$item->getId()] : 0;
+        $updatedQty = $this->getEntity()->getUpdatedQty();
+        if (is_array($updatedQty) && !empty($updatedQty[$item->getId()]['ordered'])) {
+            return $updatedQty[$item->getId()]['ordered'];
+        }
+        return 0;
     }
 
     /**
      * Return gift registry entity remained item qty
      *
-     * @return int
+     * @param Enterprise_GiftRegistry_Model_Mysql4_Item $item
+     * @return mixed
      */
     public function getRemainedQty($item)
     {
-        $qty = ($item->getQty() - $item->getQtyFulfilled()) * 1;
+        $qty = ($item->getQty() - $this->getQtyFulfilled($item)) * 1;
         if ($qty > 0) {
             return $qty;
         }
@@ -69,7 +73,8 @@ class Enterprise_GiftRegistry_Block_Email_Items extends Mage_Core_Block_Template
     /**
      * Return gift registry entity item qty
      *
-     * @return int
+     * @param Enterprise_GiftRegistry_Model_Mysql4_Item $item
+     * @return mixed
      */
     public function getQty($item)
     {
@@ -79,10 +84,15 @@ class Enterprise_GiftRegistry_Block_Email_Items extends Mage_Core_Block_Template
     /**
      * Return gift registry entity item fulfilled qty
      *
-     * @return int
+     * @param Enterprise_GiftRegistry_Model_Mysql4_Item $item
+     * @return mixed
      */
     public function getQtyFulfilled($item)
     {
-        return $item->getQtyFulfilled() * 1;
+        $updatedQty = $this->getEntity()->getUpdatedQty();
+        if (is_array($updatedQty) && !empty($updatedQty[$item->getId()]['fulfilled'])) {
+            return $updatedQty[$item->getId()]['fulfilled'];
+        }
+        return 0;
     }
 }

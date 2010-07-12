@@ -242,9 +242,10 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      * Send notification to owner on gift registry update -
      * gift registry items or their quantity purchased
      *
+     * @param array $updatedQty
      * @return bool
      */
-    public function sendUpdateRegistryEmail($ordered)
+    public function sendUpdateRegistryEmail($updatedQty)
     {
         $translate = Mage::getSingleton('core/translate');
         $translate->setTranslateInline(false);
@@ -255,7 +256,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         $store = Mage::app()->getStore();
         $mail = Mage::getModel('core/email_template');
 
-        $this->setOrderedQty($ordered);
+        $this->setUpdatedQty($updatedQty);
 
         $templateVars = array(
             'store' => $store,
@@ -377,7 +378,6 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     {
         $collection = Mage::getModel('enterprise_giftregistry/item')->getCollection()
             ->addRegistryFilter($this->getId());
-
         return $collection;
     }
 
