@@ -158,6 +158,6 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
      */
     public static function getCategoryCookieValue()
     {
-        return $_COOKIE[self::COOKIE_CATEGORY_PROCESSOR];
+        return (isset($_COOKIE[self::COOKIE_CATEGORY_PROCESSOR])) ? $_COOKIE[self::COOKIE_CATEGORY_PROCESSOR] : false;
     }
 }
