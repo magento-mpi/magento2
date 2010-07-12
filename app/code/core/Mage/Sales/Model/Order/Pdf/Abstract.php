@@ -180,8 +180,16 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         return $return;
     }
 
-    protected function insertOrder(&$page, $order, $putOrderId = true)
+    protected function insertOrder(&$page, $obj, $putOrderId = true)
     {
+        if ($obj instanceof Mage_Sales_Model_Order) {
+            $shipment = null;
+            $order = $obj;
+        } elseif ($obj instanceof Mage_Sales_Model_Order_Shipment) {
+            $shipment = $obj;
+            $order = $shipment->getOrder();
+        }
+
         /* @var $order Mage_Sales_Model_Order */
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0.5));
 
@@ -313,7 +321,11 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
             $page->drawText($totalShippingChargesText, 285, $yShipments-7, 'UTF-8');
             $yShipments -=10;
-            $tracks = $order->getTracksCollection();
+
+            $tracks = array();
+            if ($shipment) {
+                $tracks = $shipment->getAllTracks();
+            }
             if (count($tracks)) {
                 $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
                 $page->setLineWidth(0.5);
@@ -329,7 +341,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
                 $yShipments -=17;
                 $this->_setFontRegular($page, 6);
-                foreach ($order->getTracksCollection() as $track) {
+                foreach ($tracks as $track) {
 
                     $CarrierCode = $track->getCarrierCode();
                     if ($CarrierCode!='custom')
