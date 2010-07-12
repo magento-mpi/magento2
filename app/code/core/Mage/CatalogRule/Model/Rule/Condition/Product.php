@@ -256,6 +256,9 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
             case 'date':
                 return 'date';
 
+            case 'boolean':
+                return 'boolean';
+
             default:
                 return 'string';
         }
