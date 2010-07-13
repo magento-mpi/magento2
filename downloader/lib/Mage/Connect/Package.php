@@ -501,7 +501,7 @@ END;
                 if (!empty($include) && !preg_match($include, $filePath)) {
                     continue;
                 }
-                if (!empty($ignore) && preg_match($exclude, $filePath)) {
+                if (!empty($exclude) && preg_match($exclude, $filePath)) {
                     continue;
                 }
                 if (is_dir($entry)) {
