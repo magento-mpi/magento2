@@ -17,10 +17,10 @@ cd $PWD
         check_failure $?
     fi
 
-    echo 'SHOW DATABASES;' | mysql -u root | grep $SB_DB > /dev/null
+    echo 'SHOW DATABASES;' | mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS | grep $SB_DB > /dev/null
     if [ "$?" -eq 0 ] ; then
 	log "Copying DB..."
-        mysqldump -u root $SB_DB | mysql -u root $DB_NAME
+        mysqldump -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS $SB_DB | mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS $DB_NAME
         check_failure $? 
         ch_baseurl $BUILD_NUMBER $DB_NAME
     fi

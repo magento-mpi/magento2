@@ -176,6 +176,8 @@
     -->
 
     <target name="phpdoc" description="Generate phpDoc files.">
+        <property name="phpdoc" value="${teamcity.buildConfName}-${build.number}-phpdoc"/>
+
         <exec dir="${dir.src}" executable="phpdoc" failonerror="true">
 	    <arg line="-d lib/Varien -t ${dir.docs}/phpdoc/Varien -o HTML:frames:default -ti 'Varien Lib Documentation (phpdoc)' -q"/>
         </exec>
@@ -185,10 +187,12 @@
         <exec executable="./phpdocfix.php" failonerror="true">
             <arg line="${dir.docs}/phpdoc/ ce"/>
         </exec>
-        <tar destfile="${dir.docs}/${teamcity.buildConfName}-${build.number}-phpdoc.tar" basedir="${dir.docs}/phpdoc"/>
-        <gzip destfile="${dir.docs}/${teamcity.buildConfName}-${build.number}-phpdoc.tar.gz" src="${dir.docs}/${teamcity.buildConfName}-${build.number}-phpdoc.tar"/>
-	<delete file="${dir.docs}/${teamcity.buildConfName}-${build.number}-phpdoc.tar"/>
-        <echo>##teamcity[publishArtifacts '${dir.docs}/phpdoc.tar.gz']</echo>
+
+        <tar destfile="${dir.docs}/${phpdoc}.tar" basedir="${dir.docs}/phpdoc"/>
+        <gzip destfile="${dir.docs}/${phpdoc}.tar.gz" src="${dir.docs}/${phpdoc}.tar"/>
+	<delete file="${dir.docs}/${phpdoc}.tar"/>
+
+        <echo>##teamcity[publishArtifacts '${dir.docs}/${phpdoc}.tar.gz']</echo>
     </target>
 
     <target name="make-tag" description="Create tag for this build."></target>

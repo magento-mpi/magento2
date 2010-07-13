@@ -12,7 +12,7 @@ check_failure $?
 # Installing build...
 $PHP_BIN -f $BUILD_NUMBER/install.php -- --license_agreement_accepted yes \
 --locale en_US --timezone "America/Los_Angeles" --default_currency USD \
---db_host "$DB_HOST" --db_name "$DB_NAME"  --db_user "$DB_USER" --db_pass "$DB_PASS" \
+--db_host "$DB_HOST:$DB_PORT" --db_name "$DB_NAME"  --db_user "$DB_USER" --db_pass "$DB_PASS" \
 --db_prefix "$DB_PREFIX" \
 --use_rewrites yes \
 --admin_frontname "$MAGENTO_FRONTNAME" \
@@ -28,6 +28,11 @@ check_failure $?
 # Changing permission to cache folder as it was created by user which runs install
 log "Changing permission for var/cache folder"
 chmod -R 777 $BUILD_NUMBER/var/cache
+check_failure $?
+
+
+log "Changing permission for media folder"
+chmod -R 777 $BUILD_NUMBER/media
 check_failure $?
 
 # Reverting local.xml.template 

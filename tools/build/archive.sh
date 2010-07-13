@@ -31,7 +31,7 @@ do
 	    mkdir ../archive/$BUILD_NAME/sql
 	    check_failure $?
 	fi
-	mysqldump -u root $DB_ARCH_NAME | gzip > ../archive/$BUILD_NAME/sql/$DB_ARCH_NAME.sql.gz
+	mysqldump -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS $DB_ARCH_NAME | gzip > ../archive/$BUILD_NAME/sql/$DB_ARCH_NAME.sql.gz
 	check_failure $?	
 	
         log "Deleting $file" 	
@@ -39,7 +39,7 @@ do
 	check_failure $?	
 	
         log "Dropping DB $DB_ARCH_NAME"
-	echo "DROP DATABASE IF EXISTS $DB_ARCH_NAME;" | mysql -u root                                                                                                                                                                                                     
+	echo "DROP DATABASE IF EXISTS $DB_ARCH_NAME;" | mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS                                                                                                                                                                                                    
 	check_failure $?	
     else 
 	log "Nothing to archive."	

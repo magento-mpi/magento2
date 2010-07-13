@@ -1,11 +1,12 @@
 #!/bin/sh
 OLDPWD=`pwd`
 PHP_BIN="/usr/bin/php"
-PWD="/opt/builds/$1/"
+PWD="/opt/builds/$1"
 OLDIFS=$IFS
 
 BUILD_NAME="$1"
 BUILD_NUMBER="$2"
+CHECKOUT="/opt/builds/$1/$2"
 MAGENTO_FIRSTNAME="John"
 MAGENTO_LASTNAME="Lake"
 MAGENTO_EMAIL="qa51@varien.com"
@@ -14,7 +15,8 @@ MAGENTO_PASSWORD="123123q"
 MAGENTO_FRONTNAME="control"
 ENCRYPTION_KEY="mega1nightly1test1build"
 
-DB_HOST="127.0.0.1:3306"
+DB_HOST="127.0.0.1"
+DB_PORT="3306"
 DB_USER="qa_setup"
 DB_PASS="qa_setup"
 DB_PREFIX="prefix_"
@@ -46,10 +48,10 @@ log() {
 
 ch_baseurl() {
     log "Updating unsecure base url..."
-    echo "USE $2; UPDATE prefix_core_config_data SET value = 'http://kq.varien.com/builds/$BUILD_NAME/$1/' WHERE path like 'web/unsecure/base_url';" | mysql -u root
+    echo "USE $2; UPDATE prefix_core_config_data SET value = 'http://kq.varien.com/builds/$BUILD_NAME/$1/' WHERE path like 'web/unsecure/base_url';" | mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS
     check_failure $?
     log "Updating secure base url..."
-    echo "USE $2; UPDATE prefix_core_config_data SET value = 'https://kq.varien.com/builds/$BUILD_NAME/$1/' WHERE path like 'web/secure/base_url';" | mysql -u root
+    echo "USE $2; UPDATE prefix_core_config_data SET value = 'https://kq.varien.com/builds/$BUILD_NAME/$1/' WHERE path like 'web/secure/base_url';" | mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS
     check_failure $?
 }
 
