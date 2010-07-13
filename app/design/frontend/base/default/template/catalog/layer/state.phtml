@@ -24,10 +24,10 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php 
+<?php
 /**
  * Category layered navigation state
- * 
+ *
  * @see Mage_Catalog_Block_Layer_State
  */
 ?>
@@ -39,7 +39,7 @@
     <?php foreach ($_filters as $_filter): ?>
         <li>
             <a href="<?php echo $_filter->getRemoveUrl() ?>" title="<?php echo $this->__('Remove This Item') ?>" class="btn-remove"><?php echo $this->__('Remove This Item') ?></a>
-            <span class="label"><?php echo $this->__($_filter->getName()) ?>:</span> <?php echo $_filter->getLabel() ?>
+            <span class="label"><?php echo $this->__($_filter->getName()) ?>:</span> <?php echo $this->stripTags($_filter->getLabel(), null, true) ?>
         </li>
     <?php endforeach; ?>
     </ol>
