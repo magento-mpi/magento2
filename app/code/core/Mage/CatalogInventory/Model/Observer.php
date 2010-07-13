@@ -370,6 +370,20 @@ class Mage_CatalogInventory_Model_Observer
     }
 
     /**
+     * Subtract qtys of quote item products after multishipping checkout
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_CatalogInventory_Model_Observer
+     */
+    public function checkoutAllSubmitAfter(Varien_Event_Observer $observer)
+    {
+        if ($observer->getEvent()->getQuote()->getIsMultiShipping()) {
+            $this->subtractQuoteInventory($observer);
+        }
+        return $this;
+    }
+
+    /**
      * Subtrack quote items qtys from stock items related with quote items products.
      * Used before order placing to make order save/place transaction smaller
      *
