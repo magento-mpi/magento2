@@ -31,7 +31,7 @@
         <label for="qty"><?php echo $this->__('Qty:') ?></label>
         <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
         <?php endif; ?>
-        <button type="button" title="<?php echo $this->__('Add to Gift Registry') ?>" class="button btn-cart btn-gr" onclick="productAddToCartForm.submit()"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
+        <button type="button" title="<?php echo $this->__('Add to Gift Registry') ?>" class="button btn-cart btn-gr" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
     </div>
 <?php endif; ?>
 <script type="text/javascript">
