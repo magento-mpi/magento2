@@ -255,9 +255,11 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
         $collection = $observer->getEvent()->getCollection();
 
         foreach ($collection as $item) {
-            $attribute = $item->getResource()->getAttribute('giftcard_amounts');
-            if ($attribute->getId()) {
-                $attribute->getBackend()->afterLoad($item);
+            if ('giftcard' == $item->getTypeId()) {
+                $attribute = $item->getResource()->getAttribute('giftcard_amounts');
+                if ($attribute->getId()) {
+                    $attribute->getBackend()->afterLoad($item);
+                }
             }
         }
         return $this;
