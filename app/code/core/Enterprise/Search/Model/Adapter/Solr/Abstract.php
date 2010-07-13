@@ -129,6 +129,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         $fieldPrefix = $this->_advancedIndexFieldsPrefix;
         $languageCode = $this->_getLanguageCodeByLocaleCode($localeCode);
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
+        $separator = Mage::getResourceSingleton('catalogsearch/fulltext')->getSeparator();
 
         foreach ($data as $key => $value) {
             if (in_array($key, $this->_usedFields) && !in_array($key, $this->_searchTextFields)) {
@@ -148,7 +149,16 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
 
             if ($frontendInput == 'multiselect') {
                 if (!is_array($value)) {
-                    $value = explode(' ', $value);
+                    $value = explode($separator, $value);
+                    $value = array_unique($value);
+                } else {
+                    $result = array();
+                    foreach ($value as $val) {
+                        if (is_array($value)) {
+                            $result = array_merge($result, explode($separator, $val));
+                        }
+                    }
+                    $value = array_unique($result);
                 }
                 $data['attr_multi_'. $key] = $value;
                 unset($data[$key]);

@@ -45,7 +45,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
      *
      * @var string
      */
-    protected $_separator = ' ';
+    protected $_separator = '|';
 
     /**
      * Array of Zend_Date objects per store
@@ -74,6 +74,16 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     {
         $this->_init('catalogsearch/fulltext', 'product_id');
         $this->_engine = Mage::helper('catalogsearch')->getEngine();
+    }
+
+    /**
+     * Return options separator
+     *
+     * @return string
+     */
+    public function getSeparator()
+    {
+        return $this->_separator;
     }
 
     /**

@@ -1292,7 +1292,7 @@
 
         <dynamicField name="attr_decimal_*" type="float" indexed="true" stored="true" multiValued="true"/>
         <dynamicField name="attr_datetime_*" type="date" indexed="true" stored="true" multiValued="true"/>
-        <dynamicField name="attr_multi_*" type="textgen" indexed="true" stored="true" multiValued="true"/>
+        <dynamicField name="attr_multi_*" type="string" indexed="true" stored="true" multiValued="true"/>
 
         <dynamicField name="attr_select_*" type="string" indexed="true" stored="true" multiValued="true"/>
 
