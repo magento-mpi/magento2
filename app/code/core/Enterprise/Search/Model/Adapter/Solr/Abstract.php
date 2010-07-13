@@ -131,7 +131,6 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         $languageSuffix = ($languageCode) ? '_' . $languageCode : '';
 
         foreach ($data as $key => $value) {
-
             if (in_array($key, $this->_usedFields) && !in_array($key, $this->_searchTextFields)) {
                 continue;
             } elseif ($key == 'options') {
@@ -294,21 +293,21 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
             foreach ($filters as $field => $value) {
                 if (is_array($value)) {
                     if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
-                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareQueryText($value['from']) : '*';
-                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareQueryText($value['to']) : '*';
+                        $from = (isset($value['from']) && !empty($value['from'])) ? $this->_prepareFilterQueryText($value['from']) : '*';
+                        $to = (isset($value['to']) && !empty($value['to'])) ? $this->_prepareFilterQueryText($value['to']) : '*';
                         $fieldCondition = "$field:[$from TO $to]";
                     }
                     else {
                         $fieldCondition = array();
                         foreach ($value as $part) {
-                            $part = $this->_prepareQueryText($part);
+                            $part = $this->_prepareFilterQueryText($part);
                             $fieldCondition[] = $this->_prepareFieldCondition($field, $part);
                         }
                         $fieldCondition = '(' . implode(' OR ', $fieldCondition) . ')';
                     }
                 }
                 else {
-                    $value = $this->_prepareQueryText($value);
+                    $value = $this->_prepareFilterQueryText($value);
                     $fieldCondition = $this->_prepareFieldCondition($field, $value);
                 }
 

@@ -561,6 +561,24 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
         return $text;
     }
 
+/**
+     * Escape filter query text
+     *
+     * @param string $text
+     * @return string
+     */
+    protected function _prepareFilterQueryText($text)
+    {
+        $words = explode(' ', $text);
+        if (count($words) > 1) {
+            $text = $this->_phrase($text);
+        } else {
+            $text = $this->_escape($text);
+        }
+
+        return $text;
+    }
+
     /**
      * Filter index data by common Solr metadata fields
      * Add language code suffix to text fields
