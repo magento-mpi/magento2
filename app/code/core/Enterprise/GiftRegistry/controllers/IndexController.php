@@ -110,10 +110,14 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                     );
                 }
             }
-
         } catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('giftregistry');
+            if ($e->getCode() == Enterprise_GiftRegistry_Model_Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
+                $this->_getCheckoutSession()->addError($e->getMessage());
+                $this->_redirectReferer('*/*');
+            } else {
+                $this->_getSession()->addError($e->getMessage());
+                $this->_redirect('giftregistry');
+            }
             return;
         } catch (Exception $e) {
             Mage::getSingleton('checkout/session')->addError($this->__('Failed to add shopping cart items to gift registry.'));
@@ -349,6 +353,16 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
     protected function _getSession()
     {
         return Mage::getSingleton('customer/session');
+    }
+
+    /**
+     * Get current checkout session
+     *
+     * @return Mage_Checkout_Model_Session
+     */
+    protected function _getCheckoutSession()
+    {
+        return Mage::getSingleton('checkout/session');
     }
 
     public function viewAction()

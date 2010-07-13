@@ -135,7 +135,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         }
 
         if (is_string($cartCandidates)) { //prepare process has error, seems like we have bundle
-            throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
+            throw new Mage_Core_Exception($cartCandidates, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
         $item = Mage::getModel('enterprise_giftregistry/item');
