@@ -35,6 +35,6 @@ class Mage_Chronopay_Model_Source_Cctype extends Mage_Payment_Model_Source_Cctyp
 {
     public function getAllowedTypes()
     {
-        return array('VI', 'MC', 'AE', 'DICL', 'JCB', 'ENR', 'SS', 'DI');
+        return array('VI', 'MC', 'AE', 'DICL', 'JCB', 'ENR', 'SM', 'SO', 'DI');
     }
 }

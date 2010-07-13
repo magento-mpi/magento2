@@ -68,6 +68,11 @@
                         <name>UATP</name>
                         <order>52</order>
                     </UATP>
+                    <MS>
+                        <code>MS</code>
+                        <name>Meastro/Switch</name>
+                        <order>53</order>
+                    </MS>
                 </types>
             </cc>
         </payment>

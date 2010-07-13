@@ -79,18 +79,15 @@ class Mage_Cybersource_Block_Form extends Mage_Payment_Block_Form_Cc
     }
 
     /*
-    * switch/solo card type available
+    * Whether switch/solo card type available
     */
     public function hasSsCardType()
     {
-        $availableTypes =$this->getMethod()->getConfigData('cctypes');
-        if ($availableTypes) {
-            $availableTypes = explode(',', $availableTypes);
-             if (in_array('SS', $availableTypes)) {
-                 return true;
-             }
+        $availableTypes = explode(',', $this->getMethod()->getConfigData('cctypes'));
+        $ssPresenations = array_intersect(array('SS', 'SM', 'SO'), $availableTypes);
+        if ($availableTypes && count($ssPresenations) > 0) {
+            return true;
         }
         return false;
     }
-
 }
