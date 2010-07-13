@@ -23,28 +23,21 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-/**
- * @var Mage_Page_Block_Html_Header $this
- */
 ?>
-<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/search.js') ?>"></script>
-<?php echo $this->getChildHtml('topSearch') ?>
-<div class="header-top">
-    <div class="col2-alt-set">
-        <div class="col-1">
-            <h1 id="logo"><a href="<?php echo $this->getUrl('') ?>"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
-        </div>
-        <div class="col-2">
-            <div class="switch-language">
-                <?php echo $this->getChildHtml('store_language') ?>
+<div class="search-form">
+    <div class="search-form-cont">
+        <div class="col2-set">
+            <form id="search_mini_form" name="search_mini_form" action="<?php echo $this->helper('catalogsearch')->getResultUrl() ?>" method="get">
+            <div class="col-1 search-md">
+                <div class="search-st"><div class="search-end">
+                    <input id="search" type="text" class="input-text" name="<?php echo $this->helper('catalogsearch')->getQueryParamName() ?>" value="<?php echo $this->helper('catalogsearch')->getEscapedQueryText() ?>" />
+                </div></div>
             </div>
-            <div class="clear"></div>
-            
-            <p class="welcome-msg"><?php echo $this->getWelcome()?></p>
-            <?php echo $this->getChildHtml('accountLinks') ?>
+            <div class="col-2">
+                <input class="search-go" type="image" src="<?php echo $this->getSkinUrl('images/search-go-but.gif') ?>" alt="<?php echo $this->__('Search') ?>" />
+                <a class="search-close" href="javascript:void(0);" onclick="$('topSearch').hide(); return false;"></a>
+            </div><div class="clear"></div>
+            </form>
         </div>
     </div>
-</div>
-<div class="shop-access">
-    <?php echo $this->getChildHtml('topLinks') ?>
 </div><div class="clear"></div>

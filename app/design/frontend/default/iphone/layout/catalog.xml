@@ -43,7 +43,6 @@ Default layout, loads most of the pages
 -->
 
     <default>
-
         <!-- Mage_Catalog -->
         <reference name="top.menu">
             <block type="catalog/navigation" name="catalog.topnav" template="catalog/navigation/top.phtml"/>
@@ -67,7 +66,6 @@ Default layout, loads most of the pages
         </reference>
         <block type="catalog/product_price_template" name="catalog_product_price_template" />
     </default>
-
 
 <!--
 Category default layout
@@ -200,12 +198,6 @@ Product view
             <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
         </reference>
         <reference name="content">
-
-
-
-
-
-
             <block type="catalog/product_view" name="product.info" template="catalog/product/view.phtml">
                 <!--
                 <action method="addReviewSummaryTemplate"><type>default</type><template>review/helper/summary.phtml</template></action>
