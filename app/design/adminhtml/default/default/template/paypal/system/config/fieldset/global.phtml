@@ -340,7 +340,10 @@ PaypalConfig.prototype = {
         var wpppeEnabled = this.getMethodSwitcher('wpppe').checked;
         if (wpppeEnabled) {
             this.enableMethod('ecpe',true);
+            this.disableMethod('ec',true);
             return;
+        } else {
+            this.markMethodAsReadonly('ec', false);
         }
         var disabled = !wpppeEnabled && !this.getMethodSwitcher('payflowpro').checked;
         if (disabled) {
