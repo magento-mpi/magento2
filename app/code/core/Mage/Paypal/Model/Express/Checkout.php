@@ -330,7 +330,7 @@ class Mage_Paypal_Model_Express_Checkout
                     foreach ($exportedShippingAddress->getExportedKeys() as $key) {
                         $shippingAddress->setDataUsingMethod($key, $exportedShippingAddress->getData($key));
                     }
-                    $shippingAddress->setCollectShippingRates(true)->collectShippingRates();
+                    $shippingAddress->setCollectShippingRates(true);
                 }
 
                 // import shipping method
