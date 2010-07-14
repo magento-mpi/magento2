@@ -85,6 +85,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_acc/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -94,6 +95,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_acc/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -111,6 +113,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_acc/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -120,6 +123,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_acc/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -140,6 +144,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_csi/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -149,6 +154,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_csi/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -166,6 +172,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_csi/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -175,6 +182,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_csi/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -195,6 +203,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_did/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -204,6 +213,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_did/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -221,6 +231,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_did/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -230,6 +241,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_did/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -250,6 +262,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_dnk/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -259,6 +272,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_dnk/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -276,6 +290,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_dnk/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -285,6 +300,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_dnk/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -305,6 +321,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_ebt/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -314,6 +331,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_ebt/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -330,6 +348,7 @@
                         </title>
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
+                            <config_path>payment/moneybookers_ebt/allowspecific</config_path>
                             <frontend_type>allowspecific</frontend_type>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
@@ -340,6 +359,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_ebt/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -360,6 +380,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_ent/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -369,6 +390,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_ent/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -386,6 +408,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_ent/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -395,6 +418,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_ent/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -415,6 +439,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_gcb/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -424,6 +449,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_gcb/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -441,6 +467,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_gcb/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -450,6 +477,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_gcb/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -470,6 +498,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_gir/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -479,6 +508,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_gir/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -496,6 +526,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_gir/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -505,6 +536,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_gir/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -525,6 +557,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_idl/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -534,6 +567,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_idl/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -551,6 +585,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_idl/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -560,6 +595,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_idl/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -580,6 +616,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_lsr/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -589,6 +626,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_lsr/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -606,6 +644,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_lsr/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -615,6 +654,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_lsr/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -635,6 +675,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_npy/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -644,6 +685,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_npy/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -661,6 +703,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_npy/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -670,6 +713,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_npy/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -690,6 +734,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_pli/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -699,6 +744,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_pli/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -716,6 +762,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_pli/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -725,6 +772,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_pli/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -745,6 +793,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_psp/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -754,6 +803,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_psp/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -771,6 +821,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_psp/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -780,6 +831,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_psp/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -800,6 +852,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_pwy/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -809,6 +862,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_pwy/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -826,6 +880,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_pwy/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -835,6 +890,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_pwy/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -855,6 +911,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_sft/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -864,6 +921,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_sft/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -881,6 +939,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_sft/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -890,6 +949,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_sft/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -910,6 +970,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_so2/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -919,6 +980,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_so2/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -936,6 +998,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_so2/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -945,6 +1008,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_so2/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
@@ -965,6 +1029,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
+                            <config_path>payment/moneybookers_wlt/active</config_path>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -974,6 +1039,7 @@
                         <sort_order translate="label">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
+                            <config_path>payment/moneybookers_wlt/sort_order</config_path>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -991,6 +1057,7 @@
                         <allowspecific translate="label">
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
+                            <config_path>payment/moneybookers_wlt/allowspecific</config_path>
                             <sort_order>6</sort_order>
                             <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
@@ -1000,6 +1067,7 @@
                         <specificcountry translate="label">
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
+                            <config_path>payment/moneybookers_wlt/specificcountry</config_path>
                             <sort_order>7</sort_order>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <show_in_default>1</show_in_default>
