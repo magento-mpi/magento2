@@ -498,7 +498,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
      */
     public function setReplyTo($email)
     {
-        $this->getMail()->addHeader('Reply-To', $email);
+        $this->getMail()->setReplyTo($email);
         return $this;
     }
 
