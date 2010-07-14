@@ -118,10 +118,14 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     }
 
     /**
-     * Change customer password action
+     * Change customer data action
      */
     public function editAction()
     {
+        if (!$this->_getSession()->isLoggedIn()) {
+            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            return ;
+        }
         if ($this->getRequest()->isPost()) {
             $customer = $this->_getSession()->getCustomer();
 

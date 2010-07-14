@@ -47,6 +47,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
 
         $fieldset = $form->addFieldset('payment', array('legend' => $this->__('Payment Methods')));
 
+        $fieldset->addField('conf[special][merchantLabel]', 'text', array(
+            'name'      => 'conf[special][merchantLabel]',
+            'label'     => $this->__('Merchant Label'),
+            'title'     => $this->__('Merchant Label'),
+            'required'  => false,
+            'value'     => $data['conf[special][merchantLabel]']
+        ));
+
         $fieldset->addField('conf/native/paypal/isActive', 'checkbox', array(
             'name'      => 'conf[native][paypal][isActive]',
             'label'     => 'Activate paypal for this store',

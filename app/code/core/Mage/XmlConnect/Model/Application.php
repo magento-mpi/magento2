@@ -245,7 +245,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
         $result['emailToFriend']['maxRecepients'] = $maxRecepients;
 
-        $result['paypal']['businessAccount'] = Mage::getStoreConfig('paypal/general/business_account');
+        $result['paypal']['businessAccount'] = Mage::getModel('paypal/config')->businessAccount;
         $result['paypal']['merchantLabel'] = $this->getData('conf/special/merchantLabel');
 
         return $result;

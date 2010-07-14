@@ -55,13 +55,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
             ));
         }
 
-        $fieldset->addField('conf[special][merchantLabel]', 'text', array(
-            'name'      => 'conf[special][merchantLabel]',
-            'label'     => $this->__('Merchant Label'),
-            'title'     => $this->__('Merchant Label'),
-            'required'  => false,
-        ));
-
         /**
          * Check is single store mode
          */
