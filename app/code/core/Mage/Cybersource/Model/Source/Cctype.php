@@ -28,6 +28,6 @@ class Mage_Cybersource_Model_Source_Cctype extends Mage_Payment_Model_Source_Cct
 {
     public function getAllowedTypes()
     {
-        return array('VI', 'MC', 'AE', 'DI', 'JCB', 'LASER', 'UATP', 'MS', 'SO', 'OT');
+        return array('VI', 'MC', 'AE', 'DI', 'JCB', 'LASER', 'UATP', 'SM', 'SO', 'OT');
     }
 }
