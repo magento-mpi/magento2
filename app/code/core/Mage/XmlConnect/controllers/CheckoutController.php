@@ -269,14 +269,16 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
 
             $orderId = $this->getOnepage()->getLastOrderId();
 
-            Mage::getSingleton('checkout/session')->clear();
-
             $text = $this->__('Thank you for your purchase! ');
             $text .= $this->__('Your order # is: %s. ', $orderId);
             $text .= $this->__('You will receive an order confirmation email with details of your order and a link to track its progress.');
             $message->addChild('text', $text);
 
             $message->addChild('order_id', $orderId);
+
+            $this->getOnepage()->getQuote()->save();
+            $this->getOnepage()->getCheckout()->clear();
+
             $this->getResponse()->setBody($message->asNiceXml());
             return;
         }
@@ -284,15 +286,13 @@ class Mage_XmlConnect_CheckoutController extends Mage_XmlConnect_Controller_Acti
             Mage::logException($e);
             Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
             $error = $e->getMessage();
-
-            $this->getOnepage()->getQuote()->save();
         }
         catch (Exception $e) {
             Mage::logException($e);
             Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
             $error = $this->__('There was an error processing your order. Please contact us or try again later.');
-            $this->getOnepage()->getQuote()->save();
         }
+        $this->getOnepage()->getQuote()->save();
 
         $this->_message($error, self::MESSAGE_STATUS_ERROR);
     }
