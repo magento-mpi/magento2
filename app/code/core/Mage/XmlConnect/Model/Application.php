@@ -32,11 +32,18 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     const APP_CODE_COOKIE_NAME = 'app_code';
 
     /**
-     * Application status succes value
+     * Application status "submitted" value
      *
      * @var int
      */
     const APP_STATUS_SUCCESS = 1;
+
+    /**
+     * Application status "not submitted" value
+     *
+     * @var int
+     */
+    const APP_STATUS_INACTIVE = 0;
 
     /**
      * Application prefix length of cutted part of deviceType and storeCode
@@ -71,9 +78,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function preparePostData(array $arr)
     {
-        if (isset($arr['code'])) {
-            unset($arr['code']);
-        }
         if (isset($arr['conf']['new_pages']) && isset($arr['conf']['new_pages']['ids'])
             && isset($arr['conf']['new_pages']['labels'])) {
 
@@ -89,6 +93,20 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             }
             $arr['conf']['native']['pages'] = array_merge($arr['conf']['native']['pages'], $new_pages);
             unset($arr['conf']['new_pages']);
+        }
+
+        if (!isset($arr['conf']['defaultCheckout'])) {
+            $arr['conf']['defaultCheckout'] = array();
+        }
+        if (!isset($arr['conf']['defaultCheckout']['isActive'])) {
+            $arr['conf']['defaultCheckout']['isActive'] = 0;
+        }
+
+        if (!isset($arr['conf']['paypal'])) {
+            $arr['conf']['paypal'] = array();
+        }
+        if (!isset($arr['conf']['paypal']['isActive'])) {
+            $arr['conf']['paypal']['isActive'] = 0;
         }
         return $arr;
     }
@@ -247,7 +265,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
 
         $result['paypal']['businessAccount'] = Mage::getModel('paypal/config')->businessAccount;
         $result['paypal']['merchantLabel'] = $this->getData('conf/special/merchantLabel');
-
         return $result;
     }
 

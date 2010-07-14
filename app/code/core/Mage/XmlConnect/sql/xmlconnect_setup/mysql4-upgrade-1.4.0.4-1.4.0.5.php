@@ -24,21 +24,12 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/* @var $installer Mage_XmlConnect_Model_Mysql4_Setup */
+$installer = $this;
 
+//'ALTER TABLE `m140`.`xmlconnect_application`     CHANGE `status` `status` TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL;'
+$installer->getConnection()->modifyColumn($this->getTable('xmlconnect/application'), 'status', "TINYINT(1) DEFAULT '0' NOT NULL");
 
-class Mage_XmlConnect_Block_Adminhtml_Mobile extends Mage_Adminhtml_Block_Widget_Grid_Container
-{
-    /**
-     * Class constructor
-     */
-    public function __construct()
-    {
-        $this->_controller = 'adminhtml_mobile';
-        $this->_blockGroup = 'xmlconnect';
-        $this->_headerText = Mage::helper('xmlconnect')->__('Manage Applications');
-        $this->_addButtonLabel = Mage::helper('xmlconnect')->__('Add Application');
+$installer->getConnection()->addColumn($this->getTable('xmlconnect/history'), 'key', 'VARCHAR(255) NOT NULL');
 
-        parent::__construct();
-    }
-
-}
+$installer->getConnection()->addKey($this->getTable('xmlconnect/application'), 'UNQ_XMLCONNECT_APPLICATION_CODE', array('code'), 'unique');

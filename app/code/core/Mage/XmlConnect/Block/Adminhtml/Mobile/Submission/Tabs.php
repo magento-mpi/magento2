@@ -23,22 +23,21 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
-
-
-class Mage_XmlConnect_Block_Adminhtml_Mobile extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
     /**
-     * Class constructor
+     * Tabs id prefix
+     *
+     * @var string
      */
+    const XMLCONNECT_MOBILE_APP_TABS_ID = 'mobile_app_tabs';
+
     public function __construct()
     {
-        $this->_controller = 'adminhtml_mobile';
-        $this->_blockGroup = 'xmlconnect';
-        $this->_headerText = Mage::helper('xmlconnect')->__('Manage Applications');
-        $this->_addButtonLabel = Mage::helper('xmlconnect')->__('Add Application');
-
         parent::__construct();
-    }
 
+        $this->setId(self::XMLCONNECT_MOBILE_APP_TABS_ID);
+        $this->setDestElementId('edit_form');
+        $this->setTitle(Mage::helper('xmlconnect')->__('Manage Mobile App'));
+    }
 }

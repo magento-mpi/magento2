@@ -74,14 +74,40 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     }
 
     /**
+     * Submision Action, loads application data
+     */
+    public function submissionAction()
+    {
+        try {
+            $app = $this->_initApp();
+            if (!$app->getId()) {
+                $this->_getSession()->addException($e, $this->__('No application provided.'));
+                $this->_redirect('*/*/');
+            }
+            $app->loadSubmit();
+            $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+            if (!empty($data)) {
+                $app->addData($data);
+            }
+            $this->loadLayout();
+            $this->_setActiveMenu('mobile/app');
+            $this->renderLayout();
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('*/*/');
+        } catch (Exception $e) {
+            $this->_getSession()->addException($e, $this->__('Can\'t open submission form.'));
+            $this->_redirect('*/*/');
+        }
+    }
+
+    /**
      * Edit app form
      */
     public function editAction()
     {
         try {
-
             if ($this->getRequest()->getParam('store')) {
-                Mage::log('Has param StoreID = '.$this->getRequest()->getParam('store'));
                 $id = Mage::getModel('xmlconnect/application')->getIdByStoreId(
                     $this->getRequest()->getParam('application_id'),
                     $this->getRequest()->getParam('store')
@@ -103,15 +129,15 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('Can\'t open application form'));
+            $this->_getSession()->addException($e, $this->__('Can\'t open application form.'));
             $this->_redirect('*/*/');
         }
     }
 
     /**
-     * Submit application
+     * Submit POST application action
      */
-    public function editPostAction()
+    public function submissionPostAction()
     {
         $data = $this->getRequest()->getPost();
         try {
@@ -145,6 +171,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     'created_at' => Mage::getModel('core/date')->date(),
                     'store_id' => $app->getStoreId(),
                     'title' => isset($params['title']) ? $params['title'] : '',
+                    'key' => isset($params['resubmission_activation_key']) ?
+                        $params['resubmission_activation_key'] : $params['key'],
                 ));
                 $history->save();
                 $app->getResource()->updateApplicationStatus($app->getId(),
@@ -209,45 +237,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         } else {
             $this->_redirect('*/*/');
         }
-    }
-
-    /**
-     * Save action
-     */
-    public function fillAction()
-    {
-        try {
-            $correctIds = Mage::helper('xmlconnect')->getStoreDeviceIdsToCreate();
-            $i = 0;
-            foreach ($correctIds as $storeId => $deviceType) {
-                $desc = $i++;
-                $this->_createOneApplication($storeId, $deviceType);
-            }
-        } catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addException($e, $e->getMessage());
-            $this->_redirect($this->getUrl('*/*/'));
-            return;
-        } catch (Exception $e) {
-            $this->_getSession()->addException($e, $e->getMessage());
-            $this->_redirect($this->getUrl('*/*/'));
-            return;
-        }
-        $message = $i ? $this->__('Applications has been created.') : $this->__('No Applications has been created.');
-        $this->_getSession()->addSuccess($message);
-        $this->_redirect('*/*/');
-    }
-
-    protected function _createOneApplication($storeId, $deviceType)
-    {
-        $app = $this->_initApp();
-        $app->setStoreId($storeId);
-        $app->setType($deviceType);
-
-        $supportedDevices = Mage::helper('xmlconnect')->getSupportedDevices();
-        $storeName = Mage::app()->getStore($storeId)->getFrontendName();
-        $deviceName = $supportedDevices[$deviceType];
-        $app->setName(substr($storeName, 0, 6) . "-" . substr($deviceName, 0, 6));
-        $app->save();
     }
 
     public function previewHomeAction()
@@ -323,12 +312,19 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         return Mage::getSingleton('admin/session')->isAllowed('mobile');
     }
 
+    public function historyAction()
+    {
+        $this->loadLayout();
+        $this->_setActiveMenu('mobile/app');
+        $this->renderLayout();
+    }
     /**
      * Render apps grid
      */
     public function gridAction()
     {
         $this->loadLayout(false);
+        $this->_setActiveMenu('mobile/app');
         $this->renderLayout();
     }
 }

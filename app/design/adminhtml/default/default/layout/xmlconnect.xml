@@ -38,10 +38,15 @@
             <block type="xmlconnect/adminhtml_mobile" name="applications"/>
         </reference>
     </adminhtml_mobile_index>
+ 
+    <adminhtml_mobile_history>
+        <reference name="content">
+            <block type="xmlconnect/adminhtml_history" name="history"/>
+        </reference>
+    </adminhtml_mobile_history>
 
     <adminhtml_mobile_edit>
         <reference name="left">
-            <block type="xmlconnect/adminhtml_mobile_edit_store_switcher" name="store_switcher" before="-"></block>
             <block type="xmlconnect/adminhtml_mobile_edit_tabs" name="mobile_edit_tabs">
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_general" name="mobile_edit_tab_general"/>
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_design" name="mobile_edit_tab_design">
@@ -54,13 +59,12 @@
                 <action method="addTab"><name>design_section</name><block>mobile_edit_tab_design</block></action>
                 <action method="addTab"><name>content_section</name><block>mobile_edit_tab_content</block></action>
                 <action method="addTab"><name>payment_methods</name><block>mobile_edit_tab_payment</block></action>
-<!--             </block>
-            <block type="xmlconnect/adminhtml_mobile_edit_submission" name="mobile_edit_submission">
-            -->
-                <block type="xmlconnect/adminhtml_mobile_edit_tab_submission" name="mobile_edit_tab_submission">
+
+                  <block type="xmlconnect/adminhtml_mobile_edit_tab_submission" name="mobile_edit_tab_submission"> 
                     <block type="xmlconnect/adminhtml_mobile_edit_tab_submission_history" name="mobile_edit_tab_submission_history"/>
-                </block>
+                 </block>
                 <action method="addTab"><name>submission_section</name><block>mobile_edit_tab_submission</block></action>
+
             </block>
         </reference>
         <reference name="content">
@@ -68,9 +72,26 @@
         </reference>
     </adminhtml_mobile_edit>
 
+    <adminhtml_mobile_submission>
+        <reference name="left">
+            <block type="xmlconnect/adminhtml_mobile_submission_tabs" name="mobile_submission_tabs">
+                <block type="xmlconnect/adminhtml_mobile_submission_tab_submission" name="mobile_submission_tab_submission" />
+                <action method="addTab"><name>submission_section</name><block>mobile_submission_tab_submission</block></action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="xmlconnect/adminhtml_mobile_submission" name="mobile_submission_content"/>
+        </reference>
+    </adminhtml_mobile_submission>
+
     <adminhtml_mobile_grid>
         <block type="xmlconnect/adminhtml_mobile_grid" name="mobile_grid" output="toHtml"/>
     </adminhtml_mobile_grid>
+
+    <adminhtml_mobile_history_grid>
+        <block type="xmlconnect/adminhtml_history_grid" name="history_grid" output="toHtml"/>
+    </adminhtml_mobile_history_grid>
+
 
     <adminhtml_mobile_previewhome>
         <block type="xmlconnect/adminhtml_mobile_preview_home" name="preview_iframe_home" output="toHtml"/>

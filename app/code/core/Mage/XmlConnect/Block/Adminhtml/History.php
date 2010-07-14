@@ -19,26 +19,33 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_XmlConnect
+ * @package     Mage_Adminhtml
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * XmlConnect application submission history grid
+ *
+ * @category   Mage
+ * @package    Mage_XmlConnect
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 
 
-class Mage_XmlConnect_Block_Adminhtml_Mobile extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_XmlConnect_Block_Adminhtml_History extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Class constructor
      */
     public function __construct()
     {
-        $this->_controller = 'adminhtml_mobile';
         $this->_blockGroup = 'xmlconnect';
-        $this->_headerText = Mage::helper('xmlconnect')->__('Manage Applications');
-        $this->_addButtonLabel = Mage::helper('xmlconnect')->__('Add Application');
+        $this->_controller = 'adminhtml_history';
+        $this->_headerText = Mage::helper('xmlconnect')->__('Application Submission History');
 
         parent::__construct();
+
     }
 
 }

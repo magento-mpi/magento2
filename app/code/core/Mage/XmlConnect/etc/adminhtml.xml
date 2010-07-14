@@ -27,11 +27,24 @@
 -->
 <config>
     <menu>
-        <mobile translate="title" module="xmlconnect">
+        <xmlconnect translate="title" module="xmlconnect">
             <title>Mobile</title>
             <sort_order>35</sort_order>
-            <action>adminhtml/mobile</action>
-        </mobile>
+<!--             <action>adminhtml/mobile</action> -->
+        
+        <children>
+            <mobile translate="title" module="xmlconnect">
+                <title>Manage Application</title>
+                <sort_order>10</sort_order>
+                <action>adminhtml/mobile</action>
+            </mobile>
+            <history translate="title" module="xmlconnect">
+                <title>Submission History</title>
+                <sort_order>20</sort_order>
+                <action>adminhtml/mobile/history</action>
+            </history>
+        </children>
+        </xmlconnect>
     </menu>
     <acl>
         <resources>

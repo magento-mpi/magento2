@@ -24,21 +24,40 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
-
-class Mage_XmlConnect_Block_Adminhtml_Mobile extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     /**
-     * Class constructor
+     * Class construct
      */
     public function __construct()
     {
-        $this->_controller = 'adminhtml_mobile';
-        $this->_blockGroup = 'xmlconnect';
-        $this->_headerText = Mage::helper('xmlconnect')->__('Manage Applications');
-        $this->_addButtonLabel = Mage::helper('xmlconnect')->__('Add Application');
 
+        $this->_objectId    = 'application_id';
+        $this->_controller  = 'adminhtml_mobile';
+        $this->_blockGroup  = 'xmlconnect';
         parent::__construct();
+
+        $this->removeButton('delete');
+        $this->removeButton('save');
+        $this->removeButton('reset');
+
+        $this->_addButton('submissionPost', array(
+            'class'=>'save',
+            'label'=>Mage::helper('xmlconnect')->__('Submit Application'),
+            'onclick'=>"submitApplication()",
+        ));
+
     }
 
+    /**
+     * Get form header title
+     * @return string
+     */
+    public function getHeaderText()
+    {
+        $app = Mage::registry('current_app');
+        if ($app && $app->getId()) {
+            return $this->__('Submit App "%s"', $this->htmlEscape($app->getName()));
+        }
+    }
 }

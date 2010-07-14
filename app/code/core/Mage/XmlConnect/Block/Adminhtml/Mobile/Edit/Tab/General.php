@@ -48,10 +48,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
         ));
 
         if ($model->getId()) {
-            $fieldset->addField('code', 'label', array(
-                'name'      => 'code',
+            $fieldset->addField('code', 'text', array(
                 'label'     => $this->__('Application Code'),
                 'title'     => $this->__('Application Code'),
+                'name'      => 'code',
+                'required'  => true,
             ));
         }
 

@@ -32,7 +32,7 @@ form_text = '<form id="resubmit_form" class="loader" action="<?php echo $this->g
     +'<input type="text" id="activation_key" value="<?php echo $this->getActivationKey()?>" disabled="disabled" /><br><br>'
     +'<?php echo $this->__('Please check data before resubmit.'); ?><br><br>'
     +'<?php echo $this->__('Resubmission Key'); ?>:<br><input type="text" id="resubmission_key" /><br><br>'
-    +'<input type="submit" id="resubmit" name="resubmit" value="<?php echo $this->__('Resubmit'); ?>" onclick="resubmitOk();return false"/>'
+    +'<input type="submit" id="resubmit" name="resubmit" value="<?php echo $this->__('Resubmit'); ?>" onclick="resubmitOk(); return false"/>'
 +'</form>';
 
 function displayLoadingMask()

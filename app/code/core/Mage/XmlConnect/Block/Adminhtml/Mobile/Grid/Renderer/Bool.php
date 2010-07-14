@@ -25,7 +25,7 @@
  */
 
 /**
- * Adminhtml catalog super product link grid checkbox renderer
+ * XmlConnect status field grid renderer
  *
  * @category   Mage
  * @package    Mage_XmlConnect
@@ -34,6 +34,20 @@
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Bool extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
+     * Image TRUE File name
+     *
+     * @var string
+     */
+    const MAGE_XMLCONNECT_GRID_TRUE = 'gel_green.png';
+
+    /**
+     * Image FALSE File name
+     *
+     * @var string
+     */
+    const MAGE_XMLCONNECT_GRID_FALSE = 'gel_red.png';
+
+    /**
      * Renders grid column
      *
      * @param   Varien_Object $row
@@ -41,15 +55,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Bool extends Mage_Adm
      */
     public function render(Varien_Object $row)
     {
-        $url = $this->getColumn()->getIconUrl();
-        if (empty($url)) {
-            $url = Mage::getBaseUrl('media') . 'xmlconnect/system/ok.gif';
-        }
+        $result = '';
         $status = $row->getData($this->getColumn()->getIndex());
+        $options = Mage::helper('xmlconnect')->getStatusOptions();
         if ($status == Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS) {
-            $result = '<img src="' . $url . '" >&nbsp;' . Mage::helper('xmlconnect')->__('Active');
-        } else {
-            $result = '&nbsp;' . Mage::helper('xmlconnect')->__('Inactive');
+            $result = '<img src="' . Mage::getDesign()->getSkinUrl('images/xmlconnect/' . self::MAGE_XMLCONNECT_GRID_TRUE) . '" >&nbsp;' . $options[$status];
+        } else if ($status == Mage_XmlConnect_Model_Application::APP_STATUS_INACTIVE) {
+            $result = '<img src="' . Mage::getDesign()->getSkinUrl('images/xmlconnect/' . self::MAGE_XMLCONNECT_GRID_FALSE) . '" >&nbsp;' . $options[$status];
         }
         return $result;
     }

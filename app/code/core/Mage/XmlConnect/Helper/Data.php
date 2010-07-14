@@ -113,6 +113,20 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Returns list of predefined and supported Devices
+     * @return multitype:string
+     */
+    public function getStatusOptions()
+    {
+        $options = array (
+            Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS => Mage::helper('xmlconnect')->__('Submitted'),
+            Mage_XmlConnect_Model_Application::APP_STATUS_INACTIVE => Mage::helper('xmlconnect')->__('Not Submitted'),
+        );
+        return $options;
+    }
+
+
+    /**
      * Pack Store and Device to "store-device CS value" like - "1,iphone"
      *
      * @param string $storeId

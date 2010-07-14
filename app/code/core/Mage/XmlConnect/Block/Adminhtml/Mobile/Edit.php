@@ -39,14 +39,25 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
         $this->_updateButton('save', 'label', $this->__('Save Application'));
 
         $this->_addButton('saveandcontinue', array(
-            'label'     => $this->__('Save and Continue Edit'),
+            'label'     => Mage::helper('xmlconnect')->__('Save and Continue Edit'),
             'onclick'   => 'saveAndContinueEdit()',
             'class'     => 'save',
         ), -100);
+
+        $this->_addButton('submit_application_button', array(
+            'label' =>  Mage::helper('xmlconnect')->__('Submit Application'),
+            'onclick'    => 'setLocation(\''. $this->getUrl('*/*/submission',
+                array('application_id' => Mage::registry('current_app')->getId())).'\')',
+            'class'     => 'save'
+        ));
+
         $this->_formScripts[] = 'function saveAndContinueEdit() {
             editForm.submit($(\'edit_form\').action + \'back/edit/\');}';
 
         $this->_updateButton('delete', 'label', $this->__('Delete Application'));
+        if (Mage::registry('current_app')->getStatus() == Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS) {
+            $this->_updateButton('delete', 'disabled', 'disabled');
+        }
     }
 
     protected function _prepareLayout()

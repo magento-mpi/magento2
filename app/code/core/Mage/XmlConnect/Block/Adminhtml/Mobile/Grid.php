@@ -69,7 +69,6 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
                 'header'        => Mage::helper('xmlconnect')->__('Store View'),
                 'index'         => 'store_id',
                 'type'          => 'store',
-                'store_all'     => true,
                 'store_view'    => true,
                 'sortable'      => false,
                 'width'         => '250',
@@ -78,8 +77,11 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
 
         $this->addColumn('type', array(
             'header'    => Mage::helper('xmlconnect')->__('Device'),
+            'type'      => 'text',
             'index'     => 'type',
             'align'     => 'center',
+            'filter'    => 'adminhtml/widget_grid_column_filter_select',
+            'options'   => Mage::helper('xmlconnect')->getSupportedDevices(),
             'renderer'  => 'xmlconnect/adminhtml_mobile_grid_renderer_type',
         ));
 
@@ -88,6 +90,9 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
             'index'     => 'status',
             'renderer'  => 'xmlconnect/adminhtml_mobile_grid_renderer_bool',
             'align'     => 'center',
+            'filter'    => 'adminhtml/widget_grid_column_filter_select',
+            'options'   => Mage::helper('xmlconnect')->getStatusOptions(),
+
         ));
 
         return parent::_prepareColumns();
