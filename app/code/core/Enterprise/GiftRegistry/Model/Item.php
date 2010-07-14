@@ -127,28 +127,33 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
         $requestArray = unserialize($requestOption->getValue());
         $selfOptions = unserialize($this->getCustomOptions());
 
-        if (!empty($requestArray['options']) && empty($selfOptions['options'])) {
+        if(!$this->_compareOptions($requestArray, $selfOptions)){
             return false;
         }
+        if(!$this->_compareOptions($selfOptions, $requestArray)){
+            return false;
+        }
+        return true;
+    }
 
-        if (!empty($requestArray['options']) && ($requestArray['options'] != $selfOptions['options'])) {
-            return false;
-        }
-        //bundle product checks
-        if (!empty($requestArray['bundle_option'])) {
-            foreach ($requestArray['bundle_option'] as $key => $value) {
-                if (empty($value)) {
-                    continue;
-                }
-                if (empty($selfOptions['bundle_option'][$key])
-                    || $selfOptions['bundle_option'][$key] != $value
-                    || empty($selfOptions['bundle_option_qty'][$key])
-                    || $selfOptions['bundle_option_qty'][$key] != $requestArray['bundle_option_qty'][$key]) {
-                    return false;
-                }
+    /**
+     * Check if two options array are identical
+     *
+     * @param array $options1
+     * @param array $options2
+     * @return bool
+     */
+    protected function _compareOptions($options1, $options2)
+    {
+        $skipOptions = array('qty');
+        foreach ($options1 as $code => $value) {
+            if (in_array($code, $skipOptions)) {
+                continue;
+            }
+            if (!isset($options2[$code]) || $options2[$code] != $value) {
+                return false;
             }
         }
-
         return true;
     }
 
