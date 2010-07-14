@@ -71,7 +71,7 @@
             <div id="form_address_item_<?php echo $_address->getId() ?>" style="display:none">
             <?php
                     $this->getFormObject()->setValues($_address->getData())
-                            ->setHtmlIdPrefix("id{$_address->getId()}")
+                            ->setHtmlIdPrefix("_item{$_address->getId()}")
                             ->setFieldNameSuffix('address['.$_address->getId().']')
             ?>
             <?php echo $this->getFormObject()->getHtml() ?>
@@ -186,7 +186,7 @@ addressesModel.prototype = {
             $('form_'+item.id).addressItem = item;
 
             // set Zip optional/required
-            var countryElement = $('id' + item.id.replace(/address_item_/, '') + 'country_id');
+            var countryElement = $('_item' + item.id.replace(/address_item_/, '') + 'country_id');
             varienGlobalEvents.fireEvent("address_country_changed", countryElement);
         }
     },
