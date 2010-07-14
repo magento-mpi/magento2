@@ -242,7 +242,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     {
         if ($this->getQuote()) {
             $product->setStoreId($this->getQuote()->getStoreId());
-            $product->setCustomerGroupId($this->getQuote()->getCustomer()->getGroupId());
+            $product->setCustomerGroupId($this->getQuote()->getCustomerGroupId());
         }
         $this->setData('product', $product)
             ->setProductId($product->getId())
@@ -254,6 +254,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             ->setBaseCost($product->getCost())
             ->setIsRecurring($product->getIsRecurring())
         ;
+
         if ($product->getStockItem()) {
             $this->setIsQtyDecimal($product->getStockItem()->getIsQtyDecimal());
         }
@@ -262,6 +263,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             'product' => $product,
             'quote_item'=>$this
         ));
+
 
 //        if ($options = $product->getCustomOptions()) {
 //            foreach ($options as $option) {
@@ -282,8 +284,8 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         if (($product === null) && $this->getProductId()) {
             $product = Mage::getModel('catalog/product')
                 ->setStoreId($this->getQuote()->getStoreId())
+                ->setCustomerGroupId(0)
                 ->load($this->getProductId());
-
             $this->setProduct($product);
         }
 

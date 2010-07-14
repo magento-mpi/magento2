@@ -307,6 +307,20 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this->_customer;
     }
 
+    /**
+     * Retrieve customer group id
+     *
+     * @return int
+     */
+    public function getCustomerGroupId()
+    {
+        if ($this->getCustomerId()) {
+            return $this->getCustomer()->getGroupId();
+        } else {
+            return Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
+        }
+    }
+
     public function getCustomerTaxClassId()
     {
         /*
