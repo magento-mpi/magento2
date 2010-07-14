@@ -46,6 +46,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalo
         $fieldName = Mage::helper('enterprise_search')->getAttributeSolrFieldName($attribute);
         $productCollection = $this->getLayer()->getProductCollection();
         $options = $productCollection->getFacetedData($fieldName);
+        ksort($options);
 
         $data = array();
         foreach ($options as $label => $count) {
