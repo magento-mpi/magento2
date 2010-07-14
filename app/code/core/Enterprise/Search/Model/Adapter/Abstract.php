@@ -134,6 +134,13 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
     );
 
     /**
+     * Index values separator
+     *
+     * @var string
+     */
+    protected $_separator = ' ';
+
+    /**
      * Searchable attribute params
      *
      * @var array
@@ -184,6 +191,7 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
 
         $docs = array();
         $attributeParams = $this->_getIndexableAttributeParams();
+        $this->_separator = Mage::getResourceSingleton('catalogsearch/fulltext')->getSeparator();
 
         foreach ($docData as $entityId => $index) {
             $doc = new $this->_clientDocObjectName;
@@ -209,8 +217,12 @@ abstract class Enterprise_Search_Model_Adapter_Abstract
              * Merge attributes to fulltext fields according to their search weights
              */
             $attributesWeights = array();
+            $needToReplaceSeparator = ($this->_separator != ' ');
             foreach ($index as $code => $value) {
                 if (!empty($attributeParams[$code])) {
+                    if ($needToReplaceSeparator && $attributeParams[$code]['frontendInput'] == 'multiselect') {
+                        $value = str_replace($this->_separator, ' ', $value);
+                    }
                     $weight = $attributeParams[$code]['searchWeight'];
                     $attributesWeights['fulltext' . $weight][] = $value;
                 }

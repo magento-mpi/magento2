@@ -112,10 +112,12 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     public function rebuildIndex($storeId = null, $productIds = null)
     {
         if (is_null($storeId)) {
+            $this->cleanIndex();
             foreach (Mage::app()->getStores(false) as $store) {
                 $this->_rebuildStoreIndex($store->getId(), $productIds);
             }
         } else {
+            $this->cleanIndex($storeId, $productIds);
             $this->_rebuildStoreIndex($storeId, $productIds);
         }
         return $this;
@@ -130,8 +132,6 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
      */
     protected function _rebuildStoreIndex($storeId, $productIds = null)
     {
-        $this->cleanIndex($storeId, $productIds);
-
         // preparesearchable attributes
         $staticFields   = array();
         foreach ($this->_getSearchableAttributes('static') as $attribute) {
