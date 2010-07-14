@@ -77,13 +77,13 @@ class Maged_Model_Connect extends Maged_Model
         $params = array();
         $connectConfig = $this->connect()->getConfig();
         /** CE */
-        $uri="connect.kiev-dev/community";
+        $uri="connect20.magentocommerce.com/community";
         /* */
-        /** PE
-        $uri="connect.kiev-dev/enterprise";
+        /** PE 
+        $uri="connect20.magentocommerce.com/professional";
         /* */
-        /** EE 
-        $uri="connect.kiev-dev/professional";
+        /** EE
+        $uri="connect20.magentocommerce.com/enterprise";
         /* */
         $connectConfig->root_channel = $chanName;        
         foreach ($packages as $package) {
