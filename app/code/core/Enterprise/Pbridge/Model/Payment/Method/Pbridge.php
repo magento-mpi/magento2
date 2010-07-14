@@ -260,7 +260,8 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             ->setData('order_id', $order->getIncrementId())
             ->setData('customer_email', $order->getCustomerEmail())
             ->setData('is_virtual', $order->getIsVirtual())
-            ->setData('notify_url', Mage::getUrl('enterprise_pbridge/PbridgeIpn/'))
+            ->setData('notify_url',
+                Mage::getUrl('enterprise_pbridge/PbridgeIpn/', array('_store' =>  $order->getStore()->getStoreId())))
         ;
 
         $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
