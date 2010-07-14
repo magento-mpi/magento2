@@ -217,7 +217,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
          * save required attributes in global scope every time if store id different from default
          */
         $storeId = Mage::app()->getStore($object->getStoreId())->getId();
-        if ($attribute->getIsRequired() && $this->getDefaultStoreId() != $storeId) {
+        if ($this->getDefaultStoreId() != $storeId) {
             $bind = array(
                 'entity_type_id'    => $attribute->getEntityTypeId(),
                 'attribute_id'      => $attribute->getAttributeId(),
