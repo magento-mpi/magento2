@@ -85,22 +85,6 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     }
 
     /**
-     * Return order collection
-     *
-     * @param array $orderIds
-     * @return Mage_Sales_Model_Mysql4_Order_Collection
-     */
-    protected function _getOrderCollection($orderIds)
-    {
-        $collection = Mage::getResourceModel('sales/order_collection');
-        $collection->addFieldToFilter(
-            $collection->getResource()->getIdFieldName(),
-            array('in' => $orderIds)
-        );
-        return $collection;
-    }
-
-    /**
      * Orders grid
      */
     public function indexAction()
@@ -472,11 +456,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $orderIds = $this->getRequest()->getPost('order_ids');
         $flag = false;
         if (!empty($orderIds)) {
-            $orders = $this->_getOrderCollection($orderIds);
-            foreach ($orders as $order) {
-                Mage::app()->setCurrentStore($order->getStoreId());
+            foreach ($orderIds as $orderId) {
                 $invoices = Mage::getResourceModel('sales/order_invoice_collection')
-                    ->setOrderFilter($order->getId())
+                    ->setOrderFilter($orderId)
                     ->load();
                 if ($invoices->getSize() > 0) {
                     $flag = true;
@@ -505,11 +487,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $orderIds = $this->getRequest()->getPost('order_ids');
         $flag = false;
         if (!empty($orderIds)) {
-            $orders = $this->_getOrderCollection($orderIds);
-            foreach ($orders as $order) {
-                Mage::app()->setCurrentStore($order->getStoreId());
+            foreach ($orderIds as $orderId) {
                 $shipments = Mage::getResourceModel('sales/order_shipment_collection')
-                    ->setOrderFilter($order->getId())
+                    ->setOrderFilter($orderId)
                     ->load();
                 if ($shipments->getSize()) {
                     $flag = true;
@@ -538,11 +518,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $orderIds = $this->getRequest()->getPost('order_ids');
         $flag = false;
         if (!empty($orderIds)) {
-            $orders = $this->_getOrderCollection($orderIds);
-            foreach ($orders as $order) {
-                Mage::app()->setCurrentStore($order->getStoreId());
+            foreach ($orderIds as $orderId) {
                 $creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
-                    ->setOrderFilter($order->getId())
+                    ->setOrderFilter($orderId)
                     ->load();
                 if ($creditmemos->getSize()) {
                     $flag = true;
@@ -571,11 +549,9 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $orderIds = $this->getRequest()->getPost('order_ids');
         $flag = false;
         if (!empty($orderIds)) {
-            $orders = $this->_getOrderCollection($orderIds);
-            foreach ($orders as $order) {
-                Mage::app()->setCurrentStore($order->getStoreId());
+            foreach ($orderIds as $orderId) {
                 $invoices = Mage::getResourceModel('sales/order_invoice_collection')
-                    ->setOrderFilter($order->getId())
+                    ->setOrderFilter($orderId)
                     ->load();
                 if ($invoices->getSize()){
                     $flag = true;
@@ -588,7 +564,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 }
 
                 $shipments = Mage::getResourceModel('sales/order_shipment_collection')
-                    ->setOrderFilter($order->getId())
+                    ->setOrderFilter($orderId)
                     ->load();
                 if ($shipments->getSize()){
                     $flag = true;
@@ -601,7 +577,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 }
 
                 $creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
-                    ->setOrderFilter($order->getId())
+                    ->setOrderFilter($orderId)
                     ->load();
                 if ($creditmemos->getSize()) {
                     $flag = true;
