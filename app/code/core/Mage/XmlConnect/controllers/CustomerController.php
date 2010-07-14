@@ -148,13 +148,6 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 }
             }
 
-            $customer = Mage::getModel('customer/customer')
-                ->setId($this->_getSession()->getCustomerId())
-                ->setWebsiteId($this->_getSession()->getCustomer()->getWebsiteId());
-
-            $fields = Mage::getConfig()->getFieldset('customer_account');
-            $data = $this->_filterPostData($this->getRequest()->getPost());
-
             if ($this->getRequest()->getParam('change_password')) {
                 $currPass   = $this->getRequest()->getPost('current_password');
                 $newPass    = $this->getRequest()->getPost('password');
