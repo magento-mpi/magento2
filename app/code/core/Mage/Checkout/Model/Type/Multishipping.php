@@ -501,6 +501,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
             );
         }
 
+        //TODO: issue with inventory after checkout should be fixed in case refactoring of multishipping checkout
         foreach ($orders as $order) {
             $order->place();
             $order->save();
