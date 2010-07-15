@@ -385,7 +385,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         } elseif (! isset($this->_entityAttributeValues[$object->getId()])) {
             $attr = $object->getResource()->getAttribute($attrCode);
 
-            if ($attr && $attr->getBackendType() == 'datetime' && ! is_int($this->getValue())) {
+            if ($attr && $attr->getBackendType() == 'datetime' && !is_int($this->getValue())) {
                 $this->setValue(strtotime($this->getValue()));
                 $value = strtotime($object->getData($attrCode));
                 return $this->validateAttribute($value);
@@ -403,8 +403,14 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
             $oldAttrValue = $object->hasData($attrCode) ? $object->getData($attrCode) : null; // remember old attribute state
 
             foreach ($this->_entityAttributeValues[$object->getId()] as $storeId => $value) {
-                $object->setData($attrCode, $value);
+                $attr = $object->getResource()->getAttribute($attrCode);
+                if ($attr && $attr->getBackendType() == 'datetime') {
+                    $value = strtotime($value);
+                } else if ($attr && $attr->getFrontendInput() == 'multiselect') {
+                    $value = strlen($value) ? explode(',', $value) : array();
+                }
 
+                $object->setData($attrCode, $value);
                 $result |= parent::validate($object);
 
                 if ($result) {
