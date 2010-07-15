@@ -553,7 +553,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
         $rowTotalInclTax    = 0;
         $baseRowTotalInclTax= 0;
         foreach ($item->getChildren() as $child) {
-            $price              += $child->getOriginalPrice();
+            $price              += $child->getOriginalPrice() * $child->getQty();
             $basePrice          += $child->getBaseOriginalPrice();
             $rowTotal           += $child->getRowTotal();
             $baseRowTotal       += $child->getBaseRowTotal();
