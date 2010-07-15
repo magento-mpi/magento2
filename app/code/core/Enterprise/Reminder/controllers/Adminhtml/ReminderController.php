@@ -170,6 +170,10 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
                 $data['conditions'] = $data['rule']['conditions'];
                 unset($data['rule']);
 
+                if (!isset($data['website_ids'])) {
+                    $data['website_ids'] = array(Mage::app()->getStore(true)->getWebsiteId());
+                }
+
                 $data = $this->_filterDates($data, array('active_from', 'active_to'));
                 $model->loadPost($data);
                 Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
