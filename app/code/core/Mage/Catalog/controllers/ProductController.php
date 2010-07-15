@@ -33,12 +33,11 @@
 class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
 {
     /**
-     * Define if product's custom design setting
-     * already applied
+     * Current applied design settings
      *
-     * @var bool
+     * @var array
      */
-    protected $_designProductSettingsApplied = false;
+    protected $_designProductSettingsApplied = array();
 
     /**
      * Initialize requested product object
@@ -110,25 +109,30 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
         $update->addHandle('PRODUCT_TYPE_'.$product->getTypeId());
         $update->addHandle('PRODUCT_'.$product->getId());
 
-        $this->loadLayoutUpdates();
-
-        $this->generateLayoutXml()->generateLayoutBlocks();
-
+        // look for category/product custom design
         $category = $product->getCategory();
         if ($category && $category->getId()) {
             $this->_applyCustomDesignSettings($category, $update);
         }
-        else {
-            if ($product->getPageLayout()) {
-                $this->getLayout()->helper('page/layout')
-                    ->applyHandle($product->getPageLayout());
-            }
-            $update->addUpdate($product->getCustomLayoutUpdate());
+        $this->_applyCustomDesignSettings($product, $update);
+
+        // note: applyHandle() in such a way is here for legacy purposes. Consider removing it.
+        if (isset($this->_designProductSettingsApplied['layout'])) {
+            $this->getLayout()->helper('page/layout')->applyHandle($this->_designProductSettingsApplied['layout']);
         }
 
-        if ($product->getPageLayout()) {
-            $this->getLayout()->helper('page/layout')
-                ->applyTemplate($product->getPageLayout());
+        $this->loadLayoutUpdates();
+
+        // apply custom layout update once layout is loaded
+        if (isset($this->_designProductSettingsApplied['update'])) {
+            $update->addUpdate($this->_designProductSettingsApplied['update']);
+        }
+
+        $this->generateLayoutXml()->generateLayoutBlocks();
+
+        // apply custom layout (page) template once the blocks are generated
+        if (isset($this->_designProductSettingsApplied['layout'])) {
+            $this->getLayout()->helper('page/layout')->applyTemplate($this->_designProductSettingsApplied['layout']);
         }
 
         $currentCategory = Mage::registry('current_category');
@@ -148,51 +152,39 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
      * If not or product shows not in category - applyes product's internal settings
      *
      * @param Mage_Catalog_Model_Category|Mage_Catalog_Model_Product $object
-     * @param Mage_Core_Model_Layout_Update $update
-     *
-     * return Mage_Catalog_ProductController
+     * @deprecated Mage_Core_Model_Layout_Update $update
      */
     protected function _applyCustomDesignSettings($object, $update)
     {
-        if ($object instanceof Mage_Catalog_Model_Product) {
-            $category = $product->getCategory();
-
-            if ($category && $category->getId()) {
-                $this->_applyCustomDesignSettings($category, $update);
-            }
-        }
-        elseif ($object instanceof Mage_Catalog_Model_Category) {
+        if ($object instanceof Mage_Catalog_Model_Category) {
+            // lookup the proper category recursively
             if ($object->getCustomUseParentSettings()) {
                 $parentCategory = $object->getParentCategory();
-                if ($parentCategory &&
-                    $parentCategory->getId() &&
-                    $parentCategory->getId() != Mage_Catalog_Model_Category::TREE_ROOT_ID) {
+                if ($parentCategory && $parentCategory->getId() && $parentCategory->getLevel() > 1) {
                     $this->_applyCustomDesignSettings($parentCategory, $update);
                 }
+                return;
             }
 
-            $applyToProducts = $object->getCustomApplyToProducts();
-            if (!$applyToProducts) {
-                return $this;
-            }
-        }
-
-        if (!$this->_designProductSettingsApplied) {
-            $this->_designProductSettingsApplied = true;
-            $validityDate = $object->getCustomDesignDate();
-    
-            if (array_key_exists('from', $validityDate) &&
-                array_key_exists('to', $validityDate) &&
-                Mage::app()->getLocale()->isStoreDateInInterval(null, $validityDate['from'], $validityDate['to'])) {
-                if ($object->getPageLayout()) {
-                    $this->getLayout()->helper('page/layout')
-                        ->applyHandle($object->getPageLayout());
-                }
-                $update->addUpdate($object->getCustomLayoutUpdate());
+            // don't apply to the product
+            if (!$object->getCustomApplyToProducts()) {
+                return;
             }
         }
 
-        return $this;
+        if ($this->_designProductSettingsApplied) {
+            return;
+        }
+
+        $date = $object->getCustomDesignDate();
+        if (array_key_exists('from', $date) && array_key_exists('to', $date)
+            && Mage::app()->getLocale()->isStoreDateInInterval(null, $date['from'], $date['to'])
+        ) {
+            if ($object->getPageLayout()) {
+                $this->_designProductSettingsApplied['layout'] = $object->getPageLayout();
+            }
+            $this->_designProductSettingsApplied['update'] = $object->getCustomLayoutUpdate();
+        }
     }
 
     /**
