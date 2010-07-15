@@ -283,7 +283,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                 $unitTax        = $this->_calculator->calcTaxAmount(max($price-$discountAmount, 0), $rate, $inclTax);
                 $baseUnitTax    = $this->_calculator->calcTaxAmount(max($basePrice-$baseDiscountAmount, 0), $rate, $inclTax);
                 if ($inclTax && $discountAmount>0) {
-                    $hiddenTax      = $price - $unitTax - $item->getOriginalPrice();
+                    $hiddenTax      = $price - $unitTax - $item->getConvertedPrice();
                     $baseHiddenTax  = $basePrice - $unitTax - $item->getBasePrice();
                 } elseif ($discountAmount > $price) { // case with 100% discount on price incl. tax
                     $hiddenTax      = $discountAmount - $price;
