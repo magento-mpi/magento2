@@ -206,7 +206,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'validate_class'    => 'validate-number',
             'index'             => 'position',
             'width'             => 60,
-            'editable'          => !$this->_getProduct()->getUpsellReadonly(),
+            'editable'          => !$this->_getProduct()->getRelatedReadonly(),
             'edit_only'         => !$this->_getProduct()->getId()
         ));
 
