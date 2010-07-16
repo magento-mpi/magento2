@@ -222,6 +222,7 @@ extends Mage_Connect_Command
                     $this->ui()->output("Successfully added channel: ".$uri);
                 }
                 $channelName = $cache->chanName($channel);
+                $this->ui()->output("Checking dependencies of packages");
                 $packagesToInstall = $packager->getDependenciesList( $channelName, $package, $cache, $config, $argVersionMax, $argVersionMin, $withDepsMode, false, $rest);
                 /*
                  * @TODO: process 'failed' results
@@ -234,7 +235,7 @@ extends Mage_Connect_Command
                         if($showError){
                             $this->doError($command, $msg);
                         }else{
-                            //$this->ui()->output($msg);
+                            $this->ui()->output($msg);
                         }
                     }
                 }
@@ -329,9 +330,12 @@ extends Mage_Connect_Command
                         @mkdir($dir, 0777, true);
                     }
                     $dir = $config->getChannelCacheDir($pChan);
-                    $file = $dir.DIRECTORY_SEPARATOR.$pName."-".$pVer.".tgz";
+                    $packageFileName = $pName."-".$pVer.".tgz";
+                    $file = $dir.DIRECTORY_SEPARATOR.$packageFileName;
                     if(!@file_exists($file)) {
+                        $this->ui()->output("Starting to download $packageFileName ...");
                         $rest->downloadPackageFileOfRelease($pName, $pVer, $file);
+                        $this->ui()->output(sprintf("...done: %s bytes", number_format(filesize($file))));
                     }
                     $package = new Mage_Connect_Package($file);
 
@@ -362,11 +366,13 @@ extends Mage_Connect_Command
                      * @todo: make "Use custom permissions" functionality working
                      */
                     if(!$noFilesInstall) {
+                        $this->ui()->output("Installing package {$pChan}/{$pName} {$pVer}");
                         if($ftp) {
                             $packager->processInstallPackageFtp($package, $file, $config, $ftpObj);
                         } else {
                             $packager->processInstallPackage($package, $file, $config);
                         }
+                        $this->ui()->output("Package {$pChan}/{$pName} {$pVer} installed successfully");
                     }
                     $cache->addPackage($package);
 
