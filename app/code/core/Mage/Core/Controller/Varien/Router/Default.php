@@ -39,7 +39,7 @@ class Mage_Core_Controller_Varien_Router_Default extends Mage_Core_Controller_Va
         $noRoute        = explode('/', Mage::app()->getStore()->getConfig('web/default/no_route'));
         $moduleName     = isset($noRoute[0]) ? $noRoute[0] : 'core';
         $controllerName = isset($noRoute[1]) ? $noRoute[1] : 'index';
-        $actionName     = isset($noRoute[1]) ? $noRoute[1] : 'index';
+        $actionName     = isset($noRoute[2]) ? $noRoute[2] : 'index';
 
         if (Mage::app()->getStore()->isAdmin()) {
             $adminFrontName = (string)Mage::getConfig()->getNode('admin/routers/adminhtml/args/frontName');
