@@ -149,9 +149,13 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
                 continue;
             }
 
-            $storeId = $customer->getStoreId();
+            if ($customer->getStoreId()) {
+                $store = $customer->getStore();
+            } else {
+                $store = Mage::app()->getWebsite($customer->getWebsiteId())->getDefaultStore();
+            }
 
-            $storeData = $this->getStoreData($recipient['rule_id'], $storeId);
+            $storeData = $this->getStoreData($recipient['rule_id'], $store->getId());
             if (!$storeData) {
                 continue;
             }
@@ -160,16 +164,16 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Rule
             $coupon = Mage::getModel('salesrule/coupon')->load($recipient['coupon_id']);
 
             $templateVars = array(
-                'store' => Mage::app()->getStore($storeId),
+                'store' => $store,
                 'customer' => $customer,
                 'promotion_name' => $storeData['label'],
                 'promotion_description' => $storeData['description'],
                 'coupon' => $coupon
             );
 
-            $mail->setDesignConfig(array('area' => 'frontend', 'store' => $storeId));
+            $mail->setDesignConfig(array('area' => 'frontend', 'store' => $store->getId()));
             $mail->sendTransactional($storeData['template_id'], $identity,
-                $customer->getEmail(), null, $templateVars, $storeId
+                $customer->getEmail(), null, $templateVars, $store->getId()
             );
 
             if ($mail->getSentSuccess()) {
