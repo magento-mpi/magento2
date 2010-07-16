@@ -421,3 +421,36 @@ function libCallback($filename)
     list( $category, $package) = explode('/', $package);
     return array($category, $category . '_' . str_replace('.php', '', $package));
 }
+
+/**
+ * Get category & package for Downloader code
+ *
+ * @param string $filename
+ * @return array
+ */
+function codeDownloaderCallback($filename)
+{
+    return array('Mage', 'Mage_Connect');
+}
+
+/**
+ * Get category & package for Downloader skin
+ *
+ * @param string $filename
+ * @return array
+ */
+function skinDownloaderCallback($filename)
+{
+    return array('design', 'default');
+}
+
+/**
+ * Get category & package for Downloader theme
+ *
+ * @param string $filename
+ * @return array
+ */
+function themeDownloaderCallback($filename)
+{
+    return array('design', 'default');
+}

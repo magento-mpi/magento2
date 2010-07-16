@@ -146,5 +146,12 @@ updateLicense('js/varien', '*.js',
     REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('Varien', 'js'), true, true, true
 );
 
+//downloader
+updateLicense("downloader/Maged", "*.php", REGEX_PHP, REPLACEMENT_PHP, NOTICE_OSL, 'codeDownloaderCallback', true, true, true);
+updateLicense("downloader/lib", "*.php", REGEX_PHP, REPLACEMENT_PHP, NOTICE_OSL, 'libCallback', true, true, true);
+updateLicense(null, array("downloader/index.php", "downloader/mage.php"), REGEX_PHP, REPLACEMENT_PHP, NOTICE_OSL, 'codeDownloaderCallback', true, true, true);
+updateLicense('downloader/skin', array('*.css', '*.js'), REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, 'skinDownloaderCallback', true, true, true);
+updateLicense('downloader/template', '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_AFL, 'themeDownloaderCallback', true, true, true);
+
 echo "done\n";
 exit;

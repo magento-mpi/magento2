@@ -122,5 +122,12 @@ updateLicense(null, array(
     'js/lib/flex.js',
 ), REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, array('lib', 'js'), true, true, true);
 
+//downloader
+updateLicense("downloader/Maged", "*.php", REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'codeDownloaderCallback');
+updateLicense("downloader/lib", "*.php", REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'libCallback');
+updateLicense(null, array("downloader/index.php", "downloader/mage.php"), REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'codeDownloaderCallback');
+updateLicense('downloader/skin', array('*.css', '*.js'), REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, 'skinDownloaderCallback');
+updateLicense('downloader/template', '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'themeDownloaderCallback');
+
 echo "done\n";
 exit;
