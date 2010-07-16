@@ -363,8 +363,24 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
         $attribute = $this->getAttributeObject();
 
         if ($attribute && $attribute->getBackendType() == 'decimal') {
-            $arr['value'] = isset($arr['value']) ? Mage::app()->getLocale()->getNumber($arr['value']) : false;
-            $arr['is_value_parsed'] = isset($arr['is_value_parsed']) ? Mage::app()->getLocale()->getNumber($arr['is_value_parsed']) : false;
+            if (isset($arr['value'])) {
+                if (!empty($arr['operator'])
+                    && in_array($arr['operator'], array('!()', '()'))
+                    && false !== strpos($arr['value'], ',')) {
+
+                    $tmp = array();
+                    foreach (explode(',', $arr['value']) as $value) {
+                        $tmp[] = Mage::app()->getLocale()->getNumber($value);
+                    }
+                    $arr['value'] =  implode(',', $tmp);
+                } else {
+                    $arr['value'] =  Mage::app()->getLocale()->getNumber($arr['value']);
+                }
+            } else {
+                $arr['value'] = false;
+            }
+            $arr['is_value_parsed'] = isset($arr['is_value_parsed'])
+                ? Mage::app()->getLocale()->getNumber($arr['is_value_parsed']) : false;
         }
 
         return parent::loadArray($arr);
