@@ -697,10 +697,10 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             foreach ($lines as $line) {
                 $maxHeight = 0;
                 foreach ($line as $column) {
-                    $fontSize  = empty($column['font_size']) ? 7 : $column['font_size'];
+                    $fontSize = empty($column['font_size']) ? 7 : $column['font_size'];
                     if (!empty($column['font_file'])) {
                         $font = Zend_Pdf_Font::fontWithPath($column['font_file']);
-                        $page->setFont($font);
+                        $page->setFont($font, $fontSize);
                     }
                     else {
                         $fontStyle = empty($column['font']) ? 'regular' : $column['font'];
