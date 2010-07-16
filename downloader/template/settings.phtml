@@ -59,7 +59,7 @@ function changeDeploymentType (element)
         <p>Please note: extensions are provided as is. Make sure to backup your data before installing new extensions.</p>
         <table cellspacing="0" class="form-list">
             <tr>
-                <td class="label">Magento Connect Loader Protocol:</td>
+                <td class="label">Magento Connect Channel Protocol:</td>
                 <td class="value">
                     <select id="protocol" name="protocol" style="width:150px;">
                         <option value="http" <?php if ($this->get('protocol')=='http'):?>selected="selected"<?php endif ?>>Http</option>
@@ -69,13 +69,13 @@ function changeDeploymentType (element)
             </tr>
             <?php /** PE|EE ?>
             <tr>
-                <td class="label">Username:</td>
+                <td class="label">User Login:</td>
                 <td class="value">
                     <input id="auth_username" name="auth_username" value="<?php echo($this->get('auth_username'));?>" style="width:150px;" type="text"></input>
                 </td>
             </tr>
             <tr>
-                <td class="label">Password:</td>
+                <td class="label">User Password:</td>
                 <td class="value">
                     <input id="auth_password" name="auth_password" value="<?php echo($this->get('auth_password'));?>" style="width:150px;" type="password"></input>
                 </td>
@@ -125,20 +125,20 @@ function changeDeploymentType (element)
             </tr>
         </table>
 
-        <p>Deployment Type.</p>
+        <p>Deployment.</p>
         <table cellspacing="0" class="form-list">
             <tr>
-                <td class="label">Select Deployment Type:</td>
+                <td class="label">Deployment Type:</td>
                 <td class="value">
                     <input value="fs" type="radio" name="deployment_type" id="deployment_fs" onclick="changeDeploymentType(this)" <?php if ($this->get('deployment_type')=='fs'):?>checked="checked"<?php endif ?> <?php if ($this->get('fs_disabled')):?>disabled="disabled"<?php endif ?> />
-                    <label for="deployment_fs"> <span class="label">via Filesystem</span> </label>
+                    <label for="deployment_fs"> <span class="label">Local Filesystem</span> </label>
                 </td>
             </tr>
             <tr>
                 <td class="label">&nbsp;</td>
                 <td class="value">
                     <input value="ftp" type="radio" name="deployment_type" id="deployment_ftp" onclick="changeDeploymentType(this)" <?php if ($this->get('deployment_type')=='ftp'):?>checked="checked"<?php endif ?> />
-                    <label for="deployment_ftp"><span class="label">via FTP</span></label>
+                    <label for="deployment_ftp"><span class="label">FTP Connection</span></label>
                 </td>
             </tr>
         </table>
