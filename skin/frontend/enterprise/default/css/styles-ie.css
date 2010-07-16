@@ -89,6 +89,8 @@ a.button { _height:22px; }
 
 .options-container-small dd { float:none; }
 
+.cart .totals .btn-remove img { vertical-align:middle; }
+
 /* jQzoom */
 .preload { width:100px; height:55px; }
 /*.jqZoomPup { filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=60); }*/
