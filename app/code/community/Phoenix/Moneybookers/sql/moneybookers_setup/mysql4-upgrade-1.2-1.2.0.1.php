@@ -20,22 +20,22 @@
 
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
-$fieldsForUpdate = array('scope', 'scope_id', 'path', 'value');
 
 $installer->startSetup();
 $conn = $installer->getConnection();
 
 $select = $conn
     ->select()
-    ->from($this->getTable('core/config_data'), $fieldsForUpdate)
+    ->from($this->getTable('core/config_data'), array('scope', 'scope_id', 'path', 'value'))
     ->where(new Zend_Db_Expr("path LIKE 'moneybookers/moneybookers%'"));
 $data = $conn->fetchAll($select);
-foreach ($data as $key => $value) {
-    $data[$key]['path'] = preg_replace('/^moneybookers\/moneybookers/', 'payment/moneybookers', $value['path']);
+
+if (!empty($data)) {
+    foreach ($data as $key => $value) {
+        $data[$key]['path'] = preg_replace('/^moneybookers\/moneybookers/', 'payment/moneybookers', $value['path']);
+    }
+    $conn->insertOnDuplicate($this->getTable('core/config_data'), $data, array('path'));
+    $conn->delete($this->getTable('core/config_data'), new Zend_Db_Expr("path LIKE 'moneybookers/moneybookers%'"));
 }
-
-$conn->insertOnDuplicate($this->getTable('core/config_data'), $data, $fieldsForUpdate);
-
-$conn->delete($this->getTable('core/config_data'), new Zend_Db_Expr("path LIKE 'moneybookers/moneybookers%'"));
 
 $installer->endSetup();
