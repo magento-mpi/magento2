@@ -52,7 +52,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
             'label'     => $this->__('Merchant Label'),
             'title'     => $this->__('Merchant Label'),
             'required'  => false,
-            'value'     => $data['conf[special][merchantLabel]']
+            'value'     => (isset($data['conf[special][merchantLabel]']) ? $data['conf[special][merchantLabel]'] : '')
         ));
 
         $fieldset->addField('conf/native/paypal/isActive', 'checkbox', array(

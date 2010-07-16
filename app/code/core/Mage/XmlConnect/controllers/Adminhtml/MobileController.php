@@ -81,7 +81,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         try {
             $app = $this->_initApp();
             if (!$app->getId()) {
-                $this->_getSession()->addException($e, $this->__('No application provided.'));
+                $this->_getSession()->addError($this->__('No application provided.'));
                 $this->_redirect('*/*/');
             }
             $app->loadSubmit();
