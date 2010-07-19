@@ -147,8 +147,8 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
 
     public function canEditQty()
     {
-        if ($this->getCreditmemo()->getOrder()->getPayment()->canCapture()) {
-            return $this->getCreditmemo()->getOrder()->getPayment()->canCapturePartial();
+        if ($this->getCreditmemo()->getOrder()->getPayment()->canRefund()) {
+            return $this->getCreditmemo()->getOrder()->getPayment()->canRefundPartialPerInvoice();
         }
         return true;
     }
