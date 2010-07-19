@@ -46,19 +46,15 @@ class Enterprise_GiftRegistry_Block_Product_View extends Mage_Catalog_Block_Prod
         if ($block && $this->_isGiftRegistryRedirect()) {
             $block->setTemplate('giftregistry/product/customize.phtml');
         }
+
+        $block = $this->getLayout()->getBlock('product.info.addtocart');
+        if ($block && $this->_isGiftRegistryRedirect()) {
+            $block->setTemplate('giftregistry/product/addtocart.phtml');
+            $block->setAddToGiftregistryUrl($this->getAddToGiftregistryUrl());
+        }
         return parent::_prepareLayout();
     }
 
-    public function __construct()
-    {
-        if ($this->_isGiftRegistryRedirect()) {
-            $this->setTemplate('giftregistry/product/addtocart.phtml');
-        } else {
-            $this->setTemplate('catalog/product/view/addtocart.phtml');
-        }
-
-        parent::_construct();
-    }
     /**
      * Return giftregistry add cart items url
      *
