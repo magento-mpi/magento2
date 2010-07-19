@@ -246,8 +246,8 @@ class Mage_Connect_Packager
         $target = dirname($file).DS.$package->getReleaseFilename();
         @mkdir($target, 0777, true);
         $tar = $arc->unpack($file, $target);
-        $modeFile = decoct($this->validPermMode($configObj->global_file_mode));
-        $modeDir = decoct($this->validPermMode($configObj->global_dir_mode));
+        $modeFile = is_string($configObj->global_file_mode)?$this->validPermMode(decoct(intval($configObj->global_file_mode))):$configObj->global_file_mode;
+        $modeDir = is_string($configObj->global_dir_mode)?$this->validPermMode(decoct(intval($configObj->global_dir_mode))):$configObj->global_dir_mode;
         foreach($contents as $file) {
             $fileName = basename($file);
             $filePath = $this->convertFtpPath(dirname($file));
