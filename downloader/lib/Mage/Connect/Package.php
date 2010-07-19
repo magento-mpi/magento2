@@ -494,7 +494,7 @@ END;
         $targetDir = $this->getTarget()->getTargetUri($targetName);
         $targetDirLen = strlen($targetDir . DS);
         //get all subdirectories and files.
-        $entries = @glob($targetDir. DS . $path . DS . "*");
+        $entries = @glob($targetDir. DS . $path . DS . "{,.}*", GLOB_BRACE);
         if (!empty($entries)) {
             foreach ($entries as $entry) {
                 $filePath = substr($entry, $targetDirLen);
