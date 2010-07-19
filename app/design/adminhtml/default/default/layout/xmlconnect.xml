@@ -52,6 +52,7 @@
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_design" name="mobile_edit_tab_design">
                     <block type="xmlconnect/adminhtml_mobile_edit_tab_design_form" name="mobile_edit_tab_design_form" as="edit_form" />
                     <block type="xmlconnect/adminhtml_mobile_edit_tab_design_preview" name="mobile_edit_tab_design_preview" as="app_preview" />
+                   
                 </block>
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_content" name="mobile_edit_tab_content"/>
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_payment" name="mobile_edit_tab_payment"/>
@@ -69,6 +70,10 @@
         </reference>
         <reference name="content">
             <block type="xmlconnect/adminhtml_mobile_edit" name="mobile_edit_content"/>
+        </reference>
+        <reference name="head">
+            <action method="addCss"><name>xmlconnect/dropdown.css</name></action>
+            <action method="addCss"><name>xmlconnect/styles.css</name></action>
         </reference>
     </adminhtml_mobile_edit>
 

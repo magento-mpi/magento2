@@ -25,64 +25,240 @@
  */
 ?>
 
+
+
 <script type="text/javascript">
 // <![CDATA[
+if (!window.Magento) {
+    var Magento = new Object();
+}
+Magento.Dropdowns = Class.create();
+Magento.Dropdowns.prototype = {
+    initialize: function(selector) {
+        var self=this;
+        var global = document;
+        this.selector = selector;
+        $$('.'+this.selector).each(this.init.bind(this));
+        Event.observe(global, 'click', this.hide_all.bind(this,0));
+    },
 
-mmColorUpdate = false
+    init: function(el) {
+        this.head = el.down('dt');
+        this.content = el.down('dd');
+        this.list = el.down('ul').childElements();
+        this.input = $(el.id+'-value');
 
-mmColorThemes = <?php echo json_encode($this->getAllThemes()); ?>
+        this.init_items(this.list);
+        Event.observe(this.head.down('a'), 'click', this.show.bind(this, this.content));
+    },
 
+    init_items: function(list) {
+        var that = this;
+        list.each(function(i){
+            Event.observe(i.down('a'), 'click', function(e){
+                e.stop();
+                that.input.value = i.down('a').rel;
+                that.hide_all();
+                that.head.down('a').innerHTML = i.down('a').innerHTML;
+            });
+        });
+    },
 
-function mmSetTheme(theme) {
-    if (mmColorThemes[theme]) {
-        mmColorUpdate = true
-        for (var key in mmColorThemes[theme]) {
-            $(key).color.fromString(mmColorThemes[theme][key])
+    hide_all: function() {
+        $$('.ddlist').each(function(item){
+            item.style.display = 'none';
+        });
+    },
+
+    hide: function(cid) {
+        $$('.ddlist').each(function(item){
+            if (item.hasClassName('on') && item.id != cid) {
+                item.style.display = 'none';
+                item.removeClassName('on');
+            }
+        });
+    },
+
+    show: function(c,e) {
+        e.stop();
+        if (c.hasClassName('on')) {
+            Effect.toggle(c, 'blind', { delay: 0.1, duration: .1 });
+            c.removeClassName('on');
+        }else{
+            c.style.display = 'none';
+            Effect.toggle(c, 'blind', { delay: 0.1, duration: .1 });
+            c.addClassName('on');
         }
-        mmColorUpdate = false
+        //this.hide(c);
     }
 }
 
-function mmSetColor() {
-    if (!mmColorUpdate) {
-        $('mmThemeCustom').checked='checked'
-    }
-}
+Event.observe(document, 'dom:loaded', function() {
+    new Magento.Dropdowns('dropdown');
+});
 
-Event.observe(window, 'load', function() { 
-    $$('.color').each(function(t){
-        t.onchange=mmSetColor
-    })
-})
+//mmColorUpdate = false
+//
+//mmColorThemes = <?php echo json_encode($this->getAllThemes()); ?>;
+//
+//function mmSetTheme(theme) {
+//    if (mmColorThemes[theme]) {
+//        mmColorUpdate = true
+//        for (var key in mmColorThemes[theme]) {
+//            $(key).color.fromString(mmColorThemes[theme][key])
+//        }
+//        mmColorUpdate = false
+//    }
+//}
+//
+//function mmSetColor() {
+//    if (!mmColorUpdate) {
+//        $('mmThemeCustom').checked='checked'
+//    }
+//}
+//
+//Event.observe(window, 'load', function() {
+//    $$('.color').each(function(t){
+//        t.onchange=mmSetColor
+//    })
+//})
 
 // ]]>
 </script>
 
-<?php foreach ($this->getThemes() as $theme): ?>
-    <div style="line-height: 3em">
-        <button type="button" class="scalable" style="margin: 0 2em 0 0"
-        onclick="editForm.submit($('edit_form').action + 'saveTheme/<?php echo $theme->getName(); ?>/')">
-            <span>Save</span>
-        </button>
-        <label>
-            <input type="radio" style="margin-right: 2em;"
-                onclick="mmSetTheme('<?php echo $theme->getName(); ?>')"
-                <?php if ($theme->getName() == $this->getValue()) echo 'checked="checked"'; ?>
-                name="<?php echo htmlspecialchars($this->getName()); ?>"
-                value="<?php echo htmlspecialchars($theme->getName()); ?>" />
-            <?php echo $theme->getLabel(); ?>
-        </label>
-    </div>
-<?php endforeach; ?>
-
-<div style="line-height: 3em">
-<label>
-    <input type="radio" id="mmThemeCustom"
-        <?php if (!$this->getValue()) echo 'checked="checked"'; ?>
-        name="<?php echo htmlspecialchars($this->getName()); ?>"
-        value="" style="margin-right: 2em;" />
-    Custom Colors
-</label>
-</div>
 
 <br />
+<!-- Old Drop Down End -->
+<div>
+    <input type="hidden" name="dropdown_value" id="someId-value" value=""/>
+    <dl class="dropdown theme_selector " id="theme_selector_id">
+        <dt class="theme_selector "><a href="#"><?php echo $this->__('Default Theme');?><span><img src="<?php echo $this->getImageUrl('swatch_default.gif'); ?>"/></span></a></dt>
+        <dd style="display:none;" class="ddlist">
+            <ul>
+            <?php foreach ($this->getThemes() as $theme): ?>
+                <li><a href="#" rel="<?php echo $theme->getName(); ?>"><?php echo $theme->getLabel(); ?> <span><img src="<?php echo $this->getImageUrl('swatch_default.gif'); ?>"/></span></a></li>
+            <?php endforeach; ?>
+            </ul>
+        </dd>
+    </dl>
+    <br/><br/>
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+//topClasses = 'accordion';
+//function removeTopClasses(a) {
+//    if (a) {
+////      alert("A = " + a.innerHTML);
+//      a.removeClassName(topClasses);
+//      a.childElements().each(function(x){
+//              removeTopClasses(x);});
+//}
+
+Event.observe(window, 'load', function() {
+//    $('theme_selector_id').className = 'theme_selector dropdown';
+//$$('.theme_selector').each(function(e) {
+//    alert(e.innerHTML);
+//    e.removeClassName('accordion');
+//    $('theme_selector_id').childElements.each(function(t){t.removeClassName('accordion')});
+//});
+
+//alert($('theme_selector_id').childElements());
+//$('theme_selector_id').childElements().each(function(a){removeTopClasses(a);});
+//$('theme_selector_id').childElements().each(function(a){
+
+//    if (a) {
+////        alert("A = " + a.innerHTML);
+//        a.removeClassName('accordion');
+//        a.childElements().each(function(b) {
+//            if (b) {
+////                alert("B = " + b.innerHTML);
+//                b.removeClassName('accordion');
+//                b.childElements().each(function(c) {
+//                    if (c) {
+//                        alert("C = " + c.innerHTML);
+//                        c.removeClassName('accordion');
+//                        c.childElements().each(function(d) {
+//                            if (d) {
+//                                alert("D = " + d.innerHTML);
+//                                d.removeClassName('accordion');
+//                            }
+//                        });
+//                   }
+//                })
+//            }
+//       });
+//    }
+//});
+
+//$$('li.active').invoke('removeClassName','active');
+});
+
+function toggleBlock(block,link){
+    $$('.'+block+'_cl').each(function(b) {
+        if(b.style.display=='none') {
+            b.style.display='table-row';
+            link.style.backgroundPosition = '0 4px';
+        } else {
+            b.style.display='none';
+            link.style.backgroundPosition = '0 -86px';
+        }
+    });
+}
+
+// ]]>
+</script>
+
+
+
+<?php
+
+$colorFieldset = $this->getColorFieldset();
+$id2observe = array();
+?>
+<style>
+.aColorBlock {
+    border-bottom:1px solid #e5e5e5;color:#2d2d2d;text-decoration:none;background:url(<?php echo $this->getSkinUrl('images/xmlconnect/switch-arrow.gif') ?>) 0 4px no-repeat;padding-left:13px;font-size:12px;
+}
+.fieldLabel {
+    float:left;display:block;border:1px solid #c6cbc7;width:20px;height:20px;padding:1px;
+}
+.fieldFonts_cl {
+border:1px
+}
+.fieldColors_cl {
+    border:1px}
+.fieldAdvanced_cl {
+border:1px}
+
+</style>
+<?php foreach ($colorFieldset as $set) : ?>
+<tr><td colspan="2">
+<a href="javascript:void(0);" onclick="toggleBlock('<?php echo $set['id']; ?>', this);" class="aColorBlock" style="display:block;"><strong><?php echo $set['label']; ?></strong></a>
+</td></tr>
+<?php foreach ($set['fields'] as $field) : ?>
+
+<tr class="<?php echo $set['id']; ?>_cl">
+    <td class="label"><label for=""><?php echo $field['label'] ?></label></td>
+    <td class="value" style="clear:both;">
+        <label class="fieldLabel" for="<?php echo $field['id']; ?>">
+            <span id="box_<?php echo $field['id']; ?>" style="background:<?php echo $field['value'] ?>;display:block;width:20px;height:20px;">&nbsp;</span>
+        </label>
+        <input style="background:#fff !important;color:#000 !important;margin:2px 0 0 6px;width:75px;float:left;" autocomplete="off" id="<?php echo $field['id']; ?>" name="<?php echo $field['name'] ?>" value="<?php echo $field['value'] ?>" class=" color {required:false,hash:true} input-text" type="text">
+    </td>
+</tr>
+<?php $id2observe[] = $field['id']; ?>
+
+<?php endforeach; ?>
+<?php endforeach; ?>
+
+<script type="text/javascript">
+//<![CDATA[
+<?php foreach ($id2observe as $id) : ?>
+$('<?php echo $id; ?>').observe('change', function() {$('box_<?php echo $id; ?>').style.background = $('<?php echo $id; ?>').value;});
+<?php endforeach; ?>
+//]]>
+</script>
+<tr><td colspan="2">
+
+</td></tr>

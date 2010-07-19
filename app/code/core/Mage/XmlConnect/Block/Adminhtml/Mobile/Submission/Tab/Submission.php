@@ -133,18 +133,19 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Submission
             'value'     => '1',
             'maxlength' => '40',
             'after_element_html' => $this->__('Free'),
-            'onclick'    => "$('conf/submit_text/price').setValue('')",
+//            'onclick'    => "$('conf/submit_text/price').setValue('')",
+            'selected'  => 'selected',
         ));
 
-        $fieldset->addField('conf/submit_text/price', 'text', array(
-            'name'      => 'conf[submit_text][price]',
-            'label'     => $this->__(' '),
-            'maxlength' => '40',
-            'value'     => isset($formData['conf[submit_text][price]']) ? $formData['conf[submit_text][price]'] : null,
-            'note'      => $this->__('You can set any price you want for your app, or you can give it away for free. Most apps range from $0.99 - $4.99'),
-            'onchange'  => "$('conf/submit_text/price_free').checked = false",
-
-        ));
+//        $fieldset->addField('conf/submit_text/price', 'text', array(
+//            'name'      => 'conf[submit_text][price]',
+//            'label'     => $this->__(' '),
+//            'maxlength' => '40',
+//            'value'     => isset($formData['conf[submit_text][price]']) ? $formData['conf[submit_text][price]'] : null,
+//            'note'      => $this->__('You can set any price you want for your app, or you can give it away for free. Most apps range from $0.99 - $4.99'),
+//            'onchange'  => "$('conf/submit_text/price_free').checked = false",
+//
+//        ));
 
         $selected = isset($formData['conf[submit_text][country]']) ? json_decode($formData['conf[submit_text][country]']) : null;
         $fieldset->addField('conf/submit_text/country', 'multiselect', array(
@@ -164,22 +165,31 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Submission
 
         ));
 
-        $fieldset->addField('conf/submit_text/copyright', 'textarea', array(
+        $fieldset->addField('conf/submit_text/copyright', 'text', array(
             'name'      => 'conf[submit_text][copyright]',
             'label'     => $this->__('Copyright'),
             'maxlength' => '200',
             'value'     => isset($formData['conf[submit_text][copyright]']) ? $formData['conf[submit_text][copyright]'] : null,
             'note'      => $this->__('This will appear in the info section of your App (example:  Copyright 2010 – Your Company, Inc.)'),
-            'size'      => '30',
             'required'  => true,
         ));
 
-        $fieldset->addField('conf/submit_text/push_notification', 'checkbox', array(
-            'name'      => 'conf[submit_text][push_notification]',
-            'label'     => $this->__('Push Notification'),
-            'checked'   => isset($formData['conf[submit_text][push_notification]']),
-            'value'     => '1',
+
+        $fieldset->addField('conf/submit_text/keywords', 'text', array(
+            'name'      => 'conf[submit_text][keywords]',
+            'label'     => $this->__('Keywords'),
+            'maxlength' => '100',
+            'value'     => isset($formData['conf[submit_text][copyright]']) ? $formData['conf[submit_text][copyright]'] : null,
+            'note'      => $this->__('One or more keywords that describe your app. Keywords are matched to users\' searches in the App Store and help return accurate search results. Separate multiple keywords with commas. 100 chars is maximum.'),
+//            'required'  => true,
         ));
+
+//        $fieldset->addField('conf/submit_text/push_notification', 'checkbox', array(
+//            'name'      => 'conf[submit_text][push_notification]',
+//            'label'     => $this->__('Push Notification'),
+//            'checked'   => isset($formData['conf[submit_text][push_notification]']),
+//            'value'     => '1',
+//        ));
 
         $fieldset = $form->addFieldset('submit1', array('legend' => $this->__('Icons')));
         $this->addImage($fieldset, 'conf/submit/icon', 'Application Icon',

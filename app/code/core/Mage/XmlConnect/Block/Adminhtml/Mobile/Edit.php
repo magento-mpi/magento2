@@ -44,12 +44,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
             'class'     => 'save',
         ), -100);
 
-        $this->_addButton('submit_application_button', array(
-            'label' =>  Mage::helper('xmlconnect')->__('Submit Application'),
-            'onclick'    => 'setLocation(\''. $this->getUrl('*/*/submission',
-                array('application_id' => Mage::registry('current_app')->getId())).'\')',
-            'class'     => 'save'
-        ));
+        if (Mage::registry('current_app')->getId()) {
+            $this->_addButton('submit_application_button', array(
+                'label' =>  Mage::helper('xmlconnect')->__('Submit Application'),
+                'onclick'    => 'setLocation(\''. $this->getUrl('*/*/submission',
+                    array('application_id' => Mage::registry('current_app')->getId())).'\')',
+                'class'     => 'save'
+            ));
+        }
 
         $this->_formScripts[] = 'function saveAndContinueEdit() {
             editForm.submit($(\'edit_form\').action + \'back/edit/\');}';
@@ -58,11 +60,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
         if (Mage::registry('current_app')->getStatus() == Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS) {
             $this->_updateButton('delete', 'disabled', 'disabled');
         }
+
+        $this->_updateButton('back', 'label', $this->__('Back to Application Edit'));
     }
 
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')->addJs('jscolor/jscolor.js');
+        $this->getLayout()->getBlock('head')->addJs('scriptaculous/scriptaculous.js');
         return parent::_prepareLayout();
     }
 

@@ -34,12 +34,12 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Fonts ext
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('fieldFonts', array());
-        $this->_addElementTypes($fieldset);
-        $this->addColor($fieldset, 'conf[extra][fontColors][header]', $this->__('Header Font Color'));
-        $this->addColor($fieldset, 'conf[extra][fontColors][primary]', $this->__('Primary Font Color'));
-        $this->addColor($fieldset, 'conf[extra][fontColors][secondary]', $this->__('Secondary Font Color'));
-        $this->addColor($fieldset, 'conf[extra][fontColors][price]', $this->__('Price Font Color'));
+//        $fieldset = $form->addFieldset('fieldFonts', array());
+//        $this->_addElementTypes($fieldset);
+//        $this->addColor($fieldset, 'conf[extra][fontColors][header]', $this->__('Header Font Color'));
+//        $this->addColor($fieldset, 'conf[extra][fontColors][primary]', $this->__('Primary Font Color'));
+//        $this->addColor($fieldset, 'conf[extra][fontColors][secondary]', $this->__('Secondary Font Color'));
+//        $this->addColor($fieldset, 'conf[extra][fontColors][price]', $this->__('Price Font Color'));
 
         $model = Mage::registry('current_app');
         $form->setValues($model->getFormData());

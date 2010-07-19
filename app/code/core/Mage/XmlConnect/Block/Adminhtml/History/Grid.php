@@ -52,22 +52,48 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
 
     protected function _prepareColumns()
     {
-        $this->addColumn('Title', array(
-            'header'    => Mage::helper('xmlconnect')->__('Application Name'),
+//        $this->addColumn('Title', array(
+//            'header'    => Mage::helper('xmlconnect')->__('Application Name'),
+//            'align'     => 'left',
+//            'index'     => 'title',
+//            'type'      => 'text',
+//            'sortable'  =>  false,
+//
+//        ));
+//        $this->addColumn('created_at', array(
+//            'header'    => Mage::helper('xmlconnect')->__('Date Created'),
+//            'align'     => 'left',
+//            'index'     => 'created_at',
+//            'sortable'  =>  false,
+//        ));
+//
+//        return parent::_prepareColumns();
+//    }
+
+            $this->addColumn('Title', array(
+            'header'    => Mage::helper('xmlconnect')->__('Title'),
             'align'     => 'left',
             'index'     => 'title',
             'type'      => 'text',
             'sortable'  =>  false,
-
+            'onclick'   => '',
         ));
+
+        $this->addColumn('key', array(
+            'header'    => Mage::helper('xmlconnect')->__('Key Used'),
+            'align'     => 'left',
+            'index'     => 'key',
+            'sortable'  =>  false,
+            'onclick'   => '',
+        ));
+
         $this->addColumn('created_at', array(
             'header'    => Mage::helper('xmlconnect')->__('Date Created'),
             'align'     => 'left',
             'index'     => 'created_at',
             'sortable'  =>  false,
+            'onclick'   => '',
         ));
-
-        return parent::_prepareColumns();
     }
 
     /**

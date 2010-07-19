@@ -48,17 +48,17 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_C
             'open'    => true,
         ));
 
-        $accordion->addItem('fonts', array(
-            'title'   => $this->__('Fonts'),
-            'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Fonts,
-            'open'    => true,
-        ));
-
-        $accordion->addItem('advanced', array(
-            'title'   => $this->__('Advanced Settings'),
-            'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Advanced,
-            'open'    => false,
-        ));
+//        $accordion->addItem('fonts', array(
+//            'title'   => $this->__('Fonts'),
+//            'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Fonts,
+//            'open'    => true,
+//        ));
+//
+//        $accordion->addItem('advanced', array(
+//            'title'   => $this->__('Advanced Settings'),
+//            'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Advanced,
+//            'open'    => false,
+//        ));
 
         $accordion->addItem('tabs', array(
             'title'   => $this->__('Tabs'),

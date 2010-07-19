@@ -94,10 +94,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         } catch (Exception $e) {
             $this->_getSession()->addException($e, $this->__('Can\'t open submission form.'));
-            $this->_redirect('*/*/');
+            $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         }
     }
 
@@ -127,10 +127,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         } catch (Exception $e) {
             $this->_getSession()->addException($e, $this->__('Can\'t open application form.'));
-            $this->_redirect('*/*/');
+            $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         }
     }
 

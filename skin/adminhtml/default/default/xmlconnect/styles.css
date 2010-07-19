@@ -1,0 +1,10 @@
+.theme_selector dl, dt, dd, ul, li {
+    margin:0 !important;
+    padding:0 !important;
+    list-style-type:none !important; 
+    background: #FFFFFF !important;
+    color: black !important;
+    
+}
+.theme_selector img { border:0; }
+.theme_selector { font:11px/14px arial; }
