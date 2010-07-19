@@ -25,8 +25,7 @@
  */
 ?>
 
-
-
+<tr><td colspan="2">
 <script type="text/javascript">
 // <![CDATA[
 if (!window.Magento) {
@@ -43,8 +42,8 @@ Magento.Dropdowns.prototype = {
     },
 
     init: function(el) {
-        this.head = el.down('dt');
-        this.content = el.down('dd');
+        this.head = el.down('li.ddtitle');
+        this.content = el.down('li.ddlist');
         this.list = el.down('ul').childElements();
         this.input = $(el.id+'-value');
 
@@ -129,20 +128,22 @@ Event.observe(document, 'dom:loaded', function() {
 
 <br />
 <!-- Old Drop Down End -->
-<div>
-    <input type="hidden" name="dropdown_value" id="someId-value" value=""/>
-    <dl class="dropdown theme_selector " id="theme_selector_id">
-        <dt class="theme_selector "><a href="#"><?php echo $this->__('Default Theme');?><span><img src="<?php echo $this->getImageUrl('swatch_default.gif'); ?>"/></span></a></dt>
-        <dd style="display:none;" class="ddlist">
+<label for="theme_selector_id" class="f-left theme-selector-title">Color Theme</label>
+<div class="theme-select-cont">
+    <input type="hidden" name="dropdown_value" id="theme_selector_id-value" value=""/>
+    <ul class="dropdown theme_selector" id="theme_selector_id">
+        <li class="ddtitle theme_selector "><a href="#"><?php echo $this->__('Default Theme');?><span><img src="<?php echo $this->getImageUrl('swatch_default.gif'); ?>"/></span></a></li>
+        <li style="display:none;" class="ddlist">
             <ul>
             <?php foreach ($this->getThemes() as $theme): ?>
                 <li><a href="#" rel="<?php echo $theme->getName(); ?>"><?php echo $theme->getLabel(); ?> <span><img src="<?php echo $this->getImageUrl('swatch_default.gif'); ?>"/></span></a></li>
             <?php endforeach; ?>
             </ul>
-        </dd>
-    </dl>
+        </li>
+    </ul>
     <br/><br/>
 </div>
+
 
 <script type="text/javascript">
 // <![CDATA[
@@ -205,9 +206,10 @@ function toggleBlock(block,link){
         }
     });
 }
-
 // ]]>
 </script>
+
+</td></tr>
 
 
 
@@ -216,22 +218,6 @@ function toggleBlock(block,link){
 $colorFieldset = $this->getColorFieldset();
 $id2observe = array();
 ?>
-<style>
-.aColorBlock {
-    border-bottom:1px solid #e5e5e5;color:#2d2d2d;text-decoration:none;background:url(<?php echo $this->getSkinUrl('images/xmlconnect/switch-arrow.gif') ?>) 0 4px no-repeat;padding-left:13px;font-size:12px;
-}
-.fieldLabel {
-    float:left;display:block;border:1px solid #c6cbc7;width:20px;height:20px;padding:1px;
-}
-.fieldFonts_cl {
-border:1px
-}
-.fieldColors_cl {
-    border:1px}
-.fieldAdvanced_cl {
-border:1px}
-
-</style>
 <?php foreach ($colorFieldset as $set) : ?>
 <tr><td colspan="2">
 <a href="javascript:void(0);" onclick="toggleBlock('<?php echo $set['id']; ?>', this);" class="aColorBlock" style="display:block;"><strong><?php echo $set['label']; ?></strong></a>
@@ -260,5 +246,6 @@ $('<?php echo $id; ?>').observe('change', function() {$('box_<?php echo $id; ?>'
 //]]>
 </script>
 <tr><td colspan="2">
+<br />
 
 </td></tr>
