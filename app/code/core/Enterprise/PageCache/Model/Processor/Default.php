@@ -32,6 +32,13 @@ class Enterprise_PageCache_Model_Processor_Default
     private $_placeholder;
 
     /**
+     * Disable cache for url with next GET params
+     *
+     * @var array
+     */
+    protected $_noCacheGetParams = array('___store', '___from_store');
+
+    /**
      * Check if request can be cached
      *
      * @param Zend_Controller_Request_Http $request
@@ -39,6 +46,11 @@ class Enterprise_PageCache_Model_Processor_Default
      */
     public function allowCache(Zend_Controller_Request_Http $request)
     {
+        foreach ($this->_noCacheGetParams as $param) {
+            if (!is_null($request->getParam($param, null))) {
+                return false;
+            }
+        }
         if (Mage::getSingleton('core/session')->getNoCacheFlag()) {
             return false;
         }
