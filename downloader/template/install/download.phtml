@@ -32,6 +32,20 @@
 
 <?php if (!$this->controller()->isDownloaded()): ?>
     <p>You are now ready to continue the installation process by downloading the most up-to-date copy of the Magento software.</p>
+  <?php /** PE|EE ?>
+    <div id="connect_login_notice" style="">
+        <ul class="msgs">
+            <li>
+                <ul class="notice-msg">
+                     <li>
+                         <small><i>For security reasons your user name and password were not saved on the previous step.<br/>
+                         Please re-enter your user name and password again to proceed with Magento installation.</i></small>
+                     </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+   <?php /* */ ?>
     <form id="install_all" method="post" action="<?php echo $this->url('connectInstallAll') ?>" target="connect_iframe" onsubmit="return installAll()">
         <fieldset class="fieldset-download">
 <?php else: ?>
@@ -40,6 +54,20 @@
     <button class="form-button" type="button" onclick="location.href='<?php echo $this->mageUrl() ?>'"><span>Continue Magento installation</span></button>
     <br/><br/><br/>
     <p>Alternatively, you could proceed with Re-Downloading all packages</p>
+  <?php /** PE|EE ?>
+    <div id="connect_login_notice" style="">
+        <ul class="msgs">
+            <li>
+                <ul class="notice-msg">
+                     <li>
+                         <small><i>For security reasons your user name and password were not saved on the previous step.<br/>
+                         Please re-enter your user name and password again to proceed with Magento installation.</i></small>
+                     </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+   <?php /* */ ?>
     <form id="reinstall_all" method="post" action="<?php echo $this->url('connectInstallAll') ?>&force=1" target="connect_iframe" onsubmit="return installAll(true)">
         <fieldset class="fieldset-download">
 <?php endif; ?>
@@ -94,11 +122,11 @@
             </table>
             <table cellspacing="0" cellpadding="0" class="form-list">
                 <tr>
-                    <td class="label">Installation Protocol:</td>
+                    <td class="label">Deployment Type:</td>
                     <td class="value">
                         <select id="inst_protocol" onchange="togglePanel(this)" name="inst_protocol">
-                            <option value="0">Standard</option>
-                            <option value="1">FTP</option>
+                            <option value="0">Local Filesystem</option>
+                            <option value="1">FTP Connection</option>
                         </select>
                     </td>
                 </tr>
@@ -144,8 +172,6 @@
 <?php endif; ?>
 
 <br/>
-<small><i>For security reasons your user name and password were not saved on the previous step.<br/>
-Please re-enter your user name and password again to proceed with Magento installation.</i></small>
 <?php echo $this->template('connect/iframe.phtml') ?>
 
 <a name="connect_iframe_result"></a>
