@@ -56,8 +56,30 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         }
 
         $this->setRootName($root)->setRoot($data[$root]);
+        $serialNumber = $this->getData('root/serial-number');
+        $this->getGResponse()->setSerialNumber($serialNumber);
 
-        $this->getGResponse()->setSerialNumber($this->getData('root/serial-number'));
+        /*
+         * Prevent multiple notification processing
+         */
+        $notification = Mage::getModel('googlecheckout/notification')
+            ->setSerialNumber($serialNumber)
+            ->loadNotificationData();
+
+        if ($notification->getStartedAt()) {
+            if ($notification->isProcessed()) {
+                $this->getGResponse()->SendAck();
+                return;
+            }
+            if ($notification->isTimeout()) {
+                $notification->updateProcess();
+            } else {
+                $this->getGResponse()->SendServerErrorStatus();
+                return;
+            }
+        } else {
+            $notification->startProcess();
+        }
 
         $method = '_response'.uc_words($root, '', '-');
         if (method_exists($this, $method)) {
@@ -65,6 +87,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
             try {
                 $this->$method();
+                $notification->stopProcess();
             } catch (Exception $e) {
                 $this->getGResponse()->log->logError($e->__toString());
             }
