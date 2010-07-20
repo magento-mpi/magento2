@@ -552,7 +552,9 @@ class Enterprise_Reward_Model_Observer
             $order->setBaseRewardCurrencyAmountInvoiced($order->getBaseRewardCurrencyAmountInvoiced() + $invoice->getBaseRewardCurrencyAmount());
         }
         // Update inviter balance if possible
-        $this->_invitationToOrder($observer);
+        if (!$invoice->getOrigData($invoice->getResource()->getIdFieldName()) ) {
+            $this->_invitationToOrder($observer);
+        }
         return $this;
     }
 
