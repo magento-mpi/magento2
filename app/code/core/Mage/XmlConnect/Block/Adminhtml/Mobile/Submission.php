@@ -47,6 +47,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission extends Mage_Adminhtml_B
             'onclick'=>"submitApplication()",
         ));
 
+        $this->_updateButton('back', 'label', Mage::helper('xmlconnect')->__('Back to App Edit'));
+        $this->_updateButton('back', 'onclick', 'setLocation(\''. $this->getUrl('*/*/edit',
+            array('application_id' => Mage::registry('current_app')->getId())) . '\')');
+
     }
 
     /**

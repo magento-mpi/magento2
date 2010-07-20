@@ -45,7 +45,7 @@ Magento.Dropdowns.prototype = {
         this.head = el.down('li.ddtitle');
         this.content = el.down('li.ddlist');
         this.list = el.down('ul').childElements();
-        this.input = $(el.id+'-value');
+        this.input = $(el.id+'_value');
 
         this.init_items(this.list);
         Event.observe(this.head.down('a'), 'click', this.show.bind(this, this.content));
@@ -57,6 +57,7 @@ Magento.Dropdowns.prototype = {
             Event.observe(i.down('a'), 'click', function(e){
                 e.stop();
                 that.input.value = i.down('a').rel;
+                mmSetTheme(that.input.value);
                 that.hide_all();
                 that.head.down('a').innerHTML = i.down('a').innerHTML;
             });
@@ -92,47 +93,100 @@ Magento.Dropdowns.prototype = {
     }
 }
 
+currentTheme = '';
+
 Event.observe(document, 'dom:loaded', function() {
     new Magento.Dropdowns('dropdown');
+
+    $('submit_theme').observe('click', function() {
+        if (currentTheme) {
+            $('theme_selector_id_value').setValue(currentTheme);
+        }
+        editForm.submit($('edit_form').action + 'saveTheme/' + $('theme_selector_id_value').value + '/');
+    });
 });
 
-//mmColorUpdate = false
-//
-//mmColorThemes = <?php echo json_encode($this->getAllThemes()); ?>;
-//
-//function mmSetTheme(theme) {
-//    if (mmColorThemes[theme]) {
-//        mmColorUpdate = true
-//        for (var key in mmColorThemes[theme]) {
-//            $(key).color.fromString(mmColorThemes[theme][key])
-//        }
-//        mmColorUpdate = false
-//    }
-//}
-//
-//function mmSetColor() {
-//    if (!mmColorUpdate) {
-//        $('mmThemeCustom').checked='checked'
-//    }
-//}
-//
-//Event.observe(window, 'load', function() {
-//    $$('.color').each(function(t){
-//        t.onchange=mmSetColor
-//    })
-//})
+mmColorUpdate = false;
+
+mmColorThemes = <?php echo json_encode($this->getAllThemes()); ?>;
+
+function mmSetTheme(theme) {
+    if (mmColorThemes[theme]) {
+        currentTheme = theme;
+        $('theme_selector_id_value').setValue(theme);
+        mmColorUpdate = true;
+        for (var key in mmColorThemes[theme]) {
+            color2set = mmColorThemes[theme][key];
+            $(key).color.fromString(color2set);
+            $('box_'+key).style.background = color2set;
+        }
+        mmColorUpdate = false;
+    }
+}
 
 // ]]>
 </script>
 
 
 <br />
-<!-- Old Drop Down End -->
-<label for="theme_selector_id" class="f-left theme-selector-title">Color Theme</label>
+<?php
+$themes = $this->getThemes();
+$themeLabel = '';
+$themeId = Mage::registry('current_app')->getData('conf/extra/theme');
+if (!empty($themeId)) {
+    foreach ($themes as $theme) {
+        if ($theme->getName() == $themeId) {
+            $themeLabel = $theme->getLabel();
+        }
+    }
+}
+/*
+<style>
+.brick {
+    width:9px;
+    height: 9px;
+    scroll:none;
+    float:right;
+    margin: 0;
+    padding:0;
+    border:0;
+    display:inline;
+}
+#br_1 {
+    background:#F5F;
+}
+#br_2 {
+    background:#0FF;
+}
+#br_3 {
+    background:#FF0;
+}
+#br_4 {
+    background:#F0F;
+}
+</style>
+*/
+?>
+<label for="theme_selector_id" class="f-left theme-selector-title"><?php echo $this->__('Color Theme'); ?></label>
 <div class="theme-select-cont">
-    <input type="hidden" name="dropdown_value" id="theme_selector_id-value" value=""/>
+    <input type="hidden" name="conf[extra][theme]" id="theme_selector_id_value" value="<?php echo $themeId; ?>"/>
     <ul class="dropdown theme_selector" id="theme_selector_id">
-        <li class="ddtitle theme_selector "><a href="#"><?php echo $this->__('Default Theme');?><span><img src="<?php echo $this->getImageUrl('swatch_default.gif'); ?>"/></span></a></li>
+        <li class="ddtitle theme_selector "><a href="#"><?php echo $themeLabel ? $themeLabel : $this->__('Custom Colors');?><span>
+
+        <img src="<?php echo $this->getImageUrl('swatch_default.gif'); ?>"/>
+<?php
+/*        <div style="display:inline">
+            <div class="brick" id="br_1">&nbsp;</div>
+            <div class="brick" id="br_2">&nbsp;</div>
+            <div class="brick" id="br_3">&nbsp;</div>
+            <div class="brick" id="br_4">&nbsp;</div>
+        </div>
+*/
+?>
+        </span>
+
+
+        </a></li>
         <li style="display:none;" class="ddlist">
             <ul>
             <?php foreach ($this->getThemes() as $theme): ?>
@@ -144,56 +198,8 @@ Event.observe(document, 'dom:loaded', function() {
     <br/><br/>
 </div>
 
-
 <script type="text/javascript">
 // <![CDATA[
-//topClasses = 'accordion';
-//function removeTopClasses(a) {
-//    if (a) {
-////      alert("A = " + a.innerHTML);
-//      a.removeClassName(topClasses);
-//      a.childElements().each(function(x){
-//              removeTopClasses(x);});
-//}
-
-Event.observe(window, 'load', function() {
-//    $('theme_selector_id').className = 'theme_selector dropdown';
-//$$('.theme_selector').each(function(e) {
-//    alert(e.innerHTML);
-//    e.removeClassName('accordion');
-//    $('theme_selector_id').childElements.each(function(t){t.removeClassName('accordion')});
-//});
-
-//alert($('theme_selector_id').childElements());
-//$('theme_selector_id').childElements().each(function(a){removeTopClasses(a);});
-//$('theme_selector_id').childElements().each(function(a){
-
-//    if (a) {
-////        alert("A = " + a.innerHTML);
-//        a.removeClassName('accordion');
-//        a.childElements().each(function(b) {
-//            if (b) {
-////                alert("B = " + b.innerHTML);
-//                b.removeClassName('accordion');
-//                b.childElements().each(function(c) {
-//                    if (c) {
-//                        alert("C = " + c.innerHTML);
-//                        c.removeClassName('accordion');
-//                        c.childElements().each(function(d) {
-//                            if (d) {
-//                                alert("D = " + d.innerHTML);
-//                                d.removeClassName('accordion');
-//                            }
-//                        });
-//                   }
-//                })
-//            }
-//       });
-//    }
-//});
-
-//$$('li.active').invoke('removeClassName','active');
-});
 
 function toggleBlock(block,link){
     $$('.'+block+'_cl').each(function(b) {
@@ -211,8 +217,6 @@ function toggleBlock(block,link){
 
 </td></tr>
 
-
-
 <?php
 
 $colorFieldset = $this->getColorFieldset();
@@ -228,7 +232,7 @@ $id2observe = array();
     <td class="label"><label for=""><?php echo $field['label'] ?></label></td>
     <td class="value" style="clear:both;">
         <label class="fieldLabel" for="<?php echo $field['id']; ?>">
-            <span id="box_<?php echo $field['id']; ?>" style="background:<?php echo $field['value'] ?>;display:block;width:20px;height:20px;">&nbsp;</span>
+            <span id="box_<?php echo $field['id']; ?>" class="color" style="background:<?php echo $field['value'] ?>;display:block;width:20px;height:20px;">&nbsp;</span>
         </label>
         <input style="background:#fff !important;color:#000 !important;margin:2px 0 0 6px;width:75px;float:left;" autocomplete="off" id="<?php echo $field['id']; ?>" name="<?php echo $field['name'] ?>" value="<?php echo $field['value'] ?>" class=" color {required:false,hash:true} input-text" type="text">
     </td>
@@ -240,12 +244,21 @@ $id2observe = array();
 
 <script type="text/javascript">
 //<![CDATA[
+Event.observe(document, 'dom:loaded', function() {
 <?php foreach ($id2observe as $id) : ?>
-$('<?php echo $id; ?>').observe('change', function() {$('box_<?php echo $id; ?>').style.background = $('<?php echo $id; ?>').value;});
+$('<?php echo $id; ?>').observe('change', function() {
+    $('box_<?php echo $id; ?>').style.background = $('<?php echo $id; ?>').value;
+    $('theme_selector_id_value').setValue('');
+    });
 <?php endforeach; ?>
+});
 //]]>
 </script>
 <tr><td colspan="2">
+<div class="form-buttons">
+<button type="button" class="scalable back" style="margin: 0 2em 0 0" id="reset_theme"><span><?php echo $this->__('Reset'); ?></span></button>
+<button type="button" class="scalable" style="margin: 0 2em 0 0" id="submit_theme"><span><?php echo $this->__('Save Theme'); ?></span></button>
+</div>
 <br />
 
 </td></tr>

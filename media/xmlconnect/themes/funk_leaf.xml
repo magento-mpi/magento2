@@ -27,7 +27,7 @@
 -->
 <theme>
     <manifest>
-        <code>funk_lead</code>
+        <code>funk_leaf</code>
         <label>Funk Leaf</label>
         <version>1.0</version>
         <requires>1.4.0.2</requires>
@@ -35,28 +35,28 @@
     <configuration>
         <native>
             <navigationBar>
-                <tintColor></tintColor>
+                <tintColor>#AAAAAA</tintColor>
             </navigationBar>
             <body>
-                <primaryColor></primaryColor>
-                <secondaryColor></secondaryColor>
-                <backgroundColor></backgroundColor>
-                <scrollBackgroundColor></scrollBackgroundColor>
+                <primaryColor>#AAAAAA</primaryColor>
+                <secondaryColor>#AAAAAA</secondaryColor>
+                <backgroundColor>#AAAAAA</backgroundColor>
+                <scrollBackgroundColor>#AAAAAA</scrollBackgroundColor>
             </body>
             <categoryItem>
-                <tintColor></tintColor>
-                <backgroundColor></backgroundColor>
+                <tintColor>#AAAAAA</tintColor>
+                <backgroundColor>#AAAAAA</backgroundColor>
             </categoryItem>
             <itemActions>
-                <relatedProductBackgroundColor></relatedProductBackgroundColor>
+                <relatedProductBackgroundColor>#AAAAAA</relatedProductBackgroundColor>
             </itemActions>
         </native>
         <extra>
             <fontColors>
-                <header></header>
-                <primary></primary>
-                <secondary></secondary>
-                <price></price>
+                <header>#AAAAAA</header>
+                <primary>#AAAAAA</primary>
+                <secondary>#AAAAAA</secondary>
+                <price>#AAAAAA</price>
             </fontColors>
         </extra>
     </configuration>

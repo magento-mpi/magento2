@@ -35,28 +35,28 @@
     <configuration>
         <native>
             <navigationBar>
-                <tintColor></tintColor>
+                <tintColor>#FFFFFF</tintColor>
             </navigationBar>
             <body>
-                <primaryColor></primaryColor>
-                <secondaryColor></secondaryColor>
-                <backgroundColor></backgroundColor>
-                <scrollBackgroundColor></scrollBackgroundColor>
+                <primaryColor>#FFFFFF</primaryColor>
+                <secondaryColor>#FFFFFF</secondaryColor>
+                <backgroundColor>#FFFFFF</backgroundColor>
+                <scrollBackgroundColor>#FFFFFF</scrollBackgroundColor>
             </body>
             <categoryItem>
-                <tintColor></tintColor>
-                <backgroundColor></backgroundColor>
+                <tintColor>#FFFFFF</tintColor>
+                <backgroundColor>#FFFFFF</backgroundColor>
             </categoryItem>
             <itemActions>
-                <relatedProductBackgroundColor></relatedProductBackgroundColor>
+                <relatedProductBackgroundColor>#FFFFFF</relatedProductBackgroundColor>
             </itemActions>
         </native>
         <extra>
             <fontColors>
-                <header></header>
-                <primary></primary>
-                <secondary></secondary>
-                <price></price>
+                <header>#FFFFFF</header>
+                <primary>#FFFFFF</primary>
+                <secondary>#FFFFFF</secondary>
+                <price>#FFFFFF</price>
             </fontColors>
         </extra>
     </configuration>

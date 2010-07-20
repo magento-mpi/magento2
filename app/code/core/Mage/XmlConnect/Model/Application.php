@@ -69,6 +69,17 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Checks is it app is submitted
+     * (edit is premitted only before submission)
+     *
+     * @return bool
+     */
+    public function getIsSubmitted()
+    {
+        return $this->getStatus() == Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS;
+    }
+
+    /**
      * Prepare post data
      *
      * Retains previous data in the object.
@@ -78,6 +89,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function preparePostData(array $arr)
     {
+        // code is editable only till submit to store
+        if ($this->getIsSubmitted()) {
+            unset($arr['code']);
+        }
         if (isset($arr['conf']['new_pages']) && isset($arr['conf']['new_pages']['ids'])
             && isset($arr['conf']['new_pages']['labels'])) {
 
