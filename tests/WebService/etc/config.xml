@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <path>
+        <test>Test</test>
+        <implementation>Implementation</implementation>
+        <config>etc/Modules</config>
+    </path>
+    <modules>
+        <Customer>
+            <model>Customer/Customer</model>
+            <is_active>true</is_active>
+        </Customer>
+    </modules>
+</root>
