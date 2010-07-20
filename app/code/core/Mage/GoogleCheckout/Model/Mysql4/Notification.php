@@ -26,6 +26,9 @@
 
 class Mage_GoogleCheckout_Model_Mysql4_Notification extends Mage_Core_Model_Mysql4_Abstract
 {
+    /**
+     * Intialize resource model
+     */
     protected function _construct()
     {
         $this->_init('googlecheckout/notification', 'serial_number');
@@ -55,8 +58,8 @@ class Mage_GoogleCheckout_Model_Mysql4_Notification extends Mage_Core_Model_Mysq
     {
         $data = array(
             'serial_number' => $serialNumber,
-            'started_at' => $this->formatDate(time()),
-            'status' => Mage_GoogleCheckout_Model_Notification::STATUS_INPROCESS
+            'started_at'    => $this->formatDate(time()),
+            'status'        => Mage_GoogleCheckout_Model_Notification::STATUS_INPROCESS
         );
         $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
         return $this;
@@ -85,7 +88,7 @@ class Mage_GoogleCheckout_Model_Mysql4_Notification extends Mage_Core_Model_Mysq
      */
     public function updateProcess($serialNumber)
     {
-         $this->_getWriteAdapter()->update($this->getMainTable(), $data,
+        $this->_getWriteAdapter()->update($this->getMainTable(),
             array('started_at' => $this->formatDate(time())),
             array($this->_getWriteAdapter()->quoteInto('serial_number = ?', $serialNumber))
         );

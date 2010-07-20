@@ -36,6 +36,9 @@ class Mage_GoogleCheckout_Model_Notification extends Mage_Core_Model_Abstract
     const STATUS_INPROCESS = 0;
     const STATUS_PROCESSED = 1;
 
+    /**
+     * Intialize model
+     */
     function _construct()
     {
         $this->_init('googlecheckout/notification');
@@ -73,7 +76,7 @@ class Mage_GoogleCheckout_Model_Notification extends Mage_Core_Model_Abstract
         $startedTime = strtotime($this->getStartedAt());
         $currentTime = gmdate('U');
 
-        if ($currentTime - $startedTime + self::TIMEOUT_LIMIT) {
+        if ($currentTime - $startedTime + self::TIMEOUT_LIMIT > 0) {
             return true;
         }
         return false;
