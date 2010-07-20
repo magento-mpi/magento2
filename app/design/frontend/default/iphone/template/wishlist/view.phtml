@@ -96,7 +96,7 @@
     function confirmRemoveWishlistItem() {
         return confirm('<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>');
     }
-
+	
     function focusComment(obj) {
         if( obj.value == '<?php echo $this->helper('wishlist')->defaultCommentString() ?>' ) {
             obj.value = '';
