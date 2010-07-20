@@ -21,8 +21,7 @@ php -f generator.php -- $DB_HOST $DB_USER $DB_PASS $CHECKOUT $DB_NAME $METADATA_
 cat > "$OUTPUT/tmp/schema_builder.sql" <<DELIM
 SET group_concat_max_len = 4096;
 SELECT CONCAT(
-'java -jar $SCHEMASPY -t mysql -host $DB_HOST -db $DB_NAME -u $DB_USER -p $DB_PASS -o $OUTPUT/magento/ ',
-module_name,
+'java -jar $SCHEMASPY -t mysql -host $DB_HOST -db $DB_NAME -u $DB_USER -p $DB_PASS -o $OUTPUT/magento/', module_name,
 ' -dp $MYSQL_DRIVER -norows -lq -i "', REPLACE(GROUP_CONCAT('(',table_name,')'),',','|'), '|(nothing)', '"', ' -desc "', module_name, '"') AS "#!/bin/bash"
 FROM vw_modules_tables
 WHERE code_group in  (1)           
@@ -33,9 +32,9 @@ mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS $METADATA_DB_NAME < modules_
 
 mysql -h $DB_HOST -P $DB_PORT -u$DB_USER -p$DB_PASS $METADATA_DB_NAME < "$OUTPUT/tmp/schema_builder.sql" > "$OUTPUT/tmp/schema_builder"
 
-#chmod +rx "$OUTPUT/tmp/schema_builder"
+chmod +rx "$OUTPUT/tmp/schema_builder"
 
-#java -jar ./schemaSpy.jar -t mysql -host $DB_HOST -db $DB_NAME -u $DB_USER -p $DB_PASS -o "$OUTPUT/magento/All" -dp $MYSQL_DRIVER -norows -lq -desc "Magento DB Schema"
+java -jar ./schemaSpy.jar -t mysql -host $DB_HOST -db $DB_NAME -u $DB_USER -p $DB_PASS -o "$OUTPUT/magento/All" -dp $MYSQL_DRIVER -norows -lq -desc "Magento DB Schema"
 
 sh $OUTPUT/tmp/schema_builder
 

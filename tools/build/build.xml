@@ -7,6 +7,10 @@
     <property name="dir.docs" value="${dir.artifacts}/docs" />
     <property name="dir.websites" value="${dir.src}/websites"/>
  
+    <!-- SVN User credentials -->
+    <property name="svn.user" value="teamcity"/>
+    <property name="svn.password" value="JbnJ1lm53V3"/>
+ 
     <target name="install" description="Installing Magento instance.">
         <exec executable="/bin/sh" failonerror="true">
     	    <arg value="install.sh"/>
@@ -170,10 +174,20 @@
         <echo>##teamcity[publishArtifacts '${dir.reports}/pmd-report.html']</echo>
     </target>
 
-    <!--
-    <target name="sc-analyze" depends="pdepend phpmd phpcpd" description="Gather code stats in xml file.">
+    <target name="code-analyze-in-parallel" description="Gather code stats in parallel mode.">
+        <parallel>
+            <antcall target="phpmd"/>
+            <antcall target="phpcpd"/>
+            <antcall target="pdepend"/>
+        </parallel>
     </target>
-    -->
+    
+    <target name="docs-in-parallel" description="Gather project dodumentation in parallel mode.">
+	<parallel>
+	    <antcall target="phpdoc"/>
+	    <antcall target="dbschema"/>
+	</parallel>
+    </target>
 
     <target name="phpdoc" description="Generate phpDoc files.">
         <property name="phpdoc" value="${teamcity.buildConfName}-${build.number}-phpdoc"/>
@@ -200,4 +214,27 @@
     
     <target name="build-nightly" description="Installs Magento nightly build." depends="copy-previous-env, install, brutetest, update-current"/>
     <target name="build" description="Installs Magento clean build." depends="prepare, install, brutetest"/>
+    
+    <target name="saas-sync" description="Sync Magento trunk and Saas trunk.">
+	<exec dir="${dir.src}" executable="svn" failonerror="true">
+	    <arg line="co ${vcsroot.saas_trunk.url} --quiet --username ${svn.user} --password ${svn.password} --no-auth-cache ."/>
+	</exec>
+	<exec dir="${dir.src}" executable="svn" failonerror="true">
+	    <arg line="revert -R --quiet --username ${usr.user} --password ${svn.password} --no-auth-cache ."/>
+	</exec>
+	<exec executable="./update-branch.php" failonerror="true">
+	    <arg line="${dir.src} ${svn.user} ${svn.password}"/>
+	</exec>
+    </target>
+    
+    <target name="dbschema" description="Generate DB schema documentation.">
+	<exec executable="/bin/sh" failonerror="false">
+            <arg value="schema_generator"/>
+            <arg value="${teamcity.buildConfName}"/>
+            <arg value="${build.number}"/>
+            <arg value="${dir.docs}/dbschema"/>
+        </exec>
+        <!-- tar -->
+        <!-- publish artifact -->
+    </target>
 </project>

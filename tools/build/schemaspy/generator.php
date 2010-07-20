@@ -120,8 +120,6 @@
 							" WHERE t1.table_schema = '{$this->server[5]}' " . 
 							" AND t1.table_name LIKE '{$node2}{$isLike}' " . 
 							" AND NOT EXISTS (SELECT 1 FROM modules_tables t2 WHERE t2.table_name = t1.table_name); \n";
-							echo $sql . "<br />";
-						echo "\n";
 						$this->connection->exec($sql); 
 					}
 				}
@@ -146,7 +144,6 @@
 			foreach ($modulesFolders as $folder) {
 				//echo "INSERT INTO modules (module_name) VALUES ('{$folder}');" . "<br />";
 				$this->connection->exec("INSERT INTO modules (module_name) VALUES ('{$folder}');");
-				echo "MODULES";
 				$lfolder = strtolower($folder);
 			
 				$this->createMapping('Mage',$folder,"{$lfolder}_mysql4");
@@ -184,6 +181,6 @@
 
 	$test = new Generator;	
 	$test->main();
-	var_dump($_SERVER);
+	//var_dump($_SERVER);
 //http://localhost/generator.php?host=localhost&user=schemaspy&pass=123123q&apppath=/1.8.x
 ?>
