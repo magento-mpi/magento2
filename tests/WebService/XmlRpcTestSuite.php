@@ -1,5 +1,5 @@
 <?php
-ini_set('include_path', ini_get('include_path').";".dirname(__FILE__).'/../');
+ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.dirname(__FILE__).'/../');
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Framework/TestSuite.php';
 
