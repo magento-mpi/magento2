@@ -1,13 +1,13 @@
 <?php
-
+ini_set('include_path', ini_get('include_path').";".dirname(__FILE__));
 require_once 'PHPUnit/Framework.php';
 
 require_once 'Mage.php';
-require_once 'Fixture.php';
-require_once 'DbAdapter.php';
-require_once 'TestConstraints.php';
-require_once 'TestCase.php';
-require_once 'TestSuite.php';
+// require_once 'Fixture.php';
+// require_once 'DbAdapter.php';
+// require_once 'TestConstraints.php';
+// require_once 'TestCase.php';
+// require_once 'TestSuite.php';
 
 /**
  * Test runner for available UnitTests
@@ -19,8 +19,8 @@ class AllTests extends Mage_TestSuite
      *
      * @var array
      */
-    protected static $_baseTestFolders = array('bugs', 'functional',
-        'integration', 'lib','modules', 'selenium', 'webservices');
+//    protected static $_baseTestFolders = array('bugs', 'functional',' integration', 'lib','modules', 'selenium', 'webservices');
+    protected static $_baseTestFolders = array('WebService');
 
     /**
      * Retrieve Main Suite
@@ -62,7 +62,7 @@ class AllTests extends Mage_TestSuite
         }
         copy($serFileEnv, $serFileOld);
 
-        Mage::app();
+        Mage::app('admin');
 
         // register db adapter for fixtures
         Mage::register('_dbadapter', new Mage_DbAdapter());

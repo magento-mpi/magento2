@@ -36,6 +36,7 @@ class Mage_TestSuite extends PHPUnit_Framework_TestSuite
             $suits = glob($path . self::$_suiteFileMask);
             if (count($suits) > 0) {
                 foreach ($suits as $suitFile) {
+                    self::addIncludePath(dirname( $suitFile ) );
                     $suitClassName = basename($suitFile, '.php');
                     include_once $suitFile;
                     $suite->addTestSuite($suitClassName);
@@ -74,4 +75,18 @@ class Mage_TestSuite extends PHPUnit_Framework_TestSuite
 
         return Mage::helper('core')->isModuleOutputEnabled((string)$node->codePool);
     }
+
+   public static function setCaseFileMask($fileMask)
+   {
+       self::$_caseFileMask = $fileMask;
+   }
+
+   public static function addIncludePath ($newIncludePath)
+   {
+       $arrIncludePath = explode( ';', get_include_path() );
+       if (!in_array($newIncludePath, $arrIncludePath)) {
+           set_include_path(get_include_path().";".$newIncludePath);
+       }
+   }
+
 }

@@ -43,6 +43,7 @@ if (defined('COMPILER_INCLUDE_PATH')) {
     $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'community';
     $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'core';
     $paths[] = BP . DS . 'lib';
+    $paths[] = BP;
 
     $appPath = implode(PS, $paths);
     set_include_path($appPath . PS . Mage::registry('original_include_path'));
