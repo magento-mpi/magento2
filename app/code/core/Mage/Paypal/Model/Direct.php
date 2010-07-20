@@ -124,8 +124,9 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     {
         $ccTypes = explode(',', $this->_pro->getConfig()->cctypes);
         $country = $this->_pro->getConfig()->getMerchantCountry();
+
         if ($country == 'GB') {
-            $ccTypes = array_intersect(array('SS', 'MC', 'DI', 'VI'), $ccTypes);
+            $ccTypes = array_intersect(array('SM', 'SO', 'MC', 'DI', 'VI'), $ccTypes);
         } elseif ($country == 'CA') {
             $ccTypes = array_intersect(array('MC', 'VI'), $ccTypes);
         }
