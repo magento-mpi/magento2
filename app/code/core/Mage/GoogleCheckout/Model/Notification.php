@@ -29,6 +29,7 @@
  *
  * @category   Mage
  * @package    Mage_GoogleCheckout
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_GoogleCheckout_Model_Notification extends Mage_Core_Model_Abstract
 {
@@ -74,7 +75,7 @@ class Mage_GoogleCheckout_Model_Notification extends Mage_Core_Model_Abstract
     public function isTimeout()
     {
         $startedTime = strtotime($this->getStartedAt());
-        $currentTime = gmdate('U');
+        $currentTime = time();
 
         if ($currentTime - $startedTime + self::TIMEOUT_LIMIT > 0) {
             return true;
