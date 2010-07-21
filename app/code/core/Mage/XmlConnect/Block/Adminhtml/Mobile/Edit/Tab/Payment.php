@@ -45,29 +45,50 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
         $model = Mage::registry('current_app');
         $data = $model->getFormData();
 
-        $fieldset = $form->addFieldset('payment', array('legend' => $this->__('Payment Methods')));
+        $fieldset = $form->addFieldset('onepage_checkout', array('legend' => $this->__('Onepage checkout')));
 
-        $fieldset->addField('conf[special][merchantLabel]', 'text', array(
+        $fieldset->addField('conf/native/defaultCheckout/isActive', 'select', array(
+            'label'     => Mage::helper('xmlconnect')->__('Use Default Checkout method'),
+            'name'      => 'conf[native][defaultCheckout][isActive]',
+            'options'   => array(
+                '1'  => Mage::helper('xmlconnect')->__('Yes'),
+                '0' => Mage::helper('xmlconnect')->__('No'),
+            ),
+            'value'     => (isset($data['conf[native][defaultCheckout][isActive]']) ? $data['conf[native][defaultCheckout][isActive]'] : '1')
+        ));
+
+        $paypalActive = (isset($data['conf[native][paypal][isActive]']) ? $data['conf[native][paypal][isActive]'] : '1');
+
+        $fieldset2 = $form->addFieldset('paypal_mep_checkout', array('legend' => $this->__('PayPal MEP')));
+
+        $paypalActiveField = $fieldset2->addField('conf/native/paypal/isActive', 'select', array(
+            'label'     => Mage::helper('xmlconnect')->__('Activate paypal checkout'),
+            'name'      => 'conf[native][paypal][isActive]',
+            'options'   => array(
+                '1'  => Mage::helper('xmlconnect')->__('Yes'),
+                '0' => Mage::helper('xmlconnect')->__('No'),
+            ),
+            'value'     => $paypalActive
+        ));
+
+        $merchantlabelField = $fieldset2->addField('conf/special/merchantLabel', 'text', array(
             'name'      => 'conf[special][merchantLabel]',
             'label'     => $this->__('Merchant Label'),
             'title'     => $this->__('Merchant Label'),
-            'required'  => false,
+            'required'  => true,
             'value'     => (isset($data['conf[special][merchantLabel]']) ? $data['conf[special][merchantLabel]'] : '')
         ));
 
-        $fieldset->addField('conf/native/paypal/isActive', 'checkbox', array(
-            'name'      => 'conf[native][paypal][isActive]',
-            'label'     => 'Activate paypal for this store',
-            'value'     => 1,
-            'checked'   => isset($data['conf[native][paypal][isActive]']),
-        ));
+        // field dependencies
+        $this->setChild('form_after', $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
+            ->addFieldMap($merchantlabelField->getHtmlId(), $merchantlabelField->getName())
+            ->addFieldMap($paypalActiveField->getHtmlId(), $paypalActiveField->getName())
+            ->addFieldDependence(
+                $merchantlabelField->getName(),
+                $paypalActiveField->getName(),
+                1)
+        );
 
-        $fieldset->addField('conf/native/defaultCheckout/isActive', 'checkbox', array(
-            'name'      => 'conf[native][defaultCheckout][isActive]',
-            'label'     => 'Use Default Checkout method',
-            'value'     => 1,
-            'checked'   => isset($data['conf[native][defaultCheckout][isActive]']),
-        ));
         return parent::_prepareForm();
     }
 

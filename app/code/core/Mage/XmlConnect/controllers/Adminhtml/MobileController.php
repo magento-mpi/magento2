@@ -107,6 +107,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      */
     public function editAction()
     {
+        $redirectBack = false;
         try {
             if ($this->getRequest()->getParam('store')) {
                 $id = Mage::getModel('xmlconnect/application')->getIdByStoreId(
@@ -128,10 +129,15 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
+            $redirectBack = true;
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('Can\'t open application form.'));
-            $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
+            $this->_getSession()->addError(Mage::helper('xmlconnect')->__('Unable to load application form.'));
+            $redirectBack = true;
+            Mage::logException($e);
+        }
+        if ($redirectBack) {
+            $this->_redirect('*/*/');
+            return;
         }
     }
 
@@ -200,6 +206,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     {
         $data = $this->getRequest()->getPost();
         $redirectBack = $this->getRequest()->getParam('back', false);
+        $redirectSubmit = $this->getRequest()->getParam('submitapp', false);
         $app = false;
         if ($data) {
             try {
@@ -230,44 +237,57 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             } catch (Exception $e) {
                 $this->_getSession()->addException($e, $this->__('Unable to save application.'));
                 $redirectBack = true;
+                Mage::logException($e);
             }
         }
-        if ($app && $redirectBack) {
+        if($app->getId() && $redirectSubmit){
+            $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
+        }
+        else if ($app->getId() && $redirectBack) {
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         } else {
             $this->_redirect('*/*/');
         }
     }
 
-//    /**
-//     * Save action
-//     */
+    /**
+     * Save action
+     */
 //    public function saveThemeAction()
 //    {
 //        $data = $this->getRequest()->getPost();
-//        Mage::log('data save Theme Action ');
-//        Mage::log('data');
-//        Mage::log($data);
+//        $response = false;
 //        $redirectBack = $this->getRequest()->getParam('back', false);
 //        $app = false;
-//        if ($data) {
+//        if ($app = $this->_initApp()) {
 //            try {
-//                $app = $this->_initApp();
-//
 //                $theme = $this->getRequest()->getParam('saveTheme', false);
 //                Mage_XmlConnect_Model_Theme::savePost($theme, $data);
 //                $this->_getSession()->addSuccess('Theme has been saved.');
-//                var_dump($data);
-//                echo "Ok";
-//                return;
-//            } catch (Mage_Core_Exception $e) {
-//                $this->_getSession()->addException($e, $e->getMessage());
-//            } catch (Exception $e) {
-//                $this->_getSession()->addException($e, $this->__('Unable to save application.'));
+//                $app->save();
+//                $this->loadLayout('empty');
+//                $this->renderLayout();
+//
+//            }
+//            catch (Mage_Core_Exception $e) {
+//                $response = array(
+//                    'error'     => true,
+//                    'message'   => $e->getMessage(),
+//                );
+//            }
+//            catch (Exception $e) {
+//                $response = array(
+//                    'error'     => true,
+//                    'message'   => $this->__('Cannot add order history.')
+//                );
+//            }
+//            if (is_array($response)) {
+//                $response = Mage::helper('core')->jsonEncode($response);
+//                $this->getResponse()->setBody($response);
 //            }
 //        }
 //    }
-//
+
     public function previewHomeAction()
     {
         $this->_previewAction('preview_iframe_home');

@@ -35,26 +35,30 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
         $this->_controller  = 'adminhtml_mobile';
         $this->_blockGroup  = 'xmlconnect';
         parent::__construct();
+        $model = Mage::registry('current_app');
 
         $this->_updateButton('save', 'label', $this->__('Save App'));
 
         $this->_addButton('saveandcontinue', array(
             'label'     => Mage::helper('xmlconnect')->__('Save and Continue Edit'),
-            'onclick'   => 'saveAndContinueEdit()',
+            'onclick'   => $model->getId() ? 'saveAndContinueEdit()' : '',
             'class'     => 'save',
         ), -100);
 
         if (Mage::registry('current_app')->getId()) {
             $this->_addButton('submit_application_button', array(
-                'label' =>  Mage::helper('xmlconnect')->__('Submit App'),
-                'onclick'    => 'setLocation(\''. $this->getUrl('*/*/submission',
-                    array('application_id' => Mage::registry('current_app')->getId())).'\')',
+                'label' =>  Mage::helper('xmlconnect')->__('Save and Submit App'),
+                'onclick'    => 'saveAndSubmitApp()',
                 'class'     => 'save'
             ));
         }
 
         $this->_formScripts[] = 'function saveAndContinueEdit() {
             editForm.submit($(\'edit_form\').action + \'back/edit/\');}';
+        if($model->getId()){
+            $this->_formScripts[] = 'function saveAndSubmitApp(){
+                editForm.submit($(\'edit_form\').action+\'submitapp/' . $model->getId() . '\');}';
+        }
 
         $this->_updateButton('delete', 'label', $this->__('Delete App'));
         if (Mage::registry('current_app')->getIsSubmitted()) {

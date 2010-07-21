@@ -36,8 +36,12 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
 
     protected function addColorBox($id, $label, $data)
     {
-        return array('id' => $id, 'name' => $id,
-                'label' => $label, 'value' => $data[$id]);
+        return array(
+            'id'    => $id,
+            'name'  => $id,
+            'label' => $label,
+            'value' => isset($data[$id]) ? $data[$id] : ''
+        );
     }
     public function __construct()
     {
