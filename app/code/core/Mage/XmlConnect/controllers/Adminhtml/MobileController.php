@@ -83,6 +83,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             if (!$app->getId()) {
                 $this->_getSession()->addError($this->__('No application provided.'));
                 $this->_redirect('*/*/');
+                return;
             }
             $app->loadSubmit();
             $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
@@ -178,19 +179,18 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $app->getResource()->updateApplicationStatus($app->getId(),
                     Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS);
                 $this->_getSession()->addSuccess($this->__('Application has been submitted.'));
+                $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
             } else {
-                $this->_redirect($this->getUrl('*/*/edit', array('application_id' => $app->getId())));
+                $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect($this->getUrl('*/*/edit', array('application_id' => $app->getId())));
+            $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
         } catch (Exception $e) {
             $this->_getSession()->addException($e, $this->__('Can\'t submit application.'));
             Mage::logException($e);
-            $this->_redirect($this->getUrl('*/*/edit', array('application_id' => $app->getId())));
-            $this->_redirect('*/*/');
+            $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
         }
-        $this->_redirect('*/*/');
     }
 
     /**
@@ -239,6 +239,35 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         }
     }
 
+//    /**
+//     * Save action
+//     */
+//    public function saveThemeAction()
+//    {
+//        $data = $this->getRequest()->getPost();
+//        Mage::log('data save Theme Action ');
+//        Mage::log('data');
+//        Mage::log($data);
+//        $redirectBack = $this->getRequest()->getParam('back', false);
+//        $app = false;
+//        if ($data) {
+//            try {
+//                $app = $this->_initApp();
+//
+//                $theme = $this->getRequest()->getParam('saveTheme', false);
+//                Mage_XmlConnect_Model_Theme::savePost($theme, $data);
+//                $this->_getSession()->addSuccess('Theme has been saved.');
+//                var_dump($data);
+//                echo "Ok";
+//                return;
+//            } catch (Mage_Core_Exception $e) {
+//                $this->_getSession()->addException($e, $e->getMessage());
+//            } catch (Exception $e) {
+//                $this->_getSession()->addException($e, $this->__('Unable to save application.'));
+//            }
+//        }
+//    }
+//
     public function previewHomeAction()
     {
         $this->_previewAction('preview_iframe_home');

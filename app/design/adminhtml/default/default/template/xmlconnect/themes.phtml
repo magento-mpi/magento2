@@ -102,6 +102,7 @@ Event.observe(document, 'dom:loaded', function() {
         if (currentTheme) {
             $('theme_selector_id_value').setValue(currentTheme);
         }
+//        saveThemeChanges();
         editForm.submit($('edit_form').action + 'saveTheme/' + $('theme_selector_id_value').value + '/');
     });
 });
@@ -124,6 +125,38 @@ function mmSetTheme(theme) {
     }
 }
 
+function toggleBlock(block,link){
+    $$('.'+block+'_cl').each(function(b) {
+        if(b.style.display=='none') {
+            b.style.display='table-row';
+            link.style.backgroundPosition = '0 4px';
+        } else {
+            b.style.display='none';
+            link.style.backgroundPosition = '0 -86px';
+        }
+    });
+}
+
+//-----------------------
+
+function saveThemeChanges() {
+//    submitUrl = $('edit_form').action + 'saveTheme/' + $('theme_selector_id_value').value + '/';
+    actionUrl = "<?php echo $this->getSaveThemeActionUrl() ?>";
+    new Ajax.Request(actionUrl, {
+        parameters: {
+            element_id: '_editor',
+            store_idz: '2222'
+        },
+        onSuccess: function(transport) {
+            try {
+                alert ('ANSWER is ' + transport.responseText);
+//                this.openDialogWindow(transport.responseText, elementId);
+            } catch(e) {
+                alert(e.message);
+            }
+        }.bind(this)
+    });
+}
 // ]]>
 </script>
 
@@ -197,23 +230,6 @@ if (!empty($themeId)) {
     </ul>
     <br/><br/>
 </div>
-
-<script type="text/javascript">
-// <![CDATA[
-
-function toggleBlock(block,link){
-    $$('.'+block+'_cl').each(function(b) {
-        if(b.style.display=='none') {
-            b.style.display='table-row';
-            link.style.backgroundPosition = '0 4px';
-        } else {
-            b.style.display='none';
-            link.style.backgroundPosition = '0 -86px';
-        }
-    });
-}
-// ]]>
-</script>
 
 </td></tr>
 

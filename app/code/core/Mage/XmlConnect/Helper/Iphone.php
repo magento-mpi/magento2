@@ -79,7 +79,7 @@ class Mage_XmlConnect_Helper_Iphone extends Mage_Core_Helper_Abstract
                         'color' => '#000000',
                     ),
                     'Title8' => array(
-                        'name' => 'HelveticaNeue-Bold',
+                        'name' => 'HelveticaNeue',
                         'size' => '9',
                         'color' => '#FFFFFF',
                     ),
