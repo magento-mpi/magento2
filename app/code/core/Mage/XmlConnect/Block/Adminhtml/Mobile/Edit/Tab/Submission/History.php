@@ -45,27 +45,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('xmlconnect/history')->getCollection()
-            ->addApplicationFilter(Mage::registry('current_app')->getId())
-//            ->addStoreFilter(Mage::app()->getStore()->getId())
-            ;
+            ->addApplicationFilter(Mage::registry('current_app')->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-        $this->addColumn('Title', array(
-            'header'    => Mage::helper('xmlconnect')->__('Title'),
-            'align'     => 'left',
-            'index'     => 'title',
-            'type'      => 'text',
-            'sortable'  =>  false,
-            'onclick'   => '',
-
-        ));
-
         $this->addColumn('key', array(
-            'header'    => Mage::helper('xmlconnect')->__('Key Used'),
+            'header'    => Mage::helper('xmlconnect')->__('Activation Key'),
             'align'     => 'left',
             'index'     => 'key',
             'sortable'  =>  false,
@@ -73,7 +61,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('xmlconnect')->__('Date Created'),
+            'header'    => Mage::helper('xmlconnect')->__('Date Submitted'),
             'align'     => 'left',
             'index'     => 'created_at',
             'sortable'  =>  false,
@@ -82,14 +70,4 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
 
         return parent::_prepareColumns();
     }
-
-    /**
-//     * Row click url
-//     *
-//     * @return string
-//     */
-//    public function getRowUrl($row)
-//    {
-//        return $this->getUrl('*/*/edit', array('page_id' => $row->getId()));
-//    }
 }

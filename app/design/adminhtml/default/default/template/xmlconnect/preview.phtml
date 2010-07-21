@@ -46,35 +46,42 @@
     </ul>
 </div>
 <script type="text/javascript">
-    mmPreviewPage = '<?php echo $this->getPreviewActionUrl('home'); ?>';
-    function updatePreview() {
-        saveAction = $('edit_form').action;
-        $('edit_form').action = mmPreviewPage;
-        $('edit_form').target = 'XmlconnectThemePreviewIframe';
-        $('edit_form').submit();
-        // FIXME
-        $('edit_form').action = saveAction;
-        $('edit_form').target = '';
-    }
-    function resetPager() {
-        $('mmPager').childElements().each(function(t){
-            t.down('a').removeClassName('active');
-        });
-    }
 
-    $("mobile_app_tabs_design_section").observe('click', function() {
-        updatePreview();
-    })
+mmPreviewPage = '<?php echo $this->getPreviewActionUrl('home'); ?>';
+function updatePreview(someAction) {
+    saveAction = $('edit_form').action;
+    $('edit_form').action = mmPreviewPage + (someAction ? someAction : '');
+    $('edit_form').target = 'XmlconnectThemePreviewIframe';
+    $('edit_form').submit();
+    // FIXME
+    $('edit_form').action = saveAction;
+    $('edit_form').target = '';
+}
+function resetPager() {
+    $('mmPager').childElements().each(function(t){
+        t.down('a').removeClassName('active');
+    });
+}
 
-    document.observe("dom:loaded", function() {
-        $('mmPager').childElements().each(function(t){
-            Event.observe(t.down('a'), 'click', function(e){
-                e.stop();
-                resetPager();
-                t.down('a').addClassName('active');
-                mmPreviewPage = t.down('a').href;
-            });
+document.observe("dom:loaded", function() {
+    $('mmPager').childElements().each(function(t){
+        Event.observe(t.down('a'), 'click', function(e){
+            e.stop();
+            resetPager();
+            t.down('a').addClassName('active');
+            mmPreviewPage = t.down('a').href;
         });
     });
+});
+
+Event.observe(document, 'dom:loaded', function() {
+    if ($("mobile_app_tabs_design_section")) {
+        $("mobile_app_tabs_design_section").observe('click', function() {
+            updatePreview();
+        });
+    } else {
+        updatePreview('submission_action/1/');
+    }
+});
 
 </script>

@@ -70,8 +70,8 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
 //        return parent::_prepareColumns();
 //    }
 
-            $this->addColumn('Title', array(
-            'header'    => Mage::helper('xmlconnect')->__('Title'),
+        $this->addColumn('title', array(
+            'header'    => Mage::helper('xmlconnect')->__('Application Name'),
             'align'     => 'left',
             'index'     => 'title',
             'type'      => 'text',
@@ -79,18 +79,26 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
             'onclick'   => '',
         ));
 
-        $this->addColumn('key', array(
-            'header'    => Mage::helper('xmlconnect')->__('Key Used'),
+        $this->addColumn('code', array(
+            'header'    => Mage::helper('xmlconnect')->__('Application Code'),
             'align'     => 'left',
-            'index'     => 'key',
+            'index'     => 'code',
             'sortable'  =>  false,
             'onclick'   => '',
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('xmlconnect')->__('Date Created'),
+            'header'    => Mage::helper('xmlconnect')->__('Date Submitted'),
             'align'     => 'left',
             'index'     => 'created_at',
+            'sortable'  =>  false,
+            'onclick'   => '',
+        ));
+
+        $this->addColumn('key', array(
+            'header'    => Mage::helper('xmlconnect')->__('Activation Key'),
+            'align'     => 'left',
+            'index'     => 'key',
             'sortable'  =>  false,
             'onclick'   => '',
         ));

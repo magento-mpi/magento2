@@ -258,7 +258,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $app = false;
         try {
             $app = $this->_initApp();
-            $app->addData($app->preparePostData($this->getRequest()->getPost()));
+            if (!$this->getRequest()->getParam('submission_action')) {
+                $app->addData($app->preparePostData($this->getRequest()->getPost()));
+            }
+
             if (!empty($_FILES)) {
                 foreach ($_FILES as $field=>$file) {
                     if (!empty($file['name']) && is_scalar($file['name'])) {

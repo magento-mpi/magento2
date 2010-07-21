@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_XmlConnect>
-            <version>1.4.0.5</version>
+            <version>1.4.0.6</version>
         </Mage_XmlConnect>
     </modules>
     <global>
@@ -181,7 +181,7 @@
         <xmlconnect>
             <mobile_application>
                 <magentocommerce_url>www.magentocommerce.com/mobile/activate/</magentocommerce_url>
-                <get_activation_key_url>http://www.magentocommerce.com/store/</get_activation_key_url>
+                <get_activation_key_url>http://www.magentocommerce.com/product/mobile</get_activation_key_url>
             </mobile_application>
             <devices>
                 <iphone>

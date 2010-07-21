@@ -24,7 +24,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Submission
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
     extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
@@ -89,6 +89,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Submission
 
         $fieldset = $form->addFieldset('submit0', array('legend' => $this->__('Submission Fields')));
 
+        $fieldset->addField('submission_action', 'hidden', array(
+            'name'      => 'submission_action',
+            'value'     => '1',
+        ));
         $fieldset->addField('conf/submit_text/title', 'text', array(
             'name'      => 'conf[submit_text][title]',
             'label'     => $this->__('Title'),
@@ -108,35 +112,40 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Submission
         ));
         $field->setRows(15);
 
-        $fieldset->addField('conf/submit_text/username/', 'text', array(
-            'name'      => 'conf[submit_text][username]',
-            'label'     => $this->__('Username'),
-            'maxlength' => '40',
-            'value'     => isset($formData['conf[submit_text][username]']) ? $formData['conf[submit_text][username]'] : null,
-            'note'      => $this->__('Paypal Merchant Account Username.'),
-            'required'  => true,
-        ));
+//        $fieldset->addField('conf/submit_text/username/', 'text', array(
+//            'name'      => 'conf[submit_text][username]',
+//            'label'     => $this->__('Username'),
+//            'maxlength' => '40',
+//            'value'     => isset($formData['conf[submit_text][username]']) ? $formData['conf[submit_text][username]'] : null,
+//            'note'      => $this->__('Paypal Merchant Account Username.'),
+//            'required'  => true,
+//        ));
 
-        $fieldset->addField('conf/submit_text/email', 'text', array(
+        $fieldset->addField('conf/submit_text/contact_email', 'text', array(
             'name'      => 'conf[submit_text][email]',
-            'label'     => $this->__('Email'),
+            'label'     => $this->__('Contact Email'),
             'class'     => 'email',
             'maxlength' => '40',
             'value'     => isset($formData['conf[submit_text][email]']) ? $formData['conf[submit_text][email]'] : null,
-            'note'      => $this->__('Paypal Merchant Account Email.'),
+            'note'      => $this->__('This will be a contact email address.'),
             'required'  => true,
         ));
 
-        $fieldset->addField('conf/submit_text/price_free', 'radio', array(
-            'name'      => 'conf[submit_text][price_free]',
+        $fieldset->addField('conf/submit_text/price_free_label', 'label', array(
+            'name'      => 'conf[submit_text][price_free_label]',
             'label'     => $this->__('Price'),
-            'value'     => '1',
+            'value'     => $this->__('Free'),
             'maxlength' => '40',
-            'after_element_html' => $this->__('Free'),
+//            'after_element_html' => $this->__('Free'),
 //            'onclick'    => "$('conf/submit_text/price').setValue('')",
-            'selected'  => 'selected',
+            'checked'   => 'checked',
+            'note'      => $this->__('Only free applications are allowed in this version.'),
         ));
 
+        $fieldset->addField('conf/submit_text/price_free', 'hidden', array(
+            'name'      => 'conf[submit_text][price_free]',
+            'value'     => '1',
+        ));
 //        $fieldset->addField('conf/submit_text/price', 'text', array(
 //            'name'      => 'conf[submit_text][price]',
 //            'label'     => $this->__(' '),

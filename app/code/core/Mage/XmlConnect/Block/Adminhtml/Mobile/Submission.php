@@ -35,6 +35,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission extends Mage_Adminhtml_B
         $this->_objectId    = 'application_id';
         $this->_controller  = 'adminhtml_mobile';
         $this->_blockGroup  = 'xmlconnect';
+        $this->_mode = 'submission';
         parent::__construct();
 
         $this->removeButton('delete');
