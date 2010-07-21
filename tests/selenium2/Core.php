@@ -46,9 +46,9 @@ final class Core
     {
         self::$_config = self::_loadConfig();
 
-        self::$_magentoVersion = self::$_config['environment']['version'];
-        self::$_magentoEnv = self::$_config['environment']['stage'];
-        $configPath = self::$_config['paths']['env'];
+        self::$_magentoVersion = self::getConfig('environment/version', self::$_magentoVersion);
+        self::$_magentoEnv = self::getConfig('environment/stage', self::$_magentoEnv);
+        $configPath = self::getConfig('paths/env');
 
         if (isset($_GET['version'])) {
             self::$_magentoVersion = $_GET['version'];
@@ -89,16 +89,17 @@ final class Core
      * Fetch a value from the loaded config
      *
      * @param string $configPath
+     * @param array | string $default
      * @return array | string
      */
-    public static function getConfig($configPath)
+    public static function getConfig($configPath, $default = null)
     {
         $value = self::$_config;
 
         $keys = explode('/', $configPath);
         foreach ($keys as $key) {
             if (!isset($value[$key])) {
-                return null;
+                return $default;
             }
             $value = $value[$key];
         }
@@ -110,9 +111,10 @@ final class Core
      * Fetch a config parameter from the loaded environment
      *
      * @param string $configPath
+     * @param array | string $default
      * @return array | string
      */
-    public static function getEnvConfig($configPath)
+    public static function getEnvConfig($configPath, $default = null)
     {
         if (!$configPath) {
             return null;
@@ -125,9 +127,10 @@ final class Core
      * Fetch a UI map from the loaded environment
      *
      * @param string $configPath
+     * @param array | string $default
      * @return array | string
      */
-    public static function getEnvMap($configPath)
+    public static function getEnvMap($configPath, $default = null)
     {
         if (!$configPath) {
             return null;
