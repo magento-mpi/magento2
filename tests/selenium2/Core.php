@@ -25,6 +25,12 @@ final class Core
      */
     private static $_context = null;
 
+    /**
+     * System config container
+     *
+     * @var array
+     */
+    private static $_config = array();
 
     /**
      * Helper instances for their Singleton implementation
@@ -38,12 +44,25 @@ final class Core
      */
     static public function init()
     {
+        self::$_config = self::_loadConfig();
+
+        self::$_magentoVersion = self::$_config['environment']['version'];
+        self::$_magentoEnv = self::$_config['environment']['stage'];
+        $configPath = self::$_config['paths']['env'];
+
         if (isset($_GET['version'])) {
             self::$_magentoVersion = $_GET['version'];
         }
         if (isset($_GET['env'])) {
             self::$_magentoEnv = $_GET['env'];
         }
+
+        $stageConfigPath = rtrim($configPath, DS) . DS . self::$_magentoVersion . DS . self::$_magentoEnv;
+
+        self::$_config['environment']['config'] = self::_loadConfig($stageConfigPath, 'config');
+        self::$_config['environment']['map']    = self::_loadConfig($stageConfigPath, 'map');
+
+        // print_r(self::$_config);
     }
 
     /**
@@ -64,6 +83,57 @@ final class Core
     public static function getEnvironment()
     {
         return self::$_magentoEnv;
+    }
+
+    /**
+     * Fetch a value from the loaded config
+     *
+     * @param string $configPath
+     * @return array | string
+     */
+    public static function getConfig($configPath)
+    {
+        $value = self::$_config;
+
+        $keys = explode('/', $configPath);
+        foreach ($keys as $key) {
+            if (!isset($value[$key])) {
+                return null;
+            }
+            $value = $value[$key];
+        }
+
+        return $value;
+    }
+
+    /**
+     * Fetch a config parameter from the loaded environment
+     *
+     * @param string $configPath
+     * @return array | string
+     */
+    public static function getEnvConfig($configPath)
+    {
+        if (!$configPath) {
+            return null;
+        }
+
+        return self::getConfig('environment/config/' . $configPath);
+    }
+
+    /**
+     * Fetch a UI map from the loaded environment
+     *
+     * @param string $configPath
+     * @return array | string
+     */
+    public static function getEnvMap($configPath)
+    {
+        if (!$configPath) {
+            return null;
+        }
+
+        return self::getConfig('environment/map/' . $configPath);
     }
 
     /**
@@ -101,7 +171,7 @@ final class Core
     }
 
 /**
-     * R a helper Singleton instance
+     * Reset the helper Singleton instance
      *
      * @param string $helperName
      * @return Helper_Abstract
@@ -112,6 +182,69 @@ final class Core
 
         self::$_helperInstances = array ();
         return self;
+    }
+
+    /**
+     * Parse a SimpleXMLElement object recursively into an Array.
+     * Attention: attributes skipped
+     *
+     *
+     * @param $xml The SimpleXMLElement object
+     * @param $arr Target array where the values will be stored
+     * @return NULL
+     */
+    private static function _convertXmlObjToArr($obj, &$arr)
+    {
+        $children = $obj->children();
+        $executed = false;
+
+        foreach ($children as $elementName => $node) {
+            if (array_key_exists($elementName, $arr)) {
+                if (array_key_exists(0, $arr[$elementName])) {
+                    $i = count($arr[$elementName]);
+                    self::_convertXmlObjToArr($node, $arr[$elementName][$i]);
+                } else {
+                    $tmp = $arr[$elementName];
+                    $arr[$elementName] = array();
+                    $arr[$elementName][0] = $tmp;
+                    $i = count($arr[$elementName]);
+                    self::_convertXmlObjToArr($node, $arr[$elementName][$i]);
+                }
+            } else {
+                $arr[$elementName] = array();
+                self::_convertXmlObjToArr($node, $arr[$elementName]);
+            }
+
+            $executed = true;
+        }
+
+        if (!$executed && $children->getName() == "") {
+            $arr = (string) $obj;
+        }
+
+        return;
+    }
+
+    /**
+     * Load an XML config file and convert it into array
+     *
+     * @param string $path
+     * @param string $fileName
+     * @return array
+     */
+    protected static function _loadConfig($path = 'config', $fileName = 'config')
+    {
+        $config = array();
+        $fileName = rtrim($path, DS) . DS . $fileName . '.xml';
+
+        if (is_readable($fileName)) {
+            $xml = simplexml_load_file($fileName);
+            if ($xml) {
+                self::_convertXmlObjToArr($xml, $config);
+            }
+        }
+
+        return $config;
     }
 
 }

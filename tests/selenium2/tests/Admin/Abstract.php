@@ -20,9 +20,9 @@ abstract class Test_Admin_Abstract extends Test_Abstract
 
         // Get test parameters
         // Should be loaded from some config
-        $this->_baseUrl = "http://kq.varien.com/enterprise/1.8.0.0/index.php/control/index/";
-        $this->_userName = "admin";
-        $this->_password = "123123q";
+        $this->_baseUrl = Core::getEnvConfig('backend/baseUrl');
+        $this->_userName = Core::getEnvConfig('backend/auth/username');
+        $this->_password = Core::getEnvConfig('backend/auth/password');
     }
 
 }

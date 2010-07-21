@@ -58,8 +58,8 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
      */
     function setUp()
     {
-        $this->setBrowser("*chrome");
-        $this->setBrowserUrl("http://kq.varien.com/");
+        $this->setBrowser(Core::getEnvConfig('browser'));
+        $this->setBrowserUrl(Core::getEnvConfig('frontend/baseUrl'));
         $this->_testId = strtoupper(get_class($this));
 
         Core::setContext($this);       
