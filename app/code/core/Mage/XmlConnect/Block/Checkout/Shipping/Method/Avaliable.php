@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Checkout_Shipping_Method_Avaliable extends Mage_Chec
         $methodsXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<shipping_methods></shipping_methods>');
         $_shippingRateGroups = $this->getShippingRates();
         if ($_shippingRateGroups){
-            $store = Mage::app()->getStore();
+            $store = $this->getQuote()->getStore();
             $_sole = count($_shippingRateGroups) == 1;
             foreach ($_shippingRateGroups as $code => $_rates){
                 $methodXmlObj = $methodsXmlObj->addChild('method');
@@ -60,8 +60,8 @@ class Mage_XmlConnect_Block_Checkout_Shipping_Method_Avaliable extends Mage_Chec
                     }
                     else {
                         $price = Mage::helper('tax')->getShippingPrice($_rate->getPrice(), false, $this->getAddress());
-                        $formatedPrice = $store->formatPrice($price, false);
-                        $rateXmlObj->addAttribute('price', $price);
+                        $formatedPrice = $store->convertPrice($price, true, false);
+                        $rateXmlObj->addAttribute('price', sprintf('%01.2f', $store->convertPrice($price, false, false)));
                         $rateXmlObj->addAttribute('formated_price', $formatedPrice);
                     }
                 }
