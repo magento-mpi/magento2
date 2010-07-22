@@ -57,7 +57,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
             'value'     => (isset($data['conf[native][defaultCheckout][isActive]']) ? $data['conf[native][defaultCheckout][isActive]'] : '1')
         ));
 
-        $paypalActive = (isset($data['conf[native][paypal][isActive]']) ? $data['conf[native][paypal][isActive]'] : '1');
+        $paypalActive = (isset($data['conf[native][paypal][isActive]']) ? $data['conf[native][paypal][isActive]'] : '0');
 
         $fieldset2 = $form->addFieldset('paypal_mep_checkout', array('legend' => $this->__('PayPal MEP')));
 
