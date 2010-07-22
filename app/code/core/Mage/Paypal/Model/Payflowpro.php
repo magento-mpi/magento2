@@ -364,7 +364,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
             if (!empty($billing)) {
                 $request->setFirstname($billing->getFirstname())
                     ->setLastname($billing->getLastname())
-                    ->setStreet($billing->getStreet(1))
+                    ->setStreet(implode(' ', $billing->getStreet()))
                     ->setCity($billing->getCity())
                     ->setState($billing->getRegionCode())
                     ->setZip($billing->getPostcode())
@@ -376,7 +376,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
                 $this->_applyCountryWorkarounds($shipping);
                 $request->setShiptofirstname($shipping->getFirstname())
                     ->setShiptolastname($shipping->getLastname())
-                    ->setShiptostreet($shipping->getStreet(1))
+                    ->setShiptostreet(implode(' ', $shipping->getStreet()))
                     ->setShiptocity($shipping->getCity())
                     ->setShiptostate($shipping->getRegionCode())
                     ->setShiptozip($shipping->getPostcode())
