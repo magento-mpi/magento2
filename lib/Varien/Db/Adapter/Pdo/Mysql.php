@@ -269,9 +269,9 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
      */
     public function raw_query($sql)
     {
+        $tries = 0;
         do {
             $retry = false;
-            $tries = 0;
             try {
                 $result = $this->getConnection()->query($sql);
             } catch (PDOException $e) {
