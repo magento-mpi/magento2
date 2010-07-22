@@ -47,11 +47,12 @@ abstract class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_A
      * @param string $fieldName
      * @param string $title
      */
-    protected function addImage($fieldset, $fieldName, $title)
+    protected function addImage($fieldset, $fieldName, $title, $note = null)
     {
         $fieldset->addField($fieldName, 'image', array(
             'name'      => $fieldName,
             'label'     => $title,
+            'note'      => $note,
         ));
     }
 

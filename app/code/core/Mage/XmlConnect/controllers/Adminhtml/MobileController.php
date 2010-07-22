@@ -253,40 +253,41 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     /**
      * Save action
      */
-//    public function saveThemeAction()
-//    {
-//        $data = $this->getRequest()->getPost();
-//        $response = false;
-//        $redirectBack = $this->getRequest()->getParam('back', false);
-//        $app = false;
-//        if ($app = $this->_initApp()) {
-//            try {
-//                $theme = $this->getRequest()->getParam('saveTheme', false);
-//                Mage_XmlConnect_Model_Theme::savePost($theme, $data);
-//                $this->_getSession()->addSuccess('Theme has been saved.');
-//                $app->save();
-//                $this->loadLayout('empty');
-//                $this->renderLayout();
-//
-//            }
-//            catch (Mage_Core_Exception $e) {
-//                $response = array(
-//                    'error'     => true,
-//                    'message'   => $e->getMessage(),
-//                );
-//            }
-//            catch (Exception $e) {
-//                $response = array(
-//                    'error'     => true,
-//                    'message'   => $this->__('Cannot add order history.')
-//                );
-//            }
-//            if (is_array($response)) {
-//                $response = Mage::helper('core')->jsonEncode($response);
-//                $this->getResponse()->setBody($response);
-//            }
-//        }
-//    }
+    public function saveThemeAction()
+    {
+        $data = $this->getRequest()->getPost();
+        $response = false;
+        $app = false;
+        if ($app = $this->_initApp()) {
+            try {
+                $theme = $this->getRequest()->getParam('saveTheme', false);
+                if ($theme) {
+                    $converted = Mage::helper('xmlconnect')->convertPost($data);
+                    Mage_XmlConnect_Model_Theme::savePost($theme, $converted);
+                    $this->_getSession()->addSuccess('Theme has been saved.');
+                    echo json_encode(Mage::helper('xmlconnect')->getAllThemes());
+                }
+                return;
+
+            }
+            catch (Mage_Core_Exception $e) {
+                $response = array(
+                    'error'     => true,
+                    'message'   => $e->getMessage(),
+                );
+            }
+            catch (Exception $e) {
+                $response = array(
+                    'error'     => true,
+                    'message'   => $this->__('Cannot add order history.')
+                );
+            }
+            if (is_array($response)) {
+                $response = Mage::helper('core')->jsonEncode($response);
+                $this->getResponse()->setBody($response);
+            }
+        }
+    }
 
     public function previewHomeAction()
     {

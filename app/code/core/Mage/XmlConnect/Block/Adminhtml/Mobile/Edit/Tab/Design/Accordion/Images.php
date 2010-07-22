@@ -36,9 +36,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images ex
 
         $fieldset = $form->addFieldset('fieldLogo', array());
         $this->_addElementTypes($fieldset);
-        $this->addImage($fieldset, 'conf[native][navigationBar][icon]', 'Logo in header');
-        $this->addImage($fieldset, 'conf[native][body][bannerImage]', 'Banner on Home Screen');
-        $this->addImage($fieldset, 'conf[native][body][backgroundImage]', 'Application Background');
+        $this->addImage($fieldset, 'conf[native][navigationBar][icon]', 'Logo in header', 'Recommended size 35px × 35px.');
+        $this->addImage($fieldset, 'conf[native][body][bannerImage]', 'Banner on Home Screen', 'Recommended size 320px × 227px.');
+        $this->addImage($fieldset, 'conf[native][body][backgroundImage]', 'Application Background', 'Recommended size 320px x 367px');
 
         $model = Mage::registry('current_app');
         $form->setValues($model->getFormData());

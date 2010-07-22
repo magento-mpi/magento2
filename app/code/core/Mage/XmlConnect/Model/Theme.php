@@ -148,6 +148,7 @@ class Mage_XmlConnect_Model_Theme
         foreach ($themes as $theme) {
             if ($name == $theme->getName()) {
                 $theme->importAndSaveData($data['conf']);
+                break;
             }
         }
     }

@@ -97,13 +97,11 @@ currentTheme = '';
 
 Event.observe(document, 'dom:loaded', function() {
     new Magento.Dropdowns('dropdown');
-
     $('submit_theme').observe('click', function() {
         if (currentTheme) {
             $('theme_selector_id_value').setValue(currentTheme);
         }
-//        saveThemeChanges();
-        editForm.submit($('edit_form').action + 'saveTheme/' + $('theme_selector_id_value').value + '/');
+        saveThemeChanges();
     });
 });
 
@@ -137,26 +135,39 @@ function toggleBlock(block,link){
     });
 }
 
-//-----------------------
-
 function saveThemeChanges() {
-//    submitUrl = $('edit_form').action + 'saveTheme/' + $('theme_selector_id_value').value + '/';
-    actionUrl = "<?php echo $this->getSaveThemeActionUrl() ?>";
+
+    actionUrl = "<?php echo $this->getSaveThemeActionUrl() ?>" + 'saveTheme/' + $('theme_selector_id_value').value;
+
     new Ajax.Request(actionUrl, {
-        parameters: {
-            element_id: '_editor',
-            store_idz: '2222'
-        },
+        parameters: <?php echo $this->getThemeAjaxParameters(); ?>,
         onSuccess: function(transport) {
             try {
-                alert ('ANSWER is ' + transport.responseText);
-//                this.openDialogWindow(transport.responseText, elementId);
+                response = transport.responseText;
+                eval('mmColorThemes = ' + response);
+                showPopupBox('<?php echo $this->__('Theme saved successfully.');?>');
             } catch(e) {
                 alert(e.message);
             }
         }.bind(this)
     });
 }
+
+
+function showPopupBox(message) {
+    mask = $('loading-mask');
+    mask.innerHTML = '<form class="loader" action="#"><div>'+message+'<br></div><input type="submit" onclick="hidePopupBox();" value="<?php echo $this->__(' Ok. '); ?>"></form>';
+    // Do not remove, this filter cause IE8 incompability !!!
+    $('loading-mask').setStyle({filter: ''});
+    Element.show('loading-mask');
+    return false;
+}
+
+function hidePopupBox() {
+    Element.hide('loading-mask');
+    return false;
+}
+
 // ]]>
 </script>
 

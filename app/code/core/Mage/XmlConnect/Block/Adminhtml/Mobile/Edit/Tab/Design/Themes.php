@@ -79,6 +79,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
 
     }
 
+    public function getThemeAjaxParameters()
+    {
+        return Mage::helper('xmlconnect')->getThemeAjaxParameters();
+    }
+
     public function getSaveThemeActionUrl()
     {
         return $this->getUrl('*/*/saveTheme');
