@@ -44,7 +44,7 @@ class Mage_XmlConnect_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Totals
         $totalsXmlObj  = new Mage_XmlConnect_Model_Simplexml_Element('<totals></totals>');
 
         foreach ($quote->getTotals() as $total) {
-            $value = sprintf('%01.2f', $total->getValue());
+            $value = sprintf('%01.2f', $total->getValueExclTax() > 0.00 ? $total->getValueExclTax() : $total->getValue());
             if ($value != 0.00 || $total->getCode() == 'subtotal' || $total->getCode() == 'grand_total' || $total->getCode() == 'shipping') {
                 $totalXmlObj = $totalsXmlObj->addChild($total->getCode());
                 $totalXmlObj->addChild('title', $totalsXmlObj->xmlentities(strip_tags($total->getTitle())));
