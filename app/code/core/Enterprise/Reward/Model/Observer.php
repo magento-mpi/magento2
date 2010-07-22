@@ -856,7 +856,7 @@ class Enterprise_Reward_Model_Observer
     public function addPaypalRewardItem(Varien_Event_Observer $observer)
     {
         $salesEntity = $observer->getEvent()->getSalesEntity();
-        if ($salesEntity instanceof Varien_Object && 0 != $salesEntity->getRewardCurrencyAmount()) {
+        if ($salesEntity instanceof Varien_Object && abs($salesEntity->getRewardCurrencyAmount()) > 0.0001) {
             $additionalItems = $observer->getEvent()->getAdditional();
             $items = $additionalItems->getItems();
             $items[] = new Varien_Object(array(
@@ -864,8 +864,7 @@ class Enterprise_Reward_Model_Observer
                 'name'   => Mage::helper('enterprise_reward')->__('Reward points'),
                 'qty'    => 1,
                 'amount' => -1.00 * (float)$salesEntity->getBaseRewardCurrencyAmount()
-                )
-            );
+            ));
             $additionalItems->setItems($items);
         }
         return $this;

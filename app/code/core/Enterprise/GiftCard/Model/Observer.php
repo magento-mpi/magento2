@@ -36,17 +36,13 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
     public function setAmountsRendererInForm(Varien_Event_Observer $observer)
     {
         //adminhtml_catalog_product_edit_prepare_form
-
         $form = $observer->getEvent()->getForm();
-        $product = $observer->getEvent()->getProduct();
+        $elem = $form->getElement(self::ATTRIBUTE_CODE);
 
-        if ($elem = $form->getElement(self::ATTRIBUTE_CODE)) {
-            $elem->setRenderer(
-                Mage::app()->getLayout()->createBlock('enterprise_giftcard/adminhtml_renderer_amount')
-            );
+        if ($elem) {
+            $elem->setRenderer(Mage::app()->getLayout()->createBlock('enterprise_giftcard/adminhtml_renderer_amount'));
         }
     }
-
 
     /**
      * Set giftcard amounts field as not used in mass update
@@ -261,6 +257,29 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                     $attribute->getBackend()->afterLoad($item);
                 }
             }
+        }
+        return $this;
+    }
+
+    /**
+     * Adds gift card amount as separate item to PayPal line items
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftCard_Model_Observer
+     */
+    public function addPaypalGiftCardItem(Varien_Event_Observer $observer)
+    {
+        $salesEntity = $observer->getEvent()->getSalesEntity();
+        if ($salesEntity instanceof Varien_Object && abs($salesEntity->getBaseGiftCardsAmount()) > 0.0001) {
+            $additionalItems = $observer->getEvent()->getAdditional();
+            $items = $additionalItems->getItems();
+            $items[] = new Varien_Object(array(
+                'id'     => Mage::helper('enterprise_giftcard')->__('Gift Card'),
+                'name'   => Mage::helper('enterprise_giftcard')->__('Gift Card'),
+                'qty'    => 1,
+                'amount' => -1 * $salesEntity->getBaseGiftCardsAmount()
+            ));
+            $additionalItems->setItems($items);
         }
         return $this;
     }
