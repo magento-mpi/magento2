@@ -69,4 +69,21 @@ class Mage_Sales_Block_Order_Creditmemo_Items extends Mage_Sales_Block_Items_Abs
         }
         return $html;
     }
+
+    /**
+     * Get html of creditmemo comments block
+     *
+     * @param   Mage_Sales_Model_Order_Creditmemo $creditmemo
+     * @return  string
+     */
+    public function getCommentsHtml($creditmemo)
+    {
+        $html = '';
+        $comments = $this->getChild('creditmemo_comments');
+        if ($comments) {
+            $comments->setCreditmemo($creditmemo);
+            $html = $comments->toHtml();
+        }
+        return $html;
+    }
 }

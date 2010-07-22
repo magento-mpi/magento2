@@ -51,6 +51,16 @@ class Mage_Sales_Model_Mysql4_Order_Creditmemo_Comment_Collection extends Mage_S
     }
 
     /**
+     *
+     * @param int $flag
+     * @return Mage_Sales_Model_Mysql4_Order_Creditmemo_Comment_Collection
+     */
+    public function addVisibleOnFrontFilter($flag = 1)
+    {
+        return $this->addFieldToFilter('is_visible_on_front', $flag);
+    }
+
+    /**
      * Set created_at sort order
      *
      * @param string $direction

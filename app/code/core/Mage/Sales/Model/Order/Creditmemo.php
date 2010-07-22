@@ -487,12 +487,13 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
         return $this;
     }
 
-    public function addComment($comment, $notify=false)
+    public function addComment($comment, $notify=false, $visibleOnFront=false)
     {
         if (!($comment instanceof Mage_Sales_Model_Order_Creditmemo_Comment)) {
             $comment = Mage::getModel('sales/order_creditmemo_comment')
                 ->setComment($comment)
-                ->setIsCustomerNotified($notify);
+                ->setIsCustomerNotified($notify)
+                ->setIsVisibleOnFront($visibleOnFront);
         }
         $comment->setCreditmemo($this)
             ->setParentId($this->getId())

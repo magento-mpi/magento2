@@ -69,4 +69,21 @@ class Mage_Sales_Block_Order_Invoice_Items extends Mage_Sales_Block_Items_Abstra
         }
         return $html;
     }
+
+    /**
+     * Get html of invoice comments block
+     *
+     * @param   Mage_Sales_Model_Order_Invoice $invoice
+     * @return  string
+     */
+    public function getInvoiceCommentsHtml($invoice)
+    {
+        $html = '';
+        $comments = $this->getChild('invoice_comments');
+        if ($comments) {
+            $comments->setInvoice($invoice);
+            $html = $comments->toHtml();
+        }
+        return $html;
+    }
 }
