@@ -1623,6 +1623,8 @@ tr.summary-details-excluded { font-style:italic; }
 .product-collateral:after,
 .product-view .product-img-box .more-views ul:after,
 .product-view .box-tags .form-add:after,
+.product-view .product-shop .short-description:after,
+.product-view .box-description:after,
 .product-options .options-list li:after,
 .product-options-bottom:after,
 .product-review:after,

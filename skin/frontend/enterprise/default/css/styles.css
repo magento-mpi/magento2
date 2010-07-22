@@ -2192,6 +2192,7 @@ address.copyright { margin-top:6px; }
 .product-review:after,
 .box-collateral:after,
 .box-collateral .box-content:after,
+.collateral-tabs .tab-content:after,
 .account-login:after,
 .cart .cart-collaterals:after,
 .cart:after,

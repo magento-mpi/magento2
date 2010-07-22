@@ -113,6 +113,8 @@ table { scrollbar-face-color:expression(runtimeStyle.scrollbarFaceColor = '#fff'
 .product-collateral,
 .product-view .product-img-box .more-views ul,
 .product-view .box-tags .form-add,
+.product-view .product-shop .short-description,
+.product-view .box-description,
 .product-options .options-list li,
 .product-options-bottom,
 .truncated,
