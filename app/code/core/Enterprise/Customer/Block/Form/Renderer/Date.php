@@ -92,8 +92,10 @@ class Enterprise_Customer_Block_Form_Renderer_Date extends Enterprise_Customer_B
      */
     public function getTimestamp()
     {
-        $timestamp = $this->getData('timestamp');
-        if (is_null($timestamp)) {
+        $timestamp         = $this->getData('timestamp');
+        $attributeCodeThis = $this->getData('attribute_code');
+        $attributeCodeObj  = $this->getAttributeObject()->getAttributeCode();
+        if (is_null($timestamp) || $attributeCodeThis != $attributeCodeObj) {
             $value = $this->getValue();
             if ($value) {
                 if (is_numeric($value)) {
@@ -105,6 +107,7 @@ class Enterprise_Customer_Block_Form_Renderer_Date extends Enterprise_Customer_B
                 $timestamp = false;
             }
             $this->setData('timestamp', $timestamp);
+            $this->setData('attribute_code', $attributeCodeObj);
         }
         return $timestamp;
     }
