@@ -169,14 +169,14 @@
                     </enterprise_reward>
                 </observers>
             </sales_order_load_after>
-            <sales_order_invoice_save_after>
+            <sales_order_invoice_register>
                 <observers>
                     <enterprise_reward>
                         <class>enterprise_reward/observer</class>
-                        <method>invoiceSaveAfter</method>
+                        <method>invoiceRegister</method>
                     </enterprise_reward>
                 </observers>
-            </sales_order_invoice_save_after>
+            </sales_order_invoice_register>
             <sales_order_invoice_save_commit_after>
                 <observers>
                     <enterprise_reward>
