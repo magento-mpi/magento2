@@ -81,7 +81,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Abstract extends Mage_Core_
         $model = Mage::registry('current_app');
         $tabs = $model->getEnabledTabsArray();
 
-        $tabLimit = (int) Mage::getStoreConfig('xmlconnect/devices/'.$model->getType().'/tab_limit');
+        $tabLimit = (int) Mage::getStoreConfig('xmlconnect/devices/'.strtolower($model->getType()).'/tab_limit');
         $showedTabs = 0;
         foreach ($tabs as $tab) {
             if (++$showedTabs > $tabLimit) {
