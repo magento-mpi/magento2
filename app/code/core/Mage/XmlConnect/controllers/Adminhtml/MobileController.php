@@ -211,16 +211,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if ($data) {
             try {
                 $app = $this->_initApp();
-
-                // FIXME: ONLY FOR DEVELOPMENT
-                if ($this->getRequest()->getParam('saveTheme', false)) {
-                    Mage_XmlConnect_Model_Theme::savePost($this->getRequest()->getParam('saveTheme'), $data);
-                    $this->_getSession()->addSuccess('Theme has been saved.');
-                    $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
-                    return;
-                }
-                // END FIXME
-
+                $this->_saveThemeAction($data, 'conf/extra/theme');
                 $app->addData($app->preparePostData($data));
                 if (!empty($_FILES)) {
                     foreach ($_FILES as $field=>$file) {
@@ -250,42 +241,71 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         }
     }
 
+    protected function _saveThemeAction($data, $paramId)
+    {
+        try {
+            $theme = $this->getRequest()->getParam($paramId, false);
+            if ($theme) {
+                $converted = Mage::helper('xmlconnect/theme')->convertPost($data);
+                Mage::helper('xmlconnect/theme')->savePost($theme, $converted);
+                $this->_getSession()->addSuccess('Theme has been saved.');
+                $response = Mage::helper('xmlconnect/theme')->getAllThemesArray();
+            } else {
+                $response = array('error' => true, 'message' => 'Theme Name is not set.');
+            }
+        }
+        catch (Mage_Core_Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $e->getMessage(),
+            );
+        }
+        catch (Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $this->__('Cannot Save Theme.')
+            );
+        }
+        if (is_array($response)) {
+            $response = Mage::helper('core')->jsonEncode($response);
+            $this->getResponse()->setBody($response);
+        }
+    }
+
     /**
-     * Save action
+     * Save Theme action
      */
     public function saveThemeAction()
     {
         $data = $this->getRequest()->getPost();
         $response = false;
-        $app = false;
-        if ($app = $this->_initApp()) {
-            try {
-                $theme = $this->getRequest()->getParam('saveTheme', false);
-                if ($theme) {
-                    $converted = Mage::helper('xmlconnect')->convertPost($data);
-                    Mage_XmlConnect_Model_Theme::savePost($theme, $converted);
-                    $this->_getSession()->addSuccess('Theme has been saved.');
-                    echo json_encode(Mage::helper('xmlconnect')->getAllThemes());
-                }
-                return;
+        $this->_saveThemeAction($data, 'saveTheme');
+    }
 
-            }
-            catch (Mage_Core_Exception $e) {
-                $response = array(
-                    'error'     => true,
-                    'message'   => $e->getMessage(),
-                );
-            }
-            catch (Exception $e) {
-                $response = array(
-                    'error'     => true,
-                    'message'   => $this->__('Cannot add order history.')
-                );
-            }
-            if (is_array($response)) {
-                $response = Mage::helper('core')->jsonEncode($response);
-                $this->getResponse()->setBody($response);
-            }
+    /**
+     * Save Theme action
+     */
+    public function resetThemeAction()
+    {
+        $response = false;
+        try {
+            Mage::helper('xmlconnect/theme')->resetAllThemes();
+            $response = Mage::helper('xmlconnect/theme')->getAllThemesArray();
+        } catch (Mage_Core_Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $e->getMessage(),
+            );
+        }
+        catch (Exception $e) {
+            $response = array(
+                'error'     => true,
+                'message'   => $this->__('Cannot Reset Theme.')
+            );
+        }
+        if (is_array($response)) {
+            $response = Mage::helper('core')->jsonEncode($response);
+            $this->getResponse()->setBody($response);
         }
     }
 

@@ -38,13 +38,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Colors ex
         $this->_addElementTypes($fieldset);
         $fieldset->addField('conf[extra][theme]', 'theme', array(
             'name'      => 'conf[extra][theme]',
-            'themes'    => Mage_XmlConnect_Model_Theme::getAllThemes(),
+            'themes'    => Mage::helper('xmlconnect/theme')->getAllThemes(),
         ));
-//        $this->addColor($fieldset, 'conf[native][navigationBar][tintColor]', $this->__('Header Background Color'));
-//        $this->addColor($fieldset, 'conf[native][body][primaryColor]', $this->__('Primary Color'));
-//        $this->addColor($fieldset, 'conf[native][body][secondaryColor]', $this->__('Secondary Color'));
-//        $this->addColor($fieldset, 'conf[native][categoryItem][backgroundColor]', $this->__('Category Item Background Color'));
-//        $this->addColor($fieldset, 'conf[native][categoryItem][tintColor]', $this->__('Category Button Color'));
 
         $model = Mage::registry('current_app');
         $form->setValues($model->getFormData());

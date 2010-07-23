@@ -29,7 +29,7 @@ class Mage_XmlConnect_Model_Theme
     protected $_xml;
     protected $_conf;
 
-    protected function __construct($file)
+    public function __construct($file)
     {
         $this->_file = $file;
         $text = file_get_contents($file);
@@ -105,54 +105,6 @@ class Mage_XmlConnect_Model_Theme
         return $result;
     }
 
-    public static function getAllThemes()
-    {
-        $save_libxml_errors = libxml_use_internal_errors(TRUE);
-        $result = array();
-        $themeDir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'themes';
-
-        $d = opendir($themeDir);
-        while (($f = readdir($d)) !== FALSE) {
-            $f = $themeDir . DS . $f;
-            if (is_file($f) && is_readable($f)) {
-                try {
-                    $result[] = new Mage_XmlConnect_Model_Theme($f);
-                } catch (Exception $e) {
-                }
-            }
-        }
-        closedir($d);
-
-        libxml_use_internal_errors($save_libxml_errors);
-        usort($result, array('Mage_XmlConnect_Model_Theme', 'sortThemes'));
-        return $result;
-    }
-
-    public static function sortThemes($a, $b)
-    {
-        if ($a->getName() == 'default') {
-            return -1;
-        }
-        elseif ($b->getName() == 'default') {
-            return 1;
-        }
-        else {
-            return ($a->getName() < $b->getName()) ? -1: 1;
-        }
-    }
-
-    // FIXME: ONLY FOR DEVELOPMENT
-    public static function savePost($name, $data)
-    {
-        $themes = self::getAllThemes();
-        foreach ($themes as $theme) {
-            if ($name == $theme->getName()) {
-                $theme->importAndSaveData($data['conf']);
-                break;
-            }
-        }
-    }
-
     private function _validateFormInput($data, $xml=NULL) {
         $root = FALSE;
         $result = array();
@@ -193,7 +145,11 @@ class Mage_XmlConnect_Model_Theme
     {
         $xml = new SimpleXMLElement('<theme>'.$this->_xml->manifest->asXML().'</theme>');
         $this->_buildRecursive($xml->addChild('configuration'), $this->_validateFormInput($data));
-        file_put_contents($this->_file, $xml->asXML());
+        clearstatcache();
+        if (is_writeable($this->_file)) {
+            file_put_contents($this->_file, $xml->asXML());
+        } else {
+            Mage::throwException(Mage::helper('xmlconnect')->__('Can\'t write to file "%s".', $this->_file));
+        }
     }
-    // END FIXME
 }

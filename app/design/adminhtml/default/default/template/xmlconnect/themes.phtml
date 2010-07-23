@@ -25,7 +25,7 @@
  */
 ?>
 
-<tr><td colspan="2">
+
 <script type="text/javascript">
 // <![CDATA[
 if (!window.Magento) {
@@ -84,35 +84,90 @@ Magento.Dropdowns.prototype = {
         if (c.hasClassName('on')) {
             Effect.toggle(c, 'blind', { delay: 0.1, duration: .1 });
             c.removeClassName('on');
-        }else{
+        } else {
             c.style.display = 'none';
             Effect.toggle(c, 'blind', { delay: 0.1, duration: .1 });
             c.addClassName('on');
         }
         //this.hide(c);
     }
-}
+};
+<?php
+        $themes = $this->getThemes();
+        $themeLabel = '';
+        $themeId = Mage::registry('current_app')->getData('conf/extra/theme');
+        if (!empty($themeId)) {
+            foreach ($themes as $theme) {
+                if ($theme->getName() == $themeId) {
+                    $themeLabel = $theme->getLabel();
+                }
+            }
+        }
+        /*
+        <style>
+        .brick {
+            width:9px;
+            height: 9px;
+            scroll:none;
+            float:right;
+            margin: 0;
+            padding:0;
+            border:0;
+            display:inline;
+        }
+        #br_1 {
+            background:#F5F;
+        }
+        #br_2 {
+            background:#0FF;
+        }
+        #br_3 {
+            background:#FF0;
+        }
+        #br_4 {
+            background:#F0F;
+        }
+        </style>
+        */
+        ?>
+currentTheme = '<?php echo $themeId; ?>';
 
-currentTheme = '';
+/**
+ * Color field onChange listener
+ * handle currentTheme variable
+ */
+function changeColorListener(id) {
+    $('box_' + id).style.background = $(id).value;
+    setThemeSelector('<?php echo $this->getCustomThemeName(); ?>');
+}
 
 Event.observe(document, 'dom:loaded', function() {
     new Magento.Dropdowns('dropdown');
     $('submit_theme').observe('click', function() {
         if (currentTheme) {
-            $('theme_selector_id_value').setValue(currentTheme);
+            setThemeSelector(currentTheme);
         }
         saveThemeChanges();
     });
+    $('reset_theme').observe('click', function() {
+        resetThemeChanges();
+    });
+
 });
 
 mmColorUpdate = false;
 
 mmColorThemes = <?php echo json_encode($this->getAllThemes()); ?>;
 
+function setThemeSelector(theme) {
+    $('theme_selector_id_value').setValue(theme);
+    $('theme_selector_id_value_flat').setValue(theme);
+}
+
 function mmSetTheme(theme) {
     if (mmColorThemes[theme]) {
         currentTheme = theme;
-        $('theme_selector_id_value').setValue(theme);
+        setThemeSelector(theme);
         mmColorUpdate = true;
         for (var key in mmColorThemes[theme]) {
             color2set = mmColorThemes[theme][key];
@@ -135,17 +190,27 @@ function toggleBlock(block,link){
     });
 }
 
-function saveThemeChanges() {
-
-    actionUrl = "<?php echo $this->getSaveThemeActionUrl() ?>" + 'saveTheme/' + $('theme_selector_id_value').value;
-
+function resetThemeChanges() {
+    actionUrl = "<?php echo $this->getResetThemeActionUrl() ?>";
     new Ajax.Request(actionUrl, {
-        parameters: <?php echo $this->getThemeAjaxParameters(); ?>,
+        parameters: {reset : 1},
         onSuccess: function(transport) {
             try {
                 response = transport.responseText;
-                eval('mmColorThemes = ' + response);
-                showPopupBox('<?php echo $this->__('Theme saved successfully.');?>');
+                responseJSON = eval('(' + response + ')');
+                message = '';
+                if (response) {
+                    if ((typeof responseJSON.error != 'undefined') && (responseJSON.error == true)) {
+                         message = responseJSON.message;
+                     } else {
+                         mmColorThemes = responseJSON;
+                         mmSetTheme(currentTheme);
+                         message = '<?php echo $this->__('Reset Successfull.');?>';
+                     }
+                } else {
+                    message = '<?php echo $this->__('Unknown Error.'); ?>';
+                }
+                alert(message);
             } catch(e) {
                 alert(e.message);
             }
@@ -153,71 +218,64 @@ function saveThemeChanges() {
     });
 }
 
+function saveThemeChanges() {
+    actionUrl = "<?php echo $this->getSaveThemeActionUrl() ?>" + 'saveTheme/' + $('theme_selector_id_value').value;
+    new Ajax.Request(actionUrl, {
+        parameters: <?php echo $this->getThemeAjaxParameters(); ?>,
+        onSuccess: function(transport) {
+            try {
+                response = transport.responseText;
+                responseJSON = eval('(' + response + ')');
+                message = '';
+                if (response) {
+                    if ((typeof responseJSON.error != 'undefined') && (responseJSON.error == true)) {
+                        message = responseJSON.message;
+                     } else {
+                         mmColorThemes = responseJSON;
+                         message = '<?php echo $this->__('Theme saved successfully.');?>';
+                     }
+                } else {
+                    message = '<?php echo $this->__('Unknown Error.'); ?>';
+                }
+                alert(message);
+            } catch(e) {
+                alert(e.message);
+            }
+        }.bind(this)
+    });
+}
 
 function showPopupBox(message) {
     mask = $('loading-mask');
-    mask.innerHTML = '<form class="loader" action="#"><div>'+message+'<br></div><input type="submit" onclick="hidePopupBox();" value="<?php echo $this->__(' Ok. '); ?>"></form>';
+    mask.innerHTML = '<form class="loader" action="#"><div>'+message+'<br></div><input type="submit" onclick="alert(\'Hide\');hidePopupBox();" value="<?php echo $this->__(' Ok. '); ?>"></form>';
     // Do not remove, this filter cause IE8 incompability !!!
     $('loading-mask').setStyle({filter: ''});
-    Element.show('loading-mask');
+//    Element.show('loading-mask');
+    $('loading-mask').style.display = 'block';
+
     return false;
 }
 
-function hidePopupBox() {
-    Element.hide('loading-mask');
+function hidePopupBox() {s
+//    Element.hide('loading-mask');
+    $('loading-mask').style.display = 'none';
     return false;
 }
 
 // ]]>
 </script>
 
-
+<tr><td colspan="2"  style="width:540px">
 <br />
-<?php
-$themes = $this->getThemes();
-$themeLabel = '';
-$themeId = Mage::registry('current_app')->getData('conf/extra/theme');
-if (!empty($themeId)) {
-    foreach ($themes as $theme) {
-        if ($theme->getName() == $themeId) {
-            $themeLabel = $theme->getLabel();
-        }
-    }
-}
-/*
-<style>
-.brick {
-    width:9px;
-    height: 9px;
-    scroll:none;
-    float:right;
-    margin: 0;
-    padding:0;
-    border:0;
-    display:inline;
-}
-#br_1 {
-    background:#F5F;
-}
-#br_2 {
-    background:#0FF;
-}
-#br_3 {
-    background:#FF0;
-}
-#br_4 {
-    background:#F0F;
-}
-</style>
-*/
-?>
+
 <label for="theme_selector_id" class="f-left theme-selector-title"><?php echo $this->__('Color Theme'); ?></label>
 <div class="theme-select-cont">
     <input type="hidden" name="conf[extra][theme]" id="theme_selector_id_value" value="<?php echo $themeId; ?>"/>
+    <input type="hidden" name="conf/extra/theme" id="theme_selector_id_value_flat" value="<?php echo $themeId; ?>"/>
     <ul class="dropdown theme_selector" id="theme_selector_id">
         <li class="ddtitle theme_selector "><a href="#"><?php echo $themeLabel ? $themeLabel : $this->__('Custom Colors');?><span>
-
         <img src="<?php echo $this->getImageUrl('swatch_default.gif'); ?>"/>
+
 <?php
 /*        <div style="display:inline">
             <div class="brick" id="br_1">&nbsp;</div>
@@ -228,8 +286,6 @@ if (!empty($themeId)) {
 */
 ?>
         </span>
-
-
         </a></li>
         <li style="display:none;" class="ddlist">
             <ul>
@@ -272,11 +328,9 @@ $id2observe = array();
 <script type="text/javascript">
 //<![CDATA[
 Event.observe(document, 'dom:loaded', function() {
+
 <?php foreach ($id2observe as $id) : ?>
-$('<?php echo $id; ?>').observe('change', function() {
-    $('box_<?php echo $id; ?>').style.background = $('<?php echo $id; ?>').value;
-    $('theme_selector_id_value').setValue('');
-    });
+$('<?php echo $id; ?>').observe('change', function() { changeColorListener('<?php echo $id; ?>');});
 <?php endforeach; ?>
 });
 //]]>
@@ -284,7 +338,7 @@ $('<?php echo $id; ?>').observe('change', function() {
 <tr><td colspan="2">
 <div class="form-buttons">
 <!-- submitAndReloadArea($('order_history_block').parentNode, 'http://mage.local/index.php/admin/sales_order/addComment/order_id/2/') -->
-<button type="button" class="scalable back" style="margin: 0 2em 0 0" onclick="mmSetTheme(currentTheme)"><span><?php echo $this->__('Reset'); ?></span></button>
+<button type="button" class="scalable back" style="margin: 0 2em 0 0" id="reset_theme"><span><?php echo $this->__('Reset'); ?></span></button>
 <button type="button" class="scalable" style="margin: 0 2em 0 0" id="submit_theme"><span><?php echo $this->__('Save Theme'); ?></span></button>
 </div>
 <br />

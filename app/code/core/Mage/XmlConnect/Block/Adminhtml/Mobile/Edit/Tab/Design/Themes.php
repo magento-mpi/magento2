@@ -70,6 +70,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
                 $this->addColorBox('conf[native][itemActions][relatedProductBackgroundColor]', $this->__('Related Product Background Color'), $data),
             )),
         ));
+
         $this->setTemplate('xmlconnect/themes.phtml');
 
     }
@@ -81,12 +82,22 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
 
     public function getThemeAjaxParameters()
     {
-        return Mage::helper('xmlconnect')->getThemeAjaxParameters();
+        return Mage::helper('xmlconnect/theme')->getThemeAjaxParameters();
+    }
+
+    public function getCustomThemeName()
+    {
+        return Mage::helper('xmlconnect/theme')->getCustomThemeName();
     }
 
     public function getSaveThemeActionUrl()
     {
         return $this->getUrl('*/*/saveTheme');
+    }
+
+    public function getResetThemeActionUrl()
+    {
+        return $this->getUrl('*/*/resetTheme');
     }
 
    /**
