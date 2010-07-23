@@ -485,17 +485,26 @@ class Enterprise_CustomerBalance_Model_Observer
     public function addPaypalCustomerBalanceItem(Varien_Event_Observer $observer)
     {
         $salesEntity = $observer->getEvent()->getSalesEntity();
-        if ($salesEntity instanceof Varien_Object && abs($salesEntity->getCustomerBalanceAmountUsed()) > 0.0001) {
+        if ($salesEntity instanceof Mage_Sales_Model_Quote) {
+            $balanceField = 'base_customer_balance_amount_used';
+        } else if ($salesEntity instanceof Mage_Sales_Model_Order) {
+            $balanceField = 'base_customer_balance_amount';
+        } else {
+            return $this;
+        }
+
+        if (abs($salesEntity->getDataUsingMethod($balanceField)) > 0.0001) {
             $additionalItems = $observer->getEvent()->getAdditional();
             $items = $additionalItems->getItems();
             $items[] = new Varien_Object(array(
                 'id'     => Mage::helper('enterprise_customerbalance')->__('Store Credit'),
                 'name'   => Mage::helper('enterprise_customerbalance')->__('Store Credit Balance'),
                 'qty'    => 1,
-                'amount' => -1.00 * (float)$salesEntity->getBaseCustomerBalanceAmount()
+                'amount' => -1.00 * (float)$salesEntity->getDataUsingMethod($balanceField)
             ));
             $additionalItems->setItems($items);
         }
+
         return $this;
     }
 }
