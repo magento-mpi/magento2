@@ -50,7 +50,7 @@ class Enterprise_GiftRegistry_Block_Email_Items extends Mage_Core_Block_Template
     {
         $updatedQty = $this->getEntity()->getUpdatedQty();
         if (is_array($updatedQty) && !empty($updatedQty[$item->getId()]['ordered'])) {
-            return $updatedQty[$item->getId()]['ordered'];
+            return $updatedQty[$item->getId()]['ordered'] * 1;
         }
         return 0;
     }
@@ -91,8 +91,8 @@ class Enterprise_GiftRegistry_Block_Email_Items extends Mage_Core_Block_Template
     {
         $updatedQty = $this->getEntity()->getUpdatedQty();
         if (is_array($updatedQty) && !empty($updatedQty[$item->getId()]['fulfilled'])) {
-            return $updatedQty[$item->getId()]['fulfilled'];
+            return $updatedQty[$item->getId()]['fulfilled'] * 1;
         }
-        return 0;
+        return $item->getQtyFulfilled() * 1;
     }
 }
