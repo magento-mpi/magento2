@@ -152,7 +152,7 @@ class Mage_Catalog_ProductController extends Mage_Core_Controller_Front_Action
      * If not or product shows not in category - applyes product's internal settings
      *
      * @param Mage_Catalog_Model_Category|Mage_Catalog_Model_Product $object
-     * @deprecated Mage_Core_Model_Layout_Update $update
+     * @param Mage_Core_Model_Layout_Update $update
      */
     protected function _applyCustomDesignSettings($object, $update)
     {
