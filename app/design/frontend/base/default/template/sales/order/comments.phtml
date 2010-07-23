@@ -26,16 +26,15 @@
 ?>
 <?php
 /**
- * @var $this Mage_Sales_Block_Order_Shipment_Comments
- * @see Mage_Sales_Block_Order_Shipment_Comments
+ * @var $this Mage_Sales_Block_Order_Comments
+ * @see Mage_Sales_Block_Order_Comments
  */
 ?>
 <?php if ($this->hasComments()):?>
-	<?php $_comments = $this->getComments();?>
     <div class="order-additional order-comments">
-        <h2 class="sub-title"><?php echo $this->__('About Your Shipment') ?></h2>
+        <h2 class="sub-title"><?php echo $this->getTitle() ?></h2>
         <dl class="order-about">
-            <?php foreach ($_comments as $_commentItem): ?>
+            <?php foreach ($this->getComments() as $_commentItem): ?>
                 <dt><?php echo $this->formatDate($_commentItem->getCreatedAtStoreDate(), 'medium', true) ?></dt>
                 <dd><?php echo $this->escapeHtml($_commentItem->getComment()) ?></dd>
             <?php endforeach; ?>

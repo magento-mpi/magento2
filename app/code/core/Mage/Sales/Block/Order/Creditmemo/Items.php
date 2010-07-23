@@ -81,7 +81,8 @@ class Mage_Sales_Block_Order_Creditmemo_Items extends Mage_Sales_Block_Items_Abs
         $html = '';
         $comments = $this->getChild('creditmemo_comments');
         if ($comments) {
-            $comments->setCreditmemo($creditmemo);
+            $comments->setEntity($creditmemo)
+                ->setTitle(Mage::helper('sales')->__('About Your Refund'));
             $html = $comments->toHtml();
         }
         return $html;

@@ -62,7 +62,8 @@ class Mage_Sales_Block_Order_Shipment_Items extends Mage_Sales_Block_Items_Abstr
         $html = '';
         $comments = $this->getChild('shipment_comments');
         if ($comments) {
-            $comments->setShipment($shipment);
+            $comments->setEntity($shipment)
+                ->setTitle(Mage::helper('sales')->__('About Your Shipment'));
             $html = $comments->toHtml();
         }
         return $html;
