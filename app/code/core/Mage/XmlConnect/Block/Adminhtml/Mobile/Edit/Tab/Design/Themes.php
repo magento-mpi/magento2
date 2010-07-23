@@ -90,6 +90,21 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
         return Mage::helper('xmlconnect/theme')->getCustomThemeName();
     }
 
+    public function getDefaultThemeName()
+    {
+        return Mage::helper('xmlconnect/theme')->getDefaultThemeName();
+    }
+
+    /**
+     * Check if we creating new Application
+     *
+     * @return bool
+     */
+    public function isNewApplication()
+    {
+        return Mage::registry('current_app')->getId() ? true : false;
+    }
+
     public function getSaveThemeActionUrl()
     {
         return $this->getUrl('*/*/saveTheme');

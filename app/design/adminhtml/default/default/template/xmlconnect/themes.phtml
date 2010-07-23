@@ -96,6 +96,9 @@ Magento.Dropdowns.prototype = {
         $themes = $this->getThemes();
         $themeLabel = '';
         $themeId = Mage::registry('current_app')->getData('conf/extra/theme');
+        if (empty($themeId)) {
+            $themeId = $this->getDefaultThemeName();
+        }
         if (!empty($themeId)) {
             foreach ($themes as $theme) {
                 if ($theme->getName() == $themeId) {
@@ -103,33 +106,33 @@ Magento.Dropdowns.prototype = {
                 }
             }
         }
-        /*
-        <style>
-        .brick {
-            width:9px;
-            height: 9px;
-            scroll:none;
-            float:right;
-            margin: 0;
-            padding:0;
-            border:0;
-            display:inline;
-        }
-        #br_1 {
-            background:#F5F;
-        }
-        #br_2 {
-            background:#0FF;
-        }
-        #br_3 {
-            background:#FF0;
-        }
-        #br_4 {
-            background:#F0F;
-        }
-        </style>
-        */
-        ?>
+/*
+<style>
+.brick {
+    width:9px;
+    height: 9px;
+    scroll:none;
+    float:right;
+    margin: 0;
+    padding:0;
+    border:0;
+    display:inline;
+}
+#br_1 {
+    background:#F5F;
+}
+#br_2 {
+    background:#0FF;
+}
+#br_3 {
+    background:#FF0;
+}
+#br_4 {
+    background:#F0F;
+}
+</style>
+*/
+?>
 currentTheme = '<?php echo $themeId; ?>';
 
 /**
@@ -152,6 +155,11 @@ Event.observe(document, 'dom:loaded', function() {
     $('reset_theme').observe('click', function() {
         resetThemeChanges();
     });
+
+    $("mobile_app_tabs_design_section").observe('click', function() {
+        mmSetTheme(currentTheme);
+    });
+
 
 });
 

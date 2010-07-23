@@ -212,4 +212,8 @@ conf_native_itemActions_relatedProductBackgroundColor         : \$( 'conf[native
         return 'custom';
     }
 
+    public function getDefaultThemeName()
+    {
+        return 'default';
+    }
 }

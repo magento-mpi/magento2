@@ -248,7 +248,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             if ($theme) {
                 $converted = Mage::helper('xmlconnect/theme')->convertPost($data);
                 Mage::helper('xmlconnect/theme')->savePost($theme, $converted);
-                $this->_getSession()->addSuccess('Theme has been saved.');
                 $response = Mage::helper('xmlconnect/theme')->getAllThemesArray();
             } else {
                 $response = array('error' => true, 'message' => 'Theme Name is not set.');

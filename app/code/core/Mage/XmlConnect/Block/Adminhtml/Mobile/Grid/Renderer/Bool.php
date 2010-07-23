@@ -56,12 +56,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Bool extends Mage_Adm
     public function render(Varien_Object $row)
     {
         $result = '';
-        $status = $row->getData($this->getColumn()->getIndex());
+        $status = (int) $row->getData($this->getColumn()->getIndex());
         $options = Mage::helper('xmlconnect')->getStatusOptions();
         if ($status == Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS) {
-            $result = '<img src="' . Mage::getDesign()->getSkinUrl('images/xmlconnect/' . self::MAGE_XMLCONNECT_GRID_TRUE) . '" >&nbsp;' . $options[$status];
+            $result = '<img src="' . Mage::getDesign()->getSkinUrl('images/xmlconnect/'
+            . self::MAGE_XMLCONNECT_GRID_TRUE) . '" >&nbsp;' . isset($options[$status]) ? $options[$status] : '';
         } else if ($status == Mage_XmlConnect_Model_Application::APP_STATUS_INACTIVE) {
-            $result = '<img src="' . Mage::getDesign()->getSkinUrl('images/xmlconnect/' . self::MAGE_XMLCONNECT_GRID_FALSE) . '" >&nbsp;' . $options[$status];
+            $result = '<img src="' . Mage::getDesign()->getSkinUrl('images/xmlconnect/'
+            . self::MAGE_XMLCONNECT_GRID_FALSE) . '" >&nbsp;' . isset($options[$status]) ? $options[$status] : '';
         }
         return $result;
     }
