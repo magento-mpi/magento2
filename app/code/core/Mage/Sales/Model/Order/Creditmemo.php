@@ -487,6 +487,15 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
         return $this;
     }
 
+    /**
+     * Adds comment to credit memo with additional possibility to send it to customer via email
+     * and show it in customer account
+     *
+     * @param bool $notify
+     * @param bool $visibleOnFront
+     *
+     * @return Mage_Sales_Model_Order_Creditmemo
+     */
     public function addComment($comment, $notify=false, $visibleOnFront=false)
     {
         if (!($comment instanceof Mage_Sales_Model_Order_Creditmemo_Comment)) {
