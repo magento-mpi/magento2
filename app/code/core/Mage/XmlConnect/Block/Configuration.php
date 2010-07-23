@@ -96,7 +96,7 @@ class Mage_XmlConnect_Block_Configuration extends Mage_Core_Block_Template
                 }
             }
             else {
-                if (!is_string($value) || !empty($value)) {
+                if ($value != '') {
                     $section->addChild($key, $value);
                 }
             }

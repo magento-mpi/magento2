@@ -53,7 +53,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
                     'label'     => $this->__('Application Code'),
                     'title'     => $this->__('Application Code'),
                 ));
-            } else {
+            }
+            else {
                 $field = $fieldset->addField('code', 'text', array(
                     'label'     => $this->__('Application Code'),
                     'title'     => $this->__('Application Code'),
@@ -74,7 +75,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
                 'required'  => true,
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(true, false),
             ));
-        } else {
+        }
+        else {
             $storeElement = $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'store_id',
                 'value'     => Mage::app()->getStore(true)->getId()
@@ -84,12 +86,12 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
 
         if ($model->getId()) {
             $storeElement->setDisabled(true);
-
             $fieldset->addField('type', 'label', array(
                 'text'      => $model->getType(),
                 'label'     => $this->__('Device type'),
             ));
-        } else {
+        }
+        else {
             $fieldset->addField('type', 'select', array(
                 'name'      => 'type',
                 'label'     => $this->__('Device Type'),
@@ -98,6 +100,16 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
                 'values'    => Mage::helper('xmlconnect')->getDeviceValuesForForm(),
             ));
         }
+
+        $fieldset->addField('browsing_mode', 'select', array(
+            'label'     => Mage::helper('xmlconnect')->__('Catalog Mode Enable/Disable'),
+            'name'      => 'browsing_mode',
+            'options'   => array(
+                '1'  => Mage::helper('xmlconnect')->__('Enabled'),
+                '0' => Mage::helper('xmlconnect')->__('Disabled'),
+            )
+        ));
+
         $form->setValues($model->getFormData());
         $this->setForm($form);
         return parent::_prepareForm();

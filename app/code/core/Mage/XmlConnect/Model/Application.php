@@ -268,16 +268,22 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
         $result = $this->_absPath($result);
 
-        $result['updateTimeUTC'] = strtotime($this->getUpdatedAt());
-        $result['currencyCode'] = Mage::app()->getStore($this->getStoreId())->getDefaultCurrencyCode();
-        $result['secureBaseUrl'] = Mage::getStoreConfig('web/secure/base_url', $this->getStoreId());
-
+        /**
+         * General configuration
+         */
+        $result['general']['updateTimeUTC'] = strtotime($this->getUpdatedAt());
+        $result['general']['browsingMode'] = $this->getBrowsingMode();
+        $result['general']['currencyCode'] = Mage::app()->getStore($this->getStoreId())->getDefaultCurrencyCode();
+        $result['general']['secureBaseUrl'] = Mage::getStoreConfig('web/secure/base_url', $this->getStoreId());
         $maxRecepients = 0;
-        if ( Mage::getStoreConfig('sendfriend/email/enabled') ) {
+        if (Mage::getStoreConfig('sendfriend/email/enabled')) {
             $maxRecepients = Mage::getStoreConfig('sendfriend/email/max_recipients');
         }
-        $result['emailToFriend']['maxRecepients'] = $maxRecepients;
+        $result['general']['emailToFriendMaxRecepients'] = $maxRecepients;
 
+        /**
+         * PatPal configuration
+         */
         $result['paypal']['businessAccount'] = Mage::getModel('paypal/config')->businessAccount;
         $result['paypal']['merchantLabel'] = $this->getData('conf/special/merchantLabel');
         return $result;

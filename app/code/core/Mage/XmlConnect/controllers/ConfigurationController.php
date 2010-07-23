@@ -106,6 +106,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
             $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
             $message->addChild('status', Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR);
             $message->addChild('text', $this->__('Cannot show configuration.'));
+            Mage::logException($e);
             $this->getResponse()->setBody($message->asNiceXml());
         }
 
