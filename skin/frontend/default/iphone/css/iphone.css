@@ -462,6 +462,11 @@ p.required { text-align:right; }
 .demo-notice { margin:0; padding:5px 10px 6px 10px; background:#d75f07; text-align:center; line-height:1em; color:#FFF; }
 /* ======================================================================================== */
 
+/* Noscript notice */
+.noscript { background:#ffff90; font-size:12px; line-height:1.25; color:#2f2f2f; }
+.noscript .noscript-inner { margin:0 auto; padding:12px 10px 12px 70px; background:url(../images/i_notice.gif) 20px 50% no-repeat; }
+.noscript p { margin:0; }
+/* ======================================================================================== */
 
 /* Clearfixes ================================================================================= */
 .page-head:after,
