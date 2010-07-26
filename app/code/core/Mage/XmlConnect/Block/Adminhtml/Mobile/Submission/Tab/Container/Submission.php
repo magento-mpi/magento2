@@ -45,12 +45,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
                 ->setActionUrl($actionUrl)
                 ->setTemplate('xmlconnect/submission_scripts.phtml'));
         if ($application->getIsResubmitAction()) {
-            $block = $this->getLayout()->createBlock('adminhtml/template')
-                ->setTemplate('xmlconnect/resubmit.phtml')
-                ->setActionUrl($actionUrl)
-                ->setActivationKey($application->getActivationKey())
-                ->setResubmissionName('conf[submit_text][resubmission_activation_key]');
-            $this->setChild('resubmit', $block);
 
             $block = $this->getLayout()->createBlock('adminhtml/template')
                 ->setTemplate('xmlconnect/images.phtml')
@@ -59,7 +53,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
         }
         parent::_prepareLayout();
     }
-
 
     /**
      * Add image uploader to fieldset
@@ -111,15 +104,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'required'  => true,
         ));
         $field->setRows(15);
-
-//        $fieldset->addField('conf/submit_text/username/', 'text', array(
-//            'name'      => 'conf[submit_text][username]',
-//            'label'     => $this->__('Username'),
-//            'maxlength' => '40',
-//            'value'     => isset($formData['conf[submit_text][username]']) ? $formData['conf[submit_text][username]'] : null,
-//            'note'      => $this->__('Paypal Merchant Account Username.'),
-//            'required'  => true,
-//        ));
 
         $fieldset->addField('conf/submit_text/contact_email', 'text', array(
             'name'      => 'conf[submit_text][email]',
@@ -183,22 +167,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'required'  => true,
         ));
 
-
         $fieldset->addField('conf/submit_text/keywords', 'text', array(
             'name'      => 'conf[submit_text][keywords]',
             'label'     => $this->__('Keywords'),
             'maxlength' => '100',
             'value'     => isset($formData['conf[submit_text][copyright]']) ? $formData['conf[submit_text][copyright]'] : null,
             'note'      => $this->__('One or more keywords that describe your app. Keywords are matched to users\' searches in the App Store and help return accurate search results. Separate multiple keywords with commas. 100 chars is maximum.'),
-//            'required'  => true,
         ));
-
-//        $fieldset->addField('conf/submit_text/push_notification', 'checkbox', array(
-//            'name'      => 'conf[submit_text][push_notification]',
-//            'label'     => $this->__('Push Notification'),
-//            'checked'   => isset($formData['conf[submit_text][push_notification]']),
-//            'value'     => '1',
-//        ));
 
         $fieldset = $form->addFieldset('submit1', array('legend' => $this->__('Icons')));
         $this->addImage($fieldset, 'conf/submit/icon', 'Application Icon',
@@ -212,7 +187,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             $this->__('Store logo that will be displayed on copyright page of application '));
 
         $fieldset = $form->addFieldset('submit2', array('legend' => $this->__('Key')));
-        $fieldset->addField('conf[submit_text][key]', 'text', array(
+        $field = $fieldset->addField('conf[submit_text][key]', 'text', array(
             'name'      => 'conf[submit_text][key]',
             'label'     => $this->__('Activation Key'),
             'value'     => isset($formData['conf[submit_text][key]']) ? $formData['conf[submit_text][key]'] : null,
@@ -221,8 +196,21 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
                 Mage::getStoreConfig('xmlconnect/mobile_application/get_activation_key_url') . '" target="_blank">'
                 . $this->__('Get Activation Key'). '</a>',
         ));
+        if (!$isResubmit) {
+            $field->setRequired(true);
+        }
 
+        $url = Mage::getStoreConfig('xmlconnect/mobile_application/get_activation_key_url');
+        $afterElementHtml = $this->__('In order to resubmit your app, you need to first purchase a <a href="%s" target="_blank">%s</a> from Magentocommerce', $url, $this->__('resubmission key'));
 
+        if ($isResubmit)
+        $fieldset->addField('conf[submit_text][resubmission_activation_key]', 'text', array(
+            'name'     => 'conf[submit_text][resubmission_activation_key]',
+            'label'    => $this->__('Resubmission Key'),
+            'value'    => isset($formData['conf[submit_text][resubmission_activation_key]']) ? $formData['conf[submit_text][resubmission_activation_key]'] : null,
+            'required' => true,
+            'after_element_html' => $afterElementHtml,
+        ));
         return parent::_prepareForm();
     }
 
@@ -281,9 +269,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
     {
         return parent::_toHtml()
             . $this->getChildHtml('submission_scripts')
-            . (!Mage::registry('current_app')->getIsResubmitAction() ? '' :
-                ($this->getChildHtml('mobile_edit_tab_submission_history')
-                . $this->getChildHtml('resubmit')
-                . $this->getChildHtml('images')));
+            . (!Mage::registry('current_app')->getIsResubmitAction() ? '' : $this->getChildHtml('images'));
     }
 }
