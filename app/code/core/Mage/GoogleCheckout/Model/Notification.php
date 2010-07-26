@@ -77,7 +77,7 @@ class Mage_GoogleCheckout_Model_Notification extends Mage_Core_Model_Abstract
         $startedTime = strtotime($this->getStartedAt());
         $currentTime = time();
 
-        if ($currentTime - $startedTime + self::TIMEOUT_LIMIT > 0) {
+        if ($currentTime - $startedTime > self::TIMEOUT_LIMIT) {
             return true;
         }
         return false;
