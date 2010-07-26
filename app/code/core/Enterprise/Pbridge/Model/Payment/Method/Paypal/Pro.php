@@ -100,6 +100,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal_Pro extends Mage_Paypal_Mod
 
         if ($result) {
             $result = new Varien_Object($result);
+            $result->setRefundTransactionId($result->getTransactionId());
             $canRefundMore = $payment->getOrder()->canCreditmemo();
             $this->_importRefundResultToPayment($result, $payment, $canRefundMore);
         }
