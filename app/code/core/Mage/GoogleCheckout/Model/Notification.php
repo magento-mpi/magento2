@@ -53,7 +53,9 @@ class Mage_GoogleCheckout_Model_Notification extends Mage_Core_Model_Abstract
     public function loadNotificationData()
     {
         $data = $this->getResource()->getNotificationData($this->getSerialNumber());
-        $this->addData($data);
+        if (is_array($data)) {
+            $this->addData($data);
+        }
         return $this;
     }
 
