@@ -282,7 +282,8 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
             'spellcheck'                 => 'true',
             'spellcheck.collate'         => 'true',
             'spellcheck.dictionary'      => 'magento_spell' . $languageSuffix,
-            'spellcheck.extendedResults' => 'true'
+            'spellcheck.extendedResults' => 'true',
+            'spellcheck.count'           => $limit ? $limit : 1,
         );
 
         /**
