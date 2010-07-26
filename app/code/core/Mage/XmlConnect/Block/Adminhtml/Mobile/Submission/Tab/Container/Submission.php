@@ -222,21 +222,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
                 . $this->__('Get Activation Key'). '</a>',
         ));
 
-        if (!$isResubmit) {
-            $fieldset->addField('submit_application', 'button', array(
-                'name' => 'submit_application',
-                'label'=>$this->__('Submit'),
-                'value' => $this->__('Submit Application'),
-                'onclick' => 'submitApplication()',
-            ));
-        } else {
-            $fieldset->addField('submit_application', 'button', array(
-                'name' => 'submit_application',
-                'label'=> $this->__('Resubmit'),
-                'value' => $this->__('Resubmit Application'),
-                'onclick' =>  'resubmitAction(); return false;',
-            ));
-        }
 
         return parent::_prepareForm();
     }

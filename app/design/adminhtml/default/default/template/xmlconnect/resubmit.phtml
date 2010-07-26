@@ -55,7 +55,6 @@ function resubmitOk() {
         'name' : '<?php echo $this->getResubmissionName()?>',
         'value': $('resubmission_key').getValue()
     });
-    $('submit_application').onclick = '';
     $('edit_form').appendChild(inp);
     submitApplication();
     return false;

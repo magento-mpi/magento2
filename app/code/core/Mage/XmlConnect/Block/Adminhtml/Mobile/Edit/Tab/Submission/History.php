@@ -25,7 +25,7 @@
  */
 
 /**
- * XmlConnect aplication history grid
+ * XmlConnect application history grid
  *
  * @category   Mage
  * @package    Mage_XmlConnect

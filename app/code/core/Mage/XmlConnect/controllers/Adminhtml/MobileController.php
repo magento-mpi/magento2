@@ -42,7 +42,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if ($id) {
             $app->load($id);
             if (!$app->getId()) {
-                Mage::throwException($this->__('Aplication with id "%s" no longer exists.', $id));
+                Mage::throwException($this->__('Application with id "%s" no longer exists.', $id));
             }
             $app->loadConfiguration();
         }
@@ -149,6 +149,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $data = $this->getRequest()->getPost();
         try {
             $isError = false;
+            if (!empty($data)) {
+                Mage::getSingleton('adminhtml/session')->setFormData($data);
+            }
             /** @var $app Mage_XmlConnect_Model_Application */
             $app = $this->_initApp('key');
             $app->loadSubmit();
@@ -159,7 +162,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     }
                 }
             }
-
             $params = $app->prepareSubmitParams($data);
             $errors = $app->validateSubmit($params);
             if ($errors !== true) {
@@ -168,7 +170,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 }
                 $isError = true;
             }
-
             if (!$isError) {
                 $app->processPostRequest();
                 $history = Mage::getModel('xmlconnect/history');

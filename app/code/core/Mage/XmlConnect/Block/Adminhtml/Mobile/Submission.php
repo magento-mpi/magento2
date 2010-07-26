@@ -42,11 +42,20 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission extends Mage_Adminhtml_B
         $this->removeButton('save');
         $this->removeButton('reset');
 
-        $this->_addButton('submissionPost', array(
-            'class'=>'save',
-            'label'=>Mage::helper('xmlconnect')->__('Submit Application'),
-            'onclick'=>"submitApplication()",
-        ));
+        $app = Mage::registry('current_app');
+        if ($app && $app->getIsResubmitAction()) {
+            $this->_addButton('submissionPost', array(
+                'class' => 'save',
+                'label' => Mage::helper('xmlconnect')->__('Resubmit Application'),
+                'onclick' => "resubmitAction(); return false;",
+            ));
+        } else {
+            $this->_addButton('submissionPost', array(
+                'class' => 'save',
+                'label' => Mage::helper('xmlconnect')->__('Submit Application'),
+                'onclick' => "submitApplication()",
+            ));
+        }
 
         $this->_updateButton('back', 'label', Mage::helper('xmlconnect')->__('Back to App Edit'));
         $this->_updateButton('back', 'onclick', 'setLocation(\''. $this->getUrl('*/*/edit',
