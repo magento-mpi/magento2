@@ -82,6 +82,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Page extends Varien_Data_For
     {
         list($label, $element) = $this->getElements();
         return $element->toHtml() . '</td><td class="label" style="width: 5em">' .
-'<input type="button" value="&minus;" onclick="this.parentNode.parentNode.innerHTML=\'\'" />';
+            '<button class=" scalable save " onclick="this.parentNode.parentNode.innerHTML=\'\'" value="&minus;"><span>'
+            . Mage::helper('xmlconnect')->__('Delete') . '</span></button></td>';
     }
 }

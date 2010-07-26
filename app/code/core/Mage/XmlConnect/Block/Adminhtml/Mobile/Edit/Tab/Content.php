@@ -72,6 +72,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
         $fieldset->addField('page_row_add', 'addrow', array(
             'onclick' => 'this.parentNode.parentNode.parentNode.innerHTML+=cms_new_row_html()',
             'options' => $this->_pages,
+            'class' => ' scalable save ',
+            'label' => $this->__('Label'),
+            'before_element_html' => Mage::helper('xmlconnect')->__('Get content from CMS page').'</td><td class="label">',
         ));
 
         if (isset($conf['native']['pages'])) {

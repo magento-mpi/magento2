@@ -26,6 +26,20 @@
 
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Addrow extends Varien_Data_Form_Element_Button
 {
+    public function getElementHtml()
+    {
+        $html = $this->getBeforeElementHtml() . '<button id="'.$this->getHtmlId().'" name="'.$this->getName()
+            . '" value="'.$this->getEscapedValue().'"'
+            . $this->serialize($this->getHtmlAttributes())
+            . '" <span>'.$this->getEscapedValue().'</span></button>'.$this->getAfterElementHtml();
+        return $html;
+    }
+
+    public function getBeforeElementHtml()
+    {
+        return $this->getData('before_element_html');
+    }
+
     public function toHtml()
     {
         $js = new Mage_Core_Block_Template;
