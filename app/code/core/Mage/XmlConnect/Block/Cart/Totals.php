@@ -40,21 +40,86 @@ class Mage_XmlConnect_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Totals
      */
     protected function _toHtml()
     {
-        $quote = $this->getQuote();
-        $totalsXmlObj  = new Mage_XmlConnect_Model_Simplexml_Element('<totals></totals>');
+        $totalsXmlObj   = new Mage_XmlConnect_Model_Simplexml_Element('<totals></totals>');
+        $taxConfig      = Mage::getSingleton('tax/config');
+        $displayInclTax = $displayBoth = false;
 
-        foreach ($quote->getTotals() as $total) {
-            $value = sprintf('%01.2f', $total->getValueExclTax() > 0.00 ? $total->getValueExclTax() : $total->getValue());
-            if ($value != 0.00 || $total->getCode() == 'subtotal' || $total->getCode() == 'grand_total' || $total->getCode() == 'shipping') {
-                $totalXmlObj = $totalsXmlObj->addChild($total->getCode());
-                $totalXmlObj->addChild('title', $totalsXmlObj->xmlentities(strip_tags($total->getTitle())));
-                $formatedValue = $quote->getStore()->formatPrice($value, false);
-                $totalXmlObj->addChild('value', $value);
-                $totalXmlObj->addChild('formated_value', $formatedValue);
+        foreach ($this->getQuote()->getTotals() as $total) {
+            $code  = $total->getCode();
+            if($code == 'giftcardaccount'){
+                continue;
             }
+            $title = '';
+            $value = null;
+            $renderer = $this->_getTotalRenderer($code)->setTotal($total);
+            switch ($code){
+                case 'subtotal':
+                    if($renderer->displayBoth()){
+                        $title = $this->helper('xmlconnect')->__('Subtotal (Excl. Tax)');
+                        $this->_addTotalDataToXmlObj($totalsXmlObj, $code . '_excl_tax', $title, $total->getValueExclTax());
+
+                        $code  = $code . '_incl_tax';
+                        $title = $this->helper('xmlconnect')->__('Subtotal (Incl. Tax)');
+                        $value = $total->getValueInclTax();
+                    }
+                    break;
+                case 'shipping':
+                    if($renderer->displayBoth()){
+                        $title = $renderer->getExcludeTaxLabel();
+                        $this->_addTotalDataToXmlObj($totalsXmlObj, $code . '_excl_tax', $title, $renderer->getShippingExcludeTax());
+
+                        $code  = $code . '_incl_tax';
+                        $title = $renderer->getIncludeTaxLabel();
+                        $value = $renderer->getShippingIncludeTax();
+                    }
+                    else if($renderer->displayIncludeTax()){
+                        $value = $renderer->getShippingIncludeTax();
+                    }
+                    else{
+                        $value = $renderer->getShippingExcludeTax();
+                    }
+                    break;
+                case 'grand_total':
+                    $grandTotalExlTax = $renderer->getTotalExclTax();
+                    $displayBoth = $renderer->includeTax() && $grandTotalExlTax >= 0;
+                    if($displayBoth){
+                        $title = $this->helper('xmlconnect')->__('Grand Total (Excl. Tax)');
+                        $this->_addTotalDataToXmlObj($totalsXmlObj, $code . '_excl_tax', $title, $grandTotalExlTax);
+
+                        $code  = $code . '_incl_tax';
+                        $title = $this->helper('xmlconnect')->__('Grand Total (Incl. Tax)');
+                    }
+                    break;
+                default:
+                    break;
+            }
+            if($title == ''){
+                $title = $total->getTitle();
+            }
+            if(is_null($value)){
+                $value = $total->getValue();
+            }
+            $this->_addTotalDataToXmlObj($totalsXmlObj, $code, $title, $value);
         }
 
         return $totalsXmlObj->asNiceXml();
     }
 
+    /**
+     * Add total data to totals xml object
+     *
+     * @param Mage_XmlConnect_Model_Simplexml_Element $totalsXmlObj
+     * @param string $code
+     * @param string $title
+     * @param float $value
+     */
+    protected function _addTotalDataToXmlObj($totalsXmlObj, $code, $title, $value)
+    {
+        $value = sprintf('%01.2F', $value);
+        $totalXmlObj = $totalsXmlObj->addChild($code);
+        $totalXmlObj->addChild('title', $totalsXmlObj->xmlentities(strip_tags($title)));
+        $formatedValue = $this->getQuote()->getStore()->formatPrice($value, false);
+        $totalXmlObj->addChild('value', $value);
+        $totalXmlObj->addChild('formated_value', $formatedValue);
+    }
 }

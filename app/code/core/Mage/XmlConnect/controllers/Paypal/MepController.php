@@ -135,7 +135,8 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             else {
                 $quoteAddress = $this->_getQuote()->getShippingAddress();
             }
-            $message->addChild('tax_amount', sprintf('%01.2f', $quoteAddress->getBaseTaxAmount()));
+            $taxAmount = Mage::helper('core')->currency($quoteAddress->getBaseTaxAmount(), false, false);
+            $message->addChild('tax_amount', sprintf('%01.2F', $taxAmount));
             $this->getResponse()->setBody($message->asNiceXml());
         }
         else {
@@ -143,6 +144,26 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
                 $result['message'] = array($result['message']);
             }
             $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
+        }
+    }
+
+    /**
+     * Shopping cart totals
+     */
+    public function cartTotalsAction()
+    {
+        try {
+            $this->_initCheckout();
+            $this->loadLayout(false);
+            $this->renderLayout();
+            return;
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        }
+        catch (Exception $e) {
+            $this->_message($this->__('Unable to collect cart totals.'), self::MESSAGE_STATUS_ERROR);
+            Mage::logException($e);
         }
     }
 
