@@ -153,9 +153,9 @@ final class Mage
             'major'     => '1',
             'minor'     => '4',
             'revision'  => '1',
-            'patch'     => '0',
-            'stability' => 'alpha',
-            'number'    => '1',
+            'patch'     => '1',
+            'stability' => '',
+            'number'    => '',
         );
     }
 
