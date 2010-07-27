@@ -104,7 +104,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     public function getSupportedDevices()
     {
         $devices = array (
-            'iphone' => Mage::helper('xmlconnect')->__('Iphone'),
+            'iphone' => Mage::helper('xmlconnect')->__('iPhone'),
 // not supported yet
 //            'ipad' => Mage::helper('xmlconnect')->__('Ipad'),
 //            'android' => Mage::helper('xmlconnect')->__('Android'),

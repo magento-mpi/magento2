@@ -48,20 +48,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
         ));
 
         if ($model->getId()) {
-            if ($model->getIsSubmitted()) {
-                $field = $fieldset->addField('code', 'label', array(
-                    'label'     => $this->__('Application Code'),
-                    'title'     => $this->__('Application Code'),
-                ));
-            }
-            else {
-                $field = $fieldset->addField('code', 'text', array(
-                    'label'     => $this->__('Application Code'),
-                    'title'     => $this->__('Application Code'),
-                    'name'      => 'code',
-                    'required'  => true,
-                ));
-            }
+            $field = $fieldset->addField('code', 'label', array(
+                'label'     => $this->__('Application Code'),
+                'title'     => $this->__('Application Code'),
+            ));
         }
 
         /**
@@ -86,20 +76,16 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
 
         if ($model->getId()) {
             $storeElement->setDisabled(true);
-            $fieldset->addField('type', 'label', array(
-                'text'      => $model->getType(),
-                'label'     => $this->__('Device type'),
-            ));
+
         }
-        else {
-            $fieldset->addField('type', 'select', array(
+
+        $fieldset->addField('type', 'select', array(
                 'name'      => 'type',
                 'label'     => $this->__('Device Type'),
                 'title'     => $this->__('Device Type'),
-                'required'  => true,
+                'disabled'  => $model->getId() ? true : false,
                 'values'    => Mage::helper('xmlconnect')->getDeviceValuesForForm(),
-            ));
-        }
+        ));
 
         $fieldset->addField('browsing_mode', 'select', array(
             'label'     => Mage::helper('xmlconnect')->__('Catalog Mode Enable/Disable'),
