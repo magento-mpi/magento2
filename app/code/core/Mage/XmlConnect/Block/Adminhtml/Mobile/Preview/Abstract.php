@@ -30,7 +30,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Abstract extends Mage_Core_
     *
     * @var string
     */
-    const XMLCONNECT_IMAGES_PREVIEW = 'images/xmlconnect/mobile-preview/';
+    const XMLCONNECT_IMAGES_PREVIEW = 'images/xmlconnect/mobile_preview/';
     const XMLCONNECT_ADMIN_DEFAULT_IMAGES = 'images/xmlconnect/';
 
     public function setConf($conf)

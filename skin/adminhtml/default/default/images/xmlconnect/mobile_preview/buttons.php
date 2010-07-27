@@ -1,6 +1,6 @@
 <?php
 
-$imgPath = dirname(__FILE__).'//sort-buttons/buttons.gif';
+$imgPath = dirname(__FILE__).'//sort_buttons/buttons.gif';
 
 $color = (isset($_GET['color']) && strlen($_GET['color'])==6) ? $_GET['color'] : 'ffffff';
 

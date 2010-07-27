@@ -119,7 +119,7 @@ body { margin: 0; padding: 0 }
 	float: left;
 	width: 50px;
 	height: 100%;
-	background:url('../images/xmlconnect/mobile-preview/login-btn.png') center center repeat-x;
+	background:url('../images/xmlconnect/mobile_preview/login-btn.png') center center repeat-x;
 }
 .login-body span 
 {
@@ -132,14 +132,14 @@ body { margin: 0; padding: 0 }
 	float: left;
 	height: 100%;
 	font: bold 3px arial;
-	background:url('../images/xmlconnect/mobile-preview/login-btn-left.png') center center no-repeat;
+	background:url('../images/xmlconnect/mobile_preview/login-btn-left.png') center center no-repeat;
 }
 .login-right
 {
 	float: left;
 	height: 100%;
 	font: bold 3px arial;
-	background:url('../images/xmlconnect/mobile-preview/login-btn-right.png') center center no-repeat;
+	background:url('../images/xmlconnect/mobile_preview/login-btn-right.png') center center no-repeat;
 }
 .title 
 {

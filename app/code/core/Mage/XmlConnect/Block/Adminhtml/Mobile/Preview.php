@@ -30,7 +30,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview extends Mage_Core_Block_Tem
     *
     * @var string
     */
-    const XMLCONNECT_MEDIA_PREVIEW = 'xmlconnect/mobile-preview/';
+    const XMLCONNECT_MEDIA_PREVIEW = 'xmlconnect/mobile_preview/';
 
     public function __construct()
     {

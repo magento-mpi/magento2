@@ -26,15 +26,22 @@
 
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Image extends Varien_Data_Form_Element_Image
 {
+    /**
+     * Function fetches image Url actual or default
+     *
+     * @return string
+     */
     protected function _getUrl()
     {
         $url = false;
         if ($this->getValue()) {
             if (strpos($this->getValue(), '://') === FALSE ) {
-                $url = Mage::getBaseUrl('media').'xmlconnect/'.$this->getValue();
+                $url = Mage::getBaseUrl('media') . 'xmlconnect/' . $this->getValue();
             } else {
                 $url = $this->getValue();
             }
+        } else {
+            $url = $this->getDefaultValue();
         }
         return $url;
     }
@@ -53,10 +60,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Image extends Varien_Data_Fo
     {
         $html = '<div style="white-space: nowrap">';
 
-        if ($this->getValue()) {
-            $url = $this->_getUrl();
-            $html .= '<a href="'.$url.'" onclick="imagePreview(\''.$this->getHtmlId().'_image\'); return false;"><img src="'.$url.'" id="'.$this->getHtmlId().'_image" title="'.$this->getValue().'" alt="'.$this->getValue().'" height="22" width="22" class="small-image-preview v-middle" /></a> ';
-        }
+        $url = $this->_getUrl();
+        $html .= '<a href="'.$url.'" onclick="imagePreview(\''.$this->getHtmlId().'_image\'); return false;"><img src="'.$url.'" id="'.$this->getHtmlId().'_image" title="'.$this->getValue().'" alt="'.$this->getValue().'" height="22" width="22" class="small-image-preview v-middle" /></a> ';
 
         $html .= '<input id="'.$this->getHtmlId().'_hidden" name="'.$this->getName()
              .'" value="'.$this->getEscapedValue().'" type="hidden" />';
