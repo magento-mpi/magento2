@@ -26,11 +26,6 @@
 
 class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    /**
-     * Delimiter for packing store-device pair
-     * @var unknown_type
-     */
-    const APP_DELIMITER = ',';
 
     /**
      * Create filter object by key
@@ -125,71 +120,6 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
         return $options;
     }
 
-
-    /**
-     * Pack Store and Device to "store-device CS value" like - "1,iphone"
-     *
-     * @param string $storeId
-     * @param string $deviceId
-     *
-     * @return string
-     */
-    public function packStoreDevice($storeId = '', $deviceId = '')
-    {
-        return $storeId . self::APP_DELIMITER . $deviceId;
-    }
-
-    /**
-     * Unpack store-device CS value  :  "1,iphone" to array
-     *
-     * @param string $storeDevice
-     *
-     * @return array
-     */
-    public function unpackStoreDevice($storeDevice)
-    {
-        $params = array();
-        $arr = explode(self::APP_DELIMITER, $storeDevice);
-        if (is_array($arr)) {
-            $params['store_id'] = isset($arr[0]) ? $arr[0] : '';
-            $params['type'] = isset($arr[1]) ? $arr[1] : '';
-        }
-        return $params;
-    }
-
-    /**
-     * Return modifien select option array for stores
-     *
-     * @return array
-     */
-    public function getStoreDeviceValuesForForm($filter = false)
-    {
-        $options = Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(true, false);
-        $devices = self::getSupportedDevices();
-        foreach ($options as $id => $option) {
-            if (is_array($option)) {
-                if (!empty($option['value']) && is_array($option['value'])) {
-                    $storeValueArray = array();
-                    $oldStore = current($option['value']);
-                    if (isset($oldStore['label']) && isset($oldStore['value'])) {
-                        $label = $oldStore['label'];
-                        $value = $oldStore['value'];
-                        foreach ($devices as $deviceCode => $deviceName) {
-                            if (($filter === false) || !((isset($filter[$id]) && ($filter[$id] == $deviceCode)))) {
-                                $storeValueArray[] = array (
-                                    'label' => $label . ' - ' . $deviceName,
-                                    'value' => self::packStoreDevice($value, $deviceCode),
-                                );
-                            }
-                        }
-                    }
-                    $options[$id]['value'] = $storeValueArray;
-                }
-            }
-        }
-        return $options;
-    }
-
     /**
      * Returns array of supported device types as "html select options"
      *
@@ -206,40 +136,6 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
             $options[] = array('value' => $type, 'label' => $label);
         }
         return $options;
-    }
-
-
-    /**
-     * Returns array of store & type pairs to create
-     *
-     * @return array
-     */
-    public function getStoreDeviceIdsToCreate() {
-        $correctIds = array();
-        $stores = Mage::app()->getStores();
-        $storeIds = array_keys($stores);
-
-        $supportedDevices = Mage::helper('xmlconnect')->getSupportedDevices();
-        $existingApplications = Mage::getModel('xmlconnect/application')->getResource()->getExistingStoreDeviceType();
-
-        $filterArray = array();
-        if (is_array($existingApplications)) {
-            foreach ($existingApplications as $app) {
-                if (!isset($filterArray[$app['type']])) {
-                    $filterArray[$app['type']] = array();
-                }
-                $filterArray[$app['type']][$app['store_id']] = 1;
-            }
-        }
-
-        foreach ($supportedDevices as $deviceType => $deviceName) {
-            foreach ($storeIds as $storeId) {
-                if (!(isset($filterArray[$deviceType]) && (isset($filterArray[$deviceType][$storeId])))) {
-                    $correctIds[$storeId] = $deviceType;
-                }
-            }
-        }
-        return $correctIds;
     }
 
 }
