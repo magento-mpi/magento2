@@ -212,7 +212,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         if ($data) {
             try {
                 $app = $this->_initApp();
-                $this->_saveThemeAction($data, 'conf/extra/theme');
+                $this->_saveThemeAction($data, 'current_theme');
                 $app->addData($app->preparePostData($data));
                 if (!empty($_FILES)) {
                     foreach ($_FILES as $field=>$file) {
@@ -242,12 +242,22 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         }
     }
 
-    protected function _saveThemeAction($data, $paramId)
+    /**
+     * Save changes to theme
+     *
+     * @param array     $data
+     * @param string    $paramId
+     */
+    protected function _saveThemeAction($data, $paramId = 'saveTheme')
     {
         try {
             $theme = $this->getRequest()->getParam($paramId, false);
             if ($theme) {
-                $converted = Mage::helper('xmlconnect/theme')->convertPost($data);
+                if ($paramId == 'saveTheme') {
+                    $converted = Mage::helper('xmlconnect/theme')->convertPost($data);
+                } else {
+                    $converted = $data;
+                }
                 Mage::helper('xmlconnect/theme')->savePost($theme, $converted);
                 $response = Mage::helper('xmlconnect/theme')->getAllThemesArray();
             } else {
@@ -279,7 +289,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     {
         $data = $this->getRequest()->getPost();
         $response = false;
-        $this->_saveThemeAction($data, 'saveTheme');
+        $this->_saveThemeAction($data);
     }
 
     /**

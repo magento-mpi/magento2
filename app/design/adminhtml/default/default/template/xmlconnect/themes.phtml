@@ -279,7 +279,7 @@ function hidePopupBox() {s
 <label for="theme_selector_id" class="f-left theme-selector-title"><?php echo $this->__('Color Theme'); ?></label>
 <div class="theme-select-cont">
     <input type="hidden" name="conf[extra][theme]" id="theme_selector_id_value" value="<?php echo $themeId; ?>"/>
-    <input type="hidden" name="conf/extra/theme" id="theme_selector_id_value_flat" value="<?php echo $themeId; ?>"/>
+    <input type="hidden" name="current_theme" id="theme_selector_id_value_flat" value="<?php echo $themeId; ?>"/>
     <ul class="dropdown theme_selector" id="theme_selector_id">
         <li class="ddtitle theme_selector "><a href="#"><?php echo $themeLabel ? $themeLabel : $this->__('Custom Colors');?><span>
         <img src="<?php echo $this->getImageUrl('swatch_default.gif'); ?>"/>
