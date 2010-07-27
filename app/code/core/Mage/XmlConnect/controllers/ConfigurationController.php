@@ -54,12 +54,12 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
         if ($app) {
             $app->loadByCode($code);
             if (!$app->getId()) {
-                Mage::throwException($this->__('Aplication with specified code no longer exists.'));
+                Mage::throwException(Mage::helper('xmlconnect')->__('Aplication with specified code no longer exists.'));
             }
             $app->loadConfiguration();
         }
         else {
-            Mage::throwException($this->__('Aplication code required.'));
+            Mage::throwException(Mage::helper('xmlconnect')->__('Aplication code required.'));
         }
         Mage::register('current_app', $app);
         return $app;
@@ -79,7 +79,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
                  * @todo add management of cookie expire to application admin panel
                  */
                 $cookieExpireOffset = 3600 * 24 * 30;
-                setcookie($cookieName, $app->getCode(), time() + $cookieExpireOffset, '/', null, null, true);
+                Mage::getModel('core/cookie')->set($cookieName, $app->getCode(), time() + $cookieExpireOffset, '/', null, null, true);
             }
 
             if($this->getRequest()->getParam('updated_at')) {
@@ -105,7 +105,7 @@ class Mage_XmlConnect_ConfigurationController extends Mage_Core_Controller_Front
         catch (Exception $e) {
             $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
             $message->addChild('status', Mage_XmlConnect_Controller_Action::MESSAGE_STATUS_ERROR);
-            $message->addChild('text', $this->__('Cannot show configuration.'));
+            $message->addChild('text', Mage::helper('xmlconnect')->__('Cannot show configuration.'));
             Mage::logException($e);
             $this->getResponse()->setBody($message->asNiceXml());
         }

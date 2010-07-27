@@ -37,31 +37,31 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form extends Mage_C
             ->setId('mobile_edit_tab_design_accordion');
 
         $accordion->addItem('images', array(
-            'title'   => $this->__('Images'),
+            'title'   => Mage::helper('xmlconnect')->__('Images'),
             'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images,
             'open'    => true,
         ));
 
         $accordion->addItem('colors', array(
-            'title'   => $this->__('Color Themes'),
+            'title'   => Mage::helper('xmlconnect')->__('Color Themes'),
             'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Colors,
             'open'    => true,
         ));
 
 //        $accordion->addItem('fonts', array(
-//            'title'   => $this->__('Fonts'),
+//            'title'   => Mage::helper('xmlconnect')->__('Fonts'),
 //            'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Fonts,
 //            'open'    => true,
 //        ));
 //
 //        $accordion->addItem('advanced', array(
-//            'title'   => $this->__('Advanced Settings'),
+//            'title'   => Mage::helper('xmlconnect')->__('Advanced Settings'),
 //            'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Advanced,
 //            'open'    => false,
 //        ));
 
         $accordion->addItem('tabs', array(
-            'title'   => $this->__('Tabs'),
+            'title'   => Mage::helper('xmlconnect')->__('Tabs'),
             'content' => new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Tabs,
             'open'    => true,
         ));

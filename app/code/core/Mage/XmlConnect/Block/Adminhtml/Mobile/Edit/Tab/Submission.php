@@ -41,7 +41,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
      */
     public function getTabLabel()
     {
-        return $this->__('Submission History');
+        return Mage::helper('xmlconnect')->__('Submission History');
     }
 
     /**
@@ -51,7 +51,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission
      */
     public function getTabTitle()
     {
-        return $this->__('Submission History');
+        return Mage::helper('xmlconnect')->__('Submission History');
     }
 
     /**

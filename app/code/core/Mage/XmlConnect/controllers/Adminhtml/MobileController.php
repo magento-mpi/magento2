@@ -31,18 +31,14 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      * @param string $paramName
      * @return Mage_XmlConnect_Model_Application
      */
-    protected function _initApp($paramName = 'application_id', $applicationIdOverride = false)
+    protected function _initApp($paramName = 'application_id')
     {
-        if ($applicationIdOverride === false) {
-            $id = (int) $this->getRequest()->getParam($paramName);
-        } else {
-            $id = (int) $applicationIdOverride;
-        }
+        $id = (int) $this->getRequest()->getParam($paramName);
         $app = Mage::getModel('xmlconnect/application');
         if ($id) {
             $app->load($id);
             if (!$app->getId()) {
-                Mage::throwException($this->__('Application with id "%s" no longer exists.', $id));
+                Mage::throwException(Mage::helper('xmlconnect')->__('Application with id "%s" no longer exists.', $id));
             }
             $app->loadConfiguration();
         }
@@ -81,7 +77,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         try {
             $app = $this->_initApp();
             if (!$app->getId()) {
-                $this->_getSession()->addError($this->__('No application provided.'));
+                $this->_getSession()->addError(Mage::helper('xmlconnect')->__('No application provided.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -97,7 +93,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('Can\'t open submission form.'));
+            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Can\'t open submission form.'));
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         }
     }
@@ -109,15 +105,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     {
         $redirectBack = false;
         try {
-            if ($this->getRequest()->getParam('store')) {
-                $id = Mage::getModel('xmlconnect/application')->getIdByStoreId(
-                    $this->getRequest()->getParam('application_id'),
-                    $this->getRequest()->getParam('store')
-                );
-                $app = $this->_initApp(false, $id);
-            } else {
-                $app = $this->_initApp();
-            }
+            $app = $this->_initApp();
 
             $app->loadSubmit();
             $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
@@ -158,7 +146,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             if (!empty($_FILES)) {
                 foreach ($_FILES as $field=>$file) {
                     if (!empty($file['name']) && is_scalar($file['name'])) {
-                        $uploadedFiles[] = $app->handleUpload($field);
+                        $uploadedFiles[] = $this->_handleUpload($field);
                     }
                 }
             }
@@ -185,7 +173,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $history->save();
                 $app->getResource()->updateApplicationStatus($app->getId(),
                     Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS);
-                $this->_getSession()->addSuccess($this->__('Application has been submitted.'));
+                $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been submitted.'));
                 $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
             } else {
                 $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
@@ -194,7 +182,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('Can\'t submit application.'));
+            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Can\'t submit application.'));
             Mage::logException($e);
             $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
         }
@@ -217,17 +205,17 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 if (!empty($_FILES)) {
                     foreach ($_FILES as $field=>$file) {
                         if (!empty($file['name']) && is_scalar($file['name'])) {
-                            $app->handleUpload($field);
+                            $this->_handleUpload($field);
                         }
                     }
                 }
                 $app->save();
-                $this->_getSession()->addSuccess($this->__('Application has been saved.'));
+                $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been saved.'));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addException($e, $e->getMessage());
                 $redirectBack = true;
             } catch (Exception $e) {
-                $this->_getSession()->addException($e, $this->__('Unable to save application.'));
+                $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to save application.'));
                 $redirectBack = true;
                 Mage::logException($e);
             }
@@ -261,7 +249,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 Mage::helper('xmlconnect/theme')->savePost($theme, $converted);
                 $response = Mage::helper('xmlconnect/theme')->getAllThemesArray();
             } else {
-                $response = array('error' => true, 'message' => 'Theme Name is not set.');
+                $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Theme Name is not set.'));
             }
         }
         catch (Mage_Core_Exception $e) {
@@ -273,7 +261,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         catch (Exception $e) {
             $response = array(
                 'error'     => true,
-                'message'   => $this->__('Cannot Save Theme.')
+                'message'   => Mage::helper('xmlconnect')->__('Cannot Save Theme.')
             );
         }
         if (is_array($response)) {
@@ -310,7 +298,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         catch (Exception $e) {
             $response = array(
                 'error'     => true,
-                'message'   => $this->__('Cannot Reset Theme.')
+                'message'   => Mage::helper('xmlconnect')->__('Cannot Reset Theme.')
             );
         }
         if (is_array($response)) {
@@ -345,7 +333,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             if (!empty($_FILES)) {
                 foreach ($_FILES as $field=>$file) {
                     if (!empty($file['name']) && is_scalar($file['name'])) {
-                        $app->handleUpload($field);
+                        $this->_handleUpload($field);
                     }
                 }
             }
@@ -358,7 +346,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->_getSession()->addException($e, $e->getMessage());
             $redirectBack = true;
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('Unable to process preview.'));
+            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to process preview.'));
             $redirectBack = true;
         }
         if ($app && $redirectBack) {
@@ -376,11 +364,11 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         try {
             $app = $this->_initApp();
             $app->delete();
-            $this->_getSession()->addSuccess($this->__('Application has been deleted.'));
+            $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been deleted.'));
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('Unable to find a banner to delete.'));
+            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to find a banner to delete.'));
         }
         $this->_redirect('*/*/');
     }
@@ -395,12 +383,16 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         return Mage::getSingleton('admin/session')->isAllowed('mobile');
     }
 
+    /**
+     * List application submit history
+     */
     public function historyAction()
     {
         $this->loadLayout();
         $this->_setActiveMenu('mobile/app');
         $this->renderLayout();
     }
+
     /**
      * Render apps grid
      */
@@ -409,5 +401,118 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $this->loadLayout(false);
         $this->_setActiveMenu('mobile/app');
         $this->renderLayout();
+    }
+
+    /**
+     * Process uploaded file
+     * setup filenames to the configuration
+     *
+     * @param string $field
+     */
+    protected function _handleUpload($field)
+    {
+        $upload_dir = Mage::getBaseDir('media') . DS . 'xmlconnect';
+
+        $this->_forcedConvertPng($field);
+
+        $uploader = new Varien_File_Uploader($field);
+        $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
+        $uploader->setAllowRenameFiles(true);
+        $uploader->save($upload_dir);
+
+        /**
+         * Ugly hack to avoid $_FILES[..]['name'][..][..]
+         *
+         * e.g., variable name in $_POST: 'conf/native/navigationBar/icon' ==>
+         * file name stored in $this->_data['conf']['native']['navigationBar']['icon']
+         * here icon - filename like 'logo_23.gif'
+         */
+        $nameParts = explode('/', $field);
+        array_shift($nameParts);
+        $target =& $this->_data['conf'];
+        foreach($nameParts as $next) {
+            if (!isset($target[$next])) {
+                $target[$next] = array();
+            }
+            $target =& $target[$next];
+        }
+        $target = $uploader->getUploadedFileName();
+
+        $this->_handleResize($nameParts, $upload_dir . DS . $uploader->getUploadedFileName());
+    }
+
+    /**
+     * Convert uploaded file to PNG
+     *
+     * @param string $field
+     */
+    protected function _forcedConvertPng($field)
+    {
+        $file =& $_FILES[$field];
+
+        $file['name'] = preg_replace('/\.(gif|jp[e]g)$/i', '.png', $file['name']);
+
+        list($x, $x, $fileType) = getimagesize($file['tmp_name']);
+        if ($fileType != IMAGETYPE_PNG ) {
+            switch( $fileType ) {
+                case IMAGETYPE_GIF:
+                    $img = imagecreatefromgif($file['tmp_name']);
+                    break;
+                case IMAGETYPE_JPEG:
+                    $img = imagecreatefromjpeg($file['tmp_name']);
+                    break;
+                default:
+                    return;
+            }
+            imagepng($img, $file['tmp_name']);
+            imagedestroy($img);
+        }
+    }
+
+    /**
+     * Resize uploaded file
+     *
+     * @param array $nameParts
+     * @param string $file
+     */
+    protected function _handleResize($nameParts, $file)
+    {
+        $conf = Mage::getStoreConfig('imageLimits/'.$this->getType());
+        while (count($nameParts)) {
+            $next = array_shift($nameParts);
+            if (isset($conf[$next])) {
+                $conf = $conf[$next];
+            }
+            /**
+             * No config data - nothing to resize
+             */
+            else {
+                return;
+            }
+        }
+
+        $image = new Varien_Image($file);
+        $width = $image->getOriginalWidth();
+        $height = $image->getOriginalHeight();
+
+        if (isset($conf['widthMax']) && ($conf['widthMax'] < $width)) {
+            $width = $conf['widthMax'];
+        }
+        elseif (isset($conf['width'])) {
+            $width = $conf['width'];
+        }
+
+        if (isset($conf['heightMax']) && ($conf['heightMax'] < $height)) {
+            $height = $conf['heightMax'];
+        }
+        elseif (isset($conf['height'])) {
+            $height = $conf['height'];
+        }
+
+        if (($width != $image->getOriginalWidth()) ||
+            ($height != $image->getOriginalHeight()) ) {
+            $image->resize($width, $height);
+            $image->save(null, basename($file));
+        }
     }
 }

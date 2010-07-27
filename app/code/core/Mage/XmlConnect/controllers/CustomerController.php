@@ -41,7 +41,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
         $session = $this->_getSession();
         $request = $this->getRequest();
         if ($session->isLoggedIn()) {
-            $this->_message($this->__('You are already logged in.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('You are already logged in.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
 
@@ -53,9 +53,9 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                     if ($session->getCustomer()->getIsJustConfirmed()) {
                         $session->getCustomer()->sendNewAccountEmail('confirmed');
                     }
-                    $this->_message($this->__('Authentification complete.'), self::MESSAGE_STATUS_SUCCESS);
+                    $this->_message(Mage::helper('xmlconnect')->__('Authentification complete.'), self::MESSAGE_STATUS_SUCCESS);
                 } else {
-                    $this->_message($this->__('Invalid login or password.'), self::MESSAGE_STATUS_ERROR);
+                    $this->_message(Mage::helper('xmlconnect')->__('Invalid login or password.'), self::MESSAGE_STATUS_ERROR);
                 }
             } catch (Mage_Core_Exception $e) {
                 switch ($e->getCode()) {
@@ -70,10 +70,10 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 }
                 $this->_message($message, self::MESSAGE_STATUS_ERROR);
             } catch (Exception $e) {
-                $this->_message($this->__('Customer authentification problem.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('Customer authentification problem.'), self::MESSAGE_STATUS_ERROR);
             }
         } else {
-            $this->_message($this->__('Login and password are required.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Login and password are required.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -86,14 +86,14 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
         try {
             if ($this->_getSession()->isLoggedIn()) {
                 $this->_getSession()->logout();
-                $this->_message($this->__('Logout complete.'), self::MESSAGE_STATUS_SUCCESS);
+                $this->_message(Mage::helper('xmlconnect')->__('Logout complete.'), self::MESSAGE_STATUS_SUCCESS);
             } else {
-                $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
             }
         } catch (Mage_Core_Exception $e) {
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         } catch (Exception $e) {
-            $this->_message($this->__('Customer logout problem.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Customer logout problem.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -107,7 +107,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
         $editFlag = (int)$this->getRequest()->getParam('edit');
         if ($editFlag == 1) {
             if (!$this->_getSession()->isLoggedIn()) {
-                $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
                 return ;
             }
             $customer  = $this->_getSession()->getCustomer();
@@ -123,7 +123,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     public function editAction()
     {
         if (!$this->_getSession()->isLoggedIn()) {
-            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
             return ;
         }
         if ($this->getRequest()->isPost()) {
@@ -154,11 +154,11 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 $confPass   = $this->getRequest()->getPost('confirmation');
 
                 if (empty($currPass) || empty($newPass) || empty($confPass)) {
-                    $errors[] = $this->__('The password fields cannot be empty.');
+                    $errors[] = Mage::helper('xmlconnect')->__('The password fields cannot be empty.');
                 }
 
                 if ($newPass != $confPass) {
-                    $errors[] = $this->__('Please make sure your passwords match.');
+                    $errors[] = Mage::helper('xmlconnect')->__('Please make sure your passwords match.');
                 }
 
                 $oldPass = $this->_getSession()->getCustomer()->getPasswordHash();
@@ -171,7 +171,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                 if ($customer->hashPassword($currPass, $salt) == $oldPass) {
                     $customer->setPassword($newPass);
                 } else {
-                    $errors[] = $this->__('Invalid current password.');
+                    $errors[] = Mage::helper('xmlconnect')->__('Invalid current password.');
                 }
             }
 
@@ -186,15 +186,15 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
             try {
                 $customer->save();
                 $this->_getSession()->setCustomer($customer);
-                $this->_message($this->__('The account information has been saved.'), self::MESSAGE_STATUS_SUCCESS);
+                $this->_message(Mage::helper('xmlconnect')->__('The account information has been saved.'), self::MESSAGE_STATUS_SUCCESS);
                 return;
             } catch (Mage_Core_Exception $e) {
                 $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
             } catch (Exception $e) {
-                $this->_message($this->__('Cannot save the customer.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('Cannot save the customer.'), self::MESSAGE_STATUS_ERROR);
             }
         } else {
-            $this->_message($this->__('POST data is not valid.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('POST data is not valid.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -207,7 +207,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
         $session = $this->_getSession();
         $request = $this->getRequest();
         if ($session->isLoggedIn()) {
-            $this->_message($this->__('You are already logged in.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('You are already logged in.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
 
@@ -257,7 +257,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
                     if ($customer->isConfirmationRequired()) {
                         $customer->sendNewAccountEmail('confirmation', $session->getBeforeAuthUrl());
-                        $message = $this->__('Account confirmation is required. Please, check your email for the confirmation link.');
+                        $message = Mage::helper('xmlconnect')->__('Account confirmation is required. Please, check your email for the confirmation link.');
                         $messageXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
                         $messageXmlObj->addChild('status', self::MESSAGE_STATUS_SUCCESS);
                         $messageXmlObj->addChild('text', $message);
@@ -267,28 +267,28 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                     } else {
                         $session->setCustomerAsLoggedIn($customer);
                         $customer->sendNewAccountEmail('registered');
-                        $this->_message($this->__('Register and Authentification complete.'), self::MESSAGE_STATUS_SUCCESS);
+                        $this->_message(Mage::helper('xmlconnect')->__('Register and Authentification complete.'), self::MESSAGE_STATUS_SUCCESS);
                         return;
                     }
                 } else {
                     if (is_array($errors)) {
                         $message = implode("\n", $errors);
                     } else {
-                        $message = $this->__('Invalid customer data.');
+                        $message = Mage::helper('xmlconnect')->__('Invalid customer data.');
                     }
                     $this->_message($message, self::MESSAGE_STATUS_ERROR);
                     return ;
                 }
             } catch (Mage_Core_Exception $e) {
                 if ($e->getCode() === Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS) {
-                    $message = $this->__('There is already an account with this email address.');
+                    $message = Mage::helper('xmlconnect')->__('There is already an account with this email address.');
                     $session->setEscapeMessages(false);
                 } else {
                     $message = $e->getMessage();
                 }
                 $this->_message($message, self::MESSAGE_STATUS_ERROR);
             } catch (Exception $e) {
-                $this->_message($this->__('Cannot save the customer.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('Cannot save the customer.'), self::MESSAGE_STATUS_ERROR);
             }
         }
     }
@@ -302,7 +302,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
         $email = $this->getRequest()->getPost('email');
         if ($email) {
             if (!Zend_Validate::is($email, 'EmailAddress')) {
-                $this->_message($this->__('Invalid email address.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('Invalid email address.'), self::MESSAGE_STATUS_ERROR);
                 return;
             }
             $customer = Mage::getModel('customer/customer')
@@ -314,19 +314,19 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                     $newPassword = $customer->generatePassword();
                     $customer->changePassword($newPassword, false);
                     $customer->sendPasswordReminderEmail();
-                    $this->_message($this->__('A new password has been sent.'), self::MESSAGE_STATUS_SUCCESS);
+                    $this->_message(Mage::helper('xmlconnect')->__('A new password has been sent.'), self::MESSAGE_STATUS_SUCCESS);
 
                     return;
                 } catch (Mage_Core_Exception $e) {
                     $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
                 } catch (Exception $e) {
-                    $this->_message($this->__('Sending/Changing new password problem.'), self::MESSAGE_STATUS_ERROR);
+                    $this->_message(Mage::helper('xmlconnect')->__('Sending/Changing new password problem.'), self::MESSAGE_STATUS_ERROR);
                 }
             } else {
-                $this->_message($this->__('This email address was not found in our records.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('This email address was not found in our records.'), self::MESSAGE_STATUS_ERROR);
             }
         } else {
-            $this->_message($this->__('Customer email not specified.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Customer email not specified.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -337,7 +337,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     public function addressAction()
     {
         if (!$this->_getSession()->isLoggedIn()) {
-            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
             return ;
         }
 
@@ -358,7 +358,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     public function addressFormAction()
     {
         if (!$this->_getSession()->isLoggedIn()) {
-            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
             return ;
         }
 
@@ -371,7 +371,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
         if ($addressId) {
             $address->load($addressId);
             if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {
-                $this->_message($this->__('Specified address does not exist.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('Specified address does not exist.'), self::MESSAGE_STATUS_ERROR);
                 return ;
             }
         }
@@ -386,7 +386,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     public function deleteAddressAction()
     {
         if (!$this->_getSession()->isLoggedIn()) {
-            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
             return ;
         }
 
@@ -397,16 +397,16 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {
-                $this->_message($this->__('The address does not belong to this customer.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('The address does not belong to this customer.'), self::MESSAGE_STATUS_ERROR);
                 return;
             }
 
             try {
                 $address->delete();
-                $this->_message($this->__('The address has been deleted.'), self::MESSAGE_STATUS_SUCCESS);
+                $this->_message(Mage::helper('xmlconnect')->__('The address has been deleted.'), self::MESSAGE_STATUS_SUCCESS);
             } catch (Exception $e){
                 Mage::logException($e);
-                $this->_message($this->__('An error occurred while deleting the address.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('An error occurred while deleting the address.'), self::MESSAGE_STATUS_ERROR);
             }
         }
     }
@@ -418,7 +418,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     public function saveAddressAction()
     {
         if (!$this->_getSession()->isLoggedIn()) {
-            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
             return ;
         }
 
@@ -466,7 +466,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
 
                     $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
                     $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
-                    $message->addChild('text', $this->__('The address has been saved.'));
+                    $message->addChild('text', Mage::helper('xmlconnect')->__('The address has been saved.'));
                     $message->addChild('address_id', $address->getId());
                     $this->getResponse()->setBody($message->asNiceXml());
                     return;
@@ -474,17 +474,17 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
                     if (is_array($addressValidation)) {
                         $this->_message(implode('. ', $addressValidation), self::MESSAGE_STATUS_ERROR);
                     } else {
-                        $this->_message($this->__('Cannot save address.'), self::MESSAGE_STATUS_ERROR);
+                        $this->_message(Mage::helper('xmlconnect')->__('Cannot save address.'), self::MESSAGE_STATUS_ERROR);
                     }
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_message($this->__('Cannot save address.'), self::MESSAGE_STATUS_ERROR);
+                $this->_message(Mage::helper('xmlconnect')->__('Cannot save address.'), self::MESSAGE_STATUS_ERROR);
             }
         } else {
-            $this->_message($this->__('Adddress data not specified.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Adddress data not specified.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -495,7 +495,7 @@ class Mage_XmlConnect_CustomerController extends Mage_XmlConnect_Controller_Acti
     public function orderListAction()
     {
         if (!$this->_getSession()->isLoggedIn()) {
-            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
             return ;
         }
 

@@ -54,11 +54,10 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Exports $this->_getUrl() function to public
+     * Export $this->_getUrl() function to public
      *
      * @param string $route
      * @param array $params
-     *
      * @return array
      */
     public function getUrl($route, $params = array())
@@ -68,7 +67,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 
 
     /**
-     * Return country options array
+     * Retrieve country options array
      *
      * @return array
      */
@@ -93,23 +92,23 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Returns list of predefined and supported Devices
-     * @return multitype:string
+     * Get list of predefined and supported Devices
+     *
+     * @return array
      */
     public function getSupportedDevices()
     {
         $devices = array (
-            'iphone' => Mage::helper('xmlconnect')->__('iPhone'),
-// not supported yet
-//            'ipad' => Mage::helper('xmlconnect')->__('Ipad'),
-//            'android' => Mage::helper('xmlconnect')->__('Android'),
+            'iphone' => Mage::helper('xmlconnect')->__('iPhone')
         );
+
         return $devices;
     }
 
     /**
-     * Returns list of predefined and supported Devices
-     * @return multitype:string
+     * Get list of predefined and supported Devices
+     *
+     * @return array
      */
     public function getStatusOptions()
     {
@@ -121,7 +120,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Returns array of supported device types as "html select options"
+     * Retrieve supported device types as "html select options"
      *
      * @return array
      */
@@ -130,7 +129,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
         $devices = self::getSupportedDevices();
         $options = array();
         if (count($devices) > 1) {
-            $options[] = array('value' => '', 'label' => $this->__('Please Select Device Type'));
+            $options[] = array('value' => '', 'label' => Mage::helper('xmlconnect')->__('Please Select Device Type'));
         }
         foreach ($devices as $type => $label) {
             $options[] = array('value' => $type, 'label' => $label);
@@ -138,4 +137,51 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
         return $options;
     }
 
+    /**
+     * Get default application tabs
+     *
+     * @return array
+     */
+    public function getDefaultApplicationDesignTabs()
+    {
+        $tabs = array(
+            array(
+                'label' => Mage::helper('xmlconnect')->__('Home'),
+                'image' => 'tab_home.png',
+                'action' => 'Home',
+            ),
+            array(
+                'label' => Mage::helper('xmlconnect')->__('Shop'),
+                'image' => 'tab_shop.png',
+                'action' => 'Shop',
+            ),
+            array(
+                'label' => Mage::helper('xmlconnect')->__('Search'),
+                'image' => 'tab_search.png',
+                'action' => 'Search',
+            ),
+            array(
+                'label' => Mage::helper('xmlconnect')->__('Cart'),
+                'image' => 'tab_cart.png',
+                'action' => 'Cart',
+            ),
+            array(
+                'label' => Mage::helper('xmlconnect')->__('More'),
+                'image' => 'tab_more.png',
+                'action' => 'More',
+            ),
+            array(
+                'label' => Mage::helper('xmlconnect')->__('Account'),
+                'image' => 'tab_account.png',
+                'action' => 'Account',
+            ),
+            array(
+                'label' => Mage::helper('xmlconnect')->__('About Us'),
+                'image' => 'tab_page.png',
+                'action' => 'AboutUs',
+            ),
+        );
+
+        return $tabs;
+    }
 }

@@ -36,8 +36,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Colors ex
 
         $fieldset = $form->addFieldset('fieldColors', array());
         $this->_addElementTypes($fieldset);
-        $fieldset->addField('conf[extra][theme]', 'theme', array(
-            'name'      => 'conf[extra][theme]',
+        $fieldset->addField('theme', 'theme', array(
+            'name'      => 'theme',
             'themes'    => Mage::helper('xmlconnect/theme')->getAllThemes(),
         ));
 

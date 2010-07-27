@@ -40,7 +40,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
      */
     public function getTabLabel()
     {
-        return $this->__('Design');
+        return Mage::helper('xmlconnect')->__('Design');
     }
 
     /**
@@ -50,7 +50,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
      */
     public function getTabTitle()
     {
-        return $this->__('Design');
+        return Mage::helper('xmlconnect')->__('Design');
     }
 
     /**

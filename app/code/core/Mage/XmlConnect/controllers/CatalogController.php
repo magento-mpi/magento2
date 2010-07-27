@@ -51,11 +51,11 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
             $this->renderLayout();
         }
         catch (Mage_Core_Exception $e) {
-            $this->_message($this->__($e->getMessage()), self::MESSAGE_STATUS_ERROR);
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         }
         catch (Exception $e) {
             Mage::logException($e);
-            $this->_message($this->__('There are apear some errors while loading category filters.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('There are apear some errors while loading category filters.'), self::MESSAGE_STATUS_ERROR);
         }
     }
 
@@ -174,12 +174,12 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
         $session = Mage::getSingleton('customer/session');
 
         if (!$helper->isEnabled()) {
-            $this->_message($this->__('Email to Friend is disabled.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Email to Friend is disabled.'), self::MESSAGE_STATUS_ERROR);
             return $this;
         }
 
         if (!$helper->isAllowForGuest() && !$session->isLoggedIn()) {
-            $this->_message($this->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Customer not loggined.'), self::MESSAGE_STATUS_ERROR);
             return $this;
         }
 
@@ -188,13 +188,13 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
          */
         $productId  = (int)$this->getRequest()->getParam('product_id');
         if (!$productId) {
-            $this->_message($this->__('No selected product.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('No selected product.'), self::MESSAGE_STATUS_ERROR);
             return $this;
         }
         $product = Mage::getModel('catalog/product')
             ->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
-            $this->_message($this->__('Selected product is unavailable.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Selected product is unavailable.'), self::MESSAGE_STATUS_ERROR);
             return $this;
         }
 
@@ -211,14 +211,14 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
         Mage::register('send_to_friend_model', $model);
 
         if ($model->getMaxSendsToFriend()) {
-//            $this->_message($this->__('The messages cannot be sent more than %d times in an hour', $model->getMaxSendsToFriend()), self::MESSAGE_STATUS_WARNING);
+//            $this->_message(Mage::helper('xmlconnect')->__('The messages cannot be sent more than %d times in an hour', $model->getMaxSendsToFriend()), self::MESSAGE_STATUS_WARNING);
 //            return $this;
         }
 
         $data   = $this->getRequest()->getPost();
 
         if (!$data) {
-            $this->_message($this->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);
             return $this;
         }
 
@@ -247,7 +247,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
             $validate = $model->validate();
             if ($validate === true) {
                 $model->send();
-                $this->_message($this->__('The link to a friend was sent.'), self::MESSAGE_STATUS_SUCCESS);
+                $this->_message(Mage::helper('xmlconnect')->__('The link to a friend was sent.'), self::MESSAGE_STATUS_SUCCESS);
                 return;
             }
             else {
@@ -256,7 +256,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
                     return;
                 }
                 else {
-                    $this->_message($this->__('There were some problems with the data.'), self::MESSAGE_STATUS_ERROR);
+                    $this->_message(Mage::helper('xmlconnect')->__('There were some problems with the data.'), self::MESSAGE_STATUS_ERROR);
                     return;
                 }
             }
@@ -265,7 +265,7 @@ class Mage_XmlConnect_CatalogController extends Mage_XmlConnect_Controller_Actio
             $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
         }
         catch (Exception $e) {
-            $this->_message($this->__('Some emails were not sent.'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Some emails were not sent.'), self::MESSAGE_STATUS_ERROR);
         }
 
         return $this;

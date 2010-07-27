@@ -45,7 +45,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
         $model = Mage::registry('current_app');
         $data = $model->getFormData();
 
-        $fieldset = $form->addFieldset('onepage_checkout', array('legend' => $this->__('Onepage checkout')));
+        $fieldset = $form->addFieldset('onepage_checkout', array('legend' => Mage::helper('xmlconnect')->__('Onepage checkout')));
 
         $fieldset->addField('conf/native/defaultCheckout/isActive', 'select', array(
             'label'     => Mage::helper('xmlconnect')->__('Use Default Checkout method'),
@@ -59,7 +59,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
 
         $paypalActive = (isset($data['conf[native][paypal][isActive]']) ? $data['conf[native][paypal][isActive]'] : '0');
 
-        $fieldset2 = $form->addFieldset('paypal_mep_checkout', array('legend' => $this->__('PayPal MEP')));
+        $fieldset2 = $form->addFieldset('paypal_mep_checkout', array('legend' => Mage::helper('xmlconnect')->__('PayPal MEP')));
 
         $paypalActiveField = $fieldset2->addField('conf/native/paypal/isActive', 'select', array(
             'label'     => Mage::helper('xmlconnect')->__('Activate paypal checkout'),
@@ -73,8 +73,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
 
         $merchantlabelField = $fieldset2->addField('conf/special/merchantLabel', 'text', array(
             'name'      => 'conf[special][merchantLabel]',
-            'label'     => $this->__('Merchant Label'),
-            'title'     => $this->__('Merchant Label'),
+            'label'     => Mage::helper('xmlconnect')->__('Merchant Label'),
+            'title'     => Mage::helper('xmlconnect')->__('Merchant Label'),
             'required'  => true,
             'value'     => (isset($data['conf[special][merchantLabel]']) ? $data['conf[special][merchantLabel]'] : '')
         ));
@@ -99,7 +99,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
      */
     public function getTabLabel()
     {
-        return $this->__('Payment Methods');
+        return Mage::helper('xmlconnect')->__('Payment Methods');
     }
 
     /**
@@ -109,7 +109,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
      */
     public function getTabTitle()
     {
-        return $this->__('Payment Methods');
+        return Mage::helper('xmlconnect')->__('Payment Methods');
     }
 
     /**

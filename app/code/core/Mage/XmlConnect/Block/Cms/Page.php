@@ -35,26 +35,12 @@
 class Mage_XmlConnect_Block_Cms_Page extends Mage_Cms_Block_Page
 {
     /**
-     * Render cms page output xml
+     * Page Id getter
      *
-     * @return string
+     * @return int
      */
-    protected function _toHtml()
+    public function getPageId()
     {
-        $pageXmlObj = new Mage_XmlConnect_Model_Simplexml_Element('<page></page>');
-        $html = parent::_toHtml();
-        return $html;
-    }
-
-    /**
-     * Set Page Id
-     *
-     * @return Mage_XmlConnect_Block_Cms_Page
-     */
-    protected function _prepareLayout()
-    {
-        $identifier = $this->getRequest()->getParam('id');
-        $this->setPageId($identifier);
-        return parent::_prepareLayout();
+        return $this->getRequest()->getParam('id');
     }
 }

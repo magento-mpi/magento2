@@ -66,14 +66,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
         $dummy = array(array( 'value' => '', 'label' => '' ));
         $this->_pages = array_merge($dummy, $pages);
 
-        $fieldset = $form->addFieldset('cmsPages', array('legend' => $this->__('Pages')));
+        $fieldset = $form->addFieldset('cmsPages', array('legend' => Mage::helper('xmlconnect')->__('Pages')));
         $this->_addElementTypes($fieldset);
 
         $fieldset->addField('page_row_add', 'addrow', array(
             'onclick' => 'this.parentNode.parentNode.parentNode.innerHTML+=cms_new_row_html()',
             'options' => $this->_pages,
             'class' => ' scalable save ',
-            'label' => $this->__('Label'),
+            'label' => Mage::helper('xmlconnect')->__('Label'),
             'before_element_html' => Mage::helper('xmlconnect')->__('Get content from CMS page').'</td><td class="label">',
         ));
 
@@ -84,7 +84,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
         }
 
         $data = $model->getFormData();
-        $data['page_row_add'] = $this->__('Add page');
+        $data['page_row_add'] = Mage::helper('xmlconnect')->__('Add page');
         $form->setValues($data);
         return parent::_prepareForm();
     }
@@ -96,7 +96,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
      */
     public function getTabLabel()
     {
-        return $this->__('Content');
+        return Mage::helper('xmlconnect')->__('Content');
     }
 
     /**
@@ -106,7 +106,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
      */
     public function getTabTitle()
     {
-        return $this->__('Content');
+        return Mage::helper('xmlconnect')->__('Content');
     }
 
     /**

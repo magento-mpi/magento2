@@ -32,7 +32,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
 
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('app_');
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => $this->__('Application Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => Mage::helper('xmlconnect')->__('Application Information')));
 
         if ($model->getId()) {
             $fieldset->addField('application_id', 'hidden', array(
@@ -42,15 +42,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
 
         $fieldset->addField('name', 'text', array(
             'name'      => 'name',
-            'label'     => $this->__('Application Name'),
-            'title'     => $this->__('Application Name'),
+            'label'     => Mage::helper('xmlconnect')->__('Application Name'),
+            'title'     => Mage::helper('xmlconnect')->__('Application Name'),
             'required'  => true,
         ));
 
         if ($model->getId()) {
             $field = $fieldset->addField('code', 'label', array(
-                'label'     => $this->__('Application Code'),
-                'title'     => $this->__('Application Code'),
+                'label'     => Mage::helper('xmlconnect')->__('Application Code'),
+                'title'     => Mage::helper('xmlconnect')->__('Application Code'),
             ));
         }
 
@@ -60,8 +60,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
         if (!Mage::app()->isSingleStoreMode()) {
             $storeElement = $fieldset->addField('store_id', 'select', array(
                 'name'      => 'store_id',
-                'label'     => $this->__('Store View'),
-                'title'     => $this->__('Store View'),
+                'label'     => Mage::helper('xmlconnect')->__('Store View'),
+                'title'     => Mage::helper('xmlconnect')->__('Store View'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(true, false),
             ));
@@ -81,8 +81,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
 
         $fieldset->addField('type', 'select', array(
                 'name'      => 'type',
-                'label'     => $this->__('Device Type'),
-                'title'     => $this->__('Device Type'),
+                'label'     => Mage::helper('xmlconnect')->__('Device Type'),
+                'title'     => Mage::helper('xmlconnect')->__('Device Type'),
                 'disabled'  => $model->getId() ? true : false,
                 'values'    => Mage::helper('xmlconnect')->getDeviceValuesForForm(),
         ));
@@ -108,7 +108,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
      */
     public function getTabLabel()
     {
-        return $this->__('General');
+        return Mage::helper('xmlconnect')->__('General');
     }
 
     /**
@@ -118,7 +118,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
      */
     public function getTabTitle()
     {
-        return $this->__('General');
+        return Mage::helper('xmlconnect')->__('General');
     }
 
     /**

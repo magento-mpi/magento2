@@ -36,9 +36,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Advanced 
 
 //        $fieldset = $form->addFieldset('fieldAdvanced', array());
 //        $this->_addElementTypes($fieldset);
-//        $this->addColor($fieldset, 'conf[native][body][backgroundColor]', $this->__('Background Color'));
-//        $this->addColor($fieldset, 'conf[native][body][scrollBackgroundColor]', $this->__('Scroll Background Color'));
-//        $this->addColor($fieldset, 'conf[native][itemActions][relatedProductBackgroundColor]', $this->__('Related Product Background Color'));
+//        $this->addColor($fieldset, 'conf[native][body][backgroundColor]', Mage::helper('xmlconnect')->__('Background Color'));
+//        $this->addColor($fieldset, 'conf[native][body][scrollBackgroundColor]', Mage::helper('xmlconnect')->__('Scroll Background Color'));
+//        $this->addColor($fieldset, 'conf[native][itemActions][relatedProductBackgroundColor]', Mage::helper('xmlconnect')->__('Related Product Background Color'));
 
         $model = Mage::registry('current_app');
         $form->setValues($model->getFormData());

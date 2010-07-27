@@ -72,7 +72,6 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
         if (!$method) {
             return $paymentItemXmlObj;
         }
-        $helper = Mage::helper('xmlconnect');
         $formXmlObj = $paymentItemXmlObj->addChild('form');
         $formXmlObj->addAttribute('name', 'payment_form_' . $method->getCode());
         $formXmlObj->addAttribute('method', 'post');
@@ -123,7 +122,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
         $verification = '';
         if ($this->hasVerification()) {
             $verification =
-            '<field name="payment[cc_cid]" type="text" label="' . $helper->__('Card Verification Number') . '" required="true">
+            '<field name="payment[cc_cid]" type="text" label="' . $this->helper('xmlconnect')->__('Card Verification Number') . '" required="true">
                 <validators>
                     <validator relation="payment[cc_type]" type="credit_card_svn" />
                 </validators>
@@ -132,27 +131,27 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Ccsave extends Mage_Payment_
 
         $xml = <<<EOT
     <fieldset>
-        <field name="payment[cc_owner]" type="text" label="{$helper->__('Name on Card')}" value="$owner" required="true">
+        <field name="payment[cc_owner]" type="text" label="{$this->helper('xmlconnect')->__('Name on Card')}" value="$owner" required="true">
             <validators>
-                <validator type="regexp" message="{$helper->__('Letters only')}">^[ a-zA-Z]+$</validator>
+                <validator type="regexp" message="{$this->helper('xmlconnect')->__('Letters only')}">^[ a-zA-Z]+$</validator>
             </validators>
         </field>
-        <field name="payment[cc_type]" type="select" label="{$helper->__('Credit Card Type')}" required="true">
+        <field name="payment[cc_type]" type="select" label="{$this->helper('xmlconnect')->__('Credit Card Type')}" required="true">
             <values>
                 $ccTypes
             </values>
         </field>
-        <field name="payment[cc_number]" type="text" label="{$helper->__('Credit Card Number')}" required="true">
+        <field name="payment[cc_number]" type="text" label="{$this->helper('xmlconnect')->__('Credit Card Number')}" required="true">
             <validators>
-                <validator relation="payment[cc_type]" type="credit_card" message="{$helper->__('Credit card number does not match credit card type')}"/>
+                <validator relation="payment[cc_type]" type="credit_card" message="{$this->helper('xmlconnect')->__('Credit card number does not match credit card type')}"/>
             </validators>
         </field>
-        <field name="payment[cc_exp_month]" type="select" label="{$helper->__('Expiration Date')}" required="true">
+        <field name="payment[cc_exp_month]" type="select" label="{$this->helper('xmlconnect')->__('Expiration Date')}" required="true">
             <values>
                 $ccMonthes
             </values>
         </field>
-        <field name="payment[cc_exp_year]" type="select" label="{$helper->__('Year')}" required="true">
+        <field name="payment[cc_exp_year]" type="select" label="{$this->helper('xmlconnect')->__('Year')}" required="true">
             <values>
                 $ccYears
             </values>

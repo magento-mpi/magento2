@@ -31,30 +31,9 @@ class Mage_XmlConnect_Model_Mysql4_Application extends Mage_Core_Model_Mysql4_Ab
     }
 
     /**
-     * Load application by code
-     *
-     * @param Mage_XmlConnect_Model_Application $application
-     * @param string $code
-     * @return Mage_XmlConnect_Model_Mysql4_Application
-     */
-    public function loadByCode(Mage_XmlConnect_Model_Application $application, $code)
-    {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), array($this->getIdFieldName()))
-            ->where('code=:application_code');
-
-        if ($id = $this->_getReadAdapter()->fetchOne($select, array('application_code' => $code))) {
-            $this->load($application, $id);
-        } else {
-            $application->setData(array());
-        }
-        return $this;
-    }
-
-    /** Update Application Status field, insert data to history table
+     * Update Application Status field, insert data to history table
      *
      * @param int $applicationId
-     *
      * @return void
      */
     public function updateApplicationStatus($applicationId, $status)
@@ -68,7 +47,7 @@ class Mage_XmlConnect_Model_Mysql4_Application extends Mage_Core_Model_Mysql4_Ab
 
     /**
      * Processing object before save data
-     * Updates app_code as Store + Device
+     * Update app_code as Store + Device
      *
      * @return Mage_Core_Model_Abstract
      */
@@ -82,7 +61,7 @@ class Mage_XmlConnect_Model_Mysql4_Application extends Mage_Core_Model_Mysql4_Ab
 
     /**
      * Processing object after save data
-     * Updates app_code as Store + Device + 123 (increment).
+     * Update app_code as Store + Device + 123 (increment).
      *
      * @return Mage_Core_Model_Abstract
      */
@@ -101,7 +80,7 @@ class Mage_XmlConnect_Model_Mysql4_Application extends Mage_Core_Model_Mysql4_Ab
     }
 
    /**
-    * Returns array of existing stores and type unique pairs
+    * Collect existing stores and type unique pairs
     *
     * @return array
     */
@@ -112,26 +91,4 @@ class Mage_XmlConnect_Model_Mysql4_Application extends Mage_Core_Model_Mysql4_Ab
             ->order(array('store_id', 'type'));
         return $this->_getReadAdapter()->fetchAll($select, array('store_id', 'type'));
     }
-
-    /**
-     * Returns Application id by applicationId and storeId
-     *
-     * @param Mage_XmlConnect_Model_Application $application
-     * @param int   $applicationId
-     * @param int   $storeId
-     *
-     * @return string
-     */
-    public function getIdByStoreId(Mage_XmlConnect_Model_Application $application, $applicationId, $storeId)
-    {
-        $select = $this->_getReadAdapter()->select()
-            ->from(array('xa1' => $this->getMainTable()),
-                array('id' => 'xa2.'.$this->getIdFieldName()), array() )
-            ->join(array('xa2' => $this->getMainTable()))
-            ->where('xa1.type=xa2.type')
-            ->where('xa1.'.$this->getIdFieldName().'=?', (int) $applicationId)
-            ->where('xa2.store_id=?', (int) $storeId);
-        return $this->_getReadAdapter()->fetchOne($select);
-    }
-
 }

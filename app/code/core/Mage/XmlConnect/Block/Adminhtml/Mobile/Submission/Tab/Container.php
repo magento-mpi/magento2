@@ -40,7 +40,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container extends Ma
      */
     public function getTabLabel()
     {
-        return $this->__('Submission');
+        return Mage::helper('xmlconnect')->__('Submission');
     }
 
     /**
@@ -50,7 +50,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container extends Ma
      */
     public function getTabTitle()
     {
-        return $this->__('Submission');
+        return Mage::helper('xmlconnect')->__('Submission');
     }
 
     /**

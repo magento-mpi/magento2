@@ -237,7 +237,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             if (isset($this->_data['conf']['extra'])) {
                 $extra = $this->_data['conf']['extra'];
                 if (isset($extra['tabs'])) {
-                    $tabs = new Mage_XmlConnect_Model_Tabs($extra['tabs']);
+                    $tabs = Mage::getModel('xmlconnect/tabs', $extra['tabs']);
                     $result['tabBar']['tabs'] = $tabs;
                 }
                 if (isset($extra['fontColors'])) {
@@ -293,20 +293,10 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function getEnabledTabsArray()
     {
-        $tabs = array();
-        $tabsObject = null;
-        if (isset($this->_data['conf'])) {
-            if (isset($this->_data['conf']['extra'])) {
-                $extra = $this->_data['conf']['extra'];
-                if (isset($extra['tabs'])) {
-                    $tabsObject = new Mage_XmlConnect_Model_Tabs($extra['tabs']);
-                }
-            }
+        if ($this->getData('conf/extra/tabs')) {
+            return Mage::getModel('xmlconnect/tabs', $this->getData('conf/extra/tabs'))->getRenderTabs();
         }
-        if ($tabsObject instanceof Mage_XmlConnect_Model_Tabs) {
-            $tabs = $tabsObject->getRenderTabs();
-        }
-        return $tabs;
+        return array();
     }
 
     /**
@@ -374,119 +364,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Process uploaded file
-     * setup filenames to the configuration
-     *
-     * @param string $field
-     */
-    public function handleUpload($field)
-    {
-        $upload_dir = Mage::getBaseDir('media') . DS . 'xmlconnect';
-
-        $this->_forcedConvertPng($field);
-
-        $uploader = new Varien_File_Uploader($field);
-        $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
-        $uploader->setAllowRenameFiles(true);
-        $uploader->save($upload_dir);
-
-        /**
-         * Ugly hack to avoid $_FILES[..]['name'][..][..]
-         *
-         * e.g., variable name in $_POST: 'conf/native/navigationBar/icon' ==>
-         * file name stored in $this->_data['conf']['native']['navigationBar']['icon']
-         * here icon - filename like 'logo_23.gif'
-         */
-        $nameParts = explode('/', $field);
-        array_shift($nameParts);
-        $target =& $this->_data['conf'];
-        foreach($nameParts as $next) {
-            if (!isset($target[$next])) {
-                $target[$next] = array();
-            }
-            $target =& $target[$next];
-        }
-        $target = $uploader->getUploadedFileName();
-
-        $this->_handleResize($nameParts, $upload_dir . DS . $uploader->getUploadedFileName());
-    }
-
-    /**
-     * Convert uploaded file to PNG
-     *
-     * @param string $field
-     */
-    protected function _forcedConvertPng($field)
-    {
-        $file =& $_FILES[$field];
-
-        $file['name'] = preg_replace('/\.(gif|jp[e]g)$/i', '.png', $file['name']);
-
-        list($x, $x, $fileType) = getimagesize($file['tmp_name']);
-        if ($fileType != IMAGETYPE_PNG ) {
-            switch( $fileType ) {
-                case IMAGETYPE_GIF:
-                    $img = imagecreatefromgif($file['tmp_name']);
-                    break;
-                case IMAGETYPE_JPEG:
-                    $img = imagecreatefromjpeg($file['tmp_name']);
-                    break;
-                default:
-                    return;
-            }
-            imagepng($img, $file['tmp_name']);
-            imagedestroy($img);
-        }
-    }
-
-    /**
-     * Resize uploaded file
-     *
-     * @param array $nameParts
-     * @param string $file
-     */
-    protected function _handleResize($nameParts, $file)
-    {
-        $conf = Mage::getStoreConfig('imageLimits/'.$this->getType());
-        while (count($nameParts)) {
-            $next = array_shift($nameParts);
-            if (isset($conf[$next])) {
-                $conf = $conf[$next];
-            }
-            /**
-             * No config data - nothing to resize
-             */
-            else {
-                return;
-            }
-        }
-
-        $image = new Varien_Image($file);
-        $width = $image->getOriginalWidth();
-        $height = $image->getOriginalHeight();
-
-        if (isset($conf['widthMax']) && ($conf['widthMax'] < $width)) {
-            $width = $conf['widthMax'];
-        }
-        elseif (isset($conf['width'])) {
-            $width = $conf['width'];
-        }
-
-        if (isset($conf['heightMax']) && ($conf['heightMax'] < $height)) {
-            $height = $conf['heightMax'];
-        }
-        elseif (isset($conf['height'])) {
-            $height = $conf['height'];
-        }
-
-        if (($width != $image->getOriginalWidth()) ||
-            ($height != $image->getOriginalHeight()) ) {
-            $image->resize($width, $height);
-            $image->save(null, basename($file));
-        }
-    }
-
-    /**
      * Load application by code
      *
      * @param   string $code
@@ -494,7 +371,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      */
     public function loadByCode($code)
     {
-        $this->_getResource()->loadByCode($this, $code);
+        $this->_getResource()->load($this, $code, 'code');
         return $this;
     }
 
@@ -579,18 +456,17 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         if ($validateConf !== true) {
             $errors = $validateConf;
         }
-        $helper = Mage::helper('xmlconnect');
         if (!Zend_Validate::is(isset($params['title']) ? $params['title'] : null, 'NotEmpty')) {
-            $errors[] = $helper->__('Please enter the Title.');
+            $errors[] = Mage::helper('xmlconnect')->__('Please enter the Title.');
         }
 
         if (!Zend_Validate::is(isset($params['copyright']) ? $params['copyright'] : null, 'NotEmpty')) {
-            $errors[] = $helper->__('Please enter the Copyright.');
+            $errors[] = Mage::helper('xmlconnect')->__('Please enter the Copyright.');
         }
 
         if (empty($params['price_free'])) {
             if (!Zend_Validate::is(isset($params['price']) ? $params['price'] : null, 'NotEmpty')) {
-                $errors[] = $helper->__('Please enter the Price.');
+                $errors[] = Mage::helper('xmlconnect')->__('Please enter the Price.');
             }
         }
 
@@ -598,11 +474,11 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             if (!Zend_Validate::is(
                     isset($params['resubmission_activation_key']) ? $params['resubmission_activation_key'] : null,
                     'NotEmpty')) {
-                $errors[] = $helper->__('Please enter the Resubmission Key.');
+                $errors[] = Mage::helper('xmlconnect')->__('Please enter the Resubmission Key.');
             }
         } else {
             if (!Zend_Validate::is(isset($params['key']) ? $params['key'] : null, 'NotEmpty')) {
-                    $errors[] = $helper->__('Please enter the Activation Key.');
+                    $errors[] = Mage::helper('xmlconnect')->__('Please enter the Activation Key.');
             }
         }
 
@@ -612,10 +488,14 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         return $errors;
     }
 
+    /**
+     * Check config for valid values
+     *
+     * @return bool|array
+     */
     protected function _validateConf()
     {
         $errors = array();
-        $helper = Mage::helper('xmlconnect');
         $conf = $this->getConf();
         $native = isset($conf['native']) && is_array($conf['native']) ? $conf['native'] : false;
 
@@ -623,21 +503,21 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             || (!isset($native['navigationBar']) || !is_array($native['navigationBar'])
             || !isset($native['navigationBar']['icon'])
             || !Zend_Validate::is($native['navigationBar']['icon'], 'NotEmpty'))) {
-            $errors[] = $helper->__('Please enter "Logo in header" on Desing Tab, and save Application before submit.');
+            $errors[] = Mage::helper('xmlconnect')->__('Please enter "Logo in header" on Desing Tab, and save Application before submit.');
         }
 
         if ( ($native === false)
             || (!isset($native['body']) || !is_array($native['body'])
             || !isset($native['body']['bannerImage'])
             || !Zend_Validate::is($native['body']['bannerImage'], 'NotEmpty'))) {
-            $errors[] = $helper->__('Please enter "Banner on Home Screen" on Desing Tab, and save Application before submit.');
+            $errors[] = Mage::helper('xmlconnect')->__('Please enter "Banner on Home Screen" on Desing Tab, and save Application before submit.');
         }
 
         if (($native === false)
             || (!isset($native['body']) || !is_array($native['body'])
             || !isset($native['body']['backgroundImage'])
             || !Zend_Validate::is($native['body']['backgroundImage'], 'NotEmpty'))) {
-            $errors[] = $helper->__('Please enter "Application Background" on Desing Tab, and save Application before submit.');
+            $errors[] = Mage::helper('xmlconnect')->__('Please enter "Application Background" on Desing Tab, and save Application before submit.');
         }
 
         if (empty($errors)) {
@@ -705,8 +585,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
      * Send HTTP POST request to magentocommerce.com
      *
      * @param array $params
-     *
-     * @throws Exception
      */
     public function processPostRequest()
     {
@@ -778,19 +656,5 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $key = $this->_data['conf']['submit_text']['key'];
         }
         return $key;
-    }
-
-
-    /**
-     * Returns ApplicationId by applicationId and storeId for save storeId as current Application
-     *
-     * @param int   $applicationId
-     * @param int   $storeId
-     *
-     * @return string
-     */
-    public function getIdByStoreId($applicationId, $storeId)
-    {
-        return $this->_getResource()->getIdByStoreId($this, $applicationId, $storeId);
     }
 }

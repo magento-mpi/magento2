@@ -36,10 +36,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Fonts ext
 
 //        $fieldset = $form->addFieldset('fieldFonts', array());
 //        $this->_addElementTypes($fieldset);
-//        $this->addColor($fieldset, 'conf[extra][fontColors][header]', $this->__('Header Font Color'));
-//        $this->addColor($fieldset, 'conf[extra][fontColors][primary]', $this->__('Primary Font Color'));
-//        $this->addColor($fieldset, 'conf[extra][fontColors][secondary]', $this->__('Secondary Font Color'));
-//        $this->addColor($fieldset, 'conf[extra][fontColors][price]', $this->__('Price Font Color'));
+//        $this->addColor($fieldset, 'conf[extra][fontColors][header]', Mage::helper('xmlconnect')->__('Header Font Color'));
+//        $this->addColor($fieldset, 'conf[extra][fontColors][primary]', Mage::helper('xmlconnect')->__('Primary Font Color'));
+//        $this->addColor($fieldset, 'conf[extra][fontColors][secondary]', Mage::helper('xmlconnect')->__('Secondary Font Color'));
+//        $this->addColor($fieldset, 'conf[extra][fontColors][price]', Mage::helper('xmlconnect')->__('Price Font Color'));
 
         $model = Mage::registry('current_app');
         $form->setValues($model->getFormData());

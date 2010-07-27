@@ -44,7 +44,7 @@
                     <show_in_website>0</show_in_website>
                     <show_in_store>0</show_in_store>
                     <fields>
-                        <magentocommerce_url translate="label">
+                        <magentocommerce_url translate="label comment">
                             <label>Magento Commerce Server URL</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>1</sort_order>
@@ -53,7 +53,7 @@
                             <show_in_store>0</show_in_store>
                             <comment>"Make sure that base URL ends with '/' (slash), e.g. http://www.magentocommerce.com/store/"</comment>
                         </magentocommerce_url>
-                        <get_activation_key_url translate="label">
+                        <get_activation_key_url translate="label comment">
                             <label>Get Activation Key URL</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>1</sort_order>

@@ -216,7 +216,7 @@ class Mage_XmlConnect_Helper_Catalog_Category_Image extends Mage_Catalog_Helper_
      */
     public function validateUploadFile($filePath) {
         if (!getimagesize($filePath)) {
-            Mage::throwException($this->__('Disallowed file type.'));
+            Mage::throwException(Mage::helper('xmlconnect')->__('Disallowed file type.'));
         }
         return true;
     }

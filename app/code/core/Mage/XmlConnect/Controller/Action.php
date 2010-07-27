@@ -49,7 +49,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
         $cookieName = Mage_XmlConnect_Model_Application::APP_CODE_COOKIE_NAME;
         $appCode = isset($_COOKIE[$cookieName]) ? (string)$_COOKIE[$cookieName] : '';
         if (!$appCode) {
-            $this->_message($this->__('Specified invalid application code'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Specified invalid application code'), self::MESSAGE_STATUS_ERROR);
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
@@ -59,7 +59,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
             Mage::register('current_app', $appModel);
         }
         else {
-            $this->_message($this->__('Specified invalid application code'), self::MESSAGE_STATUS_ERROR);
+            $this->_message(Mage::helper('xmlconnect')->__('Specified invalid application code'), self::MESSAGE_STATUS_ERROR);
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
@@ -74,7 +74,7 @@ abstract class Mage_XmlConnect_Controller_Action extends Mage_Core_Controller_Fr
         $body = $this->getResponse()->getBody();
         if (empty($body)) {
             $this->_message(
-                $this->__('...'),
+                Mage::helper('xmlconnect')->__('...'),
                 self::MESSAGE_STATUS_ERROR
             );
         }

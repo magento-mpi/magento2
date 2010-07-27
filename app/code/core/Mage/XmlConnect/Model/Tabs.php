@@ -25,15 +25,27 @@
  */
 class Mage_XmlConnect_Model_Tabs
 {
-    protected $_enabledTabs;
-    protected $_disabledTabs;
+    /**
+     * Store enabled application design tabs
+     *
+     * @var array
+     */
+    protected $_enabledTabs = array();
 
     /**
-     * Constructor
+     * Store disabled application design tabs
+     *
+     * @var array
+     */
+    protected $_disabledTabs = array();
+
+    /**
+     * Set enabled and disabled application tabs
      */
     public function __construct($data)
     {
-        $this->_setDefaultValues();
+        $this->_enabledTabs = Mage::helper('xmlconnect')->getDefaultApplicationDesignTabs();
+
         if (is_string($data)) {
             $data = json_decode($data);
             if (is_object($data)) {
@@ -44,52 +56,7 @@ class Mage_XmlConnect_Model_Tabs
     }
 
     /**
-     * Set default values
-     */
-    protected function _setDefaultValues()
-    {
-        $this->_enabledTabs = array(
-            array(
-                'label' => Mage::helper('xmlconnect')->__('Home'),
-                'image' => 'tab_home.png',
-                'action' => 'Home',
-            ),
-            array(
-                'label' => Mage::helper('xmlconnect')->__('Shop'),
-                'image' => 'tab_shop.png',
-                'action' => 'Shop',
-            ),
-            array(
-                'label' => Mage::helper('xmlconnect')->__('Search'),
-                'image' => 'tab_search.png',
-                'action' => 'Search',
-            ),
-            array(
-                'label' => Mage::helper('xmlconnect')->__('Cart'),
-                'image' => 'tab_cart.png',
-                'action' => 'Cart',
-            ),
-            array(
-                'label' => Mage::helper('xmlconnect')->__('More'),
-                'image' => 'tab_more.png',
-                'action' => 'More',
-            ),
-            array(
-                'label' => Mage::helper('xmlconnect')->__('Account'),
-                'image' => 'tab_account.png',
-                'action' => 'Account',
-            ),
-            array(
-                'label' => Mage::helper('xmlconnect')->__('About Us'),
-                'image' => 'tab_page.png',
-                'action' => 'AboutUs',
-            ),
-        );
-        $this->_disabledTabs = array();
-    }
-
-    /**
-     *
+     * Getter for enabled tabs
      */
     public function getEnabledTabs()
     {
@@ -97,7 +64,7 @@ class Mage_XmlConnect_Model_Tabs
     }
 
     /**
-     *
+     * Getter for disabled tabs
      */
     public function getDisabledTabs()
     {
@@ -105,7 +72,7 @@ class Mage_XmlConnect_Model_Tabs
     }
 
     /**
-     *
+     * Collect tabs with images
      */
     public function getRenderTabs()
     {

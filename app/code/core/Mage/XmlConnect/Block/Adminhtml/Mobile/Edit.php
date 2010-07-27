@@ -37,7 +37,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
         parent::__construct();
         $model = Mage::registry('current_app');
 
-        $this->_updateButton('save', 'label', $this->__('Save'));
+        $this->_updateButton('save', 'label', Mage::helper('xmlconnect')->__('Save'));
 
         $this->_addButton('saveandcontinue', array(
             'label'     => Mage::helper('xmlconnect')->__('Save and Continue Edit'),
@@ -81,9 +81,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
     {
         $app = Mage::registry('current_app');
         if ($app && $app->getId()) {
-            return $this->__('Edit App "%s"', $this->htmlEscape($app->getName()));
+            return Mage::helper('xmlconnect')->__('Edit App "%s"', $this->htmlEscape($app->getName()));
         } else {
-            return $this->__('New Application');
+            return Mage::helper('xmlconnect')->__('New Application');
         }
     }
 }

@@ -66,12 +66,12 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
      */
     public function __construct($params = array())
     {
-        $this->_helper = Mage::helper('xmlconnect');
         $this->_checkoutSession = Mage::getSingleton('checkout/session');
         if (isset($params['quote']) && $params['quote'] instanceof Mage_Sales_Model_Quote) {
             $this->_quote = $params['quote'];
-        } else {
-            throw new Exception(Mage::helper('xmlconnect')->__('Quote instance is required.'));
+        }
+        else {
+            Mage::throwException(Mage::helper('xmlconnect')->__('Quote instance is required.'));
         }
     }
 
@@ -112,7 +112,7 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
     public function saveShipping($data)
     {
         if (empty($data)) {
-            return array('error' => 1, 'message' => $this->_helper->__('Invalid data.'));
+            return array('error' => 1, 'message' => Mage::helper('xmlconnect')->__('Invalid data.'));
         }
 
         $address = $this->_quote->getBillingAddress();
@@ -159,11 +159,11 @@ class Mage_XmlConnect_Model_Paypal_Mep_Checkout
     public function saveShippingMethod($shippingMethod)
     {
         if (empty($shippingMethod)) {
-            return array('error' => 1, 'message' => $this->_helper->__('Invalid shipping method.'));
+            return array('error' => 1, 'message' => Mage::helper('xmlconnect')->__('Invalid shipping method.'));
         }
         $rate = $this->_quote->getShippingAddress()->getShippingRateByCode($shippingMethod);
         if (!$rate) {
-            return array('error' => 1, 'message' => $this->_helper->__('Invalid shipping method.'));
+            return array('error' => 1, 'message' => Mage::helper('xmlconnect')->__('Invalid shipping method.'));
         }
         if (!$this->_quote->getIsVirtual() && $shippingAddress = $this->_quote->getShippingAddress()) {
             if ($shippingMethod != $shippingAddress->getShippingMethod()) {

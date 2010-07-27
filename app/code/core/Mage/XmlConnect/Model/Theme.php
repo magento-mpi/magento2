@@ -23,6 +23,7 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 class Mage_XmlConnect_Model_Theme
 {
     protected $_file;
@@ -35,12 +36,12 @@ class Mage_XmlConnect_Model_Theme
         $text = file_get_contents($file);
         $this->_xml = simplexml_load_string($text);
         if (empty($this->_xml)) {
-            throw new Exception('Invalid XML');
+            Mage::throwException(Mage::helper('xmlconnect')->__('Invalid XML'));
         }
         $this->_conf = $this->_xmlToArray($this->_xml->configuration);
         $this->_conf = $this->_conf['configuration'];
         if (!is_array($this->_conf)) {
-            throw new Exception('Wrong theme format');
+            Mage::throwException(Mage::helper('xmlconnect')->__('Wrong theme format'));
         }
     }
 
@@ -105,11 +106,11 @@ class Mage_XmlConnect_Model_Theme
         return $result;
     }
 
-    private function _validateFormInput($data, $xml=NULL) {
-        $root = FALSE;
+    protected function _validateFormInput($data, $xml=NULL) {
+        $root = false;
         $result = array();
         if (is_null($xml)) {
-            $root = TRUE;
+            $root = true;
             $data = array('configuration' => $data);
             $xml = $this->_xml->configuration;
         }
@@ -129,7 +130,7 @@ class Mage_XmlConnect_Model_Theme
         return $result;
     }
 
-    private function _buildRecursive($parent, $data)
+    protected function _buildRecursive($parent, $data)
     {
         foreach ($data as $key=>$value) {
             if (is_array($value)) {
@@ -148,7 +149,8 @@ class Mage_XmlConnect_Model_Theme
         clearstatcache();
         if (is_writeable($this->_file)) {
             file_put_contents($this->_file, $xml->asXML());
-        } else {
+        }
+        else {
             Mage::throwException(Mage::helper('xmlconnect')->__('Can\'t write to file "%s".', $this->_file));
         }
     }

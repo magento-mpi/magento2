@@ -34,10 +34,9 @@ class Mage_XmlConnect_Model_History extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Returns array of existing images
+     * Get array of existing images
      *
-     * @param int $id   -  application instance Id
-     *
+     * @param int $id application instance Id
      * @return array
      */
     public function getLastParams($id)

@@ -33,7 +33,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Tabs extends Mage_C
 
     protected function _beforeToHtml()
     {
-        $this->setTabs(new Mage_XmlConnect_Model_Tabs($this->getValue()));
+        //$this->getLayout()->createBlock('')
+        $tabs = Mage::getModel('xmlconnect/tabs', $this->getValue());
+        $this->setTabs($tabs);
         return parent::_beforeToHtml();
     }
 

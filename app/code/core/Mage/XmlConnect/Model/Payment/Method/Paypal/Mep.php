@@ -80,29 +80,4 @@ class Mage_XmlConnect_Model_Payment_Method_Paypal_Mep extends Mage_Paypal_Model_
         $payment->setTransactionId($transactionId);
         return $this;
     }
-
-    /**
-     * Retrieve information from payment configuration
-     *
-     * @param   string $field
-     * @return  mixed
-     */
-    public function getConfigData($field, $storeId = null)
-    {
-        if (null === $storeId) {
-            $storeId = $this->getStore();
-        }
-        switch ($field)
-        {
-            case 'allowspecific':
-            case 'specificcountry':
-            case 'line_items_enabled':
-            case 'business_account':
-                $path = 'paypal/general/' . $field;
-            default:
-                $path = 'payment/'.$this->getCode().'/'.$field;
-        }
-
-        return Mage::getStoreConfig($path, $storeId);
-    }
 }
