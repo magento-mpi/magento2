@@ -37,7 +37,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
     public function __construct()
     {
         parent::__construct();
-        $this->setId('historyGrid');
+        $this->setId('history_grid');
         $this->setDefaultSort('created_at');
         $this->setDefaultDir('ASC');
     }

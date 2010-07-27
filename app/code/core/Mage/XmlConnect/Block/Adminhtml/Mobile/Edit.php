@@ -39,7 +39,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
 
         $this->_updateButton('save', 'label', Mage::helper('xmlconnect')->__('Save'));
 
-        $this->_addButton('saveandcontinue', array(
+        $this->_addButton('save_and_continue', array(
             'label'     => Mage::helper('xmlconnect')->__('Save and Continue Edit'),
             'onclick'   => 'saveAndContinueEdit()',
             'class'     => 'save',

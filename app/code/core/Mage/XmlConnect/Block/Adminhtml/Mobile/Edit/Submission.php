@@ -30,8 +30,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Submission extends Mage_Adminh
         parent::__construct();
         $this->setId('mobile_app_submit');
         $this->setDestElementId('content');
-//        $this->setTitle(Mage::helper('xmlconnect')->__('Manage Mobile App'));
-        //$this->setTemplate('xmlconnect/tabs_left.phtml'); // FIXME
     }
 
 }

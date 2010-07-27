@@ -33,19 +33,6 @@
  */
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Bool extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-    /**
-     * Image TRUE File name
-     *
-     * @var string
-     */
-    const MAGE_XMLCONNECT_GRID_TRUE = 'gel_green.png';
-
-    /**
-     * Image FALSE File name
-     *
-     * @var string
-     */
-    const MAGE_XMLCONNECT_GRID_FALSE = 'gel_red.png';
 
     /**
      * Renders grid column
@@ -59,11 +46,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Bool extends Mage_Adm
         $status = (int) $row->getData($this->getColumn()->getIndex());
         $options = Mage::helper('xmlconnect')->getStatusOptions();
         if ($status == Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS) {
-             $result = '<img src="' . Mage::getDesign()->getSkinUrl('images/xmlconnect/'
-            . self::MAGE_XMLCONNECT_GRID_TRUE) . '" >&nbsp;' . (isset($options[$status]) ? $options[$status] : '');
+             $result = '<img src="' . Mage::getDesign()->getSkinUrl('images/xmlconnect/' . 'gel_green.png')
+            . '" >&nbsp;' . (isset($options[$status]) ? $options[$status] : '');
         } else if ($status == Mage_XmlConnect_Model_Application::APP_STATUS_INACTIVE) {
-            $result = '<img src="' . Mage::getDesign()->getSkinUrl('images/xmlconnect/'
-            . self::MAGE_XMLCONNECT_GRID_FALSE) . '" >&nbsp;' . (isset($options[$status]) ? $options[$status] : '');
+            $result = '<img src="' . Mage::getDesign()->getSkinUrl('images/xmlconnect/' . 'gel_red.png')
+            . '" >&nbsp;' . (isset($options[$status]) ? $options[$status] : '');
         }
         return $result;
     }

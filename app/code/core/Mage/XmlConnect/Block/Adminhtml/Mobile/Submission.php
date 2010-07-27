@@ -49,7 +49,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission extends Mage_Adminhtml_B
             $label = Mage::helper('xmlconnect')->__('Submit Application');
         }
 
-        $this->_addButton('submissionPost', array(
+        $this->_addButton('submission_post', array(
             'class' => 'save',
             'label' => $label,
             'onclick' => "submitApplication()",

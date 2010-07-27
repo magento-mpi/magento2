@@ -85,13 +85,13 @@ abstract class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_A
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'image' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_image'),
-            'font'  => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_font'),
-            'color' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_color'),
-            'tabs'  => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_tabs'),
-            'theme' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_theme'),
-            'page'  => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_page'),
-            'addrow'=> Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_helper_addrow'),
+            'image' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_image'),
+            'font'  => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_font'),
+            'color' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_color'),
+            'tabs'  => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_tabs'),
+            'theme' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_theme'),
+            'page'  => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_page'),
+            'addrow'=> Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_addrow'),
         );
     }
 }

@@ -23,7 +23,7 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage_Core_Block_Template
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage_Adminhtml_Block_Template
 {
     protected function getAllThemes()
     {
@@ -51,20 +51,20 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
         $data = $model->getFormData();
 
         $this->setColorFieldset (array (
-            array ( 'id' => 'fieldColors', 'label' =>   Mage::helper('xmlconnect')->__('Color Themes'), 'fields' => array (
+            array ( 'id' => 'field_colors', 'label' =>   Mage::helper('xmlconnect')->__('Color Themes'), 'fields' => array (
                 $this->addColorBox('conf[native][navigationBar][tintColor]', Mage::helper('xmlconnect')->__('Header Background Color'), $data),
                 $this->addColorBox('conf[native][body][primaryColor]', Mage::helper('xmlconnect')->__('Primary Color'), $data),
                 $this->addColorBox('conf[native][body][secondaryColor]', Mage::helper('xmlconnect')->__('Secondary Color'), $data),
                 $this->addColorBox('conf[native][categoryItem][backgroundColor]', Mage::helper('xmlconnect')->__('Category Item Background Color'), $data),
                 $this->addColorBox('conf[native][categoryItem][tintColor]', Mage::helper('xmlconnect')->__('Category Button Color'), $data),
             )),
-            array ( 'id' => 'fieldFonts', 'label' =>   Mage::helper('xmlconnect')->__('Fonts'), 'fields' => array (
+            array ( 'id' => 'field_fonts', 'label' =>   Mage::helper('xmlconnect')->__('Fonts'), 'fields' => array (
                 $this->addColorBox('conf[extra][fontColors][header]', Mage::helper('xmlconnect')->__('Header Font Color'), $data),
                 $this->addColorBox('conf[extra][fontColors][primary]', Mage::helper('xmlconnect')->__('Primary Font Color'), $data),
                 $this->addColorBox('conf[extra][fontColors][secondary]', Mage::helper('xmlconnect')->__('Secondary Font Color'), $data),
                 $this->addColorBox('conf[extra][fontColors][price]', Mage::helper('xmlconnect')->__('Price Font Color'), $data),
             )),
-            array ( 'id' => 'fieldAdvanced', 'label' =>  Mage::helper('xmlconnect')->__('Advanced Settings'), 'fields' => array (
+            array ( 'id' => 'field_advanced', 'label' =>  Mage::helper('xmlconnect')->__('Advanced Settings'), 'fields' => array (
                 $this->addColorBox('conf[native][body][backgroundColor]', Mage::helper('xmlconnect')->__('Background Color'), $data),
                 $this->addColorBox('conf[native][body][scrollBackgroundColor]', Mage::helper('xmlconnect')->__('Scroll Background Color'), $data),
                 $this->addColorBox('conf[native][itemActions][relatedProductBackgroundColor]', Mage::helper('xmlconnect')->__('Related Product Background Color'), $data),

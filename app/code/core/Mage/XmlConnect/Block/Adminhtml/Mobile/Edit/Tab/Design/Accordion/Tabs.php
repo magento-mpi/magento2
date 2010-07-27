@@ -34,7 +34,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Tabs exte
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('fieldTabs', array());
+        $fieldset = $form->addFieldset('field_tabs', array());
         $this->_addElementTypes($fieldset);
         $fieldset->addField('conf[extra][tabs]', 'tabs', array('name' => 'conf[extra][tabs]'));
 

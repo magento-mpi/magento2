@@ -23,10 +23,15 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Store_Switcher  extends Mage_Adminhtml_Block_Store_Switcher
+
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Theme extends Varien_Data_Form_Element_Text
 {
-    public function __construct()
+    public function getHtml()
     {
-        parent::__construct();
+        $block = new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes;
+        $block->setThemes($this->getThemes());
+        $block->setName($this->getName());
+        $block->setValue($this->getValue());
+        return $block->toHtml();
     }
 }

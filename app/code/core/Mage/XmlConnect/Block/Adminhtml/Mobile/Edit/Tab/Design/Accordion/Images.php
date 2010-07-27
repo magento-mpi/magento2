@@ -34,24 +34,24 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images ex
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('fieldLogo', array());
+        $fieldset = $form->addFieldset('field_logo', array());
         $this->_addElementTypes($fieldset);
         $this->addImage($fieldset,
             'conf[native][navigationBar][icon]',
-            'Logo in header',
-            'Recommended size 35px × 35px.',
+            Mage::helper('xmlconnect')->__('Logo in header'),
+            Mage::helper('xmlconnect')->__('Recommended size 35px × 35px.'),
             $this->_getDesignPreviewImageUrl('smallIcon_1_6.png')
         );
         $this->addImage($fieldset,
             'conf[native][body][bannerImage]',
-            'Banner on Home Screen',
-            'Recommended size 320px × 227px.',
+            Mage::helper('xmlconnect')->__('Banner on Home Screen'),
+            Mage::helper('xmlconnect')->__('Recommended size 320px × 227px.'),
             $this->_getDesignPreviewImageUrl('banner_1_2.png')
         );
         $this->addImage($fieldset,
             'conf[native][body][backgroundImage]',
-            'Application Background',
-            'Recommended size 320px x 367px',
+            Mage::helper('xmlconnect')->__('Application Background'),
+            Mage::helper('xmlconnect')->__('Recommended size 320px x 367px'),
             $this->_getDesignPreviewImageUrl('accordion_open.png')
         );
 

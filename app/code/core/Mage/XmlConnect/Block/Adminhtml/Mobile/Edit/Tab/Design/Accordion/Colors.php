@@ -34,7 +34,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Colors ex
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('fieldColors', array());
+        $fieldset = $form->addFieldset('field_colors', array());
         $this->_addElementTypes($fieldset);
         $fieldset->addField('theme', 'theme', array(
             'name'      => 'theme',

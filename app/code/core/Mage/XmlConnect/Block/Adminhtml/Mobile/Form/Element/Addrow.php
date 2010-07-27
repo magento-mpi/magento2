@@ -24,13 +24,27 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Helper_Tabs extends Varien_Data_Form_Element_Text
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Addrow extends Varien_Data_Form_Element_Button
 {
-    public function getHtml()
+    public function getElementHtml()
     {
-        $block = new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Tabs;
-        $block->setName($this->getName());
-        $block->setValue($this->getValue());
-        return $block->toHtml();
+        $html = $this->getBeforeElementHtml() . '<button id="'.$this->getHtmlId().'" name="'.$this->getName()
+            . '" value="'.$this->getEscapedValue().'"'
+            . $this->serialize($this->getHtmlAttributes())
+            . '" <span>'.$this->getEscapedValue().'</span></button>'.$this->getAfterElementHtml();
+        return $html;
+    }
+
+    public function getBeforeElementHtml()
+    {
+        return $this->getData('before_element_html');
+    }
+
+    public function toHtml()
+    {
+        $js = new Mage_Adminhtml_Block_Template;
+        $js->setTemplate('xmlconnect/addrow.phtml');
+        $js->setOptions($this->getOptions());
+        return parent::toHtml() . $js->toHtml();
     }
 }

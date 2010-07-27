@@ -24,20 +24,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_XmlConnect_Helper_Theme extends Mage_Core_Helper_Abstract
+class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
 {
-    /**
-     * Exports $this->_getUrl() function to public
-     *
-     * @param string $route
-     * @param array $params
-     *
-     * @return array
-     */
-    public function getUrl($route, $params = array())
-    {
-        return $this->_getUrl($route, $params);
-    }
 
     /**
      * Converts native Ajax data from flat to real array
@@ -52,51 +40,66 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Core_Helper_Abstract
             'native' => array('navigationBar' => array(), 'body' => array(), 'categoryItem' => array(), 'itemActions'),
             'extra' => array('fontColors' => array())
         );
-        $conf['native']['navigationBar']['tintColor'] = isset($data['conf_native_navigationBar_tintColor']) ? $data['conf_native_navigationBar_tintColor'] : '';
-        $conf['native']['body']['primaryColor'] = isset($data['conf_native_body_primaryColor']) ? $data['conf_native_body_primaryColor'] : '';
-        $conf['native']['body']['secondaryColor'] = isset($data['conf_native_body_secondaryColor']) ? $data['conf_native_body_secondaryColor'] : '';
-        $conf['native']['categoryItem']['backgroundColor'] = isset($data['conf_native_categoryItem_backgroundColor']) ? $data['conf_native_categoryItem_backgroundColor'] : '';
-        $conf['native']['categoryItem']['tintColor'] = isset($data['conf_native_categoryItem_tintColor']) ? $data['conf_native_categoryItem_tintColor'] : '';
-
-        $conf['extra']['fontColors']['header'] = isset($data['conf_extra_fontColors_header']) ? $data['conf_extra_fontColors_header'] : '';
-        $conf['extra']['fontColors']['primary'] = isset($data['conf_extra_fontColors_primary']) ? $data['conf_extra_fontColors_primary'] : '';
-        $conf['extra']['fontColors']['secondary'] = isset($data['conf_extra_fontColors_secondary']) ? $data['conf_extra_fontColors_secondary'] : '';
-        $conf['extra']['fontColors']['price'] = isset($data['conf_extra_fontColors_price']) ? $data['conf_extra_fontColors_price'] : '';
-
-        $conf['native']['body']['backgroundColor'] = isset($data['conf_native_body_backgroundColor']) ? $data['conf_native_body_backgroundColor'] : '';
-        $conf['native']['body']['scrollBackgroundColor'] = isset($data['conf_native_body_scrollBackgroundColor']) ? $data['conf_native_body_scrollBackgroundColor'] : '';
-        $conf['native']['itemActions']['relatedProductBackgroundColor'] = isset($data['conf_native_itemActions_relatedProductBackgroundColor']) ? $data['conf_native_itemActions_relatedProductBackgroundColor'] : '';
-
+        foreach($data as $key => $val){
+            $parts = explode('_', $key);
+            $this->_parseUnderscoreArray($parts, $conf, $val);
+        }
         $converted['conf'] = $conf;
         return $converted;
     }
 
     /**
-     * Returns Color Themes JSON array.
+     *  Convert 'conf_extra_tripple_something' to $conf['extra']['tripple']['something']
      *
-     *  @return string
+     * @param string $parts
+     * @param array &$conf
+     * @param string $val
+     * @return null
      */
-    function getThemeAjaxParameters()
+    function _parseUnderscoreArray($parts, &$conf, $val)
     {
-        $params = "
-{
-conf_native_navigationBar_tintColor                           : \$( 'conf[native][navigationBar][tintColor]').value,
-conf_native_body_primaryColor                                 : \$( 'conf[native][body][primaryColor]').value,
-conf_native_body_secondaryColor                               : \$( 'conf[native][body][secondaryColor]').value,
-conf_native_categoryItem_backgroundColor                      : \$( 'conf[native][categoryItem][backgroundColor]').value,
-conf_native_categoryItem_tintColor                            : \$( 'conf[native][categoryItem][tintColor]').value,
+        // don't forget isset() checks
+        list($key0,$key1,$key2,$key3) = $parts;
+        if (!isset($conf[$key1])) {
+            $conf[$key1] = array();
+        }
+        if (!isset($conf[$key1][$key2])) {
+            $conf[$key1][$key2] = array();
+        }
+        $conf[$key1][$key2][$key3] = $val;
+        $position3 = $val;
+        return null;
+    }
 
-conf_extra_fontColors_header                                  : \$( 'conf[extra][fontColors][header]').value,
-conf_extra_fontColors_primary                                 : \$( 'conf[extra][fontColors][primary]').value,
-conf_extra_fontColors_secondary                               : \$( 'conf[extra][fontColors][secondary]').value,
-conf_extra_fontColors_price                                   : \$( 'conf[extra][fontColors][price]').value,
+    public function getThemeFieldsArray()
+    {
 
-conf_native_body_backgroundColor                              : \$( 'conf[native][body][backgroundColor]').value,
-conf_native_body_scrollBackgroundColor                        : \$( 'conf[native][body][scrollBackgroundColor]').value,
-conf_native_itemActions_relatedProductBackgroundColor         : \$( 'conf[native][itemActions][relatedProductBackgroundColor]').value
-}
-";
-        return $params;
+    }
+
+    /**
+     * Return for Color Themes Fields array.
+     *
+     *  @return array
+     */
+    public function getThemeAjaxParameters()
+    {
+        $themesArray = array (
+            'conf_native_navigationBar_tintColor' => 'conf[native][navigationBar][tintColor]',
+            'conf_native_body_primaryColor' => 'conf[native][body][primaryColor]',
+            'conf_native_body_secondaryColor' => 'conf[native][body][secondaryColor]',
+            'conf_native_categoryItem_backgroundColor' => 'conf[native][categoryItem][backgroundColor]',
+            'conf_native_categoryItem_tintColor' => 'conf[native][categoryItem][tintColor]',
+
+            'conf_extra_fontColors_header' => 'conf[extra][fontColors][header]',
+            'conf_extra_fontColors_primary' => 'conf[extra][fontColors][primary]',
+            'conf_extra_fontColors_secondary' => 'conf[extra][fontColors][secondary]',
+            'conf_extra_fontColors_price' => 'conf[extra][fontColors][price]',
+
+            'conf_native_body_backgroundColor' => 'conf[native][body][backgroundColor]',
+            'conf_native_body_scrollBackgroundColor' => 'conf[native][body][scrollBackgroundColor]',
+            'conf_native_itemActions_relatedProductBackgroundColor' => 'conf[native][itemActions][relatedProductBackgroundColor]'
+        );
+        return $themesArray;
     }
 
     /**

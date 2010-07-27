@@ -80,7 +80,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
         $isResubmit = $application->getIsResubmitAction();
         $formData = $application->getFormData();
 
-        $fieldset = $form->addFieldset('submit0', array('legend' => Mage::helper('xmlconnect')->__('Submission Fields')));
+        $fieldset = $form->addFieldset('submit_general', array('legend' => Mage::helper('xmlconnect')->__('Submission Fields')));
 
         $fieldset->addField('submission_action', 'hidden', array(
             'name'      => 'submission_action',
@@ -175,7 +175,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'note'      => Mage::helper('xmlconnect')->__('One or more keywords that describe your app. Keywords are matched to users\' searches in the App Store and help return accurate search results. Separate multiple keywords with commas. 100 chars is maximum.'),
         ));
 
-        $fieldset = $form->addFieldset('submit1', array('legend' => Mage::helper('xmlconnect')->__('Icons')));
+        $fieldset = $form->addFieldset('submit_icons', array('legend' => Mage::helper('xmlconnect')->__('Icons')));
         $this->addImage($fieldset, 'conf/submit/icon', 'Application Icon',
             Mage::helper('xmlconnect')->__('Apply will automatically resize this image for display in the App Store and on users’ devices.  A gloss (i.e. gradient) will also be applied, so you do not need to apply a gradient.  Image must be at least 512x512'));
         $this->addImage($fieldset, 'conf/submit/loader_image', 'Loader Splash Screen',
@@ -186,7 +186,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
         $this->addImage($fieldset, 'conf/submit/big_logo', Mage::helper('xmlconnect')->__('Copyright page logo'),
             Mage::helper('xmlconnect')->__('Store logo that will be displayed on copyright page of application '));
 
-        $fieldset = $form->addFieldset('submit2', array('legend' => Mage::helper('xmlconnect')->__('Key')));
+        $fieldset = $form->addFieldset('submit_keys', array('legend' => Mage::helper('xmlconnect')->__('Key')));
         $field = $fieldset->addField('conf[submit_text][key]', 'text', array(
             'name'      => 'conf[submit_text][key]',
             'label'     => Mage::helper('xmlconnect')->__('Activation Key'),

@@ -66,7 +66,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
         $dummy = array(array( 'value' => '', 'label' => '' ));
         $this->_pages = array_merge($dummy, $pages);
 
-        $fieldset = $form->addFieldset('cmsPages', array('legend' => Mage::helper('xmlconnect')->__('Pages')));
+        $fieldset = $form->addFieldset('cms_pages', array('legend' => Mage::helper('xmlconnect')->__('Pages')));
         $this->_addElementTypes($fieldset);
 
         $fieldset->addField('page_row_add', 'addrow', array(
