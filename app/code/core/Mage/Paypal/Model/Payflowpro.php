@@ -59,10 +59,12 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     /**
      * Response codes
      */
-    const RESPONSE_CODE_APPROVED            = 0;
-    const RESPONSE_CODE_FRAUDSERVICE_FILTER = 126;
-    const RESPONSE_CODE_DECLINED            = 12;
-    const RESPONSE_CODE_CAPTURE_ERROR       = 111;
+    const RESPONSE_CODE_APPROVED                = 0;
+    const RESPONSE_CODE_FRAUDSERVICE_FILTER     = 126;
+    const RESPONSE_CODE_DECLINED                = 12;
+    const RESPONSE_CODE_DECLINED_BY_FILTER      = 125;
+    const RESPONSE_CODE_DECLINED_BY_MERCHANT    = 128;
+    const RESPONSE_CODE_CAPTURE_ERROR           = 111;
 
     /**
      * Payment method code
@@ -83,6 +85,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     protected $_canUseForMultishipping  = true;
     protected $_canSaveCc = false;
     protected $_isProxy = false;
+    protected $_canFetchTransactionInfo = true;
 
     /**
      * Gateway request timeout
@@ -253,6 +256,50 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
                 ->setIsTransactionClosed(1);
         }
         return $this;
+    }
+
+    /**
+     * Fetch transaction details info
+     *
+     * @param Mage_Payment_Model_Info $payment
+     * @param string $transactionId
+     * @return array
+     */
+    public function fetchTransactionInfo(Mage_Payment_Model_Info $payment, $transactionId)
+    {
+        $request = $this->_buildBasicRequest($payment);
+        $request->setTrxtype(self::TRXTYPE_DELAYED_INQUIRY);
+        $request->setOrigid($transactionId);
+        $response = $this->_postRequest($request);
+
+        $this->_processErrors($response);
+
+        if (!$this->_isTransactionUnderReview($response->getOrigresult())) {
+            $payment->setTransactionId($response->getOrigpnref())
+                ->setIsTransactionClosed(0);
+            if ($response->getOrigresult() == self::RESPONSE_CODE_APPROVED) {
+                $payment->setIsTransactionApproved(true);
+            } else if ($response->getOrigresult() == self::RESPONSE_CODE_DECLINED_BY_MERCHANT) {
+                $payment->setIsTransactionDenied(true);
+            }
+        }
+
+        $rawData = $response->getData();
+        return ($rawData) ? $rawData : array();
+    }
+
+    /**
+     * Check whether the transaction is in payment review status
+     *
+     * @param string $statusCode
+     * @return bool
+     */
+    protected static function _isTransactionUnderReview($status)
+    {
+        if (in_array($status, array(self::RESPONSE_CODE_APPROVED, self::RESPONSE_CODE_DECLINED_BY_MERCHANT))) {
+            return false;
+        }
+        return true;
     }
 
     /**

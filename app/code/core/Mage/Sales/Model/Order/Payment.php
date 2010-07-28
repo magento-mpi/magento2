@@ -734,7 +734,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                     $message = Mage::helper('sales')->__('Registered update about approved payment.');
                 } elseif ($this->getIsTransactionDenied()) {
                     $result = false;
-                    $message = Mage::helper('sales')->__('Registered update about approved payment.');
+                    $message = Mage::helper('sales')->__('Registered update about denied payment.');
                 } else {
                     $result = -1;
                     $message = Mage::helper('sales')->__('There is no update for the payment.');
