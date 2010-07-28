@@ -197,11 +197,6 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                 $minimalPrice = $minPriceFounded;
             }
 
-            if ($product->getPriceType() == self::PRICE_TYPE_DYNAMIC) {
-                $minimalPrice = $this->_applySpecialPrice($product, $minimalPrice);
-                $maximalPrice = $this->_applySpecialPrice($product, $maximalPrice);
-            }
-
             $customOptions = $product->getOptions();
 
             if ($product->getPriceType() == self::PRICE_TYPE_FIXED && $customOptions) {
