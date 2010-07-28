@@ -52,7 +52,8 @@
                     <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
                         <block type="page/html_pager" name="product_list_toolbar_pager"/>
                     </block>
-                    <block type="core/text_list" name="additional">
+                    <block type="core/text_list" name="additional" translate="label">
+                        <label>Additional Info</label>
                         <block type='enterprise_search/suggestions' name='search_suggestions' template="search/suggestions.phtml"></block>
                         <block type='enterprise_search/recommendations' name='search_recommendations' template="search/recommendations.phtml"></block>
                     </block>
