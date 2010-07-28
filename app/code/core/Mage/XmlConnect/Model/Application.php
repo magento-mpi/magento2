@@ -546,7 +546,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $params['code'] = $this->getCode();
             $params['type'] = $this->getType();
             $params['url'] = Mage::getBaseUrl() . 'xmlconnect/configuration/index/app_code/' . $this->getCode();
-            $params['version'] = Mage::getVersion();
+            $params['magentoversion'] = Mage::getVersion();
 
             if (isset($params['country']) && is_array($params['country'])) {
                 $params['country'] = implode(',', $params['country']);
