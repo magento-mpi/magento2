@@ -61,7 +61,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
      * @param string $fieldName
      * @param string $title
      */
-    protected function addImage($fieldset, $fieldName, $title, $note = '')
+    protected function addImage($fieldset, $fieldName, $title, $note = '', $default = '')
     {
         $fieldset->addField($fieldName, 'image', array(
             'name'      => $fieldName,
@@ -171,7 +171,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'name'      => 'conf[submit_text][keywords]',
             'label'     => Mage::helper('xmlconnect')->__('Keywords'),
             'maxlength' => '100',
-            'value'     => isset($formData['conf[submit_text][copyright]']) ? $formData['conf[submit_text][copyright]'] : null,
+            'value'     => isset($formData['conf[submit_text][keywords]']) ? $formData['conf[submit_text][keywords]'] : null,
             'note'      => Mage::helper('xmlconnect')->__('One or more keywords that describe your app. Keywords are matched to users\' searches in the App Store and help return accurate search results. Separate multiple keywords with commas. 100 chars is maximum.'),
         ));
 
