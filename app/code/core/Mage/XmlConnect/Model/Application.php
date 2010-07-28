@@ -80,50 +80,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Prepare post data
-     *
-     * Retains previous data in the object.
-     *
-     * @param array $arr
-     * @return array
-     */
-    public function preparePostData(array $arr)
-    {
-        unset($arr['code']);
-        if (isset($arr['conf']['new_pages']) && isset($arr['conf']['new_pages']['ids'])
-            && isset($arr['conf']['new_pages']['labels'])) {
-
-            $new_pages = array();
-            foreach ($arr['conf']['new_pages']['ids'] as $key=>$value) {
-                $new_pages[$key]['id'] = $value;
-            }
-            foreach ($arr['conf']['new_pages']['labels'] as $key=>$value) {
-                $new_pages[$key]['label'] = $value;
-            }
-            if (!isset($arr['conf']['native']['pages'])) {
-                $arr['conf']['native']['pages'] = array();
-            }
-            $arr['conf']['native']['pages'] = array_merge($arr['conf']['native']['pages'], $new_pages);
-            unset($arr['conf']['new_pages']);
-        }
-
-        if (!isset($arr['conf']['defaultCheckout'])) {
-            $arr['conf']['defaultCheckout'] = array();
-        }
-        if (!isset($arr['conf']['defaultCheckout']['isActive'])) {
-            $arr['conf']['defaultCheckout']['isActive'] = 0;
-        }
-
-        if (!isset($arr['conf']['paypal'])) {
-            $arr['conf']['paypal'] = array();
-        }
-        if (!isset($arr['conf']['paypal']['isActive'])) {
-            $arr['conf']['paypal']['isActive'] = 0;
-        }
-        return $arr;
-    }
-
-    /**
      * Load data (flat array) for Varien_Data_Form
      *
      * @return array

@@ -26,17 +26,16 @@
 ?>
 
 <div style="padding: 1.5em; margin: 0 0 1em 0; background-color:#E7EFEF; border:1px solid #BEBEBE">
-    <!-- FIXME: 100% fake -->
-    Select template:
+    <?php echo Mage::helper('xmlconnect')->__('Select template'); ?>:
     <select style="width: 15em; margin: 0 2em">
-        <option>Template name</option>
+        <option><?php echo Mage::helper('xmlconnect')->__('Template name'); ?></option>
     </select>
-    <a href="#">Add more Templates</a>
+    <a href="#"><?php echo Mage::helper('xmlconnect')->__('Add more Templates'); ?></a>
 </div>
 
 <table border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <td valign="top" width="540px"><?php echo $this->getChildHtml('edit_form'); ?></td>
+        <td valign="top" width="540px"><?php echo $this->getChildHtml('design_accordion'); ?></td>
         <td width="20px"> </td>
         <td valign="top" width="360px"><?php echo $this->getChildHtml('app_preview'); ?></td>
     </tr>

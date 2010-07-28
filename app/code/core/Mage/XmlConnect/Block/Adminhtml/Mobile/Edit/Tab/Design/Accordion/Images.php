@@ -26,9 +26,29 @@
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
 {
     /**
+     * Getter for accordion item title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return Mage::helper('xmlconnect')->__('Images');
+    }
+
+    /**
+     * Getter for accordion item is open flag
+     *
+     * @return bool
+     */
+    public function getIsOpen()
+    {
+        return true;
+    }
+
+    /**
      * Prepare form
      *
-     * @return Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form
+     * @return Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
      */
     protected function _prepareForm()
     {
@@ -55,22 +75,19 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images ex
             $this->_getDesignPreviewImageUrl('accordion_open.png')
         );
 
-        $model = Mage::registry('current_app');
-        $form->setValues($model->getFormData());
+        $form->setValues($this->getApplication()->getFormData());
         $this->setForm($form);
         return parent::_prepareForm();
     }
 
    /**
-    * Returns url for images in the skin folder
+    * Retrieve url for images in the skin folder
     *
     * @param string $name  - path to file name relative to the skin dir
-    *
     * @return string
     */
     protected function _getDesignPreviewImageUrl($name)
     {
-        $url = Mage::getDesign()->getSkinUrl('images/xmlconnect/design_default/' . $name);
-        return $url;
+        return Mage::helper('xmlconnect')->getSkinImagesUrl('design_default/' . $name);
     }
 }

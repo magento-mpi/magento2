@@ -27,16 +27,16 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getPreviewCssUrl('mobile-home.css'); ?>" media="all" />
 <div class="main-block" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>;">
     <div class="top-header" style="background: #000;">
-        <div class="volume" style="background:url('<?php echo $this->getPreviewUrl('1.gif'); ?>') bottom left no-repeat;"></div>
+        <div class="volume" style="background:url('<?php echo $this->getPreviewImagesUrlUrl('1.gif'); ?>') bottom left no-repeat;"></div>
         <div class="header-sign-1"><?php echo Mage::helper('xmlconnect')->__("Carrier"); ?></div>
-        <div class="antenna" style="background:url('<?php echo $this->getPreviewUrl('3.gif'); ?>') bottom right no-repeat;"></div>
+        <div class="antenna" style="background:url('<?php echo $this->getPreviewImagesUrlUrl('3.gif'); ?>') bottom right no-repeat;"></div>
         <div class="time"><?php echo $this->getData('conf/Time'); ?></div>
-        <div class="battery" style="background:url('<?php echo $this->getPreviewUrl('2.gif'); ?>') bottom right no-repeat;"></div>
+        <div class="battery" style="background:url('<?php echo $this->getPreviewImagesUrlUrl('2.gif'); ?>') bottom right no-repeat;"></div>
     </div>
     <div class="main-header"  style="background: <?php echo $this->getData('conf/navigationBar/tintColor'); ?>;  color: #f3f3f3;">
-        <div class="info"><img src="<?php echo $this->getPreviewUrl('info.png') ?>" width="20" height="20" alt="" /></div>
+        <div class="info"><img src="<?php echo $this->getPreviewImagesUrlUrl('info.png') ?>" width="20" height="20" alt="" /></div>
         <div class="logo-small" style="float:left; width: 20px;">
-            <img src="<?php echo $this->getData('conf/navigationBar/icon') ? $this->getData('conf/navigationBar/icon') : $this->getPreviewUrl('smallIcon.png'); ?>" height="30" alt="" >
+            <img src="<?php echo $this->getData('conf/navigationBar/icon') ? $this->getData('conf/navigationBar/icon') : $this->getPreviewImagesUrlUrl('smallIcon.png'); ?>" height="30" alt="" >
         </div>
         <div class="login-btn">
             <div class="login-left">&nbsp;</div>
@@ -46,20 +46,20 @@
     </div>
     <div class="clearB"></div>
     <div class="big-logo" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>;">
-        <img src="<?php echo $this->getData('conf/body/bannerImage') ? $this->getData('conf/body/bannerImage') : $this->getPreviewUrl('banner.png'); ?>" />
+        <img src="<?php echo $this->getData('conf/body/bannerImage') ? $this->getData('conf/body/bannerImage') : $this->getPreviewImagesUrlUrl('banner.png'); ?>" />
     </div>
     <div class="catalog" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>">
         <div class="item">
             <div class="item-image" style="background: <?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-                <img src="<?php echo $this->getPreviewUrl('men.png') ?>" width="63" height="74" alt="" />
+                <img src="<?php echo $this->getPreviewImagesUrlUrl('men.png') ?>" width="63" height="74" alt="" />
             </div>
             <div class="item-text" style="font: bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px
-                <?php echo $this->getData('conf/fonts/Title9/name'); ?>; 	color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;
+                <?php echo $this->getData('conf/fonts/Title9/name'); ?>;     color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;
                 background: <?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo Mage::helper('xmlconnect')->__("Category1"); ?></div>
         </div>
         <div class="item">
             <div class="item-image" style="background: <?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-                <img src="<?php echo $this->getPreviewUrl('women.png'); ?>" width="63" height="74" alt="" />
+                <img src="<?php echo $this->getPreviewImagesUrlUrl('women.png'); ?>" width="63" height="74" alt="" />
             </div>
             <div class="item-text" style="font: bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name');?>;
             color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;
@@ -67,7 +67,7 @@
         </div>
         <div class="item">
             <div class="item-image" style="background: <?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-                <img src="<?php echo $this->getPreviewUrl('youth.png'); ?>" style=-moz-opacity:0.6" width="63" height="74" alt="" />
+                <img src="<?php echo $this->getPreviewImagesUrlUrl('youth.png'); ?>" style=-moz-opacity:0.6" width="63" height="74" alt="" />
             </div>
             <div class="item-text" style="font: bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;
             color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;
@@ -75,5 +75,5 @@
         </div>
     </div>
 <div class="clearB"></div>
-<?php echo $this->getChildHtml('tabButtons'); ?>
+<?php echo $this->getChildHtml('tab_items'); ?>
 </div>

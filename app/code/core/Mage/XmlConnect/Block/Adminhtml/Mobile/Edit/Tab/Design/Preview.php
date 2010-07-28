@@ -25,14 +25,22 @@
  */
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Preview extends Mage_Adminhtml_Block_Template
 {
+    /**
+     * Set preview template
+     */
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('xmlconnect/preview.phtml');
+        $this->setTemplate('xmlconnect/edit/tab/design/preview.phtml');
     }
 
+    /**
+     * Retieve preview action url
+     *
+     * @return string
+     */
     public function getPreviewActionUrl($page = 'home')
     {
-        return $this->getUrl('*/*/preview'.$page, array('application_id' => Mage::registry('current_app')->getId()));
+        return $this->getUrl('*/*/preview' . $page, array('application_id' => Mage::registry('current_app')->getId()));
     }
 }

@@ -37,18 +37,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
 
     protected function _prepareLayout()
     {
-        $application = Mage::registry('current_app');
-
-        $actionUrl = $this->getUrl('*/*/submissionPost', array('key' => $application->getId()));
-        $this->setChild('submission_scripts',
-            $this->getLayout()->createBlock('adminhtml/template')
-                ->setActionUrl($actionUrl)
-                ->setTemplate('xmlconnect/submission_scripts.phtml'));
-        if ($application->getIsResubmitAction()) {
-
+        if ($this->getApplication()->getIsResubmitAction()) {
             $block = $this->getLayout()->createBlock('adminhtml/template')
-                ->setTemplate('xmlconnect/images.phtml')
-                ->setImages($application->getImages());
+                ->setTemplate('xmlconnect/submission/app_icons_preview.phtml')
+                ->setImages($this->getApplication()->getImages());
             $this->setChild('images', $block);
         }
         parent::_prepareLayout();
@@ -76,9 +68,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
         $this->setForm($form);
 
         $form->setAction($this->getUrl('*/mobile/submission'));
-        $application = Mage::registry('current_app');
-        $isResubmit = $application->getIsResubmitAction();
-        $formData = $application->getFormData();
+        $isResubmit = $this->getApplication()->getIsResubmitAction();
+        $formData = $this->getApplication()->getFormData();
 
         $fieldset = $form->addFieldset('submit_general', array('legend' => Mage::helper('xmlconnect')->__('Submission Fields')));
 
@@ -120,8 +111,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'label'     => Mage::helper('xmlconnect')->__('Price'),
             'value'     => Mage::helper('xmlconnect')->__('Free'),
             'maxlength' => '40',
-//            'after_element_html' => Mage::helper('xmlconnect')->__('Free'),
-//            'onclick'    => "$('conf/submit_text/price').setValue('')",
             'checked'   => 'checked',
             'note'      => Mage::helper('xmlconnect')->__('Only free applications are allowed in this version.'),
         ));
@@ -130,15 +119,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'name'      => 'conf[submit_text][price_free]',
             'value'     => '1',
         ));
-//        $fieldset->addField('conf/submit_text/price', 'text', array(
-//            'name'      => 'conf[submit_text][price]',
-//            'label'     => Mage::helper('xmlconnect')->__(' '),
-//            'maxlength' => '40',
-//            'value'     => isset($formData['conf[submit_text][price]']) ? $formData['conf[submit_text][price]'] : null,
-//            'note'      => Mage::helper('xmlconnect')->__('You can set any price you want for your app, or you can give it away for free. Most apps range from $0.99 - $4.99'),
-//            'onchange'  => "$('conf/submit_text/price_free').checked = false",
-//
-//        ));
 
         $selected = isset($formData['conf[submit_text][country]']) ? json_decode($formData['conf[submit_text][country]']) : null;
         $fieldset->addField('conf/submit_text/country', 'multiselect', array(
@@ -267,8 +247,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
 
     protected function _toHtml()
     {
-        return parent::_toHtml()
-            . $this->getChildHtml('submission_scripts')
-            . (!Mage::registry('current_app')->getIsResubmitAction() ? '' : $this->getChildHtml('images'));
+        return parent::_toHtml() . (!$this->getApplication()->getIsResubmitAction() ? '' : $this->getChildHtml('images'));
     }
 }

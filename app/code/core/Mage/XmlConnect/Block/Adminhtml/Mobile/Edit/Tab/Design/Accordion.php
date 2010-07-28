@@ -23,11 +23,27 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Catalog extends Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Abstract
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion extends Mage_Adminhtml_Block_Widget_Accordion
 {
-    public function __construct()
+    /**
+     * Add accordion item by specified block
+     *
+     * @param string $itemId
+     * @param mixed $block
+     */
+    public function addAccordionItem($itemId, $block)
     {
-        parent::__construct();
-        $this->setTemplate('xmlconnect/preview/iframe_catalog.phtml');
+        if (strpos($block, '/') !== false) {
+            $block = $this->getLayout()->createBlock($block);
+        }
+        else {
+            $block = $this->getLayout()->getBlock($block);
+        }
+
+        $this->addItem($itemId, array(
+            'title'   => $block->getTitle(),
+            'content' => $block->toHtml(),
+            'open'    => $block->getIsOpen(),
+        ));
     }
 }

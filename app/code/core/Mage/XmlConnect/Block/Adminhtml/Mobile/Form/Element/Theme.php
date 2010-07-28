@@ -26,9 +26,15 @@
 
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Theme extends Varien_Data_Form_Element_Text
 {
+    /**
+     * Generate themes (colors) html
+     *
+     * @return string
+     */
     public function getHtml()
     {
-        $block = new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes;
+        $blockClassName = Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_edit_tab_design_themes');
+        $block = new $blockClassName;
         $block->setThemes($this->getThemes());
         $block->setName($this->getName());
         $block->setValue($this->getValue());

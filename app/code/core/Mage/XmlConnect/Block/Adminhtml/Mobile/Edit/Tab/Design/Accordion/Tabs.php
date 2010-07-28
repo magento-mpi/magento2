@@ -26,9 +26,29 @@
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Tabs extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
 {
     /**
+     * Getter for accordion item title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return Mage::helper('xmlconnect')->__('Tabs');
+    }
+
+    /**
+     * Getter for accordion item is open flag
+     *
+     * @return bool
+     */
+    public function getIsOpen()
+    {
+        return true;
+    }
+
+    /**
      * Prepare form
      *
-     * @return Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form
+     * @return Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
      */
     protected function _prepareForm()
     {
@@ -38,8 +58,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Tabs exte
         $this->_addElementTypes($fieldset);
         $fieldset->addField('conf[extra][tabs]', 'tabs', array('name' => 'conf[extra][tabs]'));
 
-        $model = Mage::registry('current_app');
-        $form->setValues($model->getFormData());
+        $form->setValues($this->getApplication()->getFormData());
         $this->setForm($form);
         return parent::_prepareForm();
     }

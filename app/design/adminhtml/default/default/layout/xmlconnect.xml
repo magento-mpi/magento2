@@ -38,7 +38,7 @@
             <block type="xmlconnect/adminhtml_mobile" name="applications"/>
         </reference>
     </adminhtml_mobile_index>
- 
+
     <adminhtml_mobile_history>
         <reference name="content">
             <block type="xmlconnect/adminhtml_history" name="history"/>
@@ -50,20 +50,28 @@
             <block type="xmlconnect/adminhtml_mobile_edit_tabs" name="mobile_edit_tabs">
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_general" name="mobile_edit_tab_general"/>
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_design" name="mobile_edit_tab_design">
-                    <block type="xmlconnect/adminhtml_mobile_edit_tab_design_form" name="mobile_edit_tab_design_form" as="edit_form" />
+                    <block type="xmlconnect/adminhtml_mobile_edit_tab_design_accordion" name="mobile_edit_tab_design_accordion" as="design_accordion">
+                        <block type="xmlconnect/adminhtml_mobile_edit_tab_design_accordion_images" name="accordion_images" />
+                        <block type="xmlconnect/adminhtml_mobile_edit_tab_design_accordion_themes" name="accordion_themes" />
+                        <block type="xmlconnect/adminhtml_mobile_edit_tab_design_accordion_tabs" name="accordion_tabs" />
+
+                        <action method="addAccordionItem"><name>images</name><block>accordion_images</block></action>
+                        <action method="addAccordionItem"><name>themes</name><block>accordion_themes</block></action>
+                        <action method="addAccordionItem"><name>tabs</name><block>accordion_tabs</block></action>
+
+                    </block>
                     <block type="xmlconnect/adminhtml_mobile_edit_tab_design_preview" name="mobile_edit_tab_design_preview" as="app_preview" />
-                   
                 </block>
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_content" name="mobile_edit_tab_content"/>
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_payment" name="mobile_edit_tab_payment"/>
+                <block type="xmlconnect/adminhtml_mobile_edit_tab_submission" name="mobile_edit_tab_submission">
+                    <block type="xmlconnect/adminhtml_mobile_edit_tab_submission_history" name="mobile_edit_tab_submission_history_gird"/>
+                </block>
+
                 <action method="addTab"><name>general_section</name><block>mobile_edit_tab_general</block></action>
                 <action method="addTab"><name>design_section</name><block>mobile_edit_tab_design</block></action>
                 <action method="addTab"><name>content_section</name><block>mobile_edit_tab_content</block></action>
                 <action method="addTab"><name>payment_methods</name><block>mobile_edit_tab_payment</block></action>
-
-                  <block type="xmlconnect/adminhtml_mobile_edit_tab_submission" name="mobile_edit_tab_submission"> 
-                    <block type="xmlconnect/adminhtml_mobile_edit_tab_submission_history" name="mobile_edit_tab_submission_history"/>
-                 </block>
                 <action method="addTab"><name>submission_section</name><block>mobile_edit_tab_submission</block></action>
 
             </block>
@@ -83,7 +91,7 @@
                 <block type="xmlconnect/adminhtml_mobile_submission_tab_container" name="mobile_submission_tab_container">
                     <block type="xmlconnect/adminhtml_mobile_submission_tab_container_submission" name="mobile_submission_tab_container_submission" as="edit_form"/>
                     <block type="xmlconnect/adminhtml_mobile_edit_tab_design_preview" name="mobile_edit_tab_design_preview" as="app_preview" />
-                    
+
                 </block>
                 <action method="addTab"><name>submission_section</name><block>mobile_submission_tab_container</block></action>
             </block>
@@ -103,10 +111,14 @@
 
 
     <adminhtml_mobile_previewhome>
-        <block type="xmlconnect/adminhtml_mobile_preview_home" name="preview_iframe_home" output="toHtml"/>
+        <block type="xmlconnect/adminhtml_mobile_preview_content" template="xmlconnect/edit/tab/design/preview/home.phtml" name="preview_home_content" output="toHtml">
+            <block type="xmlconnect/adminhtml_mobile_preview_tabitems" name="preview_tab_items" as="tab_items"/>
+        </block>
     </adminhtml_mobile_previewhome>
 
     <adminhtml_mobile_previewcatalog>
-        <block type="xmlconnect/adminhtml_mobile_preview_catalog" name="preview_iframe_catalog" output="toHtml"/>
+        <block type="xmlconnect/adminhtml_mobile_preview_content" template="xmlconnect/edit/tab/design/preview/catalog.phtml" name="preview_catalog_content" output="toHtml">
+            <block type="xmlconnect/adminhtml_mobile_preview_tabitems" name="preview_tab_items" as="tab_items"/>
+        </block>
     </adminhtml_mobile_previewcatalog>
 </layout>

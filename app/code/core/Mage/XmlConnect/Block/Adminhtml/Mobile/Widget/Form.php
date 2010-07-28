@@ -23,7 +23,7 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-abstract class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Add color chooser to fieldset
@@ -80,18 +80,33 @@ abstract class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_A
 
     /**
      * Configure image element type
-     *
      */
     protected function _getAdditionalElementTypes()
     {
+        $config = Mage::getConfig();
         return array(
-            'image' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_image'),
-            'font'  => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_font'),
-            'color' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_color'),
-            'tabs'  => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_tabs'),
-            'theme' => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_theme'),
-            'page'  => Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_page'),
-            'addrow'=> Mage::getConfig()->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_addrow'),
+            'image' => $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_image'),
+            'font'  => $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_font'),
+            'color' => $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_color'),
+            'tabs'  => $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_tabs'),
+            'theme' => $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_theme'),
+            'page'  => $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_page'),
+            'addrow'=> $config->getBlockClassName('xmlconnect/adminhtml_mobile_form_element_addrow'),
         );
+    }
+
+    /**
+     * Getter for current loaded application model
+     *
+     * @return Mage_XmlConnect_Model_Application
+     */
+    public function getApplication()
+    {
+        $model = Mage::registry('current_app');
+        if(!($model instanceof Mage_XmlConnect_Model_Application)){
+            Mage::throwException(Mage::helper('xmlconnect')->__('Application model not loaded.'));
+        }
+
+        return $model;
     }
 }

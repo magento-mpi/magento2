@@ -42,9 +42,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Addrow extends Varien_
 
     public function toHtml()
     {
-        $js = new Mage_Adminhtml_Block_Template;
-        $js->setTemplate('xmlconnect/addrow.phtml');
-        $js->setOptions($this->getOptions());
-        return parent::toHtml() . $js->toHtml();
+        $blockClassName = Mage::getConfig()->getBlockClassName('adminhtml/template');;
+        $jsBlock = new $blockClassName;
+        $jsBlock->setTemplate('xmlconnect/form/element/addrow.phtml');
+        $jsBlock->setOptions($this->getOptions());
+        return parent::toHtml() . $jsBlock->toHtml();
     }
 }

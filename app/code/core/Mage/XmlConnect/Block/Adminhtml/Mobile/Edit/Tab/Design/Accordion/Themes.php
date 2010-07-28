@@ -23,12 +23,32 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Colors extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
+class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Themes extends Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
 {
     /**
-     * Prepare form
+     * Getter for accordion item title
      *
-     * @return Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Form
+     * @return string
+     */
+    public function getTitle()
+    {
+        return Mage::helper('xmlconnect')->__('Color Themes');
+    }
+
+    /**
+     * Getter for accordion item is open flag
+     *
+     * @return bool
+     */
+    public function getIsOpen()
+    {
+        return true;
+    }
+
+    /**
+     * Add theme field
+     *
+     * @return Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form
      */
     protected function _prepareForm()
     {
@@ -40,10 +60,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Colors ex
             'name'      => 'theme',
             'themes'    => Mage::helper('xmlconnect/theme')->getAllThemes(),
         ));
-
-        $model = Mage::registry('current_app');
-        $form->setValues($model->getFormData());
+        $form->setValues($this->getApplication()->getFormData());
         $this->setForm($form);
+
         return parent::_prepareForm();
     }
 }

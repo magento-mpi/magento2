@@ -246,7 +246,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             try {
                 $app = $this->_initApp();
                 $this->_saveThemeAction($data, 'current_theme');
-                $app->addData($app->preparePostData($data));
+                $app->addData($this->_preparePostData($data));
                 $app->addData(array('conf' => $this->_processUploadedFiles($app->getConf())));
                 $app->save();
                 $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been saved.'));
@@ -385,12 +385,12 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
 
     public function previewHomeAction()
     {
-        $this->_previewAction('preview_iframe_home');
+        $this->_previewAction('preview_home_content');
     }
 
     public function previewCatalogAction()
     {
-        $this->_previewAction('preview_iframe_catalog');
+        $this->_previewAction('preview_catalog_content');
     }
 
     /**
@@ -403,7 +403,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         try {
             $app = $this->_initApp();
             if (!$this->getRequest()->getParam('submission_action')) {
-                $app->addData($app->preparePostData($this->getRequest()->getPost()));
+                $app->addData($this->_preparePostData($this->getRequest()->getPost()));
             }
             $app->addData(array('conf' => $this->_processUploadedFiles($app->getConf())));
 
@@ -603,5 +603,49 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $image->resize($width, $height);
             $image->save(null, basename($file));
         }
+    }
+
+    /**
+     * Prepare post data
+     *
+     * Retains previous data in the object.
+     *
+     * @param array $arr
+     * @return array
+     */
+    public function _preparePostData(array $arr)
+    {
+        unset($arr['code']);
+        if (isset($arr['conf']['new_pages']) && isset($arr['conf']['new_pages']['ids'])
+            && isset($arr['conf']['new_pages']['labels'])) {
+
+            $new_pages = array();
+            foreach ($arr['conf']['new_pages']['ids'] as $key=>$value) {
+                $new_pages[$key]['id'] = $value;
+            }
+            foreach ($arr['conf']['new_pages']['labels'] as $key=>$value) {
+                $new_pages[$key]['label'] = $value;
+            }
+            if (!isset($arr['conf']['native']['pages'])) {
+                $arr['conf']['native']['pages'] = array();
+            }
+            $arr['conf']['native']['pages'] = array_merge($arr['conf']['native']['pages'], $new_pages);
+            unset($arr['conf']['new_pages']);
+        }
+
+        if (!isset($arr['conf']['defaultCheckout'])) {
+            $arr['conf']['defaultCheckout'] = array();
+        }
+        if (!isset($arr['conf']['defaultCheckout']['isActive'])) {
+            $arr['conf']['defaultCheckout']['isActive'] = 0;
+        }
+
+        if (!isset($arr['conf']['paypal'])) {
+            $arr['conf']['paypal'] = array();
+        }
+        if (!isset($arr['conf']['paypal']['isActive'])) {
+            $arr['conf']['paypal']['isActive'] = 0;
+        }
+        return $arr;
     }
 }

@@ -26,15 +26,19 @@
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminhtml_Block_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Set design tab template
+     * Set to show global icon
+     */
     public function __construct()
     {
         parent::__construct();
         $this->setShowGlobalIcon(true);
-        $this->setTemplate('xmlconnect/design.phtml');
+        $this->setTemplate('xmlconnect/edit/tab/design.phtml');
     }
 
     /**
-     * Prepare label for tab
+     * Tab label getter
      *
      * @return string
      */
@@ -44,7 +48,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
     }
 
     /**
-     * Prepare title for tab
+     * Tab title getter
      *
      * @return string
      */
@@ -54,9 +58,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
     }
 
     /**
-     * Returns status flag about this tab can be showen or not
+     * Check if tab can be shown
      *
-     * @return true
+     * @return bool
      */
     public function canShowTab()
     {
@@ -64,9 +68,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design extends Mage_Adminh
     }
 
     /**
-     * Returns status flag about this tab hidden or not
+     * Check if tab hidden
      *
-     * @return true
+     * @return bool
      */
     public function isHidden()
     {

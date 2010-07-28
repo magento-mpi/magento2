@@ -26,9 +26,6 @@
 
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
-    /**
-     * Class construct
-     */
     public function __construct()
     {
         $this->_objectId    = 'application_id';
@@ -75,6 +72,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
 
     /**
      * Get form header title
+     *
      * @return string
      */
     public function getHeaderText()

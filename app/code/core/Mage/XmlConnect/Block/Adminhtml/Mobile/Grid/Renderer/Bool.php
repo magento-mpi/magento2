@@ -33,9 +33,8 @@
  */
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Bool extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
-
     /**
-     * Renders grid column
+     * Render application status image
      *
      * @param   Varien_Object $row
      * @return  string
@@ -46,10 +45,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Bool extends Mage_Adm
         $status = (int) $row->getData($this->getColumn()->getIndex());
         $options = Mage::helper('xmlconnect')->getStatusOptions();
         if ($status == Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS) {
-             $result = '<img src="' . Mage::getDesign()->getSkinUrl('images/xmlconnect/' . 'gel_green.png')
+             $result = '<img src="' . Mage::helper('xmlconnect')->getSkinImagesUrl('gel_green.png')
             . '" >&nbsp;' . (isset($options[$status]) ? $options[$status] : '');
         } else if ($status == Mage_XmlConnect_Model_Application::APP_STATUS_INACTIVE) {
-            $result = '<img src="' . Mage::getDesign()->getSkinUrl('images/xmlconnect/' . 'gel_red.png')
+            $result = '<img src="' . Mage::helper('xmlconnect')->getSkinImagesUrl('gel_red.png')
             . '" >&nbsp;' . (isset($options[$status]) ? $options[$status] : '');
         }
         return $result;

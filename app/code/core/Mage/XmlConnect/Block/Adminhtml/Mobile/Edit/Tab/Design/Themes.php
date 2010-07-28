@@ -25,29 +25,17 @@
  */
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage_Adminhtml_Block_Template
 {
-    protected function getAllThemes()
-    {
-        $result = array();
-        foreach ($this->getThemes() as $theme) {
-            $result[$theme->getName()] = $theme->getFormData();
-        }
-        return $result;
-    }
-
-    protected function addColorBox($id, $label, $data)
-    {
-        return array(
-            'id'    => $id,
-            'name'  => $id,
-            'label' => $label,
-            'value' => isset($data[$id]) ? $data[$id] : ''
-        );
-    }
+    /**
+     * Set themes template
+     * Set color fieldsets
+     */
     public function __construct()
     {
         parent::__construct();
 
         $model = Mage::registry('current_app');
+        $this->setTemplate('xmlconnect/form/element/themes.phtml');
+
         $data = $model->getFormData();
 
         $this->setColorFieldset (array (
@@ -70,60 +58,81 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
                 $this->addColorBox('conf[native][itemActions][relatedProductBackgroundColor]', Mage::helper('xmlconnect')->__('Related Product Background Color'), $data),
             )),
         ));
-
-        $this->setTemplate('xmlconnect/themes.phtml');
-
-    }
-
-    protected function _prepareLayout()
-    {
-
-    }
-
-    public function getThemeAjaxParameters()
-    {
-        return Mage::helper('xmlconnect/theme')->getThemeAjaxParameters();
-    }
-
-    public function getCustomThemeName()
-    {
-        return Mage::helper('xmlconnect/theme')->getCustomThemeName();
-    }
-
-    public function getDefaultThemeName()
-    {
-        return Mage::helper('xmlconnect/theme')->getDefaultThemeName();
     }
 
     /**
-     * Check if we creating new Application
+     * Themes array getter
+     *
+     * @return array
+     */
+    protected function getAllThemes()
+    {
+        $result = array();
+        foreach ($this->getThemes() as $theme) {
+            $result[$theme->getName()] = $theme->getFormData();
+        }
+        return $result;
+    }
+
+    /**
+     * Create color field params
+     *
+     * @param id $id
+     * @param string $label
+     * @param array $data
+     */
+    protected function addColorBox($id, $label, $data)
+    {
+        return array(
+            'id'    => $id,
+            'name'  => $id,
+            'label' => $label,
+            'value' => isset($data[$id]) ? $data[$id] : ''
+        );
+    }
+
+    /**
+     * Check if adding new Application
      *
      * @return bool
      */
     public function isNewApplication()
     {
-        return Mage::registry('current_app')->getId() ? true : false;
+        return $this->getApplication()->getId() ? true : false;
     }
 
+    /**
+     * Save theme action url getter
+     *
+     * @return string
+     */
     public function getSaveThemeActionUrl()
     {
         return $this->getUrl('*/*/saveTheme');
     }
 
+    /**
+     * Reset theme action url getter
+     *
+     * @return string
+     */
     public function getResetThemeActionUrl()
     {
         return $this->getUrl('*/*/resetTheme');
     }
 
-   /**
-    * Returns url for skin folder
-    *
-    * @param string $name  - file name
-    *
-    * @return string
-    */
-    protected function getImageUrl($name = '')
+    /**
+     * Getter for current loaded application model
+     *
+     * @return Mage_XmlConnect_Model_Application
+     */
+    public function getApplication()
     {
-        return  Mage::getDesign()->getSkinUrl(Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Abstract::XMLCONNECT_ADMIN_DEFAULT_IMAGES . $name);
+        $model = Mage::registry('current_app');
+        if(!($model instanceof Mage_XmlConnect_Model_Application)){
+            Mage::throwException(Mage::helper('xmlconnect')->__('Application model not loaded.'));
+        }
+
+        return $model;
     }
 }

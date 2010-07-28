@@ -30,7 +30,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container extends Ma
     {
         parent::__construct();
         $this->setShowGlobalIcon(true);
-        $this->setTemplate('xmlconnect/container.phtml');
+        $this->setTemplate('xmlconnect/submission/container.phtml');
     }
 
     /**
@@ -71,5 +71,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container extends Ma
     public function isHidden()
     {
         return false;
+    }
+
+    /**
+     * Retrive submission action url
+     *
+     * @return string
+     */
+    public function getActionUrl()
+    {
+         return $this->getUrl('*/*/submissionPost', array('key' => Mage::registry('current_app')->getId()));
     }
 }

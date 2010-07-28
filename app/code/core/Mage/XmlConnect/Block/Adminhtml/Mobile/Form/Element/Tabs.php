@@ -26,11 +26,19 @@
 
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Tabs extends Varien_Data_Form_Element_Text
 {
+    /**
+     * Generate application tabs html
+     *
+     * @return string
+     */
     public function getHtml()
     {
-        $block = new Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Tabs;
+        $blockClassName = Mage::getConfig()->getBlockClassName('adminhtml/template');
+        $block = new $blockClassName;
+        $block->setTemplate('xmlconnect/form/element/app_tabs.phtml');
+        $tabs = Mage::getModel('xmlconnect/tabs', $this->getValue());
+        $block->setTabs($tabs);
         $block->setName($this->getName());
-        $block->setValue($this->getValue());
         return $block->toHtml();
     }
 }

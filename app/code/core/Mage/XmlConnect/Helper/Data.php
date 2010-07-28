@@ -184,4 +184,15 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $tabs;
     }
+
+    /**
+     * Retrieve xmlconnect images skin url
+     *
+     * @param string $name
+     * @return string
+     */
+    public function getSkinImagesUrl($name = null)
+    {
+        return Mage::getDesign()->getSkinUrl('images/xmlconnect/' . $name);
+    }
 }

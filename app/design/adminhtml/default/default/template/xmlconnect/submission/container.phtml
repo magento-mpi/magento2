@@ -24,7 +24,16 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<script type="text/javascript">
+// <![CDATA[
 
+function submitApplication() {
+  submitUrl = "<?php echo $this->getActionUrl() ?>";
+  editForm.submit(submitUrl);
+}
+
+// ]]>
+</script>
 <table border="0" cellspacing="0" cellpadding="0">
     <tr>
         <td valign="top" width="540px"><?php echo $this->getChildHtml('edit_form'); ?></td>
