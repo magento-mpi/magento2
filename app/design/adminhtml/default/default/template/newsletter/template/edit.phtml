@@ -67,8 +67,10 @@
 </form>
 <script type="text/javascript">
 //<![CDATA[
+
+<?php if( !$this->isSingleStoreMode() ): ?>
     Event.observe($('store_switcher'), 'change', switchStore(this));
-    
+
     function switchStore(obj){
         if(obj.value) {
             $('preview_store_id').value = obj.value;
@@ -77,6 +79,7 @@
             return false;
         }
     }
+<?php endif; ?>
 
     var templateForm = new varienForm('newsletter_template_edit_form');
     var templatePreviewForm = new varienForm('newsletter_template_preview_form');
