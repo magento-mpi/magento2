@@ -34,6 +34,7 @@
                 <?php echo $this->getToPlainButtonHtml(); ?>
                 <?php echo $this->getToHtmlButtonHtml(); ?>
                 <?php endif ?>
+                <?php echo $this->getPreviewButtonHtml(); ?>
                 <?php if($this->getEditMode()): ?>
                 <?php echo $this->getDeleteButtonHtml(); ?>
                 <?php endif ?>
@@ -60,18 +61,15 @@
         <input type="hidden" id="preview_type" name="type" value="<?php echo $this->isTextType()?1:2 ?>" />
         <input type="hidden" id="preview_text" name="text" value="" />
         <input type="hidden" id="preview_styles" name="styles" value="" />
-<?php if (!$this->isSingleStoreMode()): ?>
-        <input type="hidden" id="preview_store_id" name="store_id" value="" />
-<?php endif; ?>
+        <input type="hidden" id="preview_store_id" name="store_id" value="<?php echo $this->isSingleStoreMode() ? $this->getStoreId() : ''?>" />
     </div>
 </form>
 <script type="text/javascript">
 //<![CDATA[
-
 <?php if( !$this->isSingleStoreMode() ): ?>
     Event.observe($('store_switcher'), 'change', switchStore(this));
 
-    function switchStore(obj){
+    function switchStore(obj){  // Function name is important - to overwrite standard one, that executes first - we don't need its functionality
         if(obj.value) {
             $('preview_store_id').value = obj.value;
             templateControl.preview();
@@ -165,6 +163,10 @@
         },
 
         preview: function() {
+            if (!$('preview_store_id').value) {
+                alert('<?php echo Mage::helper('newsletter')->__('Choose store view to preview newsletter') ?>');
+                return false;
+            }
             if (this.typeChange) {
                 $('preview_type').value = 1;
             } else {

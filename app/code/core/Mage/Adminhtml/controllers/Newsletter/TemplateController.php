@@ -48,7 +48,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
      *
      * @return Mage_Adminhtml_Newsletter_TemplateController
      */
-    protected function _setTiltle()
+    protected function _setTitle()
     {
         return $this->_title($this->__('Newsletter'))->_title($this->__('Newsletter Templates'));
     }
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
      */
     public function indexAction ()
     {
-        $this->_setTiltle();
+        $this->_setTitle();
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     }
 
     /**
-     * Create new Nesletter Template
+     * Create new Newsletter Template
      *
      */
     public function newAction ()
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
      */
     public function editAction ()
     {
-        $this->_setTiltle();
+        $this->_setTitle();
 
         $model = Mage::getModel('newsletter/template');
         if ($id = $this->getRequest()->getParam('id')) {
@@ -137,7 +137,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     }
 
     /**
-     * Drop Nesletter Template
+     * Drop Newsletter Template
      *
      */
     public function dropAction ()
@@ -147,7 +147,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     }
 
     /**
-     * Save Nesletter Template
+     * Save Newsletter Template
      *
      */
     public function saveAction ()
@@ -225,7 +225,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
      */
     public function previewAction ()
     {
-        $this->_setTiltle();
+        $this->_setTitle();
 
         if ($this->getRequest()->getParam('store_id')) {
             $this->loadLayout('newsletter_template_preview');

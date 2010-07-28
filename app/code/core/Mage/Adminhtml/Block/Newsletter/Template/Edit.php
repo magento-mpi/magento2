@@ -119,6 +119,15 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
                 ))
         );
 
+        $this->setChild('preview_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => Mage::helper('newsletter')->__('Preview Template'),
+                    'onclick'   => 'templateControl.preview();',
+                    'class'     => 'task'
+                ))
+        );
+
         $this->setChild('delete_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
@@ -179,6 +188,16 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     public function getSaveButtonHtml()
     {
         return $this->getChildHtml('save_button');
+    }
+
+    /**
+     * Retrieve Preview Button HTML
+     *
+     * @return string
+     */
+    public function getPreviewButtonHtml()
+    {
+        return $this->getChildHtml('preview_button');
     }
 
     /**
@@ -310,12 +329,22 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     }
 
     /**
-     * Getter for single store mode check 
+     * Getter for single store mode check
      *
      * @return boolean
      */
     protected function isSingleStoreMode()
     {
         return Mage::app()->isSingleStoreMode();
+    }
+
+    /**
+     * Getter for id of current store (the only one in single-store mode and current in multi-stores mode)
+     *
+     * @return boolean
+     */
+    protected function getStoreId()
+    {
+        return Mage::app()->getStore(true)->getId();
     }
 }

@@ -44,55 +44,62 @@
 <div id="preview">
     <?php echo $this->getChildHtml('store_switcher'); ?>
     <iframe name="preview_iframe" id="preview_iframe" frameborder="0"></iframe>
-    1<?php echo $this->getChildHtml('preview_form'); ?>2
+    <?php echo $this->getChildHtml('preview_form'); ?>
 </div>
 <div id="loading-mask" style="display:none">
     <p class="loader" id="loading_mask_loader"><img src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif') ?>" alt="<?php echo Mage::helper('adminhtml')->__('Loading...') ?>"/><br/><?php echo Mage::helper('adminhtml')->__('Please wait...') ?></p>
 </div>
 <script type="text/javascript">
 //<![CDATA[
-Event.observe($('store_switcher'), 'change', switchStore(this));
-
-function switchStore(obj){
-    if(obj.value) {
-        $('preview_store_id').value = obj.value;
-        preview();
-    }else{
-        return false;
-    }
-}
-
 var previewForm = $('preview_form');
 var loadingMask = $('loading-mask');
 var previewIframe = $('preview_iframe');
 
-    function preview() {
-        previewForm.writeAttribute('target', previewIframe.readAttribute('id'));
-        blockPreview();
-        previewForm.submit();
+function preview() {
+    previewForm.writeAttribute('target', previewIframe.readAttribute('id'));
+    blockPreview();
+    previewForm.submit();
+}
+
+function blockPreview() {
+    var cumulativeOffset = $('preview').cumulativeOffset();
+
+    $('loading-mask').setStyle({
+        top:  ( cumulativeOffset.top ) + 'px',
+        left: ( cumulativeOffset.left ) + 'px',
+        width: $('preview').getWidth() + 'px',
+        height: $('preview').getHeight() + 'px'
+    });
+
+    toggleSelectsUnderBlock($('loading-mask'), false);
+    Element.show('loading-mask');
+    setLoaderPosition();
+}
+
+function unBlockPreview() {
+    toggleSelectsUnderBlock(loadingMask, true);
+    Element.hide(loadingMask);
+}
+
+Event.observe(previewIframe, 'load', unBlockPreview);
+
+var storeSwitcher = $('store_switcher');
+if (storeSwitcher) {
+    // Multi store mode
+    function switchStore(obj){
+        if(obj.value) {
+            $('preview_store_id').value = obj.value;
+            preview();
+        }else{
+            return false;
+        }
     }
 
-    function blockPreview() {
-        var cumulativeOffset = $('preview').cumulativeOffset();
-        
-        $('loading-mask').setStyle({
-            top:  ( cumulativeOffset.top ) + 'px',
-            left: ( cumulativeOffset.left ) + 'px',
-            width: $('preview').getWidth() + 'px',
-            height: $('preview').getHeight() + 'px'
-        });
-
-        toggleSelectsUnderBlock($('loading-mask'), false);
-        Element.show('loading-mask');
-        setLoaderPosition();
-    }
-
-    function unBlockPreview() {
-        toggleSelectsUnderBlock(loadingMask, true);
-        Element.hide(loadingMask);
-    }
-
-    Event.observe(previewIframe, 'load', unBlockPreview);
+    Event.observe($('store_switcher'), 'change', switchStore(this));
+} else {
+    // Single-store mode - instant preview
+    preview();
+}
 //]]>
 </script>
 </body>
