@@ -582,53 +582,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Send HTTP POST request to magentocommerce.com
-     *
-     * @param array $params
-     */
-    public function processPostRequest()
-    {
-        try {
-            $params = $this->getSubmitParams();
-
-            $appConnectorUrl = Mage::getStoreConfig('xmlconnect/mobile_application/magentocommerce_url');
-            $ch = curl_init($appConnectorUrl . $params['key']);
-            // set URL and other appropriate options
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,  2);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-
-            // Execute the request.
-            $result = curl_exec($ch);
-            $succeeded  = curl_errno($ch) == 0 ? true : false;
-
-            // close cURL resource, and free up system resources
-            curl_close($ch);
-
-            // Assert that we received an expected message in reponse.
-            $resultArray = json_decode($result, true);
-
-            $this->setResult($result);
-            $success = (isset($resultArray['success'])) && ($resultArray['success'] === true);
-
-            $this->setSuccess($success);
-            if (!$this->getSuccess()) {
-                $message = '';
-                $message = isset($resultArray['message']) ? $resultArray['message']: '';
-                if (is_array($message)) {
-                    $message = implode(' ,', $message);
-                }
-                Mage::throwException(Mage::helper('xmlconnect')->__('Submit Application failure. %s', $message));
-            }
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
      * Retrieve Store Id
      *
      * @return int

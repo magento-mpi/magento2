@@ -79,17 +79,4 @@ class Mage_XmlConnect_Model_Mysql4_History extends Mage_Core_Model_Mysql4_Abstra
         return $paramArray;
     }
 
-    /**
-     * Fetches websiteId for entity
-     *
-     * @param int
-     * @return string
-     */
-    public function getParams2($entityId)
-    {
-        return $this->_getReadAdapter()->fetchOne(
-            $this->_getReadAdapter()->select()
-                ->from($this->getMainTable(), 'website_id')
-                ->where($this->getIdFieldName() . ' = ?', $entityId));
-    }
 }

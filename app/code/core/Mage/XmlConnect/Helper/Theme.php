@@ -28,53 +28,11 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
 {
 
     /**
-     * Converts native Ajax data from flat to real array
+     *  Color Themes Cashe
      *
-     * @param array $data   $_POST
-     * @return array
+     *   @param array|null
      */
-    public function convertPost($data)
-    {
-        $converted = array();
-        $conf = array(
-            'native' => array('navigationBar' => array(), 'body' => array(), 'categoryItem' => array(), 'itemActions'),
-            'extra' => array('fontColors' => array())
-        );
-        foreach($data as $key => $val){
-            $parts = explode('_', $key);
-            $this->_parseUnderscoreArray($parts, $conf, $val);
-        }
-        $converted['conf'] = $conf;
-        return $converted;
-    }
-
-    /**
-     *  Convert 'conf_extra_tripple_something' to $conf['extra']['tripple']['something']
-     *
-     * @param string $parts
-     * @param array &$conf
-     * @param string $val
-     * @return null
-     */
-    function _parseUnderscoreArray($parts, &$conf, $val)
-    {
-        // don't forget isset() checks
-        list($key0,$key1,$key2,$key3) = $parts;
-        if (!isset($conf[$key1])) {
-            $conf[$key1] = array();
-        }
-        if (!isset($conf[$key1][$key2])) {
-            $conf[$key1][$key2] = array();
-        }
-        $conf[$key1][$key2][$key3] = $val;
-        $position3 = $val;
-        return null;
-    }
-
-    public function getThemeFieldsArray()
-    {
-
-    }
+    var $_themeArray = null;
 
     /**
      * Return for Color Themes Fields array.
@@ -108,10 +66,10 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
      * @params bool     $default    -    load defaults
      * @return array
      */
-    public function getAllThemesArray($default = false)
+    public function getAllThemesArray($flushCashe = false)
     {
         $result = array();
-        $themes = Mage::helper('xmlconnect/theme')->getAllThemes($default);
+        $themes = $this->getAllThemes($flushCashe);
         foreach ($themes as $theme) {
             $result[$theme->getName()] = $theme->getFormData();
         }
@@ -124,34 +82,35 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
      * @param  bool         $default - Reads default color Themes
      * @return array            - (of Mage_XmlConnect_Model_Theme)
      */
-    public function getAllThemes()
+    public function getAllThemes($flushCache = false)
     {
-        $save_libxml_errors = libxml_use_internal_errors(TRUE);
-        $result = array();
-        $themeDir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'themes';
-        $d = opendir($themeDir);
-        while (($f = readdir($d)) !== FALSE) {
-            $f = $themeDir . DS . $f;
-            if (is_file($f) && is_readable($f)) {
-                try {
-                    $result[] = Mage::getModel('xmlconnect/theme', $f);
-                } catch (Exception $e) {
-                    Mage::logException($e);
+        if (!$this->_themeArray || $flushCache) {
+            $save_libxml_errors = libxml_use_internal_errors(TRUE);
+            $this->_themeArray = array();
+            $themeDir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'themes';
+            $d = opendir($themeDir);
+            while (($f = readdir($d)) !== FALSE) {
+                $f = $themeDir . DS . $f;
+                if (is_file($f) && is_readable($f)) {
+                    try {
+                        $theme = Mage::getModel('xmlconnect/theme', $f);
+                        $this->_themeArray[$theme->getName()] = $theme;
+                    } catch (Exception $e) {
+                        Mage::logException($e);
+                    }
                 }
             }
+            closedir($d);
+            libxml_use_internal_errors($save_libxml_errors);
         }
-        closedir($d);
-
-        libxml_use_internal_errors($save_libxml_errors);
-        usort($result, array('Mage_XmlConnect_Helper_Theme', 'sortThemes'));
-        return $result;
+        return $this->_themeArray;
     }
 
     /**
-     *  Reads directory media/xmlconnect/themes/*
+     * Reset all theme color changes
+     * Copy media/xmlconnect/themes/default/* to media/xmlconnect/themes/*
      *
-     * @param  bool         $default - Reads default color Themes
-     * @return array            - (of Mage_XmlConnect_Model_Theme)
+     * @return void
      */
     public function resetAllThemes()
     {
@@ -179,42 +138,33 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
     }
 
     /**
-     * Compare function, used in usort, so done as static
+     * Get theme object by name
      *
-     * @param Mage_XmlConnect_Model_Theme $a
-     * @param Mage_XmlConnect_Model_Theme $b
-     *
-     * @return int
+     * @param string $name
+     * @return Mage_XmlConnect_Model_Theme|null
      */
-    public static function sortThemes($a, $b)
+    public function getThemeByName($name)
     {
-        if ($a->getName() == 'default') {
-            return -1;
-        }
-        elseif ($b->getName() == 'default') {
-            return 1;
-        }
-        else {
-            return ($a->getName() < $b->getName()) ? -1: 1;
-        }
+        $themes = $this->getAllThemes();
+        $theme = isset($themes[$name]) ? $themes[$name] : null;
+        return $theme;
     }
 
-    public function savePost($name, $data)
-    {
-        $themes = self::getAllThemes();
-        foreach ($themes as $theme) {
-            if ($name == $theme->getName()) {
-                $theme->importAndSaveData($data['conf']);
-                break;
-            }
-        }
-    }
-
+    /**
+     * Return predefined custom theme name
+     *
+     * @return string
+     */
     public function getCustomThemeName()
     {
         return 'custom';
     }
 
+    /**
+     * Return predefined default theme name
+     *
+     * @return string
+     */
     public function getDefaultThemeName()
     {
         return 'default';

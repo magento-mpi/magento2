@@ -96,7 +96,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return array
      */
-    public function getSupportedDevices()
+    static public function getSupportedDevices()
     {
         $devices = array (
             'iphone' => Mage::helper('xmlconnect')->__('iPhone')

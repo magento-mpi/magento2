@@ -159,7 +159,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $isError = true;
             }
             if (!$isError) {
-                $app->processPostRequest();
+                $this->_processPostRequest();
                 $history = Mage::getModel('xmlconnect/history');
                 $history->setData(array(
                     'params' => $params,
@@ -185,6 +185,55 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Can\'t submit application.'));
             Mage::logException($e);
             $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
+        }
+    }
+
+    /**
+     * Send HTTP POST request to magentocommerce.com
+     *
+     * @return void
+     */
+    protected function _processPostRequest()
+    {
+        try {
+            $app = Mage::registry('current_app');
+            $params = $app->getSubmitParams();
+
+            $appConnectorUrl = Mage::getStoreConfig('xmlconnect/mobile_application/magentocommerce_url');
+            $ch = curl_init($appConnectorUrl . $params['key']);
+
+            // set URL and other appropriate options
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,  2);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+
+            // Execute the request.
+            $result = curl_exec($ch);
+            $succeeded  = curl_errno($ch) == 0 ? true : false;
+
+            // close cURL resource, and free up system resources
+            curl_close($ch);
+
+            // Assert that we received an expected message in reponse.
+            $resultArray = json_decode($result, true);
+
+            $app->setResult($result);
+            $success = (isset($resultArray['success'])) && ($resultArray['success'] === true);
+
+            $app->setSuccess($success);
+            if (!$app->getSuccess()) {
+                $message = '';
+                $message = isset($resultArray['message']) ? $resultArray['message']: '';
+                if (is_array($message)) {
+                    $message = implode(' ,', $message);
+                }
+                Mage::throwException(Mage::helper('xmlconnect')->__('Submit Application failure. %s', $message));
+            }
+        } catch (Exception $e) {
+            throw $e;
         }
     }
 
@@ -239,15 +288,24 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     protected function _saveThemeAction($data, $paramId = 'saveTheme')
     {
         try {
-            $theme = $this->getRequest()->getParam($paramId, false);
-            if ($theme) {
-                if ($paramId == 'saveTheme') {
-                    $converted = Mage::helper('xmlconnect/theme')->convertPost($data);
+            $themeName = $this->getRequest()->getParam($paramId, false);
+            if ($themeName) {
+                $theme = Mage::helper('xmlconnect/theme')->getThemeByName($themeName);
+                if ($theme instanceof Mage_XmlConnect_Model_Theme) {
+                    if ($paramId == 'saveTheme') {
+                        $convertedConf = $this->_convertPost($data);
+                    } else {
+                        if (isset($data['conf'])) {
+                            $convertedConf = $data['conf'];
+                        } else {
+                            $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Cannot save theme "%s". Incorrect data received', $themeName));
+                        }
+                    }
+                    $theme->importAndSaveData($convertedConf);
+                    $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
                 } else {
-                    $converted = $data;
+                    $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Cannot load theme "%s".', $themeName));
                 }
-                Mage::helper('xmlconnect/theme')->savePost($theme, $converted);
-                $response = Mage::helper('xmlconnect/theme')->getAllThemesArray();
             } else {
                 $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Theme Name is not set.'));
             }
@@ -271,6 +329,34 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     }
 
     /**
+     * Converts native Ajax data from flat to real array
+     * Convert array key->value pairs inside array like:
+     * "conf_native_bar_tintcolor" => $val   to   $conf['native']['bar']['tintcolor'] => $val
+     *
+     * @param array $data   $_POST
+     * @return array
+     */
+    protected function _convertPost($data)
+    {
+        $conf = array();
+        foreach($data as $key => $val){
+            $parts = explode('_', $key);
+            // "4" - is number of expected params conf_native_bar_tintcolor in correct data
+            if (is_array($parts) && (count($parts) == 4)) {
+                @list($key0, $key1, $key2, $key3) = $parts;
+                if (!isset($conf[$key1])) {
+                    $conf[$key1] = array();
+                }
+                if (!isset($conf[$key1][$key2])) {
+                    $conf[$key1][$key2] = array();
+                }
+            $conf[$key1][$key2][$key3] = $val;
+            }
+        }
+        return $conf;
+    }
+
+    /**
      * Save Theme action
      */
     public function saveThemeAction()
@@ -288,7 +374,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $response = false;
         try {
             Mage::helper('xmlconnect/theme')->resetAllThemes();
-            $response = Mage::helper('xmlconnect/theme')->getAllThemesArray();
+            $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
         } catch (Mage_Core_Exception $e) {
             $response = array(
                 'error'     => true,
