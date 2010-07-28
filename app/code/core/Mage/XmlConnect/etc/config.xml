@@ -137,7 +137,7 @@
             </paypal_mep>
         </payment>
         <imageLimits>
-            <iPhone>
+            <iphone>
                 <navigationBar>
                     <icon> <heightMax>44</heightMax> </icon>
                 </navigationBar>
@@ -176,7 +176,7 @@
                     <checkBoxEnabledIcon> <widthMax>20</widthMax> <heightMax>20</heightMax> </checkBoxEnabledIcon>
                     <checkBoxDisabledIcon> <widthMax>20</widthMax> <heightMax>20</heightMax> </checkBoxDisabledIcon>
                 </itemActions>
-            </iPhone>
+            </iphone>
         </imageLimits>
         <xmlconnect>
             <mobile_application>

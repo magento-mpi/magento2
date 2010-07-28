@@ -143,13 +143,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             /** @var $app Mage_XmlConnect_Model_Application */
             $app = $this->_initApp('key');
             $app->loadSubmit();
-            if (!empty($_FILES)) {
-                foreach ($_FILES as $field=>$file) {
-                    if (!empty($file['name']) && is_scalar($file['name'])) {
-                        $uploadedFiles[] = $this->_handleUpload($field);
-                    }
-                }
-            }
+
+            $app->addData(array('conf' => $this->_processUploadedFiles($app->getConf())));
+
             $params = $app->prepareSubmitParams($data);
             $errors = $app->validateSubmit($params);
             if ($errors !== true) {
@@ -251,13 +247,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $app = $this->_initApp();
                 $this->_saveThemeAction($data, 'current_theme');
                 $app->addData($app->preparePostData($data));
-                if (!empty($_FILES)) {
-                    foreach ($_FILES as $field=>$file) {
-                        if (!empty($file['name']) && is_scalar($file['name'])) {
-                            $this->_handleUpload($field);
-                        }
-                    }
-                }
+                $app->addData(array('conf' => $this->_processUploadedFiles($app->getConf())));
                 $app->save();
                 $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been saved.'));
             } catch (Mage_Core_Exception $e) {
@@ -415,14 +405,8 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             if (!$this->getRequest()->getParam('submission_action')) {
                 $app->addData($app->preparePostData($this->getRequest()->getPost()));
             }
+            $app->addData(array('conf' => $this->_processUploadedFiles($app->getConf())));
 
-            if (!empty($_FILES)) {
-                foreach ($_FILES as $field=>$file) {
-                    if (!empty($file['name']) && is_scalar($file['name'])) {
-                        $this->_handleUpload($field);
-                    }
-                }
-            }
             $this->loadLayout(FALSE);
             $preview = $this->getLayout()->getBlock($block);
             $preview->setConf($app->getRenderConf());
@@ -490,12 +474,30 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     }
 
     /**
+     * Process all uploaded files
+     * setup filenames to the configuration return array
+     *
+     * @return array
+     */
+    protected function _processUploadedFiles($conf)
+    {
+        if (!empty($_FILES)) {
+            foreach ($_FILES as $field=>$file) {
+                if (!empty($file['name']) && is_scalar($file['name'])) {
+                    $this->_handleUpload($field, $conf);
+                }
+            }
+        }
+        return $conf;
+    }
+
+    /**
      * Process uploaded file
      * setup filenames to the configuration
      *
      * @param string $field
      */
-    protected function _handleUpload($field)
+    protected function _handleUpload($field, &$target)
     {
         $upload_dir = Mage::getBaseDir('media') . DS . 'xmlconnect';
 
@@ -515,7 +517,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
          */
         $nameParts = explode('/', $field);
         array_shift($nameParts);
-        $target =& $this->_data['conf'];
         foreach($nameParts as $next) {
             if (!isset($target[$next])) {
                 $target[$next] = array();
@@ -560,10 +561,12 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      *
      * @param array $nameParts
      * @param string $file
+     * @return void
      */
     protected function _handleResize($nameParts, $file)
     {
-        $conf = Mage::getStoreConfig('imageLimits/'.$this->getType());
+        $app = Mage::registry('current_app');
+        $conf = Mage::getStoreConfig('imageLimits/'.$app->getType());
         while (count($nameParts)) {
             $next = array_shift($nameParts);
             if (isset($conf[$next])) {

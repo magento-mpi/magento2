@@ -100,7 +100,7 @@ body { margin: 0; padding: 0 }
 	text-align: center;
 	float: left;
 	margin: 0 0 0 15px;
-	background:url('../images/xmlconnect/mobile-preview/btn-l.png') center center no-repeat;
+	background:url('../images/xmlconnect/mobile_preview/btn-l.png') center center no-repeat;
 }
 
 .btn-r
@@ -113,7 +113,7 @@ body { margin: 0; padding: 0 }
 	text-align: center;
 	float: right;
 	margin: 0 20px 0 0;
-	background:url('../images/xmlconnect/mobile-preview/btn-r.png') center center no-repeat;
+	background:url('../images/xmlconnect/mobile_preview/btn-r.png') center center no-repeat;
 }
 .main-header-text 
 {
@@ -152,7 +152,7 @@ body { margin: 0; padding: 0 }
 {
 	width: 18px;
 	height: 18px;
-	background:url('../images/xmlconnect/mobile-preview/circle.png') center center no-repeat;
+	background:url('../images/xmlconnect/mobile_preview/circle.png') center center no-repeat;
 }
 .filter-text
 {
@@ -165,7 +165,7 @@ body { margin: 0; padding: 0 }
 	width: 25px;
 	height: 25px;
 	padding: 0 25px 0 0;
-	background:url('../images/xmlconnect/mobile-preview/lines-h.png') center center no-repeat;
+	background:url('../images/xmlconnect/mobile_preview/lines-h.png') center center no-repeat;
 }
 .sort-block 
 {
@@ -215,7 +215,7 @@ body { margin: 0; padding: 0 }
 
 .slider-item
 {
-	background: url('../images/xmlconnect/mobile-preview/actionsBg.png') left center repeat-x; 
+	background: url('../images/xmlconnect/mobile_preview/actionsBg.png') left center repeat-x; 
 	width: 20%; 
 	height: 100%;
 	float: left;
@@ -237,14 +237,14 @@ body { margin: 0; padding: 0 }
 {
 	height: 91px;
 	width: 20px;
-	background: url('../images/xmlconnect/mobile-preview/lines-v.png') center center no-repeat;
+	background: url('../images/xmlconnect/mobile_preview/lines-v.png') center center no-repeat;
 	float: left;
 }
 .arrow 
 {
 	height: 91px;
 	width: 20px;
-	background: url('../images/xmlconnect/mobile-preview/arrow.png') center center no-repeat;
+	background: url('../images/xmlconnect/mobile_preview/arrow.png') center center no-repeat;
 	float: right;
 }
 .item-image 
