@@ -44,12 +44,24 @@ class Mage_XmlConnect_Model_Mysql4_History_Collection
         $this->_init('xmlconnect/history');
     }
 
+    /**
+     * Filter collection by store
+     *
+     * @param int $storeId
+     * @return Mage_Core_Model_Mysql4_Collection_Abstract
+     */
     public function addStoreFilter($storeId)
     {
         $this->addFieldToFilter('store_id', $storeId);
         return $this;
     }
 
+    /**
+     * Filter collection by application_id
+     *
+     * @param int $applicationId
+     * @return Mage_Core_Model_Mysql4_Collection_Abstract
+     */
     public function addApplicationFilter($applicationId)
     {
         $this->addFieldToFilter('application_id', $applicationId);

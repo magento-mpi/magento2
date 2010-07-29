@@ -26,6 +26,12 @@
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Prepare form before rendering HTML
+     * Setting Form Fieldsets and fields
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
     protected function _prepareForm()
     {
         $model = Mage::registry('current_app');
@@ -65,8 +71,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
                 'required'  => true,
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(true, false),
             ));
-        }
-        else {
+        } else {
             $storeElement = $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'store_id',
                 'value'     => Mage::app()->getStore(true)->getId()
@@ -76,7 +81,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
 
         if ($model->getId()) {
             $storeElement->setDisabled(true);
-
         }
 
         $fieldset->addField('type', 'select', array(

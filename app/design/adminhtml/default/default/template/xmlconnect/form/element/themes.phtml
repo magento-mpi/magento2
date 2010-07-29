@@ -305,6 +305,9 @@ function hidePopupBox() {s
             </ul>
         </li>
     </ul>
+    <div class="form-buttons" style="float:right">
+        <button type="button" class="scalable" style="margin: 0 2em 0 0" id="apply_theme"><span><?php echo Mage::helper('xmlconnect')->__('Apply Theme'); ?></span></button>
+    </div>
     <br/><br/>
 </div>
 
@@ -345,16 +348,15 @@ $('<?php echo $id; ?>').observe('change', function() { changeColorListener('<?ph
 });
 //]]>
 </script>
-<tr><td colspan="2">
-<div class="form-buttons">
 <?php
-/*
+/*<tr><td colspan="2">
+<div class="form-buttons">
+
 <!-- submitAndReloadArea($('order_history_block').parentNode, 'http://mage.local/index.php/admin/sales_order/addComment/order_id/2/') -->
 <button type="button" class="scalable back" style="margin: 0 2em 0 0" id="reset_theme"><span><?php echo Mage::helper('xmlconnect')->__('Reset'); ?></span></button>
 <button type="button" class="scalable" style="margin: 0 2em 0 0" id="submit_theme"><span><?php echo Mage::helper('xmlconnect')->__('Save Theme'); ?></span></button>
-*/?>
 <button type="button" class="scalable" style="margin: 0 2em 0 0" id="apply_theme"><span><?php echo Mage::helper('xmlconnect')->__('Apply Theme'); ?></span></button>
 </div>
 <br />
-
+*/?>
 </td></tr>

@@ -26,6 +26,11 @@
 
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Addrow extends Varien_Data_Form_Element_Button
 {
+    /**
+     * Render Element Html
+     *
+     * @return string
+     */
     public function getElementHtml()
     {
         $html = $this->getBeforeElementHtml() . '<button id="'.$this->getHtmlId().'" name="'.$this->getName()
@@ -35,11 +40,21 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Addrow extends Varien_
         return $html;
     }
 
+    /**
+     * Getter for "before_element_html"
+     *
+     * @return string
+     */
     public function getBeforeElementHtml()
     {
         return $this->getData('before_element_html');
     }
 
+    /**
+     * Overriding toHtml parent method
+     * Adding addrow Block to element renderer
+     * @return string
+     */
     public function toHtml()
     {
         $blockClassName = Mage::getConfig()->getBlockClassName('adminhtml/template');;

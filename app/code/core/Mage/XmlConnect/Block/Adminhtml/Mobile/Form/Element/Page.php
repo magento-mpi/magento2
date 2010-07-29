@@ -37,7 +37,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Page extends Varien_Da
         $this->setType('page');
     }
 
-
+    /**
+     * Setting stored data to page element
+     *
+     * @param array $conf
+     */
     public function initFields($conf)
     {
         $this->addElement(new Varien_Data_Form_Element_Text(array(

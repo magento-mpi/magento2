@@ -53,7 +53,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
     * @param string $name  - file name
     * @return string
     */
-    protected function getPreviewImagesUrlUrl($name = '')
+    public function getPreviewImagesUrl($name = '')
     {
         return  Mage::helper('xmlconnect')->getSkinImagesUrl('mobile_preview/' . $name);
     }
@@ -64,7 +64,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Preview_Content extends Mage_Adminh
     * @param string $name  - file name
     * @return string
     */
-    protected function getPreviewCssUrl($name = '')
+    public function getPreviewCssUrl($name = '')
     {
         return  Mage::getDesign()->getSkinUrl('xmlconnect/' . $name);
     }

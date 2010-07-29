@@ -37,7 +37,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Font extends Varien_Da
         $this->setType('font');
     }
 
-
+    /**
+     * Setting stored data to Font element
+     *
+     * @param array $conf
+     */
     public function initFields($conf)
     {
         $name = $conf['name'];
@@ -74,7 +78,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Font extends Varien_Da
     }
 
     /**
-     * Enter description here...
+     * Get Rendered Element Html
      *
      * @param string
      */

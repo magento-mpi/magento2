@@ -58,7 +58,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
      * @param string $fieldName
      * @param string $title
      */
-    protected function addImage($fieldset, $fieldName, $title, $note = '', $default = '')
+    public function addImage($fieldset, $fieldName, $title, $note = '', $default = '')
     {
         $fieldset->addField($fieldName, 'image', array(
             'name'      => $fieldName,

@@ -26,6 +26,9 @@
 
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
+    /**
+     * Setting app action buttons for application
+     */
     public function __construct()
     {
         $this->_objectId    = 'application_id';
@@ -63,6 +66,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
         $this->removeButton('reset');
     }
 
+    /**
+     * Adding JS scripts to block
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form_Container
+     */
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')->addJs('jscolor/jscolor.js');

@@ -40,22 +40,22 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
 
         $this->setColorFieldset (array (
             array ( 'id' => 'field_colors', 'label' =>   Mage::helper('xmlconnect')->__('Colors'), 'fields' => array (
-                $this->addColorBox('conf[native][navigationBar][tintColor]', Mage::helper('xmlconnect')->__('Header Background Color'), $data),
-                $this->addColorBox('conf[native][body][primaryColor]', Mage::helper('xmlconnect')->__('Primary Color'), $data),
-                $this->addColorBox('conf[native][body][secondaryColor]', Mage::helper('xmlconnect')->__('Secondary Color'), $data),
-                $this->addColorBox('conf[native][categoryItem][backgroundColor]', Mage::helper('xmlconnect')->__('Category Item Background Color'), $data),
-                $this->addColorBox('conf[native][categoryItem][tintColor]', Mage::helper('xmlconnect')->__('Category Button Color'), $data),
+                $this->_addColorBox('conf[native][navigationBar][tintColor]', Mage::helper('xmlconnect')->__('Header Background Color'), $data),
+                $this->_addColorBox('conf[native][body][primaryColor]', Mage::helper('xmlconnect')->__('Primary Color'), $data),
+                $this->_addColorBox('conf[native][body][secondaryColor]', Mage::helper('xmlconnect')->__('Secondary Color'), $data),
+                $this->_addColorBox('conf[native][categoryItem][backgroundColor]', Mage::helper('xmlconnect')->__('Category Item Background Color'), $data),
+                $this->_addColorBox('conf[native][categoryItem][tintColor]', Mage::helper('xmlconnect')->__('Category Button Color'), $data),
             )),
             array ( 'id' => 'field_fonts', 'label' =>   Mage::helper('xmlconnect')->__('Fonts'), 'fields' => array (
-                $this->addColorBox('conf[extra][fontColors][header]', Mage::helper('xmlconnect')->__('Header Font Color'), $data),
-                $this->addColorBox('conf[extra][fontColors][primary]', Mage::helper('xmlconnect')->__('Primary Font Color'), $data),
-                $this->addColorBox('conf[extra][fontColors][secondary]', Mage::helper('xmlconnect')->__('Secondary Font Color'), $data),
-                $this->addColorBox('conf[extra][fontColors][price]', Mage::helper('xmlconnect')->__('Price Font Color'), $data),
+                $this->_addColorBox('conf[extra][fontColors][header]', Mage::helper('xmlconnect')->__('Header Font Color'), $data),
+                $this->_addColorBox('conf[extra][fontColors][primary]', Mage::helper('xmlconnect')->__('Primary Font Color'), $data),
+                $this->_addColorBox('conf[extra][fontColors][secondary]', Mage::helper('xmlconnect')->__('Secondary Font Color'), $data),
+                $this->_addColorBox('conf[extra][fontColors][price]', Mage::helper('xmlconnect')->__('Price Font Color'), $data),
             )),
             array ( 'id' => 'field_advanced', 'label' =>  Mage::helper('xmlconnect')->__('Advanced Settings'), 'fields' => array (
-                $this->addColorBox('conf[native][body][backgroundColor]', Mage::helper('xmlconnect')->__('Background Color'), $data),
-                $this->addColorBox('conf[native][body][scrollBackgroundColor]', Mage::helper('xmlconnect')->__('Scroll Background Color'), $data),
-                $this->addColorBox('conf[native][itemActions][relatedProductBackgroundColor]', Mage::helper('xmlconnect')->__('Related Product Background Color'), $data),
+                $this->_addColorBox('conf[native][body][backgroundColor]', Mage::helper('xmlconnect')->__('Background Color'), $data),
+                $this->_addColorBox('conf[native][body][scrollBackgroundColor]', Mage::helper('xmlconnect')->__('Scroll Background Color'), $data),
+                $this->_addColorBox('conf[native][itemActions][relatedProductBackgroundColor]', Mage::helper('xmlconnect')->__('Related Product Background Color'), $data),
             )),
         ));
     }
@@ -65,7 +65,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
      *
      * @return array
      */
-    protected function getAllThemes()
+    public function getAllThemes()
     {
         $result = array();
         foreach ($this->getThemes() as $theme) {
@@ -81,7 +81,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
      * @param string $label
      * @param array $data
      */
-    protected function addColorBox($id, $label, $data)
+    protected function _addColorBox($id, $label, $data)
     {
         return array(
             'id'    => $id,

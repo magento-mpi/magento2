@@ -38,6 +38,8 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
 
     /**
      * Initialize grid data collection
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {
@@ -47,7 +49,9 @@ class Mage_Xmlconnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
     }
 
     /**
-     * Delcare grid columns
+     * Declare grid columns
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {

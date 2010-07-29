@@ -146,6 +146,9 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         return $result;
     }
 
+    /**
+     * Set default configuration data
+     */
     public function loadDefaultConfiguration()
     {
         $this->setType('iphone');
@@ -181,6 +184,11 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         return $this->getData('conf');
     }
 
+    /**
+     * Get config formatted for rendering
+     *
+     * @return array
+     */
     public function getRenderConf()
     {
         $result = Mage::helper('xmlconnect/iphone')->getDefaultConfiguration();
@@ -398,7 +406,6 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         }
         return $this->_lastParams;
     }
-
 
     /**
      * Validate submit application data

@@ -383,18 +383,26 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         }
     }
 
+    /**
+     * Preview Home action handler
+     */
     public function previewHomeAction()
     {
         $this->_previewAction('preview_home_content');
     }
 
+    /**
+     * Preview Catalog action handler
+     */
     public function previewCatalogAction()
     {
         $this->_previewAction('preview_catalog_content');
     }
 
     /**
-     * Preview action
+     * Preview action implementation
+     *
+     * @param string    $block
      */
     protected function _previewAction($block)
     {

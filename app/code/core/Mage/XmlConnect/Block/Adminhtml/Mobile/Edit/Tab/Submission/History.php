@@ -42,6 +42,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
         $this->setDefaultDir('ASC');
     }
 
+    /**
+     * Setting collection to show
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('xmlconnect/history')->getCollection()
@@ -50,6 +55,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
         return parent::_prepareCollection();
     }
 
+    /**
+     * Setting 2 columns
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('key', array(

@@ -47,7 +47,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_Adminhtml_
      * @param string $fieldName
      * @param string $title
      */
-    protected function addImage($fieldset, $fieldName, $title, $note = null, $default = '')
+    public function addImage($fieldset, $fieldName, $title, $note = null, $default = '')
     {
         $fieldset->addField($fieldName, 'image', array(
             'name'      => $fieldName,
@@ -65,7 +65,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_Adminhtml_
      * @param string $title
      * @param bool $simple
      */
-    protected function addFont($fieldset, $fieldPrefix, $title)
+    public function addFont($fieldset, $fieldPrefix, $title)
     {
         $el = $fieldset->addField($fieldPrefix, 'font', array(
             'name'      => $fieldPrefix,

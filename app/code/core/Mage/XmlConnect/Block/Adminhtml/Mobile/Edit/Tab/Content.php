@@ -43,7 +43,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
      * @param string $title
      * @param bool $simple
      */
-    protected function addPage($fieldset, $fieldPrefix, $title=NULL, $simple=FALSE)
+    protected function _addPage($fieldset, $fieldPrefix, $title=NULL, $simple=FALSE)
     {
         $title = $this->getDefaultTitle($title, $fieldPrefix);
         $el = $fieldset->addField($fieldPrefix, 'page', array(
@@ -55,6 +55,12 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
         ));
     }
 
+    /**
+     * Prepare form before rendering HTML
+     * Setting Form Fieldsets and fields
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
     protected function _prepareForm()
     {
         $model = Mage::registry('current_app');
@@ -79,7 +85,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
 
         if (isset($conf['native']['pages'])) {
             foreach($conf['native']['pages'] as $key=>$dummy) {
-                $this->addPage($fieldset, 'conf[native][pages]['.$key.']');
+                $this->_addPage($fieldset, 'conf[native][pages]['.$key.']');
             }
         }
 

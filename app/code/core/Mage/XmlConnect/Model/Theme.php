@@ -30,6 +30,11 @@ class Mage_XmlConnect_Model_Theme
     protected $_xml;
     protected $_conf;
 
+    /**
+     * Load Theme xml from $file
+     *
+     * @param string $file
+     */
     public function __construct($file)
     {
         $this->_file = $file;
@@ -45,6 +50,11 @@ class Mage_XmlConnect_Model_Theme
         }
     }
 
+    /**
+     * Get theme xml as array
+     * @param  $xml
+     * @return array
+     */
     protected function _xmlToArray($xml)
     {
         $result = array();
@@ -58,11 +68,17 @@ class Mage_XmlConnect_Model_Theme
         return $result;
     }
 
+    /**
+     * Getter for theme name
+     */
     public function getName()
     {
         return (string) $this->_xml->manifest->name;
     }
 
+    /**
+     * Getter for theme Label
+     */
     public function getLabel()
     {
         return (string) $this->_xml->manifest->label;
@@ -106,6 +122,13 @@ class Mage_XmlConnect_Model_Theme
         return $result;
     }
 
+    /**
+     * Validate input Array, recursive
+     *
+     * @param array $data
+     * @param array $xml
+     * @return array
+     */
     protected function _validateFormInput($data, $xml=NULL) {
         $root = false;
         $result = array();
@@ -130,6 +153,13 @@ class Mage_XmlConnect_Model_Theme
         return $result;
     }
 
+    /**
+     * Build XML object recursively from $data array
+     *
+     * @param SimpleXMLElement $parent
+     * @param array $data
+     * @return void
+     */
     protected function _buildRecursive($parent, $data)
     {
         foreach ($data as $key=>$value) {
@@ -142,6 +172,12 @@ class Mage_XmlConnect_Model_Theme
         }
     }
 
+    /**
+     * Import data into theme form $data array, and save XML to file
+     *
+     * @param array $data
+     * @return void
+     */
     public function importAndSaveData($data)
     {
         $xml = new SimpleXMLElement('<theme>'.$this->_xml->manifest->asXML().'</theme>');

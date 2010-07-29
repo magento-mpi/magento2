@@ -28,6 +28,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission extends Mage_Adminhtml_B
 {
     /**
      * Class construct
+     *
+     * Setting buttons for submit application page
      */
     public function __construct()
     {

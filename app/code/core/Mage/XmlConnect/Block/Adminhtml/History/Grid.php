@@ -43,6 +43,11 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
 
     }
 
+    /**
+     * Setting collection to show
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('xmlconnect/history')->getCollection();
@@ -50,6 +55,11 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
         return parent::_prepareCollection();
     }
 
+    /**
+     * Setting 4 columns
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('title', array(

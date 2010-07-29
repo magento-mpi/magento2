@@ -46,6 +46,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Image extends Varien_D
         return $url;
     }
 
+    /**
+     * Get "clear" filename from element
+     *
+     * @return string
+     */
     public function getUploadName()
     {
         /**
@@ -56,6 +61,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Image extends Varien_D
         return $name;
     }
 
+    /**
+     * Compose output html for element
+     *
+     * @return string
+     */
     public function getElementHtml()
     {
         $html = '<div style="white-space: nowrap">';
