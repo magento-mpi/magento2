@@ -71,7 +71,7 @@ Magento.Dropdowns.prototype = {
             Event.observe(i.down('a'), 'click', function(e){
                 e.stop();
                 that.input.value = i.down('a').rel;
-                mmSetTheme(that.input.value);
+//                mmSetTheme(that.input.value);
                 that.hide_all();
                 that.head.down('a').innerHTML = i.down('a').innerHTML;
             });
@@ -134,6 +134,8 @@ function changeColorListener(id) {
 
 Event.observe(document, 'dom:loaded', function() {
     new Magento.Dropdowns('dropdown');
+<?php
+/*
     $('submit_theme').observe('click', function() {
         if (currentTheme) {
             setThemeSelector(currentTheme);
@@ -143,11 +145,15 @@ Event.observe(document, 'dom:loaded', function() {
     $('reset_theme').observe('click', function() {
         resetThemeChanges();
     });
+*/
+?>
+    $('apply_theme').observe('click', function() {
+        mmSetTheme($('theme_selector_id_value').value);
+    });
 
     $("mobile_app_tabs_design_section").observe('click', function() {
         mmSetTheme(currentTheme);
     });
-
 
 });
 
@@ -185,9 +191,10 @@ function toggleBlock(block,link){
         }
     });
 }
-
+<?php
+/*
 function resetThemeChanges() {
-    actionUrl = "<?php echo $this->getResetThemeActionUrl() ?>";
+    var actionUrl = '<?php echo $this->getResetThemeActionUrl() ?>';
     new Ajax.Request(actionUrl, {
         parameters: {reset : 1},
         onSuccess: function(transport) {
@@ -215,14 +222,15 @@ function resetThemeChanges() {
 }
 
 function saveThemeChanges() {
-    actionUrl = "<?php echo $this->getSaveThemeActionUrl() ?>" + 'saveTheme/' + $('theme_selector_id_value').value;
-    new Ajax.Request(actionUrl, {
-        parameters:
-        {
+    var actionUrl = "<?php echo $this->getSaveThemeActionUrl() ?>" + 'saveTheme/' + $('theme_selector_id_value').value;
+    var params = {
+        <?php $firstRow = true; ?>
         <?php foreach ($_themesHelper->getThemeAjaxParameters() as $name => $id) : ?>
-            <?php echo $name; ?> : $('<?php echo $id; ?>').value,
+            <?php echo ($firstRow === true ? $firstRow = '' : ',') . $name; ?> : $('<?php echo $id; ?>').value
         <?php endforeach; ?>
-        },
+        };
+    new Ajax.Request(actionUrl, {
+        parameters: params,
         onSuccess: function(transport) {
             try {
                 response = transport.responseText;
@@ -245,7 +253,8 @@ function saveThemeChanges() {
         }.bind(this)
     });
 }
-
+*/
+?>
 function showPopupBox(message) {
     mask = $('loading-mask');
     mask.innerHTML = '<form class="loader" action="#"><div>'+message+'<br></div><input type="submit" onclick="alert(\'Hide\');hidePopupBox();" value="<?php echo Mage::helper('xmlconnect')->__(' Ok. '); ?>"></form>';
@@ -269,7 +278,7 @@ function hidePopupBox() {s
 <tr><td colspan="2"  style="width:540px">
 <br />
 
-<label for="theme_selector_id" class="f-left theme-selector-title"><?php echo Mage::helper('xmlconnect')->__('Color Theme'); ?></label>
+<label for="theme_selector_id" class="f-left theme-selector-title"><?php echo Mage::helper('xmlconnect')->__('Preset Theme'); ?></label>
 <div class="theme-select-cont">
     <input type="hidden" name="conf[extra][theme]" id="theme_selector_id_value" value="<?php echo $themeId; ?>"/>
     <input type="hidden" name="current_theme" id="theme_selector_id_value_flat" value="<?php echo $themeId; ?>"/>
@@ -338,9 +347,13 @@ $('<?php echo $id; ?>').observe('change', function() { changeColorListener('<?ph
 </script>
 <tr><td colspan="2">
 <div class="form-buttons">
+<?php
+/*
 <!-- submitAndReloadArea($('order_history_block').parentNode, 'http://mage.local/index.php/admin/sales_order/addComment/order_id/2/') -->
 <button type="button" class="scalable back" style="margin: 0 2em 0 0" id="reset_theme"><span><?php echo Mage::helper('xmlconnect')->__('Reset'); ?></span></button>
 <button type="button" class="scalable" style="margin: 0 2em 0 0" id="submit_theme"><span><?php echo Mage::helper('xmlconnect')->__('Save Theme'); ?></span></button>
+*/?>
+<button type="button" class="scalable" style="margin: 0 2em 0 0" id="apply_theme"><span><?php echo Mage::helper('xmlconnect')->__('Apply Theme'); ?></span></button>
 </div>
 <br />
 

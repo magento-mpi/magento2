@@ -44,7 +44,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
 
         if (Mage::registry('current_app')->getId()) {
             $this->_addButton('submit_application_button', array(
-                'label' =>  Mage::helper('xmlconnect')->__('Save and Submit'),
+                'label' =>  Mage::helper('xmlconnect')->__('Save and Submit App'),
                 'onclick'    => 'saveAndSubmitApp()',
                 'class'     => 'save'
             ), -10);
@@ -58,7 +58,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit extends Mage_Adminhtml_Block_W
         }
 
         if (Mage::registry('current_app')->getIsSubmitted()) {
-            $this->_updateButton('delete', 'disabled', 'disabled');
+            $this->removeButton('delete');
         }
         $this->removeButton('reset');
     }

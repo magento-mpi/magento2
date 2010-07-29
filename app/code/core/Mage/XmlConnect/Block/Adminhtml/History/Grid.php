@@ -52,24 +52,6 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
 
     protected function _prepareColumns()
     {
-//        $this->addColumn('Title', array(
-//            'header'    => Mage::helper('xmlconnect')->__('Application Name'),
-//            'align'     => 'left',
-//            'index'     => 'title',
-//            'type'      => 'text',
-//            'sortable'  =>  false,
-//
-//        ));
-//        $this->addColumn('created_at', array(
-//            'header'    => Mage::helper('xmlconnect')->__('Date Created'),
-//            'align'     => 'left',
-//            'index'     => 'created_at',
-//            'sortable'  =>  false,
-//        ));
-//
-//        return parent::_prepareColumns();
-//    }
-
         $this->addColumn('title', array(
             'header'    => Mage::helper('xmlconnect')->__('Application Name'),
             'align'     => 'left',
@@ -102,6 +84,7 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
             'sortable'  =>  false,
             'onclick'   => '',
         ));
+        return parent::_prepareColumns();
     }
 
     /**

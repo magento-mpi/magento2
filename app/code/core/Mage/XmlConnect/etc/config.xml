@@ -181,7 +181,8 @@
         <xmlconnect>
             <mobile_application>
                 <magentocommerce_url>www.magentocommerce.com/mobile/activate/</magentocommerce_url>
-                <get_activation_key_url>http://www.magentocommerce.com/product/mobile/</get_activation_key_url>
+                <activation_key_url>http://www.magentocommerce.com/product/mobile/</activation_key_url>
+                <resubmission_key_url>http://www.magentocommerce.com/product/mobile#resubmission</resubmission_key_url>
             </mobile_application>
             <devices>
                 <iphone>

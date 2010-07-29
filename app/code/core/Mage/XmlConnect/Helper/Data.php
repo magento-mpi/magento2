@@ -176,7 +176,7 @@ class Mage_XmlConnect_Helper_Data extends Mage_Core_Helper_Abstract
                 'action' => 'Account',
             ),
             array(
-                'label' => Mage::helper('xmlconnect')->__('About Us'),
+                'label' => Mage::helper('xmlconnect')->__('More Info'),
                 'image' => 'tab_page.png',
                 'action' => 'AboutUs',
             ),

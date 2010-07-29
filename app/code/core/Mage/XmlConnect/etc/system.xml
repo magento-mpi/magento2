@@ -53,7 +53,7 @@
                             <show_in_store>0</show_in_store>
                             <comment>"Make sure that base URL ends with '/' (slash), e.g. http://www.magentocommerce.com/store/"</comment>
                         </magentocommerce_url>
-                        <get_activation_key_url translate="label comment">
+                        <activation_key_url translate="label comment">
                             <label>Get Activation Key URL</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>1</sort_order>
@@ -61,7 +61,16 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                             <comment>"Make sure that base URL ends with '/' (slash), e.g www.magentocommerce.com/mobile/activate/"</comment>
-                        </get_activation_key_url>
+                        </activation_key_url>
+                        <resubmission_key_url translate="label comment">
+                            <label>Get Resubmission Key URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>"Default value - http://www.magentocommerce.com/product/mobile#resubmission"</comment>
+                        </resubmission_key_url>
                     </fields>
                 </mobile_application>
             </groups>

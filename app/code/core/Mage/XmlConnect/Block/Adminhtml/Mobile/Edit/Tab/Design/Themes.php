@@ -39,7 +39,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
         $data = $model->getFormData();
 
         $this->setColorFieldset (array (
-            array ( 'id' => 'field_colors', 'label' =>   Mage::helper('xmlconnect')->__('Color Themes'), 'fields' => array (
+            array ( 'id' => 'field_colors', 'label' =>   Mage::helper('xmlconnect')->__('Colors'), 'fields' => array (
                 $this->addColorBox('conf[native][navigationBar][tintColor]', Mage::helper('xmlconnect')->__('Header Background Color'), $data),
                 $this->addColorBox('conf[native][body][primaryColor]', Mage::helper('xmlconnect')->__('Primary Color'), $data),
                 $this->addColorBox('conf[native][body][secondaryColor]', Mage::helper('xmlconnect')->__('Secondary Color'), $data),

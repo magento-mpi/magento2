@@ -65,7 +65,7 @@
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_content" name="mobile_edit_tab_content"/>
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_payment" name="mobile_edit_tab_payment"/>
                 <block type="xmlconnect/adminhtml_mobile_edit_tab_submission" name="mobile_edit_tab_submission">
-                    <block type="xmlconnect/adminhtml_mobile_edit_tab_submission_history" name="mobile_edit_tab_submission_history_gird"/>
+                    <block type="xmlconnect/adminhtml_mobile_edit_tab_submission_history" name="mobile_edit_tab_submission_history_grid"/>
                 </block>
 
                 <action method="addTab"><name>general_section</name><block>mobile_edit_tab_general</block></action>

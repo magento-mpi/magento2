@@ -35,6 +35,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
 
     }
 
+    /**
+     * Adding preview for images if application was submitted(so we have saved images)
+     *
+     * @return Mage_Core_Block_Abstract
+     */
     protected function _prepareLayout()
     {
         if ($this->getApplication()->getIsResubmitAction()) {
@@ -62,6 +67,11 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
         ));
     }
 
+    /**
+     * Prepare form before rendering HTML
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
@@ -70,6 +80,34 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
         $form->setAction($this->getUrl('*/mobile/submission'));
         $isResubmit = $this->getApplication()->getIsResubmitAction();
         $formData = $this->getApplication()->getFormData();
+
+        $url = Mage::getStoreConfig('xmlconnect/mobile_application/activation_key_url');
+        $afterElementHtml = Mage::helper('xmlconnect')->__('In order to submit your app, you need to first purchase a <a href="%s" target="_blank">%s</a> from MagentoCommerce', $url, Mage::helper('xmlconnect')->__('Activation Key'));
+        $fieldset = $form->addFieldset('submit_keys', array('legend' => Mage::helper('xmlconnect')->__('Key')));
+        $field = $fieldset->addField('conf[submit_text][key]', 'text', array(
+            'name'      => 'conf[submit_text][key]',
+            'label'     => Mage::helper('xmlconnect')->__('Activation Key'),
+            'value'     => isset($formData['conf[submit_text][key]']) ? $formData['conf[submit_text][key]'] : null,
+            'disabled'  => $isResubmit,
+            'after_element_html' => $afterElementHtml,
+        ));
+        if (!$isResubmit) {
+            $field->setRequired(true);
+        }
+
+
+        if ($isResubmit) {
+            $url = Mage::getStoreConfig('xmlconnect/mobile_application/resubmission_key_url');
+            $afterElementHtml = Mage::helper('xmlconnect')->__('In order to resubmit your app, you need to first purchase a <a href="%s" target="_blank">%s</a> from MagentoCommerce', $url, Mage::helper('xmlconnect')->__('Resubmission Key'));
+
+            $fieldset->addField('conf[submit_text][resubmission_activation_key]', 'text', array(
+                'name'     => 'conf[submit_text][resubmission_activation_key]',
+                'label'    => Mage::helper('xmlconnect')->__('Resubmission Key'),
+                'value'    => isset($formData['conf[submit_text][resubmission_activation_key]']) ? $formData['conf[submit_text][resubmission_activation_key]'] : null,
+                'required' => true,
+                'after_element_html' => $afterElementHtml,
+            ));
+        }
 
         $fieldset = $form->addFieldset('submit_general', array('legend' => Mage::helper('xmlconnect')->__('Submission Fields')));
 
@@ -162,35 +200,10 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             Mage::helper('xmlconnect')->__('Users will see this image as the first screen while your application is loading.  It is a 320x460 image.'));
 
         $this->addImage($fieldset, 'conf/submit/logo', Mage::helper('xmlconnect')->__('Custom application icon'),
-            Mage::helper('xmlconnect')->__('This icon will be  used for users’ devices in case if different than AppSore icon needed. '));
+            Mage::helper('xmlconnect')->__('This icon will be  used for users’ devices in case if different than AppSore icon needed. Preferred size: 57px x 57px.'));
         $this->addImage($fieldset, 'conf/submit/big_logo', Mage::helper('xmlconnect')->__('Copyright page logo'),
-            Mage::helper('xmlconnect')->__('Store logo that will be displayed on copyright page of application '));
+            Mage::helper('xmlconnect')->__('Store logo that will be displayed on copyright page of application. Preferred size: 100px x 100px.'));
 
-        $fieldset = $form->addFieldset('submit_keys', array('legend' => Mage::helper('xmlconnect')->__('Key')));
-        $field = $fieldset->addField('conf[submit_text][key]', 'text', array(
-            'name'      => 'conf[submit_text][key]',
-            'label'     => Mage::helper('xmlconnect')->__('Activation Key'),
-            'value'     => isset($formData['conf[submit_text][key]']) ? $formData['conf[submit_text][key]'] : null,
-            'disabled'  => $isResubmit,
-            'after_element_html' => '<a href="' .
-                Mage::getStoreConfig('xmlconnect/mobile_application/get_activation_key_url') . '" target="_blank">'
-                . Mage::helper('xmlconnect')->__('Get Activation Key'). '</a>',
-        ));
-        if (!$isResubmit) {
-            $field->setRequired(true);
-        }
-
-        $url = Mage::getStoreConfig('xmlconnect/mobile_application/get_activation_key_url');
-        $afterElementHtml = Mage::helper('xmlconnect')->__('In order to resubmit your app, you need to first purchase a <a href="%s" target="_blank">%s</a> from Magentocommerce', $url, Mage::helper('xmlconnect')->__('resubmission key'));
-
-        if ($isResubmit)
-        $fieldset->addField('conf[submit_text][resubmission_activation_key]', 'text', array(
-            'name'     => 'conf[submit_text][resubmission_activation_key]',
-            'label'    => Mage::helper('xmlconnect')->__('Resubmission Key'),
-            'value'    => isset($formData['conf[submit_text][resubmission_activation_key]']) ? $formData['conf[submit_text][resubmission_activation_key]'] : null,
-            'required' => true,
-            'after_element_html' => $afterElementHtml,
-        ));
         return parent::_prepareForm();
     }
 
@@ -245,6 +258,12 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
         );
     }
 
+    /**
+     * Prepare html output
+     * Adding preview for images if application was submitted(so we have saved images)
+     *
+     * @return string
+     */
     protected function _toHtml()
     {
         return parent::_toHtml() . (!$this->getApplication()->getIsResubmitAction() ? '' : $this->getChildHtml('images'));

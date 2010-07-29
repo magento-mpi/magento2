@@ -57,7 +57,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('mobile/app');
+        $this->_setActiveMenu('xmlconnect/mobile');
         $this->renderLayout();
     }
 
@@ -87,7 +87,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $app->addData($data);
             }
             $this->loadLayout();
-            $this->_setActiveMenu('mobile/app');
+            $this->_setActiveMenu('xmlconnect/mobile');
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -113,7 +113,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $app->addData($data);
             }
             $this->loadLayout();
-            $this->_setActiveMenu('mobile/app');
+            $this->_setActiveMenu('xmlconnect/mobile');
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -433,12 +433,16 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     {
         try {
             $app = $this->_initApp();
-            $app->delete();
-            $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been deleted.'));
+            if (!$app->getIsSubmitted()) {
+                $app->delete();
+                $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been deleted.'));
+            } else {
+                Mage::throwException(Mage::helper('xmlconnect')->__('It\'s not allowed to delete submitted application.'));
+            }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to find a banner to delete.'));
+            $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to find an application to delete.'));
         }
         $this->_redirect('*/*/');
     }
@@ -459,7 +463,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     public function historyAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('mobile/app');
+        $this->_setActiveMenu('xmlconnect/history');
         $this->renderLayout();
     }
 
@@ -469,7 +473,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     public function gridAction()
     {
         $this->loadLayout(false);
-        $this->_setActiveMenu('mobile/app');
+        $this->_setActiveMenu('xmlconnect/mobile');
         $this->renderLayout();
     }
 
