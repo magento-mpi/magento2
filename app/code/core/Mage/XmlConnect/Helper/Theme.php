@@ -63,13 +63,13 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
     /**
      * Returns JSON ready Themes array
      *
-     * @params bool     $default    -    load defaults
+     * @params bool     $flushCache    -    load defaults
      * @return array
      */
-    public function getAllThemesArray($flushCashe = false)
+    public function getAllThemesArray($flushCache = false)
     {
         $result = array();
-        $themes = $this->getAllThemes($flushCashe);
+        $themes = $this->getAllThemes($flushCache);
         foreach ($themes as $theme) {
             $result[$theme->getName()] = $theme->getFormData();
         }
@@ -79,8 +79,8 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
     /**
      *  Reads directory media/xmlconnect/themes/*
      *
-     * @param  bool         $default - Reads default color Themes
-     * @return array            - (of Mage_XmlConnect_Model_Theme)
+     * @param  bool $flushCache  - Reads default color Themes
+     * @return array             - (of Mage_XmlConnect_Model_Theme)
      */
     public function getAllThemes($flushCache = false)
     {
@@ -88,19 +88,21 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
             $save_libxml_errors = libxml_use_internal_errors(TRUE);
             $this->_themeArray = array();
             $themeDir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'themes';
-            $d = opendir($themeDir);
-            while (($f = readdir($d)) !== FALSE) {
-                $f = $themeDir . DS . $f;
-                if (is_file($f) && is_readable($f)) {
+            $io = new Varien_Io_File();
+            $io->open(array('path' => $themeDir));
+
+            $fileList = $io->ls(Varien_Io_File::GREP_FILES);
+            foreach ($fileList as $file) {
+                $src = $themeDir . DS . $file['text'];
+                if (is_readable($src)) {
                     try {
-                        $theme = Mage::getModel('xmlconnect/theme', $f);
+                        $theme = Mage::getModel('xmlconnect/theme', $src);
                         $this->_themeArray[$theme->getName()] = $theme;
                     } catch (Exception $e) {
                         Mage::logException($e);
                     }
                 }
             }
-            closedir($d);
             libxml_use_internal_errors($save_libxml_errors);
         }
         return $this->_themeArray;
@@ -117,23 +119,26 @@ class Mage_XmlConnect_Helper_Theme extends Mage_Adminhtml_Helper_Data
         $save_libxml_errors = libxml_use_internal_errors(TRUE);
         $themeDir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'themes';
         $defaultThemeDir = Mage::getBaseDir('media') . DS . 'xmlconnect' . DS . 'themes' . DS . 'default';
-        $d = opendir($defaultThemeDir);
-        while (($f = readdir($d)) !== FALSE) {
+
+        $io = new Varien_Io_File();
+        $io->open(array('path'=>$defaultThemeDir));
+        $fileList = $io->ls(Varien_Io_File::GREP_FILES);
+        foreach ($fileList as $file) {
+            $f = $file['text'];
             $src = $defaultThemeDir . DS . $f;
             $dst = $themeDir . DS .$f;
-            if (is_file($src) && is_readable($src) && is_writeable($themeDir)) {
+            if ($io->isWriteable($dst)) {
                 try {
-                    if (!($result = copy($src, $dst))) {
+                    if (!($result = $io->cp($src, $dst))) {
                         Mage::throwException(Mage::helper('xmlconnect')->__('Can\t copy file "%s" to "%s".', $src, $dst));
                     } else {
-                        $chmodResult = chmod($dst, 0777);
+                        $chmodResult = $io->chmod($dst, 0755);
                     }
                 } catch (Exception $e) {
                     Mage::logException($e);
                 }
             }
         }
-        closedir($d);
         libxml_use_internal_errors($save_libxml_errors);
     }
 

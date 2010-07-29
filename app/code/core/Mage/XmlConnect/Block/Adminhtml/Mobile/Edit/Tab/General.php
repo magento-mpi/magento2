@@ -84,7 +84,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
                 'label'     => Mage::helper('xmlconnect')->__('Device Type'),
                 'title'     => Mage::helper('xmlconnect')->__('Device Type'),
                 'disabled'  => $model->getId() ? true : false,
-                'values'    => Mage::helper('xmlconnect')->getDeviceValuesForForm(),
+                'values'    => Mage::helper('xmlconnect')->getDeviceTypeOptions(),
         ));
 
         $fieldset->addField('browsing_mode', 'select', array(
