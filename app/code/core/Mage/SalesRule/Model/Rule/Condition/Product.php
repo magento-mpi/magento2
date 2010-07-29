@@ -44,8 +44,15 @@ class Mage_SalesRule_Model_Rule_Condition_Product extends Mage_CatalogRule_Model
      */
     public function validate(Varien_Object $object)
     {
-        $product = Mage::getModel('catalog/product')
-            ->load($object->getProductId())
+        $product = false;
+        if ($object->getProduct() instanceof Mage_Catalog_Model_Product) {
+            $product = $object->getProduct();
+        } else {
+            $product = Mage::getModel('catalog/product')
+                ->load($object->getProductId());
+        }
+
+        $product
             ->setQuoteItemQty($object->getQty())
             ->setQuoteItemPrice($object->getPrice()) // possible bug: need to use $object->getBasePrice()
             ->setQuoteItemRowTotal($object->getBaseRowTotal());

@@ -174,16 +174,16 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
             ->addAttributeToSelect(Mage::getSingleton('sales/quote_config')->getProductAttributes())
             ->addOptionsToResult()
             ->addStoreFilter()
-            ->addUrlRewrite();
+            ->addUrlRewrite()
+            ->addTierPriceData();
 
         Mage::dispatchEvent('sales_quote_item_collection_products_after_load', array('product_collection'=>$productCollection));
 
         $recollectQuote = false;
         foreach ($this as $item) {
-
-            if ($product = $productCollection->getItemById($item->getProductId())) {
+            $product = $productCollection->getItemById($item->getProductId());
+            if ($product) {
                 $product->setCustomOptions(array());
-
                 foreach ($item->getOptions() as $option) {
                     /**
                      * Call type specified logic for product associated with quote item
@@ -195,8 +195,7 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
                         );
                 }
                 $item->setProduct($product);
-            }
-            else {
+            } else {
                 $item->isDeleted(true);
                 $recollectQuote = true;
             }

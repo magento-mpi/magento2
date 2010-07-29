@@ -625,6 +625,7 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
      */
     public function getRulePrice($date, $wId, $gId, $pId)
     {
+        Mage::log(Varien_Debug::backtrace(true));
         $read = $this->_getReadAdapter();
         $select = $read->select()
             ->from($this->getTable('catalogrule/rule_product_price'), 'rule_price')
