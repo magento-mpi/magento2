@@ -87,13 +87,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_General extends Mage_Admin
                 'values'    => Mage::helper('xmlconnect')->getDeviceTypeOptions(),
         ));
 
+        $yesNoValues = Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray();
+
         $fieldset->addField('browsing_mode', 'select', array(
-            'label'     => Mage::helper('xmlconnect')->__('Catalog Mode'),
+            'label'     => Mage::helper('xmlconnect')->__('Catalog Only App?'),
             'name'      => 'browsing_mode',
-            'options'   => array(
-                '1'  => Mage::helper('xmlconnect')->__('Enabled'),
-                '0' => Mage::helper('xmlconnect')->__('Disabled'),
-            )
+            'note'      => Mage::helper('xmlconnect')->__('A Catalog Only App will not support functions such as add to cart or add to wishlist or login'),
+            'values'   => $yesNoValues
         ));
 
         $form->setValues($model->getFormData());
