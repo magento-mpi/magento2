@@ -56,7 +56,7 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
     }
 
     /**
-     * Setting 4 columns
+     * Configuration of grid
      *
      * @return Mage_Adminhtml_Block_Widget_Grid
      */
@@ -67,43 +67,36 @@ class Mage_XmlConnect_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_
             'align'     => 'left',
             'index'     => 'title',
             'type'      => 'text',
-            'sortable'  =>  false,
-            'onclick'   => '',
         ));
 
         $this->addColumn('code', array(
             'header'    => Mage::helper('xmlconnect')->__('Application Code'),
             'align'     => 'left',
             'index'     => 'code',
-            'sortable'  =>  false,
-            'onclick'   => '',
         ));
 
         $this->addColumn('created_at', array(
             'header'    => Mage::helper('xmlconnect')->__('Date Submitted'),
             'align'     => 'left',
             'index'     => 'created_at',
-            'sortable'  =>  false,
-            'onclick'   => '',
+            'type'      => 'datetime'
         ));
 
-        $this->addColumn('key', array(
+        $this->addColumn('activation_key', array(
             'header'    => Mage::helper('xmlconnect')->__('Activation Key'),
             'align'     => 'left',
-            'index'     => 'key',
-            'sortable'  =>  false,
-            'onclick'   => '',
+            'index'     => 'activation_key',
         ));
         return parent::_prepareColumns();
     }
 
     /**
-     * Row click url
+     * Remove row click url
      *
      * @return string
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('page_id' => $row->getId()));
+        return '';
     }
 }

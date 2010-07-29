@@ -32,52 +32,128 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends Mage_Adminhtml_Block_Widget_Grid
+    implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
 
+    /**
+     * Set order by column and order direction
+     * Set grid ID
+     * Set use AJAX for grid
+     */
     public function __construct()
     {
         parent::__construct();
         $this->setId('history_grid');
         $this->setDefaultSort('created_at');
         $this->setDefaultDir('ASC');
+        $this->setUseAjax(true);
+        $this->setSaveParametersInSession(true);
+        $this->setVarNameFilter('history_filter');
     }
 
     /**
-     * Setting collection to show
+     * Tab label getter
+     *
+     * @return string
+     */
+    public function getTabLabel()
+    {
+        return Mage::helper('xmlconnect')->__('Submission History');
+    }
+
+    /**
+     * Tab title getter
+     *
+     * @return string
+     */
+    public function getTabTitle()
+    {
+        return Mage::helper('xmlconnect')->__('Submission History');
+    }
+
+    /**
+     * Check if tab can be shown
+     *
+     * @return bool
+     */
+    public function canShowTab()
+    {
+        return true;
+    }
+
+    /**
+     * Check if tab hidden
+     *
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return false;
+    }
+
+    /**
+     * Initialize history colelction
+     * Set aaplication filter
      *
      * @return Mage_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('xmlconnect/history')->getCollection()
-            ->addApplicationFilter(Mage::registry('current_app')->getId());
+        $collection = Mage::getResourceModel('xmlconnect/history_collection')
+            ->addApplicationFilter($this->_getApplication()->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     /**
-     * Setting 2 columns
+     * Configuration of grid
      *
      * @return Mage_Adminhtml_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('key', array(
+        $this->addColumn('activation_key', array(
             'header'    => Mage::helper('xmlconnect')->__('Activation Key'),
             'align'     => 'left',
-            'index'     => 'key',
-            'sortable'  =>  false,
-            'onclick'   => '',
+            'index'     => 'activation_key',
+            'type'      => 'text'
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('xmlconnect')->__('Date Submitted'),
+            'header'    => Mage::helper('enterprise_staging')->__('Date Submitted'),
             'align'     => 'left',
             'index'     => 'created_at',
-            'sortable'  =>  false,
-            'onclick'   => '',
+            'type'      => 'datetime'
         ));
 
         return parent::_prepareColumns();
+    }
+
+    /**
+     * Ajax grid URL getter
+     */
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/submissionHistoryGrid', array('_current'=>true));
+    }
+
+    /**
+     * Get current application model
+     *
+     * @return Mage_XmlConnect_Model_Application
+     */
+    protected function _getApplication()
+    {
+        return Mage::registry('current_app');
+    }
+
+    /**
+     * Remove row click url
+     *
+     * @return string
+     */
+    public function getRowUrl($row)
+    {
+        return '';
     }
 }

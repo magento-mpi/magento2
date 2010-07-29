@@ -163,7 +163,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     'created_at' => Mage::getModel('core/date')->date(),
                     'store_id' => $app->getStoreId(),
                     'title' => isset($params['title']) ? $params['title'] : '',
-                    'key' => isset($params['resubmission_activation_key']) ?
+                    'activation_key' => isset($params['resubmission_activation_key']) ?
                         $params['resubmission_activation_key'] : $params['key'],
                 ));
                 $history->save();
@@ -660,4 +660,16 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         }
         return $arr;
     }
+
+    /**
+     * Submission history grid action on submission history tab
+     */
+    public function submissionHistoryGridAction()
+    {
+        $this->_initApp();
+        $this->loadLayout();
+        $this->renderLayout();
+    }
 }
+
+

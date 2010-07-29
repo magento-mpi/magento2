@@ -65,10 +65,12 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Payment
 
         $fieldset2 = $form->addFieldset('paypal_mep_checkout', array('legend' => Mage::helper('xmlconnect')->__('PayPal Mobile Embedded Payment (MEP)')));
 
+        $paypalConfigurationUrl = $this->escapeHtml($this->getUrl('adminhtml/system_config/edit', array('section' => 'paypal')));
+
         $paypalActiveField = $fieldset2->addField('conf/native/paypal/isActive', 'select', array(
             'label'     => Mage::helper('xmlconnect')->__('Activate paypal checkout'),
             'name'      => 'conf[native][paypal][isActive]',
-            'note'      => Mage::helper('xmlconnect')->__('MEP is PayPal\'s native checkout experience for the iPhone. You can choose to use MEP alongside standard checkout, or use it as your only checkout method for Magento mobile. PayPal MEP requires a &lt;a href=&quot;link to setting up their paypal business account configuration&quot;&gt;PayPal business account&lt;/a&gt;'),
+            'note'      => Mage::helper('xmlconnect')->__('MEP is PayPal\'s native checkout experience for the iPhone. You can choose to use MEP alongside standard checkout, or use it as your only checkout method for Magento mobile. PayPal MEP requires a <a href="%s">PayPal business account</a>', $paypalConfigurationUrl),
             'values'   => $yesNoValues,
             'value'     => $paypalActive
         ));
