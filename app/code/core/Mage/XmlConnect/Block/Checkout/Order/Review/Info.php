@@ -91,10 +91,10 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
                 }
             }
 
-            $exclPrice = sprintf('%01.2f', $exclPrice);
+            $exclPrice = sprintf('%01.2F', $exclPrice);
             $formatedExclPrice = $quote->getStore()->formatPrice($exclPrice, false);
 
-            $inclPrice = sprintf('%01.2f', $inclPrice);
+            $inclPrice = sprintf('%01.2F', $inclPrice);
             $formatedInclPrice = $quote->getStore()->formatPrice($inclPrice, false);
 
             $priceXmlObj = $itemXml->addChild('price');
@@ -141,10 +141,10 @@ class Mage_XmlConnect_Block_Checkout_Order_Review_Info extends Mage_Checkout_Blo
                 }
             }
 
-            $exclPrice = sprintf('%01.2f', $exclPrice);
+            $exclPrice = sprintf('%01.2F', $exclPrice);
             $formatedExclPrice = $quote->getStore()->formatPrice($exclPrice, false);
 
-            $inclPrice = sprintf('%01.2f', $inclPrice);
+            $inclPrice = sprintf('%01.2F', $inclPrice);
             $formatedInclPrice = $quote->getStore()->formatPrice($inclPrice, false);
 
             $subtotalPriceXmlObj = $itemXml->addChild('subtotal');

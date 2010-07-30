@@ -100,7 +100,7 @@ class Mage_XmlConnect_Block_Catalog_Product_Options_Configurable extends Mage_Xm
                     if(!isset($options[$attributeId][$value['value_index']])) {
                         continue;
                     }
-                    $price = sprintf('%01.2f', $this->_preparePrice($product, $value['pricing_value'], $value['is_percent']));
+                    $price = sprintf('%01.2F', $this->_preparePrice($product, $value['pricing_value'], $value['is_percent']));
                     $info['options'][] = array(
                         'id'    => $value['value_index'],
                         'label' => $value['label'],
