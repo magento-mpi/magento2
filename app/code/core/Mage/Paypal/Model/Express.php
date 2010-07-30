@@ -319,7 +319,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      */
     public function updateRecurringProfileStatus(Mage_Payment_Model_Recurring_Profile $profile)
     {
-        return $this->_pro->updateRecurringProfile($profile);
+        return $this->_pro->updateRecurringProfileStatus($profile);
     }
 
     /**

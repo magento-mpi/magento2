@@ -793,25 +793,11 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         try {
             $response = $this->call('ManageRecurringPaymentsProfileStatus', $request);
         } catch (Mage_Core_Exception $e) {
-            // trying to cancel already canceled
-            if (in_array(11556, $this->_callErrors)) {
-                if ('Cancel' === $request['ACTION'] && $this->getIsAlreadyCanceled()) {
-                    return;
-                }
-            }
-            // trying to suspend already suspended +
-            // trying to suspend already canceled
-            elseif (in_array(11557, $this->_callErrors)) {
-                if ('Suspend' === $request['ACTION'] && $this->getIsAlreadySuspended()) {
-                    return;
-                }
-            }
-            // trying to activate already active +
-            // trying to activate already canceled
-            elseif (in_array(11558, $this->_callErrors)) {
-                if ('Reactivate' === $request['ACTION'] && $this->getIsAlreadyActive()) {
-                    return;
-                }
+            if ((in_array(11556, $this->_callErrors) && 'Cancel' === $request['ACTION'])
+                || (in_array(11557, $this->_callErrors) && 'Suspend' === $request['ACTION'])
+                || (in_array(11558, $this->_callErrors) && 'Reactivate' === $request['ACTION'])
+            ) {
+                Mage::throwException(Mage::helper('paypal')->__('Unable to change status. Current status is not correspond to real status.'));
             }
             throw $e;
         }
