@@ -120,7 +120,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Submission_History extends
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Date Submitted'),
+            'header'    => Mage::helper('xmlconnect')->__('Date Submitted'),
             'align'     => 'left',
             'index'     => 'created_at',
             'type'      => 'datetime'
