@@ -278,7 +278,7 @@ class Mage_Paypal_Model_Express_Checkout
             $this->_quote->getPayment()->save();
         }
 
-        $paypalCart = Mage::getModel('paypal/cart', array($this->_quote))->discountAsItem(true);
+        $paypalCart = Mage::getModel('paypal/cart', array($this->_quote))->isDiscountAsItem(true);
         $this->_api->importTotals($paypalCart);
         // add line items
         $lineItems = $paypalCart->getItems();

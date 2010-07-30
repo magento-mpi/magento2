@@ -261,7 +261,7 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function prepareCart($order)
     {
-        $paypalCart = Mage::getModel('paypal/cart', array($order))->discountAsItem(true);
+        $paypalCart = Mage::getModel('paypal/cart', array($order))->isDiscountAsItem(true);
         return array($paypalCart->getItems(true), $paypalCart->getTotals());
     }
 

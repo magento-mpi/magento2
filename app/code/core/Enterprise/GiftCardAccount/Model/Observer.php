@@ -424,8 +424,7 @@ class Enterprise_GiftCardAccount_Model_Observer
             $salesEntity = $paypalCart->getSalesEntity();
             $value = abs($salesEntity->getBaseGiftCardsAmount());
             if ($value > 0.0001) {
-                // not using paypal/cart constant intentionally, to not add module dependency
-                $paypalCart->updateTotal('discount', $value,
+                $paypalCart->updateTotal(Mage_Paypal_Model_Cart::TOTAL_DISCOUNT, $value,
                     Mage::helper('enterprise_giftcardaccount')->__('Gift Card (%s)', Mage::app()->getStore()->convertPrice($value, true, false))
                 );
             }

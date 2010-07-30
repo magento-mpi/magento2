@@ -303,7 +303,7 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
             ->setAmount($amount)
             ->setNotifyUrl(Mage::getUrl('paypal/ipn/'));
 
-        $paypalCart = Mage::getModel('paypal/cart', array($order))->discountAsItem(true);
+        $paypalCart = Mage::getModel('paypal/cart', array($order))->isDiscountAsItem(true);
         $api->importTotals($paypalCart);
         // add line items
         $lineItems = $paypalCart->getItems();

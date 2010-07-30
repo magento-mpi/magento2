@@ -129,8 +129,7 @@ class Mage_Paypal_Model_Api_Standard extends Mage_Paypal_Model_Api_Abstract
         $request = $this->_exportToRequest($this->_commonRequestFields);
         $request['charset'] = 'utf-8';
 
-        $lineItems = $this->getLineItems();
-        if ($lineItems) {
+        if ($this->getLineItems()) {
             $this->_exportLineItems($request, 1);
             $request = array_merge($request, array(
                 'cmd'    => '_cart',

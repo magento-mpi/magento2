@@ -857,8 +857,7 @@ class Enterprise_Reward_Model_Observer
         $paypalCart = $observer->getEvent()->getPaypalCart();
         if ($paypalCart && abs($paypalCart->getSalesEntity()->getBaseRewardCurrencyAmount()) > 0.0001) {
             $salesEntity = $paypalCart->getSalesEntity();
-            // not using paypal/cart constant intentionally, to not add module dependency
-            $paypalCart->updateTotal('discount', (float)$salesEntity->getBaseRewardCurrencyAmount(),
+            $paypalCart->updateTotal(Mage_Paypal_Model_Cart::TOTAL_DISCOUNT, (float)$salesEntity->getBaseRewardCurrencyAmount(),
                 Mage::helper('enterprise_reward')->formatReward($salesEntity->getRewardPointsBalance())
             );
         }

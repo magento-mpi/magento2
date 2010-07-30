@@ -364,7 +364,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             ->setCurrencyCode($order->getBaseCurrencyCode())
         ;
 
-        $paypalCart = Mage::getModel('paypal/cart', array($order))->discountAsItem(true);
+        $paypalCart = Mage::getModel('paypal/cart', array($order))->isDiscountAsItem(true);
         $api->importTotals($paypalCart);
         // add line items
         $lineItems = $paypalCart->getItems();
