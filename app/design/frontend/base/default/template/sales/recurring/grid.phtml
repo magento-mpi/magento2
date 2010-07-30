@@ -34,7 +34,7 @@
 <?php $gridElements = $this->getGridElements(); ?>
 <?php if ($gridElements): ?>
     <?php echo $this->getChildHtml('pager'); ?>
-    <table id="<?php echo $this->getGridHtmlId() ?>" class="info-table">
+    <table id="<?php echo $this->getGridHtmlId() ?>" class="data-table">
 <?php foreach ($this->getGridColumns() as $column):?>
         <col <?php $width = $this->getObjectData($column, 'width'); echo $width ? ' width="' . $width . '"' : '' ?>/>
 <?php endforeach; ?>
