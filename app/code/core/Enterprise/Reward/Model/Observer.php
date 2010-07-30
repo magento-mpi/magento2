@@ -848,25 +848,19 @@ class Enterprise_Reward_Model_Observer
     }
 
     /**
-     * Add reward amount as separate item to paypal
+     * Add reward amount to PayPal discount total
      *
      * @param Varien_Event_Observer $observer
-     * @return Enterprise_Reward_Model_Observer
      */
     public function addPaypalRewardItem(Varien_Event_Observer $observer)
     {
-        $salesEntity = $observer->getEvent()->getSalesEntity();
-        if ($salesEntity instanceof Varien_Object && abs($salesEntity->getRewardCurrencyAmount()) > 0.0001) {
-            $additionalItems = $observer->getEvent()->getAdditional();
-            $items = $additionalItems->getItems();
-            $items[] = new Varien_Object(array(
-                'id'     => Mage::helper('enterprise_reward')->__('Reward'),
-                'name'   => Mage::helper('enterprise_reward')->__('Reward points'),
-                'qty'    => 1,
-                'amount' => -1.00 * (float)$salesEntity->getBaseRewardCurrencyAmount()
-            ));
-            $additionalItems->setItems($items);
+        $paypalCart = $observer->getEvent()->getPaypalCart();
+        if ($paypalCart && abs($paypalCart->getSalesEntity()->getBaseRewardCurrencyAmount()) > 0.0001) {
+            $salesEntity = $paypalCart->getSalesEntity();
+            // not using paypal/cart constant intentionally, to not add module dependency
+            $paypalCart->updateTotal('discount', (float)$salesEntity->getBaseRewardCurrencyAmount(),
+                Mage::helper('enterprise_reward')->formatReward($salesEntity->getRewardPointsBalance())
+            );
         }
-        return $this;
     }
 }

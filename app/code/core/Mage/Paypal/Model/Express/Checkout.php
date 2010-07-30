@@ -277,12 +277,13 @@ class Mage_Paypal_Model_Express_Checkout
             );
             $this->_quote->getPayment()->save();
         }
+
+        $paypalCart = Mage::getModel('paypal/cart', array($this->_quote))->discountAsItem(true);
+        $this->_api->importTotals($paypalCart);
         // add line items
-        if ($this->_config->lineItemsEnabled) {
-            list($items, $totals) = Mage::helper('paypal')->prepareLineItems($this->_quote);
-            if (Mage::helper('paypal')->areCartLineItemsValid($items, $totals, $this->_quote->getBaseGrandTotal())) {
-                $this->_api->setLineItems($items)->setLineItemTotals($totals);
-            }
+        $lineItems = $paypalCart->getItems();
+        if ($this->_config->lineItemsEnabled && $lineItems) {
+            $this->_api->setLineItems($lineItems);
 
             // add shipping options
             if ($this->_config->transferShippingOptions

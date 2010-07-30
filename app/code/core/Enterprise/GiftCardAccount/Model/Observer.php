@@ -411,4 +411,24 @@ class Enterprise_GiftCardAccount_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Merge gift card amount into discount of PayPal checkout totals
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function addPaypalGiftCardItem(Varien_Event_Observer $observer)
+    {
+        $paypalCart = $observer->getEvent()->getPaypalCart();
+        if ($paypalCart) {
+            $salesEntity = $paypalCart->getSalesEntity();
+            $value = abs($salesEntity->getBaseGiftCardsAmount());
+            if ($value > 0.0001) {
+                // not using paypal/cart constant intentionally, to not add module dependency
+                $paypalCart->updateTotal('discount', $value,
+                    Mage::helper('enterprise_giftcardaccount')->__('Gift Card (%s)', Mage::app()->getStore()->convertPrice($value, true, false))
+                );
+            }
+        }
+    }
 }

@@ -245,6 +245,15 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </sales_order_load_after>
+
+            <paypal_prepare_line_items>
+                <observers>
+                    <enterprise_giftcard>
+                        <class>enterprise_giftcardaccount/observer</class>
+                        <method>addPaypalGiftCardItem</method>
+                    </enterprise_giftcard>
+                </observers>
+            </paypal_prepare_line_items>
         </events>
         <fieldsets>
             <sales_convert_quote_address>

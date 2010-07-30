@@ -141,14 +141,6 @@
                     </enterprise_giftcard>
                 </observers>
             </catalog_product_collection_load_after>
-            <paypal_prepare_line_items>
-                <observers>
-                    <enterprise_giftcard>
-                        <class>enterprise_giftcard/observer</class>
-                        <method>addPaypalGiftCardItem</method>
-                    </enterprise_giftcard>
-                </observers>
-            </paypal_prepare_line_items>
         </events>
     </global>
     <frontend>

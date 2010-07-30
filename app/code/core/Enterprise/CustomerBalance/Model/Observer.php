@@ -477,34 +477,30 @@ class Enterprise_CustomerBalance_Model_Observer
     }
 
     /**
-     * Add customer balance amount as separate item to paypal
+     * Add customer balance amount to PayPal discount total
      *
      * @param Varien_Event_Observer $observer
-     * @return Enterprise_CustomerBalance_Model_Observer
      */
     public function addPaypalCustomerBalanceItem(Varien_Event_Observer $observer)
     {
-        $salesEntity = $observer->getEvent()->getSalesEntity();
-        if ($salesEntity instanceof Mage_Sales_Model_Quote) {
-            $balanceField = 'base_customer_balance_amount_used';
-        } else if ($salesEntity instanceof Mage_Sales_Model_Order) {
-            $balanceField = 'base_customer_balance_amount';
-        } else {
-            return $this;
-        }
+        $paypalCart = $observer->getEvent()->getPaypalCart();
+        if ($paypalCart) {
+            $salesEntity = $paypalCart->getSalesEntity();
+            if ($salesEntity instanceof Mage_Sales_Model_Quote) {
+                $balanceField = 'base_customer_balance_amount_used';
+            } elseif ($salesEntity instanceof Mage_Sales_Model_Order) {
+                $balanceField = 'base_customer_balance_amount';
+            } else {
+                return;
+            }
 
-        if (abs($salesEntity->getDataUsingMethod($balanceField)) > 0.0001) {
-            $additionalItems = $observer->getEvent()->getAdditional();
-            $items = $additionalItems->getItems();
-            $items[] = new Varien_Object(array(
-                'id'     => Mage::helper('enterprise_customerbalance')->__('Store Credit'),
-                'name'   => Mage::helper('enterprise_customerbalance')->__('Store Credit Balance'),
-                'qty'    => 1,
-                'amount' => -1.00 * (float)$salesEntity->getDataUsingMethod($balanceField)
-            ));
-            $additionalItems->setItems($items);
+            $value = abs($salesEntity->getDataUsingMethod($balanceField));
+            if ($value > 0.0001) {
+                // not using paypal/cart constant intentionally, to not add module dependency
+                $paypalCart->updateTotal('discount', (float)$value,
+                    Mage::helper('enterprise_customerbalance')->__('Store Credit (%s)', Mage::app()->getStore()->convertPrice($value, true, false))
+                );
+            }
         }
-
-        return $this;
     }
 }

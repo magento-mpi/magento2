@@ -332,12 +332,12 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
             $api->setAddress($order->getShippingAddress());
         }
 
+        $paypalCart = Mage::getModel('paypal/cart', array($order))->discountAsItem(true);
+        $api->importTotals($paypalCart);
         // add line items
-        if ($this->_pro->getConfig()->lineItemsEnabled) {
-            list($items, $totals) = Mage::helper('paypal')->prepareLineItems($order);
-            if (Mage::helper('paypal')->areCartLineItemsValid($items, $totals, $amount)) {
-                $api->setLineItems($items)->setLineItemTotals($totals);
-            }
+        $lineItems = $paypalCart->getItems();
+        if ($this->_pro->getConfig()->lineItemsEnabled && $lineItems) {
+            $api->setLineItems($lineItems);
         }
 
         // call api and import transaction and other payment information

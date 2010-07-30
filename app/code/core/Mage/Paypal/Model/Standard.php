@@ -136,19 +136,14 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             $api->setAddress($address);
         }
 
-        list($items, $totals, $discountAmount, $shippingAmount) = Mage::helper('paypal')->prepareLineItems($order, false, true);
-        // prepare line items if required in config
-        if ($this->_config->lineItemsEnabled) {
-            $api->setLineItems($items)->setLineItemTotals($totals)->setDiscountAmount($discountAmount);
-        }
-        // or values specific for aggregated order
-        else {
-            $grandTotal = $order->getBaseGrandTotal();
-            if (!$isOrderVirtual) {
-                $api->setShippingAmount($shippingAmount);
-                $grandTotal -= $shippingAmount;
-            }
-            $api->setAmount($grandTotal)->setCartSummary($this->_getAggregatedCartSummary());
+        $paypalCart = Mage::getModel('paypal/cart', array($order))
+            ->shippingAsItem(true); // PayPal for some reason ignores the shipping amounts with the cart line items
+        $api->importTotals($paypalCart);
+        $lineItems = $paypalCart->getItems();
+        if ($this->_config->lineItemsEnabled && $lineItems) {
+            $api->setLineItems($lineItems);
+        } else {
+            $api->setCartSummary($this->_getAggregatedCartSummary());
         }
 
         $result = $api->getStandardCheckoutRequest();

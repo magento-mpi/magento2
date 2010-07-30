@@ -61,9 +61,9 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      * Line items export to request mapping settings
      * @var array
      */
-    protected $_lineItemExportTotals = array();
     protected $_lineItemExportItemsFormat = array();
     protected $_lineItemExportItemsFilters = array();
+    protected $_importTotalsMap = array();
 
     /**
      * Shipping options export to request mapping settings
@@ -259,6 +259,24 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
+     * Import totals from the PayPal shopping cart
+     *
+     * @param Mage_Paypal_Model_Cart $cart
+     * @return Mage_Paypal_Model_Api_Abstract
+     */
+    public function importTotals(Mage_Paypal_Model_Cart $cart)
+    {
+        $totals = $cart->getTotals();
+        foreach ($totals as $key => $total) {
+            if (empty($total)) {
+                unset($totals[$key]);
+            }
+        }
+        Varien_Object_Mapper::accumulateByMap($totals, $this, $this->_importTotalsMap);
+        return $this;
+    }
+
+    /**
      * Config instance setter
      * @param Mage_Paypal_Model_Config $config
      * @return Mage_Paypal_Model_Api_Abstract
@@ -375,19 +393,6 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
                 $request[sprintf($privateFormat, $i)] = $value;
             }
             $i++;
-        }
-        // line item totals
-        $lineItemTotals = $this->getLineItemTotals();
-        if ($lineItemTotals) {
-            $request = Varien_Object_Mapper::accumulateByMap($lineItemTotals, $request, $this->_lineItemExportTotals);
-            foreach ($this->_lineItemExportTotals as $privateKey) {
-                if (array_key_exists($privateKey, $request)) {
-                    $request[$privateKey] = $this->_filterAmount($request[$privateKey]);
-                } else {
-                    Mage::logException(new Exception(sprintf('Missing index "%s" for line item totals.', $privateKey)));
-                    Mage::throwException(Mage::helper('paypal')->__('Unable to calculate cart line item totals.'));
-                }
-            }
         }
     }
 

@@ -46,8 +46,8 @@ class Mage_Paypal_Model_Api_Standard extends Mage_Paypal_Model_Api_Abstract
         'currency_code' => 'currency_code',
         'amount'        => 'amount',
         'shipping'      => 'shipping_amount',
-        'tax_cart'      => 'tax_amount',
-        'discount_amount_cart' => 'discount_amount',
+        'tax'           => 'tax_amount',
+        'discount_amount' => 'discount_amount',
         // misc
         'item_name'        => 'cart_summary',
         // page design settings
@@ -60,7 +60,9 @@ class Mage_Paypal_Model_Api_Standard extends Mage_Paypal_Model_Api_Abstract
     );
     protected $_exportToRequestFilters = array(
         'amount'   => '_filterAmount',
-        'shipping' => '_filterAmount'
+        'shipping' => '_filterAmount',
+        'tax'      => '_filterAmount',
+        'discount_amount' => '_filterAmount',
     );
 
     /**
@@ -69,16 +71,9 @@ class Mage_Paypal_Model_Api_Standard extends Mage_Paypal_Model_Api_Abstract
      */
     protected $_commonRequestFields = array(
         'business', 'invoice', 'currency_code', 'paymentaction', 'return', 'cancel_return', 'notify_url', 'bn',
-        'page_style', 'cpp_header_image', 'cpp_headerback_color', 'cpp_headerborder_color', 'cpp_payflow_color'
+        'page_style', 'cpp_header_image', 'cpp_headerback_color', 'cpp_headerborder_color', 'cpp_payflow_color',
+        'amount', 'shipping', 'tax', 'discount_amount', 'item_name',
     );
-    protected $_aggregatedOrderFields = array('item_name', 'amount', 'shipping');
-
-    /**
-     * @deprecated after 1.4.1.0
-     *
-     * @var array
-     */
-    protected $_obscureDebugFor = array('business');
 
    /**
      * Fields that should be replaced in debug with '***'
@@ -91,9 +86,11 @@ class Mage_Paypal_Model_Api_Standard extends Mage_Paypal_Model_Api_Abstract
      * Line items export mapping settings
      * @var array
      */
-    protected $_lineItemExportTotals = array(
-        'tax'      => 'tax_cart',
-        'discount' => 'discount_amount_cart',
+    protected $_importTotalsMap = array(
+        Mage_Paypal_Model_Cart::TOTAL_SUBTOTAL => 'amount',
+        Mage_Paypal_Model_Cart::TOTAL_DISCOUNT => 'discount_amount',
+        Mage_Paypal_Model_Cart::TOTAL_TAX      => 'tax_amount',
+        Mage_Paypal_Model_Cart::TOTAL_SHIPPING => 'shipping_amount',
     );
     protected $_lineItemExportItemsFormat = array(
         'id'     => 'item_number_%d',
@@ -131,22 +128,23 @@ class Mage_Paypal_Model_Api_Standard extends Mage_Paypal_Model_Api_Abstract
     {
         $request = $this->_exportToRequest($this->_commonRequestFields);
         $request['charset'] = 'utf-8';
-        // cart line items
-        if ($this->getLineItems()) {
+
+        $lineItems = $this->getLineItems();
+        if ($lineItems) {
             $this->_exportLineItems($request, 1);
             $request = array_merge($request, array(
                 'cmd'    => '_cart',
                 'upload' => 1,
+                'tax_cart' => $request['tax'],
+                'discount_amount_cart' => $request['discount_amount'],
             ));
-        }
-        // aggregated order
-        else {
-            $request = $this->_exportToRequest($this->_aggregatedOrderFields, $request);
+        } else {
             $request = array_merge($request, array(
                 'cmd'           => '_ext-enter',
                 'redirect_cmd'  => '_xclick',
             ));
         }
+
         // payer address
         $this->_importAddress($request);
         $this->_debug(array('request' => $request)); // TODO: this is not supposed to be called in getter
