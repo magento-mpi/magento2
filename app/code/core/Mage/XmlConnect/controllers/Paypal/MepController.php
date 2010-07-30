@@ -88,17 +88,26 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             $this->_message(Mage::helper('xmlconnect')->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
-        $this->_initCheckout();
-        $data = $this->getRequest()->getPost('shipping', array());
-        $result = $this->_checkout->saveShipping($data);
-        if (!isset($result['error'])) {
-            $this->_message(Mage::helper('xmlconnect')->__('Shipping address was successfully set.'), self::MESSAGE_STATUS_SUCCESS);
-        }
-        else {
-            if (!is_array($result['message'])) {
-                $result['message'] = array($result['message']);
+        try {
+            $this->_initCheckout();
+            $data = $this->getRequest()->getPost('shipping', array());
+            $result = $this->_checkout->saveShipping($data);
+            if (!isset($result['error'])) {
+                $this->_message(Mage::helper('xmlconnect')->__('Shipping address was successfully set.'), self::MESSAGE_STATUS_SUCCESS);
             }
-            $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
+            else {
+                if (!is_array($result['message'])) {
+                    $result['message'] = array($result['message']);
+                }
+                $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
+            }
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        }
+        catch (Exception $e) {
+            $this->_message(Mage::helper('xmlconnect')->__('Unable to save shipping address.'), self::MESSAGE_STATUS_ERROR);
+            Mage::logException($e);
         }
     }
 
@@ -107,9 +116,18 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
      */
     public function shippingMethodsAction()
     {
-        $this->_initCheckout();
-        $this->loadLayout(false);
-        $this->renderLayout();
+        try {
+            $this->_initCheckout();
+            $this->loadLayout(false);
+            $this->renderLayout();
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        }
+        catch (Exception $e) {
+            $this->_message(Mage::helper('xmlconnect')->__('Unable to get shipping methods list.'), self::MESSAGE_STATUS_ERROR);
+            Mage::logException($e);
+        }
     }
 
     /**
@@ -121,28 +139,37 @@ class Mage_XmlConnect_Paypal_MepController extends Mage_XmlConnect_Controller_Ac
             $this->_message(Mage::helper('xmlconnect')->__('Specified invalid data.'), self::MESSAGE_STATUS_ERROR);
             return;
         }
-        $this->_initCheckout();
-        $data = $this->getRequest()->getPost('shipping_method', '');
-        $result = $this->_checkout->saveShippingMethod($data);
-        if (!isset($result['error'])) {
-            $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
-            $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
-            $message->addChild('text', Mage::helper('xmlconnect')->__('Shipping method was successfully set.'));
-            if ($this->_getQuote()->isVirtual()) {
-                $quoteAddress = $this->_getQuote()->getBillingAddress();
+        try {
+            $this->_initCheckout();
+            $data = $this->getRequest()->getPost('shipping_method', '');
+            $result = $this->_checkout->saveShippingMethod($data);
+            if (!isset($result['error'])) {
+                $message = new Mage_XmlConnect_Model_Simplexml_Element('<message></message>');
+                $message->addChild('status', self::MESSAGE_STATUS_SUCCESS);
+                $message->addChild('text', Mage::helper('xmlconnect')->__('Shipping method was successfully set.'));
+                if ($this->_getQuote()->isVirtual()) {
+                    $quoteAddress = $this->_getQuote()->getBillingAddress();
+                }
+                else {
+                    $quoteAddress = $this->_getQuote()->getShippingAddress();
+                }
+                $taxAmount = Mage::helper('core')->currency($quoteAddress->getBaseTaxAmount(), false, false);
+                $message->addChild('tax_amount', sprintf('%01.2F', $taxAmount));
+                $this->getResponse()->setBody($message->asNiceXml());
             }
             else {
-                $quoteAddress = $this->_getQuote()->getShippingAddress();
+                if (!is_array($result['message'])) {
+                    $result['message'] = array($result['message']);
+                }
+                $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
             }
-            $taxAmount = Mage::helper('core')->currency($quoteAddress->getBaseTaxAmount(), false, false);
-            $message->addChild('tax_amount', sprintf('%01.2F', $taxAmount));
-            $this->getResponse()->setBody($message->asNiceXml());
         }
-        else {
-            if (!is_array($result['message'])) {
-                $result['message'] = array($result['message']);
-            }
-            $this->_message(implode('. ', $result['message']), self::MESSAGE_STATUS_ERROR);
+        catch (Mage_Core_Exception $e) {
+            $this->_message($e->getMessage(), self::MESSAGE_STATUS_ERROR);
+        }
+        catch (Exception $e) {
+            $this->_message(Mage::helper('xmlconnect')->__('Unable to save shipping method.'), self::MESSAGE_STATUS_ERROR);
+            Mage::logException($e);
         }
     }
 
