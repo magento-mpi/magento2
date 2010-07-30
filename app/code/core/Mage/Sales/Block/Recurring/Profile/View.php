@@ -180,7 +180,8 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
         $this->_shouldRenderInfo = true;
 
         if ('shipping' == $this->getAddressType()) {
-            if ('1' == $this->_profile->getInfoValue('order_info', 'is_virtual')) {
+            if ('1' == $this->_profile->getInfoValue('order_item_info', 'is_virtual')) {
+                $this->getParentBlock()->unsetChild('sales.recurring.profile.view.shipping');
                 return;
             }
             $key = 'shipping_address_info';
