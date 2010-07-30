@@ -300,7 +300,7 @@ function hidePopupBox() {s
         <li style="display:none;" class="ddlist">
             <ul>
             <?php foreach ($this->getThemes() as $theme): ?>
-                <li><a href="#" rel="<?php echo $theme->getName(); ?>"><?php echo $theme->getLabel(); ?> <span><img src="<?php echo $_dataHelper->getSkinImagesUrl('swatch_default.gif'); ?>"/></span></a></li>
+                <li><a href="#" rel="<?php echo $theme->getName(); ?>"><?php echo $theme->getLabel(); ?> <span><img src="<?php echo $_dataHelper->getSkinImagesUrl('swatch_'.$theme->getName().'.gif'); ?>"/></span></a></li>
             <?php endforeach; ?>
             </ul>
         </li>
