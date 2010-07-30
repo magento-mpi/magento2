@@ -76,7 +76,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Content
         $this->_addElementTypes($fieldset);
 
         $fieldset->addField('page_row_add', 'addrow', array(
-            'onclick' => 'this.parentNode.parentNode.parentNode.innerHTML+=cms_new_row_html()',
+            'onclick' => 'insertNewTableRow(this)',
             'options' => $this->_pages,
             'class' => ' scalable save ',
             'label' => Mage::helper('xmlconnect')->__('Label'),

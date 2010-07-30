@@ -200,7 +200,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             Mage::helper('xmlconnect')->__('Users will see this image as the first screen while your application is loading.  It is a 320x460 image.'));
 
         $this->addImage($fieldset, 'conf/submit/logo', Mage::helper('xmlconnect')->__('Custom application icon'),
-            Mage::helper('xmlconnect')->__('This icon will be  used for users’ devices in case if different than AppSore icon needed. Preferred size: 57px x 57px.'));
+            Mage::helper('xmlconnect')->__('This image is the icon that will appear on the user’s phone after they download your app.  You do not need to apply a gradient or soft edges (this is done automatically by Apple).  The image should be 57x57-pixels and 72 dpi.'));
         $this->addImage($fieldset, 'conf/submit/big_logo', Mage::helper('xmlconnect')->__('Copyright page logo'),
             Mage::helper('xmlconnect')->__('Store logo that will be displayed on copyright page of application. Preferred size: 100px x 100px.'));
 

@@ -26,18 +26,77 @@
 ?>
 <script type="text/javascript">
 //<![CDATA[
+/**
+ * Return innerHTML for TD label
+ *
+ * @return string
+ */
+function getTdLabelInnerHtml() {
+    return '<span class="field-row"><input type="text" class=" input-text" value="" name="conf[new_pages][labels][]"></span>';
+}
 
-function cms_new_row_html() {
-    html = '<tr>';
-    html += '<td class="label"><span class="field-row"><input type="text" class=" input-text" value="" name="conf[new_pages][labels][]"></span></td>';
-    html += '<td class="value"><span class="field-row"><select class=" select" name="conf[new_pages][ids][]">';
-<?php foreach($this->getOptions() as $page): ?>
-    html += '<option value="<?php echo $this->jsQuoteEscape($this->htmlEscape($page['value'])); ?>"><?php echo $this->jsQuoteEscape($this->htmlEscape($page['label']));?></option>';
-<?php endforeach; ?>
-    html += '</select></span></td>';
-    html += '<td style="width: 5em;" class="label"><button class=" scalable save " onclick="this.parentNode.parentNode.innerHTML=\'\'" value="&minus;"><span><?php echo Mage::helper('xmlconnect')->__('Delete'); ?></span></button></td>';
-    html += '</tr>';
+/**
+ * Return innerHTML for TD Value
+ *
+ * @return string
+ */
+function getTdValueInnerHtml() {
+    var html = '<span class="field-row"><select class=" select" name="conf[new_pages][ids][]">'
+    <?php foreach($this->getOptions() as $page): ?>
+        + '<option value="<?php echo $this->jsQuoteEscape($this->htmlEscape($page['value'])); ?>"><?php echo $this->jsQuoteEscape($this->htmlEscape($page['label']));?></option>'
+    <?php endforeach; ?>
+        + '</select></span>';
     return html;
+}
+
+/**
+ * Return innerHTML for TD Button
+ *
+ * @return string
+ */
+function getTdButtonInnerHtml() {
+    return '<button class=" scalable save " onclick="removeTableRow(this)" value="&minus;">'
+    +'<span><?php echo Mage::helper('xmlconnect')->__('Delete'); ?></span></button>';
+}
+
+/**
+ * Delete row from table
+ *
+  * @return bool;
+ */
+function removeTableRow(node) {
+    node.parentNode.parentNode.parentNode.removeChild(node.parentNode.parentNode);
+    return false;
+}
+
+/**
+ * Insert new row into table
+ *
+ * @return bool;
+ */
+function insertNewTableRow(node) {
+    var tableNode = node.parentNode.parentNode.parentNode.parentNode;
+    var tbodyNode = node.parentNode.parentNode.parentNode;
+    /**
+     * "-1"  skiping <script> child inside tbody element
+     */
+    var rowCount = tbodyNode.children.length - 1;
+    var newRow = tableNode.insertRow(rowCount);
+
+    var cellLabel = newRow.insertCell(0);
+    cellLabel.className = 'label';
+    cellLabel.innerHTML = getTdLabelInnerHtml();
+
+    var cellValue = newRow.insertCell(1);
+    cellValue.className = 'value';
+    cellValue.innerHTML = getTdValueInnerHtml();
+
+    var cellButton = newRow.insertCell(2);
+    cellButton.innerHTML = getTdButtonInnerHtml();
+    cellButton.className = 'label';
+    Element.setStyle(cellButton, { width: '5em'});
+
+    return false;
 }
 
 // ]]>

@@ -34,9 +34,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Addrow extends Varien_
     public function getElementHtml()
     {
         $html = $this->getBeforeElementHtml() . '<button id="'.$this->getHtmlId().'" name="'.$this->getName()
-            . '" value="'.$this->getEscapedValue().'"'
+            . '" value="'.$this->getEscapedValue().'" '
             . $this->serialize($this->getHtmlAttributes())
-            . '" <span>'.$this->getEscapedValue().'</span></button>'.$this->getAfterElementHtml();
+            . ' ><span>'.$this->getEscapedValue().'</span></button>'.$this->getAfterElementHtml();
         return $html;
     }
 
