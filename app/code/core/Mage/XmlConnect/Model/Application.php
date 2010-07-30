@@ -243,7 +243,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
         $result['general']['emailToFriendMaxRecepients'] = $maxRecepients;
 
         /**
-         * PatPal configuration
+         * PayPal configuration
          */
         $result['paypal']['businessAccount'] = Mage::getModel('paypal/config')->businessAccount;
         $result['paypal']['merchantLabel'] = $this->getData('conf/special/merchantLabel');
@@ -508,7 +508,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $params['name'] = $this->getName();
             $params['code'] = $this->getCode();
             $params['type'] = $this->getType();
-            $params['url'] = Mage::getBaseUrl() . 'xmlconnect/configuration/index/app_code/' . $this->getCode();
+            $params['url'] = 'http://mt37.varien.com/xmlconnect/configuration/index/app_code/TestApp';//Mage::getBaseUrl() . 'xmlconnect/configuration/index/app_code/' . $this->getCode();
             $params['magentoversion'] = Mage::getVersion();
 
             if (isset($params['country']) && is_array($params['country'])) {
