@@ -412,6 +412,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 
             if ($this->hasData('request_path') && $this->getRequestPath() != '') {
                 $this->setData('url', $this->getUrlInstance()->getDirectUrl($this->getRequestPath()));
+                Varien_Profiler::stop('REWRITE: '.__METHOD__);
                 return $this->getData('url');
             }
 
