@@ -261,4 +261,48 @@ class Mage_CatalogRule_Model_Observer
         }
         $combine->setConditions($conditions);
     }
+
+    public function prepareCatalogProductCollectionPrices(Varien_Event_Observer $observer)
+    {
+        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
+        $collection = $observer->getEvent()->getCollection();
+        $store      = Mage::app()->getStore($observer->getEvent()->getStoreId());
+        $websiteId  = $store->getWebsiteId();
+        if ($observer->getEvent()->hasCustomerGroupId()) {
+            $groupId = $observer->getEvent()->getCustomerGroupId();
+        } else {
+            /* @var $session Mage_Customer_Model_Session */
+            $session = Mage::getSingleton('customer/session');
+            if ($session->isLoggedIn()) {
+                $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            } else {
+                $groupId = Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
+            }
+        }
+        if ($observer->getEvent()->hasDate()) {
+            $date = $observer->getEvent()->getDate();
+        } else {
+            $date = Mage::app()->getLocale()->storeTimeStamp($store);
+        }
+
+        $productIds = array();
+        /* @var $product Mage_Core_Model_Product */
+        foreach ($collection as $product) {
+            $key = implode('|', array($date, $websiteId, $groupId, $product->getId()));
+            if (!isset($this->_rulePrices[$key])) {
+                $productIds[] = $product->getId();
+            }
+        }
+
+        if ($productIds) {
+            $rulePrices = Mage::getResourceModel('catalogrule/rule')
+                ->getRulePrices($date, $websiteId, $groupId, $productIds);
+            foreach ($productIds as $productId) {
+                $key = implode('|', array($date, $websiteId, $groupId, $productId));
+                $this->_rulePrices[$key] = isset($rulePrices[$productId]) ? $rulePrices[$productId] : false;
+            }
+        }
+
+        return $this;
+    }
 }

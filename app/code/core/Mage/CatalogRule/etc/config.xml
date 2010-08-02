@@ -86,6 +86,14 @@
                     </catalogrule>
                 </observers>
             </catalog_product_get_final_price>
+            <prepare_catalog_product_collection_prices>
+                <observers>
+                    <catalogrule>
+                        <class>catalogrule/observer</class>
+                        <method>prepareCatalogProductCollectionPrices</method>
+                    </catalogrule>
+                </observers>
+            </prepare_catalog_product_collection_prices>
         </events>
         <translate>
             <modules>

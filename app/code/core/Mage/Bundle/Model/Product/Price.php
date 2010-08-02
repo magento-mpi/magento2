@@ -86,6 +86,10 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             $selectionIds = unserialize($customOption->getValue());
             $selections = $product->getTypeInstance(true)->getSelectionsByIds($selectionIds, $product);
             $selections->addTierPriceData();
+            Mage::dispatchEvent('prepare_catalog_product_collection_prices', array(
+                'collection'    => $selections,
+                'store_id'      => $product->getStoreId(),
+            ));
             foreach ($selections->getItems() as $selection) {
                 if ($selection->isSalable()) {
                     $selectionQty = $product->getCustomOption('selection_qty_' . $selection->getSelectionId());

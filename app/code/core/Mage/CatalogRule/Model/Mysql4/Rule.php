@@ -625,15 +625,34 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
      */
     public function getRulePrice($date, $wId, $gId, $pId)
     {
-        Mage::log(Varien_Debug::backtrace(true));
-        $read = $this->_getReadAdapter();
-        $select = $read->select()
-            ->from($this->getTable('catalogrule/rule_product_price'), 'rule_price')
-            ->where('rule_date=?', $this->formatDate($date, false))
-            ->where('website_id=?', $wId)
-            ->where('customer_group_id=?', $gId)
-            ->where('product_id=?', $pId);
-        return $read->fetchOne($select);
+        $data = $this->getRulePrices($date, $wId, $gId, array($pId));
+        if (isset($data[$pId])) {
+            return $data[$pId];
+        }
+
+        return false;
+    }
+
+    /**
+     * Return product prices by catalog rule for specific date, website and customer group
+     * Return product - price pairs
+     *
+     * @param int|string $date
+     * @param int $websiteId
+     * @param int $customerGroupId
+     * @param array $productIds
+     * @return array
+     */
+    public function getRulePrices($date, $websiteId, $customerGroupId, $productIds)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select  = $adapter->select()
+            ->from($this->getTable('catalogrule/rule_product_price'), array('product_id', 'rule_price'))
+            ->where('rule_date = ?', $this->formatDate($date, false))
+            ->where('website_id = ?', $websiteId)
+            ->where('customer_group_id = ?', $customerGroupId)
+            ->where('product_id IN(?)', $productIds);
+        return $adapter->fetchPairs($select);
     }
 
     /**
