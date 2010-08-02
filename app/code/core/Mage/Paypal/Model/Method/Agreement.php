@@ -322,6 +322,7 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
 
         if ($api->getBillingAgreementId()) {
             $order->addRelatedObject($billingAgreement);
+            $billingAgreement->setIsObjectChanged(true);
             $billingAgreement->addOrderRelation($order->getId());
         }
 
