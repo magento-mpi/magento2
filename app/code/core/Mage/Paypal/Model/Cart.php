@@ -263,6 +263,7 @@ class Mage_Paypal_Model_Cart
         }
 
         // regular items from the sales entity
+        $this->_items = array();
         foreach ($this->_salesEntity->getAllItems() as $item) {
             if (!$item->getParentItem()) {
                 $this->_addRegularItem($item);
