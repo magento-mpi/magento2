@@ -244,12 +244,22 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $app = false;
         if ($data) {
             try {
+                $isError = false;
                 $app = $this->_initApp();
-                $this->_saveThemeAction($data, 'current_theme');
                 $app->addData($this->_preparePostData($data));
                 $app->addData(array('conf' => $this->_processUploadedFiles($app->getConf())));
-                $app->save();
-                $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been saved.'));
+                $errors = $app->validate();
+                if ($errors !== true) {
+                    foreach ($errors as $err) {
+                        $this->_getSession()->addError($err);
+                    }
+                    $isError = true;
+                }
+                if (!$isError) {
+                    $this->_saveThemeAction($data, 'current_theme');
+                    $app->save();
+                    $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been saved.'));
+                }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addException($e, $e->getMessage());
                 $redirectBack = true;
@@ -259,10 +269,9 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 Mage::logException($e);
             }
         }
-        if($app->getId() && $redirectSubmit){
+        if(!$isError && $app->getId() && $redirectSubmit) {
             $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
-        }
-        else if ($app->getId() && $redirectBack) {
+        } else if ($isError || ($app->getId() && $redirectBack)) {
             $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
         } else {
             $this->_redirect('*/*/');

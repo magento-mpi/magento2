@@ -408,6 +408,29 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Validate application data
+     *
+     * @return array|bool
+     */
+    public function validate()
+    {
+        $errors = array();
+
+        $validateConf = $this->_validateConf();
+        if ($validateConf !== true) {
+            $errors = $validateConf;
+        }
+        if (!Zend_Validate::is($this->getName(), 'NotEmpty')) {
+            $errors[] = Mage::helper('xmlconnect')->__('Please enter "Application Name".');
+        }
+
+        if (empty($errors)) {
+            return true;
+        }
+        return $errors;
+    }
+
+    /**
      * Validate submit application data
      *
      * @return array|bool
