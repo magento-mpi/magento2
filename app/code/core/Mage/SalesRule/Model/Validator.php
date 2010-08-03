@@ -326,19 +326,18 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                     if (!$x || $y>=$x) {
                         break;
                     }
-                    $buy = 0; $free = 0;
-                    while ($buy+$free<$qty) {
-                        $buy += $x;
-                        if ($buy+$free>=$qty) {
-                            break;
-                        }
-                        $free += min($y, $qty-$buy-$free);
-                        if ($buy+$free>=$qty) {
-                            break;
-                        }
+                    $buyAndDiscountQty = $x + $y;
+
+                    $fullRuleQtyPeriod = floor($qty / $buyAndDiscountQty);
+                    $freeQty  = $qty - $fullRuleQtyPeriod * $buyAndDiscountQty;
+
+                    $discountQty = $fullRuleQtyPeriod * $y;
+                    if ($freeQty > $x) {
+                         $discountQty += $freeQty - $x;
                     }
-                    $discountAmount    = $free*$itemPrice;
-                    $baseDiscountAmount= $free*$baseItemPrice;
+
+                    $discountAmount    = $discountQty * $itemPrice;
+                    $baseDiscountAmount= $discountQty * $baseItemPrice;
                     break;
             }
 
