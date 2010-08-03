@@ -864,7 +864,8 @@ abstract class Mage_Eav_Model_Entity_Abstract
             $selects[] = $this->_getLoadAttributesSelect($object, $table);
         }
         if (!empty($selects)) {
-            $values = $this->_getReadAdapter()->fetchAll(implode(' UNION ', $selects));
+            $select = $this->_prepareLoadSelect($selects);
+            $values = $this->_getReadAdapter()->fetchAll($select);
             foreach ($values as $valueRow) {
                 $this->_setAttribteValue($object, $valueRow);
             }
@@ -879,6 +880,18 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
         Varien_Profiler::stop('__EAV_LOAD_MODEL__');
         return $this;
+    }
+
+    /**
+     * Prepare select object for loading entity attributes values
+     *
+     * @param  array $selects
+     * @return Zend_Db_Select
+     */
+    protected function _prepareLoadSelect(array $selects)
+    {
+        $select = $this->_getReadAdapter()->select()->union($selects);
+        return $select;
     }
 
     /**
