@@ -890,7 +890,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         return $this;
     }
 
-
+    /**
+     * Add URL rewrites data to product
+     * If collection loadded - run processing else set flag
+     *
+     * @param int $categoryId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
     public function addUrlRewrite($categoryId = '')
     {
         $this->_addUrlRewrite = true;
@@ -899,9 +905,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         } else {
             $this->_urlRewriteCategory = 0;
         }
+
+        if ($this->isLoaded()) {
+            $this->_addUrlRewrite();
+        }
+
         return $this;
     }
 
+    /**
+     * Add URL rewrites to collection
+     *
+     */
     protected function _addUrlRewrite()
     {
         $urlRewrites = null;
@@ -950,6 +965,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         foreach($this->getItems() as $item) {
             if (isset($urlRewrites[$item->getEntityId()])) {
                 $item->setData('request_path', $urlRewrites[$item->getEntityId()]);
+            } else {
+                $item->setData('request_path', false);
             }
         }
     }

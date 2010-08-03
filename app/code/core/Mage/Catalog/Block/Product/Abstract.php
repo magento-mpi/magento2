@@ -301,7 +301,8 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
-            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes());
+            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            ->addUrlRewrite();
     }
 
     /**
