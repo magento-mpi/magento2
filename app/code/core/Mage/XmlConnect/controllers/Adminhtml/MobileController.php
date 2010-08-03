@@ -82,7 +82,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 return;
             }
             $app->loadSubmit();
-            $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+            $data = Mage::getSingleton('adminhtml/session')->getFormSubmissionData(true);
             if (!empty($data)) {
                 $app->addData($data);
             }
@@ -138,7 +138,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         try {
             $isError = false;
             if (!empty($data)) {
-                Mage::getSingleton('adminhtml/session')->setFormData($data);
+                Mage::getSingleton('adminhtml/session')->setFormSubmissionData($data);
             }
             /** @var $app Mage_XmlConnect_Model_Application */
             $app = $this->_initApp('key');
