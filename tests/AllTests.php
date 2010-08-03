@@ -1,8 +1,12 @@
 <?php
-ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.dirname(__FILE__));
+//ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.dirname(__FILE__));
 require_once 'PHPUnit/Framework.php';
+require_once dirname(__FILE__).'/Mage.php';
 
-require_once 'Mage.php';
+//$appPath = COMPILER_INCLUDE_PATH;
+//$appPath[] = ini_get('include_path').PATH_SEPARATOR.dirname(__FILE__);
+//require_once 'Mage.php';
+//
 // require_once 'Fixture.php';
 // require_once 'DbAdapter.php';
 // require_once 'TestConstraints.php';
@@ -12,6 +16,7 @@ require_once 'Mage.php';
 /**
  * Test runner for available UnitTests
  */
+
 class AllTests extends Mage_TestSuite
 {
     /**
