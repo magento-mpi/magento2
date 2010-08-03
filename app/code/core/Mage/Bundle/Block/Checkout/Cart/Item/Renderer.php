@@ -114,8 +114,20 @@ class Mage_Bundle_Block_Checkout_Cart_Item_Renderer extends Mage_Checkout_Block_
         return 0;
     }
 
+    /**
+     * Overloaded method for getting list of bundle options
+     * Caches result in quote item, because it can be used in cart 'recent view' and on same page in cart checkout
+     *
+     * @return array
+     */
     public function getOptionList()
     {
-        return array_merge($this->_getBundleOptions(), parent::getOptionList());
+        $item = $this->getItem();
+        $optionList = $item->getBlockOptionList();
+        if ($optionList === null) {
+            $optionList = array_merge($this->_getBundleOptions(), parent::getOptionList());
+            $item->setBlockOptionList($optionList);
+        }
+        return $optionList;
     }
 }
