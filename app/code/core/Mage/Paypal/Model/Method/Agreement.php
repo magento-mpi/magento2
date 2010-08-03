@@ -301,15 +301,10 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
             ->setReferenceId($billingAgreement->getReferenceId())
             ->setPaymentAction($this->_pro->getConfig()->paymentAction)
             ->setAmount($amount)
-            ->setNotifyUrl(Mage::getUrl('paypal/ipn/'));
-
-        $paypalCart = Mage::getModel('paypal/cart', array($order))->isDiscountAsItem(true);
-        $api->importTotals($paypalCart);
-        // add line items
-        $lineItems = $paypalCart->getItems();
-        if ($this->_pro->getConfig()->lineItemsEnabled && $lineItems) {
-            $api->setLineItems($lineItems);
-        }
+            ->setNotifyUrl(Mage::getUrl('paypal/ipn/'))
+            ->setPaypalCart(Mage::getModel('paypal/cart', array($order)))
+            ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled)
+        ;
 
         // call api and import transaction and other payment information
         $api->callDoReferenceTransaction();

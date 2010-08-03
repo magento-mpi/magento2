@@ -66,6 +66,13 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     protected $_importTotalsMap = array();
 
     /**
+     * PayPal shopping cart instance
+     *
+     * @var Mage_Paypal_Model_Cart
+     */
+    protected $_cart = null;
+
+    /**
      * Shipping options export to request mapping settings
      * @var array
      */
@@ -259,20 +266,14 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     }
 
     /**
-     * Import totals from the PayPal shopping cart
+     * Set PayPal cart instance
      *
      * @param Mage_Paypal_Model_Cart $cart
      * @return Mage_Paypal_Model_Api_Abstract
      */
-    public function importTotals(Mage_Paypal_Model_Cart $cart)
+    public function setPaypalCart(Mage_Paypal_Model_Cart $cart)
     {
-        $totals = $cart->getTotals();
-        foreach ($totals as $key => $total) {
-            if (empty($total)) {
-                unset($totals[$key]);
-            }
-        }
-        Varien_Object_Mapper::accumulateByMap($totals, $this, $this->_importTotalsMap);
+        $this->_cart = $cart;
         return $this;
     }
 
@@ -370,18 +371,37 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
     /**
      * Prepare line items request
      *
+     * Returns true if there were line items added
+     *
      * @param array &$request
      * @param int $i
+     * @return true|bool
      */
     protected function _exportLineItems(array &$request, $i = 0)
     {
-        $items = $this->getLineItems();
-        if (empty($items)) {
+        if (!$this->_cart) {
             return;
         }
-        // line items
+
+        // always add cart totals, even if line items are not requested
+        if ($this->_lineItemTotalExportMap) {
+            foreach ($this->_cart->getTotals() as $key => $total) {
+                if (isset($this->_lineItemTotalExportMap[$key])) { // !empty($total)
+                    $privateKey = $this->_lineItemTotalExportMap[$key];
+                    $request[$privateKey] = $this->_filterAmount($total);
+                }
+            }
+        }
+
+        // add cart line items
+        $items = $this->_cart->getItems();
+        if (empty($items) || !$this->getIsLineItemsEnabled()) {
+            return;
+        }
+        $result = null;
         foreach ($items as $item) {
             foreach ($this->_lineItemExportItemsFormat as $publicKey => $privateFormat) {
+                $result = true;
                 $value = $item->getDataUsingMethod($publicKey);
                 if (isset($this->_lineItemExportItemsFilters[$publicKey])) {
                     $callback   = $this->_lineItemExportItemsFilters[$publicKey];
@@ -394,6 +414,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
             }
             $i++;
         }
+        return $result;
     }
 
     /**

@@ -278,16 +278,15 @@ class Mage_Paypal_Model_Express_Checkout
             $this->_quote->getPayment()->save();
         }
 
-        $paypalCart = Mage::getModel('paypal/cart', array($this->_quote))->isDiscountAsItem(true);
-        $this->_api->importTotals($paypalCart);
         // add line items
-        $lineItems = $paypalCart->getItems();
-        if ($this->_config->lineItemsEnabled && $lineItems) {
-            $this->_api->setLineItems($lineItems);
+        $paypalCart = Mage::getModel('paypal/cart', array($this->_quote));
+        $this->_api->setPaypalCart($paypalCart)
+            ->setIsLineItemsEnabled($this->_config->lineItemsEnabled)
+        ;
 
-            // add shipping options
-            if ($this->_config->transferShippingOptions
-                && !$this->_quote->getIsVirtual() && !$this->_quote->hasNominalItems()) {
+        // add shipping options if needed and line items are available
+        if ($this->_config->lineItemsEnabled && $this->_config->transferShippingOptions && $paypalCart->getItems()) {
+            if (!$this->_quote->getIsVirtual() && !$this->_quote->hasNominalItems()) {
                 if ($options = $this->_prepareShippingOptions($address, true)) {
                     $this->_api->setShippingOptionsCallbackUrl(
                         Mage::getUrl('*/*/shippingOptionsCallback', array('quote_id' => $this->_quote->getId()))

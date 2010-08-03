@@ -264,6 +264,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
      * Line items export mapping settings
      * @var array
      */
+    protected $_lineItemTotalExportMap = array();
     protected $_lineItemExportItemsFormat = array(
         'name'   => 'L_NAME%d',
         'qty'    => 'L_QTY%d',

@@ -136,13 +136,11 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             $api->setAddress($address);
         }
 
-        $paypalCart = Mage::getModel('paypal/cart', array($order))
-            ->isShippingAsItem(true); // PayPal for some reason ignores the shipping amounts with the cart line items
-        $api->importTotals($paypalCart);
-        $lineItems = $paypalCart->getItems();
-        if ($this->_config->lineItemsEnabled && $lineItems) {
-            $api->setLineItems($lineItems);
-        } else {
+        // add cart totals and line items
+        $api->setPaypalCart(Mage::getModel('paypal/cart', array($order)))
+            ->setIsLineItemsEnabled($this->_config->lineItemsEnabled)
+        ;
+        if (!$this->_config->lineItemsEnabled) {
             $api->setCartSummary($this->_getAggregatedCartSummary());
         }
 

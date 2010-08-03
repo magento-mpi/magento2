@@ -362,15 +362,9 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
             ->setNotifyUrl(Mage::getUrl('paypal/ipn/'))
             ->setInvNum($order->getIncrementId())
             ->setCurrencyCode($order->getBaseCurrencyCode())
+            ->setPaypalCart(Mage::getModel('paypal/cart', array($order)))
+            ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled)
         ;
-
-        $paypalCart = Mage::getModel('paypal/cart', array($order))->isDiscountAsItem(true);
-        $api->importTotals($paypalCart);
-        // add line items
-        $lineItems = $paypalCart->getItems();
-        if ($this->_pro->getConfig()->lineItemsEnabled && $lineItems) {
-            $api->setLineItems($lineItems);
-        }
 
         // call api and get details from it
         $api->callDoExpressCheckoutPayment();

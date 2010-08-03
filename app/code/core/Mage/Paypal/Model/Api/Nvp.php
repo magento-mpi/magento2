@@ -403,10 +403,10 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * Line items export mapping settings
      * @var array
      */
-    protected $_importTotalsMap = array(
-        Mage_Paypal_Model_Cart::TOTAL_SUBTOTAL => 'subtotal_amount',
-        Mage_Paypal_Model_Cart::TOTAL_TAX      => 'tax_amount',
-        Mage_Paypal_Model_Cart::TOTAL_SHIPPING => 'shipping_amount',
+    protected $_lineItemTotalExportMap = array(
+        Mage_Paypal_Model_Cart::TOTAL_SUBTOTAL => 'ITEMAMT',
+        Mage_Paypal_Model_Cart::TOTAL_TAX      => 'TAXAMT',
+        Mage_Paypal_Model_Cart::TOTAL_SHIPPING => 'SHIPPINGAMT',
     );
     protected $_lineItemExportItemsFormat = array(
         'id'     => 'L_NUMBER%d',
@@ -1005,6 +1005,22 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $nvpstr=substr($nvpstr,$valuepos+1,strlen($nvpstr));
          }
         return $nvpArray;
+    }
+
+    /**
+     * NVP doesn't support passing discount total as a separate amount - add it as a line item
+     *
+     * @param array $request
+     * @param int $i
+     * @return true|null
+     */
+    protected function _exportLineItems(array &$request, $i = 0)
+    {
+        if (!$this->_cart) {
+            return;
+        }
+        $this->_cart->isDiscountAsItem(true);
+        return parent::_exportLineItems($request, $i);
     }
 
     /**

@@ -86,11 +86,11 @@ class Mage_Paypal_Model_Api_Standard extends Mage_Paypal_Model_Api_Abstract
      * Line items export mapping settings
      * @var array
      */
-    protected $_importTotalsMap = array(
+    protected $_lineItemTotalExportMap = array(
         Mage_Paypal_Model_Cart::TOTAL_SUBTOTAL => 'amount',
         Mage_Paypal_Model_Cart::TOTAL_DISCOUNT => 'discount_amount',
-        Mage_Paypal_Model_Cart::TOTAL_TAX      => 'tax_amount',
-        Mage_Paypal_Model_Cart::TOTAL_SHIPPING => 'shipping_amount',
+        Mage_Paypal_Model_Cart::TOTAL_TAX      => 'tax',
+        Mage_Paypal_Model_Cart::TOTAL_SHIPPING => 'shipping',
     );
     protected $_lineItemExportItemsFormat = array(
         'id'     => 'item_number_%d',
@@ -129,14 +129,18 @@ class Mage_Paypal_Model_Api_Standard extends Mage_Paypal_Model_Api_Abstract
         $request = $this->_exportToRequest($this->_commonRequestFields);
         $request['charset'] = 'utf-8';
 
-        if ($this->getLineItems()) {
-            $this->_exportLineItems($request, 1);
+        $isLineItems = $this->_exportLineItems($request);
+        if ($isLineItems) {
             $request = array_merge($request, array(
                 'cmd'    => '_cart',
                 'upload' => 1,
-                'tax_cart' => $request['tax'],
-                'discount_amount_cart' => $request['discount_amount'],
             ));
+            if (isset($request['tax'])) {
+                $request['tax_cart'] = $request['tax'];
+            }
+            if (isset($request['discount_amount'])) {
+                $request['discount_amount_cart'] = $request['discount_amount'];
+            }
         } else {
             $request = array_merge($request, array(
                 'cmd'           => '_ext-enter',
@@ -176,6 +180,26 @@ class Mage_Paypal_Model_Api_Standard extends Mage_Paypal_Model_Api_Abstract
     public function debugRequest($request)
     {
         return;
+    }
+
+    /**
+     * Add shipping total as a line item.
+     * For some reason PayPal ignores shipping total variables exactly when line items is enabled
+     * Note that $i = 1
+     *
+     * @param array $request
+     * @param int $i
+     * @return true|null
+     */
+    protected function _exportLineItems(array &$request, $i = 1)
+    {
+        if (!$this->_cart) {
+            return;
+        }
+        if ($this->getIsLineItemsEnabled()) {
+            $this->_cart->isShippingAsItem(true);
+        }
+        return parent::_exportLineItems($request, $i);
     }
 
     /**
