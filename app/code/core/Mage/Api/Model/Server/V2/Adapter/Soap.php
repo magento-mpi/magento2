@@ -60,7 +60,15 @@ class Mage_Api_Model_Server_V2_Adapter_Soap extends Mage_Api_Model_Server_Adapte
         } else {
             try {
                 ini_set("soap.wsdl_cache_enabled", "0");
-                $this->_soap = new Zend_Soap_Server($this->getWsdlUrl(array("wsdl" => 1)), array('encoding'=>$apiConfigCharset));
+                try {
+                    $this->_soap = new Zend_Soap_Server($this->getWsdlUrl(array("wsdl" => 1)), array('encoding'=>$apiConfigCharset));
+                } catch(Zend_Soap_Server_Exception $e) {
+                    if(strpos($e->getMessage(), "SOAP-ERROR: Parsing Schema: can't import schema from") === 0 ) {
+                        $this->_soap = new Zend_Soap_Server($this->getWsdlUrl(array("wsdl" => 1)), array('encoding'=>$apiConfigCharset));
+                    } else {
+                        throw $e;
+                    }
+                }
                 use_soap_error_handler(false);
                 $this->_soap
                     ->setReturnResponse(true)
