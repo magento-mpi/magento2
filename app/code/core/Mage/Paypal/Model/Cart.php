@@ -372,7 +372,6 @@ class Mage_Paypal_Model_Cart
         if (!$this->_isDiscountAsItem) {
             $sum -= $this->_totals[self::TOTAL_DISCOUNT];
         }
-
         /**
          * numbers are intentionally converted to strings because of possible comparison error
          * see http://php.net/float
@@ -384,7 +383,7 @@ class Mage_Paypal_Model_Cart
 
         // PayPal requires to have discount less than items subtotal
         if (!$this->_isDiscountAsItem) {
-            $this->_areTotalsValid = round($itemsSubtotal, 4) >= round($this->_totals[self::TOTAL_DISCOUNT], 4);
+            $this->_areTotalsValid = round($this->_totals[self::TOTAL_DISCOUNT], 4) < round($itemsSubtotal, 4);
         } else {
             $this->_areTotalsValid = $itemsSubtotal > 0.00001;
         }
