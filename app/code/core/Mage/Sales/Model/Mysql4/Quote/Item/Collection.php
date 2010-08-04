@@ -207,6 +207,7 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
                         $optionProductIds[$option->getProduct()->getId()] = $option->getProduct()->getId();
                     }
                 }
+
                 if ($optionProductIds) {
                     foreach ($optionProductIds as $optionProductId) {
                         $qtyOption = $item->getOptionByCode('product_qty_' . $optionProductId);
@@ -215,6 +216,7 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
                         }
                     }
                 }
+                $item->setQtyOptions($qtyOptions);
 
                 $item->setProduct($product);
             } else {

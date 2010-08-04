@@ -115,6 +115,8 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Option_Collection extends Mage_Core_Mod
      */
     public function getProductIds()
     {
+        $this->load();
+        
         return array_keys($this->_optionsByProduct);
     }
 
@@ -131,6 +133,8 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Option_Collection extends Mage_Core_Mod
         } else {
             $itemId = $item;
         }
+
+        $this->load();
 
         $options = array();
         if (isset($this->_optionsByItem[$itemId])) {
@@ -155,6 +159,8 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Option_Collection extends Mage_Core_Mod
         } else {
             $productId = $product;
         }
+
+        $this->load();
 
         $options = array();
         if (isset($this->_optionsByProduct[$productId])) {
