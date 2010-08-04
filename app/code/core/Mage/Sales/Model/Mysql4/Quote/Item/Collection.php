@@ -131,8 +131,8 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
         /**
          * Assign options and products
          */
-        $this->_assignOptions()
-            ->_assignProducts();
+        $this->_assignOptions();
+        $this->_assignProducts();
         return $this;
     }
 
@@ -151,6 +151,7 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
         }
         $productIds = $optionCollection->getProductIds();
         $this->_productIds = array_merge($this->_productIds, $productIds);
+
         return $this;
     }
 
@@ -178,16 +179,20 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
             ->addTierPriceData();
 
         Mage::dispatchEvent('prepare_catalog_product_collection_prices', array(
-            'collection'    => $productCollection,
-            'store_id'      => $this->getStoreId(),
+            'collection'            => $productCollection,
+            'store_id'              => $this->getStoreId(),
         ));
-        Mage::dispatchEvent('sales_quote_item_collection_products_after_load', array('product_collection'=>$productCollection));
+        Mage::dispatchEvent('sales_quote_item_collection_products_after_load', array(
+            'product_collection'    => $productCollection
+        ));
 
         $recollectQuote = false;
         foreach ($this as $item) {
             $product = $productCollection->getItemById($item->getProductId());
             if ($product) {
                 $product->setCustomOptions(array());
+                $qtyOptions         = array();
+                $optionProductIds   = array();
                 foreach ($item->getOptions() as $option) {
                     /**
                      * Call type specified logic for product associated with quote item
@@ -197,7 +202,20 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
                             $option,
                             $product
                         );
+
+                    if (is_object($option->getProduct()) && $option->getProduct()->getId() != $product->getId()) {
+                        $optionProductIds[$option->getProduct()->getId()] = $option->getProduct()->getId();
+                    }
                 }
+                if ($optionProductIds) {
+                    foreach ($optionProductIds as $optionProductId) {
+                        $qtyOption = $item->getOptionByCode('product_qty_' . $optionProductId);
+                        if ($qtyOption) {
+                            $qtyOptions[$optionProductId] = $qtyOption;
+                        }
+                    }
+                }
+
                 $item->setProduct($product);
             } else {
                 $item->isDeleted(true);
@@ -210,6 +228,7 @@ class Mage_Sales_Model_Mysql4_Quote_Item_Collection extends Mage_Core_Model_Mysq
             $this->_quote->collectTotals();
         }
         Varien_Profiler::stop('QUOTE:'.__METHOD__);
+
         return $this;
     }
 }
