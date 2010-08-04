@@ -88,13 +88,17 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'name'      => 'conf[submit_text][key]',
             'label'     => Mage::helper('xmlconnect')->__('Activation Key'),
             'value'     => isset($formData['conf[submit_text][key]']) ? $formData['conf[submit_text][key]'] : null,
-            'readonly'  => $isResubmit,
             'after_element_html' => $afterElementHtml,
         ));
         if (!$isResubmit) {
             $field->setRequired(true);
+        } else {
+            $field->setDisabled('disabled');
+            $fieldset->addField('conf[submit_text][key]_hidden', 'hidden', array(
+                'name'      => 'conf[submit_text][key]',
+                'value'     => isset($formData['conf[submit_text][key]']) ? $formData['conf[submit_text][key]'] : null,
+            ));
         }
-
 
         if ($isResubmit) {
             $url = Mage::getStoreConfig('xmlconnect/mobile_application/resubmission_key_url');
