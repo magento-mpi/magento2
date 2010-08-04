@@ -167,7 +167,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         else {
             $this->_init('catalog/product');
         }
+        $this->_initTables();
+    }
 
+    /**
+     * Define product website and category product tables
+     */
+    protected function _initTables()
+    {
         $this->_productWebsiteTable = $this->getResource()->getTable('catalog/product_website');
         $this->_productCategoryTable= $this->getResource()->getTable('catalog/category_product');
     }
@@ -1658,10 +1665,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if (empty($ids)) {
             return $this;
         }
-        $select = $this->getConnection()->select()
-            ->from($this->_productCategoryTable, array('product_id', 'category_id'))
-            ->where('product_id IN (?)', $ids);
+
+        $select = $this->getConnection()->select();
+
+        $select->from($this->_productCategoryTable, array('product_id', 'category_id'));
+        $select->where('product_id IN (?)', $ids);
+
         $data = $this->getConnection()->fetchAll($select);
+
         $categoryIds = array();
         foreach ($data as $info) {
             if (isset($categoryIds[$info['product_id']])) {
@@ -1670,6 +1681,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 $categoryIds[$info['product_id']] = array($info['category_id']);
             }
         }
+
 
         foreach ($this->getItems() as $item) {
             $productId = $item->getId();
