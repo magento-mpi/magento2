@@ -666,29 +666,68 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         return $shipment;
     }
 
-
+    /**
+     * Process chargeback notification
+     */
     protected function _responseChargebackAmountNotification()
     {
         $this->getGResponse()->SendAck();
 
+        $latestChargeback = $this->getData('root/latest-chargeback-amount/VALUE');
+        $totalChargeback = $this->getData('root/total-chargeback-amount/VALUE');
+
+        $order = $this->getOrder();
+        if ($order->getBaseGrandTotal() == $totalChargeback) {
+            $creditmemo = Mage::getModel('sales/service_order', $order)
+                ->prepareCreditmemo()
+                ->setPaymentRefundDisallowed(true)
+                ->setAutomaticallyCreated(true)
+                ->register();
+
+            $creditmemo->addComment($this->__('Credit memo has been created automatically'));
+            $creditmemo->save();
+        }
+        $msg = $this->__('Google Chargeback:');
+        $msg .= '<br />'.$this->__('Latest Chargeback: %s', '<strong>' . $this->_formatAmount($latestChargeback) . '</strong>');
+        $msg .= '<br />'.$this->__('Total Chargeback: %s', '<strong>' . $this->_formatAmount($totalChargeback) . '</strong>');
+
+        $order->addStatusToHistory($order->getStatus(), $msg);
+        $order->save();
     }
 
     /**
      * Process refund notification
-     *
      */
     protected function _responseRefundAmountNotification()
     {
         $this->getGResponse()->SendAck();
 
-        $order = $this->getOrder();
-        $payment = $order->getPayment();
-
+        $latestRefunded = $this->getData('root/latest-refund-amount/VALUE');
         $totalRefunded = $this->getData('root/total-refund-amount/VALUE');
-        $payment->setAmountCharged($totalRefunded);
+
+        $order = $this->getOrder();
+        $amountRefundLeft = $order->getBaseGrandTotal() - $order->getBaseTotalRefunded();
+        if ($amountRefundLeft < $latestRefunded) {
+            $latestRefunded = $amountRefundLeft;
+            $totalRefunded  = $order->getBaseGrandTotal();
+        }
+
+        if ($order->getBaseTotalRefunded() > 0) {
+            $adjustment = array('adjustment_positive' => $latestRefunded);
+        } else {
+            $adjustment = array('adjustment_negative' => $order->getBaseGrandTotal() - $latestRefunded);
+        }
+
+        $creditmemo = Mage::getModel('sales/service_order', $order)
+            ->prepareCreditmemo($adjustment)
+            ->setPaymentRefundDisallowed(true)
+            ->setAutomaticallyCreated(true)
+            ->register()
+            ->addComment($this->__('Credit memo has been created automatically'))
+            ->save();
 
         $msg = $this->__('Google Refund:');
-        $msg .= '<br />'.$this->__('Latest Refund: %s', '<strong>' . $this->_formatAmount($this->getData('root/latest-refund-amount/VALUE')) . '</strong>');
+        $msg .= '<br />'.$this->__('Latest Refund: %s', '<strong>' . $this->_formatAmount($latestRefunded) . '</strong>');
         $msg .= '<br />'.$this->__('Total Refunded: %s', '<strong>' . $this->_formatAmount($totalRefunded) . '</strong>');
 
         $order->addStatusToHistory($order->getStatus(), $msg);
