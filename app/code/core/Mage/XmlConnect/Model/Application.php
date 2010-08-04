@@ -421,7 +421,7 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             $errors = $validateConf;
         }
         if (!Zend_Validate::is($this->getName(), 'NotEmpty')) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter "Application Name".');
+            $errors[] = Mage::helper('xmlconnect')->__('Please enter "Application Title".');
         }
 
         if (empty($errors)) {

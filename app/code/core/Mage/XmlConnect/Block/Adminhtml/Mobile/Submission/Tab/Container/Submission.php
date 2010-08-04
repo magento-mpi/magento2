@@ -88,7 +88,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'name'      => 'conf[submit_text][key]',
             'label'     => Mage::helper('xmlconnect')->__('Activation Key'),
             'value'     => isset($formData['conf[submit_text][key]']) ? $formData['conf[submit_text][key]'] : null,
-            'disabled'  => $isResubmit,
+            'readonly'  => $isResubmit,
             'after_element_html' => $afterElementHtml,
         ));
         if (!$isResubmit) {
@@ -158,7 +158,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'value'     => '1',
         ));
 
-        $selected = isset($formData['conf[submit_text][country]']) ? json_decode($formData['conf[submit_text][country]']) : null;
+        $selected = isset($formData['conf[submit_text][country]']) ? explode(',', $formData['conf[submit_text][country]']) : null;
         $fieldset->addField('conf/submit_text/country', 'multiselect', array(
             'name'      => 'conf[submit_text][country][]',
             'label'     => Mage::helper('xmlconnect')->__('Country'),

@@ -106,7 +106,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $redirectBack = false;
         try {
             $app = $this->_initApp();
-
             $app->loadSubmit();
             $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
             if (!empty($data)) {
@@ -163,6 +162,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     'created_at' => Mage::getModel('core/date')->date(),
                     'store_id' => $app->getStoreId(),
                     'title' => isset($params['title']) ? $params['title'] : '',
+                    'code' => $app->getCode(),
                     'activation_key' => isset($params['resubmission_activation_key']) ?
                         $params['resubmission_activation_key'] : $params['key'],
                 ));
@@ -243,10 +243,14 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $redirectSubmit = $this->getRequest()->getParam('submitapp', false);
         $app = false;
         if ($data) {
+            Mage::getSingleton('adminhtml/session')->setFormData($data);
             try {
                 $isError = false;
                 $app = $this->_initApp();
                 $app->addData($this->_preparePostData($data));
+                /**
+                 * $conf is overwritten here !
+                 */
                 $app->addData(array('conf' => $this->_processUploadedFiles($app->getConf())));
                 $errors = $app->validate();
                 if ($errors !== true) {

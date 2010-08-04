@@ -74,10 +74,14 @@ document.observe("dom:loaded", function() {
     });
 });
 
+tabsDesignSectionPreviewClicked = false;
 Event.observe(document, 'dom:loaded', function() {
     if ($("mobile_app_tabs_design_section")) {
         $("mobile_app_tabs_design_section").observe('click', function() {
-            updatePreview();
+            if (!tabsDesignSectionPreviewClicked) {
+                updatePreview();
+                tabsDesignSectionPreviewClicked = true;
+            }
         });
     } else {
         // 1 is correct value - tells that you don't need to load app data

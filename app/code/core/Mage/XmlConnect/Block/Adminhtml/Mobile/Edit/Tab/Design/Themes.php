@@ -37,7 +37,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
         $this->setTemplate('xmlconnect/form/element/themes.phtml');
 
         $data = $model->getFormData();
-
         $this->setColorFieldset (array (
             array ( 'id' => 'field_colors', 'label' =>   Mage::helper('xmlconnect')->__('Colors'), 'fields' => array (
                 $this->_addColorBox('conf[native][navigationBar][tintColor]', Mage::helper('xmlconnect')->__('Header Background Color'), $data),
@@ -92,13 +91,23 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Themes extends Mage
     }
 
     /**
+     * Getter, check if it's needed to load default theme config
+     *
+     * @return bool
+     */
+    public function getDefaultThemeLoaded()
+    {
+        return $this->getApplication()->getDefaultThemeLoaded();
+    }
+
+    /**
      * Check if adding new Application
      *
      * @return bool
      */
     public function isNewApplication()
     {
-        return $this->getApplication()->getId() ? true : false;
+        return $this->getApplication()->getId() ? false : true;
     }
 
     /**

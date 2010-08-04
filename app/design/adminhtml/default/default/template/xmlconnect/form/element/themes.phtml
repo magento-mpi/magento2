@@ -71,7 +71,6 @@ Magento.Dropdowns.prototype = {
             Event.observe(i.down('a'), 'click', function(e){
                 e.stop();
                 that.input.value = i.down('a').rel;
-//                mmSetTheme(that.input.value);
                 that.hide_all();
                 that.head.down('a').innerHTML = i.down('a').innerHTML;
             });
@@ -132,6 +131,10 @@ function changeColorListener(id) {
     setThemeSelector('<?php echo $_themesHelper->getCustomThemeName(); ?>');
 }
 
+isNewApplication = <?php echo ($this->isNewApplication() ? "true" : "false"); ?>;
+isDefaultThemeLoaded = <?php echo ($this->getDefaultThemeLoaded() ? "true" : "false");?>;
+tabDesignWasClicked = false;
+
 Event.observe(document, 'dom:loaded', function() {
     new Magento.Dropdowns('dropdown');
 <?php
@@ -152,11 +155,23 @@ Event.observe(document, 'dom:loaded', function() {
     });
 
     $("mobile_app_tabs_design_section").observe('click', function() {
-        mmSetTheme(currentTheme);
+        if (isNewApplication && !isDefaultThemeLoaded && !tabDesignWasClicked) {
+            mmSetTheme(currentTheme);
+            createInputHiddenElementThemeLoaded();
+            tabDesignWasClicked = true;
+        }
     });
 
 });
 
+function createInputHiddenElementThemeLoaded() {
+    inputElement = document.createElement('input');
+    inputElement.type = "hidden";
+    inputElement.name = "default_theme_loaded";
+    inputElement.value = "1";
+    $('theme_selector_id_value').parentNode.appendChild(inputElement);
+
+}
 mmColorUpdate = false;
 
 mmColorThemes = <?php echo Mage::helper('core')->jsonEncode($this->getAllThemes()); ?>;
