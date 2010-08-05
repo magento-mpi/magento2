@@ -582,12 +582,12 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
              */
             if ($e->getMessage() == 'Disallowed file type.') {
                 $filename = $_FILES[$field]['name'];
-                Mage::throwException(Mage::helper('xmlconnect')->__('Error while uploading file "%s". Disallowed file type.', $filename));
+                Mage::throwException(Mage::helper('xmlconnect')->__('Error while uploading file "%s". Disallowed file type. Only "jpg", "jpeg", "gif", "png" are allowed.', $filename));
             }
         }
         $uploadedFilename = $uploader->getUploadedFileName();
         $this->_injectFieldToArray($target, $field, $uploadedFilename);
-        $this->_handleResize($nameParts, $upload_dir . DS . $uploadedFilename);
+        $this->_handleResize($field, $upload_dir . DS . $uploadedFilename);
         return $uploadedFilename;
     }
 
@@ -626,8 +626,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      * @param string $file
      * @return void
      */
-    protected function _handleResize($nameParts, $file)
+    protected function _handleResize($fieldPath, $file)
     {
+        $nameParts = explode('/', $fieldPath);
+        array_shift($nameParts);
         $app = Mage::registry('current_app');
         $conf = Mage::getStoreConfig('imageLimits/'.$app->getType());
         while (count($nameParts)) {
