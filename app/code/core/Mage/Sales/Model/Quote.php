@@ -1139,6 +1139,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $countItems ++;
             if (!$_item->getProduct()->getIsVirtual()) {
                 $isVirtual = false;
+                break;
             }
         }
         return $countItems == 0 ? false : $isVirtual;
