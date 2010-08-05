@@ -148,7 +148,6 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     public function editAction()
     {
         $redirectBack = false;
-        $noFormData = $this->getRequest()->getParam('noFormData', false);
         try {
             $app = $this->_initApp();
             $app->loadSubmit();
