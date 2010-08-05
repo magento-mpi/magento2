@@ -63,7 +63,7 @@ abstract class Mage_Paypal_Model_Api_Abstract extends Varien_Object
      */
     protected $_lineItemExportItemsFormat = array();
     protected $_lineItemExportItemsFilters = array();
-    protected $_importTotalsMap = array();
+    protected $_lineItemTotalExportMap = array();
 
     /**
      * PayPal shopping cart instance
