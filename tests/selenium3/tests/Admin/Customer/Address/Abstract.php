@@ -17,10 +17,14 @@ class Test_Admin_Customer_Address_Abstract extends Test_Admin_Customer_Abstract
     public function doAdminSaveCustomer()
     {
         $saveCustomer = $this->getUiElement("admin/customer/button/savecustomer");
-        $this->waitForElement($saveCustomer,20);
+        $this->waitForElement($saveCustomer, 20);
         $this->click($saveCustomer);
         $this->waitForPageToLoad("90000");
-        return $this->assertTrue($this->isTextPresent($this->getUiElement("admin/customer/message/customersaved")));
+        return $this->assertTrue(
+            $this->isTextPresent(
+                $this->getUiElement("admin/customer/message/customersaved")
+            )
+        );
     }
 
     /**

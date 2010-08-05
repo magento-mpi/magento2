@@ -48,7 +48,7 @@ final class Core
             }
         }
 
-        print_r(self::$_config['environment']['map']);
+        // print_r(self::$_config['environment']['map']);
     }
 
     /**
