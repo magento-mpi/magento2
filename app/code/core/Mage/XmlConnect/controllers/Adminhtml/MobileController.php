@@ -334,21 +334,25 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         try {
             $themeName = $this->getRequest()->getParam($paramId, false);
             if ($themeName) {
-                $theme = Mage::helper('xmlconnect/theme')->getThemeByName($themeName);
-                if ($theme instanceof Mage_XmlConnect_Model_Theme) {
-                    if ($paramId == 'saveTheme') {
-                        $convertedConf = $this->_convertPost($data);
-                    } else {
-                        if (isset($data['conf'])) {
-                            $convertedConf = $data['conf'];
+                if ($themeName == Mage::helper('xmlconnect/theme')->getCustomThemeName()) {
+                    $theme = Mage::helper('xmlconnect/theme')->getThemeByName($themeName);
+                    if ($theme instanceof Mage_XmlConnect_Model_Theme) {
+                        if ($paramId == 'saveTheme') {
+                            $convertedConf = $this->_convertPost($data);
                         } else {
-                            $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Cannot save theme "%s". Incorrect data received', $themeName));
+                            if (isset($data['conf'])) {
+                                $convertedConf = $data['conf'];
+                            } else {
+                                $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Cannot save theme "%s". Incorrect data received', $themeName));
+                            }
                         }
+                        $theme->importAndSaveData($convertedConf);
+                        $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
+                    } else {
+                        $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Cannot load theme "%s".', $themeName));
                     }
-                    $theme->importAndSaveData($convertedConf);
-                    $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
                 } else {
-                    $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Cannot load theme "%s".', $themeName));
+                    $response = Mage::helper('xmlconnect/theme')->getAllThemesArray(true);
                 }
             } else {
                 $response = array('error' => true, 'message' => Mage::helper('xmlconnect')->__('Theme Name is not set.'));
