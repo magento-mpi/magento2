@@ -285,10 +285,10 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
         $redirectBack = $this->getRequest()->getParam('back', false);
         $redirectSubmit = $this->getRequest()->getParam('submitapp', false);
         $app = false;
+        $isError = false;
         if ($data) {
             Mage::getSingleton('adminhtml/session')->setFormData($data);
             try {
-                $isError = false;
                 $app = $this->_initApp();
                 $app->addData($this->_preparePostData($data));
                 $app->addData($this->_processUploadedFiles($app->getData()));
