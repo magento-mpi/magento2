@@ -50,6 +50,50 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     }
 
     /**
+     * Restore data from session $_POST and $_FILES (processed)
+     *
+     * @param array $data
+     * @return array|null
+     */
+    protected function _restoreSessionFilesFormData($data)
+    {
+        $filesData = Mage::getSingleton('adminhtml/session')->getUploadedFilesFormData(true);
+        if (!empty($filesData) && is_array($filesData)) {
+            if (!is_array($data)) {
+                $data = array();
+            }
+            foreach ($filesData as $filePath => $fileName) {
+                $target =& $data;
+                $this->_injectFieldToArray($target, $filePath, $fileName);
+            }
+        }
+        return $data;
+    }
+
+
+    /**
+     * Set value into multidimensional array 'conf/native/navigationBar/icon'
+     *
+     * @param array     &$target                // pointer to target array
+     * @param string    $fieldPath              //'conf/native/navigationBar/icon'
+     * @param mixed     $fieldValue             // 'Some Value' || 12345 || array(1=>3, 'aa'=>43)
+     * @param string    $delimiter              // path delimiter
+     * @return null
+     */
+    protected function _injectFieldToArray(&$target, $fieldPath, $fieldValue, $delimiter = '/')
+    {
+        $nameParts = explode($delimiter, $fieldPath);
+        foreach($nameParts as $next) {
+            if (!isset($target[$next])) {
+                $target[$next] = array();
+            }
+            $target =& $target[$next];
+        }
+        $target = $fieldValue;
+        return null;
+    }
+
+    /**
      * Mobile applications management
      *
      * @return void
@@ -82,7 +126,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 return;
             }
             $app->loadSubmit();
-            $data = Mage::getSingleton('adminhtml/session')->getFormSubmissionData(true);
+            $data = $this->_restoreSessionFilesFormData(Mage::getSingleton('adminhtml/session')->getFormSubmissionData(true));
             if (!empty($data)) {
                 $app->addData($data);
             }
@@ -104,10 +148,11 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
     public function editAction()
     {
         $redirectBack = false;
+        $noFormData = $this->getRequest()->getParam('noFormData', false);
         try {
             $app = $this->_initApp();
             $app->loadSubmit();
-            $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+            $data = $this->_restoreSessionFilesFormData(Mage::getSingleton('adminhtml/session')->getFormData(true));
             if (!empty($data)) {
                 $app->addData($data);
             }
@@ -143,8 +188,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             $app = $this->_initApp('key');
             $app->loadSubmit();
 
-            $app->addData(array('conf' => $this->_processUploadedFiles($app->getConf())));
-
+            $app->addData($this->_processUploadedFiles($app->getData()));
             $params = $app->prepareSubmitParams($data);
             $errors = $app->validateSubmit($params);
             if ($errors !== true) {
@@ -248,10 +292,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $isError = false;
                 $app = $this->_initApp();
                 $app->addData($this->_preparePostData($data));
-                /**
-                 * $conf is overwritten here !
-                 */
-                $app->addData(array('conf' => $this->_processUploadedFiles($app->getConf())));
+                $app->addData($this->_processUploadedFiles($app->getData()));
                 $errors = $app->validate();
                 if ($errors !== true) {
                     foreach ($errors as $err) {
@@ -266,6 +307,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addException($e, $e->getMessage());
+                $isError = true;
                 $redirectBack = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e, Mage::helper('xmlconnect')->__('Unable to save application.'));
@@ -426,7 +468,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             if (!$this->getRequest()->getParam('submission_action')) {
                 $app->addData($this->_preparePostData($this->getRequest()->getPost()));
             }
-            $app->addData(array('conf' => $this->_processUploadedFiles($app->getConf())));
+            $app->addData($this->_processUploadedFiles($app->getData()));
 
             $this->loadLayout(FALSE);
             $preview = $this->getLayout()->getBlock($block);
@@ -504,16 +546,18 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      *
      * @return array
      */
-    protected function _processUploadedFiles($conf)
+    protected function _processUploadedFiles($data)
     {
+        $this->_uploadedFiles = array();
         if (!empty($_FILES)) {
-            foreach ($_FILES as $field=>$file) {
+            foreach ($_FILES as $field => $file) {
                 if (!empty($file['name']) && is_scalar($file['name'])) {
-                    $this->_handleUpload($field, $conf);
+                    $this->_uploadedFiles[$field] = $this->_handleUpload($field, $data);
                 }
             }
         }
-        return $conf;
+        Mage::getSingleton('adminhtml/session')->setUploadedFilesFormData($this->_uploadedFiles);
+        return $data;
     }
 
     /**
@@ -524,33 +568,28 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
      */
     protected function _handleUpload($field, &$target)
     {
+        $uploadedFilename = '';
         $upload_dir = Mage::getBaseDir('media') . DS . 'xmlconnect';
-
         $this->_forcedConvertPng($field);
 
-        $uploader = new Varien_File_Uploader($field);
-        $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
-        $uploader->setAllowRenameFiles(true);
-        $uploader->save($upload_dir);
-
-        /**
-         * Ugly hack to avoid $_FILES[..]['name'][..][..]
-         *
-         * e.g., variable name in $_POST: 'conf/native/navigationBar/icon' ==>
-         * file name stored in $this->_data['conf']['native']['navigationBar']['icon']
-         * here icon - filename like 'logo_23.gif'
-         */
-        $nameParts = explode('/', $field);
-        array_shift($nameParts);
-        foreach($nameParts as $next) {
-            if (!isset($target[$next])) {
-                $target[$next] = array();
+        try {
+            $uploader = new Varien_File_Uploader($field);
+            $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
+            $uploader->setAllowRenameFiles(true);
+            $uploader->save($upload_dir);
+        } catch (Exception $e ) {
+            /**
+             * Hard coded exception catch
+             */
+            if ($e->getMessage() == 'Disallowed file type.') {
+                $filename = $_FILES[$field]['name'];
+                Mage::throwException(Mage::helper('xmlconnect')->__('Error while uploading file "%s". Disallowed file type.', $filename));
             }
-            $target =& $target[$next];
         }
-        $target = $uploader->getUploadedFileName();
-
-        $this->_handleResize($nameParts, $upload_dir . DS . $uploader->getUploadedFileName());
+        $uploadedFilename = $uploader->getUploadedFileName();
+        $this->_injectFieldToArray($target, $field, $uploadedFilename);
+        $this->_handleResize($nameParts, $upload_dir . DS . $uploadedFilename);
+        return $uploadedFilename;
     }
 
     /**

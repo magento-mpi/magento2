@@ -47,13 +47,14 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Widget_Form extends Mage_Adminhtml_
      * @param string $fieldName
      * @param string $title
      */
-    public function addImage($fieldset, $fieldName, $title, $note = null, $default = '')
+    public function addImage($fieldset, $fieldName, $title, $note = null, $default = '', $required = false)
     {
         $fieldset->addField($fieldName, 'image', array(
             'name'      => $fieldName,
             'label'     => $title,
             'note'      => $note,
             'default_value'   => $default,
+            'required'  => $required,
         ));
     }
 

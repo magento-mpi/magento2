@@ -58,12 +58,13 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
      * @param string $fieldName
      * @param string $title
      */
-    public function addImage($fieldset, $fieldName, $title, $note = '', $default = '')
+    public function addImage($fieldset, $fieldName, $title, $note = '', $default = '', $required = false)
     {
         $fieldset->addField($fieldName, 'image', array(
             'name'      => $fieldName,
             'label'     => $title,
             'note'      => !empty($note) ? $note : null,
+            'required'  => $required,
         ));
     }
 
@@ -199,9 +200,9 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
 
         $fieldset = $form->addFieldset('submit_icons', array('legend' => Mage::helper('xmlconnect')->__('Icons')));
         $this->addImage($fieldset, 'conf/submit/icon', 'Application Icon',
-            Mage::helper('xmlconnect')->__('Apply will automatically resize this image for display in the App Store and on users’ devices.  A gloss (i.e. gradient) will also be applied, so you do not need to apply a gradient.  Image must be at least 512x512'));
+            Mage::helper('xmlconnect')->__('Apply will automatically resize this image for display in the App Store and on users’ devices.  A gloss (i.e. gradient) will also be applied, so you do not need to apply a gradient.  Image must be at least 512x512'), '', true);
         $this->addImage($fieldset, 'conf/submit/loader_image', 'Loader Splash Screen',
-            Mage::helper('xmlconnect')->__('Users will see this image as the first screen while your application is loading.  It is a 320x460 image.'));
+            Mage::helper('xmlconnect')->__('Users will see this image as the first screen while your application is loading.  It is a 320x460 image.'), '', true);
 
         $this->addImage($fieldset, 'conf/submit/logo', Mage::helper('xmlconnect')->__('Custom application icon'),
             Mage::helper('xmlconnect')->__('This image is the icon that will appear on the user’s phone after they download your app.  You do not need to apply a gradient or soft edges (this is done automatically by Apple).  The image should be 57x57-pixels and 72 dpi.'));

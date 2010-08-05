@@ -60,19 +60,22 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images ex
             'conf[native][navigationBar][icon]',
             Mage::helper('xmlconnect')->__('Logo in header'),
             Mage::helper('xmlconnect')->__('Recommended size 35px × 35px.'),
-            $this->_getDesignPreviewImageUrl('smallIcon_1_6.png')
+            $this->_getDesignPreviewImageUrl('smallIcon_1_6.png'),
+            true
         );
         $this->addImage($fieldset,
             'conf[native][body][bannerImage]',
             Mage::helper('xmlconnect')->__('Banner on Home Screen'),
             Mage::helper('xmlconnect')->__('Recommended size 320px × 227px.'),
-            $this->_getDesignPreviewImageUrl('banner_1_2.png')
+            $this->_getDesignPreviewImageUrl('banner_1_2.png'),
+            true
         );
         $this->addImage($fieldset,
             'conf[native][body][backgroundImage]',
             Mage::helper('xmlconnect')->__('Application Background'),
             Mage::helper('xmlconnect')->__('Recommended size 320px x 367px'),
-            $this->_getDesignPreviewImageUrl('accordion_open.png')
+            $this->_getDesignPreviewImageUrl('accordion_open.png'),
+            true
         );
 
         $form->setValues($this->getApplication()->getFormData());
