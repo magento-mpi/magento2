@@ -303,6 +303,17 @@ class Enterprise_CustomerBalance_Model_Observer
     {
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $order = $creditmemo->getOrder();
+
+        if ($creditmemo->getAutomaticallyCreated()) {
+            if (Mage::helper('enterprise_customerbalance')->isAutoRefundEnabled()) {
+                $creditmemo->setCustomerBalanceRefundFlag(true)
+                    ->setCustomerBalanceTotalRefunded($creditmemo->getCustomerBalanceAmount())
+                    ->setBaseCustomerBalanceTotalRefunded($creditmemo->getBaseCustomerBalanceAmount());
+            } else {
+                return $this;
+            }
+        }
+
         if ($creditmemo->getCustomerBalanceTotalRefunded() > $creditmemo->getCustomerBalanceReturnMax()) {
             Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Store credit amount can not exceed order amount.'));
         }

@@ -39,4 +39,14 @@ class Enterprise_CustomerBalance_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('customer/enterprise_customerbalance/is_enabled') == 1;
     }
+
+    /**
+     * Check if automatically refund is enabled
+     *
+     * @return boolean
+     */
+    public function isAutoRefundEnabled()
+    {
+        return Mage::getStoreConfigFlag('customer/enterprise_customerbalance/refund_automatically');
+    }
 }
