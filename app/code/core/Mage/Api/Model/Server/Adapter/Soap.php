@@ -133,12 +133,7 @@ class Mage_Api_Model_Server_Adapter_Soap
                 );
         } else {
             try {
-                ini_set("soap.wsdl_cache_enabled", "0");
-                $this->_soap = new Zend_Soap_Server($this->getWsdlUrl(array("wsdl" => 1)), array('encoding'=>$apiConfigCharset));
-                use_soap_error_handler(false);
-                $this->_soap
-                    ->setReturnResponse(true)
-                    ->setClass($this->getHandler());
+                $this->_instantiateServer();
 
                 $this->getController()->getResponse()
                     ->clearHeaders()
@@ -218,4 +213,34 @@ class Mage_Api_Model_Server_Adapter_Soap
         return $wsdlUrl;
     }
 
-} // Class Mage_Api_Model_Server_Adapter_Soap End
+    /**
+     * Try to instantiate Zend_Soap_Server
+     * If schema import error is caught, it will retry in 1 second.
+     *
+     * @throws Zend_Soap_Server_Exception
+     */
+    protected function _instantiateServer()
+    {
+        $apiConfigCharset = Mage::getStoreConfig('api/config/charset');
+        ini_set('soap.wsdl_cache_enabled', '0');
+        $tries = 0;
+        do {
+            $retry = false;
+            try {
+                $this->_soap = new Zend_Soap_Server($this->getWsdlUrl(array("wsdl" => 1)), array('encoding' => $apiConfigCharset));
+            } catch (Zend_Soap_Server_Exception $e) {
+                if (false !== strpos($e->getMessage(), "can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'")) {
+                    $retry = true;
+                    sleep(1);
+                } else {
+                    throw $e;
+                }
+                $tries++;
+            }
+        } while ($retry && $tries < 5);
+        use_soap_error_handler(false);
+        $this->_soap
+            ->setReturnResponse(true)
+            ->setClass($this->getHandler());
+    }
+}
