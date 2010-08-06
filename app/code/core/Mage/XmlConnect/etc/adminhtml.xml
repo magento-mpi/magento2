@@ -34,7 +34,7 @@
         
         <children>
             <mobile translate="title" module="xmlconnect">
-                <title>Manage Application</title>
+                <title>Manage Apps</title>
                 <sort_order>10</sort_order>
                 <action>adminhtml/mobile</action>
             </mobile>

@@ -172,15 +172,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Submission_Tab_Container_Submission
             'note'      => Mage::helper('xmlconnect')->__('Make this app available in the following territories'),
         ));
 
-        $fieldset->addField('conf/submit_text/country_additional', 'text', array(
-            'name'      => 'conf[submit_text][country_additional]',
-            'label'     => Mage::helper('xmlconnect')->__('Additional Countries'),
-            'maxlength' => '200',
-            'value'     => isset($formData['conf[submit_text][country_additional]']) ? $formData['conf[submit_text][country_additional]'] : null,
-            'note'      => Mage::helper('xmlconnect')->__('You can set any additional countries added by Apple Store.'),
-
-        ));
-
         $fieldset->addField('conf/submit_text/copyright', 'text', array(
             'name'      => 'conf[submit_text][copyright]',
             'label'     => Mage::helper('xmlconnect')->__('Copyright'),

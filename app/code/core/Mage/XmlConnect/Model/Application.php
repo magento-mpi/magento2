@@ -489,21 +489,21 @@ class Mage_XmlConnect_Model_Application extends Mage_Core_Model_Abstract
             || (!isset($native['navigationBar']) || !is_array($native['navigationBar'])
             || !isset($native['navigationBar']['icon'])
             || !Zend_Validate::is($native['navigationBar']['icon'], 'NotEmpty'))) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter "Logo in header" on Desing Tab.');
+            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Logo in header" field from Design Tab.');
         }
 
         if ( ($native === false)
             || (!isset($native['body']) || !is_array($native['body'])
             || !isset($native['body']['bannerImage'])
             || !Zend_Validate::is($native['body']['bannerImage'], 'NotEmpty'))) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter "Banner on Home Screen" on Desing Tab.');
+            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Banner on Home Screen" field from Design Tab.');
         }
 
         if (($native === false)
             || (!isset($native['body']) || !is_array($native['body'])
             || !isset($native['body']['backgroundImage'])
             || !Zend_Validate::is($native['body']['backgroundImage'], 'NotEmpty'))) {
-            $errors[] = Mage::helper('xmlconnect')->__('Please enter "Application Background" on Desing Tab.');
+            $errors[] = Mage::helper('xmlconnect')->__('Please upload  an image for "Application Background" field from Design Tab.');
         }
 
         if (empty($errors)) {
