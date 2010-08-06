@@ -102,6 +102,7 @@
             <arg value="skin/adminhtml/default/default/images/xmlconnect"/>
             <arg value="skin/adminhtml/default/enterprise/images/xmlconnect_tab.png"/>
             <arg value="media/xmlconnect"/>
+            <arg value="js/jscolor"/>
             <arg value="app/code/core/Enterprise/SalesPool"/>
             <arg value="app/design/frontend/enterprise/default/template/salespool"/>
             <arg value="app/design/frontend/enterprise/default/layout/salespool.xml"/>
@@ -174,6 +175,17 @@
         <echo>##teamcity[publishArtifacts '${dir.reports}/pmd-report.html']</echo>
     </target>
 
+    <target name="phpunit" description="Run All PHPunit Tests">
+        <exec dir="${dir.src}" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${dir.reports}/phpunit.xml tests/AllTests.php"/>
+<!--
+                       overage-clover ${dir.reports}/clover.xml
+                       coverage-html ${dir.reports}/coverage"/>
+-->
+        </exec>
+	<echo>##teamcity[importData type='junit' path='${dir.reports}/phpunit.xml']</echo>
+    </target>
+
     <target name="code-analyze-in-parallel" description="Gather code stats in parallel mode.">
         <parallel>
             <antcall target="phpmd"/>
@@ -212,21 +224,21 @@
     <target name="make-tag" description="Create tag for this build."></target>
     <target name="update-branch" description="Merge all available revisions from other branches."></target>
     
-    <target name="build-nightly" description="Installs Magento nightly build." depends="copy-previous-env, install, brutetest, update-current"/>
+    <target name="build-nightly" description="Installs Magento nightly build." depends="copy-previous-env, install, brutetest"/>
     <target name="build" description="Installs Magento clean build." depends="prepare, install, brutetest"/>
     
-    <target name="saas-sync" description="Sync Magento trunk and Saas trunk.">
-	<exec dir="${dir.src}" executable="svn" failonerror="true">
-	    <arg line="co ${vcsroot.saas_trunk.url} --quiet --username ${svn.user} --password ${svn.password} --no-auth-cache ."/>
-	</exec>
-	<exec dir="${dir.src}" executable="svn" failonerror="true">
-	    <arg line="revert -R --quiet --username ${usr.user} --password ${svn.password} --no-auth-cache ."/>
-	</exec>
-	<exec executable="./update-branch.php" failonerror="true">
-	    <arg line="${dir.src} ${svn.user} ${svn.password}"/>
-	</exec>
+    <target name="branch-sync" description="Sync Branches.">
+        <exec dir="${dir.src}" executable="svn" failonerror="true">
+            <arg line="co ${vcsroot.branch.url} --quiet --username ${svn.user} --password ${svn.password} --no-auth-cache ."/>
+        </exec>
+        <exec dir="${dir.src}" executable="svn" failonerror="true">
+            <arg line="revert -R --quiet --username ${usr.user} --password ${svn.password} --no-auth-cache ."/>
+        </exec>
+        <exec executable="./update-branch.php" failonerror="true">
+            <arg line="${dir.src} ${svn.user} ${svn.password}"/>
+        </exec>
     </target>
-    
+
     <target name="dbschema" description="Generate DB schema documentation.">
 	<exec executable="/bin/sh" failonerror="false">
             <arg value="schema_generator"/>
