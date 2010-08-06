@@ -620,8 +620,17 @@ class Enterprise_Reward_Model_Observer
     {
         /* @var $creditmemo Mage_Sales_Model_Order_Creditmemo */
         $creditmemo = $observer->getEvent()->getCreditmemo();
+        $order = $creditmemo->getOrder();
+
+        if ($creditmemo->getAutomaticallyCreated()) {
+            if (Mage::helper('enterprise_reward')->isAutoRefundEnabled()) {
+                $creditmemo->setRewardPointsBalanceToRefund($creditmemo->getRewardPointsBalance());
+            } else {
+                return $this;
+            }
+        }
+
         if ($creditmemo->getBaseRewardCurrencyAmount()) {
-            $order = $creditmemo->getOrder();
             $order->setRewardPointsBalanceRefunded($order->getRewardPointsBalanceRefunded() + $creditmemo->getRewardPointsBalance());
             $order->setRewardCurrencyAmountRefunded($order->getRewardCurrencyAmountRefunded() + $creditmemo->getRewardCurrencyAmount());
             $order->setBaseRewardCurrencyAmountRefunded($order->getBaseRewardCurrencyAmountRefunded() + $creditmemo->getBaseRewardCurrencyAmount());

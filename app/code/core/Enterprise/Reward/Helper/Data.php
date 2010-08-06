@@ -290,7 +290,7 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
      * Loading history collection data
      * and Setting up rate to currency array
      *
-     * @return array 
+     * @return array
      */
     protected function _loadRatesArray()
     {
@@ -333,5 +333,15 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
             return $rate->calculateToCurrency($points);
         }
         return null;
+    }
+
+    /**
+     * Check if automatically refund is enabled
+     *
+     * @return boolean
+     */
+    public function isAutoRefundEnabled()
+    {
+        return Mage::getStoreConfigFlag('enterprise_reward/general/refund_automatically');
     }
 }
