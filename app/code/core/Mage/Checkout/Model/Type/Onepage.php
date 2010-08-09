@@ -356,12 +356,12 @@ class Mage_Checkout_Model_Type_Onepage
         if ($this->getQuote()->getCheckoutMethod() == self::METHOD_REGISTER) {
             // set customer password
             $customer->setPassword($customerRequest->getParam('customer_password'));
-            $customer->setConfirmation($customerRequest->getParam('confirm_password'));
+            $customer->setPasswordConfirmation($customerRequest->getParam('confirm_password'));
         } else {
             // emulate customer password for quest
             $password = $customer->generatePassword();
             $customer->setPassword($password);
-            $customer->setConfirmation($password);
+            $customer->setPasswordConfirmation($password);
         }
 
         $result = $customer->validate();
