@@ -152,7 +152,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      * Validate Product Data
      *
      * @todo implement full validation process with errors returning which are ignoring now
-     * 
+     *
      * @return Mage_Catalog_Model_Product
      */
     public function validate()
@@ -646,6 +646,19 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getFormatedPrice()
     {
         return $this->getPriceModel()->getFormatedPrice($this);
+    }
+
+    /**
+     * Sets final price of product
+     *
+     * This func is equal to magic 'setFinalPrice()', but added as a separate func, because in cart with bundle products it's called
+     * very often in Item->getProduct(). So removing chaing of magic with more cpu consuming algorithms gives nice optimization boost.
+     *
+     * @return array
+     */
+    public function setFinalPrice($price)
+    {
+        $this->_data['final_price'] = $price;
     }
 
     /**
