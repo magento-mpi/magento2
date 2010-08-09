@@ -228,7 +228,7 @@ class Mage_Api_Model_Server_Adapter_Soap
             $retry = false;
             try {
                 $this->_soap = new Zend_Soap_Server($this->getWsdlUrl(array("wsdl" => 1)), array('encoding' => $apiConfigCharset));
-            } catch (Zend_Soap_Server_Exception $e) {
+            } catch (SoapFault $e) {
 Mage::log(get_class($this) . ': ' . $e->getMessage());
                 if (false !== strpos($e->getMessage(), "can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'")) {
                     $retry = true;
@@ -237,7 +237,10 @@ Mage::log(get_class($this) . ': ' . $e->getMessage());
                     throw $e;
                 }
                 $tries++;
-            }
+            } catch (Exception $e) {
+		Mage::log(get_class($this) . ': ' . $e->getMessage());
+		throw $e;
+	    }
         } while ($retry && $tries < 5);
         use_soap_error_handler(false);
         $this->_soap
