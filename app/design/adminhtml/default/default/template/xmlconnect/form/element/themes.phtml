@@ -70,7 +70,7 @@ Magento.Dropdowns.prototype = {
         list.each(function(i){
             Event.observe(i.down('a'), 'click', function(e){
                 e.stop();
-                that.input.value = i.down('a').rel;
+                visibleTheme = that.input.value = i.down('a').rel;
                 that.hide_all();
                 that.head.down('a').innerHTML = i.down('a').innerHTML;
             });
@@ -121,6 +121,7 @@ Magento.Dropdowns.prototype = {
         }
 ?>
 currentTheme = '<?php echo $themeId; ?>';
+visibleTheme = currentTheme;
 
 /**
  * Color field onChange listener
@@ -151,7 +152,8 @@ Event.observe(document, 'dom:loaded', function() {
 */
 ?>
     $('apply_theme').observe('click', function() {
-        mmSetTheme($('theme_selector_id_value').value);
+        currentTheme = visibleTheme;
+        mmSetTheme(currentTheme);
     });
 
     $("mobile_app_tabs_design_section").observe('click', function() {
@@ -270,23 +272,6 @@ function saveThemeChanges() {
 }
 */
 ?>
-function showPopupBox(message) {
-    mask = $('loading-mask');
-    mask.innerHTML = '<form class="loader" action="#"><div>'+message+'<br></div><input type="submit" onclick="alert(\'Hide\');hidePopupBox();" value="<?php echo Mage::helper('xmlconnect')->__(' Ok. '); ?>"></form>';
-    // Do not remove, this filter cause IE8 incompability !!!
-    $('loading-mask').setStyle({filter: ''});
-//    Element.show('loading-mask');
-    $('loading-mask').style.display = 'block';
-
-    return false;
-}
-
-function hidePopupBox() {s
-//    Element.hide('loading-mask');
-    $('loading-mask').style.display = 'none';
-    return false;
-}
-
 // ]]>
 </script>
 
@@ -340,7 +325,7 @@ $id2observe = array();
 <?php foreach ($set['fields'] as $field) : ?>
 
 <tr class="<?php echo $set['id']; ?>_cl">
-    <td class="label"><label for=""><?php echo $field['label'] ?></label></td>
+    <td class="label"><label for="<?php echo $field['id']; ?>"><?php echo $field['label'] ?></label></td>
     <td class="value" style="clear:both;">
         <label class="field_label" for="<?php echo $field['id']; ?>">
             <span id="box_<?php echo $field['id']; ?>" class="color" style="background:<?php echo $field['value'] ?>;display:block;width:20px;height:20px;">&nbsp;</span>

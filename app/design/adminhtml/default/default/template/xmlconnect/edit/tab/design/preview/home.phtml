@@ -44,9 +44,8 @@
             <div class="login-right">&nbsp;</div>
         </div>
     </div>
-    <div class="clearB"></div>
     <div class="big-logo" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>;">
-        <img src="<?php echo $this->getData('conf/body/bannerImage') ? $this->getData('conf/body/bannerImage') : $this->getPreviewImagesUrl('banner.png'); ?>" />
+        <div style="height: 227px; width:320px; background: url(<?php echo $this->getData('conf/body/bannerImage') ? $this->getData('conf/body/bannerImage') : $this->getPreviewImagesUrl('banner.png'); ?>) center center no-repeat;">&nbsp;</div>
     </div>
     <div class="catalog" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>">
         <div class="item">
@@ -57,7 +56,7 @@
                 <?php echo $this->getData('conf/fonts/Title9/name'); ?>;     color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;
                 background: <?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo Mage::helper('xmlconnect')->__("Category1"); ?></div>
         </div>
-        <div class="item">
+        <div class="item">  
             <div class="item-image" style="background: <?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
                 <img src="<?php echo $this->getPreviewImagesUrl('women.png'); ?>" width="63" height="74" alt="" />
             </div>
@@ -74,6 +73,6 @@
             background: <?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo Mage::helper('xmlconnect')->__("Category3"); ?></div>
         </div>
     </div>
-<div class="clearB"></div>
+
 <?php echo $this->getChildHtml('tab_items'); ?>
 </div>

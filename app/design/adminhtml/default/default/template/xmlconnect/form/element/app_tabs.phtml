@@ -144,13 +144,25 @@ function XmlconnectTabEnable(disabledTabNumber) {
 }
 
 function XmlconnectTabDisable(tabNumber) {
+    tabActionText = '';
+    if (enabledTabs[tabNumber]) {
+        tabActionText = enabledTabs[tabNumber].action;
+    }
     tabMore = fetchMore();
     if(disabledTabs.length >= disabledTabsMaxCount) {
         disabledTabs.push(tabMore);
         return false;
     }
-    tab = enabledTabs.splice(tabNumber, 1).shift();
-    disabledTabs.push(tab);
+    /**
+     * Correct tabNumber value after possible change enabledTab array by using fetchMore() function.
+     */
+    for (i = 0; i < enabledTabs.length; i++) {
+        if (enabledTabs[i].action == tabActionText) {
+            tabNumber = i;
+            break;
+        }
+    }
+    disabledTabs.push(enabledTabs.splice(tabNumber, 1).shift());
     insertMore(tabMore);
     XmlconnectTabUpdate();
     return false;
@@ -178,15 +190,11 @@ function insertMore(tabMore) {
     return false;
 }
 
-function isTabMoreInEnabled() {
-    for (i=0; i < enabledTabs.length; i++) {
-        if (enabledTabs[i] && (enabledTabs[i].action == moreActionText)) {
-            return true;
-        }
-    }
-    return false;
-}
-
+/**
+ * Fetch "tab more" from enabledTab or disabledTab arrays
+ *
+ * @return Object|null
+ */
 function fetchMore() {
     for (i=0; i < enabledTabs.length; i++) {
         if (enabledTabs[i] && (enabledTabs[i].action == moreActionText)) {
