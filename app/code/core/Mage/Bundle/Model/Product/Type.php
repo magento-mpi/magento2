@@ -361,15 +361,21 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         $keyOptionIds = (is_array($optionIds) ? implode('_', $optionIds) : '');
         $key = $this->_keySelectionsCollection . $keyOptionIds;
         if (!$this->getProduct($product)->hasData($key)) {
+            $storeId = $this->getProduct($product)->getStoreId();
             $selectionsCollection = Mage::getResourceModel('bundle/selection_collection')
                 ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
                 ->setFlag('require_stock_items', true)
                 ->setFlag('product_children', true)
                 ->setPositionOrder()
                 ->addStoreFilter($this->getStoreFilter($product))
-                ->setStoreId($this->getProduct($product)->getStoreId())
+                ->setStoreId($storeId)
                 ->addFilterByRequiredOptions()
                 ->setOptionIdsFilter($optionIds);
+
+            if (!Mage::helper('catalog')->isPriceGlobal() && $storeId) {
+                $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+                $selectionsCollection->joinPrices($websiteId);
+            }
 
             $this->getProduct($product)->setData($key, $selectionsCollection);
         }
@@ -680,14 +686,20 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         $usedSelectionsIds  = $this->getProduct($product)->getData($this->_keyUsedSelectionsIds);
 
         if (!$usedSelections || serialize($usedSelectionsIds) != serialize($selectionIds)) {
+            $storeId = $this->getProduct($product)->getStoreId();
             $usedSelections = Mage::getResourceModel('bundle/selection_collection')
                 ->addAttributeToSelect('*')
                 ->setFlag('require_stock_items', true)
                 ->addStoreFilter($this->getStoreFilter($product))
-                ->setStoreId($this->getProduct($product)->getStoreId())
+                ->setStoreId($storeId)
                 ->setPositionOrder()
                 ->addFilterByRequiredOptions()
                 ->setSelectionIdsFilter($selectionIds);
+
+                if (!Mage::helper('catalog')->isPriceGlobal() && $storeId) {
+                    $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+                    $usedSelections->joinPrices($websiteId);
+                }
             $this->getProduct($product)->setData($this->_keyUsedSelections, $usedSelections);
             $this->getProduct($product)->setData($this->_keyUsedSelectionsIds, $selectionIds);
         }
