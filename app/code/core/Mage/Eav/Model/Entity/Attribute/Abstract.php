@@ -370,6 +370,12 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
             if (!$this->getSourceModel()) {
                 $this->setSourceModel($this->_getDefaultSourceModel());
             }
+            $source = Mage::getModel($this->getSourceModel());
+            if (!$source) {
+                throw new Exception(sprintf('Source model "%s" not found for attribute "%s".',
+                    $this->getSourceModel(), $this->getAttributeCode()
+                ));
+            }
             $this->_source = Mage::getModel($this->getSourceModel())
                 ->setAttribute($this);
         }
