@@ -123,7 +123,7 @@ final class Core
      */
     public static function getTestSuiteClassName($testId)
     {
-        return self::getConfig('references/' . $testId . '/class');
+        return self::getConfig('references/' . $testId . '/source');
     }
 
     /**
@@ -188,7 +188,7 @@ final class Core
     protected static function _loadConfig($path = 'config', $fileName = 'config')
     {
         $config = array();
-        $fileName = rtrim($path, DS) . DS . $fileName . '.xml';
+        $fileName = realpath(BASE_DIR . DS . rtrim($path, DS)) . DS . $fileName . '.xml';
 
         if (is_readable($fileName)) {
             $xml = simplexml_load_file($fileName);
