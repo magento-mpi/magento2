@@ -35,29 +35,22 @@
 class Varien_Db_Ddl_Table
 {
     const TYPE_BOOLEAN          = 'boolean';
-    const TYPE_TINYINT          = 'tinyint';
     const TYPE_SMALLINT         = 'smallint';
     const TYPE_INTEGER          = 'integer';
     const TYPE_BIGINT           = 'bigint';
-    const TYPE_DOUBLE           = 'double';
     const TYPE_FLOAT            = 'float';
-    const TYPE_REAL             = 'real';
     const TYPE_NUMERIC          = 'numeric';
     const TYPE_DECIMAL          = 'decimal';
-
     const TYPE_DATE             = 'date';
-    const TYPE_TIME             = 'time';
     const TYPE_TIMESTAMP        = 'timestamp';
-
-    const TYPE_CHAR             = 'char';
-    const TYPE_VARCHAR          = 'varchar';
-    const TYPE_LONGVARCHAR      = 'longvarchar';
-    const TYPE_CLOB             = 'cblob';
-
-    const TYPE_BINARY           = 'binary';
-    const TYPE_VARBINARY        = 'varbinary';
-    const TYPE_LONGVARBINARY    = 'longvarbinary';
+    const TYPE_TEXT             = 'text';
     const TYPE_BLOB             = 'blob';
+    const DEFAULT_TEXT_SIZE     = 1024;
+    const MAX_TEXT_SIZE         = 2147483648;	
+
+    const TIMESTAMP_INIT_UPDATE = 'TIMESTAMP_INIT_UPDATE';
+    const TIMESTAMP_INIT        = 'TIMESTAMP_INIT';
+    const TIMESTAMP_UPDATE      = 'TIMESTAMP_UPDATE';
 
     const ACTION_CASCADE        = 'CASCADE';
     const ACTION_SET_NULL       = 'SET NULL';
@@ -71,6 +64,20 @@ class Varien_Db_Ddl_Table
      * @var string
      */
     protected $_tableName;
+
+    /**
+     * Schema name
+     *
+     * @var string
+     */
+    protected $_shemaName;
+
+    /**
+     * Comment for Table
+     *
+     * @var string
+     */
+    protected $_tableComment;
 
     /**
      * Column descriptions for a table
@@ -91,6 +98,7 @@ class Varien_Db_Ddl_Table
      * PRIMARY          => boolean; true if column is part of the primary key
      * PRIMARY_POSITION => integer; position of column in primary key
      * IDENTITY         => integer; true if column is auto-generated with unique values
+     * COMMENT          => string; column description 
      *
      * @var array
      */
@@ -150,7 +158,7 @@ class Varien_Db_Ddl_Table
         'type'          => 'INNODB',
         'charset'       => 'utf8',
         'collate'       => 'utf8_unicode_ci',
-        'description'   => null
+
     );
 
     /**
@@ -163,6 +171,28 @@ class Varien_Db_Ddl_Table
     {
         $this->_tableName = $name;
         return $this;
+    }
+
+    /**
+     * Set schema name
+     *
+     * @param string $name
+     * @return Varien_Db_Ddl_Table
+     */
+    public function setSchema($name)
+    {
+        $this->_shemaName = $name;
+        return $this;
+    }
+
+    /**
+     * Set comment for table
+     *
+     * @param string $comment
+     */
+    public function setComment($comment)
+    {
+        $this->_tableComment = $comment;
     }
 
     /**
@@ -180,19 +210,44 @@ class Varien_Db_Ddl_Table
     }
 
     /**
+     * Get schema name
+     *
+     * @return string|null
+     */
+    public function getSchema()
+    {
+        return $this->_shemaName;
+    }
+
+    /**
+     * Return comment for table
+     *
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->_tableComment;
+    }
+
+    /**
      * Add column to table
      *
      * @param string $name the column name
      * @param string $type the column data type
      * @param string|int $length the column length
      * @param array $options array of additional options
+     * @param string $comment column description
      * @throws Zend_Db_Exception
      * @return Varien_Db_Ddl_Table
      */
-    public function addColumn($name, $type, $size = null, $options = array())
+    public function addColumn($name, $type, $size = null, $options = array(), $comment)
     {
+        if (empty($comment)) {
+            throw new Varien_Db_Exception('The column description is required and must be defined');
+        }
+
         $position           = count($this->_columns);
-        $default            = null;
+        $default            = false;
         $nullable           = true;
         $length             = null;
         $scale              = null;
@@ -205,23 +260,22 @@ class Varien_Db_Ddl_Table
         switch ($type) {
             case self::TYPE_BOOLEAN:
                 break;
-            case self::TYPE_TINYINT:
+
             case self::TYPE_SMALLINT:
             case self::TYPE_INTEGER:
             case self::TYPE_BIGINT:
                 if (!empty($options['unsigned'])) {
                     $unsigned = true;
                 }
-                $length = $size;
+
                 break;
-            case self::TYPE_DOUBLE:
+
             case self::TYPE_FLOAT:
                 if (!empty($options['unsigned'])) {
                     $unsigned = true;
                 }
                 break;
-            case self::TYPE_REAL:
-                break;
+
             case self::TYPE_DECIMAL:
             case self::TYPE_NUMERIC:
                 $match      = array();
@@ -231,19 +285,22 @@ class Varien_Db_Ddl_Table
                 if (is_array($size)) {
                     if (count($size) == 2) {
                         $size       = array_values($size);
-                        $scale      = $size[0];
-                        $precision  = $size[1];
+                        $precision  = $size[0];
+                        $scale      = $size[1];
+                        $size       = null;
                     }
                 } else if (preg_match('#^(\d+),(\d+)$#', $size, $match)) {
-                    $scale      = $match[1];
-                    $precision  = $match[2];
+                    $precision  = $match[1];
+                    $scale      = $match[2];
+                    $size       = null;
                 }
                 // check options
                 if (isset($options['precision'])) {
-                    $scale = $options['precision'];
-                }
-                if (isset($options['precision'])) {
                     $precision = $options['precision'];
+                }
+
+                if (isset($options['scale'])) {
+                    $scale = $options['scale'];
                 }
 
                 if (!empty($options['unsigned'])) {
@@ -251,20 +308,11 @@ class Varien_Db_Ddl_Table
                 }
                 break;
             case self::TYPE_DATE:
-            case self::TYPE_TIME:
             case self::TYPE_TIMESTAMP:
                 break;
-            case self::TYPE_CHAR:
-            case self::TYPE_VARCHAR:
-            case self::TYPE_LONGVARCHAR:
-            case self::TYPE_CLOB:
-            case self::TYPE_BINARY:
-            case self::TYPE_VARBINARY:
-            case self::TYPE_LONGVARBINARY:
+            case self::TYPE_TEXT:
             case self::TYPE_BLOB:
-                if (!is_null($size)) {
-                    $length = $size;
-                }
+                $length = $this->_parseTextSize($size);
                 break;
             default:
                 throw new Zend_Db_Exception('Invalid column data type "' . $type . '"');
@@ -307,7 +355,8 @@ class Varien_Db_Ddl_Table
             'UNSIGNED'          => $unsigned,
             'PRIMARY'           => $primary,
             'PRIMARY_POSITION'  => $primaryPosition,
-            'IDENTITY'          => $identity
+            'IDENTITY'          => $identity,
+            'COMMENT'           => $comment
         );
 
         return $this;
@@ -564,4 +613,44 @@ class Varien_Db_Ddl_Table
         }
         return $columns;
     }
+    /**
+     * Parse text size
+     * Returns default value if value is empty or 0
+     * Returns max allowed size if value great it
+     *
+     * @param string|int $size
+     * @return int
+     */
+    protected function _parseTextSize($size)
+    {
+        // if empty text size - return default value
+        if (empty($size)) {
+            return self::DEFAULT_TEXT_SIZE;
+        }
+
+        $size = trim($size);
+        $last = strtolower(substr($size, -1));
+
+        switch ($last) {
+            case 'k':
+                $size = intval($size) * 1024;
+                break;
+            case 'm':
+                $size = intval($size) * 1024 * 1024;
+                break;
+            case 'g':
+                $size = intval($size) * 1024 * 1024 * 1024;
+                break;
+        }
+
+        if (empty($size)) {
+            return self::DEFAULT_TEXT_SIZE;
+        }
+        if ($size >= self::MAX_TEXT_SIZE) {
+            return self::MAX_TEXT_SIZE;
+        }
+
+        return intval($size);
+    }
 }
+
