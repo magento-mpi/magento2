@@ -226,23 +226,18 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
     public function previewAction ()
     {
         $this->_setTitle();
+        $this->loadLayout();
 
-        if ($this->getRequest()->getParam('store_id')) {
-            $this->loadLayout('newsletter_template_preview');
-        } else {
-            $data = $this->getRequest()->getParams();
-            if (empty($data) || !isset($data['id'])) {
-                $this->_forward('noRoute');
-                return $this;
-            }
-
-            // set default value for selected store
-            $data['preview_store_id'] = Mage::app()->getDefaultStoreView()->getId();
-
-            $this->loadLayout('newsletter_template_preview_switcher');
-            $this->getLayout()->getBlock('preview_form')->setFormData($data);
+        $data = $this->getRequest()->getParams();
+        if (empty($data) || !isset($data['id'])) {
+            $this->_forward('noRoute');
+            return $this;
         }
 
+        // set default value for selected store
+        $data['preview_store_id'] = Mage::app()->getDefaultStoreView()->getId();
+
+        $this->getLayout()->getBlock('preview_form')->setFormData($data);
         $this->renderLayout();
     }
 }

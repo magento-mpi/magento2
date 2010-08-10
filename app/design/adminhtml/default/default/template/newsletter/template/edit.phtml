@@ -44,9 +44,6 @@
                 <?php echo $this->getSaveButtonHtml(); ?>
     </p>
 </div>
-<?php if( !$this->isSingleStoreMode() ): ?>
-<?php echo $this->getChildHtml('store_switcher');?>
-<?php endif;?>
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="newsletter_template_edit_form">
     <?php echo $this->getBlockHtml('formkey')?>
     <div class="no-display">
@@ -61,24 +58,11 @@
         <input type="hidden" id="preview_type" name="type" value="<?php echo $this->isTextType()?1:2 ?>" />
         <input type="hidden" id="preview_text" name="text" value="" />
         <input type="hidden" id="preview_styles" name="styles" value="" />
-        <input type="hidden" id="preview_store_id" name="store_id" value="<?php echo $this->isSingleStoreMode() ? $this->getStoreId() : ''?>" />
+        <input type="hidden" id="preview_id" name="id" value="" />
     </div>
 </form>
 <script type="text/javascript">
 //<![CDATA[
-<?php if( !$this->isSingleStoreMode() ): ?>
-    Event.observe($('store_switcher'), 'change', switchStore(this));
-
-    function switchStore(obj){  // Function name is important - to overwrite standard one, that executes first - we don't need its functionality
-        if(obj.value) {
-            $('preview_store_id').value = obj.value;
-            templateControl.preview();
-        }else{
-            return false;
-        }
-    }
-<?php endif; ?>
-
     var templateForm = new varienForm('newsletter_template_edit_form');
     var templatePreviewForm = new varienForm('newsletter_template_preview_form');
     var templateControl = {
@@ -163,10 +147,6 @@
         },
 
         preview: function() {
-            if (!$('preview_store_id').value) {
-                alert('<?php echo Mage::helper('newsletter')->__('Choose store view to preview newsletter') ?>');
-                return false;
-            }
             if (this.typeChange) {
                 $('preview_type').value = 1;
             } else {
@@ -181,6 +161,9 @@
             }
             if ($('template_styles') != undefined) {
                 $('preview_styles').value = $('template_styles').value;
+            }
+            if ($('id') != undefined) {
+                $('preview_id').value = $('id').value;
             }
             templatePreviewForm.submit();
             return false;
