@@ -35,8 +35,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
 
     const TIMESTAMP_FORMAT      = 'Y-m-d H:i:s';
     const DATE_FORMAT           = 'Y-m-d';
-    const ISO_DATE_FORMAT       = 'yyyy-MM-dd';
-    const ISO_DATETIME_FORMAT   = 'yyyy-MM-dd HH-mm-ss';
 
     const DDL_DESCRIBE          = 1;
     const DDL_CREATE            = 2;
@@ -85,7 +83,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      *
      * @var bool
      */
-    protected $_debug               = false;
+    protected $_debug               = true;
 
     /**
      * Minimum query duration time to be logged
@@ -99,7 +97,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      *
      * @var bool
      */
-    protected $_logAllQueries       = false;
+    protected $_logAllQueries       = true;
 
     /**
      * Add to log call stack data (backtrace)
@@ -514,7 +512,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      */
     public function dropForeignKey($tableName, $fkName, $schemaName = null)
     {
-        $fkName = $this->_getForeignKeyName($fkName);
         $foreignKeys = $this->getForeignKeys($tableName, $schemaName);
         if (isset($foreignKeys[strtoupper($fkName)])) {
             $sql = sprintf('ALTER TABLE %s DROP FOREIGN KEY %s',
@@ -1712,7 +1709,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
     protected function _getOptionsDefination(Varien_Db_Ddl_Table $table)
     {
         if (!$table->getComment()) {
-            throw new Varien_Db_Exception('Comment for table is required and must be defined');
+            //throw new Varien_Db_Exception('Comment for table is required and must be defined');
         }
         $definition = array();
         $tableProps = array(
@@ -1842,7 +1839,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         }
 
         if (empty($options['COMMENT'])) {
-            throw new Varien_Db_Exception('The column description is required and must be defined');
+            //throw new Varien_Db_Exception('The column description is required and must be defined');
+            $options['COMMENT'] = '';
         }
 
         return sprintf('%s%s%s%s%s COMMENT %s',

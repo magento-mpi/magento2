@@ -243,7 +243,8 @@ class Varien_Db_Ddl_Table
     public function addColumn($name, $type, $size = null, $options = array(), $comment)
     {
         if (empty($comment)) {
-            throw new Varien_Db_Exception('The column description is required and must be defined');
+            //throw new Varien_Db_Exception('The column description is required and must be defined');
+            $comment = '';
         }
 
         $position           = count($this->_columns);
