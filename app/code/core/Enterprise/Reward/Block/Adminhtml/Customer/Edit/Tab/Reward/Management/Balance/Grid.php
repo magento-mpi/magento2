@@ -185,4 +185,15 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
         }
         return $html;
     }
+
+    /**
+     * Return grid row url
+     *
+     * @param Enterprise_Reward_Model_Reward $row
+     * @return string
+     */
+    public function getRowUrl($row)
+    {
+        return '';
+    }
 }
