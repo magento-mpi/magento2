@@ -305,7 +305,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         Varien_Profiler::start('config/load-modules');
         $this->_loadDeclaredModules();
-        $this->loadModulesConfiguration('config.xml', $this);
+
+        $resourceConfig = sprintf('config.%s.xml', $this->_getResourceConnectionModel());
+        $this->loadModulesConfiguration(array('config.xml',$resourceConfig), $this);
 
         /**
          * Prevent local.xml directives overwriting
@@ -856,10 +858,16 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 if ($disableLocalModules && ('local' === (string)$module->codePool)) {
                     continue;
                 }
-                $configFile = $this->getModuleDir('etc', $modName).DS.$fileName;
-                if ($mergeModel->loadFile($configFile)) {
-                    $mergeToObject->extend($mergeModel, true);
+                if (!is_array($fileName)) {
+                    $fileName = array($fileName);
                 }
+
+                foreach ($fileName as $configFile) {
+                    $configFile = $this->getModuleDir('etc', $modName).DS.$configFile;
+                    if ($mergeModel->loadFile($configFile)) {
+                        $mergeToObject->extend($mergeModel, true);
+                    }
+				}
             }
         }
         return $mergeToObject;
@@ -1024,6 +1032,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             case 'sql':
                 $dir .= DS.'sql';
                 break;
+            case 'data':
+                $dir .= DS.'data';
+                break;
 
             case 'locale':
                 $dir .= DS.'locale';
@@ -1129,6 +1140,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         } else {
             if (!empty($config)) {
                 $className = $config->getClassName();
+                $connModel = $this->_getResourceConnectionModel();
+                if (isset($config->rewrited) && isset($config->rewrited->{$connModel})) {
+                    if (!empty($class) && isset($config->rewrited->{$connModel}->{$class})) {
+                        $className .= '_' . $connModel;
+                    }
+                }
             }
             if (empty($className)) {
                 $className = 'mage_'.$group.'_'.$groupType;
@@ -1425,6 +1442,16 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
+     * Retrieve resource connection model name
+     *
+     * @return string
+     */
+    protected function _getResourceConnectionModel()
+    {
+        return $this->_xml->global->resources->default_setup->connection->model;
+    }
+
+    /**
      * Get factory class name for for a resource
      *
      * @param string $modelClass
@@ -1432,29 +1459,63 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _getResourceModelFactoryClassName($modelClass)
     {
-        $classArr = explode('/', $modelClass);
-
-        $resourceModel = false;
-
-        if (!isset($this->_xml->global->models->{$classArr[0]})) {
+        $classArray = explode('/', $modelClass);
+        if (count($classArray) != 2) {
             return false;
         }
 
-        $module = $this->_xml->global->models->{$classArr[0]};
-
-        if ((count($classArr)==2)
-            && isset($module->{$classArr[1]}->resourceModel)
-            && $resourceInfo = $module->{$classArr[1]}->resourceModel) {
-            $resourceModel = (string) $resourceInfo;
-        }
-        elseif (isset($module->resourceModel) && $resourceInfo = $module->resourceModel) {
-            $resourceModel = (string) $resourceInfo;
-        }
-
-        if (!$resourceModel) {
+        list($module, $model) = $classArray;
+        if (!isset($this->_xml->global->models->{$module})) {
             return false;
         }
-        return $resourceModel . '/' . $classArr[1];
+
+        $moduleNode = $this->_xml->global->models->{$module};
+        if (!empty($moduleNode->resourceModel)) {
+            $resourceModel = (string)$moduleNode->resourceModel;
+        } else {
+            return false;
+        }
+
+        return $resourceModel . '/' . $model;
+
+//        echo '<pre>';
+//        var_dump($module);
+//        die();
+//
+//        if ($classArr[0] != 'core') {
+//            echo '<pre>';
+//            var_dump($classArr);
+//            var_dump($module);
+//            var_dump($this);
+//            echo '</pre>';
+//        }
+//
+//        $resourceModel = false;
+//        if (count($classArr) == 2) {
+//            if (!empty($module->resource_class_prefix)) {
+//                $resourceModel = (string)$module->resource_class_prefix;
+//            } else if (!empty($module->resourceModel)) {
+//                $resourceModel = (string)$module->resourceModel;
+//            }
+//        }
+//
+//        if (!$resourceModel) {
+//            return false;
+//        }
+//
+//        if ((count($classArr)==2)
+//            && isset($module->{$classArr[1]}->resourceModel)
+//            && $resourceInfo = $module->{$classArr[1]}->resourceModel) {
+//            $resourceModel = (string) $resourceInfo;
+//        }
+//        elseif (isset($module->resourceModel) && $resourceInfo = $module->resourceModel) {
+//            $resourceModel = (string) $resourceInfo;
+//        }
+//
+//        if (!$resourceModel) {
+//            return false;
+//        }
+//        return $resourceModel . '/' . $classArr[1];
     }
 
     /**
