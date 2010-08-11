@@ -30,7 +30,7 @@ abstract class Test_Admin_Abstract extends Test_Abstract
      * Performs login into the BackEnd
      *
      */
-    public function doLogin($baseurl, $username, $password) {
+    public function adminLogin($baseurl, $username, $password) {
         $this->open($baseurl);
         $this->waitForPageToLoad("10000");
         $this->type("username", $username);
@@ -43,7 +43,7 @@ abstract class Test_Admin_Abstract extends Test_Abstract
      * Await appearing "Please wait" gif-image and disappearing
      *
      */
-    public  function doPleaseWait()
+    public  function pleaseWait()
     {
         //
         // await for appear and disappear "Please wait" animated gif...
