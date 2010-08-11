@@ -213,6 +213,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                 $app->getResource()->updateApplicationStatus($app->getId(),
                     Mage_XmlConnect_Model_Application::APP_STATUS_SUCCESS);
                 $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been submitted.'));
+                $this->_clearSessionData();
                 $this->_redirect('*/*/edit', array('application_id' => $app->getId()));
             } else {
                 $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
@@ -225,6 +226,20 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
             Mage::logException($e);
             $this->_redirect('*/*/submission', array('application_id' => $app->getId()));
         }
+    }
+
+    /**
+     * Clear session data
+     * Used after succesfull save/submit action
+     *
+     * @return this
+     */
+    protected function _clearSessionData()
+    {
+        Mage::getSingleton('adminhtml/session')->unsFormData();
+        Mage::getSingleton('adminhtml/session')->unsFormSubmissionData();
+        Mage::getSingleton('adminhtml/session')->unsUploadedFilesFormData();
+        return $this;
     }
 
     /**
@@ -303,6 +318,7 @@ class Mage_XmlConnect_Adminhtml_MobileController extends Mage_Adminhtml_Controll
                     $this->_saveThemeAction($data, 'current_theme');
                     $app->save();
                     $this->_getSession()->addSuccess(Mage::helper('xmlconnect')->__('Application has been saved.'));
+                    $this->_clearSessionData();
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addException($e, $e->getMessage());
