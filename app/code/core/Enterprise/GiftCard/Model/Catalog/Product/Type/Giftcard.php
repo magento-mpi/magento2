@@ -120,6 +120,21 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
         return parent::isSalable($product);
     }
 
+
+    /**
+     * Checks whether product has required options
+     * Used when trying to add giftcard from wishlist to cart, or to a gift registry
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    public function hasRequiredOptions($product = null)
+    {
+        // In fact we always return TRUE, because giftcard always has at least recipient name
+        // as a required option. Also recipient email if required for virtual/combined giftcard.
+        return true;
+    }
+
     /**
      * Initialize product(s) for add to cart process
      *
