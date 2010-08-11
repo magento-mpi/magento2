@@ -24,10 +24,14 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
  * Reminder resource setup
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Reminder
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reminder_Model_Mysql4_Setup extends Mage_Core_Model_Resource_Setup
+class Enterprise_Reminder_Model_Mysql4_Setup extends Enterprise_Reminder_Model_Resource_Setup
 {
-
 }

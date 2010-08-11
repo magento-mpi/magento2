@@ -28,24 +28,10 @@
 /**
  * TargetRule Related Catalog Product List Index Resource Model
  *
- * @category   Enterprise
- * @package    Enterprise_TargetRule
+ * @category    Enterprise
+ * @package     Enterprise_TargetRule
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_TargetRule_Model_Mysql4_Index_Related extends Enterprise_TargetRule_Model_Mysql4_Index_Abstract
+class Enterprise_TargetRule_Model_Mysql4_Index_Related extends Enterprise_TargetRule_Model_Resource_Index_Related
 {
-    /**
-     * Product List Type identifier
-     *
-     * @var int
-     */
-    protected $_listType    = Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS;
-
-    /**
-     * Initialize connection and define main table
-     *
-     */
-    protected function _construct()
-    {
-        $this->_init('enterprise_targetrule/index_related', 'entity_id');
-    }
 }

@@ -28,9 +28,10 @@
 /**
  * TargetRule Setup Resource Model
  *
- * @category   Enterprise
- * @package    Enterprise_TargetRule
+ * @category    Enterprise
+ * @package     Enterprise_TargetRule
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_TargetRule_Model_Mysql4_Setup extends Mage_Catalog_Model_Resource_Eav_Mysql4_Setup
+class Enterprise_TargetRule_Model_Mysql4_Setup extends Enterprise_TargetRule_Model_Resource_Setup
 {
 }

@@ -24,47 +24,15 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount extends Mage_Core_Model_Mysql4_Abstract
+
+/**
+ * Enter description here ...
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftCardAccount
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount
+    extends Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount
 {
-
-    protected function _construct()
-    {
-        $this->_init('enterprise_giftcardaccount/giftcardaccount', 'giftcardaccount_id');
-    }
-
-
-    /**
-     * Get gift card account ID by specified code
-     *
-     * @param string $code
-     * @return mixed
-     */
-    public function getIdByCode($code)
-    {
-        $select = $this->_getReadAdapter()->select();
-        $select->from($this->getMainTable(), $this->getIdFieldName());
-        $select->where('code = ?', $code);
-
-        if ($id = $this->_getReadAdapter()->fetchOne($select)) {
-            return $id;
-        }
-
-        return false;
-    }
-
-    /**
-     * Update gift card accounts state
-     *
-     * @param array $ids
-     * @param int $state
-     * @return Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount
-     */
-    public function updateState($ids, $state)
-    {
-        $bind = array('state'=>$state);
-        $where = $this->_getReadAdapter()->quoteInto($this->getIdFieldName() . ' IN (?)', $ids);
-
-        $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);
-        return $this;
-    }
 }

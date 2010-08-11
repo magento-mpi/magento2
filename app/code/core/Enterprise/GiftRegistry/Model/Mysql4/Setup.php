@@ -24,10 +24,14 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
  * Gift registry resource setup
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftRegistry
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+class Enterprise_GiftRegistry_Model_Mysql4_Setup extends Enterprise_GiftRegistry_Model_Resource_Setup
 {
-
 }

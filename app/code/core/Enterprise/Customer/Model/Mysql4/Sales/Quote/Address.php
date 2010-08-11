@@ -24,17 +24,15 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
  * Customer Quote Address Mysql4 model
  *
+ * @category    Enterprise
+ * @package     Enterprise_Customer
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Model_Mysql4_Sales_Quote_Address extends Enterprise_Customer_Model_Mysql4_Sales_Address_Abstract
+class Enterprise_Customer_Model_Mysql4_Sales_Quote_Address
+    extends Enterprise_Customer_Model_Resource_Sales_Quote_Address
 {
-    /**
-     * Initialize Mysql4 resource
-     */
-    protected function _construct()
-    {
-        $this->_init('enterprise_customer/sales_quote_address', 'entity_id');
-    }
 }

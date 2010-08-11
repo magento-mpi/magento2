@@ -24,18 +24,14 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
  * Customer Order Mysql4 resource
  *
+ * @category    Enterprise
+ * @package     Enterprise_Customer
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Model_Mysql4_Sales_Order extends Enterprise_Customer_Model_Mysql4_Sales_Abstract
+class Enterprise_Customer_Model_Mysql4_Sales_Order extends Enterprise_Customer_Model_Resource_Sales_Order
 {
-    /**
-     * Initialize Mysql4 resource
-     *
-     */
-    protected function _construct()
-    {
-        $this->_init('enterprise_customer/sales_order', 'entity_id');
-    }
 }

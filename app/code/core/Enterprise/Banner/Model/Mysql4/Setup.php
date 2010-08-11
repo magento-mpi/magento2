@@ -25,7 +25,13 @@
  */
 
 
-class Enterprise_Banner_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+/**
+ * Enter description here ...
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Banner
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Enterprise_Banner_Model_Mysql4_Setup extends Enterprise_Banner_Model_Resource_Setup
 {
-
 }

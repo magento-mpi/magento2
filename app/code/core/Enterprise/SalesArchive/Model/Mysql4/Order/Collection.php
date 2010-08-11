@@ -24,16 +24,15 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
  * Order archive collection
  *
+ * @category    Enterprise
+ * @package     Enterprise_SalesArchive
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_SalesArchive_Model_Mysql4_Order_Collection
-    extends Mage_Sales_Model_Mysql4_Order_Grid_Collection
+    extends Enterprise_SalesArchive_Model_Resource_Order_Collection
 {
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setMainTable('enterprise_salesarchive/order_grid');
-    }
 }

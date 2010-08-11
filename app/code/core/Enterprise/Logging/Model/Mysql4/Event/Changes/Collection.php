@@ -24,16 +24,15 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
  * Log items collection
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Logging
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Logging_Model_Mysql4_Event_Changes_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_Logging_Model_Mysql4_Event_Changes_Collection
+    extends Enterprise_Logging_Model_Resource_Event_Changes_Collection
 {
-    /**
-     * Initialize resource
-     */
-    protected function _construct()
-    {
-        $this->_init('enterprise_logging/event_changes');
-    }
 }

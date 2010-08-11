@@ -24,87 +24,14 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
  * Customer Sales Mysql4 abstract resource
  *
+ * @category    Enterprise
+ * @package     Enterprise_Customer
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Customer_Model_Mysql4_Sales_Abstract extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_Customer_Model_Mysql4_Sales_Abstract extends Enterprise_Customer_Model_Resource_Sales_Abstract
 {
-    /**
-     * Used us prefix to name of column table
-     *
-     * @var null | string
-     */
-    protected $_columnPrefix        = 'customer';
-
-    /**
-     * Primery key auto increment flag
-     *
-     * @var bool
-     */
-    protected $_isPkAutoIncrement   = false;
-
-    /**
-     * Return column name for attribute
-     *
-     * @param Mage_Customer_Model_Attribute $attribute
-     * @return string
-     */
-    protected function _getColumnName(Mage_Customer_Model_Attribute $attribute)
-    {
-        if ($this->_columnPrefix) {
-            return sprintf('%s_%s', $this->_columnPrefix, $attribute->getAttributeCode());
-        }
-        return $attribute->getAttributeCode();
-    }
-
-    /**
-     * Saves a new attribute
-     *
-     * @param Mage_Customer_Model_Attribute $attribute
-     * @return Enterprise_Customer_Model_Mysql4_Sales_Abstract
-     */
-    public function saveNewAttribute(Mage_Customer_Model_Attribute $attribute)
-    {
-        $backendType = $attribute->getBackendType();
-        if ($backendType == Mage_Customer_Model_Attribute::TYPE_STATIC) {
-            return $this;
-        }
-
-        switch ($backendType) {
-            case 'datetime':
-                $defination = "DATE NULL DEFAULT NULL";
-                break;
-            case 'decimal':
-                $defination = "DECIMAL(12,4) DEFAULT NULL";
-                break;
-            case 'int':
-                $defination = "INT(11) DEFAULT NULL";
-                break;
-            case 'text':
-                $defination = "TEXT DEFAULT NULL";
-                break;
-            case 'varchar':
-                $defination = "VARCHAR(255) DEFAULT NULL";
-                break;
-            default:
-                return $this;
-        }
-
-        $this->_getWriteAdapter()->addColumn($this->getMainTable(), $this->_getColumnName($attribute), $defination);
-
-        return $this;
-    }
-
-    /**
-     * Deletes an attribute
-     *
-     * @param Mage_Customer_Model_Attribute $attribute
-     * @return Enterprise_Customer_Model_Mysql4_Sales_Abstract
-     */
-    public function deleteAttribute(Mage_Customer_Model_Attribute $attribute)
-    {
-        $this->_getWriteAdapter()->dropColumn($this->getMainTable(), $this->_getColumnName($attribute));
-        return $this;
-    }
 }

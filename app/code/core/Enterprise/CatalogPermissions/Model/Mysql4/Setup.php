@@ -24,12 +24,14 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
  * Setup model
  *
- * @category   Enterprise
- * @package    Enterprise_CatalogPermissions
+ * @category    Enterprise
+ * @package     Enterprise_CatalogPermissions
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CatalogPermissions_Model_Mysql4_Setup extends Mage_Core_Model_Resource_Setup
+class Enterprise_CatalogPermissions_Model_Mysql4_Setup extends Enterprise_CatalogPermissions_Model_Resource_Setup
 {
 }
