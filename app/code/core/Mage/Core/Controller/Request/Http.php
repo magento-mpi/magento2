@@ -55,7 +55,7 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
 
     protected $_route;
 
-    protected $_directFrontNames = array();
+    protected $_directFrontNames = null;
     protected $_controllerModule = null;
 
     /**
@@ -72,15 +72,6 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      * @var array
      */
     protected $_beforeForwardInfo = array();
-
-    public function __construct($uri = null)
-    {
-        parent::__construct($uri);
-        $names = Mage::getConfig()->getNode(self::XML_NODE_DIRECT_FRONT_NAMES);
-        if ($names) {
-            $this->_directFrontNames = $names->asArray();
-        }
-    }
 
     /**
      * Returns ORIGINAL_PATH_INFO.
@@ -225,6 +216,14 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     public function getDirectFrontNames()
     {
+        if (is_null($this->_directFrontNames)) {
+            $names = Mage::getConfig()->getNode(self::XML_NODE_DIRECT_FRONT_NAMES);
+            if ($names) {
+                $this->_directFrontNames = $names->asArray();
+            } else {
+                return array();
+            }
+        }
         return $this->_directFrontNames;
     }
 
