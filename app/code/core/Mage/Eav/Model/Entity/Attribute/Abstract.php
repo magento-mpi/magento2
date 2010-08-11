@@ -376,8 +376,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
                     $this->getSourceModel(), $this->getAttributeCode()
                 ));
             }
-            $this->_source = Mage::getModel($this->getSourceModel())
-                ->setAttribute($this);
+            $this->_source = $source->setAttribute($this);
         }
         return $this->_source;
     }
