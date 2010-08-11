@@ -35,37 +35,38 @@
         <models>
             <rating>
                 <class>Mage_Rating_Model</class>
-                <resourceModel>rating_mysql4</resourceModel>
+                <!-- <resourceModel>rating_mysql4</resourceModel> -->
+                <resourceModel>rating_resource</resourceModel>
+                <rating_resource>
+                    <class>Mage_Rating_Model_Resource</class>
+                    <entities>
+                        <rating>
+                            <table>rating</table>
+                        </rating>
+                        <rating_store>
+                            <table>rating_store</table>
+                        </rating_store>
+                        <rating_title>
+                            <table>rating_title</table>
+                        </rating_title>
+                        <rating_entity>
+                            <table>rating_entity</table>
+                        </rating_entity>
+                        <rating_option>
+                            <table>rating_option</table>
+                        </rating_option>
+                        <rating_vote>
+                            <table>rating_option_vote</table>
+                        </rating_vote>
+                        <rating_option_vote>
+                            <table>rating_option_vote</table>
+                        </rating_option_vote>
+                        <rating_vote_aggregated>
+                            <table>rating_option_vote_aggregated</table>
+                        </rating_vote_aggregated>
+                    </entities>
+                </rating_resource>
             </rating>
-            <rating_mysql4>
-                <class>Mage_Rating_Model_Mysql4</class>
-                <entities>
-                    <rating>
-                        <table>rating</table>
-                    </rating>
-                    <rating_store>
-                        <table>rating_store</table>
-                    </rating_store>
-                    <rating_title>
-                        <table>rating_title</table>
-                    </rating_title>
-                    <rating_entity>
-                        <table>rating_entity</table>
-                    </rating_entity>
-                    <rating_option>
-                        <table>rating_option</table>
-                    </rating_option>
-                    <rating_vote>
-                        <table>rating_option_vote</table>
-                    </rating_vote>
-                    <rating_option_vote>
-                        <table>rating_option_vote</table>
-                    </rating_option_vote>
-                    <rating_vote_aggregated>
-                        <table>rating_option_vote_aggregated</table>
-                    </rating_vote_aggregated>
-                </entities>
-            </rating_mysql4>
         </models>
         <resources>
             <rating_setup>
@@ -75,9 +76,9 @@
             </rating_setup>
         </resources>
         <blocks>
-                <rating>
-                    <class>Mage_Rating_Block</class>
-                </rating>
+            <rating>
+                <class>Mage_Rating_Block</class>
+            </rating>
         </blocks>
     </global>
     <frontend>
@@ -91,7 +92,6 @@
             </modules>
         </translate>
     </frontend>
-
     <adminhtml>
         <translate>
             <modules>

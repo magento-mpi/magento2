@@ -35,14 +35,17 @@
         <models>
             <amazonpayments>
                 <class>Mage_AmazonPayments_Model</class>
-                <resourceModel>amazonpayments_mysql4</resourceModel>
+                <!-- <resourceModel>amazonpayments_mysql4</resourceModel> -->
+                <resourceModel>amazonpayments_resource</resourceModel>
+                <amazonpayments_resource>
+                    <class>Mage_AmazonPayments_Model_Resource</class>
+                    <entities>
+                        <api_debug>
+                            <table>amazonpayments_api_debug</table>
+                        </api_debug>
+                    </entities>
+                </amazonpayments_resource>
             </amazonpayments>
-            <amazonpayments_mysql4>
-                <class>Mage_AmazonPayments_Model_Mysql4</class>
-                <entities>
-                    <api_debug><table>amazonpayments_api_debug</table></api_debug>
-                </entities>
-            </amazonpayments_mysql4>
         </models>
         <helpers>
             <amazonpayments>
@@ -58,12 +61,16 @@
             </amazonpayments_setup>
         </resources>
         <blocks>
-            <amazonpayments><class>Mage_AmazonPayments_Block</class></amazonpayments>
+            <amazonpayments>
+                <class>Mage_AmazonPayments_Block</class>
+            </amazonpayments>
         </blocks>
         <sales>
             <order>
                 <statuses>
-                    <pending_amazon_asp translate="label"><label>Pending Amazon Simple Pay</label></pending_amazon_asp>
+                    <pending_amazon_asp translate="label">
+                        <label>Pending Amazon Simple Pay</label>
+                    </pending_amazon_asp>
                 </statuses>
                 <states>
                     <pending_payment>
@@ -72,7 +79,6 @@
                         </statuses>
                     </pending_payment>
                 </states>
-
             </order>
         </sales>
         <template>
@@ -85,23 +91,7 @@
             </email>
         </template>
     </global>
-<!--
-Something like this is to be added to resolve bug #4890
-<global>
-        <rewrite>
-            <amazonpayments>
-                <core>
-                <from>/^.*?amazonpayments\/api/</from>
-                <to>amazonpayments/api</to>
-            </amazonpayments>
-        </rewrite>
-</global>
--->
     <frontend>
-        <!--<secure_url>
-            <amazonpayments_redirect>/amazonpayments/redirect/</amazonpayments_redirect>
-            <amazonpayments_beacon>/amazonpayments/api/beacon/</amazonpayments_beacon>
-        </secure_url>-->
         <translate>
             <modules>
                 <Mage_AmazonPayments>
@@ -128,7 +118,6 @@ Something like this is to be added to resolve bug #4890
             </updates>
         </layout>
     </frontend>
-
     <adminhtml>
         <translate>
             <modules>
@@ -160,10 +149,8 @@ Something like this is to be added to resolve bug #4890
             </sales_order_shipment_track_save_after>
         </events>
     </adminhtml>
-
     <default>
         <payment>
-
             <amazonpayments_cba>
                 <active>0</active>
                 <model>amazonpayments/payment_cba</model>
@@ -171,11 +158,11 @@ Something like this is to be added to resolve bug #4890
                 <order_status>pending</order_status>
                 <allowspecific>0</allowspecific>
                 <payment_action>Authorization</payment_action>
-                <merchant_id></merchant_id>
-                <merchant_name></merchant_name>
+                <merchant_id/>
+                <merchant_name/>
                 <sandbox_flag>1</sandbox_flag>
-                <accesskey_id></accesskey_id>
-                <secretkey_id></secretkey_id>
+                <accesskey_id/>
+                <secretkey_id/>
                 <pay_service_url>https://payments.amazon.com/checkout/</pay_service_url>
                 <sandbox_pay_service_url>https://payments-sandbox.amazon.com/checkout/</sandbox_pay_service_url>
                 <button_url>http://g-ecx.images-amazon.com/images/G/01/cba/images/buttons/btn_Chkout-orange-medium.gif</button_url>
@@ -183,45 +170,31 @@ Something like this is to be added to resolve bug #4890
                 <use_callback_api>1</use_callback_api>
                 <use_oneclick>0</use_oneclick>
             </amazonpayments_cba>
-
             <amazonpayments_asp>
-
                 <model>amazonpayments/payment_asp</model>
                 <title>Amazon Simple Pay</title>
                 <active>0</active>
-
                 <is_sandbox>1</is_sandbox>
-                <access_key></access_key>
-                <secret_key></secret_key>
-
+                <access_key/>
+                <secret_key/>
                 <pay_service_url>https://authorize.payments.amazon.com/pba/paypipeline</pay_service_url>
                 <pay_service_url_sandbox>https://authorize.payments-sandbox.amazon.com/pba/paypipeline</pay_service_url_sandbox>
-
                 <choice_method_description>Your billing address will be ignored and you will be redirected to Amazon Simple Pay website.</choice_method_description>
                 <redirect_message>You will be redirected to Amazon Simple Pay in a few seconds.</redirect_message>
                 <pay_description>MAGENTO ASP PAYMENT</pay_description>
                 <refund_description>MAGENTO ASP REFUND</refund_description>
                 <cancel_description>MAGENTO ASP CANCEL</cancel_description>
-
                 <pay_immediate_return>1</pay_immediate_return>
                 <pay_collect_shipping_address>0</pay_collect_shipping_address>
-
                 <pay_process_immediate>1</pay_process_immediate>
-
                 <fps_service_url>https://fps.amazonaws.com</fps_service_url>
                 <fps_service_url_sandbox>https://fps.sandbox.amazonaws.com/</fps_service_url_sandbox>
-
                 <email_sender_identity>general</email_sender_identity>
                 <email_template_notification_error>payment_amazonpayments_asp_email_template_notification_error</email_template_notification_error>
                 <report_error_to_email>0</report_error_to_email>
-
                 <error_log>0</error_log>
                 <debug_log>0</debug_log>
-
             </amazonpayments_asp>
-
         </payment>
-
-
     </default>
 </config>

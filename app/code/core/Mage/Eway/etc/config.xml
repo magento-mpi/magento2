@@ -35,14 +35,17 @@
         <models>
             <eway>
                 <class>Mage_Eway_Model</class>
-                <resourceModel>eway_mysql4</resourceModel>
+                <!-- <resourceModel>eway_mysql4</resourceModel> -->
+                <resourceModel>eway_resource</resourceModel>
+                <eway_resource>
+                    <class>Mage_Eway_Model_Resource</class>
+                    <entities>
+                        <api_debug>
+                            <table>eway_api_debug</table>
+                        </api_debug>
+                    </entities>
+                </eway_resource>
             </eway>
-            <eway_mysql4>
-                <class>Mage_Eway_Model_Mysql4</class>
-                <entities>
-                    <api_debug><table>eway_api_debug</table></api_debug>
-                </entities>
-            </eway_mysql4>
         </models>
         <resources>
             <eway_setup>
@@ -53,7 +56,9 @@
             </eway_setup>
         </resources>
         <blocks>
-            <eway><class>Mage_Eway_Block</class></eway>
+            <eway>
+                <class>Mage_Eway_Block</class>
+            </eway>
         </blocks>
         <payment>
             <cc>

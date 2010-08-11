@@ -35,14 +35,17 @@
         <models>
             <cybersource>
                 <class>Mage_Cybersource_Model</class>
-                <resourceModel>cybersource_mysql4</resourceModel>
+                <!-- <resourceModel>cybersource_mysql4</resourceModel> -->
+                <resourceModel>cybersource_resource</resourceModel>
+                <cybersource_resource>
+                    <class>Mage_Cybersource_Model_Resource</class>
+                    <entities>
+                        <api_debug>
+                            <table>cybersource_api_debug</table>
+                        </api_debug>
+                    </entities>
+                </cybersource_resource>
             </cybersource>
-            <cybersource_mysql4>
-                <class>Mage_Cybersource_Model_Mysql4</class>
-                <entities>
-                    <api_debug><table>cybersource_api_debug</table></api_debug>
-                </entities>
-            </cybersource_mysql4>
         </models>
         <resources>
             <cybersource_setup>
@@ -53,7 +56,9 @@
             </cybersource_setup>
         </resources>
         <blocks>
-            <cybersource><class>Mage_Cybersource_Block</class></cybersource>
+            <cybersource>
+                <class>Mage_Cybersource_Block</class>
+            </cybersource>
         </blocks>
         <payment>
             <cc>
@@ -111,7 +116,6 @@
             </modules>
         </translate>
     </adminhtml>
-
     <default>
         <payment>
             <cybersource_soap>

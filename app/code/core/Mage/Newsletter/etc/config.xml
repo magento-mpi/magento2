@@ -33,36 +33,39 @@
     </modules>
     <global>
         <blocks>
-            <newsletter><class>Mage_Newsletter_Block</class></newsletter>
+            <newsletter>
+                <class>Mage_Newsletter_Block</class>
+            </newsletter>
         </blocks>
         <models>
             <newsletter>
                 <class>Mage_Newsletter_Model</class>
-                <resourceModel>newsletter_mysql4</resourceModel>
+                <!-- <resourceModel>newsletter_mysql4</resourceModel> -->
+                <resourceModel>newsletter_resource</resourceModel>
+                <newsletter_resource>
+                    <class>Mage_Newsletter_Model_Resource</class>
+                    <entities>
+                        <subscriber>
+                            <table>newsletter_subscriber</table>
+                        </subscriber>
+                        <queue>
+                            <table>newsletter_queue</table>
+                        </queue>
+                        <queue_link>
+                            <table>newsletter_queue_link</table>
+                        </queue_link>
+                        <queue_store_link>
+                            <table>newsletter_queue_store_link</table>
+                        </queue_store_link>
+                        <template>
+                            <table>newsletter_template</table>
+                        </template>
+                        <problem>
+                            <table>newsletter_problem</table>
+                        </problem>
+                    </entities>
+                </newsletter_resource>
             </newsletter>
-            <newsletter_mysql4>
-                <class>Mage_Newsletter_Model_Mysql4</class>
-                <entities>
-                    <subscriber>
-                        <table>newsletter_subscriber</table>
-                    </subscriber>
-                    <queue>
-                        <table>newsletter_queue</table>
-                    </queue>
-                    <queue_link>
-                        <table>newsletter_queue_link</table>
-                    </queue_link>
-                    <queue_store_link>
-                        <table>newsletter_queue_store_link</table>
-                    </queue_store_link>
-                    <template>
-                        <table>newsletter_template</table>
-                    </template>
-                    <problem>
-                        <table>newsletter_problem</table>
-                    </problem>
-                </entities>
-            </newsletter_mysql4>
         </models>
         <resources>
             <newsletter_setup>
@@ -123,11 +126,11 @@
             </modules>
         </translate>
         <layout>
-              <updates>
-                  <newsletter>
-                      <file>newsletter.xml</file>
-                  </newsletter>
-              </updates>
+            <updates>
+                <newsletter>
+                    <file>newsletter.xml</file>
+                </newsletter>
+            </updates>
         </layout>
     </adminhtml>
     <frontend>
@@ -167,18 +170,17 @@
                 </Mage_Newsletter>
             </modules>
         </translate>
-          <layout>
-              <updates>
-                  <newsletter module="Mage_Newsletter">
-                      <file>newsletter.xml</file>
-                  </newsletter>
-              </updates>
-          </layout>
+        <layout>
+            <updates>
+                <newsletter module="Mage_Newsletter">
+                    <file>newsletter.xml</file>
+                </newsletter>
+            </updates>
+        </layout>
         <secure_url>
             <newsletter_manage>/newsletter/manage/</newsletter_manage>
         </secure_url>
     </frontend>
-
     <default>
         <newsletter>
             <subscription>
@@ -196,12 +198,15 @@
             </sending>
         </newsletter>
     </default>
-
     <crontab>
         <jobs>
             <newsletter_send_all>
-                <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
-                <run><model>newsletter/observer::scheduledSend</model></run>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>newsletter/observer::scheduledSend</model>
+                </run>
             </newsletter_send_all>
         </jobs>
     </crontab>

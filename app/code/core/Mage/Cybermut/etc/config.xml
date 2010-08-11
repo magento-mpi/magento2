@@ -35,14 +35,17 @@
         <models>
             <cybermut>
                 <class>Mage_Cybermut_Model</class>
-                <resourceModel>cybermut_mysql4</resourceModel>
+                <!-- <resourceModel>cybermut_mysql4</resourceModel> -->
+                <resourceModel>cybermut_resource</resourceModel>
+                <cybermut_resource>
+                    <class>Mage_Cybermut_Model_Resource</class>
+                    <entities>
+                        <api_debug>
+                            <table>cybermut_api_debug</table>
+                        </api_debug>
+                    </entities>
+                </cybermut_resource>
             </cybermut>
-            <cybermut_mysql4>
-                <class>Mage_Cybermut_Model_Mysql4</class>
-                <entities>
-                    <api_debug><table>cybermut_api_debug</table></api_debug>
-                </entities>
-            </cybermut_mysql4>
         </models>
         <resources>
             <cybermut_setup>
@@ -53,7 +56,9 @@
             </cybermut_setup>
         </resources>
         <blocks>
-            <cybermut><class>Mage_Cybermut_Block</class></cybermut>
+            <cybermut>
+                <class>Mage_Cybermut_Block</class>
+            </cybermut>
         </blocks>
     </global>
     <frontend>
@@ -100,10 +105,10 @@
     <default>
         <payment>
             <cybermut_payment>
-                  <model>cybermut/payment</model>
-                  <title>CyberMUT-P@iement</title>
-                  <allowspecific>0</allowspecific>
-                  <transaction_type>O</transaction_type>
+                <model>cybermut/payment</model>
+                <title>CyberMUT-P@iement</title>
+                <allowspecific>0</allowspecific>
+                <transaction_type>O</transaction_type>
             </cybermut_payment>
         </payment>
     </default>

@@ -40,19 +40,20 @@
         <models>
             <wishlist>
                 <class>Mage_Wishlist_Model</class>
-                <resourceModel>wishlist_mysql4</resourceModel>
+                <!-- <resourceModel>wishlist_mysql4</resourceModel> -->
+                <resourceModel>wishlist_resource</resourceModel>
+                <wishlist_resource>
+                    <class>Mage_Wishlist_Model_Resource</class>
+                    <entities>
+                        <wishlist>
+                            <table>wishlist</table>
+                        </wishlist>
+                        <item>
+                            <table>wishlist_item</table>
+                        </item>
+                    </entities>
+                </wishlist_resource>
             </wishlist>
-            <wishlist_mysql4>
-                <class>Mage_Wishlist_Model_Mysql4</class>
-                <entities>
-                    <wishlist>
-                        <table>wishlist</table>
-                    </wishlist>
-                    <item>
-                        <table>wishlist_item</table>
-                    </item>
-                </entities>
-            </wishlist_mysql4>
         </models>
         <resources>
             <wishlist_setup>
@@ -108,13 +109,13 @@
                 </Mage_Wishlist>
             </modules>
         </translate>
-          <layout>
-              <updates>
-                  <wishlist module="Mage_Wishlist">
-                      <file>wishlist.xml</file>
-                  </wishlist>
-              </updates>
-          </layout>
+        <layout>
+            <updates>
+                <wishlist module="Mage_Wishlist">
+                    <file>wishlist.xml</file>
+                </wishlist>
+            </updates>
+        </layout>
         <events>
             <customer_login>
                 <observers>
@@ -148,7 +149,6 @@
             </modules>
         </translate>
     </adminhtml>
-
     <default>
         <wishlist>
             <general>

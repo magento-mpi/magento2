@@ -35,16 +35,23 @@
         <models>
             <paypal>
                 <class>Mage_Paypal_Model</class>
-                <resourceModel>paypal_mysql4</resourceModel>
+                <!-- <resourceModel>paypal_mysql4</resourceModel> -->
+                <resourceModel>paypal_resource</resourceModel>
+                <paypal_resource>
+                    <class>Mage_Paypal_Model_Resource</class>
+                    <entities>
+                        <api_debug>
+                            <table>paypal_api_debug</table>
+                        </api_debug>
+                        <settlement_report>
+                            <table>paypal_settlement_report</table>
+                        </settlement_report>
+                        <settlement_report_row>
+                            <table>paypal_settlement_report_row</table>
+                        </settlement_report_row>
+                    </entities>
+                </paypal_resource>
             </paypal>
-            <paypal_mysql4>
-                <class>Mage_Paypal_Model_Mysql4</class>
-                <entities>
-                    <api_debug><table>paypal_api_debug</table></api_debug>
-                    <settlement_report><table>paypal_settlement_report</table></settlement_report>
-                    <settlement_report_row><table>paypal_settlement_report_row</table></settlement_report_row>
-                </entities>
-            </paypal_mysql4>
         </models>
         <resources>
             <paypal_setup>
@@ -55,13 +62,16 @@
             </paypal_setup>
         </resources>
         <blocks>
-            <paypal><class>Mage_Paypal_Block</class></paypal>
+            <paypal>
+                <class>Mage_Paypal_Block</class>
+            </paypal>
         </blocks>
         <sales>
             <order>
                 <statuses>
-                    <!-- retained for backwards compatibility, not used anymore -->
-                    <pending_paypal translate="label"><label>Pending PayPal</label></pending_paypal>
+                    <pending_paypal translate="label">
+                        <label>Pending PayPal</label>
+                    </pending_paypal>
                 </statuses>
             </order>
         </sales>
@@ -220,7 +230,9 @@
     <crontab>
         <jobs>
             <paypal_fetch_settlement_reports>
-                <run><model>paypal/observer::fetchReports</model></run>
+                <run>
+                    <model>paypal/observer::fetchReports</model>
+                </run>
             </paypal_fetch_settlement_reports>
         </jobs>
     </crontab>

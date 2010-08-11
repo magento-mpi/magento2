@@ -33,13 +33,13 @@
     </modules>
     <frontend>
         <routers>
-         <cms>
-            <use>standard</use>
-            <args>
-               <module>Mage_Cms</module>
-               <frontName>cms</frontName>
-            </args>
-         </cms>
+            <cms>
+                <use>standard</use>
+                <args>
+                    <module>Mage_Cms</module>
+                    <frontName>cms</frontName>
+                </args>
+            </cms>
         </routers>
         <events>
             <controller_action_noroute>
@@ -68,13 +68,13 @@
                 </Mage_Cms>
             </modules>
         </translate>
-      <layout>
-          <updates>
-              <cms>
-                  <file>cms.xml</file>
-              </cms>
-          </updates>
-      </layout>
+        <layout>
+            <updates>
+                <cms>
+                    <file>cms.xml</file>
+                </cms>
+            </updates>
+        </layout>
     </frontend>
     <adminhtml>
         <translate>
@@ -97,7 +97,7 @@
             <browser>
                 <dirs>
                     <exclude>
-                        <catalog_dir regexp="0">catalog</catalog_dir><!-- use regexp="0" or "1" to override -->
+                        <catalog_dir regexp="0">catalog</catalog_dir>
                         <downloadable>downloadable</downloadable>
                         <flex_dir>flex</flex_dir>
                         <import>import</import>
@@ -105,7 +105,7 @@
                         <js>js</js>
                         <css>css</css>
                     </exclude>
-                    <include></include>
+                    <include/>
                 </dirs>
                 <extensions>
                     <allowed>
@@ -140,25 +140,26 @@
         <models>
             <cms>
                 <class>Mage_Cms_Model</class>
-                <resourceModel>cms_mysql4</resourceModel>
+                <!-- <resourceModel>cms_mysql4</resourceModel> -->
+                <resourceModel>cms_resource</resourceModel>
+                <cms_resource>
+                    <class>Mage_Cms_Model_Resource</class>
+                    <entities>
+                        <page>
+                            <table>cms_page</table>
+                        </page>
+                        <page_store>
+                            <table>cms_page_store</table>
+                        </page_store>
+                        <block>
+                            <table>cms_block</table>
+                        </block>
+                        <block_store>
+                            <table>cms_block_store</table>
+                        </block_store>
+                    </entities>
+                </cms_resource>
             </cms>
-            <cms_mysql4>
-                <class>Mage_Cms_Model_Mysql4</class>
-                <entities>
-                    <page>
-                        <table>cms_page</table>
-                    </page>
-                    <page_store>
-                        <table>cms_page_store</table>
-                    </page_store>
-                    <block>
-                        <table>cms_block</table>
-                    </block>
-                    <block_store>
-                        <table>cms_block_store</table>
-                    </block_store>
-                </entities>
-            </cms_mysql4>
         </models>
         <resources>
             <cms_setup>
@@ -168,7 +169,9 @@
             </cms_setup>
         </resources>
         <blocks>
-            <cms><class>Mage_Cms_Block</class></cms>
+            <cms>
+                <class>Mage_Cms_Block</class>
+            </cms>
         </blocks>
         <events>
             <controller_front_init_routers>
@@ -189,7 +192,6 @@
             </block>
         </cms>
     </global>
-
     <default>
         <web>
             <default>

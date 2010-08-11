@@ -35,14 +35,17 @@
         <models>
             <ideal>
                 <class>Mage_Ideal_Model</class>
-                <resourceModel>ideal_mysql4</resourceModel>
+                <!-- <resourceModel>ideal_mysql4</resourceModel> -->
+                <resourceModel>ideal_resource</resourceModel>
+                <ideal_resource>
+                    <class>Mage_Ideal_Model_Resource</class>
+                    <entities>
+                        <api_debug>
+                            <table>ideal_api_debug</table>
+                        </api_debug>
+                    </entities>
+                </ideal_resource>
             </ideal>
-            <ideal_mysql4>
-                <class>Mage_Ideal_Model_Mysql4</class>
-                <entities>
-                    <api_debug><table>ideal_api_debug</table></api_debug>
-                </entities>
-            </ideal_mysql4>
         </models>
         <resources>
             <ideal_setup>
@@ -53,7 +56,9 @@
             </ideal_setup>
         </resources>
         <blocks>
-            <ideal><class>Mage_Ideal_Block</class></ideal>
+            <ideal>
+                <class>Mage_Ideal_Block</class>
+            </ideal>
         </blocks>
     </global>
     <frontend>
@@ -111,25 +116,29 @@
     <default>
         <payment>
             <ideal_basic>
-                  <model>ideal/basic</model>
-                  <title>iDEAL Basic</title>
-                  <allowspecific>0</allowspecific>
+                <model>ideal/basic</model>
+                <title>iDEAL Basic</title>
+                <allowspecific>0</allowspecific>
             </ideal_basic>
             <ideal_advanced>
-                  <model>ideal/advanced</model>
-                  <title>iDEAL Advanced</title>
-                  <allowspecific>0</allowspecific>
-                  <expire_period>10</expire_period>
-                  <cron_start>1</cron_start>
-                  <cron_end>1</cron_end>
+                <model>ideal/advanced</model>
+                <title>iDEAL Advanced</title>
+                <allowspecific>0</allowspecific>
+                <expire_period>10</expire_period>
+                <cron_start>1</cron_start>
+                <cron_end>1</cron_end>
             </ideal_advanced>
         </payment>
     </default>
     <crontab>
         <jobs>
             <trasaction_status_check>
-                <schedule><cron_expr>0 */1 * * *</cron_expr></schedule>
-                <run><model>ideal/advanced::transactionStatusCheck</model></run>
+                <schedule>
+                    <cron_expr>0 */1 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>ideal/advanced::transactionStatusCheck</model>
+                </run>
             </trasaction_status_check>
         </jobs>
     </crontab>

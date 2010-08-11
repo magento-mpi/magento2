@@ -35,23 +35,23 @@
         <models>
             <catalogsearch>
                 <class>Mage_CatalogSearch_Model</class>
-                <resourceModel>catalogsearch_mysql4</resourceModel>
+                <!-- <resourceModel>catalogsearch_mysql4</resourceModel> -->
+                <resourceModel>catalogsearch_resource</resourceModel>
+                <catalogsearch_resource>
+                    <class>Mage_CatalogSearch_Model_Resource</class>
+                    <entities>
+                        <search_query>
+                            <table>catalogsearch_query</table>
+                        </search_query>
+                        <result>
+                            <table>catalogsearch_result</table>
+                        </result>
+                        <fulltext>
+                            <table>catalogsearch_fulltext</table>
+                        </fulltext>
+                    </entities>
+                </catalogsearch_resource>
             </catalogsearch>
-
-            <catalogsearch_mysql4>
-                <class>Mage_CatalogSearch_Model_Mysql4</class>
-                <entities>
-                    <search_query>
-                        <table>catalogsearch_query</table>
-                    </search_query>
-                    <result>
-                        <table>catalogsearch_result</table>
-                    </result>
-                    <fulltext>
-                        <table>catalogsearch_fulltext</table>
-                    </fulltext>
-                </entities>
-            </catalogsearch_mysql4>
         </models>
         <helpers>
             <catalogsearch>
@@ -66,73 +66,12 @@
             </catalogsearch_setup>
         </resources>
         <events>
-            <!-- catalog_product_save_after>
-                <observers>
-                    <catalogsearch>
-                        <class>catalogsearch/fulltext_observer</class>
-                        <method>refreshProductIndex</method>
-                    </catalogsearch>
-                </observers>
-            </catalog_product_save_after>
-            <catalog_product_delete_after>
-                <observers>
-                    <catalogsearch>
-                        <class>catalogsearch/fulltext_observer</class>
-                        <method>cleanProductIndex</method>
-                    </catalogsearch>
-                </observers>
-            </catalog_product_delete_after>
-            <catalog_entity_attribute_save_after>
-                <observers>
-                    <catalogsearch>
-                        <class>catalogsearch/fulltext_observer</class>
-                        <method>eavAttributeChange</method>
-                    </catalogsearch>
-                </observers>
-            </catalog_entity_attribute_save_after>
-            <catalog_entity_attribute_delete_after>
-                <observers>
-                    <catalogsearch>
-                        <class>catalogsearch/fulltext_observer</class>
-                        <method>eavAttributeChange</method>
-                    </catalogsearch>
-                </observers>
-            </catalog_entity_attribute_delete_after>
-            <catalog_product_import_after>
-                <observers>
-                    <catalogsearch>
-                        <class>catalogsearch/fulltext_observer</class>
-                        <method>refreshIndexAfterImport</method>
-                    </catalogsearch>
-                </observers>
-            </catalog_product_import_after>
-            <store_add>
-                <observers>
-                    <catalogsearch>
-                        <class>catalogsearch/fulltext_observer</class>
-                        <method>refreshStoreIndex</method>
-                    </catalogsearch>
-                </observers>
-            </store_add>
-            <store_delete>
-                <observers>
-                    <catalogsearch>
-                        <class>catalogsearch/fulltext_observer</class>
-                        <method>cleanStoreIndex</method>
-                    </catalogsearch>
-                </observers>
-            </store_delete>
-            <catalog_product_website_update>
-                <observers>
-                    <catalogsearch>
-                        <class>catalogsearch/fulltext_observer</class>
-                        <method>catalogProductWebsiteUpdate</method>
-                    </catalogsearch>
-                </observers>
-            </catalog_product_website_update -->
+            
         </events>
         <blocks>
-            <catalogsearch><class>Mage_CatalogSearch_Block</class></catalogsearch>
+            <catalogsearch>
+                <class>Mage_CatalogSearch_Block</class>
+            </catalogsearch>
         </blocks>
         <index>
             <indexer>
@@ -155,27 +94,27 @@
         <translate>
             <modules>
                 <Mage_CatalogSearch>
-                     <files>
-                          <default>Mage_CatalogSearch.csv</default>
-                     </files>
+                    <files>
+                        <default>Mage_CatalogSearch.csv</default>
+                    </files>
                 </Mage_CatalogSearch>
             </modules>
         </translate>
         <layout>
-             <updates>
-                  <catalogsearch>
-                        <file>catalogsearch.xml</file>
-                  </catalogsearch>
-             </updates>
+            <updates>
+                <catalogsearch>
+                    <file>catalogsearch.xml</file>
+                </catalogsearch>
+            </updates>
         </layout>
     </frontend>
     <adminhtml>
         <translate>
             <modules>
                 <Mage_CatalogSearch>
-                     <files>
-                          <default>Mage_CatalogSearch.csv</default>
-                     </files>
+                    <files>
+                        <default>Mage_CatalogSearch.csv</default>
+                    </files>
                 </Mage_CatalogSearch>
             </modules>
         </translate>
@@ -187,7 +126,6 @@
             </updates>
         </layout>
     </adminhtml>
-
     <default>
         <catalog>
             <seo>

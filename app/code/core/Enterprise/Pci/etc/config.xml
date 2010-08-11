@@ -28,23 +28,24 @@
 <config>
     <modules>
         <Enterprise_Pci>
-             <version>0.0.4</version>
+            <version>0.0.4</version>
         </Enterprise_Pci>
     </modules>
     <global>
         <models>
             <enterprise_pci>
                 <class>Enterprise_Pci_Model</class>
-                <resourceModel>enterprise_pci_mysql4</resourceModel>
+                <!-- <resourceModel>enterprise_pci_mysql4</resourceModel> -->
+                <resourceModel>enterprise_pci_resource</resourceModel>
+                <enterprise_pci_resource>
+                    <class>Enterprise_Pci_Model_Resource</class>
+                    <entities>
+                        <admin_passwords>
+                            <table>enterprise_admin_passwords</table>
+                        </admin_passwords>
+                    </entities>
+                </enterprise_pci_resource>
             </enterprise_pci>
-            <enterprise_pci_mysql4>
-                <class>Enterprise_Pci_Model_Mysql4</class>
-                <entities>
-                    <admin_passwords>
-                        <table>enterprise_admin_passwords</table>
-                    </admin_passwords>
-                </entities>
-            </enterprise_pci_mysql4>
         </models>
         <blocks>
             <enterprise_pci>
@@ -128,7 +129,7 @@
                     </files>
                 </Enterprise_Pci>
             </modules>
-        </translate>        
+        </translate>
     </adminhtml>
     <admin>
         <routers>
@@ -160,7 +161,7 @@
                     </files>
                 </Enterprise_Pci>
             </modules>
-        </translate>        
+        </translate>
     </frontend>
     <default>
         <admin>

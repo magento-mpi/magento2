@@ -35,16 +35,17 @@
         <models>
             <rule>
                 <class>Mage_Rule_Model</class>
-                <resourceModel>rule_mysql4</resourceModel>
+                <!-- <resourceModel>rule_mysql4</resourceModel> -->
+                <resourceModel>rule_resource</resourceModel>
+                <rule_resource>
+                    <class>Mage_Rule_Model_Resource</class>
+                </rule_resource>
             </rule>
-            <rule_mysql4>
-                <class>Mage_Rule_Model_Mysql4</class>
-            </rule_mysql4>
         </models>
         <blocks>
-                <rule>
-                    <class>Mage_Rule_Block</class>
-                </rule>
+            <rule>
+                <class>Mage_Rule_Block</class>
+            </rule>
         </blocks>
     </global>
     <adminhtml>
@@ -58,7 +59,6 @@
             </modules>
         </translate>
     </adminhtml>
-    
     <frontend>
         <translate>
             <modules>

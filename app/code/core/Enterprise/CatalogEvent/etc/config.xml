@@ -33,27 +33,32 @@
     </modules>
     <global>
         <models>
-             <enterprise_catalogevent>
+            <enterprise_catalogevent>
                 <class>Enterprise_CatalogEvent_Model</class>
-                <resourceModel>enterprise_catalogevent_mysql4</resourceModel>
-             </enterprise_catalogevent>
-             <enterprise_catalogevent_mysql4>
-                <class>Enterprise_CatalogEvent_Model_Mysql4</class>
-                <entities>
-                    <event><table>enterprise_catalogevent_event</table></event>
-                    <event_image><table>enterprise_catalogevent_event_image</table></event_image>
-                </entities>
-            </enterprise_catalogevent_mysql4>
+                <!-- <resourceModel>enterprise_catalogevent_mysql4</resourceModel> -->
+                <resourceModel>enterprise_catalogevent_resource</resourceModel>
+                <enterprise_catalogevent_resource>
+                    <class>Enterprise_CatalogEvent_Model_Resource</class>
+                    <entities>
+                        <event>
+                            <table>enterprise_catalogevent_event</table>
+                        </event>
+                        <event_image>
+                            <table>enterprise_catalogevent_event_image</table>
+                        </event_image>
+                    </entities>
+                </enterprise_catalogevent_resource>
+            </enterprise_catalogevent>
         </models>
         <helpers>
-             <enterprise_catalogevent>
+            <enterprise_catalogevent>
                 <class>Enterprise_CatalogEvent_Helper</class>
-             </enterprise_catalogevent>
+            </enterprise_catalogevent>
         </helpers>
         <blocks>
-             <enterprise_catalogevent>
+            <enterprise_catalogevent>
                 <class>Enterprise_CatalogEvent_Block</class>
-             </enterprise_catalogevent>
+            </enterprise_catalogevent>
         </blocks>
         <resources>
             <enterprise_catalogevent_setup>
@@ -65,8 +70,12 @@
         </resources>
         <fieldsets>
             <sales_convert_quote_item>
-                <event_id><to_order_item>*</to_order_item></event_id>
-                <event_name><to_order_item>*</to_order_item></event_name>
+                <event_id>
+                    <to_order_item>*</to_order_item>
+                </event_id>
+                <event_name>
+                    <to_order_item>*</to_order_item>
+                </event_name>
             </sales_convert_quote_item>
         </fieldsets>
     </global>
@@ -164,7 +173,6 @@
             </modules>
         </translate>
     </frontend>
-
     <admin>
         <routers>
             <adminhtml>

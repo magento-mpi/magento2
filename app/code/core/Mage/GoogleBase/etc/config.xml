@@ -35,22 +35,23 @@
         <models>
             <googlebase>
                 <class>Mage_GoogleBase_Model</class>
-                <resourceModel>googlebase_mysql4</resourceModel>
+                <!-- <resourceModel>googlebase_mysql4</resourceModel> -->
+                <resourceModel>googlebase_resource</resourceModel>
+                <googlebase_resource>
+                    <class>Mage_GoogleBase_Model_Resource</class>
+                    <entities>
+                        <types>
+                            <table>googlebase_types</table>
+                        </types>
+                        <items>
+                            <table>googlebase_items</table>
+                        </items>
+                        <attributes>
+                            <table>googlebase_attributes</table>
+                        </attributes>
+                    </entities>
+                </googlebase_resource>
             </googlebase>
-            <googlebase_mysql4>
-                <class>Mage_GoogleBase_Model_Mysql4</class>
-                <entities>
-                    <types>
-                        <table>googlebase_types</table>
-                    </types>
-                    <items>
-                        <table>googlebase_items</table>
-                    </items>
-                    <attributes>
-                        <table>googlebase_attributes</table>
-                    </attributes>
-                </entities>
-            </googlebase_mysql4>
         </models>
         <helpers>
             <googlebase>
@@ -65,7 +66,9 @@
             </googlebase_setup>
         </resources>
         <blocks>
-            <googlebase><class>Mage_GoogleBase_Block</class></googlebase>
+            <googlebase>
+                <class>Mage_GoogleBase_Block</class>
+            </googlebase>
         </blocks>
     </global>
     <admin>

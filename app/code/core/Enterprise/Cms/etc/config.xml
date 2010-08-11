@@ -28,32 +28,39 @@
 <config>
     <modules>
         <Enterprise_Cms>
-             <version>1.6.0.0.9</version>
+            <version>1.6.0.0.9</version>
         </Enterprise_Cms>
     </modules>
     <global>
         <models>
             <enterprise_cms>
                 <class>Enterprise_Cms_Model</class>
-                <resourceModel>enterprise_cms_mysql4</resourceModel>
+                <!-- <resourceModel>enterprise_cms_mysql4</resourceModel> -->
+                <resourceModel>enterprise_cms_resource</resourceModel>
+                <enterprise_cms_resource>
+                    <class>Enterprise_Cms_Model_Resource</class>
+                    <entities>
+                        <page_version>
+                            <table>enterprise_cms_page_version</table>
+                        </page_version>
+                        <page_revision>
+                            <table>enterprise_cms_page_revision</table>
+                        </page_revision>
+                        <increment>
+                            <table>enterprise_cms_increment</table>
+                        </increment>
+                        <hierarchy_metadata>
+                            <table>enterprise_cms_hierarchy_metadata</table>
+                        </hierarchy_metadata>
+                        <hierarchy_node>
+                            <table>enterprise_cms_hierarchy_node</table>
+                        </hierarchy_node>
+                        <hierarchy_lock>
+                            <table>enterprise_cms_hierarchy_lock</table>
+                        </hierarchy_lock>
+                    </entities>
+                </enterprise_cms_resource>
             </enterprise_cms>
-            <enterprise_cms_mysql4>
-                <class>Enterprise_Cms_Model_Mysql4</class>
-                <entities>
-                    <page_version><table>enterprise_cms_page_version</table></page_version>
-                    <page_revision><table>enterprise_cms_page_revision</table></page_revision>
-                    <increment><table>enterprise_cms_increment</table></increment>
-                    <hierarchy_metadata>
-                        <table>enterprise_cms_hierarchy_metadata</table>
-                    </hierarchy_metadata>
-                    <hierarchy_node>
-                        <table>enterprise_cms_hierarchy_node</table>
-                    </hierarchy_node>
-                    <hierarchy_lock>
-                        <table>enterprise_cms_hierarchy_lock</table>
-                    </hierarchy_lock>
-                </entities>
-            </enterprise_cms_mysql4>
         </models>
         <blocks>
             <enterprise_cms>
@@ -186,14 +193,13 @@
         <translate>
             <modules>
                 <Enterprise_Cms>
-                     <files>
-                          <default>Enterprise_Cms.csv</default>
-                     </files>
+                    <files>
+                        <default>Enterprise_Cms.csv</default>
+                    </files>
                 </Enterprise_Cms>
             </modules>
         </translate>
     </adminhtml>
-
     <admin>
         <routers>
             <adminhtml>
@@ -205,7 +211,6 @@
             </adminhtml>
         </routers>
     </admin>
-
     <default>
         <cms>
             <hierarchy>

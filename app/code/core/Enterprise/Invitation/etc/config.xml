@@ -33,28 +33,35 @@
     </modules>
     <global>
         <models>
-             <enterprise_invitation>
+            <enterprise_invitation>
                 <class>Enterprise_Invitation_Model</class>
-                <resourceModel>enterprise_invitation_mysql4</resourceModel>
-             </enterprise_invitation>
-             <enterprise_invitation_mysql4>
-                <class>Enterprise_Invitation_Model_Mysql4</class>
-                <entities>
-                    <invitation><table>enterprise_invitation</table></invitation>
-                    <invitation_history><table>enterprise_invitation_status_history</table></invitation_history>
-                    <invitation_track><table>enterprise_invitation_track</table></invitation_track>
-                </entities>
-            </enterprise_invitation_mysql4>
+                <!-- <resourceModel>enterprise_invitation_mysql4</resourceModel> -->
+                <resourceModel>enterprise_invitation_resource</resourceModel>
+                <enterprise_invitation_resource>
+                    <class>Enterprise_Invitation_Model_Resource</class>
+                    <entities>
+                        <invitation>
+                            <table>enterprise_invitation</table>
+                        </invitation>
+                        <invitation_history>
+                            <table>enterprise_invitation_status_history</table>
+                        </invitation_history>
+                        <invitation_track>
+                            <table>enterprise_invitation_track</table>
+                        </invitation_track>
+                    </entities>
+                </enterprise_invitation_resource>
+            </enterprise_invitation>
         </models>
         <helpers>
-             <enterprise_invitation>
+            <enterprise_invitation>
                 <class>Enterprise_Invitation_Helper</class>
-             </enterprise_invitation>
+            </enterprise_invitation>
         </helpers>
         <blocks>
-             <enterprise_invitation>
+            <enterprise_invitation>
                 <class>Enterprise_Invitation_Block</class>
-             </enterprise_invitation>
+            </enterprise_invitation>
         </blocks>
         <resources>
             <enterprise_invitation_setup>
@@ -65,15 +72,15 @@
         </resources>
         <template>
             <email>
-               <enterprise_invitation_email_template translate="label" module="enterprise_invitation">
-                   <label>Customer Invitation</label>
-                   <file>enterprise/invitation.html</file>
-                   <type>html</type>
-               </enterprise_invitation_email_template>
+                <enterprise_invitation_email_template translate="label" module="enterprise_invitation">
+                    <label>Customer Invitation</label>
+                    <file>enterprise/invitation.html</file>
+                    <type>html</type>
+                </enterprise_invitation_email_template>
             </email>
         </template>
     </global>
-   <admin>
+    <admin>
         <routers>
             <adminhtml>
                 <args>

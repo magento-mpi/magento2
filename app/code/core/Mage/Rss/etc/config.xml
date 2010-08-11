@@ -35,29 +35,22 @@
         <models>
             <rss>
                 <class>Mage_Rss_Model</class>
-                <resourceModel>rss_mysql4</resourceModel>
+                <!-- <resourceModel>rss_mysql4</resourceModel> -->
+                <resourceModel>rss_resource</resourceModel>
+                <rss_resource>
+                    <class>Mage_Rss_Model_Resource</class>
+                </rss_resource>
             </rss>
-            <rss_mysql4>
-                <class>Mage_Rss_Model_Mysql4</class>
-            </rss_mysql4>
         </models>
         <blocks>
-            <rss><class>Mage_Rss_Block</class></rss>
+            <rss>
+                <class>Mage_Rss_Block</class>
+            </rss>
         </blocks>
     </global>
-
     <admin>
-        <!--routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Mage_Rss before="Mage_Adminhtml">Mage_Rss</Mage_Rss>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers-->
+        
     </admin>
-
     <adminhtml>
         <translate>
             <modules>

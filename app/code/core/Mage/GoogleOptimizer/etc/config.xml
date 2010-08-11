@@ -35,17 +35,17 @@
         <models>
             <googleoptimizer>
                 <class>Mage_GoogleOptimizer_Model</class>
-                <resourceModel>googleoptimizer_mysql4</resourceModel>
+                <!-- <resourceModel>googleoptimizer_mysql4</resourceModel> -->
+                <resourceModel>googleoptimizer_resource</resourceModel>
+                <googleoptimizer_resource>
+                    <class>Mage_GoogleOptimizer_Model_Resource</class>
+                    <entities>
+                        <code>
+                            <table>googleoptimizer_code</table>
+                        </code>
+                    </entities>
+                </googleoptimizer_resource>
             </googleoptimizer>
-
-            <googleoptimizer_mysql4>
-                <class>Mage_GoogleOptimizer_Model_Mysql4</class>
-                <entities>
-                    <code>
-                        <table>googleoptimizer_code</table>
-                    </code>
-                </entities>
-            </googleoptimizer_mysql4>
         </models>
         <helpers>
             <googleoptimizer>
@@ -60,7 +60,9 @@
             </googleoptimizer_setup>
         </resources>
         <blocks>
-            <googleoptimizer><class>Mage_GoogleOptimizer_Block</class></googleoptimizer>
+            <googleoptimizer>
+                <class>Mage_GoogleOptimizer_Block</class>
+            </googleoptimizer>
         </blocks>
         <events>
             <cms_page_load_after>
@@ -134,7 +136,6 @@
             </catalog_helper_output_construct>
         </events>
     </frontend>
-
     <adminhtml>
         <translate>
             <modules>

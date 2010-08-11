@@ -35,15 +35,20 @@
         <models>
             <paybox>
                 <class>Mage_Paybox_Model</class>
-                <resourceModel>paybox_mysql4</resourceModel>
+                <!-- <resourceModel>paybox_mysql4</resourceModel> -->
+                <resourceModel>paybox_resource</resourceModel>
+                <paybox_resource>
+                    <class>Mage_Paybox_Model_Resource</class>
+                    <entities>
+                        <api_debug>
+                            <table>paybox_api_debug</table>
+                        </api_debug>
+                        <question_number>
+                            <table>paybox_question_number</table>
+                        </question_number>
+                    </entities>
+                </paybox_resource>
             </paybox>
-            <paybox_mysql4>
-                <class>Mage_Paybox_Model_Mysql4</class>
-                <entities>
-                    <api_debug><table>paybox_api_debug</table></api_debug>
-                    <question_number><table>paybox_question_number</table></question_number>
-                </entities>
-            </paybox_mysql4>
         </models>
         <resources>
             <paybox_setup>
@@ -54,7 +59,9 @@
             </paybox_setup>
         </resources>
         <blocks>
-            <paybox><class>Mage_Paybox_Block</class></paybox>
+            <paybox>
+                <class>Mage_Paybox_Block</class>
+            </paybox>
         </blocks>
     </global>
     <frontend>

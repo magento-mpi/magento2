@@ -35,14 +35,17 @@
         <models>
             <protx>
                 <class>Mage_Protx_Model</class>
-                <resourceModel>protx_mysql4</resourceModel>
+                <!-- <resourceModel>protx_mysql4</resourceModel> -->
+                <resourceModel>protx_resource</resourceModel>
+                <protx_resource>
+                    <class>Mage_Protx_Model_Resource</class>
+                    <entities>
+                        <api_debug>
+                            <table>protx_api_debug</table>
+                        </api_debug>
+                    </entities>
+                </protx_resource>
             </protx>
-            <protx_mysql4>
-                <class>Mage_Protx_Model_Mysql4</class>
-                <entities>
-                    <api_debug><table>protx_api_debug</table></api_debug>
-                </entities>
-            </protx_mysql4>
         </models>
         <resources>
             <protx_setup>
@@ -52,7 +55,9 @@
             </protx_setup>
         </resources>
         <blocks>
-            <protx><class>Mage_Protx_Block</class></protx>
+            <protx>
+                <class>Mage_Protx_Block</class>
+            </protx>
         </blocks>
     </global>
     <frontend>

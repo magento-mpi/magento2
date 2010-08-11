@@ -45,16 +45,17 @@
         <models>
             <strikeiron>
                 <class>Mage_Strikeiron_Model</class>
-                <resourceModel>strikeiron_mysql4</resourceModel>
+                <!-- <resourceModel>strikeiron_mysql4</resourceModel> -->
+                <resourceModel>strikeiron_resource</resourceModel>
+                <strikeiron_resource>
+                    <class>Mage_Strikeiron_Model_Resource</class>
+                    <entities>
+                        <tax_rate>
+                            <table>strikeiron_tax_rate</table>
+                        </tax_rate>
+                    </entities>
+                </strikeiron_resource>
             </strikeiron>
-             <strikeiron_mysql4>
-                <class>Mage_Strikeiron_Model_Mysql4</class>
-                <entities>
-                    <tax_rate>
-                        <table>strikeiron_tax_rate</table>
-                    </tax_rate>
-                </entities>
-            </strikeiron_mysql4>
         </models>
         <resources>
             <strikeiron_setup>
@@ -89,7 +90,7 @@
                 </observers>
             </tax_rate_data_fetch>
         </events>
-         <template>
+        <template>
             <email>
                 <strikeiron_customer_error_email_template translate="label" module="directory">
                     <label>Strikeiron Email Update Warnings</label>

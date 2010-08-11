@@ -35,17 +35,20 @@
         <models>
             <ogone>
                 <class>Mage_Ogone_Model</class>
-                <resourceModel>ogone_mysql4</resourceModel>
+                <!-- <resourceModel>ogone_mysql4</resourceModel> -->
+                <resourceModel>ogone_resource</resourceModel>
+                <ogone_resource>
+                    <class>Mage_Ogone_Model_Resource</class>
+                    <entities>
+                        <api_debug>
+                            <table>ogone_api_debug</table>
+                        </api_debug>
+                    </entities>
+                </ogone_resource>
             </ogone>
-            <ogone_mysql4>
-                <class>Mage_Ogone_Model_Mysql4</class>
-                <entities>
-                    <api_debug><table>ogone_api_debug</table></api_debug>
-                </entities>
-            </ogone_mysql4>
         </models>
         <resources>
-           <ogone_setup>
+            <ogone_setup>
                 <setup>
                     <module>Mage_Ogone</module>
                 </setup>
@@ -72,12 +75,24 @@
         <sales>
             <order>
                 <statuses>
-                    <pending_ogone translate="label"><label>Pending Ogone</label></pending_ogone>
-                    <cancel_ogone translate="label"><label>Cancelled Ogone</label></cancel_ogone>
-                    <decline_ogone translate="label"><label>Declined Ogone</label></decline_ogone>
-                    <processing_ogone translate="label"><label>Processing Ogone Payment</label></processing_ogone>
-                    <processed_ogone translate="label"><label>Processed Ogone Payment</label></processed_ogone>
-                    <waiting_authorozation translate="label"><label>Waiting Authorization</label></waiting_authorozation>
+                    <pending_ogone translate="label">
+                        <label>Pending Ogone</label>
+                    </pending_ogone>
+                    <cancel_ogone translate="label">
+                        <label>Cancelled Ogone</label>
+                    </cancel_ogone>
+                    <decline_ogone translate="label">
+                        <label>Declined Ogone</label>
+                    </decline_ogone>
+                    <processing_ogone translate="label">
+                        <label>Processing Ogone Payment</label>
+                    </processing_ogone>
+                    <processed_ogone translate="label">
+                        <label>Processed Ogone Payment</label>
+                    </processed_ogone>
+                    <waiting_authorozation translate="label">
+                        <label>Waiting Authorization</label>
+                    </waiting_authorozation>
                 </statuses>
                 <states>
                     <pending_payment>
@@ -87,7 +102,7 @@
                     </pending_payment>
                     <processing>
                         <statuses>
-                            <processed_ogone />
+                            <processed_ogone/>
                         </statuses>
                     </processing>
                 </states>
@@ -115,22 +130,21 @@
             </ogone>
         </routers>
     </frontend>
-
     <default>
         <payment>
             <ogone>
-                 <model>ogone/api</model>
-                 <title>Ogone</title>
-                 <secret_key backend_model="adminhtml/system_config_backend_encrypted"/>
-                 <payment_action>authorize</payment_action>
-                 <template>ogone</template>
-                 <ogone_gateway>https://secure.ogone.com/ncol/test/orderstandard.asp</ogone_gateway>
-                 <pending_ogone>pending_ogone</pending_ogone>
-                 <cancel_ogone>cancel_ogone</cancel_ogone>
-                 <decline_ogone>decline_ogone</decline_ogone>
-                 <processing_ogone>processing_ogone</processing_ogone>
-                 <processed_ogone>processed_ogone</processed_ogone>
-                 <waiting_authorozation>waiting_authorozation</waiting_authorozation>
+                <model>ogone/api</model>
+                <title>Ogone</title>
+                <secret_key backend_model="adminhtml/system_config_backend_encrypted"/>
+                <payment_action>authorize</payment_action>
+                <template>ogone</template>
+                <ogone_gateway>https://secure.ogone.com/ncol/test/orderstandard.asp</ogone_gateway>
+                <pending_ogone>pending_ogone</pending_ogone>
+                <cancel_ogone>cancel_ogone</cancel_ogone>
+                <decline_ogone>decline_ogone</decline_ogone>
+                <processing_ogone>processing_ogone</processing_ogone>
+                <processed_ogone>processed_ogone</processed_ogone>
+                <waiting_authorozation>waiting_authorozation</waiting_authorozation>
             </ogone>
         </payment>
     </default>

@@ -28,32 +28,31 @@
 <config>
     <modules>
         <Enterprise_GiftCardAccount>
-             <version>0.0.13</version>
+            <version>0.0.13</version>
         </Enterprise_GiftCardAccount>
     </modules>
-
     <global>
         <models>
             <enterprise_giftcardaccount>
                 <class>Enterprise_GiftCardAccount_Model</class>
-                <resourceModel>enterprise_giftcardaccount_mysql4</resourceModel>
+                <!-- <resourceModel>enterprise_giftcardaccount_mysql4</resourceModel> -->
+                <resourceModel>enterprise_giftcardaccount_resource</resourceModel>
+                <enterprise_giftcardaccount_resource>
+                    <class>Enterprise_GiftCardAccount_Model_Resource</class>
+                    <entities>
+                        <giftcardaccount>
+                            <table>enterprise_giftcardaccount</table>
+                        </giftcardaccount>
+                        <pool>
+                            <table>enterprise_giftcardaccount_pool</table>
+                        </pool>
+                        <history>
+                            <table>enterprise_giftcardaccount_history</table>
+                        </history>
+                    </entities>
+                </enterprise_giftcardaccount_resource>
             </enterprise_giftcardaccount>
-            <enterprise_giftcardaccount_mysql4>
-                <class>Enterprise_GiftCardAccount_Model_Mysql4</class>
-                <entities>
-                    <giftcardaccount>
-                        <table>enterprise_giftcardaccount</table>
-                    </giftcardaccount>
-                    <pool>
-                        <table>enterprise_giftcardaccount_pool</table>
-                    </pool>
-                    <history>
-                        <table>enterprise_giftcardaccount_history</table>
-                    </history>
-                </entities>
-            </enterprise_giftcardaccount_mysql4>
         </models>
-
         <resources>
             <enterprise_giftcardaccount_setup>
                 <setup>
@@ -83,7 +82,6 @@
                     </giftcardaccount>
                 </totals>
             </quote>
-
             <order_invoice>
                 <totals>
                     <giftcardaccount>
@@ -91,7 +89,6 @@
                     </giftcardaccount>
                 </totals>
             </order_invoice>
-
             <order_creditmemo>
                 <totals>
                     <giftcardaccount>
@@ -100,7 +97,6 @@
                 </totals>
             </order_creditmemo>
         </sales>
-
         <enterprise>
             <giftcardaccount>
                 <separator>-</separator>
@@ -110,7 +106,8 @@
                     <num>0123456789</num>
                 </charset>
             </giftcardaccount>
-        </enterprise><events>
+        </enterprise>
+        <events>
             <enterprise_giftcardaccount_save_after>
                 <observers>
                     <enterprise_giftcardaccount_save_after>
@@ -119,7 +116,6 @@
                     </enterprise_giftcardaccount_save_after>
                 </observers>
             </enterprise_giftcardaccount_save_after>
-
             <sales_order_place_after>
                 <observers>
                     <enterprise_giftcardaccount_sales_order_place_after>
@@ -128,7 +124,6 @@
                     </enterprise_giftcardaccount_sales_order_place_after>
                 </observers>
             </sales_order_place_after>
-
             <sales_order_invoice_save_after>
                 <observers>
                     <enterprise_giftcardaccount_sales_order_invoice_save_after>
@@ -137,7 +132,6 @@
                     </enterprise_giftcardaccount_sales_order_invoice_save_after>
                 </observers>
             </sales_order_invoice_save_after>
-            
             <sales_order_invoice_register>
                 <observers>
                     <enterprise_giftcardaccount_sales_order_invoice_register>
@@ -146,7 +140,6 @@
                     </enterprise_giftcardaccount_sales_order_invoice_register>
                 </observers>
             </sales_order_invoice_register>
-
             <enterprise_giftcardaccount_charge_by_code>
                 <observers>
                     <enterprise_giftcardaccount_charge_by_code>
@@ -155,7 +148,6 @@
                     </enterprise_giftcardaccount_charge_by_code>
                 </observers>
             </enterprise_giftcardaccount_charge_by_code>
-
             <enterprise_giftcardaccount_charge>
                 <observers>
                     <enterprise_giftcardaccount_charge>
@@ -164,7 +156,6 @@
                     </enterprise_giftcardaccount_charge>
                 </observers>
             </enterprise_giftcardaccount_charge>
-
             <enterprise_giftcardaccount_create>
                 <observers>
                     <enterprise_giftcardaccount_create>
@@ -173,7 +164,6 @@
                     </enterprise_giftcardaccount_create>
                 </observers>
             </enterprise_giftcardaccount_create>
-
             <adminhtml_sales_order_create_process_data>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -182,7 +172,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </adminhtml_sales_order_create_process_data>
-
             <sales_quote_payment_import_data_before>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -191,7 +180,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </sales_quote_payment_import_data_before>
-
             <payment_method_is_active>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -200,7 +188,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </payment_method_is_active>
-
             <sales_quote_collect_totals_before>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -209,7 +196,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </sales_quote_collect_totals_before>
-
             <sales_quote_merge_after>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -218,7 +204,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </sales_quote_merge_after>
-
             <sales_order_creditmemo_refund>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -227,7 +212,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </sales_order_creditmemo_refund>
-
             <adminhtml_sales_order_creditmemo_register_before>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -236,7 +220,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </adminhtml_sales_order_creditmemo_register_before>
-
             <sales_order_load_after>
                 <observers>
                     <enterprise_giftcardaccount>
@@ -245,7 +228,6 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </sales_order_load_after>
-
             <paypal_prepare_line_items>
                 <observers>
                     <enterprise_giftcard>
@@ -257,19 +239,24 @@
         </events>
         <fieldsets>
             <sales_convert_quote_address>
-                <base_gift_cards_amount><to_order>*</to_order></base_gift_cards_amount>
-                <gift_cards_amount><to_order>*</to_order></gift_cards_amount>
-                <used_gift_cards><to_order>gift_cards</to_order></used_gift_cards>
+                <base_gift_cards_amount>
+                    <to_order>*</to_order>
+                </base_gift_cards_amount>
+                <gift_cards_amount>
+                    <to_order>*</to_order>
+                </gift_cards_amount>
+                <used_gift_cards>
+                    <to_order>gift_cards</to_order>
+                </used_gift_cards>
             </sales_convert_quote_address>
         </fieldsets>
-
         <template>
             <email>
-               <giftcard_giftcardaccount_email_template translate="label" module="enterprise_giftcardaccount">
-                   <label>Gift Card Account Sent From Edit Page</label>
-                   <file>enterprise/giftcardaccount.html</file>
-                   <type>html</type>
-               </giftcard_giftcardaccount_email_template>
+                <giftcard_giftcardaccount_email_template translate="label" module="enterprise_giftcardaccount">
+                    <label>Gift Card Account Sent From Edit Page</label>
+                    <file>enterprise/giftcardaccount.html</file>
+                    <type>html</type>
+                </giftcard_giftcardaccount_email_template>
             </email>
         </template>
         <pdf>
@@ -285,7 +272,6 @@
             </totals>
         </pdf>
     </global>
-
     <frontend>
         <translate>
             <modules>
@@ -323,9 +309,8 @@
             </google_checkout_discount_item_price>
         </events>
     </frontend>
-
     <admin>
-         <routers>
+        <routers>
             <adminhtml>
                 <args>
                     <modules>
@@ -335,7 +320,6 @@
             </adminhtml>
         </routers>
     </admin>
-
     <adminhtml>
         <layout>
             <updates>
@@ -354,7 +338,6 @@
             </modules>
         </translate>
     </adminhtml>
-
     <default>
         <giftcard>
             <giftcardaccount_email>
@@ -378,12 +361,20 @@
     <crontab>
         <jobs>
             <enterprise_giftcardaccount_update_states>
-                <schedule><cron_expr>0 1 * * *</cron_expr></schedule>
-                <run><model>enterprise_giftcardaccount/cron::updateStates</model></run>
+                <schedule>
+                    <cron_expr>0 1 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>enterprise_giftcardaccount/cron::updateStates</model>
+                </run>
             </enterprise_giftcardaccount_update_states>
             <enterprise_giftcardaccount_generage_codes_pool>
-                <schedule><cron_expr>30 * * * *</cron_expr></schedule>
-                <run><model>enterprise_giftcardaccount/pool::applyCodesGeneration</model></run>
+                <schedule>
+                    <cron_expr>30 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>enterprise_giftcardaccount/pool::applyCodesGeneration</model>
+                </run>
             </enterprise_giftcardaccount_generage_codes_pool>
         </jobs>
     </crontab>

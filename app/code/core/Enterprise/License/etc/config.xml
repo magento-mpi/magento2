@@ -31,7 +31,6 @@
             <version>1.7.0.0.0</version>
         </Enterprise_License>
     </modules>
-
     <global>
         <models>
             <enterprise_license>
@@ -39,9 +38,9 @@
             </enterprise_license>
         </models>
         <blocks>
-             <enterprise_license>
+            <enterprise_license>
                 <class>Enterprise_License_Block</class>
-             </enterprise_license>
+            </enterprise_license>
         </blocks>
         <helpers>
             <enterprise_license>
@@ -49,7 +48,6 @@
             </enterprise_license>
         </helpers>
     </global>
-
     <adminhtml>
         <translate>
             <modules>
@@ -85,6 +83,5 @@
                 </observers>
             </controller_action_predispatch>
         </events>
-        
     </adminhtml>
 </config>

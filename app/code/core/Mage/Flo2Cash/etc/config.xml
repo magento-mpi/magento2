@@ -35,14 +35,17 @@
         <models>
             <flo2cash>
                 <class>Mage_Flo2Cash_Model</class>
-                <resourceModel>flo2cash_mysql4</resourceModel>
+                <!-- <resourceModel>flo2cash_mysql4</resourceModel> -->
+                <resourceModel>flo2cash_resource</resourceModel>
+                <flo2cash_resource>
+                    <class>Mage_Flo2Cash_Model_Resource</class>
+                    <entities>
+                        <api_debug>
+                            <table>flo2cash_api_debug</table>
+                        </api_debug>
+                    </entities>
+                </flo2cash_resource>
             </flo2cash>
-            <flo2cash_mysql4>
-                <class>Mage_Flo2Cash_Model_Mysql4</class>
-                <entities>
-                    <api_debug><table>flo2cash_api_debug</table></api_debug>
-                </entities>
-            </flo2cash_mysql4>
         </models>
         <resources>
             <flo2cash_setup>
@@ -53,10 +56,14 @@
             </flo2cash_setup>
         </resources>
         <blocks>
-            <flo2cash><class>Mage_Flo2Cash_Block</class></flo2cash>
+            <flo2cash>
+                <class>Mage_Flo2Cash_Block</class>
+            </flo2cash>
         </blocks>
         <helpers>
-            <flo2cash><class>Mage_Flo2Cash_Helper</class></flo2cash>
+            <flo2cash>
+                <class>Mage_Flo2Cash_Helper</class>
+            </flo2cash>
         </helpers>
         <payment>
             <cc>

@@ -35,11 +35,12 @@
         <models>
             <media>
                 <class>Mage_Media_Model</class>
-                <resourceModel>media_file</resourceModel>
+                <!-- <resourceModel>media_file</resourceModel> -->
+                <resourceModel>media_resource</resourceModel>
+                <media_resource>
+                    <class>Mage_Media_Model_Resource</class>
+                </media_resource>
             </media>
-            <media_file>
-                <class>Mage_Media_Model_File</class>
-            </media_file>
         </models>
     </global>
     <adminhtml>
@@ -72,5 +73,5 @@
                 </Mage_Media>
             </modules>
         </translate>
-     </frontend>
+    </frontend>
 </config>

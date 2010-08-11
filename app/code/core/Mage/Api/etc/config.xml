@@ -34,7 +34,7 @@
     <global>
         <ignoredModules>
             <entities>
-                <api />
+                <api/>
             </entities>
         </ignoredModules>
         <cache>
@@ -49,28 +49,29 @@
         <models>
             <api>
                 <class>Mage_Api_Model</class>
-                <resourceModel>api_mysql4</resourceModel>
+                <!-- <resourceModel>api_mysql4</resourceModel> -->
+                <resourceModel>api_resource</resourceModel>
+                <api_resource>
+                    <class>Mage_Api_Model_Resource</class>
+                    <entities>
+                        <assert>
+                            <table>api_assert</table>
+                        </assert>
+                        <role>
+                            <table>api_role</table>
+                        </role>
+                        <rule>
+                            <table>api_rule</table>
+                        </rule>
+                        <user>
+                            <table>api_user</table>
+                        </user>
+                        <session>
+                            <table>api_session</table>
+                        </session>
+                    </entities>
+                </api_resource>
             </api>
-            <api_mysql4>
-                <class>Mage_Api_Model_Mysql4</class>
-                <entities>
-                    <assert>
-                        <table>api_assert</table>
-                    </assert>
-                    <role>
-                        <table>api_role</table>
-                    </role>
-                    <rule>
-                        <table>api_rule</table>
-                    </rule>
-                    <user>
-                        <table>api_user</table>
-                    </user>
-                    <session>
-                        <table>api_session</table>
-                    </session>
-                </entities>
-            </api_mysql4>
         </models>
         <resources>
             <api_setup>

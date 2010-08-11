@@ -35,32 +35,34 @@
         <models>
             <tag>
                 <class>Mage_Tag_Model</class>
-                <resourceModel>tag_mysql4</resourceModel>
+                <!-- <resourceModel>tag_mysql4</resourceModel> -->
+                <resourceModel>tag_resource</resourceModel>
+                <tag_resource>
+                    <class>Mage_Tag_Model_Resource</class>
+                    <entities>
+                        <tag>
+                            <table>tag</table>
+                        </tag>
+                        <relation>
+                            <table>tag_relation</table>
+                        </relation>
+                        <summary>
+                            <table>tag_summary</table>
+                        </summary>
+                        <properties>
+                            <table>tag_properties</table>
+                        </properties>
+                    </entities>
+                </tag_resource>
             </tag>
             <tag_customer>
                 <class>Mage_Tag_Model_Customer</class>
-                <resourceModel>tag_entity_customer</resourceModel>
+                <!-- <resourceModel>tag_entity_customer</resourceModel> -->
+                <resourceModel>tag_customer_resource</resourceModel>
+                <tag_customer_resource>
+                    <class>Mage_Tag_Model_Customer_Resource</class>
+                </tag_customer_resource>
             </tag_customer>
-            <tag_entity_customer>
-                <class>Mage_Tag_Model_Entity_Customer</class>
-                </tag_entity_customer>
-            <tag_mysql4>
-                <class>Mage_Tag_Model_Mysql4</class>
-                <entities>
-                    <tag>
-                        <table>tag</table>
-                    </tag>
-                    <relation>
-                        <table>tag_relation</table>
-                    </relation>
-                    <summary>
-                        <table>tag_summary</table>
-                    </summary>
-                    <properties>
-                        <table>tag_properties</table>
-                    </properties>
-                </entities>
-            </tag_mysql4>
         </models>
         <resources>
             <tag_setup>
@@ -70,7 +72,9 @@
             </tag_setup>
         </resources>
         <blocks>
-            <tag><class>Mage_Tag_Block</class></tag>
+            <tag>
+                <class>Mage_Tag_Block</class>
+            </tag>
         </blocks>
         <index>
             <indexer>
@@ -99,13 +103,13 @@
                 </Mage_Tag>
             </modules>
         </translate>
-          <layout>
-              <updates>
-                  <tag module="Mage_Tag">
-                      <file>tag.xml</file>
-                  </tag>
-              </updates>
-          </layout>
+        <layout>
+            <updates>
+                <tag module="Mage_Tag">
+                    <file>tag.xml</file>
+                </tag>
+            </updates>
+        </layout>
         <secure_url>
             <tag_customer>/tag/customer/</tag_customer>
         </secure_url>

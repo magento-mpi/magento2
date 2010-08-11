@@ -31,21 +31,21 @@
             <version>1.0.0</version>
         </Mage_AdminNotification>
     </modules>
-
     <global>
         <models>
             <adminnotification>
                 <class>Mage_AdminNotification_Model</class>
-                <resourceModel>adminnotification_mysql4</resourceModel>
+                <!-- <resourceModel>adminnotification_mysql4</resourceModel> -->
+                <resourceModel>adminnotification_resource</resourceModel>
+                <adminnotification_resource>
+                    <class>Mage_AdminNotification_Model_Resource</class>
+                    <entities>
+                        <inbox>
+                            <table>adminnotification_inbox</table>
+                        </inbox>
+                    </entities>
+                </adminnotification_resource>
             </adminnotification>
-            <adminnotification_mysql4>
-                <class>Mage_AdminNotification_Model_Mysql4</class>
-                <entities>
-                    <inbox>
-                        <table>adminnotification_inbox</table>
-                    </inbox>
-                </entities>
-            </adminnotification_mysql4>
         </models>
         <helpers>
             <adminnotification>
@@ -65,7 +65,6 @@
             </productalert>
         </blocks>
     </global>
-
     <adminhtml>
         <translate>
             <modules>
@@ -94,7 +93,6 @@
             </updates>
         </layout>
     </adminhtml>
-
     <default>
         <system>
             <adminnotification>

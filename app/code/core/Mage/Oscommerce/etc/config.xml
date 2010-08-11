@@ -35,40 +35,41 @@
         <models>
             <oscommerce>
                 <class>Mage_Oscommerce_Model</class>
-                <resourceModel>oscommerce_mysql4</resourceModel>
+                <!-- <resourceModel>oscommerce_mysql4</resourceModel> -->
+                <resourceModel>oscommerce_resource</resourceModel>
+                <oscommerce_resource>
+                    <class>Mage_Oscommerce_Model_Resource</class>
+                    <entities>
+                        <oscommerce>
+                            <table>oscommerce_import</table>
+                        </oscommerce>
+                        <oscommerce_type>
+                            <table>oscommerce_import_type</table>
+                        </oscommerce_type>
+                        <oscommerce_ref>
+                            <table>oscommerce_ref</table>
+                        </oscommerce_ref>
+                        <catalog_product_website>
+                            <table>catalog_product_website</table>
+                        </catalog_product_website>
+                        <catalog_category>
+                            <table>catalog_category_entity</table>
+                        </catalog_category>
+                        <oscommerce_order>
+                            <table>oscommerce_orders</table>
+                        </oscommerce_order>
+                        <oscommerce_order_products>
+                            <table>oscommerce_orders_products</table>
+                        </oscommerce_order_products>
+                        <oscommerce_order_total>
+                            <table>oscommerce_orders_total</table>
+                        </oscommerce_order_total>
+                        <oscommerce_order_history>
+                            <table>oscommerce_orders_status_history</table>
+                        </oscommerce_order_history>
+                    </entities>
+                </oscommerce_resource>
             </oscommerce>
-            <oscommerce_mysql4>
-                <class>Mage_Oscommerce_Model_Mysql4</class>
-                <entities>
-                    <oscommerce>
-                        <table>oscommerce_import</table>
-                    </oscommerce>
-                    <oscommerce_type>
-                        <table>oscommerce_import_type</table>
-                    </oscommerce_type>
-                    <oscommerce_ref>
-                        <table>oscommerce_ref</table>
-                    </oscommerce_ref>
-                    <catalog_product_website>
-                        <table>catalog_product_website</table>
-                    </catalog_product_website>
-                    <catalog_category>
-                        <table>catalog_category_entity</table>
-                    </catalog_category>
-                    <oscommerce_order>
-                        <table>oscommerce_orders</table>
-                    </oscommerce_order>
-                    <oscommerce_order_products>
-                        <table>oscommerce_orders_products</table>
-                    </oscommerce_order_products>
-                    <oscommerce_order_total>
-                        <table>oscommerce_orders_total</table>
-                    </oscommerce_order_total>
-                    <oscommerce_order_history>
-                        <table>oscommerce_orders_status_history</table>
-                    </oscommerce_order_history>
-                </entities>
-            </oscommerce_mysql4>
         </models>
         <blocks>
             <oscommerce>
@@ -112,15 +113,6 @@
                 </observers>
             </controller_action_predispatch_oscommerce>
         </events>
-        <!--translate>
-            <modules>
-                <Mage_Oscommerce>
-                    <files>
-                        <default>Mage_Oscommerce.csv</default>
-                    </files>
-                </Mage_Oscommerce>
-            </modules>
-        </translate-->
     </adminhtml>
     <frontend>
         <routers>
@@ -139,15 +131,6 @@
                 </oscommerce>
             </updates>
         </layout>
-        <!--translate>
-            <modules>
-                <Mage_Oscommerce>
-                    <files>
-                        <default>Mage_Oscommerce.csv</default>
-                    </files>
-                </Mage_Oscommerce>
-            </modules>
-        </translate-->
     </frontend>
     <default>
         <oscommerce>

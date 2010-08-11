@@ -35,16 +35,23 @@
         <models>
             <index>
                 <class>Mage_Index_Model</class>
-                <resourceModel>index_mysql4</resourceModel>
+                <!-- <resourceModel>index_mysql4</resourceModel> -->
+                <resourceModel>index_resource</resourceModel>
+                <index_resource>
+                    <class>Mage_Index_Model_Resource</class>
+                    <entities>
+                        <event>
+                            <table>index_event</table>
+                        </event>
+                        <process>
+                            <table>index_process</table>
+                        </process>
+                        <process_event>
+                            <table>index_process_event</table>
+                        </process_event>
+                    </entities>
+                </index_resource>
             </index>
-            <index_mysql4>
-                <class>Mage_Index_Model_Mysql4</class>
-                <entities>
-                    <event><table>index_event</table></event>
-                    <process><table>index_process</table></process>
-                    <process_event><table>index_process_event</table></process_event>
-                </entities>
-            </index_mysql4>
         </models>
         <resources>
             <index_setup>
@@ -56,11 +63,7 @@
         </resources>
         <index>
             <indexer>
-                <!-- // Indexer declaration example 
-                <catalog_index>
-                    <model>index/indexer_catalogindex</model>
-                </catalog_index>
-                 -->
+                
             </indexer>
         </index>
         <events>

@@ -26,41 +26,49 @@
  */
 -->
 <config>
-   <modules>
-      <Mage_Admin>
-         <version>0.7.2</version>
-      </Mage_Admin>
-   </modules>
-
-   <global>
-      <models>
-         <admin>
-            <class>Mage_Admin_Model</class>
-            <resourceModel>admin_mysql4</resourceModel>
-         </admin>
-         <admin_mysql4>
-            <class>Mage_Admin_Model_Mysql4</class>
-            <entities>
-               <user><table>admin_user</table></user>
-               <role><table>admin_role</table></role>
-               <rule><table>admin_rule</table></rule>
-               <assert><table>admin_assert</table></assert>
-            </entities>
-         </admin_mysql4>
-      </models>
-
-      <resources>
-         <admin_setup>
-            <setup>
-               <module>Mage_Admin</module>
-            </setup>
-         </admin_setup>
-      </resources>
+    <modules>
+        <Mage_Admin>
+            <version>0.7.2</version>
+        </Mage_Admin>
+    </modules>
+    <global>
+        <models>
+            <admin>
+                <class>Mage_Admin_Model</class>
+                <!-- <resourceModel>admin_mysql4</resourceModel> -->
+                <resourceModel>admin_resource</resourceModel>
+                <admin_resource>
+                    <class>Mage_Admin_Model_Resource</class>
+                    <entities>
+                        <user>
+                            <table>admin_user</table>
+                        </user>
+                        <role>
+                            <table>admin_role</table>
+                        </role>
+                        <rule>
+                            <table>admin_rule</table>
+                        </rule>
+                        <assert>
+                            <table>admin_assert</table>
+                        </assert>
+                    </entities>
+                </admin_resource>
+            </admin>
+        </models>
+        <resources>
+            <admin_setup>
+                <setup>
+                    <module>Mage_Admin</module>
+                </setup>
+            </admin_setup>
+        </resources>
         <blocks>
-            <admin><class>Mage_Admin_Block</class></admin>
+            <admin>
+                <class>Mage_Admin_Block</class>
+            </admin>
         </blocks>
-   </global>
-
+    </global>
     <default>
         <admin>
             <emails>
@@ -69,7 +77,6 @@
             </emails>
         </admin>
     </default>
-
     <adminhtml>
         <layout>
             <updates>

@@ -35,16 +35,17 @@
         <models>
             <shipping>
                 <class>Mage_Shipping_Model</class>
-                <resourceModel>shipping_mysql4</resourceModel>
+                <!-- <resourceModel>shipping_mysql4</resourceModel> -->
+                <resourceModel>shipping_resource</resourceModel>
+                <shipping_resource>
+                    <class>Mage_Shipping_Model_Resource</class>
+                    <entities>
+                        <tablerate>
+                            <table>shipping_tablerate</table>
+                        </tablerate>
+                    </entities>
+                </shipping_resource>
             </shipping>
-            <shipping_mysql4>
-                <class>Mage_Shipping_Model_Mysql4</class>
-                <entities>
-                    <tablerate>
-                        <table>shipping_tablerate</table>
-                    </tablerate>
-                </entities>
-            </shipping_mysql4>
         </models>
         <resources>
             <shipping_setup>
@@ -126,21 +127,18 @@
             </updates>
         </layout>
     </frontend>
-
     <default>
         <shipping>
             <option>
                 <checkout_multiple>1</checkout_multiple>
                 <checkout_multiple_maximum_qty>100</checkout_multiple_maximum_qty>
             </option>
-
             <origin>
                 <country_id>US</country_id>
                 <postcode>90034</postcode>
                 <region_id>12</region_id>
             </origin>
         </shipping>
-
         <carriers>
             <flatrate>
                 <active>1</active>
@@ -153,7 +151,6 @@
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
                 <handling_type>F</handling_type>
             </flatrate>
-
             <freeshipping>
                 <active>0</active>
                 <sallowspecific>0</sallowspecific>
@@ -163,7 +160,6 @@
                 <title>Free Shipping</title>
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
             </freeshipping>
-
             <tablerate>
                 <active>0</active>
                 <sallowspecific>0</sallowspecific>

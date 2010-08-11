@@ -40,20 +40,32 @@
         <models>
             <enterprise_salespool>
                 <class>Enterprise_SalesPool_Model</class>
-                <resourceModel>enterprise_salespool_mysql4</resourceModel>
+                <!-- <resourceModel>enterprise_salespool_mysql4</resourceModel> -->
+                <resourceModel>enterprise_salespool_resource</resourceModel>
+                <enterprise_salespool_resource>
+                    <class>Enterprise_SalesPool_Model_Resource</class>
+                    <entities>
+                        <order>
+                            <table>enterprise_sales_order_pool</table>
+                        </order>
+                        <order_item>
+                            <table>enterprise_sales_order_item_pool</table>
+                        </order_item>
+                        <order_address>
+                            <table>enterprise_sales_order_address_pool</table>
+                        </order_address>
+                        <order_payment>
+                            <table>enterprise_sales_order_payment_pool</table>
+                        </order_payment>
+                        <order_payment_transaction>
+                            <table>enterprise_sales_order_payment_transaction_pool</table>
+                        </order_payment_transaction>
+                        <order_status_history>
+                            <table>enterprise_sales_order_status_history_pool</table>
+                        </order_status_history>
+                    </entities>
+                </enterprise_salespool_resource>
             </enterprise_salespool>
-            
-            <enterprise_salespool_mysql4>
-                <class>Enterprise_SalesPool_Model_Mysql4</class>
-                <entities>
-                    <order><table>enterprise_sales_order_pool</table></order>
-                    <order_item><table>enterprise_sales_order_item_pool</table></order_item>
-                    <order_address><table>enterprise_sales_order_address_pool</table></order_address>
-                    <order_payment><table>enterprise_sales_order_payment_pool</table></order_payment>
-                    <order_payment_transaction><table>enterprise_sales_order_payment_transaction_pool</table></order_payment_transaction>
-                    <order_status_history><table>enterprise_sales_order_status_history_pool</table></order_status_history>
-                </entities>
-            </enterprise_salespool_mysql4>
         </models>
         <helpers>
             <enterprise_salespool>
@@ -70,17 +82,7 @@
         </resources>
         <enterprise>
             <salespool>
-                <entities> <!-- Define customizations for pool entities here
-                Example:
-                    <order>
-                        <ignore> // ignored fields
-                            <some_flat_field />
-                        </ignore>
-                        <fields> // additional fields
-                            <some_additional_field>varchar</some_additional_field> // int|varchar|decimal|boolean|text
-                        </fields>
-                    </order>
-                 -->
+                <entities> 
                 </entities>
             </salespool>
         </enterprise>
@@ -93,7 +95,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_load_before>
-            
             <sales_order_payment_load_before>
                 <observers>
                     <enterprise_salespool>
@@ -102,7 +103,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_payment_load_before>
-            
             <sales_order_payment_transaction_load_before>
                 <observers>
                     <enterprise_salespool>
@@ -111,7 +111,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_payment_transaction_load_before>
-            
             <sales_order_payment_transaction_load_by_txn_id_before>
                 <observers>
                     <enterprise_salespool>
@@ -120,7 +119,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_payment_transaction_load_by_txn_id_before>
-            
             <sales_order_payment_collection_set_sales_order>
                 <observers>
                     <enterprise_salespool>
@@ -129,7 +127,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_payment_collection_set_sales_order>
-            
             <sales_order_payment_transaction_collection_set_sales_order>
                 <observers>
                     <enterprise_salespool>
@@ -138,7 +135,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_payment_transaction_collection_set_sales_order>
-            
             <sales_order_address_collection_set_sales_order>
                 <observers>
                     <enterprise_salespool>
@@ -147,7 +143,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_address_collection_set_sales_order>
-            
             <sales_order_item_collection_set_sales_order>
                 <observers>
                     <enterprise_salespool>
@@ -156,7 +151,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_item_collection_set_sales_order>
-            
             <sales_order_status_history_collection_set_sales_order>
                 <observers>
                     <enterprise_salespool>
@@ -165,7 +159,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_status_history_collection_set_sales_order>
-            
             <sales_order_resource_update_grid_records>
                 <observers>
                     <enterprise_salespool>
@@ -174,7 +167,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_resource_update_grid_records>
-            
             <sales_order_resource_save_attribute_before>
                 <observers>
                     <enterprise_salespool>
@@ -183,7 +175,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_resource_save_attribute_before>
-            
             <sales_order_resource_save_attribute_after>
                 <observers>
                     <enterprise_salespool>
@@ -192,7 +183,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_resource_save_attribute_after>
-            
             <sales_order_load_after>
                 <observers>
                     <enterprise_salespool>
@@ -201,7 +191,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_load_after>
-            
             <sales_order_payment_load_after>
                 <observers>
                     <enterprise_salespool>
@@ -210,7 +199,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_payment_load_after>
-            
             <sales_order_payment_transaction_load_after>
                 <observers>
                     <enterprise_salespool>
@@ -219,7 +207,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_payment_transaction_load_after>
-            
             <sales_order_payment_transaction_load_by_txn_id_after>
                 <observers>
                     <enterprise_salespool>
@@ -228,7 +215,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_payment_transaction_load_by_txn_id_after>
-            
             <sales_order_save_before>
                 <observers>
                     <enterprise_salespool>
@@ -237,7 +223,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_save_before>
-            
             <sales_order_item_save_before>
                 <observers>
                     <enterprise_salespool>
@@ -246,7 +231,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_item_save_before>
-            
             <sales_order_address_save_before>
                 <observers>
                     <enterprise_salespool>
@@ -255,7 +239,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_address_save_before>
-            
             <sales_order_payment_save_before>
                 <observers>
                     <enterprise_salespool>
@@ -264,7 +247,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_payment_save_before>
-            
             <sales_order_payment_transaction_save_before>
                 <observers>
                     <enterprise_salespool>
@@ -273,7 +255,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_payment_transaction_save_before>
-            
             <sales_order_status_history_save_before>
                 <observers>
                     <enterprise_salespool>
@@ -282,7 +263,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_status_history_save_before>
-            
             <sales_order_save_after>
                 <observers>
                     <enterprise_salespool>
@@ -291,7 +271,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_save_after>
-            
             <sales_order_item_save_after>
                 <observers>
                     <enterprise_salespool>
@@ -300,7 +279,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_item_save_after>
-            
             <sales_order_address_save_after>
                 <observers>
                     <enterprise_salespool>
@@ -309,7 +287,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_address_save_after>
-            
             <sales_order_payment_save_after>
                 <observers>
                     <enterprise_salespool>
@@ -318,7 +295,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_payment_save_after>
-            
             <sales_order_payment_transaction_save_after>
                 <observers>
                     <enterprise_salespool>
@@ -327,7 +303,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_payment_transaction_save_after>
-            
             <sales_order_status_history_save_after>
                 <observers>
                     <enterprise_salespool>
@@ -336,7 +311,6 @@
                     </enterprise_salespool>
                 </observers>
             </sales_order_status_history_save_after>
-            
             <sales_order_invoice_save_before>
                 <observers>
                     <enterprise_salespool>
@@ -383,15 +357,19 @@
                 <active_admin>0</active_admin>
                 <flush_period>30</flush_period>
                 <allowed_payment_methods_scope>0</allowed_payment_methods_scope>
-                <allowed_payment_methods></allowed_payment_methods>
+                <allowed_payment_methods/>
             </enterprise_salespool>
         </sales>
     </default>
     <crontab>
         <jobs>
             <enterprise_salespool_flush_orders>
-                <schedule><cron_expr>* * * * *</cron_expr></schedule>
-                <run><model>enterprise_salespool/observer::flushOrdersByCron</model></run>
+                <schedule>
+                    <cron_expr>* * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>enterprise_salespool/observer::flushOrdersByCron</model>
+                </run>
             </enterprise_salespool_flush_orders>
         </jobs>
     </crontab>

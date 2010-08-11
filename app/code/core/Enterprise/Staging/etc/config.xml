@@ -28,24 +28,33 @@
 <config>
     <modules>
         <Enterprise_Staging>
-             <version>0.1.15</version>
+            <version>0.1.15</version>
         </Enterprise_Staging>
     </modules>
     <global>
         <models>
             <enterprise_staging>
                 <class>Enterprise_Staging_Model</class>
-                <resourceModel>enterprise_staging_mysql4</resourceModel>
+                <!-- <resourceModel>enterprise_staging_mysql4</resourceModel> -->
+                <resourceModel>enterprise_staging_resource</resourceModel>
+                <enterprise_staging_resource>
+                    <class>Enterprise_Staging_Model_Resource</class>
+                    <entities>
+                        <staging>
+                            <table>enterprise_staging</table>
+                        </staging>
+                        <staging_item>
+                            <table>enterprise_staging_item</table>
+                        </staging_item>
+                        <staging_action>
+                            <table>enterprise_staging_action</table>
+                        </staging_action>
+                        <staging_log>
+                            <table>enterprise_staging_log</table>
+                        </staging_log>
+                    </entities>
+                </enterprise_staging_resource>
             </enterprise_staging>
-            <enterprise_staging_mysql4>
-                <class>Enterprise_Staging_Model_Mysql4</class>
-                <entities>
-                    <staging><table>enterprise_staging</table></staging>
-                    <staging_item><table>enterprise_staging_item</table></staging_item>
-                    <staging_action><table>enterprise_staging_action</table></staging_action>
-                    <staging_log><table>enterprise_staging_log</table></staging_log>
-                </entities>
-            </enterprise_staging_mysql4>
         </models>
         <resources>
             <enterprise_staging_setup>
@@ -76,15 +85,27 @@
                         <label>System Configuration</label>
                         <resource_adapter>enterprise_staging/adapter_item_config</resource_adapter>
                         <entities>
-                            <config_data />
+                            <config_data/>
                         </entities>
                         <ignore_nodes>
-                            <unsecure_urls><path>web/unsecure</path></unsecure_urls>
-                            <secure_urls><path>web/secure</path></secure_urls>
-                            <paypal_accounts><path>paypal</path></paypal_accounts>
-                            <payment_accounts><path>payment</path></payment_accounts>
-                            <google_api><path>google</path></google_api>
-                            <developer><path>dev</path></developer>
+                            <unsecure_urls>
+                                <path>web/unsecure</path>
+                            </unsecure_urls>
+                            <secure_urls>
+                                <path>web/secure</path>
+                            </secure_urls>
+                            <paypal_accounts>
+                                <path>paypal</path>
+                            </paypal_accounts>
+                            <payment_accounts>
+                                <path>payment</path>
+                            </payment_accounts>
+                            <google_api>
+                                <path>google</path>
+                            </google_api>
+                            <developer>
+                                <path>dev</path>
+                            </developer>
                         </ignore_nodes>
                     </config_data>
                     <category translate="label">
@@ -102,38 +123,28 @@
                                 <module>Mage_Bundle</module>
                                 <label>Bundles</label>
                                 <entities>
-                                    <option_value />
+                                    <option_value/>
                                 </entities>
                             </bundle>
                             <downloadable translate="label">
                                 <module>Mage_Downloadable</module>
                                 <label>Downloadable</label>
                                 <entities>
-                                    <link_title />
-                                    <sample_title />
+                                    <link_title/>
+                                    <sample_title/>
                                 </entities>
                             </downloadable>
                             <enterprise_giftcard translate="label">
                                 <module>Enterprise_GiftCard</module>
                                 <label>Gift Cards</label>
                                 <entities>
-                                    <code />
+                                    <code/>
                                 </entities>
                             </enterprise_giftcard>
                             <cataloginventory translate="label">
                                 <module>Mage_CatalogInventory</module>
                                 <label>Catalog Inventory</label>
                             </cataloginventory>
-                            <!--
-                                Commented out bc index functionality
-                                moved to catalog module
-                            -->
-                            <!--
-                            <catalogindex translate="label">
-                                <module>Mage_CatalogIndex</module>
-                                <label>Catalog Index</label>
-                            </catalogindex>
-                            -->
                             <catalogsearch translate="label">
                                 <module>Mage_CatalogSearch</module>
                                 <label>Catalog Search</label>
@@ -143,7 +154,7 @@
                                 <model>core</model>
                                 <label>URL Rewrites</label>
                                 <entities>
-                                    <url_rewrite />
+                                    <url_rewrite/>
                                 </entities>
                             </core_url_rewrite>
                         </extends>
@@ -153,7 +164,7 @@
                         <model>cms</model>
                         <label>CMS Pages</label>
                         <entities>
-                            <page_store />
+                            <page_store/>
                         </entities>
                     </cms_page>
                     <cms_block translate="label">
@@ -161,7 +172,7 @@
                         <model>cms</model>
                         <label>CMS Blocks</label>
                         <entities>
-                            <block_store />
+                            <block_store/>
                         </entities>
                     </cms_block>
                     <salesrule translate="label">
@@ -176,14 +187,14 @@
                         <module>Mage_Poll</module>
                         <label>Polls</label>
                         <entities>
-                            <poll_store />
+                            <poll_store/>
                         </entities>
                     </poll>
                     <checkout translate="label">
                         <module>Mage_Checkout</module>
                         <label>Terms And Conditions</label>
                         <entities>
-                            <agreement_store />
+                            <agreement_store/>
                         </entities>
                     </checkout>
                     <customer translate="label">
@@ -191,7 +202,7 @@
                         <is_backend>1</is_backend>
                         <label>Customers</label>
                         <ignore_tables>
-                            <customer_group />
+                            <customer_group/>
                         </ignore_tables>
                     </customer>
                     <wishlist translate="label">
@@ -226,14 +237,30 @@
                     </action>
                 </status>
                 <action>
-                    <create translate="label"><label>Staging Website Creation</label></create>
-                    <reset translate="label"><label>Status Reset</label></reset>
-                    <merge translate="label"><label>Instant Merger</label></merge>
-                    <schedule_merge translate="label"><label>Merger Scheduling</label></schedule_merge>
-                    <unschedule_merge translate="label"><label>Merger Unscheduling</label></unschedule_merge>
-                    <cron_merge translate="label"><label>Scheduled Merger</label></cron_merge>
-                    <rollback translate="label"><label>Rollback</label></rollback>
-                    <backup translate="label"><label>Backup</label></backup>
+                    <create translate="label">
+                        <label>Staging Website Creation</label>
+                    </create>
+                    <reset translate="label">
+                        <label>Status Reset</label>
+                    </reset>
+                    <merge translate="label">
+                        <label>Instant Merger</label>
+                    </merge>
+                    <schedule_merge translate="label">
+                        <label>Merger Scheduling</label>
+                    </schedule_merge>
+                    <unschedule_merge translate="label">
+                        <label>Merger Unscheduling</label>
+                    </unschedule_merge>
+                    <cron_merge translate="label">
+                        <label>Scheduled Merger</label>
+                    </cron_merge>
+                    <rollback translate="label">
+                        <label>Rollback</label>
+                    </rollback>
+                    <backup translate="label">
+                        <label>Backup</label>
+                    </backup>
                 </action>
             </staging>
         </enterprise>
@@ -269,9 +296,9 @@
         <translate>
             <modules>
                 <Enterprise_Staging>
-                     <files>
-                          <default>Enterprise_Staging.csv</default>
-                     </files>
+                    <files>
+                        <default>Enterprise_Staging.csv</default>
+                    </files>
                 </Enterprise_Staging>
             </modules>
         </translate>
@@ -307,9 +334,9 @@
         <translate>
             <modules>
                 <Enterprise_Staging>
-                     <files>
-                          <default>Enterprise_Staging.csv</default>
-                     </files>
+                    <files>
+                        <default>Enterprise_Staging.csv</default>
+                    </files>
                 </Enterprise_Staging>
             </modules>
         </translate>
@@ -328,8 +355,12 @@
     <crontab>
         <jobs>
             <enterprise_staging_automates>
-                <schedule><cron_expr>* * * * *</cron_expr></schedule>
-                <run><model>enterprise_staging/observer::automates</model></run>
+                <schedule>
+                    <cron_expr>* * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>enterprise_staging/observer::automates</model>
+                </run>
             </enterprise_staging_automates>
         </jobs>
     </crontab>
