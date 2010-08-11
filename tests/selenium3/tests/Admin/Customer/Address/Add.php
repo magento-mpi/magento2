@@ -102,7 +102,7 @@ class Admin_Customer_Address_Add extends Test_Admin_Customer_Address_Abstract
      *
      */
     function runSingleTest($subTestID, $isBilling, $isShipping) {
-        $this->doLogin( $this->_baseUrl, $this->_userName, $this->_password);
+        $this->adminLogin( $this->_baseUrl, $this->_userName, $this->_password);
         if ($this->delAddresses( $this->_testId.$subTestID)) {
             if ($this->addAddress( $this->_testId.$subTestID, $isBilling, $isShipping)) {
                 $this->verifyAddress( $this->_testId.$subTestID, $isBilling, $isShipping);
@@ -115,7 +115,7 @@ class Admin_Customer_Address_Add extends Test_Admin_Customer_Address_Abstract
      * Test adding of ordinal address to the customer
      *
      */
-    function testAddNewCuAddress() {
+    function testAddNewCustomerAddress() {
         $this->runSingleTest("1",false, false);
     }
 
@@ -123,7 +123,7 @@ class Admin_Customer_Address_Add extends Test_Admin_Customer_Address_Abstract
      * Test adding of default billing address to the customer
      *
      */
-    function testAddNewCuAddress_Billing() {
+    function testAddNewCustomerBillingAddress() {
         $this->runSingleTest("2",true, false);
     }
 
@@ -131,7 +131,7 @@ class Admin_Customer_Address_Add extends Test_Admin_Customer_Address_Abstract
      * Test adding of default shipping address to the customer
      *
      */
-    function testAddNewCuAddress_Shipping() {
+    function testAddNewCustomerShippingAddress() {
        $this->runSingleTest("3",false, true);
     }
 
@@ -139,7 +139,7 @@ class Admin_Customer_Address_Add extends Test_Admin_Customer_Address_Abstract
      * Test adding of default billing and shipping address to the customer
      *
      */
-    function testAddNewCuAddress_ShippingBilling() {
+    function testAddNewCustomerShippingBillingAddress() {
         $this->runSingleTest("4",true, true);
     }
 
