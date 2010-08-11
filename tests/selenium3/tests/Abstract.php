@@ -98,5 +98,15 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
         $this->_testId = strtoupper(get_class($this));
     }
 
+
+    /**
+     * Debug function
+     * Puts debug $line to output
+     */
+    function debug($line)
+    {
+        echo $line."\n";
+    }
+
 }
 
