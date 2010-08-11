@@ -25,10 +25,13 @@
  */
 
 
-class Mage_Eav_Model_Mysql4_Entity_Type_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract 
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_Eav
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Eav_Model_Mysql4_Entity_Type_Collection extends Mage_Eav_Model_Resource_Entity_Type_Collection
 {
-    public function _construct()
-    {
-        $this->_init('eav/entity_type');
-    }
 }

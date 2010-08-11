@@ -28,55 +28,10 @@
 /**
  * Wishlist item collection
  *
- * @category   Mage
- * @package    Mage_Wishlist
+ * @category    Mage
+ * @package     Mage_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Wishlist_Model_Mysql4_Item_Collection extends Mage_Wishlist_Model_Resource_Item_Collection
 {
-    /**
-     * Initialize resource model for collection
-     *
-     */
-    public function _construct()
-    {
-        $this->_init('wishlist/item');
-    }
-
-    /**
-     * Add filter by wishlist object
-     *
-     * @param Mage_Wishlist_Model_Wishlist $wishlist
-     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
-     */
-    public function addWishlistFilter(Mage_Wishlist_Model_Wishlist $wishlist)
-    {
-        $this->addFieldToFilter('wishlist_id', $wishlist->getId());
-
-        return $this;
-    }
-
-    /**
-     * Add filter by shared stores
-     *
-     * @param int|array $store
-     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
-     */
-    public function addStoreFilter($store)
-    {
-        $this->addFieldToFilter('store_id', array('in' => $store));
-
-        return $this;
-    }
-
-    /**
-     * This method will be not supported anymore
-     *
-     * @deprecated since 1.4.0.0
-     * @return Mage_Wishlist_Model_Mysql4_Item_Collection
-     */
-    public function addStoreData()
-    {
-        return $this;
-    }
 }

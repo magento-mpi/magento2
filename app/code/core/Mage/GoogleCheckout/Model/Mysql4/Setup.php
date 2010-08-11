@@ -25,7 +25,13 @@
  */
 
 
-class Mage_GoogleCheckout_Model_Mysql4_Setup extends Mage_Catalog_Model_Resource_Eav_Mysql4_Setup
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_GoogleCheckout
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_GoogleCheckout_Model_Mysql4_Setup extends Mage_GoogleCheckout_Model_Resource_Setup
 {
-
 }

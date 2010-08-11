@@ -24,28 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Tax rate collection
  *
- * @category   Mage
- * @package    Mage_Tax
+ * @category    Mage
+ * @package     Mage_Strikeiron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Strikeiron_Model_Mysql4_Taxrate_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Strikeiron_Model_Mysql4_Taxrate_Collection extends Mage_Strikeiron_Model_Resource_Taxrate_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('strikeiron/taxrate');
-    }
-
-    public function addRateFilter($rateId)
-    {
-        if (is_int($rateId) && $rateId > 0) {
-            return $this->_select->where('main_table.tax_rate_id=?', $rateId);
-        }
-        else {
-            return $this;
-        }
-    }
 }

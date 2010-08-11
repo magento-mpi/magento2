@@ -28,14 +28,10 @@
 /**
  * Dataflow Batch export resource model
  *
- * @category   Mage
- * @package    Mage_Dataflow
+ * @category    Mage
+ * @package     Mage_Dataflow
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Dataflow_Model_Mysql4_Batch_Export extends Mage_Dataflow_Model_Mysql4_Batch_Abstract
+class Mage_Dataflow_Model_Mysql4_Batch_Export extends Mage_Dataflow_Model_Resource_Batch_Export
 {
-    protected function _construct()
-    {
-        $this->_init('dataflow/batch_export', 'batch_export_id');
-    }
 }

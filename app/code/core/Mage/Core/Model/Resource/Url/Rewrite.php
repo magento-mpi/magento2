@@ -20,13 +20,13 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core URL Rewrite resource model
+ * Url rewrite resource model class
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,12 +35,20 @@
 class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main table
+     * Enter description here ...
+     *
+     * @var unknown
+     */
+    protected $_tagTable;
+
+    /**
+     * Enter description here ...
      *
      */
     protected function _construct()
     {
         $this->_init('core/url_rewrite', 'url_rewrite_id');
+        $this->_tagTable = $this->getTable('url_rewrite_tag');
     }
 
     /**
@@ -52,12 +60,12 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
     {
         $this->_uniqueFields = array(
             array(
-                'field' => array('id_path', 'store_id', 'is_system'),
-                'title' => Mage::helper('core')->__('Id path for specified store')
+                'field' => array('id_path','store_id','is_system'),
+                'title' => Mage::helper('core')->__('ID Path for Specified Store')
             ),
             array(
-                 'field' => array('request_path', 'store_id'),
-                 'title' => Mage::helper('core')->__('Request path for specified store'),
+                 'field' => array('request_path','store_id'),
+                 'title' => Mage::helper('core')->__('Request Path for Specified Store'),
             )
         );
         return $this;
@@ -68,15 +76,17 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
      *
      * @param string $field
      * @param mixed $value
-     * @return Varien_Db_Select
+     * @param unknown_type $object
+     * @return Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
+        /* @var $select Varien_Db_Select */
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if (!is_null($object->getStoreId())) {
             $select->where('store_id IN(?)', array(0, $object->getStoreId()));
-            $select->order('store_id DESC');
+            $select->order('store_id desc');
             $select->limit(1);
         }
 
@@ -98,10 +108,11 @@ class Mage_Core_Model_Resource_Url_Rewrite extends Mage_Core_Model_Resource_Db_A
             $storeId = (int)$store;
         }
 
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'request_path')
-            ->where('store_id = ?', $storeId)
-            ->where('id_path = ?', $idPath)
+        $select = $this->_getReadAdapter()->select();
+        /* @var $select Zend_Db_Select */
+        $select->from(array('main_table' => $this->getMainTable()), 'request_path')
+            ->where('main_table.store_id = ?', $storeId)
+            ->where('main_table.id_path = ?', $idPath)
             ->limit(1);
 
         return $this->_getReadAdapter()->fetchOne($select);

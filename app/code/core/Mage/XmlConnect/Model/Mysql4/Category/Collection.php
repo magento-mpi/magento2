@@ -28,46 +28,10 @@
 /**
  * Category resource collection
  *
- * @category   Mage
- * @package    Mage_Catalog
+ * @category    Mage
+ * @package     Mage_XmlConnect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_XmlConnect_Model_Mysql4_Category_Collection
-    extends Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
+class Mage_XmlConnect_Model_Mysql4_Category_Collection extends Mage_XmlConnect_Model_Resource_Category_Collection
 {
-    /**
-     * Level of parent categories
-     */
-    const PARENT_CATEGORIES_LEVEL = 2;
-
-    protected function _beforeLoad()
-    {
-        $this->addNameToResult();
-        $this->addAttributeToSelect('thumbnail');
-        $this->addIsActiveFilter();
-        return parent::_beforeLoad();
-    }
-
-    public function addLevelExactFilter($level)
-    {
-        $this->getSelect()->where('e.level = ?', $level);
-        return $this;
-    }
-
-    public function setLimit($offset, $count)
-    {
-        $this->getSelect()->limit($count, $offset);
-        return $this;
-    }
-
-    public function addParentIdFilter($parentId)
-    {
-        if (!is_null($parentId)) {
-            $this->getSelect()->where('e.parent_id = ?', (int)$parentId);
-        }
-        else {
-            $this->addLevelExactFilter(self::PARENT_CATEGORIES_LEVEL);
-        }
-        return $this;
-    }
 }

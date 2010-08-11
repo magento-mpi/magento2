@@ -20,13 +20,13 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core Email Template resource model
+ * Template db resource
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,28 +35,52 @@
 class Mage_Core_Model_Resource_Email_Template extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main table
+     * Templates table name
+     *
+     * @var string
+     */
+    protected $_templateTable;
+
+    /**
+     * DB write connection
+     *
+     * @var unknown
+     */
+    protected $_write;
+
+    /**
+     * DB read connection
+     *
+     * @var unknown
+     */
+    protected $_read;
+
+    /**
+     * Initialize email template resource model
      *
      */
     protected function _construct()
     {
         $this->_init('core/email_template', 'template_id');
+        $this->_templateTable = $this->getTable('core/email_template');
+        $this->_read = $this->_getReadAdapter();
+        $this->_write = $this->_getWriteAdapter();
     }
 
     /**
      * Load by template code from DB.
      *
-     * @param  string $templateCode
+     * @param string $templateCode
      * @return array
      */
     public function loadByCode($templateCode)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('template_code=?', $templateCode)
-            ->limit(1);
+        $select = $this->_read->select()
+            ->from($this->_templateTable)
+            ->where('template_code=?', $templateCode);
 
-        $result = $this->_getReadAdapter()->fetchRow($select);
+
+        $result = $this->_read->fetchRow($select);
 
         if (!$result) {
             return array();
@@ -73,32 +97,34 @@ class Mage_Core_Model_Resource_Email_Template extends Mage_Core_Model_Resource_D
      */
     public function checkCodeUsage(Mage_Core_Model_Email_Template $template)
     {
-        if ($template->getTemplateActual() != 0 || is_null($template->getTemplateActual())) {
-            $select = $this->_getReadAdapter()->select()
-                ->from($this->getMainTable(), 'COUNT(template_id)')
-                ->where('template_id != ?', $template->getId())
-                ->where('template_code =?', $template->getTemplateCode());
+        if($template->getTemplateActual()!=0 || is_null($template->getTemplateActual())) {
 
-            return $this->_getReadAdapter()->fetchOne($select) > 0;
+            $select = $this->_read->select()
+                ->from($this->_templateTable, new Zend_Db_Expr('COUNT(template_id)'))
+                ->where('template_id!=?',$template->getId())
+                ->where('template_code=?',$template->getTemplateCode());
+
+            $countOfCodes = $this->_read->fetchOne($select);
+
+            return $countOfCodes > 0;
+        } else {
+            return false;
         }
-        return false;
     }
 
-   /**
+    /**
      * Set template type, added at and modified at time
      *
-     * @param Mage_Core_Model_Email_Template $object
-     * @return Mage_Core_Model_Resource_Email_Template
+     * @param Varien_Object $object
+     * @return unknown
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        if ($object->isObjectNew()) {
-            $object->setCreatedAt($this->formatDate(true));
+        if(!$object->getAddedAt()) {
+            $object->setAddedAt(Mage::getSingleton('core/date')->gmtDate());
+            $object->setModifiedAt(Mage::getSingleton('core/date')->gmtDate());
         }
-        $object->setModifiedAt($this->formatDate(true));
-
         $object->setTemplateType((int)$object->getTemplateType());
-
         return parent::_beforeSave($object);
     }
 
@@ -116,11 +142,15 @@ class Mage_Core_Model_Resource_Email_Template extends Mage_Core_Model_Resource_D
         foreach ($paths as $path) {
             $orWhere[] = $adapter->quoteInto('path = ?', $path);
         }
-        $select = $this->_getReadAdapter()->select()
+        $select = $this->_read->select()
             ->from($this->getTable('core/config_data'), array('scope', 'scope_id', 'path'))
-            ->where('value LIKE ?', $templateId)
+            ->where('value=?', $templateId)
             ->where(join(' OR ', $orWhere));
 
-        return $this->_getReadAdapter()->fetchAll($select);
+        $result = $this->_read->fetchAll($select);
+        if (!$result) {
+            return array();
+        }
+        return $result;
     }
 }

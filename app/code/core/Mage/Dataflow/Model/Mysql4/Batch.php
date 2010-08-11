@@ -28,14 +28,10 @@
 /**
  * Dataflow Batch resource model
  *
- * @category   Mage
- * @package    Mage_Dataflow
+ * @category    Mage
+ * @package     Mage_Dataflow
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Dataflow_Model_Mysql4_Batch extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Dataflow_Model_Mysql4_Batch extends Mage_Dataflow_Model_Resource_Batch
 {
-    protected function _construct()
-    {
-        $this->_init('dataflow/batch', 'batch_id');
-    }
 }

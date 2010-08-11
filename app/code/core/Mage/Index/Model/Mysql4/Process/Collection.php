@@ -23,10 +23,15 @@
  * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Index_Model_Mysql4_Process_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+
+
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_Index
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Index_Model_Mysql4_Process_Collection extends Mage_Index_Model_Resource_Process_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('index/process');
-    }
 }

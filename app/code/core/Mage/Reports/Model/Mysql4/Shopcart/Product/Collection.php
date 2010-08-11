@@ -24,27 +24,15 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Shopingcart Products Report collection
  *
- * @category   Mage
- * @package    Mage_Reports
+ * @category    Mage
+ * @package     Mage_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Reports_Model_Mysql4_Shopcart_Product_Collection extends Mage_Reports_Model_Mysql4_Product_Collection
+class Mage_Reports_Model_Mysql4_Shopcart_Product_Collection
+    extends Mage_Reports_Model_Resource_Shopcart_Product_Collection
 {
-    protected function _joinFields()
-    {
-        parent::_joinFields();
-        $this->addAttributeToSelect('price')
-            ->addCartsCount()
-            ->addOrdersCount();
-    }
-
-    public function setDateRange($from, $to)
-    {
-        $this->resetSelect();
-        return $this;
-    }
 }

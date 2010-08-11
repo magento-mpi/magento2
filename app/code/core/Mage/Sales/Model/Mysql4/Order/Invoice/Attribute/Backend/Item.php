@@ -24,17 +24,15 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * @deprecated after 1.4, no more EAV for sales
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Mysql4_Order_Invoice_Attribute_Backend_Item
-    extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+    extends Mage_Sales_Model_Resource_Order_Invoice_Attribute_Backend_Item
 {
-    public function afterSave($object)
-    {
-        if ($object->getOrderItem()) {
-            $object->getOrderItem()->save();
-        }
-        return parent::beforeSave($object);
-    }
 }

@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -28,14 +28,15 @@
 /**
  * Custom variable resource model
  *
- * @category   Mage
- * @package    Mage_Core
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_Core
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Constructor
+     *
      */
     protected function _construct()
     {
@@ -47,7 +48,7 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
      *
      * @param Mage_Core_Model_Variable $object
      * @param string $code
-     * @return Mage_Core_Model_Mysql4_Variable
+     * @return Mage_Core_Model_Resource_Variable
      */
     public function loadByCode(Mage_Core_Model_Variable $object, $code)
     {
@@ -69,12 +70,10 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
-            ->where($this->getMainTable() . '.code = ?', $code);
-
+            ->where($this->getMainTable().'.code = ?', $code);
         if ($withValue) {
             $this->_addValueToSelect($select, $storeId);
         }
-
         return $this->_getReadAdapter()->fetchRow($select);
     }
 
@@ -82,12 +81,11 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
      * Perform actions after object save
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Mysql4_Variable
+     * @return Mage_Core_Model_Resource_Variable
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         parent::_afterSave($object);
-
         if ($object->getUseDefaultValue()) {
             /*
              * remove store value
@@ -129,15 +127,10 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
      *
      * @param Zend_Db_Select $select
      * @param integer $storeId
-     * @return Mage_Core_Model_Mysql4_Variable
+     * @return Mage_Core_Model_Resource_Variable
      */
     protected function _addValueToSelect(Zend_Db_Select $select, $storeId = 0)
     {
-        $ifNullPlainValue = $this->_getReadAdapter()
-            ->getCheckSql('store.plain_value IS NULL', 'default.plain_value', 'store.plain_value');
-        $ifNullHtmlValue  = $this->_getReadAdapter()
-            ->getCheckSql('store.html_value IS NULL', 'default.html_value', 'store.html_value');
-
         $select->joinLeft(
                 array('default' => $this->getTable('core/variable_value')),
                 'default.variable_id = '.$this->getMainTable().'.variable_id AND default.store_id = 0',
@@ -146,12 +139,9 @@ class Mage_Core_Model_Resource_Variable extends Mage_Core_Model_Resource_Db_Abst
                 array('store' => $this->getTable('core/variable_value')),
                 'store.variable_id = default.variable_id AND store.store_id = ' . $storeId,
                 array())
-            ->columns(array(
-                'plain_value'       => $ifNullPlainValue,
-                'html_value'        => $ifNullHtmlValue,
-                'store_plain_value' => 'store.plain_value',
-                'store_html_value'  => 'store.html_value'
-            ));
+            ->columns(array('plain_value' => new Zend_Db_Expr('IFNULL(store.plain_value, default.plain_value)'),
+                'html_value' => new Zend_Db_Expr('IFNULL(store.html_value, default.html_value)'),
+                'store_plain_value' => 'store.plain_value', 'store_html_value' => 'store.html_value'));
         return $this;
     }
 }

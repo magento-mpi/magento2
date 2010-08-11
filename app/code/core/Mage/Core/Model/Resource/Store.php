@@ -20,13 +20,13 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core Store Resource Model
+ * Enter description here ...
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main table
+     * Enter description here ...
      *
      */
     protected function _construct()
@@ -54,28 +54,27 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
             'field' => 'code',
             'title' => Mage::helper('core')->__('Store with the same code')
         ));
-
         return $this;
     }
 
     /**
-     * Check store code before save
+     * Enter description here ...
      *
      * @param Mage_Core_Model_Abstract $model
      * @return Mage_Core_Model_Resource_Store
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $model)
     {
-        if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $model->getCode())) {
+        if(!preg_match('/^[a-z]+[a-z0-9_]*$/',$model->getCode())) {
             Mage::throwException(
-                Mage::helper('core')->__('Store code should contain only letters (a-z), numbers (0-9) or underscore(_), first character should be a letter'));
+                Mage::helper('core')->__('The store code may contain only letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
         }
 
         return $this;
     }
 
     /**
-     * Update Store Group data after save store
+     * Enter description here ...
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Core_Model_Resource_Store
@@ -90,47 +89,45 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
     }
 
     /**
-     * Remove core configuration data after delete store
+     * Enter description here ...
      *
      * @param Mage_Core_Model_Abstract $model
      * @return Mage_Core_Model_Resource_Store
      */
     protected function _afterDelete(Mage_Core_Model_Abstract $model)
     {
-        $where = array(
-            'scope=?'    => 'stores',
-            'scope_id=?' => $model->getId()
+        $this->_getWriteAdapter()->delete(
+            $this->getTable('core/config_data'),
+            $this->_getWriteAdapter()->quoteInto("scope = 'stores' AND scope_id = ?", $model->getStoreId())
         );
-        $this->_getWriteAdapter()->delete($this->getTable('core/config_data'), $where);
-
         return $this;
     }
 
     /**
-     * Update Default store for Store Group
+     * Enter description here ...
      *
-     * @param int $groupId
-     * @param int $storeId
+     * @param unknown_type $groupId
+     * @param unknown_type $store_id
      * @return Mage_Core_Model_Resource_Store
      */
-    protected function _updateGroupDefaultStore($groupId, $storeId)
+    protected function _updateGroupDefaultStore($groupId, $store_id)
     {
-        $select = $this->_getWriteAdapter()->select()
-            ->from($this->getMainTable(), 'COUNT(store_id)')
-            ->where('group_id=?', $groupId);
-        $count  = $this->_getWriteAdapter()->fetchOne($select);
-
-        if ($count == 1) {
-            $bind  = array('default_store_id' => $storeId);
-            $where = array('group_id=?' => $groupId);
-            $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);
+        $write = $this->_getWriteAdapter();
+        $cnt   = $write->fetchOne($write->select()
+            ->from($this->getTable('core/store'), array('count'=>'COUNT(*)'))
+            ->where($write->quoteInto('group_id=?', $groupId)),
+            'count');
+        if ($cnt == 1) {
+            $write->update($this->getTable('core/store_group'),
+                array('default_store_id' => $store_id),
+                $write->quoteInto('group_id=?', $groupId)
+            );
         }
-
         return $this;
     }
 
     /**
-     * Change store group for store
+     * Enter description here ...
      *
      * @param Mage_Core_Model_Abstract $model
      * @return Mage_Core_Model_Resource_Store
@@ -138,33 +135,35 @@ class Mage_Core_Model_Resource_Store extends Mage_Core_Model_Resource_Db_Abstrac
     protected function _changeGroup(Mage_Core_Model_Abstract $model)
     {
         if ($model->getOriginalGroupId() && $model->getGroupId() != $model->getOriginalGroupId()) {
-            $select = $this->_getWriteAdapter()->select()
+            $write = $this->_getWriteAdapter();
+            $storeId = $write->fetchOne($write->select()
                 ->from($this->getTable('core/store_group'), 'default_store_id')
-                ->where('group_id=?', $model->getOriginalGroupId());
-            $storeId = $this->_getWriteAdapter()->fetchOne($select);
-
+                ->where($write->quoteInto('group_id=?', $model->getOriginalGroupId())),
+                'default_store_id'
+            );
             if ($storeId == $model->getId()) {
-                $bind = array('default_store_id' => 0);
-                $where = array('group_id=?' => $model->getOriginalGroupId());
-                $this->_getWriteAdapter()->update($this->getTable('core/store_group'), $bind, $where);
+                $write->update($this->getTable('core/store_group'),
+                    array('default_store_id'=>0),
+                    $write->quoteInto('group_id=?', $model->getOriginalGroupId()));
             }
         }
-
         return $this;
     }
 
     /**
-     * Retrieve select object for load object data
+     * Enter description here ...
      *
-     * @param string $field
-     * @param mixed $value
-     * @param Mage_Core_Model_Abstract $object
-     * @return Varien_Db_Select
+     * @param unknown_type $field
+     * @param unknown_type $value
+     * @param unknown_type $object
+     * @return unknown
      */
     protected function _getLoadSelect($field, $value, $object)
     {
-        $select = parent::_getLoadSelect($field, $value, $object);
-        $select->order('sort_order ASC');
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable())
+            ->where($field.'=?', $value)
+            ->order('sort_order ASC');
 
         return $select;
     }

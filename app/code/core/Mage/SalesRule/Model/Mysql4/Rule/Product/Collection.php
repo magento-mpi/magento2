@@ -25,11 +25,13 @@
  */
 
 
-class Mage_SalesRule_Model_Mysql4_Rule_Product_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract 
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_SalesRule
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_SalesRule_Model_Mysql4_Rule_Product_Collection extends Mage_SalesRule_Model_Resource_Rule_Product_Collection
 {
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->_init('salesrule/rule_product');
-    }
 }

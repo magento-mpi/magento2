@@ -24,19 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Protx API Debug Resource
  *
- * @category   Mage
- * @package    Mage_Protx
- * @name       Mage_Protx_Model_Mysql4_Api_Debug
+ * @category    Mage
+ * @package     Mage_Protx
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Protx_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Protx_Model_Mysql4_Api_Debug extends Mage_Protx_Model_Resource_Api_Debug
 {
-    protected function _construct()
-    {
-        $this->_init('protx/api_debug', 'transaction_id');
-    }
 }

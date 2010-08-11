@@ -28,14 +28,10 @@
 /**
  * Google Optimizer collection
  *
- * @category   Mage
- * @package    Mage_GoogleOptimizer
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_GoogleOptimizer
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleOptimizer_Model_Mysql4_Code_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_GoogleOptimizer_Model_Mysql4_Code_Collection extends Mage_GoogleOptimizer_Model_Resource_Code_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('googleoptimizer/code');
-    }
 }

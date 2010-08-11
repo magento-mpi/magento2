@@ -28,42 +28,11 @@
 /**
  * Quote addresses collection
  *
- * @category   Mage
- * @package    Mage_Sales
+ * @category    Mage
+ * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Sales_Model_Mysql4_Quote_Address_Item_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Sales_Model_Mysql4_Quote_Address_Item_Collection
+    extends Mage_Sales_Model_Resource_Quote_Address_Item_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('sales/quote_address_item');
-    }
-
-    protected function _afterLoad()
-    {
-        parent::_afterLoad();
-        /**
-         * Assign parent items
-         */
-        foreach ($this as $item) {
-            if ($item->getParentItemId()) {
-                $item->setParentItem($this->getItemById($item->getParentItemId()));
-            }
-        }
-
-        return $this;
-    }
-
-    public function setAddressFilter($addressId)
-    {
-        if ($addressId) {
-            $this->addFieldToFilter('quote_address_id', $addressId);
-        } else {
-            $this->_totalRecords = 0;
-            $this->_setIsLoaded(true);
-        }
-
-        return $this;
-    }
 }

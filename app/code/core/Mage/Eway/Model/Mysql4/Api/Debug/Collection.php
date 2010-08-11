@@ -24,17 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * eWAY Api Debug Mysql4 collection model
- * 
- * @category   Mage
- * @package    Mage_Eway
+ *
+ * @category    Mage
+ * @package     Mage_Eway
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eway_Model_Mysql4_Api_Debug_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Eway_Model_Mysql4_Api_Debug_Collection extends Mage_Eway_Model_Resource_Api_Debug_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('eway/api_debug');
-    }
 }

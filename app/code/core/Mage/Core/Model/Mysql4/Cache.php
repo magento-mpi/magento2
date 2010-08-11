@@ -25,51 +25,13 @@
  */
 
 
-class Mage_Core_Model_Mysql4_Cache extends Mage_Core_Model_Mysql4_Abstract
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Core_Model_Mysql4_Cache extends Mage_Core_Model_Resource_Cache
 {
-    protected function _construct()
-    {
-        $this->_init('core/cache_option', 'code');
-    }
-
-    /**
-     * Get all cache options
-     * @return array | false
-     */
-    public function getAllOptions()
-    {
-        $adapter = $this->_getReadAdapter();
-        if ($adapter) {
-            /**
-             * Check if table exist (it protect upgrades. cache settings checked before upgrades)
-             */
-            if ($adapter->fetchOne('SHOW TABLES LIKE ?', $this->getMainTable())) {
-                $select = $adapter->select()
-                    ->from($this->getMainTable(), array('code', 'value'));
-                return $adapter->fetchPairs($select);
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Save all options to option table
-     *
-     * @param   array $options
-     * @return  Mage_Core_Model_Mysql4_Cache
-     */
-    public function saveAllOptions($options)
-    {
-        if (!$this->_getWriteAdapter()) {
-            return $this;
-        }
-        $this->_getWriteAdapter()->delete($this->getMainTable());
-        foreach ($options as $code => $value) {
-            $this->_getWriteAdapter()->insert($this->getMainTable(), array(
-                'code'  => $code,
-                'value' => $value
-            ));
-        }
-        return $this;
-    }
 }

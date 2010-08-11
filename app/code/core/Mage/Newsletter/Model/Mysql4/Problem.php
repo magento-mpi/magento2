@@ -28,16 +28,10 @@
 /**
  * Mage newsletter problem resource model
  *
- * @category   Mage
- * @package    Mage_Newsletter
+ * @category    Mage
+ * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Mysql4_Problem extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Newsletter_Model_Mysql4_Problem extends Mage_Newsletter_Model_Resource_Problem
 {
-
-    protected function _construct()
-    {
-        $this->_init('newsletter/problem', 'problem_id');
-    }
-
 }

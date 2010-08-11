@@ -24,22 +24,15 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * AmazonPayments API Debug Resource Collection
  *
- * @category   Mage
- * @package    Mage_AmazonPayments
- * @name       Mage_AmazonPayments_Model_Mysql4_Api_Debug_Collection
+ * @category    Mage
+ * @package     Mage_AmazonPayments
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_AmazonPayments_Model_Mysql4_Api_Debug_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_AmazonPayments_Model_Mysql4_Api_Debug_Collection
+    extends Mage_AmazonPayments_Model_Resource_Api_Debug_Collection
 {
-    /**
-     * Collection constructor
-     *
-     */
-    protected function _construct()
-    {
-        $this->_init('amazonpayments/api_debug');
-    }
 }

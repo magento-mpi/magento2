@@ -24,16 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Flat sales order status history resource
  *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Mysql4_Order_Status_History extends Mage_Sales_Model_Mysql4_Order_Abstract
+class Mage_Sales_Model_Mysql4_Order_Status_History extends Mage_Sales_Model_Resource_Order_Status_History
 {
-    protected $_eventPrefix = 'sales_order_status_history_resource';
-
-    protected function _construct()
-    {
-        $this->_init('sales/order_status_history', 'entity_id');
-    }
 }

@@ -24,29 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Api_Model_Mysql4_Role_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_Api
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Api_Model_Mysql4_Role_Collection extends Mage_Api_Model_Resource_Role_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('api/role');
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @param int $userId
-     * @return Mage_Api_Model_Mysql4_Role_Collection
-     */
-    public function setUserFilter($userId)
-    {
-        $this->addFieldToFilter('user_id', $userId);
-        $this->addFieldToFilter('role_type', 'G');
-        return $this;
-    }
-
-    public function setRolesFilter()
-    {
-        $this->addFieldToFilter('role_type', 'G');
-        return $this;
-    }
 }

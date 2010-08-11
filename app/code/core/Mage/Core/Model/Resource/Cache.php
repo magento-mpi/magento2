@@ -20,13 +20,13 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core Cache resource model
+ * Enter description here ...
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Cache extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main table
+     * Enter description here ...
      *
      */
     protected function _construct()
@@ -51,48 +51,37 @@ class Mage_Core_Model_Resource_Cache extends Mage_Core_Model_Resource_Db_Abstrac
     public function getAllOptions()
     {
         $adapter = $this->_getReadAdapter();
-        /**
-         * Check if table exist (it protect upgrades. cache settings checked before upgrades)
-         */
-        if ($adapter && $adapter->isTableExists($this->getMainTable())) {
-            $select = $adapter->select()
-                ->from($this->getMainTable(), array('code', 'value'));
-            return $adapter->fetchPairs($select);
+        if ($adapter) {
+            /**
+             * Check if table exist (it protect upgrades. cache settings checked before upgrades)
+             */
+            if ($adapter->fetchOne('SHOW TABLES LIKE ?', $this->getMainTable())) {
+                $select = $adapter->select()
+                    ->from($this->getMainTable(), array('code', 'value'));
+                return $adapter->fetchPairs($select);
+            }
         }
-
         return false;
     }
 
     /**
      * Save all options to option table
      *
-     * @param   array $options
-     * @return  Mage_Core_Model_Mysql4_Cache
+     * @param array $options
+     * @return Mage_Core_Model_Resource_Cache
      */
     public function saveAllOptions($options)
     {
-        $adapter = $this->_getWriteAdapter();
-        if (!$adapter) {
+        if (!$this->_getWriteAdapter()) {
             return $this;
         }
-
-        $data = array();
+        $this->_getWriteAdapter()->delete($this->getMainTable());
         foreach ($options as $code => $value) {
-            $data[] = array($code, $value);
+            $this->_getWriteAdapter()->insert($this->getMainTable(), array(
+                'code'  => $code,
+                'value' => $value
+            ));
         }
-
-        $adapter->beginTransaction();
-        try {
-            $adapter->delete($this->getMainTable());
-            if ($data) {
-                $adapter->insertArray($this->getMainTable(), array('code', 'value'), $data);
-            }
-        } catch (Exception $e) {
-            $adapter->rollback();
-            throw $e;
-        }
-        $adapter->commit();
-
         return $this;
     }
 }

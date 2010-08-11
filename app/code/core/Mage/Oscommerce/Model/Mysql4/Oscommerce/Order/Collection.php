@@ -24,32 +24,15 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * osCommerce resource model
  *
+ * @category    Mage
+ * @package     Mage_Oscommerce
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oscommerce_Model_Mysql4_Oscommerce_Order_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Oscommerce_Model_Mysql4_Oscommerce_Order_Collection
+    extends Mage_Oscommerce_Model_Resource_Oscommerce_Order_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('oscommerce/oscommerce_order');
-    }
-
-    public function addOrderTotalField()
-    {
-        $this->_select
-            ->columns(array('orders_total'=>new Zend_Db_Expr('FORMAT(main_table.orders_total,2)')));
-        return $this;
-    }    
-    
-    public function load($printQuery=false, $logQuery=false)
-    {
-        if ($this->isLoaded()) {
-            return $this;
-        }
-        $this->addOrderTotalField();
-        parent::load($printQuery, $logQuery);
-        return $this;
-    }    
 }

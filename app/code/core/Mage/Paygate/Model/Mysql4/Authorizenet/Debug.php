@@ -25,10 +25,13 @@
  */
 
 
-class Mage_Paygate_Model_Mysql4_Authorizenet_Debug extends Mage_Core_Model_Mysql4_Abstract
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_Paygate
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Paygate_Model_Mysql4_Authorizenet_Debug extends Mage_Paygate_Model_Resource_Authorizenet_Debug
 {
-    protected function _construct()
-    {
-        $this->_init('paygate/authorizenet_debug', 'debug_id');
-    }
 }

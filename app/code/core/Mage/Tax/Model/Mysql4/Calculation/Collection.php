@@ -24,15 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Tax Calculation Collection
  *
- * @author Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_Tax
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Mysql4_Calculation_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Tax_Model_Mysql4_Calculation_Collection extends Mage_Tax_Model_Resource_Calculation_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('tax/calculation');
-    }
 }

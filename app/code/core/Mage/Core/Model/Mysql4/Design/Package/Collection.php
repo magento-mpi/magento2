@@ -25,28 +25,13 @@
  */
 
 
-class Mage_Core_Model_Mysql4_Design_Package_Collection extends Varien_Object
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Core_Model_Mysql4_Design_Package_Collection extends Mage_Core_Model_Resource_Design_Package_Collection
 {
-    public function load()
-    {
-        $packages = $this->getData('packages');
-        if (is_null($packages)) {
-            $packages = Mage::getModel('core/design_package')->getPackageList();
-            $this->setData('packages', $packages);
-        }
-
-        return $this;
-    }
-
-    public function toOptionArray()
-    {
-        $options = array();
-        $packages = $this->getData('packages');
-        foreach ($packages as $package) {
-            $options[] = array('value'=>$package, 'label'=>$package);
-        }
-        array_unshift($options, array('value'=>'', 'label'=>''));
-
-        return $options;
-    }
 }

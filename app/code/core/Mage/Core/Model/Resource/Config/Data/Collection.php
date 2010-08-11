@@ -20,13 +20,13 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core Config data resource collection
+ * Config data collection
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Config_Data_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Define resource model
+     * Enter description here ...
      *
      */
     protected function _construct()
@@ -44,45 +44,44 @@ class Mage_Core_Model_Resource_Config_Data_Collection extends Mage_Core_Model_Re
     }
 
     /**
-     * Add scope filter to collection
+     * Enter description here ...
      *
-     * @param string $scope
-     * @param int $scopeId
-     * @param string $section
+     * @param unknown_type $scope
+     * @param unknown_type $scopeId
+     * @param unknown_type $section
      * @return Mage_Core_Model_Resource_Config_Data_Collection
      */
     public function addScopeFilter($scope, $scopeId, $section)
     {
-        $this->addFieldToFilter('scope', $scope);
-        $this->addFieldToFilter('scope_id', $scopeId);
-        $this->addFieldToFilter('path', array('like' => $section . '/%'));
-
+        $this->_select
+            ->where('scope=?', $scope)
+            ->where('scope_id=?', $scopeId)
+            ->where('path like ?', $section . '/%');
         return $this;
     }
 
     /**
-     * Add path filter
+     * Enter description here ...
      *
-     * @param string $section
+     * @param unknown_type $section
      * @return Mage_Core_Model_Resource_Config_Data_Collection
      */
     public function addPathFilter($section)
     {
-        $this->addFieldToFilter('path', array('like' => $section . '/%'));
-
+        $this->_select
+            ->where('path like ?', $section . '/%');
         return $this;
     }
 
     /**
-     * Add value filter
+     * Enter description here ...
      *
-     * @param string $value
+     * @param unknown_type $value
      * @return Mage_Core_Model_Resource_Config_Data_Collection
      */
     public function addValueFilter($value)
     {
-        $this->addFieldToFilter('value', $value);
-
+        $this->getSelect()->where('value=?', $value);
         return $this;
     }
 }

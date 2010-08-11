@@ -24,19 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Chronopay API Debug Resource
  *
- * @category   Mage
- * @package    Mage_Chronopay
- * @name       Mage_Chronopay_Model_Mysql4_Api_Debug
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_Chronopay
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Chronopay_Model_Mysql4_Api_Debug extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Chronopay_Model_Mysql4_Api_Debug extends Mage_Chronopay_Model_Resource_Api_Debug
 {
-    protected function _construct()
-    {
-        $this->_init('chronopay/api_debug', 'debug_id');
-    }
 }

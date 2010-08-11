@@ -25,7 +25,13 @@
  */
 
 
-class Mage_AmazonPayments_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_AmazonPayments
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_AmazonPayments_Model_Mysql4_Setup extends Mage_AmazonPayments_Model_Resource_Setup
 {
-
 }

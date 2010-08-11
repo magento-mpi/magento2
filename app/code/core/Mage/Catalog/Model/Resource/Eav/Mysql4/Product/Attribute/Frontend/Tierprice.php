@@ -28,11 +28,11 @@
 /**
  * Catalog product attribute tier price frontend model
  *
- * @category   Mage
- * @package    Mage_Catalog
+ * @category    Mage
+ * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Frontend_Tierprice extends Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
+class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Frontend_Tierprice
+    extends Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Tierprice
 {
-
 }

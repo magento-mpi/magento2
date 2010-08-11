@@ -20,13 +20,13 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core Design resource collection
+ * Enter description here ...
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Design_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Define resource model
+     * Enter description here ...
      *
      */
     protected function _construct()
@@ -44,46 +44,47 @@ class Mage_Core_Model_Resource_Design_Collection extends Mage_Core_Model_Resourc
     }
 
     /**
-     * Join store data to collection
+     * Enter description here ...
      *
      * @return Mage_Core_Model_Resource_Design_Collection
      */
     public function joinStore()
     {
-        return $this->join(
-            array('cs' => $this->getTable('core/store')),
-            'cs.store_id = main_table.store_id',
-            array('cs.name'));
-    }
-
-    /**
-     * Add date filter to collection
-     *
-     * @param int|string|Zend_Date $date
-     * @return Mage_Core_Model_Resource_Design_Collection
-     */
-    public function addDateFilter($date = null)
-    {
-        if (is_null($date)) {
-            $date = $this->formatDate(true);
-        } else {
-            $date = $this->formatDate($date);
-        }
-
-        $this->addFieldToFilter('date_from', array('lteq' => $date));
-        $this->addFieldToFilter('date_to', array('gteq' => $date));
+        $this->getSelect()
+            ->join(array('s'=>$this->getTable('core/store')), 's.store_id = main_table.store_id', array('s.name'));
 
         return $this;
     }
 
     /**
-     * Add store filter to collection
+     * Enter description here ...
      *
-     * @param int|array $storeId
+     * @param unknown_type $date
+     * @return Mage_Core_Model_Resource_Design_Collection
+     */
+    public function addDateFilter($date = null)
+    {
+        if (is_null($date))
+            $date = date("Y-m-d");
+
+        $this->getSelect()
+            ->where('main_table.date_from <= ?', $date)
+            ->where('main_table.date_to >= ?', $date);
+
+        return $this;
+    }
+
+    /**
+     * Enter description here ...
+     *
+     * @param unknown_type $storeId
      * @return Mage_Core_Model_Resource_Design_Collection
      */
     public function addStoreFilter($storeId)
     {
-        return $this->addFieldToFilter('store_id', array('in' => $storeId));
+        $this->getSelect()
+            ->where('main_table.store_id IN(?)', $storeId);
+
+        return $this;
     }
 }

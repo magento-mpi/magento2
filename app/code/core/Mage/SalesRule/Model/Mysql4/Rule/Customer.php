@@ -25,35 +25,13 @@
  */
 
 
-
-class Mage_SalesRule_Model_Mysql4_Rule_Customer extends Mage_Core_Model_Mysql4_Abstract
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_SalesRule
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_SalesRule_Model_Mysql4_Rule_Customer extends Mage_SalesRule_Model_Resource_Rule_Customer
 {
-    protected function _construct()
-    {
-        $this->_init('salesrule/rule_customer', 'rule_customer_id');
-    }
-
-    /**
-     * Get rule usage record for a customer
-     *
-     * @param Mage_SalesRule_Model_Rule_Customer $rule
-     * @param int $customerId
-     * @param int $ruleId
-     * @return Mage_SalesRule_Model_Mysql4_Rule_Customer
-     */
-    public function loadByCustomerRule($rule, $customerId, $ruleId)
-    {
-        $read = $this->_getReadAdapter();
-        $select = $read->select()->from($this->getMainTable())
-            ->where('customer_id=?', $customerId)
-            ->where('rule_id=?', $ruleId);
-        $data = $read->fetchRow($select);
-        if (false === $data) {
-            // set empty data, as an existing rule object might be used
-            $data = array();
-        }
-        $rule->setData($data);
-        return $this;
-    }
-    
 }

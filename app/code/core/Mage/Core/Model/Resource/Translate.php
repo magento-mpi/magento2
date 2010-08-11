@@ -20,13 +20,13 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core Translate resource model
+ * Translation resource model
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main table
+     * Enter description here ...
      *
      */
     protected function _construct()
@@ -44,15 +44,15 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
     }
 
     /**
-     * Retrieve translation array for store / locale code
+     * Enter description here ...
      *
-     * @param int $storeId
-     * @param string $locale
-     * @return array
+     * @param unknown_type $storeId
+     * @param unknown_type $locale
+     * @return unknown
      */
     public function getTranslationArray($storeId = null, $locale = null)
     {
-        if (!Mage::isInstalled()) {
+        if(!Mage::isInstalled()) {
             return array();
         }
 
@@ -65,26 +65,47 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
             return array();
         }
 
+//        $select = $read->select()
+//            ->from(array('main'=>$this->getMainTable()), array(
+//                    'string',
+//                    new Zend_Db_Expr('IFNULL(store.translate, main.translate)')
+//                ))
+//            ->joinLeft(array('store'=>$this->getMainTable()),
+//                $read->quoteInto('store.string=main.string AND store.store_id=?', $storeId),
+//                'string')
+//            ->where('main.store_id=0');
+//
+//        $result = $read->fetchPairs($select);
+//
         $select = $read->select()
-            ->from($this->getMainTable(), array('string', 'translate'))
-            ->where('store_id IN(?)', array(0, $storeId))
+            ->from($this->getMainTable())
+            ->where('store_id in (?)', array(0, $storeId))
             ->where('locale=?', $locale)
             ->order('store_id');
 
-        return $read->fetchPairs($select);
+        $result = array();
+        foreach ($read->fetchAll($select) as $row) {
+            $result[$row['string']] = $row['translate'];
+        }
+
+        return $result;
     }
 
     /**
-     * Retrieve translations array by strings
+     * Enter description here ...
      *
      * @param array $strings
-     * @param int $storeId
-     * @return array
+     * @param unknown_type $storeId
+     * @return unknown
      */
-    public function getTranslationArrayByStrings(array $strings, $storeId=null)
+    public function getTranslationArrayByStrings(array $strings, $storeId = null)
     {
-        if (!Mage::isInstalled()) {
+        if(!Mage::isInstalled()) {
             return array();
+        }
+
+        if (is_null($storeId)) {
+            $storeId = Mage::app()->getStore()->getId();
         }
 
         $read = $this->_getReadAdapter();
@@ -96,16 +117,25 @@ class Mage_Core_Model_Resource_Translate extends Mage_Core_Model_Resource_Db_Abs
             return array();
         }
 
-        if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
-        }
-
-        $bind   = array('tr_strings' => $read->quote($strings));
         $select = $read->select()
-            ->from($this->getMainTable(), array('string', 'translate'))
+            ->from($this->getMainTable())
             ->where('string in (:tr_strings)')
             ->where('store_id = ?', $storeId);
+        $result = array();
+        foreach ($read->fetchAll($select, array('tr_strings'=>$read->quote($strings))) as $row) {
+            $result[$row['string']] = $row['translate'];
+        }
 
-        return $read->fetchPairs($select, $bind);
+        return $result;
+    }
+
+    /**
+     * Enter description here ...
+     *
+     * @return unknown
+     */
+    public function getMainChecksum()
+    {
+        return parent::getChecksum($this->getMainTable());
     }
 }

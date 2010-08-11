@@ -28,11 +28,10 @@
 /**
  * Enter description here...
  *
- * @category   Mage
- * @package    Mage_Cybersource
- *
+ * @category    Mage
+ * @package     Mage_Cybersource
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cybersource_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+class Mage_Cybersource_Model_Mysql4_Setup extends Mage_Cybersource_Model_Resource_Setup
 {
-
 }

@@ -28,33 +28,10 @@
 /**
  * Index resource model abstraction
  *
+ * @category    Mage
+ * @package     Mage_CatalogIndex
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogIndex_Model_Mysql4_Abstract extends Mage_Core_Model_Mysql4_Abstract
+class Mage_CatalogIndex_Model_Mysql4_Abstract extends Mage_CatalogIndex_Model_Resource_Abstract
 {
-    protected $_storeId = 0;
-    protected $_websiteId = null;
-
-    protected function _construct() {
-        return parent::_construct();
-    }
-
-    public function setStoreId($storeId)
-    {
-        $this->_storeId = $storeId;
-    }
-
-    public function getStoreId()
-    {
-        return $this->_storeId;
-    }
-
-    public function getWebsiteId()
-    {
-        if (is_null($this->_websiteId)) {
-            $result = Mage::app()->getStore($this->getStoreId())->getWebsiteId();
-            $this->_websiteId = $result;
-        }
-        return $this->_websiteId;
-    }
 }

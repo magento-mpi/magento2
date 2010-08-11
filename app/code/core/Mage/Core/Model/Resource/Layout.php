@@ -20,13 +20,13 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core layout update resource model
+ * Enter description here ...
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main table
+     * Enter description here ...
      *
      */
     protected function _construct()
@@ -48,35 +48,33 @@ class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstra
      *
      * @param string $handle
      * @param array $params
-     * @return string
+     * @return unknown
      */
     public function fetchUpdatesByHandle($handle, $params = array())
     {
         $storeId = isset($params['store_id']) ? $params['store_id'] : Mage::app()->getStore()->getId();
-        $area    = isset($params['area']) ? $params['area'] : Mage::getSingleton('core/design_package')->getArea();
+        $area = isset($params['area']) ? $params['area'] : Mage::getSingleton('core/design_package')->getArea();
         $package = isset($params['package']) ? $params['package'] : Mage::getSingleton('core/design_package')->getPackageName();
-        $theme   = isset($params['theme']) ? $params['theme'] : Mage::getSingleton('core/design_package')->getTheme('layout');
+        $theme = isset($params['theme']) ? $params['theme'] : Mage::getSingleton('core/design_package')->getTheme('layout');
 
-        $result = '';
+        $updateStr = '';
 
-        $adapter = $this->_getReadAdapter();
-        if ($adapter) {
-            $select = $adapter->select()
-                ->from(array('cl_update' => $this->getMainTable()), array('xml'))
-                ->join(
-                    array('cl_link' => $this->getTable('core/layout_link')),
-                    'cl_link.layout_update_id = cl_update.layout_update_id',
-                    array())
-                ->where('cl_link.store_id IN (0, ?)', $storeId)
-                ->where('cl_link.area=?', $area)
-                ->where('cl_link.package=?', $package)
-                ->where('cl_link.theme=?', $theme)
-                ->where('cl_update.handle = ?', $handle)
-                ->order('cl_update.sort_order ASC');
+        $readAdapter = $this->_getReadAdapter();
+        if ($readAdapter) {
+            $select = $readAdapter->select()
+                ->from(array('update'=>$this->getMainTable()), array('xml'))
+                ->join(array('link'=>$this->getTable('core/layout_link')), 'link.layout_update_id=update.layout_update_id', '')
+                ->where('link.store_id IN (0, ?)', $storeId)
+                ->where('link.area=?', $area)
+                ->where('link.package=?', $package)
+                ->where('link.theme=?', $theme)
+                ->where('update.handle = ?', $handle)
+                ->order('update.sort_order ASC');
 
-            $result = join('', $adapter->fetchCol($select));
+            foreach ($readAdapter->fetchAll($select) as $update) {
+                $updateStr .= $update['xml'];
+            }
         }
-
-        return $result;
+        return $updateStr;
     }
 }

@@ -20,13 +20,13 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core Website Resource Model
+ * Enter description here ...
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main table
+     * Enter description here ...
      *
      */
     protected function _construct()
@@ -58,15 +58,15 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
     }
 
     /**
-     * Validate website code before object save
+     * Perform actions before object save
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Core_Model_Resource_Website
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $object->getCode())) {
-            Mage::throwException(Mage::helper('core')->__('Website code should contain only letters (a-z), numbers (0-9) or underscore(_), first character should be a letter'));
+        if(!preg_match('/^[a-z]+[a-z0-9_]*$/', $object->getCode())) {
+            Mage::throwException(Mage::helper('core')->__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
         }
 
         return parent::_beforeSave($object);
@@ -81,29 +81,32 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         if ($object->getIsDefault()) {
-            $this->_getWriteAdapter()->update($this->getMainTable(), array('is_default' => 0));
-            $where = array('website_id=?' => $object->getId());
-            $this->_getWriteAdapter()->update($this->getMainTable(), array('is_default' => 1), $where);
+            $this->_getWriteAdapter()->update(
+                $this->getMainTable(),
+                array('is_default' => 0),
+                1
+            );
+            $this->_getWriteAdapter()->update(
+                $this->getMainTable(),
+                array('is_default' => 1),
+                $this->_getWriteAdapter()->quoteInto('website_id=?', $object->getId())
+            );
         }
-
         return parent::_afterSave($object);
     }
 
     /**
-     * Remove core configuration data after delete website
+     * Enter description here ...
      *
      * @param Mage_Core_Model_Abstract $model
      * @return Mage_Core_Model_Resource_Website
      */
     protected function _afterDelete(Mage_Core_Model_Abstract $model)
     {
-        $where = array(
-            'scope=?'  => 'websites',
-            'scope_id=?' => $model->getWebsiteId()
+        $this->_getWriteAdapter()->delete(
+            $this->getTable('core/config_data'),
+            $this->_getWriteAdapter()->quoteInto("scope = 'websites' AND scope_id = ?", $model->getWebsiteId())
         );
-
-        $this->_getWriteAdapter()->delete($this->getTable('core/config_data'), $where);
-
         return $this;
     }
 
@@ -111,28 +114,23 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
      * Retrieve default stores select object
      * Select fields website_id, store_id
      *
-     * @param $withDefault include/exclude default admin website
+     *
+     * @param unknown_type $withDefault
      * @return Varien_Db_Select
      */
     public function getDefaultStoresSelect($withDefault = false)
     {
-        $ifNull  = $this->_getReadAdapter()
-            ->getCheckSql('store_group_table.default_store_id IS NULL', '0', 'store_group_table.default_store_id');
         $select = $this->_getReadAdapter()->select()
-            ->from(
-                array('website_table' => $this->getTable('core/website')),
-                array('website_id'))
+            ->from(array('website_table' => $this->getTable('core/website')), array('website_id'))
             ->joinLeft(
                 array('store_group_table' => $this->getTable('core/store_group')),
-                'website_table.website_id = store_group_table.website_id'
-                    . ' AND website_table.default_group_id = store_group_table.group_id',
-                array('store_id' => $ifNull)
+                '`website_table`.`website_id`=`store_group_table`.`website_id`'
+                    . ' AND `website_table`.`default_group_id`=`store_group_table`.`group_id`',
+                array('store_id' => 'IFNULL(`store_group_table`.`default_store_id`, 0)')
             );
-
         if (!$withDefault) {
-            $select->where('website_table.website_id <> ?', 0);
+            $select->where('`website_table`.`website_id` <> ?', 0);
         }
-
         return $select;
     }
 }

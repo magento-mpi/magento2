@@ -20,13 +20,13 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core website resource collection
+ * Websites collection
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,51 +35,32 @@
 class Mage_Core_Model_Resource_Website_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Define resource model
+     * Enter description here ...
+     *
+     * @var unknown
+     */
+    protected $_loadDefault    = false;
+
+    /**
+     * Enter description here ...
+     *
+     * @var unknown
+     */
+    protected $_map            = array('fields' => array('website_id' => 'main_table.website_id'));
+
+    /**
+     * Enter description here ...
      *
      */
     protected function _construct()
     {
-        $this->setFlag('load_default_website', false);
         $this->_init('core/website');
     }
 
     /**
-     * Set flag for load default (admin) website
+     * Enter description here ...
      *
-     * @param boolean $loadDefault
-     * @return Mage_Core_Model_Resource_Website_Collection
-     */
-    public function setLoadDefault($loadDefault)
-    {
-        $this->setFlag('load_default_website', (bool)$loadDefault);
-        return $this;
-    }
-
-    /**
-     * Is load default (admin) website
-     *
-     * @return boolean
-     */
-    public function getLoadDefault()
-    {
-        return $this->getFlag('load_default_website');
-    }
-
-    /**
-     * Convert items array to hash for select options
-     *
-     * @return array
-     */
-    public function toOptionHash()
-    {
-        return $this->_toOptionHash('website_id', 'name');
-    }
-
-    /**
-     * Add website filter to collection
-     *
-     * @param int|array $ids
+     * @param unknown_type $ids
      * @return Mage_Core_Model_Resource_Website_Collection
      */
     public function addIdFilter($ids)
@@ -87,31 +68,76 @@ class Mage_Core_Model_Resource_Website_Collection extends Mage_Core_Model_Resour
         if (is_array($ids)) {
             if (empty($ids)) {
                 $this->addFieldToFilter('website_id', null);
-            } else {
-                $this->addFieldToFilter('website_id', array('in' => $ids));
             }
-        } else {
+            else {
+                $this->addFieldToFilter('website_id', array('in'=>$ids));
+            }
+        }
+        else {
             $this->addFieldToFilter('website_id', $ids);
         }
-
         return $this;
     }
 
     /**
-     * Load collection data
+     * Enter description here ...
      *
-     * @return  Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @param unknown_type $loadDefault
+     * @return Mage_Core_Model_Resource_Website_Collection
+     */
+    public function setLoadDefault($loadDefault)
+    {
+        $this->_loadDefault = $loadDefault;
+        return $this;
+    }
+
+    /**
+     * Enter description here ...
+     *
+     * @return unknown
+     */
+    public function getLoadDefault()
+    {
+        return $this->_loadDefault;
+    }
+
+    /**
+     * Enter description here ...
+     *
+     * @return unknown
+     */
+    public function toOptionArray()
+    {
+        return $this->_toOptionArray('website_id', 'name');
+    }
+
+    /**
+     * Enter description here ...
+     *
+     * @return unknown
+     */
+    public function toOptionHash()
+    {
+        return $this->_toOptionHash('website_id', 'name');
+    }
+
+    /**
+     * Enter description here ...
+     *
+     * @param unknown_type $printQuery
+     * @param unknown_type $logQuery
+     * @return Mage_Core_Model_Resource_Website_Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
         if (!$this->getLoadDefault()) {
-            $this->getSelect()->where('main_table.website_id > ?', 0);
+            $this->getSelect()->where($this->getConnection()->quoteInto('main_table.website_id>?', 0));
         }
-
-        $this->unshiftOrder('main_table.name', 'ASC') // website name SECOND
-            ->unshiftOrder('main_table.sort_order', 'ASC'); // website sort order FIRST
-
-        return parent::load($printQuery, $logQuery);
+        $this->unshiftOrder('main_table.name', 'ASC')       // website name SECOND
+            ->unshiftOrder('main_table.sort_order', 'ASC') // website sort order FIRST
+        ;
+        parent::load($printQuery, $logQuery);
+        return $this;
     }
 
     /**
@@ -121,7 +147,7 @@ class Mage_Core_Model_Resource_Website_Collection extends Mage_Core_Model_Resour
      * Sets extra combined ordering by group's name, defined
      * sort ordering and store's name.
      *
-     * @return Mage_Core_Model_Mysql4_Website_Collection
+     * @return Mage_Core_Model_Resource_Website_Collection
      */
     public function joinGroupAndStore()
     {
@@ -129,12 +155,12 @@ class Mage_Core_Model_Resource_Website_Collection extends Mage_Core_Model_Resour
             $this->_idFieldName = 'website_group_store';
             $this->getSelect()->joinLeft(
                 array('group_table' => $this->getTable('core/store_group')),
-                'main_table.website_id = group_table.website_id',
-                array('group_id' => 'group_id', 'group_title' => 'name')
+                'main_table.website_id=group_table.website_id',
+                array('group_id'=>'group_id', 'group_title'=>'name')
             )->joinLeft(
                 array('store_table' => $this->getTable('core/store')),
-                'group_table.group_id = store_table.group_id',
-                array('store_id' => 'store_id', 'store_title' => 'name')
+                'group_table.group_id=store_table.group_id',
+                array('store_id'=>'store_id', 'store_title'=>'name')
             );
             $this->addOrder('group_table.name', 'ASC')       // store name
                 ->addOrder('CASE WHEN store_table.store_id = 0 THEN 0 ELSE 1 END', 'ASC') // view is admin
@@ -143,7 +169,6 @@ class Mage_Core_Model_Resource_Website_Collection extends Mage_Core_Model_Resour
             ;
             $this->setFlag('groups_and_stores_joined', true);
         }
-
         return $this;
     }
 
@@ -152,7 +177,7 @@ class Mage_Core_Model_Resource_Website_Collection extends Mage_Core_Model_Resour
      * tables with appropriate information were joined before.
      *
      * @param int|array $groupIds
-     * @return Mage_Core_Model_Mysql4_Website_Collection
+     * @return Mage_Core_Model_Resource_Website_Collection
      */
     public function addFilterByGroupIds($groupIds)
     {

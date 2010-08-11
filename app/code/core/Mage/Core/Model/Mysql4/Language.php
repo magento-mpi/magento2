@@ -25,10 +25,13 @@
  */
 
 
-class Mage_Core_Model_Mysql4_Language extends Mage_Core_Model_Mysql4_Abstract 
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Core_Model_Mysql4_Language extends Mage_Core_Model_Resource_Language
 {
-    protected function _construct()
-    {
-        $this->_init('core/language', 'language_code');
-    }
 }

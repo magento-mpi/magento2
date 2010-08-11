@@ -28,32 +28,10 @@
 /**
  * Dataflow batch collection
  *
- * @category   Mage
- * @package    Mage_Dataflow
+ * @category    Mage
+ * @package     Mage_Dataflow
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Dataflow_Model_Mysql4_Batch_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Dataflow_Model_Mysql4_Batch_Collection extends Mage_Dataflow_Model_Resource_Batch_Collection
 {
-    /**
-     * Init model
-     *
-     */
-    protected function _construct()
-    {
-        $this->_init('dataflow/batch');
-    }
-
-    /**
-     * Add expire filter (for abandoned batches)
-     *
-     */
-    public function addExpireFilter()
-    {
-        $date = Mage::getSingleton('core/date');
-        /* @var $date Mage_Core_Model_Date */
-        $lifetime = Mage_Dataflow_Model_Batch::LIFETIME;
-        $expire   = $date->gmtDate(null, $date->timestamp() - $lifetime);
-
-        $this->getSelect()->where('created_at < ?', $expire);
-    }
 }

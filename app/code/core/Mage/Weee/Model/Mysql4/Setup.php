@@ -28,10 +28,10 @@
 /**
  * Weee tax setup
  *
- * @category   Mage
- * @package    Mage_Weee
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_Weee
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Weee_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+class Mage_Weee_Model_Mysql4_Setup extends Mage_Weee_Model_Resource_Setup
 {
 }

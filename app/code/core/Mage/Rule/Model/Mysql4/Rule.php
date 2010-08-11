@@ -28,14 +28,10 @@
 /**
  * Quote rule mysql4 resource model
  *
- * @category   Mage
- * @package    Mage_Rule
+ * @category    Mage
+ * @package     Mage_Rule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Rule_Model_Mysql4_Rule extends Mage_Rule_Model_Resource_Rule
 {
-    protected function _construct()
-    {
-        $this->_init('rule/rule', 'rule_id');
-    }
 }

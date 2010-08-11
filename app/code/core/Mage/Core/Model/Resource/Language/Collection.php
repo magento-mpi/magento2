@@ -20,13 +20,13 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core Language Resource collection
+ * Enter description here ...
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Language_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Define resource model
+     * Enter description here ...
      *
      */
     protected function _construct()
@@ -44,19 +44,19 @@ class Mage_Core_Model_Resource_Language_Collection extends Mage_Core_Model_Resou
     }
 
     /**
-     * Convert collection items to array of select options
+     * Enter description here ...
      *
-     * @return array
+     * @return unknown
      */
     public function toOptionArray()
     {
-        return $this->_toOptionArray('language_code', 'language_title', array('title' => 'language_title'));
+        return $this->_toOptionArray('language_code', 'language_title', array('title'=>'language_title'));
     }
 
     /**
-     * Convert items array to hash for select options
+     * Enter description here ...
      *
-     * @return array
+     * @return unknown
      */
     public function toOptionHash()
     {

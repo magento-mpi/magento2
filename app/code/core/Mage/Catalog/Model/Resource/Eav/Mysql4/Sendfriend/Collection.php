@@ -24,10 +24,15 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Catalog_Model_Resource_Eav_Mysql4_Sendfriend_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Catalog_Model_Resource_Eav_Mysql4_Sendfriend_Collection
+    extends Mage_Catalog_Model_Resource_Sendfriend_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('catalog/sendfriend');
-    }
 }

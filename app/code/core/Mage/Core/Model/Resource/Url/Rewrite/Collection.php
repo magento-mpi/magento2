@@ -20,7 +20,7 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Url_Rewrite_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Define resource model
+     * Enter description here ...
      *
      */
     protected function _construct()
@@ -44,25 +44,22 @@ class Mage_Core_Model_Resource_Url_Rewrite_Collection extends Mage_Core_Model_Re
     }
 
     /**
-    * Add filter for tags (combined by OR)
-    *
-    * @param string|array $tags
-    * @return Mage_Core_Model_Resource_Url_Rewrite_Collection
-    */
+     * Add filter for tags (combined by OR)
+     *
+     * @param unknown_type $tags
+     * @return Mage_Core_Model_Resource_Url_Rewrite_Collection
+     */
     public function addTagsFilter($tags)
     {
-        $tags = is_array($tags) ? $tags : explode(',', $tags);
+        $tagsArr = is_array($tags) ? $tags : explode(',', $tags);
 
-        if (!$this->getFlag('tag_table_joined')) {
-            $this->join(
-                array('curt' => $this->getTable('core/url_rewrite_tag')),
-                'main_table.url_rewrite_id = curt.url_rewrite_id',
-                array());
-            $this->setFlag('tag_table_joined', true);
+        $sqlArr = array();
+        foreach ($tagsArr as $t) {
+            $sqlArr[] = $this->getConnection()->quoteInto("find_in_set(?, `tags`)", $t);
         }
 
-        $this->addFieldToFilter('curt.tag', array('in' => $tags));
-
+        $cond = $this->getConnection()->quoteInto('`url_rewrite_id`=main_table.`url_rewrite_id` and `tag` in (?)', $tagsArr);
+        $this->getSelect()->join($this->getTable('url_rewrite_tag'), $cond, array());
         return $this;
     }
 
@@ -71,26 +68,31 @@ class Mage_Core_Model_Resource_Url_Rewrite_Collection extends Mage_Core_Model_Re
      *
      * @param mixed $store
      * @param bool $withAdmin
-     * @return Mage_Core_Model_Mysql4_Url_Rewrite_Collection
+     * @return Mage_Core_Model_Resource_Url_Rewrite_Collection
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
-        if (!is_array($store)) {
-            $store = array(Mage::app()->getStore($store)->getId());
+        if (is_array($store) || is_numeric($store)) {
+            if (!is_array($store)) {
+                $store = array($store);
+            }
+        }
+        else {
+            $store = Mage::helper('core')->getStoreId($store);
         }
         if ($withAdmin) {
-            $store[] = 0;
+            $this->getSelect()->where('store_id = 0 OR store_id IN (?)', $store);
         }
-
-        $this->addFieldToFilter('store_id', array('in' => $store));
-
+        else {
+            $this->getSelect()->where('store_id IN (?)', $store);
+        }
         return $this;
     }
 
     /**
-     * Add filter by catalog product Id
+     * Enter description here ...
      *
-     * @param int $productId
+     * @param unknown_type $productId
      * @return Mage_Core_Model_Resource_Url_Rewrite_Collection
      */
     public function filterAllByProductId($productId)
@@ -103,15 +105,14 @@ class Mage_Core_Model_Resource_Url_Rewrite_Collection extends Mage_Core_Model_Re
     }
 
     /**
-     * Add filter by all catalog category
+     * Enter description here ...
      *
      * @return Mage_Core_Model_Resource_Url_Rewrite_Collection
      */
     public function filterAllByCategory()
     {
         $this->getSelect()
-            ->where('id_path like ?', "category/%");
-
+            ->where('id_path like ?', "category%");
         return $this;
     }
 }

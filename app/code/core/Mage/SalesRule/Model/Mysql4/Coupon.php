@@ -25,68 +25,13 @@
  */
 
 
-class Mage_SalesRule_Model_Mysql4_Coupon extends Mage_Core_Model_Mysql4_Abstract
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_SalesRule
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_SalesRule_Model_Mysql4_Coupon extends Mage_SalesRule_Model_Resource_Coupon
 {
-    /**
-     * Constructor adds unique fileds
-     */
-    protected function _construct()
-    {
-        $this->_init('salesrule/coupon', 'coupon_id');
-        $this->addUniqueField(array(
-            'field' => 'code',
-            'title' => Mage::helper('salesRule')->__('Coupon with the same code')
-        ));
-    }
-
-    /**
-     * Perform actions before object save
-     *
-     * @param Varien_Object $object
-     */
-    public function _beforeSave(Mage_Core_Model_Abstract $object)
-    {
-        if (!$object->getExpirationDate()) {
-            $object->setExpirationDate(new Zend_Db_Expr('NULL'));
-        } else if ($object->getExpirationDate() instanceof Zend_Date) {
-            $object->setExpirationDate($object->getExpirationDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
-        }
-
-        // maintain single primary coupon per rule
-        $object->setIsPrimary($object->getIsPrimary() ? 1 : null);
-
-        return parent::_beforeSave($object);
-    }
-
-    /**
-     * Load primary coupon (is_primary = 1) for specified rule
-     *
-     * @param Mage_SalesRule_Model_Coupon Coupon model
-     * @param Mage_SalesRule_Model_Rule|int Rule
-     */
-    public function loadPrimaryByRule(Mage_SalesRule_Model_Coupon $object, $rule)
-    {
-        $read = $this->_getReadAdapter();
-
-        if ($rule instanceof Mage_SalesRule_Model_Rule) {
-            $ruleId = $rule->getId();
-        } else {
-            $ruleId = (int)$rule;
-        }
-
-        $select = $read->select()->from($this->getMainTable())
-            ->where('rule_id=?', $ruleId)
-            ->where('is_primary=?', 1);
-
-        $data = $read->fetchRow($select);
-
-        if (!$data) {
-            return false;
-        }
-
-        $object->setData($data);
-
-        $this->_afterLoad($object);
-        return true;
-    }
 }

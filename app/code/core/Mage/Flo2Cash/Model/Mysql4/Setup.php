@@ -24,6 +24,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Flo2Cash Setup Mysql4 resourcre model
  *
@@ -31,7 +32,6 @@
  * @package     Mage_Flo2Cash
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Flo2Cash_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+class Mage_Flo2Cash_Model_Mysql4_Setup extends Mage_Flo2Cash_Model_Resource_Setup
 {
-
 }

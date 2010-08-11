@@ -20,33 +20,48 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core Email Templates resource collection
+ * Templates collection
  *
  * @category    Mage
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Resource_Email_Template_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Core_Model_Resource_Email_Template_Collection extends Varien_Data_Collection_Db
 {
     /**
-     * Define resource table
+     * Template table name
+     *
+     * @var string
+     */
+    protected $_templateTable;
+
+    /**
+     * Enter description here ...
      *
      */
-    protected function _construct()
+    public function __construct()
     {
-        $this->_init('core/email_template');
+        parent::__construct(Mage::getSingleton('core/resource')->getConnection('core_read'));
+        $this->_templateTable = Mage::getSingleton('core/resource')->getTableName('core/email_template');
+        $this->_select->from($this->_templateTable, array('template_id','template_code',
+                                                             'template_type',
+                                                             'template_subject','template_sender_name',
+                                                             'template_sender_email',
+                                                             'added_at',
+                                                             'modified_at'));
+        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('core/email_template'));
     }
 
     /**
-     * Convert collection items to select options array
+     * Enter description here ...
      *
-     * @return array
+     * @return unknown
      */
     public function toOptionArray()
     {

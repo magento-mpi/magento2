@@ -24,13 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/*
- * Resource for report rows
+
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_Paypal
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Model_Mysql4_Report_Settlement_Row extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Paypal_Model_Mysql4_Report_Settlement_Row extends Mage_Paypal_Model_Resource_Report_Settlement_Row
 {
-    protected function _construct()
-    {
-        $this->_init('paypal/settlement_report_row', 'row_id');
-    }
 }

@@ -20,31 +20,34 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Custom variable collection
+ * Custom variabel collection
  *
- * @category   Mage
- * @package    Mage_Core
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_Core
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Resource_Variable_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Store Id
+     * Enter description here ...
      *
-     * @var int
+     * @var unknown
      */
-    protected $_storeId = 0;
+    protected $_storeId    = 0;
 
     /**
-     * Define resource model
+     * Constructor
+     *
      */
     protected function _construct()
     {
+        parent::_construct();
         $this->_init('core/variable');
     }
 
@@ -81,7 +84,8 @@ class Mage_Core_Model_Resource_Variable_Collection extends Mage_Core_Model_Resou
             ->join(
                 array('value_table' => $this->getTable('core/variable_value')),
                 $this->getConnection()->quoteInto('value_table.variable_id = main_table.variable_id AND store_id = ?', $this->getStoreId()),
-                array('value'));
+                array())
+            ->columns(array('value' => 'value_table.value'));
         return $this;
     }
 

@@ -20,13 +20,13 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * session save handler
+ * Mysql4 session save handler
  *
  * @category    Mage
  * @package     Mage_Core
@@ -51,25 +51,30 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     /**
      * Database read connection
      *
-     * @var Varien_Db_Adapter_Interface
+     * @var Zend_Db_Adapter_Abstract
      */
     protected $_read;
 
     /**
      * Database write connection
      *
-     * @var Varien_Db_Adapter_Interface
+     * @var Zend_Db_Adapter_Abstract
      */
     protected $_write;
 
     /**
      * Automatic cleaning factor of expired sessions
-     *
      * value zero means no automatic cleaning, one means automatic cleaning each time a session is closed, and x>1 means
      * cleaning once in x calls
+     *
+     * @var unknown
      */
-    protected $_automaticCleaningFactor = 50;
+    protected $_automaticCleaningFactor    = 50;
 
+    /**
+     * Enter description here ...
+     *
+     */
     public function __construct()
     {
         $this->_sessionTable = Mage::getSingleton('core/resource')->getTableName('core/session');
@@ -77,11 +82,20 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
         $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
     }
 
+    /**
+     * Enter description here ...
+     *
+     */
     public function __destruct()
     {
         session_write_close();
     }
 
+    /**
+     * Enter description here ...
+     *
+     * @return unknown
+     */
     public function getLifeTime()
     {
         if (is_null($this->_lifeTime)) {
@@ -109,14 +123,19 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
         if (!$this->_read) {
             return false;
         }
-
-        if (!$this->_read->isTableExists($this->_sessionTable)) {
+        $tables = $this->_read->fetchAssoc('show tables');
+        if (!isset($tables[$this->_sessionTable])) {
             return false;
         }
 
         return true;
     }
 
+    /**
+     * Enter description here ...
+     *
+     * @return Mage_Core_Model_Resource_Session
+     */
     public function setSaveHandler()
     {
         if ($this->hasConnection()) {
@@ -166,12 +185,13 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
      */
     public function read($sessId)
     {
-        $select = $this->_read->select()
-            ->from($this->_sessionTable, 'session_data')
-            ->where('session_id = ?', $sessId)
-            ->where('session_expires > ?', time());
+        $data = $this->_read->fetchOne(
+            "SELECT session_data FROM $this->_sessionTable
+             WHERE session_id = ? AND session_expires > ?",
+            array($sessId, time())
+        );
 
-        return $this->_read->fetchOne($select);
+        return $data;
     }
 
     /**
@@ -184,15 +204,14 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     public function write($sessId, $sessData)
     {
         $bind = array(
-            'session_expires'   => time() + $this->getLifeTime(),
-            'session_data'      => $sessData
+            'session_expires'=>time() + $this->getLifeTime(),
+            'session_data'=>$sessData
         );
 
-        $select = $this->_read->select()
-            ->from($this->_sessionTable, 'session_id')
-            ->where('session_id = ?', $sessId);
-
-        $exists = $this->_write->fetchOne($select);
+        $exists = $this->_write->fetchOne(
+            "SELECT session_id FROM `{$this->_sessionTable}`
+             WHERE session_id = ?", array($sessId)
+        );
 
         if ($exists) {
             $where = $this->_write->quoteInto('session_id=?', $sessId);
@@ -200,7 +219,6 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
         } else {
             $bind['session_id'] = $sessId;
             $this->_write->insert($this->_sessionTable, $bind);
-
         }
 
         return true;
@@ -214,8 +232,7 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
      */
     public function destroy($sessId)
     {
-        $this->_write->delete($this->_sessionTable, array('session_id = ?' => $sessId));
-
+        $this->_write->query("DELETE FROM `{$this->_sessionTable}` WHERE `session_id` = ?", array($sessId));
         return true;
     }
 
@@ -228,8 +245,9 @@ class Mage_Core_Model_Resource_Session implements Zend_Session_SaveHandler_Inter
     public function gc($sessMaxLifeTime)
     {
         if ($this->_automaticCleaningFactor > 0) {
-            if ($this->_automaticCleaningFactor == 1 || rand(1, $this->_automaticCleaningFactor) == 1) {
-                $this->_write->delete($this->_sessionTable, array('session_expires < ?' => time()));
+            if ($this->_automaticCleaningFactor == 1 ||
+                rand(1, $this->_automaticCleaningFactor)==1) {
+                $this->_write->query("DELETE FROM `{$this->_sessionTable}` WHERE `session_expires` < ?", array(time()));
             }
         }
         return true;

@@ -28,40 +28,10 @@
 /**
  * Report Sold Products collection
  *
- * @category   Mage
- * @package    Mage_Reports
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @category    Mage
+ * @package     Mage_Reports
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Mysql4_Product_Sold_Collection extends Mage_Reports_Model_Mysql4_Product_Collection
+class Mage_Reports_Model_Mysql4_Product_Sold_Collection extends Mage_Reports_Model_Resource_Product_Sold_Collection
 {
-    /**
-     * Set Date range to collection
-     *
-     * @param int $from
-     * @param int $to
-     * @return Mage_Reports_Model_Mysql4_Product_Sold_Collection
-     */
-    public function setDateRange($from, $to)
-    {
-        $this->_reset()
-            ->addAttributeToSelect('*')
-            ->addOrderedQty($from, $to)
-            ->setOrder('ordered_qty', 'desc');
-
-        return $this;
-    }
-
-    /**
-     * Set Store filter to collection
-     *
-     * @param array $storeIds
-     * @return Mage_Reports_Model_Mysql4_Product_Sold_Collection
-     */
-    public function setStoreIds($storeIds)
-    {
-        $storeId = array_pop($storeIds);
-        $this->setStoreId($storeId);
-        $this->addStoreFilter($storeId);
-        return $this;
-    }
 }

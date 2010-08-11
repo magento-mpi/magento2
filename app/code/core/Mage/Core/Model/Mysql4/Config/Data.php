@@ -25,17 +25,13 @@
  */
 
 
-class Mage_Core_Model_Mysql4_Config_Data extends Mage_Core_Model_Mysql4_Abstract
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_Core_Model_Mysql4_Config_Data extends Mage_Core_Model_Resource_Config_Data
 {
-    protected function _construct()
-    {
-        $this->_init('core/config_data', 'config_id');
-    }
-
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
-    {
-        if (is_array($object->getValue())) {
-            $object->setValue(join(',', $object->getValue()));
-        }
-    }
 }

@@ -20,13 +20,13 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core Design Resource Model
+ * Enter description here ...
  *
  * @category    Mage
  * @package     Mage_Core
@@ -35,7 +35,7 @@
 class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Define main table
+     * Enter description here ...
      *
      */
     protected function _construct()
@@ -44,39 +44,153 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
     }
 
     /**
-     * Perform actions before object save
+     * Enter description here ...
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    public function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        foreach (array('date_from', 'date_to') as $field) {
-            $object->setData($field, $this->formatDate($object->getData($field)));
+        $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        if ($date = $object->getDateFrom()) {
+            $date = Mage::app()->getLocale()->date($date, $format, null, false);
+            $object->setDateFrom($date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+        } else {
+            $object->setDateFrom(null);
         }
+
+        if ($date = $object->getDateTo()) {
+            $date = Mage::app()->getLocale()->date($date, $format, null, false);
+            $object->setDateTo($date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+        } else {
+            $object->setDateTo(null);
+        }
+
+        if (!is_null($object->getDateFrom()) && !is_null($object->getDateTo()) && strtotime($object->getDateFrom()) > strtotime($object->getDateTo())){
+            Mage::throwException(Mage::helper('core')->__('Start date cannot be greater than end date.'));
+        }
+
+        $check = $this->_checkIntersection(
+            $object->getStoreId(),
+            $object->getDateFrom(),
+            $object->getDateTo(),
+            $object->getId()
+        );
+
+        if ($check){
+            Mage::throwException(Mage::helper('core')->__('Your design change for the specified store intersects with another one, please specify another date range.'));
+        }
+
+        if (is_null($object->getDateFrom()))
+            $object->setDateFrom(new Zend_Db_Expr('null'));
+        if (is_null($object->getDateTo()))
+            $object->setDateTo(new Zend_Db_Expr('null'));
 
         parent::_beforeSave($object);
     }
 
     /**
-     * Load design one change for store and date
+     * Enter description here ...
      *
-     * @param int $storeId
-     * @param int|string|Zend_Date $date
-     * @return array|false
+     * @param unknown_type $storeId
+     * @param unknown_type $dateFrom
+     * @param unknown_type $dateTo
+     * @param unknown_type $currentId
+     * @return unknown
+     */
+    private function _checkIntersection($storeId, $dateFrom, $dateTo, $currentId)
+    {
+        $condition = '(date_to is null AND date_from is null)';
+        if (!is_null($dateFrom)) {
+            $condition .= '
+                 OR
+                (? between date_from and date_to)
+                 OR
+                (? >= date_from and date_to is null)
+                 OR
+                (? <= date_to and date_from is null)
+                ';
+        } else {
+            $condition .= '
+                 OR
+                (date_from is null)
+                ';
+        }
+
+        if (!is_null($dateTo)) {
+            $condition .= '
+                 OR
+                (# between date_from and date_to)
+                 OR
+                (# >= date_from and date_to is null)
+                 OR
+                (# <= date_to and date_from is null)
+                ';
+        } else {
+            $condition .= '
+                 OR
+                (date_to is null)
+                ';
+        }
+
+        if (is_null($dateFrom) && !is_null($dateTo)) {
+            $condition .= '
+                 OR
+                (date_to <= # or date_from <= #)
+                ';
+        }
+        if (!is_null($dateFrom) && is_null($dateTo)) {
+            $condition .= '
+                 OR
+                (date_to >= ? or date_from >= ?)
+                ';
+        }
+
+        if (!is_null($dateFrom) && !is_null($dateTo)) {
+            $condition .= '
+                 OR
+                (date_from between ? and #)
+                 OR
+                (date_to between ? and #)
+                ';
+        } else if (is_null($dateFrom) && is_null($dateTo)) {
+            $condition = false;
+        }
+
+        $select = $this->_getReadAdapter()->select()
+            ->from(array('main_table'=>$this->getTable('design_change')))
+            ->where('main_table.store_id = ?', $storeId)
+            ->where('main_table.design_change_id <> ?', $currentId);
+
+        if ($condition) {
+            $condition = $this->_getReadAdapter()->quoteInto($condition, $dateFrom);
+            $condition = str_replace('#', '?', $condition);
+            $condition = $this->_getReadAdapter()->quoteInto($condition, $dateTo);
+
+            $select->where($condition);
+        }
+
+        return $this->_getReadAdapter()->fetchOne($select);
+    }
+
+    /**
+     * Enter description here ...
+     *
+     * @param unknown_type $storeId
+     * @param unknown_type $date
+     * @return unknown
      */
     public function loadChange($storeId, $date = null)
     {
         if (is_null($date)) {
-            $date = time();
+            //$date = new Zend_Db_Expr('NOW()');
+            $date = now();
         }
 
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
+            ->from(array('main_table'=>$this->getTable('design_change')))
             ->where('store_id = ?', $storeId)
-            ->where('(date_from <= ? OR date_from IS NULL)', $this->formatDbDate($date, false))
-            ->where('(date_to >= ? OR date_to IS NULL)', $this->formatDbDate($date, false))
-            ->limit(1);
+            ->where('(date_from <= ? or date_from is null)', $date)
+            ->where('(date_to >= ? or date_to is null)', $date);
 
         return $this->_getReadAdapter()->fetchRow($select);
     }

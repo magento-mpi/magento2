@@ -24,15 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * osCommerce resource model
  *
+ * @category    Mage
+ * @package     Mage_Oscommerce
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oscommerce_Model_Mysql4_Oscommerce_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Oscommerce_Model_Mysql4_Oscommerce_Collection extends Mage_Oscommerce_Model_Resource_Oscommerce_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('oscommerce/oscommerce');
-    }
 }

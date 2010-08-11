@@ -28,10 +28,10 @@
 /**
  * Setup Model
  *
- * @category   Mage
- * @package    Mage_Ideal
+ * @category    Mage
+ * @package     Mage_Ideal
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Ideal_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+class Mage_Ideal_Model_Mysql4_Setup extends Mage_Ideal_Model_Resource_Setup
 {
-
 }

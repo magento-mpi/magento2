@@ -25,19 +25,14 @@
  */
 
 
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Sales_Model_Mysql4_Quote_Address_Attribute_Frontend_Tax
-    extends Mage_Sales_Model_Mysql4_Quote_Address_Attribute_Frontend
+    extends Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Tax
 {
-    public function fetchTotals(Mage_Sales_Model_Quote_Address $address)
-    {
-        $amount = $address->getTaxAmount();
-        if ($amount!=0) {
-            $address->addTotal(array(
-                'code'=>'tax',
-                'title'=>Mage::helper('sales')->__('Tax'),
-                'value'=>$amount
-            ));
-        }
-        return $this;
-    }
 }

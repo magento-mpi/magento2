@@ -20,101 +20,113 @@
  *
  * @category    Mage
  * @package     Mage_Core
- * @copyright   Copyright (c) 2010 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Core Resource Resource Model
+ * Mysql Model for module
  *
  * @category    Mage
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Core_Model_Resource_Resource
 {
     /**
-     * Resource versions cache
+     * Enter description here ...
      *
-     * @var array
+     * @var unknown
      */
-    protected static $_versions = null;
+    protected $_read                   = null;
 
     /**
-     * Resource data versions cache array
-     * @var array
+     * Enter description here ...
+     *
+     * @var unknown
      */
-    protected static $_dataVersions = null;
+    protected $_write                  = null;
 
     /**
-     * Define main table
+     * Enter description here ...
+     *
+     * @var unknown
+     */
+    protected $_resTable               = null;
+
+    /**
+     * Enter description here ...
+     *
+     * @var unknown
+     */
+    protected static $_versions        = null;
+
+    /**
+     * Enter description here ...
+     *
+     * @var unknown
+     */
+    protected static $_dataVersions    = null;
+
+    /**
+     * Class constructor
      *
      */
-    protected function _construct()
+    public function __construct()
     {
-        $this->_init('core/resource', 'store_id');
-    }
-
-    /**
-     * Fill static versions arrays
-     *
-     */
-    protected function _loadVersionData()
-    {
-        if (is_null(self::$_versions) || is_null(self::$_dataVersions)) {
-            self::$_versions     = array();
-            self::$_dataVersions = array();
-
-            if ($this->_getReadAdapter()->isTableExists($this->getMainTable())) {
-                $select = $this->_getReadAdapter()->select()
-                    ->from($this->getMainTable(), array('code', 'version', 'data_version'));
-                $rowset = $this->_getReadAdapter()->fetchAll($select);
-                foreach ($rowset as $row) {
-                    self::$_versions[$row['code']] = $row['version'];
-                    self::$_dataVersions[$row['code']] = $row['data_version'];
-                }
-            }
-        }
+        $this->_resTable = Mage::getSingleton('core/resource')->getTableName('core/resource');
+        $this->_read = Mage::getSingleton('core/resource')->getConnection('core_read');
+        $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
     }
 
     /**
      * Get Module version from DB
      *
-     * @param string $moduleName
+     * @param unknown_type $resName
      * @return string
      */
-    function getDbVersion($resName)
+    public function getDbVersion($resName)
     {
-        if (!$this->_getReadAdapter()) {
+        if (!$this->_read) {
             return false;
         }
 
-        $this->_loadVersionData();
-
+        if (is_null(self::$_versions)) {
+            // if Core module not instaled
+            try {
+                $select = $this->_read->select()->from($this->_resTable, array('code', 'version'));
+                self::$_versions = $this->_read->fetchPairs($select);
+            }
+            catch (Exception $e){
+                self::$_versions = array();
+            }
+        }
         return isset(self::$_versions[$resName]) ? self::$_versions[$resName] : false;
     }
 
     /**
-     * Set module version into DB
+     * Set module wersion into DB
      *
-     * @param   string $moduleName
-     * @param   string $version
-     * @return  int
+     * @param unknown_type $resName
+     * @param string $version
+     * @return int
      */
-    function setDbVersion($resName, $version)
+    public function setDbVersion($resName, $version)
     {
-        $data = array(
+        $dbModuleInfo = array(
             'code'    => $resName,
             'version' => $version,
         );
 
         if ($this->getDbVersion($resName)) {
             self::$_versions[$resName] = $version;
-            return $this->_getWriteAdapter()->update($this->getMainTable(), $data, array('code=?' => $resName));
-        } else {
+            $condition = $this->_write->quoteInto('code=?', $resName);
+            return $this->_write->update($this->_resTable, $dbModuleInfo, $condition);
+        }
+        else {
             self::$_versions[$resName] = $version;
-            return $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
+            return $this->_write->insert($this->_resTable, $dbModuleInfo);
         }
     }
 
@@ -126,12 +138,13 @@ class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abst
      */
     public function getDataVersion($resName)
     {
-        if (!$this->_getReadAdapter()) {
+        if (!$this->_read) {
             return false;
         }
-
-        $this->_loadVersionData();
-
+        if (is_null(self::$_dataVersions)) {
+            $select = $this->_read->select()->from($this->_resTable, array('code', 'data_version'));
+            self::$_dataVersions = $this->_read->fetchPairs($select);
+        }
         return isset(self::$_dataVersions[$resName]) ? self::$_dataVersions[$resName] : false;
     }
 
@@ -140,23 +153,20 @@ class Mage_Core_Model_Resource_Resource extends Mage_Core_Model_Resource_Db_Abst
      *
      * @param string $resName
      * @param string $version
-     * @return Mage_Core_Model_Mysql4_Resource
+     * @return Mage_Core_Model_Resource_Resource
      */
     public function setDataVersion($resName, $version)
     {
-        $data = array(
-            'code'         => $resName,
-            'data_version' => $version
-        );
+        $data = array('code' => $resName, 'data_version' => $version);
 
         if ($this->getDbVersion($resName) || $this->getDataVersion($resName)) {
             self::$_dataVersions[$resName] = $version;
-            $this->_getWriteAdapter()->update($this->getMainTable(), $data, array('code=?' => $resName));
-        } else {
-            self::$_dataVersions[$resName] = $version;
-            $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
+            $this->_write->update($this->_resTable, $data, array('code=?' => $resName));
         }
-
+        else {
+            self::$_dataVersions[$resName] = $version;
+            $this->_write->insert($this->_resTable, $data);
+        }
         return $this;
     }
 }

@@ -25,10 +25,14 @@
  */
 
 
-class Mage_GoogleCheckout_Model_Mysql4_Api_Debug_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+/**
+ * Enter description here ...
+ *
+ * @category    Mage
+ * @package     Mage_GoogleCheckout
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_GoogleCheckout_Model_Mysql4_Api_Debug_Collection
+    extends Mage_GoogleCheckout_Model_Resource_Api_Debug_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('googlecheckout/api_debug');
-    }
 }

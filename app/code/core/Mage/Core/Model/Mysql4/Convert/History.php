@@ -24,26 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Convert history resource model
  *
- * @category   Mage
- * @package    Mage_Core
+ * @category    Mage
+ * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Mysql4_Convert_History extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Core_Model_Mysql4_Convert_History extends Mage_Core_Model_Resource_Convert_History
 {
-    protected function _construct()
-    {
-        $this->_init('core/convert_history', 'history_id');
-    }
-
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
-    {
-        if (!$object->getPerformedAt()) {
-            $object->setPerformedAt($this->formatDate(time()));
-        }
-        parent::_beforeSave($object);
-        return $this;
-    }
 }

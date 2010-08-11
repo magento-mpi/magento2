@@ -24,18 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * iDEAL API Debug Resource Collection
  *
  * @category    Mage
  * @package     Mage_Ideal
- * @name        Mage_Ideal_Model_Mysql4_Api_Debug_Collection
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Ideal_Model_Mysql4_Api_Debug_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Ideal_Model_Mysql4_Api_Debug_Collection extends Mage_Ideal_Model_Resource_Api_Debug_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('ideal/api_debug');
-    }
 }

@@ -32,14 +32,6 @@
  * @package     Mage_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sendfriend_Model_Mysql4_Sendfriend_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Sendfriend_Model_Mysql4_Sendfriend_Collection extends Mage_Sendfriend_Model_Resource_Sendfriend_Collection
 {
-    /**
-     * Init resource collection
-     *
-     */
-    protected function _construct()
-    {
-        $this->_init('sendfriend/sendfriend');
-    }
 }

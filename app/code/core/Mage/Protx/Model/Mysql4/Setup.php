@@ -24,16 +24,14 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
  * Setup model
  *
- * @category   Mage
- * @package    Mage_Protx
- * @name       Mage_Protx_Model_Mysql4_Setup
+ * @category    Mage
+ * @package     Mage_Protx
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Protx_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+class Mage_Protx_Model_Mysql4_Setup extends Mage_Protx_Model_Resource_Setup
 {
-
 }
