@@ -876,7 +876,7 @@ class Mage_Core_Model_Url extends Varien_Object
         }
         $session = Mage::getSingleton('core/session');
         /* @var $session Mage_Core_Model_Session */
-        if (Mage::app()->getUseSessionVar()) {
+        if (Mage::app()->getUseSessionVar() && !$session->getSessionIdForHost($url)) {
             // secure URL
             if ($this->getSecure()) {
                 $this->setQueryParam('___SID', 'S');
