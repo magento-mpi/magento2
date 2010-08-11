@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<references>
+    <testCase>
+        <id>S-1</id>
+        <name>SmokeTest: </name>
+        <testClass>Admin_Customer_Address_Add</testClass>
+    </testCase>
+</references>
