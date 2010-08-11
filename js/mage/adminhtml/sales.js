@@ -677,14 +677,6 @@ AdminOrder.prototype = {
                 params[value[0]] = value[1];
             });
         }
-        if ($('order-giftmessage')) {
-            data = this.serializeData('order-giftmessage');
-            if (data) {
-                data.each(function(value) {
-                    params[value[0]] = value[1];
-                });
-            }
-        }
         return params;
     },
 
