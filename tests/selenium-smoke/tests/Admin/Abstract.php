@@ -20,7 +20,6 @@ abstract class Test_Admin_Abstract extends Test_Abstract
         parent::setUp();
 
         // Get test parameters
-        // Should be loaded from some config
         $this->_baseUrl = Core::getEnvConfig('backend/baseUrl');
         $this->_userName = Core::getEnvConfig('backend/auth/username');
         $this->_password = Core::getEnvConfig('backend/auth/password');
@@ -40,7 +39,7 @@ abstract class Test_Admin_Abstract extends Test_Abstract
     }
 
     /**
-     * Await appearing "Please wait" gif-image and disappearing
+     * Await appearing and disappearing "Please wait" gif-image
      *
      */
     public  function pleaseWait()

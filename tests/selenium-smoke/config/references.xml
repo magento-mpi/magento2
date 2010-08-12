@@ -2,7 +2,12 @@
 <references>
     <testCase>
         <id>S-1</id>
-        <name>SmokeTest: </name>
-        <testClass>Admin_Customer_Address_Add</testClass>
+        <name>SmokeTest: Admin Login </name>
+        <testClass>description </testClass>
+    </testCase>
+    <testCase>
+        <id>S-2</id>
+        <name>SmokeTest: Admin User Creation </name>
+        <testClass>description</testClass>
     </testCase>
 </references>
