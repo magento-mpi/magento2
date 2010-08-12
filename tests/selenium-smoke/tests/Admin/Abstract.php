@@ -31,11 +31,16 @@ abstract class Test_Admin_Abstract extends Test_Abstract
      */
     public function adminLogin($baseurl, $username, $password) {
         $this->open($baseurl);
-        $this->waitForPageToLoad("10000");
         $this->type("username", $username);
         $this->type("login", $password);
         $this->click("//input[@title='Login']");
         $this->waitForPageToLoad("90000");
+
+        if ($this->isTextPresent($this->getUiElement("admin/messages/invalidlogin"))) {
+            $this->setVerificationErrors("Check 1 failed: Invalid login name/passsword");
+
+        }
+//        $this->verifyElementPresent($this->getUiElement("admin/images/mainlogo"));
     }
 
     /**
