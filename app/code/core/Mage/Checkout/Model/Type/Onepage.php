@@ -557,6 +557,12 @@ class Mage_Checkout_Model_Type_Onepage
         $payment = $this->getQuote()->getPayment();
         $payment->importData($data);
 
+        // shipping totals may be affected by payment method
+        if (!$this->getQuote()->isVirtual() && $this->getQuote()->getShippingAddress()) {
+            $this->getQuote()->getShippingAddress()
+                ->setCollectShippingRates(true)
+                ->collectTotals();
+        }
         $this->getQuote()->save();
 
         $this->getCheckout()

@@ -101,6 +101,26 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         return $this;
     }
 
+    /**
+     * Load quote from request and make sure the proper payment method is set
+     *
+     * @return Mage_Sales_Model_Quote
+     */
+    protected function _loadQuote()
+    {
+        $quoteId = $this->getData('root/shopping-cart/merchant-private-data/quote-id/VALUE');
+        $storeId = $this->getData('root/shopping-cart/merchant-private-data/store-id/VALUE');
+        $quote = Mage::getModel('sales/quote')
+            ->setStoreId($storeId)
+            ->load($quoteId);
+        if ($quote->isVirtual()) {
+            $quote->getBillingAddress()->setPaymentMethod('googlecheckout');
+        } else {
+            $quote->getShippingAddress()->setPaymentMethod('googlecheckout');
+        }
+        return $quote;
+    }
+
     protected function _getApiUrl()
     {
         return null;
@@ -138,11 +158,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
     {
         $merchantCalculations = new GoogleMerchantCalculations($this->getCurrency());
 
-        $quoteId = $this->getData('root/shopping-cart/merchant-private-data/quote-id/VALUE');
-        $storeId = $this->getData('root/shopping-cart/merchant-private-data/store-id/VALUE');
-        $quote = Mage::getModel('sales/quote')
-            ->setStoreId($storeId)
-            ->load($quoteId);
+        $quote = $this->_loadQuote();
+        $storeId = $quote->getStoreId();
 
         $billingAddress = $quote->getBillingAddress();
         $address = $quote->getShippingAddress();
@@ -292,15 +309,10 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         }
 
         // IMPORT GOOGLE ORDER DATA INTO QUOTE
-        $quoteId = $this->getData('root/shopping-cart/merchant-private-data/quote-id/VALUE');
-        $storeId = $this->getData('root/shopping-cart/merchant-private-data/store-id/VALUE');
-
         /* @var $quote Mage_Sales_Model_Quote */
-        $quote = Mage::getModel('sales/quote')
-            ->setStoreId($storeId)
-            ->load($quoteId)
-            ->setIsActive(true)
-            ->reserveOrderId();
+        $quote = $this->_loadQuote();
+        $quote->setIsActive(true)->reserveOrderId();
+        $storeId = $quote->getStoreId();
 
         Mage::app()->setCurrentStore(Mage::app()->getStore($storeId));
         if ($quote->getQuoteCurrencyCode() != $quote->getBaseCurrencyCode()) {
