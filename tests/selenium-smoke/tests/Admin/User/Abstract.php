@@ -42,7 +42,6 @@ abstract class Test_Admin_User_Abstract extends Test_Admin_Abstract
       // Check for success message
       if (!$this->isElementPresent($this->getUiElement("admin/pages/system/permissions/users/user/messages/usersaved"))) {
         $this->setVerificationErrors("addUser : no success message");
-         $this->debug("trap");
       }
       $this->debug("addUser finished");
     }
