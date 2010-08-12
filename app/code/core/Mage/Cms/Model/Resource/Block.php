@@ -35,7 +35,7 @@
 class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize resource model
      *
      */
     protected function _construct()
@@ -44,7 +44,7 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Enter description here ...
+     * Perform operations before object save
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Cms_Model_Resource_Block
@@ -63,62 +63,74 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
     }
 
     /**
-     * Enter description here ...
+     * Perform operations after object save
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Mage_Cms_Model_Resource_Block
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $condition = $this->_getWriteAdapter()->quoteInto('block_id = ?', $object->getId());
-        $this->_getWriteAdapter()->delete($this->getTable('cms/block_store'), $condition);
+        $oldStores = $this->lookupStoreIds($object->getId());
+        $newStores = (array)$object->getStores();
 
-        foreach ((array)$object->getData('stores') as $store) {
-            $storeArray = array();
-            $storeArray['block_id'] = $object->getId();
-            $storeArray['store_id'] = $store;
-            $this->_getWriteAdapter()->insert($this->getTable('cms/block_store'), $storeArray);
+        $table  = $this->getTable('cms/block_store');
+        $insert = array_diff($newStores, $oldStores);
+        $delete = array_diff($oldStores, $newStores);
+
+        if ($delete) {
+            $where = array(
+                'block_id = ?'     => (int) $object->getId(),
+                'store_id IN (?)' => $delete
+            );
+
+            $this->_getWriteAdapter()->delete($table, $where);
+        }
+
+        if ($insert) {
+            $data = array();
+
+            foreach ($insert as $storeId) {
+                $data[] = array(
+                    'block_id'  => (int) $object->getId(),
+                    'store_id' => (int) $storeId
+                );
+            }
+
+            $this->_getWriteAdapter()->insertMultiple($table, $data);
         }
 
         return parent::_afterSave($object);
+
     }
 
     /**
-     * Enter description here ...
+     * Load an object using 'identifier' field if there's no field specified and value is not numeric 
      *
      * @param Mage_Core_Model_Abstract $object
-     * @param unknown_type $value
-     * @param unknown_type $field
-     * @return unknown
+     * @param mixed $value
+     * @param string $field
+     * @return Mage_Cms_Model_Resource_Block
      */
     public function load(Mage_Core_Model_Abstract $object, $value, $field = null)
     {
-        if (!intval($value) && is_string($value)) {
+        if (!is_numeric($value) && is_null($field)) {
             $field = 'identifier';
         }
+
         return parent::load($object, $value, $field);
     }
 
     /**
-     * Enter description here ...
+     * Perform operations after object load
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Mage_Cms_Model_Resource_Block
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
         if ($object->getId()) {
-            $select = $this->_getReadAdapter()->select()
-                ->from($this->getTable('cms/block_store'))
-                ->where('block_id = ?', $object->getId());
-
-            if ($data = $this->_getReadAdapter()->fetchAll($select)) {
-                $storesArray = array();
-                foreach ($data as $row) {
-                    $storesArray[] = $row['store_id'];
-                }
-                $object->setData('store_id', $storesArray);
-            }
+            $stores = $this->lookupStoreIds($object->getId());
+            $object->setData('store_id', $stores);
         }
 
         return parent::_afterLoad($object);
@@ -129,7 +141,7 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
      *
      * @param string $field
      * @param mixed $value
-     * @param unknown_type $object
+     * @param Mage_Cms_Model_Block $object
      * @return Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -137,11 +149,18 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if ($object->getStoreId()) {
+            $stores = array(
+                (int) $object->getStoreId(),
+                Mage_Core_Model_App::ADMIN_STORE_ID,
+            );
+
             $select->join(array('cbs' => $this->getTable('cms/block_store')), $this->getMainTable().'.block_id = cbs.block_id')
-                    ->where('is_active=1 AND cbs.store_id in (0, ?) ', $object->getStoreId())
+                    ->where('is_active = ?', 1)
+                    ->where('cbs.store_id in (?) ', $stores)
                     ->order('store_id DESC')
                     ->limit(1);
         }
+
         return $select;
     }
 
@@ -153,16 +172,26 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function getIsUniqueBlockToStores(Mage_Core_Model_Abstract $object)
     {
-        $select = $this->_getWriteAdapter()->select()
-                ->from($this->getMainTable())
-                ->join(array('cbs' => $this->getTable('cms/block_store')), $this->getMainTable().'.block_id = `cbs`.block_id')
-                ->where($this->getMainTable().'.identifier = ?', $object->getData('identifier'));
-        if ($object->getId()) {
-            $select->where($this->getMainTable().'.block_id <> ?',$object->getId());
+        if (Mage::app()->isSingleStoreMode()) {
+            $stores = array(Mage_Core_Model_App::ADMIN_STORE_ID);
+        } else {
+            $stores = (array)$object->getData('stores');
         }
-        $select->where('`cbs`.store_id IN (?)', (array)$object->getData('stores'));
 
-        if ($this->_getWriteAdapter()->fetchRow($select)) {
+        $select = $this->_getReadAdapter()->select()
+            ->from(array('cb' => $this->getMainTable()))
+            ->join(
+                array('cbs' => $this->getTable('cms/block_store')),
+                'cb.block_id = cbs.block_id',
+                array())
+            ->where('cb.identifier = ?', $object->getData('identifier'))
+            ->where('cbs.store_id IN (?)', $stores);
+
+        if ($object->getId()) {
+            $select->where('cb.block_id <> ?', $object->getId());
+        }
+
+        if ($this->_getReadAdapter()->fetchRow($select)) {
             return false;
         }
 
@@ -177,9 +206,16 @@ class Mage_Cms_Model_Resource_Block extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function lookupStoreIds($id)
     {
-        return $this->_getReadAdapter()->fetchCol($this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+
+        $select  = $adapter->select()
             ->from($this->getTable('cms/block_store'), 'store_id')
-            ->where("{$this->getIdFieldName()} = ?", $id)
+            ->where('block_id = :block_id');
+
+        $binds = array(
+            'block_id' => (int) $id
         );
+
+        return $adapter->fetchCol($select, $binds);
     }
 }

@@ -35,14 +35,14 @@
 class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Load data for preview flag
      *
-     * @var unknown
+     * @var bool
      */
     protected $_previewFlag;
 
     /**
-     * Enter description here ...
+     * Define resource model
      *
      */
     protected function _construct()
@@ -77,10 +77,10 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
 
             $data['value'] = $identifier;
             $data['label'] = $item->getData('title');
+
             if (in_array($identifier, $existingIdentifiers)) {
                 $data['value'] .= '|' . $item->getData('page_id');
-            }
-            else {
+            } else {
                 $existingIdentifiers[] = $identifier;
             }
 
@@ -91,9 +91,9 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
     }
 
     /**
-     * Enter description here ...
+     * Set first store flag
      *
-     * @param unknown_type $flag
+     * @param bool $flag
      * @return Mage_Cms_Model_Resource_Page_Collection
      */
     public function setFirstStoreFlag($flag = false)
@@ -103,18 +103,21 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
     }
 
     /**
-     * Enter description here ...
+     * Perform operations after collection load
      *
+     * @return Mage_Cms_Model_Resource_Page_Collection
      */
     protected function _afterLoad()
     {
         if ($this->_previewFlag) {
             $items = $this->getColumnValues('page_id');
+            $connection = $this->getConnection();
             if (count($items)) {
-                $select = $this->getConnection()->select()
-                        ->from($this->getTable('cms/page_store'))
-                        ->where($this->getTable('cms/page_store').'.page_id IN (?)', $items);
-                if ($result = $this->getConnection()->fetchPairs($select)) {
+                $select = $connection->select()
+                        ->from(array('cps'=>$this->getTable('cms/page_store')))
+                        ->where('cps.page_id IN (?)', $items);
+
+                if ($result = $connection->fetchPairs($select)) {
                     foreach ($this as $item) {
                         if (!isset($result[$item->getData('page_id')])) {
                             continue;
@@ -134,14 +137,14 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
             }
         }
 
-        parent::_afterLoad();
+        return parent::_afterLoad();
     }
 
     /**
      * Add Filter by store
      *
      * @param int|Mage_Core_Model_Store $store
-     * @param unknown_type $withAdmin
+     * @param bool $withAdmin
      * @return Mage_Cms_Model_Resource_Page_Collection
      */
     public function addStoreFilter($store, $withAdmin = true)
@@ -151,12 +154,20 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
                 $store = array($store->getId());
             }
 
+            if (!is_array($store)) {
+                $store = array($store);
+            }
+
+            if ($withAdmin) {
+                $store[] = Mage_Core_Model_App::ADMIN_STORE_ID;
+            }
+
             $this->getSelect()->join(
                 array('store_table' => $this->getTable('cms/page_store')),
                 'main_table.page_id = store_table.page_id',
                 array()
             )
-            ->where('store_table.store_id in (?)', ($withAdmin ? array(0, $store) : $store))
+            ->where('store_table.store_id in (?)', $store)
             ->group('main_table.page_id');
 
             $this->setFlag('store_filter_added', true);
@@ -167,7 +178,7 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
 
     /**
      * Get SQL for get record count.
-     * Extra group by strip added.
+     * Extra GROUP BY strip added.
      *
      * @return Varien_Db_Select
      */

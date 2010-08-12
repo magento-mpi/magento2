@@ -59,15 +59,14 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         /*
-         * For two attributes which represent datetime data in DB
+         * For two attributes which represent timestamp data in DB
          * we should make converting such as:
          * If they are empty we need to convert them into DB
-         * type NULL so in DB they will be empty and not some default value.
+         * type NULL so in DB they will be empty and not some default value
          */
-        foreach (array('custom_theme_from', 'custom_theme_to') as $dataKey) {
-            if (!$object->getData($dataKey)) {
-                $object->setData($dataKey, new Zend_Db_Expr('NULL'));
-            }
+        foreach (array('custom_theme_from', 'custom_theme_to') as $field) {
+            $value = !$object->getData($field) ? null : $object->getData($field);
+            $object->setData($field, $this->formatDate($value));
         }
 
         if (!$this->getIsUniquePageToStores($object)) {
@@ -90,57 +89,70 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
      * Assign page to store views
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Mage_Cms_Model_Resource_Page
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $condition = $this->_getWriteAdapter()->quoteInto('page_id = ?', $object->getId());
-        $this->_getWriteAdapter()->delete($this->getTable('cms/page_store'), $condition);
+        $oldStores = $this->lookupStoreIds($object->getId());
+        $newStores = (array)$object->getStores();
 
-        foreach ((array)$object->getData('stores') as $store) {
-            $storeArray = array();
-            $storeArray['page_id'] = $object->getId();
-            $storeArray['store_id'] = $store;
-            $this->_getWriteAdapter()->insert($this->getTable('cms/page_store'), $storeArray);
+        $table  = $this->getTable('cms/page_store');
+        $insert = array_diff($newStores, $oldStores);
+        $delete = array_diff($oldStores, $newStores);
+
+        if ($delete) {
+            $where = array(
+                'page_id = ?'     => (int) $object->getId(),
+                'store_id IN (?)' => $delete
+            );
+
+            $this->_getWriteAdapter()->delete($table, $where);
+        }
+
+        if ($insert) {
+            $data = array();
+
+            foreach ($insert as $storeId) {
+                $data[] = array(
+                    'page_id'  => (int) $object->getId(),
+                    'store_id' => (int) $storeId
+                );
+            }
+
+            $this->_getWriteAdapter()->insertMultiple($table, $data);
         }
 
         return parent::_afterSave($object);
     }
 
     /**
-     * Enter description here ...
+     * Load an object using 'identifier' field if there's no field specified and value is not numeric 
      *
      * @param Mage_Core_Model_Abstract $object
-     * @param unknown_type $value
-     * @param unknown_type $field
-     * @return unknown
+     * @param mixed $value
+     * @param string $field
+     * @return Mage_Cms_Model_Resource_Page
      */
     public function load(Mage_Core_Model_Abstract $object, $value, $field = null)
     {
-        if (!is_numeric($value)) {
+        if (!is_numeric($value) && is_null($field)) {
             $field = 'identifier';
         }
+
         return parent::load($object, $value, $field);
     }
 
     /**
-     * Enter description here ...
+     * Perform operations after object load
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return unknown
+     * @return Mage_Cms_Model_Resource_Page
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('cms/page_store'))
-            ->where('page_id = ?', $object->getId());
-
-        if ($data = $this->_getReadAdapter()->fetchAll($select)) {
-            $storesArray = array();
-            foreach ($data as $row) {
-                $storesArray[] = $row['store_id'];
-            }
-            $object->setData('store_id', $storesArray);
+        if ($object->getId()) {
+            $stores = $this->lookupStoreIds($object->getId());
+            $object->setData('store_id', $stores);
         }
 
         return parent::_afterLoad($object);
@@ -151,23 +163,51 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
      *
      * @param string $field
      * @param mixed $value
-     * @param unknown_type $object
+     * @param Mage_Cms_Model_Page $object
      * @return Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
 
-        $storeId = $object->getStoreId();
-        if ($storeId) {
+        if ($object->getStoreId()) {
+            $storeIds = array(Mage_Core_Model_App::ADMIN_STORE_ID, (int)$object->getStoreId());
             $select->join(
-                        array('cps' => $this->getTable('cms/page_store')),
-                        $this->getMainTable().'.page_id = `cps`.page_id'
-                    )
-                    ->where('is_active=1 AND `cps`.store_id IN (' . Mage_Core_Model_App::ADMIN_STORE_ID . ', ?) ', $storeId)
-                    ->order('store_id DESC')
-                    ->limit(1);
+                array('cms_page_store' => $this->getTable('cms/page_store')),
+                $this->getMainTable() . '.page_id = cms_page_store.page_id',
+                array())
+                ->where('is_active = ?', 1)
+                ->where('cms_page_store.store_id IN (?)', $storeIds)
+                ->order('cms_page_store.store_id DESC')
+                ->limit(1);
         }
+
+        return $select;
+    }
+
+    /**
+     * Retrieve load select with filter by identifier, store and activity
+     *
+     * @param string $identifier
+     * @param int|array $store
+     * @param int $isActive
+     * @return Varien_Db_Select
+     */
+    protected function _getLoadByIdentifierSelect($identifier, $store, $isActive = null)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from(array('cp' => $this->getMainTable()))
+            ->join(
+                array('cps' => $this->getTable('cms/page_store')),
+                'cp.page_id = cps.page_id',
+                array())
+            ->where('cp.identifier = ?', $identifier)
+            ->where('cps.store_id IN (?)', $store);
+
+        if (!is_null($isActive)) {
+            $select->where('cp.is_active = ?', $isActive);
+        }
+
         return $select;
     }
 
@@ -179,18 +219,17 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function getIsUniquePageToStores(Mage_Core_Model_Abstract $object)
     {
-        $select = $this->_getWriteAdapter()->select()
-                ->from($this->getMainTable())
-                ->join(array('cps' => $this->getTable('cms/page_store')), $this->getMainTable().'.page_id = `cps`.page_id')
-                ->where($this->getMainTable().'.identifier = ?', $object->getData('identifier'));
-        if ($object->getId()) {
-            $select->where($this->getMainTable().'.page_id <> ?',$object->getId());
-        }
-        $stores = (array)$object->getData('stores');
         if (Mage::app()->isSingleStoreMode()) {
             $stores = array(Mage_Core_Model_App::ADMIN_STORE_ID);
+        } else {
+            $stores = (array)$object->getData('stores');
         }
-        $select->where('`cps`.store_id IN (?)', $stores);
+
+        $select = $this->_getLoadByIdentifierSelect($object->getData('identifier'), $stores);
+
+        if ($object->getId()) {
+            $select->where('cps.page_id <> ?', $object->getId());
+        }
 
         if ($this->_getWriteAdapter()->fetchRow($select)) {
             return false;
@@ -222,14 +261,12 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function checkIdentifier($identifier, $storeId)
     {
-        $select = $this->_getReadAdapter()->select()->from(array('main_table'=>$this->getMainTable()), 'page_id')
-            ->join(
-                array('cps' => $this->getTable('cms/page_store')),
-                'main_table.page_id = `cps`.page_id'
-            )
-            ->where('main_table.identifier=?', $identifier)
-            ->where('main_table.is_active=1 AND `cps`.store_id IN (' . Mage_Core_Model_App::ADMIN_STORE_ID . ', ?) ', $storeId)
-            ->order('store_id DESC');
+        $stores = array(Mage_Core_Model_App::ADMIN_STORE_ID, $storeId);
+        $select = $this->_getLoadByIdentifierSelect($identifier, $stores, 1);
+        $select->reset(Zend_Db_Select::COLUMNS)
+            ->columns('cp.page_id')
+            ->order('cps.store_id DESC')
+            ->limit(1);
 
         return $this->_getReadAdapter()->fetchOne($select);
     }
@@ -242,15 +279,17 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function getCmsPageTitleByIdentifier($identifier)
     {
-        $select = $this->_getReadAdapter()->select();
-        /* @var $select Zend_Db_Select */
-        $joinExpr = $this->_getReadAdapter()->quoteInto(
-            'main_table.page_id = cps.page_id AND (cps.store_id = ' . Mage_Core_Model_App::ADMIN_STORE_ID . ' OR cps.store_id = ?)', $this->getStore()->getId()
-        );
-        $select->from(array('main_table' => $this->getMainTable()), 'title')
-        ->joinLeft(array('cps' => $this->getTable('cms/page_store')), $joinExpr ,array())
-            ->where('main_table.identifier = ?', $identifier)
-            ->order('cps.store_id DESC');
+        $stores = array(Mage_Core_Model_App::ADMIN_STORE_ID);
+        if ($this->_store) {
+            $stores[] = (int)$this->getStore()->getId();
+        }
+
+        $select = $this->_getLoadByIdentifierSelect($identifier, $stores);
+        $select->reset(Zend_Db_Select::COLUMNS)
+            ->columns('cp.title')
+            ->order('cps.store_id DESC')
+            ->limit(1);
+
         return $this->_getReadAdapter()->fetchOne($select);
     }
 
@@ -262,11 +301,17 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function getCmsPageTitleById($id)
     {
-        $select = $this->_getReadAdapter()->select();
-        /* @var $select Zend_Db_Select */
-        $select->from(array('main_table' => $this->getMainTable()), 'title')
-            ->where('main_table.page_id = ?', $id);
-        return $this->_getReadAdapter()->fetchOne($select);
+        $adapter = $this->_getReadAdapter();
+
+        $select  = $adapter->select()
+            ->from($this->getMainTable(), 'title')
+            ->where('page_id = :page_id');
+
+        $binds = array(
+            'page_id' => (int) $id
+        );
+
+        return $adapter->fetchOne($select, $binds);
     }
 
     /**
@@ -277,11 +322,17 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function getCmsPageIdentifierById($id)
     {
-        $select = $this->_getReadAdapter()->select();
-        /* @var $select Zend_Db_Select */
-        $select->from(array('main_table' => $this->getMainTable()), 'identifier')
-            ->where('main_table.page_id = ?', $id);
-        return $this->_getReadAdapter()->fetchOne($select);
+        $adapter = $this->_getReadAdapter();
+
+        $select  = $adapter->select()
+            ->from($this->getMainTable(), 'identifier')
+            ->where('page_id = :page_id');
+
+        $binds = array(
+            'page_id' => (int) $id
+        );
+
+        return $adapter->fetchOne($select, $binds);
     }
 
     /**
@@ -292,10 +343,17 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function lookupStoreIds($id)
     {
-        return $this->_getReadAdapter()->fetchCol($this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+
+        $select  = $adapter->select()
             ->from($this->getTable('cms/page_store'), 'store_id')
-            ->where("{$this->getIdFieldName()} = ?", $id)
+            ->where('page_id = :page_id');
+
+        $binds = array(
+            'page_id' => (int) $id
         );
+
+        return $adapter->fetchCol($select, $binds);
     }
 
     /**

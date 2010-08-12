@@ -35,7 +35,7 @@
 class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Define resource model
      *
      */
     protected function _construct()
@@ -44,9 +44,9 @@ class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Enter description here ...
+     * Returns pairs block_id - title
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {
@@ -57,7 +57,7 @@ class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_
      * Add Filter by store
      *
      * @param int|Mage_Core_Model_Store $store
-     * @param unknown_type $withAdmin
+     * @param bool $withAdmin
      * @return Mage_Cms_Model_Resource_Block_Collection
      */
     public function addStoreFilter($store, $withAdmin = true)
@@ -66,26 +66,37 @@ class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_
             $store = array($store->getId());
         }
 
+        if (!is_array($store)) {
+            $store = array($store);
+        }
+
+        if ($withAdmin) {
+            $store[] = Mage_Core_Model_App::ADMIN_STORE_ID;
+        }
+
         $this->getSelect()->join(
             array('store_table' => $this->getTable('cms/block_store')),
             'main_table.block_id = store_table.block_id',
             array()
         )
-        ->where('store_table.store_id in (?)', ($withAdmin ? array(0, $store) : $store))
+        ->where('store_table.store_id in (?)', $store)
         ->group('main_table.block_id');
 
         return $this;
     }
 
     /**
-     * Get SQL for get record count
+     * Get SQL for get record count.
+     * Extra GROUP BY strip added.
      *
      * @return Varien_Db_Select
      */
     public function getSelectCountSql()
     {
         $countSelect = parent::getSelectCountSql();
+
         $countSelect->reset(Zend_Db_Select::GROUP);
+
         return $countSelect;
     }
 }
