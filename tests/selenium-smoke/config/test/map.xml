@@ -33,7 +33,7 @@
                                 <saveuser>//button[span="Save User"]</saveuser>
                             </buttons>
                             <messages>
-                                <usersaved>//div[messages]//li[@class="success-msg"]</usersaved>
+                                <usersaved>//div[@id="messages"]//li[@class="success-msg"]</usersaved>
                             </messages>
                         </user>
                     </users>
