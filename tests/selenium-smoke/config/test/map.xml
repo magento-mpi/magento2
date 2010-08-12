@@ -29,6 +29,12 @@
                                 <password>user_password</password>
                                 <confirmation>user_confirmation</confirmation>
                             </inputs>
+                            <buttons>
+                                <saveuser>//button[span="Save User"]</saveuser>
+                            </buttons>
+                            <messages>
+                                <usersaved>//div[messages]//li[@class="success-msg"]</usersaved>
+                            </messages>
                         </user>
                     </users>
                 </permissions>
