@@ -94,7 +94,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @var bool
      */
-    protected $_debug               = false;
+    protected $_debug               = true;
 
     /**
      * Minimum query duration time to be logged
@@ -108,7 +108,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      *
      * @var bool
      */
-    protected $_logAllQueries       = false;
+    protected $_logAllQueries       = true;
 
     /**
      * Add to log call stack data (backtrace)
@@ -2710,10 +2710,22 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $level1ObjectName = $object;
 
         } else {
+            reset($object);
+
+            $level1ObjectType = key($object);
+            $level1ObjectName = current($object);
+
+            next($object);
+
+            $level2ObjectType = key($object);
+            $level2ObjectName = current($object);
+
+            /*
             $level1ObjectType = key($object[0]);
             $level1ObjectName = $object[0];
             $level2ObjectType = key($object[1]);
             $level2ObjectName = $object[1];
+            */
         }
         $existsDependedObject = false;
 
@@ -2723,17 +2735,18 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         $sqlExistsComment = "SELECT COUNT(1) AS qty   \n"
             . "FROM fn_listextendedproperty (         \n"
-            . "    N'{$commentType}'                  \n"
+            . "    N'{$commentType}',                 \n"
             . "    N'user',                           \n"
             . "    N'dbo',                            \n"
             . "    N'{$level1ObjectType}',            \n"
             . "    N'{$level1ObjectName}',            \n"
-            . $existsDependedObject ?
+            . ($existsDependedObject ?
                 "    N'{$level2ObjectType}',          \n" :
-                "    NULL,                            \n"
-            . $existsDependedObject ?
+                "    NULL,                            \n")
+            . ($existsDependedObject ?
                 "    N'{$level2ObjectName}'           \n" :
-                "    NULL                             \n";
+                "    NULL                             \n")
+            . ")                                      \n";
 
             return ($this->raw_fetchRow($sqlExistsComment, 'qty') != 0);
     }
@@ -2751,10 +2764,23 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $level1ObjectName = $object;
         } else {
             // sp_%extendedproperty has only 3 levels: fist schema|user second object third depended object (like column)
+
+            reset($object);
+
+            $level1ObjectType = key($object);
+            $level1ObjectName = current($object);
+
+            next($object);
+
+            $level2ObjectType = key($object);
+            $level2ObjectName = current($object);
+
+            /*
             $level1ObjectType = key($object[0]);
             $level1ObjectName = $object[0];
             $level2ObjectType = key($object[1]);
             $level2ObjectName = $object[1];
+            */
         }
         $existsDependedObject = false;
         if (!empty($level2ObjectName) && !empty($level2ObjectType)) {
@@ -2764,11 +2790,11 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if(!$this->_checkComentExists($object,$commentType)) {
             $this->query("EXEC sp_addextendedproperty N'{$commentType}', N'{$comment}', ".
                 "N'user', N'dbo', N'{$level1ObjectType}', N'{$level1ObjectName}', ".
-                $existsDependedObject ? "N'{$level2ObjectType}', N'{$level2ObjectName}'" : "NULL , NULL");
+                ($existsDependedObject ? "N'{$level2ObjectType}', N'{$level2ObjectName}'" : "NULL , NULL"));
         } else {
             $this->query("EXEC sp_updateextendedproperty N'{$commentType}', N'{$comment}', ".
                 "N'user', N'dbo', N'{$level1ObjectType}', N'{$level1ObjectName}', ".
-                $existsDependedObject ? "N'{$level2ObjectType}', N'{$level2ObjectName}'" : "NULL , NULL");
+                ($existsDependedObject ? "N'{$level2ObjectType}', N'{$level2ObjectName}'" : "NULL , NULL"));
         }
     }
 
@@ -2781,7 +2807,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _addTableComment($tableName, $comment)
     {
-        $this->_addExtendProperty($tableName, $comment, self::EXTPROP_COMMENT_TABLE);
+        //$this->_addExtendProperty($tableName, $comment, self::EXTPROP_COMMENT_TABLE);
         return $this;
     }
 
@@ -2877,9 +2903,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                )
             . "    WHERE {$columnName} = @old_{$refColumnName};             \n"
             . "END                                                          \n";
-        $this->exec("SET ANSI_NULLS ON");
-        $this->exec("SET QUOTED_IDENTIFIER ON");
-        $this->exec($sqlTrigger);
+        $this->getConnection()->exec("SET ANSI_NULLS ON");
+        $this->getConnection()->exec("SET QUOTED_IDENTIFIER ON");
+        $this->getConnection()->exec($sqlTrigger);
 
         return $this;
     }
@@ -2923,9 +2949,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             . "END                                                          \n"
             . "                                                            \n";
 
-        $this->exec("SET ANSI_NULLS ON");
-        $this->exec("SET QUOTED_IDENTIFIER ON");
-        $this->exec($sqlTrigger);
+        $this->getConnection()->exec("SET ANSI_NULLS ON");
+        $this->getConnection()->exec("SET QUOTED_IDENTIFIER ON");
+        $this->getConnection()->exec($sqlTrigger);
 
         return $this;
     }
