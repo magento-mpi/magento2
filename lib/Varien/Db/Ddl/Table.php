@@ -193,6 +193,7 @@ class Varien_Db_Ddl_Table
     public function setComment($comment)
     {
         $this->_tableComment = $comment;
+        return $this;
     }
 
     /**
