@@ -24,6 +24,8 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
+/* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -103,17 +105,17 @@ $table = $installer->getConnection()
         'default'   => '',
         ), 'Page Template')
     ->addColumn('meta_keywords', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        'nullable'  => false,
+        'nullable'  => true,
         ), 'Page Meta Keywords')
     ->addColumn('meta_description', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        'nullable'  => false,
+        'nullable'  => true,
         ), 'Page Meta Description')
     ->addColumn('identifier', Varien_Db_Ddl_Table::TYPE_TEXT, 100, array(
         'nullable'  => false,
         'default'   => '',
         ), 'Page String Identifier')
     ->addColumn('content_heading', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
+        'nullable'  => true,
         'default'   => '',
         ), 'Page Content Heading')
     ->addColumn('content', Varien_Db_Ddl_Table::TYPE_TEXT, '2M', array(
@@ -135,7 +137,7 @@ $table = $installer->getConnection()
     ->addColumn('custom_theme', Varien_Db_Ddl_Table::TYPE_TEXT, 100, array(
         ), 'Page Custom Theme')
     ->addColumn('custom_root_template', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        'nullable'  => false,
+        'nullable'  => true,
         'default'   => '',
         ), 'Page Custom Template')
     ->addColumn('custom_layout_update_xml', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
