@@ -55,7 +55,7 @@ class Mage_Core_Model_Resource_Cache extends Mage_Core_Model_Resource_Db_Abstrac
             /**
              * Check if table exist (it protect upgrades. cache settings checked before upgrades)
              */
-            if ($adapter->fetchOne('SHOW TABLES LIKE ?', $this->getMainTable())) {
+            if ($adapter->isTableExists($this->getMainTable())) {
                 $select = $adapter->select()
                     ->from($this->getMainTable(), array('code', 'value'));
                 return $adapter->fetchPairs($select);
