@@ -249,8 +249,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @return  string
      */
     public function convertDateTime($datetime)
-    {        
-        return $this->formatDate($datetime, true);    
+    {
+        return $this->formatDate($datetime, true);
     }
 
     /**
@@ -295,7 +295,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * @return Zend_Db_Statement_Interface
      */
     public function raw_query($sql)
-    {        
+    {
         do {
             $retry = false;
             $tries = 0;
@@ -520,7 +520,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
             $this->resetDdlCache($tableName, $schemaName);
             $this->raw_query($sql);
         }
-        return $this;		
+        return $this;
     }
 
     /**
@@ -589,7 +589,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
         return $this->addForeignKey($fkName, $tableName, $columnName, $refTableName, $refColumnName,
             $onDelete, $onUpdate, $purge);
     }
-	
+
     /**
      * Check does table column exist
      *
@@ -1538,7 +1538,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      * Return new DDL Table object
      *
      * @param string $tableName the table name
-     * @param string $schemaName the database/shema name 
+     * @param string $schemaName the database/shema name
      * @return Varien_Db_Ddl_Table
      */
     public function newTable($tableName = null, $schemaName = null)
@@ -1708,16 +1708,18 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements V
      */
     protected function _getOptionsDefination(Varien_Db_Ddl_Table $table)
     {
-        if (!$table->getComment()) {
-            //throw new Varien_Db_Exception('Comment for table is required and must be defined');
-        }
         $definition = array();
+        $comment    = $table->getComment();
+        if (empty($comment)) {
+            throw new Varien_Db_Exception('Comment for table is required and must be defined');
+        }
+        $definition[] = $this->quoteInto('COMMENT=?', $comment);
+
         $tableProps = array(
             'type'              => 'ENGINE=%s',
             'checksum'          => 'CHECKSUM=%d',
             'auto_increment'    => 'AUTO_INCREMENT=%d',
             'avg_row_length'    => 'AVG_ROW_LENGTH=%d',
-
             'max_rows'          => 'MAX_ROWS=%d',
             'min_rows'          => 'MIN_ROWS=%d',
             'delay_key_write'   => 'DELAY_KEY_WRITE=%d',
