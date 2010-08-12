@@ -46,6 +46,13 @@
                 <images>
                     <mainlogo>//img[@class='logo']</mainlogo>
                 </images>
+                <fields>
+                    <username>//input[@id='username']</username>
+                    <password>//input[@id='login']</password>
+                </fields>
+                <buttons>
+                    <loginbutton>//input[@title='Login']</loginbutton>
+                </buttons>
             </login>
         </pages>
     </admin>
