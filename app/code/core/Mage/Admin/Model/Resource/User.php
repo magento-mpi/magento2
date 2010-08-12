@@ -35,7 +35,7 @@
 class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Initialize resource
      *
      */
     protected function _construct()
@@ -71,33 +71,48 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      */
     public function recordLogin(Mage_Admin_Model_User $user)
     {
+        $adapter = $this->_getWriteAdapter();
+
         $data = array(
             'logdate' => now(),
             'lognum'  => $user->getLognum()+1
         );
-        $condition = $this->_getWriteAdapter()->quoteInto('user_id=?', $user->getUserId());
-        $this->_getWriteAdapter()->update($this->getTable('admin/user'), $data, $condition);
+
+        $condition = array(
+            'user_id' => (int) $user->getUserId();
+        );
+
+        $adapter->update($this->getMainTable(), $data, $condition);
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Load data by specified username
      *
-     * @param unknown_type $username
-     * @return unknown
+     * @param string $username
+     * @return false|array
      */
     public function loadByUsername($username)
     {
-        $select = $this->_getReadAdapter()->select()->from($this->getTable('admin/user'))
-            ->where('username=:username');
-        return $this->_getReadAdapter()->fetchRow($select, array('username'=>$username));
+        $adapter = $this->_getReadAdapter();
+
+        $select = $adapter->select()
+                    ->from($this->getMainTable())
+                    ->where('username=:username');
+
+        $binds = array(
+            'username' => $username
+        );
+
+        return $adapter->fetchRow($select, $binds);
     }
 
     /**
-     * Enter description here ...
+     * Check if user is assigned to any role
      *
-     * @param unknown_type $user
-     * @return unknown
+     * @param int|Mage_Core_Admin_Model_User $user
+     * @return null|false|array
      */
     public function hasAssigned2Role($user)
     {
@@ -110,21 +125,29 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
         }
 
         if ( $userId > 0 ) {
-            $dbh = $this->_getReadAdapter();
-            $select = $dbh->select();
-            $select->from($this->getTable('admin/role'))
-                ->where("parent_id > 0 AND user_id = {$userId}");
-            return $dbh->fetchAll($select);
+            $adapter = $this->_getReadAdapter();
+
+            $select = $adapter->select();
+            $select->from($this->getMainTable())
+                ->where('parent_id > :parent_id')
+                ->where('user_id = :user_id');
+
+            $binds = array(
+                'parent_id' => 0,
+                'user_id' => $userId,
+            );
+
+            return $adapter->fetchAll($select, $binds);
         } else {
             return null;
         }
     }
 
     /**
-     * Enter description here ...
+     * Encrypt password
      *
-     * @param unknown_type $pwStr
-     * @return unknown
+     * @param string $pwStr
+     * @return string
      */
     private function _encryptPassword($pwStr)
     {
@@ -132,7 +155,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
     }
 
     /**
-     * Enter description here ...
+     * Set created/modified values before user save
      *
      * @param Mage_Core_Model_Abstract $user
      * @return Mage_Admin_Model_Resource_User
@@ -140,14 +163,15 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
     protected function _beforeSave(Mage_Core_Model_Abstract $user)
     {
         if (!$user->getId()) {
-            $user->setCreated(now());
+            $user->setCreated(Mage::getSingleton('core/date')->gmtDate());
         }
-        $user->setModified(now());
+
+        $user->setModified(Mage::getSingleton('core/date')->gmtDate());
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Unserialize user extra data after user save
      *
      * @param Mage_Core_Model_Abstract $user
      * @return Mage_Admin_Model_Resource_User
@@ -159,10 +183,10 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
     }
 
     /**
-     * Enter description here ...
+     * Unserialize user extra data after user load
      *
      * @param Mage_Core_Model_Abstract $user
-     * @return unknown
+     * @return Mage_Admin_Model_Resource_User
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $user)
     {
@@ -173,43 +197,31 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
     }
 
     /**
-     * Enter description here ...
+     * Delete user role record with user
      *
      * @param Mage_Core_Model_Abstract $user
-     * @param unknown_type $value
-     * @param unknown_type $field
-     * @return unknown
-     */
-    public function load(Mage_Core_Model_Abstract $user, $value, $field = null)
-    {
-        //        if (!intval($value) && is_string($value)) {
-//            $field = 'user_id';
-//        }
-        return parent::load($user, $value, $field);
-    }
-
-    /**
-     * Enter description here ...
-     *
-     * @param Mage_Core_Model_Abstract $user
-     * @return unknown
+     * @return bool
      */
     public function delete(Mage_Core_Model_Abstract $user)
     {
-        $dbh = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
         $uid = $user->getId();
-        $dbh->beginTransaction();
+        $adapter->beginTransaction();
         try {
-            $dbh->delete($this->getTable('admin/user'), "user_id=$uid");
-            $dbh->delete($this->getTable('admin/role'), "user_id=$uid");
+            $binds = array(
+                'user_id' => $uid
+            );
+
+            $adapter->delete($this->getMainTable(), $binds);
+            $adapter->delete($this->getTable('admin/role'), $binds);
         } catch (Mage_Core_Exception $e) {
             throw $e;
             return false;
         } catch (Exception $e){
-            $dbh->rollBack();
+            $adapter->rollBack();
             return false;
         }
-        $dbh->commit();
+        $adapter->commit();
         return true;
     }
 
