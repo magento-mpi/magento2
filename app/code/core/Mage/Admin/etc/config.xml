@@ -37,24 +37,24 @@
                 <class>Mage_Admin_Model</class>
                 <!-- <resourceModel>admin_mysql4</resourceModel> -->
                 <resourceModel>admin_resource</resourceModel>
-                <admin_resource>
-                    <class>Mage_Admin_Model_Resource</class>
-                    <entities>
-                        <user>
-                            <table>admin_user</table>
-                        </user>
-                        <role>
-                            <table>admin_role</table>
-                        </role>
-                        <rule>
-                            <table>admin_rule</table>
-                        </rule>
-                        <assert>
-                            <table>admin_assert</table>
-                        </assert>
-                    </entities>
-                </admin_resource>
             </admin>
+            <admin_resource>
+                <class>Mage_Admin_Model_Resource</class>
+                <entities>
+                    <user>
+                        <table>admin_user</table>
+                    </user>
+                    <role>
+                        <table>admin_role</table>
+                    </role>
+                    <rule>
+                        <table>admin_rule</table>
+                    </rule>
+                    <assert>
+                        <table>admin_assert</table>
+                    </assert>
+                </entities>
+            </admin_resource>
         </models>
         <resources>
             <admin_setup>

@@ -37,24 +37,24 @@
                 <class>Mage_Weee_Model</class>
                 <!-- <resourceModel>weee_mysql4</resourceModel> -->
                 <resourceModel>weee_resource</resourceModel>
-                <weee_resource>
-                    <class>Mage_Weee_Model_Resource</class>
-                    <entities>
-                        <tax>
-                            <table>weee_tax</table>
-                        </tax>
-                        <discount>
-                            <table>weee_discount</table>
-                        </discount>
-                    </entities>
-                </weee_resource>
             </weee>
+            <weee_resource>
+                <class>Mage_Weee_Model_Resource</class>
+                <entities>
+                    <tax>
+                        <table>weee_tax</table>
+                    </tax>
+                    <discount>
+                        <table>weee_discount</table>
+                    </discount>
+                </entities>
+            </weee_resource>
         </models>
         <resources>
             <weee_setup>
                 <setup>
                     <module>Mage_Weee</module>
-                    <class>Mage_Weee_Model_Mysql4_Setup</class>
+                    <class>Mage_Weee_Model_Resource_Setup</class>
                 </setup>
             </weee_setup>
         </resources>

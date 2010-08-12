@@ -37,27 +37,27 @@
                 <class>Mage_CatalogInventory_Model</class>
                 <!-- <resourceModel>cataloginventory_mysql4</resourceModel> -->
                 <resourceModel>cataloginventory_resource</resourceModel>
-                <cataloginventory_resource>
-                    <class>Mage_CatalogInventory_Model_Resource</class>
-                    <entities>
-                        <stock>
-                            <table>cataloginventory_stock</table>
-                        </stock>
-                        <stock_item>
-                            <table>cataloginventory_stock_item</table>
-                        </stock_item>
-                        <stock_status>
-                            <table>cataloginventory_stock_status</table>
-                        </stock_status>
-                        <stock_status_indexer_idx>
-                            <table>cataloginventory_stock_status_idx</table>
-                        </stock_status_indexer_idx>
-                        <stock_status_indexer_tmp>
-                            <table>cataloginventory_stock_status_tmp</table>
-                        </stock_status_indexer_tmp>
-                    </entities>
-                </cataloginventory_resource>
             </cataloginventory>
+            <cataloginventory_resource>
+                <class>Mage_CatalogInventory_Model_Resource</class>
+                <entities>
+                    <stock>
+                        <table>cataloginventory_stock</table>
+                    </stock>
+                    <stock_item>
+                        <table>cataloginventory_stock_item</table>
+                    </stock_item>
+                    <stock_status>
+                        <table>cataloginventory_stock_status</table>
+                    </stock_status>
+                    <stock_status_indexer_idx>
+                        <table>cataloginventory_stock_status_idx</table>
+                    </stock_status_indexer_idx>
+                    <stock_status_indexer_tmp>
+                        <table>cataloginventory_stock_status_tmp</table>
+                    </stock_status_indexer_tmp>
+                </entities>
+            </cataloginventory_resource>
         </models>
         <helpers>
             <cataloginventory>
@@ -68,7 +68,7 @@
             <cataloginventory_setup>
                 <setup>
                     <module>Mage_CatalogInventory</module>
-                    <class>Mage_Eav_Model_Entity_Setup</class>
+                    <class>Mage_Eav_Model_Resource_Setup</class>
                 </setup>
             </cataloginventory_setup>
         </resources>

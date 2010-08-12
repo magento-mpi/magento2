@@ -37,18 +37,18 @@
                 <class>Enterprise_CatalogEvent_Model</class>
                 <!-- <resourceModel>enterprise_catalogevent_mysql4</resourceModel> -->
                 <resourceModel>enterprise_catalogevent_resource</resourceModel>
-                <enterprise_catalogevent_resource>
-                    <class>Enterprise_CatalogEvent_Model_Resource</class>
-                    <entities>
-                        <event>
-                            <table>enterprise_catalogevent_event</table>
-                        </event>
-                        <event_image>
-                            <table>enterprise_catalogevent_event_image</table>
-                        </event_image>
-                    </entities>
-                </enterprise_catalogevent_resource>
             </enterprise_catalogevent>
+            <enterprise_catalogevent_resource>
+                <class>Enterprise_CatalogEvent_Model_Resource</class>
+                <entities>
+                    <event>
+                        <table>enterprise_catalogevent_event</table>
+                    </event>
+                    <event_image>
+                        <table>enterprise_catalogevent_event_image</table>
+                    </event_image>
+                </entities>
+            </enterprise_catalogevent_resource>
         </models>
         <helpers>
             <enterprise_catalogevent>
@@ -64,7 +64,7 @@
             <enterprise_catalogevent_setup>
                 <setup>
                     <module>Enterprise_CatalogEvent</module>
-                    <class>Enterprise_CatalogEvent_Model_Mysql4_Setup</class>
+                    <class>Enterprise_CatalogEvent_Model_Resource_Setup</class>
                 </setup>
             </enterprise_catalogevent_setup>
         </resources>

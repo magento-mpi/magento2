@@ -37,27 +37,27 @@
                 <class>Mage_Paypal_Model</class>
                 <!-- <resourceModel>paypal_mysql4</resourceModel> -->
                 <resourceModel>paypal_resource</resourceModel>
-                <paypal_resource>
-                    <class>Mage_Paypal_Model_Resource</class>
-                    <entities>
-                        <api_debug>
-                            <table>paypal_api_debug</table>
-                        </api_debug>
-                        <settlement_report>
-                            <table>paypal_settlement_report</table>
-                        </settlement_report>
-                        <settlement_report_row>
-                            <table>paypal_settlement_report_row</table>
-                        </settlement_report_row>
-                    </entities>
-                </paypal_resource>
             </paypal>
+            <paypal_resource>
+                <class>Mage_Paypal_Model_Resource</class>
+                <entities>
+                    <api_debug>
+                        <table>paypal_api_debug</table>
+                    </api_debug>
+                    <settlement_report>
+                        <table>paypal_settlement_report</table>
+                    </settlement_report>
+                    <settlement_report_row>
+                        <table>paypal_settlement_report_row</table>
+                    </settlement_report_row>
+                </entities>
+            </paypal_resource>
         </models>
         <resources>
             <paypal_setup>
                 <setup>
                     <module>Mage_Paypal</module>
-                    <class>Mage_Paypal_Model_Mysql4_Setup</class>
+                    <class>Mage_Paypal_Model_Resource_Setup</class>
                 </setup>
             </paypal_setup>
         </resources>

@@ -37,24 +37,24 @@
                 <class>Enterprise_CustomerSegment_Model</class>
                 <!-- <resourceModel>enterprise_customersegment_mysql4</resourceModel> -->
                 <resourceModel>enterprise_customersegment_resource</resourceModel>
-                <enterprise_customersegment_resource>
-                    <class>Enterprise_CustomerSegment_Model_Resource</class>
-                    <entities>
-                        <segment>
-                            <table>enterprise_customersegment_segment</table>
-                        </segment>
-                        <event>
-                            <table>enterprise_customersegment_event</table>
-                        </event>
-                        <customer>
-                            <table>enterprise_customersegment_customer</table>
-                        </customer>
-                        <website>
-                            <table>enterprise_customersegment_website</table>
-                        </website>
-                    </entities>
-                </enterprise_customersegment_resource>
             </enterprise_customersegment>
+            <enterprise_customersegment_resource>
+                <class>Enterprise_CustomerSegment_Model_Resource</class>
+                <entities>
+                    <segment>
+                        <table>enterprise_customersegment_segment</table>
+                    </segment>
+                    <event>
+                        <table>enterprise_customersegment_event</table>
+                    </event>
+                    <customer>
+                        <table>enterprise_customersegment_customer</table>
+                    </customer>
+                    <website>
+                        <table>enterprise_customersegment_website</table>
+                    </website>
+                </entities>
+            </enterprise_customersegment_resource>
         </models>
         <helpers>
             <enterprise_customersegment>
@@ -70,7 +70,7 @@
             <enterprise_customersegment_setup>
                 <setup>
                     <module>Enterprise_CustomerSegment</module>
-                    <class>Enterprise_CustomerSegment_Model_Mysql4_Setup</class>
+                    <class>Enterprise_CustomerSegment_Model_Resource_Setup</class>
                 </setup>
             </enterprise_customersegment_setup>
         </resources>

@@ -37,15 +37,15 @@
                 <class>Mage_AdminNotification_Model</class>
                 <!-- <resourceModel>adminnotification_mysql4</resourceModel> -->
                 <resourceModel>adminnotification_resource</resourceModel>
-                <adminnotification_resource>
-                    <class>Mage_AdminNotification_Model_Resource</class>
-                    <entities>
-                        <inbox>
-                            <table>adminnotification_inbox</table>
-                        </inbox>
-                    </entities>
-                </adminnotification_resource>
             </adminnotification>
+            <adminnotification_resource>
+                <class>Mage_AdminNotification_Model_Resource</class>
+                <entities>
+                    <inbox>
+                        <table>adminnotification_inbox</table>
+                    </inbox>
+                </entities>
+            </adminnotification_resource>
         </models>
         <helpers>
             <adminnotification>

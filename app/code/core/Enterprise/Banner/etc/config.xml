@@ -37,27 +37,27 @@
                 <class>Enterprise_Banner_Model</class>
                 <!-- <resourceModel>enterprise_banner_mysql4</resourceModel> -->
                 <resourceModel>enterprise_banner_resource</resourceModel>
-                <enterprise_banner_resource>
-                    <class>Enterprise_Banner_Model_Resource</class>
-                    <entities>
-                        <banner>
-                            <table>enterprise_banner</table>
-                        </banner>
-                        <content>
-                            <table>enterprise_banner_content</table>
-                        </content>
-                        <customersegment>
-                            <table>enterprise_banner_customersegment</table>
-                        </customersegment>
-                        <catalogrule>
-                            <table>enterprise_banner_catalogrule</table>
-                        </catalogrule>
-                        <salesrule>
-                            <table>enterprise_banner_salesrule</table>
-                        </salesrule>
-                    </entities>
-                </enterprise_banner_resource>
             </enterprise_banner>
+            <enterprise_banner_resource>
+                <class>Enterprise_Banner_Model_Resource</class>
+                <entities>
+                    <banner>
+                        <table>enterprise_banner</table>
+                    </banner>
+                    <content>
+                        <table>enterprise_banner_content</table>
+                    </content>
+                    <customersegment>
+                        <table>enterprise_banner_customersegment</table>
+                    </customersegment>
+                    <catalogrule>
+                        <table>enterprise_banner_catalogrule</table>
+                    </catalogrule>
+                    <salesrule>
+                        <table>enterprise_banner_salesrule</table>
+                    </salesrule>
+                </entities>
+            </enterprise_banner_resource>
         </models>
         <helpers>
             <enterprise_banner>
@@ -73,7 +73,7 @@
             <enterprise_banner_setup>
                 <setup>
                     <module>Enterprise_Banner</module>
-                    <class>Enterprise_Banner_Model_Mysql4_Setup</class>
+                    <class>Enterprise_Banner_Model_Resource_Setup</class>
                 </setup>
             </enterprise_banner_setup>
         </resources>

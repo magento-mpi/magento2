@@ -262,41 +262,41 @@
         <models>
             <customer>
                 <class>Mage_Customer_Model</class>
-                <!-- <resourceModel>customer_entity</resourceModel> -->
+                <!-- <resourceModel>customer_mysql4</resourceModel> -->
                 <resourceModel>customer_resource</resourceModel>
-                <customer_resource>
-                    <class>Mage_Customer_Model_Resource</class>
-                    <entities>
-                        <entity>
-                            <table>customer_entity</table>
-                        </entity>
-                        <address_entity>
-                            <table>customer_address_entity</table>
-                        </address_entity>
-                        <value_prefix>
-                            <table>customer_entity</table>
-                        </value_prefix>
-                        <customer_group>
-                            <table>customer_group</table>
-                        </customer_group>
-                        <eav_attribute>
-                            <table>customer_eav_attribute</table>
-                        </eav_attribute>
-                        <eav_attribute_website>
-                            <table>customer_eav_attribute_website</table>
-                        </eav_attribute_website>
-                        <form_attribute>
-                            <table>customer_form_attribute</table>
-                        </form_attribute>
-                    </entities>
-                </customer_resource>
             </customer>
+            <customer_resource>
+                <class>Mage_Customer_Model_Resource</class>
+                <entities>
+                    <entity>
+                        <table>customer_entity</table>
+                    </entity>
+                    <address_entity>
+                        <table>customer_address_entity</table>
+                    </address_entity>
+                    <value_prefix>
+                        <table>customer_entity</table>
+                    </value_prefix>
+                    <customer_group>
+                        <table>customer_group</table>
+                    </customer_group>
+                    <eav_attribute>
+                        <table>customer_eav_attribute</table>
+                    </eav_attribute>
+                    <eav_attribute_website>
+                        <table>customer_eav_attribute_website</table>
+                    </eav_attribute_website>
+                    <form_attribute>
+                        <table>customer_form_attribute</table>
+                    </form_attribute>
+                </entities>
+            </customer_resource>
         </models>
         <resources>
             <customer_setup>
                 <setup>
                     <module>Mage_Customer</module>
-                    <class>Mage_Customer_Model_Entity_Setup</class>
+                    <class>Mage_Customer_Model_Resource_Setup</class>
                 </setup>
             </customer_setup>
         </resources>

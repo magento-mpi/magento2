@@ -47,15 +47,15 @@
                 <class>Mage_Strikeiron_Model</class>
                 <!-- <resourceModel>strikeiron_mysql4</resourceModel> -->
                 <resourceModel>strikeiron_resource</resourceModel>
-                <strikeiron_resource>
-                    <class>Mage_Strikeiron_Model_Resource</class>
-                    <entities>
-                        <tax_rate>
-                            <table>strikeiron_tax_rate</table>
-                        </tax_rate>
-                    </entities>
-                </strikeiron_resource>
             </strikeiron>
+            <strikeiron_resource>
+                <class>Mage_Strikeiron_Model_Resource</class>
+                <entities>
+                    <tax_rate>
+                        <table>strikeiron_tax_rate</table>
+                    </tax_rate>
+                </entities>
+            </strikeiron_resource>
         </models>
         <resources>
             <strikeiron_setup>

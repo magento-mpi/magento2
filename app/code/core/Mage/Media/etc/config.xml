@@ -35,12 +35,12 @@
         <models>
             <media>
                 <class>Mage_Media_Model</class>
-                <!-- <resourceModel>media_file</resourceModel> -->
+                <!-- <resourceModel>media_mysql4</resourceModel> -->
                 <resourceModel>media_resource</resourceModel>
-                <media_resource>
-                    <class>Mage_Media_Model_Resource</class>
-                </media_resource>
             </media>
+            <media_resource>
+                <class>Mage_Media_Model_Resource</class>
+            </media_resource>
         </models>
     </global>
     <adminhtml>

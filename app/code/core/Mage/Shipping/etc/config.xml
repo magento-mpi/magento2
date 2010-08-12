@@ -37,15 +37,15 @@
                 <class>Mage_Shipping_Model</class>
                 <!-- <resourceModel>shipping_mysql4</resourceModel> -->
                 <resourceModel>shipping_resource</resourceModel>
-                <shipping_resource>
-                    <class>Mage_Shipping_Model_Resource</class>
-                    <entities>
-                        <tablerate>
-                            <table>shipping_tablerate</table>
-                        </tablerate>
-                    </entities>
-                </shipping_resource>
             </shipping>
+            <shipping_resource>
+                <class>Mage_Shipping_Model_Resource</class>
+                <entities>
+                    <tablerate>
+                        <table>shipping_tablerate</table>
+                    </tablerate>
+                </entities>
+            </shipping_resource>
         </models>
         <resources>
             <shipping_setup>

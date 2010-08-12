@@ -37,10 +37,10 @@
                 <class>Mage_Adminhtml_Model</class>
                 <!-- <resourceModel>adminhtml_mysql4</resourceModel> -->
                 <resourceModel>adminhtml_resource</resourceModel>
-                <adminhtml_resource>
-                    <class>Mage_Adminhtml_Model_Resource</class>
-                </adminhtml_resource>
             </adminhtml>
+            <adminhtml_resource>
+                <class>Mage_Adminhtml_Model_Resource</class>
+            </adminhtml_resource>
         </models>
         <blocks>
             <adminhtml>

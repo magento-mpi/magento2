@@ -37,30 +37,30 @@
                 <class>Enterprise_Reward_Model</class>
                 <!-- <resourceModel>enterprise_reward_mysql4</resourceModel> -->
                 <resourceModel>enterprise_reward_resource</resourceModel>
-                <enterprise_reward_resource>
-                    <class>Enterprise_Reward_Model_Resource</class>
-                    <entities>
-                        <reward>
-                            <table>enterprise_reward</table>
-                        </reward>
-                        <reward_history>
-                            <table>enterprise_reward_history</table>
-                        </reward_history>
-                        <reward_rate>
-                            <table>enterprise_reward_rate</table>
-                        </reward_rate>
-                        <reward_salesrule>
-                            <table>enterprise_reward_salesrule</table>
-                        </reward_salesrule>
-                    </entities>
-                </enterprise_reward_resource>
             </enterprise_reward>
+            <enterprise_reward_resource>
+                <class>Enterprise_Reward_Model_Resource</class>
+                <entities>
+                    <reward>
+                        <table>enterprise_reward</table>
+                    </reward>
+                    <reward_history>
+                        <table>enterprise_reward_history</table>
+                    </reward_history>
+                    <reward_rate>
+                        <table>enterprise_reward_rate</table>
+                    </reward_rate>
+                    <reward_salesrule>
+                        <table>enterprise_reward_salesrule</table>
+                    </reward_salesrule>
+                </entities>
+            </enterprise_reward_resource>
         </models>
         <resources>
             <enterprise_reward_setup>
                 <setup>
                     <module>Enterprise_Reward</module>
-                    <class>Enterprise_Reward_Model_Mysql4_Setup</class>
+                    <class>Enterprise_Reward_Model_Resource_Setup</class>
                 </setup>
             </enterprise_reward_setup>
         </resources>

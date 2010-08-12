@@ -37,30 +37,30 @@
                 <class>Enterprise_Staging_Model</class>
                 <!-- <resourceModel>enterprise_staging_mysql4</resourceModel> -->
                 <resourceModel>enterprise_staging_resource</resourceModel>
-                <enterprise_staging_resource>
-                    <class>Enterprise_Staging_Model_Resource</class>
-                    <entities>
-                        <staging>
-                            <table>enterprise_staging</table>
-                        </staging>
-                        <staging_item>
-                            <table>enterprise_staging_item</table>
-                        </staging_item>
-                        <staging_action>
-                            <table>enterprise_staging_action</table>
-                        </staging_action>
-                        <staging_log>
-                            <table>enterprise_staging_log</table>
-                        </staging_log>
-                    </entities>
-                </enterprise_staging_resource>
             </enterprise_staging>
+            <enterprise_staging_resource>
+                <class>Enterprise_Staging_Model_Resource</class>
+                <entities>
+                    <staging>
+                        <table>enterprise_staging</table>
+                    </staging>
+                    <staging_item>
+                        <table>enterprise_staging_item</table>
+                    </staging_item>
+                    <staging_action>
+                        <table>enterprise_staging_action</table>
+                    </staging_action>
+                    <staging_log>
+                        <table>enterprise_staging_log</table>
+                    </staging_log>
+                </entities>
+            </enterprise_staging_resource>
         </models>
         <resources>
             <enterprise_staging_setup>
                 <setup>
                     <module>Enterprise_Staging</module>
-                    <class>Mage_Eav_Model_Entity_Setup</class>
+                    <class>Mage_Eav_Model_Resource_Setup</class>
                 </setup>
             </enterprise_staging_setup>
         </resources>

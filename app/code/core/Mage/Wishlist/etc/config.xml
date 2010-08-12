@@ -42,18 +42,18 @@
                 <class>Mage_Wishlist_Model</class>
                 <!-- <resourceModel>wishlist_mysql4</resourceModel> -->
                 <resourceModel>wishlist_resource</resourceModel>
-                <wishlist_resource>
-                    <class>Mage_Wishlist_Model_Resource</class>
-                    <entities>
-                        <wishlist>
-                            <table>wishlist</table>
-                        </wishlist>
-                        <item>
-                            <table>wishlist_item</table>
-                        </item>
-                    </entities>
-                </wishlist_resource>
             </wishlist>
+            <wishlist_resource>
+                <class>Mage_Wishlist_Model_Resource</class>
+                <entities>
+                    <wishlist>
+                        <table>wishlist</table>
+                    </wishlist>
+                    <item>
+                        <table>wishlist_item</table>
+                    </item>
+                </entities>
+            </wishlist_resource>
         </models>
         <resources>
             <wishlist_setup>

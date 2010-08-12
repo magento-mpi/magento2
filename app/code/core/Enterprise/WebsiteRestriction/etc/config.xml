@@ -52,7 +52,7 @@
             <enterprise_websiterestriction_setup>
                 <setup>
                     <module>Enterprise_WebsiteRestriction</module>
-                    <class>Enterprise_WebsiteRestriction_Model_Mysql4_Setup</class>
+                    <class>Enterprise_WebsiteRestriction_Model_Resource_Setup</class>
                 </setup>
             </enterprise_websiterestriction_setup>
         </resources>

@@ -37,15 +37,15 @@
                 <class>Mage_Sitemap_Model</class>
                 <!-- <resourceModel>sitemap_mysql4</resourceModel> -->
                 <resourceModel>sitemap_resource</resourceModel>
-                <sitemap_resource>
-                    <class>Mage_Sitemap_Model_Resource</class>
-                    <entities>
-                        <sitemap>
-                            <table>sitemap</table>
-                        </sitemap>
-                    </entities>
-                </sitemap_resource>
             </sitemap>
+            <sitemap_resource>
+                <class>Mage_Sitemap_Model_Resource</class>
+                <entities>
+                    <sitemap>
+                        <table>sitemap</table>
+                    </sitemap>
+                </entities>
+            </sitemap_resource>
         </models>
         <resources>
             <sitemap_setup>

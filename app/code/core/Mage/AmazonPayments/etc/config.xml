@@ -37,15 +37,15 @@
                 <class>Mage_AmazonPayments_Model</class>
                 <!-- <resourceModel>amazonpayments_mysql4</resourceModel> -->
                 <resourceModel>amazonpayments_resource</resourceModel>
-                <amazonpayments_resource>
-                    <class>Mage_AmazonPayments_Model_Resource</class>
-                    <entities>
-                        <api_debug>
-                            <table>amazonpayments_api_debug</table>
-                        </api_debug>
-                    </entities>
-                </amazonpayments_resource>
             </amazonpayments>
+            <amazonpayments_resource>
+                <class>Mage_AmazonPayments_Model_Resource</class>
+                <entities>
+                    <api_debug>
+                        <table>amazonpayments_api_debug</table>
+                    </api_debug>
+                </entities>
+            </amazonpayments_resource>
         </models>
         <helpers>
             <amazonpayments>
@@ -56,7 +56,7 @@
             <amazonpayments_setup>
                 <setup>
                     <module>Mage_AmazonPayments</module>
-                    <class>Mage_AmazonPayments_Model_Mysql4_Setup</class>
+                    <class>Mage_AmazonPayments_Model_Resource_Setup</class>
                 </setup>
             </amazonpayments_setup>
         </resources>

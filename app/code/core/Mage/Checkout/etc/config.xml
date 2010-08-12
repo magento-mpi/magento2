@@ -128,24 +128,24 @@
                 <class>Mage_Checkout_Model</class>
                 <!-- <resourceModel>checkout_mysql4</resourceModel> -->
                 <resourceModel>checkout_resource</resourceModel>
-                <checkout_resource>
-                    <class>Mage_Checkout_Model_Resource</class>
-                    <entities>
-                        <agreement>
-                            <table>checkout_agreement</table>
-                        </agreement>
-                        <agreement_store>
-                            <table>checkout_agreement_store</table>
-                        </agreement_store>
-                    </entities>
-                </checkout_resource>
             </checkout>
+            <checkout_resource>
+                <class>Mage_Checkout_Model_Resource</class>
+                <entities>
+                    <agreement>
+                        <table>checkout_agreement</table>
+                    </agreement>
+                    <agreement_store>
+                        <table>checkout_agreement_store</table>
+                    </agreement_store>
+                </entities>
+            </checkout_resource>
         </models>
         <resources>
             <checkout_setup>
                 <setup>
                     <module>Mage_Checkout</module>
-                    <class>Mage_Checkout_Model_Mysql4_Setup</class>
+                    <class>Mage_Checkout_Model_Resource_Setup</class>
                 </setup>
             </checkout_setup>
         </resources>

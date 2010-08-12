@@ -37,10 +37,10 @@
                 <class>Mage_Rule_Model</class>
                 <!-- <resourceModel>rule_mysql4</resourceModel> -->
                 <resourceModel>rule_resource</resourceModel>
-                <rule_resource>
-                    <class>Mage_Rule_Model_Resource</class>
-                </rule_resource>
             </rule>
+            <rule_resource>
+                <class>Mage_Rule_Model_Resource</class>
+            </rule_resource>
         </models>
         <blocks>
             <rule>

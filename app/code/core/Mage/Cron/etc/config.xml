@@ -44,15 +44,15 @@
                 <class>Mage_Cron_Model</class>
                 <!-- <resourceModel>cron_mysql4</resourceModel> -->
                 <resourceModel>cron_resource</resourceModel>
-                <cron_resource>
-                    <class>Mage_Cron_Model_Resource</class>
-                    <entities>
-                        <schedule>
-                            <table>cron_schedule</table>
-                        </schedule>
-                    </entities>
-                </cron_resource>
             </cron>
+            <cron_resource>
+                <class>Mage_Cron_Model_Resource</class>
+                <entities>
+                    <schedule>
+                        <table>cron_schedule</table>
+                    </schedule>
+                </entities>
+            </cron_resource>
         </models>
     </global>
     <crontab>

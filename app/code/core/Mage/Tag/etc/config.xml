@@ -37,32 +37,32 @@
                 <class>Mage_Tag_Model</class>
                 <!-- <resourceModel>tag_mysql4</resourceModel> -->
                 <resourceModel>tag_resource</resourceModel>
-                <tag_resource>
-                    <class>Mage_Tag_Model_Resource</class>
-                    <entities>
-                        <tag>
-                            <table>tag</table>
-                        </tag>
-                        <relation>
-                            <table>tag_relation</table>
-                        </relation>
-                        <summary>
-                            <table>tag_summary</table>
-                        </summary>
-                        <properties>
-                            <table>tag_properties</table>
-                        </properties>
-                    </entities>
-                </tag_resource>
             </tag>
             <tag_customer>
                 <class>Mage_Tag_Model_Customer</class>
-                <!-- <resourceModel>tag_entity_customer</resourceModel> -->
+                <!-- <resourceModel>tag_customer_mysql4</resourceModel> -->
                 <resourceModel>tag_customer_resource</resourceModel>
-                <tag_customer_resource>
-                    <class>Mage_Tag_Model_Customer_Resource</class>
-                </tag_customer_resource>
             </tag_customer>
+            <tag_resource>
+                <class>Mage_Tag_Model_Resource</class>
+                <entities>
+                    <tag>
+                        <table>tag</table>
+                    </tag>
+                    <relation>
+                        <table>tag_relation</table>
+                    </relation>
+                    <summary>
+                        <table>tag_summary</table>
+                    </summary>
+                    <properties>
+                        <table>tag_properties</table>
+                    </properties>
+                </entities>
+            </tag_resource>
+            <tag_customer_resource>
+                <class>Mage_Tag_Model_Customer_Resource</class>
+            </tag_customer_resource>
         </models>
         <resources>
             <tag_setup>

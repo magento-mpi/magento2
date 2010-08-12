@@ -37,27 +37,27 @@
                 <class>Enterprise_Reminder_Model</class>
                 <!-- <resourceModel>enterprise_reminder_mysql4</resourceModel> -->
                 <resourceModel>enterprise_reminder_resource</resourceModel>
-                <enterprise_reminder_resource>
-                    <class>Enterprise_Reminder_Model_Resource</class>
-                    <entities>
-                        <rule>
-                            <table>enterprise_reminder_rule</table>
-                        </rule>
-                        <website>
-                            <table>enterprise_reminder_rule_website</table>
-                        </website>
-                        <template>
-                            <table>enterprise_reminder_template</table>
-                        </template>
-                        <coupon>
-                            <table>enterprise_reminder_rule_coupon</table>
-                        </coupon>
-                        <log>
-                            <table>enterprise_reminder_rule_log</table>
-                        </log>
-                    </entities>
-                </enterprise_reminder_resource>
             </enterprise_reminder>
+            <enterprise_reminder_resource>
+                <class>Enterprise_Reminder_Model_Resource</class>
+                <entities>
+                    <rule>
+                        <table>enterprise_reminder_rule</table>
+                    </rule>
+                    <website>
+                        <table>enterprise_reminder_rule_website</table>
+                    </website>
+                    <template>
+                        <table>enterprise_reminder_template</table>
+                    </template>
+                    <coupon>
+                        <table>enterprise_reminder_rule_coupon</table>
+                    </coupon>
+                    <log>
+                        <table>enterprise_reminder_rule_log</table>
+                    </log>
+                </entities>
+            </enterprise_reminder_resource>
         </models>
         <helpers>
             <enterprise_reminder>
@@ -73,7 +73,7 @@
             <enterprise_reminder_setup>
                 <setup>
                     <module>Enterprise_Reminder</module>
-                    <class>Enterprise_Reminder_Model_Mysql4_Setup</class>
+                    <class>Enterprise_Reminder_Model_Resource_Setup</class>
                 </setup>
             </enterprise_reminder_setup>
         </resources>

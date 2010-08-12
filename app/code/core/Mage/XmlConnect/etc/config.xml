@@ -37,21 +37,21 @@
                 <class>Mage_XmlConnect_Model</class>
                 <!-- <resourceModel>xmlconnect_mysql4</resourceModel> -->
                 <resourceModel>xmlconnect_resource</resourceModel>
-                <xmlconnect_resource>
-                    <class>Mage_XmlConnect_Model_Resource</class>
-                    <entities>
-                        <application>
-                            <table>xmlconnect_application</table>
-                        </application>
-                        <history>
-                            <table>xmlconnect_history</table>
-                        </history>
-                        <application_design>
-                            <table>xmlconnect_application</table>
-                        </application_design>
-                    </entities>
-                </xmlconnect_resource>
             </xmlconnect>
+            <xmlconnect_resource>
+                <class>Mage_XmlConnect_Model_Resource</class>
+                <entities>
+                    <application>
+                        <table>xmlconnect_application</table>
+                    </application>
+                    <history>
+                        <table>xmlconnect_history</table>
+                    </history>
+                    <application_design>
+                        <table>xmlconnect_application</table>
+                    </application_design>
+                </entities>
+            </xmlconnect_resource>
         </models>
         <blocks>
             <xmlconnect>
@@ -67,7 +67,7 @@
             <xmlconnect_setup>
                 <setup>
                     <module>Mage_XmlConnect</module>
-                    <class>Mage_XmlConnect_Model_Mysql4_Setup</class>
+                    <class>Mage_XmlConnect_Model_Resource_Setup</class>
                 </setup>
             </xmlconnect_setup>
         </resources>

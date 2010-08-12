@@ -37,22 +37,22 @@
                 <class>Mage_Sendfriend_Model</class>
                 <!-- <resourceModel>sendfriend_mysql4</resourceModel> -->
                 <resourceModel>sendfriend_resource</resourceModel>
-                <sendfriend_resource>
-                    <class>Mage_Sendfriend_Model_Resource</class>
-                    <resourceModel>sendfriend_mysql4</resourceModel>
-                    <entities>
-                        <sendfriend>
-                            <table>sendfriend_log</table>
-                        </sendfriend>
-                    </entities>
-                </sendfriend_resource>
             </sendfriend>
+            <sendfriend_resource>
+                <class>Mage_Sendfriend_Model_Resource</class>
+                <resourceModel>sendfriend_mysql4</resourceModel>
+                <entities>
+                    <sendfriend>
+                        <table>sendfriend_log</table>
+                    </sendfriend>
+                </entities>
+            </sendfriend_resource>
         </models>
         <resources>
             <sendfriend_setup>
                 <setup>
                     <module>Mage_Sendfriend</module>
-                    <class>Mage_Sendfriend_Model_Mysql4_Setup</class>
+                    <class>Mage_Sendfriend_Model_Resource_Setup</class>
                 </setup>
             </sendfriend_setup>
         </resources>

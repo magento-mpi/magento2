@@ -42,30 +42,30 @@
                 <class>Enterprise_SalesPool_Model</class>
                 <!-- <resourceModel>enterprise_salespool_mysql4</resourceModel> -->
                 <resourceModel>enterprise_salespool_resource</resourceModel>
-                <enterprise_salespool_resource>
-                    <class>Enterprise_SalesPool_Model_Resource</class>
-                    <entities>
-                        <order>
-                            <table>enterprise_sales_order_pool</table>
-                        </order>
-                        <order_item>
-                            <table>enterprise_sales_order_item_pool</table>
-                        </order_item>
-                        <order_address>
-                            <table>enterprise_sales_order_address_pool</table>
-                        </order_address>
-                        <order_payment>
-                            <table>enterprise_sales_order_payment_pool</table>
-                        </order_payment>
-                        <order_payment_transaction>
-                            <table>enterprise_sales_order_payment_transaction_pool</table>
-                        </order_payment_transaction>
-                        <order_status_history>
-                            <table>enterprise_sales_order_status_history_pool</table>
-                        </order_status_history>
-                    </entities>
-                </enterprise_salespool_resource>
             </enterprise_salespool>
+            <enterprise_salespool_resource>
+                <class>Enterprise_SalesPool_Model_Resource</class>
+                <entities>
+                    <order>
+                        <table>enterprise_sales_order_pool</table>
+                    </order>
+                    <order_item>
+                        <table>enterprise_sales_order_item_pool</table>
+                    </order_item>
+                    <order_address>
+                        <table>enterprise_sales_order_address_pool</table>
+                    </order_address>
+                    <order_payment>
+                        <table>enterprise_sales_order_payment_pool</table>
+                    </order_payment>
+                    <order_payment_transaction>
+                        <table>enterprise_sales_order_payment_transaction_pool</table>
+                    </order_payment_transaction>
+                    <order_status_history>
+                        <table>enterprise_sales_order_status_history_pool</table>
+                    </order_status_history>
+                </entities>
+            </enterprise_salespool_resource>
         </models>
         <helpers>
             <enterprise_salespool>
@@ -76,7 +76,7 @@
             <enterprise_salespool_setup>
                 <setup>
                     <module>Enterprise_SalesPool</module>
-                    <class>Enterprise_SalesPool_Model_Mysql4_Setup</class>
+                    <class>Enterprise_SalesPool_Model_Resource_Setup</class>
                 </setup>
             </enterprise_salespool_setup>
         </resources>

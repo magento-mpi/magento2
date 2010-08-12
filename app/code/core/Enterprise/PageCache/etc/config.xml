@@ -37,10 +37,10 @@
                 <class>Enterprise_PageCache_Model</class>
                 <!-- <resourceModel>enterprise_pagecache_mysql4</resourceModel> -->
                 <resourceModel>enterprise_pagecache_resource</resourceModel>
-                <enterprise_pagecache_resource>
-                    <class>Enterprise_PageCache_Model_Resource</class>
-                </enterprise_pagecache_resource>
             </enterprise_pagecache>
+            <enterprise_pagecache_resource>
+                <class>Enterprise_PageCache_Model_Resource</class>
+            </enterprise_pagecache_resource>
         </models>
         <blocks>
             <enterprise_pagecache>

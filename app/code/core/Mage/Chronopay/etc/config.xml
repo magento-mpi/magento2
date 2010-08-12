@@ -37,21 +37,21 @@
                 <class>Mage_Chronopay_Model</class>
                 <!-- <resourceModel>chronopay_mysql4</resourceModel> -->
                 <resourceModel>chronopay_resource</resourceModel>
-                <chronopay_resource>
-                    <class>Mage_Chronopay_Model_Resource</class>
-                    <entities>
-                        <api_debug>
-                            <table>chronopay_api_debug</table>
-                        </api_debug>
-                    </entities>
-                </chronopay_resource>
             </chronopay>
+            <chronopay_resource>
+                <class>Mage_Chronopay_Model_Resource</class>
+                <entities>
+                    <api_debug>
+                        <table>chronopay_api_debug</table>
+                    </api_debug>
+                </entities>
+            </chronopay_resource>
         </models>
         <resources>
             <chronopay_setup>
                 <setup>
                     <module>Mage_Chronopay</module>
-                    <class>Mage_Chronopay_Model_Mysql4_Setup</class>
+                    <class>Mage_Chronopay_Model_Resource_Setup</class>
                 </setup>
             </chronopay_setup>
         </resources>

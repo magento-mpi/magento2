@@ -37,21 +37,21 @@
                 <class>Mage_GoogleBase_Model</class>
                 <!-- <resourceModel>googlebase_mysql4</resourceModel> -->
                 <resourceModel>googlebase_resource</resourceModel>
-                <googlebase_resource>
-                    <class>Mage_GoogleBase_Model_Resource</class>
-                    <entities>
-                        <types>
-                            <table>googlebase_types</table>
-                        </types>
-                        <items>
-                            <table>googlebase_items</table>
-                        </items>
-                        <attributes>
-                            <table>googlebase_attributes</table>
-                        </attributes>
-                    </entities>
-                </googlebase_resource>
             </googlebase>
+            <googlebase_resource>
+                <class>Mage_GoogleBase_Model_Resource</class>
+                <entities>
+                    <types>
+                        <table>googlebase_types</table>
+                    </types>
+                    <items>
+                        <table>googlebase_items</table>
+                    </items>
+                    <attributes>
+                        <table>googlebase_attributes</table>
+                    </attributes>
+                </entities>
+            </googlebase_resource>
         </models>
         <helpers>
             <googlebase>

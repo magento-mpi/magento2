@@ -37,39 +37,39 @@
                 <class>Enterprise_TargetRule_Model</class>
                 <!-- <resourceModel>enterprise_targetrule_mysql4</resourceModel> -->
                 <resourceModel>enterprise_targetrule_resource</resourceModel>
-                <enterprise_targetrule_resource>
-                    <class>Enterprise_TargetRule_Model_Resource</class>
-                    <entities>
-                        <rule>
-                            <table>enterprise_targetrule</table>
-                        </rule>
-                        <customersegment>
-                            <table>enterprise_targetrule_customersegment</table>
-                        </customersegment>
-                        <product>
-                            <table>enterprise_targetrule_product</table>
-                        </product>
-                        <index>
-                            <table>enterprise_targetrule_index</table>
-                        </index>
-                        <index_related>
-                            <table>enterprise_targetrule_index_related</table>
-                        </index_related>
-                        <index_crosssell>
-                            <table>enterprise_targetrule_index_crosssell</table>
-                        </index_crosssell>
-                        <index_upsell>
-                            <table>enterprise_targetrule_index_upsell</table>
-                        </index_upsell>
-                    </entities>
-                </enterprise_targetrule_resource>
             </enterprise_targetrule>
+            <enterprise_targetrule_resource>
+                <class>Enterprise_TargetRule_Model_Resource</class>
+                <entities>
+                    <rule>
+                        <table>enterprise_targetrule</table>
+                    </rule>
+                    <customersegment>
+                        <table>enterprise_targetrule_customersegment</table>
+                    </customersegment>
+                    <product>
+                        <table>enterprise_targetrule_product</table>
+                    </product>
+                    <index>
+                        <table>enterprise_targetrule_index</table>
+                    </index>
+                    <index_related>
+                        <table>enterprise_targetrule_index_related</table>
+                    </index_related>
+                    <index_crosssell>
+                        <table>enterprise_targetrule_index_crosssell</table>
+                    </index_crosssell>
+                    <index_upsell>
+                        <table>enterprise_targetrule_index_upsell</table>
+                    </index_upsell>
+                </entities>
+            </enterprise_targetrule_resource>
         </models>
         <resources>
             <enterprise_targetrule_setup>
                 <setup>
                     <module>Enterprise_TargetRule</module>
-                    <class>Enterprise_TargetRule_Model_Mysql4_Setup</class>
+                    <class>Enterprise_TargetRule_Model_Resource_Setup</class>
                 </setup>
             </enterprise_targetrule_setup>
         </resources>

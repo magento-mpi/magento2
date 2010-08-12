@@ -37,15 +37,15 @@
                 <class>Mage_Compiler_Model</class>
                 <!-- <resourceModel>compiler_mysql4</resourceModel> -->
                 <resourceModel>compiler_resource</resourceModel>
-                <compiler_resource>
-                    <class>Mage_Compiler_Model_Resource</class>
-                    <entities>
-                        <configuration>
-                            <table>compiler_configuration</table>
-                        </configuration>
-                    </entities>
-                </compiler_resource>
             </compiler>
+            <compiler_resource>
+                <class>Mage_Compiler_Model_Resource</class>
+                <entities>
+                    <configuration>
+                        <table>compiler_configuration</table>
+                    </configuration>
+                </entities>
+            </compiler_resource>
         </models>
         <resources>
             <compiler_setup>

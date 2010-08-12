@@ -37,21 +37,21 @@
                 <class>Mage_Flo2Cash_Model</class>
                 <!-- <resourceModel>flo2cash_mysql4</resourceModel> -->
                 <resourceModel>flo2cash_resource</resourceModel>
-                <flo2cash_resource>
-                    <class>Mage_Flo2Cash_Model_Resource</class>
-                    <entities>
-                        <api_debug>
-                            <table>flo2cash_api_debug</table>
-                        </api_debug>
-                    </entities>
-                </flo2cash_resource>
             </flo2cash>
+            <flo2cash_resource>
+                <class>Mage_Flo2Cash_Model_Resource</class>
+                <entities>
+                    <api_debug>
+                        <table>flo2cash_api_debug</table>
+                    </api_debug>
+                </entities>
+            </flo2cash_resource>
         </models>
         <resources>
             <flo2cash_setup>
                 <setup>
                     <module>Mage_Flo2Cash</module>
-                    <class>Mage_Flo2Cash_Model_Mysql4_Setup</class>
+                    <class>Mage_Flo2Cash_Model_Resource_Setup</class>
                 </setup>
             </flo2cash_setup>
         </resources>

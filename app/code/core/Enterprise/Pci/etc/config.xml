@@ -37,15 +37,15 @@
                 <class>Enterprise_Pci_Model</class>
                 <!-- <resourceModel>enterprise_pci_mysql4</resourceModel> -->
                 <resourceModel>enterprise_pci_resource</resourceModel>
-                <enterprise_pci_resource>
-                    <class>Enterprise_Pci_Model_Resource</class>
-                    <entities>
-                        <admin_passwords>
-                            <table>enterprise_admin_passwords</table>
-                        </admin_passwords>
-                    </entities>
-                </enterprise_pci_resource>
             </enterprise_pci>
+            <enterprise_pci_resource>
+                <class>Enterprise_Pci_Model_Resource</class>
+                <entities>
+                    <admin_passwords>
+                        <table>enterprise_admin_passwords</table>
+                    </admin_passwords>
+                </entities>
+            </enterprise_pci_resource>
         </models>
         <blocks>
             <enterprise_pci>

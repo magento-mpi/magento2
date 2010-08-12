@@ -37,24 +37,24 @@
                 <class>Mage_Widget_Model</class>
                 <!-- <resourceModel>widget_mysql4</resourceModel> -->
                 <resourceModel>widget_resource</resourceModel>
-                <widget_resource>
-                    <class>Mage_Widget_Model_Resource</class>
-                    <entities>
-                        <widget>
-                            <table>widget</table>
-                        </widget>
-                        <widget_instance>
-                            <table>widget_instance</table>
-                        </widget_instance>
-                        <widget_instance_page>
-                            <table>widget_instance_page</table>
-                        </widget_instance_page>
-                        <widget_instance_page_layout>
-                            <table>widget_instance_page_layout</table>
-                        </widget_instance_page_layout>
-                    </entities>
-                </widget_resource>
             </widget>
+            <widget_resource>
+                <class>Mage_Widget_Model_Resource</class>
+                <entities>
+                    <widget>
+                        <table>widget</table>
+                    </widget>
+                    <widget_instance>
+                        <table>widget_instance</table>
+                    </widget_instance>
+                    <widget_instance_page>
+                        <table>widget_instance_page</table>
+                    </widget_instance_page>
+                    <widget_instance_page_layout>
+                        <table>widget_instance_page_layout</table>
+                    </widget_instance_page_layout>
+                </entities>
+            </widget_resource>
         </models>
         <resources>
             <widget_setup>

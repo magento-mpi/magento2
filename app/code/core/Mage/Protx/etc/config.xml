@@ -37,15 +37,15 @@
                 <class>Mage_Protx_Model</class>
                 <!-- <resourceModel>protx_mysql4</resourceModel> -->
                 <resourceModel>protx_resource</resourceModel>
-                <protx_resource>
-                    <class>Mage_Protx_Model_Resource</class>
-                    <entities>
-                        <api_debug>
-                            <table>protx_api_debug</table>
-                        </api_debug>
-                    </entities>
-                </protx_resource>
             </protx>
+            <protx_resource>
+                <class>Mage_Protx_Model_Resource</class>
+                <entities>
+                    <api_debug>
+                        <table>protx_api_debug</table>
+                    </api_debug>
+                </entities>
+            </protx_resource>
         </models>
         <resources>
             <protx_setup>

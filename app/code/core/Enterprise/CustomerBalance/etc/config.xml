@@ -36,7 +36,7 @@
             <enterprise_customerbalance_setup>
                 <setup>
                     <module>Enterprise_CustomerBalance</module>
-                    <class>Enterprise_CustomerBalance_Model_Mysql4_Setup</class>
+                    <class>Enterprise_CustomerBalance_Model_Resource_Setup</class>
                 </setup>
             </enterprise_customerbalance_setup>
         </resources>
@@ -45,18 +45,18 @@
                 <class>Enterprise_CustomerBalance_Model</class>
                 <!-- <resourceModel>enterprise_customerbalance_mysql4</resourceModel> -->
                 <resourceModel>enterprise_customerbalance_resource</resourceModel>
-                <enterprise_customerbalance_resource>
-                    <class>Enterprise_CustomerBalance_Model_Resource</class>
-                    <entities>
-                        <balance>
-                            <table>enterprise_customerbalance</table>
-                        </balance>
-                        <balance_history>
-                            <table>enterprise_customerbalance_history</table>
-                        </balance_history>
-                    </entities>
-                </enterprise_customerbalance_resource>
             </enterprise_customerbalance>
+            <enterprise_customerbalance_resource>
+                <class>Enterprise_CustomerBalance_Model_Resource</class>
+                <entities>
+                    <balance>
+                        <table>enterprise_customerbalance</table>
+                    </balance>
+                    <balance_history>
+                        <table>enterprise_customerbalance_history</table>
+                    </balance_history>
+                </entities>
+            </enterprise_customerbalance_resource>
         </models>
         <blocks>
             <enterprise_customerbalance>
