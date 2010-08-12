@@ -68,7 +68,7 @@
             <cataloginventory_setup>
                 <setup>
                     <module>Mage_CatalogInventory</module>
-                    <class>Mage_Eav_Model_Resource_Setup</class>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
                 </setup>
             </cataloginventory_setup>
         </resources>
