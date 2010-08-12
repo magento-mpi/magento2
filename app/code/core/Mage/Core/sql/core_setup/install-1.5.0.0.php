@@ -63,7 +63,7 @@ $table = $installer->getConnection()
     ->addColumn('code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
         'default'   => '',
-        ), '')
+        ), 'Code')
     ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
         'nullable'  => false,
         'default'   => '',
@@ -341,8 +341,8 @@ $table = $installer->getConnection()
     ->addColumn('session_id', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         'primary'   => true,
-        'default'   => 'Session Id',
-        ), '')
+        'default'   => '',
+        ), 'Session Id')
     ->addColumn('session_expires', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
