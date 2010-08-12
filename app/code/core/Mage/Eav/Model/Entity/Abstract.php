@@ -84,6 +84,13 @@ abstract class Mage_Eav_Model_Entity_Abstract
      * @var array
      */
     protected $_staticAttributes = array();
+    
+    /**
+     * Default Attributes that are static
+     *
+     * @var array
+     */
+    protected static $_defaultAttributes = array();
 
     /**
      * Enter description here...
@@ -405,6 +412,28 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
         return $attribute;
     }
+    
+    /**
+     * Return default static virtual attribute that doesn't exists in EAV attributes
+     *
+     * @param string $attributeCode
+     * @return Mage_Eav_Model_Entity_Attribute
+     */
+    protected function _getDefaultAttribute($attributeCode)
+    {
+        $entityTypeId = $this->getEntityType()->getId();
+        if (!isset(self::$_defaultAttributes[$entityTypeId][$attributeCode])) {
+            $attribute = Mage::getModel($this->getEntityType()->getAttributeModel())
+                ->setAttributeCode($attributeCode)
+                ->setBackendType(Mage_Eav_Model_Entity_Attribute_Abstract::TYPE_STATIC)
+                ->setIsGlobal(1)
+                ->setEntityType($this->getEntityType())
+                ->setEntityTypeId($this->getEntityType()->getId());
+            self::$_defaultAttributes[$entityTypeId][$attributeCode] = $attribute;
+        }
+
+        return self::$_defaultAttributes[$entityTypeId][$attributeCode];
+    }
 
     /**
      * Adding attribute to entity
@@ -478,13 +507,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
                 $this->getAttribute($attributeCodes[$attributeIndex]);
                 unset($attributeCodes[$attributeIndex]);
             } else {
-                $attribute = Mage::getModel($this->getEntityType()->getAttributeModel());
-                $attribute->setAttributeCode($attributeCode)
-                    ->setBackendType(Mage_Eav_Model_Entity_Attribute_Abstract::TYPE_STATIC)
-                    ->setIsGlobal(1)
-                    ->setEntityType($this->getEntityType())
-                    ->setEntityTypeId($this->getEntityType()->getId());
-                $this->addAttribute($attribute);
+                $this->addAttribute($this->_getDefaultAttribute($attributeCode));
             }
         }
 

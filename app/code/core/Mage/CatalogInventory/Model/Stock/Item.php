@@ -720,4 +720,12 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         }
         return $this->getData('stock_qty');
     }
+
+    public function reset()
+    {
+        if ($this->_productInstance) {
+            $this->_productInstance = null;
+        }
+        return $this;
+    }
 }
