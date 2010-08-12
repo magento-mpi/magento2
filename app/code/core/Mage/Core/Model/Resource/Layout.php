@@ -62,14 +62,14 @@ class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstra
         $readAdapter = $this->_getReadAdapter();
         if ($readAdapter) {
             $select = $readAdapter->select()
-                ->from(array('update'=>$this->getMainTable()), array('xml'))
-                ->join(array('link'=>$this->getTable('core/layout_link')), 'link.layout_update_id=update.layout_update_id', '')
+                ->from(array('layout_update'=>$this->getMainTable()), array('xml'))
+                ->join(array('link'=>$this->getTable('core/layout_link')), 'link.layout_update_id=layout_update.layout_update_id', '')
                 ->where('link.store_id IN (0, ?)', $storeId)
                 ->where('link.area=?', $area)
                 ->where('link.package=?', $package)
                 ->where('link.theme=?', $theme)
-                ->where('update.handle = ?', $handle)
-                ->order('update.sort_order ASC');
+                ->where('layout_update.handle = ?', $handle)
+                ->order('layout_update.sort_order ASC');
 
             foreach ($readAdapter->fetchAll($select) as $update) {
                 $updateStr .= $update['xml'];
