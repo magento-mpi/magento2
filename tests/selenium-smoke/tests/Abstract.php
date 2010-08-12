@@ -54,6 +54,9 @@ abstract class Test_Abstract extends PHPUnit_Extensions_SeleniumTestCase
     public function getUiElement($elem, $arg = null)
     {
         $element = Core::getEnvMap($elem);
+        if ($element==null) {
+            $this->debug("No elements found in UIMap for key: ".$elem);
+        }
         if (is_array($arg)) {
             return vsprintf($element, $arg);
         } elseif (null !== $arg) {
