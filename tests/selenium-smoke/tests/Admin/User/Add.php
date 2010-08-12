@@ -23,6 +23,5 @@ class Admin_User_Add extends Test_Admin_User_Abstract
         $this->adminLogin($this->_baseUrl, $this->_userName, $this->_password);
         $this->addUser("test");
         $this->debug("testUserCreation finished");
-        sleep(10);
     }
 }
