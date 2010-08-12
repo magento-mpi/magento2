@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map>
     <admin>
-        <topmenu>
+		<topmenu>
             	<customer>
                 	<managecustomers>//div[@class="nav-bar"]//a[span="Manage Customers"]</managecustomers>
             	</customer>
@@ -11,7 +11,7 @@
 			</permissions>
 		</system>
         </topmenu>
-	<pages>
+		<pages>
 		<system>
 			<permissions>
 				<users>
@@ -23,25 +23,19 @@
 						</buttons>
 					</manageusers>	
 					<user>
+						<buttons>
+							<saveuser>//button[span="Save User"]</saveuser>
+						</buttons>
+						<messages>
+							<usersaved>//div["messages"]//li[@class="success-msg"]</usersaved>
+						</messages>
 						<inputs>
-							<username>
-									user_username
-							</username>
-							<firstname>
-									user_firstname
-							</firstname>
-							<lastname>
-									user_lastname
-							</lastname>
-							<email>
-									user_email
-							</email>
-							<password>
-									user_password
-							</password>
-							<confirmation>
-									user_confirmation
-							</confirmation>
+							<username>user_username</username>
+							<firstname>user_firstname</firstname>
+							<lastname>user_lastname</lastname>
+							<email>user_email</email>
+							<password>user_password</password>
+							<confirmation>user_confirmation</confirmation>
 						</inputs>
 					</user>
 				</users>
