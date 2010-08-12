@@ -38,6 +38,7 @@ AdminOrder.prototype = {
         this.shippingAddressContainer= '';
         this.isShippingMethodReseted = data.shipping_method_reseted ? data.shipping_method_reseted : false;
         this.overlayData = $H({});
+        this.giftMessageDataChanged = false;
     },
 
     setLoadBaseUrl : function(url){
@@ -559,7 +560,7 @@ AdminOrder.prototype = {
     },
 
     giftmessageFieldChange : function(){
-        this.saveData(this.serializeData('order-giftmessage'));
+        this.giftMessageDataChanged = true;
     },
 
     giftmessageOnItemChange : function(event) {
@@ -577,14 +578,17 @@ AdminOrder.prototype = {
             }
         }
     },
-
+    
     loadArea : function(area, indicator, params){
         var url = this.loadBaseUrl;
-        if(area) url+= 'block/' + area
-        if(indicator === true) indicator = 'html-body';
+        if (area) {
+            area = this.prepareArea(area);
+            url += 'block/' + area;
+        }
+        if (indicator === true) indicator = 'html-body';
         params = this.prepareParams(params);
         params.json = true;
-        if(!this.loadingAreas) this.loadingAreas = [];
+        if (!this.loadingAreas) this.loadingAreas = [];
         if (indicator) {
             this.loadingAreas = area;
             new Ajax.Request(url, {
@@ -622,6 +626,13 @@ AdminOrder.prototype = {
         else {
             new Ajax.Request(url, {parameters:params,loaderArea: indicator});
         }
+    },
+
+    prepareArea : function(area){
+        if (this.giftMessageDataChanged) {
+            return area.without('giftmessage');
+        } 
+        return area;
     },
 
     saveData : function(data){
