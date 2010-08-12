@@ -41,7 +41,7 @@ abstract class Test_Admin_User_Abstract extends Test_Admin_Abstract
       $this->clickAndWait($this->getUiElement("admin/pages/system/permissions/users/user/buttons/saveuser"));
       // Check for success message
       if (!$this->isElementPresent($this->getUiElement("admin/pages/system/permissions/users/user/messages/usersaved"))) {
-        $this->setVerificationErrors("addUser : no success message");
+        $this->setVerificationErrors("Check 1: no success message");
       }
       $this->debug("addUser finished");
     }
