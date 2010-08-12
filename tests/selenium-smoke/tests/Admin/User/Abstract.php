@@ -26,11 +26,25 @@ abstract class Test_Admin_User_Abstract extends Test_Admin_Abstract
      */
     public function addUser($name) {
       $this->debug("addUser started");
+      // Open Manage Users Page
       $this->clickAndWait ($this->getUiElement("admin/topmenu/system/permissions/users"));
+      // Add new user
       $this->clickAndWait($this->getUiElement("admin/pages/system/permissions/users/manageusers/buttons/addnewuser"));
-      $this->type($this->getUiElement("admin/pages/system/permissions/users/manageusers/inputs/username"),$name);
+      // Fill all fields
+      $this->type($this->getUiElement("admin/pages/system/permissions/users/user/inputs/username"),$name);
+      $this->type($this->getUiElement("admin/pages/system/permissions/users/user/inputs/firstname"),$name);
+      $this->type($this->getUiElement("admin/pages/system/permissions/users/user/inputs/lastname"),$name);
+      $this->type($this->getUiElement("admin/pages/system/permissions/users/user/inputs/email"),$name."@varien.com");
+      $this->type($this->getUiElement("admin/pages/system/permissions/users/user/inputs/password"),"123123q");
+      $this->type($this->getUiElement("admin/pages/system/permissions/users/user/inputs/confirmation"),"123123q");
+      // Save user
+      $this->clickAndWait($this->getUiElement("admin/pages/system/permissions/users/user/buttons/saveuser"));
+      // Check for success message
+      if (!$this->isElementPresent($this->getUiElement("admin/pages/system/permissions/users/user/messages/usersaved"))) {
+        $this->setVerificationErrors("addUser : no success message");
+         $this->debug("trap");
+      }
       $this->debug("addUser finished");
-      sleep(10);
     }
 
 }
