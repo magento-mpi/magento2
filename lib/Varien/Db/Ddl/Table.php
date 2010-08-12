@@ -46,7 +46,7 @@ class Varien_Db_Ddl_Table
     const TYPE_TEXT             = 'text';
     const TYPE_BLOB             = 'blob';
     const DEFAULT_TEXT_SIZE     = 1024;
-    const MAX_TEXT_SIZE         = 2147483648;	
+    const MAX_TEXT_SIZE         = 2147483648;
 
     const TIMESTAMP_INIT_UPDATE = 'TIMESTAMP_INIT_UPDATE';
     const TIMESTAMP_INIT        = 'TIMESTAMP_INIT';
@@ -98,7 +98,7 @@ class Varien_Db_Ddl_Table
      * PRIMARY          => boolean; true if column is part of the primary key
      * PRIMARY_POSITION => integer; position of column in primary key
      * IDENTITY         => integer; true if column is auto-generated with unique values
-     * COMMENT          => string; column description 
+     * COMMENT          => string; column description
      *
      * @var array
      */
@@ -157,7 +157,7 @@ class Varien_Db_Ddl_Table
     protected $_options         = array(
         'type'          => 'INNODB',
         'charset'       => 'utf8',
-        'collate'       => 'utf8_unicode_ci',
+        'collate'       => 'utf8_general_ci',
 
     );
 
