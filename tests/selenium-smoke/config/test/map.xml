@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map>
     <admin>
-		<topmenu>
-            	<customer>
-                	<managecustomers>//div[@class="nav-bar"]//a[span="Manage Customers"]</managecustomers>
-            	</customer>
-		<system>
-			<permissions>
-				<users>//li[a/span="Permissions"]//li[a/span="Users"]/a</users>
-			</permissions>
-		</system>
+        <topmenu>
+            <customer>
+                <managecustomers>//div[@class="nav-bar"]//a[span="Manage Customers"]</managecustomers>
+            </customer>
+            <system>
+                <permissions>
+                    <users>//li[a/span="Permissions"]//li[a/span="Users"]/a</users>
+                </permissions>
+            </system>
         </topmenu>
-		<pages>
-		<system>
-			<permissions>
-				<users>
-					<manageusers>	
-						<buttons>
-							<addnewuser>
-						                  //button[span="Add New User"]
-							</addnewuser>
-						</buttons>
-					</manageusers>	
-					<user>
-						<buttons>
-							<saveuser>//button[span="Save User"]</saveuser>
-						</buttons>
-						<messages>
-							<usersaved>//div["messages"]//li[@class="success-msg"]</usersaved>
-						</messages>
-						<inputs>
-							<username>user_username</username>
-							<firstname>user_firstname</firstname>
-							<lastname>user_lastname</lastname>
-							<email>user_email</email>
-							<password>user_password</password>
-							<confirmation>user_confirmation</confirmation>
-						</inputs>
-					</user>
-				</users>
-			</permissions>
-		</system>
-	</pages>
+        <pages>
+            <system>
+                <permissions>
+                    <users>
+                        <manageusers>
+                            <buttons>
+                                <addnewuser>//button[span="Add New User"]</addnewuser>
+                            </buttons>
+                        </manageusers>
+                        <user>
+                            <inputs>
+                                <username>user_username</username>
+                                <firstname>user_firstname</firstname>
+                                <lastname>user_lastname</lastname>
+                                <email>user_email</email>
+                                <password>user_password</password>
+                                <confirmation>user_confirmation</confirmation>
+                            </inputs>
+                        </user>
+                    </users>
+                </permissions>
+            </system>
+            <login>
+                <messages>
+                    <invalidlogin>Invalid Username or Password.</invalidlogin>
+                </messages>
+                <images>
+                    <mainlogo>//img[@class='logo']</mainlogo>
+                </images>
+            </login>
+        </pages>
     </admin>
 </map>
