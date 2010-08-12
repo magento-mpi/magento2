@@ -31,22 +31,23 @@ abstract class Test_Admin_Abstract extends Test_Abstract
      */
     public function adminLogin($baseurl, $username, $password) {
         $this->open($baseurl);
-        $this->type("username", $username);
-        $this->type("login", $password);
-        $this->click("//input[@title='Login']");
-        $this->waitForPageToLoad("90000");
+        $this->type($this->getUiElement("admin/pages/login/fields/username"), $username);
+        $this->type($this->getUiElement("admin/pages/login/fields/password"), $password);
+        $this->clickAndWait($this->getUiElement("admin/pages/login/buttons/loginbutton"));
 
-        if ($this->isTextPresent($this->getUiElement("admin/messages/invalidlogin"))) {
+        if ($this->isTextPresent($this->getUiElement("admin/pages/login/messages/invalidlogin"))) {
             $this->setVerificationErrors("Check 1 failed: Invalid login name/passsword");
 
         }
-//        $this->verifyElementPresent($this->getUiElement("admin/images/mainlogo"));
+        if ($this->isElementPresent($this->getUiElement("admin/pages/login/images/mainlogo"))) {
+            $this->setVerificationErrors("Check 1 failed: Dashboard wasn't loaded");
     }
-
+    }
     /**
      * Await appearing and disappearing "Please wait" gif-image
      *
      */
+    
     public  function pleaseWait()
     {
         //
