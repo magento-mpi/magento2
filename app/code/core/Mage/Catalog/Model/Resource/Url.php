@@ -913,7 +913,8 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
     }
 
     /**
-     * Remove unused rewrite URLs
+     * Find and remove unused products rewrites - a case when products were moved away from the category
+     * (either to other category or deleted), so rewrite "category_id-product_id" is invalid
      *
      * @param int $storeId
      * @return Mage_Catalog_Model_Resource_Url
@@ -944,7 +945,11 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
     }
 
     /**
-     * Remove unused rewrites for product
+     * Remove unused rewrites for product - called after we created all needed rewrites for product and know the categories
+     * where the product is contained ($excludeCategoryIds), so we can remove all invalid product rewrites that have other category ids
+     *
+     * Notice: this routine is not identical to clearCategoryProduc(), because after checking all categories this one removes rewrites
+     * for product still contained within category, but when the category was moved away from store's category path to other root category.
      *
      * @param int $productId Product entity Id
      * @param int $storeId Store Id for rewrites
@@ -966,6 +971,96 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
     }
 
     /**
+     * Finds and deletes old category and category/product rewrites for store
+     * left from the times when store had some other root category
+     *
+     * @param int $storeId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Url
+     */
+    public function clearStoreCategoriesInvalidRewrites($storeId) {
+        // Form a list of all current store categories ids
+        $store = $this->getStores($storeId);
+        $category = $this->getCategory($store->getRootCategoryId(), $storeId);
+        if (!$category) {
+            return $this;
+        }
+        $category = $this->loadCategoryChilds($category);
+        $categoryIds = array($category->getId());
+        $children = $category->getAllChilds();
+        if ($children) {
+            $categoryIds = array_merge($categoryIds, array_keys($children));
+        }
+
+        // Remove all store catalog rewrites that are for some category or cartegory/product not within store categories
+        $adapter = $this->_getWriteAdapter();
+        $condition = $adapter->quoteInto('store_id = ?', $storeId);
+        $condition .= ' AND category_id IS NOT NULL'; // For sure check that it's a catalog rewrite
+        $condition .= $adapter->quoteInto(' AND category_id NOT IN (?)', $categoryIds);
+        $adapter->delete($this->getMainTable(), $condition);
+
+        return $this;
+    }
+
+    /**
+     * Finds and deletes product rewrites (that are not assigned to any category) for store
+     * left from the times when product was assigned to this store's website and now is not assigned
+     *
+     * Notice: this routine is different from clearProductRewrites() and clearCategoryProduct() because
+     * it handles direct rewrites to product without defined category (category_id IS NULL) whilst that routines
+     * handle only product rewrites within categories
+     *
+     * @param int $storeId
+     * @param int|array|null $productId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Url
+     */
+    public function clearStoreProductsInvalidRewrites($storeId, $productId = null) {
+        $store = $this->getStores($storeId);
+        $read = $this->_getReadAdapter();
+        $select = $read->select()
+            ->from(array('rewrite' => $this->getMainTable()), $this->getIdFieldName())
+            ->joinLeft(
+                array('website' => $this->getTable('catalog/product_website')),
+                'rewrite.product_id=website.product_id AND ' . $read->quoteInto('website.website_id = ?', $store->getWebsiteId()),
+                array()
+            )->where('rewrite.store_id=?', $storeId)
+            ->where('rewrite.category_id IS NULL');
+        if ($productId) {
+            $select->where('rewrite.product_id IN (?)', $productId);
+        } else {
+            $select->where('rewrite.product_id IS NOT NULL');
+        }
+        $select->where('website.website_id IS NULL');
+
+        $rowSet = $read->fetchAll($select);
+        $rewriteIds = array();
+        foreach ($rowSet as $row) {
+            $rewriteIds[] = $row[$this->getIdFieldName()];
+        }
+        if ($rewriteIds) {
+            $write =$this->_getWriteAdapter();
+            $where = $write->quoteInto($this->getIdFieldName() . ' IN(?)', $rewriteIds);
+            $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Finds and deletes old rewrites for store
+     * a) category rewrites left from the times when store had some other root category
+     * b) product rewrites left from products that once belonged to this site, but then deleted or just removed from website
+     *
+     * @param int $storeId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Url
+     */
+    public function clearStoreInvalidRewrites($storeId)
+    {
+        $this->clearStoreCategoriesInvalidRewrites($storeId);
+        $this->clearStoreProductsInvalidRewrites($storeId);
+        return $this;
+    }
+
+    /**
      * Delete rewrites for associated to category products
      *
      * @param int $categoryId
@@ -979,7 +1074,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
     }
 
     /**
-     * Delete URL rewrites for category products of specific store \
+     * Delete URL rewrites for category products of specific store
      *
      * @param int $categoryId
      * @param array|int|null $productIds

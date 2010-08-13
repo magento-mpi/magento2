@@ -168,7 +168,8 @@ class Mage_Catalog_Model_Url
     }
 
     /**
-     * Refresh rewrite urls
+     * Refresh all rewrite urls for some store or for all stores
+     * Used to make full reindexing of url rewrites
      *
      * @param int $storeId
      * @return Mage_Catalog_Model_Url
@@ -182,6 +183,7 @@ class Mage_Catalog_Model_Url
             return $this;
         }
 
+        $this->clearStoreInvalidRewrites($storeId);
         $this->refreshCategoryRewrite($this->getStores($storeId)->getRootCategoryId(), $storeId, false);
         $this->refreshProductRewrites($storeId);
         $this->getResource()->clearCategoryProduct($storeId);
@@ -352,9 +354,10 @@ class Mage_Catalog_Model_Url
 
     /**
      * Refresh category and childs rewrites
+     * Called when reindexing all rewrites and as a reaction on category change that affects rewrites
      *
      * @param int $categoryId
-     * @param int $storeId
+     * @param int|null $storeId
      * @param bool $refreshProducts
      * @return Mage_Catalog_Model_Url
      */
@@ -387,9 +390,10 @@ class Mage_Catalog_Model_Url
 
     /**
      * Refresh product and categories urls
+     * Called as a reaction on product change that affects rewrites
      *
      * @param int $productId
-     * @param int $storeId
+     * @param int|null $storeId
      * @return Mage_Catalog_Model_Url
      */
     public function refreshProductRewrite($productId, $storeId = null)
@@ -424,13 +428,17 @@ class Mage_Catalog_Model_Url
 
             unset($categories);
             unset($product);
-
-//            $this->getResource()->clearCategoryProduct($storeId);
         }
 
         return $this;
     }
 
+    /**
+     * Refresh all product rewrites for designated store
+     *
+     * @param int $storeId
+     * @return Mage_Catalog_Model_Url
+     */
     public function refreshProductRewrites($storeId)
     {
         $this->_categories      = array();
@@ -448,7 +456,6 @@ class Mage_Catalog_Model_Url
                 break;
             }
 
-            $this->_rewrites = array();
             $this->_rewrites = $this->getResource()->prepareRewrites($storeId, false, array_keys($products));
 
             $loadCategories = array();
@@ -483,6 +490,25 @@ class Mage_Catalog_Model_Url
         }
 
         $this->_categories = array();
+        return $this;
+    }
+
+    /**
+     * Deletes old rewrites for store, left from the times when store had some other root category
+     *
+     * @param int $storeId
+     * @return Mage_Catalog_Model_Url
+     */
+    public function clearStoreInvalidRewrites($storeId = null)
+    {
+        if (is_null($storeId)) {
+            foreach ($this->getStores() as $store) {
+                $this->clearStoreInvalidRewrites($store->getId());
+            }
+            return $this;
+        }
+
+        $this->getResource()->clearStoreInvalidRewrites($storeId);
         return $this;
     }
 
