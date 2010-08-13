@@ -66,7 +66,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Edit_Tab_Design_Accordion_Images ex
         $this->addImage($fieldset,
             'conf[native][body][bannerImage]',
             Mage::helper('xmlconnect')->__('Banner on Home Screen'),
-            Mage::helper('xmlconnect')->__('Recommended size 320px × 227px.'),
+            Mage::helper('xmlconnect')->__('Recommended size 320px × 230px.'),
             $this->_getDesignPreviewImageUrl('banner_1_2.png'),
             true
         );
