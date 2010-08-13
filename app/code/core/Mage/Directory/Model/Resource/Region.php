@@ -26,135 +26,125 @@
 
 
 /**
- * Enter description here ...
+ * Directory Region Resource Model
  *
  * @category    Mage
  * @package     Mage_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Directory_Model_Resource_Region
+class Mage_Directory_Model_Resource_Region extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Table with localized region names
      *
-     * @var unknown
-     */
-    protected $_regionTable;
-
-    /**
-     * Enter description here ...
-     *
-     * @var unknown
+     * @var string
      */
     protected $_regionNameTable;
 
     /**
-     * DB read connection
-     *
-     * @var Zend_Db_Adapter_Abstract
-     */
-    protected $_read;
-
-    /**
-     * DB write connection
-     *
-     * @var Zend_Db_Adapter_Abstract
-     */
-    protected $_write;
-
-    /**
-     * Enter description here ...
+     * Define main and locale region name tables
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        $resource = Mage::getSingleton('core/resource');
-        $this->_regionTable     = $resource->getTableName('directory/country_region');
-        $this->_regionNameTable = $resource->getTableName('directory/country_region_name');
-        $this->_read    = $resource->getConnection('directory_read');
-        $this->_write   = $resource->getConnection('directory_write');
+        $this->_init('directory/country_region', 'region_id');
+        $this->_regionNameTable = $this->getTable('directory/country_region_name');
     }
 
     /**
-     * Enter description here ...
+     * Retrieve select object for load object data
      *
-     * @return unknown
+     * @param string $field
+     * @param mixed $value
+     * @param Mage_Core_Model_Abstract $object
+     * @return Varien_Db_Select
      */
-    public function getIdFieldName()
+    protected function _getLoadSelect($field, $value, $object)
     {
-        return 'region_id';
-    }
+        $select  = parent::_getLoadSelect($field, $value, $object);
+        $adapter = $this->_getReadAdapter();
 
-    /**
-     * Enter description here ...
-     *
-     * @param Mage_Directory_Model_Region $region
-     * @param unknown_type $regionId
-     * @return Mage_Directory_Model_Resource_Region
-     */
-    public function load(Mage_Directory_Model_Region $region, $regionId)
-    {
-        $locale = Mage::app()->getLocale()->getLocaleCode();
+        $locale       = Mage::app()->getLocale()->getLocaleCode();
         $systemLocale = Mage::app()->getDistroLocaleCode();
 
-        $select = $this->_read->select()
-            ->from(array('region'=>$this->_regionTable))
-            ->where('region.region_id=?', $regionId)
-            ->join(array('rname'=>$this->_regionNameTable),
-                'rname.region_id=region.region_id AND (rname.locale=\''.$locale.'\' OR rname.locale=\''.$systemLocale.'\')',
-                array('name', new Zend_Db_Expr('CASE rname.locale WHEN \''.$systemLocale.'\' THEN 1 ELSE 0 END sort_locale')))
-            ->order('sort_locale')
-            ->limit(1);
+        $regionField = $adapter->quoteIdentifier($this->getMainTable() . '.' . $this->getIdFieldName());
 
-        $region->setData($this->_read->fetchRow($select));
+        $condition = $adapter->quoteInto('lrn.locale = ?', $locale);
+        $select->joinLeft(
+            array('lrn' => $this->_regionNameTable),
+            "{$regionField} = lrn.region_id AND {$condition}",
+            array());
+
+        if ($locale != $systemLocale) {
+            $nameExpr  = $adapter->getCheckSql('lrn.region_id is null', 'srn.name', 'lrn.name');
+            $condition = $adapter->quoteInto('srn.locale = ?', $systemLocale);
+            $select->joinLeft(
+                array('srn' => $this->_regionNameTable),
+                "{$regionField} = srn.region_id AND {$condition}",
+                array('name' => $nameExpr));
+        } else {
+            $select->columns(array('name'), 'lrn');
+        }
+
+        return $select;
+    }
+
+    /**
+     * Load object by country id and code or default name
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @param int $countryId
+     * @param string $value
+     * @param string $field
+     * @return Mage_Directory_Model_Resource_Region
+     */
+    protected function _loadByCountry($object, $countryId, $value, $field)
+    {
+        $adapter = $this->_getReadAdapter();
+        $locale  = Mage::app()->getLocale()->getLocaleCode();
+        $joinCondition = $adapter->quoteInto('rname.region_id = region.region_id AND rname.locale = ?', $locale);
+        $select = $adapter->select()
+            ->from(array('region' => $this->getMainTable()))
+            ->joinLeft(
+                array('rname' => $this->_regionNameTable),
+                $joinCondition,
+                array('name'))
+            ->where('region.country_id = ?', $countryId)
+            ->where("region.{$field} = ?", $value);
+
+        $data = $adapter->fetchRow($select);
+        if ($data) {
+            $object->setData($data);
+        }
+
+        $this->_afterLoad($object);
+
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Loads region by region code and country id
      *
      * @param Mage_Directory_Model_Region $region
-     * @param unknown_type $regionCode
-     * @param unknown_type $countryId
+     * @param string $regionCode
+     * @param string $countryId
      * @return Mage_Directory_Model_Resource_Region
      */
     public function loadByCode(Mage_Directory_Model_Region $region, $regionCode, $countryId)
     {
-        $locale = Mage::app()->getLocale()->getLocaleCode();
-
-        $select = $this->_read->select()
-            ->from(array('region'=>$this->_regionTable))
-            ->where('region.country_id=?', $countryId)
-            ->where('region.code=?', $regionCode)
-            ->join(array('rname'=>$this->_regionNameTable),
-                'rname.region_id=region.region_id AND rname.locale=\''.$locale.'\'',
-                array('name'));
-
-        $region->setData($this->_read->fetchRow($select));
-        return $this;
+        return $this->_loadByCountry($region, $countryId, (string)$regionCode, 'code');
     }
 
     /**
-     * Enter description here ...
+     * Load data by country id and default region name
      *
      * @param Mage_Directory_Model_Region $region
-     * @param unknown_type $regionName
-     * @param unknown_type $countryId
+     * @param string $regionName
+     * @param string $countryId
      * @return Mage_Directory_Model_Resource_Region
      */
     public function loadByName(Mage_Directory_Model_Region $region, $regionName, $countryId)
     {
-        $locale = Mage::app()->getLocale()->getLocaleCode();
-
-        $select = $this->_read->select()
-            ->from(array('region'=>$this->_regionTable))
-            ->where('region.country_id=?', $countryId)
-            ->where('region.default_name=?', $regionName)
-            ->join(array('rname'=>$this->_regionNameTable),
-                'rname.region_id=region.region_id AND rname.locale=\''.$locale.'\'',
-                array('name'));
-
-        $region->setData($this->_read->fetchRow($select));
-        return $this;
+        return $this->_loadByCountry($region, $countryId, (string)$regionName, 'default_name');
     }
 }

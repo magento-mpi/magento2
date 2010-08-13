@@ -26,7 +26,7 @@
 
 
 /**
- * Enter description here ...
+ * Directory Country Resource Model
  *
  * @category    Mage
  * @package     Mage_Directory
@@ -35,7 +35,7 @@
 class Mage_Directory_Model_Resource_Country extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * Enter description here ...
+     * Define main table
      *
      */
     protected function _construct()
@@ -44,10 +44,10 @@ class Mage_Directory_Model_Resource_Country extends Mage_Core_Model_Resource_Db_
     }
 
     /**
-     * Enter description here ...
+     * Load country by ISO code
      *
      * @param Mage_Directory_Model_Country $country
-     * @param unknown_type $code
+     * @param string $code
      * @return Mage_Directory_Model_Resource_Country
      */
     public function loadByCode(Mage_Directory_Model_Country $country, $code)

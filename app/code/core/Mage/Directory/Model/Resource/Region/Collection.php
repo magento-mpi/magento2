@@ -32,135 +32,139 @@
  * @package     Mage_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Directory_Model_Resource_Region_Collection extends Varien_Data_Collection_Db
+class Mage_Directory_Model_Resource_Region_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
+     * Locale region name table name
      *
-     * @var unknown
-     */
-    protected $_regionTable;
-
-    /**
-     * Enter description here ...
-     *
-     * @var unknown
+     * @var string
      */
     protected $_regionNameTable;
 
     /**
-     * Enter description here ...
+     * Country table name
      *
-     * @var unknown
+     * @var string
      */
     protected $_countryTable;
 
     /**
-     * Enter description here ...
+     * Define main, country, locale region name tables
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('directory_read'));
+        $this->_init('directory/region');
 
-        $this->_countryTable    = Mage::getSingleton('core/resource')->getTableName('directory/country');
-        $this->_regionTable     = Mage::getSingleton('core/resource')->getTableName('directory/country_region');
-        $this->_regionNameTable = Mage::getSingleton('core/resource')->getTableName('directory/country_region_name');
-
-        $locale = Mage::app()->getLocale()->getLocaleCode();
-
-        $this->_select->from(array('region'=>$this->_regionTable),
-            array('region_id'=>'region_id', 'country_id'=>'country_id', 'code'=>'code', 'default_name'=>'default_name')
-        );
-        $this->_select->joinLeft(array('rname'=>$this->_regionNameTable),
-            "region.region_id=rname.region_id AND rname.locale='$locale'", array('name'));
-
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/region'));
+        $this->_countryTable    = $this->getTable('directory/country');
+        $this->_regionNameTable = $this->getTable('directory/country_region_name');
     }
 
     /**
-     * Enter description here ...
+     * Initialize select object
      *
-     * @param unknown_type $countryId
+     * @return Mage_Directory_Model_Resource_Region_Collection
+     */
+    protected function _initSelect()
+    {
+        parent::_initSelect();
+        $locale = Mage::app()->getLocale()->getLocaleCode();
+
+        $joinCondition = $this->getConnection()
+            ->quoteInto('main_table.region_id = rname.region_id AND rname.locale = ?', $locale);
+        $this->getSelect()
+             ->joinLeft(
+                array('rname' => $this->_regionNameTable),
+                $joinCondition,
+                array('name'));
+        return $this;
+    }
+
+    /**
+     * Filter by country_id
+     *
+     * @param string|array $countryId
      * @return Mage_Directory_Model_Resource_Region_Collection
      */
     public function addCountryFilter($countryId)
     {
         if (!empty($countryId)) {
             if (is_array($countryId)) {
-                $this->addFieldToFilter('region.country_id', array('in'=>$countryId));
+                $this->addFieldToFilter('main_table.country_id', array('in'=>$countryId));
             } else {
-                $this->addFieldToFilter('region.country_id', $countryId);
+                $this->addFieldToFilter('main_table.country_id', $countryId);
             }
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Filter by country code (ISO 3)
      *
-     * @param unknown_type $countryCode
+     * @param string $countryCode
      * @return Mage_Directory_Model_Resource_Region_Collection
      */
     public function addCountryCodeFilter($countryCode)
     {
-        $this->_select->joinLeft(array('country'=>$this->_countryTable), 'region.country_id=country.country_id');
-        $this->_select->where("country.iso3_code = '{$countryCode}'");
+        $whereCondition = $this->getConnection()
+                               ->quoteInto("country.iso3_code = ?", $countryCode);
+        $this->getSelect()
+             ->joinLeft(array('country'=>$this->_countryTable),
+                        'main_table.country_id=country.country_id')
+             ->where($whereCondition);
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Filter by Region code
      *
-     * @param unknown_type $regionCode
+     * @param string|array $regionCode
      * @return Mage_Directory_Model_Resource_Region_Collection
      */
     public function addRegionCodeFilter($regionCode)
     {
         if (!empty($regionCode)) {
             if (is_array($regionCode)) {
-                $this->_select->where("region.code IN ('".implode("','", $regionCode)."')");
+                $this->addFieldToFilter('main_table.code', array('in'=>$regionCode));
             } else {
-                $this->_select->where("region.code = '{$regionCode}'");
+                 $this->addFieldToFilter('main_table.code', $regionCode);
             }
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Filter by region name
      *
-     * @param unknown_type $regionName
+     * @param string|array $regionName
      * @return Mage_Directory_Model_Resource_Region_Collection
      */
     public function addRegionNameFilter($regionName)
     {
         if (!empty($regionName)) {
             if (is_array($regionName)) {
-                $this->_select->where("region.default_name in ('".implode("','", $regionName)."')");
+                $this->addFieldToFilter('main_table.default_name', array('in'=>$regionName));
             } else {
-                $this->_select->where("region.default_name = '{$regionName}'");
+                $this->addFieldToFilter('main_table.default_name', $regionName);
             }
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Convert collection items to select options array
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {
-        $options = array();
-        foreach ($this as $item) {
-            $options[] = array(
-               'value' => $item->getId(),
-               'label' => $item->getName()
-            );
-        }
+        $options = $this->_toOptionArray('region_id', 'default_name', array('title' => 'default_name'));
         if (count($options)>0) {
-            array_unshift($options, array('title'=>null, 'value'=>'0', 'label'=>Mage::helper('directory')->__('-- Please select --')));
+            array_unshift($options, array(
+                'title '=> null,
+                'value' => '0',
+                'label' => Mage::helper('directory')->__('-- Please select --')
+            ));
         }
         return $options;
     }

@@ -26,37 +26,25 @@
 
 
 /**
- * Country collection
+ * Directory Country Resource Collection
  *
  * @category    Mage
  * @package     Mage_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Directory_Model_Resource_Country_Collection extends Varien_Data_Collection_Db
+class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Enter description here ...
-     *
-     * @var unknown
-     */
-    protected $_countryTable;
-
-    /**
-     * Enter description here ...
+     * Define main table
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct(Mage::getSingleton('core/resource')->getConnection('directory_read'));
-
-        $this->_countryTable = Mage::getSingleton('core/resource')->getTableName('directory/country');
-
-        $this->_select->from(array('country'=>$this->_countryTable));
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/country'));
+        $this->_init('directory/country');
     }
 
     /**
-     * Enter description here ...
+     * Load allowed countries for current store
      *
      * @return Mage_Directory_Model_Resource_Country_Collection
      */
@@ -64,19 +52,16 @@ class Mage_Directory_Model_Resource_Country_Collection extends Varien_Data_Colle
     {
         $allowCountries = explode(',', (string)Mage::getStoreConfig('general/country/allow'));
         if (!empty($allowCountries)) {
-            $this->addFieldToFilter("country.country_id", array('in'=>$allowCountries));
+            $this->addFieldToFilter("country_id", array('in'=>$allowCountries));
         }
-
-        $this->load();
-
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Loads Item By Id
      *
-     * @param unknown_type $countryId
-     * @return unknown
+     * @param string $countryId
+     * @return Mage_Directory_Model_Resource_Country
      */
     public function getItemById($countryId)
     {
@@ -89,65 +74,61 @@ class Mage_Directory_Model_Resource_Country_Collection extends Varien_Data_Colle
     }
 
     /**
-     * Enter description here ...
+     * Add filter by country code to collection
      *
-     * @param unknown_type $countryCode
-     * @param unknown_type $iso
+     * @param string|array $countryCode
+     * @param string|array $iso
      * @return Mage_Directory_Model_Resource_Country_Collection
      */
-    public function addCountryCodeFilter($countryCode, $iso = array ( 0 => 'iso3', 1 => 'iso2'))
+    public function addCountryCodeFilter($countryCode, $iso = array('iso3', 'iso2'))
     {
         if (!empty($countryCode)) {
-            $where_expr = '';
             if (is_array($countryCode)) {
                 if (is_array($iso)) {
                     $i = 0;
                     foreach ($iso as $iso_curr) {
-                        $where_expr .= ($i++ > 0 ? ' OR ' : '');
-                        $where_expr .= "country.{$iso_curr}_code IN ('".implode("','", $countryCode)."')";
+                        $this->addFieldToFilter("{$iso_curr}_code", array('in'=>$countryCode));
                     }
                 } else {
-                    $where_expr = "country.{$iso}_code IN ('".implode("','", $countryCode)."')";
+                    $this->addFieldToFilter("{$iso}_code", array('in'=>$countryCode));
                 }
             } else {
                 if (is_array($iso)) {
                     $i = 0;
                     foreach ($iso as $iso_curr) {
-                        $where_expr .= ($i++ > 0 ? ' OR ' : '');
-                        $where_expr = "country.{$iso_curr}_code = '{$countryCode}'";
+                        $this->addFieldToFilter("{$iso_curr}_code", $countryCode);
                     }
                 } else {
-                    $where_expr = "country.{$iso}_code = '{$countryCode}'";
+                    $this->addFieldToFilter("{$iso}_code", $countryCode);
                 }
             }
-            $this->_select->where($where_expr);
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Add filter by country code(s) to collection
      *
-     * @param unknown_type $countryId
+     * @param string|array $countryId
      * @return Mage_Directory_Model_Resource_Country_Collection
      */
     public function addCountryIdFilter($countryId)
     {
         if (!empty($countryId)) {
             if (is_array($countryId)) {
-                $this->_select->where("country.country_id IN ('".implode("','", $countryId)."')");
+                $this->addFieldToFilter("country_id", array('in'=>$countryId));
             } else {
-                $this->_select->where("country.country_id = '{$countryId}'");
+                $this->addFieldToFilter("country_id", $countryId);
             }
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Convert collection items to select options array
      *
-     * @param unknown_type $emptyLabel
-     * @return unknown
+     * @param string $emptyLabel
+     * @return array
      */
     public function toOptionArray($emptyLabel = ' ')
     {

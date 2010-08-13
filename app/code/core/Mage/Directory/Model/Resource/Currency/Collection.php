@@ -26,65 +26,49 @@
 
 
 /**
- * Currency Mysql4 collection model
+ * Directory currency collection model
  *
  * @category    Mage
  * @package     Mage_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Directory_Model_Resource_Currency_Collection extends Varien_Data_Collection_Db
+class Mage_Directory_Model_Resource_Currency_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
-    /**
-     * Enter description here ...
-     *
-     * @var unknown
-     */
-    protected $_currencyTable;
 
     /**
-     * Enter description here ...
+     * Currency name table
      *
-     * @var unknown
+     * @var string
      */
     protected $_currencyNameTable;
 
     /**
-     * Enter description here ...
+     * Currency rate table
      *
-     * @var unknown
+     * @var string
      */
     protected $_currencyRateTable;
 
-    /**
-     * Enter description here ...
-     *
-     */
-    public function __construct()
+    protected function _construct()
     {
-        $resource = Mage::getSingleton('core/resource');
-        parent::__construct($resource->getConnection('directory_read'));
-        $this->_currencyTable       = $resource->getTableName('directory/currency');
-        $this->_currencyNameTable   = $resource->getTableName('directory/currency_name');
-        $this->_currencyRateTable   = $resource->getTableName('directory/currency_rate');
+        $this->_init('directory/currency');
 
-        $this->_select->from(array('main_table'=>$this->_currencyNameTable));
-        /*$this->_select->join(array('name_table'=>$this->_currencyNameTable),
-            "main_table.currency_code=name_table.currency_code");*/
-
-        $this->setItemObjectClass(Mage::getConfig()->getModelClassName('directory/currency'));
+        $this->_currencyNameTable    = $this->getTable('directory/currency_name');
+        $this->_currencyRateTable = $this->getTable('directory/currency_rate');
     }
 
     /**
-     * Enter description here ...
+     * Join currency rates by currency
      *
-     * @param unknown_type $currency
+     * @param string $currency
      * @return Mage_Directory_Model_Resource_Currency_Collection
      */
     public function joinRates($currency)
     {
         $alias = $currency.'_rate';
         $this->_select->joinLeft(array($alias=>$this->_currencyRateTable),
-            $this->getConnection()->quoteInto("$alias.currency_to=main_table.currency_code AND $alias.currency_from=?", $currency),
+            $this->getConnection()
+                ->quoteInto("$alias.currency_to=main_table.currency_code AND $alias.currency_from=?", $currency),
             'rate');
         return $this;
     }
@@ -100,7 +84,7 @@ class Mage_Directory_Model_Resource_Currency_Collection extends Varien_Data_Coll
         if (is_null($lang)) {
             $lang = Mage::app()->getStore()->getLanguageCode();
         }
-        $this->addFilter('language', "main_table.language_code='$lang'", 'string');
+        $this->addFieldToFilter('main_table.language_code', $lang);
         return $this;
     }
 
@@ -113,21 +97,18 @@ class Mage_Directory_Model_Resource_Currency_Collection extends Varien_Data_Coll
     public function addCodeFilter($code)
     {
         if (is_array($code)) {
-            $this->addFilter("codes",
-                $this->getConnection()->quoteInto("main_table.currency_code IN (?)", $code),
-                'string'
-            );
+            $this->addFieldToFilter("main_table.currency_code", array( 'in' => $code));
         }
         else {
-            $this->addFilter("code_$code", "main_table.currency_code='$code'", 'string');
+            $this->addFilter("code_$code", "main_table.currency_code",'$code');
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
+     * Convert collection items to select options array
      *
-     * @return unknown
+     * @return array
      */
     public function toOptionArray()
     {

@@ -26,7 +26,7 @@
 
 
 /**
- * Currency Mysql4 resourcre model
+ * Directory Currency Resource Model
  *
  * @category    Mage
  * @package     Mage_Directory
@@ -49,24 +49,13 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
     protected static $_rateCache;
 
     /**
-     * Enter description here ...
+     * Define main and currency rate tables
      *
      */
     protected function _construct()
     {
         $this->_init('directory/currency', 'currency_code');
-    }
-
-    /**
-     * Enter description here ...
-     *
-     */
-    public function __construct()
-    {
-        $resource = Mage::getSingleton('core/resource');
-        $this->_currencyRateTable   = $resource->getTableName('directory/currency_rate');
-
-        parent::__construct();
+        $this->_currencyRateTable   = $this->getTable('directory/currency_rate');
     }
 
     /**
@@ -125,15 +114,23 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
         }
 
         if (!isset(self::$_rateCache[$currencyFrom][$currencyTo])) {
-            $read = $this->_getReadAdapter();
-            $select = $read->select()
-                ->from($this->_currencyRateTable, new Zend_Db_Expr($read->quoteInto('if(currency_from=?,rate,1/rate)', strtoupper($currencyFrom))))
-                ->where('currency_from=?', strtoupper($currencyFrom))
-                ->where('currency_to=?', strtoupper($currencyTo))
-                ->orWhere('currency_from=?', strtoupper($currencyTo))
-                ->where('currency_to=?', strtoupper($currencyFrom));
+            $currencyFrom = strtoupper($currencyFrom);
+            $currencyTo   = strtoupper($currencyTo);
+            $adapter      = $this->_getReadAdapter();
 
-            self::$_rateCache[$currencyFrom][$currencyTo] = $read->fetchOne($select);
+            $select = $adapter->select()
+                ->from($this->_currencyRateTable, "rate")
+                ->where('currency_from = ?',$currencyFrom)
+                ->where('currency_to = ?', $currencyTo);
+
+            $rate = $adapter->fetchOne($select);
+            if ($rate === false) {
+                $select = $adapter->select()
+                    ->from($this->_currencyRateTable, "1/rate")
+                    ->where('currency_to = ?', $currencyTo)
+                    ->where('currency_from = ?',$currencyFrom);
+            }
+            self::$_rateCache[$currencyFrom][$currencyTo] = $adapter->fetchOne($select);
         }
 
         return self::$_rateCache[$currencyFrom][$currencyTo];
@@ -147,25 +144,24 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
     public function saveRates($rates)
     {
         if( is_array($rates) && sizeof($rates) > 0 ) {
-            $write = $this->_getWriteAdapter();
-            $table  = $write->quoteIdentifier($this->_currencyRateTable);
-            $colFrom= $write->quoteIdentifier('currency_from');
-            $colTo  = $write->quoteIdentifier('currency_to');
-            $colRate= $write->quoteIdentifier('rate');
-
-            $sql = 'REPLACE INTO ' . $table . ' (' . $colFrom . ', ' . $colTo . ', ' . $colRate . ') VALUES ';
-            $values = array();
+            $adapter = $this->_getWriteAdapter();
+            $data = array();
             foreach ($rates as $currencyCode => $rate) {
                 foreach( $rate as $currencyTo => $value ) {
                     $value = abs($value);
                     if( $value == 0 ) {
                         continue;
                     }
-                    $values[] = $write->quoteInto('(?)', array($currencyCode, $currencyTo, $value));
+                    $data[] = array(
+                        'currency_from' => $currencyCode,
+                        'currency_to'   => $currencyTo,
+                        'rate'          => $value,
+                    );
                 }
             }
-            $sql.= implode(',', $values);
-            $write->query($sql);
+            if ($data) {
+                $adapter->insertOnDuplicate($this->_currencyRateTable, $data, array('rate'));
+            }
         } else {
             Mage::throwException(Mage::helper('directory')->__('Invalid rates received'));
         }
@@ -180,20 +176,20 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
      */
     public function getConfigCurrencies($model, $path)
     {
-        $read = $this->_getReadAdapter();
-        $select = $read->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
                 ->from($this->getTable('core/config_data'))
-                ->where($read->quoteInto(' path = ? ', $path))
-                //->where('inherit = 0')
-                ->order(' value ASC ');
+                ->where($adapter->quoteInto(' path = ? ', $path));
 
-        $data = $read->fetchAll($select);
-        $tmp_array = array();
+        $data = $adapter->fetchAll($select);
+        $tmpArray = array();
         foreach( $data as $configRecord ) {
-            $tmp_array = array_merge($tmp_array, explode(',', $configRecord['value']));
+            $tmpArray = array_merge($tmpArray, explode(',', $configRecord['value']));
         }
 
-        $data = array_unique($tmp_array);
+        sort($tmpArray);
+
+        $data = array_unique($tmpArray);
         return $data;
     }
 
@@ -227,20 +223,19 @@ class Mage_Directory_Model_Resource_Currency extends Mage_Core_Model_Resource_Db
      */
     protected function _getRatesByCode($code, $toCurrencies = null)
     {
-        $read = $this->_getReadAdapter();
-        $select = $read->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->getTable('directory/currency_rate'), array('currency_to', 'rate'))
-            ->where($read->quoteInto('currency_from = ?', $code))
-            ->where($read->quoteInto('currency_to IN(?)', $toCurrencies));
+            ->where($adapter->quoteInto('currency_from = ?', $code))
+            ->where($adapter->quoteInto('currency_to IN(?)', $toCurrencies));
 
-        $data = $read->fetchAll($select);
+        $data = $adapter->fetchAll($select);
 
-        $tmp_array = array();
+        $tmpArray = array();
         foreach( $data as $currencyFrom => $rate ) {
-            $tmp_array[$rate['currency_to']] = $rate['rate'];
+            $tmpArray[$rate['currency_to']] = $rate['rate'];
         }
-        $data = $tmp_array;
 
-        return $data;
+        return $tmpArray;
     }
 }
