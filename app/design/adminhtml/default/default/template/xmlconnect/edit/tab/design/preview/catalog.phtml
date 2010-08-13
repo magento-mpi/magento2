@@ -58,7 +58,7 @@
             <div class="login-left"></div>
             <div class="login-body"><span><?php echo Mage::helper('xmlconnect')->__('Edit Filter'); ?></span></div>
             <div class="login-right"></div>
-        </div>
+        </div>                
     </div>
     <div class="filter-header" style="background:<?php echo $this->getData('conf/navigationBar/tintColor'); ?>;">
         <div class="gradient"></div>
@@ -72,12 +72,8 @@
     </div>
     <div class="sort-block" style="background:<?php echo $this->getData('conf/body/primaryColor'); ?>;">
         <div class="sort-block-inner">
-            <div class="sort-block-inner-txt" style="font:bold <?php echo $this->getData('conf/fonts/Title3/size'); ?>px
-              <?php echo $this->getData('conf/fonts/Title3/name'); ?>;
-             color: <?php echo $this->getData('conf/fonts/Title3/color'); ?>;">
-                <?php echo Mage::helper('xmlconnect')->__('SORT BY:'); ?>
-            </div>
-            <div  style="float: left;">
+            <div class="sort-block-inner-txt" style="font:bold <?php echo $this->getData('conf/fonts/Title3/size'); ?>px <?php echo $this->getData('conf/fonts/Title3/name'); ?>; color: <?php echo $this->getData('conf/fonts/Title3/color'); ?>;"><?php echo Mage::helper('xmlconnect')->__('SORT BY:'); ?></div>
+            <div style="float:left;">
                 <table class="sort-buttons" style="background:url('<?php echo $this->getPreviewImagesUrl('sort_buttons/buttons.png');?>') center center no-repeat;">
                     <tr>
                         <td style="background: url('<?php echo $this->getPreviewImagesUrl('grid.png');?>' center center repeat-x;" width="64px">

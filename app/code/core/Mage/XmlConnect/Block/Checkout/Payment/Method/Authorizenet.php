@@ -61,7 +61,7 @@ class Mage_XmlConnect_Block_Checkout_Payment_Method_Authorizenet extends Mage_Pa
     }
 
     /**
-     * Add Payflow Pro payment method form to payment XML object
+     * Add Authorize.net payment method form to payment XML object
      *
      * @param Mage_XmlConnect_Model_Simplexml_Element $paymentItemXmlObj
      * @return Mage_XmlConnect_Model_Simplexml_Element

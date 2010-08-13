@@ -37,11 +37,10 @@ body { margin: 0; padding: 0 }
 }
 .header-sign-1
 {
-    font:bold 13px/13px arial !important;
+    font:bold 13px/19px arial !important;
     color:#e9e9e9;
     float:left;    
-    padding:3px 0 3px 6px;
-    height:10px;
+    padding:0 15px 0 6px;
 }
 .top-header 
 {
@@ -53,7 +52,7 @@ body { margin: 0; padding: 0 }
     height:16px;
     width:25px;
     float:right;
-    margin:-1px 3px 5px 13px;
+    margin:-2px 5px 5px 13px;
 }
 
 .volume 
@@ -61,7 +60,7 @@ body { margin: 0; padding: 0 }
     height:16px; 
     width:25px;     
     float:left;
-    margin-top:-1px;
+    margin-top:-2px;
 }
 
 .antenna 
@@ -69,15 +68,14 @@ body { margin: 0; padding: 0 }
     height:16px; 
     width:18px;     
     float:left;
-    padding-left:6px;
+    margin-left:6px;
 }
 .time 
 {     
     position:relative;
-    top:3px;
     left:35px;
     text-align:center;
-    font:bold 13px/13px arial;
+    font:bold 13px/19px arial;
     color:#e9e9e9;
     float:left;
 }
@@ -137,6 +135,7 @@ body { margin: 0; padding: 0 }
     width:100%;
     position:absolute;
     background:url(../images/xmlconnect/mobile_preview/gradients/header2.png) 0 0 no-repeat;
+    left:0;
 }
 
 .edit-filter {
@@ -171,7 +170,7 @@ body { margin: 0; padding: 0 }
     padding:0 !important;
 }
 
-.logo-small .sh-title { text-align:left; height:44px; }
+.logo-small .sh-title { text-align:left; height:30px; }
 .logo-small td { padding-top:4px; }
 .logo-small td.sm-logo { padding:0 3px 0 0; }
 .logo-small .sh-title1, 
@@ -196,6 +195,7 @@ body { margin: 0; padding: 0 }
     width:100%;
     position:absolute;
     background:url(../images/xmlconnect/mobile_preview/gradients/header3.png) 0 0 repeat-x;
+    left:0;
 }
 .filter-applied 
 {
@@ -239,9 +239,9 @@ body { margin: 0; padding: 0 }
 }
 .sort-block-inner-txt 
 {
-	float: left;  
-	width: 75px; 
-	height: 26px; 
+	float:left;  
+	width:75px; 
+	height:26px; 
 	padding-top: 12px; 
     font:bold 11px/18px arial !important;
 }
@@ -250,7 +250,6 @@ body { margin: 0; padding: 0 }
 {
 	text-align:center;
 	font:bold 11px/11px arial;
-	float:right;
 	padding:0 5px 0 0;
     width:234px; 
     height:26px; 
@@ -280,6 +279,7 @@ body { margin: 0; padding: 0 }
     position:absolute;
     bottom:0;
     background: url(../images/xmlconnect/mobile_preview/gradients/item-bg.png) 0 0 repeat-x; 
+    left:0;
 }
 
 .slider
@@ -363,13 +363,12 @@ body { margin: 0; padding: 0 }
     position:absolute;
     bottom:0;
     background:#060606;
+    width:320px;
 }
 
 .bottom-buttons .gradient { 
-    height:50px; 
-    width:100%;
     position:absolute;
-    background:url(../images/xmlconnect/mobile_preview/gradients/footer.png) 0 0 no-repeat;
+    background:url(../images/xmlconnect/mobile_preview/gradients/footer.png) 0 0 no-repeat !important;
 }
 
 .bottom-button 
@@ -381,10 +380,8 @@ body { margin: 0; padding: 0 }
 }
 .bottom-button p 
 {
-    position:relative;
-    top:20px;
     text-align:center;
     font:normal 10px/11px arial;
     color:#9f9f9f;
-    margin-top:8px;
+    margin-top:28px;
 }
