@@ -204,7 +204,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
      */
     public function delete(Mage_Core_Model_Abstract $user)
     {
-        $this->_beforeDelete($object);
+        $this->_beforeDelete($user);
         $adapter = $this->_getWriteAdapter();
 
         $uid = $user->getId();
@@ -224,7 +224,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
             return false;
         }
         $adapter->commit();
-        $this->_afterDelete($object);
+        $this->_afterDelete($user);
         return true;
     }
 
@@ -297,7 +297,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
                     ->from($table, array())
                     ->joinLeft(
                         array('ar' => $table),
-                        "(ar.role_id = `{$table}`.parent_id and ar.role_type = 'G')",
+                        "(ar.role_id = {$table}.parent_id and ar.role_type = 'G')",
                         array('role_id'))
                     ->where("{$table}.user_id = :user_id");
 
