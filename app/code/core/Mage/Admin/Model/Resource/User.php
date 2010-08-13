@@ -79,7 +79,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
         );
 
         $condition = array(
-            'user_id' => (int) $user->getUserId();
+            'user_id' => (int) $user->getUserId(),
         );
 
         $adapter->update($this->getMainTable(), $data, $condition);
@@ -128,7 +128,7 @@ class Mage_Admin_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstrac
             $adapter = $this->_getReadAdapter();
 
             $select = $adapter->select();
-            $select->from($this->getMainTable())
+            $select->from($this->getTable('admin/role'))
                 ->where('parent_id > :parent_id')
                 ->where('user_id = :user_id');
 
