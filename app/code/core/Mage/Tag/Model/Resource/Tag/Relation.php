@@ -128,7 +128,7 @@ class Mage_Tag_Model_Resource_Tag_Relation extends Mage_Core_Model_Resource_Db_A
     {
         $condition = $this->_getWriteAdapter()->quoteInto('tag_id = ?', $tagId) . ' AND ';
         $condition.= $this->_getWriteAdapter()->quoteInto('customer_id = ?', $customerId);
-        $data = array('active'=>0);
+        $data = array('active' => Mage_Tag_Model_Tag_Relation::STATUS_NOT_ACTIVE);
         $this->_getWriteAdapter()->update($this->getMainTable(), $data, $condition);
         return $this;
     }

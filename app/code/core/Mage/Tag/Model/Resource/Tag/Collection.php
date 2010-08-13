@@ -324,9 +324,10 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
      */
     public function setActiveFilter()
     {
-        $this->getSelect()->where('relation.active = 1');
+        $statusActive = Mage_Tag_Model_Tag_Relation::STATUS_ACTIVE;
+        $this->getSelect()->where('relation.active = ?', $statusActive);
         if($this->getFlag('prelation')) {
-            $this->getSelect()->where('prelation.active = 1');
+            $this->getSelect()->where('prelation.active = ?', $statusActive);
         }
         return $this;
     }
