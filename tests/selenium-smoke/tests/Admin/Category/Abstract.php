@@ -37,14 +37,14 @@ abstract class Test_Admin_Category_Abstract extends Test_Admin_Abstract
       // Fill all fields
       $this->type($this->getUiElement("admin/pages/catalog/categories/managecategories/inputs/name"),$CategorName);
       $this->select($this->getUiElement("admin/pages/catalog/categories/managecategories/selectors/isactive"),"label=Yes");
-      // Save user
+      // Save category
       $this->clickAndWait($this->getUiElement("admin/pages/catalog/categories/managecategories/buttons/savecategory"));
+      $this->pleaseWait();
       // Check for success message
-/*      if (!$this->isElementPresent($this->getUiElement("admin/pages/system/permissions/users/user/messages/usersaved"))) {
-        $this->setVerificationErrors("Check 1: no success message");
-      }
- */
-      $this->debug("addUser finished");
+      if (!$this->isElementPresent($this->getUiElement("admin/pages/catalog/categories/managecategories/messages/categorysaved"))) {
+        $this->setVerificationErrors("addRootCategory check 1: no success message");
+      } 
+      $this->debug("addRootCategory finished");
     }
 
 }
