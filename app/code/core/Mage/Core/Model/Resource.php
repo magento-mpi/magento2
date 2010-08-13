@@ -31,35 +31,35 @@
  */
 class Mage_Core_Model_Resource
 {
+    const AUTO_UPDATE_CACHE_KEY  = 'DB_AUTOUPDATE';
+    const AUTO_UPDATE_ONCE       = 0;
+    const AUTO_UPDATE_NEVER      = -1;
+    const AUTO_UPDATE_ALWAYS     = 1;
 
-    const AUTO_UPDATE_CACHE_KEY = 'DB_AUTOUPDATE';
-    const AUTO_UPDATE_ONCE      = 0;
-    const AUTO_UPDATE_NEVER     = -1;
-    const AUTO_UPDATE_ALWAYS    = 1;
-
-    const DEFAULT_READ_RESOURCE = 'core_read';
-    const DEFAULT_WRITE_RESOURCE= 'core_write';
+    const DEFAULT_READ_RESOURCE  = 'core_read';
+    const DEFAULT_WRITE_RESOURCE = 'core_write';
+    const DEFAULT_SETUP_RESOURCE = 'core_setup';
 
     /**
      * Instances of classes for connection types
      *
      * @var array
      */
-    protected $_connectionTypes = array();
+    protected $_connectionTypes  = array();
 
     /**
      * Instances of actual connections
      *
      * @var array
      */
-    protected $_connections = array();
+    protected $_connections      = array();
 
     /**
      * Registry of resource entities
      *
      * @var array
      */
-    protected $_entities = array();
+    protected $_entities         = array();
 
     /**
      * Mapped tables cache array

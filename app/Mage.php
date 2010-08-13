@@ -510,15 +510,28 @@ final class Mage
      */
     public static function helper($name)
     {
-        if (strpos($name, '/') === false) {
-            $name .= '/data';
-        }
-
         $registryKey = '_helper/' . $name;
         if (!self::registry($registryKey)) {
             $helperClass = self::getConfig()->getHelperClassName($name);
             self::register($registryKey, new $helperClass);
         }
+        return self::registry($registryKey);
+    }
+
+    /**
+     * Retreive resource helper object
+     *
+     * @param string $moduleName
+     * @return Mage_Core_Model_Resource_Helper_Abstract
+     */
+    public static function getResourceHelper($moduleName)
+    {
+        $registryKey = '_resource_helper/' . $moduleName;
+        if (!self::registry($registryKey)) {
+            $helperClass = self::getConfig()->getResourceHelper($moduleName);
+            self::register($registryKey, $helperClass);
+        }
+
         return self::registry($registryKey);
     }
 
@@ -532,7 +545,7 @@ final class Mage
      */
     public static function exception($module = 'Mage_Core', $message = '', $code = 0)
     {
-        $className = $module.'_Exception';
+        $className = $module . '_Exception';
         return new $className($message, $code);
     }
 
@@ -581,12 +594,12 @@ final class Mage
      * @param string $type
      * @param string|array $options
      */
-    public static function run($code = '', $type = 'store', $options=array())
+    public static function run($code = '', $type = 'store', $options = array())
     {
         try {
             Varien_Profiler::start('mage');
             self::setRoot();
-            self::$_app = new Mage_Core_Model_App();
+            self::$_app    = new Mage_Core_Model_App();
             self::$_events = new Varien_Event_Collection();
             self::$_config = new Mage_Core_Model_Config();
             self::$_app->run(array(

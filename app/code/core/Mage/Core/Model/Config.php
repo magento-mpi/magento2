@@ -306,7 +306,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         Varien_Profiler::start('config/load-modules');
         $this->_loadDeclaredModules();
 
-        $resourceConfig = sprintf('config.%s.xml', $this->_getResourceConnectionModel());
+        $resourceConfig = sprintf('config.%s.xml', $this->_getResourceConnectionModel('core'));
         $this->loadModulesConfiguration(array('config.xml',$resourceConfig), $this);
 
         /**
@@ -1132,7 +1132,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             return $this->_classNameCache[$groupRootNode][$group][$class];
         }
 
-        //$config = $this->getNode($groupRootNode.'/'.$group);
         $config = $this->_xml->global->{$groupType.'s'}->{$group};
 
         if (isset($config->rewrite->$class)) {
@@ -1140,12 +1139,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         } else {
             if (!empty($config)) {
                 $className = $config->getClassName();
-                $connModel = $this->_getResourceConnectionModel();
-                if (isset($config->rewrited) && isset($config->rewrited->{$connModel})) {
-                    if (!empty($class) && isset($config->rewrited->{$connModel}->{$class})) {
-                        $className .= '_' . $connModel;
-                    }
-                }
             }
             if (empty($className)) {
                 $className = 'mage_'.$group.'_'.$groupType;
@@ -1182,14 +1175,39 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getHelperClassName($helperName)
     {
-        if (strpos($helperName, '/')===false) {
+        if (strpos($helperName, '/') === false) {
             $helperName .= '/data';
         }
         return $this->getGroupedClassName('helper', $helperName);
     }
 
     /**
-     * Retrieve modele class name
+     * Retreive resource helper instance
+     *
+     * Example:
+     * $config->getResourceHelper('cms')
+     *
+     * Will instantiate Mage_Cms_Model_Resource_Helper_<db_adapter_name>
+     *
+     * @param string $moduleName
+     * @return Mage_Core_Model_Resource_Helper_Abstract|false
+     */
+    public function getResourceHelper($moduleName)
+    {
+        $model = $this->_getResourceConnectionModel($moduleName);
+
+        $moduleName .= '/helper_' . $model;
+
+        $resourceHelperName = $this->_getResourceModelFactoryClassName($moduleName);
+        if ($resourceHelperName) {
+            return $this->getModelInstance($resourceHelperName);
+        }
+
+        return false;
+    }
+
+    /**
+     * Retrieve module class name
      *
      * @param   sting $modelClass
      * @return  string
@@ -1444,11 +1462,18 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Retrieve resource connection model name
      *
+     * @param string $moduleName
      * @return string
      */
-    protected function _getResourceConnectionModel()
+    protected function _getResourceConnectionModel($moduleName)
     {
-        return $this->_xml->global->resources->default_setup->connection->model;
+        $setupResource = $moduleName . '_setup';
+        $config = $this->getResourceConnectionConfig($setupResource);
+        if (!$config) {
+            $config = $this->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
+        }
+
+        return (string)$config->model;
     }
 
     /**
@@ -1477,45 +1502,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
 
         return $resourceModel . '/' . $model;
-
-//        echo '<pre>';
-//        var_dump($module);
-//        die();
-//
-//        if ($classArr[0] != 'core') {
-//            echo '<pre>';
-//            var_dump($classArr);
-//            var_dump($module);
-//            var_dump($this);
-//            echo '</pre>';
-//        }
-//
-//        $resourceModel = false;
-//        if (count($classArr) == 2) {
-//            if (!empty($module->resource_class_prefix)) {
-//                $resourceModel = (string)$module->resource_class_prefix;
-//            } else if (!empty($module->resourceModel)) {
-//                $resourceModel = (string)$module->resourceModel;
-//            }
-//        }
-//
-//        if (!$resourceModel) {
-//            return false;
-//        }
-//
-//        if ((count($classArr)==2)
-//            && isset($module->{$classArr[1]}->resourceModel)
-//            && $resourceInfo = $module->{$classArr[1]}->resourceModel) {
-//            $resourceModel = (string) $resourceInfo;
-//        }
-//        elseif (isset($module->resourceModel) && $resourceInfo = $module->resourceModel) {
-//            $resourceModel = (string) $resourceInfo;
-//        }
-//
-//        if (!$resourceModel) {
-//            return false;
-//        }
-//        return $resourceModel . '/' . $classArr[1];
     }
 
     /**
