@@ -1668,9 +1668,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function reset()
     {
-        if(is_object($this->getStockItem())&& method_exists($this->getStockItem(), 'reset')){
-            $this->getStockItem()->reset();
-        }
         $this->setData(array());
         $this->setOrigData();
         $this->_customOptions       = array();

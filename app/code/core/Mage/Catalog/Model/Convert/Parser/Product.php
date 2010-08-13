@@ -472,6 +472,9 @@ class Mage_Catalog_Model_Convert_Parser_Product
                 ->setBatchData($row)
                 ->setStatus(1)
                 ->save();
+            if(is_object($product->getStockItem())&& method_exists($product->getStockItem(), 'reset')){
+                $product->getStockItem()->reset();
+            }
             $product->reset();
         }
 
