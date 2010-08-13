@@ -115,6 +115,7 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Mage_Core_Model_Re
     protected function _afterLoad()
     {
         parent::_afterLoad();
+
         /**
          * Assign parent items
          */
@@ -132,6 +133,8 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Mage_Core_Model_Re
          */
         $this->_assignOptions();
         $this->_assignProducts();
+        $this->resetItemsDataChanged();
+
         return $this;
     }
 

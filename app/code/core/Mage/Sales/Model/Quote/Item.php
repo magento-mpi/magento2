@@ -586,22 +586,53 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     }
 
     /**
+     * Checks that item model has data changes.
+     * Call save item options if model isn't need to save in DB
+     *
+     * @return boolean
+     */
+    protected function _hasModelChanged()
+    {
+        if (!$this->hasDataChanges()) {
+            return false;
+        }
+
+        $result = $this->_getResource()->hasDataChanged($this);
+        if ($result === false) {
+           $this->_saveItemOptions();
+        }
+
+        return $result;
+    }
+
+    /**
      * Save item options
      *
      * @return Mage_Sales_Model_Quote_Item
      */
-    protected function _afterSave()
+    protected function _saveItemOptions()
     {
         foreach ($this->_options as $index => $option) {
             if ($option->isDeleted()) {
                 $option->delete();
                 unset($this->_options[$index]);
                 unset($this->_optionsByCode[$option->getCode()]);
-            }
-            else {
+            } else {
                 $option->save();
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Save item options after item saved
+     *
+     * @return Mage_Sales_Model_Quote_Item
+     */
+    protected function _afterSave()
+    {
+        $this->_saveItemOptions();
         return parent::_afterSave();
     }
 

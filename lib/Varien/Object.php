@@ -704,6 +704,18 @@ class Varien_Object implements ArrayAccess
     }
 
     /**
+     * Clears data changes status
+     *
+     * @param boolean $value
+     * @return Varien_Object
+     */
+    public function setDataChanges($value)
+    {
+        $this->_hasDataChanges = (bool)$value;
+        return $this;
+    }
+
+    /**
      * Present object data as string in debug mode
      *
      * @param mixed $data

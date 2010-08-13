@@ -93,6 +93,13 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     protected $_mainTable              = null;
 
     /**
+     * Reset items data changed flag
+     *
+     * @var boolean
+     */
+    protected $_resetItemsDataChanged   = false;
+
+    /**
      * Collection constructor
      *
      * @param Mage_Core_Model_Resource_Db_Abstract $resource
@@ -506,6 +513,32 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     }
 
     /**
+     * Set reset items data changed flag
+     *
+     * @param boolean $flag
+     * @return Mage_Core_Model_Mysql4_Collection_Abstract
+     */
+    public function setResetItemsDataChanged($flag)
+    {
+        $this->_resetItemsDataChanged = (bool)$flag;
+        return $this;
+    }
+
+    /**
+     * Set flag data has changed to all collection items
+     *
+     * @return Mage_Core_Model_Mysql4_Collection_Abstract
+     */
+    public function resetItemsDataChanged()
+    {
+        foreach ($this->_items as $item) {
+            $item->setDataChanges(false);
+        }
+
+        return $this;
+    }
+
+    /**
      * Redeclare after load method for specifying collection items original data
      *
      * @return Mage_Core_Model_Resource_Db_Collection_Abstract
@@ -515,6 +548,9 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
         parent::_afterLoad();
         foreach ($this->_items as $item) {
             $item->setOrigData();
+            if ($this->_resetItemsDataChanged) {
+                $item->setDataChanges(false);
+            }
         }
         Mage::dispatchEvent('core_collection_abstract_load_after', array('collection' => $this));
         return $this;
