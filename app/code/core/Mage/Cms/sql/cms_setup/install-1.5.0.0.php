@@ -58,7 +58,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '1',
         ), 'Is Block Active')
-    ->setOption('comment', 'CMS Block Table');
+    ->setComment('CMS Block Table');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -83,7 +83,7 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('cms/block_store', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core/store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setOption('comment', 'CMS Block To Store Linkage Table');
+    ->setComment('CMS Block To Store Linkage Table');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -148,7 +148,7 @@ $table = $installer->getConnection()
         ), 'Page Custom Theme Active To Date')
     ->addIndex($installer->getIdxName('cms/page', array('identifier')),
         array('identifier'))
-    ->setOption('comment', 'CMS Page Table');
+    ->setComment('CMS Page Table');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -173,7 +173,7 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('cms/page_store', 'store_id', 'core/store', 'store_id'),
         'store_id', $installer->getTable('core/store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setOption('comment', 'CMS Page To Store Linkage Table');
+    ->setComment('CMS Page To Store Linkage Table');
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();
