@@ -25,7 +25,8 @@
  */
 ?>
 <?php if (($buttons = $this->getTabItems()) && is_array($buttons)) :?>
-    <div class="bottom-buttons" style="background: #363d40;">
+    <div class="bottom-buttons">
+    <div class="gradient"></div>
     <?php foreach ($buttons as $button) : ?>
         <div class="bottom-button" style="background:url('<?php echo isset($button['image']) ? $button['image'] : ''; ?>') top center no-repeat;">
             <p><?php echo isset($button['label']) ? $button['label'] : '&nbsp;'; ?></p>

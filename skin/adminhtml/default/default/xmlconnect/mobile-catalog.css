@@ -22,160 +22,220 @@
  */
 body { margin: 0; padding: 0 }
 
+.main-frame
+{ 
+    background:url(../images/xmlconnect/mobile_preview/mm-frame.gif) 0 0 no-repeat;
+    padding:4px;
+}
+
 .main-block 
 {
-	width: 320px;
-	height: 480px;
+    width:320px;
+    height:490px;
+    position:relative;
+    overflow:hidden;
 }
 .header-sign-1
 {
-	font: bold 12px arial;
-	color: #e9e9e9;
-	float: left;
-	padding: 5px 0 3px 3px;	
-	height: 10px;
+    font:bold 13px/13px arial !important;
+    color:#e9e9e9;
+    float:left;    
+    padding:3px 0 3px 6px;
+    height:10px;
 }
 .top-header 
 {
-	height: 20px	
+    height:19px    
 }
 
 .battery 
 {
-	height: 16px;
-	width: 25px;
-	float: right;
-	margin: 0px 5px 5px 13px;
+    height:16px;
+    width:25px;
+    float:right;
+    margin:-1px 3px 5px 13px;
 }
 
 .volume 
 {
-	height: 16px; 
-	width: 25px; 	
-	float: left;
+    height:16px; 
+    width:25px;     
+    float:left;
+    margin-top:-1px;
 }
 
 .antenna 
 {
-	height: 16px; 
-	width: 18px; 	
-	float: left;
-	padding-left: 20px;	
+    height:16px; 
+    width:18px;     
+    float:left;
+    padding-left:6px;
 }
 .time 
-{	 
-	width: 50%;
-	position:relative;
-	top:3px;
-	text-align: center;
-	font: bold 12px arial;
-	color: #e9e9e9;
-	float: left;
+{     
+    position:relative;
+    top:3px;
+    left:35px;
+    text-align:center;
+    font:bold 13px/13px arial;
+    color:#e9e9e9;
+    float:left;
 }
 
 .main-header 
 {
-	width: 100%; 
-	height: 50px;
-	color: #f3f3f3;
-	text-align: center;
+    width:100%; 
+    height:44px;
+    color:#f3f3f3;
+    padding:0;
+    position:relative;
 }
-.main-header-text 
+
+.login-btn
 {
-	
+    float:right;
+    height:30px;
+    width:68px;
+    margin-top:7px;
+    font:bold 11px/30px arial;
+    color:#e9e9e9;
 }
+
+.login-body
+{
+    float:left;
+    background:url(../images/xmlconnect/mobile_preview/login-btn.png) 0 0 repeat-x;
+    line-height:29px;
+    height:29px;
+    padding:0 8px;
+}
+
+.login-left, .login-right, .login-left-alt
+{
+    float:left;
+    font:bold 1px/1px arial;
+    width:3px;
+    height:29px;
+}
+.login-left
+{
+    background:url(../images/xmlconnect/mobile_preview/login-btn-left.png) 0 0 no-repeat;
+}
+.login-left-alt 
+{
+    background:url(../images/xmlconnect/mobile_preview/login-btn-left-alt.png) 0 0 no-repeat;
+    width:12px;
+}
+.login-right
+{
+    width:4px;
+    background:url(../images/xmlconnect/mobile_preview/login-btn-right.png) 0 0 no-repeat;
+}
+
+.main-header .gradient { 
+    height:44px; 
+    width:100%;
+    position:absolute;
+    background:url(../images/xmlconnect/mobile_preview/gradients/header2.png) 0 0 no-repeat;
+}
+
+.edit-filter {
+    width:75px;
+    float:left;
+    margin-left:10px;
+}
+.back-button { float:left; margin-left:7px; }
+
+.logo-small 
+{
+    float:left;
+    width:150px;
+    height:44px;
+    overflow:hidden;
+}
+
+.logo-small div
+{
+    width:150px;
+    height:44px;
+    line-height:44px;
+    text-align:center;
+    overflow:hidden;
+    display:table-cell;
+    vertical-align:middle;
+}
+
+.logo-small p
+{
+    margin:0 !important;
+    padding:0 !important;
+}
+
+.logo-small .sh-title { text-align:left; height:44px; }
+.logo-small td { padding-top:4px; }
+.logo-small td.sm-logo { padding:0 3px 0 0; }
+.logo-small .sh-title1, 
+.logo-small .sh-title2 { font:bold 16px/34px arial !important; color:#000; position:relative; }
+.logo-small .sh-title2 { color:#fff; position:absolute; top:-9px; left:-1px; }
 
 .clearB 
 {
 	clear: both; 
 	height: 1px;
 }
-.btn-l
-{
-	position:relative;
-	left: 0px;
-	top:7px;
-	width: 70px;
-	height: 32px;
-	text-align: center;
-	float: left;
-	margin: 0 0 0 15px;
-	background:url('../images/xmlconnect/mobile_preview/btn-l.png') center center no-repeat;
-}
 
-.btn-r
-{
-	position:relative;
-	right: 0px;
-	top:7px;
-	width: 72px;
-	height: 32px;
-	text-align: center;
-	float: right;
-	margin: 0 20px 0 0;
-	background:url('../images/xmlconnect/mobile_preview/btn-r.png') center center no-repeat;
-}
-.main-header-text 
-{
-	width: 110px;
-	height: 32px;
-	text-align: center;
-	float: left;
-}
-
-
-
-.btn-txt 
-{
-	position:relative;
-	top:8px;
-}
-.title 
-{
-	position:relative;
-	top:0px;
-	font: bold 19px arial;
-	color: #e9e9e9;	
-}
 .filter-header
 {
-	height: 25px;
+	height: 22px;
 	text-align: center;
 	vertical-align: middle;
 }
+.filter-header .gradient
+{
+    height:22px; 
+    width:100%;
+    position:absolute;
+    background:url(../images/xmlconnect/mobile_preview/gradients/header3.png) 0 0 repeat-x;
+}
 .filter-applied 
 {
-	position:relative;
-	top:5px; 
+	padding-top:1px;
+    color:#fff;
+    font:bold 10px/18px arial;
 }
 .filter-circle
 {
+    margin-left:99px;
+    display:block;
+    float:left;
 	width: 18px;
 	height: 18px;
-	background:url('../images/xmlconnect/mobile_preview/circle.png') center center no-repeat;
+	background:url(../images/xmlconnect/mobile_preview/circle.png) 0 0 no-repeat;
 }
 .filter-text
 {
+    float:left;
 	padding: 0 0 0 5px;
-	font-size: 11px;
+	font:bold 11px/20px arial;
 }
 .filter-lines
 {
-	float: right;
-	width: 25px;
-	height: 25px;
-	padding: 0 25px 0 0;
-	background:url('../images/xmlconnect/mobile_preview/lines-h.png') center center no-repeat;
+	float:right;
+	width:25px;
+	height:22px;
+	padding:0 25px 0 0;
+	background:url(../images/xmlconnect/mobile_preview/lines-h.png) 29px 7px no-repeat;
 }
 .sort-block 
 {
-	height: 40px;
+	height:42px;
 	text-align: center;
 }
 .sort-block-inner 
 {
 	position:relative;
-
+    height:42px;
+    background:url(../images/xmlconnect/mobile_preview/gradients/sort-bg.png) 0 0 repeat-x !important;
 }
 .sort-block-inner-txt 
 {
@@ -183,14 +243,18 @@ body { margin: 0; padding: 0 }
 	width: 75px; 
 	height: 26px; 
 	padding-top: 12px; 
+    font:bold 11px/18px arial !important;
 }
 
 .sort-buttons
 {
-	text-align: center;
-	font: bold 10px arial;
-	float: right;
-	padding: 0 5px 0 0;
+	text-align:center;
+	font:bold 11px/11px arial;
+	float:right;
+	padding:0 5px 0 0;
+    width:234px; 
+    height:26px; 
+    margin-top:8px
 }
 
 .active 
@@ -205,7 +269,17 @@ body { margin: 0; padding: 0 }
 
 .item 
 {
-	height: 91px;	
+	height: 91px;
+    position:relative;
+}
+
+.item .gradient
+{
+    height:88px; 
+    width:100%;
+    position:absolute;
+    bottom:0;
+    background: url(../images/xmlconnect/mobile_preview/gradients/item-bg.png) 0 0 repeat-x; 
 }
 
 .slider
@@ -260,7 +334,12 @@ body { margin: 0; padding: 0 }
 }
 .item-title 
 {
-	padding: 0 0 10px 0;	
+	padding:0;	
+}
+
+.item-rate img 
+{
+    margin:0 !important; padding:0 !important;
 }
 
 .item-rate span
@@ -280,24 +359,32 @@ body { margin: 0; padding: 0 }
 
 .bottom-buttons 
 {
-	height: 50px;
-	width: 320px;
-	clear: left;	
-	position:relative;
-	top:-35px;
+    height:50px;    
+    position:absolute;
+    bottom:0;
+    background:#060606;
 }
+
+.bottom-buttons .gradient { 
+    height:50px; 
+    width:100%;
+    position:absolute;
+    background:url(../images/xmlconnect/mobile_preview/gradients/footer.png) 0 0 no-repeat;
+}
+
 .bottom-button 
 {
-	width: 64px;
-	height: 26px;
-	margin-top: 5px;
-	float: left;
+    width:64px;
+    height:26px;
+    margin-top:7px;
+    float:left;
 }
 .bottom-button p 
 {
-	position:relative;
-	top:20px;
-	text-align: center;
-	font: bold 11px arial;
-	color: #e9e9e9;
+    position:relative;
+    top:20px;
+    text-align:center;
+    font:normal 10px/11px arial;
+    color:#9f9f9f;
+    margin-top:8px;
 }

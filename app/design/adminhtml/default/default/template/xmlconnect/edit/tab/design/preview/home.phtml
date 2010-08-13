@@ -25,54 +25,63 @@
  */
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getPreviewCssUrl('mobile-home.css'); ?>" media="all" />
+<div class="main-frame">
 <div class="main-block" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>;">
-    <div class="top-header" style="background: #000;">
+    <div class="top-header" style="background:#000;">
         <div class="volume" style="background:url('<?php echo $this->getPreviewImagesUrl('1.gif'); ?>') bottom left no-repeat;"></div>
         <div class="header-sign-1"><?php echo Mage::helper('xmlconnect')->__("Carrier"); ?></div>
         <div class="antenna" style="background:url('<?php echo $this->getPreviewImagesUrl('3.gif'); ?>') bottom right no-repeat;"></div>
-        <div class="time"><?php echo $this->getData('conf/Time'); ?></div>
+        <div class="time"><?php if($this->getData('conf/Time')): ?><?php echo $this->getData('conf/Time'); ?><?php else: ?><?php echo Mage::helper('xmlconnect')->__("10:40 AM"); ?><?php endif; ?></div>
         <div class="battery" style="background:url('<?php echo $this->getPreviewImagesUrl('2.gif'); ?>') bottom right no-repeat;"></div>
     </div>
-    <div class="main-header"  style="background: <?php echo $this->getData('conf/navigationBar/tintColor'); ?>;  color: #f3f3f3;">
-        <div class="info"><img src="<?php echo $this->getPreviewImagesUrl('info.png') ?>" width="20" height="20" alt="" /></div>
-        <div class="logo-small" style="float:left; width: 20px;">
-            <img src="<?php echo $this->getData('conf/navigationBar/icon') ? $this->getData('conf/navigationBar/icon') : $this->getPreviewImagesUrl('smallIcon.png'); ?>" height="30" alt="" >
-        </div>
+    <div class="main-header"  style="background:<?php echo $this->getData('conf/navigationBar/tintColor'); ?>;color:#f3f3f3;">
+        <div class="gradient"></div>
+        <div class="info"><img src="<?php echo $this->getPreviewImagesUrl('info.png') ?>" width="20" height="20" /></div>
+        <div class="logo-small"><div><p><img src="<?php echo $this->getData('conf/navigationBar/icon') ? $this->getData('conf/navigationBar/icon') : $this->getPreviewImagesUrl('smallIcon.png'); ?>"/></p></div></div>
         <div class="login-btn">
-            <div class="login-left">&nbsp;</div>
+            <div class="login-left"></div>
             <div class="login-body"><span><?php echo Mage::helper('xmlconnect')->__("Log In"); ?></span></div>
-            <div class="login-right">&nbsp;</div>
+            <div class="login-right"></div>
         </div>
     </div>
-    <div class="big-logo" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>;">
-        <div style="height: 227px; width:320px; background: url(<?php echo $this->getData('conf/body/bannerImage') ? $this->getData('conf/body/bannerImage') : $this->getPreviewImagesUrl('banner.png'); ?>) center center no-repeat;">&nbsp;</div>
+    <div class="big-logo" style="background:<?php echo $this->getData('conf/body/backgroundColor'); ?>;">
+        <!-- <div style="background:url(<?php echo $this->getData('conf/body/bannerImage') ? $this->getData('conf/body/bannerImage') : $this->getPreviewImagesUrl('banner.png'); ?>) center center no-repeat;"></div> -->
+        <img src="<?php echo $this->getData('conf/body/bannerImage') ? $this->getData('conf/body/bannerImage') : $this->getPreviewImagesUrl('banner.png'); ?>" />
     </div>
-    <div class="catalog" style="background: <?php echo $this->getData('conf/body/backgroundColor'); ?>">
-        <div class="item">
-            <div class="item-image" style="background: <?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-                <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="63" height="74" alt="" />
-            </div>
-            <div class="item-text" style="font: bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px
-                <?php echo $this->getData('conf/fonts/Title9/name'); ?>;     color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;
-                background: <?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo Mage::helper('xmlconnect')->__("Category1"); ?></div>
+    <div class="catalog" style="background:<?php echo $this->getData('conf/body/backgroundColor'); ?>">
+        <div class="item" style="background:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
+            <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="76" height="76" alt="" />
+            <div class="item-text" style="
+                font:bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;
+                color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; 
+                background:<?php echo $this->getData('conf/categoryItem/tintColor'); ?>
+            "><?php echo Mage::helper('xmlconnect')->__("Category 1"); ?></div>
         </div>
-        <div class="item">  
-            <div class="item-image" style="background: <?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-                <img src="<?php echo $this->getPreviewImagesUrl('women.png'); ?>" width="63" height="74" alt="" />
-            </div>
-            <div class="item-text" style="font: bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name');?>;
-            color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;
-            background: <?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo Mage::helper('xmlconnect')->__("Category2"); ?></div>
+        <div class="item" style="background:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
+            <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="76" height="76" alt="" />
+            <div class="item-text" style="
+                font:bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;
+                color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; 
+                background:<?php echo $this->getData('conf/categoryItem/tintColor'); ?>
+            "><?php echo Mage::helper('xmlconnect')->__("Category 2"); ?></div>
         </div>
-        <div class="item">
-            <div class="item-image" style="background: <?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
-                <img src="<?php echo $this->getPreviewImagesUrl('youth.png'); ?>" style=-moz-opacity:0.6" width="63" height="74" alt="" />
-            </div>
-            <div class="item-text" style="font: bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;
-            color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>;
-            background: <?php echo $this->getData('conf/categoryItem/tintColor'); ?>"><?php echo Mage::helper('xmlconnect')->__("Category3"); ?></div>
+        <div class="item" style="background:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
+            <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="76" height="76" alt="" />
+            <div class="item-text" style="
+                font:bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;
+                color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; 
+                background:<?php echo $this->getData('conf/categoryItem/tintColor'); ?>
+            "><?php echo Mage::helper('xmlconnect')->__("Category 3"); ?></div>
+        </div>
+        <div class="item" style="background:<?php echo $this->getData('conf/categoryItem/backgroundColor'); ?>">
+            <img src="<?php echo $this->getPreviewImagesUrl('men.png') ?>" width="76" height="76" alt="" />
+            <div class="item-text" style="
+                font:bold <?php echo $this->getData('conf/fonts/Title9/size'); ?>px/18px <?php echo $this->getData('conf/fonts/Title9/name'); ?>;
+                color:<?php echo $this->getData('conf/fonts/Title9/color'); ?>; 
+                background:<?php echo $this->getData('conf/categoryItem/tintColor'); ?>
+            "><?php echo Mage::helper('xmlconnect')->__("Category 4"); ?></div>
         </div>
     </div>
-
-<?php echo $this->getChildHtml('tab_items'); ?>
+    <?php echo $this->getChildHtml('tab_items'); ?>
+</div>
 </div>
